@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/charon/db" VERSION="20150505" COMMENT="XMLDB file for Moodle mod/charon"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+
+        <TABLE NAME="charon" COMMENT="Charon instance main table.">
+            <FIELDS>
+                <FIELD NAME="charon_id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon" TYPE="primary" FIELDS="charon_id"/>
+            </KEYS>
+        </TABLE>
+
+    </TABLES>
+</XMLDB>

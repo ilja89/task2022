@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colors="true"
+
+        bootstrap="plugin/tests/bootstrap.php"
+>
+    <logging>
+        <log type="coverage-html" target="./coverage" charset="UTF-8"
+             yui="true" highlight="true"
+             lowUpperBound="50" highLowerBound="80"/>
+        <log type="coverage-clover" target="./coverage/coverage.xml"/>
+    </logging>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">plugin/library/</directory>
+            <exclude>
+                <directory suffix=".php">plugin/library/ttu/Capella/Template/</directory>
+                <file>plugin/library/ttu/Capella/bootstrap.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <testsuites>
+        <testsuite name="unittests">
+            <directory>plugin/tests/unit</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>

@@ -1,0 +1,23 @@
+{
+    "name": "ttu/charon",
+    "description": "Code assignment plugin for Moodle.",
+    "type": "plugin",
+    "autoload": {
+        "psr-4": {
+            "ttu\\": ["plugin/library/"],
+            "tests\\" : ["plugin/tests/"]
+        }
+    },
+    "authors": [
+        {
+            "name": "Joosep Alviste",
+            "email": "joosep.alviste@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.21"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
