@@ -1,0 +1,12 @@
+{
+    "name": "zeizig/moodle",
+    "description": "Package of Moodle wrappers to make plugin development easier with Laravel",
+    "authors": [
+        {
+            "name": "Joosep Alviste",
+            "email": "joosep.alviste@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

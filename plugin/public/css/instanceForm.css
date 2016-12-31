@@ -1,0 +1,16 @@
+/**
+ * CONTENTS
+ *
+ * FORM_FIELDS
+ * Labels
+ */
+/*---------------------------------*  #FORM_FIELDS
+\*---------------------------------*/
+/*-----------------------*  #LABELS
+\*-----------------------*/
+label.required:after {
+  content: ' *';
+  color: red;
+}
+
+/*# sourceMappingURL=instanceForm.css.map */
