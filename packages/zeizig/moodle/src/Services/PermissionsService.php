@@ -85,4 +85,19 @@ class PermissionsService extends MoodleService
         require_capability('gradereport/grader:view', $context);
         require_capability('moodle/grade:viewall', $context);
     }
+
+    /**
+     * Require the capability for the current user to manage the given course.
+     *
+     * @param  integer  $courseId
+     *
+     * @return void
+     */
+    public function requireCourseManagementCapability($courseId)
+    {
+        global $DB;
+        $course  = $DB->get_record('course', ['id' => $courseId]);
+        $context = \context_course::instance($course->id);
+        require_capability('moodle/course:manageactivities', $context);
+    }
 }

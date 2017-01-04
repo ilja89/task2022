@@ -9,6 +9,7 @@ use TTU\Charon\Repositories\CharonRepository;
 /**
  * Class InstanceController.
  * Controls everything to do with updating/adding/deleting the plugin instance.
+ * Basic CRUD operations.
  *
  * @package TTU\Charon\Http\Controllers
  */

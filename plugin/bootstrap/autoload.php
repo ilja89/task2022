@@ -1,6 +1,9 @@
 <?php
 
-define('LARAVEL_START', microtime(true));
+// For multiple laravel instances. Otherwise constant already defined.
+if (!defined('LARAVEL_START')) {
+    define('LARAVEL_START', microtime(true));
+}
 
 /*
 |--------------------------------------------------------------------------

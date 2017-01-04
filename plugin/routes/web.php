@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('instance_form', 'InstanceFormController@index');
 Route::get('view.php', 'AssignmentController@index');
+Route::get('courses/{course}/settings', 'CourseSettingsFormController@index');
