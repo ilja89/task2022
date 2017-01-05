@@ -12,7 +12,6 @@ namespace Zeizig\Moodle\Services;
  */
 class LocalizationService extends MoodleService
 {
-
     /**
      * Translate a given string. Takes translations from lang/ folder in plugin root.
      *

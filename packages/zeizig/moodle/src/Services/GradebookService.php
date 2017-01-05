@@ -12,7 +12,6 @@ namespace Zeizig\Moodle\Services;
  */
 class GradebookService extends MoodleService
 {
-
     /**
      * Adds a grade item with given parameters.
      *

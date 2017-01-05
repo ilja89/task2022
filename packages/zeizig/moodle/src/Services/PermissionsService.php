@@ -2,6 +2,10 @@
 
 namespace Zeizig\Moodle\Services;
 
+use Illuminate\Contracts\Foundation\Application;
+use Zeizig\Moodle\Globals\Page;
+use Zeizig\Moodle\Globals\User;
+
 /**
  * Class Permissions.
  * Wrapper for Moodle permissions functions.
@@ -10,6 +14,26 @@ namespace Zeizig\Moodle\Services;
  */
 class PermissionsService extends MoodleService
 {
+    /** @var User */
+    protected $user;
+    /** @var Page */
+    protected $page;
+
+    /**
+     * PermissionsService constructor.
+     *
+     * @param  Application  $app
+     * @param  User  $user
+     * @param  Page  $page
+     */
+    public function __construct(Application $app, User $user, Page $page)
+    {
+        parent::__construct($app);
+        $this->user = $user;
+        $this->page = $page;
+    }
+
+
     /**
      * Requires login.
      *
@@ -48,6 +72,10 @@ class PermissionsService extends MoodleService
 //        } catch (\require_login_exception $e) {
 //            return false;
 //        }
+
+        // Cannot set context to something relevant because it conflicts with Laravel.
+        // Error: Class config does not exist...
+        $this->page->setContext(null);
 
         // TODO: Bit of a hack, refactor to use require_login
         if (!is_siteadmin() && !$this->user->isEnrolled($courseId)) {

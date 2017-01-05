@@ -38,4 +38,16 @@ class Page
             $this->page->navbar->add($text, new \moodle_url($link));
         }
     }
+
+    /**
+     * Set context for the current page.
+     *
+     * @param  \stdClass  $context
+     *
+     * @return void
+     */
+    public function setContext($context)
+    {
+        $this->page->set_context($context);
+    }
 }

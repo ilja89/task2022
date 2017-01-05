@@ -4,11 +4,21 @@ namespace Zeizig\Moodle;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Zeizig\Moodle\Globals\Page;
+use Zeizig\Moodle\Globals\User;
 
+/**
+ * Class MoodleServiceProvider.
+ * Provider for Moodle services.
+ *
+ * @package Zeizig\Moodle
+ */
 class MoodleServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -17,6 +27,8 @@ class MoodleServiceProvider extends ServiceProvider
 
     /**
      * Register Moodle services.
+     *
+     * @return void
      */
     public function register()
     {
@@ -33,6 +45,8 @@ class MoodleServiceProvider extends ServiceProvider
 
     /**
      * Register Moodle Globals.
+     *
+     * @return void
      */
     private function registerGlobals()
     {
@@ -52,6 +66,8 @@ class MoodleServiceProvider extends ServiceProvider
 
     /**
      * Register Moodle services.
+     *
+     * @return void
      */
     private function registerServices()
     {
@@ -65,12 +81,14 @@ class MoodleServiceProvider extends ServiceProvider
             return new \Zeizig\Moodle\Services\ModuleService($app);
         });
         $this->app->singleton(\Zeizig\Moodle\Services\PermissionsService::class, function ($app) {
-            return new \Zeizig\Moodle\Services\PermissionsService($app);
+            return new \Zeizig\Moodle\Services\PermissionsService($app, new User, new Page);
         });
     }
 
     /**
      * Register blade extensions.
+     *
+     * @return void
      */
     private function registerBladeExtensions()
     {
@@ -80,6 +98,11 @@ class MoodleServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register helper files.
+     *
+     * @return void
+     */
     private function registerHelpers()
     {
         foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
