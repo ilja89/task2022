@@ -5,14 +5,74 @@
 >
     <TABLES>
 
+        <!-- Base tables -->
+
         <TABLE NAME="charon" COMMENT="Charon instance main table.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
+
+                <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
             </FIELDS>
             <KEYS>
+                <KEY NAME="FK_charon_tester_type" TYPE="foreign" FIELDS="tester_type_code"
+                     REFTABLE="charon_tester_type" REFFIELDS="code"/>
+                <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
+                     REFTABLE="charon_grading_method" REFFIELDS="code"/>
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
+                <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
+            </INDEXES>
+        </TABLE>
+
+        <!-- Classifications -->
+
+        <TABLE NAME="charon_tester_type"
+               COMMENT="Tester types. Every language has its own type. Eg. Java, Python.">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_tester_type" TYPE="primary" FIELDS="code"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="charon_grade_type"
+               COMMENT="Grade type.">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_grade_type" TYPE="primary" FIELDS="code"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="charon_grading_method"
+               COMMENT="Grading method codes ie. best_counts / last_counts depends on instance configuration">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_grading_method" TYPE="primary" FIELDS="code"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="charon_preset_grade_name_prefix"
+               COMMENT="Grade name prefix for presets. Can be the project folder for example.">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_preset_grade_name_prefix" TYPE="primary" FIELDS="code"/>
             </KEYS>
         </TABLE>
 
