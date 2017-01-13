@@ -30,7 +30,7 @@ class ClassificationsSeeder extends Seeder
             ['code' => 1, 'name' => 'Prefer best'],
             ['code' => 2, 'name' => 'Prefer last']
         ],
-        'preset_grade_name_prefix' => [
+        'grade_name_prefix' => [
             ['code' => 1, 'name' => 'Project folder name'],
             ['code' => 2, 'name' => 'Task name'],
         ],

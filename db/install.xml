@@ -65,14 +65,14 @@
             </KEYS>
         </TABLE>
 
-        <TABLE NAME="charon_preset_grade_name_prefix"
+        <TABLE NAME="charon_grade_name_prefix"
                COMMENT="Grade name prefix for presets. Can be the project folder for example.">
             <FIELDS>
                 <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
             </FIELDS>
             <KEYS>
-                <KEY NAME="PK_preset_grade_name_prefix" TYPE="primary" FIELDS="code"/>
+                <KEY NAME="PK_grade_name_prefix" TYPE="primary" FIELDS="code"/>
             </KEYS>
         </TABLE>
 
