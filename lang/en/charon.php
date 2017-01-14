@@ -15,8 +15,11 @@ $string['capella:addinstance']  = 'Add a new Charon';
 $string['tester_settings'] = 'Tester settings';
 $string['presets_title'] = 'Presets';
 
-/**
- * Instance form
- ***************************************************************/
+/*------------------------*\
+   Instance form
+\*------------------------*/
 $string['naming']    = 'Naming';
+$string['task_info'] = 'Task info';
 $string['task_name'] = 'Task name';
+$string['project_folder_name'] = 'Project folder name';
+$string['tester_type'] = 'Tester type';

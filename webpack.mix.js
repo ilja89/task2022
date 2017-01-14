@@ -14,6 +14,7 @@ let mix = require('laravel-mix').mix;
 mix.setPublicPath('plugin/public');
 
 mix.js('plugin/resources/assets/js/app.js', 'js')
+   .js('plugin/resources/assets/js/instanceForm.js', 'js')
    .sass('plugin/resources/assets/sass/app.scss', 'css')
    .sass('plugin/resources/assets/sass/assignment.scss', 'css')
    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')

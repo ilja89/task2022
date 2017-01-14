@@ -1,4 +1,5 @@
 {
   "app.css": "css/instanceForm.css",
-  "app.js": "js/app.js"
+  "app.js": "js/app.js",
+  "instanceForm.js": "js/instanceForm.js"
 }

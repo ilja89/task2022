@@ -13,10 +13,13 @@ $string['capella:addinstance']  = 'Lisa uus charon';
    Course settings form
 \*------------------------*/
 $string['tester_settings'] = 'Testeri seaded';
-$string['presets_title'] = 'Presetid';
+$string['presets_title']   = 'Presetid';
 
-/**
- * Instance form
- ***************************************************************/
-$string['naming']    = 'Nimetamine';
-$string['task_name'] = 'Ülesande nimi';
+/*------------------------*\
+   Instance form
+\*------------------------*/
+$string['naming']              = 'Nimetamine';
+$string['task_info']           = 'Ülesande andmed';
+$string['task_name']           = 'Ülesande nimi';
+$string['project_folder_name'] = 'Projekti kausta nimi';
+$string['tester_type'] = 'Testeri tüüp';

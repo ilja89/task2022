@@ -1,22 +1,29 @@
 <template>
-    <simple-instance-form
-            :naming_title="naming_title"
-            :task_name_label="task_name_label"
-            :task_name_value="task_name_value"
+    <advanced-instance-form
+            :form="form"
+            :grade_types="grade_types"
+            :grading_methods="grading_methods"
+            :tester_types="tester_types"
     >
-    </simple-instance-form>
+    </advanced-instance-form>
 </template>
 
 <script>
     import SimpleInstanceForm from './SimpleInstanceForm.vue';
+    import AdvancedInstanceForm from './AdvancedInstanceForm.vue';
 
     export default {
         props: [
-            'task_name_label', 'task_name_value', 'naming_title'
+            'form', 'grade_types', 'grading_methods', 'tester_types'
         ],
 
         components: {
-            SimpleInstanceForm
+            SimpleInstanceForm, AdvancedInstanceForm
+        },
+
+        mounted() {
+            VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
+            VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
         }
     }
 </script>

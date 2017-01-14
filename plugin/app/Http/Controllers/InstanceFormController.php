@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\ClassificationsRepository;
 
 /**
  * Class InstanceFormController.
@@ -19,14 +20,19 @@ class InstanceFormController extends Controller
     /** @var CharonRepository */
     protected $charonRepository;
 
+    /** @var ClassificationsRepository */
+    protected $classificationsRepository;
+
     /**
      * InstanceFormController constructor.
      *
-     * @param  CharonRepository  $charonRepository
+     * @param  CharonRepository $charonRepository
+     * @param ClassificationsRepository $classificationsRepository
      */
-    public function __construct(CharonRepository $charonRepository)
+    public function __construct(CharonRepository $charonRepository, ClassificationsRepository $classificationsRepository)
     {
         $this->charonRepository = $charonRepository;
+        $this->classificationsRepository = $classificationsRepository;
     }
 
     /**
@@ -36,15 +42,19 @@ class InstanceFormController extends Controller
      *
      * @return Factory|View
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
+        $gradeTypes = $this->classificationsRepository->getAllGradeTypes();
+        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
+        $testerTypes = $this->classificationsRepository->getAllTesterTypes();
 
         if ($this->isUpdate($request)) {
             $charon = $this->getCharon($request->update);
 
-            return view('instanceForm.form', compact('charon'));
+            return view('instanceForm.form', compact('charon', 'gradeTypes', 'gradingMethods', 'testerTypes'));
         }
 
-        return view('instanceForm.form');
+        return view('instanceForm.form', compact(['gradeTypes', 'gradingMethods', 'testerTypes']));
     }
 
     /**

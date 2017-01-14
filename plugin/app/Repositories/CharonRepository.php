@@ -49,6 +49,7 @@ class CharonRepository
 
     /**
      * Gets a charon instance by course module id.
+     * Returns null if no course module is found or if the given course module is not a Charon.
      *
      * @param  integer  $id
      *
@@ -58,6 +59,10 @@ class CharonRepository
     {
         /** @var CourseModule $courseModule */
         $courseModule = CourseModule::find($id);
+
+        if ($courseModule == null) {
+            return null;
+        }
 
         if ($courseModule->isInstanceOfPlugin()) {
             return Charon::where('id', $courseModule->instance)

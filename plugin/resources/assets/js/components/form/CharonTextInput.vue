@@ -6,7 +6,7 @@
             </div>
             <div class="felement ftext">
                 <input size="64" :name="input_name" type="text" :required="required"
-                :id="'id_' + input_name" class="form-control" v-model="value">
+                       :id="'id_' + input_name" class="form-control" v-model="value" v-on:keyup="onInputChanged">
             </div>
         </div>
     </div>
@@ -26,6 +26,12 @@
 
         mounted() {
             this.value = this.input_value;
+        },
+
+        methods: {
+            onInputChanged(event) {
+                this.$emit('input-was-changed', this.value);
+            }
         }
     }
 </script>
