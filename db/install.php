@@ -3,7 +3,8 @@
 require __DIR__ . '/../plugin/bootstrap/autoload.php';
 
 /**
- * Post install script. Run after creating tables from install.xml.
+ * Post install script. This is run after creating tables from install.xml.
+ * Used to populate the database with classification data.
  *
  * @return bool
  */

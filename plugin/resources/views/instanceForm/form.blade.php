@@ -9,7 +9,7 @@
 
             <charon-text-input
                     input_name="name"
-                    input_label="Task Name"
+                    input_label="{{ translate('task_name') }}"
                     required="true"
                     input_value="{{ isset($charon) ? $charon->name : '' }}">
             </charon-text-input>

@@ -5,6 +5,9 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
 
     return [
         'name' => $faker->name,
-        'description' => $faker->paragraph
+        'description' => $faker->paragraph,
+        'project_folder' => $faker->word,
+        'tester_type_code' => 1,
+        'grading_method_code' => 1
     ];
 });

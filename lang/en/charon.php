@@ -7,7 +7,7 @@ $string['modulename']           = 'Charon';
 $string['plugin_settings']      = 'Charon settings';
 $string['pluginadministration'] = 'pluginadministration';
 $string['modulenameplural']     = 'Charons';
-$string['capella:addinstance']  = 'Add a new charon';
+$string['capella:addinstance']  = 'Add a new Charon';
 
 /**
  * Instance form

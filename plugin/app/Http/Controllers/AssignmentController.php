@@ -41,10 +41,10 @@ class AssignmentController extends Controller
      */
     public function __construct(CharonRepository $charonRepository, Output $output, Page $page, PermissionsService $permissionsService)
     {
-        $this->charonRepository = $charonRepository;
-        $this->output         = $output;
-        $this->page           = $page;
-        $this->permissionsService    = $permissionsService;
+        $this->charonRepository   = $charonRepository;
+        $this->output             = $output;
+        $this->page               = $page;
+        $this->permissionsService = $permissionsService;
     }
 
     /**
@@ -60,6 +60,7 @@ class AssignmentController extends Controller
         $charon = $this->charonRepository->getCharonByCourseModuleId($request->get('id'));
 
         if (!$this->checkPermissions($charon)) {
+            // Moodle automatically redirects
             return null;
         }
 
