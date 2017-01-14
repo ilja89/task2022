@@ -1,17 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "gulp watch"
+    "webpack": "webpack --hide-modules --progress",
+    "dev": "webpack --hide-modules --progress --watch",
+    "production": "export NODE_ENV=production && webpack --hide-modules --progress"
   },
   "devDependencies": {
-    "bootstrap-sass": "^3.3.7",
-    "gulp": "^3.9.1",
-    "jquery": "^3.1.0",
-    "laravel-elixir": "^6.0.0-14",
-    "laravel-elixir-vue-2": "^0.2.0",
-    "laravel-elixir-webpack-official": "^1.0.2",
-    "lodash": "^4.16.2",
+    "laravel-mix": "^0.4.0"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3"
   }

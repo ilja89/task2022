@@ -4,13 +4,16 @@
  * FORM_FIELDS
  * Labels
  */
+
 /*---------------------------------*  #FORM_FIELDS
 \*---------------------------------*/
+
 /*-----------------------*  #LABELS
 \*-----------------------*/
+
 label.required:after {
   content: ' *';
   color: red;
 }
 
-/*# sourceMappingURL=instanceForm.css.map */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL2pvb3NlcC9TaXRlcy9tb29kbGUvbW9kL2NoYXJvbi9wbHVnaW4vcmVzb3VyY2VzL2Fzc2V0cy9zYXNzL2luc3RhbmNlRm9ybS5zY3NzIiwic291cmNlcyI6WyIvVXNlcnMvam9vc2VwL1NpdGVzL21vb2RsZS9tb2QvY2hhcm9uL3BsdWdpbi9yZXNvdXJjZXMvYXNzZXRzL3Nhc3MvaW5zdGFuY2VGb3JtLnNjc3MiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDT05URU5UU1xuICpcbiAqIEZPUk1fRklFTERTXG4gKiBMYWJlbHNcbiAqL1xuXG5cbi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICNGT1JNX0ZJRUxEU1xuXFwqLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cblxuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICNMQUJFTFNcblxcKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cblxubGFiZWwucmVxdWlyZWQ6YWZ0ZXIge1xuICBjb250ZW50OiAnIConO1xuICBjb2xvcjogcmVkO1xufVxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7OztHQUtHO0FBR0g7cUNBRXFDO0FBR3JDOzJCQUUyQjtBQUUzQixBQUFBLEtBQUssQUFBQSxTQUFTLEFBQUEsTUFBTSxDQUFDO0VBQ25CLE9BQU8sRUFBRSxJQUFJO0VBQ2IsS0FBSyxFQUFFLEdBQUcsR0FDWCJ9 */

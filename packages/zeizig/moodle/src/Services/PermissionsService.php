@@ -124,6 +124,11 @@ class PermissionsService extends MoodleService
     public function requireCourseManagementCapability($courseId)
     {
         global $DB;
+
+        // Cannot set context to something relevant because it conflicts with Laravel.
+        // Error: Class config does not exist...
+        $this->page->setContext(null);
+
         $course  = $DB->get_record('course', ['id' => $courseId]);
         $context = \context_course::instance($course->id);
         require_capability('moodle/course:manageactivities', $context);

@@ -5,8 +5,10 @@
  *
  * VIEW
  */
+
 /*---------------------------------*  #MOODLE_FIXES (Snap fixes)
 \*---------------------------------*/
+
 #region-main {
   margin-top: 0;
   padding-top: 0;
@@ -23,4 +25,4 @@
 /*---------------------------------*  #VIEW
 \*---------------------------------*/
 
-/*# sourceMappingURL=assignment.css.map */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL2pvb3NlcC9TaXRlcy9tb29kbGUvbW9kL2NoYXJvbi9wbHVnaW4vcmVzb3VyY2VzL2Fzc2V0cy9zYXNzL2Fzc2lnbm1lbnQuc2NzcyIsInNvdXJjZXMiOlsiL1VzZXJzL2pvb3NlcC9TaXRlcy9tb29kbGUvbW9kL2NoYXJvbi9wbHVnaW4vcmVzb3VyY2VzL2Fzc2V0cy9zYXNzL2Fzc2lnbm1lbnQuc2NzcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENPTlRFTlRTXG4gKlxuICogTU9PRExFX0ZJWEVTXG4gKlxuICogVklFV1xuICovXG5cblxuLyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qXFxcbiAgI01PT0RMRV9GSVhFUyAoU25hcCBmaXhlcylcblxcKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG5cbiNyZWdpb24tbWFpbiB7XG4gIG1hcmdpbi10b3A6IDA7XG4gIHBhZGRpbmctdG9wOiAwO1xufVxuXG4jcGFnZS1oZWFkZXIge1xuICBwYWRkaW5nLXRvcDogM2VtO1xufVxuXG4jcGFnZS1tYXN0IHtcbiAgZGlzcGxheTogbm9uZTtcbn1cblxuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSpcXFxuICAjVklFV1xuXFwqLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7O0dBTUc7QUFHSDtxQ0FFcUM7QUFFckMsQUFBQSxZQUFZLENBQUM7RUFDWCxVQUFVLEVBQUUsQ0FBQztFQUNiLFdBQVcsRUFBRSxDQUFDLEdBQ2Y7O0FBRUQsQUFBQSxZQUFZLENBQUM7RUFDWCxXQUFXLEVBQUUsR0FBRyxHQUNqQjs7QUFFRCxBQUFBLFVBQVUsQ0FBQztFQUNULE9BQU8sRUFBRSxJQUFJLEdBQ2Q7O0FBR0Q7cUNBRXFDIn0= */
