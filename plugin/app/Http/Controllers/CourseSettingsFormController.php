@@ -52,7 +52,7 @@ class CourseSettingsFormController extends Controller
     {
         $this->requirePermissions($course);
 
-        return view('vuetest', [
+        return view('course_settings_form.form', [
             'header' => $this->output->header(),
             'footer' => $this->output->footer()
         ]);

@@ -2,20 +2,12 @@
 
 <div id="app">
 
-    <form-fieldset>
-        <template slot="title">{{ translate('naming') }}</template>
-
-        <slot>
-
-            <charon-text-input
-                    input_name="name"
-                    input_label="{{ translate('task_name') }}"
-                    required="true"
-                    input_value="{{ isset($charon) ? $charon->name : '' }}">
-            </charon-text-input>
-
-        </slot>
-    </form-fieldset>
+    <instance-form
+            naming_title="{{ translate('naming') }}"
+            task_name_label="{{ translate('task_name') }}"
+            task_name_value="{{ isset($charon) ? $charon->name : '' }}"
+    >
+    </instance-form>
 
 </div>
 

@@ -9,6 +9,12 @@ $string['pluginadministration'] = 'pluginadministration';
 $string['modulenameplural']     = 'Charons';
 $string['capella:addinstance']  = 'Add a new Charon';
 
+/*------------------------*\
+   Course settings form
+\*------------------------*/
+$string['tester_settings'] = 'Tester settings';
+$string['presets_title'] = 'Presets';
+
 /**
  * Instance form
  ***************************************************************/

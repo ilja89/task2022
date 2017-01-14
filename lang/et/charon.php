@@ -9,6 +9,12 @@ $string['pluginadministration'] = 'pluginadministration';
 $string['modulenameplural']     = 'Charonad';
 $string['capella:addinstance']  = 'Lisa uus charon';
 
+/*------------------------*\
+   Course settings form
+\*------------------------*/
+$string['tester_settings'] = 'Testeri seaded';
+$string['presets_title'] = 'Presetid';
+
 /**
  * Instance form
  ***************************************************************/
