@@ -42,7 +42,10 @@ class InstanceController extends Controller
     {
         $charon = new Charon([
             'name' => $this->request->name,
-            'description' => $this->request->description['text']
+            'description' => $this->request->description['text'],
+            'project_folder' => 'EX01TEST',
+            'tester_type_code' => 1,
+            'grading_method_code' => 1
         ]);
 
         if (!$this->charonRepository->save($charon)) {

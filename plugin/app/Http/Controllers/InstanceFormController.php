@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 
 /**
@@ -37,12 +38,36 @@ class InstanceFormController extends Controller
      */
     public function index(Request $request) {
 
-        if (isset($request->update)) {
-            $charon = $this->charonRepository->getCharonByCourseModuleId($request->update);
+        if ($this->isUpdate($request)) {
+            $charon = $this->getCharon($request->update);
 
             return view('instanceForm.form', compact('charon'));
         }
 
         return view('instanceForm.form');
+    }
+
+    /**
+     * Check if the current request is an update request.
+     *
+     * @param  Request  $request
+     *
+     * @return bool
+     */
+    private function isUpdate($request)
+    {
+        return isset($request->update);
+    }
+
+    /**
+     * Gets the charon instance with the given course module id.
+     *
+     * @param  integer  $courseModuleId
+     *
+     * @return Charon
+     */
+    private function getCharon($courseModuleId)
+    {
+        return $this->charonRepository->getCharonByCourseModuleId($courseModuleId);
     }
 }

@@ -11,6 +11,9 @@ use Zeizig\Moodle\Models\CourseModule;
  * @property integer $id
  * @property string $name
  * @property string $description
+ * @property string $project_folder
+ * @property integer $tester_type_code
+ * @property integer $grading_method_code
  *
  * @package TTU\Charon\Model
  */
@@ -30,7 +33,7 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'project_folder', 'tester_type_code', 'grading_method_code'
     ];
 
     /**

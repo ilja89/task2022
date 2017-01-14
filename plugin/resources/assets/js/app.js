@@ -6,8 +6,11 @@ import './bootstrap';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+import FormFieldset from './components/FormFieldset.vue';
+import Example from './components/Example.vue';
+import CharonTextInput from './components/CharonTextInput.vue';
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: { FormFieldset, Example, CharonTextInput }
 });

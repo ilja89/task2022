@@ -1,14 +1,22 @@
-<link href="/mod/charon/plugin/public/{{ elixir('css/instanceForm.css') }}" rel="stylesheet">
+<link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 
-@include('form.partials._fieldset', [
-    'fieldset_title' => translate('naming'),
-    'fields' => [
-        [
-            'template_name' => 'form.partials._text_input',
-            'input_label' => translate('task_name'),
-            'input_name' => 'name',
-            'input_value' => isset($charon) ? $charon->name : '',
-            'required' => true
-        ]
-    ]
-])
+<div id="app">
+
+    <form-fieldset>
+        <template slot="title">{{ translate('naming') }}</template>
+
+        <slot>
+
+            <charon-text-input
+                    input_name="name"
+                    input_label="Task Name"
+                    required="true"
+                    input_value="{{ isset($charon) ? $charon->name : '' }}">
+            </charon-text-input>
+
+        </slot>
+    </form-fieldset>
+
+</div>
+
+<script src="/mod/charon/plugin/public/js/app.js"></script>
