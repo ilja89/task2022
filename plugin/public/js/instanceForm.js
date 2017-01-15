@@ -1923,6 +1923,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__);
 //
 //
 //
@@ -1953,6 +1955,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -1961,7 +1973,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     props: ['grade_types', 'grading_methods', 'tester_types', 'form'],
 
     components: {
-        InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default.a
+        InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default.a
     },
 
     methods: {
@@ -1973,6 +1985,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         },
         onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
+        },
+        onTesterTypeChanged: function onTesterTypeChanged(testerType) {
+            VueEvent.$emit('tester-type-was-changed', testerType);
         }
     }
 };
@@ -2016,6 +2031,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
         VueEvent.$on('project-folder-was-changed', function (projectFolder) {
             return _this.form.fields.project_folder = projectFolder;
+        });
+        VueEvent.$on('tester-type-was-changed', function (tester_type) {
+            return _this.form.fields.tester_type = tester_type;
         });
     }
 };
@@ -2238,6 +2256,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "input-was-changed": _vm.onProjectFolderChanged
+    }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('tester_type_label'),
+      "name": "tester_type",
+      "options": _vm.tester_types,
+      "selected": _vm.form.fields.tester_type
+    },
+    on: {
+      "input-was-changed": _vm.onTesterTypeChanged
     }
   })])], 2)
 },staticRenderFns: []}
@@ -10977,7 +11005,8 @@ var InstanceFormForm = function InstanceFormForm(instance) {
 
     this.fields = {
         name: instance['name'] ? instance['name'] : '',
-        project_folder: instance['project_folder'] ? instance['project_folder'] : ''
+        project_folder: instance['project_folder'] ? instance['project_folder'] : '',
+        tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1
     };
 };
 
@@ -11015,6 +11044,161 @@ var app = new Vue({
 
 module.exports = __webpack_require__(45);
 
+
+/***/ }),
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ exports["default"] = {
+    props: ['label', 'name', 'options', 'selected'],
+
+    methods: {
+        onChange: function onChange() {
+            this.$emit('input-was-changed', this.value);
+        }
+    },
+
+    data: function data() {
+        return {
+            value: this.selected == '' ? this.options[0].code : this.selected
+        };
+    }
+};
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(68)
+
+/* template */
+var __vue_template__ = __webpack_require__(70)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonSelect.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d56eb922", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-d56eb922", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] CharonSelect.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fcontainer clearfix",
+    attrs: {
+      "id": 'id_' + _vm.name + '_container'
+    }
+  }, [_c('div', {
+    staticClass: "fitem fitem_select",
+    attrs: {
+      "id": 'fitem_id_' + _vm.name
+    }
+  }, [_c('div', {
+    staticClass: "fitemtitle"
+  }, [_c('label', {
+    attrs: {
+      "for": 'id_' + _vm.name
+    }
+  }, [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "felement"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.value),
+      expression: "value"
+    }],
+    attrs: {
+      "name": _vm.name,
+      "id": 'id_' + _vm.name
+    },
+    on: {
+      "change": [function($event) {
+        _vm.value = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }, _vm.onChange]
+    }
+  }, _vm._l((_vm.options), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.code,
+        "selected": option.code == _vm.selected ? 'selected' : ''
+      }
+    }, [_vm._v("\n                    " + _vm._s(option.name) + "\n                ")])
+  }))])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-d56eb922", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

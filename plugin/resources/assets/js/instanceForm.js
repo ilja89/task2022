@@ -26,7 +26,8 @@ class InstanceFormForm {
     constructor(instance) {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
-            project_folder: instance['project_folder'] ? instance['project_folder'] : ''
+            project_folder: instance['project_folder'] ? instance['project_folder'] : '',
+            tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1
         };
     }
 }

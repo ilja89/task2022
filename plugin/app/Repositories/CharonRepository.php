@@ -73,6 +73,32 @@ class CharonRepository
     }
 
     /**
+     * Gets a charon instance with eagerly loaded tester type and grading method by course module id.
+     * Returns null if no course module is found or if the given course module is not a Charon.
+     *
+     * @param  integer  $id
+     *
+     * @return Charon
+     */
+    public function getCharonByCourseModuleIdEager($id)
+    {
+        /** @var CourseModule $courseModule */
+        $courseModule = CourseModule::find($id);
+
+        if ($courseModule == null) {
+            return null;
+        }
+
+        if ($courseModule->isInstanceOfPlugin()) {
+            return Charon::with('testerType', 'gradingMethod')
+                         ->where('id', $courseModule->instance)
+                         ->first();
+        }
+
+        return null;
+    }
+
+    /**
      * Deletes the instance with given id.
      *
      * @param  integer  $id

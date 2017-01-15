@@ -40,13 +40,7 @@ class InstanceController extends Controller
      */
     public function store()
     {
-        $charon = new Charon([
-            'name' => $this->request->name,
-            'description' => $this->request->description['text'],
-            'project_folder' => 'EX01TEST',
-            'tester_type_code' => 1,
-            'grading_method_code' => 1
-        ]);
+        $charon = $this->getCharonFromRequest();
 
         if (!$this->charonRepository->save($charon)) {
             return null;
@@ -82,5 +76,16 @@ class InstanceController extends Controller
     public function destroy($id)
     {
         return $this->charonRepository->deleteByInstanceId($id);
+    }
+
+    private function getCharonFromRequest()
+    {
+        return new Charon([
+            'name' => $this->request->name,
+            'description' => $this->request->description['text'],
+            'project_folder' => $this->request->project_folder,
+            'tester_type_code' => $this->request->tester_type,
+            'grading_method_code' => 1
+        ]);
     }
 }

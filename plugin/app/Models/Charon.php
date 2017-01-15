@@ -44,6 +44,16 @@ class Charon extends Model
      */
     protected $table = 'charon';
 
+    public function testerType()
+    {
+        return $this->belongsTo(TesterType::class, 'tester_type_code', 'code');
+    }
+
+    public function gradingMethod()
+    {
+        return $this->belongsTo(GradingMethod::class, 'grading_method_code', 'code');
+    }
+
     /**
      * Get the course module associated with this charon instance.
      *

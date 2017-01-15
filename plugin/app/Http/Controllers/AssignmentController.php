@@ -57,7 +57,7 @@ class AssignmentController extends Controller
      */
     public function index(Request $request)
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleId($request->get('id'));
+        $charon = $this->getCharon($request->id);
 
         if (!$this->checkPermissions($charon)) {
             // Moodle automatically redirects
@@ -69,8 +69,13 @@ class AssignmentController extends Controller
         return view('assignment.index', [
             'header'   => $this->output->header(),
             'footer'   => $this->output->footer(),
-            'instance' => $charon
+            'charon' => $charon
         ]);
+    }
+
+    private function getCharon($courseModuleId)
+    {
+        return $this->charonRepository->getCharonByCourseModuleIdEager($courseModuleId);
     }
 
     /**

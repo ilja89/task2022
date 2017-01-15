@@ -23,6 +23,15 @@
             >
             </charon-text-input>
 
+            <charon-select
+                    :label="translate('tester_type_label')"
+                    name="tester_type"
+                    :options="tester_types"
+                    :selected="form.fields.tester_type"
+                    @input-was-changed="onTesterTypeChanged"
+            >
+            </charon-select>
+
         </slot>
     </instance-form-fieldset>
 
@@ -31,6 +40,7 @@
 <script>
     import InstanceFormFieldset from './../form/InstanceFormFieldset.vue';
     import CharonTextInput from './../form/CharonTextInput.vue';
+    import CharonSelect from './../form/CharonSelect.vue';
 
     export default {
         props: [
@@ -38,7 +48,7 @@
         ],
 
         components: {
-            InstanceFormFieldset, CharonTextInput
+            InstanceFormFieldset, CharonTextInput, CharonSelect
         },
 
         methods: {
@@ -52,6 +62,10 @@
 
             onProjectFolderChanged(projectFolder) {
                 VueEvent.$emit('project-folder-was-changed', projectFolder);
+            },
+
+            onTesterTypeChanged(testerType) {
+                VueEvent.$emit('tester-type-was-changed', testerType);
             }
         }
     }
