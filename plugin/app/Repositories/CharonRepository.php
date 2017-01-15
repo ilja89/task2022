@@ -109,4 +109,23 @@ class CharonRepository
     {
         return Charon::destroy($id);
     }
+
+    /**
+     * Takes the old instance and override its values with the new Charon values.
+     *
+     * @param  Charon  $oldCharon
+     * @param  Charon  $newCharon
+     *
+     * @return boolean
+     */
+    public function update($oldCharon, $newCharon)
+    {
+        $oldCharon->name = $newCharon->name;
+        $oldCharon->description = $newCharon->description;
+        $oldCharon->project_folder = $newCharon->project_folder;
+        $oldCharon->tester_type_code = $newCharon->tester_type_code;
+        $oldCharon->grading_method_code = $newCharon->grading_method_code;
+
+        return $oldCharon->save();
+    }
 }

@@ -9,10 +9,13 @@
     window.translations = {
         naming_title: "{{ translate('naming') }}",
         task_info_title: "{{ translate('task_info') }}",
+        grading_title: "{{ translate('grading') }}",
 
         task_name_label: "{{ translate('task_name') }}",
         project_folder_name_label: "{{ translate('project_folder_name') }}",
         tester_type_label: "{{ translate('tester_type') }}",
+        grading_method_label: "{{ translate('grading_method') }}",
+
     };
 </script>
 

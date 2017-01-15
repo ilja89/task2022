@@ -60,10 +60,8 @@ class InstanceController extends Controller
     public function update()
     {
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
-        $charon->name = $this->request->name;
-        $charon->description = $this->request->description['text'];
-
-        return $this->charonRepository->save($charon);
+        
+        return $this->charonRepository->update($charon, $this->getCharonFromRequest());
     }
 
     /**
@@ -78,6 +76,11 @@ class InstanceController extends Controller
         return $this->charonRepository->deleteByInstanceId($id);
     }
 
+    /**
+     * Gets the charon from the current request.
+     * 
+     * @return Charon
+     */
     private function getCharonFromRequest()
     {
         return new Charon([
@@ -85,7 +88,7 @@ class InstanceController extends Controller
             'description' => $this->request->description['text'],
             'project_folder' => $this->request->project_folder,
             'tester_type_code' => $this->request->tester_type,
-            'grading_method_code' => 1
+            'grading_method_code' => $this->request->grading_method
         ]);
     }
 }
