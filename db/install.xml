@@ -17,6 +17,7 @@
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
 
+                <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
             </FIELDS>
@@ -36,10 +37,10 @@
         <!-- Classifications -->
 
         <TABLE NAME="charon_tester_type"
-               COMMENT="Tester types. Every language has its own type. Eg. Java, Python.">
+               COMMENT="Tester types. Every language has its own type. Ie. Java, Python.">
             <FIELDS>
-                <FIELD NAME="code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
-                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="50"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_tester_type" TYPE="primary" FIELDS="code"/>
@@ -47,10 +48,10 @@
         </TABLE>
 
         <TABLE NAME="charon_grade_type"
-               COMMENT="Grade type.">
+               COMMENT="Grade type. Ie. tests, style, defense.">
             <FIELDS>
                 <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="50"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_grade_type" TYPE="primary" FIELDS="code"/>
@@ -58,10 +59,10 @@
         </TABLE>
 
         <TABLE NAME="charon_grading_method"
-               COMMENT="Grading method codes ie. best_counts / last_counts depends on instance configuration">
+               COMMENT="Grading method codes ie. prefer_best / prefer_last depends on instance configuration">
             <FIELDS>
                 <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="50"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_grading_method" TYPE="primary" FIELDS="code"/>
@@ -69,7 +70,7 @@
         </TABLE>
 
         <TABLE NAME="charon_grade_name_prefix"
-               COMMENT="Grade name prefix for presets. Can be the project folder for example.">
+               COMMENT="Grade name prefix for presets. Can be the project folder for example. The NAME should be preset_grade_name_prefix but that is too long! Maybe think of a better table name.">
             <FIELDS>
                 <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>

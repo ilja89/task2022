@@ -16,23 +16,23 @@ class ClassificationsSeeder extends Seeder
             ['code' => 3, 'name' => 'python'],
         ],
         'grade_type' => [
-            ['code' => 1, 'name' => 'Grade_1'],
-            ['code' => 2, 'name' => 'Grade_2'],
-            ['code' => 3, 'name' => 'Grade_3'],
-            ['code' => 4, 'name' => 'Grade_4'],
-            ['code' => 101, 'name' => 'Stylecheck_1'],
-            ['code' => 102, 'name' => 'Stylecheck_2'],
+            ['code' => 1, 'name' => 'Tests_1'],
+            ['code' => 2, 'name' => 'Tests_2'],
+            ['code' => 3, 'name' => 'Tests_3'],
+            ['code' => 4, 'name' => 'Tests_4'],
+            ['code' => 101, 'name' => 'Style_1'],
+            ['code' => 102, 'name' => 'Style_2'],
             ['code' => 1001, 'name' => 'Custom_1'],
             ['code' => 1002, 'name' => 'Custom_2'],
             ['code' => 1003, 'name' => 'Custom_3']
         ],
         'grading_method' => [
-            ['code' => 1, 'name' => 'Prefer best'],
-            ['code' => 2, 'name' => 'Prefer last']
+            ['code' => 1, 'name' => 'prefer_best'],
+            ['code' => 2, 'name' => 'prefer_last']
         ],
         'grade_name_prefix' => [
-            ['code' => 1, 'name' => 'Project folder name'],
-            ['code' => 2, 'name' => 'Task name'],
+            ['code' => 1, 'name' => 'project_folder_name'],
+            ['code' => 2, 'name' => 'task_name'],
         ],
     ];
 

@@ -60,7 +60,7 @@ class InstanceController extends Controller
     public function update()
     {
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
-        
+
         return $this->charonRepository->update($charon, $this->getCharonFromRequest());
     }
 

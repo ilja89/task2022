@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 66);
+/******/ 	return __webpack_require__(__webpack_require__.s = 67);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2105,6 +2105,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
         VueEvent.$on('tester-type-was-changed', function (tester_type) {
             return _this.form.fields.tester_type = tester_type;
+        });
+        VueEvent.$on('grading-method-was-changed', function (grading_method) {
+            return _this.form.fields.grading_method = grading_method;
         });
     }
 };
@@ -11153,57 +11156,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__ = __webpack_require__(55);
 
 
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 
 
 window.VueEvent = new Vue();
 
-var Errors = function () {
-    function Errors() {
-        _classCallCheck(this, Errors);
-
-        this.errors = {};
-    }
-
-    _createClass(Errors, [{
-        key: 'get',
-        value: function get(field) {
-            if (this.errors[field]) {
-                return this.errors[field][0];
-            }
-        }
-    }]);
-
-    return Errors;
-}();
-
-var InstanceFormForm = function InstanceFormForm(instance) {
-    _classCallCheck(this, InstanceFormForm);
-
-    this.fields = {
-        name: instance['name'] ? instance['name'] : '',
-        project_folder: instance['project_folder'] ? instance['project_folder'] : '',
-        tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
-        grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1
-    };
-};
-
 var app = new Vue({
     el: '#app',
     components: { InstanceForm: __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue___default.a },
     data: {
-        form: new InstanceFormForm(instance),
+        form: new __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__["a" /* default */](instance),
         grade_types: gradeTypes,
         grading_methods: gradingMethods,
         tester_types: testerTypes
@@ -11217,7 +11182,30 @@ var app = new Vue({
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */,
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var InstanceFormForm = function InstanceFormForm(instance) {
+    _classCallCheck(this, InstanceFormForm);
+
+    this.fields = {
+        name: instance['name'] ? instance['name'] : '',
+        project_folder: instance['project_folder'] ? instance['project_folder'] : '',
+        extra: instance['extra'] ? instance['extra'] : '',
+
+        tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
+        grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
+
+        grades: instance['grades'] ? instance['grades'] : []
+    };
+};
+
+/* harmony default export */ exports["a"] = InstanceFormForm;
+
+/***/ }),
 /* 56 */,
 /* 57 */,
 /* 58 */,
@@ -11228,7 +11216,8 @@ var app = new Vue({
 /* 63 */,
 /* 64 */,
 /* 65 */,
-/* 66 */
+/* 66 */,
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(48);
