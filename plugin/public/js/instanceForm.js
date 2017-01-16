@@ -1960,119 +1960,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony default export */ exports["default"] = {};
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ exports["default"] = {
-    props: ['grade_types', 'grading_methods', 'tester_types', 'form'],
-
-    components: {
-        InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default.a
-    },
-
-    methods: {
-        translate: function translate(string) {
-            return window.translations[string];
-        },
-        onNameUpdated: function onNameUpdated(name) {
-            VueEvent.$emit('name-was-changed', name);
-        },
-        onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
-            VueEvent.$emit('project-folder-was-changed', projectFolder);
-        },
-        onTesterTypeChanged: function onTesterTypeChanged(testerType) {
-            VueEvent.$emit('tester-type-was-changed', testerType);
-        },
-        onGradingMethodChanged: function onGradingMethodChanged(gradingMethod) {
-            VueEvent.$emit('grading-method-was-changed', gradingMethod);
-        }
-    }
-};
-
-/***/ }),
+/* 31 */,
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SimpleInstanceForm_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SimpleInstanceForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SimpleInstanceForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedInstanceForm_vue__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedInstanceForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AdvancedInstanceForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue__);
+//
+//
 //
 //
 //
@@ -2088,11 +1987,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /* harmony default export */ exports["default"] = {
-    props: ['form', 'grade_types', 'grading_methods', 'tester_types'],
+    props: ['form'],
 
-    components: {
-        SimpleInstanceForm: __WEBPACK_IMPORTED_MODULE_0__SimpleInstanceForm_vue___default.a, AdvancedInstanceForm: __WEBPACK_IMPORTED_MODULE_1__AdvancedInstanceForm_vue___default.a
-    },
+    components: { AdvancedTaskInfoSection: __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue___default.a, AdvancedGradingSection: __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue___default.a },
 
     mounted: function mounted() {
         var _this = this;
@@ -2113,47 +2010,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ exports["default"] = {
-    props: ['task_name_label', 'task_name_value', 'naming_title'],
-
-    components: {
-        InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default.a
-    }
-};
-
-/***/ }),
+/* 33 */,
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2217,50 +2074,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(31)
-
-/* template */
-var __vue_template__ = __webpack_require__(39)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedInstanceForm.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-168fa004", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-168fa004", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] AdvancedInstanceForm.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
+/* 36 */,
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2305,133 +2119,9 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(33)
-
-/* template */
-var __vue_template__ = __webpack_require__(40)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/SimpleInstanceForm.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-21f17c58", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-21f17c58", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] SimpleInstanceForm.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('instance-form-fieldset', [_c('template', {
-    slot: "title"
-  }, [_vm._v(_vm._s(_vm.translate('task_info_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-text-input', {
-    attrs: {
-      "input_name": "name",
-      "input_label": _vm.translate('task_name_label'),
-      "required": "true",
-      "input_value": _vm.form.fields.name
-    },
-    on: {
-      "input-was-changed": _vm.onNameUpdated
-    }
-  }), _vm._v(" "), _c('charon-text-input', {
-    attrs: {
-      "input_name": "project_folder",
-      "input_label": _vm.translate('project_folder_name_label'),
-      "required": "true",
-      "input_value": _vm.form.fields.project_folder
-    },
-    on: {
-      "input-was-changed": _vm.onProjectFolderChanged
-    }
-  }), _vm._v(" "), _c('charon-select', {
-    attrs: {
-      "label": _vm.translate('tester_type_label'),
-      "name": "tester_type",
-      "options": _vm.tester_types,
-      "selected": _vm.form.fields.tester_type
-    },
-    on: {
-      "input-was-changed": _vm.onTesterTypeChanged
-    }
-  })])], 2), _vm._v(" "), _c('instance-form-fieldset', [_c('template', {
-    slot: "title"
-  }, [_vm._v(_vm._s(_vm.translate('grading_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-select', {
-    attrs: {
-      "label": _vm.translate('grading_method_label'),
-      "name": "grading_method",
-      "options": _vm.grading_methods,
-      "selected": _vm.form.fields.grading_method
-    },
-    on: {
-      "input-was-changed": _vm.onGradingMethodChanged
-    }
-  })])], 2)], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-168fa004", module.exports)
-  }
-}
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('instance-form-fieldset', [_c('template', {
-    slot: "title"
-  }, [_vm._v(_vm._s(_vm.naming_title))]), _vm._v(" "), _vm._t("default", [_c('charon-text-input', {
-    attrs: {
-      "input_name": "name",
-      "input_label": _vm.task_name_label,
-      "required": "true",
-      "input_value": _vm.task_name_value
-    }
-  })])], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-21f17c58", module.exports)
-  }
-}
-
-/***/ }),
+/* 38 */,
+/* 39 */,
+/* 40 */,
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2579,14 +2269,15 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('advanced-instance-form', {
+  return _c('div', [_c('advanced-task-info-section', {
     attrs: {
-      "form": _vm.form,
-      "grade_types": _vm.grade_types,
-      "grading_methods": _vm.grading_methods,
-      "tester_types": _vm.tester_types
+      "form": _vm.form
     }
-  })
+  }), _vm._v(" "), _c('advanced-grading-section', {
+    attrs: {
+      "form": _vm.form
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11168,10 +10859,7 @@ var app = new Vue({
     el: '#app',
     components: { InstanceForm: __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue___default.a },
     data: {
-        form: new __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__["a" /* default */](instance),
-        grade_types: gradeTypes,
-        grading_methods: gradingMethods,
-        tester_types: testerTypes
+        form: new __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__["a" /* default */](instance, window.gradeTypes, window.testerTypes, window.gradingMethods)
     }
 });
 
@@ -11188,7 +10876,7 @@ var app = new Vue({
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var InstanceFormForm = function InstanceFormForm(instance) {
+var InstanceFormForm = function InstanceFormForm(instance, grade_types, tester_types, grading_methods) {
     _classCallCheck(this, InstanceFormForm);
 
     this.fields = {
@@ -11199,8 +10887,16 @@ var InstanceFormForm = function InstanceFormForm(instance) {
         tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
         grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
 
-        grades: instance['grades'] ? instance['grades'] : []
+        grades: instance['grades'] ? instance['grades'] : [{
+            max_points: 1,
+            name: '',
+            grade_type_code: 1
+        }]
     };
+
+    this.grade_types = grade_types;
+    this.tester_types = tester_types;
+    this.grading_methods = grading_methods;
 };
 
 /* harmony default export */ exports["a"] = InstanceFormForm;
@@ -11222,6 +10918,325 @@ var InstanceFormForm = function InstanceFormForm(instance) {
 
 module.exports = __webpack_require__(48);
 
+
+/***/ }),
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_emitEventOnInputChange__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_4__mixins_emitEventOnInputChange___default.a],
+
+    components: { InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default.a },
+
+    props: ['form'],
+
+    methods: {}
+};
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports) {
+
+module.exports = {
+    methods: {
+        onNameChanged: function onNameChanged(name) {
+            VueEvent.$emit('name-was-changed', name);
+        },
+        onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
+            VueEvent.$emit('project-folder-was-changed', projectFolder);
+        },
+        onTesterTypeChanged: function onTesterTypeChanged(testerType) {
+            VueEvent.$emit('tester-type-was-changed', testerType);
+        },
+        onGradingMethodChanged: function onGradingMethodChanged(gradingMethod) {
+            VueEvent.$emit('grading-method-was-changed', gradingMethod);
+        }
+    }
+};
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports) {
+
+module.exports = {
+    methods: {
+        translate: function translate(string) {
+            return window.translations[string];
+        }
+    }
+};
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(72)
+
+/* template */
+var __vue_template__ = __webpack_require__(76)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedTaskInfoSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5d06f157", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5d06f157", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AdvancedTaskInfoSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('instance-form-fieldset', [_c('template', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.translate('task_info_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-text-input', {
+    attrs: {
+      "input_name": "name",
+      "input_label": _vm.translate('task_name_label'),
+      "required": "true",
+      "input_value": _vm.form.fields.name
+    },
+    on: {
+      "input-was-changed": _vm.onNameChanged
+    }
+  }), _vm._v(" "), _c('charon-text-input', {
+    attrs: {
+      "input_name": "project_folder",
+      "input_label": _vm.translate('project_folder_name_label'),
+      "required": "true",
+      "input_value": _vm.form.fields.project_folder
+    },
+    on: {
+      "input-was-changed": _vm.onProjectFolderChanged
+    }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('tester_type_label'),
+      "name": "tester_type",
+      "options": _vm.form.tester_types,
+      "selected": _vm.form.fields.tester_type
+    },
+    on: {
+      "input-was-changed": _vm.onTesterTypeChanged
+    }
+  })])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5d06f157", module.exports)
+  }
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default.a],
+
+    components: { InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_0__form_InstanceFormFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a },
+
+    props: ['form']
+};
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(77)
+
+/* template */
+var __vue_template__ = __webpack_require__(79)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedGradingSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9af2a488", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-9af2a488", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AdvancedGradingSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('instance-form-fieldset', [_c('template', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.translate('grading_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-select', {
+    attrs: {
+      "label": _vm.translate('grading_method_label'),
+      "name": "grading_method",
+      "options": _vm.form.grading_methods,
+      "selected": _vm.form.fields.grading_method
+    },
+    on: {
+      "input-was-changed": _vm.onGradingMethodChanged
+    }
+  })])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-9af2a488", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

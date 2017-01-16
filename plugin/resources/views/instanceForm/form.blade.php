@@ -22,9 +22,6 @@
 <div id="app">
 
     <instance-form
-            :grade_types="grade_types"
-            :grading_methods="grading_methods"
-            :tester_types="tester_types"
             :form="form"
     >
     </instance-form>
