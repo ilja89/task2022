@@ -2,8 +2,8 @@
     <div>
         <instance-form-fieldset
                 toggle_id="tgl1"
-                @advanced-was-toggled="toggleAdvancedInfoSection"
-        >
+                @advanced-was-toggled="toggleAdvancedInfoSection">
+
             <template slot="title">{{ translate('task_info_title') }}</template>
 
             <slot>
@@ -20,8 +20,8 @@
 
         <instance-form-fieldset
                 toggle_id="tgl2"
-                @advanced-was-toggled="toggleAdvancedGradingSection"
-        >
+                @advanced-was-toggled="toggleAdvancedGradingSection">
+
             <template slot="title">{{ translate('grading_title') }}</template>
 
             <slot>
@@ -73,7 +73,7 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
-            }
+            },
         },
 
         mounted() {
@@ -81,6 +81,13 @@
             VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
             VueEvent.$on('tester-type-was-changed', (tester_type) => this.form.fields.tester_type = tester_type);
             VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
+
+            VueEvent.$on('grade-type-was-activated', (activated_grade_type_code) => {
+                this.form.activateGrademap(activated_grade_type_code);
+            });
+            VueEvent.$on('grade-type-was-deactivated', (deactivated_grade_type_code) => {
+                this.form.deactivateGrademap(deactivated_grade_type_code);
+            });
         }
     }
 </script>

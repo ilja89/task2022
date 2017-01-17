@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 66);
+/******/ 	return __webpack_require__(__webpack_require__.s = 74);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -374,13 +374,96 @@ module.exports = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = {
+    methods: {
+        translate: function translate(string) {
+            return window.translations[string];
+        }
+    }
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = {
+    methods: {
+        onNameChanged: function onNameChanged(name) {
+            VueEvent.$emit('name-was-changed', name);
+        },
+        onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
+            VueEvent.$emit('project-folder-was-changed', projectFolder);
+        },
+        onTesterTypeChanged: function onTesterTypeChanged(testerType) {
+            VueEvent.$emit('tester-type-was-changed', testerType);
+        },
+        onGradingMethodChanged: function onGradingMethodChanged(gradingMethod) {
+            VueEvent.$emit('grading-method-was-changed', gradingMethod);
+        },
+        onGradeTypeActivated: function onGradeTypeActivated(gradeTypeCode) {
+            VueEvent.$emit('grade-type-was-activated', gradeTypeCode);
+        },
+        onGradeTypeDeactivated: function onGradeTypeDeactivated(gradeTypeCode) {
+            VueEvent.$emit('grade-type-was-deactivated', gradeTypeCode);
+        }
+    }
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(29)
+
+/* template */
+var __vue_template__ = __webpack_require__(51)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonSelect.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d56eb922", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-d56eb922", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] CharonSelect.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(25);
+var normalizeHeaderName = __webpack_require__(26);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -397,10 +480,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -471,10 +554,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 2 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -660,19 +743,19 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 3 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(17);
-var buildURL = __webpack_require__(20);
-var parseHeaders = __webpack_require__(26);
-var isURLSameOrigin = __webpack_require__(24);
-var createError = __webpack_require__(6);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(19);
+var settle = __webpack_require__(18);
+var buildURL = __webpack_require__(21);
+var parseHeaders = __webpack_require__(27);
+var isURLSameOrigin = __webpack_require__(25);
+var createError = __webpack_require__(9);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(20);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -768,7 +851,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(22);
+      var cookies = __webpack_require__(23);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -842,10 +925,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 4 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -871,7 +954,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 5 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -883,13 +966,13 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 6 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(16);
+var enhanceError = __webpack_require__(17);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -907,7 +990,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 7 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -925,110 +1008,22 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(29)
-
-/* template */
-var __vue_template__ = __webpack_require__(42)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonTextInput.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a65a720c", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-a65a720c", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] CharonTextInput.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(30)
-
-/* template */
-var __vue_template__ = __webpack_require__(41)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/InstanceFormFieldset.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-358e5b9f", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-358e5b9f", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] InstanceFormFieldset.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(11);
-
-/***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(12);
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(7);
-var Axios = __webpack_require__(13);
-var defaults = __webpack_require__(1);
+var bind = __webpack_require__(10);
+var Axios = __webpack_require__(14);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -1061,15 +1056,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(4);
-axios.CancelToken = __webpack_require__(12);
-axios.isCancel = __webpack_require__(5);
+axios.Cancel = __webpack_require__(7);
+axios.CancelToken = __webpack_require__(13);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(27);
+axios.spread = __webpack_require__(28);
 
 module.exports = axios;
 
@@ -1078,13 +1073,13 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(4);
+var Cancel = __webpack_require__(7);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1142,18 +1137,18 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(14);
-var dispatchRequest = __webpack_require__(15);
-var isAbsoluteURL = __webpack_require__(23);
-var combineURLs = __webpack_require__(21);
+var InterceptorManager = __webpack_require__(15);
+var dispatchRequest = __webpack_require__(16);
+var isAbsoluteURL = __webpack_require__(24);
+var combineURLs = __webpack_require__(22);
 
 /**
  * Create a new instance of Axios
@@ -1234,7 +1229,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1293,16 +1288,16 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(18);
-var isCancel = __webpack_require__(5);
-var defaults = __webpack_require__(1);
+var transformData = __webpack_require__(19);
+var isCancel = __webpack_require__(8);
+var defaults = __webpack_require__(4);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -1379,7 +1374,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1405,13 +1400,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1437,7 +1432,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1464,7 +1459,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1507,7 +1502,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1582,7 +1577,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1601,7 +1596,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1661,7 +1656,7 @@ module.exports = (
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1682,7 +1677,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1757,7 +1752,7 @@ module.exports = (
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1776,7 +1771,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1820,7 +1815,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1854,7 +1849,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1900,7 +1895,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1941,7 +1936,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1987,23 +1982,144 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 31 */,
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default.a],
+
+    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default.a },
+
+    props: ['form'],
+
+    methods: {
+        getActiveGradeTypes: function getActiveGradeTypes() {
+            var active_grademaps = [];
+
+            this.form.fields.grademaps.forEach(function (grademap) {
+                active_grademaps.push(grademap.grade_type_code);
+            });
+
+            return active_grademaps;
+        }
+    }
+};
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default.a],
+
+    components: { CharonTextInput: __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a },
+
+    props: ['form']
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
 //
 //
@@ -2098,18 +2214,84 @@ Object.defineProperty(exports, "__esModule", { value: true });
         VueEvent.$on('grading-method-was-changed', function (grading_method) {
             return _this.form.fields.grading_method = grading_method;
         });
+
+        VueEvent.$on('grade-type-was-activated', function (activated_grade_type_code) {
+            _this.form.activateGrademap(activated_grade_type_code);
+        });
+        VueEvent.$on('grade-type-was-deactivated', function (deactivated_grade_type_code) {
+            _this.form.deactivateGrademap(deactivated_grade_type_code);
+        });
     }
 };
 
 /***/ }),
-/* 33 */,
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(45);
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default.a],
+
+    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a },
+
+    props: ['form']
+};
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__);
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default.a],
+
+    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a },
+
+    props: ['form']
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 
 
@@ -2122,17 +2304,17 @@ window.axios.defaults.headers.common = {
 };
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(28)
+__vue_exports__ = __webpack_require__(30)
 
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(50)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -2144,7 +2326,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonSelect.vue"
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonTextInput.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2155,19 +2337,62 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d56eb922", __vue_options__)
+    hotAPI.createRecord("data-v-a65a720c", __vue_options__)
   } else {
-    hotAPI.reload("data-v-d56eb922", __vue_options__)
+    hotAPI.reload("data-v-a65a720c", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] CharonSelect.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] CharonTextInput.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ }),
-/* 36 */,
-/* 37 */
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(31)
+
+/* template */
+var __vue_template__ = __webpack_require__(46)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/InstanceFormFieldset.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-358e5b9f", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-358e5b9f", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] InstanceFormFieldset.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
@@ -2177,7 +2402,95 @@ var __vue_styles__ = {}
 __vue_exports__ = __webpack_require__(32)
 
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(49)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedGradingSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9af2a488", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-9af2a488", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AdvancedGradingSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(33)
+
+/* template */
+var __vue_template__ = __webpack_require__(48)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedTaskInfoSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5d06f157", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5d06f157", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AdvancedTaskInfoSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(34)
+
+/* template */
+var __vue_template__ = __webpack_require__(52)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -2211,10 +2524,110 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(35)
+
+/* template */
+var __vue_template__ = __webpack_require__(47)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/SimpleGradingSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b9d1b8c", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-4b9d1b8c", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] SimpleGradingSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(36)
+
+/* template */
+var __vue_template__ = __webpack_require__(45)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/SimpleTaskInfoSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-328384f2", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-328384f2", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] SimpleTaskInfoSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_vm._v("Simple task info section here!")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-328384f2", module.exports)
+  }
+}
+
+/***/ }),
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2259,7 +2672,102 @@ if (false) {
 }
 
 /***/ }),
-/* 42 */
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_vm._v("Simple grading section here!")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4b9d1b8c", module.exports)
+  }
+}
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('charon-text-input', {
+    attrs: {
+      "input_name": "name",
+      "input_label": _vm.translate('task_name_label'),
+      "required": "true",
+      "input_value": _vm.form.fields.name
+    },
+    on: {
+      "input-was-changed": _vm.onNameChanged
+    }
+  }), _vm._v(" "), _c('charon-text-input', {
+    attrs: {
+      "input_name": "project_folder",
+      "input_label": _vm.translate('project_folder_name_label'),
+      "required": "true",
+      "input_value": _vm.form.fields.project_folder
+    },
+    on: {
+      "input-was-changed": _vm.onProjectFolderChanged
+    }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('tester_type_label'),
+      "name": "tester_type",
+      "options": _vm.form.tester_types,
+      "selected": _vm.form.fields.tester_type
+    },
+    on: {
+      "input-was-changed": _vm.onTesterTypeChanged
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5d06f157", module.exports)
+  }
+}
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('charon-select', {
+    attrs: {
+      "label": _vm.translate('grading_method_label'),
+      "name": "grading_method",
+      "options": _vm.form.grading_methods,
+      "selected": _vm.form.fields.grading_method
+    },
+    on: {
+      "input-was-changed": _vm.onGradingMethodChanged
+    }
+  }), _vm._v(" "), _c('grades-checkboxes', {
+    attrs: {
+      "label": _vm.translate('grademaps_label'),
+      "grade_types": _vm.form.grade_types,
+      "active_grade_type_codes": _vm.getActiveGradeTypes()
+    },
+    on: {
+      "grade-type-was-activated": _vm.onGradeTypeActivated,
+      "grade-type-was-deactivated": _vm.onGradeTypeDeactivated
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-9af2a488", module.exports)
+  }
+}
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2319,7 +2827,7 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2380,7 +2888,7 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2429,7 +2937,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10949,10 +11457,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(46)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(54)))
 
 /***/ }),
-/* 46 */
+/* 54 */
 /***/ (function(module, exports) {
 
 var g;
@@ -10979,17 +11487,17 @@ module.exports = g;
 
 
 /***/ }),
-/* 47 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_instanceForm_InstanceForm_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_instanceForm_InstanceForm_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_instanceForm_InstanceForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_instanceForm_InstanceForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Example_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Example_vue__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Example_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Example_vue__);
 
 
@@ -11009,26 +11517,26 @@ var app = new Vue({
 });
 
 /***/ }),
-/* 48 */,
-/* 49 */
+/* 56 */,
+/* 57 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 50 */
+/* 58 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 51 */
+/* 59 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 52 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11057,12 +11565,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 53 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__);
 //
 //
@@ -11099,7 +11607,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 54 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11126,11 +11634,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 55 */,
-/* 56 */
+/* 63 */,
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(57)();
+exports = module.exports = __webpack_require__(65)();
 // imports
 
 
@@ -11141,7 +11649,7 @@ exports.push([module.i, "\n.ftoggler {\n    cursor: pointer;\n}\n", ""]);
 
 
 /***/ }),
-/* 57 */
+/* 65 */
 /***/ (function(module, exports) {
 
 /*
@@ -11197,17 +11705,17 @@ module.exports = function() {
 
 
 /***/ }),
-/* 58 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(52)
+__vue_exports__ = __webpack_require__(60)
 
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(71)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -11241,17 +11749,17 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 59 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(53)
+__vue_exports__ = __webpack_require__(61)
 
 /* template */
-var __vue_template__ = __webpack_require__(61)
+var __vue_template__ = __webpack_require__(69)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -11285,20 +11793,20 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 60 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(65)
+__webpack_require__(73)
 
 /* script */
-__vue_exports__ = __webpack_require__(54)
+__vue_exports__ = __webpack_require__(62)
 
 /* template */
-var __vue_template__ = __webpack_require__(62)
+var __vue_template__ = __webpack_require__(70)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -11332,7 +11840,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 61 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11351,7 +11859,7 @@ if (false) {
 }
 
 /***/ }),
-/* 62 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11378,7 +11886,7 @@ if (false) {
 }
 
 /***/ }),
-/* 63 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11407,7 +11915,7 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 72 */
 /***/ (function(module, exports) {
 
 /*
@@ -11629,16 +12137,16 @@ function applyToTag(styleElement, obj) {
 
 
 /***/ }),
-/* 65 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(56);
+var content = __webpack_require__(64);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(64)(content, {});
+var update = __webpack_require__(72)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -11655,373 +12163,105 @@ if(false) {
 }
 
 /***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(47);
-__webpack_require__(49);
-__webpack_require__(50);
-module.exports = __webpack_require__(51);
-
-
-/***/ }),
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-/* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_3__mixins_emitEventOnInputChange___default.a],
-
-    components: { CharonTextInput: __WEBPACK_IMPORTED_MODULE_0__form_CharonTextInput_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a },
-
-    props: ['form']
-};
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports) {
-
-module.exports = {
-    methods: {
-        onNameChanged: function onNameChanged(name) {
-            VueEvent.$emit('name-was-changed', name);
-        },
-        onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
-            VueEvent.$emit('project-folder-was-changed', projectFolder);
-        },
-        onTesterTypeChanged: function onTesterTypeChanged(testerType) {
-            VueEvent.$emit('tester-type-was-changed', testerType);
-        },
-        onGradingMethodChanged: function onGradingMethodChanged(gradingMethod) {
-            VueEvent.$emit('grading-method-was-changed', gradingMethod);
-        }
-    }
-};
-
-/***/ }),
 /* 74 */
-/***/ (function(module, exports) {
-
-module.exports = {
-    methods: {
-        translate: function translate(string) {
-            return window.translations[string];
-        }
-    }
-};
-
-/***/ }),
-/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(72)
-
-/* template */
-var __vue_template__ = __webpack_require__(76)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedTaskInfoSection.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5d06f157", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-5d06f157", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] AdvancedTaskInfoSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
+__webpack_require__(55);
+__webpack_require__(57);
+__webpack_require__(58);
+module.exports = __webpack_require__(59);
 
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('charon-text-input', {
-    attrs: {
-      "input_name": "name",
-      "input_label": _vm.translate('task_name_label'),
-      "required": "true",
-      "input_value": _vm.form.fields.name
-    },
-    on: {
-      "input-was-changed": _vm.onNameChanged
-    }
-  }), _vm._v(" "), _c('charon-text-input', {
-    attrs: {
-      "input_name": "project_folder",
-      "input_label": _vm.translate('project_folder_name_label'),
-      "required": "true",
-      "input_value": _vm.form.fields.project_folder
-    },
-    on: {
-      "input-was-changed": _vm.onProjectFolderChanged
-    }
-  }), _vm._v(" "), _c('charon-select', {
-    attrs: {
-      "label": _vm.translate('tester_type_label'),
-      "name": "tester_type",
-      "options": _vm.form.tester_types,
-      "selected": _vm.form.fields.tester_type
-    },
-    on: {
-      "input-was-changed": _vm.onTesterTypeChanged
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5d06f157", module.exports)
-  }
-}
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_translate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-/* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default.a],
-
-    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a },
-
-    props: ['form']
-};
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(77)
-
-/* template */
-var __vue_template__ = __webpack_require__(79)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/AdvancedGradingSection.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9af2a488", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-9af2a488", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] AdvancedGradingSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('charon-select', {
-    attrs: {
-      "label": _vm.translate('grading_method_label'),
-      "name": "grading_method",
-      "options": _vm.form.grading_methods,
-      "selected": _vm.form.fields.grading_method
-    },
-    on: {
-      "input-was-changed": _vm.onGradingMethodChanged
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-9af2a488", module.exports)
-  }
-}
-
-/***/ }),
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_translate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__);
 //
 //
 //
 //
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default.a],
+    props: ['label', 'grade_types', 'active_grade_type_codes'],
 
-    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a },
+    data: function data() {
+        return {
+            active: this.active_grade_type_codes
+        };
+    },
 
-    props: ['form']
+
+    methods: {
+        toggleClicked: function toggleClicked(code) {
+            if (this.isActive(code)) {
+                var index = this.active.indexOf(code);
+                if (index !== -1) {
+                    this.active.splice(index, 1);
+                }
+
+                this.$emit('grade-type-was-deactivated', code);
+            } else {
+                this.active.push(code);
+
+                this.$emit('grade-type-was-activated', code);
+            }
+        },
+        isActive: function isActive(code) {
+            return this.active.includes(code);
+        },
+        testGradeTypes: function testGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code < 100;
+            });
+        },
+        styleGradeTypes: function styleGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code >= 100 && grade_type.code < 1000;
+            });
+        },
+        customGradeTypes: function customGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code >= 1000;
+            });
+        }
+    }
 };
 
 /***/ }),
 /* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_translate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange__);
-//
-//
-//
-//
-
-
-
-
-
-
-/* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_emitEventOnInputChange___default.a],
-
-    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a },
-
-    props: ['form']
-};
-
-/***/ }),
-/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
@@ -12031,7 +12271,7 @@ var __vue_styles__ = {}
 __vue_exports__ = __webpack_require__(80)
 
 /* template */
-var __vue_template__ = __webpack_require__(85)
+var __vue_template__ = __webpack_require__(82)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -12043,7 +12283,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/SimpleGradingSection.vue"
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/GradesCheckboxes.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -12054,87 +12294,90 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4b9d1b8c", __vue_options__)
+    hotAPI.createRecord("data-v-12e159ab", __vue_options__)
   } else {
-    hotAPI.reload("data-v-4b9d1b8c", __vue_options__)
+    hotAPI.reload("data-v-12e159ab", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] SimpleGradingSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] GradesCheckboxes.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(81)
-
-/* template */
-var __vue_template__ = __webpack_require__(84)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/instanceForm/SimpleTaskInfoSection.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-328384f2", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-328384f2", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] SimpleTaskInfoSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_vm._v("Simple task info section here!")])
+  return _c('div', {
+    staticClass: "fcontainer clearfix"
+  }, [_c('div', {
+    staticClass: "fitem fitem_fcheck"
+  }, [_c('div', {
+    staticClass: "fitemtitle"
+  }, [_c('label', [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "felement fcheck grades-select-container"
+  }, [_c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.testGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.styleGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.customGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  }))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-328384f2", module.exports)
-  }
-}
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_vm._v("Simple grading section here!")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4b9d1b8c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-12e159ab", module.exports)
   }
 }
 

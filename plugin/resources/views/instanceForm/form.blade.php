@@ -15,7 +15,7 @@
         project_folder_name_label: "{{ translate('project_folder_name') }}",
         tester_type_label: "{{ translate('tester_type') }}",
         grading_method_label: "{{ translate('grading_method') }}",
-
+        grademaps_label: "{{ translate('grademaps') }}",
     };
 </script>
 

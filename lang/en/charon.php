@@ -25,3 +25,4 @@ $string['project_folder_name'] = 'Project folder name';
 $string['tester_type'] = 'Tester type';
 $string['grading'] = 'Grading';
 $string['grading_method'] = 'Grading method';
+$string['grademaps'] = 'Grademaps';

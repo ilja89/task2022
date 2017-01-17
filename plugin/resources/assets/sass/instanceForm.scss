@@ -1,12 +1,22 @@
 /**
  * CONTENTS
  *
+ * IMPORTS
+ *
  * FORM_FIELDS
  * Labels
+ * Sections
+ * Grades Select
  *
  * ACCESSORIES
  * Toggle
  */
+
+
+/*---------------------------------*\
+  #IMPORTS
+\*---------------------------------*/
+//@import 'app';
 
 
 /*---------------------------------*\
@@ -39,6 +49,24 @@ label.required:after {
 
 .section-title-right__advanced-text {
   font-size: 0.8em;
+}
+
+
+/*-----------------------*\
+  #GRADES_SELECT
+\*-----------------------*/
+
+.grades-select-container {
+  display: flex;
+}
+
+.grades-select-col {
+  padding: 0 10px;
+
+  .checkbox input[type='checkbox'] {
+    position: static;
+    margin-left: 0;
+  }
 }
 
 

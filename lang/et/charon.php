@@ -25,3 +25,4 @@ $string['project_folder_name'] = 'Projekti kausta nimi';
 $string['tester_type'] = 'Testeri tüüp';
 $string['grading'] = 'Hindamine';
 $string['grading_method'] = 'Hindamise meetod';
+$string['grademaps'] = 'Hinded';

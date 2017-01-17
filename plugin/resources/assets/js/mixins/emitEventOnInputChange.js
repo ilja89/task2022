@@ -14,6 +14,14 @@ module.exports = {
 
         onGradingMethodChanged(gradingMethod) {
             VueEvent.$emit('grading-method-was-changed', gradingMethod);
+        },
+
+        onGradeTypeActivated(gradeTypeCode) {
+            VueEvent.$emit('grade-type-was-activated', gradeTypeCode);
+        },
+
+        onGradeTypeDeactivated(gradeTypeCode) {
+            VueEvent.$emit('grade-type-was-deactivated', gradeTypeCode);
         }
     }
 };
