@@ -22,6 +22,7 @@ $string['naming']    = 'Naming';
 $string['task_info'] = 'Task info';
 $string['task_name'] = 'Task name';
 $string['project_folder_name'] = 'Project folder name';
+$string['extra'] = 'Extra parameters';
 $string['tester_type'] = 'Tester type';
 $string['grading'] = 'Grading';
 $string['grading_method'] = 'Grading method';

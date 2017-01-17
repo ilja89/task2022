@@ -8,6 +8,10 @@ module.exports = {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
         },
 
+        onExtraChanged(extra) {
+            VueEvent.$emit('extra-was-changed', extra);
+        },
+
         onTesterTypeChanged(testerType) {
             VueEvent.$emit('tester-type-was-changed', testerType);
         },
@@ -22,6 +26,6 @@ module.exports = {
 
         onGradeTypeDeactivated(gradeTypeCode) {
             VueEvent.$emit('grade-type-was-deactivated', gradeTypeCode);
-        }
+        },
     }
 };

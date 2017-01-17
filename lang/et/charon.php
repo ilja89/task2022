@@ -1,7 +1,8 @@
 <?php
-/**
- * General
- ***************************************************************/
+
+/*------------------------*\
+   General
+\*------------------------*/
 $string['pluginname']           = 'Charon';
 $string['modulename']           = 'Charon';
 $string['plugin_settings']      = 'Charona seaded';
@@ -22,6 +23,7 @@ $string['naming']              = 'Nimetamine';
 $string['task_info']           = 'Ülesande andmed';
 $string['task_name']           = 'Ülesande nimi';
 $string['project_folder_name'] = 'Projekti kausta nimi';
+$string['extra'] = 'Ekstra parameetrid';
 $string['tester_type'] = 'Testeri tüüp';
 $string['grading'] = 'Hindamine';
 $string['grading_method'] = 'Hindamise meetod';

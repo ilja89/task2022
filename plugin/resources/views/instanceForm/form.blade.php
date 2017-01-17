@@ -13,6 +13,7 @@
 
         task_name_label: "{{ translate('task_name') }}",
         project_folder_name_label: "{{ translate('project_folder_name') }}",
+        extra_label: "{{ translate('extra') }}",
         tester_type_label: "{{ translate('tester_type') }}",
         grading_method_label: "{{ translate('grading_method') }}",
         grademaps_label: "{{ translate('grademaps') }}",

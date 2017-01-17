@@ -396,6 +396,9 @@ module.exports = {
         onProjectFolderChanged: function onProjectFolderChanged(projectFolder) {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
         },
+        onExtraChanged: function onExtraChanged(extra) {
+            VueEvent.$emit('extra-was-changed', extra);
+        },
         onTesterTypeChanged: function onTesterTypeChanged(testerType) {
             VueEvent.$emit('tester-type-was-changed', testerType);
         },
@@ -2088,6 +2091,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -2207,6 +2215,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
         VueEvent.$on('project-folder-was-changed', function (projectFolder) {
             return _this.form.fields.project_folder = projectFolder;
+        });
+        VueEvent.$on('extra-was-changed', function (extra) {
+            return _this.form.fields.extra = extra;
         });
         VueEvent.$on('tester-type-was-changed', function (tester_type) {
             return _this.form.fields.tester_type = tester_type;
@@ -2695,7 +2706,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "input_name": "name",
       "input_label": _vm.translate('task_name_label'),
-      "required": "true",
+      "required": true,
       "input_value": _vm.form.fields.name
     },
     on: {
@@ -2705,11 +2716,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "input_name": "project_folder",
       "input_label": _vm.translate('project_folder_name_label'),
-      "required": "true",
+      "required": true,
       "input_value": _vm.form.fields.project_folder
     },
     on: {
       "input-was-changed": _vm.onProjectFolderChanged
+    }
+  }), _vm._v(" "), _c('charon-text-input', {
+    attrs: {
+      "input_name": "extra",
+      "input_label": _vm.translate('extra_label'),
+      "required": false,
+      "input_value": _vm.form.fields.extra
+    },
+    on: {
+      "input-was-changed": _vm.onExtraChanged
     }
   }), _vm._v(" "), _c('charon-select', {
     attrs: {
