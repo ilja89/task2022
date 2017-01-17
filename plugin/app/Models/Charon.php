@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\CourseModule;
 
@@ -12,8 +13,11 @@ use Zeizig\Moodle\Models\CourseModule;
  * @property string $name
  * @property string $description
  * @property string $project_folder
+ * @property string $extra
  * @property integer $tester_type_code
  * @property integer $grading_method_code
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
  * @package TTU\Charon\Model
  */
@@ -21,19 +25,12 @@ class Charon extends Model
 {
 
     /**
-     * Whether this model uses timestamps or not.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * Fillable fields.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'tester_type_code', 'grading_method_code'
+        'name', 'description', 'project_folder', 'extra', 'tester_type_code', 'grading_method_code'
     ];
 
     /**

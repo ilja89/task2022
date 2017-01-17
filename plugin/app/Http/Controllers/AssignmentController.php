@@ -5,11 +5,11 @@ namespace TTU\Charon\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use TTU\Charon\Models\Charon;
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Services\PermissionsService;
-use TTU\Charon\Models\Charon;
-use TTU\Charon\Repositories\CharonRepository;
 
 /**
  * Class AssignmentController.
@@ -31,19 +31,29 @@ class AssignmentController extends Controller
     /** @var PermissionsService */
     protected $permissionsService;
 
+    /** @var Request */
+    protected $request;
+
     /**
      * AssignmentController constructor.
      *
-     * @param  CharonRepository  $charonRepository
-     * @param  Output  $output
-     * @param  Page  $page
-     * @param  PermissionsService  $permissionsService
+     * @param  Request $request
+     * @param  CharonRepository $charonRepository
+     * @param  Output $output
+     * @param  Page $page
+     * @param  PermissionsService $permissionsService
      */
-    public function __construct(CharonRepository $charonRepository, Output $output, Page $page, PermissionsService $permissionsService)
-    {
-        $this->charonRepository   = $charonRepository;
-        $this->output             = $output;
-        $this->page               = $page;
+    public function __construct(
+        Request $request,
+        CharonRepository $charonRepository,
+        Output $output,
+        Page $page,
+        PermissionsService $permissionsService
+    ) {
+        $this->request = $request;
+        $this->charonRepository = $charonRepository;
+        $this->output = $output;
+        $this->page = $page;
         $this->permissionsService = $permissionsService;
     }
 
@@ -51,15 +61,13 @@ class AssignmentController extends Controller
      * Render the assignment view where it shows one instance of the plugin.
      * This is the view shown to students.
      *
-     * @param  Request  $request
-     *
      * @return Factory|View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $charon = $this->getCharon($request->id);
+        $charon = $this->getCharon();
 
-        if (!$this->checkPermissions($charon)) {
+        if ( ! $this->checkPermissions($charon)) {
             // Moodle automatically redirects
             return null;
         }
@@ -67,22 +75,28 @@ class AssignmentController extends Controller
         $this->addBreadcrumbs($charon);
 
         return view('assignment.index', [
-            'header'   => $this->output->header(),
-            'footer'   => $this->output->footer(),
-            'charon' => $charon
+            'header' => $this->output->header(),
+            'footer' => $this->output->footer(),
+            'charon' => $charon,
         ]);
     }
 
-    private function getCharon($courseModuleId)
+    /**
+     * Gets the Charon by the course module id. Wrapper for Charon repository
+     * simpler to use.
+     *
+     * @return Charon
+     */
+    private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleIdEager($courseModuleId);
+        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request->id);
     }
 
     /**
      * Add breadcrumbs to the page.
      * Uses Moodle built in breadcrumbs.
      *
-     * @param  Charon  $charon
+     * @param  Charon $charon
      *
      * @return void
      */
@@ -104,7 +118,7 @@ class AssignmentController extends Controller
      * When using this function check if returned value is false. If so, return null as view. Moodle
      * automatically does the redirecting.
      *
-     * @param  Charon  $charon
+     * @param  Charon $charon
      *
      * @return bool
      */
@@ -113,8 +127,9 @@ class AssignmentController extends Controller
         $course = $charon->courseModule()->moodleCourse;
 
         $permissions = $this->permissionsService->requireEnrollmentToCourse($course->id);
-        if (!$permissions) {
+        if ( ! $permissions) {
             $this->permissionsService->redirectToEnrol($course->id);
+
             return false;
         }
 

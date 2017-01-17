@@ -87,6 +87,7 @@ class InstanceController extends Controller
             'name' => $this->request->name,
             'description' => $this->request->description['text'],
             'project_folder' => $this->request->project_folder,
+            'extra' => $this->request->extra,
             'tester_type_code' => $this->request->tester_type,
             'grading_method_code' => $this->request->grading_method
         ]);

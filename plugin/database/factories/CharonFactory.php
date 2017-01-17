@@ -7,7 +7,8 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'name' => $faker->name,
         'description' => $faker->paragraph,
         'project_folder' => $faker->word,
-        'tester_type_code' => 1,
-        'grading_method_code' => 1
+        'extra' => $faker->word,
+        'tester_type_code' => $faker->randomElement([1, 2, 3]),
+        'grading_method_code' => $faker->randomElement([1, 2])
     ];
 });

@@ -23,61 +23,67 @@ class InstanceFormController extends Controller
     /** @var ClassificationsRepository */
     protected $classificationsRepository;
 
+    /** @var Request */
+    protected $request;
+
     /**
      * InstanceFormController constructor.
      *
+     * @param  Request $request
      * @param  CharonRepository $charonRepository
-     * @param ClassificationsRepository $classificationsRepository
+     * @param  ClassificationsRepository $classificationsRepository
      */
-    public function __construct(CharonRepository $charonRepository, ClassificationsRepository $classificationsRepository)
-    {
-        $this->charonRepository = $charonRepository;
+    public function __construct(
+        Request $request,
+        CharonRepository $charonRepository,
+        ClassificationsRepository $classificationsRepository
+    ) {
+        $this->request                   = $request;
+        $this->charonRepository          = $charonRepository;
         $this->classificationsRepository = $classificationsRepository;
     }
 
     /**
      * Renders the instance form when creating a new instance.
      *
-     * @param  Request  $request
-     *
      * @return Factory|View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $gradeTypes = $this->classificationsRepository->getAllGradeTypes();
+        $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
-        $testerTypes = $this->classificationsRepository->getAllTesterTypes();
+        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
 
-        if ($this->isUpdate($request)) {
-            $charon = $this->getCharon($request->update);
+        if ($this->isUpdate()) {
+            $charon = $this->getCharon();
 
-            return view('instanceForm.form', compact('charon', 'gradeTypes', 'gradingMethods', 'testerTypes'));
+            return view('instanceForm.form', compact(
+                'charon', 'gradeTypes', 'gradingMethods', 'testerTypes'
+            ));
         }
 
-        return view('instanceForm.form', compact(['gradeTypes', 'gradingMethods', 'testerTypes']));
+        return view('instanceForm.form', compact(
+            'gradeTypes', 'gradingMethods', 'testerTypes'
+        ));
     }
 
     /**
      * Check if the current request is an update request.
      *
-     * @param  Request  $request
-     *
      * @return bool
      */
-    private function isUpdate($request)
+    private function isUpdate()
     {
-        return isset($request->update);
+        return isset($this->request->update);
     }
 
     /**
-     * Gets the charon instance with the given course module id.
-     *
-     * @param  integer  $courseModuleId
+     * Gets the charon instance with the course module id from the request.
      *
      * @return Charon
      */
-    private function getCharon($courseModuleId)
+    private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleId($courseModuleId);
+        return $this->charonRepository->getCharonByCourseModuleId($this->request->update);
     }
 }
