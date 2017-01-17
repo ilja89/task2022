@@ -12,8 +12,7 @@
 */
 
 Route::get('/', function () {
-
-    return view('vuetest');
+    return view('welcome');
 });
 
 Route::get('instance_form', 'InstanceFormController@index');

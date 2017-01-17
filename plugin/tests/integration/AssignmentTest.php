@@ -17,10 +17,11 @@ class AssignmentTest extends TestCase
             'instance' => $charon->id
         ]);
 
-        $expected = \TTU\Charon\Models\Charon::find($charon->id);
+        $expected = \TTU\Charon\Models\Charon::with('testerType', 'gradingMethod')
+            ->find($charon->id);
 
         $this->visit('/view.php?id=' . $courseModule->id)
              ->assertResponseOk()
-             ->assertViewHas('instance', $expected);
+             ->assertViewHas('charon', $expected);
     }
 }
