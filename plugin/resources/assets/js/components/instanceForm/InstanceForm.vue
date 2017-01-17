@@ -1,23 +1,80 @@
 <template>
     <div>
-        <advanced-task-info-section
-                :form="form"
-        ></advanced-task-info-section>
+        <instance-form-fieldset
+                toggle_id="tgl1"
+                @advanced-was-toggled="toggleAdvancedInfoSection"
+        >
+            <template slot="title">{{ translate('task_info_title') }}</template>
 
-        <advanced-grading-section
-                :form="form"
-        ></advanced-grading-section>
+            <slot>
+                <advanced-task-info-section
+                        v-if="advanced_info_section_active"
+                        :form="form"
+                ></advanced-task-info-section>
+                <simple-task-info-section
+                        v-else
+                        :form="form"
+                ></simple-task-info-section>
+            </slot>
+        </instance-form-fieldset>
+
+        <instance-form-fieldset
+                toggle_id="tgl2"
+                @advanced-was-toggled="toggleAdvancedGradingSection"
+        >
+            <template slot="title">{{ translate('grading_title') }}</template>
+
+            <slot>
+                <advanced-grading-section
+                        v-if="advanced_grading_section_active"
+                        :form="form"
+                ></advanced-grading-section>
+                <simple-grading-section
+                        v-else
+                        :form="form"
+                >
+                </simple-grading-section>
+            </slot>
+        </instance-form-fieldset>
     </div>
 </template>
 
 <script>
     import AdvancedTaskInfoSection from './AdvancedTaskInfoSection.vue';
     import AdvancedGradingSection from './AdvancedGradingSection.vue';
+    import SimpleTaskInfoSection from './SimpleTaskInfoSection.vue';
+    import SimpleGradingSection from './SimpleGradingSection.vue';
+
+    import InstanceFormFieldset from '../form/InstanceFormFieldset.vue';
+
+    import Translate from '../../mixins/translate';
 
     export default {
+        mixins: [ Translate ],
+
         props: [ 'form' ],
 
-        components: { AdvancedTaskInfoSection, AdvancedGradingSection },
+        components: {
+            SimpleTaskInfoSection, SimpleGradingSection,
+            AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset
+        },
+
+        data() {
+            return {
+                advanced_info_section_active: true,
+                advanced_grading_section_active: true
+            }
+        },
+
+        methods: {
+            toggleAdvancedInfoSection(advanced_toggle) {
+                this.advanced_info_section_active = advanced_toggle;
+            },
+
+            toggleAdvancedGradingSection(advanced_toggle) {
+                this.advanced_grading_section_active = advanced_toggle;
+            }
+        },
 
         mounted() {
             VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);

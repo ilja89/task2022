@@ -1,42 +1,36 @@
 <template>
-    <instance-form-fieldset>
-        <template slot="title">{{ translate('task_info_title') }}</template>
+    <div>
+        <charon-text-input
+                input_name="name"
+                :input_label="translate('task_name_label')"
+                required="true"
+                :input_value="form.fields.name"
+                @input-was-changed="onNameChanged"
+        >
+        </charon-text-input>
 
-        <slot>
+        <charon-text-input
+                input_name="project_folder"
+                :input_label="translate('project_folder_name_label')"
+                required="true"
+                :input_value="form.fields.project_folder"
+                @input-was-changed="onProjectFolderChanged"
+        >
+        </charon-text-input>
 
-            <charon-text-input
-                    input_name="name"
-                    :input_label="translate('task_name_label')"
-                    required="true"
-                    :input_value="form.fields.name"
-                    @input-was-changed="onNameChanged"
-            >
-            </charon-text-input>
+        <charon-select
+                :label="translate('tester_type_label')"
+                name="tester_type"
+                :options="form.tester_types"
+                :selected="form.fields.tester_type"
+                @input-was-changed="onTesterTypeChanged"
+        >
+        </charon-select>
 
-            <charon-text-input
-                    input_name="project_folder"
-                    :input_label="translate('project_folder_name_label')"
-                    required="true"
-                    :input_value="form.fields.project_folder"
-                    @input-was-changed="onProjectFolderChanged"
-            >
-            </charon-text-input>
-
-            <charon-select
-                    :label="translate('tester_type_label')"
-                    name="tester_type"
-                    :options="form.tester_types"
-                    :selected="form.fields.tester_type"
-                    @input-was-changed="onTesterTypeChanged"
-            >
-            </charon-select>
-
-        </slot>
-    </instance-form-fieldset>
+    </div>
 </template>
 
 <script>
-    import InstanceFormFieldset from '../form/InstanceFormFieldset.vue';
     import CharonTextInput from '../form/CharonTextInput.vue';
     import CharonSelect from '../form/CharonSelect.vue';
 
@@ -46,10 +40,8 @@
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],
 
-        components: { InstanceFormFieldset, CharonTextInput, CharonSelect },
+        components: { CharonTextInput, CharonSelect },
 
-        props: [ 'form' ],
-
-        methods: { }
+        props: [ 'form' ]
     }
 </script>

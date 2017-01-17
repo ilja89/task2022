@@ -1,14 +1,5 @@
 <template>
-    <div>
-        <charon-select
-                :label="translate('grading_method_label')"
-                name="grading_method"
-                :options="form.grading_methods"
-                :selected="form.fields.grading_method"
-                @input-was-changed="onGradingMethodChanged"
-        >
-        </charon-select>
-    </div>
+    <h1>Simple grading section here!</h1>
 </template>
 
 <script>
