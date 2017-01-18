@@ -3,10 +3,10 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Services\GrademapService;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -28,17 +28,27 @@ class InstanceController extends Controller
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var GrademapService */
+    protected $grademapService;
+
     /**
      * InstanceController constructor.
      *
-     * @param  Request  $request
-     * @param  CharonRepository  $charonRepository
+     * @param  Request $request
+     * @param  CharonRepository $charonRepository
+     * @param GradebookService $gradebookService
+     * @param GrademapService $grademapService
      */
-    public function __construct(Request $request, CharonRepository $charonRepository, GradebookService $gradebookService)
-    {
-        $this->request = $request;
+    public function __construct(
+        Request $request,
+        CharonRepository $charonRepository,
+        GradebookService $gradebookService,
+        GrademapService $grademapService
+    ) {
+        $this->request          = $request;
         $this->charonRepository = $charonRepository;
         $this->gradebookService = $gradebookService;
+        $this->grademapService  = $grademapService;
     }
 
     /**
@@ -50,7 +60,7 @@ class InstanceController extends Controller
     {
         $charon = $this->getCharonFromRequest();
 
-        if (!$this->charonRepository->save($charon)) {
+        if ( ! $this->charonRepository->save($charon)) {
             return null;
         }
 
@@ -77,7 +87,7 @@ class InstanceController extends Controller
     /**
      * Deletes the plugin instance with given id.
      *
-     * @param  integer  $id
+     * @param  integer $id
      *
      * @return bool true if instance was deleted successfully
      */
@@ -87,23 +97,44 @@ class InstanceController extends Controller
     }
 
     /**
+     * Run after the course module has been created for the Charon instance.
+     * This means that all Grade Items and Grade Categories have been created and can
+     * be accessed, moved around and changed.
+     *
+     * @param  integer $charonId
+     */
+    public function postCourseModuleCreated($charonId)
+    {
+        $charon = $this->charonRepository->getCharonById($charonId);
+        $this->grademapService->linkGrademapsAndGradeItems($charon);
+    }
+
+    /**
      * Gets the charon from the current request.
-     * 
+     *
      * @return Charon
      */
     private function getCharonFromRequest()
     {
         return new Charon([
-            'name' => $this->request->name,
-            'description' => $this->request->description['text'],
-            'project_folder' => $this->request->project_folder,
-            'extra' => $this->request->extra,
-            'tester_type_code' => $this->request->tester_type,
-            'grading_method_code' => $this->request->grading_method
+            'name'                => $this->request->name,
+            'description'         => $this->request->description['text'],
+            'project_folder'      => $this->request->project_folder,
+            'extra'               => $this->request->extra,
+            'tester_type_code'    => $this->request->tester_type,
+            'grading_method_code' => $this->request->grading_method,
         ]);
     }
 
     /**
+     * Save Grademaps from the current request.
+     * Assumes that these request parameters are set:
+     *      grademaps (where tester_type_code => grademap)
+     *          grademap_name
+     *          max_points
+     *          id_number
+     *      course (automatically done by Moodle after submitting form)
+     *
      * @param Charon $charon
      */
     private function saveGrademapsFromRequest(Charon $charon)
@@ -119,9 +150,11 @@ class InstanceController extends Controller
                 $grademap['id_number']
             );
 
+            // We cannot add Grade Item ID here because it is not yet in the database (Moodle is great!)
+            // Instead we can use event listeners (db/events.php) and wait for them to be added.
             $charon->grademaps()->save(new Grademap([
                 'grade_type_code' => $grade_type_code,
-                'name' => $grademap['grademap_name']
+                'name'            => $grademap['grademap_name'],
             ]));
         }
     }

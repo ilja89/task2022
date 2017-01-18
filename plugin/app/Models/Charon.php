@@ -5,6 +5,7 @@ namespace TTU\Charon\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\GradeItem;
 
 /**
  * Charon model class.
@@ -18,6 +19,8 @@ use Zeizig\Moodle\Models\CourseModule;
  * @property integer $grading_method_code
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property Grademap[] $grademaps
  *
  * @package TTU\Charon\Model
  */
@@ -72,5 +75,18 @@ class Charon extends Model
         return CourseModule::where('instance', $this->id)
                            ->where('module', $moduleService->getModuleId())
                            ->first();
+    }
+
+    /**
+     * Gets the grade items associated with this Charon instance.
+     *
+     * @return GradeItem[]
+     */
+    public function gradeItems()
+    {
+        return GradeItem::where('itemtype', 'mod')
+            ->where('itemmodule', config('moodle.plugin_slug'))
+            ->where('iteminstance', $this->id)
+            ->get();
     }
 }
