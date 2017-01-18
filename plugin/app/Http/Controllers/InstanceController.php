@@ -3,8 +3,12 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\CharonRepository;
+use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class InstanceController.
@@ -21,16 +25,20 @@ class InstanceController extends Controller
     /** @var CharonRepository */
     protected $charonRepository;
 
+    /** @var GradebookService */
+    protected $gradebookService;
+
     /**
      * InstanceController constructor.
      *
      * @param  Request  $request
      * @param  CharonRepository  $charonRepository
      */
-    public function __construct(Request $request, CharonRepository $charonRepository)
+    public function __construct(Request $request, CharonRepository $charonRepository, GradebookService $gradebookService)
     {
         $this->request = $request;
         $this->charonRepository = $charonRepository;
+        $this->gradebookService = $gradebookService;
     }
 
     /**
@@ -45,6 +53,8 @@ class InstanceController extends Controller
         if (!$this->charonRepository->save($charon)) {
             return null;
         }
+
+        $this->saveGrademapsFromRequest($charon);
 
         return $charon->id;
     }
@@ -91,5 +101,28 @@ class InstanceController extends Controller
             'tester_type_code' => $this->request->tester_type,
             'grading_method_code' => $this->request->grading_method
         ]);
+    }
+
+    /**
+     * @param Charon $charon
+     */
+    private function saveGrademapsFromRequest(Charon $charon)
+    {
+        foreach ($this->request->grademaps as $grade_type_code => $grademap) {
+            /** @var GradeItem $gradeItem */
+            $this->gradebookService->addGradeItem(
+                $this->request->course,
+                $charon->id,
+                $grade_type_code,
+                $grademap['grademap_name'],
+                $grademap['max_points'],
+                $grademap['id_number']
+            );
+
+            $charon->grademaps()->save(new Grademap([
+                'grade_type_code' => $grade_type_code,
+                'name' => $grademap['grademap_name']
+            ]));
+        }
     }
 }

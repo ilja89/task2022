@@ -2,6 +2,9 @@
 
 namespace Zeizig\Moodle\Services;
 
+use Illuminate\Contracts\Foundation\Application;
+use Zeizig\Moodle\Models\GradeItem;
+
 /**
  * Class GradebookService.
  * Wrapper for Moodle gradebook functions.
@@ -12,6 +15,17 @@ namespace Zeizig\Moodle\Services;
  */
 class GradebookService extends MoodleService
 {
+    /**
+     * GradebookService constructor.
+     *
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        parent::__construct($application);
+    }
+
+
     /**
      * Adds a grade item with given parameters.
      *

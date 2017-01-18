@@ -22,12 +22,9 @@ function charon_delete_instance($id) {
     return $instanceController->destroy($id);
 }
 
-function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) {
+function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }
 
-}
-
-function charon_grade_item_update($modinstance, $grades = NULL) {
-}
+function charon_grade_item_update($modinstance, $grades = NULL) { }
 
 function charon_extend_navigation_course($navigation, $course, $context) {
     if (has_capability('moodle/course:manageactivities', $context)) {

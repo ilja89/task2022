@@ -28,6 +28,22 @@ class Course extends Model
      */
     public function courseModules()
     {
-        return $this->hasMany('TTU\Moodle\Model\CourseModule', 'course', 'id');
+        return $this->hasMany(CourseModule::class, 'course', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function gradeItems()
+    {
+        return $this->hasMany(GradeItem::class, 'courseid', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function gradeCategories()
+    {
+        return $this->hasMany(GradeCategory::class, 'courseid');
     }
 }

@@ -4,7 +4,7 @@ namespace Zeizig\Moodle\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Zeizig\Moodle\Services\ModuleService;
 
 /**
  * Class CourseModule.
@@ -30,7 +30,7 @@ class CourseModule extends Model
      */
     public function isInstanceOfPlugin()
     {
-        $moduleService = app('Zeizig\\Moodle\\Services\\ModuleService');
+        $moduleService = app(ModuleService::class);
 
         return $this->module === $moduleService->getModuleId();
     }
@@ -43,6 +43,6 @@ class CourseModule extends Model
      */
     public function moodleCourse()
     {
-        return $this->belongsTo('Zeizig\\Moodle\\Models\\Course', 'course');
+        return $this->belongsTo(Course::class, 'course');
     }
 }

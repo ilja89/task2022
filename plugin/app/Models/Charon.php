@@ -41,6 +41,14 @@ class Charon extends Model
      */
     protected $table = 'charon';
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function grademaps()
+    {
+        return $this->hasMany(Grademap::class);
+    }
+
     public function testerType()
     {
         return $this->belongsTo(TesterType::class, 'tester_type_code', 'code');
