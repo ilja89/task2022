@@ -27,3 +27,7 @@ $string['tester_type'] = 'Tester type';
 $string['grading'] = 'Grading';
 $string['grading_method'] = 'Grading method';
 $string['grademaps'] = 'Grademaps';
+$string['grades'] = 'Grades';
+$string['grade_name'] = 'Grade name';
+$string['max_points'] = 'Max points';
+$string['id_number'] = 'ID number';

@@ -7,22 +7,20 @@
  * Labels
  * Sections
  * Grades Select
+ * Grademap Tabs
  *
  * ACCESSORIES
  * Toggle
  */
-
-
 /*---------------------------------*\
   #IMPORTS
 \*---------------------------------*/
-//@import 'app';
+@import '_variables.scss';
 
 
 /*---------------------------------*\
   #FORM_FIELDS
 \*---------------------------------*/
-
 
 /*-----------------------*\
   #LABELS
@@ -47,6 +45,7 @@ label.required:after {
   }
 }
 
+
 .section-title-right__advanced-text {
   font-size: 0.8em;
 }
@@ -60,12 +59,78 @@ label.required:after {
   display: flex;
 }
 
+
 .grades-select-col {
   padding: 0 10px;
 
   .checkbox input[type='checkbox'] {
     position: static;
     margin-left: 0;
+  }
+}
+
+
+/*-----------------------*\
+  #GRADEMAP_TABS
+\*-----------------------*/
+
+.tabs {
+  margin-top: 10px;
+  border-bottom: 5px solid $brand-primary;
+
+  ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+
+.tabs .tab {
+  flex-grow: 1;
+  margin: 0 5px;
+  text-align: center;
+
+  background-color: $background-grey;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  a {
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    color: $dark-text-color;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  &.is-active {
+    background-color: $brand-primary;
+
+    a {
+      color: #ffffff;
+    }
+  }
+}
+
+.grademap-row {
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .grademap-field {
+    width: 100%;
+    padding: 0 15px;
   }
 }
 
@@ -81,20 +146,6 @@ label.required:after {
 
 .toggle {
   display: none;
-
-  // add default box-sizing for this scope
-  &,
-  &:after,
-  &:before,
-  & *,
-  & *:after,
-  & *:before,
-  & + .toggle-btn {
-    box-sizing: border-box;
-    &::selection {
-      background: none;
-    }
-  }
 
   + .toggle-btn {
     outline: 0;
@@ -127,9 +178,11 @@ label.required:after {
   }
 }
 
+
 .toggle-btn {
   margin: 2px;
 }
+
 
 // Theme
 .toggle-light {
@@ -140,12 +193,12 @@ label.required:after {
     transition: all .4s ease;
     &:after {
       border-radius: 50%;
-      background: #fff;
+      background: #ffffff;
       transition: all .2s ease;
     }
   }
 
   &:checked + .toggle-btn {
-    background: #9FD6AE;
+    background: #9fd6ae;
   }
 }

@@ -16,7 +16,10 @@
         extra_label: "{{ translate('extra') }}",
         tester_type_label: "{{ translate('tester_type') }}",
         grading_method_label: "{{ translate('grading_method') }}",
-        grademaps_label: "{{ translate('grademaps') }}",
+        grades_label: "{{ translate('grades') }}",
+        grade_name_label: "{{ translate('grade_name') }}",
+        max_points_label: "{{ translate('max_points') }}",
+        id_number_label: "{{ translate('id_number') }}"
     };
 </script>
 
