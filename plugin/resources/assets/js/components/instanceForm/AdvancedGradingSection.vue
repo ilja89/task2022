@@ -30,6 +30,10 @@
             </charon-tab>
 
         </charon-tabs>
+
+        <deadline-section
+                :form="form">
+        </deadline-section>
     </div>
 </template>
 
@@ -39,6 +43,7 @@
     import CharonTabs from '../partials/CharonTabs.vue';
     import CharonTab from '../partials/CharonTab.vue';
     import GrademapRow from './GrademapRow.vue';
+    import DeadlineSection from './DeadlineSection.vue';
 
     import Translate from '../../mixins/translate';
     import EmitEventOnInputChange from '../../mixins/emitEventOnInputChange';
@@ -46,7 +51,7 @@
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],
 
-        components: { CharonSelect, GradesCheckboxes, CharonTabs, CharonTab, GrademapRow },
+        components: { CharonSelect, GradesCheckboxes, CharonTabs, CharonTab, GrademapRow, DeadlineSection },
 
         props: {
             form: { required: true }

@@ -91,6 +91,12 @@
             VueEvent.$on('grade-type-was-deactivated', (deactivated_grade_type_code) => {
                 this.form.deactivateGrademap(deactivated_grade_type_code);
             });
+            VueEvent.$on('deadline-was-added', () => {
+                this.form.addDeadline();
+            });
+            VueEvent.$on('deadline-was-removed', (id) => {
+                this.form.fields.deadlines.splice(id, 1);
+            });
         }
     }
 </script>

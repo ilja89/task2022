@@ -10,6 +10,7 @@
  * Grademap Tabs
  *
  * ACCESSORIES
+ * Utility Classes
  * Toggle
  */
 /*---------------------------------*\
@@ -135,9 +136,42 @@ label.required:after {
 }
 
 
+/*-----------------------*\
+  #DEADLINES
+\*-----------------------*/
+
+.deadline-field {
+  padding: 10px 15px;
+}
+
+.add-deadline-btn {
+  height: 46px;
+  margin: 10px 15px;
+}
+
+.remove-deadline-btn {
+  height: 46px;
+  min-width: 100%;
+  margin: 0;
+}
+
+
 /*---------------------------------*\
   #ACCESSORIES
 \*---------------------------------*/
+
+
+/*-----------------------*\
+  #TOGGLE
+\*-----------------------*/
+
+.is-flex {
+  display: flex;
+}
+
+.is-flex-1 {
+  flex-grow: 1;
+}
 
 
 /*-----------------------*\

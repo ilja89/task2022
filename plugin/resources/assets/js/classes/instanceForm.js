@@ -32,6 +32,14 @@ export default class InstanceFormForm {
         this.fields.grademaps.splice(removedIndex, 1);
     }
 
+    addDeadline() {
+        this.fields.deadlines.push({
+            deadline_time: '',
+            percentage: 100,
+            group_id: 1
+        });
+    }
+
     initializeFields(instance) {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
@@ -45,5 +53,6 @@ export default class InstanceFormForm {
             deadlines: instance['deadlines'] ? instance['deadlines'] : [ ]
         };
 
+        this.addDeadline();
     }
 }

@@ -2,10 +2,10 @@
     <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
 
         <legend class="ftoggler" v-on:click="open = !open">
-            <slot name="title"></slot>
+            Deadlines
         </legend>
 
-        <slot v-if="open"></slot>
+
 
     </fieldset>
 </template>
