@@ -24,7 +24,7 @@
                     :selected="index === 0 ? true : false">
 
                 <grademap-row
-                        :grade_type_code="grademap.grade_type_code">
+                        :grademap="grademap">
                 </grademap-row>
 
             </charon-tab>
@@ -48,7 +48,9 @@
 
         components: { CharonSelect, GradesCheckboxes, CharonTabs, CharonTab, GrademapRow },
 
-        props: [ 'form' ],
+        props: {
+            form: { required: true }
+        },
 
         methods: {
             getActiveGradeTypes() {

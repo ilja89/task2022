@@ -11,7 +11,8 @@ export default class InstanceFormForm {
         this.fields.grademaps.push({
             max_points: 0,
             name: '',
-            grade_type_code: grade_type_code
+            grade_type_code: grade_type_code,
+            id_number: ''
         });
 
         this.fields.grademaps.sort((a, b) => {

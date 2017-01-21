@@ -2137,7 +2137,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
     components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default.a, GrademapRow: __WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue___default.a },
 
-    props: ['form'],
+    props: {
+        form: { required: true }
+    },
 
     methods: {
         getActiveGradeTypes: function getActiveGradeTypes() {
@@ -2257,6 +2259,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2264,22 +2269,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_translate___default.a],
 
     props: {
-        initial_grademap: { required: false },
-        grade_type_code: { required: true }
+        grademap: { required: true }
     },
 
-    data: function data() {
-        return {
-            grademap: {
-                name: '',
-                max_points: 1,
-                id_number: name.toLowerCase().replace(/ /g, '-')
-            }
-        };
-    },
-    mounted: function mounted() {
-        if (this.initial_grademap != null) {
-            this.grademap = this.initial_grademap;
+    methods: {
+        onGradeNameChange: function onGradeNameChange() {
+            this.grademap.id_number = this.grademap.name.replace(/-/g, '').replace(/ /g, '_').replace(/__/g, '_');
         }
     }
 };
@@ -2356,7 +2351,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony default export */ exports["default"] = {
     mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_translate___default.a],
 
-    props: ['form'],
+    props: {
+        form: { required: true }
+    },
 
     components: {
         SimpleTaskInfoSection: __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue___default.a, SimpleGradingSection: __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue___default.a,
@@ -3212,7 +3209,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "grademap-field"
   }, [_c('label', {
     attrs: {
-      "for": 'grademaps[' + _vm.grade_type_code + '][grademap_name]'
+      "for": 'grademaps[' + _vm.grademap.grade_type_code + '][grademap_name]'
     }
   }, [_vm._v(_vm._s(_vm.translate('grade_name_label')))]), _c('br'), _vm._v(" "), _c('input', {
     directives: [{
@@ -3223,13 +3220,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "name": 'grademaps[' + _vm.grade_type_code + '][grademap_name]',
+      "name": 'grademaps[' + _vm.grademap.grade_type_code + '][grademap_name]',
       "type": "text"
     },
     domProps: {
       "value": _vm._s(_vm.grademap.name)
     },
     on: {
+      "keyup": _vm.onGradeNameChange,
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.grademap.name = $event.target.value
@@ -3239,7 +3237,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "grademap-field"
   }, [_c('label', {
     attrs: {
-      "for": 'grademaps[' + _vm.grade_type_code + '][max_points]'
+      "for": 'grademaps[' + _vm.grademap.grade_type_code + '][max_points]'
     }
   }, [_vm._v(_vm._s(_vm.translate('max_points_label')))]), _c('br'), _vm._v(" "), _c('input', {
     directives: [{
@@ -3250,7 +3248,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "name": 'grademaps[' + _vm.grade_type_code + '][max_points]',
+      "name": 'grademaps[' + _vm.grademap.grade_type_code + '][max_points]',
       "type": "number"
     },
     domProps: {
@@ -3269,7 +3267,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "grademap-field"
   }, [_c('label', {
     attrs: {
-      "for": 'grademaps[' + _vm.grade_type_code + '][id_number]'
+      "for": 'grademaps[' + _vm.grademap.grade_type_code + '][id_number]'
     }
   }, [_vm._v(_vm._s(_vm.translate('id_number_label')))]), _c('br'), _vm._v(" "), _c('input', {
     directives: [{
@@ -3280,7 +3278,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "name": 'grademaps[' + _vm.grade_type_code + '][id_number]',
+      "name": 'grademaps[' + _vm.grademap.grade_type_code + '][id_number]',
       "type": "text"
     },
     domProps: {
@@ -3427,7 +3425,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('grademap-row', {
       attrs: {
-        "grade_type_code": grademap.grade_type_code
+        "grademap": grademap
       }
     })], 1)
   })) : _vm._e()], 1)
@@ -12240,7 +12238,8 @@ var InstanceFormForm = function () {
             this.fields.grademaps.push({
                 max_points: 0,
                 name: '',
-                grade_type_code: grade_type_code
+                grade_type_code: grade_type_code,
+                id_number: ''
             });
 
             this.fields.grademaps.sort(function (a, b) {

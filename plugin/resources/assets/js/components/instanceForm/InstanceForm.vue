@@ -52,7 +52,9 @@
     export default {
         mixins: [ Translate ],
 
-        props: [ 'form' ],
+        props: {
+            form: { required: true }
+        },
 
         components: {
             SimpleTaskInfoSection, SimpleGradingSection,
@@ -73,7 +75,7 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
-            },
+            }
         },
 
         mounted() {
