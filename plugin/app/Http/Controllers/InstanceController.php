@@ -2,8 +2,10 @@
 
 namespace TTU\Charon\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\GrademapService;
@@ -65,6 +67,7 @@ class InstanceController extends Controller
         }
 
         $this->saveGrademapsFromRequest($charon);
+        $this->saveDeadlinesFromRequest($charon);
 
         return $charon->id;
     }
@@ -155,6 +158,25 @@ class InstanceController extends Controller
             $charon->grademaps()->save(new Grademap([
                 'grade_type_code' => $grade_type_code,
                 'name'            => $grademap['grademap_name'],
+            ]));
+        }
+    }
+
+    /**
+     * Save deadlines from the current request.
+     * Deadline times are saved in UTC.
+     *
+     * @param  Charon  $charon
+     */
+    private function saveDeadlinesFromRequest($charon)
+    {
+        foreach ($this->request->deadlines as $deadline) {
+            $deadlineTime = Carbon::createFromFormat('d-m-Y H:i', $deadline['deadline_time'], config('app.timezone'));
+            $deadlineTime->setTimezone('UTC');
+            $charon->deadlines()->save(new Deadline([
+                'deadline_time' => $deadlineTime,
+                'percentage' => $deadline['percentage'],
+                'group_id' => $deadline['group_id']
             ]));
         }
     }

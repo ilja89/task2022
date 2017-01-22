@@ -21,6 +21,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property Carbon $updated_at
  *
  * @property Grademap[] $grademaps
+ * @property Deadline[] $deadlines
  *
  * @package TTU\Charon\Model
  */
@@ -44,12 +45,14 @@ class Charon extends Model
      */
     protected $table = 'charon';
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function grademaps()
     {
         return $this->hasMany(Grademap::class);
+    }
+
+    public function deadlines()
+    {
+        return $this->hasMany(Deadline::class);
     }
 
     public function testerType()
