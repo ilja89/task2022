@@ -20103,9 +20103,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         'is-active': tab.isActive
       }
     }, [_c('a', {
-      attrs: {
-        "href": tab.href
-      },
       on: {
         "click": function($event) {
           _vm.selectTab(tab)

@@ -84,6 +84,6 @@ class InstanceFormController extends Controller
      */
     private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleId($this->request->update);
+        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request->update);
     }
 }

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default class InstanceFormForm {
     constructor(instance, grade_types, tester_types, grading_methods) {
         this.initializeFields(instance);
@@ -42,6 +44,29 @@ export default class InstanceFormForm {
         });
     }
 
+    initializeGrademaps(grademaps) {
+        grademaps.forEach((grademap) => {
+            this.fields.grademaps.push({
+                max_points: parseFloat(grademap.grade_item.grademax).toFixed(2),
+                name: grademap.name,
+                grade_type_code: grademap.grade_type_code,
+                id_number: grademap.grade_item.idnumber
+            });
+        });
+    }
+
+    initializeDeadlines(deadlines) {
+        deadlines.forEach((deadline) => {
+            this.fields.deadlines.push({
+                deadline_time: {
+                    time: moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm')
+                },
+                percentage: deadline.percentage,
+                group_id: deadline.group_id
+            });
+        });
+    }
+
     initializeFields(instance) {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
@@ -51,10 +76,11 @@ export default class InstanceFormForm {
             tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
 
-            grademaps: instance['grademaps'] ? instance['grademaps'] : [ ],
-            deadlines: instance['deadlines'] ? instance['deadlines'] : [ ]
+            grademaps: [ ],
+            deadlines: [ ]
         };
 
-        this.addDeadline();
+        instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '' ;
+        instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();
     }
 }

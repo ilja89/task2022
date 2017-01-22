@@ -34,7 +34,7 @@ class Grademap extends Model
 
     public function gradeItem()
     {
-        return $this->hasOne(GradeItem::class, 'grade_item_id');
+        return $this->hasOne(GradeItem::class, 'id', 'grade_item_id');
     }
 
     public function gradeType()

@@ -93,6 +93,7 @@ label.required:after {
   margin: 0 5px;
   text-align: center;
 
+  cursor: pointer;
   background-color: $background-grey;
 
   &:last-child {

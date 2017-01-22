@@ -20103,9 +20103,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         'is-active': tab.isActive
       }
     }, [_c('a', {
-      attrs: {
-        "href": tab.href
-      },
       on: {
         "click": function($event) {
           _vm.selectTab(tab)
@@ -29011,9 +29008,13 @@ var app = new Vue({
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
 
 var InstanceFormForm = function () {
     function InstanceFormForm(instance, grade_types, tester_types, grading_methods) {
@@ -29065,6 +29066,35 @@ var InstanceFormForm = function () {
             });
         }
     }, {
+        key: 'initializeGrademaps',
+        value: function initializeGrademaps(grademaps) {
+            var _this = this;
+
+            grademaps.forEach(function (grademap) {
+                _this.fields.grademaps.push({
+                    max_points: parseFloat(grademap.grade_item.grademax).toFixed(2),
+                    name: grademap.name,
+                    grade_type_code: grademap.grade_type_code,
+                    id_number: grademap.grade_item.idnumber
+                });
+            });
+        }
+    }, {
+        key: 'initializeDeadlines',
+        value: function initializeDeadlines(deadlines) {
+            var _this2 = this;
+
+            deadlines.forEach(function (deadline) {
+                _this2.fields.deadlines.push({
+                    deadline_time: {
+                        time: __WEBPACK_IMPORTED_MODULE_0_moment___default()(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm')
+                    },
+                    percentage: deadline.percentage,
+                    group_id: deadline.group_id
+                });
+            });
+        }
+    }, {
         key: 'initializeFields',
         value: function initializeFields(instance) {
             this.fields = {
@@ -29075,11 +29105,12 @@ var InstanceFormForm = function () {
                 tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
                 grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
 
-                grademaps: instance['grademaps'] ? instance['grademaps'] : [],
-                deadlines: instance['deadlines'] ? instance['deadlines'] : []
+                grademaps: [],
+                deadlines: []
             };
 
-            this.addDeadline();
+            instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '';
+            instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();
         }
     }]);
 

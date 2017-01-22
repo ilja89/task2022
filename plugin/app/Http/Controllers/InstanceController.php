@@ -176,7 +176,7 @@ class InstanceController extends Controller
             $charon->deadlines()->save(new Deadline([
                 'deadline_time' => $deadlineTime,
                 'percentage' => $deadline['percentage'],
-                'group_id' => $deadline['group_id']
+//                'group_id' => $deadline['group_id']
             ]));
         }
     }

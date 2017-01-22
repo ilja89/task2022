@@ -90,7 +90,7 @@ class CharonRepository
         }
 
         if ($courseModule->isInstanceOfPlugin()) {
-            return Charon::with('testerType', 'gradingMethod')
+            return Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines')
                          ->where('id', $courseModule->instance)
                          ->first();
         }

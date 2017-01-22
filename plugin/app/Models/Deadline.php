@@ -31,4 +31,11 @@ class Deadline extends Model
     {
         return $this->belongsTo(Charon::class, 'charon_id', 'id');
     }
+
+    public function getDeadlineTimeAttribute($deadlineTime)
+    {
+        $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
+        $deadlineTime->setTimezone(config('app.timezone'));
+        return $deadlineTime;
+    }
 }
