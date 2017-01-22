@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="fcontainer clearfix fitem">
         <charon-select
                 :label="translate('grading_method_label')"
                 name="grading_method"
@@ -30,10 +30,7 @@
             </charon-tab>
 
         </charon-tabs>
-
-        <deadline-section
-                :form="form">
-        </deadline-section>
+        
     </div>
 </template>
 

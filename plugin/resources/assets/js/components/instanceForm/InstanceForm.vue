@@ -27,15 +27,18 @@
             <slot>
                 <advanced-grading-section
                         v-if="advanced_grading_section_active"
-                        :form="form"
-                ></advanced-grading-section>
+                        :form="form">
+                </advanced-grading-section>
                 <simple-grading-section
                         v-else
-                        :form="form"
-                >
+                        :form="form">
                 </simple-grading-section>
             </slot>
         </instance-form-fieldset>
+
+        <deadline-section
+                :form="form">
+        </deadline-section>
     </div>
 </template>
 
@@ -44,6 +47,7 @@
     import AdvancedGradingSection from './AdvancedGradingSection.vue';
     import SimpleTaskInfoSection from './SimpleTaskInfoSection.vue';
     import SimpleGradingSection from './SimpleGradingSection.vue';
+    import DeadlineSection from './DeadlineSection.vue';
 
     import InstanceFormFieldset from '../form/InstanceFormFieldset.vue';
 
@@ -57,7 +61,7 @@
         },
 
         components: {
-            SimpleTaskInfoSection, SimpleGradingSection,
+            SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
             AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset
         },
 

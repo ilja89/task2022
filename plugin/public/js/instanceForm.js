@@ -17887,9 +17887,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -18166,10 +18163,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DeadlineSection_vue__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DeadlineSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__DeadlineSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__form_InstanceFormFieldset_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__form_InstanceFormFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__form_InstanceFormFieldset_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_translate__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__mixins_translate__);
 //
 //
 //
@@ -18211,6 +18210,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -18222,15 +18225,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_translate___default.a],
+    mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_translate___default.a],
 
     props: {
         form: { required: true }
     },
 
     components: {
-        SimpleTaskInfoSection: __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue___default.a, SimpleGradingSection: __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue___default.a,
-        AdvancedTaskInfoSection: __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue___default.a, AdvancedGradingSection: __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue___default.a, InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_4__form_InstanceFormFieldset_vue___default.a
+        SimpleTaskInfoSection: __WEBPACK_IMPORTED_MODULE_2__SimpleTaskInfoSection_vue___default.a, SimpleGradingSection: __WEBPACK_IMPORTED_MODULE_3__SimpleGradingSection_vue___default.a, DeadlineSection: __WEBPACK_IMPORTED_MODULE_4__DeadlineSection_vue___default.a,
+        AdvancedTaskInfoSection: __WEBPACK_IMPORTED_MODULE_0__AdvancedTaskInfoSection_vue___default.a, AdvancedGradingSection: __WEBPACK_IMPORTED_MODULE_1__AdvancedGradingSection_vue___default.a, InstanceFormFieldset: __WEBPACK_IMPORTED_MODULE_5__form_InstanceFormFieldset_vue___default.a
     },
 
     data: function data() {
@@ -20129,7 +20132,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('charon-select', {
+  return _c('div', {
+    staticClass: "fcontainer clearfix fitem"
+  }, [_c('charon-select', {
     attrs: {
       "label": _vm.translate('grading_method_label'),
       "name": "grading_method",
@@ -20160,11 +20165,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "grademap": grademap
       }
     })], 1)
-  })) : _vm._e(), _vm._v(" "), _c('deadline-section', {
-    attrs: {
-      "form": _vm.form
-    }
-  })], 1)
+  })) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -20334,7 +20335,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "form": _vm.form
     }
-  })])], 2)], 1)
+  })])], 2), _vm._v(" "), _c('deadline-section', {
+    attrs: {
+      "form": _vm.form
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
