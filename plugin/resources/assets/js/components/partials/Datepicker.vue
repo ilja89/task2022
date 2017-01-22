@@ -1,5 +1,7 @@
 <template>
-    <date-picker :date="startTime" :option="option" :limit="limit"></date-picker>
+    <div class="">
+        <date-picker :date="datetime" :option="option" :limit="limit"></date-picker>
+    </div>
 </template>
 
 <script>
@@ -10,10 +12,14 @@
 
         components: { DatePicker },
 
+        props: {
+            datetime: { required: true }
+        },
+
         data () {
             return {
                 startTime: {
-                    time: ''
+                    time: this.datetime
                 },
                 endtime: {
                     time: ''

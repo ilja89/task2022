@@ -1,7 +1,10 @@
 <template>
     <div class="deadline-row is-flex">
         <div class="deadline-field is-flex-1">
-            <datepicker></datepicker>
+            <datepicker
+                    :datetime="deadline.deadline_time"
+            ></datepicker>
+            <input type="hidden" :name="'deadlines[' + id + '][deadline_time]'" :value="deadline.deadline_time.time">
         </div>
         <div class="deadline-field is-flex-1">
             <input type="number"

@@ -34,7 +34,9 @@ export default class InstanceFormForm {
 
     addDeadline() {
         this.fields.deadlines.push({
-            deadline_time: '',
+            deadline_time: {
+                time: ''
+            },
             percentage: 100,
             group_id: 1
         });
