@@ -17845,12 +17845,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DeadlineSection_vue__ = __webpack_require__(166);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DeadlineSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__DeadlineSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_translate__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__mixins_translate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_emitEventOnInputChange__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__mixins_emitEventOnInputChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_emitEventOnInputChange__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_emitEventOnInputChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__mixins_emitEventOnInputChange__);
 //
 //
 //
@@ -17887,7 +17885,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -17899,9 +17896,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_7__mixins_emitEventOnInputChange___default.a],
+    mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_translate___default.a, __WEBPACK_IMPORTED_MODULE_6__mixins_emitEventOnInputChange___default.a],
 
-    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default.a, GrademapRow: __WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue___default.a, DeadlineSection: __WEBPACK_IMPORTED_MODULE_5__DeadlineSection_vue___default.a },
+    components: { CharonSelect: __WEBPACK_IMPORTED_MODULE_0__form_CharonSelect_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default.a, GrademapRow: __WEBPACK_IMPORTED_MODULE_4__GrademapRow_vue___default.a },
 
     props: {
         form: { required: true }
