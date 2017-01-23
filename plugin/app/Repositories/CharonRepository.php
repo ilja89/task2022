@@ -123,6 +123,7 @@ class CharonRepository
         $oldCharon->name = $newCharon->name;
         $oldCharon->description = $newCharon->description;
         $oldCharon->project_folder = $newCharon->project_folder;
+        $oldCharon->extra = $newCharon->extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
 

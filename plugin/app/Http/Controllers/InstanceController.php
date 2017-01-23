@@ -2,14 +2,11 @@
 
 namespace TTU\Charon\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
-use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -33,6 +30,9 @@ class InstanceController extends Controller
     /** @var GrademapService */
     protected $grademapService;
 
+    /** @var CreateCharonService */
+    protected $createCharonService;
+
     /**
      * InstanceController constructor.
      *
@@ -40,17 +40,20 @@ class InstanceController extends Controller
      * @param  CharonRepository $charonRepository
      * @param GradebookService $gradebookService
      * @param GrademapService $grademapService
+     * @param CreateCharonService $createCharonService
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         GradebookService $gradebookService,
-        GrademapService $grademapService
+        GrademapService $grademapService,
+        CreateCharonService $createCharonService
     ) {
-        $this->request          = $request;
-        $this->charonRepository = $charonRepository;
-        $this->gradebookService = $gradebookService;
-        $this->grademapService  = $grademapService;
+        $this->request             = $request;
+        $this->charonRepository    = $charonRepository;
+        $this->gradebookService    = $gradebookService;
+        $this->grademapService     = $grademapService;
+        $this->createCharonService = $createCharonService;
     }
 
     /**
@@ -60,14 +63,15 @@ class InstanceController extends Controller
      */
     public function store()
     {
-        $charon = $this->getCharonFromRequest();
+        $charon              = $this->getCharonFromRequest();
+        $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request->course);
 
         if ( ! $this->charonRepository->save($charon)) {
             return null;
         }
 
-        $this->saveGrademapsFromRequest($charon);
-        $this->saveDeadlinesFromRequest($charon);
+        $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
+        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
         return $charon->id;
     }
@@ -84,7 +88,11 @@ class InstanceController extends Controller
     {
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
 
-        return $this->charonRepository->update($charon, $this->getCharonFromRequest());
+        if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+            // TODO: Update Grademaps, Deadlines, check Charon update
+        }
+
+        return true;
     }
 
     /**
@@ -105,11 +113,17 @@ class InstanceController extends Controller
      * be accessed, moved around and changed.
      *
      * @param  integer $charonId
+     *
+     * @return void
      */
     public function postCourseModuleCreated($charonId)
     {
         $charon = $this->charonRepository->getCharonById($charonId);
         $this->grademapService->linkGrademapsAndGradeItems($charon);
+
+        foreach ($charon->grademaps as $grademap) {
+            $this->gradebookService->moveGradeItemToCategory($grademap->grade_item_id, $charon->category_id);
+        }
     }
 
     /**
@@ -127,57 +141,5 @@ class InstanceController extends Controller
             'tester_type_code'    => $this->request->tester_type,
             'grading_method_code' => $this->request->grading_method,
         ]);
-    }
-
-    /**
-     * Save Grademaps from the current request.
-     * Assumes that these request parameters are set:
-     *      grademaps (where tester_type_code => grademap)
-     *          grademap_name
-     *          max_points
-     *          id_number
-     *      course (automatically done by Moodle after submitting form)
-     *
-     * @param Charon $charon
-     */
-    private function saveGrademapsFromRequest(Charon $charon)
-    {
-        foreach ($this->request->grademaps as $grade_type_code => $grademap) {
-            /** @var GradeItem $gradeItem */
-            $this->gradebookService->addGradeItem(
-                $this->request->course,
-                $charon->id,
-                $grade_type_code,
-                $grademap['grademap_name'],
-                $grademap['max_points'],
-                $grademap['id_number']
-            );
-
-            // We cannot add Grade Item ID here because it is not yet in the database (Moodle is great!)
-            // Instead we can use event listeners (db/events.php) and wait for them to be added.
-            $charon->grademaps()->save(new Grademap([
-                'grade_type_code' => $grade_type_code,
-                'name'            => $grademap['grademap_name'],
-            ]));
-        }
-    }
-
-    /**
-     * Save deadlines from the current request.
-     * Deadline times are saved in UTC.
-     *
-     * @param  Charon  $charon
-     */
-    private function saveDeadlinesFromRequest($charon)
-    {
-        foreach ($this->request->deadlines as $deadline) {
-            $deadlineTime = Carbon::createFromFormat('d-m-Y H:i', $deadline['deadline_time'], config('app.timezone'));
-            $deadlineTime->setTimezone('UTC');
-            $charon->deadlines()->save(new Deadline([
-                'deadline_time' => $deadlineTime,
-                'percentage' => $deadline['percentage'],
-//                'group_id' => $deadline['group_id']
-            ]));
-        }
     }
 }

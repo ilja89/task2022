@@ -5,6 +5,7 @@ namespace TTU\Charon\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
 
 /**
@@ -20,8 +21,10 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
+ * @property GradeCategory $category
  * @property Grademap[] $grademaps
  * @property Deadline[] $deadlines
+ * @property int category_id
  *
  * @package TTU\Charon\Model
  */
@@ -63,6 +66,11 @@ class Charon extends Model
     public function gradingMethod()
     {
         return $this->belongsTo(GradingMethod::class, 'grading_method_code', 'code');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(GradeCategory::class, 'category_id');
     }
 
     /**

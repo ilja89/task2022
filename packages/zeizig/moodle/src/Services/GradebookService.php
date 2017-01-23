@@ -58,4 +58,35 @@ class GradebookService extends MoodleService
             $extraParams
         );
     }
+
+    /**
+     * Add a grade category to the gradebook. Accepts the course id and the category name.
+     * Returns the created category ID.
+     *
+     * @param  integer  $courseId
+     * @param  string  $categoryName
+     *
+     * @return integer
+     */
+    public function addGradeCategory($courseId, $categoryName)
+    {
+        $grade_category = new \grade_category( [ 'courseid' => $courseId, 'fullname' => $categoryName ], false );
+        $grade_category->insert();
+
+        return $grade_category->id;
+    }
+
+    /**
+     * Moves the Grade Item with the given ID to the given category.
+     *
+     * @param  integer  $gradeItemId
+     * @param  integer  $categoryId
+     */
+    public function moveGradeItemToCategory($gradeItemId, $categoryId)
+    {
+        /** @var GradeItem $gradeItem */
+        $gradeItem = GradeItem::find($gradeItemId);
+        $gradeItem->categoryid = $categoryId;
+        $gradeItem->save();
+    }
 }
