@@ -89,4 +89,24 @@ class GradebookService extends MoodleService
         $gradeItem->categoryid = $categoryId;
         $gradeItem->save();
     }
+
+    /**
+     * Updates a Grade Item with the given parameters.
+     * Parameters is an array where the keys are the changed value types and the value is the new value.
+     *
+     * @param  integer  $gradeItemId
+     * @param  array  $parameters
+     *
+     * @return GradeItem
+     */
+    public function updateGradeItem($gradeItemId, $parameters)
+    {
+        $gradeItem = GradeItem::find($gradeItemId);
+        foreach ($parameters as $key => $parameter) {
+            $gradeItem->{$key} = $parameter;
+        }
+        $gradeItem->save();
+
+        return $gradeItem;
+    }
 }

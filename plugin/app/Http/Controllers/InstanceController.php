@@ -7,6 +7,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
+use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -33,27 +34,33 @@ class InstanceController extends Controller
     /** @var CreateCharonService */
     protected $createCharonService;
 
+    /** @var UpdateCharonService */
+    protected $updateCharonService;
+
     /**
      * InstanceController constructor.
      *
-     * @param  Request $request
-     * @param  CharonRepository $charonRepository
-     * @param GradebookService $gradebookService
-     * @param GrademapService $grademapService
-     * @param CreateCharonService $createCharonService
+     * @param  Request  $request
+     * @param  CharonRepository  $charonRepository
+     * @param  GradebookService  $gradebookService
+     * @param  GrademapService  $grademapService
+     * @param  CreateCharonService  $createCharonService
+     * @param  UpdateCharonService  $updateCharonService
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         GradebookService $gradebookService,
         GrademapService $grademapService,
-        CreateCharonService $createCharonService
+        CreateCharonService $createCharonService,
+        UpdateCharonService $updateCharonService
     ) {
         $this->request             = $request;
         $this->charonRepository    = $charonRepository;
         $this->gradebookService    = $gradebookService;
         $this->grademapService     = $grademapService;
         $this->createCharonService = $createCharonService;
+        $this->updateCharonService = $updateCharonService;
     }
 
     /**
@@ -90,6 +97,7 @@ class InstanceController extends Controller
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
             // TODO: Update Grademaps, Deadlines, check Charon update
+            $this->updateCharonService->updateGrademaps($this->request, $charon);
         }
 
         return true;
@@ -117,6 +125,33 @@ class InstanceController extends Controller
      * @return void
      */
     public function postCourseModuleCreated($charonId)
+    {
+        $this->postCourseModuleCreatedOfUpdated($charonId);
+    }
+
+    /**
+     * Run after the course module has been updated for the Charon instance.
+     * This means that all Grade Items and Grade Categories have been created and can
+     * be accessed, moved around and changed.
+     *
+     * @param  integer  $charonId
+     *
+     * @return void
+     */
+    public function postCourseModuleUpdated($charonId)
+    {
+        $this->postCourseModuleCreatedOfUpdated($charonId);
+    }
+
+    /**
+     * Called when the Charon course module has been created or updated.
+     * Groups identical functionality from both.
+     *
+     * @param  integer  $charonId
+     *
+     * @return void
+     */
+    private function postCourseModuleCreatedOfUpdated($charonId)
     {
         $charon = $this->charonRepository->getCharonById($charonId);
         $this->grademapService->linkGrademapsAndGradeItems($charon);

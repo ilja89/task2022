@@ -15,7 +15,7 @@ class course_module_created
             $kernel->handle($request = \Illuminate\Http\Request::capture());
 
             /** @var InstanceController $instanceController */
-            $instanceController = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
+            $instanceController = $app->make(InstanceController::class);
 
             $instanceController->postCourseModuleCreated(
                 $event->other['instanceid']

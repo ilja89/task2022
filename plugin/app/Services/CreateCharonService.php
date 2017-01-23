@@ -21,14 +21,19 @@ class CreateCharonService
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var GrademapService */
+    protected $grademapService;
+
     /**
      * CreateCharonService constructor.
      *
-     * @param  GradebookService  $gradebookService
+     * @param  GradebookService $gradebookService
+     * @param  GrademapService  $grademapService
      */
-    public function __construct(GradebookService $gradebookService)
+    public function __construct(GradebookService $gradebookService, GrademapService $grademapService)
     {
         $this->gradebookService = $gradebookService;
+        $this->grademapService = $grademapService;
     }
 
     /**
@@ -62,22 +67,7 @@ class CreateCharonService
     {
         foreach ($request->grademaps as $grade_type_code => $grademap) {
             // TODO: Add grade items to correct category.
-            /** @var GradeItem $gradeItem */
-            $this->gradebookService->addGradeItem(
-                $request->course,
-                $charon->id,
-                $grade_type_code,
-                $grademap['grademap_name'],
-                $grademap['max_points'],
-                $grademap['id_number']
-            );
-
-            // We cannot add Grade Item ID here because it is not yet in the database (Moodle is great!)
-            // Instead we can use event listeners (db/events.php) and wait for them to be added.
-            $charon->grademaps()->save(new Grademap([
-                'grade_type_code' => $grade_type_code,
-                'name'            => $grademap['grademap_name'],
-            ]));
+            $this->grademapService->createGrademapWithGradeItem($charon, $grade_type_code, $request->course, $grademap);
         }
     }
 

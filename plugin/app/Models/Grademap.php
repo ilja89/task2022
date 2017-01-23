@@ -11,6 +11,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property integer $id
  * @property string $name
  * @property integer grade_item_id
+ * @property integer grade_type_code
  *
  * @property Charon $charon
  * @property GradeItem $gradeItem

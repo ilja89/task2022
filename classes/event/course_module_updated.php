@@ -1,8 +1,8 @@
 <?php
 
-
 namespace mod_charon;
 
+use TTU\Charon\Http\Controllers\InstanceController;
 
 class course_module_updated
 {
@@ -15,9 +15,11 @@ class course_module_updated
             $kernel->handle($request = \Illuminate\Http\Request::capture());
 
             /** @var InstanceController $instanceController */
-            $instanceController = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
+            $instanceController = $app->make(InstanceController::class);
 
-            // TODO: Post course module updated
+            $instanceController->postCourseModuleUpdated(
+                $event->other['instanceid']
+            );
         }
     }
 

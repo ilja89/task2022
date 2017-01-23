@@ -3,6 +3,9 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Grademap;
+use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class GrademapService.
@@ -10,6 +13,19 @@ use TTU\Charon\Models\Charon;
  */
 class GrademapService
 {
+    /** @var GradebookService */
+    protected $gradebookService;
+
+    /**
+     * GrademapService constructor.
+     *
+     * @param  GradebookService  $gradebookService
+     */
+    public function __construct(GradebookService $gradebookService)
+    {
+        $this->gradebookService = $gradebookService;
+    }
+
     /**
      * Links the now-existing Grade Items with given Charon's Grademaps.
      * This is called after the Grade Items have been created, by observing the
@@ -30,5 +46,43 @@ class GrademapService
                 }
             }
         }
+    }
+
+    /**
+     * Deletes the given Grademap.
+     *
+     * @param  Grademap  $grademap
+     *
+     * @return void
+     */
+    public function deleteGrademap(Grademap $grademap)
+    {
+        $grademap->gradeItem->delete();
+        $grademap->delete();
+    }
+
+    /**
+     * @param  Charon $charon
+     * @param  integer $gradeTypeCode
+     * @param  integer  $courseId
+     * @param  array $requestGradeMap
+     */
+    public function createGrademapWithGradeItem($charon, $gradeTypeCode, $courseId, $requestGradeMap)
+    {
+        $this->gradebookService->addGradeItem(
+            $courseId,
+            $charon->id,
+            $gradeTypeCode,
+            $requestGradeMap['grademap_name'],
+            $requestGradeMap['max_points'],
+            $requestGradeMap['id_number']
+        );
+
+        // We cannot add Grade Item ID here because it is not yet in the database (Moodle is great!)
+        // Instead we can use event listeners (db/events.php) and wait for them to be added.
+        $charon->grademaps()->save(new Grademap([
+            'grade_type_code' => $gradeTypeCode,
+            'name'            => $requestGradeMap['grademap_name'],
+        ]));
     }
 }
