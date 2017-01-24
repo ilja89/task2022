@@ -80,6 +80,7 @@ class UpdateCharonService
      */
     public function updateDeadlines($request, $charon)
     {
+        // TODO: Can probably be done better with SQL. Delete * from deadlines where charon id = x
         // Delete old deadlines
         foreach ($charon->deadlines as $deadline) {
             $deadline->delete();

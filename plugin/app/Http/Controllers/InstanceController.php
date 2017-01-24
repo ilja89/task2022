@@ -96,7 +96,6 @@ class InstanceController extends Controller
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
-            // TODO: Update Grademaps, Deadlines, check Charon update
             $this->updateCharonService->updateGrademaps($this->request, $charon);
             $this->updateCharonService->updateDeadlines($this->request, $charon);
         }
