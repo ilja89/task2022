@@ -20,29 +20,37 @@ class UpdateCharonService
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var DeadlineService */
+    protected $deadlineService;
+
     /**
      * UpdateCharonService constructor.
      *
-     * @param  GrademapService  $grademapService
-     * @param  GradebookService  $gradebookService
+     * @param  GrademapService $grademapService
+     * @param  GradebookService $gradebookService
+     * @param  DeadlineService $deadlineService
      */
-    public function __construct(GrademapService $grademapService, GradebookService $gradebookService)
-    {
-        $this->grademapService = $grademapService;
+    public function __construct(
+        GrademapService $grademapService,
+        GradebookService $gradebookService,
+        DeadlineService $deadlineService
+    ) {
+        $this->grademapService  = $grademapService;
         $this->gradebookService = $gradebookService;
+        $this->deadlineService  = $deadlineService;
     }
 
     /**
      * Update Grademaps with info from the request.
      *
-     * @param  Request  $request
-     * @param  Charon  $charon
+     * @param  Request $request
+     * @param  Charon $charon
      *
      * @return void
      */
     public function updateGrademaps(Request $request, Charon $charon)
     {
-        $grademaps = $charon->grademaps;
+        $grademaps    = $charon->grademaps;
         $newGrademaps = $request->grademaps;
 
         // Check previous Grademaps.
@@ -55,9 +63,31 @@ class UpdateCharonService
 
         // Check the rest of the Grademaps.
         foreach ($newGrademaps as $gradeType => $newGrademap) {
-            if (!$newGrademap['checked']) {
-                $this->grademapService->createGrademapWithGradeItem($charon, $gradeType, $request->course, $newGrademap);
+            if ( ! $newGrademap['checked']) {
+                $this->grademapService->createGrademapWithGradeItem($charon, $gradeType, $request->course,
+                    $newGrademap);
             }
+        }
+    }
+
+    /**
+     * Updates Deadlines with info from the request.
+     *
+     * @param  Request $request
+     * @param  Charon $charon
+     *
+     * @return void
+     */
+    public function updateDeadlines($request, $charon)
+    {
+        // Delete old deadlines
+        foreach ($charon->deadlines as $deadline) {
+            $deadline->delete();
+        }
+
+        // Create new deadlines
+        foreach ($request->deadlines as $deadline) {
+            $this->deadlineService->createDeadline($charon, $deadline);
         }
     }
 
@@ -68,8 +98,8 @@ class UpdateCharonService
      *
      * New grademap fields: grademap_name, max_points, id_number.
      *
-     * @param  Grademap  $grademap
-     * @param  array  $newGrademap
+     * @param  Grademap $grademap
+     * @param  array $newGrademap
      *
      * @return Grademap
      */
@@ -77,6 +107,7 @@ class UpdateCharonService
     {
         if ($newGrademap === null) {
             $this->grademapService->deleteGrademap($grademap);
+
             return null;
         }
 
@@ -84,7 +115,7 @@ class UpdateCharonService
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],
             'grademax' => $newGrademap['max_points'],
-            'idnumber' => $newGrademap['id_number']
+            'idnumber' => $newGrademap['id_number'],
         ]);
 
         return $grademap;
@@ -94,8 +125,8 @@ class UpdateCharonService
      * Gets the Grademap with the given Grade type from given grademaps.
      * The grademaps come from the request so it's a map where grade type => grademap info.
      *
-     * @param  array  $grademaps
-     * @param  integer  $gradeTypeCode
+     * @param  array $grademaps
+     * @param  integer $gradeTypeCode
      *
      * @return array
      */

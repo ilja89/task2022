@@ -17,7 +17,7 @@ class AssignmentTest extends TestCase
             'instance' => $charon->id
         ]);
 
-        $expected = \TTU\Charon\Models\Charon::with('testerType', 'gradingMethod')
+        $expected = \TTU\Charon\Models\Charon::with('testerType', 'gradingMethod', 'grademaps', 'deadlines')
             ->find($charon->id);
 
         $this->visit('/view.php?id=' . $courseModule->id)

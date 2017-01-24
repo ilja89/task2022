@@ -24,16 +24,21 @@ class CreateCharonService
     /** @var GrademapService */
     protected $grademapService;
 
+    /** @var DeadlineService */
+    protected $deadlineService;
+
     /**
      * CreateCharonService constructor.
      *
      * @param  GradebookService $gradebookService
-     * @param  GrademapService  $grademapService
+     * @param  GrademapService $grademapService
+     * @param DeadlineService $deadlineService
      */
-    public function __construct(GradebookService $gradebookService, GrademapService $grademapService)
+    public function __construct(GradebookService $gradebookService, GrademapService $grademapService, DeadlineService $deadlineService)
     {
         $this->gradebookService = $gradebookService;
         $this->grademapService = $grademapService;
+        $this->deadlineService = $deadlineService;
     }
 
     /**
@@ -66,7 +71,6 @@ class CreateCharonService
     public function saveGrademapsFromRequest(Request $request, Charon $charon)
     {
         foreach ($request->grademaps as $grade_type_code => $grademap) {
-            // TODO: Add grade items to correct category.
             $this->grademapService->createGrademapWithGradeItem($charon, $grade_type_code, $request->course, $grademap);
         }
     }
@@ -87,29 +91,7 @@ class CreateCharonService
         }
 
         foreach ($request->deadlines as $deadline) {
-            if (!$this->correctDeadline($deadline)) {
-                continue;
-            }
-
-            $deadlineTime = Carbon::createFromFormat('d-m-Y H:i', $deadline['deadline_time'], config('app.timezone'));
-            $deadlineTime->setTimezone('UTC');
-            $charon->deadlines()->save(new Deadline([
-                'deadline_time' => $deadlineTime,
-                'percentage' => $deadline['percentage'],
-//                'group_id' => $deadline['group_id']
-            ]));
+            $this->deadlineService->createDeadline($charon, $deadline);
         }
-    }
-
-    /**
-     * Checks if the given deadline is correct. If it isn't, this method will return false.
-     *
-     * @param  array  $deadline
-     *
-     * @return bool
-     */
-    private function correctDeadline($deadline)
-    {
-        return $deadline['deadline_time'] !== null && $deadline['deadline_time'] !== '' && !is_numeric($deadline['percentage']);
     }
 }
