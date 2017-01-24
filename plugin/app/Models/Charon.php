@@ -73,6 +73,11 @@ class Charon extends Model
         return $this->belongsTo(GradeCategory::class, 'category_id');
     }
 
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
     /**
      * Get the course module associated with this charon instance.
      *
