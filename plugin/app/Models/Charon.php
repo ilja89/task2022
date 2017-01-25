@@ -22,6 +22,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property Carbon $updated_at
  *
  * @property GradeCategory $category
+ * @property GradingMethod $gradingMethod
  * @property Grademap[] $grademaps
  * @property Deadline[] $deadlines
  * @property int category_id

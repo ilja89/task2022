@@ -13,6 +13,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property integer $id
  * @property integer $module
  * @property integer $instance
+ * @property integer $course
  * @property Course $moodleCourse
  *
  * @package Zeizig\Moodle\Modules

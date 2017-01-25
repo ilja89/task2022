@@ -11,6 +11,7 @@ use Zeizig\Moodle\Models\User;
  *
  * @property integer $id
  * @property integer $charon_id
+ * @property integer $user_id
  * @property string $git_hash
  * @property Carbon $git_timestamp
  * @property string $mail

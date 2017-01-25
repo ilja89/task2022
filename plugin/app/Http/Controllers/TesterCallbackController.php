@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionService;
 
@@ -26,18 +27,27 @@ class TesterCallbackController extends Controller
     /** @var GrademapService */
     private $grademapService;
 
+    /** @var CharonGradingService */
+    private $charonGradingService;
+
     /**
      * TesterCallbackController constructor.
      *
      * @param Request $request
      * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
+     * @param CharonGradingService $charonGradingService
      */
-    public function __construct(Request $request, SubmissionService $submissionService, GrademapService $grademapService)
-    {
-        $this->request = $request;
-        $this->submissionService = $submissionService;
-        $this->grademapService = $grademapService;
+    public function __construct(
+        Request $request,
+        SubmissionService $submissionService,
+        GrademapService $grademapService,
+        CharonGradingService $charonGradingService
+    ) {
+        $this->request              = $request;
+        $this->submissionService    = $submissionService;
+        $this->grademapService      = $grademapService;
+        $this->charonGradingService = $charonGradingService;
     }
 
     /**
@@ -45,13 +55,21 @@ class TesterCallbackController extends Controller
      */
     public function index()
     {
+        $this->requireNeededFiles();
+
         $submission = $this->submissionService->saveSubmission($this->request);
         $this->calculateCalculatedResults($submission);
+        $this->charonGradingService->updateGradeIfApplicable($submission);
+
         return $submission;
     }
 
     /**
-     * @param  Submission  $submission
+     * Calculate the calculated_result for the Results in given submission.
+     *
+     * @param  Submission $submission
+     *
+     * @return void
      */
     private function calculateCalculatedResults($submission)
     {
@@ -75,10 +93,10 @@ class TesterCallbackController extends Controller
     {
         $maxPoints = $this->grademapService->getGrademapByResult($result)->gradeItem->grademax;
         /** @var Submission $submission */
-        $submission = $result->submission;
+        $submission    = $result->submission;
         $smallestScore = $result->percentage * $maxPoints;
 
-        if (!$result->isTestsGrade() || empty($deadlines)) {
+        if ( ! $result->isTestsGrade() || empty($deadlines)) {
             return $smallestScore;
         }
 
@@ -98,14 +116,27 @@ class TesterCallbackController extends Controller
     /**
      * Calculate the score for the result considering the deadline and max points.
      *
-     * @param  Deadline  $deadline
-     * @param  Result  $result
-     * @param  float  $maxPoints
+     * @param  Deadline $deadline
+     * @param  Result $result
+     * @param  float $maxPoints
      *
      * @return float|int
      */
     private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
     {
         return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
+    }
+
+    /**
+     * Require the needed files for grading.
+     * This is done here because after using grade_update once Moodle screws something up
+     * with Laravel and config('...') throws an error (Class config not found).
+     */
+    private function requireNeededFiles()
+    {
+        if ( ! function_exists('grade_update')) {
+            global $CFG;
+            require_once $CFG->dirroot . '/lib/gradelib.php';
+        }
     }
 }
