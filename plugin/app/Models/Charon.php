@@ -55,7 +55,7 @@ class Charon extends Model
 
     public function deadlines()
     {
-        return $this->hasMany(Deadline::class);
+        return $this->hasMany(Deadline::class)->orderBy('deadline_time');
     }
 
     public function testerType()

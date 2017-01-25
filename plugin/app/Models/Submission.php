@@ -33,6 +33,10 @@ class Submission extends Model
         'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr'
     ];
 
+    protected $dates = [
+        'git_timestamp'
+    ];
+
     public function charon()
     {
         return $this->belongsTo(Charon::class);
@@ -51,5 +55,12 @@ class Submission extends Model
     public function files()
     {
         return $this->hasMany(SubmissionFile::class);
+    }
+
+    public function getGitTimestampAttribute($gitTimestamp)
+    {
+        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
+        $gitTimestamp->setTimezone(config('app.timezone'));
+        return $gitTimestamp;
     }
 }

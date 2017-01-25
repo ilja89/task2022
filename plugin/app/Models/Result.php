@@ -37,4 +37,9 @@ class Result extends Model
     {
         return $this->belongsTo(GradeType::class, 'grade_type_code', 'code');
     }
+
+    public function isTestsGrade()
+    {
+        return $this->grade_type_code < 100;
+    }
 }
