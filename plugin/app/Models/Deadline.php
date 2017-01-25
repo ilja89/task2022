@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer $id
  * @property integer $charon_id
- * @property Carbon $deadline_time
  * @property integer $percentage
+ * @property Carbon $deadline_time
  * @property integer $group_id
  *
  * @property Charon $charon

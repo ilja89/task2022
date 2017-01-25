@@ -10,14 +10,24 @@ class CharonGradingService
     /** @var GradingService */
     private $gradingService;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
+    /** @var GrademapService */
+    private $grademapService;
+
     /**
      * CharonGradingService constructor.
      *
      * @param GradingService $gradingService
+     * @param SubmissionService $submissionService
+     * @param GrademapService $grademapService
      */
-    public function __construct(GradingService $gradingService)
+    public function __construct(GradingService $gradingService, SubmissionService $submissionService, GrademapService $grademapService)
     {
         $this->gradingService = $gradingService;
+        $this->submissionService = $submissionService;
+        $this->grademapService = $grademapService;
     }
 
     /**
@@ -30,10 +40,11 @@ class CharonGradingService
     public function updateGradeIfApplicable($submission)
     {
         $charon = $submission->charon;
-        $shouldBeUpdated = true;
+        $shouldBeUpdated = !$this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
 
-        if ($charon->gradingMethod->isPreferBest()) {
+        if ($shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
             // TODO: Check if the Grade should be updated.
+            $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
         }
 
         if (!$shouldBeUpdated) {
@@ -52,5 +63,27 @@ class CharonGradingService
                 'charon'
             );
         }
+    }
+
+    /**
+     * Check if the current submission is better than the last active one.
+     *
+     * @param  Submission  $submission
+     *
+     * @return bool
+     */
+    private function submissionIsBetterThanLast($submission)
+    {
+        $submissionSum = 0;
+        $activeSubmissionSum = 0;
+        foreach ($submission->results as $result) {
+            $grademap = $this->grademapService->getGrademapByResult($result);
+            $gradeGrade = $grademap->gradeItem->gradeGrade;
+
+            $submissionSum += $result->calculated_result;
+            $activeSubmissionSum += $gradeGrade->finalgrade;
+        }
+
+        return $submissionSum >= $activeSubmissionSum;
     }
 }

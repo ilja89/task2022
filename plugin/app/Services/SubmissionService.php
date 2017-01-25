@@ -83,6 +83,22 @@ class SubmissionService
     }
 
     /**
+     * Check if the given Charon has any submissions which are confirmed.
+     *
+     * @param  integer  $charonId
+     *
+     * @return boolean
+     */
+    public function charonHasConfirmedSubmission($charonId)
+    {
+        /** @var Submission $submission */
+        $submission = Submission::where('charon_id', $charonId)
+                                ->where('confirmed', 1)
+                                ->get();
+        return !$submission->isEmpty();
+    }
+
+    /**
      * Gets the Submission from the given request.
      * The request should have the following keys: git_timestamp, charon_id, uni_id, git_hash.
      * Mail, stdout, stderr are optional.

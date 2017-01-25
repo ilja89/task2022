@@ -91,15 +91,15 @@ class TesterCallbackController extends Controller
      */
     private function calculateResultFromDeadlines($result, $deadlines)
     {
-        $maxPoints = $this->grademapService->getGrademapByResult($result)->gradeItem->grademax;
-        /** @var Submission $submission */
-        $submission    = $result->submission;
+        $maxPoints     = $this->grademapService->getGrademapByResult($result)->gradeItem->grademax;
         $smallestScore = $result->percentage * $maxPoints;
 
         if ( ! $result->isTestsGrade() || empty($deadlines)) {
             return $smallestScore;
         }
 
+        /** @var Submission $submission */
+        $submission = $result->submission;
         foreach ($deadlines as $deadline) {
             $deadline->deadline_time->setTimezone(config('app.timezone'));
             if ($deadline->deadline_time->lt($submission->git_timestamp)) {
