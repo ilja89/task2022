@@ -27,5 +27,13 @@ module.exports = {
         onGradeTypeDeactivated(gradeTypeCode) {
             VueEvent.$emit('grade-type-was-deactivated', gradeTypeCode);
         },
+
+        onCalculationFormulaChanged(calculationFormula) {
+            VueEvent.$emit('calculation-formula-was-changed', calculationFormula);
+        },
+
+        onMaxScoreChanged(maxScore) {
+            VueEvent.$emit('max-score-was-changed', maxScore);
+        }
     }
 };

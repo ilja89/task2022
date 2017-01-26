@@ -31,6 +31,22 @@
 
         </charon-tabs>
 
+        <charon-number-input
+                name="max_score"
+                :required="true"
+                label="Max score"
+                :input_value="form.fields.max_score"
+                @input-was-changed="onMaxScoreChanged">
+        </charon-number-input>
+
+        <charon-text-input
+                input_name="calculation_formula"
+                :required="false"
+                input_label="Calculation formula"
+                :input_value="form.fields.calculation_formula"
+                @input-was-changed="onCalculationFormulaChanged">
+        </charon-text-input>
+
     </div>
 </template>
 
@@ -40,6 +56,8 @@
     import CharonTabs from '../partials/CharonTabs.vue';
     import CharonTab from '../partials/CharonTab.vue';
     import GrademapRow from './GrademapRow.vue';
+    import CharonTextInput from '../form/CharonTextInput.vue';
+    import CharonNumberInput from '../form/CharonNumberInput.vue';
 
     import Translate from '../../mixins/translate';
     import EmitEventOnInputChange from '../../mixins/emitEventOnInputChange';
@@ -47,7 +65,7 @@
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],
 
-        components: { CharonSelect, GradesCheckboxes, CharonTabs, CharonTab, GrademapRow },
+        components: { CharonSelect, GradesCheckboxes, CharonTabs, CharonTab, GrademapRow, CharonTextInput, CharonNumberInput },
 
         props: {
             form: { required: true }

@@ -159,6 +159,8 @@ class InstanceController extends Controller
         foreach ($charon->grademaps as $grademap) {
             $this->gradebookService->moveGradeItemToCategory($grademap->grade_item_id, $charon->category_id);
         }
+
+        $this->updateCategoryCalculationAndMaxScore($charon);
     }
 
     /**
@@ -176,5 +178,22 @@ class InstanceController extends Controller
             'tester_type_code'    => $this->request->tester_type,
             'grading_method_code' => $this->request->grading_method,
         ]);
+    }
+
+    /**
+     * Updates the Category calculation formula and max score for the given Charon.
+     *
+     * @param  Charon  $charon
+     *
+     * @return void
+     */
+    private function updateCategoryCalculationAndMaxScore($charon)
+    {
+        if ($charon->category_id !== null) {
+            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $gradeItem->calculation = $this->request['calculation_formula'];
+            $gradeItem->grademax = $this->request['max_score'];
+            $gradeItem->save();
+        }
     }
 }

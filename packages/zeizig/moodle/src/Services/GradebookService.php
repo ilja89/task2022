@@ -109,4 +109,18 @@ class GradebookService extends MoodleService
 
         return $gradeItem;
     }
+
+    /**
+     * Get Category GradeItem.
+     *
+     * @param  integer  $categoryId
+     *
+     * @return GradeItem
+     */
+    public function getGradeItemByCategoryId($categoryId)
+    {
+        return GradeItem::where('itemtype', 'category')
+            ->where('iteminstance', $categoryId)
+            ->first();
+    }
 }

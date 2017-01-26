@@ -72,6 +72,8 @@ export default class InstanceFormForm {
             name: instance['name'] ? instance['name'] : '',
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
             extra: instance['extra'] ? instance['extra'] : '',
+            calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
+            max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
 
             tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,

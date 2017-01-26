@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $fullname
  *
  * @property GradeCategory $parentCategory
- * @property GradeItem $gradeItem
  * @property Course $course
+ * @property GradeItem[] $gradeItems
  *
  * @package Zeizig\Moodle\Models
  */

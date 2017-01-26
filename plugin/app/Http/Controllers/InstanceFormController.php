@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class InstanceFormController.
@@ -26,21 +27,27 @@ class InstanceFormController extends Controller
     /** @var Request */
     protected $request;
 
+    /** @var GradebookService */
+    private $gradebookService;
+
     /**
      * InstanceFormController constructor.
      *
      * @param  Request $request
      * @param  CharonRepository $charonRepository
      * @param  ClassificationsRepository $classificationsRepository
+     * @param GradebookService $gradebookService
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
-        ClassificationsRepository $classificationsRepository
+        ClassificationsRepository $classificationsRepository,
+        GradebookService $gradebookService
     ) {
         $this->request                   = $request;
         $this->charonRepository          = $charonRepository;
         $this->classificationsRepository = $classificationsRepository;
+        $this->gradebookService = $gradebookService;
     }
 
     /**
@@ -84,6 +91,14 @@ class InstanceFormController extends Controller
      */
     private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request->update);
+        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request->update);
+
+        if ($charon->category_id !== null) {
+            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $charon->calculation_formula = $gradeItem->calculation;
+            $charon->max_score = $gradeItem->grademax;
+        }
+
+        return $charon;
     }
 }

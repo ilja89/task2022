@@ -101,6 +101,9 @@
             VueEvent.$on('deadline-was-removed', (id) => {
                 this.form.fields.deadlines.splice(id, 1);
             });
+
+            VueEvent.$on('calculation-formula-was-changed', (calculationFormula) => this.form.fields.calculation_formula = calculationFormula);
+            VueEvent.$on('max-score-was-changed', (maxScore) => this.form.fields.max_score = maxScore);
         }
     }
 </script>
