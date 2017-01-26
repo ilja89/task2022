@@ -3,7 +3,9 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use TTU\Charon\Models\Deadline;
+use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\CharonGradingService;
@@ -55,6 +57,12 @@ class TesterCallbackController extends Controller
      */
     public function index()
     {
+        $gitCallback = $this->checkAuthorization();
+        if ($gitCallback === null) {
+            throw new UnauthorizedException('Secret key is incorrect.');
+        }
+        $gitCallback->response_received = 1;
+        $gitCallback->save();
         $this->requireNeededFiles();
 
         $submission = $this->submissionService->saveSubmission($this->request);
@@ -138,5 +146,22 @@ class TesterCallbackController extends Controller
             global $CFG;
             require_once $CFG->dirroot . '/lib/gradelib.php';
         }
+    }
+
+    /**
+     * @return GitCallback
+     */
+    private function checkAuthorization()
+    {
+        $token = $this->request['secret_token'];
+        $gitCallback = GitCallback::where('secret_token', $token)
+            ->where('response_received', 0)
+            ->get();
+
+        if ($gitCallback->isEmpty()) {
+            return null;
+        }
+
+        return $gitCallback->first();
     }
 }

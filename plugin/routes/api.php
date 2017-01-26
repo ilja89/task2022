@@ -18,3 +18,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::post('tester_callback', 'TesterCallbackController@index');
+Route::get('git_callback', 'GitCallbackController@index');
