@@ -20,12 +20,13 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property integer $grading_method_code
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property int category_id
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
+ * @property TesterType $testerType
  * @property Grademap[] $grademaps
  * @property Deadline[] $deadlines
- * @property int category_id
  *
  * @package TTU\Charon\Model
  */
