@@ -2,14 +2,26 @@
 
 @section('content')
 
+    <script>
+        window.settings = {!! isset($settings) ? $settings->toJson() : '{}'!!};
+        window.course_id = {!! $course_id !!};
+        window.csrf_token = "{!! csrf_token() !!}";
+
+        window.translations = {
+            tester_settings_title: "{{ translate('tester_settings') }}",
+            presets_title: "{{ translate('presets') }}",
+
+            unittests_git_label: "{{ translate('unittests_git') }}"
+        }
+    </script>
+
     <div id="app">
         <course-settings-form
-                tester_settings_title="{{ translate('tester_settings') }}"
-                presets_title="{{ translate('presets_title') }}"
-        >
+                :form="form"
+                :csrf_token="getCsrfToken()">
         </course-settings-form>
     </div>
 
-    <script src="/mod/charon/plugin/public/js/app.js"></script>
+    <script src="/mod/charon/plugin/public/js/courseSettings.js"></script>
 
 @endsection

@@ -15,6 +15,7 @@ $string['capella:addinstance']  = 'Lisa uus charon';
 \*------------------------*/
 $string['tester_settings'] = 'Testeri seaded';
 $string['presets_title']   = 'Presetid';
+$string['unittests_git'] = 'Testide Git';
 
 /*------------------------*\
    Instance form

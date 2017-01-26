@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Http\Controllers;
 
+use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CourseSettings;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Models\Course;
@@ -51,10 +53,16 @@ class CourseSettingsFormController extends Controller
     public function index(Course $course)
     {
         $this->requirePermissions($course);
+        $this->addBreadcrumbs($course);
+
+        $courseSettings = CourseSettings::where('course_id', $course->id)
+            ->get();
 
         return view('course_settings_form.form', [
             'header' => $this->output->header(),
-            'footer' => $this->output->footer()
+            'footer' => $this->output->footer(),
+            'settings' => $courseSettings->isEmpty() ? null : $courseSettings->first(),
+            'course_id' => $course->id
         ]);
     }
 
@@ -70,5 +78,21 @@ class CourseSettingsFormController extends Controller
         $this->permissionsService->requireCourseManagementCapability($course->id);
 
         return true;
+    }
+
+    /**
+     * Add breadcrumbs to the page.
+     * Uses Moodle built in breadcrumbs.
+     *
+     * @param  Course $course
+     *
+     * @return void
+     */
+    public function addBreadcrumbs($course)
+    {
+        $this->page->addBreadcrumb(
+            $course->shortname,
+            '/course/view.php?id=' . $course->id
+        );
     }
 }

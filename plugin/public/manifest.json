@@ -1,5 +1,6 @@
 {
   "app.css": "css/instanceForm.css",
   "app.js": "js/app.js",
+  "courseSettings.js": "js/courseSettings.js",
   "instanceForm.js": "js/instanceForm.js"
 }
