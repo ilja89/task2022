@@ -31,3 +31,4 @@ $string['grades'] = 'Grades';
 $string['grade_name'] = 'Grade name';
 $string['max_points'] = 'Max points';
 $string['id_number'] = 'ID number';
+$string['calculation_formula'] = 'Calculation formula';

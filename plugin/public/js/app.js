@@ -20198,7 +20198,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "max_score",
       "required": true,
-      "label": "Max score",
+      "label": _vm.translate('max_points_label'),
       "input_value": _vm.form.fields.max_score
     },
     on: {
@@ -20208,7 +20208,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "input_name": "calculation_formula",
       "required": false,
-      "input_label": "Calculation formula",
+      "input_label": _vm.translate('calculation_formula_label'),
       "input_value": _vm.form.fields.calculation_formula
     },
     on: {

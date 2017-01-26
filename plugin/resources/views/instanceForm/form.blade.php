@@ -19,15 +19,15 @@
         grades_label: "{{ translate('grades') }}",
         grade_name_label: "{{ translate('grade_name') }}",
         max_points_label: "{{ translate('max_points') }}",
-        id_number_label: "{{ translate('id_number') }}"
+        id_number_label: "{{ translate('id_number') }}",
+        calculation_formula_label: "{{ translate('calculation_formula') }}"
     };
 </script>
 
 <div id="app">
 
     <instance-form
-            :form="form"
-    >
+            :form="form">
     </instance-form>
 
 </div>

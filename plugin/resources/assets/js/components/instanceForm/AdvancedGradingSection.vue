@@ -34,7 +34,7 @@
         <charon-number-input
                 name="max_score"
                 :required="true"
-                label="Max score"
+                :label="translate('max_points_label')"
                 :input_value="form.fields.max_score"
                 @input-was-changed="onMaxScoreChanged">
         </charon-number-input>
@@ -42,7 +42,7 @@
         <charon-text-input
                 input_name="calculation_formula"
                 :required="false"
-                input_label="Calculation formula"
+                :input_label="translate('calculation_formula_label')"
                 :input_value="form.fields.calculation_formula"
                 @input-was-changed="onCalculationFormulaChanged">
         </charon-text-input>

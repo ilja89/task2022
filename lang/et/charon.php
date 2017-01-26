@@ -32,3 +32,4 @@ $string['grades'] = 'Hinded';
 $string['grade_name'] = 'Hinde nimi';
 $string['max_points'] = 'Maksimum punktid';
 $string['id_number'] = 'ID number';
+$string['calculation_formula'] = 'Arvutuse valem';
