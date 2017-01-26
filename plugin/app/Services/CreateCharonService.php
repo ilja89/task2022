@@ -2,13 +2,8 @@
 
 namespace TTU\Charon\Services;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\Grademap;
-use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -34,18 +29,21 @@ class CreateCharonService
      * @param  GrademapService $grademapService
      * @param DeadlineService $deadlineService
      */
-    public function __construct(GradebookService $gradebookService, GrademapService $grademapService, DeadlineService $deadlineService)
-    {
+    public function __construct(
+        GradebookService $gradebookService,
+        GrademapService $grademapService,
+        DeadlineService $deadlineService
+    ) {
         $this->gradebookService = $gradebookService;
-        $this->grademapService = $grademapService;
-        $this->deadlineService = $deadlineService;
+        $this->grademapService  = $grademapService;
+        $this->deadlineService  = $deadlineService;
     }
 
     /**
      * Create a category for the given Charon.
      *
-     * @param  Charon  $charon
-     * @param  integer  $courseId
+     * @param  Charon $charon
+     * @param  integer $courseId
      *
      * @return int
      */
@@ -63,8 +61,8 @@ class CreateCharonService
      *          id_number
      *      course (automatically done by Moodle after submitting form)
      *
-     * @param  Request  $request
-     * @param  Charon  $charon
+     * @param  Request $request
+     * @param  Charon $charon
      *
      * @return void
      */
@@ -79,8 +77,8 @@ class CreateCharonService
      * Save deadlines from the current request.
      * Deadline times are saved in UTC.
      *
-     * @param  Request  $request
-     * @param  Charon  $charon
+     * @param  Request $request
+     * @param  Charon $charon
      *
      * @return void
      */

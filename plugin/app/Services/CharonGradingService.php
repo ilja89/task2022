@@ -23,31 +23,34 @@ class CharonGradingService
      * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
      */
-    public function __construct(GradingService $gradingService, SubmissionService $submissionService, GrademapService $grademapService)
-    {
-        $this->gradingService = $gradingService;
+    public function __construct(
+        GradingService $gradingService,
+        SubmissionService $submissionService,
+        GrademapService $grademapService
+    ) {
+        $this->gradingService    = $gradingService;
         $this->submissionService = $submissionService;
-        $this->grademapService = $grademapService;
+        $this->grademapService   = $grademapService;
     }
 
     /**
      * Update the grade for the user if it should be updated.
      *
-     * @param  Submission  $submission
+     * @param  Submission $submission
      *
      * @return void
      */
     public function updateGradeIfApplicable($submission)
     {
-        $charon = $submission->charon;
-        $shouldBeUpdated = !$this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
+        $charon          = $submission->charon;
+        $shouldBeUpdated = ! $this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
 
         if ($shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
             // TODO: Check if the Grade should be updated.
             $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
         }
 
-        if (!$shouldBeUpdated) {
+        if ( ! $shouldBeUpdated) {
             return;
         }
 
@@ -68,16 +71,16 @@ class CharonGradingService
     /**
      * Check if the current submission is better than the last active one.
      *
-     * @param  Submission  $submission
+     * @param  Submission $submission
      *
      * @return bool
      */
     private function submissionIsBetterThanLast($submission)
     {
-        $submissionSum = 0;
+        $submissionSum       = 0;
         $activeSubmissionSum = 0;
         foreach ($submission->results as $result) {
-            $grademap = $this->grademapService->getGrademapByResult($result);
+            $grademap   = $this->grademapService->getGrademapByResult($result);
             $gradeGrade = $grademap->gradeItem->gradeGrade;
 
             $submissionSum += $result->calculated_result;

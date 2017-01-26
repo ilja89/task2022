@@ -2,8 +2,8 @@
 
 namespace TTU\Charon\Http\Controllers;
 
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Models\Course;
@@ -26,6 +26,9 @@ class CourseSettingsFormController extends Controller
     /** @var Page */
     protected $page;
 
+    /** @var CourseSettingsRepository */
+    private $courseSettingsRepository;
+
     /**
      * CourseSettingsFormController constructor.
      *
@@ -34,19 +37,26 @@ class CourseSettingsFormController extends Controller
      *
      * @param Page $page
      *
+     * @param CourseSettingsRepository $courseSettingsRepository
+     *
      * @internal param Page $page
      */
-    public function __construct(PermissionsService $permissionsService, Output $output, Page $page)
-    {
-        $this->permissionsService = $permissionsService;
-        $this->output = $output;
-        $this->page = $page;
+    public function __construct(
+        PermissionsService $permissionsService,
+        Output $output,
+        Page $page,
+        CourseSettingsRepository $courseSettingsRepository
+    ) {
+        $this->permissionsService       = $permissionsService;
+        $this->output                   = $output;
+        $this->page                     = $page;
+        $this->courseSettingsRepository = $courseSettingsRepository;
     }
 
     /**
      * Renders the course settings form.
      *
-     * @param  Course  $course
+     * @param  Course $course
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -55,21 +65,20 @@ class CourseSettingsFormController extends Controller
         $this->requirePermissions($course);
         $this->addBreadcrumbs($course);
 
-        $courseSettings = CourseSettings::where('course_id', $course->id)
-            ->get();
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
         return view('course_settings_form.form', [
-            'header' => $this->output->header(),
-            'footer' => $this->output->footer(),
-            'settings' => $courseSettings->isEmpty() ? null : $courseSettings->first(),
-            'course_id' => $course->id
+            'header'    => $this->output->header(),
+            'footer'    => $this->output->footer(),
+            'settings'  => $courseSettings,
+            'course_id' => $course->id,
         ]);
     }
 
     /**
      * Requires that the currently logged in user can administer the course.
      *
-     * @param  Course  $course
+     * @param  Course $course
      *
      * @return boolean
      */
@@ -88,7 +97,7 @@ class CourseSettingsFormController extends Controller
      *
      * @return void
      */
-    public function addBreadcrumbs($course)
+    public function addBreadcrumbs(Course $course)
     {
         $this->page->addBreadcrumb(
             $course->shortname,

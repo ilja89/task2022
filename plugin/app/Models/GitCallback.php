@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $url
  * @property string $repo
  * @property string $user
+ * @property string $secret_token
  * @property Carbon $created_at
  *
  * @package TTU\Charon\Models

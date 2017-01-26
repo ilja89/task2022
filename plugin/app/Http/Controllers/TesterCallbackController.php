@@ -57,12 +57,9 @@ class TesterCallbackController extends Controller
      */
     public function index()
     {
-        $gitCallback = $this->checkAuthorization();
-        if ($gitCallback === null) {
-            throw new UnauthorizedException('Secret key is incorrect.');
-        }
-        $gitCallback->response_received = 1;
-        $gitCallback->save();
+        $gitCallback = $this->getGitCallback();
+        $this->checkGitCallback($gitCallback);
+
         $this->requireNeededFiles();
 
         $submission = $this->submissionService->saveSubmission($this->request);
@@ -149,9 +146,11 @@ class TesterCallbackController extends Controller
     }
 
     /**
+     * Gets the git callback with the secret token from the request.
+     *
      * @return GitCallback
      */
-    private function checkAuthorization()
+    private function getGitCallback()
     {
         $token = $this->request['secret_token'];
         $gitCallback = GitCallback::where('secret_token', $token)
@@ -163,5 +162,20 @@ class TesterCallbackController extends Controller
         }
 
         return $gitCallback->first();
+    }
+
+    /**
+     * Check the given Git callback. If the secret token isn't correct
+     * throw an exception. Also set the response received flag to true.
+     *
+     * @param  GitCallback  $gitCallback
+     */
+    private function checkGitCallback($gitCallback)
+    {
+        if ($gitCallback === null) {
+            throw new UnauthorizedException('Secret key is incorrect.');
+        }
+        $gitCallback->response_received = 1;
+        $gitCallback->save();
     }
 }
