@@ -48,7 +48,7 @@ class GitCallbackController extends Controller
     private function getTesterRequestParams($gitCallback)
     {
         $params = [
-            'callback_url' => 'neti.ee',
+            'callback_url' => $this->request->getUriForPath('/api/tester_callback'),
             'secret_token' => $gitCallback->secret_token
         ];
         return array_merge($this->request->all(), $params);
