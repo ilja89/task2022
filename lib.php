@@ -32,6 +32,11 @@ function charon_extend_navigation_course($navigation, $course, $context) {
         $settingsnode = navigation_node::create('Charon settings', $url, navigation_node::TYPE_SETTING,
             null, null, new pix_icon('i/settings', ''));
         $navigation->add_node($settingsnode);
+
+        $url = new moodle_url('/mod/charon/popup', ['course_id' => $course->id]);
+        $settingsnode = navigation_node::create('Charon Popup', $url, navigation_node::TYPE_SETTING,
+            null, null, new pix_icon('i/settings', ''));
+        $navigation->add_node($settingsnode);
     }
 }
 
