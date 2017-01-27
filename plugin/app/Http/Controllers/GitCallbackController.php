@@ -35,6 +35,8 @@ class GitCallbackController extends Controller
         $params = $this->getTesterRequestParams($gitCallback);
         $client = new Client(['base_uri' => 'http://193.40.252.119/']);
         $client->request('POST', 'test', [ 'json' => $params ]);
+
+        return "SUCCESS";
     }
 
     /**
