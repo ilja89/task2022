@@ -33,22 +33,6 @@ class PermissionsService extends MoodleService
         $this->page = $page;
     }
 
-
-    /**
-     * Requires login.
-     *
-     * @return void
-     */
-    public function requireLogin()
-    {
-        if (config('app.env') === 'testing') {
-            // TODO: Refactor this somehow. Ideally move test checks away from code.
-            // This is used when testing views.
-            return;
-        }
-        require_login();
-    }
-
     /**
      * Requires login and enrollment to the given course.
      *
@@ -60,36 +44,7 @@ class PermissionsService extends MoodleService
     {
         require_login($courseId);
     }
-
-    /**
-     * Redirects to the enrol page for given course.
-     *
-     * @param  integer  $courseId
-     *
-     * @return void
-     */
-    public function redirectToEnrol($courseId)
-    {
-        global $CFG;
-        redirect($CFG->wwwroot . '/enrol/index.php?id=' . $courseId);
-    }
-
-    /**
-     * Requires the capability for the user to view grades for given course.
-     *
-     * @param  integer  $courseId
-     *
-     * @return void
-     */
-    public function requireViewGradesCapability($courseId)
-    {
-        global $DB;
-        $course  = $DB->get_record('course', ['id' => $courseId]);
-        $context = \context_course::instance($course->id);
-        require_capability('gradereport/grader:view', $context);
-        require_capability('moodle/grade:viewall', $context);
-    }
-
+    
     /**
      * Require the capability for the current user to manage the given course.
      *
