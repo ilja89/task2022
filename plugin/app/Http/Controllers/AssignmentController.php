@@ -90,12 +90,6 @@ class AssignmentController extends Controller
      */
     public function addBreadcrumbs($charon)
     {
-        $courseModule = $charon->courseModule();
-
-        $this->page->addBreadcrumb(
-            $courseModule->moodleCourse->shortname,
-            '/course/view.php?id=' . $courseModule->moodleCourse->id
-        );
         $this->page->addBreadcrumb($charon->name);
     }
 }
