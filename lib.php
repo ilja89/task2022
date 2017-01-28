@@ -1,17 +1,20 @@
 <?php
 
-require_once __DIR__ . '/plugin/bootstrap/autoload.php';
-$app = require __DIR__ . '/plugin/bootstrap/app.php';
-
 function charon_add_instance($test, $mform) {
+    require_once __DIR__ . '/plugin/bootstrap/autoload.php';
+    $app = require __DIR__ . '/plugin/bootstrap/app.php';
     return app(TTU\Charon\Http\Controllers\InstanceController::class)->store();
 }
 
 function charon_update_instance($test, $mform) {
+    require_once __DIR__ . '/plugin/bootstrap/autoload.php';
+    $app = require __DIR__ . '/plugin/bootstrap/app.php';
     return app(TTU\Charon\Http\Controllers\InstanceController::class)->update();
 }
 
 function charon_delete_instance($id) {
+    require_once __DIR__ . '/plugin/bootstrap/autoload.php';
+    $app = require __DIR__ . '/plugin/bootstrap/app.php';
     // Need to make a small request first because Laravel can't initialize the Request parameter
     // for InstanceController otherwise.
     // TODO: Should refactor somehow.
