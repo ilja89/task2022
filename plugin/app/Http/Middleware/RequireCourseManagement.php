@@ -22,6 +22,8 @@ class RequireCourseManagement
 
     /**
      * Handle an incoming request.
+     * Should only be used when there is a Course route model.
+     * Ie. /courses/{course}/settings.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

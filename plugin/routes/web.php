@@ -21,4 +21,5 @@ Route::get('view.php', 'AssignmentController@index')
 Route::get('courses/{course}/settings', 'CourseSettingsFormController@index')
         ->middleware('auth.requireCourseManagement');
 Route::post('courses/{course}/settings', 'CourseSettingsController@store');
-Route::get('popup', 'PopupController@index');
+Route::get('courses/{course}/popup', 'PopupController@index')
+        ->middleware('auth.requireCourseManagement');
