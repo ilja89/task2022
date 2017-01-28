@@ -55,34 +55,17 @@ class PermissionsService extends MoodleService
      *
      * @param  integer  $courseId
      *
-     * @return boolean
+     * @return void
      */
     public function requireEnrollmentToCourse($courseId)
     {
         if (config('app.env') === 'testing') {
             // TODO: Refactor this somehow. Ideally move test checks away from code.
             // This is used when testing views.
-            return true;
+            return;
         }
 
-        // TODO: Try to fix require_login.
-//        try {
-//            // Do not redirect (last parameter, true) so we can catch the exception and call redirect ourselves.
-//            require_login($courseId, true, null, true, true);
-//        } catch (\require_login_exception $e) {
-//            return false;
-//        }
-
-        // Cannot set context to something relevant because it conflicts with Laravel.
-        // Error: Class config does not exist...
-        $this->page->setContext(null);
-
-        // TODO: Bit of a hack, refactor to use require_login
-        if (!is_siteadmin() && !$this->user->isEnrolled($courseId)) {
-            return false;
-        }
-
-        return true;
+        require_login($courseId);
     }
 
     /**

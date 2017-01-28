@@ -46,7 +46,6 @@ class CharonGradingService
         $shouldBeUpdated = ! $this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
 
         if ($shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
-            // TODO: Check if the Grade should be updated.
             $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
         }
 
@@ -62,8 +61,7 @@ class CharonGradingService
                 $charon->id,
                 $result->grade_type_code,
                 $submission->user_id,
-                $result->calculated_result,
-                'charon'
+                $result->calculated_result
             );
         }
     }

@@ -66,11 +66,7 @@ class AssignmentController extends Controller
     public function index()
     {
         $charon = $this->getCharon();
-
-        if ( ! $this->checkPermissions($charon)) {
-            // Moodle automatically redirects
-            return null;
-        }
+        $this->permissionsService->requireEnrollmentToCourse($charon->courseModule()->course);
 
         $this->addBreadcrumbs($charon);
 
@@ -109,30 +105,5 @@ class AssignmentController extends Controller
             '/course/view.php?id=' . $courseModule->moodleCourse->id
         );
         $this->page->addBreadcrumb($charon->name);
-    }
-
-    /**
-     * Check if the current user has permissions to see the assignment view. Will also redirect
-     * if no permissions.
-     *
-     * When using this function check if returned value is false. If so, return null as view. Moodle
-     * automatically does the redirecting.
-     *
-     * @param  Charon $charon
-     *
-     * @return bool
-     */
-    private function checkPermissions(Charon $charon)
-    {
-        $course = $charon->courseModule()->moodleCourse;
-
-        $permissions = $this->permissionsService->requireEnrollmentToCourse($course->id);
-        if ( ! $permissions) {
-            $this->permissionsService->redirectToEnrol($course->id);
-
-            return false;
-        }
-
-        return true;
     }
 }

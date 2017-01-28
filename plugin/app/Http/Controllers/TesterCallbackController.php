@@ -60,8 +60,6 @@ class TesterCallbackController extends Controller
         $gitCallback = $this->getGitCallback();
         $this->checkGitCallback($gitCallback);
 
-        $this->requireNeededFiles();
-
         $submission = $this->submissionService->saveSubmission($this->request);
         $this->calculateCalculatedResults($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
@@ -130,19 +128,6 @@ class TesterCallbackController extends Controller
     private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
     {
         return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
-    }
-
-    /**
-     * Require the needed files for grading.
-     * This is done here because after using grade_update once Moodle screws something up
-     * with Laravel and config('...') throws an error (Class config not found).
-     */
-    private function requireNeededFiles()
-    {
-        if ( ! function_exists('grade_update')) {
-            global $CFG;
-            require_once $CFG->dirroot . '/lib/gradelib.php';
-        }
     }
 
     /**
