@@ -83,8 +83,11 @@ class CharonGradingService
             $grademap   = $this->grademapService->getGrademapByResult($result);
             $gradeGrade = $grademap->gradeItem->gradeGrade;
 
+            if ($gradeGrade !== null) {
+                $activeSubmissionSum += $gradeGrade->finalgrade;
+            }
+
             $submissionSum += $result->calculated_result;
-            $activeSubmissionSum += $gradeGrade->finalgrade;
         }
 
         return $submissionSum >= $activeSubmissionSum;
