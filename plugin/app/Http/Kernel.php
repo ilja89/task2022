@@ -53,5 +53,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
         'auth.requireEnrolment' => \TTU\Charon\Http\Middleware\RequireEnrolment::class,
+        'auth.requireCourseManagement' => \TTU\Charon\Http\Middleware\RequireCourseManagement::class,
     ];
 }

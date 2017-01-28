@@ -62,7 +62,6 @@ class CourseSettingsFormController extends Controller
      */
     public function index(Course $course)
     {
-        $this->requirePermissions($course);
         $this->addBreadcrumbs($course);
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
@@ -73,18 +72,6 @@ class CourseSettingsFormController extends Controller
             'settings'  => $courseSettings,
             'course_id' => $course->id,
         ]);
-    }
-
-    /**
-     * Requires that the currently logged in user can administer the course.
-     *
-     * @param  Course $course
-     *
-     * @return void
-     */
-    private function requirePermissions(Course $course)
-    {
-        $this->permissionsService->requireCourseManagementCapability($course->id);
     }
 
     /**

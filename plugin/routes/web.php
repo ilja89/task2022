@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('instance_form', 'InstanceFormController@index');
 Route::get('view.php', 'AssignmentController@index')
         ->middleware('auth.requireEnrolment');
-Route::get('courses/{course}/settings', 'CourseSettingsFormController@index');
+Route::get('courses/{course}/settings', 'CourseSettingsFormController@index')
+        ->middleware('auth.requireCourseManagement');
 Route::post('courses/{course}/settings', 'CourseSettingsController@store');
 Route::get('popup', 'PopupController@index');
