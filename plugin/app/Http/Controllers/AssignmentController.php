@@ -9,7 +9,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
-use Zeizig\Moodle\Services\PermissionsService;
 
 /**
  * Class AssignmentController.
@@ -28,9 +27,6 @@ class AssignmentController extends Controller
     /** @var Page */
     protected $page;
 
-    /** @var PermissionsService */
-    protected $permissionsService;
-
     /** @var Request */
     protected $request;
 
@@ -41,20 +37,17 @@ class AssignmentController extends Controller
      * @param  CharonRepository $charonRepository
      * @param  Output $output
      * @param  Page $page
-     * @param  PermissionsService $permissionsService
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         Output $output,
-        Page $page,
-        PermissionsService $permissionsService
+        Page $page
     ) {
         $this->request = $request;
         $this->charonRepository = $charonRepository;
         $this->output = $output;
         $this->page = $page;
-        $this->permissionsService = $permissionsService;
     }
 
     /**
