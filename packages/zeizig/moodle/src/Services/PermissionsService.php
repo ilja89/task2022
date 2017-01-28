@@ -51,7 +51,6 @@ class PermissionsService extends MoodleService
 
     /**
      * Requires login and enrollment to the given course.
-     * Returns true if permission granted.
      *
      * @param  integer  $courseId
      *
@@ -59,12 +58,6 @@ class PermissionsService extends MoodleService
      */
     public function requireEnrollmentToCourse($courseId)
     {
-        if (config('app.env') === 'testing') {
-            // TODO: Refactor this somehow. Ideally move test checks away from code.
-            // This is used when testing views.
-            return;
-        }
-
         require_login($courseId);
     }
 

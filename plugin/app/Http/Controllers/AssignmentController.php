@@ -66,7 +66,6 @@ class AssignmentController extends Controller
     public function index()
     {
         $charon = $this->getCharon();
-        $this->permissionsService->requireEnrollmentToCourse($charon->courseModule()->course);
 
         $this->addBreadcrumbs($charon);
 

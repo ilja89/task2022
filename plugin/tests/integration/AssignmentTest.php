@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class AssignmentTest extends TestCase
 {
     // We must use DatabaseTransactions and not DatabaseMigrations because most of the database isn't made with Laravel
     // migrations.
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithoutMiddleware;
 
     public function testAssignmentViewUsesCorrectInstance()
     {
