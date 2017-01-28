@@ -85,7 +85,7 @@ class AssignmentController extends Controller
      */
     private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request->id);
+        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request['id']);
     }
 
     /**

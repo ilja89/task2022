@@ -80,13 +80,11 @@ class CourseSettingsFormController extends Controller
      *
      * @param  Course $course
      *
-     * @return boolean
+     * @return void
      */
     private function requirePermissions(Course $course)
     {
         $this->permissionsService->requireCourseManagementCapability($course->id);
-
-        return true;
     }
 
     /**
