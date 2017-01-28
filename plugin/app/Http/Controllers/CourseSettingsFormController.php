@@ -17,9 +17,6 @@ use Zeizig\Moodle\Services\PermissionsService;
  */
 class CourseSettingsFormController extends Controller
 {
-    /** @var PermissionsService */
-    protected $permissionsService;
-
     /** @var Output */
     protected $output;
 
@@ -32,22 +29,17 @@ class CourseSettingsFormController extends Controller
     /**
      * CourseSettingsFormController constructor.
      *
-     * @param  PermissionsService $permissionsService
      * @param  Output $output
-     *
      * @param Page $page
-     *
      * @param CourseSettingsRepository $courseSettingsRepository
      *
      * @internal param Page $page
      */
     public function __construct(
-        PermissionsService $permissionsService,
         Output $output,
         Page $page,
         CourseSettingsRepository $courseSettingsRepository
     ) {
-        $this->permissionsService       = $permissionsService;
         $this->output                   = $output;
         $this->page                     = $page;
         $this->courseSettingsRepository = $courseSettingsRepository;
