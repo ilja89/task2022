@@ -82,7 +82,6 @@ class UpdateCharonService
     {
         // TODO: Can probably be done better with SQL. Delete * from deadlines where charon id = x
         // Delete old deadlines
-
         if (!$charon->deadlines->isEmpty()) {
             foreach ($charon->deadlines as $deadline) {
                 $deadline->delete();
@@ -94,6 +93,25 @@ class UpdateCharonService
             foreach ($request->deadlines as $deadline) {
                 $this->deadlineService->createDeadline($charon, $deadline);
             }
+        }
+    }
+
+    /**
+     * Updates the Category calculation formula and max score for the given Charon.
+     *
+     * @param  Charon  $charon
+     *
+     * @param  Request  $request
+     *
+     * @return void
+     */
+    public function updateCategoryCalculationAndMaxScore($charon, $request)
+    {
+        if ($charon->category_id !== null) {
+            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $gradeItem->calculation = $request['calculation_formula'];
+            $gradeItem->grademax = $request['max_score'];
+            $gradeItem->save();
         }
     }
 

@@ -64,11 +64,9 @@ class InstanceFormController extends Controller
         if ($this->isUpdate()) {
             $charon = $this->getCharon();
 
-            if ($charon !== null) {
-                return view('instanceForm.form', compact(
-                    'charon', 'gradeTypes', 'gradingMethods', 'testerTypes'
-                ));
-            }
+            return view('instanceForm.form', compact(
+                'charon', 'gradeTypes', 'gradingMethods', 'testerTypes'
+            ));
         }
 
         return view('instanceForm.form', compact(
@@ -93,7 +91,7 @@ class InstanceFormController extends Controller
      */
     private function getCharon()
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request->update);
+        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request['update']);
 
         if ($charon === null) {
             return null;

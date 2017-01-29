@@ -86,7 +86,7 @@ class InstanceController extends Controller
     public function store()
     {
         $charon              = $this->getCharonFromRequest();
-        $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request->course);
+        $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request['course']);
 
         if ( ! $this->charonRepository->save($charon)) {
             return null;
@@ -95,9 +95,7 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
-        $course = Course::where('id', $this->request['course'])->first();
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-        $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git, $course->shortname);
+        $this->sendNewCharonInfoToTester($charon);
 
         return $charon->id;
     }
@@ -115,12 +113,11 @@ class InstanceController extends Controller
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+
             $this->updateCharonService->updateGrademaps($this->request, $charon);
             $this->updateCharonService->updateDeadlines($this->request, $charon);
 
-            $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-            $course = Course::where('id', $this->request['course'])->first();
-            $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git, $course->shortname);
+            $this->sendNewCharonInfoToTester($charon);
         }
 
         return true;
@@ -149,7 +146,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleCreated($charonId)
     {
-        $this->postCourseModuleCreatedOfUpdated($charonId);
+        $this->postCourseModuleCreatedOrUpdated($charonId);
     }
 
     /**
@@ -163,7 +160,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleUpdated($charonId)
     {
-        $this->postCourseModuleCreatedOfUpdated($charonId);
+        $this->postCourseModuleCreatedOrUpdated($charonId);
     }
 
     /**
@@ -174,7 +171,7 @@ class InstanceController extends Controller
      *
      * @return void
      */
-    private function postCourseModuleCreatedOfUpdated($charonId)
+    private function postCourseModuleCreatedOrUpdated($charonId)
     {
         $charon = $this->charonRepository->getCharonById($charonId);
         $this->grademapService->linkGrademapsAndGradeItems($charon);
@@ -183,7 +180,7 @@ class InstanceController extends Controller
             $this->gradebookService->moveGradeItemToCategory($grademap->grade_item_id, $charon->category_id);
         }
 
-        $this->updateCategoryCalculationAndMaxScore($charon);
+        $this->updateCharonService->updateCategoryCalculationAndMaxScore($charon, $this->request);
     }
 
     /**
@@ -194,29 +191,28 @@ class InstanceController extends Controller
     private function getCharonFromRequest()
     {
         return new Charon([
-            'name'                => $this->request->name,
-            'description'         => $this->request->description['text'],
-            'project_folder'      => $this->request->project_folder,
-            'extra'               => $this->request->extra,
-            'tester_type_code'    => $this->request->tester_type,
-            'grading_method_code' => $this->request->grading_method,
+            'name'                => $this->request['name'],
+            'description'         => $this->request['description']['text'],
+            'project_folder'      => $this->request['project_folder'],
+            'extra'               => $this->request['extra'],
+            'tester_type_code'    => $this->request['tester_type'],
+            'grading_method_code' => $this->request['grading_method'],
         ]);
     }
 
     /**
-     * Updates the Category calculation formula and max score for the given Charon.
-     *
-     * @param  Charon  $charon
+     * @param Charon $charon
      *
      * @return void
      */
-    private function updateCategoryCalculationAndMaxScore($charon)
+    private function sendNewCharonInfoToTester(Charon $charon)
     {
-        if ($charon->category_id !== null) {
-            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-            $gradeItem->calculation = $this->request['calculation_formula'];
-            $gradeItem->grademax = $this->request['max_score'];
-            $gradeItem->save();
-        }
+        $course = Course::where('id', $this->request['course'])->first();
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+        $this->testerCommunicationService->sendAddProjectInfo(
+            $charon,
+            $courseSettings->unittests_git,
+            $course->shortname
+        );
     }
 }
