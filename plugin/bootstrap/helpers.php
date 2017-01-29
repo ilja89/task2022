@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 function getMoodleRequest($route = null, $method = null) {
 
     $currentRequest = Request::capture();
-    $newRoute = $route !== null ? $currentRequest->server('HTTP_HOST') . '/mod/charon/' . $route : $currentRequest->route();
+    $newRoute = $route !== null
+        ? $currentRequest->server('REQUEST_SCHEME') . '://' . $currentRequest->server('HTTP_HOST') . '/mod/charon/' . $route
+        : $currentRequest->route();
     $newMethod = $method !== null ? $method : $currentRequest->method();
     /** @var \Illuminate\Http\Request $request */
     $request  = Request::create($newRoute, $newMethod,
