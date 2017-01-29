@@ -8,7 +8,9 @@
 
         <div class="column  no-pad  header-right">
 
-            <student-search></student-search>
+            <student-search
+                    :context="context">
+            </student-search>
 
             <div class="refresh-container" @click="onRefreshClicked">
                 <svg xmlns="http://www.w3.org/2000/svg"  version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 34.057 34.057" style="enable-background:new 0 0 34.057 34.057;" xml:space="preserve"><g>
@@ -29,6 +31,10 @@
 
     export default {
         components: { StudentSearch },
+
+        props: {
+            context: { required: true }
+        },
 
         methods: {
             onRefreshClicked() {

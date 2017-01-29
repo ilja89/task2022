@@ -2,7 +2,9 @@
 
 <div id="app">
 
-    <popup-header></popup-header>
+    <popup-header
+            :context="context">
+    </popup-header>
 
     <popup-navigation></popup-navigation>
 

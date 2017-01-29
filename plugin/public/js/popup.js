@@ -9285,8 +9285,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_popup_PopupContent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_popup_PopupContent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_popup_partials_NavigationLink_vue__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_popup_partials_NavigationLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_popup_partials_NavigationLink_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__classes_popupContext__ = __webpack_require__(255);
+
+
 
 
 
@@ -9299,8 +9300,27 @@ window.VueEvent = new Vue();
 
 var app = new Vue({
     el: '#app',
+
     components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupContent: __WEBPACK_IMPORTED_MODULE_3__components_popup_PopupContent_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue___default.a },
-    data: {}
+
+    data: {
+        context: new __WEBPACK_IMPORTED_MODULE_5__classes_popupContext__["a" /* default */](window.course_id)
+    },
+
+    mounted: function mounted() {
+        this.registerEventListeners();
+    },
+
+
+    methods: {
+        registerEventListeners: function registerEventListeners() {
+            var _this = this;
+
+            VueEvent.$on('student-was-changed', function (student) {
+                _this.context.active_student = student;
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -9356,11 +9376,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ exports["default"] = {
     components: { StudentSearch: __WEBPACK_IMPORTED_MODULE_0__partials_StudentSearch_vue___default.a },
+
+    props: {
+        context: { required: true }
+    },
 
     methods: {
         onRefreshClicked: function onRefreshClicked() {
@@ -9452,20 +9478,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 221:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-//
-//
-//
-//
-
-/* harmony default export */ exports["default"] = {};
-
-/***/ }),
-
 /***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9473,8 +9485,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_accessContext__ = __webpack_require__(254);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_accessContext___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_accessContext__);
 //
 //
 //
@@ -9503,15 +9513,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-
-
+//
 
 
 
 /* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_accessContext___default.a],
-
     components: { autocomplete: __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js___default.a },
+
+    props: {
+        context: { required: true }
+    },
 
     data: function data() {
         return {
@@ -9521,10 +9532,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
     methods: {
-        getData: function getData(data) {
-            console.log(data);
-        },
         onStudentNameChanged: function onStudentNameChanged(name) {
+            // TODO: Student name doesn't change fast enough. Type aa => search for a.
             this.student_name = name;
         },
         clearClicked: function clearClicked() {
@@ -9533,6 +9542,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     child.setValue('');
                 }
             });
+        },
+        onStudentSelected: function onStudentSelected(student) {
+            VueEvent.$emit('student-was-changed', student);
         }
     }
 };
@@ -9752,51 +9764,6 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 232:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(221)
-
-/* template */
-var __vue_template__ = __webpack_require__(237)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/partials/NavigationLink.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-496a18db", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-496a18db", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] NavigationLink.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
 /***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9855,22 +9822,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-147d428d", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 237:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-496a18db", module.exports)
   }
 }
 
@@ -9958,7 +9909,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "columns  no-pad  popup-header"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "column  no-pad  header-right"
-  }, [_c('student-search'), _vm._v(" "), _c('div', {
+  }, [_c('student-search', {
+    attrs: {
+      "context": _vm.context
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "refresh-container",
     on: {
       "click": _vm.onRefreshClicked
@@ -10039,9 +9994,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])]), _vm._v(" "), _c('autocomplete', {
     attrs: {
-      "url": '/mod/charon/api/courses/' + _vm.getCourseId() + '/students/search',
+      "url": '/mod/charon/api/courses/' + _vm.context.course_id + '/students/search',
       "anchor": "fullname",
-      "on-select": _vm.getData,
+      "on-select": _vm.onStudentSelected,
       "class-name": "student-search",
       "id": "student-search",
       "placeholder": "Student name",
@@ -10150,16 +10105,21 @@ e.default={props:{id:String,className:String,placeholder:String,initValue:{type:
 
 /***/ }),
 
-/***/ 254:
-/***/ (function(module, exports) {
+/***/ 255:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = {
-    methods: {
-        getCourseId: function getCourseId() {
-            return window.course_id;
-        }
-    }
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PopupContext = function PopupContext(course_id) {
+    _classCallCheck(this, PopupContext);
+
+    this.course_id = course_id;
+
+    this.active_student = null;
 };
+
+/* harmony default export */ exports["a"] = PopupContext;
 
 /***/ }),
 
