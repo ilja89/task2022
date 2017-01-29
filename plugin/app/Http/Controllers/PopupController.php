@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\PermissionsService;
 
+/**
+ * Class PopupController.
+ *
+ * @package TTU\Charon\Http\Controllers
+ */
 class PopupController extends Controller
 {
     /**

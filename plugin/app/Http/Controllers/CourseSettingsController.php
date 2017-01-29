@@ -53,7 +53,7 @@ class CourseSettingsController extends Controller
     }
 
     /**
-     * Get the course settings.
+     * Get the course settings if exists or create new settings if doesn't.
      *
      * @param  Course $course
      *

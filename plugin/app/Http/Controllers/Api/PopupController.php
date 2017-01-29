@@ -17,7 +17,7 @@ class PopupController extends Controller
     /**
      * @param  Course $course
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return \Illuminate\Database\Eloquent\Collection|[]
      */
     public function getCharonsByCourse(Course $course)
     {
