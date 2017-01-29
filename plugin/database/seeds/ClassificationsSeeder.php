@@ -14,6 +14,7 @@ class ClassificationsSeeder extends Seeder
             ['code' => 1, 'name' => 'java'],
             ['code' => 2, 'name' => 'javang'],
             ['code' => 3, 'name' => 'python'],
+            ['code' => 4, 'name' => 'prolog'],
         ],
         'grade_type' => [
             ['code' => 1, 'name' => 'Tests_1'],
