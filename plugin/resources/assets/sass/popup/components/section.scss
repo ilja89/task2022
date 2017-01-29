@@ -1,0 +1,27 @@
+/*---------------------*\
+  #SECTION
+\*---------------------*/
+
+.section {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 80px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.section-header-text {
+  padding-bottom: 10px;
+
+  .title {
+    font-weight: $weight-bold;
+  }
+
+  .subtitle {
+    font-weight: $weight-semibold;
+  }
+}

@@ -5,7 +5,9 @@
             <ul class="menu-list">
 
                 <li v-for="page in pages" class="nav-item">
-                    <a @click="selectPage(page)" :class="{ 'is-active': page.isActive }">{{ page.name }}</a>
+                    <a @click="selectPage(page)" :class="{ 'is-active': page.isActive }">
+                        {{ page.name }}
+                    </a>
                 </li>
 
             </ul>
