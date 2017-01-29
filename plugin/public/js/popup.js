@@ -9309,6 +9309,7 @@ var app = new Vue({
 
     mounted: function mounted() {
         this.registerEventListeners();
+        this.getCharonsForCourse(this.context.course_id);
     },
 
 
@@ -9318,6 +9319,14 @@ var app = new Vue({
 
             VueEvent.$on('student-was-changed', function (student) {
                 _this.context.active_student = student;
+            });
+        },
+        getCharonsForCourse: function getCharonsForCourse(course_id) {
+            var popupVue = this;
+            axios.get('/mod/charon/api/courses/' + course_id + '/charons').then(function (response) {
+                popupVue.context.charons = response.data;
+            }).catch(function (error) {
+                console.log(error);
             });
         }
     }

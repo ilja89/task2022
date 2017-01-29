@@ -21,6 +21,7 @@ const app = new Vue({
 
     mounted() {
         this.registerEventListeners();
+        this.getCharonsForCourse(this.context.course_id);
     },
 
     methods: {
@@ -28,6 +29,17 @@ const app = new Vue({
             VueEvent.$on('student-was-changed', (student) => {
                 this.context.active_student = student;
             });
+        },
+
+        getCharonsForCourse(course_id) {
+            let popupVue = this;
+            axios.get('/mod/charon/api/courses/' + course_id + '/charons')
+                .then(function (response) {
+                    popupVue.context.charons = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 });

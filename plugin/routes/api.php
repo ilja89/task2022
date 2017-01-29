@@ -23,4 +23,5 @@ Route::get('git_callback', 'GitCallbackController@index');
 
 Route::get('courses/{course}/students/search', 'Api\StudentsController@searchStudents')
     ->middleware('auth.requireCourseManagement');
-Route::get('courses/{course}/charons', 'Api\PopupController@getCharonsByCourse');
+Route::get('courses/{course}/charons', 'Api\PopupController@getCharonsByCourse')
+    ->middleware('auth.requireCourseManagement');

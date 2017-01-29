@@ -2,8 +2,10 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Services\ModuleService;
 
 /**
  * Class CharonRepository.
@@ -13,6 +15,19 @@ use Zeizig\Moodle\Models\CourseModule;
  */
 class CharonRepository
 {
+    /** @var ModuleService */
+    protected $moduleService;
+
+    /**
+     * CharonRepository constructor.
+     *
+     * @param ModuleService $moduleService
+     */
+    public function __construct(ModuleService $moduleService)
+    {
+        $this->moduleService = $moduleService;
+    }
+
     /**
      * Save the charon instance.
      *
@@ -128,5 +143,22 @@ class CharonRepository
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
 
         return $oldCharon->save();
+    }
+
+    /**
+     * @param  integer $courseId
+     * 
+     * @return Charon[]
+     */
+    public function findCharonsByCourse($courseId)
+    {
+        $moduleId = $this->moduleService->getModuleId();
+        
+        return DB::table('charon')
+            ->join('course_modules', 'course_modules.instance', 'charon.id')
+            ->where('course_modules.course', $courseId)
+            ->where('course_modules.module', $moduleId)
+            ->select('charon.*')
+            ->get();
     }
 }
