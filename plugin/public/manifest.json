@@ -1,6 +1,7 @@
 {
-  "app.css": "css/instanceForm.css",
+  "app.css": "css/popup.css",
   "app.js": "js/app.js",
   "courseSettings.js": "js/courseSettings.js",
-  "instanceForm.js": "js/instanceForm.js"
+  "instanceForm.js": "js/instanceForm.js",
+  "popup.js": "js/popup.js"
 }

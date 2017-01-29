@@ -15,10 +15,12 @@ mix.setPublicPath('plugin/public');
 
 mix.js('plugin/resources/assets/js/app.js', 'js')
    .js('plugin/resources/assets/js/instanceForm.js', 'js')
-    .js('plugin/resources/assets/js/courseSettings.js', 'js')
+   .js('plugin/resources/assets/js/courseSettings.js', 'js')
+   .js('plugin/resources/assets/js/popup.js', 'js')
    .sass('plugin/resources/assets/sass/app.scss', 'css')
    .sass('plugin/resources/assets/sass/assignment.scss', 'css')
    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
+   .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
    .minify([
        'plugin/public/js/app.js',
        'plugin/public/css/app.css',

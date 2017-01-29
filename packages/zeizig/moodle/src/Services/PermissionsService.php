@@ -44,7 +44,7 @@ class PermissionsService extends MoodleService
     {
         require_login($courseId);
     }
-    
+
     /**
      * Require the capability for the current user to manage the given course.
      *

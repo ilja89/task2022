@@ -1,0 +1,106 @@
+/*---------------------*\
+  #HEADER
+\*---------------------*/
+
+.popup-header {
+  height: $header-height;
+  max-width: inherit;
+}
+
+.popup-header .logo-container,
+.popup-header .header-right {
+  height: 100%;
+  line-height: $header-height;
+}
+
+
+/*
+    Logo
+ *----------------------------------*/
+
+.logo-container {
+  background-color: #384655;
+  padding-left: 0;
+  padding-right: 30px;
+}
+
+.ttu-logo {
+  background-image: url("/mod/charon/plugin/public/img/TTU_peamine_logo_EST_Valge.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: $header-height * 2.83;
+  height: $header-height;
+  margin: auto;
+}
+
+
+/*
+    Header right
+ *----------------------------------*/
+
+.header-right {
+  display: flex;
+  justify-content: space-between;
+  background-color: $header-background;
+}
+
+.search-container {
+  display: flex;
+}
+
+.student-search-label svg {
+  height: $header-height;
+  padding: 15px;
+  fill: $header-icons-color;
+}
+
+.student-search-input {
+  width: 300px;
+  height: 40px;
+  line-height: 40px;
+  margin-top: 10px;
+  font-size: 1.4em;
+  color: $header-icons-color;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid $header-icons-color;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: border 0.4s;
+  -moz-transition: border 0.4s;
+  -ms-transition: border 0.4s;
+  -o-transition: border 0.4s;
+  transition: border 0.4s;
+
+  &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #a7b4c1;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #a7b4c1;
+    opacity:  1;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #a7b4c1;
+    opacity:  1;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:    #a7b4c1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.refresh-container {
+  width: $header-height;
+  height: $header-height;
+  padding: 10px;
+  margin-right: 15px;
+  cursor: pointer;
+
+  svg {
+    fill: $header-icons-color;
+  }
+}
