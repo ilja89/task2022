@@ -9283,9 +9283,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue__ = __webpack_require__(257);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__classes_popupContext__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_popup_partials_Loader_vue__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_popup_partials_Loader_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__classes_popupContext__ = __webpack_require__(255);
+
+
 
 
 
@@ -9301,10 +9307,10 @@ window.VueEvent = new Vue();
 var app = new Vue({
     el: '#app',
 
-    components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupPage: __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_4__components_popup_partials_Loader_vue___default.a },
+    components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupPage: __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default.a, NoStudentSelectedPage: __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue___default.a, GradingPage: __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_6__components_popup_partials_Loader_vue___default.a },
 
     data: {
-        context: new __WEBPACK_IMPORTED_MODULE_5__classes_popupContext__["a" /* default */](window.course_id)
+        context: new __WEBPACK_IMPORTED_MODULE_7__classes_popupContext__["a" /* default */](window.course_id)
     },
 
     mounted: function mounted() {
@@ -10205,6 +10211,22 @@ if (false) {
 
 /***/ }),
 
+/***/ 259:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ exports["default"] = {};
+
+/***/ }),
+
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10278,6 +10300,268 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
+
+/***/ }),
+
+/***/ 260:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(259)
+
+/* template */
+var __vue_template__ = __webpack_require__(261)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/NoStudentSelectedPage.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6457f774", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-6457f774", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] NoStudentSelectedPage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 261:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "page-container  has-text-centered  no-student-selected-container"
+  }, [_c('h1', {
+    staticClass: "title is-1"
+  }, [_vm._v("Search for students")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6457f774", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 262:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ exports["default"] = {
+    components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default.a },
+
+    props: {
+        context: { required: true }
+    }
+};
+
+/***/ }),
+
+/***/ 263:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(262)
+
+/* template */
+var __vue_template__ = __webpack_require__(264)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/GradingPage.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-de29995a", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-de29995a", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] GradingPage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 264:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "page-container"
+  }, [_c('page-title', {
+    attrs: {
+      "student": _vm.context.active_student
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-de29995a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 265:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ exports["default"] = {
+    props: {
+        title: {
+            required: false,
+            default: ''
+        },
+        student: { required: false }
+    },
+
+    data: function data() {
+        return {
+            current_title: ''
+        };
+    },
+    mounted: function mounted() {
+        if (this.student !== null) {
+            this.current_title = this.student.firstname + ' ' + this.student.lastname;
+        } else {
+            this.current_title = this.title;
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 266:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(265)
+
+/* template */
+var __vue_template__ = __webpack_require__(267)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/partials/PageTitle.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-31abd4ec", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-31abd4ec", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] PageTitle.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 267:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "title is-3 page-title  bottom-border-separator"
+  }, [_vm._v("\n    " + _vm._s(_vm.current_title) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-31abd4ec", module.exports)
+  }
+}
 
 /***/ }),
 

@@ -3,6 +3,8 @@ import './bootstrap';
 import PopupHeader from './components/popup/PopupHeader.vue';
 import PopupNavigation from './components/popup/PopupNavigation.vue';
 import PopupPage from './components/popup/partials/PopupPage.vue';
+import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue';
+import GradingPage from './components/popup/GradingPage.vue';
 
 import Loader from './components/popup/partials/Loader.vue';
 
@@ -13,7 +15,7 @@ window.VueEvent = new Vue();
 const app = new Vue({
     el: '#app',
 
-    components: { PopupHeader, PopupNavigation, PopupPage, Loader },
+    components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader },
 
     data: {
         context: new PopupContext(window.course_id)

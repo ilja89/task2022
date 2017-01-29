@@ -8,20 +8,29 @@
 
     <popup-navigation>
 
-        <popup-page
-                name="Grading"
-                :selected="true">
-            <h1>Hello World Grading</h1>
+        <popup-page name="Grading" :selected="true">
+
+            <grading-page v-if="context.active_student !== null"
+                    :context="context">
+            </grading-page>
+
+            <no-student-selected-page v-else>
+            </no-student-selected-page>
+
         </popup-page>
 
-        <popup-page
-                name="Submission">
-            <h1>Hello World Submission</h1>
+        <popup-page name="Submission">
+
+            <no-student-selected-page>
+            </no-student-selected-page>
+
         </popup-page>
 
-        <popup-page
-                name="Student overview">
-            <h1>Hello World Student Overview</h1>
+        <popup-page name="Student overview">
+
+            <no-student-selected-page>
+            </no-student-selected-page>
+
         </popup-page>
 
     </popup-navigation>
