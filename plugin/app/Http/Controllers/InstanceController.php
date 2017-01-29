@@ -10,6 +10,7 @@ use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\TesterCommunicationService;
 use TTU\Charon\Services\UpdateCharonService;
+use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -94,8 +95,9 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
+        $course = Course::where('id', $this->request['course'])->first();
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-        $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git);
+        $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git, $course->shortname);
 
         return $charon->id;
     }
@@ -117,7 +119,8 @@ class InstanceController extends Controller
             $this->updateCharonService->updateDeadlines($this->request, $charon);
 
             $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-            $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git);
+            $course = Course::where('id', $this->request['course'])->first();
+            $this->testerCommunicationService->sendAddProjectInfo($charon, $courseSettings->unittests_git, $course->shortname);
         }
 
         return true;

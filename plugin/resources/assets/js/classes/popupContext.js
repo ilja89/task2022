@@ -3,5 +3,7 @@ export default class PopupContext {
         this.course_id = course_id;
 
         this.active_student = null;
+        this.charons = [];
+        this.submissions = [];
     }
 }

@@ -10092,6 +10092,8 @@ var PopupContext = function PopupContext(course_id) {
     this.course_id = course_id;
 
     this.active_student = null;
+    this.charons = [];
+    this.submissions = [];
 };
 
 /* harmony default export */ exports["a"] = PopupContext;

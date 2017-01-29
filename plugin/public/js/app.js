@@ -29097,7 +29097,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "name": 'grademaps[' + _vm.grademap.grade_type_code + '][max_points]',
-      "type": "number"
+      "type": "number",
+      "step": "0.01"
     },
     domProps: {
       "value": _vm._s(_vm.grademap.max_points)
@@ -29185,6 +29186,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": _vm.name,
       "type": "number",
       "required": _vm.required,
+      "step": "0.01",
       "id": 'id_' + _vm.name
     },
     domProps: {

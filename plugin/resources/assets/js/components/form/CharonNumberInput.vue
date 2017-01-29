@@ -5,7 +5,7 @@
                 <label :for="'id_' + name" :class="required ? 'required' : ''">{{ label }}</label>
             </div>
             <div class="felement ftext">
-                <input :name="name" type="number" :required="required"
+                <input :name="name" type="number" :required="required" step="0.01"
                        :id="'id_' + name" class="form-control" v-model="value" v-on:keyup="onInputChanged">
             </div>
         </div>

@@ -82,13 +82,18 @@ class UpdateCharonService
     {
         // TODO: Can probably be done better with SQL. Delete * from deadlines where charon id = x
         // Delete old deadlines
-        foreach ($charon->deadlines as $deadline) {
-            $deadline->delete();
+
+        if (!$charon->deadlines->isEmpty()) {
+            foreach ($charon->deadlines as $deadline) {
+                $deadline->delete();
+            }
         }
 
         // Create new deadlines
-        foreach ($request->deadlines as $deadline) {
-            $this->deadlineService->createDeadline($charon, $deadline);
+        if ($request->deadlines !== null) {
+            foreach ($request->deadlines as $deadline) {
+                $this->deadlineService->createDeadline($charon, $deadline);
+            }
         }
     }
 

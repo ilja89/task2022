@@ -1,8 +1,15 @@
 <?php
 
+use Illuminate\Http\Request;
+
 function getApp() {
     require_once __DIR__ . '/plugin/bootstrap/autoload.php';
-    return require __DIR__ . '/plugin/bootstrap/app.php';
+    $app = require __DIR__ . '/plugin/bootstrap/app.php';
+    // Need to make a small request first because Laravel can't initialize the Request parameter
+    // for InstanceController otherwise.
+    // TODO: Should refactor somehow.
+    $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle(Request::capture());
+    return $app;
 }
 
 function charon_add_instance($test, $mform) {
@@ -17,12 +24,6 @@ function charon_update_instance($test, $mform) {
 
 function charon_delete_instance($id) {
     $app = getApp();
-    // Need to make a small request first because Laravel can't initialize the Request parameter
-    // for InstanceController otherwise.
-    // TODO: Should refactor somehow.
-    $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-    $kernel->handle($request = Illuminate\Http\Request::capture());
-
     $instanceController = $app->make(TTU\Charon\Http\Controllers\InstanceController::class);
     return $instanceController->destroy($id);
 }

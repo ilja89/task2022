@@ -36,12 +36,12 @@ class TesterCommunicationService
      *
      * @return void
      */
-    public function sendAddProjectInfo($charon, $unittestsGit)
+    public function sendAddProjectInfo($charon, $unittestsGit, $courseShortName)
     {
         $params = [
             'id'           => $charon->id,
             'project'      => $charon->project_folder,
-            'course'       => $charon->courseModule()->moodleCourse->shortname,
+            'course'       => $courseShortName,
             'tester'       => $charon->testerType->name,
             'extra'        => $charon->extra,
             'unittestsUrl' => $unittestsGit,

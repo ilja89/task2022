@@ -11,7 +11,7 @@
         <div class="grademap-field">
             <label :for="'grademaps[' + grademap.grade_type_code + '][max_points]'">{{ translate('max_points_label') }}</label><br>
             <input class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][max_points]'" type="number"
-                   v-model="grademap.max_points">
+                   v-model="grademap.max_points" step="0.01">
         </div>
         <div class="grademap-field">
             <label :for="'grademaps[' + grademap.grade_type_code + '][id_number]'">{{ translate('id_number_label') }}</label><br>
