@@ -93,6 +93,17 @@
   }
 }
 
+.student-search-clear-btn {
+  position: relative;
+  left: -30px;
+  top: 5px;
+  height: 45px;
+  padding: 15px;
+
+  fill: $header-icons-color;
+  cursor: pointer;
+}
+
 .refresh-container {
   width: $header-height;
   height: $header-height;

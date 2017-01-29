@@ -9515,6 +9515,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
     methods: {
         getData: function getData(data) {
             console.log(data);
+        },
+        clearClicked: function clearClicked() {
+            this.$children.forEach(function (child) {
+                if (child.$options._componentTag === 'autocomplete') {
+                    child.setValue('');
+                }
+            });
         }
     }
 };
@@ -10030,12 +10037,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "min": 3
     }
   }), _vm._v(" "), _c('svg', {
+    staticClass: "student-search-clear-btn",
     attrs: {
       "xmlns": "http://www.w3.org/2000/svg",
-      "id": "student-search-clear-btn",
       "version": "1.1",
       "viewBox": "0 0 64 64",
       "enable-background": "new 0 0 64 64"
+    },
+    on: {
+      "click": _vm.clearClicked
     }
   }, [_c('g', [_c('path', {
     attrs: {
