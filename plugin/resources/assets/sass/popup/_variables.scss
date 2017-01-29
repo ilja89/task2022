@@ -2,8 +2,9 @@
  * COMPONENTS
  *
  * COLORS
- *
+ * BULMA_OVERWRITES
  * HEADER
+ * NAVIGATION
  */
 
 
@@ -15,6 +16,15 @@ $background-grey: #f0f3f6;
 $light-grey: #d7dde4;
 $dark-grey: #4f5f6f;
 $darkest-grey: #384655;
+$light-blue: #72d8fb;
+$blue: #59c2e6;
+
+
+/*---------------------*\
+  #BULMA_OVERWRITES
+\*---------------------*/
+
+$primary: $blue;
 
 
 /*---------------------*\
@@ -24,3 +34,10 @@ $darkest-grey: #384655;
 $header-height: 60px;
 $header-background: $light-grey;
 $header-icons-color: #909eac;
+
+
+/*---------------------*\
+  #NAVIGATION
+\*---------------------*/
+
+$navigation-background: $dark-grey;

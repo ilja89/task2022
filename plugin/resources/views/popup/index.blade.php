@@ -6,9 +6,25 @@
             :context="context">
     </popup-header>
 
-    <popup-navigation></popup-navigation>
+    <popup-navigation>
 
-    <popup-content></popup-content>
+        <popup-page
+                name="Grading"
+                :selected="true">
+            <h1>Hello World Grading</h1>
+        </popup-page>
+
+        <popup-page
+                name="Submission">
+            <h1>Hello World Submission</h1>
+        </popup-page>
+
+        <popup-page
+                name="Student overview">
+            <h1>Hello World Student Overview</h1>
+        </popup-page>
+
+    </popup-navigation>
 
     <loader :visible="false"></loader>
 </div>

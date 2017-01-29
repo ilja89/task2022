@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="column">
 
         <h1>Hello World</h1>
 

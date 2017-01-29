@@ -1,12 +1,12 @@
 <template>
 
-    <div class="columns  no-pad  popup-header">
+    <div class="columns is-gapless  popup-header">
 
-        <div class="column is-2  no-pad  logo-container">
+        <div class="column is-2  logo-container">
             <div class="ttu-logo"></div>
         </div>
 
-        <div class="column  no-pad  header-right">
+        <div class="column  header-right">
 
             <student-search
                     :context="context">

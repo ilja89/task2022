@@ -5,6 +5,11 @@
 .popup-header {
   height: $header-height;
   max-width: inherit;
+  margin-top: 0;
+}
+
+#app .popup-header {
+  margin-bottom: 0;
 }
 
 .popup-header .logo-container,

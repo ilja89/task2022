@@ -1,0 +1,34 @@
+/*---------------------*\
+  #NAVIGATION
+\*---------------------*/
+
+.nav-container {
+  background-color: $navigation-background;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.nav-item {
+  padding: 0;
+
+  a {
+    padding: 15px 15px 15px 25px;
+    font-size: 1.5em;
+    color: $header-icons-color;
+
+    &:hover {
+      border-radius: 0;
+      background-color: $darkest-grey;
+      color: white;
+    }
+
+    &.is-active {
+      border-radius: 0;
+      color: white;
+
+      &:hover {
+        background-color: $light-blue;
+      }
+    }
+  }
+}
