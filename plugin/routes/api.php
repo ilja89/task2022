@@ -20,3 +20,6 @@ Route::get('/user', function (Request $request) {
 Route::post('tester_callback', 'TesterCallbackController@index')
     ->name('tester_callback');
 Route::get('git_callback', 'GitCallbackController@index');
+
+Route::get('courses/{course}/students/search', 'Api\StudentsController@searchStudents');
+//    ->middleware('auth.requireCourseManagement');

@@ -7,13 +7,15 @@
             </svg>
         </label>
         <autocomplete
-                url="https://jsonplaceholder.typicode.com/posts"
-                anchor="title"
+                :url="'/mod/charon/api/courses/' + getCourseId() + '/students/search'"
+                anchor="fullname"
                 :on-select="getData"
                 class-name="student-search"
                 id="student-search"
                 placeholder="Student name"
-                :min="3">
+                :min="2"
+                :custom-params="{ keyword: student_name }"
+                :on-input="onStudentNameChanged">
         </autocomplete>
 
         <svg xmlns="http://www.w3.org/2000/svg" class="student-search-clear-btn" version="1.1" viewBox="0 0 64 64" enable-background="new 0 0 64 64"
@@ -27,7 +29,11 @@
 <script>
     import autocomplete from 'vue2-autocomplete-js';
 
+    import AccessContext from '../../../mixins/accessContext';
+
     export default {
+        mixins: [ AccessContext ],
+
         components: { autocomplete },
 
         data() {
@@ -39,6 +45,10 @@
         methods: {
             getData(data) {
                 console.log(data);
+            },
+
+            onStudentNameChanged(name) {
+                this.student_name = name;
             },
 
             clearClicked() {
