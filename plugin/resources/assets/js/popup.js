@@ -52,6 +52,9 @@ const app = new Vue({
                 this.context.active_submission = submission;
                 VueEvent.$emit('change-page', 'Submission');
             });
+            VueEvent.$on('save-active-submission', () => {
+                this.updateSubmission(this.context.active_submission);
+            });
         },
 
         getCharonsForCourse(course_id) {
@@ -86,6 +89,18 @@ const app = new Vue({
                 });
 
         },
+
+        updateSubmission(submission) {
+            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/submissions/' + submission.id, {
+                submission: submission
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
     }
 });
 

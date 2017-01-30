@@ -2,7 +2,9 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Services\GradingService;
 
 class CharonGradingService
@@ -16,21 +18,27 @@ class CharonGradingService
     /** @var GrademapService */
     private $grademapService;
 
+    /** @var CharonRepository */
+    private $charonRepository;
+
     /**
      * CharonGradingService constructor.
      *
      * @param GradingService $gradingService
      * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
+     * @param CharonRepository $charonRepository
      */
     public function __construct(
         GradingService $gradingService,
         SubmissionService $submissionService,
-        GrademapService $grademapService
+        GrademapService $grademapService,
+        CharonRepository $charonRepository
     ) {
         $this->gradingService    = $gradingService;
         $this->submissionService = $submissionService;
         $this->grademapService   = $grademapService;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -38,18 +46,20 @@ class CharonGradingService
      *
      * @param  Submission $submission
      *
+     * @param bool $force
+     *
      * @return void
      */
-    public function updateGradeIfApplicable($submission)
+    public function updateGradeIfApplicable($submission, $force = false)
     {
         $charon          = $submission->charon;
         $shouldBeUpdated = ! $this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
 
-        if ($shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
+        if ( ! $force && $shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
             $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
         }
 
-        if ( ! $shouldBeUpdated) {
+        if ( ! $force && ! $shouldBeUpdated) {
             return;
         }
 
@@ -64,6 +74,29 @@ class CharonGradingService
                 $result->calculated_result
             );
         }
+    }
+
+    /**
+     * Confirms the given submission and unconfirms the rest for the user.
+     *
+     * @param  Submission  $submission
+     *
+     * @return void
+     */
+    public function confirmSubmission($submission)
+    {
+        $userId = $submission->user_id;
+        $submissions = Submission::where('charon_id', $submission->charon_id)
+            ->where('user_id', $userId)
+            ->where('confirmed', 1)
+            ->get();
+        foreach ($submissions as $confirmedSubmission) {
+            $confirmedSubmission->confirmed = 0;
+            $confirmedSubmission->save();
+        }
+
+        $submission->confirmed = 1;
+        $submission->save();
     }
 
     /**

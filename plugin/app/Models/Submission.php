@@ -13,6 +13,7 @@ use Zeizig\Moodle\Models\User;
  * @property integer $charon_id
  * @property integer $user_id
  * @property string $git_hash
+ * @property integer $confirmed
  * @property Carbon $git_timestamp
  * @property string $mail
  * @property string $stdout

@@ -10683,6 +10683,9 @@ var app = new Vue({
                 _this.context.active_submission = submission;
                 VueEvent.$emit('change-page', 'Submission');
             });
+            VueEvent.$on('save-active-submission', function () {
+                _this.updateSubmission(_this.context.active_submission);
+            });
         },
         getCharonsForCourse: function getCharonsForCourse(course_id) {
             var popupVue = this;
@@ -10706,6 +10709,15 @@ var app = new Vue({
                 if (popupVue.context.submissions.length > 0) {
                     popupVue.context.active_submission = popupVue.context.submissions[0];
                 }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        updateSubmission: function updateSubmission(submission) {
+            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/submissions/' + submission.id, {
+                submission: submission
+            }).then(function (response) {
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -11260,9 +11272,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             return correctGrademap;
         },
         saveSubmission: function saveSubmission() {
-            alert("SAVING SUBMISSION");
-            console.log("SAVING");
-            console.log(this.context.active_submission);
+            VueEvent.$emit('save-active-submission');
         }
     }
 };

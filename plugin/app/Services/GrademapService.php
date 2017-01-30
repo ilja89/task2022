@@ -58,6 +58,7 @@ class GrademapService
      */
     public function deleteGrademap(Grademap $grademap)
     {
+        // TODO: Move to repository
         $grademap->gradeItem->delete();
         $grademap->delete();
     }
@@ -96,6 +97,7 @@ class GrademapService
      */
     public function getGrademapByResult($result)
     {
+        // TODO: Move to repository.
         return Grademap::where('charon_id', $result->submission->charon_id)
             ->where('grade_type_code', $result->grade_type_code)
             ->first();

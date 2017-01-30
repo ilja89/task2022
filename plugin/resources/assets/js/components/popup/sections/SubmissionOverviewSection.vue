@@ -53,9 +53,7 @@
             },
 
             saveSubmission() {
-                alert("SAVING SUBMISSION");
-                console.log("SAVING");
-                console.log(this.context.active_submission);
+                VueEvent.$emit('save-active-submission');
             }
         }
     }
