@@ -1,0 +1,36 @@
+/*---------------------*\
+  #SUBMISSION_PAGE
+\*---------------------*/
+
+.submission-overview-container {
+  display: flex;
+  justify-content: space-between;
+
+  .column.card {
+    padding: 20px 30px;
+  }
+}
+
+.submission-overview-container .result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  height:85px;
+  line-height: 85px;
+  font-weight: $weight-semibold;
+  font-size: $size-medium;
+
+  .grademax {
+    color: $grey;
+    font-size: $size-small;
+  }
+
+  input[type=number] {
+    width: 120px;
+    height: 35px;
+    line-height: 35px;
+    margin-top: 25px;
+    font-size: $size-medium;
+  }
+}

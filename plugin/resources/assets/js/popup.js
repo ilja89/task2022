@@ -50,6 +50,7 @@ const app = new Vue({
             });
             VueEvent.$on('submission-was-selected', (submission) => {
                 this.context.active_submission = submission;
+                VueEvent.$emit('change-page', 'Submission');
             });
         },
 
@@ -76,6 +77,9 @@ const app = new Vue({
             })
                 .then(function (response) {
                     popupVue.context.submissions = response.data;
+                    if (popupVue.context.submissions.length > 0) {
+                        popupVue.context.active_submission = popupVue.context.submissions[0];
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);

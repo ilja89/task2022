@@ -109,9 +109,24 @@
   cursor: pointer;
 }
 
+.student-search-wrapper .transition,
+.student-search-wrapper .autocomplete,
+.student-search-wrapper .showAll-transition,
+.student-search-wrapper .autocomplete ul,
+.student-search-wrapper .autocomplete ul li a {
+  transition:all 0.1s ease-out;
+  -moz-transition:all 0.1s ease-out;
+  -webkit-transition:all 0.1s ease-out;
+  -o-transition:all 0.1s ease-out;
+}
+
 .autocomplete ul {
   padding: 0;
   line-height: initial;
+  -webkit-box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
+  -moz-box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
+  box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
+  z-index: 2;
 
   li a {
     padding: 20px;

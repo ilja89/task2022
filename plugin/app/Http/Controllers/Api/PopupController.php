@@ -5,6 +5,8 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Deadline;
+use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Models\Course;
 
@@ -42,7 +44,14 @@ class PopupController extends Controller
      */
     public function getCharonsByCourse(Course $course)
     {
-        return $this->charonRepository->findCharonsByCourse($course->id);
+        $charons = $this->charonRepository->findCharonsByCourse($course->id);
+
+        foreach ($charons as $charon) {
+            $charon->grademaps = Grademap::with('gradeItem')->where('charon_id', $charon->id)->get();
+            $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
+        }
+
+        return $charons;
     }
 
     /**

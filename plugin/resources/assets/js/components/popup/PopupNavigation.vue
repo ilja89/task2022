@@ -31,6 +31,9 @@
 
         mounted() {
             this.pages = this.$children;
+            VueEvent.$on('change-page', pageName => {
+                this.selectPage({ name: pageName });
+            });
         },
 
         methods: {

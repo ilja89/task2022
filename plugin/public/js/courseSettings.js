@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 263);
+/******/ 	return __webpack_require__(__webpack_require__.s = 266);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1349,37 +1349,6 @@ if(false) {
 
 /***/ }),
 
-/***/ 209:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(170);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(230);
-
-
-
-
-
-window.VueEvent = new Vue();
-
-var app = new Vue({
-    el: '#app',
-    components: { CourseSettingsForm: __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default.a },
-    data: {
-        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings)
-    },
-    methods: {
-        getCsrfToken: function getCsrfToken() {
-            return window.csrf_token;
-        }
-    }
-});
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1405,6 +1374,37 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
+
+/***/ }),
+
+/***/ 211:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(233);
+
+
+
+
+
+window.VueEvent = new Vue();
+
+var app = new Vue({
+    el: '#app',
+    components: { CourseSettingsForm: __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default.a },
+    data: {
+        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings)
+    },
+    methods: {
+        getCsrfToken: function getCsrfToken() {
+            return window.csrf_token;
+        }
+    }
+});
 
 /***/ }),
 
@@ -1528,7 +1528,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 230:
+/***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1651,10 +1651,10 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 263:
+/***/ 266:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(209);
+module.exports = __webpack_require__(211);
 
 
 /***/ }),
