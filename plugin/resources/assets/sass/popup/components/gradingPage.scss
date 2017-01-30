@@ -1,0 +1,46 @@
+/*---------------------*\
+  #GRADING_PAGE
+\*---------------------*/
+
+.submission {
+  height: $submission-height;
+  margin: 20px 0;
+  line-height: $submission-height;
+  padding-left: 50px;
+  display: flex;
+  justify-content: space-between;
+
+  border: none;
+  border-left: 4px solid $blue;
+  cursor: pointer;
+  color: $dark-grey;
+  font-weight: $weight-semibold;
+
+  .confirmed-check {
+    width: $submission-height;
+  }
+}
+
+.submission-str {
+  font-size: 1.3em;
+}
+
+.timestamp-info,
+.timestamp-separator {
+  color: $grey;
+}
+
+.confirmed-submission .confirmed-check {
+  background-color: $blue;
+  width: $submission-height;
+  padding: 20px;
+}
+
+.confirmed-submission .confirmed-check .confirmed-check-check {
+  background-image: url("/mod/charon/plugin/public/img/checked.svg");
+  background-position: center center;
+  -webkit-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}

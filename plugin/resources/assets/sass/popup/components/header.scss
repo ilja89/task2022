@@ -109,6 +109,20 @@
   cursor: pointer;
 }
 
+.autocomplete ul {
+  padding: 0;
+  line-height: initial;
+
+  li a {
+    padding: 20px;
+  }
+
+  li a:hover,
+  li.focus-list a {
+    background: $blue;
+  }
+}
+
 .refresh-container {
   width: $header-height;
   height: $header-height;

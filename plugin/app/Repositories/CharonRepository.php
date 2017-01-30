@@ -175,7 +175,8 @@ class CharonRepository
      */
     public function findSubmissionsByCharonAndUser($charonId, $userId)
     {
-        return Submission::where('charon_id', $charonId)
+        return Submission::with('results')
+            ->where('charon_id', $charonId)
             ->where('user_id', $userId)
             ->get();
     }

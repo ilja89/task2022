@@ -14,7 +14,15 @@
                 </charon-select>
             </template>
 
-            <h1>submissions here!</h1>
+            <div class="submissions">
+
+                <submission v-for="submission in context.submissions" :submission="submission"></submission>
+
+                <div v-show="context.submissions.length === 0">
+                    <h3 class="title is-3">No submissions found!</h3>
+                </div>
+
+            </div>
 
         </popup-section>
 
@@ -25,9 +33,10 @@
     import PageTitle from './partials/PageTitle.vue';
     import PopupSection from './partials/PopupSection.vue';
     import CharonSelect from './partials/CharonSelect.vue';
+    import Submission from './partials/Submission.vue';
 
     export default {
-        components: { PageTitle, PopupSection, CharonSelect },
+        components: { PageTitle, PopupSection, CharonSelect, Submission },
 
         props: {
             context: { required: true }
