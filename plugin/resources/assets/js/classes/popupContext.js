@@ -7,5 +7,6 @@ export default class PopupContext {
         this.active_charon = null;
 
         this.submissions = [];
+        this.active_submission = null;
     }
 }

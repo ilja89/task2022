@@ -5,6 +5,7 @@ import PopupNavigation from './components/popup/PopupNavigation.vue';
 import PopupPage from './components/popup/partials/PopupPage.vue';
 import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue';
 import GradingPage from './components/popup/GradingPage.vue';
+import SubmissionPage from './components/popup/SubmissionPage.vue';
 
 import Loader from './components/popup/partials/Loader.vue';
 
@@ -15,7 +16,7 @@ window.VueEvent = new Vue();
 const app = new Vue({
     el: '#app',
 
-    components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader },
+    components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader, SubmissionPage },
 
     data: {
         context: new PopupContext(window.course_id)
@@ -33,6 +34,7 @@ const app = new Vue({
                 if (this.context.active_charon !== null) {
                     this.getSubmissions(this.context.active_charon.id, student.id);
                 }
+                this.context.active_submission = null;
             });
             VueEvent.$on('charon-was-changed', (charon_id) => {
                 this.context.charons.forEach((charon) => {
@@ -40,10 +42,14 @@ const app = new Vue({
                         this.context.active_charon = charon;
                     }
                 });
+                this.context.active_submission = null;
 
                 if (this.context.active_student !== null) {
                     this.getSubmissions(charon_id, this.context.active_student.id);
                 }
+            });
+            VueEvent.$on('submission-was-selected', (submission) => {
+                this.context.active_submission = submission;
             });
         },
 
@@ -69,14 +75,13 @@ const app = new Vue({
                 }
             })
                 .then(function (response) {
-                    console.log(response);
                     popupVue.context.submissions = response.data;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
 
-        }
+        },
     }
 });
 

@@ -21,7 +21,10 @@
 
         <popup-page name="Submission">
 
-            <no-student-selected-page>
+            <submission-page v-if="context.active_student !== null"
+                    :context="context"></submission-page>
+
+            <no-student-selected-page v-else>
             </no-student-selected-page>
 
         </popup-page>

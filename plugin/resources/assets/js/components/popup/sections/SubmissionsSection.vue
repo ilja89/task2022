@@ -12,7 +12,10 @@
 
         <div class="submissions">
 
-            <submission v-for="submission in context.submissions" :submission="submission"></submission>
+            <submission v-for="submission in context.submissions"
+                        :submission="submission"
+                        @submission-was-selected="onSubmissionSelected(submission)">
+            </submission>
 
             <div v-show="context.submissions.length === 0">
                 <h3 class="title is-3">No submissions found!</h3>
@@ -34,6 +37,12 @@
 
         props: {
             context: { required: true }
+        },
+
+        methods: {
+            onSubmissionSelected(submission) {
+                VueEvent.$emit('submission-was-selected', submission);
+            }
         }
     }
 </script>
