@@ -95,7 +95,6 @@ class PopupController extends Controller
      */
     public function saveSubmission(Charon $charon, Submission $submission)
     {
-        Log::info('Received save: ', ['request' => $this->request->all()]);
         $newResults = $this->request['submission']['results'];
 
         foreach ($newResults as $result) {
