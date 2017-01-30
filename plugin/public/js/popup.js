@@ -11456,12 +11456,8 @@ if (false) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue__ = __webpack_require__(266);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_PopupSection_vue__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_PopupSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue__ = __webpack_require__(272);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_Submission_vue__ = __webpack_require__(275);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_Submission_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__partials_Submission_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionsSection_vue__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_SubmissionsSection_vue__);
 //
 //
 //
@@ -11472,35 +11468,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 
 
 
 /* harmony default export */ exports["default"] = {
-    components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default.a, PopupSection: __WEBPACK_IMPORTED_MODULE_1__partials_PopupSection_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue___default.a, Submission: __WEBPACK_IMPORTED_MODULE_3__partials_Submission_vue___default.a },
+    components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default.a, SubmissionsSection: __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionsSection_vue___default.a },
 
     props: {
         context: { required: true }
@@ -11562,35 +11535,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "student": _vm.context.active_student
     }
-  }), _vm._v(" "), _c('popup-section', {
+  }), _vm._v(" "), _c('submissions-section', {
     attrs: {
-      "title": "Pick a task",
-      "subtitle": "Here are the submissions from one student for the given task."
+      "context": _vm.context
     }
-  }, [_c('template', {
-    slot: "header-right"
-  }, [_c('charon-select', {
-    attrs: {
-      "charons": _vm.context.charons
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "submissions"
-  }, [_vm._l((_vm.context.submissions), function(submission) {
-    return _c('submission', {
-      attrs: {
-        "submission": submission
-      }
-    })
-  }), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.context.submissions.length === 0),
-      expression: "context.submissions.length === 0"
-    }]
-  }, [_c('h3', {
-    staticClass: "title is-3"
-  }, [_vm._v("No submissions found!")])])], 2)], 2)], 1)
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12047,6 +11996,146 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-a233390e", module.exports)
+  }
+}
+
+/***/ }),
+/* 277 */,
+/* 278 */,
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_Submission_vue__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_Submission_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_Submission_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ exports["default"] = {
+    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, Submission: __WEBPACK_IMPORTED_MODULE_1__partials_Submission_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_2__partials_CharonSelect_vue___default.a },
+
+    props: {
+        context: { required: true }
+    }
+};
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(279)
+
+/* template */
+var __vue_template__ = __webpack_require__(281)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/sections/SubmissionsSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-829f9c62", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-829f9c62", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] SubmissionsSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('popup-section', {
+    attrs: {
+      "title": "Pick a task",
+      "subtitle": "Here are the submissions from one student for the given task."
+    }
+  }, [_c('template', {
+    slot: "header-right"
+  }, [_c('charon-select', {
+    attrs: {
+      "charons": _vm.context.charons
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "submissions"
+  }, [_vm._l((_vm.context.submissions), function(submission) {
+    return _c('submission', {
+      attrs: {
+        "submission": submission
+      }
+    })
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.context.submissions.length === 0),
+      expression: "context.submissions.length === 0"
+    }]
+  }, [_c('h3', {
+    staticClass: "title is-3"
+  }, [_vm._v("No submissions found!")])])], 2)], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-829f9c62", module.exports)
   }
 }
 
