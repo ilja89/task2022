@@ -30,6 +30,20 @@ const app = new Vue({
         registerEventListeners() {
             VueEvent.$on('student-was-changed', (student) => {
                 this.context.active_student = student;
+                if (this.context.active_charon !== null) {
+                    this.getSubmissions(this.context.active_charon.id, student.id);
+                }
+            });
+            VueEvent.$on('charon-was-changed', (charon_id) => {
+                this.context.charons.forEach((charon) => {
+                    if (charon.id == charon_id) {
+                        this.context.active_charon = charon;
+                    }
+                });
+
+                if (this.context.active_student !== null) {
+                    this.getSubmissions(charon_id, this.context.active_student.id);
+                }
             });
         },
 
@@ -38,10 +52,30 @@ const app = new Vue({
             axios.get('/mod/charon/api/courses/' + course_id + '/charons')
                 .then(function (response) {
                     popupVue.context.charons = response.data;
+                    if (response.data.length > 0) {
+                        VueEvent.$emit('charon-was-changed', response.data[0].id);
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+        },
+
+        getSubmissions(charon_id, user_id) {
+            let popupVue = this;
+            axios.get('/mod/charon/api/charons/' + charon_id + '/submissions', {
+                params: {
+                    user_id: user_id
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                    popupVue.context.submissions = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         }
     }
 });

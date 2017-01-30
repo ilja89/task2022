@@ -4,6 +4,8 @@ export default class PopupContext {
 
         this.active_student = null;
         this.charons = [];
+        this.active_charon = null;
+
         this.submissions = [];
     }
 }

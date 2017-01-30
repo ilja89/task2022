@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Services\ModuleService;
 
@@ -146,6 +147,8 @@ class CharonRepository
     }
 
     /**
+     * Find all Charons in course with given id.
+     *
      * @param  integer $courseId
      * 
      * @return Charon[]
@@ -159,6 +162,21 @@ class CharonRepository
             ->where('course_modules.course', $courseId)
             ->where('course_modules.module', $moduleId)
             ->select('charon.*')
+            ->get();
+    }
+
+    /**
+     * Gets Submissions by Charon and user.
+     *
+     * @param  integer  $charonId
+     * @param  integer  $userId
+     *
+     * @return Submission[]
+     */
+    public function findSubmissionsByCharonAndUser($charonId, $userId)
+    {
+        return Submission::where('charon_id', $charonId)
+            ->where('user_id', $userId)
             ->get();
     }
 }

@@ -54,5 +54,6 @@ class Kernel extends HttpKernel
 
         'auth.requireEnrolment' => \TTU\Charon\Http\Middleware\RequireEnrolment::class,
         'auth.requireCourseManagement' => \TTU\Charon\Http\Middleware\RequireCourseManagement::class,
+        'auth.requireCharonManaging' => \TTU\Charon\Http\Middleware\RequireCharonManaging::class,
     ];
 }

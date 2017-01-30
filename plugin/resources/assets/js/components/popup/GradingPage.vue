@@ -9,7 +9,9 @@
                 subtitle="Here are the submissions from one student for the given task.">
 
             <template slot="header-right">
-                <button>boom</button>
+                <charon-select
+                        :charons="context.charons">
+                </charon-select>
             </template>
 
             <h1>submissions here!</h1>
@@ -22,9 +24,10 @@
 <script>
     import PageTitle from './partials/PageTitle.vue';
     import PopupSection from './partials/PopupSection.vue';
+    import CharonSelect from './partials/CharonSelect.vue';
 
     export default {
-        components: { PageTitle, PopupSection },
+        components: { PageTitle, PopupSection, CharonSelect },
 
         props: {
             context: { required: true }

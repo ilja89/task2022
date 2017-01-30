@@ -25,3 +25,5 @@ Route::get('courses/{course}/students/search', 'Api\StudentsController@searchStu
     ->middleware('auth.requireCourseManagement');
 Route::get('courses/{course}/charons', 'Api\PopupController@getCharonsByCourse')
     ->middleware('auth.requireCourseManagement');
+Route::get('charons/{charon}/submissions', 'Api\PopupController@getSubmissionsByCharon')
+    ->middleware('auth.requireCharonManaging');
