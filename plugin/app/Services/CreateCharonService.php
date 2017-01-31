@@ -49,7 +49,7 @@ class CreateCharonService
      */
     public function addCategoryForCharon(Charon $charon, $courseId)
     {
-        return $this->gradebookService->addGradeCategory($courseId, $charon->project_folder);
+        return $this->gradebookService->addGradeCategory($courseId, $charon->name);
     }
 
     /**
