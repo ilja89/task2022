@@ -178,6 +178,7 @@ class CharonRepository
         return Submission::with('results')
             ->where('charon_id', $charonId)
             ->where('user_id', $userId)
+            ->orderBy('git_timestamp', 'desc')
             ->get();
     }
 }
