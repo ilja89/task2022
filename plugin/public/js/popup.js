@@ -10895,6 +10895,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue__ = __webpack_require__(247);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue__);
 //
 //
 //
@@ -10907,12 +10909,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
 
 /* harmony default export */ exports["default"] = {
-    components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default.a, SubmissionOverviewSection: __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue___default.a },
+    components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials_PageTitle_vue___default.a, SubmissionOverviewSection: __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue___default.a, OutputSection: __WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue___default.a },
 
     props: {
         context: { required: true }
@@ -11250,6 +11254,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11257,7 +11277,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a },
 
     props: {
-        context: { required: true }
+        context: { required: true },
+        submission: { default: null }
+    },
+
+    computed: {
+        hasSubmission: function hasSubmission() {
+            return this.submission !== null;
+        },
+        deadlines: function deadlines() {
+            return this.context.active_charon.deadlines;
+        }
     },
 
     methods: {
@@ -12100,6 +12130,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('submission-overview-section', {
     attrs: {
+      "context": _vm.context,
+      "submission": _vm.context.active_submission
+    }
+  }), _vm._v(" "), _c('output-section', {
+    attrs: {
       "context": _vm.context
     }
   })], 1)
@@ -12309,17 +12344,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n            Save\n        ")])]), _vm._v(" "), _c('div', {
     staticClass: "columns is-gapless  submission-overview-container"
-  }, [_c('div', {
+  }, [(_vm.hasSubmission) ? _c('div', {
     staticClass: "column is-one-third card"
-  }, [_vm._v("Hello World Here is some stuff Tatas mori, tanquam castus poeta.")]), _vm._v(" "), (_vm.context.active_submission !== null) ? _c('div', {
+  }, [_c('div', {
+    staticClass: "timestamp-info  submission-timestamp"
+  }, [_vm._v("Git time:")]), _vm._v(" "), _c('div', {
+    staticClass: "submission-timestamp"
+  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:00.000+/, "")))]), _vm._v(" "), _c('div', {
+    staticClass: "submission-deadlines"
+  }, [_c('div', {
+    staticClass: "timestamp-info"
+  }, [_vm._v("Deadlines:")]), _vm._v(" "), _c('ul', _vm._l((_vm.deadlines), function(deadline) {
+    return _c('li', [_vm._v(_vm._s(deadline.deadline_time.date.replace(/\:00.000+/, "")) + " - " + _vm._s(deadline.percentage) + "%")])
+  }))])]) : _vm._e(), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
     staticClass: "column is-7 card"
-  }, _vm._l((_vm.context.active_submission.results), function(result, index) {
+  }, _vm._l((_vm.submission.results), function(result, index) {
     return _c('div', {
       staticClass: "result",
       class: {
-        'bottom-border-separator': index !== _vm.context.active_submission.results.length - 1
+        'bottom-border-separator': index !== _vm.submission.results.length - 1
       }
-    }, [_c('div', [_vm._v("\n                    " + _vm._s(_vm.getGrademapByResult(result).name) + " "), _c('span', {
+    }, [_c('div', [_vm._v("\n                    " + _vm._s(_vm.getGrademapByResult(result).name) + "\n                    "), _c('span', {
       staticClass: "grademax"
     }, [_vm._v("/ " + _vm._s(_vm.getGrademapByResult(result).grade_item.grademax) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
       directives: [{
@@ -12448,6 +12493,108 @@ e.default={props:{id:String,className:String,placeholder:String,initValue:{type:
 
 module.exports = __webpack_require__(213);
 
+
+/***/ }),
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ exports["default"] = {
+    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a },
+
+    props: {
+        context: { required: true }
+    }
+};
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(275)
+
+/* template */
+var __vue_template__ = __webpack_require__(277)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/sections/OutputSection.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3b9793a3", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-3b9793a3", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] OutputSection.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('popup-section', {
+    attrs: {
+      "title": "Email and outputs",
+      "subtitle": "Output from the tester and mail sent to the student."
+    }
+  }, [_c('div', {
+    staticClass: "card"
+  }, [_vm._v("Hello World")])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3b9793a3", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

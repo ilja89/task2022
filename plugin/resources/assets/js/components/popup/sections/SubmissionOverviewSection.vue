@@ -11,17 +11,33 @@
         </template>
 
         <div class="columns is-gapless  submission-overview-container">
-            <div class="column is-one-third card">Hello World Here is some stuff Tatas mori, tanquam castus poeta.</div>
-            <div class="column is-7 card" v-if="context.active_submission !== null">
-                <div class="result" :class="{ 'bottom-border-separator': index !== context.active_submission.results.length - 1 }"
-                     v-for="(result, index) in context.active_submission.results">
+
+            <div class="column is-one-third card" v-if="hasSubmission">
+                <div class="timestamp-info  submission-timestamp">Git time:</div>
+                <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:00.000+/, "") }}</div>
+
+                <div class="submission-deadlines">
+                    <div class="timestamp-info">Deadlines:</div>
+                    <ul>
+                        <li v-for="deadline in deadlines">{{ deadline.deadline_time.date.replace(/\:00.000+/, "") }} - {{ deadline.percentage }}%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="column is-7 card" v-if="hasSubmission">
+                <div class="result" :class="{ 'bottom-border-separator': index !== submission.results.length - 1 }"
+                     v-for="(result, index) in submission.results">
+
                     <div>
-                        {{ getGrademapByResult(result).name }} <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax }}p</span>
+                        {{ getGrademapByResult(result).name }}
+                        <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax }}p</span>
                     </div>
+
                     <div>
                         <input type="number" step="0.01" v-model="result.calculated_result"
                                 class="has-text-centered">
                     </div>
+
                 </div>
             </div>
         </div>
@@ -37,7 +53,18 @@
         components: { PopupSection },
 
         props: {
-            context: { required: true }
+            context: { required: true },
+            submission: { default: null }
+        },
+
+        computed: {
+            hasSubmission() {
+                return this.submission !== null;
+            },
+
+            deadlines() {
+                return this.context.active_charon.deadlines;
+            }
         },
 
         methods: {
