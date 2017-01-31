@@ -62,6 +62,8 @@ class SubmissionService
             $result = $this->getResultFromRequest($submission->id, $resultRequest);
             $result->save();
         }
+
+        $this->includeCustomGrades($submission);
     }
 
     /**
@@ -152,5 +154,31 @@ class SubmissionService
             'stdout' => isset($request['stdout']) ? $request['stdout'] : null,
             'stderr' => isset($request['stderr']) ? $request['stderr'] : null
         ]);
+    }
+
+    /**
+     * Include custom grades for the given submission. If custom grademaps exist
+     * will create new result for them.
+     *
+     * @param  Submission  $submission
+     *
+     * @return void
+     */
+    private function includeCustomGrades(Submission $submission)
+    {
+        $charon = $submission->charon;
+
+        foreach ($charon->grademaps as $grademap) {
+            if ($grademap->gradeType->isCustomGrade()) {
+                $result = new Result([
+                    'submission_id' => $submission->id,
+                    'grade_type_code' => $grademap->grade_type_code,
+                    'percentage' => 0,
+                    'calculated_result' => 0,
+                    'stdout' => 'This result was automatically generated.'
+                ]);
+                $result->save();
+            }
+        }
     }
 }

@@ -63,7 +63,7 @@ class UpdateCharonService
 
         // Check the rest of the Grademaps.
         foreach ($newGrademaps as $gradeType => $newGrademap) {
-            if ( ! $newGrademap['checked']) {
+            if ( ! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
                 $this->grademapService->createGrademapWithGradeItem($charon, $gradeType, $request->course,
                     $newGrademap);
             }
