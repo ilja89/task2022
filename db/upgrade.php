@@ -21,5 +21,11 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2017020103) {
+        $sql = "ALTER TABLE mdl_charon ADD COLUMN timemodified INTEGER NOT NULL";
+
+        $DB->execute($sql);
+    }
+
     return true;
 }

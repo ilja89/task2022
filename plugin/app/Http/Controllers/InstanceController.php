@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
@@ -68,14 +69,14 @@ class InstanceController extends Controller
         TesterCommunicationService $testerCommunicationService,
         CourseSettingsRepository $courseSettingsRepository
     ) {
-        $this->request             = $request;
-        $this->charonRepository    = $charonRepository;
-        $this->gradebookService    = $gradebookService;
-        $this->grademapService     = $grademapService;
-        $this->createCharonService = $createCharonService;
-        $this->updateCharonService = $updateCharonService;
+        $this->request                    = $request;
+        $this->charonRepository           = $charonRepository;
+        $this->gradebookService           = $gradebookService;
+        $this->grademapService            = $grademapService;
+        $this->createCharonService        = $createCharonService;
+        $this->updateCharonService        = $updateCharonService;
         $this->testerCommunicationService = $testerCommunicationService;
-        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->courseSettingsRepository   = $courseSettingsRepository;
     }
 
     /**
@@ -154,7 +155,7 @@ class InstanceController extends Controller
      * This means that all Grade Items and Grade Categories have been created and can
      * be accessed, moved around and changed.
      *
-     * @param  integer  $charonId
+     * @param  integer $charonId
      *
      * @return void
      */
@@ -167,7 +168,7 @@ class InstanceController extends Controller
      * Called when the Charon course module has been created or updated.
      * Groups identical functionality from both.
      *
-     * @param  integer  $charonId
+     * @param  integer $charonId
      *
      * @return void
      */
@@ -197,6 +198,7 @@ class InstanceController extends Controller
             'extra'               => $this->request['extra'],
             'tester_type_code'    => $this->request['tester_type'],
             'grading_method_code' => $this->request['grading_method'],
+            'timemodified'        => Carbon::now()->timestamp,
         ]);
     }
 
@@ -207,7 +209,7 @@ class InstanceController extends Controller
      */
     private function sendNewCharonInfoToTester(Charon $charon)
     {
-        $course = Course::where('id', $this->request['course'])->first();
+        $course         = Course::where('id', $this->request['course'])->first();
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
         $this->testerCommunicationService->sendAddProjectInfo(
             $charon,

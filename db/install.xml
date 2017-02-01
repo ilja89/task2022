@@ -25,6 +25,7 @@
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
+                <FIELD NAME="timemodified" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="FK_charon_course" TYPE="foreign" FIELDS="course"

@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -142,6 +143,7 @@ class CharonRepository
         $oldCharon->extra = $newCharon->extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
+        $oldCharon->timemodified = Carbon::now()->timestamp;
 
         return $oldCharon->save();
     }
