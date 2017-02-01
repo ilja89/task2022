@@ -199,6 +199,7 @@ class InstanceController extends Controller
             'tester_type_code'    => $this->request['tester_type'],
             'grading_method_code' => $this->request['grading_method'],
             'timemodified'        => Carbon::now()->timestamp,
+            'course'              => $this->request['course'],
         ]);
     }
 
