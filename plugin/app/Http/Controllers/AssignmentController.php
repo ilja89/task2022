@@ -60,6 +60,8 @@ class AssignmentController extends Controller
     {
         $charon = $this->getCharon();
 
+        $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
+
         $this->addBreadcrumbs($charon);
 
         return view('assignment.index', [

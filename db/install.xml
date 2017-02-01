@@ -10,6 +10,7 @@
         <TABLE NAME="charon" COMMENT="Charon instance main table.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="course" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
@@ -26,6 +27,8 @@
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
             </FIELDS>
             <KEYS>
+                <KEY NAME="FK_charon_course" TYPE="foreign" FIELDS="course"
+                     REFTABLE="course" REFFIELDS="id"/>
                 <KEY NAME="FK_charon_tester_type" TYPE="foreign" FIELDS="tester_type_code"
                      REFTABLE="charon_tester_type" REFFIELDS="code"/>
                 <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
@@ -35,6 +38,7 @@
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
             </KEYS>
             <INDEXES>
+                <INDEX NAME="IXFK_charon_course" UNIQUE="false" FIELDS="course"/>
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
                 <INDEX NAME="IXFX_charon_grade_categories" UNIQUE="false" FIELDS="category_id"/>

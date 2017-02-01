@@ -50,4 +50,17 @@ class Page
     {
         $this->page->set_context($context);
     }
+
+    /**
+     * Sets the URL for the page. Required by some Moodle pages.
+     *
+     * @param  string  $url
+     * @param  array  $args
+     *
+     * @return void
+     */
+    public function setUrl($url, $args = [])
+    {
+        $this->page->set_url($url, $args);
+    }
 }

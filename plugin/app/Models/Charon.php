@@ -21,6 +21,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int category_id
+ * @property int course
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
@@ -39,7 +40,7 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'extra', 'tester_type_code', 'grading_method_code'
+        'name', 'description', 'project_folder', 'extra', 'tester_type_code', 'grading_method_code', 'course'
     ];
 
     /**
