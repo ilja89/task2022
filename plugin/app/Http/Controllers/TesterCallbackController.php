@@ -4,6 +4,7 @@ namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
+use TTU\Charon\Exceptions\GrademapDoesNotExistException;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
@@ -91,10 +92,16 @@ class TesterCallbackController extends Controller
      * @param  Deadline[] $deadlines
      *
      * @return float
+     * @throws GrademapDoesNotExistException
      */
     private function calculateResultFromDeadlines($result, $deadlines)
     {
-        $maxPoints     = $this->grademapService->getGrademapByResult($result)->gradeItem->grademax;
+        $grademap = $this->grademapService->getGrademapByResult($result);
+        if ($grademap === null) {
+            return 0;
+        }
+
+        $maxPoints     = $grademap->gradeItem->grademax;
         $smallestScore = $result->percentage * $maxPoints;
 
         if ( ! $result->isTestsGrade() || empty($deadlines)) {

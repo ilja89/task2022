@@ -1766,6 +1766,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         },
         deadlines: function deadlines() {
             return this.context.active_charon.deadlines;
+        },
+        hasDeadlines: function hasDeadlines() {
+            return this.context.active_charon.deadlines.length !== 0;
         }
     },
 
@@ -12059,16 +12062,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "timestamp-info  submission-timestamp"
   }, [_vm._v("Git time:")]), _vm._v(" "), _c('div', {
     staticClass: "submission-timestamp"
-  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:00.000+/, "")))]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:00.000+/, "")))]), _vm._v(" "), (_vm.hasDeadlines) ? _c('div', {
     staticClass: "submission-deadlines"
   }, [_c('div', {
     staticClass: "timestamp-info"
   }, [_vm._v("Deadlines:")]), _vm._v(" "), _c('ul', _vm._l((_vm.deadlines), function(deadline) {
     return _c('li', [_vm._v(_vm._s(deadline.deadline_time.date.replace(/\:00.000+/, "")) + " - " + _vm._s(deadline.percentage) + "%")])
-  }))])]) : _vm._e(), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
+  }))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
     staticClass: "column is-7 card"
   }, _vm._l((_vm.submission.results), function(result, index) {
-    return _c('div', {
+    return (_vm.getGrademapByResult(result) !== null) ? _c('div', {
       staticClass: "result",
       class: {
         'bottom-border-separator': index !== _vm.submission.results.length - 1
@@ -12099,7 +12102,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.$forceUpdate()
         }
       }
-    })])])
+    })])]) : _vm._e()
   })) : _vm._e()])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true

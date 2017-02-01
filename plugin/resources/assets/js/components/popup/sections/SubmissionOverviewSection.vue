@@ -16,7 +16,7 @@
                 <div class="timestamp-info  submission-timestamp">Git time:</div>
                 <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:00.000+/, "") }}</div>
 
-                <div class="submission-deadlines">
+                <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="timestamp-info">Deadlines:</div>
                     <ul>
                         <li v-for="deadline in deadlines">{{ deadline.deadline_time.date.replace(/\:00.000+/, "") }} - {{ deadline.percentage }}%</li>
@@ -26,7 +26,7 @@
 
             <div class="column is-7 card" v-if="hasSubmission">
                 <div class="result" :class="{ 'bottom-border-separator': index !== submission.results.length - 1 }"
-                     v-for="(result, index) in submission.results">
+                     v-for="(result, index) in submission.results" v-if="getGrademapByResult(result) !== null">
 
                     <div>
                         {{ getGrademapByResult(result).name }}
@@ -64,6 +64,10 @@
 
             deadlines() {
                 return this.context.active_charon.deadlines;
+            },
+
+            hasDeadlines() {
+                return this.context.active_charon.deadlines.length !== 0;
             }
         },
 

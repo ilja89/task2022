@@ -13,7 +13,7 @@ $string['capella:addinstance']  = 'Add a new Charon';
    Course settings form
 \*------------------------*/
 $string['tester_settings'] = 'Tester settings';
-$string['presets_title'] = 'Presets';
+$string['presets'] = 'Presets';
 $string['unittests_git'] = 'Unittests Git';
 
 /*------------------------*\

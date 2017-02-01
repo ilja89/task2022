@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -82,7 +83,15 @@ class PopupController extends Controller
     {
         $userId = $this->request['user_id'];
 
-        return $this->charonRepository->findSubmissionsByCharonAndUser($charon->id, $userId);
+        $submissions = $this->charonRepository->findSubmissionsByCharonAndUser($charon->id, $userId);
+
+        foreach ($submissions as $submission) {
+            // Remove Results that do not have a corresponding Grademap. Eg. Styles
+            $newResults = $this->findResultsWithGrademaps($submission);
+            $submission->setRelation('results', $newResults);
+        }
+
+        return $submissions;
     }
 
     /**
@@ -127,5 +136,28 @@ class PopupController extends Controller
         }
 
         return null;
+    }
+
+    /**
+     * Gets all the results from given submission that have corresponding Grademaps.
+     *
+     * @param  Submission $submission
+     *
+     * @return Collection
+     */
+    private function findResultsWithGrademaps($submission)
+    {
+        $grademaps = $submission->charon->grademaps;
+        $results = $submission->results;
+        $resultsWithGrademaps = [];
+        foreach ($results as $result) {
+            foreach ($grademaps as $grademap) {
+                if ($result->grade_type_code == $grademap->grade_type_code) {
+                    $resultsWithGrademaps[] = $result;
+                }
+            }
+        }
+
+        return collect($resultsWithGrademaps);
     }
 }
