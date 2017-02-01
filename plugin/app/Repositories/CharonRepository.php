@@ -181,6 +181,7 @@ class CharonRepository
             ->where('charon_id', $charonId)
             ->where('user_id', $userId)
             ->orderBy('git_timestamp', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 }
