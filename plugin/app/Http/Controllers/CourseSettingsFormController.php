@@ -54,6 +54,8 @@ class CourseSettingsFormController extends Controller
      */
     public function index(Course $course)
     {
+        $this->setUrl($course->id);
+
         $this->addBreadcrumbs($course);
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
@@ -80,5 +82,16 @@ class CourseSettingsFormController extends Controller
             $course->shortname,
             '/course/view.php?id=' . $course->id
         );
+    }
+
+    /**
+     * Sets the URL. Needed by Moodle.
+     *
+     * @param  integer  $courseId
+     */
+    private function setUrl($courseId)
+    {
+        global $PAGE;
+        $PAGE->set_url('/mod/charon/courses/' . $courseId . '/settings', []);
     }
 }

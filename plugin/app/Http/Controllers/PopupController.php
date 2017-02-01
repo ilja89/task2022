@@ -22,6 +22,19 @@ class PopupController extends Controller
      */
     public function index(Course $course)
     {
+        $this->setUrl($course->id);
+
         return view('popup.index', compact('course'));
+    }
+
+    /**
+     * Sets the URL. Needed by Moodle.
+     *
+     * @param  integer  $courseId
+     */
+    private function setUrl($courseId)
+    {
+        global $PAGE;
+        $PAGE->set_url('/mod/charon/courses/' . $courseId . '/popup', []);
     }
 }
