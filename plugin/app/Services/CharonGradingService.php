@@ -99,6 +99,10 @@ class CharonGradingService
                                  ->where('confirmed', 1)
                                  ->get();
         foreach ($submissions as $confirmedSubmission) {
+            if ($submission->id === $confirmedSubmission->id) {
+                continue;
+            }
+            
             $confirmedSubmission->confirmed = 0;
             $confirmedSubmission->save();
         }
