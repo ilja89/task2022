@@ -1019,6 +1019,8 @@ var app = new Vue({
             });
         },
         getSubmissions: function getSubmissions(charon_id, user_id) {
+            var update_submission = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
             var popupVue = this;
             axios.get('/mod/charon/api/charons/' + charon_id + '/submissions', {
                 params: {
@@ -1026,7 +1028,7 @@ var app = new Vue({
                 }
             }).then(function (response) {
                 popupVue.context.submissions = response.data;
-                if (popupVue.context.submissions.length > 0) {
+                if (update_submission && popupVue.context.submissions.length > 0) {
                     popupVue.context.active_submission = popupVue.context.submissions[0];
                 }
             }).catch(function (error) {
@@ -1034,10 +1036,14 @@ var app = new Vue({
             });
         },
         updateSubmission: function updateSubmission(submission) {
+            var vuePopup = this;
             axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/submissions/' + submission.id, {
                 submission: submission
             }).then(function (response) {
-                console.log(response.data);
+                if (response.data.status == "OK") {
+                    submission.confirmed = 1;
+                }
+                vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
             }).catch(function (error) {
                 console.log(error);
             });

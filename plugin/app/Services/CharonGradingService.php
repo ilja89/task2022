@@ -70,7 +70,7 @@ class CharonGradingService
         $courseId = $charon->courseModule()->course;
 
         foreach ($submission->results as $result) {
-            if ($grademapGradeTypeCodes->contains($result->grade_type_code)) {
+            if ( ! $grademapGradeTypeCodes->contains($result->grade_type_code)) {
                 continue;
             }
 
