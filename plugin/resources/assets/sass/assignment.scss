@@ -6,7 +6,6 @@
  * VIEW
  */
 
-
 /*---------------------------------*\
   #MOODLE_FIXES (Snap fixes)
 \*---------------------------------*/
@@ -22,6 +21,10 @@
 
 #page-mast {
   display: none;
+}
+
+.hljs {
+  background: transparent;
 }
 
 
