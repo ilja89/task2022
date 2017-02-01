@@ -16,8 +16,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $charons = \TTU\Charon\Models\Charon::all();
         foreach ($charons as $charon) {
             $courseModule = $charon->courseModule();
-            $charon->course = $courseModule->course;
-            $charon->save();
+            if ($courseModule !== null) {
+                $charon->course = $courseModule->course;
+                $charon->save();
+            }
         }
     }
 
