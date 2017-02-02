@@ -40,3 +40,30 @@
   font-weight: $weight-semibold;
   font-size: $size-medium;
 }
+
+
+/*---------------------*\
+  #OUTPUT_SECTION
+\*---------------------*/
+
+.output-section .tabs {
+  margin-bottom: 0;
+
+  .tabs-list {
+    border-bottom: none;
+  }
+}
+
+.output-section .tabs .tab a {
+  padding: 1.5em 2em;
+  font-size: $size-medium;
+  border-bottom-width: 2px;
+}
+
+.tab-details {
+  border-top: 1px solid #dbdbdb;
+}
+
+.output-section code {
+  font-size: 1.2em;
+}

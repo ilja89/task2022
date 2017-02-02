@@ -55,6 +55,9 @@ const app = new Vue({
             VueEvent.$on('save-active-submission', () => {
                 this.updateSubmission(this.context.active_submission);
             });
+            VueEvent.$on('file-was-changed', (file) => {
+                this.context.active_file = file;
+            });
         },
 
         getCharonsForCourse(course_id) {
@@ -83,6 +86,10 @@ const app = new Vue({
                     if (update_submission && popupVue.context.submissions.length > 0) {
                         popupVue.context.active_submission = popupVue.context.submissions[0];
                     }
+
+                    if (popupVue.context.active_submission !== null && popupVue.context.active_submission.files.length > 0) {
+                        popupVue.context.active_file = popupVue.context.active_submission.files[0];
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -104,6 +111,11 @@ const app = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 })
+        },
+
+        startSyntaxHighlighting() {
+            window.hljs.initHighlighting.called = false;
+            window.hljs.initHighlighting();
         }
     }
 });

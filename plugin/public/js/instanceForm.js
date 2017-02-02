@@ -27154,6 +27154,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ exports["default"] = {
     data: function data() {
@@ -28901,7 +28905,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fitem"
   }, [_c('div', {
     staticClass: "tabs"
-  }, [_c('ul', _vm._l((_vm.tabs), function(tab) {
+  }, [_c('ul', {
+    staticClass: "tabs-list"
+  }, _vm._l((_vm.tabs), function(tab) {
     return _c('li', {
       staticClass: "tab",
       class: {
@@ -28914,7 +28920,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v(_vm._s(tab.name))])])
-  }))]), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _c('div', {
+    staticClass: "tabs-right  is-pulled-right"
+  }, [_vm._t("tabs-right")], 2)]), _vm._v(" "), _c('div', {
     staticClass: "tab-details"
   }, [_vm._t("default")], 2)])
 },staticRenderFns: []}

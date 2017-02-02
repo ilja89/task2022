@@ -8,5 +8,7 @@ export default class PopupContext {
 
         this.submissions = [];
         this.active_submission = null;
+
+        this.active_file = null;
     }
 }

@@ -1,11 +1,15 @@
 <template>
     <div class="fitem">
         <div class="tabs">
-            <ul>
+            <ul class="tabs-list">
                 <li v-for="tab in tabs" class="tab" :class="{ 'is-active': tab.isActive }">
                     <a @click="selectTab(tab)">{{ tab.name }}</a>
                 </li>
             </ul>
+
+            <div class="tabs-right  is-pulled-right">
+                <slot name="tabs-right"></slot>
+            </div>
         </div>
 
         <div class="tab-details">

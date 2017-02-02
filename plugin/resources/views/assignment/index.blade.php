@@ -9,7 +9,5 @@
 
 <script src="/mod/charon/plugin/public/external/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-{{--<script src="/mod/charon/plugin/public/js/highlight.js"></script>--}}
-{{--<script src="/mod/charon/plugin/public/js/assignment.js"></script>--}}
 
 {!! $footer !!}
