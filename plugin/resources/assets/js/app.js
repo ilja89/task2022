@@ -8,9 +8,8 @@ import './bootstrap';
 
 import CourseSettingsForm from './components/courseSettings/CourseSettingsForm.vue';
 import InstanceForm from './components/instanceForm/InstanceForm.vue';
-import Example from './components/Example.vue';
 
 const app = new Vue({
     el: '#app',
-    components: { Example, CourseSettingsForm, InstanceForm }
+    components: { CourseSettingsForm, InstanceForm }
 });

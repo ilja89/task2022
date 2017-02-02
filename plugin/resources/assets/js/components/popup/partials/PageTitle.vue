@@ -14,17 +14,13 @@
             student: { required: false }
         },
 
-        data() {
-            return {
-                current_title: ''
-            }
-        },
-
-        mounted() {
-            if (this.student !== null) {
-                this.current_title = this.student.firstname + ' ' + this.student.lastname;
-            } else {
-                this.current_title = this.title;
+        computed: {
+            current_title() {
+                if (this.student !== null) {
+                    return this.student.firstname + ' ' + this.student.lastname;
+                } else {
+                    return this.title;
+                }
             }
         }
     }

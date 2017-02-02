@@ -71,7 +71,7 @@
 /***/ 211:
 /***/ (function(module, exports) {
 
-hljs.initHighlightingOnLoad();
+
 
 /***/ }),
 

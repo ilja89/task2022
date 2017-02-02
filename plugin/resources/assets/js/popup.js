@@ -111,11 +111,6 @@ const app = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 })
-        },
-
-        startSyntaxHighlighting() {
-            window.hljs.initHighlighting.called = false;
-            window.hljs.initHighlighting();
         }
     }
 });
