@@ -1,10 +1,11 @@
 <?php
 
-namespace TTU\Charon\Http\Controllers;
+namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\GitCallback;
 
 class GitCallbackController extends Controller

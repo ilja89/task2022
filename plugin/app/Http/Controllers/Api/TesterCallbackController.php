@@ -1,10 +1,11 @@
 <?php
 
-namespace TTU\Charon\Http\Controllers;
+namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use TTU\Charon\Exceptions\GrademapDoesNotExistException;
+use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;

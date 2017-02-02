@@ -17,9 +17,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::post('tester_callback', 'TesterCallbackController@index')
+Route::post('tester_callback', 'Api\TesterCallbackController@index')
     ->name('tester_callback');
-Route::get('git_callback', 'GitCallbackController@index');
+Route::get('git_callback', 'Api\GitCallbackController@index');
 
 Route::get('courses/{course}/students/search', 'Api\StudentsController@searchStudents')
     ->middleware('auth.requireCourseManagement');
