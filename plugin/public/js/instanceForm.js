@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 444);
+/******/ 	return __webpack_require__(__webpack_require__.s = 441);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -15119,14 +15119,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
             isActive: false
         };
     },
-
-
-    computed: {
-        href: function href() {
-            return '#' + this.name.toLowerCase().replace(/ /g, '-');
-        }
-    },
-
     mounted: function mounted() {
         this.isActive = this.selected;
     }
@@ -29208,7 +29200,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_instanceForm_InstanceForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_instanceForm__ = __webpack_require__(236);
 
 
 
@@ -29247,8 +29239,7 @@ var app = new Vue({
 /* 233 */,
 /* 234 */,
 /* 235 */,
-/* 236 */,
-/* 237 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29366,6 +29357,7 @@ var InstanceFormForm = function () {
 /* harmony default export */ exports["a"] = InstanceFormForm;
 
 /***/ }),
+/* 237 */,
 /* 238 */,
 /* 239 */,
 /* 240 */,
@@ -29569,10 +29561,7 @@ var InstanceFormForm = function () {
 /* 438 */,
 /* 439 */,
 /* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(213);

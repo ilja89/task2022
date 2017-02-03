@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 441);
+/******/ 	return __webpack_require__(__webpack_require__.s = 438);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -15119,14 +15119,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
             isActive: false
         };
     },
-
-
-    computed: {
-        href: function href() {
-            return '#' + this.name.toLowerCase().replace(/ /g, '-');
-        }
-    },
-
     mounted: function mounted() {
         this.isActive = this.selected;
     }
@@ -29872,10 +29864,7 @@ var app = new Vue({
 /* 435 */,
 /* 436 */,
 /* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(210);

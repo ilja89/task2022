@@ -25,11 +25,37 @@
             </charon-tab>
 
             <charon-tab name="Mail">
+
                 Hello Mail!
+
             </charon-tab>
 
             <charon-tab name="Outputs">
-                Hello Outputs!
+
+                <select name="output" v-if="context.active_submission !== null"
+                        v-model="active_output_slug">
+
+                    <option value="submission__stdout">Submission stdout</option>
+                    <option value="submission__stderr">Submission stderr</option>
+
+                    <option v-for="result in context.active_submission.results"
+                            :value="'result__stdout__' + result.id"
+                            v-if="result.stdout !== null">
+                        {{ getGrademapByResult(result).name }} stdout
+                    </option>
+
+                    <option v-for="result in context.active_submission.results"
+                            :value="'result__stderr__' + result.id"
+                            v-if="result.stderr !== null">
+                        {{ getGrademapByResult(result).name }} stderr
+                    </option>
+
+                </select>
+
+                <div>
+                    {{ selectedOutput }}
+                </div>
+
             </charon-tab>
 
         </charon-tabs>
@@ -51,8 +77,31 @@
 
         data() {
             return {
-                active_file_id: null
+                active_file_id: null,
+                active_output_slug: 'submission__stdout'
             };
+        },
+
+        computed: {
+
+            selectedOutput() {
+
+                if (this.active_output_slug === null) {
+                    return 'No output selected.';
+                }
+
+                let slug = this.active_output_slug.split('__');
+                let outputFrom = this.context.active_submission;
+                if (slug[0] == 'result') {
+                    outputFrom = this.findResultById(slug[2]);
+                }
+
+                if (outputFrom === null) {
+                    return '';
+                }
+
+                return outputFrom[slug[1]];
+            }
         },
 
         methods: {
@@ -67,7 +116,30 @@
                 });
 
                 VueEvent.$emit('file-was-changed', changedFile);
-            }
+            },
+
+            getGrademapByResult(result) {
+                let correctGrademap = null;
+                this.context.active_charon.grademaps.forEach((grademap) => {
+                    if (result.grade_type_code == grademap.grade_type_code) {
+                        correctGrademap = grademap;
+                    }
+                });
+
+                return correctGrademap;
+            },
+
+            findResultById(id) {
+                let matchingResult = null;
+
+                this.context.active_submission.results.forEach((result) => {
+                    if (result.id == id) {
+                        matchingResult = result;
+                    }
+                });
+
+                return matchingResult;
+            },
         }
     }
 </script>
