@@ -26,7 +26,9 @@
 
             <charon-tab name="Mail">
 
-                Hello Mail!
+                <div v-if="context.active_submission !== null" class="output-content">
+                    {{ context.active_submission.mail }}
+                </div>
 
             </charon-tab>
 
@@ -52,7 +54,7 @@
 
                 </select>
 
-                <div>
+                <div class="output-content">
                     {{ selectedOutput }}
                 </div>
 

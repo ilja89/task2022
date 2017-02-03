@@ -1901,6 +1901,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -12056,7 +12058,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "Mail"
     }
-  }, [_vm._v("\n\n            Hello Mail!\n\n        ")]), _vm._v(" "), _c('charon-tab', {
+  }, [(_vm.context.active_submission !== null) ? _c('div', {
+    staticClass: "output-content"
+  }, [_vm._v("\n                " + _vm._s(_vm.context.active_submission.mail) + "\n            ")]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Outputs"
     }
@@ -12106,7 +12110,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": 'result__stderr__' + result.id
       }
     }, [_vm._v("\n                    " + _vm._s(_vm.getGrademapByResult(result).name) + " stderr\n                ")]) : _vm._e()
-  })], 2) : _vm._e(), _vm._v(" "), _c('div', [_vm._v("\n                " + _vm._s(_vm.selectedOutput) + "\n            ")])])], 1)], 1)
+  })], 2) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "output-content"
+  }, [_vm._v("\n                " + _vm._s(_vm.selectedOutput) + "\n            ")])])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
