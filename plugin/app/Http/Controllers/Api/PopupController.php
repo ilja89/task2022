@@ -2,11 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Comment;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
@@ -14,6 +15,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -35,6 +37,9 @@ class PopupController extends Controller
     /** @var CharonGradingService */
     private $charonGradingService;
 
+    /** @var User */
+    private $user;
+
     /**
      * PopupController constructor.
      *
@@ -42,17 +47,20 @@ class PopupController extends Controller
      * @param CharonRepository $charonRepository
      * @param GrademapService $grademapService
      * @param CharonGradingService $charonGradingService
+     * @param User $user
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         GrademapService $grademapService,
-        CharonGradingService $charonGradingService
+        CharonGradingService $charonGradingService,
+        User $user
     ) {
         $this->charonRepository = $charonRepository;
         $this->request = $request;
         $this->grademapService = $grademapService;
         $this->charonGradingService = $charonGradingService;
+        $this->user = $user;
     }
 
     /**
@@ -119,6 +127,49 @@ class PopupController extends Controller
         return [
             'status' => 'OK',
         ];
+    }
+
+    /**
+     * Saves a comment. Comment details are taken from the request.
+     *
+     * @param  Charon $charon
+     *
+     * @return array
+     */
+    public function saveComment(Charon $charon)
+    {
+        $comment = Comment::create([
+            'charon_id' => $charon->id,
+            'student_id' => $this->request['student_id'],
+            'teacher_id' => $this->user->currentUserId(),
+            'message' => $this->request['comment'],
+            'created_at' => Carbon::now()
+        ]);
+
+        $comment->teacher;
+
+        return [
+            'status' => 'OK',
+            'comment' => $comment
+        ];
+    }
+
+    /**
+     * Get comments by Charon and student.
+     *
+     * @param  Charon  $charon
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getComments(Charon $charon)
+    {
+        $studentId = $this->request['student_id'];
+        $comments = Comment::with('teacher')
+            ->where('student_id', $studentId)
+            ->where('charon_id', $charon->id)
+            ->get();
+
+        return $comments;
     }
 
     /**

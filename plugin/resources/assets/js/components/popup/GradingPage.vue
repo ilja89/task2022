@@ -5,15 +5,18 @@
 
         <submissions-section :context="context"></submissions-section>
 
+        <comments-section :context="context"></comments-section>
+
     </div>
 </template>
 
 <script>
     import PageTitle from './partials/PageTitle.vue';
     import SubmissionsSection from './sections/SubmissionsSection.vue';
+    import CommentsSection from './sections/CommentsSection.vue';
 
     export default {
-        components: { PageTitle, SubmissionsSection },
+        components: { PageTitle, SubmissionsSection, CommentsSection },
 
         props: {
             context: { required: true }
