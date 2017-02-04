@@ -54,11 +54,15 @@ class CharonGradingService
     public function updateGradeIfApplicable($submission, $force = false)
     {
         $charon                 = $submission->charon;
-        $shouldBeUpdated        = ! $this->submissionService->charonHasConfirmedSubmission($submission->charon_id);
+        $shouldBeUpdated        = ! $this->submissionService->charonHasConfirmedSubmission(
+            $submission->charon_id,
+            $submission->user_id
+        );
         $grademapGradeTypeCodes = $charon->grademaps->map(function ($grademap) {
             return $grademap->grade_type_code;
         });
 
+        
         if ( ! $force && $shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
             $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
         }
