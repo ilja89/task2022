@@ -88,14 +88,16 @@ class SubmissionService
      * Check if the given Charon has any submissions which are confirmed.
      *
      * @param  integer  $charonId
+     * @param  integer  $userId
      *
      * @return boolean
      */
-    public function charonHasConfirmedSubmission($charonId)
+    public function charonHasConfirmedSubmission($charonId, $userId)
     {
         /** @var Submission $submission */
         $submission = Submission::where('charon_id', $charonId)
                                 ->where('confirmed', 1)
+                                ->where('user_id', $userId)
                                 ->get();
         return !$submission->isEmpty();
     }
