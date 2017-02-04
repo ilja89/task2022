@@ -7,6 +7,7 @@ import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue'
 import GradingPage from './components/popup/GradingPage.vue';
 import SubmissionPage from './components/popup/SubmissionPage.vue';
 
+import ApiCalls from './mixins/apiCalls';
 import Loader from './components/popup/partials/Loader.vue';
 
 import PopupContext from './classes/popupContext';
@@ -15,6 +16,8 @@ window.VueEvent = new Vue();
 
 const app = new Vue({
     el: '#app',
+
+    mixins: [ ApiCalls ],
 
     components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader, SubmissionPage },
 
@@ -33,6 +36,11 @@ const app = new Vue({
                 this.context.active_student = student;
                 if (this.context.active_charon !== null) {
                     this.getSubmissions(this.context.active_charon.id, student.id);
+                    this.getComments(
+                        this.context.active_charon.id,
+                        this.context.active_student.id,
+                        this
+                    );
                 }
                 this.context.active_submission = null;
             });
@@ -46,6 +54,11 @@ const app = new Vue({
 
                 if (this.context.active_student !== null) {
                     this.getSubmissions(charon_id, this.context.active_student.id);
+                    this.getComments(
+                        this.context.active_charon.id,
+                        this.context.active_student.id,
+                        this
+                    );
                 }
             });
             VueEvent.$on('submission-was-selected', (submission) => {
@@ -57,6 +70,9 @@ const app = new Vue({
             });
             VueEvent.$on('file-was-changed', (file) => {
                 this.context.active_file = file;
+            });
+            VueEvent.$on('comment-was-saved', (comment) => {
+                this.saveComment(comment);
             });
         },
 
@@ -111,7 +127,24 @@ const app = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 })
-        }
+        },
+
+        saveComment(comment) {
+            let vuePopup = this;
+
+            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/comments', {
+                comment: comment,
+                student_id: this.context.active_student.id
+            })
+                .then((response) => {
+                    if (response.data.status == 'OK') {
+                        vuePopup.context.active_comments.push(response.data.comment);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
     }
 });
 

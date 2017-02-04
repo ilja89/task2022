@@ -27,4 +27,9 @@ Route::get('courses/{course}/charons', 'Api\PopupController@getCharonsByCourse')
     ->middleware('auth.requireCourseManagement');
 Route::get('charons/{charon}/submissions', 'Api\PopupController@getSubmissionsByCharon')
     ->middleware('auth.requireCharonManaging');
-Route::post('charons/{charon}/submissions/{submission}', 'Api\PopupController@saveSubmission');
+Route::post('charons/{charon}/submissions/{submission}', 'Api\PopupController@saveSubmission')
+    ->middleware('auth.requireCharonManaging');
+Route::post('charons/{charon}/comments', 'Api\PopupController@saveComment')
+    ->middleware('auth.requireCharonManaging');
+Route::get('charons/{charon}/comments', 'Api\PopupController@getComments')
+    ->middleware('auth.requireCharonManaging');
