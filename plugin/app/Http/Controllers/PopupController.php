@@ -19,6 +19,7 @@ class PopupController extends Controller
      * @param Course $course
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function index(Course $course)
     {

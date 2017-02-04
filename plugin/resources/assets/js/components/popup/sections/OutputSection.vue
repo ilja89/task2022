@@ -26,9 +26,7 @@
 
             <charon-tab name="Mail">
 
-                <div v-if="context.active_submission !== null" class="output-content">
-                    {{ context.active_submission.mail }}
-                </div>
+                <pre v-if="context.active_submission !== null" class="output-content">{{ context.active_submission.mail }}</pre>
 
             </charon-tab>
 
@@ -54,9 +52,7 @@
 
                 </select>
 
-                <div class="output-content">
-                    {{ selectedOutput }}
-                </div>
+                <pre class="output-content">{{ selectedOutput }}</pre>
 
             </charon-tab>
 
