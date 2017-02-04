@@ -19,10 +19,13 @@ class PopupController extends Controller
      * @param Course $course
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function index(Course $course)
     {
         $this->setUrl($course->id);
+
+        throw new \Exception('Some test exception!');
 
         return view('popup.index', compact('course'));
     }

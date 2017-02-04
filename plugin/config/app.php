@@ -168,6 +168,7 @@ return [
          */
 
         Zeizig\Moodle\MoodleServiceProvider::class,
+        SquareBoat\Sneaker\SneakerServiceProvider::class,
 
         /*
          * Application Service Providers...
