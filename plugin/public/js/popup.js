@@ -12894,7 +12894,6 @@ module.exports = {
                     student_id: student_id
                 }
             }).then(function (response) {
-                console.log(response.data);
                 vuePopup.context.active_comments = response.data;
             }).catch(function (error) {
                 console.log(error);

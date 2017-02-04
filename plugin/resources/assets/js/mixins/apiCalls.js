@@ -8,7 +8,6 @@ module.exports = {
                 }
             })
                 .then((response) => {
-                    console.log(response.data);
                     vuePopup.context.active_comments = response.data;
                 })
                 .catch((error) => {
