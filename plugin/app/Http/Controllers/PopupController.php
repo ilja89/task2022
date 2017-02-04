@@ -25,8 +25,6 @@ class PopupController extends Controller
     {
         $this->setUrl($course->id);
 
-        throw new \Exception('Some test exception!');
-
         return view('popup.index', compact('course'));
     }
 

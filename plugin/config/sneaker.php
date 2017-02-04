@@ -39,6 +39,7 @@ return [
     'to' => [
         // 'hello@example.com',
         'joosep.alviste@gmail.com',
+        'ago.luberg@ttu.ee',
     ],
 
     /*
