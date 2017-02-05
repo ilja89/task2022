@@ -3,8 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\UnauthorizedException;
-use TTU\Charon\Exceptions\GrademapDoesNotExistException;
+use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\GitCallback;
@@ -93,7 +92,6 @@ class TesterCallbackController extends Controller
      * @param  Deadline[] $deadlines
      *
      * @return float
-     * @throws GrademapDoesNotExistException
      */
     private function calculateResultFromDeadlines($result, $deadlines)
     {
@@ -142,10 +140,16 @@ class TesterCallbackController extends Controller
      * Gets the git callback with the secret token from the request.
      *
      * @return GitCallback
+     * @throws IncorrectSecretTokenException
      */
     private function getGitCallback()
     {
         $token = $this->request['secret_token'];
+
+        if ($token === null) {
+            throw new IncorrectSecretTokenException('no_secret_token_found');
+        }
+
         $gitCallback = GitCallback::where('secret_token', $token)
             ->where('response_received', 0)
             ->get();
@@ -161,12 +165,14 @@ class TesterCallbackController extends Controller
      * Check the given Git callback. If the secret token isn't correct
      * throw an exception. Also set the response received flag to true.
      *
-     * @param  GitCallback  $gitCallback
+     * @param  GitCallback $gitCallback
+     *
+     * @throws IncorrectSecretTokenException
      */
     private function checkGitCallback($gitCallback)
     {
         if ($gitCallback === null) {
-            throw new UnauthorizedException('Secret key is incorrect.');
+            throw new IncorrectSecretTokenException('incorrect_secret_token', $this->request['secret_token']);
         }
         $gitCallback->response_received = 1;
         $gitCallback->save();

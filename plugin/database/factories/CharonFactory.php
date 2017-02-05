@@ -9,6 +9,10 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'project_folder' => $faker->word,
         'extra' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
-        'grading_method_code' => $faker->randomElement([1, 2])
+        'grading_method_code' => $faker->randomElement([1, 2]),
+        'course' => function () {
+            return factory(Zeizig\Moodle\Models\Course::class)->create()->id;
+        },
+        'timemodified' => $faker->unixTime
     ];
 });

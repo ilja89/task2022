@@ -24,6 +24,15 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * A list of the exception types that should not be reported via email.
+     *
+     * @var array
+     */
+    protected $dontSendEmail = [
+         // CharonNotFoundException::class,
+    ];
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -33,7 +42,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        app('sneaker')->captureException($exception);
+        if (! $this->shouldntSendEmail($exception) && config('app.env') !== 'local') {
+            // Don't try to email exceptions when in local environment.
+            app('sneaker')->captureException($exception);
+        }
 
         parent::report($exception);
     }
@@ -47,6 +59,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->expectsJson() && $exception instanceof CharonException) {
+            return response()->json([
+                'status' => $exception->getStatus(),
+                'data' => $exception->toArray()
+            ]);
+        }
+
         return parent::render($request, $exception);
     }
 
@@ -64,5 +83,23 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest('login');
+    }
+
+    /**
+     * Checks if the given exception should not be reported via email.
+     *
+     * @param  Exception  $e
+     *
+     * @return bool
+     */
+    protected function shouldntSendEmail(\Exception $e)
+    {
+        foreach ($this->dontSendEmail as $type) {
+            if ($e instanceof $type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
