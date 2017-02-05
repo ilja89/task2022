@@ -7,12 +7,22 @@
  */
 
 /*---------------------------------*\
+  #IMPORTS
+\*---------------------------------*/
+
+$family-sans-serif: "Roboto","Fira Sans","Segoe UI","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif,"line-icons";
+
+@import '~bulma';
+
+/*---------------------------------*\
   #MOODLE_FIXES (Snap fixes)
 \*---------------------------------*/
 
 #region-main {
-  margin-top: 0;
   padding-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: initial;
 }
 
 #page-header {
@@ -25,6 +35,14 @@
 
 .hljs {
   background: transparent;
+}
+
+.table {
+  color: #666;
+}
+
+.table>thead:first-child>tr:first-child>th {
+  border-top: 1px solid rgb(219, 219, 219);
 }
 
 
