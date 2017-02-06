@@ -3,11 +3,11 @@
 namespace TTU\Charon\Exceptions;
 
 /**
- * Class GrademapDoesNotExistException.
+ * Class CharonNotFoundException.
  *
  * @package TTU\Charon\Exceptions
  */
-class GrademapDoesNotExistException extends \Exception
+class CharonNotFoundException extends NotFoundException
 {
     //
 }

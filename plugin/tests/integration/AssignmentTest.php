@@ -11,11 +11,15 @@ class AssignmentTest extends TestCase
 
     public function testAssignmentViewUsesCorrectInstance()
     {
+        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
         /** @var \TTU\Charon\Models\Charon $charon */
-        $charon = factory(TTU\Charon\Models\Charon::class)->create();
+        $charon = factory(TTU\Charon\Models\Charon::class)->create([
+            'course' => $course->id
+        ]);
         /** @var \Zeizig\Moodle\Models\CourseModule $courseModule */
         $courseModule = factory(Zeizig\Moodle\Models\CourseModule::class)->create([
-            'instance' => $charon->id
+            'instance' => $charon->id,
+            'course' => $course->id
         ]);
 
         $expected = \TTU\Charon\Models\Charon::with('testerType', 'gradingMethod', 'grademaps', 'deadlines')

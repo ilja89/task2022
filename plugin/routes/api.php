@@ -1,35 +1,22 @@
 <?php
 
-use Illuminate\Http\Request;
+Route::group(['namespace' => 'Api'], function () {
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+    Route::post('tester_callback', 'Api\TesterCallbackController@index')
+         ->name('tester_callback');
+    Route::get('git_callback', 'Api\GitCallbackController@index')
+         ->name('git_callback');
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
-
-Route::post('tester_callback', 'Api\TesterCallbackController@index')
-    ->name('tester_callback');
-Route::get('git_callback', 'Api\GitCallbackController@index');
-
-Route::get('courses/{course}/students/search', 'Api\StudentsController@searchStudents')
-    ->middleware('auth.requireCourseManagement');
-Route::get('courses/{course}/charons', 'Api\PopupController@getCharonsByCourse')
-    ->middleware('auth.requireCourseManagement');
-Route::get('charons/{charon}/submissions', 'Api\PopupController@getSubmissionsByCharon')
-    ->middleware('auth.requireCharonManaging');
-Route::post('charons/{charon}/submissions/{submission}', 'Api\PopupController@saveSubmission')
-    ->middleware('auth.requireCharonManaging');
-Route::post('charons/{charon}/comments', 'Api\PopupController@saveComment')
-    ->middleware('auth.requireCharonManaging');
-Route::get('charons/{charon}/comments', 'Api\PopupController@getComments')
-    ->middleware('auth.requireCharonManaging');
+    Route::get('courses/{course}/students/search', 'StudentsController@searchStudents')
+         ->middleware('auth.requireCourseManagement');
+    Route::get('courses/{course}/charons', 'PopupController@getCharonsByCourse')
+         ->middleware('auth.requireCourseManagement');
+    Route::get('charons/{charon}/submissions', 'PopupController@getSubmissionsByCharon')
+         ->middleware('auth.requireCharonManaging');
+    Route::post('charons/{charon}/submissions/{submission}', 'PopupController@saveSubmission')
+         ->middleware('auth.requireCharonManaging');
+    Route::post('charons/{charon}/comments', 'PopupController@saveComment')
+         ->middleware('auth.requireCharonManaging');
+    Route::get('charons/{charon}/comments', 'PopupController@getComments')
+         ->middleware('auth.requireCharonManaging');
+});

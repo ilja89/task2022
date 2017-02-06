@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
@@ -68,51 +69,45 @@ class CharonRepository
      * Gets a charon instance by course module id.
      * Returns null if no course module is found or if the given course module is not a Charon.
      *
-     * @param  integer  $id
+     * @param  integer $id
      *
      * @return Charon
+     * @throws CharonNotFoundException
      */
     public function getCharonByCourseModuleId($id)
     {
         /** @var CourseModule $courseModule */
         $courseModule = CourseModule::find($id);
 
-        if ($courseModule == null) {
-            return null;
+        if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
+            throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
 
-        if ($courseModule->isInstanceOfPlugin()) {
-            return Charon::where('id', $courseModule->instance)
-                ->first();
-        }
-
-        return null;
+        return Charon::where('id', $courseModule->instance)
+                     ->first();
     }
 
     /**
-     * Gets a charon instance with eagerly loaded tester type and grading method by course module id.
-     * Returns null if no course module is found or if the given course module is not a Charon.
+     * Gets a charon instance with eagerly loaded fields like tester type and grading method by
+     * course module id.
      *
-     * @param  integer  $id
+     * @param  integer $id
      *
      * @return Charon
+     * @throws CharonNotFoundException
      */
     public function getCharonByCourseModuleIdEager($id)
     {
         /** @var CourseModule $courseModule */
         $courseModule = CourseModule::find($id);
 
-        if ($courseModule == null) {
-            return null;
+        if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
+            throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
 
-        if ($courseModule->isInstanceOfPlugin()) {
-            return Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines')
-                         ->where('id', $courseModule->instance)
-                         ->first();
-        }
-
-        return null;
+        return Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines')
+                     ->where('id', $courseModule->instance)
+                     ->first();
     }
 
     /**
