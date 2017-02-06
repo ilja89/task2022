@@ -37,4 +37,9 @@ return [
         'title' => 'Secret token included in the request was not correct.',
         'detail' => 'The secret token in the request was not correct: %s.',
     ],
+
+    'user_cannot_access_course_module' => [
+        'title' => 'Cannot access the given course module.',
+        'detail' => 'The course module with ID: %d cannot be accessed by user with ID: %d.',
+    ],
 ];
