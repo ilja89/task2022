@@ -2,9 +2,9 @@
 
 Route::group(['namespace' => 'Api'], function () {
 
-    Route::post('tester_callback', 'Api\TesterCallbackController@index')
+    Route::post('tester_callback', 'TesterCallbackController@index')
          ->name('tester_callback');
-    Route::get('git_callback', 'Api\GitCallbackController@index')
+    Route::get('git_callback', 'GitCallbackController@index')
          ->name('git_callback');
 
     Route::get('courses/{course}/students/search', 'StudentsController@searchStudents')
