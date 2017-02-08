@@ -22,9 +22,21 @@
             };
         },
 
+        computed: {
+            activeCharon() {
+                let activeCharon = null;
+                this.charons.forEach(charon => {
+                    if (charon.id === this.selected) {
+                        activeCharon = charon;
+                    }
+                });
+                return activeCharon;
+            }
+        },
+
         methods: {
-            onCharonSelected(event) {
-                VueEvent.$emit('charon-was-changed', event.target.value);
+            onCharonSelected() {
+                VueEvent.$emit('charon-was-changed', this.activeCharon);
             }
         }
     }

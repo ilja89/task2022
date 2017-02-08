@@ -6,13 +6,15 @@ import PopupPage from './components/popup/partials/PopupPage.vue';
 import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue';
 import GradingPage from './components/popup/GradingPage.vue';
 import SubmissionPage from './components/popup/SubmissionPage.vue';
-
-import ApiCalls from './mixins/apiCalls';
 import Loader from './components/popup/partials/Loader.vue';
+
+import Api from './classes/api';
+import ApiCalls from './mixins/apiCalls';
 
 import PopupContext from './classes/popupContext';
 
 window.VueEvent = new Vue();
+window.Api = new Api();
 
 const app = new Vue({
     el: '#app',
@@ -27,7 +29,7 @@ const app = new Vue({
 
     mounted() {
         this.registerEventListeners();
-        this.getCharonsForCourse(this.context.course_id);
+        this.initializeCharons();
     },
 
     methods: {
@@ -44,16 +46,12 @@ const app = new Vue({
                 }
                 this.context.active_submission = null;
             });
-            VueEvent.$on('charon-was-changed', (charon_id) => {
-                this.context.charons.forEach((charon) => {
-                    if (charon.id == charon_id) {
-                        this.context.active_charon = charon;
-                    }
-                });
+            VueEvent.$on('charon-was-changed', charon => {
+                this.context.active_charon = charon;
                 this.context.active_submission = null;
 
                 if (this.context.active_student !== null) {
-                    this.getSubmissions(charon_id, this.context.active_student.id);
+                    this.getSubmissions(charon.id, this.context.active_student.id);
                     this.getComments(
                         this.context.active_charon.id,
                         this.context.active_student.id,
@@ -77,77 +75,75 @@ const app = new Vue({
             VueEvent.$on('change-page', pageName => {
                 this.context.active_page = pageName;
             });
+            VueEvent.$on('refresh-page', this.refreshPage);
         },
 
-        getCharonsForCourse(course_id) {
-            let popupVue = this;
-            axios.get('/mod/charon/api/courses/' + course_id + '/charons')
-                .then(function (response) {
-                    popupVue.context.charons = response.data;
-                    if (response.data.length > 0) {
-                        VueEvent.$emit('charon-was-changed', response.data[0].id);
+        initializeCharons() {
+            this.getCharonsForCourse(this.context.course_id)
+                .then(charons => {
+                    this.context.charons = charons;
+                    if (charons.length > 0) {
+                        VueEvent.$emit('charon-was-changed', charons[0]);
                     }
-                })
-                .catch(function (error) {
-                    console.log(error);
                 });
         },
 
         getSubmissions(charon_id, user_id, update_submission = true) {
+
             let popupVue = this;
-            axios.get('/mod/charon/api/charons/' + charon_id + '/submissions', {
-                params: {
-                    user_id: user_id
-                }
-            })
-                .then(function (response) {
-                    popupVue.context.submissions = response.data;
-                    if (update_submission && popupVue.context.submissions.length > 0) {
-                        popupVue.context.active_submission = popupVue.context.submissions[0];
-                    }
 
-                    if (popupVue.context.active_submission !== null && popupVue.context.active_submission.files.length > 0) {
-                        popupVue.context.active_file = popupVue.context.active_submission.files[0];
+            this.getSubmissionsForUser(charon_id, user_id)
+                .then(submissions => {
+                    popupVue.context.submissions = submissions;
+                    if (update_submission) {
+                        popupVue.updateActiveSubmission();
                     }
-                })
-                .catch(function (error) {
-                    console.log(error);
+                    popupVue.updateActiveFile();
                 });
-
         },
 
         updateSubmission(submission) {
             let vuePopup = this;
-            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/submissions/' + submission.id, {
-                submission: submission
-            })
-                .then(function (response) {
-                    if (response.data.status == "OK") {
-                        submission.confirmed = 1;
-                    }
-                    vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
+            return new Promise((resolve, reject) => {
+                this.updateSubmissionResults(this.context.active_charon.id, submission)
+                    .then(response => {
+                        if (response.status == "OK") {
+                            submission.confirmed = 1;
+                        }
+                        vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
+                        resolve(response);
+                    })
+                    .catch(error => reject(error));
+            });
         },
 
         saveComment(comment) {
             let vuePopup = this;
-
-            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/comments', {
-                comment: comment,
-                student_id: this.context.active_student.id
-            })
-                .then((response) => {
-                    if (response.data.status == 'OK') {
-                        vuePopup.context.active_comments.push(response.data.comment);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
+            this.saveCharonComment(this.context.active_charon.id, this.context.active_student.id, comment)
+                .then(response => {
+                    vuePopup.context.active_comments.push(response.comment);
                 });
         },
+
+        updateActiveSubmission() {
+            if (this.context.submissions.length > 0) {
+                this.context.active_submission = this.context.submissions[0];
+            }
+        },
+
+        updateActiveFile() {
+            if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
+                this.context.active_file = this.context.active_submission.files[0];
+            }
+        },
+
+        refreshPage() {
+            alert("Refreshing! " + this.context.active_page);
+        },
+
+        refreshCharons() {
+            this.initializeCharons();
+        }
     }
 });
 

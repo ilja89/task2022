@@ -1019,6 +1019,45 @@ module.exports = {
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        getCharonsForCourse: function getCharonsForCourse(courseId) {
+            return new Promise(function (resolve, reject) {
+                Api.get('/mod/charon/api/courses/' + courseId + '/charons').then(function (response) {
+                    return resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
+            });
+        },
+        getSubmissionsForUser: function getSubmissionsForUser(charonId, userId) {
+            return new Promise(function (resolve, reject) {
+                Api.get('/mod/charon/api/charons/' + charonId + '/submissions', { user_id: userId }).then(function (response) {
+                    return resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
+            });
+        },
+        updateSubmissionResults: function updateSubmissionResults(charonId, submission) {
+            return new Promise(function (resolve, reject) {
+                Api.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
+                    return resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
+            });
+        },
+        saveCharonComment: function saveCharonComment(charonId, studentId, comment) {
+            return new Promise(function (resolve, reject) {
+                Api.post('/mod/charon/api/charons/' + charonId + '/comments', {
+                    comment: comment,
+                    student_id: studentId
+                }).then(function (response) {
+                    return resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
+            });
         }
     }
 };
@@ -1116,11 +1155,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue__ = __webpack_require__(414);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_apiCalls__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_apiCalls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__mixins_apiCalls__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Loader_vue__ = __webpack_require__(416);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Loader_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__classes_popupContext__ = __webpack_require__(239);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__classes_api__ = __webpack_require__(453);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_apiCalls__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_apiCalls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__mixins_apiCalls__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__ = __webpack_require__(239);
+
 
 
 
@@ -1136,21 +1177,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 window.VueEvent = new Vue();
+window.Api = new __WEBPACK_IMPORTED_MODULE_8__classes_api__["a" /* default */]();
 
 var app = new Vue({
     el: '#app',
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_7__mixins_apiCalls___default.a],
+    mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_apiCalls___default.a],
 
-    components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupPage: __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default.a, NoStudentSelectedPage: __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue___default.a, GradingPage: __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Loader_vue___default.a, SubmissionPage: __WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue___default.a },
+    components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupPage: __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default.a, NoStudentSelectedPage: __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue___default.a, GradingPage: __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue___default.a, SubmissionPage: __WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue___default.a },
 
     data: {
-        context: new __WEBPACK_IMPORTED_MODULE_9__classes_popupContext__["a" /* default */](window.course_id)
+        context: new __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__["a" /* default */](window.course_id)
     },
 
     mounted: function mounted() {
         this.registerEventListeners();
-        this.getCharonsForCourse(this.context.course_id);
+        this.initializeCharons();
     },
 
 
@@ -1166,16 +1208,12 @@ var app = new Vue({
                 }
                 _this.context.active_submission = null;
             });
-            VueEvent.$on('charon-was-changed', function (charon_id) {
-                _this.context.charons.forEach(function (charon) {
-                    if (charon.id == charon_id) {
-                        _this.context.active_charon = charon;
-                    }
-                });
+            VueEvent.$on('charon-was-changed', function (charon) {
+                _this.context.active_charon = charon;
                 _this.context.active_submission = null;
 
                 if (_this.context.active_student !== null) {
-                    _this.getSubmissions(charon_id, _this.context.active_student.id);
+                    _this.getSubmissions(charon.id, _this.context.active_student.id);
                     _this.getComments(_this.context.active_charon.id, _this.context.active_student.id, _this);
                 }
             });
@@ -1195,65 +1233,69 @@ var app = new Vue({
             VueEvent.$on('change-page', function (pageName) {
                 _this.context.active_page = pageName;
             });
+            VueEvent.$on('refresh-page', this.refreshPage);
         },
-        getCharonsForCourse: function getCharonsForCourse(course_id) {
-            var popupVue = this;
-            axios.get('/mod/charon/api/courses/' + course_id + '/charons').then(function (response) {
-                popupVue.context.charons = response.data;
-                if (response.data.length > 0) {
-                    VueEvent.$emit('charon-was-changed', response.data[0].id);
+        initializeCharons: function initializeCharons() {
+            var _this2 = this;
+
+            this.getCharonsForCourse(this.context.course_id).then(function (charons) {
+                _this2.context.charons = charons;
+                if (charons.length > 0) {
+                    VueEvent.$emit('charon-was-changed', charons[0]);
                 }
-            }).catch(function (error) {
-                console.log(error);
             });
         },
         getSubmissions: function getSubmissions(charon_id, user_id) {
             var update_submission = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-            var popupVue = this;
-            axios.get('/mod/charon/api/charons/' + charon_id + '/submissions', {
-                params: {
-                    user_id: user_id
-                }
-            }).then(function (response) {
-                popupVue.context.submissions = response.data;
-                if (update_submission && popupVue.context.submissions.length > 0) {
-                    popupVue.context.active_submission = popupVue.context.submissions[0];
-                }
 
-                if (popupVue.context.active_submission !== null && popupVue.context.active_submission.files.length > 0) {
-                    popupVue.context.active_file = popupVue.context.active_submission.files[0];
+            var popupVue = this;
+
+            this.getSubmissionsForUser(charon_id, user_id).then(function (submissions) {
+                popupVue.context.submissions = submissions;
+                if (update_submission) {
+                    popupVue.updateActiveSubmission();
                 }
-            }).catch(function (error) {
-                console.log(error);
+                popupVue.updateActiveFile();
             });
         },
         updateSubmission: function updateSubmission(submission) {
+            var _this3 = this;
+
             var vuePopup = this;
-            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/submissions/' + submission.id, {
-                submission: submission
-            }).then(function (response) {
-                if (response.data.status == "OK") {
-                    submission.confirmed = 1;
-                }
-                vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
-            }).catch(function (error) {
-                console.log(error);
+            return new Promise(function (resolve, reject) {
+                _this3.updateSubmissionResults(_this3.context.active_charon.id, submission).then(function (response) {
+                    if (response.status == "OK") {
+                        submission.confirmed = 1;
+                    }
+                    vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
+                    resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
             });
         },
         saveComment: function saveComment(comment) {
             var vuePopup = this;
-
-            axios.post('/mod/charon/api/charons/' + this.context.active_charon.id + '/comments', {
-                comment: comment,
-                student_id: this.context.active_student.id
-            }).then(function (response) {
-                if (response.data.status == 'OK') {
-                    vuePopup.context.active_comments.push(response.data.comment);
-                }
-            }).catch(function (error) {
-                console.log(error);
+            this.saveCharonComment(this.context.active_charon.id, this.context.active_student.id, comment).then(function (response) {
+                vuePopup.context.active_comments.push(response.comment);
             });
+        },
+        updateActiveSubmission: function updateActiveSubmission() {
+            if (this.context.submissions.length > 0) {
+                this.context.active_submission = this.context.submissions[0];
+            }
+        },
+        updateActiveFile: function updateActiveFile() {
+            if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
+                this.context.active_file = this.context.active_submission.files[0];
+            }
+        },
+        refreshPage: function refreshPage() {
+            alert("Refreshing! " + this.context.active_page);
+        },
+        refreshCharons: function refreshCharons() {
+            this.initializeCharons();
         }
     }
 });
@@ -1406,7 +1448,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
     methods: {
         onRefreshClicked: function onRefreshClicked() {
-            alert("Refreshed!");
+            VueEvent.$emit('refresh-page');
         }
     }
 };
@@ -1541,9 +1583,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
     },
 
 
+    computed: {
+        activeCharon: function activeCharon() {
+            var _this = this;
+
+            var activeCharon = null;
+            this.charons.forEach(function (charon) {
+                if (charon.id === _this.selected) {
+                    activeCharon = charon;
+                }
+            });
+            return activeCharon;
+        }
+    },
+
     methods: {
-        onCharonSelected: function onCharonSelected(event) {
-            VueEvent.$emit('charon-was-changed', event.target.value);
+        onCharonSelected: function onCharonSelected() {
+            VueEvent.$emit('charon-was-changed', this.activeCharon);
         }
     }
 };
@@ -12211,7 +12267,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "comment"
     }, [_c('span', {
       staticClass: "comment-author"
-    }, [_vm._v("\n                        " + _vm._s(comment.teacher.firstname) + " " + _vm._s(comment.teacher.firstname) + "\n                    ")]), _vm._v("\n                    " + _vm._s(comment.message) + "\n                ")])
+    }, [_vm._v("\n                        " + _vm._s(comment.teacher.firstname) + " " + _vm._s(comment.teacher.lastname) + "\n                    ")]), _vm._v("\n                    " + _vm._s(comment.message) + "\n                ")])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "comment-input-container"
   }, [_c('input', {
@@ -12804,7 +12860,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "timestamp-info  submission-timestamp"
   }, [_vm._v("Git time:")]), _vm._v(" "), _c('div', {
     staticClass: "submission-timestamp"
-  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:00.000+/, "")))]), _vm._v(" "), (_vm.hasDeadlines) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:..\.000+/, "")))]), _vm._v(" "), (_vm.hasDeadlines) ? _c('div', {
     staticClass: "submission-deadlines"
   }, [_c('div', {
     staticClass: "timestamp-info"
@@ -12952,6 +13008,52 @@ e.default={props:{id:String,className:String,placeholder:String,initValue:{type:
 
 module.exports = __webpack_require__(215);
 
+
+/***/ }),
+
+/***/ 453:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Api = function () {
+    function Api() {
+        _classCallCheck(this, Api);
+    }
+
+    _createClass(Api, [{
+        key: "get",
+        value: function get(url, data) {
+            return new Promise(function (resolve, reject) {
+                axios.get(url, { params: data }).then(function (response) {
+                    return resolve(response.data);
+                }).catch(function (error) {
+                    console.log(error);
+                    reject(error);
+                });
+            });
+        }
+    }, {
+        key: "post",
+        value: function post(url, data) {
+            return new Promise(function (resolve, reject) {
+                axios.post(url, data).then(function (response) {
+                    return resolve(response.data);
+                }).catch(function (error) {
+                    console.log(error);
+                    reject(error);
+                });
+            });
+        }
+    }]);
+
+    return Api;
+}();
+
+/* harmony default export */ exports["a"] = Api;
 
 /***/ }),
 

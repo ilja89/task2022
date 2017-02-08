@@ -14,7 +14,7 @@
 
             <div class="column is-one-third card" v-if="hasSubmission">
                 <div class="timestamp-info  submission-timestamp">Git time:</div>
-                <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:00.000+/, "") }}</div>
+                <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:..\.000+/, "") }}</div>
 
                 <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="timestamp-info">Deadlines:</div>

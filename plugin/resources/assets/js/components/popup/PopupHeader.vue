@@ -38,7 +38,7 @@
 
         methods: {
             onRefreshClicked() {
-                alert("Refreshed!");
+                VueEvent.$emit('refresh-page');
             }
         }
     }
