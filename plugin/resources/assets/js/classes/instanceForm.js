@@ -57,13 +57,30 @@ export default class InstanceFormForm {
 
     initializeDeadlines(deadlines) {
         deadlines.forEach((deadline) => {
-            this.fields.deadlines.push({
-                deadline_time: {
-                    time: moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm')
-                },
-                percentage: deadline.percentage,
-                group_id: deadline.group_id
-            });
+            // Check if previous deadline exists, if it matches format from database, if it matches
+            // format from previous request.
+            console.log(moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid());
+            let time = null;
+
+            if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+                time = moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss');
+            } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
+                time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
+            }
+
+            console.log(time);
+
+            if (time !== null) {
+                let deadline_thing = {
+                    deadline_time: {
+                        time: time.format('DD-MM-YYYY HH:mm')
+                    },
+                    percentage: deadline.percentage,
+                    group_id: deadline.group_id
+                };
+
+                this.fields.deadlines.push(deadline_thing);
+            }
         });
     }
 
@@ -82,7 +99,29 @@ export default class InstanceFormForm {
             deadlines: [ ]
         };
 
-        instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '' ;
+        if (window.update) {
+            this.initializeGrademapsUpdate(instance['grademaps']);
+        } else {
+            instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '' ;
+        }
         instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();
+    }
+
+    initializeGrademapsUpdate(grademaps) {
+        /**
+         * Since update grademaps are grade_type_code => grademap in the request, we must
+         * handle these differently here.
+         */
+        for (let grade_type_code in grademaps) {
+            if (grademaps.hasOwnProperty(grade_type_code)) {
+                let grademap = grademaps[grade_type_code];
+                this.fields.grademaps.push({
+                    max_points: parseFloat(grademap.max_points),
+                    name: grademap.grademap_name,
+                    grade_type_code: parseInt(grade_type_code),
+                    id_number: grademap.id_number
+                });
+            }
+        }
     }
 }

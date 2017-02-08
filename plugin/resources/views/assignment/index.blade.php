@@ -6,7 +6,7 @@
 <h1 class="title">{{ $charon->name }}</h1>
 
 <div class="columns">
-    <div class="column">
+    <div class="column assignment-content">
         {!! $charon->description !!}
     </div>
 
