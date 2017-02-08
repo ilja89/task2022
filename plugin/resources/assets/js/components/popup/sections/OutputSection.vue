@@ -11,7 +11,8 @@
 
                 <p class="control">
                     <span class="select">
-                        <select name="file" v-if="context.active_submission !== null"
+                        <select name="file"
+                                v-if="context.active_submission !== null"
                                 @change="onFileChanged"
                                 v-model="active_file_id">
                             <option v-for="file in context.active_submission.files"
@@ -42,20 +43,20 @@
                         <select name="output" v-if="context.active_submission !== null"
                                 v-model="active_output_slug">
 
-                            <option v-if="context.active_submission.stdout !== null"
+                            <option v-if="hasOutput(context.active_submission, 'stdout')"
                                     value="submission__stdout">Submission stdout</option>
-                            <option v-if="context.active_submission.stderr !== null"
+                            <option v-if="hasOutput(context.active_submission, 'stderr')"
                                     value="submission__stderr">Submission stderr</option>
 
                             <option v-for="result in context.active_submission.results"
                                     :value="'result__stdout__' + result.id"
-                                    v-if="result.stdout !== null">
+                                    v-if="hasOutput(result, 'stdout')">
                                 {{ getGrademapByResult(result).name }} stdout
                             </option>
 
                             <option v-for="result in context.active_submission.results"
                                     :value="'result__stderr__' + result.id"
-                                    v-if="result.stderr !== null">
+                                    v-if="hasOutput(result, 'stderr')">
                                 {{ getGrademapByResult(result).name }} stderr
                             </option>
 
@@ -148,6 +149,10 @@
             findResultById(id) {
                 let matchingResult = null;
 
+                if (this.context.active_submission === null) {
+                    return null;
+                }
+
                 this.context.active_submission.results.forEach((result) => {
                     if (result.id == id) {
                         matchingResult = result;
@@ -156,6 +161,10 @@
 
                 return matchingResult;
             },
+
+            hasOutput(object, kind) {
+                return object[kind] !== null && object[kind].length > 0;
+            }
         }
     }
 </script>

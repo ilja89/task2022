@@ -2041,6 +2041,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -2116,6 +2117,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
         findResultById: function findResultById(id) {
             var matchingResult = null;
 
+            if (this.context.active_submission === null) {
+                return null;
+            }
+
             this.context.active_submission.results.forEach(function (result) {
                 if (result.id == id) {
                     matchingResult = result;
@@ -2123,6 +2128,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
             });
 
             return matchingResult;
+        },
+        hasOutput: function hasOutput(object, kind) {
+            return object[kind] !== null && object[kind].length > 0;
         }
     }
 };
@@ -12346,14 +12354,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })[0]
       }
     }
-  }, [(_vm.context.active_submission.stdout !== null) ? _c('option', {
+  }, [(_vm.hasOutput(_vm.context.active_submission, 'stdout')) ? _c('option', {
     attrs: {
       "value": "submission__stdout"
     },
     domProps: {
       "value": "submission__stdout"
     }
-  }, [_vm._v("Submission stdout")]) : _vm._e(), _vm._v(" "), (_vm.context.active_submission.stderr !== null) ? _c('option', {
+  }, [_vm._v("Submission stdout")]) : _vm._e(), _vm._v(" "), (_vm.hasOutput(_vm.context.active_submission, 'stderr')) ? _c('option', {
     attrs: {
       "value": "submission__stderr"
     },
@@ -12361,13 +12369,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "submission__stderr"
     }
   }, [_vm._v("Submission stderr")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.context.active_submission.results), function(result) {
-    return (result.stdout !== null) ? _c('option', {
+    return (_vm.hasOutput(result, 'stdout')) ? _c('option', {
       domProps: {
         "value": 'result__stdout__' + result.id
       }
     }, [_vm._v("\n                            " + _vm._s(_vm.getGrademapByResult(result).name) + " stdout\n                        ")]) : _vm._e()
   }), _vm._v(" "), _vm._l((_vm.context.active_submission.results), function(result) {
-    return (result.stderr !== null) ? _c('option', {
+    return (_vm.hasOutput(result, 'stderr')) ? _c('option', {
       domProps: {
         "value": 'result__stderr__' + result.id
       }
