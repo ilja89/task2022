@@ -1192,6 +1192,9 @@ var app = new Vue({
             VueEvent.$on('comment-was-saved', function (comment) {
                 _this.saveComment(comment);
             });
+            VueEvent.$on('change-page', function (pageName) {
+                _this.context.active_page = pageName;
+            });
         },
         getCharonsForCourse: function getCharonsForCourse(course_id) {
             var popupVue = this;
@@ -1460,6 +1463,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
             this.pages.forEach(function (page) {
                 page.isActive = page.name === selectedPage.name;
             });
+        },
+        onPageClicked: function onPageClicked(page) {
+            VueEvent.$emit('change-page', page.name);
         }
     }
 };
@@ -2315,6 +2321,8 @@ var PopupContext = function PopupContext(course_id) {
 
     this.active_file = null;
     this.active_comments = [];
+
+    this.active_page = 'Grading';
 };
 
 /* harmony default export */ exports["a"] = PopupContext;
@@ -12490,7 +12498,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.selectPage(page)
+          _vm.onPageClicked(page)
         }
       }
     }, [_vm._v("\n                    " + _vm._s(page.name) + "\n                ")])])

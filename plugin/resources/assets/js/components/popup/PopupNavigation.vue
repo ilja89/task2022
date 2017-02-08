@@ -5,7 +5,7 @@
             <ul class="menu-list">
 
                 <li v-for="page in pages" class="nav-item">
-                    <a @click="selectPage(page)" :class="{ 'is-active': page.isActive }">
+                    <a @click="onPageClicked(page)" :class="{ 'is-active': page.isActive }">
                         {{ page.name }}
                     </a>
                 </li>
@@ -41,6 +41,10 @@
                 this.pages.forEach(page => {
                     page.isActive = (page.name === selectedPage.name);
                 });
+            },
+
+            onPageClicked(page) {
+                VueEvent.$emit('change-page', page.name);
             }
         }
     }

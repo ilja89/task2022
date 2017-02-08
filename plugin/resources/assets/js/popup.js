@@ -74,6 +74,9 @@ const app = new Vue({
             VueEvent.$on('comment-was-saved', (comment) => {
                 this.saveComment(comment);
             });
+            VueEvent.$on('change-page', pageName => {
+                this.context.active_page = pageName;
+            });
         },
 
         getCharonsForCourse(course_id) {
