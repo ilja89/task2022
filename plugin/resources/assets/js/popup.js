@@ -83,15 +83,17 @@ const app = new Vue({
         getSubmissions(charon_id, user_id, update_submission = true) {
 
             let popupVue = this;
-
-            this.getSubmissionsForUser(charon_id, user_id)
-                .then(submissions => {
-                    popupVue.context.submissions = submissions;
-                    if (update_submission) {
-                        popupVue.updateActiveSubmission();
-                    }
-                    popupVue.updateActiveFile();
-                });
+            return new Promise((resolve, reject) => {
+                this.getSubmissionsForUser(charon_id, user_id)
+                    .then(submissions => {
+                        popupVue.context.submissions = submissions;
+                        if (update_submission) {
+                            popupVue.updateActiveSubmission();
+                        }
+                        popupVue.updateActiveFile();
+                        resolve(submissions);
+                    });
+            });
         },
 
         updateSubmission(submission) {
@@ -130,16 +132,31 @@ const app = new Vue({
         },
 
         refreshPage() {
-            alert("Refreshing! " + this.context.active_page);
+            this.refreshCharons();
+            this.refreshComments();
+            this.refreshSubmissions();
         },
 
         refreshCharons() {
-            this.initializeCharons();
+            this.getCharonsForCourse(this.context.course_id)
+                .then(charons => this.context.charons = charons);
         },
 
         refreshComments() {
             this.getComments(this.context.active_charon.id, this.context.active_student.id)
                 .then(comments => this.context.active_comments = comments);
+        },
+
+        refreshSubmissions() {
+            let vuePopup = this;
+            this.getSubmissions(this.context.active_charon.id, this.context.active_student.id, false)
+                .then(submissions => {
+                    submissions.forEach(submission => {
+                        if (vuePopup.context.active_submission.id == submission.id) {
+                            vuePopup.context.active_submission = submission;
+                        }
+                    });
+                });
         }
     }
 });

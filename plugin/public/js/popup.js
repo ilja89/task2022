@@ -1244,25 +1244,29 @@ var app = new Vue({
             });
         },
         getSubmissions: function getSubmissions(charon_id, user_id) {
+            var _this3 = this;
+
             var update_submission = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 
             var popupVue = this;
-
-            this.getSubmissionsForUser(charon_id, user_id).then(function (submissions) {
-                popupVue.context.submissions = submissions;
-                if (update_submission) {
-                    popupVue.updateActiveSubmission();
-                }
-                popupVue.updateActiveFile();
+            return new Promise(function (resolve, reject) {
+                _this3.getSubmissionsForUser(charon_id, user_id).then(function (submissions) {
+                    popupVue.context.submissions = submissions;
+                    if (update_submission) {
+                        popupVue.updateActiveSubmission();
+                    }
+                    popupVue.updateActiveFile();
+                    resolve(submissions);
+                });
             });
         },
         updateSubmission: function updateSubmission(submission) {
-            var _this3 = this;
+            var _this4 = this;
 
             var vuePopup = this;
             return new Promise(function (resolve, reject) {
-                _this3.updateSubmissionResults(_this3.context.active_charon.id, submission).then(function (response) {
+                _this4.updateSubmissionResults(_this4.context.active_charon.id, submission).then(function (response) {
                     if (response.status == "OK") {
                         submission.confirmed = 1;
                     }
@@ -1290,16 +1294,32 @@ var app = new Vue({
             }
         },
         refreshPage: function refreshPage() {
-            alert("Refreshing! " + this.context.active_page);
+            this.refreshCharons();
+            this.refreshComments();
+            this.refreshSubmissions();
         },
         refreshCharons: function refreshCharons() {
-            this.initializeCharons();
+            var _this5 = this;
+
+            this.getCharonsForCourse(this.context.course_id).then(function (charons) {
+                return _this5.context.charons = charons;
+            });
         },
         refreshComments: function refreshComments() {
-            var _this4 = this;
+            var _this6 = this;
 
             this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
-                return _this4.context.active_comments = comments;
+                return _this6.context.active_comments = comments;
+            });
+        },
+        refreshSubmissions: function refreshSubmissions() {
+            var vuePopup = this;
+            this.getSubmissions(this.context.active_charon.id, this.context.active_student.id, false).then(function (submissions) {
+                submissions.forEach(function (submission) {
+                    if (vuePopup.context.active_submission.id == submission.id) {
+                        vuePopup.context.active_submission = submission;
+                    }
+                });
             });
         }
     }
@@ -2211,6 +2231,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12873,13 +12901,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('li', [_vm._v(_vm._s(deadline.deadline_time.date.replace(/\:00.000+/, "")) + " - " + _vm._s(deadline.percentage) + "%")])
   }))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
     staticClass: "column is-7 card"
-  }, _vm._l((_vm.submission.results), function(result, index) {
-    return (_vm.getGrademapByResult(result) !== null) ? _c('div', {
-      staticClass: "result",
-      class: {
-        'bottom-border-separator': index !== _vm.submission.results.length - 1
-      }
-    }, [_c('div', [_vm._v("\n                    " + _vm._s(_vm.getGrademapByResult(result).name) + "\n                    "), _c('span', {
+  }, [_vm._l((_vm.submission.results), function(result, index) {
+    return (_vm.getGrademapByResult(result) !== null) ? _c('div', [(index !== 0) ? _c('hr', {
+      staticClass: "hr-result"
+    }) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "result"
+    }, [_c('div', [_vm._v("\n                        " + _vm._s(_vm.getGrademapByResult(result).name) + "\n                        "), _c('span', {
       staticClass: "grademax"
     }, [_vm._v("/ " + _vm._s(_vm.getGrademapByResult(result).grade_item.grademax) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
       directives: [{
@@ -12905,8 +12932,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.$forceUpdate()
         }
       }
-    })])]) : _vm._e()
-  })) : _vm._e()])], 2)
+    })])])]) : _vm._e()
+  }), _vm._v(" "), (_vm.submission.confirmed == 1) ? _c('div', {
+    staticClass: "submission-confirmed"
+  }, [_c('hr'), _vm._v(" "), _c('strong', [_vm._v("Confirmed")])]) : _vm._e()], 2) : _vm._e()])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
