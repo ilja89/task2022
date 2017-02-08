@@ -1,9 +1,13 @@
 <template>
-    <select name="charon" id="charon-select" v-model="selected" @change="onCharonSelected">
-        <option v-for="charon in charons" :value="charon.id">
-            {{ charon.name }}
-        </option>
-    </select>
+    <p class="control">
+        <span class="select">
+            <select name="charon" id="charon-select" v-model="selected" @change="onCharonSelected">
+                <option v-for="charon in charons" :value="charon.id">
+                    {{ charon.name }}
+                </option>
+            </select>
+        </span>
+    </p>
 </template>
 
 <script>
