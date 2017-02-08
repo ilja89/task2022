@@ -38,11 +38,7 @@ const app = new Vue({
                 this.context.active_student = student;
                 if (this.context.active_charon !== null) {
                     this.getSubmissions(this.context.active_charon.id, student.id);
-                    this.getComments(
-                        this.context.active_charon.id,
-                        this.context.active_student.id,
-                        this
-                    );
+                    this.refreshComments();
                 }
                 this.context.active_submission = null;
             });
@@ -52,11 +48,7 @@ const app = new Vue({
 
                 if (this.context.active_student !== null) {
                     this.getSubmissions(charon.id, this.context.active_student.id);
-                    this.getComments(
-                        this.context.active_charon.id,
-                        this.context.active_student.id,
-                        this
-                    );
+                    this.refreshComments();
                 }
             });
             VueEvent.$on('submission-was-selected', (submission) => {
@@ -143,6 +135,11 @@ const app = new Vue({
 
         refreshCharons() {
             this.initializeCharons();
+        },
+
+        refreshComments() {
+            this.getComments(this.context.active_charon.id, this.context.active_student.id)
+                .then(comments => this.context.active_comments = comments);
         }
     }
 });

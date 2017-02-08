@@ -1,18 +1,12 @@
 module.exports = {
     methods: {
 
-        getComments(charon_id, student_id, vuePopup) {
-            axios.get('/mod/charon/api/charons/' + charon_id + '/comments', {
-                params: {
-                    student_id: student_id
-                }
-            })
-                .then((response) => {
-                    vuePopup.context.active_comments = response.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+        getComments(charonId, studentId) {
+            return new Promise((resolve, reject) => {
+                Api.get('/mod/charon/api/charons/' + charonId + '/comments', {student_id: studentId})
+                    .then(response => resolve(response))
+                    .catch(error => reject(error));
+            });
         },
 
         getCharonsForCourse(courseId) {

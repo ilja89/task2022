@@ -1009,15 +1009,13 @@ module.exports = function settle(resolve, reject, response) {
 
 module.exports = {
     methods: {
-        getComments: function getComments(charon_id, student_id, vuePopup) {
-            axios.get('/mod/charon/api/charons/' + charon_id + '/comments', {
-                params: {
-                    student_id: student_id
-                }
-            }).then(function (response) {
-                vuePopup.context.active_comments = response.data;
-            }).catch(function (error) {
-                console.log(error);
+        getComments: function getComments(charonId, studentId) {
+            return new Promise(function (resolve, reject) {
+                Api.get('/mod/charon/api/charons/' + charonId + '/comments', { student_id: studentId }).then(function (response) {
+                    return resolve(response);
+                }).catch(function (error) {
+                    return reject(error);
+                });
             });
         },
         getCharonsForCourse: function getCharonsForCourse(courseId) {
@@ -1204,7 +1202,7 @@ var app = new Vue({
                 _this.context.active_student = student;
                 if (_this.context.active_charon !== null) {
                     _this.getSubmissions(_this.context.active_charon.id, student.id);
-                    _this.getComments(_this.context.active_charon.id, _this.context.active_student.id, _this);
+                    _this.refreshComments();
                 }
                 _this.context.active_submission = null;
             });
@@ -1214,7 +1212,7 @@ var app = new Vue({
 
                 if (_this.context.active_student !== null) {
                     _this.getSubmissions(charon.id, _this.context.active_student.id);
-                    _this.getComments(_this.context.active_charon.id, _this.context.active_student.id, _this);
+                    _this.refreshComments();
                 }
             });
             VueEvent.$on('submission-was-selected', function (submission) {
@@ -1296,6 +1294,13 @@ var app = new Vue({
         },
         refreshCharons: function refreshCharons() {
             this.initializeCharons();
+        },
+        refreshComments: function refreshComments() {
+            var _this4 = this;
+
+            this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
+                return _this4.context.active_comments = comments;
+            });
         }
     }
 });
