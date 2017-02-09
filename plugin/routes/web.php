@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('instance_form', 'InstanceFormController@index');
+Route::post('instance_form', 'InstanceFormController@postIndex');
 Route::get('view.php', 'AssignmentController@index')
         ->middleware('auth.requireEnrolment');
 Route::get('courses/{course}/settings', 'CourseSettingsFormController@index')

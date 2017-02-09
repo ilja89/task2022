@@ -14,7 +14,7 @@
 
             <div class="column is-one-third card" v-if="hasSubmission">
                 <div class="timestamp-info  submission-timestamp">Git time:</div>
-                <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:00.000+/, "") }}</div>
+                <div class="submission-timestamp">{{ submission.git_timestamp.date.replace(/\:..\.000+/, "") }}</div>
 
                 <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="timestamp-info">Deadlines:</div>
@@ -25,19 +25,27 @@
             </div>
 
             <div class="column is-7 card" v-if="hasSubmission">
-                <div class="result" :class="{ 'bottom-border-separator': index !== submission.results.length - 1 }"
-                     v-for="(result, index) in submission.results" v-if="getGrademapByResult(result) !== null">
+                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result) !== null">
 
-                    <div>
-                        {{ getGrademapByResult(result).name }}
-                        <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax }}p</span>
+                    <hr v-if="index !== 0" class="hr-result">
+                    <div class="result">
+                        <div>
+                            {{ getGrademapByResult(result).name }}
+                            <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax }}p</span>
+                        </div>
+
+                        <div>
+                            <input type="number" step="0.01" v-model="result.calculated_result"
+                                   class="has-text-centered">
+                        </div>
                     </div>
 
-                    <div>
-                        <input type="number" step="0.01" v-model="result.calculated_result"
-                                class="has-text-centered">
-                    </div>
+                </div>
 
+                <div class="submission-confirmed"
+                     v-if="submission.confirmed == 1">
+                    <hr>
+                    <strong>Confirmed</strong>
                 </div>
             </div>
         </div>

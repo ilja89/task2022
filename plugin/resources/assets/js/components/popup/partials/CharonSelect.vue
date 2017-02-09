@@ -1,9 +1,13 @@
 <template>
-    <select name="charon" id="charon-select" v-model="selected" @change="onCharonSelected">
-        <option v-for="charon in charons" :value="charon.id">
-            {{ charon.name }}
-        </option>
-    </select>
+    <p class="control">
+        <span class="select">
+            <select name="charon" id="charon-select" v-model="selected" @change="onCharonSelected">
+                <option v-for="charon in charons" :value="charon.id">
+                    {{ charon.name }}
+                </option>
+            </select>
+        </span>
+    </p>
 </template>
 
 <script>
@@ -18,9 +22,21 @@
             };
         },
 
+        computed: {
+            activeCharon() {
+                let activeCharon = null;
+                this.charons.forEach(charon => {
+                    if (charon.id === this.selected) {
+                        activeCharon = charon;
+                    }
+                });
+                return activeCharon;
+            }
+        },
+
         methods: {
-            onCharonSelected(event) {
-                VueEvent.$emit('charon-was-changed', event.target.value);
+            onCharonSelected() {
+                VueEvent.$emit('charon-was-changed', this.activeCharon);
             }
         }
     }

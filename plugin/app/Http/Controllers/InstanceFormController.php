@@ -75,6 +75,36 @@ class InstanceFormController extends Controller
     }
 
     /**
+     *
+     */
+    public function postIndex()
+    {
+        $charon = new Charon([
+            'name'                => $this->request['name'],
+            'description'         => $this->request['description']['text'],
+            'project_folder'      => $this->request['project_folder'],
+            'extra'               => $this->request['extra'],
+            'tester_type_code'    => $this->request['tester_type'],
+            'grading_method_code' => $this->request['grading_method'],
+        ]);
+
+        $charon->grademaps = $this->request['grademaps'];
+        $charon->deadlines = $this->request['deadlines'];
+        $charon->max_score = $this->request['max_score'];
+        $charon->calculation_formula = $this->request['calculation_formula'];
+
+        $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
+        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
+        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
+
+        $update = true;
+
+        return view('instanceForm.form', compact(
+            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update'
+        ));
+    }
+
+    /**
      * Check if the current request is an update request.
      *
      * @return bool

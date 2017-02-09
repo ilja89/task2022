@@ -14,8 +14,7 @@
                     :context="context">
             </grading-page>
 
-            <no-student-selected-page v-else>
-            </no-student-selected-page>
+            <no-student-selected-page v-else></no-student-selected-page>
 
         </popup-page>
 
@@ -24,21 +23,20 @@
             <submission-page v-if="context.active_student !== null"
                     :context="context"></submission-page>
 
-            <no-student-selected-page v-else>
-            </no-student-selected-page>
+            <no-student-selected-page v-else></no-student-selected-page>
 
         </popup-page>
 
         <popup-page name="Student overview">
 
-            <no-student-selected-page>
-            </no-student-selected-page>
+            <no-student-selected-page></no-student-selected-page>
 
         </popup-page>
 
     </popup-navigation>
 
     <loader :visible="false"></loader>
+    <notification :text="notification_text" :show="notification_show"></notification>
 </div>
 
 <script>

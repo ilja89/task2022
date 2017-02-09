@@ -20,6 +20,7 @@
 
             <charon-tab
                     v-for="(grademap, index) in form.fields.grademaps"
+                    v-if="typeof grademap !== 'undefined'"
                     :name="getGradeTypeName(grademap.grade_type_code)"
                     :selected="index === 0 ? true : false">
 

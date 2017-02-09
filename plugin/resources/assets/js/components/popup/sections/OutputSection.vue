@@ -9,14 +9,19 @@
 
             <charon-tab name="Code" :selected="true">
 
-                <select name="file" v-if="context.active_submission !== null"
-                        @change="onFileChanged"
-                        v-model="active_file_id">
-                    <option v-for="file in context.active_submission.files"
-                            :value="file.id">
-                        {{ file.path }}
-                    </option>
-                </select>
+                <p class="control">
+                    <span class="select">
+                        <select name="file"
+                                v-if="context.active_submission !== null"
+                                @change="onFileChanged"
+                                v-model="active_file_id">
+                            <option v-for="file in context.active_submission.files"
+                                    :value="file.id">
+                                {{ file.path }}
+                            </option>
+                        </select>
+                    </span>
+                </p>
 
                 <pre v-if="context.active_file !== null">
                     <code :class="context.active_charon.tester_type_name">{{ context.active_file.contents }}</code>
@@ -32,25 +37,33 @@
 
             <charon-tab name="Outputs">
 
-                <select name="output" v-if="context.active_submission !== null"
-                        v-model="active_output_slug">
+                <p class="control">
+                    <span class="select">
 
-                    <option value="submission__stdout">Submission stdout</option>
-                    <option value="submission__stderr">Submission stderr</option>
+                        <select name="output" v-if="context.active_submission !== null"
+                                v-model="active_output_slug">
 
-                    <option v-for="result in context.active_submission.results"
-                            :value="'result__stdout__' + result.id"
-                            v-if="result.stdout !== null">
-                        {{ getGrademapByResult(result).name }} stdout
-                    </option>
+                            <option v-if="hasOutput(context.active_submission, 'stdout')"
+                                    value="submission__stdout">Submission stdout</option>
+                            <option v-if="hasOutput(context.active_submission, 'stderr')"
+                                    value="submission__stderr">Submission stderr</option>
 
-                    <option v-for="result in context.active_submission.results"
-                            :value="'result__stderr__' + result.id"
-                            v-if="result.stderr !== null">
-                        {{ getGrademapByResult(result).name }} stderr
-                    </option>
+                            <option v-for="result in context.active_submission.results"
+                                    :value="'result__stdout__' + result.id"
+                                    v-if="hasOutput(result, 'stdout')">
+                                {{ getGrademapByResult(result).name }} stdout
+                            </option>
 
-                </select>
+                            <option v-for="result in context.active_submission.results"
+                                    :value="'result__stderr__' + result.id"
+                                    v-if="hasOutput(result, 'stderr')">
+                                {{ getGrademapByResult(result).name }} stderr
+                            </option>
+
+                        </select>
+
+                    </span>
+                </p>
 
                 <pre class="output-content">{{ selectedOutput }}</pre>
 
@@ -102,6 +115,12 @@
             }
         },
 
+        mounted() {
+            if (this.context.active_submission !== null) {
+                this.active_file_id = this.context.active_submission.files[0];
+            }
+        },
+
         methods: {
             onFileChanged() {
 
@@ -130,6 +149,10 @@
             findResultById(id) {
                 let matchingResult = null;
 
+                if (this.context.active_submission === null) {
+                    return null;
+                }
+
                 this.context.active_submission.results.forEach((result) => {
                     if (result.id == id) {
                         matchingResult = result;
@@ -138,6 +161,10 @@
 
                 return matchingResult;
             },
+
+            hasOutput(object, kind) {
+                return object[kind] !== null && object[kind].length > 0;
+            }
         }
     }
 </script>

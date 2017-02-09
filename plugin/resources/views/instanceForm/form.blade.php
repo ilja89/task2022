@@ -5,6 +5,7 @@
     window.gradingMethods = {!! $gradingMethods->toJson() !!};
     window.testerTypes = {!! $testerTypes->toJson() !!};
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
+    window.update = {{ isset($update) ? 'true' : 'false' }};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
@@ -25,6 +26,8 @@
 </script>
 
 <div id="app">
+
+    {{ csrf_field() }}
 
     <instance-form
             :form="form">

@@ -10,7 +10,7 @@
                 <ul>
                     <li v-for="comment in context.active_comments" class="comment">
                         <span class="comment-author">
-                            {{ comment.teacher.firstname }} {{ comment.teacher.firstname }}
+                            {{ comment.teacher.firstname }} {{ comment.teacher.lastname }}
                         </span>
                         {{ comment.message }}
                     </li>

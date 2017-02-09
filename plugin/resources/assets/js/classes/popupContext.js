@@ -11,5 +11,7 @@ export default class PopupContext {
 
         this.active_file = null;
         this.active_comments = [];
+
+        this.active_page = 'Grading';
     }
 }
