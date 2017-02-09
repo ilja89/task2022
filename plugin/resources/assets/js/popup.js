@@ -7,6 +7,7 @@ import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue'
 import GradingPage from './components/popup/GradingPage.vue';
 import SubmissionPage from './components/popup/SubmissionPage.vue';
 import Loader from './components/popup/partials/Loader.vue';
+import Notification from './components/popup/partials/Notification.vue';
 
 import Api from './classes/api';
 import ApiCalls from './mixins/apiCalls';
@@ -21,10 +22,13 @@ const app = new Vue({
 
     mixins: [ ApiCalls ],
 
-    components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader, SubmissionPage },
+    components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader, SubmissionPage,
+                  Notification },
 
     data: {
-        context: new PopupContext(window.course_id)
+        context: new PopupContext(window.course_id),
+        notification_text: '',
+        notification_show: false
     },
 
     mounted() {
@@ -68,6 +72,15 @@ const app = new Vue({
                 this.context.active_page = pageName;
             });
             VueEvent.$on('refresh-page', this.refreshPage);
+            VueEvent.$on('show-notification', message => {
+                this.notification_text = message;
+                this.notification_show = true;
+                let that = this;
+                setTimeout(() => {
+                    that.notification_show = false;
+                }, 2000);
+            });
+            VueEvent.$on('close-notification', () => this.notification_show = false);
         },
 
         initializeCharons() {
@@ -103,6 +116,7 @@ const app = new Vue({
                     .then(response => {
                         if (response.status == "OK") {
                             submission.confirmed = 1;
+                            VueEvent.$emit('show-notification', 'Submission saved!');
                         }
                         vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
                         resolve(response);
