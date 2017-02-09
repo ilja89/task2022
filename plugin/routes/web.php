@@ -28,3 +28,4 @@ Route::get('courses/{course}/popup', 'PopupController@index')
 
 // For handling Moodle requests before sending to controllers from lib.php.
 Route::get('course/modedit.php', function () { return ''; });
+Route::post('course/modedit.php', function () { return ''; });
