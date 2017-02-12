@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 use TTU\Charon\Http\Controllers\Controller;
@@ -64,9 +65,6 @@ class TesterCallbackController extends Controller
         $submission = $this->submissionService->saveSubmission($this->request);
         $this->calculateCalculatedResults($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
-
-        $gitCallback->response_received = 1;
-        $gitCallback->save();
 
         return $submission;
     }
@@ -154,7 +152,6 @@ class TesterCallbackController extends Controller
         }
 
         $gitCallback = GitCallback::where('secret_token', $token)
-            ->where('response_received', 0)
             ->get();
 
         if ($gitCallback->isEmpty()) {
@@ -175,6 +172,14 @@ class TesterCallbackController extends Controller
     private function checkGitCallback($gitCallback)
     {
         if ($gitCallback === null) {
+            throw new IncorrectSecretTokenException('incorrect_secret_token', $this->request['secret_token']);
+        }
+
+        if ($gitCallback->first_response_time === null) {
+
+            $gitCallback->first_response_time = Carbon::now();
+            $gitCallback->save();
+        } else if ($gitCallback->first_response_time->diffInMinutes(Carbon::now()) > 3) {
             throw new IncorrectSecretTokenException('incorrect_secret_token', $this->request['secret_token']);
         }
     }

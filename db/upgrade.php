@@ -29,5 +29,13 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017021300) {
+        $sql = "ALTER TABLE mdl_charon_git_callback ADD COLUMN first_response_time DATETIME";
+        $sql2 = "ALTER TABLE mdl_charon_git_callback DROP COLUMN response_received";
+
+        $DB->execute($sql);
+        $DB->execute($sql2);
+    }
+
     return true;
 }

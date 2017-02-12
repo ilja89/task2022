@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $secret_token
  * @property integer $response_received
  * @property Carbon $created_at
+ * @property Carbon first_response_time
  *
  * @package TTU\Charon\Models
  */
@@ -26,5 +27,5 @@ class GitCallback extends Model
         'url', 'repo', 'user', 'created_at', 'secret_token'
     ];
 
-    protected $dates = [ 'created_at' ];
+    protected $dates = [ 'created_at', 'first_response_time' ];
 }

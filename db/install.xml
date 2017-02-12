@@ -194,7 +194,7 @@
                 <FIELD NAME="url" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="repo" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="user" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
-                <FIELD NAME="response_received" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="1" DEFAULT="0"/>
+                <FIELD NAME="first_response_time" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="secret_token" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
             </FIELDS>
