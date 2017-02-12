@@ -65,6 +65,9 @@ class TesterCallbackController extends Controller
         $this->calculateCalculatedResults($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 
+        $gitCallback->response_received = 1;
+        $gitCallback->save();
+
         return $submission;
     }
 
@@ -174,7 +177,5 @@ class TesterCallbackController extends Controller
         if ($gitCallback === null) {
             throw new IncorrectSecretTokenException('incorrect_secret_token', $this->request['secret_token']);
         }
-        $gitCallback->response_received = 1;
-        $gitCallback->save();
     }
 }
