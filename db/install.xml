@@ -210,14 +210,18 @@
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="unittests_git" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_course_settings" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_course_settings_course" TYPE="foreign" FIELDS="course_id"
                      REFTABLE="course" REFFIELDS="id"/>
+                <KEY NAME="FK_course_settings_tester_type" TYPE="foreign" FIELDS="tester_type_code"
+                     REFTABLE="tester_type" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_course_settings_course" UNIQUE="false" FIELDS="course_id"/>
+                <INDEX NAME="IXFK_course_settings_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
             </INDEXES>
         </TABLE>
 

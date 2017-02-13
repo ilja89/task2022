@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers;
 
 use TTU\Charon\Models\CourseSettings;
+use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
@@ -26,6 +27,9 @@ class CourseSettingsFormController extends Controller
     /** @var CourseSettingsRepository */
     private $courseSettingsRepository;
 
+    /** @var ClassificationsRepository */
+    private $classificationsRepository;
+
     /**
      * CourseSettingsFormController constructor.
      *
@@ -33,16 +37,20 @@ class CourseSettingsFormController extends Controller
      * @param Page $page
      * @param CourseSettingsRepository $courseSettingsRepository
      *
+     * @param ClassificationsRepository $classificationsRepository
+     *
      * @internal param Page $page
      */
     public function __construct(
         Output $output,
         Page $page,
-        CourseSettingsRepository $courseSettingsRepository
+        CourseSettingsRepository $courseSettingsRepository,
+        ClassificationsRepository $classificationsRepository
     ) {
         $this->output                   = $output;
         $this->page                     = $page;
         $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->classificationsRepository = $classificationsRepository;
     }
 
     /**
@@ -59,12 +67,14 @@ class CourseSettingsFormController extends Controller
         $this->addBreadcrumbs($course);
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+        $testerTypes = $this->classificationsRepository->getAllTesterTypes();
 
         return view('course_settings_form.form', [
             'header'    => $this->output->header(),
             'footer'    => $this->output->footer(),
             'settings'  => $courseSettings,
             'course_id' => $course->id,
+            'tester_types' => $testerTypes,
         ]);
     }
 

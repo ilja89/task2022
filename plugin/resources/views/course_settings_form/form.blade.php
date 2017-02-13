@@ -6,12 +6,14 @@
         window.settings = {!! isset($settings) ? $settings->toJson() : '{}'!!};
         window.course_id = {!! $course_id !!};
         window.csrf_token = "{!! csrf_token() !!}";
+        window.tester_types = {!! $tester_types->toJson() !!};
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",
             presets_title: "{{ translate('presets') }}",
 
-            unittests_git_label: "{{ translate('unittests_git') }}"
+            unittests_git_label: "{{ translate('unittests_git') }}",
+            tester_type_label: "{{ translate('tester_type') }}",
         }
     </script>
 

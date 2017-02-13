@@ -37,5 +37,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql2);
     }
 
+    if ($oldversion < 2017021301) {
+        $sql = "ALTER TABLE mdl_charon_course_settings ADD COLUMN tester_type_code INTEGER";
+        $DB->execute($sql);
+    }
+
     return true;
 }

@@ -12,6 +12,14 @@
                     @input-was-changed="onUnittestsGitChanged">
             </charon-text-input>
 
+            <charon-select
+                    :label="translate('tester_type_label')"
+                    name="tester_type"
+                    :options="form.tester_types"
+                    :selected="form.fields.tester_type"
+                    @input-was-changed="onTesterTypeChanged">
+            </charon-select>
+
         </slot>
     </charon-fieldset>
 
@@ -20,13 +28,14 @@
 <script>
     import CharonFieldset from '../form/CharonFieldset.vue';
     import CharonTextInput from '../form/CharonTextInput.vue';
+    import CharonSelect from '../form/CharonSelect.vue';
 
     import Translate from '../../mixins/translate';
 
     export default {
         mixins: [ Translate ],
 
-        components: { CharonFieldset, CharonTextInput },
+        components: { CharonFieldset, CharonTextInput, CharonSelect },
 
         props: {
             form: { required: true }
@@ -35,6 +44,10 @@
         methods: {
             onUnittestsGitChanged(unittestsGit) {
                 VueEvent.$emit('unittests-git-was-changed', unittestsGit);
+            },
+
+            onTesterTypeChanged(testerType) {
+                VueEvent.$emit('tester-type-was-changed', testerType);
             }
         }
     }

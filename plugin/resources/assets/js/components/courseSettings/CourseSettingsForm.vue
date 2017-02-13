@@ -40,7 +40,8 @@
         components: { CharonFieldset, TesterSettingsSection },
 
         mounted() {
-            VueEvent.$on('unittests-git-was-changed', (unittests_git) => this.form.fields.unittests_git = unittests_git);
+            VueEvent.$on('unittests-git-was-changed', unittests_git => this.form.fields.unittests_git = unittests_git);
+            VueEvent.$on('tester-type-was-changed', tester_type => this.form.fields.tester_type = tester_type);
         }
     }
 </script>
