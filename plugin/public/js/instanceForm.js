@@ -29257,10 +29257,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 var InstanceFormForm = function () {
-    function InstanceFormForm(instance, grade_types, tester_types, grading_methods) {
+    function InstanceFormForm(instance, grade_types, tester_types, grading_methods, courseSettings) {
         _classCallCheck(this, InstanceFormForm);
 
-        this.initializeFields(instance);
+        this.initializeFields(instance, courseSettings);
 
         this.grade_types = grade_types;
         this.tester_types = tester_types;

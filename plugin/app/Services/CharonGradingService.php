@@ -71,6 +71,7 @@ class CharonGradingService
             return;
         }
 
+        // TODO: Send commit hash info to tester! Grade will now be updated!
         $courseId = $charon->courseModule()->course;
 
         foreach ($submission->results as $result) {

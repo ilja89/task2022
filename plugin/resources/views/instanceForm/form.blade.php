@@ -6,6 +6,7 @@
     window.testerTypes = {!! $testerTypes->toJson() !!};
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
     window.update = {{ isset($update) ? 'true' : 'false' }};
+    window.courseSettings = {!! $courseSettings->toJson() !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",

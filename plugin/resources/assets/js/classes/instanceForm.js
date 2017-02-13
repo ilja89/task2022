@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, grade_types, tester_types, grading_methods) {
-        this.initializeFields(instance);
+    constructor(instance, grade_types, tester_types, grading_methods, courseSettings) {
+        this.initializeFields(instance, courseSettings);
 
         this.grade_types = grade_types;
         this.tester_types = tester_types;
@@ -92,7 +92,9 @@ export default class InstanceFormForm {
             calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
             max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
 
-            tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : 1,
+            tester_type: instance['tester_type_code']
+                ? instance['tester_type_code']
+                : 1,
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
 
             grademaps: [ ],
