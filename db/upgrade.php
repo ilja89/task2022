@@ -42,5 +42,60 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017021500) {
+        $sql = "CREATE TABLE mdl_charon_preset(".
+               "    id BIGINT AUTO_INCREMENT NOT NULL,".
+               "    name VARCHAR(255) NOT NULL,".
+               "    parent_category_id BIGINT,".
+               "    course_id BIGINT,".
+               "    calculation_formula TEXT,".
+               "    extra VARCHAR(255),".
+               "    PRIMARY KEY (id),".
+               "    INDEX IXFK_preset_grade_categories (parent_category_id),".
+               "    INDEX IXFK_preset_course (course_id),".
+               "    CONSTRAINT FK_preset_grade_categories".
+               "        FOREIGN KEY (parent_category_id)".
+               "            REFERENCES mdl_grade_categories(id)".
+               "            ON DELETE SET NULL".
+               "            ON UPDATE CASCADE,".
+               "    CONSTRAINT FK_preset_course".
+               "        FOREIGN KEY (course_id)".
+               "            REFERENCES mdl_course(id)".
+               "            ON DELETE SET NULL".
+               "            ON UPDATE CASCADE".
+               ")";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2017021501) {
+        $sql = "CREATE TABLE mdl_charon_preset_grade(".
+                "    id BIGINT AUTO_INCREMENT NOT NULL,".
+                "    preset_id BIGINT NOT NULL,".
+                "    grade_name_prefix_code BIGINT,".
+                "    grade_type_code BIGINT NOT NULL,".
+                "    grade_name VARCHAR(255) NOT NULL,".
+                "    max_result DECIMAL(10, 2) NOT NULL,".
+                "    id_number_postfix VARCHAR(255) NOT NULL,".
+                "    PRIMARY KEY (id),".
+                "    FOREIGN KEY (preset_id)".
+                "        REFERENCES mdl_charon_preset(id)".
+                "        ON DELETE CASCADE".
+                "        ON UPDATE CASCADE,".
+                "    FOREIGN KEY (grade_name_prefix_code)".
+                "        REFERENCES mdl_charon_grade_name_prefix(code)".
+                "        ON DELETE SET NULL".
+                "        ON UPDATE CASCADE,".
+                "    FOREIGN KEY (grade_type_code)".
+                "        REFERENCES mdl_charon_grade_type(code)".
+                "        ON DELETE CASCADE".
+                "        ON UPDATE CASCADE,".
+                "    INDEX IXFK_preset_grade_preset (preset_id),".
+                "    INDEX IXFK_preset_grade_grade_name_prefix (grade_name_prefix_code),".
+                "    INDEX IXFK_preset_grade_grade_type (grade_type_code)".
+                ")";
+
+        $DB->execute($sql);
+    }
+
     return true;
 }
