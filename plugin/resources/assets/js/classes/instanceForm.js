@@ -68,8 +68,6 @@ export default class InstanceFormForm {
                 time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
             }
 
-            console.log(time);
-
             if (time !== null) {
                 let deadline_thing = {
                     deadline_time: {
@@ -84,7 +82,7 @@ export default class InstanceFormForm {
         });
     }
 
-    initializeFields(instance) {
+    initializeFields(instance, courseSettings) {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
@@ -94,7 +92,7 @@ export default class InstanceFormForm {
 
             tester_type: instance['tester_type_code']
                 ? instance['tester_type_code']
-                : 1,
+                : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
 
             grademaps: [ ],
