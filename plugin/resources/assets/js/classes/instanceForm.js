@@ -154,6 +154,8 @@ export default class InstanceFormForm {
 
         let calculationFormula = preset.calculation_formula;
 
+        this.fields.grademaps = [];
+
         preset.preset_grades.forEach(presetGrade => {
             let grademap = this.activateGrademap(presetGrade.grade_type_code);
             if (presetGrade.grade_name_prefix_code === 1) {
