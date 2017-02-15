@@ -79,7 +79,7 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
-            }
+            },
         },
 
         mounted() {
@@ -104,6 +104,8 @@
 
             VueEvent.$on('calculation-formula-was-changed', (calculationFormula) => this.form.fields.calculation_formula = calculationFormula);
             VueEvent.$on('max-score-was-changed', (maxScore) => this.form.fields.max_score = maxScore);
+
+            VueEvent.$on('preset-was-changed', presetId => this.form.onPresetSelected(presetId));
         }
     }
 </script>

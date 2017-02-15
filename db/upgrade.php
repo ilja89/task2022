@@ -97,5 +97,27 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017021503) {
+        $sql = "ALTER TABLE mdl_charon_preset ADD COLUMN grading_method_code BIGINT";
+        $sql2 = "ALTER TABLE mdl_charon_preset ADD CONSTRAINT FK_preset_grading_method ".
+                "   FOREIGN KEY (grading_method_code)".
+                "       REFERENCES mdl_charon_grading_method(code)".
+                "       ON DELETE SET NULL".
+                "       ON UPDATE CASCADE";
+        $sql3 = "ALTER TABLE mdl_charon_preset ADD INDEX IXFK_preset_grading_method (grading_method_code)";
+        $sql4 = "ALTER TABLE mdl_charon_preset ADD COLUMN max_result DECIMAL(10, 2)";
+        $DB->execute($sql);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+        $DB->execute($sql4);
+    }
+
+    if ($oldversion < 2017021600) {
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+        $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+    }
+
     return true;
 }

@@ -238,6 +238,8 @@
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="calculation_formula" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="extra" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="max_result" SEQUENCE="false" TYPE="number" NOTNULL="false" LENGTH="10" DECIMALS="2"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_preset" TYPE="primary" FIELDS="id"/>
@@ -245,10 +247,13 @@
                      REFTABLE="grade_categories" REFFIELDS="id"/>
                 <KEY NAME="FK_preset_course" TYPE="foreign" FIELDS="course_id"
                      REFTABLE="course" REFFIELDS="id"/>
+                <KEY NAME="FK_preset_grading_method" TYPE="foreign" FIELDS="grading_method_code"
+                     REFTABLE="charon_grading_method" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_preset_grade_categories" UNIQUE="false" FIELDS="parent_category_id"/>
                 <INDEX NAME="IXFK_preset_course" UNIQUE="false" FIELDS="course_id"/>
+                <INDEX NAME="IXFK_preset_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
             </INDEXES>
         </TABLE>
         

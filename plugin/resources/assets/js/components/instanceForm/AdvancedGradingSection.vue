@@ -1,5 +1,15 @@
 <template>
     <div class="fcontainer clearfix fitem">
+
+        <charon-select
+                :label="translate('preset_label')"
+                name="preset"
+                :options="form.presets"
+                :selected="form.fields.preset !== null ? form.fields.preset.id : null"
+                key_field="id"
+                @input-was-changed="onPresetChanged">
+        </charon-select>
+
         <charon-select
                 :label="translate('grading_method_label')"
                 name="grading_method"
@@ -93,7 +103,7 @@
                 });
 
                 return grade_name;
-            }
+            },
         }
     }
 </script>

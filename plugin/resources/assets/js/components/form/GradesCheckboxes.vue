@@ -38,6 +38,12 @@
             }
         },
 
+        watch: {
+            active_grade_type_codes() {
+                this.active = this.active_grade_type_codes;
+            }
+        },
+
         methods: {
             toggleClicked(code) {
                 if (this.isActive(code)) {

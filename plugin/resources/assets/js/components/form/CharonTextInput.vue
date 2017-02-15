@@ -32,6 +32,12 @@
             onInputChanged(event) {
                 this.$emit('input-was-changed', this.value);
             }
+        },
+
+        watch: {
+            input_value() {
+                this.value = this.input_value;
+            }
         }
     }
 </script>
