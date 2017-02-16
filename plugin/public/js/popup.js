@@ -1203,7 +1203,8 @@ var app = new Vue({
     data: {
         context: new __WEBPACK_IMPORTED_MODULE_11__classes_popupContext__["a" /* default */](window.course_id),
         notification_text: '',
-        notification_show: false
+        notification_show: false,
+        loaderVisible: 0
     },
 
     mounted: function mounted() {
@@ -1218,20 +1219,13 @@ var app = new Vue({
 
             VueEvent.$on('student-was-changed', function (student) {
                 _this.context.active_student = student;
-                if (_this.context.active_charon !== null) {
-                    _this.getSubmissions(_this.context.active_charon.id, student.id, true);
-                    _this.refreshComments();
-                }
+                _this.refreshComments();
                 _this.context.active_submission = null;
             });
             VueEvent.$on('charon-was-changed', function (charon) {
                 _this.context.active_charon = charon;
+                _this.refreshComments();
                 _this.context.active_submission = null;
-
-                if (_this.context.active_student !== null) {
-                    _this.getSubmissions(charon.id, _this.context.active_student.id, true);
-                    _this.refreshComments();
-                }
             });
             VueEvent.$on('submission-was-selected', function (submission) {
                 _this.context.active_submission = submission;
@@ -1259,6 +1253,12 @@ var app = new Vue({
             });
             VueEvent.$on('close-notification', function () {
                 return _this.notification_show = false;
+            });
+            VueEvent.$on('show-loader', function () {
+                return _this.loaderVisible += 1;
+            });
+            VueEvent.$on('hide-loader', function () {
+                return _this.loaderVisible -= 1;
             });
         },
         initializeCharons: function initializeCharons() {
@@ -1313,9 +1313,11 @@ var app = new Vue({
         refreshComments: function refreshComments() {
             var _this5 = this;
 
-            this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
-                return _this5.context.active_comments = comments;
-            });
+            if (this.context.active_charon !== null && this.context.active_student !== null) {
+                this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
+                    return _this5.context.active_comments = comments;
+                });
+            }
         }
     }
 });
@@ -2514,21 +2516,25 @@ var Submission = function () {
     _createClass(Submission, null, [{
         key: 'findByUserCharon',
         value: function findByUserCharon(userId, charonId, then) {
+            VueEvent.$emit('show-loader');
             axios.get('/mod/charon/api/charons/' + charonId + '/submissions', { params: { user_id: userId } }).then(function (_ref) {
                 var data = _ref.data;
 
                 Submission.nextUrl = data.next_page_url;
                 then(data.data);
+                VueEvent.$emit('hide-loader');
             });
         }
     }, {
         key: 'getNext',
         value: function getNext(then) {
+            VueEvent.$emit('show-loader');
             axios.get(Submission.nextUrl).then(function (_ref2) {
                 var data = _ref2.data;
 
                 Submission.nextUrl = data.next_page_url;
                 then(data.data);
+                VueEvent.$emit('hide-loader');
             });
         }
     }]);

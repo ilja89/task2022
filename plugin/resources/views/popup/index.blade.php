@@ -35,7 +35,7 @@
 
     </popup-navigation>
 
-    <loader :visible="false"></loader>
+    <loader :visible="loaderVisible !== 0"></loader>
     <notification :text="notification_text" :show="notification_show"></notification>
 </div>
 
