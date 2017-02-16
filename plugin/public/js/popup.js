@@ -1028,30 +1028,9 @@ module.exports = function settle(resolve, reject, response) {
 
 module.exports = {
     methods: {
-        getComments: function getComments(charonId, studentId) {
-            return new Promise(function (resolve, reject) {
-                Api.get('/mod/charon/api/charons/' + charonId + '/comments', { student_id: studentId }).then(function (response) {
-                    return resolve(response);
-                }).catch(function (error) {
-                    return reject(error);
-                });
-            });
-        },
         updateSubmissionResults: function updateSubmissionResults(charonId, submission) {
             return new Promise(function (resolve, reject) {
                 Api.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
-                    return resolve(response);
-                }).catch(function (error) {
-                    return reject(error);
-                });
-            });
-        },
-        saveCharonComment: function saveCharonComment(charonId, studentId, comment) {
-            return new Promise(function (resolve, reject) {
-                Api.post('/mod/charon/api/charons/' + charonId + '/comments', {
-                    comment: comment,
-                    student_id: studentId
-                }).then(function (response) {
                     return resolve(response);
                 }).catch(function (error) {
                     return reject(error);
@@ -1209,12 +1188,10 @@ var app = new Vue({
 
             VueEvent.$on('student-was-changed', function (student) {
                 _this.context.active_student = student;
-                _this.refreshComments();
                 _this.context.active_submission = null;
             });
             VueEvent.$on('charon-was-changed', function (charon) {
                 _this.context.active_charon = charon;
-                _this.refreshComments();
                 _this.context.active_submission = null;
             });
             VueEvent.$on('submission-was-selected', function (submission) {
@@ -1226,13 +1203,9 @@ var app = new Vue({
             VueEvent.$on('file-was-changed', function (file) {
                 _this.context.active_file = file;
             });
-            VueEvent.$on('comment-was-saved', function (comment) {
-                _this.saveComment(comment);
-            });
             VueEvent.$on('change-page', function (pageName) {
                 _this.context.active_page = pageName;
             });
-            VueEvent.$on('refresh-page', this.refreshPage());
             VueEvent.$on('show-notification', function (message) {
                 _this.notification_text = message;
                 _this.notification_show = true;
@@ -1267,27 +1240,9 @@ var app = new Vue({
                 });
             });
         },
-        saveComment: function saveComment(comment) {
-            var vuePopup = this;
-            this.saveCharonComment(this.context.active_charon.id, this.context.active_student.id, comment).then(function (response) {
-                vuePopup.context.active_comments.push(response.comment);
-            });
-        },
         updateActiveFile: function updateActiveFile() {
             if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
                 this.context.active_file = this.context.active_submission.files[0];
-            }
-        },
-        refreshPage: function refreshPage() {
-            this.refreshComments();
-        },
-        refreshComments: function refreshComments() {
-            var _this3 = this;
-
-            if (this.context.active_charon !== null && this.context.active_student !== null) {
-                this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
-                    return _this3.context.active_comments = comments;
-                });
             }
         }
     }
@@ -1986,6 +1941,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls__ = __webpack_require__(209);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_Comment__ = __webpack_require__(462);
 //
 //
 //
@@ -2015,6 +1971,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -2025,27 +1982,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a },
 
     props: {
-        context: { required: true }
+        charon: { required: true },
+        student: { required: true }
     },
 
     data: function data() {
         return {
             written_comment: '',
-            save_btn_text: 'COMMENT'
+            comments: []
         };
+    },
+
+
+    watch: {
+        charon: function charon() {
+            this.refreshComments();
+        },
+        student: function student() {
+            this.refreshComments();
+        }
+    },
+
+    mounted: function mounted() {
+        var _this = this;
+
+        this.refreshComments();
+        VueEvent.$on('refresh-page', function () {
+            return _this.refreshComments();
+        });
     },
 
 
     methods: {
         saveComment: function saveComment() {
-            VueEvent.$emit('comment-was-saved', this.written_comment);
-            this.written_comment = '';
-            this.save_btn_text = 'SAVED';
+            var _this2 = this;
+
+            VueEvent.$emit('show-loader');
+            __WEBPACK_IMPORTED_MODULE_2__models_Comment__["a" /* default */].save(this.written_comment, this.charon.id, this.student.id, function (comment) {
+                _this2.comments.push(comment);
+                _this2.written_comment = '';
+                VueEvent.$emit('hide-loader');
+                VueEvent.$emit('show-notification', 'Comment saved!');
+            });
         },
-        onCommentWriteStart: function onCommentWriteStart() {
-            if (this.written_comment.length > 0) {
-                this.save_btn_text = 'COMMENT';
+        refreshComments: function refreshComments() {
+            var _this3 = this;
+
+            if (this.charon === null || this.student === null) {
+                this.comments = [];
+                return;
             }
+
+            __WEBPACK_IMPORTED_MODULE_2__models_Comment__["a" /* default */].all(this.charon.id, this.student.id, function (comments) {
+                _this3.comments = comments;
+            });
         }
     }
 };
@@ -12432,7 +12422,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card"
   }, [_c('div', {
     staticClass: "comments-container"
-  }, [_c('ul', _vm._l((_vm.context.active_comments), function(comment) {
+  }, [_c('ul', _vm._l((_vm.comments), function(comment) {
     return _c('li', {
       staticClass: "comment"
     }, [_c('span', {
@@ -12456,10 +12446,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": _vm._s(_vm.written_comment)
     },
     on: {
-      "keyup": [function($event) {
+      "keyup": function($event) {
         if (_vm._k($event.keyCode, "enter", 13)) { return; }
         _vm.saveComment($event)
-      }, _vm.onCommentWriteStart],
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.written_comment = $event.target.value
@@ -12470,7 +12460,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.saveComment
     }
-  }, [_vm._v(_vm._s(_vm.save_btn_text))])])])])
+  }, [_vm._v("COMMENT")])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -13153,7 +13143,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('comments-section', {
     attrs: {
-      "context": _vm.context
+      "charon": _vm.context.active_charon,
+      "student": _vm.context.active_student
     }
   })], 1)
 },staticRenderFns: []}
@@ -13430,6 +13421,45 @@ var Charon = function () {
 }();
 
 /* harmony default export */ exports["a"] = Charon;
+
+/***/ }),
+
+/***/ 462:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Comment = function () {
+    function Comment() {
+        _classCallCheck(this, Comment);
+    }
+
+    _createClass(Comment, null, [{
+        key: 'all',
+        value: function all(charonId, studentId, then) {
+            axios.get('/mod/charon/api/charons/' + charonId + '/comments', { params: { student_id: studentId } }).then(function (response) {
+                return then(response.data);
+            });
+        }
+    }, {
+        key: 'save',
+        value: function save(comment, charonId, studentId, then) {
+            axios.post('/mod/charon/api/charons/' + charonId + '/comments', {
+                comment: comment,
+                student_id: studentId
+            }).then(function (response) {
+                return then(response.data.comment);
+            });
+        }
+    }]);
+
+    return Comment;
+}();
+
+/* harmony default export */ exports["a"] = Comment;
 
 /***/ }),
 

@@ -41,12 +41,10 @@ const app = new Vue({
         registerEventListeners() {
             VueEvent.$on('student-was-changed', (student) => {
                 this.context.active_student = student;
-                this.refreshComments();
                 this.context.active_submission = null;
             });
             VueEvent.$on('charon-was-changed', charon => {
                 this.context.active_charon = charon;
-                this.refreshComments();
                 this.context.active_submission = null;
             });
             VueEvent.$on('submission-was-selected', (submission) => {
@@ -58,13 +56,9 @@ const app = new Vue({
             VueEvent.$on('file-was-changed', (file) => {
                 this.context.active_file = file;
             });
-            VueEvent.$on('comment-was-saved', (comment) => {
-                this.saveComment(comment);
-            });
             VueEvent.$on('change-page', pageName => {
                 this.context.active_page = pageName;
             });
-            VueEvent.$on('refresh-page', this.refreshPage());
             VueEvent.$on('show-notification', message => {
                 this.notification_text = message;
                 this.notification_show = true;
@@ -93,28 +87,9 @@ const app = new Vue({
             });
         },
 
-        saveComment(comment) {
-            let vuePopup = this;
-            this.saveCharonComment(this.context.active_charon.id, this.context.active_student.id, comment)
-                .then(response => {
-                    vuePopup.context.active_comments.push(response.comment);
-                });
-        },
-
         updateActiveFile() {
             if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
                 this.context.active_file = this.context.active_submission.files[0];
-            }
-        },
-
-        refreshPage() {
-            this.refreshComments();
-        },
-
-        refreshComments() {
-            if (this.context.active_charon !== null && this.context.active_student !== null) {
-                this.getComments(this.context.active_charon.id, this.context.active_student.id)
-                    .then(comments => this.context.active_comments = comments);
             }
         },
     }
