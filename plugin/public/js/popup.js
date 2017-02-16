@@ -1953,11 +1953,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         saveComment: function saveComment() {
             var _this2 = this;
 
-            VueEvent.$emit('show-loader');
             __WEBPACK_IMPORTED_MODULE_1__models_Comment__["a" /* default */].save(this.written_comment, this.charon.id, this.student.id, function (comment) {
                 _this2.comments.push(comment);
                 _this2.written_comment = '';
-                VueEvent.$emit('hide-loader');
                 VueEvent.$emit('show-notification', 'Comment saved!');
             });
         },

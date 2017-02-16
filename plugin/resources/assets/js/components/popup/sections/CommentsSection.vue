@@ -64,11 +64,9 @@
 
         methods: {
             saveComment() {
-                VueEvent.$emit('show-loader');
                 Comment.save(this.written_comment, this.charon.id, this.student.id, comment => {
                     this.comments.push(comment);
                     this.written_comment = '';
-                    VueEvent.$emit('hide-loader');
                     VueEvent.$emit('show-notification', 'Comment saved!');
                 });
             },
