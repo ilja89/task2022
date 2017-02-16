@@ -1,11 +1,11 @@
 <template>
-    <div class="page-container">
+    <div>
 
         <page-title :student="context.active_student"></page-title>
 
         <submissions-section :context="context"></submissions-section>
 
-        <comments-section :context="context"></comments-section>
+        <comments-section :charon="context.active_charon" :student="context.active_student"></comments-section>
 
     </div>
 </template>

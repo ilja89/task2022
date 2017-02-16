@@ -85,19 +85,25 @@ class PopupController extends Controller
     /**
      * @param Charon $charon
      *
-     * @return \TTU\Charon\Models\Submission[]
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function getSubmissionsByCharon(Charon $charon)
     {
         $userId = $this->request['user_id'];
 
-        $submissions = $this->charonRepository->findSubmissionsByCharonAndUser($charon->id, $userId);
+        $submissions = Submission::with('results', 'files')
+                                 ->where('charon_id', $charon->id)
+                                 ->where('user_id', $userId)
+                                 ->orderBy('git_timestamp', 'desc')
+                                 ->orderBy('created_at', 'desc')
+                                 ->simplePaginate(10);
 
         foreach ($submissions as $submission) {
             // Remove Results that do not have a corresponding Grademap. Eg. Styles
             $newResults = $this->findResultsWithGrademaps($submission);
             $submission->setRelation('results', $newResults);
         }
+        $submissions->appends(['user_id' => $userId])->links();
 
         return $submissions;
     }

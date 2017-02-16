@@ -11,14 +11,17 @@
 </template>
 
 <script>
+    import Charon from '../../../models/Charon';
+
     export default {
         props: {
-            charons: { required: true }
+            active_charon: { required: true }
         },
 
         data() {
             return {
-                selected: this.charons.length > 0 ? this.charons[0].id : null
+                selected: null,
+                charons: []
             };
         },
 
@@ -34,9 +37,24 @@
             }
         },
 
+        mounted() {
+            this.refreshCharons();
+            VueEvent.$on('refresh-page', () => this.refreshCharons());
+        },
+
         methods: {
             onCharonSelected() {
                 VueEvent.$emit('charon-was-changed', this.activeCharon);
+            },
+
+            refreshCharons() {
+                Charon.all(window.course_id, charons => {
+                    this.charons = charons;
+                    if (this.activeCharon === null && charons.length > 0) {
+                        this.selected = charons[0].id;
+                        this.onCharonSelected();
+                    }
+                });
             }
         }
     }

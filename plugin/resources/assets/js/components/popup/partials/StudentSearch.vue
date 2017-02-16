@@ -8,15 +8,13 @@
         </label>
 
         <autocomplete
-                :url="'/mod/charon/api/courses/' + context.course_id + '/students/search'"
+                :url="url"
                 anchor="fullname"
                 :on-select="onStudentSelected"
                 class-name="student-search"
                 id="student-search"
                 placeholder="Student name"
-                :min="2"
-                :custom-params="{ keyword: student_name }"
-                :on-input="onStudentNameChanged">
+                :min="2">
         </autocomplete>
 
         <svg xmlns="http://www.w3.org/2000/svg" class="student-search-clear-btn" version="1.1" viewBox="0 0 64 64" enable-background="new 0 0 64 64"
@@ -34,27 +32,23 @@
         components: { autocomplete },
 
         props: {
-            context: { required: true }
+            courseId: { required: true }
         },
 
-        data() {
-            return {
-                student_name: ''
-            };
+        computed: {
+            url() {
+                return '/mod/charon/api/courses/' + this.courseId + '/students/search';
+            }
         },
 
         methods: {
-            onStudentNameChanged(name) {
-                // TODO: Student name doesn't change fast enough. Type aa => search for a.
-                this.student_name = name;
-            },
-
             clearClicked() {
                 this.$children.forEach((child) => {
                     if (child.$options._componentTag === 'autocomplete') {
                         child.setValue('');
                     }
                 });
+                document.getElementById('student-search').focus();
             },
 
             onStudentSelected(student) {

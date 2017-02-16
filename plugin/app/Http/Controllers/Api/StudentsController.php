@@ -42,7 +42,7 @@ class StudentsController extends Controller
      */
     public function searchStudents(Course $course)
     {
-        $keyword = $this->request['keyword'];
+        $keyword = $this->request['q'];
 
         $users = $this->studentsRepository->searchStudentsByCourseAndKeyword($course->id, $keyword);
 

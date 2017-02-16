@@ -3,9 +3,18 @@
    Common styles for all pages.
 \*---------------------*/
 
-.page-container {
-  background-color: $background-grey;
+#app {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+
+  .popup-body {
+    flex-grow: 1;
+  }
+}
+
+.popup-body .column.page-container {
+  background-color: $background-grey;
   padding: 0 60px 1px 60px;
 }
 

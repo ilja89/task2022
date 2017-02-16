@@ -1,12 +1,13 @@
 <template>
 
-    <div class="page-container">
+    <div>
 
         <page-title :student="context.active_student"></page-title>
 
-        <submission-overview-section :context="context" :submission="context.active_submission"></submission-overview-section>
+        <submission-overview-section :charon="context.active_charon" :submission="context.active_submission">
+        </submission-overview-section>
 
-        <output-section :context="context"></output-section>
+        <output-section :submission="context.active_submission" :charon="context.active_charon"></output-section>
 
     </div>
 </template>

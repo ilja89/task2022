@@ -1,5 +1,5 @@
 <template>
-    <div class="columns is-gapless">
+    <div class="columns is-gapless  popup-body">
 
         <aside class="column is-2  menu  nav-container">
             <ul class="menu-list">
@@ -13,7 +13,7 @@
             </ul>
         </aside>
 
-        <div class="column">
+        <div class="column  page-container">
             <slot></slot>
         </div>
 
