@@ -1,7 +1,7 @@
 <template>
 
     <popup-section
-            :title="context.active_charon.name"
+            :title="activeCharonName"
             subtitle="Grade the students submission">
 
         <template slot="header-right">
@@ -76,6 +76,12 @@
 
             hasDeadlines() {
                 return this.context.active_charon.deadlines.length !== 0;
+            },
+
+            activeCharonName() {
+                return this.context.active_charon !== null
+                    ? this.context.active_charon.name
+                    : null;
             }
         },
 

@@ -35,7 +35,6 @@ const app = new Vue({
 
     mounted() {
         this.registerEventListeners();
-        this.initializeCharons();
     },
 
     methods: {
@@ -65,7 +64,7 @@ const app = new Vue({
             VueEvent.$on('change-page', pageName => {
                 this.context.active_page = pageName;
             });
-            VueEvent.$on('refresh-page', this.refreshPage);
+            VueEvent.$on('refresh-page', this.refreshPage());
             VueEvent.$on('show-notification', message => {
                 this.notification_text = message;
                 this.notification_show = true;
@@ -77,16 +76,6 @@ const app = new Vue({
             VueEvent.$on('close-notification', () => this.notification_show = false);
             VueEvent.$on('show-loader', () => this.loaderVisible += 1);
             VueEvent.$on('hide-loader', () => this.loaderVisible -= 1);
-        },
-
-        initializeCharons() {
-            this.getCharonsForCourse(this.context.course_id)
-                .then(charons => {
-                    this.context.charons = charons;
-                    if (charons.length > 0) {
-                        VueEvent.$emit('charon-was-changed', charons[0]);
-                    }
-                });
         },
 
         updateSubmission(submission) {
@@ -119,13 +108,7 @@ const app = new Vue({
         },
 
         refreshPage() {
-            this.refreshCharons();
             this.refreshComments();
-        },
-
-        refreshCharons() {
-            this.getCharonsForCourse(this.context.course_id)
-                .then(charons => this.context.charons = charons);
         },
 
         refreshComments() {

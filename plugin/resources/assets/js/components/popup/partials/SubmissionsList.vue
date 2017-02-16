@@ -61,6 +61,10 @@
         methods: {
 
             refreshSubmissions() {
+                if (this.student === null || this.charon === null) {
+                    return;
+                }
+
                 Submission.findByUserCharon(this.student.id, this.charon.id, (submissions) => {
                     this.submissions = submissions;
                     this.canLoadMore = true;

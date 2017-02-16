@@ -1037,15 +1037,6 @@ module.exports = {
                 });
             });
         },
-        getCharonsForCourse: function getCharonsForCourse(courseId) {
-            return new Promise(function (resolve, reject) {
-                Api.get('/mod/charon/api/courses/' + courseId + '/charons').then(function (response) {
-                    return resolve(response);
-                }).catch(function (error) {
-                    return reject(error);
-                });
-            });
-        },
         updateSubmissionResults: function updateSubmissionResults(charonId, submission) {
             return new Promise(function (resolve, reject) {
                 Api.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
@@ -1209,7 +1200,6 @@ var app = new Vue({
 
     mounted: function mounted() {
         this.registerEventListeners();
-        this.initializeCharons();
     },
 
 
@@ -1242,7 +1232,7 @@ var app = new Vue({
             VueEvent.$on('change-page', function (pageName) {
                 _this.context.active_page = pageName;
             });
-            VueEvent.$on('refresh-page', this.refreshPage);
+            VueEvent.$on('refresh-page', this.refreshPage());
             VueEvent.$on('show-notification', function (message) {
                 _this.notification_text = message;
                 _this.notification_show = true;
@@ -1261,21 +1251,11 @@ var app = new Vue({
                 return _this.loaderVisible -= 1;
             });
         },
-        initializeCharons: function initializeCharons() {
+        updateSubmission: function updateSubmission(submission) {
             var _this2 = this;
 
-            this.getCharonsForCourse(this.context.course_id).then(function (charons) {
-                _this2.context.charons = charons;
-                if (charons.length > 0) {
-                    VueEvent.$emit('charon-was-changed', charons[0]);
-                }
-            });
-        },
-        updateSubmission: function updateSubmission(submission) {
-            var _this3 = this;
-
             return new Promise(function (resolve, reject) {
-                _this3.updateSubmissionResults(_this3.context.active_charon.id, submission).then(function (response) {
+                _this2.updateSubmissionResults(_this2.context.active_charon.id, submission).then(function (response) {
                     if (response.status == "OK") {
                         submission.confirmed = 1;
                         VueEvent.$emit('submission-was-saved');
@@ -1299,22 +1279,14 @@ var app = new Vue({
             }
         },
         refreshPage: function refreshPage() {
-            this.refreshCharons();
             this.refreshComments();
         },
-        refreshCharons: function refreshCharons() {
-            var _this4 = this;
-
-            this.getCharonsForCourse(this.context.course_id).then(function (charons) {
-                return _this4.context.charons = charons;
-            });
-        },
         refreshComments: function refreshComments() {
-            var _this5 = this;
+            var _this3 = this;
 
             if (this.context.active_charon !== null && this.context.active_student !== null) {
                 this.getComments(this.context.active_charon.id, this.context.active_student.id).then(function (comments) {
-                    return _this5.context.active_comments = comments;
+                    return _this3.context.active_comments = comments;
                 });
             }
         }
@@ -1579,6 +1551,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Charon__ = __webpack_require__(461);
 //
 //
 //
@@ -1592,14 +1565,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ exports["default"] = {
     props: {
-        charons: { required: true }
+        active_charon: { required: true }
     },
 
     data: function data() {
         return {
-            selected: this.charons.length > 0 ? this.charons[0].id : null
+            selected: null,
+            charons: []
         };
     },
 
@@ -1618,9 +1594,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
         }
     },
 
+    mounted: function mounted() {
+        var _this2 = this;
+
+        this.refreshCharons();
+        VueEvent.$on('refresh-page', function () {
+            return _this2.refreshCharons();
+        });
+    },
+
+
     methods: {
         onCharonSelected: function onCharonSelected() {
             VueEvent.$emit('charon-was-changed', this.activeCharon);
+        },
+        refreshCharons: function refreshCharons() {
+            var _this3 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__models_Charon__["a" /* default */].all(window.course_id, function (charons) {
+                _this3.charons = charons;
+                if (_this3.activeCharon === null && charons.length > 0) {
+                    _this3.selected = charons[0].id;
+                    _this3.onCharonSelected();
+                }
+            });
         }
     }
 };
@@ -2320,6 +2317,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         },
         hasDeadlines: function hasDeadlines() {
             return this.context.active_charon.deadlines.length !== 0;
+        },
+        activeCharonName: function activeCharonName() {
+            return this.context.active_charon !== null ? this.context.active_charon.name : null;
         }
     },
 
@@ -2468,7 +2468,6 @@ var PopupContext = function PopupContext(course_id) {
     this.course_id = course_id;
 
     this.active_student = null;
-    this.charons = [];
     this.active_charon = null;
 
     this.active_submission = null;
@@ -12870,7 +12869,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     slot: "header-right"
   }, [_c('charon-select', {
     attrs: {
-      "charons": _vm.context.charons
+      "active_charon": _vm.context.active_charon
     }
   })], 1), _vm._v(" "), _c('submissions-list', {
     attrs: {
@@ -13028,7 +13027,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('popup-section', {
     attrs: {
-      "title": _vm.context.active_charon.name,
+      "title": _vm.activeCharonName,
       "subtitle": "Grade the students submission"
     }
   }, [_c('template', {
@@ -13273,6 +13272,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
         refreshSubmissions: function refreshSubmissions() {
             var _this2 = this;
 
+            if (this.student === null || this.charon === null) {
+                return;
+            }
+
             __WEBPACK_IMPORTED_MODULE_1__models_Submission__["a" /* default */].findByUserCharon(this.student.id, this.charon.id, function (submissions) {
                 _this2.submissions = submissions;
                 _this2.canLoadMore = true;
@@ -13398,6 +13401,35 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-03a64cf0", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 461:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Charon = function () {
+    function Charon() {
+        _classCallCheck(this, Charon);
+    }
+
+    _createClass(Charon, null, [{
+        key: 'all',
+        value: function all(courseId, then) {
+            axios.get('/mod/charon/api/courses/' + courseId + '/charons').then(function (response) {
+                return then(response.data);
+            });
+        }
+    }]);
+
+    return Charon;
+}();
+
+/* harmony default export */ exports["a"] = Charon;
 
 /***/ }),
 

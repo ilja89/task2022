@@ -6,7 +6,7 @@
 
         <template slot="header-right">
             <charon-select
-                    :charons="context.charons">
+                    :active_charon="context.active_charon">
             </charon-select>
         </template>
 
