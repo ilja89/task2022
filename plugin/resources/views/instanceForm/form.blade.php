@@ -9,6 +9,7 @@
     window.courseSettings = {!! $courseSettings !== null ? $courseSettings->toJson() : '{}' !!};
     window.presets = {!! $presets->toJson() !!};
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
+    window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",

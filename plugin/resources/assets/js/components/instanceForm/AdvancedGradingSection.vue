@@ -1,7 +1,7 @@
 <template>
     <div class="fcontainer clearfix fitem">
 
-        <charon-select
+        <charon-select v-if="!isUpdate"
                 :label="translate('preset_label')"
                 name="preset"
                 :options="form.presets"
@@ -80,6 +80,12 @@
 
         props: {
             form: { required: true }
+        },
+
+        computed: {
+            isUpdate() {
+                return window.isEditing;
+            }
         },
 
         methods: {

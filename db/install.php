@@ -14,6 +14,7 @@ function xmldb_charon_install() {
     $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
     $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
     $kernel->call('cache:clear');
 
     return true;
