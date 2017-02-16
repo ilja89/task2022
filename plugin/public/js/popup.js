@@ -1647,22 +1647,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony default export */ exports["default"] = {
     props: {
         visible: { required: true }
-    },
-
-    data: function data() {
-        return {
-            is_visible: this.visible
-        };
-    },
-    mounted: function mounted() {
-        var _this = this;
-
-        VueEvent.$on('show-loader', function () {
-            return _this.is_visible = true;
-        });
-        VueEvent.$on('hide-loader', function () {
-            return _this.is_visible = false;
-        });
     }
 };
 
@@ -12681,7 +12665,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.is_visible) ? _c('div', {
+  return (_vm.visible) ? _c('div', {
     attrs: {
       "id": "loader"
     }
@@ -12759,7 +12743,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "columns is-gapless"
+    staticClass: "columns is-gapless  popup-body"
   }, [_c('aside', {
     staticClass: "column is-2  menu  nav-container"
   }, [_c('ul', {
@@ -12778,7 +12762,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                    " + _vm._s(page.name) + "\n                ")])])
   }))]), _vm._v(" "), _c('div', {
-    staticClass: "column"
+    staticClass: "column  page-container"
   }, [_vm._t("default")], 2)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -12828,7 +12812,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _vm._m(0)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "page-container  has-text-centered  no-student-selected-container"
+    staticClass: "has-text-centered  no-student-selected-container"
   }, [_c('h1', {
     staticClass: "title is-1"
   }, [_vm._v("Search for students")]), _vm._v(" "), _c('h2', {
@@ -12849,9 +12833,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "page-container"
-  }, [_c('page-title', {
+  return _c('div', [_c('page-title', {
     attrs: {
       "student": _vm.context.active_student
     }
@@ -13163,9 +13145,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "page-container"
-  }, [_c('page-title', {
+  return _c('div', [_c('page-title', {
     attrs: {
       "student": _vm.context.active_student
     }
@@ -13315,7 +13295,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             if (__WEBPACK_IMPORTED_MODULE_1__models_Submission__["a" /* default */].nextUrl !== null) {
                 __WEBPACK_IMPORTED_MODULE_1__models_Submission__["a" /* default */].getNext(function (submissions) {
                     submissions.forEach(function (submission) {
-                        _this3.submissions.push(submission);
+                        return _this3.submissions.push(submission);
                     });
                 });
             } else {

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page-container">
+    <div>
 
         <page-title :student="context.active_student"></page-title>
 

@@ -84,9 +84,7 @@
             loadMoreSubmissions() {
                 if (Submission.nextUrl !== null) {
                     Submission.getNext(submissions => {
-                        submissions.forEach(submission => {
-                            this.submissions.push(submission)
-                        });
+                        submissions.forEach(submission => this.submissions.push(submission));
                     });
                 } else {
                     this.canLoadMore = false;

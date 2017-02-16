@@ -1,5 +1,5 @@
 <template>
-    <div id="loader" v-if="is_visible">
+    <div id="loader" v-if="visible">
         <div class="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -12,17 +12,6 @@
     export default {
         props: {
             visible: { required: true }
-        },
-
-        data() {
-            return {
-                is_visible: this.visible
-            };
-        },
-
-        mounted() {
-            VueEvent.$on('show-loader', () => this.is_visible = true);
-            VueEvent.$on('hide-loader', () => this.is_visible = false);
         }
     }
 </script>
