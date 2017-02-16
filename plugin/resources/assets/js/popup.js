@@ -1,21 +1,20 @@
 import './bootstrap';
 
 import PopupHeader from './components/popup/PopupHeader.vue';
+
 import PopupNavigation from './components/popup/PopupNavigation.vue';
 import PopupPage from './components/popup/partials/PopupPage.vue';
+
 import NoStudentSelectedPage from './components/popup/NoStudentSelectedPage.vue';
 import GradingPage from './components/popup/GradingPage.vue';
 import SubmissionPage from './components/popup/SubmissionPage.vue';
+
 import Loader from './components/popup/partials/Loader.vue';
 import Notification from './components/popup/partials/Notification.vue';
 
-import Api from './classes/api';
-
 import PopupContext from './classes/popupContext';
-import Submission from "./models/Submission";
 
 window.VueEvent = new Vue();
-window.Api = new Api();
 
 const app = new Vue({
     el: '#app',

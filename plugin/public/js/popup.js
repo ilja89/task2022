@@ -1118,9 +1118,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue__ = __webpack_require__(420);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__classes_api__ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__models_Submission__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__classes_popupContext__ = __webpack_require__(241);
 
 
 
@@ -1138,7 +1136,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 window.VueEvent = new Vue();
-window.Api = new __WEBPACK_IMPORTED_MODULE_9__classes_api__["a" /* default */]();
 
 var app = new Vue({
     el: '#app',
@@ -1147,7 +1144,7 @@ var app = new Vue({
         Notification: __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue___default.a },
 
     data: {
-        context: new __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__["a" /* default */](window.course_id),
+        context: new __WEBPACK_IMPORTED_MODULE_9__classes_popupContext__["a" /* default */](window.course_id),
         notification_text: '',
         notification_show: false,
         loaderVisible: 0
@@ -2064,19 +2061,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2086,13 +2070,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default.a },
 
     props: {
-        context: { required: true }
+        submission: { required: true },
+        charon: { required: true }
     },
 
     data: function data() {
         return {
             active_file_id: null,
-            active_output_slug: 'submission__stdout'
+            active_output_slug: '',
+            activeFile: null
         };
     },
 
@@ -2105,7 +2091,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             }
 
             var slug = this.active_output_slug.split('__');
-            var outputFrom = this.context.active_submission;
+            var outputFrom = this.submission;
             if (slug[0] == 'result') {
                 outputFrom = this.findResultById(slug[2]);
             }
@@ -2119,29 +2105,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
     },
 
     mounted: function mounted() {
-        if (this.context.active_submission !== null) {
-            this.active_file_id = this.context.active_submission.files[0];
+        if (this.submission !== null) {
+            this.active_file_id = this.submission.files[0].id;
         }
     },
 
 
+    watch: {
+        active_file_id: function active_file_id() {
+            var _this = this;
+
+            this.submission.files.forEach(function (file) {
+                if (file.id === _this.active_file_id) {
+                    _this.activeFile = file;
+                }
+            });
+        },
+        submission: function submission() {
+            this.active_file_id = this.submission.files[0].id;
+            var outputs = this.getOutputs();
+            if (outputs.length > 0) {
+                this.active_output_slug = outputs[0].value;
+            }
+        }
+    },
+
     methods: {
         onFileChanged: function onFileChanged() {
-            var _this = this;
+            var _this2 = this;
 
             var changedFile = null;
 
-            this.context.active_submission.files.forEach(function (file) {
-                if (file.id == _this.active_file_id) {
+            this.submission.files.forEach(function (file) {
+                if (file.id == _this2.active_file_id) {
                     changedFile = file;
                 }
             });
-
-            VueEvent.$emit('file-was-changed', changedFile);
         },
         getGrademapByResult: function getGrademapByResult(result) {
             var correctGrademap = null;
-            this.context.active_charon.grademaps.forEach(function (grademap) {
+            this.charon.grademaps.forEach(function (grademap) {
                 if (result.grade_type_code == grademap.grade_type_code) {
                     correctGrademap = grademap;
                 }
@@ -2152,11 +2155,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
         findResultById: function findResultById(id) {
             var matchingResult = null;
 
-            if (this.context.active_submission === null) {
+            if (this.submission === null) {
                 return null;
             }
 
-            this.context.active_submission.results.forEach(function (result) {
+            this.submission.results.forEach(function (result) {
                 if (result.id == id) {
                     matchingResult = result;
                 }
@@ -2166,6 +2169,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
         },
         hasOutput: function hasOutput(object, kind) {
             return object[kind] !== null && object[kind].length > 0;
+        },
+        getOutputs: function getOutputs() {
+            var _this3 = this;
+
+            var outputs = [];
+
+            if (this.hasOutput(this.submission, 'stdout')) {
+                outputs.push({
+                    value: 'submission__stdout',
+                    title: 'Submission stdout'
+                });
+            }
+            if (this.hasOutput(this.submission, 'stderr')) {
+                outputs.push({
+                    value: 'submission__stderr',
+                    title: 'Submission stderr'
+                });
+            }
+
+            this.submission.results.forEach(function (result) {
+                if (_this3.hasOutput(result, 'stdout')) {
+                    outputs.push({
+                        value: 'result__stdout__' + result.id,
+                        title: _this3.getGrademapByResult(result).name + ' stdout'
+                    });
+                }
+                if (_this3.hasOutput(result, 'stderr')) {
+                    outputs.push({
+                        value: 'result__stderr__' + result.id,
+                        title: _this3.getGrademapByResult(result).name + ' stderr'
+                    });
+                }
+            });
+
+            return outputs;
         }
     }
 };
@@ -2344,52 +2382,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 238:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Api = function () {
-    function Api() {
-        _classCallCheck(this, Api);
-    }
-
-    _createClass(Api, [{
-        key: "get",
-        value: function get(url, data) {
-            return new Promise(function (resolve, reject) {
-                axios.get(url, { params: data }).then(function (response) {
-                    return resolve(response.data);
-                }).catch(function (error) {
-                    console.log(error);
-                    reject(error);
-                });
-            });
-        }
-    }, {
-        key: "post",
-        value: function post(url, data) {
-            return new Promise(function (resolve, reject) {
-                axios.post(url, data).then(function (response) {
-                    return resolve(response.data);
-                }).catch(function (error) {
-                    console.log(error);
-                    reject(error);
-                });
-            });
-        }
-    }]);
-
-    return Api;
-}();
-
-/* harmony default export */ exports["a"] = Api;
-
-/***/ }),
-
 /***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2473,8 +2465,10 @@ var Submission = function () {
     }, {
         key: 'update',
         value: function update(charonId, submission, then) {
+            VueEvent.$emit('show-loader');
             axios.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
-                return then(response.data);
+                then(response.data);
+                VueEvent.$emit('hide-loader');
             });
         }
     }]);
@@ -12473,7 +12467,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": "Email and outputs",
       "subtitle": "Output from the tester and mail sent to the student."
     }
-  }, [_c('charon-tabs', {
+  }, [(_vm.submission !== null) ? _c('charon-tabs', {
     staticClass: "card"
   }, [_c('charon-tab', {
     attrs: {
@@ -12484,7 +12478,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "control"
   }, [_c('span', {
     staticClass: "select"
-  }, [(_vm.context.active_submission !== null) ? _c('select', {
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -12504,21 +12498,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })[0]
       }, _vm.onFileChanged]
     }
-  }, _vm._l((_vm.context.active_submission.files), function(file) {
+  }, _vm._l((_vm.submission.files), function(file) {
     return _c('option', {
       domProps: {
         "value": file.id
       }
     }, [_vm._v("\n                            " + _vm._s(file.path) + "\n                        ")])
-  })) : _vm._e()])]), _vm._v(" "), (_vm.context.active_file !== null) ? _c('pre', [_vm._v("\n                "), _c('code', {
-    class: _vm.context.active_charon.tester_type_name
-  }, [_vm._v(_vm._s(_vm.context.active_file.contents))]), _vm._v("\n            ")]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
+  }))])]), _vm._v(" "), _c('pre', [_vm._v("\n                "), _c('code', {
+    class: _vm.charon.tester_type_name
+  }, [_vm._v(_vm._s(_vm.activeFile.contents))]), _vm._v("\n            ")])]), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Mail"
     }
-  }, [(_vm.context.active_submission !== null) ? _c('pre', {
+  }, [(_vm.submission !== null) ? _c('pre', {
     staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.context.active_submission.mail))]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
+  }, [_vm._v(_vm._s(_vm.submission.mail))]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Outputs"
     }
@@ -12526,7 +12520,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "control"
   }, [_c('span', {
     staticClass: "select"
-  }, [(_vm.context.active_submission !== null) ? _c('select', {
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -12546,35 +12540,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })[0]
       }
     }
-  }, [(_vm.hasOutput(_vm.context.active_submission, 'stdout')) ? _c('option', {
-    attrs: {
-      "value": "submission__stdout"
-    },
-    domProps: {
-      "value": "submission__stdout"
-    }
-  }, [_vm._v("Submission stdout")]) : _vm._e(), _vm._v(" "), (_vm.hasOutput(_vm.context.active_submission, 'stderr')) ? _c('option', {
-    attrs: {
-      "value": "submission__stderr"
-    },
-    domProps: {
-      "value": "submission__stderr"
-    }
-  }, [_vm._v("Submission stderr")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.context.active_submission.results), function(result) {
-    return (_vm.hasOutput(result, 'stdout')) ? _c('option', {
+  }, _vm._l((_vm.getOutputs()), function(output) {
+    return _c('option', {
       domProps: {
-        "value": 'result__stdout__' + result.id
+        "value": output.value
       }
-    }, [_vm._v("\n                            " + _vm._s(_vm.getGrademapByResult(result).name) + " stdout\n                        ")]) : _vm._e()
-  }), _vm._v(" "), _vm._l((_vm.context.active_submission.results), function(result) {
-    return (_vm.hasOutput(result, 'stderr')) ? _c('option', {
-      domProps: {
-        "value": 'result__stderr__' + result.id
-      }
-    }, [_vm._v("\n                            " + _vm._s(_vm.getGrademapByResult(result).name) + " stderr\n                        ")]) : _vm._e()
-  })], 2) : _vm._e()])]), _vm._v(" "), _c('pre', {
+    }, [_vm._v("\n                            " + _vm._s(output.title) + "\n                        ")])
+  }))])]), _vm._v(" "), _c('pre', {
     staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.selectedOutput))])])], 1)], 1)
+  }, [_vm._v(_vm._s(_vm.selectedOutput))])])], 1) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12800,7 +12774,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('output-section', {
     attrs: {
-      "context": _vm.context
+      "submission": _vm.context.active_submission,
+      "charon": _vm.context.active_charon
     }
   })], 1)
 },staticRenderFns: []}
@@ -13379,8 +13354,10 @@ var Charon = function () {
     _createClass(Charon, null, [{
         key: 'all',
         value: function all(courseId, then) {
+            VueEvent.$emit('show-loader');
             axios.get('/mod/charon/api/courses/' + courseId + '/charons').then(function (response) {
-                return then(response.data);
+                then(response.data);
+                VueEvent.$emit('hide-loader');
             });
         }
     }]);
@@ -13408,18 +13385,22 @@ var Comment = function () {
     _createClass(Comment, null, [{
         key: 'all',
         value: function all(charonId, studentId, then) {
+            VueEvent.$emit('show-loader');
             axios.get('/mod/charon/api/charons/' + charonId + '/comments', { params: { student_id: studentId } }).then(function (response) {
-                return then(response.data);
+                then(response.data);
+                VueEvent.$emit('hide-loader');
             });
         }
     }, {
         key: 'save',
         value: function save(comment, charonId, studentId, then) {
+            VueEvent.$emit('show-loader');
             axios.post('/mod/charon/api/charons/' + charonId + '/comments', {
                 comment: comment,
                 student_id: studentId
             }).then(function (response) {
-                return then(response.data.comment);
+                then(response.data.comment);
+                VueEvent.$emit('hide-loader');
             });
         }
     }]);
