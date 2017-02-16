@@ -2183,20 +2183,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 });
             }
 
-            this.submission.results.forEach(function (result) {
-                if (_this3.hasOutput(result, 'stdout')) {
-                    outputs.push({
-                        value: 'result__stdout__' + result.id,
-                        title: _this3.getGrademapByResult(result).name + ' stdout'
-                    });
-                }
-                if (_this3.hasOutput(result, 'stderr')) {
-                    outputs.push({
-                        value: 'result__stderr__' + result.id,
-                        title: _this3.getGrademapByResult(result).name + ' stderr'
-                    });
-                }
-            });
+            if (this.submission !== null) {
+                this.submission.results.forEach(function (result) {
+                    if (_this3.hasOutput(result, 'stdout')) {
+                        outputs.push({
+                            value: 'result__stdout__' + result.id,
+                            title: _this3.getGrademapByResult(result).name + ' stdout'
+                        });
+                    }
+                    if (_this3.hasOutput(result, 'stderr')) {
+                        outputs.push({
+                            value: 'result__stderr__' + result.id,
+                            title: _this3.getGrademapByResult(result).name + ' stderr'
+                        });
+                    }
+                });
+            }
 
             return outputs;
         }

@@ -193,20 +193,22 @@
                     });
                 }
 
-                this.submission.results.forEach(result => {
-                    if (this.hasOutput(result, 'stdout')) {
-                        outputs.push({
-                            value: 'result__stdout__' + result.id,
-                            title: this.getGrademapByResult(result).name + ' stdout'
-                        });
-                    }
-                    if (this.hasOutput(result, 'stderr')) {
-                        outputs.push({
-                            value: 'result__stderr__' + result.id,
-                            title: this.getGrademapByResult(result).name + ' stderr'
-                        });
-                    }
-                });
+                if (this.submission !== null) {
+                    this.submission.results.forEach(result => {
+                        if (this.hasOutput(result, 'stdout')) {
+                            outputs.push({
+                                value: 'result__stdout__' + result.id,
+                                title: this.getGrademapByResult(result).name + ' stdout'
+                            });
+                        }
+                        if (this.hasOutput(result, 'stderr')) {
+                            outputs.push({
+                                value: 'result__stderr__' + result.id,
+                                title: this.getGrademapByResult(result).name + ' stderr'
+                            });
+                        }
+                    });
+                }
 
                 return outputs;
             }
