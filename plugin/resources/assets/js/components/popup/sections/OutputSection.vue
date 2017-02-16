@@ -174,7 +174,7 @@
             },
 
             hasOutput(object, kind) {
-                return object[kind] !== null && object[kind].length > 0;
+                return object !== null && object[kind] !== null && object[kind].length > 0;
             },
 
             getOutputs() {

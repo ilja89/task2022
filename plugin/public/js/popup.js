@@ -2163,7 +2163,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             return matchingResult;
         },
         hasOutput: function hasOutput(object, kind) {
-            return object[kind] !== null && object[kind].length > 0;
+            return object !== null && object[kind] !== null && object[kind].length > 0;
         },
         getOutputs: function getOutputs() {
             var _this3 = this;
