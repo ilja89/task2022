@@ -2111,6 +2111,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
             });
         },
         submission: function submission() {
+            if (this.submission !== null) {
+                this.active_file_id = null;
+                this.active_output_slug = null;
+                return;
+            }
+
             this.active_file_id = this.submission.files[0].id;
             var outputs = this.getOutputs();
             if (outputs.length > 0) {
