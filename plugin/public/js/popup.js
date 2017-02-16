@@ -1791,8 +1791,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -1800,27 +1798,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
     components: { autocomplete: __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js___default.a },
 
     props: {
-        context: { required: true }
+        courseId: { required: true }
     },
 
-    data: function data() {
-        return {
-            student_name: ''
-        };
+    computed: {
+        url: function url() {
+            return '/mod/charon/api/courses/' + this.courseId + '/students/search';
+        }
     },
-
 
     methods: {
-        onStudentNameChanged: function onStudentNameChanged(name) {
-            // TODO: Student name doesn't change fast enough. Type aa => search for a.
-            this.student_name = name;
-        },
         clearClicked: function clearClicked() {
             this.$children.forEach(function (child) {
                 if (child.$options._componentTag === 'autocomplete') {
                     child.setValue('');
                 }
             });
+            document.getElementById('student-search').focus();
         },
         onStudentSelected: function onStudentSelected(student) {
             VueEvent.$emit('student-was-changed', student);
@@ -12828,7 +12822,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "column  header-right"
   }, [_c('student-search', {
     attrs: {
-      "context": _vm.context
+      "courseId": _vm.context.course_id
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "refresh-container",
@@ -12911,17 +12905,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])]), _vm._v(" "), _c('autocomplete', {
     attrs: {
-      "url": '/mod/charon/api/courses/' + _vm.context.course_id + '/students/search',
+      "url": _vm.url,
       "anchor": "fullname",
       "on-select": _vm.onStudentSelected,
       "class-name": "student-search",
       "id": "student-search",
       "placeholder": "Student name",
-      "min": 2,
-      "custom-params": {
-        keyword: _vm.student_name
-      },
-      "on-input": _vm.onStudentNameChanged
+      "min": 2
     }
   }), _vm._v(" "), _c('svg', {
     staticClass: "student-search-clear-btn",

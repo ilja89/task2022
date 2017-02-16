@@ -9,7 +9,7 @@
         <div class="column  header-right">
 
             <student-search
-                    :context="context">
+                    :courseId="context.course_id">
             </student-search>
 
             <div class="refresh-container" @click="onRefreshClicked">
