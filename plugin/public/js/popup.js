@@ -1170,9 +1170,6 @@ var app = new Vue({
             VueEvent.$on('submission-was-selected', function (submission) {
                 _this.context.active_submission = submission;
             });
-            VueEvent.$on('file-was-changed', function (file) {
-                _this.context.active_file = file;
-            });
             VueEvent.$on('change-page', function (pageName) {
                 _this.context.active_page = pageName;
             });
@@ -2416,7 +2413,6 @@ var PopupContext = function PopupContext(course_id) {
     this.active_student = null;
     this.active_charon = null;
     this.active_submission = null;
-    this.active_file = null;
 
     this.active_page = 'Grading';
 };
@@ -12510,9 +12506,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "Mail"
     }
-  }, [(_vm.submission !== null) ? _c('pre', {
+  }, [_c('pre', {
     staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.submission.mail))]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
+  }, [_vm._v(_vm._s(_vm.submission.mail))])]), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Outputs"
     }

@@ -46,9 +46,6 @@ const app = new Vue({
             VueEvent.$on('submission-was-selected', submission => {
                 this.context.active_submission = submission;
             });
-            VueEvent.$on('file-was-changed', file => {
-                this.context.active_file = file;
-            });
             VueEvent.$on('change-page', pageName => {
                 this.context.active_page = pageName;
             });

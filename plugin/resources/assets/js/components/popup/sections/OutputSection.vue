@@ -30,7 +30,7 @@
 
             <charon-tab name="Mail">
 
-                <pre v-if="submission !== null" class="output-content">{{ submission.mail }}</pre>
+                <pre class="output-content">{{ submission.mail }}</pre>
 
             </charon-tab>
 
