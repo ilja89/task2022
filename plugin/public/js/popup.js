@@ -1274,14 +1274,13 @@ var app = new Vue({
         updateSubmission: function updateSubmission(submission) {
             var _this3 = this;
 
-            var vuePopup = this;
             return new Promise(function (resolve, reject) {
                 _this3.updateSubmissionResults(_this3.context.active_charon.id, submission).then(function (response) {
                     if (response.status == "OK") {
                         submission.confirmed = 1;
+                        VueEvent.$emit('submission-was-saved');
                         VueEvent.$emit('show-notification', 'Submission saved!');
                     }
-                    vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
                     resolve(response);
                 }).catch(function (error) {
                     return reject(error);
@@ -13253,6 +13252,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
         this.refreshSubmissions();
         VueEvent.$on('refresh-page', function () {
+            return _this.refreshSubmissions();
+        });
+        VueEvent.$on('submission-was-saved', function () {
             return _this.refreshSubmissions();
         });
     },

@@ -90,15 +90,14 @@ const app = new Vue({
         },
 
         updateSubmission(submission) {
-            let vuePopup = this;
             return new Promise((resolve, reject) => {
                 this.updateSubmissionResults(this.context.active_charon.id, submission)
                     .then(response => {
                         if (response.status == "OK") {
                             submission.confirmed = 1;
+                            VueEvent.$emit('submission-was-saved');
                             VueEvent.$emit('show-notification', 'Submission saved!');
                         }
-                        vuePopup.getSubmissions(vuePopup.context.active_charon.id, vuePopup.context.active_student.id, false);
                         resolve(response);
                     })
                     .catch(error => reject(error));

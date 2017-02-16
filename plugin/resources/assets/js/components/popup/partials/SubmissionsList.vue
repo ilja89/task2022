@@ -45,6 +45,7 @@
         mounted() {
             this.refreshSubmissions();
             VueEvent.$on('refresh-page', () => this.refreshSubmissions());
+            VueEvent.$on('submission-was-saved', () => this.refreshSubmissions());
         },
 
         watch: {
