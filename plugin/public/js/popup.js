@@ -2514,7 +2514,7 @@ var Submission = function () {
     _createClass(Submission, null, [{
         key: 'findByUserCharon',
         value: function findByUserCharon(userId, charonId, then) {
-            axios.get('/mod/charon/api/charons/' + charonId + '/submissions/paginating', { params: { user_id: userId } }).then(function (_ref) {
+            axios.get('/mod/charon/api/charons/' + charonId + '/submissions', { params: { user_id: userId } }).then(function (_ref) {
                 var data = _ref.data;
 
                 Submission.nextUrl = data.next_page_url;
