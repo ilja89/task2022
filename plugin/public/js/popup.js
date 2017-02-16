@@ -2111,17 +2111,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
             });
         },
         submission: function submission() {
-            if (this.submission !== null) {
-                this.active_file_id = null;
-                this.active_output_slug = null;
-                return;
-            }
-
-            this.active_file_id = this.submission.files[0].id;
             var outputs = this.getOutputs();
             if (outputs.length > 0) {
                 this.active_output_slug = outputs[0].value;
             }
+
+            if (this.submission === null || this.submission.files.length === 0) {
+                this.active_file_id = null;
+                return;
+            }
+
+            this.active_file_id = this.submission.files[0].id;
         }
     },
 
@@ -12468,7 +12468,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "Code",
       "selected": true
     }
-  }, [_c('p', {
+  }, [(_vm.submission.files.length > 0) ? _c('p', {
     staticClass: "control"
   }, [_c('span', {
     staticClass: "select"
@@ -12498,9 +12498,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": file.id
       }
     }, [_vm._v("\n                            " + _vm._s(file.path) + "\n                        ")])
-  }))])]), _vm._v(" "), _c('pre', [_vm._v("\n                "), _c('code', {
+  }))])]) : _vm._e(), _vm._v(" "), (_vm.activeFile !== null) ? _c('pre', [_vm._v("\n                "), _c('code', {
     class: _vm.charon.tester_type_name
-  }, [_vm._v(_vm._s(_vm.activeFile.contents))]), _vm._v("\n            ")])]), _vm._v(" "), _c('charon-tab', {
+  }, [_vm._v(_vm._s(_vm.activeFile.contents))]), _vm._v("\n            ")]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Mail"
     }

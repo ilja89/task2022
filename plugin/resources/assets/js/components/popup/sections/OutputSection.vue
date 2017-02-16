@@ -9,7 +9,7 @@
 
             <charon-tab name="Code" :selected="true">
 
-                <p class="control">
+                <p class="control" v-if="submission.files.length > 0">
                     <span class="select">
                         <select name="file"
                                 @change="onFileChanged"
@@ -22,7 +22,7 @@
                     </span>
                 </p>
 
-                <pre>
+                <pre v-if="activeFile !== null">
                     <code :class="charon.tester_type_name">{{ activeFile.contents }}</code>
                 </pre>
 
@@ -120,17 +120,17 @@
             },
 
             submission() {
-                if (this.submission !== null) {
-                    this.active_file_id = null;
-                    this.active_output_slug = null;
-                    return;
-                }
-
-                this.active_file_id = this.submission.files[0].id;
                 let outputs = this.getOutputs();
                 if (outputs.length > 0) {
                     this.active_output_slug = outputs[0].value;
                 }
+
+                if (this.submission === null || this.submission.files.length === 0) {
+                    this.active_file_id = null;
+                    return;
+                }
+
+                this.active_file_id = this.submission.files[0].id;
             }
         },
 

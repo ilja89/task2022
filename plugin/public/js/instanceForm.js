@@ -29396,7 +29396,6 @@ var InstanceFormForm = function () {
             deadlines.forEach(function (deadline) {
                 // Check if previous deadline exists, if it matches format from database, if it matches
                 // format from previous request.
-                console.log(__WEBPACK_IMPORTED_MODULE_0_moment___default()(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid());
                 var time = null;
 
                 if (__WEBPACK_IMPORTED_MODULE_0_moment___default()(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {

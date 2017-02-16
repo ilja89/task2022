@@ -63,7 +63,6 @@ export default class InstanceFormForm {
         deadlines.forEach((deadline) => {
             // Check if previous deadline exists, if it matches format from database, if it matches
             // format from previous request.
-            console.log(moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid());
             let time = null;
 
             if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
