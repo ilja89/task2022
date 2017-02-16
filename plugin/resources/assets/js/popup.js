@@ -10,7 +10,6 @@ import Loader from './components/popup/partials/Loader.vue';
 import Notification from './components/popup/partials/Notification.vue';
 
 import Api from './classes/api';
-import ApiCalls from './mixins/apiCalls';
 
 import PopupContext from './classes/popupContext';
 import Submission from "./models/Submission";
@@ -20,8 +19,6 @@ window.Api = new Api();
 
 const app = new Vue({
     el: '#app',
-
-    mixins: [ ApiCalls ],
 
     components: { PopupHeader, PopupNavigation, PopupPage, NoStudentSelectedPage, GradingPage, Loader, SubmissionPage,
                   Notification },
@@ -39,7 +36,7 @@ const app = new Vue({
 
     methods: {
         registerEventListeners() {
-            VueEvent.$on('student-was-changed', (student) => {
+            VueEvent.$on('student-was-changed', student => {
                 this.context.active_student = student;
                 this.context.active_submission = null;
             });
@@ -47,10 +44,10 @@ const app = new Vue({
                 this.context.active_charon = charon;
                 this.context.active_submission = null;
             });
-            VueEvent.$on('submission-was-selected', (submission) => {
+            VueEvent.$on('submission-was-selected', submission => {
                 this.context.active_submission = submission;
             });
-            VueEvent.$on('file-was-changed', (file) => {
+            VueEvent.$on('file-was-changed', file => {
                 this.context.active_file = file;
             });
             VueEvent.$on('change-page', pageName => {
@@ -59,21 +56,14 @@ const app = new Vue({
             VueEvent.$on('show-notification', message => {
                 this.notification_text = message;
                 this.notification_show = true;
-                let that = this;
                 setTimeout(() => {
-                    that.notification_show = false;
+                    this.notification_show = false;
                 }, 2000);
             });
             VueEvent.$on('close-notification', () => this.notification_show = false);
             VueEvent.$on('show-loader', () => this.loaderVisible += 1);
             VueEvent.$on('hide-loader', () => this.loaderVisible -= 1);
-        },
-
-        updateActiveFile() {
-            if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
-                this.context.active_file = this.context.active_submission.files[0];
-            }
-        },
+        }
     }
 });
 

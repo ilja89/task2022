@@ -31,7 +31,7 @@
                     <div class="result">
                         <div>
                             {{ getGrademapByResult(result).name }}
-                            <span class="grademax">/ {{ result | maxGrade }}p</span>
+                            <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
                         </div>
 
                         <div>
@@ -84,11 +84,11 @@
 
         filters: {
             datetime(date) {
-                return date.replace(/\:00.000+/, "");
+                return date.replace(/\:00.000+/, '');
             },
 
-            maxGrade(result) {
-                return this.getGrademapByResult(result).grade_item.grademax;
+            withoutTrailingZeroes(number) {
+                return number.replace(/000$/, '');
             }
         },
 

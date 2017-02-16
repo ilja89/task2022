@@ -29,11 +29,9 @@
 
 <script>
     import PopupSection from '../partials/PopupSection.vue';
-    import ApiCalls from '../../../mixins/apiCalls';
     import Comment from '../../../models/Comment';
 
     export default {
-        mixins: [ ApiCalls ],
 
         components: { PopupSection },
 

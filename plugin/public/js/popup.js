@@ -1023,25 +1023,6 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 209:
-/***/ (function(module, exports) {
-
-module.exports = {
-    methods: {
-        updateSubmissionResults: function updateSubmissionResults(charonId, submission) {
-            return new Promise(function (resolve, reject) {
-                Api.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
-                    return resolve(response);
-                }).catch(function (error) {
-                    return reject(error);
-                });
-            });
-        }
-    }
-};
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1138,11 +1119,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue__ = __webpack_require__(420);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__classes_api__ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_apiCalls__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_apiCalls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__mixins_apiCalls__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__classes_popupContext__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__models_Submission__ = __webpack_require__(242);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__models_Submission__ = __webpack_require__(242);
 
 
 
@@ -1165,13 +1143,11 @@ window.Api = new __WEBPACK_IMPORTED_MODULE_9__classes_api__["a" /* default */]()
 var app = new Vue({
     el: '#app',
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_10__mixins_apiCalls___default.a],
-
     components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_1__components_popup_PopupHeader_vue___default.a, PopupNavigation: __WEBPACK_IMPORTED_MODULE_2__components_popup_PopupNavigation_vue___default.a, PopupPage: __WEBPACK_IMPORTED_MODULE_3__components_popup_partials_PopupPage_vue___default.a, NoStudentSelectedPage: __WEBPACK_IMPORTED_MODULE_4__components_popup_NoStudentSelectedPage_vue___default.a, GradingPage: __WEBPACK_IMPORTED_MODULE_5__components_popup_GradingPage_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_7__components_popup_partials_Loader_vue___default.a, SubmissionPage: __WEBPACK_IMPORTED_MODULE_6__components_popup_SubmissionPage_vue___default.a,
         Notification: __WEBPACK_IMPORTED_MODULE_8__components_popup_partials_Notification_vue___default.a },
 
     data: {
-        context: new __WEBPACK_IMPORTED_MODULE_11__classes_popupContext__["a" /* default */](window.course_id),
+        context: new __WEBPACK_IMPORTED_MODULE_10__classes_popupContext__["a" /* default */](window.course_id),
         notification_text: '',
         notification_show: false,
         loaderVisible: 0
@@ -1206,9 +1182,8 @@ var app = new Vue({
             VueEvent.$on('show-notification', function (message) {
                 _this.notification_text = message;
                 _this.notification_show = true;
-                var that = _this;
                 setTimeout(function () {
-                    that.notification_show = false;
+                    _this.notification_show = false;
                 }, 2000);
             });
             VueEvent.$on('close-notification', function () {
@@ -1220,11 +1195,6 @@ var app = new Vue({
             VueEvent.$on('hide-loader', function () {
                 return _this.loaderVisible -= 1;
             });
-        },
-        updateActiveFile: function updateActiveFile() {
-            if (this.context.active_submission !== null && this.context.active_submission.files.length > 0) {
-                this.context.active_file = this.context.active_submission.files[0];
-            }
         }
     }
 });
@@ -1921,9 +1891,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_Comment__ = __webpack_require__(462);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Comment__ = __webpack_require__(462);
 //
 //
 //
@@ -1953,13 +1921,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
 
 /* harmony default export */ exports["default"] = {
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_apiCalls___default.a],
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a },
 
@@ -2000,7 +1966,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             var _this2 = this;
 
             VueEvent.$emit('show-loader');
-            __WEBPACK_IMPORTED_MODULE_2__models_Comment__["a" /* default */].save(this.written_comment, this.charon.id, this.student.id, function (comment) {
+            __WEBPACK_IMPORTED_MODULE_1__models_Comment__["a" /* default */].save(this.written_comment, this.charon.id, this.student.id, function (comment) {
                 _this2.comments.push(comment);
                 _this2.written_comment = '';
                 VueEvent.$emit('hide-loader');
@@ -2015,7 +1981,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 return;
             }
 
-            __WEBPACK_IMPORTED_MODULE_2__models_Comment__["a" /* default */].all(this.charon.id, this.student.id, function (comments) {
+            __WEBPACK_IMPORTED_MODULE_1__models_Comment__["a" /* default */].all(this.charon.id, this.student.id, function (comments) {
                 _this3.comments = comments;
             });
         }
@@ -2296,10 +2262,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
     filters: {
         datetime: function datetime(date) {
-            return date.replace(/\:00.000+/, "");
+            return date.replace(/\:00.000+/, '');
         },
-        maxGrade: function maxGrade(result) {
-            return this.getGrademapByResult(result).grade_item.grademax;
+        withoutTrailingZeroes: function withoutTrailingZeroes(number) {
+            return number.replace(/000$/, '');
         }
     },
 
@@ -13052,7 +13018,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "result"
     }, [_c('div', [_vm._v("\n                        " + _vm._s(_vm.getGrademapByResult(result).name) + "\n                        "), _c('span', {
       staticClass: "grademax"
-    }, [_vm._v("/ " + _vm._s(_vm._f("maxGrade")(result)) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
+    }, [_vm._v("/ " + _vm._s(_vm._f("withoutTrailingZeroes")(_vm.getGrademapByResult(result).grade_item.grademax)) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
