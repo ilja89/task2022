@@ -21,6 +21,7 @@
             submissionString() {
                 let resultStr = '';
                 let prefix = '';
+
                 this.submission.results.forEach((result) => {
                     resultStr += prefix;
                     resultStr += result.calculated_result;

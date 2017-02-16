@@ -10,18 +10,11 @@
             </charon-select>
         </template>
 
-        <div class="submissions">
-
-            <submission v-for="submission in context.submissions"
-                        :submission="submission"
-                        @submission-was-selected="onSubmissionSelected(submission)">
-            </submission>
-
-            <div v-show="context.submissions.length === 0">
-                <h3 class="title is-3">No submissions found!</h3>
-            </div>
-
-        </div>
+        <submissions-list
+                :charon="context.active_charon"
+                :student="context.active_student"
+                :active_submission="context.active_submission">
+        </submissions-list>
 
     </popup-section>
 
@@ -29,20 +22,14 @@
 
 <script>
     import PopupSection from '../partials/PopupSection.vue';
-    import Submission from '../partials/Submission.vue';
     import CharonSelect from '../partials/CharonSelect.vue';
+    import SubmissionsList from '../partials/SubmissionsList.vue';
 
     export default {
-        components: { PopupSection, Submission, CharonSelect },
+        components: { PopupSection, CharonSelect, SubmissionsList },
 
         props: {
             context: { required: true }
-        },
-
-        methods: {
-            onSubmissionSelected(submission) {
-                VueEvent.$emit('submission-was-selected', submission);
-            }
         }
     }
 </script>

@@ -17,14 +17,6 @@ module.exports = {
             });
         },
 
-        getSubmissionsForUser(charonId, userId) {
-            return new Promise((resolve, reject) => {
-                Api.get('/mod/charon/api/charons/' + charonId + '/submissions', { user_id: userId })
-                    .then(response => resolve(response))
-                    .catch(error => reject(error));
-            });
-        },
-
         updateSubmissionResults(charonId, submission) {
             return new Promise((resolve, reject) => {
                 Api.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission })
