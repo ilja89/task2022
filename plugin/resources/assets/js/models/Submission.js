@@ -19,6 +19,11 @@ class Submission {
                 VueEvent.$emit('hide-loader');
             });
     }
+
+    static update(charonId, submission, then) {
+        axios.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission })
+            .then(response => then(response.data))
+    }
 }
 Submission.nextUrl = null;
 

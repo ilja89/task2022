@@ -4,7 +4,8 @@
 
         <page-title :student="context.active_student"></page-title>
 
-        <submission-overview-section :context="context" :submission="context.active_submission"></submission-overview-section>
+        <submission-overview-section :charon="context.active_charon" :submission="context.active_submission">
+        </submission-overview-section>
 
         <output-section :context="context"></output-section>
 

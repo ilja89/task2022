@@ -1197,9 +1197,6 @@ var app = new Vue({
             VueEvent.$on('submission-was-selected', function (submission) {
                 _this.context.active_submission = submission;
             });
-            VueEvent.$on('save-active-submission', function () {
-                _this.updateSubmission(_this.context.active_submission);
-            });
             VueEvent.$on('file-was-changed', function (file) {
                 _this.context.active_file = file;
             });
@@ -1222,22 +1219,6 @@ var app = new Vue({
             });
             VueEvent.$on('hide-loader', function () {
                 return _this.loaderVisible -= 1;
-            });
-        },
-        updateSubmission: function updateSubmission(submission) {
-            var _this2 = this;
-
-            return new Promise(function (resolve, reject) {
-                _this2.updateSubmissionResults(_this2.context.active_charon.id, submission).then(function (response) {
-                    if (response.status == "OK") {
-                        submission.confirmed = 1;
-                        VueEvent.$emit('submission-was-saved');
-                        VueEvent.$emit('show-notification', 'Submission saved!');
-                    }
-                    resolve(response);
-                }).catch(function (error) {
-                    return reject(error);
-                });
             });
         },
         updateActiveFile: function updateActiveFile() {
@@ -1473,6 +1454,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_SubmissionOverviewSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sections_OutputSection_vue__);
+//
 //
 //
 //
@@ -2231,6 +2213,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Submission__ = __webpack_require__(242);
 //
 //
 //
@@ -2287,6 +2270,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -2294,7 +2278,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a },
 
     props: {
-        context: { required: true },
+        charon: { required: true },
         submission: { default: null }
     },
 
@@ -2302,21 +2286,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
         hasSubmission: function hasSubmission() {
             return this.submission !== null;
         },
-        deadlines: function deadlines() {
-            return this.context.active_charon.deadlines;
-        },
         hasDeadlines: function hasDeadlines() {
-            return this.context.active_charon.deadlines.length !== 0;
+            return this.charon.deadlines.length !== 0;
         },
         activeCharonName: function activeCharonName() {
-            return this.context.active_charon !== null ? this.context.active_charon.name : null;
+            return this.charon !== null ? this.charon.name : null;
+        }
+    },
+
+    filters: {
+        datetime: function datetime(date) {
+            return date.replace(/\:00.000+/, "");
+        },
+        maxGrade: function maxGrade(result) {
+            return this.getGrademapByResult(result).grade_item.grademax;
         }
     },
 
     methods: {
         getGrademapByResult: function getGrademapByResult(result) {
             var correctGrademap = null;
-            this.context.active_charon.grademaps.forEach(function (grademap) {
+            this.charon.grademaps.forEach(function (grademap) {
                 if (result.grade_type_code == grademap.grade_type_code) {
                     correctGrademap = grademap;
                 }
@@ -2325,7 +2315,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
             return correctGrademap;
         },
         saveSubmission: function saveSubmission() {
-            VueEvent.$emit('save-active-submission');
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_1__models_Submission__["a" /* default */].update(this.charon.id, this.submission, function (response) {
+                if (response.status == "OK") {
+                    _this.submission.confirmed = 1;
+                    VueEvent.$emit('submission-was-saved');
+                    VueEvent.$emit('show-notification', 'Submission saved!');
+                }
+            });
         }
     }
 };
@@ -2459,11 +2457,8 @@ var PopupContext = function PopupContext(course_id) {
 
     this.active_student = null;
     this.active_charon = null;
-
     this.active_submission = null;
-
     this.active_file = null;
-    this.active_comments = [];
 
     this.active_page = 'Grading';
 };
@@ -2507,6 +2502,13 @@ var Submission = function () {
                 Submission.nextUrl = data.next_page_url;
                 then(data.data);
                 VueEvent.$emit('hide-loader');
+            });
+        }
+    }, {
+        key: 'update',
+        value: function update(charonId, submission, then) {
+            axios.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission }).then(function (response) {
+                return then(response.data);
             });
         }
     }]);
@@ -12827,7 +12829,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('submission-overview-section', {
     attrs: {
-      "context": _vm.context,
+      "charon": _vm.context.active_charon,
       "submission": _vm.context.active_submission
     }
   }), _vm._v(" "), _c('output-section', {
@@ -13027,30 +13029,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.saveSubmission
     }
-  }, [_vm._v("\n            Save\n        ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n            Save\n        ")])]), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
     staticClass: "columns is-gapless  submission-overview-container"
-  }, [(_vm.hasSubmission) ? _c('div', {
+  }, [_c('div', {
     staticClass: "column is-one-third card"
   }, [_c('div', {
     staticClass: "timestamp-info  submission-timestamp"
   }, [_vm._v("Git time:")]), _vm._v(" "), _c('div', {
     staticClass: "submission-timestamp"
-  }, [_vm._v(_vm._s(_vm.submission.git_timestamp.date.replace(/\:..\.000+/, "")))]), _vm._v(" "), (_vm.hasDeadlines) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm._f("datetime")(_vm.submission.git_timestamp.date)))]), _vm._v(" "), (_vm.hasDeadlines) ? _c('div', {
     staticClass: "submission-deadlines"
   }, [_c('div', {
     staticClass: "timestamp-info"
-  }, [_vm._v("Deadlines:")]), _vm._v(" "), _c('ul', _vm._l((_vm.deadlines), function(deadline) {
-    return _c('li', [_vm._v(_vm._s(deadline.deadline_time.date.replace(/\:00.000+/, "")) + " - " + _vm._s(deadline.percentage) + "%")])
-  }))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.hasSubmission) ? _c('div', {
+  }, [_vm._v("Deadlines:")]), _vm._v(" "), _c('ul', _vm._l((_vm.charon.deadlines), function(deadline) {
+    return _c('li', [_vm._v(_vm._s(_vm._f("datetime")(deadline.deadline_time.date)) + " - " + _vm._s(deadline.percentage) + "%")])
+  }))]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "column is-7 card"
   }, [_vm._l((_vm.submission.results), function(result, index) {
-    return (_vm.getGrademapByResult(result) !== null) ? _c('div', [(index !== 0) ? _c('hr', {
+    return (_vm.getGrademapByResult(result)) ? _c('div', [(index !== 0) ? _c('hr', {
       staticClass: "hr-result"
     }) : _vm._e(), _vm._v(" "), _c('div', {
       staticClass: "result"
     }, [_c('div', [_vm._v("\n                        " + _vm._s(_vm.getGrademapByResult(result).name) + "\n                        "), _c('span', {
       staticClass: "grademax"
-    }, [_vm._v("/ " + _vm._s(_vm.getGrademapByResult(result).grade_item.grademax) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
+    }, [_vm._v("/ " + _vm._s(_vm._f("maxGrade")(result)) + "p")])]), _vm._v(" "), _c('div', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -13077,7 +13079,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })])])]) : _vm._e()
   }), _vm._v(" "), (_vm.submission.confirmed == 1) ? _c('div', {
     staticClass: "submission-confirmed"
-  }, [_c('hr'), _vm._v(" "), _c('strong', [_vm._v("Confirmed")])]) : _vm._e()], 2) : _vm._e()])], 2)
+  }, [_c('hr'), _vm._v(" "), _c('strong', [_vm._v("Confirmed")])]) : _vm._e()], 2)]) : _vm._e()], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

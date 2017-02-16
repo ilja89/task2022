@@ -50,9 +50,6 @@ const app = new Vue({
             VueEvent.$on('submission-was-selected', (submission) => {
                 this.context.active_submission = submission;
             });
-            VueEvent.$on('save-active-submission', () => {
-                this.updateSubmission(this.context.active_submission);
-            });
             VueEvent.$on('file-was-changed', (file) => {
                 this.context.active_file = file;
             });
@@ -70,21 +67,6 @@ const app = new Vue({
             VueEvent.$on('close-notification', () => this.notification_show = false);
             VueEvent.$on('show-loader', () => this.loaderVisible += 1);
             VueEvent.$on('hide-loader', () => this.loaderVisible -= 1);
-        },
-
-        updateSubmission(submission) {
-            return new Promise((resolve, reject) => {
-                this.updateSubmissionResults(this.context.active_charon.id, submission)
-                    .then(response => {
-                        if (response.status == "OK") {
-                            submission.confirmed = 1;
-                            VueEvent.$emit('submission-was-saved');
-                            VueEvent.$emit('show-notification', 'Submission saved!');
-                        }
-                        resolve(response);
-                    })
-                    .catch(error => reject(error));
-            });
         },
 
         updateActiveFile() {
