@@ -112,6 +112,11 @@
 
         watch: {
             active_file_id() {
+                if (this.submission === null) {
+                    this.activeFile = null;
+                    return;
+                }
+
                 this.submission.files.forEach(file => {
                     if (file.id === this.active_file_id) {
                         this.activeFile = file;

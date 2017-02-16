@@ -2104,6 +2104,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
         active_file_id: function active_file_id() {
             var _this = this;
 
+            if (this.submission === null) {
+                this.activeFile = null;
+                return;
+            }
+
             this.submission.files.forEach(function (file) {
                 if (file.id === _this.active_file_id) {
                     _this.activeFile = file;
