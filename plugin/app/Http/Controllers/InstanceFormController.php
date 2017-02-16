@@ -8,6 +8,8 @@ use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
+use TTU\Charon\Repositories\CourseSettingsRepository;
+use TTU\Charon\Repositories\PresetsRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -30,6 +32,12 @@ class InstanceFormController extends Controller
     /** @var GradebookService */
     private $gradebookService;
 
+    /** @var CourseSettingsRepository */
+    private $courseSettingsRepository;
+
+    /** @var PresetsRepository */
+    private $presetsRepository;
+
     /**
      * InstanceFormController constructor.
      *
@@ -37,17 +45,23 @@ class InstanceFormController extends Controller
      * @param  CharonRepository $charonRepository
      * @param  ClassificationsRepository $classificationsRepository
      * @param GradebookService $gradebookService
+     * @param CourseSettingsRepository $courseSettingsRepository
+     * @param PresetsRepository $presetsRepository
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         ClassificationsRepository $classificationsRepository,
-        GradebookService $gradebookService
+        GradebookService $gradebookService,
+        CourseSettingsRepository $courseSettingsRepository,
+        PresetsRepository $presetsRepository
     ) {
         $this->request                   = $request;
         $this->charonRepository          = $charonRepository;
         $this->classificationsRepository = $classificationsRepository;
         $this->gradebookService = $gradebookService;
+        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->presetsRepository = $presetsRepository;
     }
 
     /**
@@ -60,22 +74,25 @@ class InstanceFormController extends Controller
         $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
+        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
 
         if ($this->isUpdate()) {
             $charon = $this->getCharon();
 
             return view('instanceForm.form', compact(
-                'charon', 'gradeTypes', 'gradingMethods', 'testerTypes'
+                'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
             ));
         }
 
         return view('instanceForm.form', compact(
-            'gradeTypes', 'gradingMethods', 'testerTypes'
+            'gradeTypes', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
         ));
     }
 
     /**
-     *
+     * Triggered by a post request to the form. This takes old values from the request and
+     * sends them to the form.
      */
     public function postIndex()
     {
@@ -96,11 +113,12 @@ class InstanceFormController extends Controller
         $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
+        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
 
         $update = true;
 
         return view('instanceForm.form', compact(
-            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update'
+            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update', 'presets'
         ));
     }
 

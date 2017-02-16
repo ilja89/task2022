@@ -18,6 +18,8 @@ class GradeType extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'code';
+
     public function isTestsGrade()
     {
         return $this->code < 100;

@@ -39,6 +39,7 @@ function charon_extend_navigation_course($navigation, $course, $context) {
             null, null, new pix_icon('i/settings', ''));
         $navigation->add_node($settingsnode);
 
+        // TODO: Show link only when Charons exist. Capella too!
         $url = new moodle_url('/mod/charon/courses/' . $course->id . '/popup');
         $settingsnode = navigation_node::create('Charon Popup', $url, navigation_node::TYPE_SETTING,
             null, null, new pix_icon('i/settings', ''));

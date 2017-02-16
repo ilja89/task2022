@@ -34,6 +34,10 @@ module.exports = {
 
         onMaxScoreChanged(maxScore) {
             VueEvent.$emit('max-score-was-changed', maxScore);
+        },
+
+        onPresetChanged(presetId) {
+            VueEvent.$emit('preset-was-changed', presetId);
         }
     }
 };

@@ -24,6 +24,12 @@
             };
         },
 
+        watch: {
+            input_value() {
+                this.value = this.input_value;
+            }
+        },
+
         mounted() {
             this.value = this.input_value;
         },

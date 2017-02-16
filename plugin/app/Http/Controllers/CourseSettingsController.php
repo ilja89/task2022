@@ -47,6 +47,7 @@ class CourseSettingsController extends Controller
         $courseSettings = $this->getCourseSettings($course);
 
         $courseSettings->unittests_git = $this->request['unittests_git'];
+        $courseSettings->tester_type_code = $this->request['tester_type'];
         $courseSettings->save();
 
         return redirect('/mod/charon/courses/' . $course->id . '/settings');

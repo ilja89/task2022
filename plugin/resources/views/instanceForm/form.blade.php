@@ -6,6 +6,8 @@
     window.testerTypes = {!! $testerTypes->toJson() !!};
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
     window.update = {{ isset($update) ? 'true' : 'false' }};
+    window.courseSettings = {!! $courseSettings->toJson() !!};
+    window.presets = {!! $presets->toJson() !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
@@ -21,7 +23,8 @@
         grade_name_label: "{{ translate('grade_name') }}",
         max_points_label: "{{ translate('max_points') }}",
         id_number_label: "{{ translate('id_number') }}",
-        calculation_formula_label: "{{ translate('calculation_formula') }}"
+        calculation_formula_label: "{{ translate('calculation_formula') }}",
+        preset_label: "{{ translate('preset') }}",
     };
 </script>
 
