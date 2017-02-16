@@ -114,11 +114,12 @@ class InstanceFormController extends Controller
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
         $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
 
         $update = true;
 
         return view('instanceForm.form', compact(
-            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update', 'presets'
+            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets'
         ));
     }
 
