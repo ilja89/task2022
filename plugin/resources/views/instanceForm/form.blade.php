@@ -7,7 +7,7 @@
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
     window.update = {{ isset($update) ? 'true' : 'false' }};
     window.courseSettings = {!! $courseSettings !== null ? $courseSettings->toJson() : '{}' !!};
-    window.presets = {!! $presets->toJson() !!};
+    window.presets = {!! $presets !== null ? $presets->toJson() : '{}' !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
