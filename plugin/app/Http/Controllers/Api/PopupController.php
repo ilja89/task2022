@@ -91,7 +91,7 @@ class PopupController extends Controller
     {
         $userId = $this->request['user_id'];
 
-        $submissions = Submission::with('results', 'files')
+        $submissions = Submission::with('results', 'files', 'charon', 'charon.grademaps')
                                  ->where('charon_id', $charon->id)
                                  ->where('user_id', $userId)
                                  ->orderBy('git_timestamp', 'desc')
