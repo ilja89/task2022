@@ -13,8 +13,10 @@
             </ul>
         </aside>
 
-        <div class="column  page-container">
-            <slot></slot>
+        <div class="column page-right">
+            <div class="page-container">
+                <slot></slot>
+            </div>
         </div>
 
     </div>
