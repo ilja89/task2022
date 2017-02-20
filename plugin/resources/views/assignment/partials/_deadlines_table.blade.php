@@ -1,27 +1,27 @@
 <div>
-    <h2 class="title">Deadlines</h2>
+    @if (! $charon->deadlines->isEmpty())
 
-    <table class="table is-bordered">
-        <thead>
-        <tr>
-            <th>Deadline</th>
-            <th>Percentage</th>
-        </tr>
-        </thead>
-        <tbody>
+        <h2 class="title">Deadlines</h2>
 
-        @if ($charon->deadlines->isEmpty())
-            <tr><td colspan="2">No deadlines!</td></tr>
-        @endif
-
-        @foreach ($charon->deadlines as $deadline)
+        <table class="table is-bordered">
+            <thead>
             <tr>
-                <td>{{ $deadline->deadline_time }}</td>
-                <td>{{ $deadline->percentage }}%</td>
+                <th>Deadline</th>
+                <th>Percentage</th>
             </tr>
-        @endforeach
-        </tbody>
+            </thead>
+            <tbody>
 
-    </table>
+            @foreach ($charon->deadlines as $deadline)
+                <tr>
+                    <td>{{ $deadline->deadline_time }}</td>
+                    <td>{{ $deadline->percentage }}%</td>
+                </tr>
+            @endforeach
+            </tbody>
+
+        </table>
+
+    @endif
 
 </div>
