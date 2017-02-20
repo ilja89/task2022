@@ -5,37 +5,28 @@
 
 <h1 class="title">{{ $charon->name }}</h1>
 
-<div class="columns">
+<div class="columns" id="app">
+
     <div class="column assignment-content">
         {!! $charon->description !!}
     </div>
 
-    <div class="column is-one-quarter">
+    <div class="column is-one-third">
 
-        <h2 class="title">Deadlines</h2>
+        @include('assignment.partials._deadlines_table')
 
-        <table class="table is-bordered">
-            <thead>
-                <tr>
-                    <th>Deadline</th>
-                    <th>Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($charon->deadlines as $deadline)
-                    <tr>
-                        <td>{{ $deadline->deadline_time }}</td>
-                        <td>{{ $deadline->percentage }}%</td>
-                    </tr>
-                @endforeach
-            </tbody>
-
-        </table>
+        <submissions-list :submissions="submissions" :grademaps="grademaps"></submissions-list>
 
     </div>
 </div>
 
+<script>
+    var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
+    var submissions = {!! $submissions->toJson() !!};
+</script>
+
 <script src="/mod/charon/plugin/public/external/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+<script src="/mod/charon/plugin/public/js/assignment.js"></script>
 
 {!! $footer !!}

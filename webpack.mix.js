@@ -13,8 +13,7 @@ let mix = require('laravel-mix').mix;
 
 mix.setPublicPath('plugin/public');
 
-mix.js('plugin/resources/assets/js/app.js', 'js')
-   .js('plugin/resources/assets/js/instanceForm.js', 'js')
+mix.js('plugin/resources/assets/js/instanceForm.js', 'js')
    .js('plugin/resources/assets/js/courseSettings.js', 'js')
    .js('plugin/resources/assets/js/popup.js', 'js')
    .js('plugin/resources/assets/js/assignment.js', 'js')
@@ -24,10 +23,14 @@ mix.js('plugin/resources/assets/js/app.js', 'js')
    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
    .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
    .minify([
-       'plugin/public/js/app.js',
+       'plugin/public/js/instanceForm.js',
+       'plugin/public/js/courseSettings.js',
+       'plugin/public/js/popup.js',
+       'plugin/public/js/assignment.js',
        'plugin/public/css/app.css',
        'plugin/public/css/assignment.css',
-       'plugin/public/css/instanceForm.css'
+       'plugin/public/css/instanceForm.css',
+       'plugin/public/css/popup.css'
    ]);
 
 // Full API
