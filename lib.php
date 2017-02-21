@@ -1,31 +1,25 @@
 <?php
 
-use Illuminate\Http\Request;
-
-function getApp() {
+function handleMoodleRequest($route, $method) {
     require_once __DIR__ . '/plugin/bootstrap/autoload.php';
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
     $app = require __DIR__ . '/plugin/bootstrap/app.php';
-    // Need to make a small request first because Laravel can't initialize the Request parameter
-    // for InstanceController otherwise.
-    // TODO: Should refactor somehow.
-    $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle(Request::capture());
-    return $app;
+
+    $request = getMoodleRequest($route, $method);
+    $response = $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
+    return $response->getOriginalContent();
 }
 
 function charon_add_instance($test, $mform) {
-    $app = getApp();
-    return $app->make(TTU\Charon\Http\Controllers\InstanceController::class)->store();
+    return handleMoodleRequest('charons', 'post');
 }
 
 function charon_update_instance($test, $mform) {
-    $app = getApp();
-    return $app->make(TTU\Charon\Http\Controllers\InstanceController::class)->update();
+    return handleMoodleRequest('charons/update', 'post');
 }
 
 function charon_delete_instance($id) {
-    $app = getApp();
-    $instanceController = $app->make(TTU\Charon\Http\Controllers\InstanceController::class);
-    return $instanceController->destroy($id);
+    return handleMoodleRequest('charons/delete', 'post');
 }
 
 function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }
