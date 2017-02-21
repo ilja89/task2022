@@ -32,8 +32,6 @@
 
 <div id="app">
 
-    {{ csrf_field() }}
-
     <instance-form
             :form="form">
     </instance-form>
