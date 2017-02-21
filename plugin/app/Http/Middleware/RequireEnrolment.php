@@ -48,6 +48,7 @@ class RequireEnrolment
     public function handle($request, Closure $next)
     {
         $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
+        require_login($charon->course);
 
         $modinfo = get_fast_modinfo($charon->course);
         $cm = $modinfo->get_cm($charon->courseModule()->id);
@@ -58,11 +59,7 @@ class RequireEnrolment
 
             return $next($request);
         } else {
-            throw new ForbiddenException(
-                'user_cannot_access_course_module',
-                $charon->courseModule()->id,
-                $this->user->currentUserId()
-            );
+            return redirect('/course/view.php?id=' . $charon->course, 'Sorry, this activity is currently hidden', null);
         }
     }
 }

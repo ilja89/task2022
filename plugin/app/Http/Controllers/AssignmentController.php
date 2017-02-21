@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
+use Zeizig\Moodle\Globals\User;
 
 /**
  * Class AssignmentController.
@@ -19,16 +21,22 @@ use Zeizig\Moodle\Globals\Page;
 class AssignmentController extends Controller
 {
     /** @var CharonRepository */
-    protected $charonRepository;
+    private $charonRepository;
 
     /** @var Output */
-    protected $output;
+    private $output;
 
     /** @var Page */
-    protected $page;
+    private $page;
 
     /** @var Request */
-    protected $request;
+    private $request;
+
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
+
+    /** @var User */
+    private $user;
 
     /**
      * AssignmentController constructor.
@@ -37,17 +45,23 @@ class AssignmentController extends Controller
      * @param  CharonRepository $charonRepository
      * @param  Output $output
      * @param  Page $page
+     * @param SubmissionsRepository $submissionsRepository
+     * @param User $user
      */
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
         Output $output,
-        Page $page
+        Page $page,
+        SubmissionsRepository $submissionsRepository,
+        User $user
     ) {
         $this->request = $request;
         $this->charonRepository = $charonRepository;
         $this->output = $output;
         $this->page = $page;
+        $this->submissionsRepository = $submissionsRepository;
+        $this->user = $user;
     }
 
     /**
@@ -61,13 +75,15 @@ class AssignmentController extends Controller
         $charon = $this->getCharon();
 
         $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
-
         $this->addBreadcrumbs($charon);
+
+        $submissions = $this->submissionsRepository->getSubmissionsForStudentAndCharon($charon->id, $this->user->currentUserId());
 
         return view('assignment.index', [
             'header' => $this->output->header(),
             'footer' => $this->output->footer(),
             'charon' => $charon,
+            'submissions' => $submissions,
         ]);
     }
 
@@ -79,7 +95,8 @@ class AssignmentController extends Controller
      */
     private function getCharon()
     {
-        return $this->charonRepository->getCharonByCourseModuleIdEager($this->request['id']);
+        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request['id']);
+        return $charon;
     }
 
     /**

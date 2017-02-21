@@ -12,6 +12,8 @@
 
 $family-sans-serif: "Roboto","Fira Sans","Segoe UI","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif,"line-icons";
 $size-6: 16px;
+$blue: #03a9f4;
+$table-text-color: #666666;
 
 @import '~bulma';
 
@@ -39,7 +41,7 @@ $size-6: 16px;
 }
 
 .table {
-  color: #666;
+  color: $table-text-color;
 }
 
 .table>thead:first-child>tr:first-child>th {
@@ -48,5 +50,58 @@ $size-6: 16px;
 
 
 /*---------------------------------*\
-  #VIEW
+  #SUBMISSIONS
 \*---------------------------------*/
+
+.submission-row {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: $white;
+  border: 1px solid #dddddd;
+  color: $table-text-color;
+
+  .tag {
+    border-radius: 5px;
+    font-weight: $weight-semibold;
+  }
+
+  .dropdown-arrow {
+    height: 24px;
+    width: 24px;
+    transition: transform 300ms;
+    transform: rotate(180deg);
+  }
+}
+
+.submissions-list {
+  .active {
+    .dropdown-arrow {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.results-list {
+  background-color: #fafafa;
+  box-shadow: inset 0 2px 4px -3px rgba(0,0,0,0.4);
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  border: 1px solid #ddd;
+  color: $table-text-color;
+}
+
+.result-row:not(:first-child) {
+  border-top-color: #eeeeee;
+}
