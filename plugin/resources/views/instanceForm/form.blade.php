@@ -7,6 +7,7 @@
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
     window.update = {{ isset($update) ? 'true' : 'false' }};
     window.courseSettings = {!! $courseSettings !== null ? $courseSettings->toJson() : '{}' !!};
+    window.presets = {!! $presets->toJson() !!};
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
 
@@ -30,8 +31,6 @@
 </script>
 
 <div id="app">
-
-    {{ csrf_field() }}
 
     <instance-form
             :form="form">
