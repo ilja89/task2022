@@ -8,6 +8,7 @@ use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
