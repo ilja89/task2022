@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('charons', 'InstanceController@store');
+Route::post('charons/update', 'InstanceController@update');
+Route::post('charons/delete', 'InstanceController@delete');
+
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@postIndex');
 Route::get('view.php', 'AssignmentController@index')
