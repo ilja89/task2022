@@ -74,8 +74,7 @@ class AssignmentController extends Controller
     {
         $charon = $this->getCharon();
 
-        $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
-        $this->addBreadcrumbs($charon);
+        $this->initializePage($charon);
 
         $submissions = $this->submissionsRepository->getSubmissionsForStudentAndCharon($charon->id, $this->user->currentUserId());
 
@@ -110,5 +109,12 @@ class AssignmentController extends Controller
     public function addBreadcrumbs($charon)
     {
         $this->page->addBreadcrumb($charon->name);
+    }
+
+    public function initializePage(Charon $charon)
+    {
+        $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
+        $this->page->setTitle($charon->name);
+        $this->addBreadcrumbs($charon);
     }
 }
