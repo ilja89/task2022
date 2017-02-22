@@ -2,24 +2,19 @@
 
 namespace mod_charon;
 
-use TTU\Charon\Http\Controllers\InstanceController;
-
 class course_module_created
 {
     public static function course_module_created(\core\event\course_module_created $event)
     {
         if ($event->other['modulename'] === 'charon') {
             require_once __DIR__ . '/../../plugin/bootstrap/autoload.php';
+            require_once __DIR__ . '/../../plugin/bootstrap/helpers.php';
             $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
             $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
-            $kernel->handle($request = \Illuminate\Http\Request::capture());
 
-            /** @var InstanceController $instanceController */
-            $instanceController = $app->make(InstanceController::class);
+            $request = getMoodleRequest('post_create/' . $event->other['instanceid'], 'post');
 
-            $instanceController->postCourseModuleCreated(
-                $event->other['instanceid']
-            );
+            $kernel->handle($request = $request);
         }
     }
 }
