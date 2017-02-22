@@ -32,6 +32,7 @@ class RequireCourseManagement
     public function handle($request, Closure $next)
     {
         $course = $request->route('course');
+        require_login($course->id);
         $this->permissionsService->requireCourseManagementCapability($course->id);
 
         return $next($request);
