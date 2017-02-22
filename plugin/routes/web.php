@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
-Route::post('charons/delete', 'InstanceController@delete');
+Route::post('charons/{charon}/delete', 'InstanceController@destroy');
 
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@postIndex');

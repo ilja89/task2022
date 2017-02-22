@@ -121,19 +121,21 @@ class InstanceController extends Controller
             $this->sendNewCharonInfoToTester($charon);
         }
 
-        return true;
+        return "1";
     }
 
     /**
      * Deletes the plugin instance with given id.
      *
-     * @param  integer $id
+     * @param Charon $charon
      *
      * @return bool true if instance was deleted successfully
+     * @internal param int $id
+     *
      */
-    public function destroy($id)
+    public function destroy($charonId)
     {
-        return $this->charonRepository->deleteByInstanceId($id);
+        return $this->charonRepository->deleteByInstanceId($charonId);
     }
 
     /**
