@@ -19,7 +19,7 @@ function charon_update_instance($test, $mform) {
 }
 
 function charon_delete_instance($id) {
-    return handleMoodleRequest('charons/delete', 'post');
+    return handleMoodleRequest('charons/' . $id . '/delete', 'post');
 }
 
 function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }

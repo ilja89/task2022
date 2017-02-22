@@ -120,6 +120,11 @@ class CharonRepository
      */
     public function deleteByInstanceId($id)
     {
+        $result = GradeItem::where('itemtype', 'mod')
+                           ->where('itemmodule', config('moodle.plugin_slug'))
+                           ->where('iteminstance', $id)
+                           ->delete();
+
         return Charon::destroy($id);
     }
 
