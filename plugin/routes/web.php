@@ -19,6 +19,9 @@ Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
 Route::post('charons/{charon}/delete', 'InstanceController@destroy');
 
+Route::post('post_create/{charonId}', 'InstanceController@postCourseModuleCreated');
+Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdated');
+
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@postIndex');
 Route::get('view.php', 'AssignmentController@index')
