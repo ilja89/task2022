@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Deadline;
+use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -124,6 +126,10 @@ class CharonRepository
                            ->where('itemmodule', config('moodle.plugin_slug'))
                            ->where('iteminstance', $id)
                            ->delete();
+        Grademap::where('charon_id', $id)
+            ->delete();
+        Deadline::where('charon_id', $id)
+            ->delete();
 
         return Charon::destroy($id);
     }

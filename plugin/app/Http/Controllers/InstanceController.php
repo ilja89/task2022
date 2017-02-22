@@ -133,9 +133,9 @@ class InstanceController extends Controller
      * @internal param int $id
      *
      */
-    public function destroy(Charon $charon)
+    public function destroy($charonId)
     {
-        return $this->charonRepository->deleteByInstanceId($charon->id);
+        return $this->charonRepository->deleteByInstanceId($charonId);
     }
 
     /**

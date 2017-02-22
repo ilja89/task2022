@@ -1,12 +1,18 @@
 <?php
 
-function handleMoodleRequest($route, $method) {
+function getApp() {
+    require_once __DIR__ . '/../../config.php';
     require_once __DIR__ . '/plugin/bootstrap/autoload.php';
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
-    $app = require __DIR__ . '/plugin/bootstrap/app.php';
+    return require __DIR__ . '/plugin/bootstrap/app.php';
+}
 
+function handleMoodleRequest($route, $method) {
+
+    $app = getApp();
     $request = getMoodleRequest($route, $method);
     $response = $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
+
     return $response->getOriginalContent();
 }
 
@@ -19,7 +25,19 @@ function charon_update_instance($test, $mform) {
 }
 
 function charon_delete_instance($id) {
-    return handleMoodleRequest('charons/' . $id . '/delete', 'post');
+    $app = getApp();
+
+    $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+    try {
+        // Need to make a request before we can use app->make to get the controller
+        // Cannot use routes because this deleting is initiated by the cron job
+        // TODO: Make this better!
+        $kernel->handle($request = \Illuminate\Http\Request::capture());
+    } catch (Exception $e) { }
+
+    $controller = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
+
+    return $controller->destroy($id);
 }
 
 function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }
