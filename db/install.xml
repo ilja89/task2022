@@ -11,13 +11,13 @@
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="course" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="category_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="extra" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="category_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
 
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
@@ -30,12 +30,12 @@
             <KEYS>
                 <KEY NAME="FK_charon_course" TYPE="foreign" FIELDS="course"
                      REFTABLE="course" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_tester_type" TYPE="foreign" FIELDS="tester_type_code"
-                     REFTABLE="charon_tester_type" REFFIELDS="code"/>
-                <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
-                     REFTABLE="charon_grading_method" REFFIELDS="code"/>
                 <KEY NAME="FK_charon_grade_categories" TYPE="foreign" FIELDS="category_id"
                      REFTABLE="grade_categories" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
+                     REFTABLE="charon_grading_method" REFFIELDS="code"/>
+                <KEY NAME="FK_charon_tester_type" TYPE="foreign" FIELDS="tester_type_code"
+                     REFTABLE="charon_tester_type" REFFIELDS="code"/>
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
             </KEYS>
             <INDEXES>
