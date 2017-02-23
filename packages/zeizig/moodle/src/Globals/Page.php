@@ -63,4 +63,14 @@ class Page
     {
         $this->page->set_url($url, $args);
     }
+
+    /**
+     * Set the title for the current page.
+     *
+     * @param  string  $title
+     */
+    public function setTitle($title)
+    {
+        $this->page->set_title($title);
+    }
 }

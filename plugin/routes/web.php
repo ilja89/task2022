@@ -11,13 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
-Route::post('charons/{charon}/delete', 'InstanceController@destroy');
 
 Route::post('post_create/{charonId}', 'InstanceController@postCourseModuleCreated');
 Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdated');

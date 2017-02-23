@@ -123,4 +123,20 @@ class GradebookService extends MoodleService
             ->where('iteminstance', $categoryId)
             ->first();
     }
+
+    /**
+     * Denormalizes the given calculation formula. The given formula
+     * is in the format with ##grade item id##. The result will
+     * have the format with [[id_number]].
+     *
+     * @param  string  $formula
+     * @param  int  $courseId
+     *
+     * @return string
+     */
+    public function denormalizeCalculationFormula($formula, $courseId)
+    {
+        $calculationFormula = \grade_item::denormalize_formula($formula, $courseId);
+        return $calculationFormula;
+    }
 }

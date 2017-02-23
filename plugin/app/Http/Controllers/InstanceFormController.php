@@ -148,7 +148,7 @@ class InstanceFormController extends Controller
 
         if ($charon->category_id !== null) {
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-            $charon->calculation_formula = $gradeItem->calculation;
+            $charon->calculation_formula = $this->gradebookService->denormalizeCalculationFormula($gradeItem->calculation, $charon->course);
             $charon->max_score = $gradeItem->grademax;
         }
 
