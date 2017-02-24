@@ -10223,6 +10223,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__popup_partials_Loader_vue__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__popup_partials_Loader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__popup_partials_Loader_vue__);
 //
 //
 //
@@ -10248,6 +10250,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -10261,7 +10267,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         csrf_token: { required: true }
     },
 
-    components: { TesterSettingsSection: __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue___default.a, PresetsSection: __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default.a },
+    data: function data() {
+        return {
+            loaderVisible: 0
+        };
+    },
+
+
+    components: { TesterSettingsSection: __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue___default.a, PresetsSection: __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default.a, Loader: __WEBPACK_IMPORTED_MODULE_3__popup_partials_Loader_vue___default.a },
 
     mounted: function mounted() {
         var _this = this;
@@ -10271,6 +10284,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
         VueEvent.$on('tester-type-was-changed', function (tester_type) {
             return _this.form.fields.tester_type = tester_type;
+        });
+
+        VueEvent.$on('show-loader', function () {
+            return _this.loaderVisible++;
+        });
+        VueEvent.$on('hide-loader', function () {
+            return _this.loaderVisible--;
         });
     }
 };
@@ -10454,6 +10474,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GradesSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__GradesSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_Preset__ = __webpack_require__(472);
 //
 //
 //
@@ -10536,6 +10557,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -10555,7 +10584,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         presets: { required: true },
         gradingMethods: { required: true },
         gradeTypes: { required: true },
-        gradeNamePrefixes: { required: true }
+        gradeNamePrefixes: { required: true },
+        courseId: { required: true }
     },
 
     data: function data() {
@@ -10565,10 +10595,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    computed: {
+        isEditing: function isEditing() {
+            return this.activePreset !== null && typeof this.activePreset.id !== 'undefined' && this.activePreset.id !== null;
+        }
+    },
+
     methods: {
-        onActivePresetChanged: function onActivePresetChanged(preset) {
-            console.log("Selected!");
-            console.log(preset);
+        onActivePresetChanged: function onActivePresetChanged(presetId) {
+            var _this = this;
+
+            this.presets.forEach(function (preset) {
+                if (preset.id === presetId) {
+                    _this.activePreset = preset;
+                }
+            });
         },
         createPreset: function createPreset() {
             this.activePreset = {
@@ -10578,7 +10619,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 extra: '',
                 grading_method_code: null,
                 max_result: null,
-                grades: []
+                preset_grades: []
             };
         },
         onNameChanged: function onNameChanged(name) {
@@ -10597,7 +10638,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.activePreset.calculation_formula = calculationFormula;
         },
         savePreset: function savePreset() {
-            this.presets.push(this.activePreset);
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_6__models_Preset__["a" /* default */].save(this.activePreset, this.courseId, function (preset) {
+                _this2.presets.push(preset);
+            });
+        },
+        updatePreset: function updatePreset() {
+            var _this3 = this;
+
+            __WEBPACK_IMPORTED_MODULE_6__models_Preset__["a" /* default */].update(this.activePreset, this.courseId, function (preset) {
+                var index = null;
+                _this3.presets.forEach(function (presetLoop, indexLoop) {
+                    if (preset.id === presetLoop.id) {
+                        index = indexLoop;
+                    }
+                });
+                _this3.presets[index] = preset;
+            });
         }
     }
 };
@@ -11118,6 +11176,30 @@ module.exports = function enhanceError(error, config, code, response) {
   return error;
 };
 
+
+/***/ }),
+
+/***/ 201:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: {
+        visible: { required: true }
+    }
+};
 
 /***/ }),
 
@@ -12058,11 +12140,76 @@ module.exports = {
 
 /***/ }),
 
+/***/ 412:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(201),
+  /* template */
+  __webpack_require__(422),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/partials/Loader.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Loader.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01c678e8", Component.options)
+  } else {
+    hotAPI.reload("data-v-01c678e8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 422:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.visible) ? _c('div', {
+    attrs: {
+      "id": "loader"
+    }
+  }, [_vm._m(0)]) : _vm._e()
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "spinner"
+  }, [_c('div', {
+    staticClass: "bounce1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "bounce2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "bounce3"
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-01c678e8", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 435:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {}, [_c('form', {
+  return _c('div', [_c('form', {
     attrs: {
       "action": '/mod/charon/courses/' + _vm.form.course_id + '/settings',
       "method": "post"
@@ -12084,7 +12231,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "presets": _vm.form.presets,
       "gradingMethods": _vm.form.grading_methods,
       "gradeTypes": _vm.form.grade_types,
-      "gradeNamePrefixes": _vm.form.grade_name_prefixes
+      "gradeNamePrefixes": _vm.form.grade_name_prefixes,
+      "courseId": _vm.form.course_id
     }
   }), _vm._v(" "), _c('input', {
     staticClass: "btn btn-default",
@@ -12092,7 +12240,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "submit",
       "value": "Save"
     }
-  })], 1)])
+  })], 1), _vm._v(" "), _c('loader', {
+    attrs: {
+      "visible": _vm.loaderVisible !== 0
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12170,7 +12322,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('grades-section', {
     attrs: {
       "gradeTypes": _vm.gradeTypes,
-      "grades": _vm.activePreset.grades,
+      "grades": _vm.activePreset.preset_grades,
       "gradeNamePrefixes": _vm.gradeNamePrefixes
     }
   }), _vm._v(" "), _c('charon-text-input', {
@@ -12183,12 +12335,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input-was-changed": _vm.onCalculationFormulaChanged
     }
-  }), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), (!_vm.isEditing) ? _c('a', {
     staticClass: "btn btn-primary",
     on: {
       "click": _vm.savePreset
     }
-  }, [_vm._v("\n                " + _vm._s(_vm.translate('save_preset')) + "\n            ")])], 1) : _vm._e()])], 2)
+  }, [_vm._v("\n                " + _vm._s(_vm.translate('save_preset')) + "\n            ")]) : _c('a', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": _vm.updatePreset
+    }
+  }, [_vm._v("\n                " + _vm._s(_vm.translate('update_preset')) + "\n            ")])], 1) : _vm._e()])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12447,6 +12604,50 @@ if(false) {
 
 module.exports = __webpack_require__(169);
 
+
+/***/ }),
+
+/***/ 472:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Preset = function () {
+    function Preset() {
+        _classCallCheck(this, Preset);
+    }
+
+    _createClass(Preset, null, [{
+        key: 'save',
+        value: function save(preset, courseId, then) {
+            VueEvent.$emit('show-loader');
+            axios.post('/mod/charon/api/courses/' + courseId + '/presets', {
+                preset: preset
+            }).then(function (response) {
+                VueEvent.$emit('hide-loader');
+                then(response.data);
+            });
+        }
+    }, {
+        key: 'update',
+        value: function update(preset, courseId, then) {
+            VueEvent.$emit('show-loader');
+            axios.put('/mod/charon/api/courses/' + courseId + '/presets/' + preset.id, {
+                preset: preset
+            }).then(function (response) {
+                VueEvent.$emit('hide-loader');
+                then(response.data);
+            });
+        }
+    }]);
+
+    return Preset;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = Preset;
 
 /***/ }),
 

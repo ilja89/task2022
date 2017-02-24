@@ -22,6 +22,7 @@ $string['grade_name_prefix'] = 'Hinde nime eesliide';
 $string['grade_name_postfix'] = 'Hinde nime lõpp';
 $string['id_number_postfix'] = 'ID numbri lõpp';
 $string['save_preset'] = 'Salvesta preset';
+$string['update_preset'] = 'Uuenda preseti';
 
 /*------------------------*\
    Instance form

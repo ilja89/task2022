@@ -14,9 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class GradingMethod extends Model
 {
+    public $timestamps = false;
+
     protected $table = 'charon_grading_method';
 
-    public $timestamps = false;
+    protected $primaryKey = 'code';
 
     public function isPreferBest()
     {

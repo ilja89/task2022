@@ -55,7 +55,7 @@
 
                 <grades-section
                         :gradeTypes="gradeTypes"
-                        :grades="activePreset.grades"
+                        :grades="activePreset.preset_grades"
                         :gradeNamePrefixes="gradeNamePrefixes">
                 </grades-section>
 
@@ -67,9 +67,16 @@
                         @input-was-changed="onCalculationFormulaChanged">
                 </charon-text-input>
 
-                <a class="btn btn-primary"
+                <a v-if="!isEditing"
+                   class="btn btn-primary"
                    @click="savePreset">
                     {{ translate('save_preset') }}
+                </a>
+
+                <a v-else
+                   class="btn btn-primary"
+                   @click="updatePreset">
+                    {{ translate('update_preset') }}
                 </a>
 
             </div>
@@ -88,6 +95,7 @@
     import GradesSection from './GradesSection.vue';
 
     import Translate from '../../mixins/translate';
+    import Preset from '../../models/Preset';
 
     export default {
 
@@ -100,6 +108,7 @@
             gradingMethods: { required: true },
             gradeTypes: { required: true },
             gradeNamePrefixes: { required: true },
+            courseId: { required: true },
         },
 
         data() {
@@ -108,10 +117,19 @@
             };
         },
 
+        computed: {
+            isEditing() {
+                return this.activePreset !== null && typeof this.activePreset.id !== 'undefined' && this.activePreset.id !== null;
+            }
+        },
+
         methods: {
-            onActivePresetChanged(preset) {
-                console.log("Selected!");
-                console.log(preset);
+            onActivePresetChanged(presetId) {
+                this.presets.forEach(preset => {
+                    if (preset.id === presetId) {
+                        this.activePreset = preset;
+                    }
+                });
             },
 
             createPreset() {
@@ -122,7 +140,7 @@
                     extra: '',
                     grading_method_code: null,
                     max_result: null,
-                    grades: [ ]
+                    preset_grades: [ ]
                 };
             },
 
@@ -147,7 +165,21 @@
             },
 
             savePreset() {
-                this.presets.push(this.activePreset);
+                Preset.save(this.activePreset, this.courseId, preset => {
+                    this.presets.push(preset);
+                });
+            },
+
+            updatePreset() {
+                Preset.update(this.activePreset, this.courseId, preset => {
+                    let index = null;
+                    this.presets.forEach((presetLoop, indexLoop)=> {
+                        if (preset.id === presetLoop.id) {
+                            index = indexLoop;
+                        }
+                    });
+                    this.presets[index] = preset;
+                });
             }
         }
     }

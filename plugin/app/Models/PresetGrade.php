@@ -15,6 +15,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property float max_result
  * @property string id_number_postfix
  *
+ * @property Preset preset
+ * @property GradeNamePrefix gradeNamePrefix
+ * @property GradeType gradeType
+ *
  * @package TTU\Charon\Models
  */
 class PresetGrade extends Model
@@ -22,6 +26,10 @@ class PresetGrade extends Model
     public $timestamps = false;
 
     protected $table = 'charon_preset_grade';
+
+    protected $fillable = [
+        'grade_name_prefix_code', 'grade_type_code', 'grade_name', 'max_result', 'id_number_postfix'
+    ];
 
     public function preset()
     {

@@ -33,6 +33,7 @@
             calculation_formula_label: "{{ translate('calculation_formula') }}",
 
             save_preset: "{{ translate('save_preset') }}",
+            update_preset: "{{ translate('update_preset') }}",
         };
     </script>
 
