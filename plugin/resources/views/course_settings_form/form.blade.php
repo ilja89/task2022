@@ -18,6 +18,7 @@
             edit_preset_label: "{{ translate('edit_preset') }}",
             preset_name_label: "{{ translate('preset_name') }}",
             extra_label: "{{ translate('extra') }}",
+            max_points_label: "{{ translate('max_points') }}",
         }
     </script>
 

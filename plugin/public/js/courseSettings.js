@@ -9741,8 +9741,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_translate__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__mixins_translate__);
 //
 //
 //
@@ -9789,6 +9791,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -9798,9 +9809,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_translate___default.a],
+    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_translate___default.a],
 
-    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a },
+    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a, CharonNumberInput: __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default.a },
 
     props: {
         presets: { required: true }
@@ -9834,6 +9845,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         onExtraChanged: function onExtraChanged(extra) {
             this.activePreset.extra = extra;
+        },
+        onMaxResultChanged: function onMaxResultChanged(maxResult) {
+            this.activePreset.max_result = maxResult;
         }
     }
 };
@@ -9931,6 +9945,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             open: true
         };
+    }
+};
+
+/***/ }),
+
+/***/ 177:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: ['name', 'required', 'label', 'input_value'],
+
+    data: function data() {
+        return {
+            value: ''
+        };
+    },
+
+
+    watch: {
+        input_value: function input_value() {
+            this.value = this.input_value;
+        }
+    },
+
+    mounted: function mounted() {
+        this.value = this.input_value;
+    },
+
+
+    methods: {
+        onInputChanged: function onInputChanged(event) {
+            this.$emit('input-was-changed', this.value);
+        }
     }
 };
 
@@ -11227,6 +11291,41 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ 389:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(177),
+  /* template */
+  __webpack_require__(437),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonNumberInput.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CharonNumberInput.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b9ebe76", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b9ebe76", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11414,6 +11513,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input-was-changed": _vm.onExtraChanged
     }
+  }), _vm._v(" "), _c('charon-number-input', {
+    attrs: {
+      "name": "preset_max_result",
+      "required": false,
+      "label": _vm.translate('max_points_label'),
+      "input_value": _vm.activePreset.max_result
+    },
+    on: {
+      "input-was-changed": _vm.onMaxResultChanged
+    }
   })], 1) : _vm._e()])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -11421,6 +11530,70 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-3dc0c4bd", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 437:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fcontainer clearfix",
+    attrs: {
+      "id": 'id_' + _vm.name + '_container'
+    }
+  }, [_c('div', {
+    staticClass: "fitem fitem_ftext",
+    class: _vm.required ? 'required' : '',
+    attrs: {
+      "id": 'fitem_id_' + _vm.name
+    }
+  }, [_c('div', {
+    staticClass: "fitemtitle"
+  }, [_c('label', {
+    class: _vm.required ? 'required' : '',
+    attrs: {
+      "for": 'id_' + _vm.name
+    }
+  }, [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "felement ftext"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.value),
+      expression: "value"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": _vm.name,
+      "type": "number",
+      "required": _vm.required,
+      "step": "0.01",
+      "id": 'id_' + _vm.name
+    },
+    domProps: {
+      "value": _vm._s(_vm.value)
+    },
+    on: {
+      "keyup": _vm.onInputChanged,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.value = _vm._n($event.target.value)
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4b9ebe76", module.exports)
   }
 }
 

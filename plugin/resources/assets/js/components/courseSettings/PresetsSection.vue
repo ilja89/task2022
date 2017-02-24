@@ -36,6 +36,14 @@
                         @input-was-changed="onExtraChanged">
                 </charon-text-input>
 
+                <charon-number-input
+                        name="preset_max_result"
+                        :required="false"
+                        :label="translate('max_points_label')"
+                        :input_value="activePreset.max_result"
+                        @input-was-changed="onMaxResultChanged">
+                </charon-number-input>
+
             </div>
 
         </slot>
@@ -48,6 +56,7 @@
     import CharonFieldset from '../form/CharonFieldset.vue';
     import CharonSelect from '../form/CharonSelect.vue';
     import CharonTextInput from '../form/CharonTextInput.vue';
+    import CharonNumberInput from '../form/CharonNumberInput.vue';
 
     import Translate from '../../mixins/translate';
 
@@ -55,7 +64,7 @@
 
         mixins: [ Translate ],
 
-        components: { CharonFieldset, CharonSelect, CharonTextInput },
+        components: { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput },
 
         props: {
             presets: { required: true }
@@ -91,6 +100,10 @@
 
             onExtraChanged(extra) {
                 this.activePreset.extra = extra;
+            },
+
+            onMaxResultChanged(maxResult) {
+                this.activePreset.max_result = maxResult;
             }
         }
     }
