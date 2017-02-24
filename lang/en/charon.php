@@ -17,6 +17,10 @@ $string['presets'] = 'Presets';
 $string['unittests_git'] = 'Unittests Git';
 $string['edit_preset'] = 'Edit a preset';
 $string['preset_name'] = 'Preset name';
+$string['grade_name_prefix'] = 'Grade name prefix';
+$string['grade_name_postfix'] = 'Grade name postfix';
+$string['id_number_postfix'] = 'ID number postfix';
+$string['save_preset'] = 'Save preset';
 
 /*------------------------*\
    Instance form

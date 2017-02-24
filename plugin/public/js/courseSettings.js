@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 459);
+/******/ 	return __webpack_require__(__webpack_require__.s = 462);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -146,9 +146,9 @@ module.exports = function bind(fn, thisArg) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(145),
+  __webpack_require__(151),
   /* template */
-  __webpack_require__(156),
+  __webpack_require__(158),
   /* scopeId */
   null,
   /* cssModules */
@@ -8788,12 +8788,12 @@ module.exports = __webpack_require__(15);
 
 /***/ }),
 
-/***/ 141:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(146),
+  __webpack_require__(152),
   /* template */
   __webpack_require__(159),
   /* scopeId */
@@ -8824,6 +8824,198 @@ module.exports = Component.exports
 /***/ }),
 
 /***/ 144:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(32),
+  /* template */
+  __webpack_require__(147),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/partials/CharonTab.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CharonTab.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-31538258", Component.options)
+  } else {
+    hotAPI.reload("data-v-31538258", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 145:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(33),
+  /* template */
+  __webpack_require__(146),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/partials/CharonTabs.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CharonTabs.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-066f2c6a", Component.options)
+  } else {
+    hotAPI.reload("data-v-066f2c6a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 146:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fitem"
+  }, [_c('div', {
+    staticClass: "tabs"
+  }, [_c('ul', {
+    staticClass: "tabs-list"
+  }, _vm._l((_vm.tabs), function(tab) {
+    return _c('li', {
+      staticClass: "tab",
+      class: {
+        'is-active': tab.isActive
+      }
+    }, [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.selectTab(tab)
+        }
+      }
+    }, [_vm._v(_vm._s(tab.name))])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "tabs-right  is-pulled-right"
+  }, [_vm._t("tabs-right")], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "tab-details"
+  }, [_vm._t("default")], 2)])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-066f2c6a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 147:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isActive),
+      expression: "isActive"
+    }]
+  }, [_vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-31538258", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(2);
+var bind = __webpack_require__(10);
+var Axios = __webpack_require__(17);
+var defaults = __webpack_require__(5);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(7);
+axios.CancelToken = __webpack_require__(16);
+axios.isCancel = __webpack_require__(8);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(31);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+
+/***/ 150:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8873,7 +9065,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 145:
+/***/ 151:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8902,7 +9094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
     props: {
-        label: { required: true },
+        label: { required: false, default: '' },
         name: { required: true },
         options: { required: true },
         selected: { required: true },
@@ -8931,7 +9123,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 146:
+/***/ 152:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8979,7 +9171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 147:
+/***/ 153:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9069,67 +9261,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(2);
-var bind = __webpack_require__(10);
-var Axios = __webpack_require__(17);
-var defaults = __webpack_require__(4);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(7);
-axios.CancelToken = __webpack_require__(16);
-axios.isCancel = __webpack_require__(8);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(31);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-
-/***/ 150:
+/***/ 154:
 /***/ (function(module, exports) {
 
 /*
@@ -9186,12 +9318,12 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 152:
+/***/ 156:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(144),
+  __webpack_require__(150),
   /* template */
   __webpack_require__(160),
   /* scopeId */
@@ -9221,12 +9353,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 153:
+/***/ 157:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(147),
+  __webpack_require__(153),
   /* template */
   __webpack_require__(161),
   /* scopeId */
@@ -9256,7 +9388,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 156:
+/***/ 158:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9862,13 +9994,13 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /* styles */
-__webpack_require__(454)
+__webpack_require__(457)
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(183),
+  __webpack_require__(184),
   /* template */
-  __webpack_require__(447),
+  __webpack_require__(450),
   /* scopeId */
   null,
   /* cssModules */
@@ -9901,10 +10033,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(392);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(213);
 
 
 
@@ -9916,7 +10048,7 @@ var app = new Vue({
     el: '#app',
     components: { CourseSettingsForm: __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default.a },
     data: {
-        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings, tester_types, presets, grading_methods, grade_types)
+        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings, tester_types, presets, grading_methods, grade_types, grade_name_prefixes)
     },
     methods: {
         getCsrfToken: function getCsrfToken() {
@@ -9933,7 +10065,7 @@ var app = new Vue({
 "use strict";
 
 
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(18);
 var dispatchRequest = __webpack_require__(19);
@@ -10085,12 +10217,13 @@ module.exports = InterceptorManager;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__ = __webpack_require__(395);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(394);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+//
 //
 //
 //
@@ -10149,18 +10282,189 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_translate__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_translate___default.a],
+
+    components: { GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_1__form_GradesCheckboxes_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_3__partials_CharonTab_vue___default.a },
+
+    props: {
+        gradeTypes: { required: true },
+        grades: { required: true },
+        gradeNamePrefixes: { required: true }
+    },
+
+    computed: {
+        activeGradeTypeCodes: function activeGradeTypeCodes() {
+            var activeGradeCodes = [];
+            this.grades.forEach(function (grade) {
+                activeGradeCodes.push(grade.grade_type_code);
+            });
+            return activeGradeCodes;
+        }
+    },
+
+    methods: {
+        addGrade: function addGrade(gradeTypeCode) {
+            var grade = {
+                grade_name_prefix_code: this.gradeNamePrefixes.length > 0 ? this.gradeNamePrefixes[0].code : null,
+                grade_type_code: gradeTypeCode,
+                grade_name: null,
+                max_result: null,
+                id_number_postfix: null
+            };
+            this.grades.push(grade);
+
+            this.grades.sort(function (a, b) {
+                return a.grade_type_code > b.grade_type_code ? 1 : -1;
+            });
+        },
+        removeGrade: function removeGrade(gradeTypeCode) {
+            var removedIndex = -1;
+
+            this.grades.forEach(function (grade, index) {
+                if (gradeTypeCode == grade.grade_type_code) {
+                    removedIndex = index;
+                }
+            });
+
+            this.grades.splice(removedIndex, 1);
+        },
+        getGradeTypeName: function getGradeTypeName(grade_type_code) {
+            var grade_name = '';
+
+            this.gradeTypes.forEach(function (grade_type) {
+                if (grade_type.code === grade_type_code) {
+                    grade_name = grade_type.name;
+                }
+            });
+
+            return grade_name;
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 182:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__ = __webpack_require__(156);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue__ = __webpack_require__(153);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GradesSection_vue__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GradesSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__GradesSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -10245,12 +10549,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_translate___default.a],
 
-    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a, CharonNumberInput: __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue___default.a },
+    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a, CharonNumberInput: __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default.a, GradesSection: __WEBPACK_IMPORTED_MODULE_4__GradesSection_vue___default.a },
 
     props: {
         presets: { required: true },
         gradingMethods: { required: true },
-        gradeTypes: { required: true }
+        gradeTypes: { required: true },
+        gradeNamePrefixes: { required: true }
     },
 
     data: function data() {
@@ -10259,16 +10564,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-
-    computed: {
-        activeGradeTypeCodes: function activeGradeTypeCodes() {
-            var activeGradeCodes = [];
-            this.activePreset.grades.forEach(function (grade) {
-                activeGradeCodes.push(grade.grade_type_code);
-            });
-            return activeGradeCodes;
-        }
-    },
 
     methods: {
         onActivePresetChanged: function onActivePresetChanged(preset) {
@@ -10298,50 +10593,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onGradingMethodChanged: function onGradingMethodChanged(gradingMethodCode) {
             this.activePreset.grading_method_code = gradingMethodCode;
         },
-        addGrade: function addGrade(gradeTypeCode) {
-            var grade = {
-                grade_name_prefix_code: null,
-                grade_type_code: gradeTypeCode,
-                grade_name: null,
-                max_result: null,
-                id_number_postfix: null
-            };
-            this.activePreset.grades.push(grade);
-
-            this.activePreset.grades.sort(function (a, b) {
-                return a.grade_type_code > b.grade_type_code ? 1 : -1;
-            });
-
-            return grade;
+        onCalculationFormulaChanged: function onCalculationFormulaChanged(calculationFormula) {
+            this.activePreset.calculation_formula = calculationFormula;
         },
-        removeGrade: function removeGrade(gradeTypeCode) {
-            var removedIndex = -1;
-
-            this.activePreset.grades.forEach(function (grade, index) {
-                if (gradeTypeCode == grade.grade_type_code) {
-                    removedIndex = index;
-                }
-            });
-
-            this.activePreset.grades.splice(removedIndex, 1);
+        savePreset: function savePreset() {
+            this.presets.push(this.activePreset);
         }
     }
 };
 
 /***/ }),
 
-/***/ 182:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_translate__);
 //
 //
@@ -10398,7 +10672,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 183:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10435,7 +10709,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var utils = __webpack_require__(2);
 var transformData = __webpack_require__(22);
 var isCancel = __webpack_require__(8);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -10880,13 +11154,13 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 212:
+/***/ 213:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CourseSettingsForm = function CourseSettingsForm(courseId, settings, testerTypes, presets, gradingMethods, gradeTypes) {
+var CourseSettingsForm = function CourseSettingsForm(courseId, settings, testerTypes, presets, gradingMethods, gradeTypes, gradeNamePrefixes) {
     _classCallCheck(this, CourseSettingsForm);
 
     this.fields = {
@@ -10899,16 +11173,17 @@ var CourseSettingsForm = function CourseSettingsForm(courseId, settings, testerT
     this.grading_methods = gradingMethods;
     this.grade_types = gradeTypes;
     this.presets = presets;
+    this.grade_name_prefixes = gradeNamePrefixes;
 };
 
 /* harmony default export */ __webpack_exports__["a"] = CourseSettingsForm;
 
 /***/ }),
 
-/***/ 217:
+/***/ 218:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(150)();
+exports = module.exports = __webpack_require__(154)();
 // imports
 
 
@@ -11538,6 +11813,82 @@ module.exports = function spread(callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: {
+        name: { required: true },
+        selected: { default: false }
+    },
+
+    data: function data() {
+        return {
+            isActive: false
+        };
+    },
+    mounted: function mounted() {
+        this.isActive = this.selected;
+    }
+};
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    data: function data() {
+        return {
+            tabs: []
+        };
+    },
+    mounted: function mounted() {
+        this.tabs = this.$children;
+    },
+
+
+    methods: {
+        selectTab: function selectTab(selectedTab) {
+            this.tabs.forEach(function (tab) {
+                tab.isActive = tab.name === selectedTab.name;
+            });
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(14);
@@ -11554,14 +11905,14 @@ window.axios.defaults.headers.common = {
 
 /***/ }),
 
-/***/ 391:
+/***/ 392:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(180),
   /* template */
-  __webpack_require__(433),
+  __webpack_require__(435),
   /* scopeId */
   null,
   /* cssModules */
@@ -11589,14 +11940,49 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 392:
+/***/ 393:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(181),
   /* template */
-  __webpack_require__(435),
+  __webpack_require__(438),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/courseSettings/GradesSection.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GradesSection.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-407f838d", Component.options)
+  } else {
+    hotAPI.reload("data-v-407f838d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 394:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(182),
+  /* template */
+  __webpack_require__(437),
   /* scopeId */
   null,
   /* cssModules */
@@ -11624,14 +12010,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 393:
+/***/ 395:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(182),
+  __webpack_require__(183),
   /* template */
-  __webpack_require__(443),
+  __webpack_require__(446),
   /* scopeId */
   null,
   /* cssModules */
@@ -11660,6 +12046,411 @@ module.exports = Component.exports
 /***/ }),
 
 /***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = {
+    methods: {
+        translate: function translate(string) {
+            return window.translations[string];
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 435:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {}, [_c('form', {
+    attrs: {
+      "action": '/mod/charon/courses/' + _vm.form.course_id + '/settings',
+      "method": "post"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_token"
+    },
+    domProps: {
+      "value": _vm.csrf_token
+    }
+  }), _vm._v(" "), _c('tester-settings-section', {
+    attrs: {
+      "form": _vm.form
+    }
+  }), _vm._v(" "), _c('presets-section', {
+    attrs: {
+      "presets": _vm.form.presets,
+      "gradingMethods": _vm.form.grading_methods,
+      "gradeTypes": _vm.form.grade_types,
+      "gradeNamePrefixes": _vm.form.grade_name_prefixes
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "submit",
+      "value": "Save"
+    }
+  })], 1)])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-39079eae", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 437:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('charon-fieldset', [_c('template', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.translate('presets_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-select', {
+    attrs: {
+      "label": _vm.translate('edit_preset_label'),
+      "name": "active_preset",
+      "options": _vm.presets,
+      "selected": null,
+      "key_field": "id"
+    },
+    on: {
+      "input-was-changed": _vm.onActivePresetChanged
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "btn-link add-preset-btn",
+    on: {
+      "click": _vm.createPreset
+    }
+  }, [_vm._v("\n            Or add a new preset\n        ")]), _vm._v(" "), (_vm.activePreset !== null) ? _c('div', [_c('charon-text-input', {
+    attrs: {
+      "input_name": "preset_name",
+      "required": false,
+      "input_label": _vm.translate('preset_name_label'),
+      "input_value": _vm.activePreset.name
+    },
+    on: {
+      "input-was-changed": _vm.onNameChanged
+    }
+  }), _vm._v(" "), _c('charon-text-input', {
+    attrs: {
+      "input_name": "preset_extra",
+      "required": false,
+      "input_label": _vm.translate('extra_label'),
+      "input_value": _vm.activePreset.extra
+    },
+    on: {
+      "input-was-changed": _vm.onExtraChanged
+    }
+  }), _vm._v(" "), _c('charon-number-input', {
+    attrs: {
+      "name": "preset_max_result",
+      "required": false,
+      "label": _vm.translate('max_points_label'),
+      "input_value": _vm.activePreset.max_result
+    },
+    on: {
+      "input-was-changed": _vm.onMaxResultChanged
+    }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('grading_method_label'),
+      "name": "preset_grading_method",
+      "options": _vm.gradingMethods,
+      "selected": _vm.activePreset.grading_method_code,
+      "key_field": "code"
+    },
+    on: {
+      "input-was-changed": _vm.onGradingMethodChanged
+    }
+  }), _vm._v(" "), _c('grades-section', {
+    attrs: {
+      "gradeTypes": _vm.gradeTypes,
+      "grades": _vm.activePreset.grades,
+      "gradeNamePrefixes": _vm.gradeNamePrefixes
+    }
+  }), _vm._v(" "), _c('charon-text-input', {
+    attrs: {
+      "input_name": "preset_calculation_formula",
+      "required": false,
+      "input_label": _vm.translate('calculation_formula_label'),
+      "input_value": _vm.activePreset.calculation_formula
+    },
+    on: {
+      "input-was-changed": _vm.onCalculationFormulaChanged
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": _vm.savePreset
+    }
+  }, [_vm._v("\n                " + _vm._s(_vm.translate('save_preset')) + "\n            ")])], 1) : _vm._e()])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3dc0c4bd", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 438:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('grades-checkboxes', {
+    attrs: {
+      "label": _vm.translate('grades_label'),
+      "grade_types": _vm.gradeTypes,
+      "active_grade_type_codes": _vm.activeGradeTypeCodes
+    },
+    on: {
+      "grade-type-was-activated": _vm.addGrade,
+      "grade-type-was-deactivated": _vm.removeGrade
+    }
+  }), _vm._v(" "), (_vm.grades.length > 0) ? _c('charon-tabs', _vm._l((_vm.grades), function(grade, index) {
+    return _c('charon-tab', {
+      attrs: {
+        "name": _vm.getGradeTypeName(grade.grade_type_code),
+        "selected": index === 0 ? true : false
+      }
+    }, [_c('h5', {
+      staticClass: "subtitle"
+    }, [_vm._v(_vm._s(_vm.translate('grade_name_label')))]), _vm._v(" "), _c('div', {
+      staticClass: "grade-name-container"
+    }, [_c('div', [_c('label', {
+      attrs: {
+        "for": 'preset_grade_name_prefix_' + index
+      }
+    }, [_vm._v("\n                        " + _vm._s(_vm.translate('grade_name_prefix_label')) + "\n                    ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('select', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (grade.grade_name_prefix_code),
+        expression: "grade.grade_name_prefix_code"
+      }],
+      attrs: {
+        "id": 'preset_grade_name_prefix_' + index
+      },
+      on: {
+        "change": function($event) {
+          grade.grade_name_prefix_code = Array.prototype.filter.call($event.target.options, function(o) {
+            return o.selected
+          }).map(function(o) {
+            var val = "_value" in o ? o._value : o.value;
+            return val
+          })[0]
+        }
+      }
+    }, _vm._l((_vm.gradeNamePrefixes), function(grade_name_prefix) {
+      return _c('option', {
+        domProps: {
+          "value": grade_name_prefix.code
+        }
+      }, [_vm._v("\n                            " + _vm._s(grade_name_prefix.name) + "\n                        ")])
+    }))]), _vm._v(" "), _c('div', [_c('label', {
+      attrs: {
+        "for": 'preset_grade_name_' + index
+      }
+    }, [_vm._v("\n                        " + _vm._s(_vm.translate('grade_name_postfix_label')) + "\n                    ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (grade.grade_name),
+        expression: "grade.grade_name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "id": 'preset_grade_name_' + index
+      },
+      domProps: {
+        "value": _vm._s(grade.grade_name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          grade.grade_name = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "max-points-container"
+    }, [_c('label', {
+      attrs: {
+        "for": 'preset_grade_max_points_' + index
+      }
+    }, [_vm._v("\n                    " + _vm._s(_vm.translate('max_points_label')) + "\n                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (grade.max_result),
+        expression: "grade.max_result"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "number",
+        "id": 'preset_grade_max_points_' + index
+      },
+      domProps: {
+        "value": _vm._s(grade.max_result)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          grade.max_result = _vm._n($event.target.value)
+        },
+        "blur": function($event) {
+          _vm.$forceUpdate()
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "id-number-postfix-container"
+    }, [_c('label', {
+      attrs: {
+        "for": 'preset_grade_id_number_postfix_' + index
+      }
+    }, [_vm._v("\n                    " + _vm._s(_vm.translate('id_number_postfix_label')) + "\n                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (grade.id_number_postfix),
+        expression: "grade.id_number_postfix"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "id": 'preset_grade_id_number_postfix_' + index
+      },
+      domProps: {
+        "value": _vm._s(grade.id_number_postfix)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          grade.id_number_postfix = $event.target.value
+        }
+      }
+    })])])
+  })) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-407f838d", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 446:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('charon-fieldset', [_c('template', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.translate('tester_settings_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-text-input', {
+    attrs: {
+      "input_name": "unittests_git",
+      "required": true,
+      "input_label": _vm.translate('unittests_git_label'),
+      "input_value": _vm.form.fields.unittests_git
+    },
+    on: {
+      "input-was-changed": _vm.onUnittestsGitChanged
+    }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('tester_type_label'),
+      "name": "tester_type",
+      "options": _vm.form.tester_types,
+      "selected": _vm.form.fields.tester_type
+    },
+    on: {
+      "input-was-changed": _vm.onTesterTypeChanged
+    }
+  })])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-68eb3d47", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 450:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('fieldset', {
+    staticClass: "clearfix collapsible",
+    attrs: {
+      "id": "id_modstandardelshdr"
+    }
+  }, [_c('legend', {
+    staticClass: "ftoggler",
+    on: {
+      "click": function($event) {
+        _vm.open = !_vm.open
+      }
+    }
+  }, [_vm._t("title")], 2), _vm._v(" "), (_vm.open) ? _vm._t("default") : _vm._e()], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-74017afa", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 457:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(218);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(162)("d839c8e2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-74017afa!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CharonFieldset.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-74017afa!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CharonFieldset.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 462:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(169);
+
+
+/***/ }),
+
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11758,250 +12549,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-
-/***/ 433:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {}, [_c('form', {
-    attrs: {
-      "action": '/mod/charon/courses/' + _vm.form.course_id + '/settings',
-      "method": "post"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "_token"
-    },
-    domProps: {
-      "value": _vm.csrf_token
-    }
-  }), _vm._v(" "), _c('tester-settings-section', {
-    attrs: {
-      "form": _vm.form
-    }
-  }), _vm._v(" "), _c('presets-section', {
-    attrs: {
-      "presets": _vm.form.presets,
-      "gradingMethods": _vm.form.grading_methods,
-      "gradeTypes": _vm.form.grade_types
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "submit",
-      "value": "Save"
-    }
-  })], 1)])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-39079eae", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 435:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('charon-fieldset', [_c('template', {
-    slot: "title"
-  }, [_vm._v(_vm._s(_vm.translate('presets_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-select', {
-    attrs: {
-      "label": _vm.translate('edit_preset_label'),
-      "name": "active_preset",
-      "options": _vm.presets,
-      "selected": null,
-      "key_field": "id"
-    },
-    on: {
-      "input-was-changed": _vm.onActivePresetChanged
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "btn-link add-preset-btn",
-    on: {
-      "click": _vm.createPreset
-    }
-  }, [_vm._v("\n            Or add a new preset\n        ")]), _vm._v(" "), (_vm.activePreset !== null) ? _c('div', [_c('charon-text-input', {
-    attrs: {
-      "input_name": "preset_name",
-      "required": false,
-      "input_label": _vm.translate('preset_name_label'),
-      "input_value": _vm.activePreset.name
-    },
-    on: {
-      "input-was-changed": _vm.onNameChanged
-    }
-  }), _vm._v(" "), _c('charon-text-input', {
-    attrs: {
-      "input_name": "preset_extra",
-      "required": false,
-      "input_label": _vm.translate('extra_label'),
-      "input_value": _vm.activePreset.extra
-    },
-    on: {
-      "input-was-changed": _vm.onExtraChanged
-    }
-  }), _vm._v(" "), _c('charon-number-input', {
-    attrs: {
-      "name": "preset_max_result",
-      "required": false,
-      "label": _vm.translate('max_points_label'),
-      "input_value": _vm.activePreset.max_result
-    },
-    on: {
-      "input-was-changed": _vm.onMaxResultChanged
-    }
-  }), _vm._v(" "), _c('charon-select', {
-    attrs: {
-      "label": _vm.translate('grading_method_label'),
-      "name": "preset_grading_method",
-      "options": _vm.gradingMethods,
-      "selected": _vm.activePreset.grading_method_code,
-      "key_field": "code"
-    },
-    on: {
-      "input-was-changed": _vm.onGradingMethodChanged
-    }
-  }), _vm._v(" "), _c('grades-checkboxes', {
-    attrs: {
-      "label": _vm.translate('grades_label'),
-      "grade_types": _vm.gradeTypes,
-      "active_grade_type_codes": _vm.activeGradeTypeCodes
-    },
-    on: {
-      "grade-type-was-activated": _vm.addGrade,
-      "grade-type-was-deactivated": _vm.removeGrade
-    }
-  })], 1) : _vm._e()])], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3dc0c4bd", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 443:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('charon-fieldset', [_c('template', {
-    slot: "title"
-  }, [_vm._v(_vm._s(_vm.translate('tester_settings_title')))]), _vm._v(" "), _vm._t("default", [_c('charon-text-input', {
-    attrs: {
-      "input_name": "unittests_git",
-      "required": true,
-      "input_label": _vm.translate('unittests_git_label'),
-      "input_value": _vm.form.fields.unittests_git
-    },
-    on: {
-      "input-was-changed": _vm.onUnittestsGitChanged
-    }
-  }), _vm._v(" "), _c('charon-select', {
-    attrs: {
-      "label": _vm.translate('tester_type_label'),
-      "name": "tester_type",
-      "options": _vm.form.tester_types,
-      "selected": _vm.form.fields.tester_type
-    },
-    on: {
-      "input-was-changed": _vm.onTesterTypeChanged
-    }
-  })])], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-68eb3d47", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 447:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('fieldset', {
-    staticClass: "clearfix collapsible",
-    attrs: {
-      "id": "id_modstandardelshdr"
-    }
-  }, [_c('legend', {
-    staticClass: "ftoggler",
-    on: {
-      "click": function($event) {
-        _vm.open = !_vm.open
-      }
-    }
-  }, [_vm._t("title")], 2), _vm._v(" "), (_vm.open) ? _vm._t("default") : _vm._e()], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-74017afa", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 454:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(217);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(162)("d839c8e2", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-74017afa!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CharonFieldset.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-74017afa!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CharonFieldset.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 459:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(169);
-
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
-module.exports = {
-    methods: {
-        translate: function translate(string) {
-            return window.translations[string];
-        }
-    }
-};
 
 /***/ }),
 

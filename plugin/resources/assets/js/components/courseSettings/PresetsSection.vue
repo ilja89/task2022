@@ -53,13 +53,24 @@
                         @input-was-changed="onGradingMethodChanged">
                 </charon-select>
 
-                <grades-checkboxes
-                        :label="translate('grades_label')"
-                        :grade_types="gradeTypes"
-                        :active_grade_type_codes="activeGradeTypeCodes"
-                        @grade-type-was-activated="addGrade"
-                        @grade-type-was-deactivated="removeGrade">
-                </grades-checkboxes>
+                <grades-section
+                        :gradeTypes="gradeTypes"
+                        :grades="activePreset.grades"
+                        :gradeNamePrefixes="gradeNamePrefixes">
+                </grades-section>
+
+                <charon-text-input
+                        input_name="preset_calculation_formula"
+                        :required="false"
+                        :input_label="translate('calculation_formula_label')"
+                        :input_value="activePreset.calculation_formula"
+                        @input-was-changed="onCalculationFormulaChanged">
+                </charon-text-input>
+
+                <a class="btn btn-primary"
+                   @click="savePreset">
+                    {{ translate('save_preset') }}
+                </a>
 
             </div>
 
@@ -74,7 +85,7 @@
     import CharonSelect from '../form/CharonSelect.vue';
     import CharonTextInput from '../form/CharonTextInput.vue';
     import CharonNumberInput from '../form/CharonNumberInput.vue';
-    import GradesCheckboxes from '../form/GradesCheckboxes.vue';
+    import GradesSection from './GradesSection.vue';
 
     import Translate from '../../mixins/translate';
 
@@ -82,28 +93,19 @@
 
         mixins: [ Translate ],
 
-        components: { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput, GradesCheckboxes },
+        components: { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput, GradesSection },
 
         props: {
             presets: { required: true },
             gradingMethods: { required: true },
             gradeTypes: { required: true },
+            gradeNamePrefixes: { required: true },
         },
 
         data() {
             return {
                 activePreset: null
             };
-        },
-
-        computed: {
-            activeGradeTypeCodes() {
-                let activeGradeCodes = [];
-                this.activePreset.grades.forEach(grade => {
-                    activeGradeCodes.push(grade.grade_type_code);
-                });
-                return activeGradeCodes;
-            }
         },
 
         methods: {
@@ -140,33 +142,12 @@
                 this.activePreset.grading_method_code = gradingMethodCode;
             },
 
-            addGrade(gradeTypeCode) {
-                let grade = {
-                    grade_name_prefix_code: null,
-                    grade_type_code: gradeTypeCode,
-                    grade_name: null,
-                    max_result: null,
-                    id_number_postfix: null,
-                };
-                this.activePreset.grades.push(grade);
-
-                this.activePreset.grades.sort((a, b) => {
-                    return a.grade_type_code > b.grade_type_code ? 1 : -1;
-                });
-
-                return grade;
+            onCalculationFormulaChanged(calculationFormula) {
+                this.activePreset.calculation_formula = calculationFormula;
             },
 
-            removeGrade(gradeTypeCode) {
-                let removedIndex = -1;
-
-                this.activePreset.grades.forEach((grade, index) => {
-                    if (gradeTypeCode == grade.grade_type_code) {
-                        removedIndex = index;
-                    }
-                });
-
-                this.activePreset.grades.splice(removedIndex, 1);
+            savePreset() {
+                this.presets.push(this.activePreset);
             }
         }
     }

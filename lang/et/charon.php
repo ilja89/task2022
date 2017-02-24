@@ -18,6 +18,10 @@ $string['presets']   = 'Presetid';
 $string['unittests_git'] = 'Testide Git';
 $string['edit_preset'] = 'Muuda preseti';
 $string['preset_name'] = 'Preseti nimi';
+$string['grade_name_prefix'] = 'Hinde nime eesliide';
+$string['grade_name_postfix'] = 'Hinde nime lõpp';
+$string['id_number_postfix'] = 'ID numbri lõpp';
+$string['save_preset'] = 'Salvesta preset';
 
 /*------------------------*\
    Instance form

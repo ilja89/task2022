@@ -79,6 +79,7 @@ class CourseSettingsFormController extends Controller
         $testerTypes = $this->classificationsRepository->getAllTesterTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $gradeTypes = $this->classificationsRepository->getAllGradeTypes();
+        $gradeNamePrefixes = $this->classificationsRepository->getAllGradeNamePrefixes();
 
         return view('course_settings_form.form', [
             'header'    => $this->output->header(),
@@ -88,6 +89,7 @@ class CourseSettingsFormController extends Controller
             'tester_types' => $testerTypes,
             'grading_methods' => $gradingMethods,
             'grade_types' => $gradeTypes,
+            'grade_name_prefixes' => $gradeNamePrefixes,
             'presets' => $presets,
         ]);
     }
