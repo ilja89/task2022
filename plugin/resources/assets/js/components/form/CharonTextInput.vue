@@ -6,7 +6,7 @@
             </div>
             <div class="felement ftext">
                 <input size="64" :name="input_name" type="text" :required="required"
-                       :id="'id_' + input_name" class="form-control" v-model="value" v-on:keyup="onInputChanged">
+                       :id="'id_' + input_name" class="form-control" v-model="value" @keyup="onInputChanged">
             </div>
         </div>
     </div>

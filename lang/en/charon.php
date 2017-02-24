@@ -15,6 +15,8 @@ $string['capella:addinstance']  = 'Add a new Charon';
 $string['tester_settings'] = 'Tester settings';
 $string['presets'] = 'Presets';
 $string['unittests_git'] = 'Unittests Git';
+$string['edit_preset'] = 'Edit a preset';
+$string['preset_name'] = 'Preset name';
 
 /*------------------------*\
    Instance form

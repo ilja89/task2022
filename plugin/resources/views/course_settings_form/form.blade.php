@@ -7,6 +7,7 @@
         window.course_id = {!! $course_id !!};
         window.csrf_token = "{!! csrf_token() !!}";
         window.tester_types = {!! $tester_types->toJson() !!};
+        window.presets = {!! $presets->toJson() !!};
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",
@@ -14,6 +15,9 @@
 
             unittests_git_label: "{{ translate('unittests_git') }}",
             tester_type_label: "{{ translate('tester_type') }}",
+            edit_preset_label: "{{ translate('edit_preset') }}",
+            preset_name_label: "{{ translate('preset_name') }}",
+            extra_label: "{{ translate('extra') }}",
         }
     </script>
 

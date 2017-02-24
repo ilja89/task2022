@@ -9,7 +9,7 @@ const app = new Vue({
     el: '#app',
     components: { CourseSettingsForm },
     data: {
-        form: new CourseSettingsFormForm(course_id, settings, tester_types)
+        form: new CourseSettingsFormForm(course_id, settings, tester_types, presets)
     },
     methods: {
         getCsrfToken() {

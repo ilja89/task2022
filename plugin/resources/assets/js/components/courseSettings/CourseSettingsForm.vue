@@ -9,13 +9,9 @@
                     :form="form">
             </tester-settings-section>
 
-            <!--<charon-fieldset>-->
-                <!--<template slot="title">{{ translate('presets_title') }}</template>-->
-
-                <!--<slot>-->
-                    <!--<h2>More Hello Worlds!</h2>-->
-                <!--</slot>-->
-            <!--</charon-fieldset>-->
+            <presets-section
+                    :presets="form.presets">
+            </presets-section>
 
             <input type="submit" value="Save" class="btn btn-default">
 
@@ -26,7 +22,7 @@
 
 <script>
     import TesterSettingsSection from './TesterSettingsSection.vue';
-    import CharonFieldset from './../form/CharonFieldset.vue';
+    import PresetsSection from './PresetsSection.vue';
     import Translate from '../../mixins/translate';
 
     export default {
@@ -37,7 +33,7 @@
             csrf_token: { required: true }
         },
 
-        components: { CharonFieldset, TesterSettingsSection },
+        components: { TesterSettingsSection, PresetsSection },
 
         mounted() {
             VueEvent.$on('unittests-git-was-changed', unittests_git => this.form.fields.unittests_git = unittests_git);
