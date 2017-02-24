@@ -22,7 +22,7 @@
 <script>
     export default {
         props: {
-            label: { required: true },
+            label: { required: false, default: '' },
             name: { required: true },
             options: { required: true },
             selected: { required: true },

@@ -19,4 +19,9 @@ Route::group(['namespace' => 'Api'], function () {
          ->middleware('auth.requireCharonManaging');
     Route::get('charons/{charon}/comments', 'PopupController@getComments')
          ->middleware('auth.requireCharonManaging');
+
+    Route::post('courses/{course}/presets', 'PresetsController@store')
+        ->middleware('auth.requireCourseManagement');
+    Route::put('courses/{course}/presets/{preset}', 'PresetsController@update')
+        ->middleware('auth.requireCourseManagement');
 });

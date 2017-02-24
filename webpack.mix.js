@@ -22,6 +22,7 @@ mix.js('plugin/resources/assets/js/instanceForm.js', 'js')
    .sass('plugin/resources/assets/sass/assignment.scss', 'css')
    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
    .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
+   .sass('plugin/resources/assets/sass/courseSettings.scss', 'css')
    .minify([
        'plugin/public/js/instanceForm.js',
        'plugin/public/js/courseSettings.js',

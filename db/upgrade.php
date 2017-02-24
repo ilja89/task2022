@@ -119,5 +119,15 @@ function xmldb_charon_upgrade($oldversion = 0)
         $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
     }
 
+    if ($oldversion < 2017022400) {
+        $sql = "ALTER TABLE mdl_charon_preset_grade MODIFY grade_name varchar(255) NULL DEFAULT NULL";
+        $sql2 = "ALTER TABLE mdl_charon_preset_grade MODIFY max_result DECIMAL(10, 2) NULL DEFAULT NULL";
+        $sql3 = "ALTER TABLE mdl_charon_preset_grade MODIFY id_number_postfix varchar(255) NULL DEFAULT NULL";
+
+        $DB->execute($sql);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+    }
+
     return true;
 }

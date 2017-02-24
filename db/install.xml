@@ -263,9 +263,9 @@
                 <FIELD NAME="preset_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="grade_name_prefix_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="grade_type_code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="grade_name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
-                <FIELD NAME="max_result" SEQUENCE="false" TYPE="number" NOTNULL="true" LENGTH="10" DECIMALS="2"/>
-                <FIELD NAME="id_number_postfix" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+                <FIELD NAME="grade_name" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="max_result" SEQUENCE="false" TYPE="number" NOTNULL="false" LENGTH="10" DECIMALS="2"/>
+                <FIELD NAME="id_number_postfix" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_preset_grade" TYPE="primary" FIELDS="id"/>

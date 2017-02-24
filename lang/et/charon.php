@@ -14,8 +14,15 @@ $string['capella:addinstance']  = 'Lisa uus charon';
    Course settings form
 \*------------------------*/
 $string['tester_settings'] = 'Testeri seaded';
-$string['presets_title']   = 'Presetid';
+$string['presets']   = 'Presetid';
 $string['unittests_git'] = 'Testide Git';
+$string['edit_preset'] = 'Muuda preseti';
+$string['preset_name'] = 'Preseti nimi';
+$string['grade_name_prefix'] = 'Hinde nime eesliide';
+$string['grade_name_postfix'] = 'Hinde nime lõpp';
+$string['id_number_postfix'] = 'ID numbri lõpp';
+$string['save_preset'] = 'Salvesta preset';
+$string['update_preset'] = 'Uuenda preseti';
 
 /*------------------------*\
    Instance form
