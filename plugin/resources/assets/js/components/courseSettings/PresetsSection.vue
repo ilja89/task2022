@@ -44,6 +44,23 @@
                         @input-was-changed="onMaxResultChanged">
                 </charon-number-input>
 
+                <charon-select
+                        :label="translate('grading_method_label')"
+                        name="preset_grading_method"
+                        :options="gradingMethods"
+                        :selected="activePreset.grading_method_code"
+                        key_field="code"
+                        @input-was-changed="onGradingMethodChanged">
+                </charon-select>
+
+                <grades-checkboxes
+                        :label="translate('grades_label')"
+                        :grade_types="gradeTypes"
+                        :active_grade_type_codes="activeGradeTypeCodes"
+                        @grade-type-was-activated="addGrade"
+                        @grade-type-was-deactivated="removeGrade">
+                </grades-checkboxes>
+
             </div>
 
         </slot>
@@ -57,6 +74,7 @@
     import CharonSelect from '../form/CharonSelect.vue';
     import CharonTextInput from '../form/CharonTextInput.vue';
     import CharonNumberInput from '../form/CharonNumberInput.vue';
+    import GradesCheckboxes from '../form/GradesCheckboxes.vue';
 
     import Translate from '../../mixins/translate';
 
@@ -64,16 +82,28 @@
 
         mixins: [ Translate ],
 
-        components: { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput },
+        components: { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput, GradesCheckboxes },
 
         props: {
-            presets: { required: true }
+            presets: { required: true },
+            gradingMethods: { required: true },
+            gradeTypes: { required: true },
         },
 
         data() {
             return {
                 activePreset: null
             };
+        },
+
+        computed: {
+            activeGradeTypeCodes() {
+                let activeGradeCodes = [];
+                this.activePreset.grades.forEach(grade => {
+                    activeGradeCodes.push(grade.grade_type_code);
+                });
+                return activeGradeCodes;
+            }
         },
 
         methods: {
@@ -104,6 +134,39 @@
 
             onMaxResultChanged(maxResult) {
                 this.activePreset.max_result = maxResult;
+            },
+
+            onGradingMethodChanged(gradingMethodCode) {
+                this.activePreset.grading_method_code = gradingMethodCode;
+            },
+
+            addGrade(gradeTypeCode) {
+                let grade = {
+                    grade_name_prefix_code: null,
+                    grade_type_code: gradeTypeCode,
+                    grade_name: null,
+                    max_result: null,
+                    id_number_postfix: null,
+                };
+                this.activePreset.grades.push(grade);
+
+                this.activePreset.grades.sort((a, b) => {
+                    return a.grade_type_code > b.grade_type_code ? 1 : -1;
+                });
+
+                return grade;
+            },
+
+            removeGrade(gradeTypeCode) {
+                let removedIndex = -1;
+
+                this.activePreset.grades.forEach((grade, index) => {
+                    if (gradeTypeCode == grade.grade_type_code) {
+                        removedIndex = index;
+                    }
+                });
+
+                this.activePreset.grades.splice(removedIndex, 1);
             }
         }
     }

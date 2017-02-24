@@ -2,12 +2,16 @@
 
 @section('content')
 
+    <link rel="stylesheet" href="/mod/charon/plugin/public/css/courseSettings.css">
+
     <script>
         window.settings = {!! isset($settings) ? $settings->toJson() : '{}'!!};
         window.course_id = {!! $course_id !!};
         window.csrf_token = "{!! csrf_token() !!}";
         window.tester_types = {!! $tester_types->toJson() !!};
         window.presets = {!! $presets->toJson() !!};
+        window.grading_methods = {!! $grading_methods->toJson() !!};
+        window.grade_types = {!! $grade_types->toJson() !!};
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",
@@ -19,6 +23,8 @@
             preset_name_label: "{{ translate('preset_name') }}",
             extra_label: "{{ translate('extra') }}",
             max_points_label: "{{ translate('max_points') }}",
+            grading_method_label: "{{ translate('grading_method') }}",
+            grades_label: "{{ translate('grades') }}",
         }
     </script>
 

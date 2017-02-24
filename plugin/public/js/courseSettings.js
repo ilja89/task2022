@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 458);
+/******/ 	return __webpack_require__(__webpack_require__.s = 459);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -146,9 +146,9 @@ module.exports = function bind(fn, thisArg) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(144),
+  __webpack_require__(145),
   /* template */
-  __webpack_require__(152),
+  __webpack_require__(156),
   /* scopeId */
   null,
   /* cssModules */
@@ -8793,9 +8793,9 @@ module.exports = __webpack_require__(15);
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(145),
+  __webpack_require__(146),
   /* template */
-  __webpack_require__(155),
+  __webpack_require__(159),
   /* scopeId */
   null,
   /* cssModules */
@@ -8824,6 +8824,56 @@ module.exports = Component.exports
 /***/ }),
 
 /***/ 144:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: ['name', 'required', 'label', 'input_value'],
+
+    data: function data() {
+        return {
+            value: ''
+        };
+    },
+
+
+    watch: {
+        input_value: function input_value() {
+            this.value = this.input_value;
+        }
+    },
+
+    mounted: function mounted() {
+        this.value = this.input_value;
+    },
+
+
+    methods: {
+        onInputChanged: function onInputChanged(event) {
+            this.$emit('input-was-changed', this.value);
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 145:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8881,7 +8931,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 145:
+/***/ 146:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8929,60 +8979,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 148:
-/***/ (function(module, exports) {
+/***/ 147:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: ['label', 'grade_types', 'active_grade_type_codes'],
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
+    data: function data() {
+        return {
+            active: this.active_grade_type_codes
+        };
+    },
+
+
+    watch: {
+        active_grade_type_codes: function active_grade_type_codes() {
+            this.active = this.active_grade_type_codes;
+        }
+    },
+
+    methods: {
+        toggleClicked: function toggleClicked(code) {
+            if (this.isActive(code)) {
+                var index = this.active.indexOf(code);
+                if (index !== -1) {
+                    this.active.splice(index, 1);
+                }
+
+                this.$emit('grade-type-was-deactivated', code);
+            } else {
+                this.active.push(code);
+
+                this.$emit('grade-type-was-activated', code);
+            }
+        },
+        isActive: function isActive(code) {
+            return this.active.includes(code);
+        },
+        testGradeTypes: function testGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code < 100;
+            });
+        },
+        styleGradeTypes: function styleGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code >= 100 && grade_type.code < 1000;
+            });
+        },
+        customGradeTypes: function customGradeTypes() {
+            return this.grade_types.filter(function (grade_type) {
+                return grade_type.code >= 1000;
+            });
+        }
+    }
 };
-
 
 /***/ }),
 
@@ -9046,7 +9129,134 @@ module.exports.default = axios;
 
 /***/ }),
 
+/***/ 150:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
+
 /***/ 152:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(144),
+  /* template */
+  __webpack_require__(160),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonNumberInput.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CharonNumberInput.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b9ebe76", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b9ebe76", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 153:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(147),
+  /* template */
+  __webpack_require__(161),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/GradesCheckboxes.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GradesCheckboxes.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-900db95a", Component.options)
+  } else {
+    hotAPI.reload("data-v-900db95a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 156:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9108,7 +9318,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 155:
+/***/ 159:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9169,7 +9379,214 @@ if (false) {
 
 /***/ }),
 
-/***/ 156:
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(7);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+
+/***/ 160:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fcontainer clearfix",
+    attrs: {
+      "id": 'id_' + _vm.name + '_container'
+    }
+  }, [_c('div', {
+    staticClass: "fitem fitem_ftext",
+    class: _vm.required ? 'required' : '',
+    attrs: {
+      "id": 'fitem_id_' + _vm.name
+    }
+  }, [_c('div', {
+    staticClass: "fitemtitle"
+  }, [_c('label', {
+    class: _vm.required ? 'required' : '',
+    attrs: {
+      "for": 'id_' + _vm.name
+    }
+  }, [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "felement ftext"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.value),
+      expression: "value"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": _vm.name,
+      "type": "number",
+      "required": _vm.required,
+      "step": "0.01",
+      "id": 'id_' + _vm.name
+    },
+    domProps: {
+      "value": _vm._s(_vm.value)
+    },
+    on: {
+      "keyup": _vm.onInputChanged,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.value = _vm._n($event.target.value)
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4b9ebe76", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fcontainer clearfix"
+  }, [_c('div', {
+    staticClass: "fitem fitem_fcheck"
+  }, [_c('div', {
+    staticClass: "fitemtitle"
+  }, [_c('label', [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "felement fcheck grades-select-container"
+  }, [_c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.testGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.styleGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "grades-select-col"
+  }, _vm._l((_vm.customGradeTypes()), function(grade_type) {
+    return _c('label', {
+      staticClass: "checkbox"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isActive(grade_type.code)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleClicked(grade_type.code)
+        }
+      }
+    }), _vm._v("\n                    " + _vm._s(grade_type.name) + "\n                ")])
+  }))])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-900db95a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -9188,7 +9605,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(157)
+var listToStyles = __webpack_require__(163)
 
 /*
 type StyleObject = {
@@ -9406,7 +9823,7 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ 157:
+/***/ 163:
 /***/ (function(module, exports) {
 
 /**
@@ -9440,83 +9857,18 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(7);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-
-/***/ 160:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(453)
+__webpack_require__(454)
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(176),
+  __webpack_require__(183),
   /* template */
-  __webpack_require__(445),
+  __webpack_require__(447),
   /* scopeId */
   null,
   /* cssModules */
@@ -9544,15 +9896,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 163:
+/***/ 169:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(386);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__ = __webpack_require__(391);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__ = __webpack_require__(212);
 
 
 
@@ -9564,7 +9916,7 @@ var app = new Vue({
     el: '#app',
     components: { CourseSettingsForm: __WEBPACK_IMPORTED_MODULE_1__components_courseSettings_CourseSettingsForm_vue___default.a },
     data: {
-        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings, tester_types, presets)
+        form: new __WEBPACK_IMPORTED_MODULE_2__classes_courseSettingsForm__["a" /* default */](course_id, settings, tester_types, presets, grading_methods, grade_types)
     },
     methods: {
         getCsrfToken: function getCsrfToken() {
@@ -9668,17 +10020,79 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 173:
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(2);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__ = __webpack_require__(388);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__ = __webpack_require__(393);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TesterSettingsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(392);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mixins_translate__);
+//
+//
 //
 //
 //
@@ -9730,21 +10144,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 174:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__ = __webpack_require__(152);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_translate__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__mixins_translate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_translate__);
 //
 //
 //
@@ -9799,6 +10215,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -9809,12 +10243,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_translate___default.a],
+    mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_translate___default.a],
 
-    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a, CharonNumberInput: __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default.a },
+    components: { CharonFieldset: __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default.a, CharonSelect: __WEBPACK_IMPORTED_MODULE_1__form_CharonSelect_vue___default.a, CharonTextInput: __WEBPACK_IMPORTED_MODULE_2__form_CharonTextInput_vue___default.a, CharonNumberInput: __WEBPACK_IMPORTED_MODULE_3__form_CharonNumberInput_vue___default.a, GradesCheckboxes: __WEBPACK_IMPORTED_MODULE_4__form_GradesCheckboxes_vue___default.a },
 
     props: {
-        presets: { required: true }
+        presets: { required: true },
+        gradingMethods: { required: true },
+        gradeTypes: { required: true }
     },
 
     data: function data() {
@@ -9823,6 +10259,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+
+    computed: {
+        activeGradeTypeCodes: function activeGradeTypeCodes() {
+            var activeGradeCodes = [];
+            this.activePreset.grades.forEach(function (grade) {
+                activeGradeCodes.push(grade.grade_type_code);
+            });
+            return activeGradeCodes;
+        }
+    },
 
     methods: {
         onActivePresetChanged: function onActivePresetChanged(preset) {
@@ -9848,18 +10294,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         onMaxResultChanged: function onMaxResultChanged(maxResult) {
             this.activePreset.max_result = maxResult;
+        },
+        onGradingMethodChanged: function onGradingMethodChanged(gradingMethodCode) {
+            this.activePreset.grading_method_code = gradingMethodCode;
+        },
+        addGrade: function addGrade(gradeTypeCode) {
+            var grade = {
+                grade_name_prefix_code: null,
+                grade_type_code: gradeTypeCode,
+                grade_name: null,
+                max_result: null,
+                id_number_postfix: null
+            };
+            this.activePreset.grades.push(grade);
+
+            this.activePreset.grades.sort(function (a, b) {
+                return a.grade_type_code > b.grade_type_code ? 1 : -1;
+            });
+
+            return grade;
+        },
+        removeGrade: function removeGrade(gradeTypeCode) {
+            var removedIndex = -1;
+
+            this.activePreset.grades.forEach(function (grade, index) {
+                if (gradeTypeCode == grade.grade_type_code) {
+                    removedIndex = index;
+                }
+            });
+
+            this.activePreset.grades.splice(removedIndex, 1);
         }
     }
 };
 
 /***/ }),
 
-/***/ 175:
+/***/ 182:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form_CharonFieldset_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__form_CharonTextInput_vue__);
@@ -9922,7 +10398,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 176:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9947,116 +10423,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     }
 };
-
-/***/ }),
-
-/***/ 177:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    props: ['name', 'required', 'label', 'input_value'],
-
-    data: function data() {
-        return {
-            value: ''
-        };
-    },
-
-
-    watch: {
-        input_value: function input_value() {
-            this.value = this.input_value;
-        }
-    },
-
-    mounted: function mounted() {
-        this.value = this.input_value;
-    },
-
-
-    methods: {
-        onInputChanged: function onInputChanged(event) {
-            this.$emit('input-was-changed', this.value);
-        }
-    }
-};
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(2);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
 
 /***/ }),
 
@@ -10481,29 +10847,6 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 207:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var CourseSettingsForm = function CourseSettingsForm(courseId, settings, testerTypes, presets) {
-    _classCallCheck(this, CourseSettingsForm);
-
-    this.fields = {
-        unittests_git: settings['unittests_git'] ? settings['unittests_git'] : '',
-        tester_type: settings['tester_type_code'] ? settings['tester_type_code'] : ''
-    };
-
-    this.course_id = courseId;
-    this.tester_types = testerTypes;
-    this.presets = presets;
-};
-
-/* harmony default export */ __webpack_exports__["a"] = CourseSettingsForm;
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10538,9 +10881,34 @@ module.exports = function settle(resolve, reject, response) {
 /***/ }),
 
 /***/ 212:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CourseSettingsForm = function CourseSettingsForm(courseId, settings, testerTypes, presets, gradingMethods, gradeTypes) {
+    _classCallCheck(this, CourseSettingsForm);
+
+    this.fields = {
+        unittests_git: settings['unittests_git'] ? settings['unittests_git'] : '',
+        tester_type: settings['tester_type_code'] ? settings['tester_type_code'] : ''
+    };
+
+    this.course_id = courseId;
+    this.tester_types = testerTypes;
+    this.grading_methods = gradingMethods;
+    this.grade_types = gradeTypes;
+    this.presets = presets;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = CourseSettingsForm;
+
+/***/ }),
+
+/***/ 217:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(148)();
+exports = module.exports = __webpack_require__(150)();
 // imports
 
 
@@ -11186,14 +11554,14 @@ window.axios.defaults.headers.common = {
 
 /***/ }),
 
-/***/ 386:
+/***/ 391:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(173),
+  __webpack_require__(180),
   /* template */
-  __webpack_require__(430),
+  __webpack_require__(433),
   /* scopeId */
   null,
   /* cssModules */
@@ -11221,14 +11589,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 387:
+/***/ 392:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(174),
+  __webpack_require__(181),
   /* template */
-  __webpack_require__(432),
+  __webpack_require__(435),
   /* scopeId */
   null,
   /* cssModules */
@@ -11256,14 +11624,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 388:
+/***/ 393:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(175),
+  __webpack_require__(182),
   /* template */
-  __webpack_require__(441),
+  __webpack_require__(443),
   /* scopeId */
   null,
   /* cssModules */
@@ -11283,41 +11651,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-68eb3d47", Component.options)
   } else {
     hotAPI.reload("data-v-68eb3d47", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 389:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(177),
-  /* template */
-  __webpack_require__(437),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/form/CharonNumberInput.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CharonNumberInput.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4b9ebe76", Component.options)
-  } else {
-    hotAPI.reload("data-v-4b9ebe76", Component.options)
   }
 })()}
 
@@ -11428,7 +11761,7 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ 430:
+/***/ 433:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11451,7 +11784,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('presets-section', {
     attrs: {
-      "presets": _vm.form.presets
+      "presets": _vm.form.presets,
+      "gradingMethods": _vm.form.grading_methods,
+      "gradeTypes": _vm.form.grade_types
     }
   }), _vm._v(" "), _c('input', {
     staticClass: "btn btn-default",
@@ -11471,7 +11806,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 432:
+/***/ 435:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11523,6 +11858,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input-was-changed": _vm.onMaxResultChanged
     }
+  }), _vm._v(" "), _c('charon-select', {
+    attrs: {
+      "label": _vm.translate('grading_method_label'),
+      "name": "preset_grading_method",
+      "options": _vm.gradingMethods,
+      "selected": _vm.activePreset.grading_method_code,
+      "key_field": "code"
+    },
+    on: {
+      "input-was-changed": _vm.onGradingMethodChanged
+    }
+  }), _vm._v(" "), _c('grades-checkboxes', {
+    attrs: {
+      "label": _vm.translate('grades_label'),
+      "grade_types": _vm.gradeTypes,
+      "active_grade_type_codes": _vm.activeGradeTypeCodes
+    },
+    on: {
+      "grade-type-was-activated": _vm.addGrade,
+      "grade-type-was-deactivated": _vm.removeGrade
+    }
   })], 1) : _vm._e()])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -11535,71 +11891,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 437:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "fcontainer clearfix",
-    attrs: {
-      "id": 'id_' + _vm.name + '_container'
-    }
-  }, [_c('div', {
-    staticClass: "fitem fitem_ftext",
-    class: _vm.required ? 'required' : '',
-    attrs: {
-      "id": 'fitem_id_' + _vm.name
-    }
-  }, [_c('div', {
-    staticClass: "fitemtitle"
-  }, [_c('label', {
-    class: _vm.required ? 'required' : '',
-    attrs: {
-      "for": 'id_' + _vm.name
-    }
-  }, [_vm._v(_vm._s(_vm.label))])]), _vm._v(" "), _c('div', {
-    staticClass: "felement ftext"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.value),
-      expression: "value"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "name": _vm.name,
-      "type": "number",
-      "required": _vm.required,
-      "step": "0.01",
-      "id": 'id_' + _vm.name
-    },
-    domProps: {
-      "value": _vm._s(_vm.value)
-    },
-    on: {
-      "keyup": _vm.onInputChanged,
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.value = _vm._n($event.target.value)
-      },
-      "blur": function($event) {
-        _vm.$forceUpdate()
-      }
-    }
-  })])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4b9ebe76", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 441:
+/***/ 443:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11637,7 +11929,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 445:
+/***/ 447:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11665,17 +11957,17 @@ if (false) {
 
 /***/ }),
 
-/***/ 453:
+/***/ 454:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(212);
+var content = __webpack_require__(217);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(156)("d839c8e2", content, false);
+var update = __webpack_require__(162)("d839c8e2", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -11692,10 +11984,10 @@ if(false) {
 
 /***/ }),
 
-/***/ 458:
+/***/ 459:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(163);
+module.exports = __webpack_require__(169);
 
 
 /***/ }),

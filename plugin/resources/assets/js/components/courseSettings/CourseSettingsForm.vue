@@ -10,7 +10,9 @@
             </tester-settings-section>
 
             <presets-section
-                    :presets="form.presets">
+                    :presets="form.presets"
+                    :gradingMethods="form.grading_methods"
+                    :gradeTypes="form.grade_types">
             </presets-section>
 
             <input type="submit" value="Save" class="btn btn-default">

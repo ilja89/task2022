@@ -1,0 +1,17 @@
+/*-----------------------*\
+  #GRADES_SELECT
+\*-----------------------*/
+
+.grades-select-container {
+  display: flex;
+}
+
+
+.grades-select-col {
+  padding: 0 10px;
+
+  .checkbox input[type='checkbox'] {
+    position: static;
+    margin-left: 0;
+  }
+}
