@@ -67,8 +67,8 @@
 
         data() {
             return {
-                advanced_info_section_active: true,
-                advanced_grading_section_active: true
+                advanced_info_section_active: false,
+                advanced_grading_section_active: false
             }
         },
 
