@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
+use TTU\Charon\Repositories\PresetsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Models\Course;
@@ -30,6 +31,9 @@ class CourseSettingsFormController extends Controller
     /** @var ClassificationsRepository */
     private $classificationsRepository;
 
+    /** @var PresetsRepository */
+    private $presetsRepository;
+
     /**
      * CourseSettingsFormController constructor.
      *
@@ -39,18 +43,22 @@ class CourseSettingsFormController extends Controller
      *
      * @param ClassificationsRepository $classificationsRepository
      *
+     * @param PresetsRepository $presetsRepository
+     *
      * @internal param Page $page
      */
     public function __construct(
         Output $output,
         Page $page,
         CourseSettingsRepository $courseSettingsRepository,
-        ClassificationsRepository $classificationsRepository
+        ClassificationsRepository $classificationsRepository,
+        PresetsRepository $presetsRepository
     ) {
         $this->output                   = $output;
         $this->page                     = $page;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->classificationsRepository = $classificationsRepository;
+        $this->presetsRepository = $presetsRepository;
     }
 
     /**
@@ -67,7 +75,11 @@ class CourseSettingsFormController extends Controller
         $this->addBreadcrumbs($course);
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+        $presets = $this->presetsRepository->getPresetsOnlyForCourse($course->id);
         $testerTypes = $this->classificationsRepository->getAllTesterTypes();
+        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
+        $gradeTypes = $this->classificationsRepository->getAllGradeTypes();
+        $gradeNamePrefixes = $this->classificationsRepository->getAllGradeNamePrefixes();
 
         return view('course_settings_form.form', [
             'header'    => $this->output->header(),
@@ -75,6 +87,10 @@ class CourseSettingsFormController extends Controller
             'settings'  => $courseSettings,
             'course_id' => $course->id,
             'tester_types' => $testerTypes,
+            'grading_methods' => $gradingMethods,
+            'grade_types' => $gradeTypes,
+            'grade_name_prefixes' => $gradeNamePrefixes,
+            'presets' => $presets,
         ]);
     }
 

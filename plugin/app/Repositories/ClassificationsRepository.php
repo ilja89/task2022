@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradeType;
 use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Models\TesterType;
@@ -41,5 +42,15 @@ class ClassificationsRepository
     public function getAllGradeTypes()
     {
         return GradeType::all();
+    }
+
+    /**
+     * Get all grade name prefixes for presets.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllGradeNamePrefixes()
+    {
+        return GradeNamePrefix::all();
     }
 }

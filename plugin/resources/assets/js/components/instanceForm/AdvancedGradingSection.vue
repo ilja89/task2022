@@ -1,5 +1,5 @@
 <template>
-    <div class="fcontainer clearfix fitem">
+    <div>
 
         <charon-select v-if="!isUpdate"
                 :label="translate('preset_label')"

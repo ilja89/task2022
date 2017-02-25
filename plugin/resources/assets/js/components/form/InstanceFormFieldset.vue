@@ -24,7 +24,7 @@
 
         data() {
             return {
-                advanced_checked: 1
+                advanced_checked: 0
             };
         },
 

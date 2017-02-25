@@ -1,3 +1,83 @@
+@import '_variables.scss';
+
+/*-----------------------*\
+  #GRADES_SELECT
+\*-----------------------*/
+
+.grades-select-container {
+  display: flex;
+}
+
+
+.grades-select-col {
+  padding: 0 10px;
+
+  .checkbox input[type='checkbox'] {
+    position: static;
+    margin-left: 0;
+  }
+}
+
+
+/*-----------------------*\
+  #GRADES_TABS
+\*-----------------------*/
+
+.tabs {
+  margin-top: 10px;
+  border-bottom: 5px solid $brand-primary;
+
+  ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+
+.tabs .tab {
+  flex-grow: 1;
+  margin: 0 5px;
+  text-align: center;
+
+  cursor: pointer;
+  background-color: $background-grey;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  a {
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    color: $dark-text-color;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  &.is-active {
+    background-color: $brand-primary;
+
+    a {
+      color: #ffffff;
+    }
+  }
+}
+
+.grade-name-container {
+  display: flex;
+}
+
+
 /*---------------------*\
   #LOADER
 \*---------------------*/

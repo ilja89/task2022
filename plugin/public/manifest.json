@@ -2,7 +2,7 @@
   "assignment.js": "js/assignment.js",
   "courseSettings.js": "js/courseSettings.js",
   "highlight.js": "js/highlight.js",
-  "instanceForm.css": "css/popup.css",
+  "instanceForm.css": "css/courseSettings.css",
   "instanceForm.js": "js/instanceForm.js",
   "popup.js": "js/popup.js"
 }
