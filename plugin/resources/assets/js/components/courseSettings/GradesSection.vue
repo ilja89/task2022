@@ -54,7 +54,7 @@
                     </label>
 
                     <input type="number" class="form-control" v-model="grade.max_result"
-                           :id="'preset_grade_max_points_' + index">
+                           :id="'preset_grade_max_points_' + index" step="0.01">
                 </div>
 
                 <div class="id-number-postfix-container">

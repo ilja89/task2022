@@ -32,6 +32,21 @@
 
         </div>
 
+        <input type="hidden" name="grading_method" :value="form.fields.grading_method">
+        <input type="hidden" name="max_score" :value="form.fields.max_score">
+        <input type="hidden" name="calculation_formula" :value="form.fields.calculation_formula">
+        <div v-for="grademap in form.fields.grademaps">
+            <input type="hidden"
+               :name="'grademaps[' + grademap.grade_type_code + '][grademap_name]'"
+               :value="grademap.name">
+            <input type="hidden"
+                   :name="'grademaps[' + grademap.grade_type_code + '][max_points]'"
+                   :value="grademap.max_points">
+            <input type="hidden"
+                   :name="'grademaps[' + grademap.grade_type_code + '][id_number]'"
+                   :value="grademap.id_number">
+        </div>
+
     </div>
 </template>
 
