@@ -12496,7 +12496,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "number",
-        "id": 'preset_grade_max_points_' + index
+        "id": 'preset_grade_max_points_' + index,
+        "step": "0.01"
       },
       domProps: {
         "value": _vm._s(grade.max_result)
