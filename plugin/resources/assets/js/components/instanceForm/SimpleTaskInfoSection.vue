@@ -17,6 +17,9 @@
                 @input-was-changed="onProjectFolderChanged" >
         </charon-text-input>
 
+        <input type="hidden" name="extra" :value="form.fields.extra">
+        <input type="hidden" name="tester_type" :value="form.fields.tester_type">
+
     </div>
 </template>
 
