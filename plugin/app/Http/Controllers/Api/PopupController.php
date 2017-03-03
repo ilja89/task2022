@@ -167,7 +167,11 @@ class PopupController extends Controller
             'created_at' => Carbon::now(),
         ]);
 
-        $comment->teacher;
+        $comment->load([
+            'teacher' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+        ]);
 
         return [
             'status'  => 'OK',
@@ -185,7 +189,11 @@ class PopupController extends Controller
     public function getComments(Charon $charon)
     {
         $studentId = $this->request['student_id'];
-        $comments  = Comment::with('teacher')
+        $comments  = Comment::with([
+            'teacher' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+        ])
                             ->where('student_id', $studentId)
                             ->where('charon_id', $charon->id)
                             ->get();
