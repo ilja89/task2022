@@ -10666,6 +10666,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__FilesSection_vue__);
 //
 //
 //
@@ -10717,25 +10719,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
-    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default.a },
+
+    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default.a, FilesSection: __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue___default.a },
 
     props: {
         submission: { required: true },
@@ -10795,17 +10787,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         submission: function submission() {
-            var outputs = this.getOutputs();
-            if (outputs.length > 0) {
-                this.active_output_slug = outputs[0].value;
-            }
-
-            if (this.submission === null || this.submission.files.length === 0) {
-                this.active_file_id = null;
-                return;
-            }
-
-            this.active_file_id = this.submission.files[0].id;
+            //                let outputs = this.getOutputs();
+            //                if (outputs.length > 0) {
+            //                    this.active_output_slug = outputs[0].value;
+            //                }
+            //
+            //                if (this.submission === null || this.submission.files.length === 0) {
+            //                    this.active_file_id = null;
+            //                    return;
+            //                }
+            //
+            //                this.active_file_id = this.submission.files[0].id;
         }
     },
 
@@ -12629,39 +12621,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "Code",
       "selected": true
     }
-  }, [(_vm.submission.files.length > 0) ? _c('p', {
-    staticClass: "control"
-  }, [_c('span', {
-    staticClass: "select"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.active_file_id),
-      expression: "active_file_id"
-    }],
+  }, [_c('files-section', {
     attrs: {
-      "name": "file"
-    },
-    on: {
-      "change": [function($event) {
-        _vm.active_file_id = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        })[0]
-      }, _vm.onFileChanged]
+      "submission": _vm.submission,
+      "testerType": _vm.charon.tester_type_name
     }
-  }, _vm._l((_vm.submission.files), function(file) {
-    return _c('option', {
-      domProps: {
-        "value": file.id
-      }
-    }, [_vm._v("\n                            " + _vm._s(file.path) + "\n                        ")])
-  }))])]) : _vm._e(), _vm._v(" "), (_vm.activeFile !== null) ? _c('pre', [_vm._v("\n                "), _c('code', {
-    class: _vm.charon.tester_type_name
-  }, [_vm._v(_vm._s(_vm.activeFile.contents))]), _vm._v("\n            ")]) : _vm._e()]), _vm._v(" "), _c('charon-tab', {
+  })], 1), _vm._v(" "), _c('charon-tab', {
     attrs: {
       "name": "Mail"
     }
@@ -12671,39 +12636,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "Outputs"
     }
-  }, [_c('p', {
-    staticClass: "control"
-  }, [_c('span', {
-    staticClass: "select"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.active_output_slug),
-      expression: "active_output_slug"
-    }],
-    attrs: {
-      "name": "output"
-    },
-    on: {
-      "change": function($event) {
-        _vm.active_output_slug = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        })[0]
-      }
-    }
-  }, _vm._l((_vm.getOutputs()), function(output) {
-    return _c('option', {
-      domProps: {
-        "value": output.value
-      }
-    }, [_vm._v("\n                            " + _vm._s(output.title) + "\n                        ")])
-  }))])]), _vm._v(" "), _c('pre', {
-    staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.selectedOutput))])])], 1) : _vm._e()], 1)
+  })], 1) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -13215,6 +13148,212 @@ e.default={props:{id:String,className:String,placeholder:String,initValue:{type:
 
 module.exports = __webpack_require__(174);
 
+
+/***/ }),
+
+/***/ 473:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_File__ = __webpack_require__(474);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+
+    props: {
+        submission: { required: true },
+        testerType: { required: true }
+    },
+
+    data: function data() {
+        return {
+            files: [],
+            activeFileId: null
+        };
+    },
+
+
+    computed: {
+        activeFile: function activeFile() {
+            var _this = this;
+
+            if (this.files.length === 0) {
+                return null;
+            }
+
+            return this.files.find(function (file) {
+                return file.id === _this.activeFileId;
+            });
+        }
+    },
+
+    watch: {
+        submission: function submission() {
+            this.getFiles();
+        }
+    },
+
+    mounted: function mounted() {
+        this.getFiles();
+    },
+
+
+    methods: {
+        getFiles: function getFiles() {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__models_File__["a" /* default */].findBySubmission(this.submission.id, function (files) {
+                _this2.files = files;
+                if (files.length > 0) {
+                    _this2.activeFileId = files[0].id;
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 474:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var File = function () {
+    function File() {
+        _classCallCheck(this, File);
+    }
+
+    _createClass(File, null, [{
+        key: 'findBySubmission',
+        value: function findBySubmission(submissionId, then) {
+            VueEvent.$emit('show-loader');
+            axios.get('/mod/charon/api/submissions/' + submissionId + '/files').then(function (_ref) {
+                var data = _ref.data;
+
+                then(data);
+                VueEvent.$emit('hide-loader');
+            });
+        }
+    }]);
+
+    return File;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = File;
+
+/***/ }),
+
+/***/ 475:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(473),
+  /* template */
+  __webpack_require__(476),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/sections/FilesSection.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FilesSection.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-afec8332", Component.options)
+  } else {
+    hotAPI.reload("data-v-afec8332", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 476:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.files.length > 0) ? _c('p', {
+    staticClass: "control"
+  }, [_c('span', {
+    staticClass: "select"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.activeFileId),
+      expression: "activeFileId"
+    }],
+    attrs: {
+      "name": "file"
+    },
+    on: {
+      "change": function($event) {
+        _vm.activeFileId = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, _vm._l((_vm.files), function(file) {
+    return _c('option', {
+      domProps: {
+        "value": file.id
+      }
+    }, [_vm._v("\n                    " + _vm._s(file.path) + "\n                ")])
+  }))])]) : _vm._e(), _vm._v(" "), (_vm.activeFile !== null) ? _c('pre', [_vm._v("\n        "), _c('code', {
+    class: _vm.testerType
+  }, [_vm._v(_vm._s(_vm.activeFile.contents))]), _vm._v("\n    ")]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-afec8332", module.exports)
+  }
+}
 
 /***/ }),
 

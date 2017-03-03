@@ -109,4 +109,17 @@ class Charon extends Model
             ->where('iteminstance', $this->id)
             ->get();
     }
+
+    /**
+     * Get the grade types for this Charon instance.
+     * Returns grade type codes for all grademaps.
+     *
+     * @return int[]
+     */
+    public function getGradeTypes()
+    {
+        return $this->grademaps->map(function ($grademap) {
+            return $grademap->grade_type_code;
+        });
+    }
 }

@@ -13,6 +13,8 @@ Route::group(['namespace' => 'Api'], function () {
          ->middleware('auth.requireCourseManagement');
     Route::get('charons/{charon}/submissions', 'PopupController@getSubmissionsByCharon')
          ->middleware('auth.requireCharonManaging');
+    Route::get('submissions/{submission}/files', 'FilesController@index');
+//         ->middleware('auth.requireSubmissionManaging');
     Route::post('charons/{charon}/submissions/{submission}', 'PopupController@saveSubmission')
          ->middleware('auth.requireCharonManaging');
     Route::post('charons/{charon}/comments', 'PopupController@saveComment')

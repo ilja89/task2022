@@ -9,22 +9,10 @@
 
             <charon-tab name="Code" :selected="true">
 
-                <p class="control" v-if="submission.files.length > 0">
-                    <span class="select">
-                        <select name="file"
-                                @change="onFileChanged"
-                                v-model="active_file_id">
-                            <option v-for="file in submission.files"
-                                    :value="file.id">
-                                {{ file.path }}
-                            </option>
-                        </select>
-                    </span>
-                </p>
-
-                <pre v-if="activeFile !== null">
-                    <code :class="charon.tester_type_name">{{ activeFile.contents }}</code>
-                </pre>
+                <files-section
+                        :submission="submission"
+                        :testerType="charon.tester_type_name">
+                </files-section>
 
             </charon-tab>
 
@@ -36,23 +24,23 @@
 
             <charon-tab name="Outputs">
 
-                <p class="control">
-                    <span class="select">
+                <!--<p class="control">-->
+                    <!--<span class="select">-->
 
-                        <select name="output"
-                                v-model="active_output_slug">
+                        <!--<select name="output"-->
+                                <!--v-model="active_output_slug">-->
 
-                            <option v-for="output in getOutputs()"
-                                    :value="output.value">
-                                {{ output.title }}
-                            </option>
+                            <!--<option v-for="output in getOutputs()"-->
+                                    <!--:value="output.value">-->
+                                <!--{{ output.title }}-->
+                            <!--</option>-->
 
-                        </select>
+                        <!--</select>-->
 
-                    </span>
-                </p>
+                    <!--</span>-->
+                <!--</p>-->
 
-                <pre class="output-content">{{ selectedOutput }}</pre>
+                <!--<pre class="output-content">{{ selectedOutput }}</pre>-->
 
             </charon-tab>
 
@@ -65,9 +53,11 @@
     import PopupSection from '../partials/PopupSection.vue';
     import CharonTabs from '../../partials/CharonTabs.vue';
     import CharonTab from '../../partials/CharonTab.vue';
+    import FilesSection from './FilesSection.vue';
 
     export default {
-        components: { PopupSection, CharonTabs, CharonTab },
+
+        components: { PopupSection, CharonTabs, CharonTab, FilesSection },
 
         props: {
             submission: { required: true },
@@ -125,17 +115,17 @@
             },
 
             submission() {
-                let outputs = this.getOutputs();
-                if (outputs.length > 0) {
-                    this.active_output_slug = outputs[0].value;
-                }
-
-                if (this.submission === null || this.submission.files.length === 0) {
-                    this.active_file_id = null;
-                    return;
-                }
-
-                this.active_file_id = this.submission.files[0].id;
+//                let outputs = this.getOutputs();
+//                if (outputs.length > 0) {
+//                    this.active_output_slug = outputs[0].value;
+//                }
+//
+//                if (this.submission === null || this.submission.files.length === 0) {
+//                    this.active_file_id = null;
+//                    return;
+//                }
+//
+//                this.active_file_id = this.submission.files[0].id;
             }
         },
 
