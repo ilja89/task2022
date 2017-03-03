@@ -4,7 +4,6 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Comment;
@@ -56,11 +55,11 @@ class PopupController extends Controller
         CharonGradingService $charonGradingService,
         User $user
     ) {
-        $this->charonRepository = $charonRepository;
-        $this->request = $request;
-        $this->grademapService = $grademapService;
+        $this->charonRepository     = $charonRepository;
+        $this->request              = $request;
+        $this->grademapService      = $grademapService;
         $this->charonGradingService = $charonGradingService;
-        $this->user = $user;
+        $this->user                 = $user;
     }
 
     /**
@@ -75,7 +74,12 @@ class PopupController extends Controller
         $charons = $this->charonRepository->findCharonsByCourse($course->id);
 
         foreach ($charons as $charon) {
-            $charon->grademaps = Grademap::with('gradeItem')->where('charon_id', $charon->id)->get();
+            $charon->grademaps = Grademap::with([
+                'gradeItem' => function ($query) {
+                    $query->select(['id', 'grademax']);
+                },
+            ])->where('charon_id', $charon->id)
+                                         ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
             $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
         }
 
@@ -91,18 +95,29 @@ class PopupController extends Controller
     {
         $userId = $this->request['user_id'];
 
-        $submissions = Submission::with('results', 'files', 'charon', 'charon.grademaps')
+        $submissions = Submission::with([
+            // Only select results which have a corresponding grademap
+            'results' => function ($query) use ($charon) {
+                $query->whereIn('grade_type_code', $charon->getGradeTypes());
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+            },
+        ])
                                  ->where('charon_id', $charon->id)
                                  ->where('user_id', $userId)
                                  ->orderBy('git_timestamp', 'desc')
                                  ->orderBy('created_at', 'desc')
+                                 ->select([
+                                     'id',
+                                     'charon_id',
+                                     'confirmed',
+                                     'created_at',
+                                     'git_hash',
+                                     'git_timestamp',
+                                     'user_id',
+                                     'mail',
+                                 ])
                                  ->simplePaginate(10);
 
-        foreach ($submissions as $submission) {
-            // Remove Results that do not have a corresponding Grademap. Eg. Styles
-            $newResults = $this->findResultsWithGrademaps($submission);
-            $submission->setRelation('results', $newResults);
-        }
         $submissions->appends(['user_id' => $userId])->links();
 
         return $submissions;
@@ -145,35 +160,43 @@ class PopupController extends Controller
     public function saveComment(Charon $charon)
     {
         $comment = Comment::create([
-            'charon_id' => $charon->id,
+            'charon_id'  => $charon->id,
             'student_id' => $this->request['student_id'],
             'teacher_id' => $this->user->currentUserId(),
-            'message' => $this->request['comment'],
-            'created_at' => Carbon::now()
+            'message'    => $this->request['comment'],
+            'created_at' => Carbon::now(),
         ]);
 
-        $comment->teacher;
+        $comment->load([
+            'teacher' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+        ]);
 
         return [
-            'status' => 'OK',
-            'comment' => $comment
+            'status'  => 'OK',
+            'comment' => $comment,
         ];
     }
 
     /**
      * Get comments by Charon and student.
      *
-     * @param  Charon  $charon
+     * @param  Charon $charon
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getComments(Charon $charon)
     {
         $studentId = $this->request['student_id'];
-        $comments = Comment::with('teacher')
-            ->where('student_id', $studentId)
-            ->where('charon_id', $charon->id)
-            ->get();
+        $comments  = Comment::with([
+            'teacher' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+        ])
+                            ->where('student_id', $studentId)
+                            ->where('charon_id', $charon->id)
+                            ->get();
 
         return $comments;
     }
@@ -193,28 +216,5 @@ class PopupController extends Controller
         }
 
         return null;
-    }
-
-    /**
-     * Gets all the results from given submission that have corresponding Grademaps.
-     *
-     * @param  Submission $submission
-     *
-     * @return Collection
-     */
-    private function findResultsWithGrademaps($submission)
-    {
-        $grademaps = $submission->charon->grademaps;
-        $results = $submission->results;
-        $resultsWithGrademaps = [];
-        foreach ($results as $result) {
-            foreach ($grademaps as $grademap) {
-                if ($result->grade_type_code == $grademap->grade_type_code) {
-                    $resultsWithGrademaps[] = $result;
-                }
-            }
-        }
-
-        return collect($resultsWithGrademaps);
     }
 }
