@@ -99,6 +99,7 @@ class PopupController extends Controller
             // Only select results which have a corresponding grademap
             'results' => function ($query) use ($charon) {
                 $query->whereIn('grade_type_code', $charon->getGradeTypes());
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
             },
         ])
                                  ->where('charon_id', $charon->id)
@@ -106,8 +107,14 @@ class PopupController extends Controller
                                  ->orderBy('git_timestamp', 'desc')
                                  ->orderBy('created_at', 'desc')
                                  ->select([
-                                     'id', 'charon_id', 'confirmed', 'created_at', 'git_hash', 'git_timestamp',
+                                     'id',
+                                     'charon_id',
+                                     'confirmed',
+                                     'created_at',
+                                     'git_hash',
+                                     'git_timestamp',
                                      'user_id',
+                                     'mail',
                                  ])
                                  ->simplePaginate(10);
 

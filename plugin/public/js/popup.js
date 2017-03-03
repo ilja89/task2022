@@ -10666,8 +10666,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__FilesSection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_FilesComponent_vue__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_FilesComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__partials_FilesComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__partials_OutputComponent_vue__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__partials_OutputComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__partials_OutputComponent_vue__);
 //
 //
 //
@@ -10706,19 +10708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -10727,157 +10717,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 
-    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default.a, FilesSection: __WEBPACK_IMPORTED_MODULE_3__FilesSection_vue___default.a },
+    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__partials_PopupSection_vue___default.a, CharonTabs: __WEBPACK_IMPORTED_MODULE_1__partials_CharonTabs_vue___default.a, CharonTab: __WEBPACK_IMPORTED_MODULE_2__partials_CharonTab_vue___default.a, FilesComponent: __WEBPACK_IMPORTED_MODULE_3__partials_FilesComponent_vue___default.a, OutputComponent: __WEBPACK_IMPORTED_MODULE_4__partials_OutputComponent_vue___default.a },
 
     props: {
         submission: { required: true },
         charon: { required: true }
-    },
-
-    data: function data() {
-        return {
-            active_file_id: null,
-            active_output_slug: '',
-            activeFile: null
-        };
-    },
-
-
-    computed: {
-        selectedOutput: function selectedOutput() {
-
-            if (this.active_output_slug === null) {
-                return 'No output selected.';
-            }
-
-            var slug = this.active_output_slug.split('__');
-            var outputFrom = this.submission;
-            if (slug[0] == 'result') {
-                outputFrom = this.findResultById(slug[2]);
-            }
-
-            if (outputFrom === null) {
-                return '';
-            }
-
-            return outputFrom[slug[1]];
-        }
-    },
-
-    mounted: function mounted() {
-        if (this.submission !== null) {
-            this.active_file_id = this.submission.files[0].id;
-        }
-    },
-
-
-    watch: {
-        active_file_id: function active_file_id() {
-            var _this = this;
-
-            if (this.submission === null) {
-                this.activeFile = null;
-                return;
-            }
-
-            this.submission.files.forEach(function (file) {
-                if (file.id === _this.active_file_id) {
-                    _this.activeFile = file;
-                }
-            });
-        },
-        submission: function submission() {
-            //                let outputs = this.getOutputs();
-            //                if (outputs.length > 0) {
-            //                    this.active_output_slug = outputs[0].value;
-            //                }
-            //
-            //                if (this.submission === null || this.submission.files.length === 0) {
-            //                    this.active_file_id = null;
-            //                    return;
-            //                }
-            //
-            //                this.active_file_id = this.submission.files[0].id;
-        }
-    },
-
-    methods: {
-        onFileChanged: function onFileChanged() {
-            var _this2 = this;
-
-            var changedFile = null;
-
-            this.submission.files.forEach(function (file) {
-                if (file.id == _this2.active_file_id) {
-                    changedFile = file;
-                }
-            });
-        },
-        getGrademapByResult: function getGrademapByResult(result) {
-            var correctGrademap = null;
-            this.charon.grademaps.forEach(function (grademap) {
-                if (result.grade_type_code == grademap.grade_type_code) {
-                    correctGrademap = grademap;
-                }
-            });
-
-            return correctGrademap;
-        },
-        findResultById: function findResultById(id) {
-            var matchingResult = null;
-
-            if (this.submission === null) {
-                return null;
-            }
-
-            this.submission.results.forEach(function (result) {
-                if (result.id == id) {
-                    matchingResult = result;
-                }
-            });
-
-            return matchingResult;
-        },
-        hasOutput: function hasOutput(object, kind) {
-            return object !== null && object[kind] !== null && object[kind].length > 0;
-        },
-        getOutputs: function getOutputs() {
-            var _this3 = this;
-
-            var outputs = [];
-
-            if (this.hasOutput(this.submission, 'stdout')) {
-                outputs.push({
-                    value: 'submission__stdout',
-                    title: 'Submission stdout'
-                });
-            }
-            if (this.hasOutput(this.submission, 'stderr')) {
-                outputs.push({
-                    value: 'submission__stderr',
-                    title: 'Submission stderr'
-                });
-            }
-
-            if (this.submission !== null) {
-                this.submission.results.forEach(function (result) {
-                    if (_this3.hasOutput(result, 'stdout')) {
-                        outputs.push({
-                            value: 'result__stdout__' + result.id,
-                            title: _this3.getGrademapByResult(result).name + ' stdout'
-                        });
-                    }
-                    if (_this3.hasOutput(result, 'stderr')) {
-                        outputs.push({
-                            value: 'result__stderr__' + result.id,
-                            title: _this3.getGrademapByResult(result).name + ' stderr'
-                        });
-                    }
-                });
-            }
-
-            return outputs;
-        }
     }
 };
 
@@ -12621,7 +12465,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "Code",
       "selected": true
     }
-  }, [_c('files-section', {
+  }, [_c('files-component', {
     attrs: {
       "submission": _vm.submission,
       "testerType": _vm.charon.tester_type_name
@@ -12636,7 +12480,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "Outputs"
     }
-  })], 1) : _vm._e()], 1)
+  }, [_c('output-component', {
+    attrs: {
+      "submission": _vm.submission,
+      "grademaps": _vm.charon.grademaps
+    }
+  })], 1)], 1) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -13151,7 +13000,40 @@ module.exports = __webpack_require__(174);
 
 /***/ }),
 
-/***/ 473:
+/***/ 474:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var File = function () {
+    function File() {
+        _classCallCheck(this, File);
+    }
+
+    _createClass(File, null, [{
+        key: 'findBySubmission',
+        value: function findBySubmission(submissionId, then) {
+            VueEvent.$emit('show-loader');
+            axios.get('/mod/charon/api/submissions/' + submissionId + '/files').then(function (_ref) {
+                var data = _ref.data;
+
+                then(data);
+                VueEvent.$emit('hide-loader');
+            });
+        }
+    }]);
+
+    return File;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = File;
+
+/***/ }),
+
+/***/ 477:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13241,55 +13123,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 474:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var File = function () {
-    function File() {
-        _classCallCheck(this, File);
-    }
-
-    _createClass(File, null, [{
-        key: 'findBySubmission',
-        value: function findBySubmission(submissionId, then) {
-            VueEvent.$emit('show-loader');
-            axios.get('/mod/charon/api/submissions/' + submissionId + '/files').then(function (_ref) {
-                var data = _ref.data;
-
-                then(data);
-                VueEvent.$emit('hide-loader');
-            });
-        }
-    }]);
-
-    return File;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = File;
-
-/***/ }),
-
-/***/ 475:
+/***/ 478:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(473),
+  __webpack_require__(477),
   /* template */
-  __webpack_require__(476),
+  __webpack_require__(479),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/sections/FilesSection.vue"
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/partials/FilesComponent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FilesSection.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] FilesComponent.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -13298,9 +13147,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-afec8332", Component.options)
+    hotAPI.createRecord("data-v-6ab2429b", Component.options)
   } else {
-    hotAPI.reload("data-v-afec8332", Component.options)
+    hotAPI.reload("data-v-6ab2429b", Component.options)
   }
 })()}
 
@@ -13309,7 +13158,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 476:
+/***/ 479:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13351,9 +13200,267 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-afec8332", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-6ab2429b", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 480:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Output__ = __webpack_require__(484);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+
+    props: {
+        submission: { required: true },
+        grademaps: { required: true }
+    },
+
+    data: function data() {
+        return {
+            outputs: [],
+            activeOutputSlug: null
+        };
+    },
+
+
+    computed: {
+        activeOutput: function activeOutput() {
+            var _this = this;
+
+            if (this.activeOutputSlug === null) {
+                return 'No output selected.';
+            }
+
+            return this.outputs.find(function (output) {
+                return output.slug === _this.activeOutputSlug;
+            }).content;
+        }
+    },
+
+    watch: {
+        submission: function submission() {
+            this.getOutputs();
+        }
+    },
+
+    mounted: function mounted() {
+        this.getOutputs();
+    },
+
+
+    methods: {
+        hasOutput: function hasOutput(object, kind) {
+            return object !== null && object[kind] !== null && object[kind].length > 0;
+        },
+        getGrademapByResultId: function getGrademapByResultId(resultId) {
+
+            var result = this.submission.results.find(function (result) {
+                return result.id == resultId;
+            });
+
+            if (typeof result === 'undefined') {
+                return null;
+            }
+
+            var correctGrademap = null;
+            this.grademaps.forEach(function (grademap) {
+                if (result.grade_type_code == grademap.grade_type_code) {
+                    correctGrademap = grademap;
+                }
+            });
+
+            return correctGrademap;
+        },
+        getOutputs: function getOutputs() {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__models_Output__["a" /* default */].findBySubmission(this.submission.id, function (outputs) {
+                _this2.outputs = [];
+
+                if (_this2.hasOutput(outputs['submission'], 'stdout')) {
+                    _this2.outputs.push({
+                        slug: 'submission__stdout',
+                        title: 'Submission stdout',
+                        content: outputs['submission']['stdout']
+                    });
+                }
+                if (_this2.hasOutput(outputs['submission'], 'stderr')) {
+                    _this2.outputs.push({
+                        slug: 'submission__stderr',
+                        title: 'Submission stderr',
+                        content: outputs['submission']['stderr']
+                    });
+                }
+
+                for (var resultId in outputs['results']) {
+                    if (_this2.hasOutput(outputs['results'][resultId], 'stdout')) {
+                        _this2.outputs.push({
+                            slug: 'result__stdout__' + resultId,
+                            title: _this2.getGrademapByResultId(resultId).name + ' stdout',
+                            content: outputs['results'][resultId]['stdout']
+                        });
+                    }
+                    if (_this2.hasOutput(outputs['results'][resultId], 'stderr')) {
+                        _this2.outputs.push({
+                            slug: 'result__stderr__' + resultId,
+                            title: _this2.getGrademapByResultId(resultId).name + ' stderr',
+                            content: outputs['results'][resultId]['stderr']
+                        });
+                    }
+                }
+
+                if (_this2.outputs.length > 0) {
+                    _this2.activeOutputSlug = _this2.outputs[0].slug;
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 481:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(480),
+  /* template */
+  __webpack_require__(482),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/joosep/Sites/moodle/mod/charon/plugin/resources/assets/js/components/popup/partials/OutputComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] OutputComponent.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-22351677", Component.options)
+  } else {
+    hotAPI.reload("data-v-22351677", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 482:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('p', {
+    staticClass: "control"
+  }, [_c('span', {
+    staticClass: "select"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.activeOutputSlug),
+      expression: "activeOutputSlug"
+    }],
+    attrs: {
+      "name": "output"
+    },
+    on: {
+      "change": function($event) {
+        _vm.activeOutputSlug = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, _vm._l((_vm.outputs), function(output) {
+    return _c('option', {
+      domProps: {
+        "value": output.slug
+      }
+    }, [_vm._v("\n                    " + _vm._s(output.title) + "\n                ")])
+  }))])]), _vm._v(" "), _c('pre', {
+    staticClass: "output-content"
+  }, [_vm._v(_vm._s(_vm.activeOutput))])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-22351677", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 484:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Output = function () {
+    function Output() {
+        _classCallCheck(this, Output);
+    }
+
+    _createClass(Output, null, [{
+        key: 'findBySubmission',
+        value: function findBySubmission(submissionId, then) {
+            VueEvent.$emit('show-loader');
+            axios.get('/mod/charon/api/submissions/' + submissionId + '/outputs').then(function (_ref) {
+                var data = _ref.data;
+
+                then(data);
+                VueEvent.$emit('hide-loader');
+            });
+        }
+    }]);
+
+    return Output;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = Output;
 
 /***/ }),
 

@@ -42,4 +42,16 @@ class Result extends Model
     {
         return $this->grade_type_code < 100;
     }
+
+    /**
+     * Get grademap for the current result.
+     *
+     * @return Grademap
+     */
+    public function getGrademap()
+    {
+        return Grademap::where('charon_id', $this->submission->charon_id)
+            ->where('grade_type_code', $this->grade_type_code)
+            ->first();
+    }
 }
