@@ -27,12 +27,21 @@
             this.getStudent();
         },
 
+        watch: {
+            $route() {
+                if (typeof this.$route.params.student_id !== 'undefined') {
+                    this.getStudent();
+                }
+            }
+        },
+
         methods: {
             getStudent() {
                 User.findById(this.context.course_id, this.$route.params.student_id, user => {
                     this.context.active_student = user;
+                    this.context.active_submission = null;
                 });
             }
-        }
+        },
     }
 </script>

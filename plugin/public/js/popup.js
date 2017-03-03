@@ -11459,12 +11459,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    watch: {
+        $route: function $route() {
+            if (typeof this.$route.params.student_id !== 'undefined') {
+                this.getStudent();
+            }
+        }
+    },
+
     methods: {
         getStudent: function getStudent() {
             var _this = this;
 
             __WEBPACK_IMPORTED_MODULE_3__models_User__["a" /* default */].findById(this.context.course_id, this.$route.params.student_id, function (user) {
                 _this.context.active_student = user;
+                _this.context.active_submission = null;
             });
         }
     }
