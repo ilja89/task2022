@@ -70,7 +70,7 @@ class GradebookService extends MoodleService
      */
     public function addGradeCategory($courseId, $categoryName)
     {
-        $grade_category = new \grade_category( [ 'courseid' => $courseId, 'fullname' => $categoryName ], true );
+        $grade_category = new \grade_category( [ 'courseid' => $courseId, 'fullname' => $categoryName ], false );
         $grade_category->insert();
 
         return $grade_category->id;
