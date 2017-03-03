@@ -13,15 +13,28 @@
 </template>
 
 <script>
-    import PageTitle from './partials/PageTitle.vue';
+    import PageTitle from '../partials/PageTitle.vue';
     import SubmissionOverviewSection from './sections/SubmissionOverviewSection.vue';
     import OutputSection from './sections/OutputSection.vue';
+    import Submission from '../../models/Submission';
 
     export default {
         components: { PageTitle, SubmissionOverviewSection, OutputSection },
 
         props: {
             context: { required: true }
+        },
+
+        mounted() {
+            this.getSubmission();
+        },
+
+        methods: {
+            getSubmission() {
+                Submission.findById(this.context.active_charon.id, this.$route.params.submission_id, submission => {
+                    this.context.active_submission = submission;
+                });
+            }
         }
     }
 </script>

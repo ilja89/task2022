@@ -37,11 +37,11 @@
 </template>
 
 <script>
-    import PopupSection from '../partials/PopupSection.vue';
-    import CharonTabs from '../../partials/CharonTabs.vue';
-    import CharonTab from '../../partials/CharonTab.vue';
-    import FilesComponent from '../partials/FilesComponent.vue';
-    import OutputComponent from '../partials/OutputComponent.vue';
+    import PopupSection from '../../layouts/PopupSection.vue';
+    import CharonTabs from '../../../components/partials/CharonTabs.vue';
+    import CharonTab from '../../../components/partials/CharonTab.vue';
+    import FilesComponent from '../../components/FilesComponent.vue';
+    import OutputComponent from '../../components/OutputComponent.vue';
 
     export default {
 

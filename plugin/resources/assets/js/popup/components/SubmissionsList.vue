@@ -22,8 +22,8 @@
 </template>
 
 <script>
-    import SubmissionPartial from './Submission.vue';
-    import Submission from '../../../models/Submission';
+    import SubmissionPartial from '../partials/Submission.vue';
+    import Submission from '../../models/Submission';
 
     export default {
 
@@ -45,7 +45,6 @@
         mounted() {
             this.refreshSubmissions();
             VueEvent.$on('refresh-page', () => this.refreshSubmissions());
-            VueEvent.$on('submission-was-saved', () => this.refreshSubmissions());
         },
 
         watch: {
@@ -74,12 +73,16 @@
                             this.emitSubmissionChange(submission);
                         }
                     });
+
+                    if (this.active_submission === null &&  this.submissions.length > 0) {
+                        this.emitSubmissionChange(this.submissions[0]);
+                    }
                 });
             },
 
             onSubmissionSelected(submission) {
                 this.emitSubmissionChange(submission);
-                VueEvent.$emit('change-page', 'Submission');
+                this.$router.push('/submission/' + submission.id)
             },
 
             emitSubmissionChange(submission) {

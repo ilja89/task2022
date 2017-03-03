@@ -52,7 +52,7 @@
             },
 
             onStudentSelected(student) {
-                VueEvent.$emit('student-was-changed', student);
+                this.$emit('student-was-changed', student);
             }
         }
     }
