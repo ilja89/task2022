@@ -75,7 +75,10 @@ class PopupController extends Controller
         $charons = $this->charonRepository->findCharonsByCourse($course->id);
 
         foreach ($charons as $charon) {
-            $charon->grademaps = Grademap::with('gradeItem')->where('charon_id', $charon->id)->get();
+            $charon->grademaps = Grademap::with(['gradeItem' => function ($query) {
+                $query->select(['id', 'grademax']);
+            }])->where('charon_id', $charon->id)
+                ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
             $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
         }
 

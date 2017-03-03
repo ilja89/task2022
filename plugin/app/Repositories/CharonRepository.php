@@ -171,7 +171,11 @@ class CharonRepository
             ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('course_modules.course', $courseId)
             ->where('course_modules.module', $moduleId)
-            ->select('charon.*', 'charon_tester_type.name AS tester_type_name')
+            ->select(
+                'charon.id',
+                'charon.name',
+                'charon_tester_type.name AS tester_type_name'
+            )
             ->get();
     }
 
