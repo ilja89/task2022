@@ -14290,6 +14290,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    watch: {
+        $route: function $route() {
+            if (typeof this.$route.params.submission_id !== 'undefined') {
+                this.getSubmission();
+            }
+        }
+    },
+
     methods: {
         getSubmission: function getSubmission() {
             var _this = this;

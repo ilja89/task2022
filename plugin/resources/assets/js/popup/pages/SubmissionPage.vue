@@ -29,6 +29,14 @@
             this.getSubmission();
         },
 
+        watch: {
+            $route() {
+                if (typeof this.$route.params.submission_id !== 'undefined') {
+                    this.getSubmission();
+                }
+            }
+        },
+
         methods: {
             getSubmission() {
                 if (this.context.active_charon === null) {
