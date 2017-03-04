@@ -11461,7 +11461,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     watch: {
         $route: function $route() {
-            if (typeof this.$route.params.student_id !== 'undefined') {
+            if (typeof this.$route.params.student_id !== 'undefined' && this.context.active_student !== null && this.context.active_student.id != this.$route.params.student_id) {
                 this.getStudent();
             }
         }
