@@ -28,6 +28,15 @@ class Submission {
                 VueEvent.$emit('hide-loader');
             });
     }
+
+    static findById(charonId, submissionId, then) {
+        VueEvent.$emit('show-loader');
+        axios.get('/mod/charon/api/charons/' + charonId + '/submissions/' + submissionId)
+            .then(response => {
+                then(response.data);
+                VueEvent.$emit('hide-loader');
+            });
+    }
 }
 Submission.nextUrl = null;
 

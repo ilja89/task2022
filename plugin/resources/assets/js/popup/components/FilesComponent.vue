@@ -24,7 +24,7 @@
 
 <script>
 
-    import File from '../../../models/File';
+    import File from '../../models/File';
 
     export default {
 

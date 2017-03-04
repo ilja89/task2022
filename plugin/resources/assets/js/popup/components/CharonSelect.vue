@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import Charon from '../../../models/Charon';
+    import Charon from '../../models/Charon';
 
     export default {
         props: {
@@ -44,7 +44,7 @@
 
         methods: {
             onCharonSelected() {
-                VueEvent.$emit('charon-was-changed', this.activeCharon);
+                this.$emit('charon-was-changed', this.activeCharon);
             },
 
             refreshCharons() {
