@@ -115,7 +115,7 @@ class PopupController extends Controller
                                      'git_timestamp',
                                      'user_id',
                                  ])
-                                 ->simplePaginate(10);
+                                 ->simplePaginate(5);
 
         $submissions->appends(['user_id' => $userId])->links();
 

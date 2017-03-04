@@ -31,6 +31,10 @@
 
         methods: {
             getSubmission() {
+                if (this.context.active_charon === null) {
+                    return null;
+                }
+
                 Submission.findById(this.context.active_charon.id, this.$route.params.submission_id, submission => {
                     this.context.active_submission = submission;
                 });
