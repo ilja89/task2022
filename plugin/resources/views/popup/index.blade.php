@@ -2,6 +2,9 @@
 
 <div id="app">
 
+    <popup :context="context"></popup>
+
+    {{--
     <popup-header
             :context="context">
     </popup-header>
@@ -37,6 +40,7 @@
 
     <loader :visible="loaderVisible !== 0"></loader>
     <notification :text="notification_text" :show="notification_show"></notification>
+    --}}
 </div>
 
 <script>

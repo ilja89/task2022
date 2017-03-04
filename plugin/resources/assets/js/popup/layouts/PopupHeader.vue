@@ -9,7 +9,8 @@
         <div class="column  header-right">
 
             <student-search
-                    :courseId="context.course_id">
+                    :courseId="course_id"
+                    @student-was-changed="onStudentChanged">
             </student-search>
 
             <div class="refresh-container" @click="onRefreshClicked">
@@ -27,18 +28,22 @@
 </template>
 
 <script>
-    import StudentSearch from './partials/StudentSearch.vue';
+    import StudentSearch from '../components/StudentSearch.vue';
 
     export default {
         components: { StudentSearch },
 
         props: {
-            context: { required: true }
+            course_id: { required: true }
         },
 
         methods: {
             onRefreshClicked() {
                 VueEvent.$emit('refresh-page');
+            },
+
+            onStudentChanged(student) {
+                this.$router.push('/grading/' + student.id);
             }
         }
     }

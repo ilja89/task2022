@@ -4,6 +4,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 
 /**
@@ -37,5 +38,37 @@ class SubmissionsController extends Controller
         }
 
         return $outputs;
+    }
+
+    /**
+     * Find a submission by its id.
+     *
+     * @param  Charon  $charon
+     * @param  int  $submissionId
+     *
+     * @return Submission
+     */
+    public function findById(Charon $charon, $submissionId)
+    {
+        $submission = Submission::with([
+            'results' => function ($query) use ($charon) {
+                // Only select results which have a corresponding grademap
+                $query->whereIn('grade_type_code', $charon->getGradeTypes());
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+            },
+        ])
+                                 ->where('id', $submissionId)
+                                 ->where('charon_id', $charon->id)
+                                 ->first([
+                                     'id',
+                                     'charon_id',
+                                     'confirmed',
+                                     'created_at',
+                                     'git_hash',
+                                     'git_timestamp',
+                                     'user_id',
+                                     'mail',
+                                 ]);
+        return $submission;
     }
 }

@@ -13,6 +13,8 @@ Route::group(['namespace' => 'Api'], function () {
          ->middleware('auth.requireCourseManagement');
     Route::get('charons/{charon}/submissions', 'PopupController@getSubmissionsByCharon')
          ->middleware('auth.requireCharonManaging');
+    Route::get('charons/{charon}/submissions/{submissionId}', 'SubmissionsController@findById')
+         ->middleware('auth.requireCharonManaging');
     Route::get('submissions/{submission}/files', 'FilesController@index');
 //         ->middleware('auth.requireSubmissionManaging');
     Route::get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
@@ -23,6 +25,8 @@ Route::group(['namespace' => 'Api'], function () {
          ->middleware('auth.requireCharonManaging');
     Route::get('charons/{charon}/comments', 'PopupController@getComments')
          ->middleware('auth.requireCharonManaging');
+    Route::get('courses/{course}/users/{userId}', 'StudentsController@findById')
+        ->middleware('auth.requireCourseManagement');
 
     Route::post('courses/{course}/presets', 'PresetsController@store')
         ->middleware('auth.requireCourseManagement');

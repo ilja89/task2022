@@ -4,9 +4,12 @@
 \*---------------------*/
 
 #app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+
+  .popup-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
   .popup-body {
     flex-grow: 1;

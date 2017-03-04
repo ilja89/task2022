@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Repositories\StudentsRepository;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\User;
 
 /**
  * Class StudentsController.
@@ -47,5 +48,19 @@ class StudentsController extends Controller
         $users = $this->studentsRepository->searchStudentsByCourseAndKeyword($course->id, $keyword);
 
         return $users;
+    }
+
+    /**
+     * Find the user by the given ID.
+     *
+     * @param Course $course
+     * @param  int $userId
+     *
+     * @return User
+     */
+    public function findById(Course $course, $userId)
+    {
+        return User::where('id', $userId)
+            ->first(['id', 'firstname', 'lastname']);
     }
 }

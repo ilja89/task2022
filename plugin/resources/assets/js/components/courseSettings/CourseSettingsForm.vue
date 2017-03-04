@@ -30,7 +30,7 @@
     import TesterSettingsSection from './TesterSettingsSection.vue';
     import PresetsSection from './PresetsSection.vue';
     import Translate from '../../mixins/translate';
-    import Loader from '../popup/partials/Loader.vue';
+    import Loader from '../../popup/components/Loader.vue';
 
     export default {
         mixins: [ Translate ],
