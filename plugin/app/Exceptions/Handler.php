@@ -42,8 +42,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (! $this->shouldntSendEmail($exception) && config('app.env') !== 'local') {
+        if (! $this->shouldntSendEmail($exception) && ! $this->isPrivateEnv()) {
             // Don't try to email exceptions when in local environment.
+            dd($exception);
             app('sneaker')->captureException($exception);
         }
 
@@ -101,5 +102,10 @@ class Handler extends ExceptionHandler
         }
 
         return false;
+    }
+
+    private function isPrivateEnv()
+    {
+        return config('app.env') === 'local' || config('app.env') === 'testing';
     }
 }

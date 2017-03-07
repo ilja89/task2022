@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="control">
+        <p class="control output-tab-select" v-if="outputs.length > 0">
             <span class="select">
 
                 <select name="output"
@@ -16,7 +16,7 @@
             </span>
         </p>
 
-        <pre class="output-content">{{ activeOutput }}</pre>
+        <pre class="output-content" v-if="outputs.length > 0">{{ activeOutput }}</pre>
     </div>
 </template>
 
@@ -43,9 +43,15 @@
                     return 'No output selected.';
                 }
 
-                return this.outputs.find(output => {
+                const activeOutput = this.outputs.find(output => {
                     return output.slug === this.activeOutputSlug;
-                }).content;
+                });
+
+                if (typeof activeOutput !== 'undefined') {
+                    return activeOutput.content;
+                }
+
+                return '';
             }
         },
 

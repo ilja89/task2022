@@ -43,7 +43,7 @@ class GitCallbackController extends Controller
         $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'http://neti.ee');
         $params = $this->getTesterRequestParams($gitCallback);
         $client = new Client(['base_uri' => $testerUrl]);
-        $client->request('POST', 'test', [ 'json' => $params ]);
+        $client->requestAsync('POST', 'test', [ 'json' => $params ]);
 
         return "SUCCESS";
     }

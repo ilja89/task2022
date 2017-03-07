@@ -18,7 +18,7 @@
 
             <charon-tab name="Mail">
 
-                <pre class="output-content">{{ submission.mail }}</pre>
+                <pre class="output-content" v-if="hasMail">{{ submission.mail }}</pre>
 
             </charon-tab>
 
@@ -51,5 +51,11 @@
             submission: { required: true },
             charon: { required: true }
         },
+
+        computed: {
+            hasMail() {
+                return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
+            }
+        }
     }
 </script>

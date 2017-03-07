@@ -6,30 +6,29 @@
     "type": "plugin",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "guzzlehttp/guzzle": "~6.0",
-        "squareboat/sneaker": "^1.0"
+        "squareboat/sneaker": "^1.0",
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "classmap": [
             "plugin/database"
         ],
         "psr-4": {
-            "TTU\\Charon\\": "plugin/app",
-            "Zeizig\\Moodle\\": "packages/zeizig/moodle/src"
+            "TTU\\Charon\\": "plugin/app/",
+            "Zeizig\\Moodle\\": "packages/zeizig/moodle/src/"
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "plugin/tests/integration/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\" : "plugin/tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -48,6 +47,7 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }

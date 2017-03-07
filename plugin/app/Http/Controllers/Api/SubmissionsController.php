@@ -2,10 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Services\CharonGradingService;
 
 /**
  * Class SubmissionsController.
@@ -14,6 +16,19 @@ use TTU\Charon\Models\Submission;
  */
 class SubmissionsController extends Controller
 {
+    /** @var CharonGradingService */
+    private $charonGradingService;
+
+    /**
+     * SubmissionsController constructor.
+     *
+     * @param CharonGradingService $charonGradingService
+     */
+    public function __construct(CharonGradingService $charonGradingService)
+    {
+        $this->charonGradingService = $charonGradingService;
+    }
+
     /**
      * Get all outputs for given submission. Also includes outputs for
      * results.
@@ -69,6 +84,38 @@ class SubmissionsController extends Controller
                                      'user_id',
                                      'mail',
                                  ]);
+        return $submission;
+    }
+
+    /**
+     * Add a new empty submission to the given Charon. Empty means that all the
+     * outputs are empty and all results are 0.
+     *
+     * @param Request $request
+     * @param Charon $charon
+     *
+     * @return Submission
+     */
+    public function addNewEmpty(Request $request, Charon $charon)
+    {
+        /** @var Submission $submission */
+        $submission = $charon->submissions()->create([
+            'user_id' => $request['student_id'],
+            'git_hash' => '',
+            'git_timestamp' => Carbon::now(),
+            'stdout' => 'Manually created by teacher',
+        ]);
+
+        foreach ($charon->grademaps as $grademap) {
+            $submission->results()->create([
+                'grade_type_code' => $grademap->grade_type_code,
+                'percentage' => 0,
+                'calculated_result' => 0,
+            ]);
+        }
+
+        $this->charonGradingService->updateGradeIfApplicable($submission);
+
         return $submission;
     }
 }

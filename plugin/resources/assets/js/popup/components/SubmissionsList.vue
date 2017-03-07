@@ -97,7 +97,7 @@
                 } else {
                     this.canLoadMore = false;
                 }
-            }
+            },
         }
     }
 </script>
