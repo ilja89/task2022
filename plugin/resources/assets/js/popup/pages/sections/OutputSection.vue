@@ -54,7 +54,7 @@
 
         computed: {
             hasMail() {
-                return this.submission.mail !== null && this.submission.mail.length > 0;
+                return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             }
         }
     }
