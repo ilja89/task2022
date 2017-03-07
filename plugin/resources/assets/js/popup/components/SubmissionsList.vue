@@ -11,6 +11,12 @@
                             @submission-was-selected="onSubmissionSelected(submission)">
         </submission-partial>
 
+        <div class="has-text-centered">
+            <button class="button is-primary" @click="addManualSubmission">
+                Add submission
+            </button>
+        </div>
+
         <div v-if="canLoadMore" class="has-text-centered">
             <button class="button is-primary" @click="loadMoreSubmissions()">
                 Load more
@@ -97,6 +103,12 @@
                 } else {
                     this.canLoadMore = false;
                 }
+            },
+
+            addManualSubmission() {
+                Submission.addNewEmpty(this.charon.id, this.student.id, submission => {
+                    this.refreshSubmissions();
+                });
             }
         }
     }
