@@ -14408,9 +14408,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return 'No output selected.';
             }
 
-            return this.outputs.find(function (output) {
+            var activeOutput = this.outputs.find(function (output) {
                 return output.slug === _this.activeOutputSlug;
-            }).content;
+            });
+
+            if (typeof activeOutput !== 'undefined') {
+                return activeOutput.content;
+            }
+
+            return '';
         }
     },
 

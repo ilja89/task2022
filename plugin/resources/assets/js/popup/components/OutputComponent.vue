@@ -43,9 +43,15 @@
                     return 'No output selected.';
                 }
 
-                return this.outputs.find(output => {
+                const activeOutput = this.outputs.find(output => {
                     return output.slug === this.activeOutputSlug;
-                }).content;
+                });
+
+                if (typeof activeOutput !== 'undefined') {
+                    return activeOutput.content;
+                }
+
+                return '';
             }
         },
 
