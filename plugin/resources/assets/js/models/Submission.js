@@ -37,6 +37,15 @@ class Submission {
                 VueEvent.$emit('hide-loader');
             });
     }
+
+    static addNewEmpty(charonId, studentId, then) {
+        VueEvent.$emit('show-loader');
+        axios.post('/mod/charon/api/charons/' + charonId + '/submissions/add', { student_id: studentId })
+            .then(response => {
+                then(response);
+                VueEvent.$emit('hide-loader');
+            });
+    }
 }
 Submission.nextUrl = null;
 

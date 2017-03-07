@@ -1,3 +1,5 @@
+@import '../variables';
+
 /*---------------------*\
   #HEADER
 \*---------------------*/
@@ -30,10 +32,7 @@
 }
 
 .ttu-logo {
-  background-image: url("/mod/charon/plugin/public/img/TTU_peamine_logo_EST_Valge.png");
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
+  @include cover-background("/mod/charon/plugin/public/img/TTU_peamine_logo_EST_Valge.png");
   width: $header-height * 2.83;
   height: $header-height;
   margin: auto;
@@ -70,13 +69,8 @@
   background: transparent;
   border: none;
   border-bottom: 2px solid $header-icons-color;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  -webkit-transition: border 0.4s;
-  -moz-transition: border 0.4s;
-  -ms-transition: border 0.4s;
-  -o-transition: border 0.4s;
-  transition: border 0.4s;
+  @include box-shadow(none);
+  @include transition(border 0.4s);
 
   &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #a7b4c1;
@@ -115,18 +109,13 @@
 .student-search-wrapper .showAll-transition,
 .student-search-wrapper .autocomplete ul,
 .student-search-wrapper .autocomplete ul li a {
-  transition:all 0.1s ease-out;
-  -moz-transition:all 0.1s ease-out;
-  -webkit-transition:all 0.1s ease-out;
-  -o-transition:all 0.1s ease-out;
+  @include transition(all 0.1s ease-out);
 }
 
 .autocomplete ul {
   padding: 0;
   line-height: initial;
-  -webkit-box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
-  -moz-box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
-  box-shadow: 1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 );
+  @include box-shadow(1px 1.732px 6px 0px rgba( 139, 157, 175, 0.3 ));
   z-index: 2;
 
   li a {
@@ -139,7 +128,11 @@
   }
 }
 
-.refresh-container {
+.header-icons {
+  display: flex;
+}
+
+.header-icon-container {
   width: $header-height;
   height: $header-height;
   padding: 10px;
@@ -148,5 +141,41 @@
 
   svg {
     fill: $header-icons-color;
+  }
+}
+
+.options-menu {
+  position: absolute;
+  display: none;
+  z-index: 2;
+  margin-left: -160px;
+  margin-top: -45px;
+  background-color: #ffffff;
+  @include box-shadow(0 2.732px 8px 0 rgba(139, 157, 175, 0.5));
+
+  &.is-active {
+    display: block;
+  }
+
+  li {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 1.1em;
+
+    &:hover {
+      color: $darkest-grey;
+      background: $background-grey;
+      cursor: pointer;
+    }
+
+    &.disabled {
+      color: lighten($dark-grey, 40%);
+
+      &:hover {
+        cursor: default;
+        background: inherit;
+        color: lighten($dark-grey, 40%);
+      }
+    }
   }
 }

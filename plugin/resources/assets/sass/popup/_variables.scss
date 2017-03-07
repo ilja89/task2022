@@ -54,3 +54,29 @@ $navigation-background: $dark-grey;
 \*---------------------*/
 
 $submission-height: 80px;
+
+
+/*---------------------*\
+  #MIXINS
+\*---------------------*/
+
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin cover-background($background) {
+  background-image: url($background);
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+@mixin transition($transition) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}

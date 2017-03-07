@@ -1,7 +1,8 @@
 <template>
     <div class="popup-container">
 
-        <popup-header :course_id="context.course_id"></popup-header>
+        <popup-header :course_id="context.course_id" :student="context.active_student" :charon="context.active_charon">
+        </popup-header>
 
         <popup-body :context="context"></popup-body>
 
