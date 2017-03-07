@@ -103,7 +103,7 @@ class SubmissionsController extends Controller
             'user_id' => $request['student_id'],
             'git_hash' => '',
             'git_timestamp' => Carbon::now(),
-            'mail' => 'Manually created by teacher',
+            'stdout' => 'Manually created by teacher',
         ]);
 
         foreach ($charon->grademaps as $grademap) {

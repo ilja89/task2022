@@ -15202,6 +15202,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         submission: { required: true },
         charon: { required: true }
+    },
+
+    computed: {
+        hasMail: function hasMail() {
+            return this.submission.mail !== null && this.submission.mail.length > 0;
+        }
     }
 };
 
@@ -17444,9 +17450,9 @@ module.exports={render:function (){var _vm=this;
     attrs: {
       "name": "Mail"
     }
-  }, [_vm._c('pre', {
+  }, [(_vm.hasMail) ? _vm._c('pre', {
     staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.submission.mail))])]), _vm._v(" "), _vm._c('charon-tab', {
+  }, [_vm._v(_vm._s(_vm.submission.mail))]) : _vm._e()]), _vm._v(" "), _vm._c('charon-tab', {
     attrs: {
       "name": "Outputs"
     }
@@ -17502,9 +17508,9 @@ module.exports={render:function (){var _vm=this;
         "value": output.slug
       }
     }, [_vm._v("\n                    " + _vm._s(output.title) + "\n                ")])
-  }))])]) : _vm._e(), _vm._v(" "), _vm._c('pre', {
+  }))])]) : _vm._e(), _vm._v(" "), (_vm.outputs.length > 0) ? _vm._c('pre', {
     staticClass: "output-content"
-  }, [_vm._v(_vm._s(_vm.activeOutput))])])
+  }, [_vm._v(_vm._s(_vm.activeOutput))]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

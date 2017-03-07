@@ -16,7 +16,7 @@
             </span>
         </p>
 
-        <pre class="output-content">{{ activeOutput }}</pre>
+        <pre class="output-content" v-if="outputs.length > 0">{{ activeOutput }}</pre>
     </div>
 </template>
 
