@@ -10,3 +10,4 @@ Homestead.yaml
 .DS_Store
 npm-debug.log
 .swp
+/storage/*.key

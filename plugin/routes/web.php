@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
 
@@ -19,14 +23,14 @@ Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdate
 
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@postIndex');
-Route::get('view.php', 'AssignmentController@index')
-        ->middleware('auth.requireEnrolment');
-Route::get('courses/{course}/settings', 'CourseSettingsFormController@index')
-        ->middleware('auth.requireCourseManagement');
-Route::post('courses/{course}/settings', 'CourseSettingsController@store')
-        ->middleware('auth.requireCourseManagement');
-Route::get('courses/{course}/popup', 'PopupController@index')
-        ->middleware('auth.requireCourseManagement');
+Route::middleware('auth.requireEnrolment')
+    ->get('view.php', 'AssignmentController@index');
+Route::middleware('auth.requireCourseManagement')
+    ->get('courses/{course}/settings', 'CourseSettingsFormController@index');
+Route::middleware('auth.requireCourseManagement')
+    ->post('courses/{course}/settings', 'CourseSettingsController@store');
+Route::middleware('auth.requireCourseManagement')
+    ->get('courses/{course}/popup', 'PopupController@index');
 
 // For handling Moodle requests before sending to controllers from lib.php.
 Route::get('course/modedit.php', function () { return ''; });
