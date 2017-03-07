@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
 

@@ -21,13 +21,13 @@
             "plugin/database"
         ],
         "psr-4": {
-            "TTU\\Charon\\": "plugin/app",
-            "Zeizig\\Moodle\\": "packages/zeizig/moodle/src"
+            "TTU\\Charon\\": "plugin/app/",
+            "Zeizig\\Moodle\\": "packages/zeizig/moodle/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\" : "plugin/tests"
+            "Tests\\" : "plugin/tests/"
         }
     },
     "scripts": {
