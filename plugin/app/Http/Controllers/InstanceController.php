@@ -127,11 +127,9 @@ class InstanceController extends Controller
     /**
      * Deletes the plugin instance with given id.
      *
-     * @param Charon $charon
+     * @param $charonId
      *
      * @return bool true if instance was deleted successfully
-     * @internal param int $id
-     *
      */
     public function destroy($charonId)
     {
