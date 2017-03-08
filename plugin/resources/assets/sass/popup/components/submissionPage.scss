@@ -25,13 +25,25 @@
     color: $grey;
     font-size: $size-small;
   }
+}
+
+.result-input-container {
+  display: flex;
+  align-items: center;
 
   input[type=number] {
     width: 120px;
     height: 35px;
     line-height: 35px;
-    margin-top: 25px;
     font-size: $size-medium;
+  }
+
+  .button {
+    line-height: 35px;
+    height: 35px;
+    margin-left: -1px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 
@@ -50,6 +62,10 @@
 
   hr {
     margin-top: 0;
+  }
+
+  .confirmed-message {
+    padding-left: 30px;
   }
 }
 

@@ -34,9 +34,13 @@
                             <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
                         </div>
 
-                        <div>
+                        <div class="result-input-container">
                             <input type="number" step="0.01" v-model="result.calculated_result"
                                    class="has-text-centered">
+
+                            <a class="button is-primary" @click="setMaxPoints(result)">
+                                Max
+                            </a>
                         </div>
                     </div>
 
@@ -45,7 +49,9 @@
                 <div class="submission-confirmed"
                      v-if="submission.confirmed == 1">
                     <hr>
-                    <strong>Confirmed</strong>
+                    <div class="confirmed-message">
+                        <strong>Confirmed</strong>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,11 +90,12 @@
 
         filters: {
             datetime(date) {
-                return date.replace(/\:00.000+/, '');
+                return date.replace(/:[0-9]{2}\.[0-9]+/, '');
             },
 
             withoutTrailingZeroes(number) {
-                return number.replace(/000$/, '');
+//                return number.replace(/000$/, '');
+                return parseFloat(number);
             }
         },
 
@@ -112,6 +119,10 @@
                         VueEvent.$emit('show-notification', 'Submission saved!');
                     }
                 });
+            },
+
+            setMaxPoints(result) {
+                result.calculated_result = parseFloat(this.getGrademapByResult(result).grade_item.grademax);
             }
         }
     }
