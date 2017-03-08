@@ -136,6 +136,7 @@ class UpdateCharonService
         }
 
         $grademap->name = $newGrademap['grademap_name'];
+        $grademap->save();
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],
             'grademax' => $newGrademap['max_points'],
