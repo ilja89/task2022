@@ -11,7 +11,7 @@
                             @submission-was-selected="onSubmissionSelected(submission)">
         </submission-partial>
 
-        <div v-if="canLoadMore" class="has-text-centered">
+        <div v-if="canLoadMore && submissions.length > 0" class="has-text-centered">
             <button class="button is-primary" @click="loadMoreSubmissions()">
                 Load more
             </button>
@@ -77,6 +77,10 @@
                     if (this.active_submission === null &&  this.submissions.length > 0) {
                         this.emitSubmissionChange(this.submissions[0]);
                     }
+
+                    if (Submission.nextUrl === null) {
+                        this.canLoadMore = false;
+                    }
                 });
             },
 
@@ -93,6 +97,9 @@
                 if (Submission.nextUrl !== null) {
                     Submission.getNext(submissions => {
                         submissions.forEach(submission => this.submissions.push(submission));
+                        if (Submission.nextUrl === null) {
+                            this.canLoadMore = false;
+                        }
                     });
                 } else {
                     this.canLoadMore = false;

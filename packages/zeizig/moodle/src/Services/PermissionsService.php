@@ -59,4 +59,10 @@ class PermissionsService extends MoodleService
 
         require_capability('moodle/course:manageactivities', $context);
     }
+
+    public function canManageCourse($courseId)
+    {
+        $context = \context_course::instance($courseId);
+        return has_capability('moodle/course:manageactivities', $context);
+    }
 }

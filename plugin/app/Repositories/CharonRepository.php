@@ -176,6 +176,7 @@ class CharonRepository
                 'charon.name',
                 'charon_tester_type.name AS tester_type_name'
             )
+            ->orderBy('charon.name')
             ->get();
     }
 

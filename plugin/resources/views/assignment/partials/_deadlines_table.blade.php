@@ -6,7 +6,7 @@
         <table class="table is-bordered">
             <thead>
             <tr>
-                <th>Deadline</th>
+                <th>After</th>
                 <th>Percentage</th>
             </tr>
             </thead>
@@ -14,7 +14,7 @@
 
             @foreach ($charon->deadlines as $deadline)
                 <tr>
-                    <td>{{ $deadline->deadline_time }}</td>
+                    <td>{{ $deadline->deadline_time->format('d/m/Y H:i') }}</td>
                     <td>{{ $deadline->percentage }}%</td>
                 </tr>
             @endforeach
