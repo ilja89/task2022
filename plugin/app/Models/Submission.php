@@ -32,7 +32,7 @@ class Submission extends Model
 {
     public $table = 'charon_submission';
     protected $fillable = [
-        'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr'
+        'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message'
     ];
 
     protected $dates = [

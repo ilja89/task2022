@@ -125,7 +125,8 @@ class SubmissionService
             'git_timestamp' => $gitTimestamp,
             'mail' => isset($request['mail']) ? $request['mail'] : null,
             'stdout' => isset($request['stdout']) ? $request['stdout'] : null,
-            'stderr' => isset($request['stderr']) ? $request['stderr'] : null
+            'stderr' => isset($request['stderr']) ? $request['stderr'] : null,
+            'git_commit_message' => isset($request['git_commit_message']) ? $request['git_commit_message'] : null,
         ]);
     }
 
