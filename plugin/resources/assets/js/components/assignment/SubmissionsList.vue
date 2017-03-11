@@ -57,7 +57,7 @@
             },
 
             date(date) {
-                return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("HH:mm DD/MM");
+                return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
         },
 

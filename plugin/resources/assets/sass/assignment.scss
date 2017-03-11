@@ -74,14 +74,14 @@ $table-text-color: #666666;
     height: 24px;
     width: 24px;
     transition: transform 300ms;
-    transform: rotate(180deg);
+    transform: rotate(0deg);
   }
 }
 
 .submissions-list {
   .active {
     .dropdown-arrow {
-      transform: rotate(0deg);
+      transform: rotate(180deg);
     }
   }
 }
