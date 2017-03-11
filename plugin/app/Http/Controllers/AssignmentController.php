@@ -11,6 +11,7 @@ use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Services\PermissionsService;
 
 /**
  * Class AssignmentController.
@@ -38,6 +39,9 @@ class AssignmentController extends Controller
     /** @var User */
     private $user;
 
+    /** @var PermissionsService */
+    private $permissionsService;
+
     /**
      * AssignmentController constructor.
      *
@@ -47,6 +51,7 @@ class AssignmentController extends Controller
      * @param  Page $page
      * @param SubmissionsRepository $submissionsRepository
      * @param User $user
+     * @param PermissionsService $permissionsService
      */
     public function __construct(
         Request $request,
@@ -54,7 +59,8 @@ class AssignmentController extends Controller
         Output $output,
         Page $page,
         SubmissionsRepository $submissionsRepository,
-        User $user
+        User $user,
+        PermissionsService $permissionsService
     ) {
         $this->request = $request;
         $this->charonRepository = $charonRepository;
@@ -62,6 +68,7 @@ class AssignmentController extends Controller
         $this->page = $page;
         $this->submissionsRepository = $submissionsRepository;
         $this->user = $user;
+        $this->permissionsService = $permissionsService;
     }
 
     /**
@@ -83,6 +90,7 @@ class AssignmentController extends Controller
             'footer' => $this->output->footer(),
             'charon' => $charon,
             'submissions' => $submissions,
+            'can_edit' => $this->permissionsService->canManageCourse($charon->course),
         ]);
     }
 

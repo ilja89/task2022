@@ -9,6 +9,14 @@
 
     <div class="column assignment-content">
         {!! $charon->description !!}
+
+        @if ($can_edit)
+            <div class="edit-container">
+                <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
+                    Edit
+                </a>
+            </div>
+        @endif
     </div>
 
     <div class="column is-one-third">
