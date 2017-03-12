@@ -105,3 +105,16 @@ $table-text-color: #666666;
 .result-row:not(:first-child) {
   border-top-color: #eeeeee;
 }
+
+
+/*---------------------*\
+  #ASSIGNMENT
+\*---------------------*/
+
+.assignment-content {
+  margin-top: 0;
+
+  pre {
+    padding: 13.5px;
+  }
+}

@@ -7,7 +7,7 @@
 
 <div class="columns" id="app">
 
-    <div class="column assignment-content">
+    <div class="column assignment-content content">
         {!! $charon->description !!}
 
         @if ($can_edit)
