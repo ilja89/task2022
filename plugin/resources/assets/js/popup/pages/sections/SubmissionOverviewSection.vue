@@ -13,13 +13,23 @@
         <div class="columns is-gapless  submission-overview-container" v-if="hasSubmission">
 
             <div class="column is-one-third card">
-                <div class="timestamp-info  submission-timestamp">Git time:</div>
-                <div class="submission-timestamp">{{ submission.git_timestamp.date | datetime }}</div>
+                <div class="submission-info-title">Git time:</div>
+                <div class="submission-info-content">{{ submission.git_timestamp.date | datetime }}</div>
+
+                <div v-if="submission.git_hash !== null && submission.git_hash !== ''">
+                    <div class="submission-info-title">Commit hash:</div>
+                    <div class="submission-info-content">{{ submission.git_hash }}</div>
+                </div>
+
+                <div v-if="submission.git_commit_message !== null && submission.git_commit_message !== ''">
+                    <div class="submission-info-title">Commit message:</div>
+                    <div class="submission-info-content">{{ submission.git_commit_message }}</div>
+                </div>
 
                 <div class="submission-deadlines" v-if="hasDeadlines">
-                    <div class="timestamp-info">Deadlines:</div>
+                    <div class="submission-info-title">Deadlines:</div>
                     <ul>
-                        <li v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
+                        <li class="submission-info-content" v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
                     </ul>
                 </div>
             </div>
