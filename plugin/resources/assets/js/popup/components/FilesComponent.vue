@@ -15,8 +15,8 @@
             </span>
         </p>
 
-        <pre v-if="activeFile !== null">
-            <code :class="testerType">{{ activeFile.contents }}</code>
+        <pre v-if="activeFile !== null" v-highlightjs="activeFile.contents">
+            <code :class="testerType"></code>
         </pre>
 
     </div>

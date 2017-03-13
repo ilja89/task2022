@@ -36,6 +36,7 @@
 <script>
     var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
     var submissions = {!! $submissions->toJson() !!};
+    var testerType = "{!! $charon->testerType->name !!}";
 
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",

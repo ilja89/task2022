@@ -12,8 +12,7 @@
             </div>
 
             <h3>{{ translate('filesText') }}</h3>
-
-            <files-component :submission="submission" testerType=""></files-component>
+            <files-component :submission="submission" :testerType="testerType"></files-component>
         </div>
 
     </modal>
@@ -33,6 +32,12 @@
             submission: { required: true },
         },
 
+        data() {
+            return {
+                testerType: '',
+            };
+        },
+
         computed: {
             isActive() {
                 return this.submission !== null;
@@ -41,6 +46,10 @@
             hasCommitMessage() {
                 return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0;
             },
+        },
+
+        mounted() {
+            this.testerType = window.testerType;
         }
     }
 </script>
