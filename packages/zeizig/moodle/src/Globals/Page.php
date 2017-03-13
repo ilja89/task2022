@@ -73,4 +73,9 @@ class Page
     {
         $this->page->set_title($title);
     }
+
+    public function setContextToModule($courseModuleId)
+    {
+        $this->page->set_context(\context_module::instance($courseModuleId));
+    }
 }

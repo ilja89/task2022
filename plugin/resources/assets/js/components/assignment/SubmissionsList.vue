@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <h2 class="title">Submissions</h2>
+        <h2 class="title">{{ translate('submissionsText') }}</h2>
 
         <ul class="submissions-list">
             <template v-for="submission in submissions">
@@ -17,6 +17,13 @@
 
                     <span class="dropdown-arrow">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                    </span>
+
+                    <span class="open-modal-btn" @click.stop="$emit('submission-was-activated', submission)">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
                     </span>
                 </li>
 
@@ -39,7 +46,11 @@
 </template>
 
 <script>
+    import Translate from '../../mixins/translate';
+
     export default {
+        mixins: [ Translate ],
+
         props: {
             submissions: { required: true },
             grademaps: { required: true }

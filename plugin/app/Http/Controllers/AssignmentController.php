@@ -121,6 +121,7 @@ class AssignmentController extends Controller
 
     public function initializePage(Charon $charon)
     {
+//        $this->page->setContextToModule($charon->courseModule()->id);
         $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
         $this->page->setTitle($charon->name);
         $this->addBreadcrumbs($charon);

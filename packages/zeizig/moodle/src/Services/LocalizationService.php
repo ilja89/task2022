@@ -15,12 +15,17 @@ class LocalizationService extends MoodleService
     /**
      * Translate a given string. Takes translations from lang/ folder in plugin root.
      *
-     * @param  string  $string
+     * @param  string $string
+     * @param  string  $module
      *
      * @return string
      */
-    public function translate($string)
+    public function translate($string, $module = null)
     {
-        return get_string($string, config('moodle.plugin_slug'));
+        if ($module === null) {
+            return get_string($string, config('moodle.plugin_slug'));
+        } else {
+            return get_string($string, $module);
+        }
     }
 }

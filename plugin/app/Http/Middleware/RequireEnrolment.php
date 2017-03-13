@@ -54,18 +54,19 @@ class RequireEnrolment
             return redirect('/', 'The requested Charon could not be found.');
         }
 
-        require_login($charon->course);
-
         $modinfo = get_fast_modinfo($charon->course);
         $cm = $modinfo->get_cm($charon->courseModule()->id);
-
-        if ($cm->uservisible) {
-            // User can access the activity.
-            $this->permissionsService->requireEnrollmentToCourse($charon->courseModule()->course);
-
-            return $next($request);
-        } else {
-            return redirect('/course/view.php?id=' . $charon->course, 'Sorry, this activity is currently hidden', null);
+        try {
+            // No redirect because VerifyCSRF needs to set some cookies
+            require_login($charon->course, true, $cm, true, true);
+        } catch (\require_login_exception $e) {
+            if (!$cm->uservisible) {
+                return redirect('/course/view.php?id=' . $charon->course, 'Sorry, this activity is currently hidden', null);
+            } else {
+                $this->permissionsService->requireEnrollmentToCourse($charon->courseModule()->course);
+            }
         }
+
+        return $next($request);
     }
 }
