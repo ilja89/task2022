@@ -5,9 +5,9 @@
 \*------------------------*/
 $string['pluginname']           = 'Charon';
 $string['modulename']           = 'Charon';
-$string['plugin_settings']      = 'Charona seaded';
-$string['pluginadministration'] = 'pluginadministration';
-$string['modulenameplural']     = 'Charonad';
+$string['plugin_settings']      = 'Charoni seaded';
+$string['pluginadministration'] = 'Charoni administreerimine';
+$string['modulenameplural']     = 'Charonid';
 $string['capella:addinstance']  = 'Lisa uus charon';
 
 /*------------------------*\
