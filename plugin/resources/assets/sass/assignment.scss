@@ -16,6 +16,7 @@ $blue: #03a9f4;
 $table-text-color: #666666;
 $grey: #7a7a7a;
 $light-grey: #a0a0a0;
+$primary: $blue;
 
 @import '~bulma';
 
@@ -29,6 +30,7 @@ $light-grey: #a0a0a0;
   margin-left: 0;
   margin-right: 0;
   max-width: initial;
+  margin-top: 30px;
 }
 
 #page-header {
