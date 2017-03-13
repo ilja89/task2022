@@ -12,6 +12,6 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'instance_form', 'charons', 'charons/update', 'charons/*/delete', 'post_create/*', 'post_update/*'
+        'instance_form', 'charons', 'charons/update', 'charons/*/delete', 'post_create/*', 'post_update/*',
     ];
 }

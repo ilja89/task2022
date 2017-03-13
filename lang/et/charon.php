@@ -42,3 +42,14 @@ $string['max_points'] = 'Maksimum punktid';
 $string['id_number'] = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset'] = 'Preset';
+
+/*------------------------*\
+   Assignment view
+\*------------------------*/
+$string['submission'] = 'Esitus';
+$string['submissions'] = 'Esitused';
+$string['commit_message'] = 'Commiti kommentaar';
+$string['files'] = 'Failid';
+$string['deadlines'] = 'Tähtajad';
+$string['after'] = 'Pärast';
+$string['percentage'] = 'Protsent';

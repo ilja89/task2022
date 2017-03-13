@@ -1,13 +1,13 @@
 <div>
     @if (! $charon->deadlines->isEmpty())
 
-        <h2 class="title">Deadlines</h2>
+        <h2 class="title">{{ translate('deadlines') }}</h2>
 
         <table class="table is-bordered">
             <thead>
             <tr>
-                <th>After</th>
-                <th>Percentage</th>
+                <th>{{ translate('after') }}</th>
+                <th>{{ translate('percentage') }}</th>
             </tr>
             </thead>
             <tbody>

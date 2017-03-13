@@ -44,7 +44,6 @@ class Handler extends ExceptionHandler
     {
         if (! $this->shouldntSendEmail($exception) && ! $this->isPrivateEnv()) {
             // Don't try to email exceptions when in local environment.
-            dd($exception);
             app('sneaker')->captureException($exception);
         }
 

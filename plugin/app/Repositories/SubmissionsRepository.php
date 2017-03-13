@@ -26,7 +26,7 @@ class SubmissionsRepository
         }])
             ->where('charon_id', $charonId)
             ->where('user_id', $studentId)
-            ->get(['id', 'confirmed', 'created_at', 'git_hash', 'git_timestamp', 'mail']);
+            ->get(['id', 'confirmed', 'created_at', 'git_hash', 'git_timestamp', 'git_commit_message']);
         return $submissions;
     }
 }
