@@ -138,6 +138,10 @@ $primary: $blue;
 
 .modal {
 
+  pre code {
+    white-space: pre;
+  }
+
   .delete {
     padding: initial;
   }
@@ -148,6 +152,15 @@ $primary: $blue;
     h2 {
       text-align: left;
     }
+  }
+}
+
+@media screen and (min-width: 769px) {
+
+  .modal-content,
+  .modal-card {
+    // Bit too small for files!
+    width: 700px;
   }
 }
 

@@ -15,8 +15,10 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/submissions', 'PopupController@getSubmissionsByCharon');
     Route::middleware('auth.requireCharonManaging')
         ->get('charons/{charon}/submissions/{submissionId}', 'SubmissionsController@findById');
+
+    // No middleware - used in assignment view too! Should probably use require login tho
     Route::get('submissions/{submission}/files', 'FilesController@index');
-//         ->middleware('auth.requireSubmissionManaging');
+
     Route::get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
 //         ->middleware('auth.requireSubmissionManaging');
     Route::middleware('auth.requireCharonManaging')

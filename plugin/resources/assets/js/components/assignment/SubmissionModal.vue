@@ -11,8 +11,9 @@
                 <p>{{ submission.git_commit_message }}</p>
             </div>
 
-            <!--<h3>{{ translate('filesText') }}</h3>-->
-            <!--<p>In development...</p>-->
+            <h3>{{ translate('filesText') }}</h3>
+
+            <files-component :submission="submission" testerType=""></files-component>
         </div>
 
     </modal>
@@ -21,11 +22,12 @@
 <script>
     import Modal from '../partials/Modal.vue';
     import Translate from '../../mixins/translate';
+    import FilesComponent from '../../popup/components/FilesComponent.vue';
 
     export default {
         mixins: [ Translate ],
 
-        components: { Modal },
+        components: { Modal, FilesComponent },
 
         props: {
             submission: { required: true },

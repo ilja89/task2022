@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import moment from 'moment';
+import axios from 'axios';
 
 import SubmissionsList from './components/assignment/SubmissionsList.vue';
 import SubmissionModal from './components/assignment/SubmissionModal.vue';
 
 window.Vue = Vue;
 window.moment = moment;
+window.axios = axios;
 
 window.VueEvent = new Vue();
 
