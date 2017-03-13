@@ -126,6 +126,7 @@
                 <FIELD NAME="git_hash" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="confirmed" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="1" DEFAULT="0"/>
                 <FIELD NAME="git_timestamp" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="git_commit_message" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="mail" SEQUENCE="false" TYPE="text" NOTNULL="false"/>

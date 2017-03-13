@@ -5,7 +5,7 @@
 $string['pluginname']           = 'Charon';
 $string['modulename']           = 'Charon';
 $string['plugin_settings']      = 'Charon settings';
-$string['pluginadministration'] = 'pluginadministration';
+$string['pluginadministration'] = 'Charon administration';
 $string['modulenameplural']     = 'Charons';
 $string['capella:addinstance']  = 'Add a new Charon';
 
@@ -41,3 +41,14 @@ $string['max_points'] = 'Max points';
 $string['id_number'] = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset'] = 'Preset';
+
+/*------------------------*\
+   Assignment view
+\*------------------------*/
+$string['submission'] = 'Submission';
+$string['submissions'] = 'Submissions';
+$string['commit_message'] = 'Commit message';
+$string['files'] = 'Files';
+$string['deadlines'] = 'Deadlines';
+$string['after'] = 'After';
+$string['percentage'] = 'Percentage';

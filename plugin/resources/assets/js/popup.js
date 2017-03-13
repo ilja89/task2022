@@ -6,8 +6,10 @@ import router from './popup/routes';
 import Popup from './popup/Popup.vue';
 
 import PopupContext from './classes/popupContext';
+import highlightDirective from './directives';
 
 Vue.use(VueRouter);
+Vue.directive('highlightjs', highlightDirective);
 
 window.VueEvent = new Vue();
 

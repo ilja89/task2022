@@ -7,7 +7,7 @@
 
 <div class="columns" id="app">
 
-    <div class="column assignment-content">
+    <div class="column assignment-content content">
         {!! $charon->description !!}
 
         @if ($can_edit)
@@ -23,14 +23,28 @@
 
         @include('assignment.partials._deadlines_table')
 
-        <submissions-list :submissions="submissions" :grademaps="grademaps"></submissions-list>
+        <submissions-list :submissions="submissions" :grademaps="grademaps"
+                          v-on:submission-was-activated="showModal">
+        </submissions-list>
 
     </div>
+
+    <submission-modal :submission="activeSubmission" v-on:modal-was-closed="hideModal">
+    </submission-modal>
 </div>
 
 <script>
     var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
     var submissions = {!! $submissions->toJson() !!};
+    var testerType = "{!! $charon->testerType->name !!}";
+
+    var translations = {
+        closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
+        submissionText: "{{ translate('submission') }}",
+        commitMessageText: "{{ translate('commit_message') }}",
+        filesText: "{{ translate('files') }}",
+        submissionsText: "{{ translate('submissions') }}",
+    };
 </script>
 
 <script src="/mod/charon/plugin/public/external/highlight/highlight.pack.js"></script>

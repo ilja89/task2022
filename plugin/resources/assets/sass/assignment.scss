@@ -14,8 +14,12 @@ $family-sans-serif: "Roboto","Fira Sans","Segoe UI","HelveticaNeue-Light","Helve
 $size-6: 16px;
 $blue: #03a9f4;
 $table-text-color: #666666;
+$grey: #7a7a7a;
+$light-grey: #a0a0a0;
+$primary: $blue;
 
 @import '~bulma';
+
 
 /*---------------------------------*\
   #MOODLE_FIXES (Snap fixes)
@@ -26,6 +30,7 @@ $table-text-color: #666666;
   margin-left: 0;
   margin-right: 0;
   max-width: initial;
+  margin-top: 30px;
 }
 
 #page-header {
@@ -48,6 +53,10 @@ $table-text-color: #666666;
   border-top: 1px solid rgb(219, 219, 219);
 }
 
+.modal {
+  z-index: 9996;  // Moodle nav bar is 1985 in Snap!
+}
+
 
 /*---------------------------------*\
   #SUBMISSIONS
@@ -56,6 +65,7 @@ $table-text-color: #666666;
 .submission-row {
   cursor: pointer;
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
 
@@ -64,6 +74,10 @@ $table-text-color: #666666;
   background-color: $white;
   border: 1px solid #dddddd;
   color: $table-text-color;
+
+  svg {
+    fill: $light-grey;
+  }
 
   .tag {
     border-radius: 5px;
@@ -76,6 +90,22 @@ $table-text-color: #666666;
     transition: transform 300ms;
     transform: rotate(0deg);
   }
+
+  .open-modal-btn {
+    position: absolute;
+    right: -30px;
+    top: 11px;
+
+    svg {
+      height: 24px;
+      width: 24px;
+    }
+
+    &:hover svg {
+      fill: lighten($light-grey, 10%);
+    }
+  }
+
 }
 
 .submissions-list {
@@ -100,8 +130,50 @@ $table-text-color: #666666;
   margin-bottom: -1px;
   border: 1px solid #ddd;
   color: $table-text-color;
+
+  &:not(:first-child) {
+    border-top-color: #eeeeee;
+  }
 }
 
-.result-row:not(:first-child) {
-  border-top-color: #eeeeee;
+.modal {
+
+  pre code {
+    white-space: pre;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .delete {
+    padding: initial;
+  }
+
+  .content {
+    margin-top: 0;
+
+    h2 {
+      text-align: left;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) {
+
+  .modal-content,
+  .modal-card {
+    // Bit too small for files!
+    width: 700px;
+  }
+}
+
+
+/*---------------------*\
+  #ASSIGNMENT
+\*---------------------*/
+
+.assignment-content {
+  margin-top: 0;
+
+  pre {
+    padding: 13.5px;
+  }
 }

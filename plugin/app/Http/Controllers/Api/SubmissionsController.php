@@ -80,6 +80,7 @@ class SubmissionsController extends Controller
                                      'confirmed',
                                      'created_at',
                                      'git_hash',
+                                     'git_commit_message',
                                      'git_timestamp',
                                      'user_id',
                                      'mail',

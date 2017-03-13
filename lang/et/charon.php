@@ -5,9 +5,9 @@
 \*------------------------*/
 $string['pluginname']           = 'Charon';
 $string['modulename']           = 'Charon';
-$string['plugin_settings']      = 'Charona seaded';
-$string['pluginadministration'] = 'pluginadministration';
-$string['modulenameplural']     = 'Charonad';
+$string['plugin_settings']      = 'Charoni seaded';
+$string['pluginadministration'] = 'Charoni administreerimine';
+$string['modulenameplural']     = 'Charonid';
 $string['capella:addinstance']  = 'Lisa uus charon';
 
 /*------------------------*\
@@ -42,3 +42,14 @@ $string['max_points'] = 'Maksimum punktid';
 $string['id_number'] = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset'] = 'Preset';
+
+/*------------------------*\
+   Assignment view
+\*------------------------*/
+$string['submission'] = 'Esitus';
+$string['submissions'] = 'Esitused';
+$string['commit_message'] = 'Commiti kommentaar';
+$string['files'] = 'Failid';
+$string['deadlines'] = 'Tähtajad';
+$string['after'] = 'Pärast';
+$string['percentage'] = 'Protsent';
