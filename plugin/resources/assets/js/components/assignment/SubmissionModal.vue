@@ -12,7 +12,7 @@
             </div>
 
             <h3>{{ translate('filesText') }}</h3>
-            <files-component :submission="submission" :testerType="testerType"></files-component>
+            <files-component :submission="submission" :testerType="testerType" :isRound="true"></files-component>
         </div>
 
     </modal>

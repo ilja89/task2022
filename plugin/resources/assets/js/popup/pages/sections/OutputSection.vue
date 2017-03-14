@@ -11,7 +11,8 @@
 
                 <files-component
                         :submission="submission"
-                        :testerType="charon.tester_type_name">
+                        :testerType="charon.tester_type_name"
+                        :isRound="false">
                 </files-component>
 
             </charon-tab>
