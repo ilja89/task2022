@@ -30,7 +30,7 @@
     import CharonTextInput from '../form/CharonTextInput.vue';
     import CharonSelect from '../form/CharonSelect.vue';
 
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
 
     export default {
         mixins: [ Translate ],

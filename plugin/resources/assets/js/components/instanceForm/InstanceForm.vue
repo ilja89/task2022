@@ -51,7 +51,7 @@
 
     import InstanceFormFieldset from '../form/InstanceFormFieldset.vue';
 
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
 
     export default {
         mixins: [ Translate ],

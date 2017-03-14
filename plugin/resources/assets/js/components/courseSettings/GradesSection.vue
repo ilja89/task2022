@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import GradesCheckboxes from '../form/GradesCheckboxes.vue';
     import CharonTabs from '../partials/CharonTabs.vue';
     import CharonTab from '../partials/CharonTab.vue';

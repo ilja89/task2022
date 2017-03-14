@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import DeadlineRow from './DeadlineRow.vue';
 
     export default {

@@ -20,7 +20,7 @@
 
 <script>
     import Modal from '../partials/Modal.vue';
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import FilesComponent from '../../popup/components/FilesComponent.vue';
 
     export default {

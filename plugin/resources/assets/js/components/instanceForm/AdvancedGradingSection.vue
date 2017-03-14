@@ -70,8 +70,7 @@
     import CharonTextInput from '../form/CharonTextInput.vue';
     import CharonNumberInput from '../form/CharonNumberInput.vue';
 
-    import Translate from '../../mixins/translate';
-    import EmitEventOnInputChange from '../../mixins/emitEventOnInputChange';
+    import { Translate, EmitEventOnInputChange } from '../../mixins';
 
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],
