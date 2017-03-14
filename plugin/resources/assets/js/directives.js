@@ -1,4 +1,5 @@
-import hljs from 'highlight.js';
+// import hljs from 'highlight.js';
+// TODO: Fix highlight
 
 const highlightDirective = {
 
@@ -12,7 +13,7 @@ const highlightDirective = {
                 target.innerHTML = binding.value;
             }
 
-            hljs.highlightBlock(target);
+            // hljs.highlightBlock(target);
         });
     },
 
@@ -22,7 +23,7 @@ const highlightDirective = {
         targets.forEach(target => {
             if (binding.value) {
                 target.innerHTML = binding.value;
-                hljs.highlightBlock(target);
+                // hljs.highlightBlock(target);
             }
         });
     }
