@@ -46,9 +46,19 @@
                     return null;
                 }
 
-                return this.files.find(file => {
+                let file = this.files.find(file => {
                     return file.id === this.activeFileId;
                 });
+                let line = 1;
+                let contents = file.contents.replace(/^/gm, function() {
+                    return '<span class="line-number-position"><span class="line-number" data-pseudo-content="' + line++ + ' |"></span></span>';
+                });
+
+                return {
+                    id: file.id,
+                    path: file.path,
+                    contents: contents,
+                }
             }
         },
 
@@ -74,3 +84,24 @@
         }
     }
 </script>
+
+<style lang="scss">
+    [data-pseudo-content]::before,
+    [data-pseudo-content--before]::before,
+    [data-pseudo-content--after]::after {
+        content: attr(data-pseudo-content);
+    }
+
+    .line-number-position {
+        position: relative;
+        top: 3px;
+    }
+
+    .line-number {
+        position: absolute;
+        text-align: right;
+        right: 17px;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+        font-size: 12px;
+    }
+</style>

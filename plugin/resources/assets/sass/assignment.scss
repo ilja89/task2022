@@ -57,6 +57,10 @@ $primary: $blue;
   z-index: 9996;  // Moodle nav bar is 1985 in Snap!
 }
 
+.line-number-position {
+  top: 1px;
+}
+
 
 /*---------------------------------*\
   #SUBMISSIONS
@@ -140,7 +144,7 @@ $primary: $blue;
 
   pre code {
     white-space: pre;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 4rem;
   }
 
   .delete {

@@ -94,10 +94,15 @@
   font-size: $size-medium;
 }
 
-.output-section code {
-  font-size: 1.2em;
-  padding: 1.25rem 1.5rem;
-  background-color: transparent;
+.output-section {
+  pre {
+    font-size: 1em;
+
+    code {
+      padding: 1.25rem 4.5rem;
+      background-color: transparent;
+    }
+  }
 }
 
 .output-content {
