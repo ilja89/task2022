@@ -29,7 +29,7 @@
 <script>
     import TesterSettingsSection from './TesterSettingsSection.vue';
     import PresetsSection from './PresetsSection.vue';
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import Loader from '../../popup/components/Loader.vue';
 
     export default {

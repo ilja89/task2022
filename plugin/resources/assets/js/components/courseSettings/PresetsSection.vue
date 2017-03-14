@@ -94,7 +94,7 @@
     import CharonNumberInput from '../form/CharonNumberInput.vue';
     import GradesSection from './GradesSection.vue';
 
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import Preset from '../../models/Preset';
 
     export default {

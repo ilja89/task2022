@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="control output-tab-select" v-if="outputs.length > 0">
+        <p class="control output-select" v-if="outputs.length > 0">
             <span class="select">
 
                 <select name="output"

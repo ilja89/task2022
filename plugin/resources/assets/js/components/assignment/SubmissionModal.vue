@@ -12,7 +12,7 @@
             </div>
 
             <h3>{{ translate('filesText') }}</h3>
-            <files-component :submission="submission" :testerType="testerType"></files-component>
+            <files-component :submission="submission" :testerType="testerType" :isRound="true"></files-component>
         </div>
 
     </modal>
@@ -20,7 +20,7 @@
 
 <script>
     import Modal from '../partials/Modal.vue';
-    import Translate from '../../mixins/translate';
+    import { Translate } from '../../mixins';
     import FilesComponent from '../../popup/components/FilesComponent.vue';
 
     export default {

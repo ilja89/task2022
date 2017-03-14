@@ -96,12 +96,21 @@
 
 .output-section {
 
-  .columns.code-container {
+  .tabs {
+    margin-bottom: 0;
+  }
+
+  .tab-details {
     padding: 25px;
+  }
+
+  .files-select {
+    margin-bottom: 30px;
+  }
+
+  .columns.code-container {
 
     .line-number-container {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
 
       .line-number-position {
         height: 21px;
@@ -110,28 +119,15 @@
 
     .code {
       font-size: 1em;
-      overflow: hidden;
-      border-radius: 0;
-
-      code {
-        padding: 1.25rem 2rem 1.25rem 3.5rem;
-        border-radius: 0;
-      }
     }
+  }
+
+  .output-select {
+    margin-bottom: 30px;
   }
 }
 
 .output-content {
-  padding: 20px;
   font-size: $size-medium;
   background: transparent;
-}
-
-.output-section .tab-details {
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-.tab-details .output-tab-select {
-  margin-left: 25px;
 }

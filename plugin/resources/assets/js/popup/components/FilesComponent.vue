@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <p class="control output-tab-select" v-if="files.length > 0">
+        <p class="control files-select" v-if="files.length > 0">
             <span class="select">
 
                 <select name="file"
@@ -15,8 +15,12 @@
             </span>
         </p>
 
-        <div class="columns code-container" v-if="activeFile !== null">
-            <div class="column line-number-container" v-html="activeFile.numbers"></div>
+        <div class="columns code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
+            <div class="column line-number-container is-narrow">
+                <span class="line-number-position" v-for="n in activeFile.numbers">
+                    <span class="line-number">{{ n }}</span>
+                </span>
+            </div>
             <pre class="column code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
         </div>
 
@@ -32,6 +36,10 @@
         props: {
             submission: { required: true },
             testerType: { required: true },
+            isRound: {
+                type: Boolean,
+                default: true,
+            }
         },
 
         data() {
@@ -50,16 +58,12 @@
                 let file = this.files.find(file => {
                     return file.id === this.activeFileId;
                 });
-                let line = 1;
-                let numbers = file.contents.trim().replace(/^.*$/gm, function() {
-                    return '<span class="line-number-position"><span class="line-number" data-pseudo-content="' + line++ + '"></span></span>';
-                });
 
                 return {
                     id: file.id,
                     path: file.path,
-                    contents: file.contents,
-                    numbers: numbers,
+                    contents: file.contents.trim(),
+                    numbers: file.contents.trim().split(/\r\n|\r|\n/).length,
                 }
             }
         },
@@ -87,13 +91,7 @@
     }
 </script>
 
-<style lang="scss">
-    [data-pseudo-content]::before,
-    [data-pseudo-content--before]::before,
-    [data-pseudo-content--after]::after {
-        content: attr(data-pseudo-content);
-    }
-
+<style lang="scss" scoped>
     .line-number-position {
         position: relative;
         top: 1px;
@@ -101,11 +99,11 @@
     }
 
     .line-number {
-        position: absolute;
-        text-align: right;
-        right: 10px;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+        float: right;
         font-size: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     }
 
     .columns.code-container {
@@ -116,25 +114,40 @@
         .line-number-container {
             display: flex;
             flex-direction: column;
-            width: 40px;
-            position: absolute;
             background: darken(#fafafa, 5%);
             border: 1px solid #dbdbdb;
-            padding: 1.25rem 0 1.25rem 0;
-            border-bottom-left-radius: 5px;
-            border-top-left-radius: 5px;
+            padding: 1.25rem 0;
         }
     }
 
     pre.code {
         padding: 0;
         border: 1px solid #dbdbdb;
-        border-radius: 5px;
+        margin-left: -1px;
+        overflow-x: scroll;
 
         code {
-            /* Otherwise this overlays the .code border radius (weird tips) */
-            border-radius: 5px;
             overflow-x: scroll;
+            padding: 1.25rem;
+        }
+    }
+
+    .code-container.is-round {
+
+        .line-number-container {
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+
+        .code {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+            pre {
+                /* Otherwise this overlays the .code border radius (weird tips) */
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
         }
     }
 

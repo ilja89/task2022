@@ -1,7 +1,4 @@
-// import hljs from 'highlight.js';
-// TODO: Fix highlight
-
-const highlightDirective = {
+export default {
 
     deep: true,
 
@@ -28,5 +25,3 @@ const highlightDirective = {
         });
     }
 };
-
-export default highlightDirective;

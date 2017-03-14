@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     methods: {
         onNameChanged(name) {
             VueEvent.$emit('name-was-changed', name);
