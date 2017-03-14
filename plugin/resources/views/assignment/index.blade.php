@@ -1,6 +1,5 @@
 {!! $header !!}
 
-<link rel="stylesheet" href="/mod/charon/plugin/public/external/highlight/styles/default.css">
 <link href="/mod/charon/plugin/public/css/assignment.css" rel="stylesheet">
 
 <h1 class="title">{{ $charon->name }}</h1>
@@ -47,8 +46,7 @@
     };
 </script>
 
-<script src="/mod/charon/plugin/public/external/highlight/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+@include('partials._highlightjs')
 <script src="/mod/charon/plugin/public/js/assignment.js"></script>
 
 {!! $footer !!}

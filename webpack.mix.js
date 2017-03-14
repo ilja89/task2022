@@ -17,21 +17,22 @@ mix.js('plugin/resources/assets/js/instanceForm.js', 'js')
    .js('plugin/resources/assets/js/courseSettings.js', 'js')
    .js('plugin/resources/assets/js/popup.js', 'js')
    .js('plugin/resources/assets/js/assignment.js', 'js')
-   .js('node_modules/highlight.js/lib/index.js', 'js/highlight.js')
-   .sass('plugin/resources/assets/sass/app.scss', 'css')
+   .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js')
    .sass('plugin/resources/assets/sass/assignment.scss', 'css')
    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
    .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
    .sass('plugin/resources/assets/sass/courseSettings.scss', 'css')
+   .sass('plugin/resources/assets/sass/highlight.scss', 'css')
    .minify([
        'plugin/public/js/instanceForm.js',
        'plugin/public/js/courseSettings.js',
        'plugin/public/js/popup.js',
        'plugin/public/js/assignment.js',
-       'plugin/public/css/app.css',
        'plugin/public/css/assignment.css',
        'plugin/public/css/instanceForm.css',
-       'plugin/public/css/popup.css'
+       'plugin/public/css/popup.css',
+       'plugin/public/css/courseSettings.css',
+       'plugin/public/css/highlight.css',
    ]);
 
 // Full API

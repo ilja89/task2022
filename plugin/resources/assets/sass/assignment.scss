@@ -41,10 +41,6 @@ $primary: $blue;
   display: none;
 }
 
-.hljs {
-  background: transparent;
-}
-
 .table {
   color: $table-text-color;
 }
@@ -55,10 +51,6 @@ $primary: $blue;
 
 .modal {
   z-index: 9996;  // Modal is 1985 but Snap nav is 9995!
-}
-
-.line-number-position {
-  top: 1px;
 }
 
 
@@ -144,7 +136,7 @@ $primary: $blue;
 
   pre code {
     white-space: pre;
-    padding: 1.25rem 4rem;
+    padding: 1.25rem 3rem;
   }
 
   .delete {
@@ -157,6 +149,10 @@ $primary: $blue;
     h2 {
       text-align: left;
     }
+  }
+
+  .modal-card-body .columns.code-container {
+    margin-bottom: 0;
   }
 }
 
@@ -177,7 +173,7 @@ $primary: $blue;
 .assignment-content {
   margin-top: 0;
 
-  pre {
+  pre code {
     padding: 13.5px;
   }
 }
