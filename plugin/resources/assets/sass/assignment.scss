@@ -54,7 +54,7 @@ $primary: $blue;
 }
 
 .modal {
-  z-index: 9996;  // Moodle nav bar is 1985 in Snap!
+  z-index: 9996;  // Modal is 1985 but Snap nav is 9995!
 }
 
 .line-number-position {
