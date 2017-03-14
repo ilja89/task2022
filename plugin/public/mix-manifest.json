@@ -1,6 +1,4 @@
 {
-  "js/assignment.js": "js/assignment.js",
-  "js/popup.js": "js/popup.js",
   "js/instanceForm.js": "js/instanceForm.js",
   "css/app.css": "css/app.css",
   "css/assignment.css": "css/assignment.css",
@@ -8,5 +6,7 @@
   "css/popup.css": "css/popup.css",
   "css/courseSettings.css": "css/courseSettings.css",
   "js/highlight.js": "js/highlight.js",
+  "js/assignment.js": "js/assignment.js",
+  "js/popup.js": "js/popup.js",
   "js/courseSettings.js": "js/courseSettings.js"
 }
