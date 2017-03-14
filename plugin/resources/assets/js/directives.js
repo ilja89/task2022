@@ -13,7 +13,7 @@ const highlightDirective = {
                 target.innerHTML = binding.value;
             }
 
-            // hljs.highlightBlock(target);
+            window.hljs.highlightBlock(target);
         });
     },
 
@@ -23,7 +23,7 @@ const highlightDirective = {
         targets.forEach(target => {
             if (binding.value) {
                 target.innerHTML = binding.value;
-                // hljs.highlightBlock(target);
+                window.hljs.highlightBlock(target);
             }
         });
     }

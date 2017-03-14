@@ -54,8 +54,6 @@
                     return '<span class="line-number-position"><span class="line-number" data-pseudo-content="' + line++ + ' |"></span></span>';
                 });
 
-                console.log(contents);
-
                 return {
                     id: file.id,
                     path: file.path,
