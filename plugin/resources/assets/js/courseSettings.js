@@ -1,7 +1,7 @@
 import './bootstrap';
 
 import CourseSettingsForm from './components/courseSettings/CourseSettingsForm.vue';
-import CourseSettingsFormForm from './classes/courseSettingsForm';
+import { CourseSettingsForm as CourseSettingsFormForm } from './classes';
 
 window.VueEvent = new Vue();
 
