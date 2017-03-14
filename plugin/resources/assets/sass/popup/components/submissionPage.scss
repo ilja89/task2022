@@ -95,12 +95,28 @@
 }
 
 .output-section {
-  pre {
-    font-size: 1em;
 
-    code {
-      padding: 1.25rem 4.5rem;
-      background-color: transparent;
+  .columns.code-container {
+    padding: 25px;
+
+    .line-number-container {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+
+      .line-number-position {
+        height: 21px;
+      }
+    }
+
+    .code {
+      font-size: 1em;
+      overflow: hidden;
+      border-radius: 0;
+
+      code {
+        padding: 1.25rem 2rem 1.25rem 3.5rem;
+        border-radius: 0;
+      }
     }
   }
 }
@@ -112,10 +128,10 @@
 }
 
 .output-section .tab-details {
-  overflow-x: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .tab-details .output-tab-select {
   margin-left: 25px;
-  margin-bottom: 20px;
 }

@@ -1,5 +1,5 @@
 
-    <script src="/mod/charon/plugin/public/external/highlight/highlight.pack.js"></script>
+    <script src="/mod/charon/plugin/public/js/highlight.js"></script>
     <script>
         window.hljs = hljs;
     </script>
