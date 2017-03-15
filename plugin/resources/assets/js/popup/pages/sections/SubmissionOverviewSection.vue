@@ -56,6 +56,14 @@
 
                 </div>
 
+                <hr class="hr-result">
+                <div class="result">
+                    <div>
+                        Total {{ parseFloat(submission.total_result) }}
+                        <span class="grademax">/ {{ parseFloat(submission.max_result) }}p</span>
+                    </div>
+                </div>
+
                 <div class="submission-confirmed"
                      v-if="submission.confirmed == 1">
                     <hr>
