@@ -5,7 +5,7 @@ import router from './popup/routes';
 
 import Popup from './popup/Popup.vue';
 
-import PopupContext from './classes/popupContext';
+import { PopupContext } from './classes';
 import { HighlightDirective } from './directives';
 
 Vue.use(VueRouter);

@@ -27,25 +27,20 @@
 
     export default {
 
-        components: { SubmissionPartial },
-
         props: {
+            active_submission: { required: true },
             charon: { required: true },
             student: { required: true },
-            active_submission: { required: true }
         },
 
         data() {
             return {
+                canLoadMore: true,
                 submissions: [],
-                canLoadMore: true
             };
         },
 
-        mounted() {
-            this.refreshSubmissions();
-            VueEvent.$on('refresh-page', () => this.refreshSubmissions());
-        },
+        components: { SubmissionPartial },
 
         watch: {
             charon() {
@@ -66,45 +61,29 @@
 
                 Submission.findByUserCharon(this.student.id, this.charon.id, (submissions) => {
                     this.submissions = submissions;
-                    this.canLoadMore = true;
-
-                    submissions.forEach(submission => {
-                        if (this.active_submission !== null && this.active_submission.id == submission.id) {
-                            this.emitSubmissionChange(submission);
-                        }
-                    });
-
-                    if (this.active_submission === null &&  this.submissions.length > 0) {
-                        this.emitSubmissionChange(this.submissions[0]);
-                    }
-
-                    if (Submission.nextUrl === null) {
-                        this.canLoadMore = false;
-                    }
+                    this.canLoadMore = Submission.canLoadMore();
                 });
             },
 
             onSubmissionSelected(submission) {
-                this.emitSubmissionChange(submission);
                 this.$router.push('/submission/' + submission.id)
             },
 
-            emitSubmissionChange(submission) {
-                VueEvent.$emit('submission-was-selected', submission);
-            },
-
             loadMoreSubmissions() {
-                if (Submission.nextUrl !== null) {
+                if (Submission.canLoadMore()) {
                     Submission.getNext(submissions => {
                         submissions.forEach(submission => this.submissions.push(submission));
-                        if (Submission.nextUrl === null) {
-                            this.canLoadMore = false;
-                        }
+                        this.canLoadMore = Submission.canLoadMore();
                     });
                 } else {
                     this.canLoadMore = false;
                 }
             },
-        }
+        },
+
+        mounted() {
+            this.refreshSubmissions();
+            VueEvent.$on('refresh-page', () => this.refreshSubmissions());
+        },
     }
 </script>

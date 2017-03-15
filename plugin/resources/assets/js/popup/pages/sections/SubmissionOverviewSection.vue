@@ -104,7 +104,6 @@
             },
 
             withoutTrailingZeroes(number) {
-//                return number.replace(/000$/, '');
                 return parseFloat(number);
             }
         },
@@ -127,6 +126,7 @@
                         this.submission.confirmed = 1;
                         VueEvent.$emit('submission-was-saved');
                         VueEvent.$emit('show-notification', 'Submission saved!');
+                        VueEvent.$emit('refresh-page');
                     }
                 });
             },
