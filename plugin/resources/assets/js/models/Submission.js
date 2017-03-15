@@ -46,6 +46,10 @@ class Submission {
                 VueEvent.$emit('hide-loader');
             });
     }
+
+    static canLoadMore() {
+        return this.nextUrl !== null;
+    }
 }
 Submission.nextUrl = null;
 
