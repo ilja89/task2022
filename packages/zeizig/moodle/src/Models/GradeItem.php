@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $itemnumber
  * @property string $calculation
  * @property double $grademax
+ * @property string idnumber
  *
  * @property Course $course
  * @property GradeCategory $category

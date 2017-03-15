@@ -34,4 +34,16 @@ class GradeCategory extends Model
     {
         return $this->belongsTo(Course::class, 'courseid');
     }
+
+    /**
+     * Get the corresponding grade item for this category.
+     *
+     * @return  GradeItem
+     */
+    public function getGradeItem()
+    {
+        return GradeItem::where('itemtype', 'category')
+            ->where('iteminstance', $this->id)
+            ->first();
+    }
 }

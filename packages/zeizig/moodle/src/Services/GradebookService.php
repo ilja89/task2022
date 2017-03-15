@@ -136,7 +136,34 @@ class GradebookService extends MoodleService
      */
     public function denormalizeCalculationFormula($formula, $courseId)
     {
-        $calculationFormula = \grade_item::denormalize_formula($formula, $courseId);
-        return $calculationFormula;
+        return \grade_item::denormalize_formula($formula, $courseId);
+    }
+
+    /**
+     * Calculates the result for the given formula with given parameters.
+     * Parameters array:
+     *      [ Grade item id number => points, ... ]
+     *
+     * @param  string  $formula  normalized formula
+     * @param  array  $params
+     * @param  int  $courseId
+     *
+     * @return double
+     */
+    public function calculateResultFromFormula($formula, $params, $courseId)
+    {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/mathslib.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_item.php';
+        require_once $CFG->dirroot . '/lib/grade/constants.php';
+
+        $formula = $this->denormalizeCalculationFormula($formula, $courseId);
+        $formula = str_replace('[[', '', $formula);
+        $formula = str_replace(']]', '', $formula);
+
+        $calcFormula = new \calc_formula($formula, $params);
+
+        $result = $calcFormula->evaluate();
+        return $result;
     }
 }

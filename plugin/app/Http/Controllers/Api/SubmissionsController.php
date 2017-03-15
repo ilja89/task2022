@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\CharonGradingService;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class SubmissionsController.
@@ -19,14 +20,19 @@ class SubmissionsController extends Controller
     /** @var CharonGradingService */
     private $charonGradingService;
 
+    /** @var GradebookService */
+    private $gradebookService;
+
     /**
      * SubmissionsController constructor.
      *
-     * @param CharonGradingService $charonGradingService
+     * @param  CharonGradingService  $charonGradingService
+     * @param  GradebookService  $gradebookService
      */
-    public function __construct(CharonGradingService $charonGradingService)
+    public function __construct(CharonGradingService $charonGradingService, GradebookService $gradebookService)
     {
         $this->charonGradingService = $charonGradingService;
+        $this->gradebookService = $gradebookService;
     }
 
     /**
@@ -65,6 +71,7 @@ class SubmissionsController extends Controller
      */
     public function findById(Charon $charon, $submissionId)
     {
+        /** @var Submission $submission */
         $submission = Submission::with([
             'results' => function ($query) use ($charon) {
                 // Only select results which have a corresponding grademap
@@ -85,6 +92,17 @@ class SubmissionsController extends Controller
                                      'user_id',
                                      'mail',
                                  ]);
+
+        $params = [];
+        foreach ($submission->results as $result) {
+            $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+        }
+
+        $submission->total_result = $this->gradebookService->calculateResultFromFormula(
+            $charon->category->getGradeItem()->calculation, $params, $charon->course
+        );
+        $submission->max_result = $charon->category->getGradeItem()->grademax;
+
         return $submission;
     }
 
