@@ -10,7 +10,7 @@
             </button>
         </template>
 
-        <div class="columns is-gapless  submission-overview-container" v-if="hasSubmission">
+        <div class="columns is-gapless is-desktop  submission-overview-container" v-if="hasSubmission">
 
             <div class="column is-one-third card">
                 <div class="submission-info-title">Git time:</div>
