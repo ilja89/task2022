@@ -15,7 +15,7 @@
             </span>
         </p>
 
-        <div class="columns code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
+        <div class="columns is-gapless code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
             <div class="column line-number-container is-narrow">
                 <span class="line-number-position" v-for="n in activeFile.numbers">
                     <span class="line-number">{{ n }}</span>
@@ -92,43 +92,40 @@
 </script>
 
 <style lang="scss" scoped>
-    .line-number-position {
-        position: relative;
-        top: 1px;
-        height: 20px;
-    }
+
+    $code-font-size: 14px;
+    $code-line-height: 23px;
 
     .line-number {
         float: right;
-        font-size: 12px;
         padding-left: 10px;
         padding-right: 10px;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+        font-size: $code-font-size;
+        line-height: $code-line-height;
+        font-family: monospace;
     }
 
     .columns.code-container {
-        position: relative;
-        margin: 0;
-        padding: 0;
 
         .line-number-container {
             display: flex;
             flex-direction: column;
             background: darken(#fafafa, 5%);
             border: 1px solid #dbdbdb;
-            padding: 1.25rem 0;
+            padding-top: 1.25rem;
         }
     }
 
     pre.code {
-        padding: 0;
         border: 1px solid #dbdbdb;
-        margin-left: -1px;
+        border-left: none;
         overflow-x: scroll;
 
         code {
-            overflow-x: scroll;
-            padding: 1.25rem;
+            padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+            line-height: $code-line-height;
+            font-size: $code-font-size;
+            font-family: monospace;
         }
     }
 
@@ -142,12 +139,6 @@
         .code {
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
-
-            pre {
-                /* Otherwise this overlays the .code border radius (weird tips) */
-                border-top-right-radius: 5px;
-                border-bottom-right-radius: 5px;
-            }
         }
     }
 
