@@ -62,7 +62,7 @@
                 return {
                     id: file.id,
                     path: file.path,
-                    contents: file.contents.trim(),
+                    contents: file.contents.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;'),
                     numbers: file.contents.trim().split(/\r\n|\r|\n/).length,
                 }
             }
