@@ -20,6 +20,7 @@
 
     <div class="column is-one-third">
 
+        @include('assignment.partials._grademaps_table')
         @include('assignment.partials._deadlines_table')
 
         <submissions-list :submissions="submissions" :grademaps="grademaps"
