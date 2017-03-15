@@ -81,3 +81,17 @@
   transform: translateY(10px);
   opacity: 0;
 }
+
+@media screen and (max-width: 1025px) {
+  .columns.is-desktop {
+    flex-direction: column;
+
+    > .column {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}
