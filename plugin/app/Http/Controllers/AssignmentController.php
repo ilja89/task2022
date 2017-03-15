@@ -106,24 +106,9 @@ class AssignmentController extends Controller
         return $charon;
     }
 
-    /**
-     * Add breadcrumbs to the page.
-     * Uses Moodle built in breadcrumbs.
-     *
-     * @param  Charon $charon
-     *
-     * @return void
-     */
-    public function addBreadcrumbs($charon)
-    {
-        $this->page->addBreadcrumb($charon->name);
-    }
-
     public function initializePage(Charon $charon)
     {
-//        $this->page->setContextToModule($charon->courseModule()->id);
         $this->page->setUrl('/mod/charon/view.php', ['id' => $charon->courseModule()->id]);
         $this->page->setTitle($charon->name);
-        $this->addBreadcrumbs($charon);
     }
 }
