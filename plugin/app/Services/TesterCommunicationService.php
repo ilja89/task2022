@@ -33,6 +33,7 @@ class TesterCommunicationService
      *
      * @param  Charon $charon
      * @param  string $unittestsGit
+     * @param  string $courseShortName
      *
      * @return void
      */
@@ -47,6 +48,7 @@ class TesterCommunicationService
             'unittestsUrl' => $unittestsGit,
             'gradeMaps'    => [],
         ];
+        // TODO: Refactor to use grademaps instead of gradeMaps
 
         foreach ($charon->grademaps as $grademap) {
             $params['gradeMaps'][] = [

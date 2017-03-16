@@ -5,7 +5,8 @@
 
         <ul class="submissions-list">
             <template v-for="submission in submissions">
-                <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }" @click="toggleAdvanced(submission.id)">
+                <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
+                    @click="toggleAdvanced(submission.id)">
 
                     <span class="tag is-info">
                         {{ submissionString(submission) }}
@@ -16,7 +17,8 @@
                     </span>
 
                     <span class="dropdown-arrow">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path
+                                d="M0 0h24v24H0z" fill="none"/></svg>
                     </span>
 
                     <span class="open-modal-btn" @click.stop="$emit('submission-was-activated', submission)">
@@ -42,23 +44,34 @@
 
             </template>
         </ul>
+
+        <div v-if="canLoadMore" class="has-text-centered">
+            <button class="button is-primary load-more-button" @click="loadMoreSubmissions()">
+                Load more
+            </button>
+        </div>
+
     </div>
 </template>
 
 <script>
     import { Translate } from '../../mixins';
+    import Submission from '../../models/Submission';
 
     export default {
         mixins: [ Translate ],
 
         props: {
-            submissions: { required: true },
-            grademaps: { required: true }
+            grademaps: { required: true },
+            charon_id: { required: true },
+            student_id: { required: true },
         },
 
         data() {
             return {
-                advanced: []
+                advanced: [],
+                submissions: [],
+                canLoadMore: true
             };
         },
 
@@ -73,6 +86,7 @@
         },
 
         methods: {
+
             getGrademapByResult(result) {
                 let correctGrademap = null;
                 this.grademaps.forEach(grademap => {
@@ -107,7 +121,29 @@
                 });
 
                 return resultStr;
-            }
+            },
+
+            refreshSubmissions() {
+                Submission.findByUserCharon(this.student_id, this.charon_id, (submissions) => {
+                    this.submissions = submissions;
+                    this.canLoadMore = Submission.canLoadMore();
+                });
+            },
+
+            loadMoreSubmissions() {
+                if (Submission.canLoadMore()) {
+                    Submission.getNext(submissions => {
+                        submissions.forEach(submission => this.submissions.push(submission));
+                        this.canLoadMore = Submission.canLoadMore();
+                    });
+                } else {
+                    this.canLoadMore = false;
+                }
+            },
+        },
+
+        mounted() {
+            this.refreshSubmissions();
         }
     }
 </script>

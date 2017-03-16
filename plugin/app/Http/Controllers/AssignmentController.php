@@ -83,14 +83,12 @@ class AssignmentController extends Controller
 
         $this->initializePage($charon);
 
-        $submissions = $this->submissionsRepository->getSubmissionsForStudentAndCharon($charon->id, $this->user->currentUserId());
-
         return view('assignment.index', [
             'header' => $this->output->header(),
             'footer' => $this->output->footer(),
             'charon' => $charon,
-            'submissions' => $submissions,
             'can_edit' => $this->permissionsService->canManageCourse($charon->course),
+            'student_id' => $this->user->currentUserId(),
         ]);
     }
 

@@ -114,6 +114,7 @@ class PopupController extends Controller
                                      'created_at',
                                      'git_hash',
                                      'git_timestamp',
+                                     'git_commit_message',
                                      'user_id',
                                  ])
                                  ->simplePaginate(5);
