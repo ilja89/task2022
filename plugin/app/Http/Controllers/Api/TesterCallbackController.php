@@ -66,6 +66,11 @@ class TesterCallbackController extends Controller
         $this->calculateCalculatedResults($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 
+        $submission->makeHidden('charon');
+        foreach ($submission->results as $result) {
+            $result->makeHidden('submission');
+        }
+
         return $submission;
     }
 
