@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('documentation', 'StaticPagesController@apiDocumentation');
 
 Route::post('charons', 'InstanceController@store');
 Route::post('charons/update', 'InstanceController@update');
