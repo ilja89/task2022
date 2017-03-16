@@ -53,6 +53,12 @@ $primary: $blue;
   z-index: 9996;  // Modal is 1985 but Snap nav is 9995!
 }
 
+.block_settings .box.block_tree_box {
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1rem 0 0;
+}
+
 
 /*---------------------------------*\
   #SUBMISSIONS
@@ -175,4 +181,8 @@ $primary: $blue;
   pre code {
     padding: 13.5px;
   }
+}
+
+.load-more-button {
+  margin-top: 10px;
 }

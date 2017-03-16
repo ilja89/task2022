@@ -23,7 +23,7 @@
         @include('assignment.partials._grademaps_table')
         @include('assignment.partials._deadlines_table')
 
-        <submissions-list :submissions="submissions" :grademaps="grademaps"
+        <submissions-list :grademaps="grademaps" :charon_id="charonId" :student_id="studentId"
                           v-on:submission-was-activated="showModal">
         </submissions-list>
 
@@ -35,8 +35,9 @@
 
 <script>
     var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
-    var submissions = {!! $submissions->toJson() !!};
     var testerType = "{!! $charon->testerType->name !!}";
+    var charonId = {{ $charon->id }};
+    var studentId = {{ $student_id }};
 
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
