@@ -76,23 +76,16 @@ class CourseSettingsFormController extends Controller
 
         $this->addBreadcrumbs($course);
 
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
-        $presets = $this->presetsRepository->getPresetsOnlyForCourse($course->id);
-        $testerTypes = $this->classificationsRepository->getAllTesterTypes();
-        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
-        $gradeTypes = $this->classificationsRepository->getAllGradeTypes();
-        $gradeNamePrefixes = $this->classificationsRepository->getAllGradeNamePrefixes();
-
         return view('course_settings_form.form', [
             'header'    => $this->output->header(),
             'footer'    => $this->output->footer(),
-            'settings'  => $courseSettings,
+            'settings'  => $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id),
             'course_id' => $course->id,
-            'tester_types' => $testerTypes,
-            'grading_methods' => $gradingMethods,
-            'grade_types' => $gradeTypes,
-            'grade_name_prefixes' => $gradeNamePrefixes,
-            'presets' => $presets,
+            'tester_types' => $this->classificationsRepository->getAllTesterTypes(),
+            'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
+            'grade_types' => $this->classificationsRepository->getAllGradeTypes(),
+            'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
+            'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
         ]);
     }
 

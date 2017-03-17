@@ -4,8 +4,8 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\GitCallback;
 use Zeizig\Moodle\Services\SettingsService;
 
 /**
@@ -73,12 +73,31 @@ class TesterCommunicationService
     private function sendInfoToTester($uri, $method, $data)
     {
         $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'neti.ee');
-        Log::info('Sending data to tester.', ['uri' => $testerUrl . '/' . $uri, 'data' => $data]);
+        \Log::info('Sending data to tester.', ['uri' => $testerUrl . '/' . $uri, 'data' => $data]);
         $client = new Client();
         try {
             $client->request($method, $testerUrl . '/' . $uri, ['json' => $data]);
         } catch (RequestException $e) {
-            Log::error('Could not send info to tester to url ' . $testerUrl . '/' . $uri);
+            \Log::error('Could not send info to tester to url ' . $testerUrl . '/' . $uri);
         }
+    }
+
+    /**
+     * Send git callback info to the tester.
+     *
+     * @param GitCallback $gitCallback
+     * @param $testerCallbackUrl
+     * @param $extraParameters
+     */
+    public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $extraParameters)
+    {
+        $params = [
+            'callback_url' => $testerCallbackUrl,
+            'secret_token' => $gitCallback->secret_token,
+        ];
+
+        $params = array_merge($extraParameters, $params);
+
+        $this->sendInfoToTester('test', 'post', $params);
     }
 }

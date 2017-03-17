@@ -2,28 +2,34 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\GitCallback;
-use Zeizig\Moodle\Services\SettingsService;
+use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Services\TesterCommunicationService;
 
 class GitCallbackController extends Controller
 {
-    /** @var SettingsService */
-    protected $settingsService;
+    /** @var GitCallbacksRepository */
+    private $gitCallbacksRepository;
+
+    /** @var TesterCommunicationService */
+    private $testerCommunicationService;
 
     /**
      * GitCallbackController constructor.
      *
-     * @param  Request  $request
-     * @param  SettingsService  $settingsService
+     * @param  Request $request
+     * @param GitCallbacksRepository $gitCallbacksRepository
+     * @param TesterCommunicationService $testerCommunicationService
      */
-    public function __construct(Request $request, SettingsService $settingsService)
-    {
+    public function __construct(
+        Request $request,
+        GitCallbacksRepository $gitCallbacksRepository,
+        TesterCommunicationService $testerCommunicationService
+    ) {
         parent::__construct($request);
-        $this->settingsService = $settingsService;
+        $this->gitCallbacksRepository     = $gitCallbacksRepository;
+        $this->testerCommunicationService = $testerCommunicationService;
     }
 
     /**
@@ -34,50 +40,18 @@ class GitCallbackController extends Controller
      */
     public function index()
     {
-        $gitCallback = $this->saveGitCallback();
+        $gitCallback = $this->gitCallbacksRepository->save(
+            $this->request->fullUrl(),
+            $this->request->input('repo'),
+            $this->request->input('user')
+        );
 
-        $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'http://neti.ee');
-        $params = $this->getTesterRequestParams($gitCallback);
-        $client = new Client(['base_uri' => $testerUrl]);
-        $client->request('POST', 'test', [ 'json' => $params ]);
+        $this->testerCommunicationService->sendGitCallback(
+            $gitCallback,
+            $this->request->getUriForPath('/api/tester_callback'),
+            $this->request->all()
+        );
 
         return "SUCCESS";
-    }
-
-    /**
-     * Get the parameters which will be sent to the tester.
-     * Takes all the given parameters and add some extra ones.
-     *
-     * @param  GitCallback  $gitCallback
-     *
-     * @return array
-     */
-    private function getTesterRequestParams($gitCallback)
-    {
-        $params = [
-            'callback_url' => $this->request->getUriForPath('/api/tester_callback'),
-            'secret_token' => $gitCallback->secret_token
-        ];
-        return array_merge($this->request->all(), $params);
-    }
-
-    /**
-     * Saves the Git Callback to the database. Also generates the secret token.
-     *
-     * @return GitCallback
-     */
-    private function saveGitCallback()
-    {
-        $time = Carbon::now();
-        $fullUrl = $this->request->fullUrl();
-        $key = encrypt($this->request['repo'] . '__' . $time->timestamp);
-
-        return GitCallback::create([
-            'url' => $fullUrl,
-            'repo' => $this->request['repo'],
-            'user' => $this->request['user'],
-            'created_at' => $time,
-            'secret_token' => $key
-        ]);
     }
 }
