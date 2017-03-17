@@ -30,9 +30,6 @@ class AssignmentController extends Controller
     /** @var Page */
     private $page;
 
-    /** @var SubmissionsRepository */
-    private $submissionsRepository;
-
     /** @var User */
     private $user;
 
@@ -46,7 +43,6 @@ class AssignmentController extends Controller
      * @param  CharonRepository $charonRepository
      * @param  Output $output
      * @param  Page $page
-     * @param SubmissionsRepository $submissionsRepository
      * @param User $user
      * @param PermissionsService $permissionsService
      */
@@ -55,7 +51,6 @@ class AssignmentController extends Controller
         CharonRepository $charonRepository,
         Output $output,
         Page $page,
-        SubmissionsRepository $submissionsRepository,
         User $user,
         PermissionsService $permissionsService
     ) {
@@ -63,7 +58,6 @@ class AssignmentController extends Controller
         $this->charonRepository = $charonRepository;
         $this->output = $output;
         $this->page = $page;
-        $this->submissionsRepository = $submissionsRepository;
         $this->user = $user;
         $this->permissionsService = $permissionsService;
     }
