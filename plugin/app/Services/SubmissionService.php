@@ -9,6 +9,7 @@ use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Traits\GradesStudents;
+use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\UserService;
 
 /**
@@ -23,14 +24,19 @@ class SubmissionService
     /** @var UserService */
     protected $userService;
 
+    /** @var GradebookService */
+    private $gradebookService;
+
     /**
      * SubmissionService constructor.
      *
      * @param UserService $userService
+     * @param GradebookService $gradebookService
      */
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, GradebookService $gradebookService)
     {
         $this->userService = $userService;
+        $this->gradebookService = $gradebookService;
     }
 
     /**
@@ -160,6 +166,27 @@ class SubmissionService
         $this->updateGradeIfApplicable($submission);
 
         return $submission;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param  Submission $submission
+     *
+     * @return float
+     */
+    public function calculateSubmissionTotalGrade(Submission $submission)
+    {
+        $charon = $submission->charon;
+
+        $params = [];
+        foreach ($submission->results as $result) {
+            $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+        }
+
+        return $this->gradebookService->calculateResultFromFormula(
+            $charon->category->getGradeItem()->calculation, $params, $charon->course
+        );
     }
 
     /**

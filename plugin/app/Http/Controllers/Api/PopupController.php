@@ -95,7 +95,7 @@ class PopupController extends Controller
         $submissions = Submission::with([
             // Only select results which have a corresponding grademap
             'results' => function ($query) use ($charon) {
-                $query->whereIn('grade_type_code', $charon->getGradeTypes());
+                $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
                 $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
             },
         ])
