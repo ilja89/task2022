@@ -76,10 +76,8 @@
 </template>
 
 <script>
-    import GradesCheckboxes from '../../../components/form/GradesCheckboxes.vue';
-    import CharonTabs from '../../../components/partials/CharonTabs.vue';
-    import CharonTab from '../../../components/partials/CharonTab.vue';
-
+    import { GradesCheckboxes } from '../../../components/form';
+    import { CharonTabs, CharonTab } from '../../../components/partials';
     import { Translate } from '../../../mixins';
 
     export default {

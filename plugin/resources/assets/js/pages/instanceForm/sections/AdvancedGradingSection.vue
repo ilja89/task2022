@@ -60,13 +60,10 @@
 </template>
 
 <script>
-    import CharonSelect from '../../../components/form/CharonSelect.vue';
-    import GradesCheckboxes from '../../../components/form/GradesCheckboxes.vue';
-    import CharonTabs from '../../../components/partials/CharonTabs.vue';
-    import CharonTab from '../../../components/partials/CharonTab.vue';
+    import { CharonSelect, GradesCheckboxes, CharonTextInput, CharonNumberInput } from '../../../components/form';
+    import { CharonTabs, CharonTab } from '../../../components/partials';
+
     import GrademapRow from '../components/GrademapRow.vue';
-    import CharonTextInput from '../../../components/form/CharonTextInput.vue';
-    import CharonNumberInput from '../../../components/form/CharonNumberInput.vue';
 
     import { Translate, EmitEventOnInputChange } from '../../../mixins';
 

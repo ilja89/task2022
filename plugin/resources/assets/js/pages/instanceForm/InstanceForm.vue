@@ -49,8 +49,7 @@
     import SimpleGradingSection from './sections/SimpleGradingSection.vue';
     import DeadlineSection from './sections/DeadlineSection.vue';
 
-    import InstanceFormFieldset from '../../components/form/InstanceFormFieldset.vue';
-
+    import { InstanceFormFieldset } from '../../components/form';
     import { Translate } from '../../mixins';
 
     export default {

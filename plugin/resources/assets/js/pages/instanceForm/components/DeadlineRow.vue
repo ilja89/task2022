@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import Datepicker from '../../../components/partials/Datepicker.vue';
+    import { Datepicker } from '../../../components/partials';
 
     export default {
         components: { Datepicker },

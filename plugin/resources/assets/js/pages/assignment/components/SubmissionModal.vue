@@ -19,9 +19,8 @@
 </template>
 
 <script>
-    import Modal from '../../../components/partials/Modal.vue';
+    import { Modal, FilesComponent } from '../../../components/partials';
     import { Translate } from '../../../mixins';
-    import FilesComponent from '../../popup/components/FilesComponent.vue';
 
     export default {
         mixins: [ Translate ],

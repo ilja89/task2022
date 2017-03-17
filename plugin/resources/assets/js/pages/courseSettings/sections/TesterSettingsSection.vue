@@ -26,10 +26,7 @@
 </template>
 
 <script>
-    import CharonFieldset from '../../../components/form/CharonFieldset.vue';
-    import CharonTextInput from '../../../components/form/CharonTextInput.vue';
-    import CharonSelect from '../../../components/form/CharonSelect.vue';
-
+    import { CharonFieldset, CharonTextInput, CharonSelect } from '../../../components/form';
     import { Translate } from '../../../mixins';
 
     export default {

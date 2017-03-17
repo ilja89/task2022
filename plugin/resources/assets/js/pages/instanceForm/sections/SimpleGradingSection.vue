@@ -51,8 +51,7 @@
 </template>
 
 <script>
-    import CharonSelect from '../../../components/form/CharonSelect.vue';
-
+    import { CharonSelect } from '../../../components/form';
     import { Translate, EmitEventOnInputChange } from '../../../mixins';
 
     export default {
