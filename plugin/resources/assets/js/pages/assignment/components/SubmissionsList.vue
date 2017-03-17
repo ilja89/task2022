@@ -55,8 +55,8 @@
 </template>
 
 <script>
-    import { Translate } from '../../mixins';
-    import { Submission } from '../../models';
+    import { Translate } from '../../../mixins';
+    import { Submission } from '../../../models';
 
     export default {
         mixins: [ Translate ],

@@ -16,7 +16,7 @@ mix.setPublicPath('plugin/public');
 mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
   .js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js')
   .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
-  .js('plugin/resources/assets/js/assignment.js', 'js')
+  .js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js')
   .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js')
   .sass('plugin/resources/assets/sass/assignment.scss', 'css')
   .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
