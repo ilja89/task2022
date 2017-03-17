@@ -88,14 +88,14 @@
 </template>
 
 <script>
-    import CharonFieldset from '../form/CharonFieldset.vue';
-    import CharonSelect from '../form/CharonSelect.vue';
-    import CharonTextInput from '../form/CharonTextInput.vue';
-    import CharonNumberInput from '../form/CharonNumberInput.vue';
+    import CharonFieldset from '../../../components/form/CharonFieldset.vue';
+    import CharonSelect from '../../../components/form/CharonSelect.vue';
+    import CharonTextInput from '../../../components/form/CharonTextInput.vue';
+    import CharonNumberInput from '../../../components/form/CharonNumberInput.vue';
     import GradesSection from './GradesSection.vue';
 
-    import { Translate } from '../../mixins';
-    import { Preset } from '../../models';
+    import { Translate } from '../../../mixins';
+    import { Preset } from '../../../models';
 
     export default {
 

@@ -27,10 +27,10 @@
 </template>
 
 <script>
-    import TesterSettingsSection from './TesterSettingsSection.vue';
-    import PresetsSection from './PresetsSection.vue';
+    import TesterSettingsSection from './sections/TesterSettingsSection.vue';
+    import PresetsSection from './sections/PresetsSection.vue';
     import { Translate } from '../../mixins';
-    import Loader from '../../pages/popup/components/Loader.vue';
+    import Loader from '../popup/components/Loader.vue';
 
     export default {
         mixins: [ Translate ],
