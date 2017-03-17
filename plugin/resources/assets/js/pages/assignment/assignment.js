@@ -1,16 +1,12 @@
+import '../../bootstrap'
 import Vue from 'vue'
 import moment from 'moment'
-import axios from 'axios'
 import { HighlightDirective } from '../../directives'
-import SubmissionsList from './components/SubmissionsList.vue'
-import SubmissionModal from './components/SubmissionModal.vue'
+import { SubmissionsList, SubmissionModal } from './components'
 
-window.Vue = Vue;
 window.moment = moment;
-window.axios = axios;
 
 Vue.directive('highlightjs', HighlightDirective);
-window.VueEvent = new Vue();
 
 const app = new Vue({
 

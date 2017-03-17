@@ -22,7 +22,7 @@
 
 <script>
     import { Translate } from '../../../mixins';
-    import DeadlineRow from '../components/DeadlineRow.vue';
+    import { DeadlineRow } from '../components';
 
     export default {
         mixins: [ Translate ],

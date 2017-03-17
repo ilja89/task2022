@@ -43,12 +43,9 @@
 </template>
 
 <script>
-    import AdvancedTaskInfoSection from './sections/AdvancedTaskInfoSection.vue';
-    import AdvancedGradingSection from './sections/AdvancedGradingSection.vue';
-    import SimpleTaskInfoSection from './sections/SimpleTaskInfoSection.vue';
-    import SimpleGradingSection from './sections/SimpleGradingSection.vue';
-    import DeadlineSection from './sections/DeadlineSection.vue';
-
+    import {
+        AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection
+    } from './sections';
     import { InstanceFormFieldset } from '../../components/form';
     import { Translate } from '../../mixins';
 

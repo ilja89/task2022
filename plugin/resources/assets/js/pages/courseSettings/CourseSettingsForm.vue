@@ -27,8 +27,7 @@
 </template>
 
 <script>
-    import TesterSettingsSection from './sections/TesterSettingsSection.vue';
-    import PresetsSection from './sections/PresetsSection.vue';
+    import { TesterSettingsSection, PresetsSection } from './sections';
     import { Translate } from '../../mixins';
     import Loader from '../popup/components/Loader.vue';
 

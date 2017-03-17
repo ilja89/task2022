@@ -3,8 +3,6 @@ import '../../bootstrap';
 import CourseSettingsForm from './CourseSettingsForm.vue';
 import { CourseSettingsForm as CourseSettingsFormForm } from '../../classes';
 
-window.VueEvent = new Vue();
-
 const app = new Vue({
     el: '#app',
     components: { CourseSettingsForm },

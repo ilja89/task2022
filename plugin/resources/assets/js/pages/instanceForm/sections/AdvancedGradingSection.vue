@@ -62,9 +62,7 @@
 <script>
     import { CharonSelect, GradesCheckboxes, CharonTextInput, CharonNumberInput } from '../../../components/form';
     import { CharonTabs, CharonTab } from '../../../components/partials';
-
-    import GrademapRow from '../components/GrademapRow.vue';
-
+    import { GrademapRow } from '../components';
     import { Translate, EmitEventOnInputChange } from '../../../mixins';
 
     export default {

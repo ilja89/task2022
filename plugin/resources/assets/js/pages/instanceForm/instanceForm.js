@@ -3,8 +3,6 @@ import '../../bootstrap';
 import InstanceForm from './InstanceForm.vue';
 import { InstanceForm as InstanceFormForm } from '../../classes';
 
-window.VueEvent = new Vue();
-
 const app = new Vue({
     el: '#app',
     components: { InstanceForm },

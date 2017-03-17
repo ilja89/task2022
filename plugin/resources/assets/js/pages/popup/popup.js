@@ -11,8 +11,6 @@ import { HighlightDirective } from './../../directives';
 Vue.use(VueRouter);
 Vue.directive('highlightjs', HighlightDirective);
 
-window.VueEvent = new Vue();
-
 const app = new Vue({
     el: '#app',
 
