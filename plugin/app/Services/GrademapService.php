@@ -5,7 +5,6 @@ namespace TTU\Charon\Services;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
-use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**

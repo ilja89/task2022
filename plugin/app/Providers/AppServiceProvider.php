@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Providers;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 use TTU\Charon\Foundation\Application;

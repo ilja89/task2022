@@ -2,8 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Collection;
-use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Services\GradingService;
