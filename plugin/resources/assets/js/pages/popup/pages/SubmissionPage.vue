@@ -16,7 +16,7 @@
     import PageTitle from '../partials/PageTitle.vue';
     import SubmissionOverviewSection from './sections/SubmissionOverviewSection.vue';
     import OutputSection from './sections/OutputSection.vue';
-    import { Submission } from '../../models';
+    import { Submission } from '../../../models';
 
     export default {
         components: { PageTitle, SubmissionOverviewSection, OutputSection },

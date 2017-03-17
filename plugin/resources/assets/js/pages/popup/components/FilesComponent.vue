@@ -29,7 +29,7 @@
 
 <script>
 
-    import { File } from '../../models';
+    import { File } from '../../../models';
 
     export default {
 
