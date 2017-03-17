@@ -23,9 +23,6 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class InstanceController extends Controller
 {
-    /** @var Request */
-    protected $request;
-
     /** @var CharonRepository */
     protected $charonRepository;
 
@@ -69,7 +66,7 @@ class InstanceController extends Controller
         TesterCommunicationService $testerCommunicationService,
         CourseSettingsRepository $courseSettingsRepository
     ) {
-        $this->request                    = $request;
+        parent::__construct($request);
         $this->charonRepository           = $charonRepository;
         $this->gradebookService           = $gradebookService;
         $this->grademapService            = $grademapService;

@@ -2,14 +2,13 @@
 
 namespace TTU\Charon\Http\Controllers;
 
-use TTU\Charon\Models\CourseSettings;
+use Illuminate\Http\Request;
 use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\PresetsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Services\PermissionsService;
 
 /**
  * Class CourseSettingsFormController.
@@ -37,6 +36,7 @@ class CourseSettingsFormController extends Controller
     /**
      * CourseSettingsFormController constructor.
      *
+     * @param Request $request
      * @param  Output $output
      * @param Page $page
      * @param CourseSettingsRepository $courseSettingsRepository
@@ -48,12 +48,14 @@ class CourseSettingsFormController extends Controller
      * @internal param Page $page
      */
     public function __construct(
+        Request $request,
         Output $output,
         Page $page,
         CourseSettingsRepository $courseSettingsRepository,
         ClassificationsRepository $classificationsRepository,
         PresetsRepository $presetsRepository
     ) {
+        parent::__construct($request);
         $this->output                   = $output;
         $this->page                     = $page;
         $this->courseSettingsRepository = $courseSettingsRepository;

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Services\CharonGradingService;
+use TTU\Charon\Traits\GradesStudents;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -17,8 +17,7 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class SubmissionsController extends Controller
 {
-    /** @var CharonGradingService */
-    private $charonGradingService;
+    use GradesStudents;
 
     /** @var GradebookService */
     private $gradebookService;
@@ -26,12 +25,12 @@ class SubmissionsController extends Controller
     /**
      * SubmissionsController constructor.
      *
-     * @param  CharonGradingService  $charonGradingService
-     * @param  GradebookService  $gradebookService
+     * @param  GradebookService $gradebookService
+     * @param Request $request
      */
-    public function __construct(CharonGradingService $charonGradingService, GradebookService $gradebookService)
+    public function __construct(GradebookService $gradebookService, Request $request)
     {
-        $this->charonGradingService = $charonGradingService;
+        parent::__construct($request);
         $this->gradebookService = $gradebookService;
     }
 
@@ -133,8 +132,37 @@ class SubmissionsController extends Controller
             ]);
         }
 
-        $this->charonGradingService->updateGradeIfApplicable($submission);
+        $this->updateGradeIfApplicable($submission);
 
         return $submission;
+    }
+
+    /**
+     * Saves the Submission results.
+     *
+     * @param  Charon $charon
+     * @param  Submission $submission
+     *
+     * @return array
+     */
+    public function saveSubmission(Charon $charon, Submission $submission)
+    {
+        $newResults = $this->request['submission']['results'];
+
+        foreach ($newResults as $result) {
+            $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
+                return $resultLoop->id == $result['id'];
+            });
+
+            $existingResult->calculated_result = $result['calculated_result'];
+            $existingResult->save();
+        }
+
+        $this->updateGradeIfApplicable($submission, true);
+        $this->confirmSubmission($submission);
+
+        return [
+            'status' => 'OK',
+        ];
     }
 }

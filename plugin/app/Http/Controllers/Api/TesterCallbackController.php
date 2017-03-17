@@ -10,9 +10,9 @@ use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionService;
+use TTU\Charon\Traits\GradesStudents;
 
 /**
  * Class TesterCallbackController.
@@ -22,8 +22,7 @@ use TTU\Charon\Services\SubmissionService;
  */
 class TesterCallbackController extends Controller
 {
-    /** @var Request */
-    protected $request;
+    use GradesStudents;
 
     /** @var SubmissionService */
     private $submissionService;
@@ -31,27 +30,21 @@ class TesterCallbackController extends Controller
     /** @var GrademapService */
     private $grademapService;
 
-    /** @var CharonGradingService */
-    private $charonGradingService;
-
     /**
      * TesterCallbackController constructor.
      *
      * @param Request $request
      * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
-     * @param CharonGradingService $charonGradingService
      */
     public function __construct(
         Request $request,
         SubmissionService $submissionService,
-        GrademapService $grademapService,
-        CharonGradingService $charonGradingService
+        GrademapService $grademapService
     ) {
-        $this->request              = $request;
+        parent::__construct($request);
         $this->submissionService    = $submissionService;
         $this->grademapService      = $grademapService;
-        $this->charonGradingService = $charonGradingService;
     }
 
     /**
@@ -64,7 +57,7 @@ class TesterCallbackController extends Controller
 
         $submission = $this->submissionService->saveSubmission($this->request);
         $this->calculateCalculatedResults($submission);
-        $this->charonGradingService->updateGradeIfApplicable($submission);
+        $this->updateGradeIfApplicable($submission);
 
         $submission->makeHidden('charon');
         foreach ($submission->results as $result) {

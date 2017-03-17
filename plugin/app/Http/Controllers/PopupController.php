@@ -2,9 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Services\PermissionsService;
 
 /**
  * Class PopupController.

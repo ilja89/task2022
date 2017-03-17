@@ -7,16 +7,12 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\GitCallback;
-use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Services\SettingsService;
 
 class GitCallbackController extends Controller
 {
     /** @var SettingsService */
     protected $settingsService;
-
-    /** @var Request */
-    private $request;
 
     /**
      * GitCallbackController constructor.
@@ -26,7 +22,7 @@ class GitCallbackController extends Controller
      */
     public function __construct(Request $request, SettingsService $settingsService)
     {
-        $this->request = $request;
+        parent::__construct($request);
         $this->settingsService = $settingsService;
     }
 

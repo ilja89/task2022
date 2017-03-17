@@ -9,7 +9,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Comment;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CharonGradingService;
@@ -26,9 +25,6 @@ class PopupController extends Controller
 {
     /** @var CharonRepository */
     protected $charonRepository;
-
-    /** @var Request */
-    private $request;
 
     /** @var GrademapService */
     private $grademapService;
@@ -55,8 +51,8 @@ class PopupController extends Controller
         CharonGradingService $charonGradingService,
         User $user
     ) {
+        parent::__construct($request);
         $this->charonRepository     = $charonRepository;
-        $this->request              = $request;
         $this->grademapService      = $grademapService;
         $this->charonGradingService = $charonGradingService;
         $this->user                 = $user;
@@ -125,33 +121,6 @@ class PopupController extends Controller
     }
 
     /**
-     * Saves the Submission results.
-     *
-     * @param  Charon $charon
-     * @param  Submission $submission
-     *
-     * @return array
-     */
-    public function saveSubmission(Charon $charon, Submission $submission)
-    {
-        $newResults = $this->request['submission']['results'];
-
-        foreach ($newResults as $result) {
-            $existingResult = $this->getResultByIdFromArray($submission->results, $result['id']);
-
-            $existingResult->calculated_result = $result['calculated_result'];
-            $existingResult->save();
-        }
-
-        $this->charonGradingService->updateGradeIfApplicable($submission, true);
-        $this->charonGradingService->confirmSubmission($submission);
-
-        return [
-            'status' => 'OK',
-        ];
-    }
-
-    /**
      * Saves a comment. Comment details are taken from the request.
      *
      * @param  Charon $charon
@@ -200,22 +169,5 @@ class PopupController extends Controller
                             ->get();
 
         return $comments;
-    }
-
-    /**
-     * @param  Result[] $results
-     * @param  integer $id
-     *
-     * @return null|Result
-     */
-    private function getResultByIdFromArray($results, $id)
-    {
-        foreach ($results as $result) {
-            if ($result->id == $id) {
-                return $result;
-            }
-        }
-
-        return null;
     }
 }

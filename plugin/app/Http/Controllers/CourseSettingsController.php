@@ -15,12 +15,7 @@ use Zeizig\Moodle\Models\Course;
  */
 class CourseSettingsController extends Controller
 {
-    /** @var Request */
-    private $request;
-
-    /**
-     * @var CourseSettingsRepository
-     */
+    /** @var CourseSettingsRepository */
     private $courseSettingsRepository;
 
     /**
@@ -31,7 +26,7 @@ class CourseSettingsController extends Controller
      */
     public function __construct(Request $request, CourseSettingsRepository $courseSettingsRepository)
     {
-        $this->request = $request;
+        parent::__construct($request);
         $this->courseSettingsRepository = $courseSettingsRepository;
     }
 

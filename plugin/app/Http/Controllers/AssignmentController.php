@@ -30,9 +30,6 @@ class AssignmentController extends Controller
     /** @var Page */
     private $page;
 
-    /** @var Request */
-    private $request;
-
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
@@ -62,7 +59,7 @@ class AssignmentController extends Controller
         User $user,
         PermissionsService $permissionsService
     ) {
-        $this->request = $request;
+        parent::__construct($request);
         $this->charonRepository = $charonRepository;
         $this->output = $output;
         $this->page = $page;

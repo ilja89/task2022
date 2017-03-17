@@ -24,7 +24,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.requireCharonManaging')
          ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.requireCharonManaging')
-        ->post('charons/{charon}/submissions/{submission}', 'PopupController@saveSubmission');
+        ->post('charons/{charon}/submissions/{submission}', 'SubmissionsController@saveSubmission');
     Route::middleware('auth.requireCharonManaging')
         ->post('charons/{charon}/comments', 'PopupController@saveComment');
     Route::middleware('auth.requireCharonManaging')
