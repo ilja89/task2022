@@ -3,7 +3,6 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
@@ -156,7 +155,8 @@ class CharonRepository
     }
 
     /**
-     * Find all Charons in course with given id.
+     * Find all Charons in course with given id. Also loads deadlines,
+     * grademaps with grade items.
      *
      * @param  integer $courseId
      * 
@@ -166,7 +166,7 @@ class CharonRepository
     {
         $moduleId = $this->moduleService->getModuleId();
         
-        return DB::table('charon')
+        $charons =  \DB::table('charon')
             ->join('course_modules', 'course_modules.instance', 'charon.id')
             ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('course_modules.course', $courseId)
@@ -178,6 +178,21 @@ class CharonRepository
             )
             ->orderBy('charon.name')
             ->get();
+
+        foreach ($charons as $charon) {
+            /** @var Charon $charon */
+
+            $charon->grademaps = Grademap::with([
+                'gradeItem' => function ($query) {
+                    $query->select(['id', 'grademax']);
+                },
+            ])
+                                         ->where('charon_id', $charon->id)
+                                         ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
+            $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
+        }
+
+        return $charons;
     }
 
     /**

@@ -13,25 +13,6 @@ use TTU\Charon\Models\Submission;
 class SubmissionsRepository
 {
     /**
-     * Get submissions for the current student and charon. Also eager loads their results.
-     *
-     * @param  int $charonId
-     * @param  int $studentId
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function getSubmissionsForStudentAndCharon($charonId, $studentId)
-    {
-        $submissions = Submission::with(['results' => function ($q) {
-            $q->select('calculated_result', 'submission_id', 'grade_type_code');
-        }])
-            ->where('charon_id', $charonId)
-            ->where('user_id', $studentId)
-            ->get(['id', 'confirmed', 'created_at', 'git_hash', 'git_timestamp', 'git_commit_message']);
-        return $submissions;
-    }
-
-    /**
      * Find submission by it's ID. Leave out stdout, stderr because it might be too big.
      *
      * @param  int  $submissionId
@@ -91,5 +72,42 @@ class SubmissionsRepository
         }
 
         return $outputs;
+    }
+
+    /**
+     * Find submissions by charon and user. Also paginates this info by 5.
+     *
+     * @param  Charon  $charon
+     * @param  int  $userId
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function paginateSubmissionsByCharonUser(Charon $charon, $userId)
+    {
+        $submissions = Submission::with([
+            // Only select results which have a corresponding grademap
+            'results' => function ($query) use ($charon) {
+                $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+            },
+        ])
+                                 ->where('charon_id', $charon->id)
+                                 ->where('user_id', $userId)
+                                 ->orderBy('git_timestamp', 'desc')
+                                 ->orderBy('created_at', 'desc')
+                                 ->select([
+                                     'id',
+                                     'charon_id',
+                                     'confirmed',
+                                     'created_at',
+                                     'git_hash',
+                                     'git_timestamp',
+                                     'git_commit_message',
+                                     'user_id',
+                                 ])
+                                 ->simplePaginate(5);
+        $submissions->appends(['user_id' => $userId])->links();
+
+        return $submissions;
     }
 }

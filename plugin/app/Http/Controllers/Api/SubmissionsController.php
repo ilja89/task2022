@@ -111,4 +111,19 @@ class SubmissionsController extends Controller
             'status' => 'OK',
         ];
     }
+
+    /**
+     * @param Charon $charon
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function getByCharon(Charon $charon)
+    {
+        $submissions = $this->submissionsRepository->paginateSubmissionsByCharonUser(
+            $charon,
+            $this->request['user_id']
+        );
+
+        return $submissions;
+    }
 }
