@@ -95,7 +95,7 @@
     import GradesSection from './GradesSection.vue';
 
     import { Translate } from '../../mixins';
-    import Preset from '../../models/Preset';
+    import { Preset } from '../../models';
 
     export default {
 

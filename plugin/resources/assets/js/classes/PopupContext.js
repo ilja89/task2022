@@ -1,4 +1,4 @@
-import Submission from '../models/Submission';
+import { Submission } from '../models';
 
 export default class PopupContext {
     constructor(course_id) {

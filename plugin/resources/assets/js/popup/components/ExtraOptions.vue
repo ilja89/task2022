@@ -21,7 +21,7 @@
 
 <script>
     import { mixin as clickaway } from 'vue-clickaway';
-    import Submission from '../../models/Submission';
+    import { Submission } from '../../models';
 
     export default {
 

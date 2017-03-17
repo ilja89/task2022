@@ -80,7 +80,7 @@
 
 <script>
     import PopupSection from '../../layouts/PopupSection.vue';
-    import Submission from '../../../models/Submission';
+    import { Submission } from '../../../models';
 
     export default {
         components: { PopupSection },

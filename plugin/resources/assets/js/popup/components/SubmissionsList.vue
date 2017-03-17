@@ -23,7 +23,7 @@
 
 <script>
     import SubmissionPartial from '../partials/Submission.vue';
-    import Submission from '../../models/Submission';
+    import { Submission } from '../../models';
 
     export default {
 

@@ -14,7 +14,7 @@
     import PageTitle from '../partials/PageTitle.vue';
     import SubmissionsSection from './sections/SubmissionsSection.vue';
     import CommentsSection from './sections/CommentsSection.vue';
-    import User from '../../models/User';
+    import { User } from '../../models';
 
     export default {
         components: { PageTitle, SubmissionsSection, CommentsSection },

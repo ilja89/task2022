@@ -29,7 +29,7 @@
 
 <script>
     import PopupSection from '../../layouts/PopupSection.vue';
-    import Comment from '../../../models/Comment';
+    import { Comment } from '../../../models';
 
     export default {
 

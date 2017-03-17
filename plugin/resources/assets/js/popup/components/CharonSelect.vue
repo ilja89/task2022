@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import Charon from '../../models/Charon';
+    import { Charon } from '../../models';
 
     export default {
         props: {

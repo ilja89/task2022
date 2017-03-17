@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import Output from '../../models/Output';
+    import { Output } from '../../models';
 
     export default {
 
