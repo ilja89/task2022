@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import { Translate } from '../../mixins';
+    import { Translate } from '../../../mixins';
 
     export default {
         mixins: [ Translate ],

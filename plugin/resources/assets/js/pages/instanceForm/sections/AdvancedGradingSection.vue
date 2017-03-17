@@ -34,9 +34,7 @@
                     :name="getGradeTypeName(grademap.grade_type_code)"
                     :selected="index === 0 ? true : false">
 
-                <grademap-row
-                        :grademap="grademap">
-                </grademap-row>
+                <grademap-row :grademap="grademap"></grademap-row>
 
             </charon-tab>
 
@@ -62,15 +60,15 @@
 </template>
 
 <script>
-    import CharonSelect from '../form/CharonSelect.vue';
-    import GradesCheckboxes from '../form/GradesCheckboxes.vue';
-    import CharonTabs from '../partials/CharonTabs.vue';
-    import CharonTab from '../partials/CharonTab.vue';
-    import GrademapRow from './GrademapRow.vue';
-    import CharonTextInput from '../form/CharonTextInput.vue';
-    import CharonNumberInput from '../form/CharonNumberInput.vue';
+    import CharonSelect from '../../../components/form/CharonSelect.vue';
+    import GradesCheckboxes from '../../../components/form/GradesCheckboxes.vue';
+    import CharonTabs from '../../../components/partials/CharonTabs.vue';
+    import CharonTab from '../../../components/partials/CharonTab.vue';
+    import GrademapRow from '../components/GrademapRow.vue';
+    import CharonTextInput from '../../../components/form/CharonTextInput.vue';
+    import CharonNumberInput from '../../../components/form/CharonNumberInput.vue';
 
-    import { Translate, EmitEventOnInputChange } from '../../mixins';
+    import { Translate, EmitEventOnInputChange } from '../../../mixins';
 
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],

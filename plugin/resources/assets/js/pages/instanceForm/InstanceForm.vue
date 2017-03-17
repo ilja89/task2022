@@ -9,13 +9,14 @@
             <slot>
                 <advanced-task-info-section
                         v-if="advanced_info_section_active"
-                        :form="form"
-                ></advanced-task-info-section>
+                        :form="form">
+                </advanced-task-info-section>
                 <simple-task-info-section
                         v-else
-                        :form="form"
-                ></simple-task-info-section>
+                        :form="form">
+                </simple-task-info-section>
             </slot>
+
         </instance-form-fieldset>
 
         <instance-form-fieldset
@@ -34,22 +35,21 @@
                         :form="form">
                 </simple-grading-section>
             </slot>
+
         </instance-form-fieldset>
 
-        <deadline-section
-                :form="form">
-        </deadline-section>
+        <deadline-section :form="form"></deadline-section>
     </div>
 </template>
 
 <script>
-    import AdvancedTaskInfoSection from './AdvancedTaskInfoSection.vue';
-    import AdvancedGradingSection from './AdvancedGradingSection.vue';
-    import SimpleTaskInfoSection from './SimpleTaskInfoSection.vue';
-    import SimpleGradingSection from './SimpleGradingSection.vue';
-    import DeadlineSection from './DeadlineSection.vue';
+    import AdvancedTaskInfoSection from './sections/AdvancedTaskInfoSection.vue';
+    import AdvancedGradingSection from './sections/AdvancedGradingSection.vue';
+    import SimpleTaskInfoSection from './sections/SimpleTaskInfoSection.vue';
+    import SimpleGradingSection from './sections/SimpleGradingSection.vue';
+    import DeadlineSection from './sections/DeadlineSection.vue';
 
-    import InstanceFormFieldset from '../form/InstanceFormFieldset.vue';
+    import InstanceFormFieldset from '../../components/form/InstanceFormFieldset.vue';
 
     import { Translate } from '../../mixins';
 

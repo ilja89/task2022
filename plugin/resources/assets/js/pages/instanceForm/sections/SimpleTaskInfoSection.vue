@@ -24,9 +24,9 @@
 </template>
 
 <script>
-    import CharonTextInput from '../form/CharonTextInput.vue';
+    import CharonTextInput from '../../../components/form/CharonTextInput.vue';
 
-    import { Translate, EmitEventOnInputChange } from '../../mixins';
+    import { Translate, EmitEventOnInputChange } from '../../../mixins';
 
     export default {
         mixins: [ Translate, EmitEventOnInputChange ],

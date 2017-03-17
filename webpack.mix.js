@@ -13,7 +13,7 @@ const { mix } = require('laravel-mix');
 
 mix.setPublicPath('plugin/public');
 
-mix.js('plugin/resources/assets/js/instanceForm.js', 'js')
+mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
   .js('plugin/resources/assets/js/courseSettings.js', 'js')
   .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
   .js('plugin/resources/assets/js/assignment.js', 'js')

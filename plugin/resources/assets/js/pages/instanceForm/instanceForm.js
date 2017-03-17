@@ -1,7 +1,7 @@
-import './bootstrap';
+import '../../bootstrap';
 
-import InstanceForm from './components/instanceForm/InstanceForm.vue';
-import { InstanceForm as InstanceFormForm } from './classes';
+import InstanceForm from './InstanceForm.vue';
+import { InstanceForm as InstanceFormForm } from '../../classes';
 
 window.VueEvent = new Vue();
 
