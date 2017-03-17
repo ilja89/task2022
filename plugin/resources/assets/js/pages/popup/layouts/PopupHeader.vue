@@ -35,8 +35,7 @@
 </template>
 
 <script>
-    import StudentSearch from '../components/StudentSearch.vue';
-    import ExtraOptions from '../components/ExtraOptions.vue';
+    import { StudentSearch, ExtraOptions } from '../components';
 
     export default {
         components: { StudentSearch, ExtraOptions },

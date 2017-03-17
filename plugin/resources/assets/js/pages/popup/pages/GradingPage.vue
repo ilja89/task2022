@@ -11,9 +11,8 @@
 </template>
 
 <script>
-    import PageTitle from '../partials/PageTitle.vue';
-    import SubmissionsSection from './sections/SubmissionsSection.vue';
-    import CommentsSection from './sections/CommentsSection.vue';
+    import { PageTitle } from '../partials';
+    import { SubmissionsSection, CommentsSection } from './sections';
     import { User } from '../../../models';
 
     export default {

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import SubmissionPartial from '../partials/Submission.vue';
+    import { Submission as SubmissionPartial } from '../partials';
     import { Submission } from '../../../models';
 
     export default {

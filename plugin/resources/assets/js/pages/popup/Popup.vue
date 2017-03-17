@@ -12,10 +12,9 @@
 </template>
 
 <script>
-    import PopupHeader from './layouts/PopupHeader.vue';
-    import PopupBody from './layouts/PopupBody.vue';
-    import Loader from './components/Loader.vue';
-    import Notification from './components/Notification.vue';
+    import { PopupHeader } from './layouts';
+    import { PopupBody } from './layouts/PopupBody.vue';
+    import { Loader, Notification } from './components';
 
     export default {
 

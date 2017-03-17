@@ -1,7 +1,5 @@
 import VueRouter from 'vue-router';
-import NoStudentSelectedPage from './pages/NoStudentSelectedPage.vue';
-import SubmissionPage from './pages/SubmissionPage.vue';
-import GradingPage from './pages/GradingPage.vue';
+import { NoStudentSelectedPage, SubmissionPage, GradingPage } from './pages';
 
 const routes = [
     {

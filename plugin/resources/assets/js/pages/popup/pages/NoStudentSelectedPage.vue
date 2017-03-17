@@ -4,7 +4,3 @@
         <h2 class="subtitle">Production version!</h2>
     </div>
 </template>
-
-<script>
-    export default { }
-</script>

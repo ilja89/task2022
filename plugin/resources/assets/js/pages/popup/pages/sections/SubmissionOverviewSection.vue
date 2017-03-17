@@ -79,7 +79,7 @@
 </template>
 
 <script>
-    import PopupSection from '../../layouts/PopupSection.vue';
+    import { PopupSection } from '../../layouts';
     import { Submission } from '../../../../models';
 
     export default {

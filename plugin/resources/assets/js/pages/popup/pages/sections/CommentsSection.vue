@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import PopupSection from '../../layouts/PopupSection.vue';
+    import { PopupSection } from '../../layouts';
     import { Comment } from '../../../../models';
 
     export default {

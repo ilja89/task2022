@@ -22,9 +22,8 @@
 </template>
 
 <script>
-    import PopupSection from '../../layouts/PopupSection.vue';
-    import CharonSelect from '../../components/CharonSelect.vue';
-    import SubmissionsList from '../../components/SubmissionsList.vue';
+    import { PopupSection } from '../../layouts';
+    import { CharonSelect, SubmissionsList } from '../../components';
 
     export default {
         components: { PopupSection, CharonSelect, SubmissionsList },

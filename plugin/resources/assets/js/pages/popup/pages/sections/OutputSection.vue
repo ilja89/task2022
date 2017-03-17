@@ -39,8 +39,8 @@
 
 <script>
     import { CharonTabs, CharonTab, FilesComponent } from '../../../../components/partials';
-    import PopupSection from '../../layouts/PopupSection.vue';
-    import OutputComponent from '../../components/OutputComponent.vue';
+    import { PopupSection } from '../../layouts';
+    import { OutputComponent } from '../../components';
 
     export default {
 

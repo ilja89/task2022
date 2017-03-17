@@ -13,9 +13,8 @@
 </template>
 
 <script>
-    import PageTitle from '../partials/PageTitle.vue';
-    import SubmissionOverviewSection from './sections/SubmissionOverviewSection.vue';
-    import OutputSection from './sections/OutputSection.vue';
+    import { PageTitle } from '../partials';
+    import { SubmissionOverviewSection, OutputSection } from './sections';
     import { Submission } from '../../../models';
 
     export default {
