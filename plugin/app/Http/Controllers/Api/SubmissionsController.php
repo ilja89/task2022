@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Traits\GradesStudents;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -22,16 +23,21 @@ class SubmissionsController extends Controller
     /** @var GradebookService */
     private $gradebookService;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * SubmissionsController constructor.
      *
      * @param  GradebookService $gradebookService
      * @param Request $request
+     * @param SubmissionService $submissionService
      */
-    public function __construct(GradebookService $gradebookService, Request $request)
+    public function __construct(GradebookService $gradebookService, Request $request, SubmissionService $submissionService)
     {
         parent::__construct($request);
         $this->gradebookService = $gradebookService;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -116,24 +122,7 @@ class SubmissionsController extends Controller
      */
     public function addNewEmpty(Request $request, Charon $charon)
     {
-        /** @var Submission $submission */
-        $submission = $charon->submissions()->create([
-            'user_id' => $request['student_id'],
-            'git_hash' => '',
-            'git_timestamp' => Carbon::now(),
-            'stdout' => 'Manually created by teacher',
-        ]);
-
-        foreach ($charon->grademaps as $grademap) {
-            $submission->results()->create([
-                'grade_type_code' => $grademap->grade_type_code,
-                'percentage' => 0,
-                'calculated_result' => 0,
-            ]);
-        }
-
-        $this->updateGradeIfApplicable($submission);
-
+        $submission = $this->submissionService->addNewEmptySubmission($charon, $request['student_id']);
         return $submission;
     }
 
@@ -149,17 +138,7 @@ class SubmissionsController extends Controller
     {
         $newResults = $this->request['submission']['results'];
 
-        foreach ($newResults as $result) {
-            $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
-                return $resultLoop->id == $result['id'];
-            });
-
-            $existingResult->calculated_result = $result['calculated_result'];
-            $existingResult->save();
-        }
-
-        $this->updateGradeIfApplicable($submission, true);
-        $this->confirmSubmission($submission);
+        $this->submissionService->updateSubmissionCalculatedResults($submission, $newResults);
 
         return [
             'status' => 'OK',
