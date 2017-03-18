@@ -6,7 +6,6 @@ use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
-use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradingService;
 
 /**
@@ -60,28 +59,17 @@ class CharonGradingService
      */
     public function updateGradeIfApplicable($submission, $force = false)
     {
-        $charon                 = $submission->charon;
-        $shouldBeUpdated        = ! $this->submissionService->charonHasConfirmedSubmission(
-            $submission->charon_id,
-            $submission->user_id
-        );
-        $grademapGradeTypeCodes = $charon->grademaps->map(function ($grademap) {
-            return $grademap->grade_type_code;
-        });
-
-        if ( ! $force && $shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
-            $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
-        }
-
-        if ( ! $force && ! $shouldBeUpdated) {
+        if ( ! $this->gradesShouldBeUpdated($submission, $force)) {
             return;
         }
 
+        $charon = $submission->charon;
         // TODO: Send commit hash info to tester! Grade will now be updated!
         $courseId = $charon->courseModule()->course;
 
+        $gradeTypeCodes = $charon->getGradeTypeCodes();
         foreach ($submission->results as $result) {
-            if ( ! $grademapGradeTypeCodes->contains($result->grade_type_code)) {
+            if ( ! $gradeTypeCodes->contains($result->grade_type_code)) {
                 continue;
             }
 
@@ -217,5 +205,36 @@ class CharonGradingService
     private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
     {
         return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
+    }
+
+    /**
+     * Check if the given submission should update grades.
+     *
+     * @param  Submission $submission
+     * @param  bool $force
+     *
+     * @return bool
+     */
+    private function gradesShouldBeUpdated(Submission $submission, $force)
+    {
+        if ($force) {
+            return true;
+        }
+
+        $charon          = $submission->charon;
+        $hasConfirmed = $this->submissionService->charonHasConfirmedSubmission(
+            $submission->charon_id,
+            $submission->user_id
+        );
+
+        if ($hasConfirmed) {
+            return false;
+        }
+
+        if ($charon->gradingMethod->isPreferBest()) {
+            return $this->submissionIsBetterThanLast($submission);
+        }
+
+        return true;
     }
 }
