@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Course $course
  * @property GradeCategory $category
- * @property GradeGrade $gradeGrade
+ * @property GradeGrade $gradeGrades
  *
  * @package Zeizig\Moodle\Models
  */
@@ -36,8 +36,8 @@ class GradeItem extends Model
         return $this->belongsTo(GradeCategory::class, 'categoryid');
     }
 
-    public function gradeGrade()
+    public function gradeGrades()
     {
-        return $this->hasOne(GradeGrade::class, 'itemid', 'id');
+        return $this->hasMany(GradeGrade::class, 'itemid', 'id');
     }
 }

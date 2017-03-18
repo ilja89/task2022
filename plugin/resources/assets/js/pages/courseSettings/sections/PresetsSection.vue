@@ -89,7 +89,7 @@
 
 <script>
     import { CharonFieldset, CharonSelect, CharonTextInput, CharonNumberInput } from '../../../components/form';
-    import { GradesSection } from './';
+    import GradesSection from './GradesSection.vue';
 
     import { Translate } from '../../../mixins';
     import { Preset } from '../../../models';

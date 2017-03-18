@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import { PopupNavigation } from './';
+    import PopupNavigation from './PopupNavigation.vue';
 
     export default {
 

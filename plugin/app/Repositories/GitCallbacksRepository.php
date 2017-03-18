@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 
 
 use Carbon\Carbon;
+use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 use TTU\Charon\Models\GitCallback;
 
 /**
@@ -35,5 +36,21 @@ class GitCallbacksRepository
             'created_at' => $time,
             'secret_token' => $key
         ]);
+    }
+
+    public function findByToken($secretToken)
+    {
+        if ($secretToken === null) {
+            throw new IncorrectSecretTokenException('no_secret_token_found');
+        }
+
+        $gitCallback = GitCallback::where('secret_token', $secretToken)
+                                  ->get();
+
+        if ($gitCallback->isEmpty()) {
+            throw new IncorrectSecretTokenException('incorrect_secret_token', $secretToken);
+        }
+
+        return $gitCallback->first();
     }
 }
