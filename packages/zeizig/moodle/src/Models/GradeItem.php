@@ -40,4 +40,12 @@ class GradeItem extends Model
     {
         return $this->hasMany(GradeGrade::class, 'itemid', 'id');
     }
+
+    public function gradesForUser($userId)
+    {
+        return $this->gradeGrades->first(function ($gradeGrade) use ($userId) {
+            /** @var GradeGrade $gradeGrade */
+            return $gradeGrade->userid == $userId;
+        });
+    }
 }

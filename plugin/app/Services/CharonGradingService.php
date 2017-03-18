@@ -139,10 +139,7 @@ class CharonGradingService
                 continue;
             }
 
-            $gradeGrade = $grademap->gradeItem->gradeGrades->first(function ($gradeGrade) use ($submission) {
-                /** @var GradeGrade $gradeGrade */
-                return $gradeGrade->userid == $submission->user_id;
-            });
+            $gradeGrade = $grademap->gradeItem->gradesForUser($submission->user_id);
 
             if ($gradeGrade !== null) {
                 $activeSubmissionSum += $gradeGrade->finalgrade;
