@@ -15,7 +15,6 @@ class AssignmentTest extends TestCase
     public function testAssignmentViewUsesCorrectInstance()
     {
         // TODO: Move this to Feature tests
-
         $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
         /** @var \TTU\Charon\Models\Charon $charon */
         $charon = factory(\TTU\Charon\Models\Charon::class)->create([

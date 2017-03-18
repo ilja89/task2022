@@ -106,10 +106,10 @@ class CharonRepository
         if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
             throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
-
-        return Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines')
+        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines')
                      ->where('id', $courseModule->instance)
                      ->first();
+        return $charon;
     }
 
     /**
