@@ -8,6 +8,7 @@ use Tests\BaseTests\GradeMockingTest;
 use Tests\Traits\MocksCharon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionService;
@@ -22,7 +23,7 @@ class CharonGradingServiceTest extends GradeMockingTest
     public function testDetectsThatGradesShouldBeUpdatedForce()
     {
         $submissionService = $this->getSubmissionService([null, null], ['charonHasConfirmedSubmission' => true]);
-        $gradingService    = $this->getGradingService([null, $submissionService, null, null], []);
+        $gradingService    = $this->getGradingService([null, $submissionService, null, null, null], []);
 
         $submission         = new Submission;
         $submission->charon = $this->getNewPreferLastCharonMock();
@@ -37,7 +38,7 @@ class CharonGradingServiceTest extends GradeMockingTest
             [null, null],
             ['charonHasConfirmedSubmission' => true]
         );
-        $gradingService    = $this->getGradingService([null, $submissionService, null, null], []);
+        $gradingService    = $this->getGradingService([null, $submissionService, null, null, null], []);
 
         $submission         = new Submission;
         $submission->charon = $this->getNewPreferLastCharonMock();
@@ -50,7 +51,7 @@ class CharonGradingServiceTest extends GradeMockingTest
     public function testDetectsThatGradeShouldNotBeUpdatedWhenHasBetterPrevious()
     {
         $submissionService    = $this->getSubmissionService([null, null], ['charonHasConfirmedSubmission' => false]);
-        $charonGradingService = $this->getGradingService([null, $submissionService, null, null], []);
+        $charonGradingService = $this->getGradingService([null, $submissionService, null, null, null], []);
 
         $submission = $this->getMockWorseSubmission(['charon' => $this->getNewPreferBestCharonMock()]);
 
@@ -61,18 +62,19 @@ class CharonGradingServiceTest extends GradeMockingTest
 
     public function testUpdatesGradesWhenForced()
     {
-        $gradingService = m::mock(GradingService::class)->shouldReceive('updateGrade')->times(3)->getMock();
+        $gradingService = m::mock(GradingService::class)->shouldReceive('updateGrade')->times(2)->getMock();
 
         $charonGradingService = new CharonGradingService(
             $gradingService,
             m::mock(SubmissionService::class),
             m::mock(GrademapService::class),
-            m::mock(CharonRepository::class)
+            m::mock(CharonRepository::class),
+            m::mock(SubmissionsRepository::class)
         );
 
         $charon = $this->getCharon(['id' => 1], [
                 'courseModule'      => factory(\Zeizig\Moodle\Models\CourseModule::class)->make(['course' => 1]),
-                'getGradeTypeCodes' => Collection::make([1, 101, 1001]),
+                'getGradeTypeCodes' => Collection::make([1, 101]),
             ]
         );
 
@@ -89,7 +91,8 @@ class CharonGradingServiceTest extends GradeMockingTest
             $gradingService,
             $submissionService,
             m::mock(GrademapService::class),
-            m::mock(CharonRepository::class)
+            m::mock(CharonRepository::class),
+            m::mock(SubmissionsRepository::class)
         );
 
         $submission = $this->getMockWorseSubmission(['charon' => $this->getNewPreferBestCharonMock()]);
@@ -104,6 +107,7 @@ class CharonGradingServiceTest extends GradeMockingTest
             SubmissionService::class,
             GrademapService::class,
             CharonRepository::class,
+            SubmissionsRepository::class,
         ];
 
         return $this->getNewMock(CharonGradingService::class, $originalArgs, $constructorArgs,

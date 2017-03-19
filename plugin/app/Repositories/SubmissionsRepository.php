@@ -110,4 +110,20 @@ class SubmissionsRepository
 
         return $submissions;
     }
+
+    /**
+     * Finds all submissions which are confirmed for given user and Charon.
+     *
+     * @param  int  $userId
+     * @param  int  $charonId
+     *
+     * @return Submission[]
+     */
+    public function findConfirmedSubmissionsForUserAndCharon($userId, $charonId)
+    {
+        return Submission::where('charon_id', $charonId)
+                                 ->where('user_id', $userId)
+                                 ->where('confirmed', 1)
+                                 ->get();
+    }
 }
