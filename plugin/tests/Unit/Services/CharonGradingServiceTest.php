@@ -127,9 +127,27 @@ class CharonGradingServiceTest extends GradeMockingTest
         $charonGradingService->confirmSubmission($submission);
     }
 
-    public function testConfirmKeepsSubmissionConfirmed()
+    public function testConfirmDoesNotUnconfirmAlreadyConfirmed()
     {
-        
+        $submission = $this->getMockWorseSubmission(['user_id' => 1, 'charon_id' => 1, 'id' => 3, 'confirmed' => 1]);
+
+        $submissionsRepository = m::mock(SubmissionsRepository::class,
+            ['findConfirmedSubmissionsForUserAndCharon' => [$submission]]
+        )
+                                  ->shouldReceive('confirmSubmission')->once()->with($submission)
+                                  ->shouldReceive('confirmSubmission')->never()
+                                  ->shouldReceive('unconfirmSubmission')->never()
+                                  ->getMock()->makePartial();
+
+        $charonGradingService = new CharonGradingService(
+            m::mock(GradingService::class),
+            m::mock(SubmissionService::class),
+            m::mock(GrademapService::class),
+            m::mock(CharonRepository::class),
+            $submissionsRepository
+        );
+
+        $charonGradingService->confirmSubmission($submission);
     }
 
     private function getGradingService($constructorArgs, $methodReturns)
