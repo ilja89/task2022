@@ -111,6 +111,44 @@ class CharonGradingService
     }
 
     /**
+     * Check if the given submission should update grades.
+     *
+     * @param  Submission $submission
+     * @param  bool $force
+     *
+     * @return bool
+     */
+    public function gradesShouldBeUpdated(Submission $submission, $force)
+    {
+        if ($force) {
+            return true;
+        }
+
+        if ($this->hasConfirmedSubmission($submission)) {
+            return false;
+        }
+
+        return $this->shouldUpdateBasedOnGradingMethod($submission);
+    }
+
+    /**
+     * Calculates the calculated results for given new submission and
+     * saves them.
+     *
+     * @param Submission $submission
+     *
+     * @return void
+     */
+    public function calculateCalculatedResultsForNewSubmission(Submission $submission)
+    {
+        $charon = $submission->charon;
+        foreach ($submission->results as $result) {
+            $result->calculated_result = $this->calculateResultFromDeadlines($result, $charon->deadlines);
+            $result->save();
+        }
+    }
+
+    /**
      * Check if the current submission is better than the last active one.
      *
      * @param  Submission $submission
@@ -137,23 +175,6 @@ class CharonGradingService
         }
 
         return $submissionSum >= $activeSubmissionSum;
-    }
-
-    /**
-     * Calculates the calculated results for given new submission and
-     * saves them.
-     *
-     * @param Submission $submission
-     *
-     * @return void
-     */
-    public function calculateCalculatedResultsForNewSubmission(Submission $submission)
-    {
-        $charon = $submission->charon;
-        foreach ($submission->results as $result) {
-            $result->calculated_result = $this->calculateResultFromDeadlines($result, $charon->deadlines);
-            $result->save();
-        }
     }
 
     /**
@@ -205,27 +226,6 @@ class CharonGradingService
     private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
     {
         return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
-    }
-
-    /**
-     * Check if the given submission should update grades.
-     *
-     * @param  Submission $submission
-     * @param  bool $force
-     *
-     * @return bool
-     */
-    public function gradesShouldBeUpdated(Submission $submission, $force)
-    {
-        if ($force) {
-            return true;
-        }
-
-        if ($this->hasConfirmedSubmission($submission)) {
-            return false;
-        }
-
-        return $this->shouldUpdateBasedOnGradingMethod($submission);
     }
 
     /**
