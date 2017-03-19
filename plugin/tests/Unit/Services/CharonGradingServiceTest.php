@@ -100,6 +100,38 @@ class CharonGradingServiceTest extends GradeMockingTest
         $charonGradingService->updateGradeIfApplicable($submission, false);
     }
 
+    public function testConfirmUnconfirmsPreviousSubmissions()
+    {
+        $submission1 = $this->getMockWorseSubmission(['id' => 1, 'confirmed' => 1]);
+        $submission2 = $this->getMockWorseSubmission(['id' => 2, 'confirmed' => 1]);
+        $submission = $this->getMockWorseSubmission(['user_id' => 1, 'charon_id' => 1, 'id' => 3, 'confirmed' => 0]);
+
+        $submissionsRepository = m::mock(SubmissionsRepository::class,
+            ['findConfirmedSubmissionsForUserAndCharon' => [$submission1, $submission2]]
+        )
+            ->shouldReceive('confirmSubmission')->once()->with($submission)
+            ->shouldReceive('unconfirmSubmission')->once()->with($submission1)
+            ->shouldReceive('unconfirmSubmission')->once()->with($submission2)
+            ->shouldReceive('confirmSubmission')->never()
+            ->shouldReceive('unconfirmSubmission')->never()
+            ->getMock()->makePartial();
+
+        $charonGradingService = new CharonGradingService(
+            m::mock(GradingService::class),
+            m::mock(SubmissionService::class),
+            m::mock(GrademapService::class),
+            m::mock(CharonRepository::class),
+            $submissionsRepository
+        );
+
+        $charonGradingService->confirmSubmission($submission);
+    }
+
+    public function testConfirmKeepsSubmissionConfirmed()
+    {
+        
+    }
+
     private function getGradingService($constructorArgs, $methodReturns)
     {
         $originalArgs = [

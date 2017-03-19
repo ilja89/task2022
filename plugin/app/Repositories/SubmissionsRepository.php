@@ -126,4 +126,26 @@ class SubmissionsRepository
                                  ->where('confirmed', 1)
                                  ->get();
     }
+
+    /**
+     * @param Submission $submission
+     *
+     * @return void
+     */
+    public function confirmSubmission(Submission $submission)
+    {
+        $submission->confirmed = 1;
+        $submission->save();
+    }
+
+    /**
+     * @param Submission $submission
+     *
+     * @return void
+     */
+    public function unconfirmSubmission(Submission $submission)
+    {
+        $submission->confirmed = 0;
+        $submission->save();
+    }
 }

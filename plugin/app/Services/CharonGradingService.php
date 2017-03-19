@@ -108,12 +108,10 @@ class CharonGradingService
                 continue;
             }
 
-            $confirmedSubmission->confirmed = 0;
-            $confirmedSubmission->save();
+            $this->submissionsRepository->unconfirmSubmission($confirmedSubmission);
         }
 
-        $submission->confirmed = 1;
-        $submission->save();
+        $this->submissionsRepository->confirmSubmission($submission);
     }
 
     /**
