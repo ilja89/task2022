@@ -20,7 +20,7 @@ class CharonGradingService
     private $gradingService;
 
     /** @var SubmissionService */
-    private $submissionService;
+    public $submissionService;
 
     /** @var GrademapService */
     private $grademapService;
@@ -122,7 +122,7 @@ class CharonGradingService
         $submissionSum       = 0;
         $activeSubmissionSum = 0;
         foreach ($submission->results as $result) {
-            $grademap = $this->grademapService->getGrademapByResult($result);
+            $grademap = $result->getGrademap();
             if ($grademap === null) {
                 continue;
             }
@@ -215,22 +215,45 @@ class CharonGradingService
      *
      * @return bool
      */
-    private function gradesShouldBeUpdated(Submission $submission, $force)
+    public function gradesShouldBeUpdated(Submission $submission, $force)
     {
         if ($force) {
             return true;
         }
 
-        $charon          = $submission->charon;
-        $hasConfirmed = $this->submissionService->charonHasConfirmedSubmission(
-            $submission->charon_id,
-            $submission->user_id
-        );
-
-        if ($hasConfirmed) {
+        if ($this->hasConfirmedSubmission($submission)) {
             return false;
         }
 
+        return $this->shouldUpdateBasedOnGradingMethod($submission);
+    }
+
+    /**
+     * Check if the submission has a previously confirmed submission.
+     *
+     * @param  Submission  $submission
+     *
+     * @return bool
+     */
+    private function hasConfirmedSubmission(Submission $submission)
+    {
+        return $this->submissionService->charonHasConfirmedSubmission(
+            $submission->charon_id,
+            $submission->user_id
+        );
+    }
+
+    /**
+     * Check if the submission should be updated based on the grading
+     * method of the charon.
+     *
+     * @param  Submission  $submission
+     *
+     * @return bool
+     */
+    private function shouldUpdateBasedOnGradingMethod(Submission $submission)
+    {
+        $charon = $submission->charon;
         if ($charon->gradingMethod->isPreferBest()) {
             return $this->submissionIsBetterThanLast($submission);
         }

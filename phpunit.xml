@@ -9,13 +9,15 @@
          processIsolation="false"
          stopOnFailure="false">
 
+    <logging>
+        <log type="coverage-html" target="./coverage" charset="UTF-8"
+             yui="true" highlight="true"
+             lowUpperBound="50" highLowerBound="80"/>
+    </logging>
+
     <testsuites>
         <testsuite name="FeatureTests">
             <directory suffix="Test.php">./plugin/tests/Feature</directory>
-        </testsuite>
-
-        <testsuite name="IntegrationTests">
-            <directory suffix="Test.php">./plugin/tests/Integration</directory>
         </testsuite>
 
         <testsuite name="UnitTests">
