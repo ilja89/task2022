@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use Illuminate\Support\Collection;
+use Mockery as m;
 use Tests\BaseTests\GradeMockingTest;
 use Tests\Traits\MocksCharon;
 use TTU\Charon\Models\Submission;
@@ -47,22 +49,52 @@ class CharonGradingServiceTest extends GradeMockingTest
 
     public function testDetectsThatGradeShouldNotBeUpdatedWhenHasBetterPrevious()
     {
-        $submissionService    = $this->getSubmissionService(
-            [null, null],
-            ['charonHasConfirmedSubmission' => false]
-        );
-        $charonGradingService = $this->getGradingService(
-            [null, $submissionService, null, null], []
-        );
+        $submissionService    = $this->getSubmissionService([null, null], ['charonHasConfirmedSubmission' => false]);
+        $charonGradingService = $this->getGradingService([null, $submissionService, null, null], []);
 
-        $charon              = $this->getNewPreferBestCharonMock();
-        $submission          = new Submission;
-        $submission->charon  = $charon;
-        $submission->results = $this->getMockWorseResults();
+        $submission = $this->getMockWorseSubmission(['charon' => $this->getNewPreferBestCharonMock()]);
 
         $result = $charonGradingService->gradesShouldBeUpdated($submission, false);
 
         $this->assertFalse($result);
+    }
+
+    public function testUpdatesGradesWhenForced()
+    {
+        $gradingService = m::mock(GradingService::class)->shouldReceive('updateGrade')->times(3)->getMock();
+
+        $charonGradingService = new CharonGradingService(
+            $gradingService,
+            m::mock(SubmissionService::class),
+            m::mock(GrademapService::class),
+            m::mock(CharonRepository::class)
+        );
+
+        $charon = $this->getCharon(['id' => 1], [
+                'courseModule'      => factory(\Zeizig\Moodle\Models\CourseModule::class)->make(['course' => 1]),
+                'getGradeTypeCodes' => Collection::make([1, 101, 1001]),
+            ]
+        );
+
+        $submission = $this->getMockWorseSubmission(['charon' => $charon, 'user_id' => 1]);
+
+        $charonGradingService->updateGradeIfApplicable($submission, true);
+    }
+
+    public function testDoesNotUpgradeGradesWhenIsWorse()
+    {
+        $gradingService = m::mock(GradingService::class)->shouldReceive('updateGrade')->getMock();
+        $submissionService = m::mock(SubmissionService::class, ['charonHasConfirmedSubmission' => false]);
+        $charonGradingService = new CharonGradingService(
+            $gradingService,
+            $submissionService,
+            m::mock(GrademapService::class),
+            m::mock(CharonRepository::class)
+        );
+
+        $submission = $this->getMockWorseSubmission(['charon' => $this->getNewPreferBestCharonMock()]);
+
+        $charonGradingService->updateGradeIfApplicable($submission, false);
     }
 
     private function getGradingService($constructorArgs, $methodReturns)

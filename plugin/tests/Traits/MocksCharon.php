@@ -8,7 +8,7 @@ use \Mockery as m;
 
 trait MocksCharon
 {
-    private function getNewPreferBestCharonMock()
+    protected function getNewPreferBestCharonMock()
     {
         $gradingMethod = m::mock(GradingMethod::class, ['isPreferBest' => true]);
         $charon = new Charon;
@@ -16,11 +16,26 @@ trait MocksCharon
         return $charon;
     }
 
-    private function getNewPreferLastCharonMock()
+    protected function getNewPreferLastCharonMock()
     {
         $gradingMethod = m::mock(GradingMethod::class, ['isPreferBest' => false]);
         $charon = new Charon;
         $charon->gradingMethod = $gradingMethod;
+        return $charon;
+    }
+
+    protected function getCharon($props = [], $methods = [])
+    {
+        if ($methods === []) {
+            $charon = m::mock(Charon::class)->makePartial();
+        } else {
+            $charon = m::mock(Charon::class, $methods)->makePartial();
+        }
+
+        foreach ($props as $propName => $propValue) {
+            $charon->$propName = $propValue;
+        }
+
         return $charon;
     }
 }
