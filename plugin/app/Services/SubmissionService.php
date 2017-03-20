@@ -19,24 +19,27 @@ use Zeizig\Moodle\Services\UserService;
  */
 class SubmissionService
 {
-    use GradesStudents;
-
     /** @var UserService */
     protected $userService;
 
     /** @var GradebookService */
     private $gradebookService;
 
+    /** @var CharonGradingService */
+    private $charonGradingService;
+
     /**
      * SubmissionService constructor.
      *
      * @param UserService $userService
      * @param GradebookService $gradebookService
+     * @param CharonGradingService $charonGradingService
      */
-    public function __construct(UserService $userService, GradebookService $gradebookService)
+    public function __construct(UserService $userService, GradebookService $gradebookService, CharonGradingService $charonGradingService)
     {
         $this->userService = $userService;
         $this->gradebookService = $gradebookService;
+        $this->charonGradingService = $charonGradingService;
     }
 
     /**
@@ -132,8 +135,8 @@ class SubmissionService
             $existingResult->save();
         }
 
-        $this->updateGradeIfApplicable($submission, true);
-        $this->confirmSubmission($submission);
+        $this->charonGradingService->updateGradeIfApplicable($submission, true);
+        $this->charonGradingService->confirmSubmission($submission);
 
         return $submission;
     }
@@ -163,7 +166,7 @@ class SubmissionService
                 'calculated_result' => 0,
             ]);
         }
-        $this->updateGradeIfApplicable($submission);
+        $this->charonGradingService->updateGradeIfApplicable($submission);
 
         return $submission;
     }
