@@ -97,7 +97,7 @@ class SubmissionCalculatorTest extends TestCase
         // Needed for using facades in code
         $this->createApplication();
 
-        Config::shouldReceive(['get' => 'Europe/Tallinn']);
+        Config::set('get', 'Europe/Tallinn');
     }
 
     private function getDeadlinesFromNow(Carbon $now)
