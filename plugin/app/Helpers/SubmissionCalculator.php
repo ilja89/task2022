@@ -38,7 +38,7 @@ class SubmissionCalculator
         /** @var Submission $submission */
         $submission = $result->submission;
         foreach ($deadlines as $deadline) {
-            $deadline->deadline_time->setTimezone(config('app.timezone'));
+            $deadline->deadline_time->setTimezone(\Config::get('app.timezone'));
             if ($deadline->deadline_time->lt($submission->git_timestamp)) {
                 $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
                 if ($smallestScore > $score) {

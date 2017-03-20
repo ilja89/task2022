@@ -4,8 +4,10 @@ namespace Tests\Unit\Services;
 
 use Illuminate\Support\Collection;
 use Mockery as m;
-use Tests\BaseTests\GradeMockingTest;
+use Tests\MockingTest;
+use Tests\TestCase;
 use Tests\Traits\MocksCharon;
+use Tests\Traits\MocksSubmission;
 use TTU\Charon\Helpers\SubmissionCalculator;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -18,9 +20,9 @@ use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\GradingService;
 use Zeizig\Moodle\Services\UserService;
 
-class CharonGradingServiceTest extends GradeMockingTest
+class CharonGradingServiceTest extends MockingTest
 {
-    use MocksCharon;
+    use MocksCharon, MocksSubmission;
 
     public function testDetectsThatGradesShouldBeUpdatedForce()
     {
