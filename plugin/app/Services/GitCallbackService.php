@@ -42,7 +42,7 @@ class GitCallbackService
      *
      * @throws IncorrectSecretTokenException
      */
-    private function checkGitCallback($gitCallback)
+    private function checkGitCallback(GitCallback $gitCallback)
     {
         if ($gitCallback->first_response_time === null) {
 
