@@ -177,7 +177,7 @@ class SubmissionServiceTest extends TestCase
         );
 
         $result = $submissionService->calculateSubmissionTotalGrade($submission);
-        
+
         $this->assertEquals(0.5, $result);
     }
 
