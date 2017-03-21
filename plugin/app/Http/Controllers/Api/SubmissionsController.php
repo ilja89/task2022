@@ -8,7 +8,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\SubmissionService;
-use TTU\Charon\Traits\GradesStudents;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -18,8 +17,6 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class SubmissionsController extends Controller
 {
-    use GradesStudents;
-
     /** @var SubmissionService */
     private $submissionService;
 
