@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 
 /**
@@ -158,5 +159,32 @@ class SubmissionsRepository
                                 ->get();
 
         return ! $submission->isEmpty();
+    }
+
+    /**
+     * @param  Result  $result
+     *
+     * @return Result
+     */
+    public function saveResult(Result $result)
+    {
+        $result->save();
+        return $result;
+    }
+
+    public function saveNewEmptyResult($submissionId, $gradeTypeCode, $stdout = null)
+    {
+        if ($stdout === null) {
+            $stdout = 'An empty result';
+        }
+
+        $result = new Result([
+            'submission_id'     => $submissionId,
+            'grade_type_code'   => $gradeTypeCode,
+            'percentage'        => 0,
+            'calculated_result' => 0,
+            'stdout'            => $stdout,
+        ]);
+        $result->save();
     }
 }

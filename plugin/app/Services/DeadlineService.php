@@ -22,7 +22,7 @@ class DeadlineService
      *
      * @return void
      */
-    public function createDeadline($charon, $deadlineArray)
+    public function createDeadline(Charon $charon, $deadlineArray)
     {
         if (!$this->correctDeadline($deadlineArray)) {
             return;

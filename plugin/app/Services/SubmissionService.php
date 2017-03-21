@@ -8,6 +8,7 @@ use TTU\Charon\Helpers\RequestHandler;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\UserService;
 
@@ -27,22 +28,28 @@ class SubmissionService
     /** @var RequestHandler */
     private $requestHandler;
 
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
+
     /**
      * SubmissionService constructor.
      *
      * @param GradebookService $gradebookService
      * @param CharonGradingService $charonGradingService
      * @param RequestHandler $requestHandler
+     * @param SubmissionsRepository $submissionsRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
-        RequestHandler $requestHandler
+        RequestHandler $requestHandler,
+        SubmissionsRepository $submissionsRepository
     )
     {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
         $this->requestHandler = $requestHandler;
+        $this->submissionsRepository = $submissionsRepository;
     }
 
     /**
@@ -142,12 +149,9 @@ class SubmissionService
         ]);
 
         foreach ($charon->grademaps as $grademap) {
-            $submission->results()->create([
-                'grade_type_code' => $grademap->grade_type_code,
-                'percentage' => 0,
-                'calculated_result' => 0,
-            ]);
+            $this->submissionsRepository->saveNewEmptyResult($submission->id, $grademap->grade_type_code, '');
         }
+
         $this->charonGradingService->updateGradeIfApplicable($submission);
 
         return $submission;
@@ -188,14 +192,11 @@ class SubmissionService
 
         foreach ($charon->grademaps as $grademap) {
             if ($grademap->gradeType->isCustomGrade()) {
-                $result = new Result([
-                    'submission_id'     => $submission->id,
-                    'grade_type_code'   => $grademap->grade_type_code,
-                    'percentage'        => 0,
-                    'calculated_result' => 0,
-                    'stdout'            => 'This result was automatically generated.',
-                ]);
-                $result->save();
+                $this->submissionsRepository->saveNewEmptyResult(
+                    $submission->id,
+                    $grademap->grade_type_code,
+                    'This result was automatically generated'
+                );
             }
         }
     }
