@@ -21,9 +21,6 @@ class CharonGradingService
     /** @var GradingService */
     private $gradingService;
 
-    /** @var SubmissionService */
-    private $submissionService;
-
     /** @var GrademapService */
     private $grademapService;
 
@@ -40,7 +37,6 @@ class CharonGradingService
      * CharonGradingService constructor.
      *
      * @param GradingService $gradingService
-     * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
      * @param CharonRepository $charonRepository
      * @param SubmissionsRepository $submissionsRepository
@@ -48,14 +44,12 @@ class CharonGradingService
      */
     public function __construct(
         GradingService $gradingService,
-        SubmissionService $submissionService,
         GrademapService $grademapService,
         CharonRepository $charonRepository,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculator $submissionCalculator
     ) {
         $this->gradingService        = $gradingService;
-        $this->submissionService     = $submissionService;
         $this->grademapService       = $grademapService;
         $this->charonRepository      = $charonRepository;
         $this->submissionsRepository = $submissionsRepository;
@@ -168,7 +162,7 @@ class CharonGradingService
      */
     private function hasConfirmedSubmission(Submission $submission)
     {
-        return $this->submissionService->charonHasConfirmedSubmission(
+        return $this->submissionsRepository->charonHasConfirmedSubmissions(
             $submission->charon_id,
             $submission->user_id
         );

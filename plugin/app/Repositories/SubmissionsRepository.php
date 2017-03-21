@@ -148,4 +148,15 @@ class SubmissionsRepository
         $submission->confirmed = 0;
         $submission->save();
     }
+
+    public function charonHasConfirmedSubmissions($charonId, $userId)
+    {
+        /** @var Submission $submission */
+        $submission = Submission::where('charon_id', $charonId)
+                                ->where('confirmed', 1)
+                                ->where('user_id', $userId)
+                                ->get();
+
+        return ! $submission->isEmpty();
+    }
 }

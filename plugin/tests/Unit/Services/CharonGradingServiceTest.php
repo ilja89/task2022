@@ -26,8 +26,8 @@ class CharonGradingServiceTest extends MockingTest
 
     public function testDetectsThatGradesShouldBeUpdatedForce()
     {
-        $submissionService = $this->getSubmissionService([null, null], ['charonHasConfirmedSubmission' => true]);
-        $gradingService    = $this->getGradingService([null, $submissionService, null, null, null, null], []);
+        $submissionsRepository = m::mock(SubmissionsRepository::class, ['charonHasConfirmedSubmissions' => true]);
+        $gradingService    = $this->getGradingService([null, null, null, $submissionsRepository, null], []);
 
         $submission         = new Submission;
         $submission->charon = $this->getNewPreferLastCharonMock();
@@ -38,11 +38,8 @@ class CharonGradingServiceTest extends MockingTest
 
     public function testDetectsThatGradeShouldNotBeUpdatedWhenHasConfirmed()
     {
-        $submissionService = $this->getSubmissionService(
-            [null, null],
-            ['charonHasConfirmedSubmission' => true]
-        );
-        $gradingService    = $this->getGradingService([null, $submissionService, null, null, null, null], []);
+        $submissionsRepository = m::mock(SubmissionsRepository::class, ['charonHasConfirmedSubmissions' => true]);
+        $gradingService    = $this->getGradingService([null, null, null, $submissionsRepository, null], []);
 
         $submission         = new Submission;
         $submission->charon = $this->getNewPreferLastCharonMock();
@@ -54,9 +51,9 @@ class CharonGradingServiceTest extends MockingTest
 
     public function testDetectsThatGradeShouldNotBeUpdatedWhenHasBetterPrevious()
     {
-        $submissionService    = $this->getSubmissionService([null, null], ['charonHasConfirmedSubmission' => false]);
+        $submissionsRepository = m::mock(SubmissionsRepository::class, ['charonHasConfirmedSubmissions' => false]);
         $submissionCalculator = m::mock(SubmissionCalculator::class, ['submissionIsBetterThanLast' => false]);
-        $charonGradingService = $this->getGradingService([null, $submissionService, null, null, null, $submissionCalculator], []);
+        $charonGradingService = $this->getGradingService([null, null, null, $submissionsRepository, $submissionCalculator], []);
 
         $submission = $this->getMockWorseSubmission(['charon' => $this->getNewPreferBestCharonMock()]);
 
@@ -73,10 +70,9 @@ class CharonGradingServiceTest extends MockingTest
 
         $charonGradingService = new CharonGradingService(
             m::mock(GradingService::class),
-            m::mock(SubmissionService::class, ['charonHasConfirmedSubmission' => false]),
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
-            m::mock(SubmissionsRepository::class),
+            m::mock(SubmissionsRepository::class, ['charonHasConfirmedSubmissions' => false]),
             m::mock(SubmissionCalculator::class)
         );
 
@@ -91,7 +87,6 @@ class CharonGradingServiceTest extends MockingTest
 
         $charonGradingService = new CharonGradingService(
             $gradingService,
-            m::mock(SubmissionService::class),
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
             m::mock(SubmissionsRepository::class),
@@ -112,14 +107,12 @@ class CharonGradingServiceTest extends MockingTest
     public function testDoesNotUpgradeGradesWhenIsWorse()
     {
         $gradingService = m::mock(GradingService::class)->shouldReceive('updateGrade')->getMock();
-        $submissionService = m::mock(SubmissionService::class, ['charonHasConfirmedSubmission' => false]);
         $submissionCalculator = m::mock(SubmissionCalculator::class, ['submissionIsBetterThanLast' => false]);
         $charonGradingService = new CharonGradingService(
             $gradingService,
-            $submissionService,
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
-            m::mock(SubmissionsRepository::class),
+            m::mock(SubmissionsRepository::class, ['charonHasConfirmedSubmissions' => false]),
             $submissionCalculator
         );
 
@@ -146,7 +139,6 @@ class CharonGradingServiceTest extends MockingTest
 
         $charonGradingService = new CharonGradingService(
             m::mock(GradingService::class),
-            m::mock(SubmissionService::class),
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
             $submissionsRepository,
@@ -169,7 +161,6 @@ class CharonGradingServiceTest extends MockingTest
 
         $charonGradingService = new CharonGradingService(
             m::mock(GradingService::class),
-            m::mock(SubmissionService::class),
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
             $submissionsRepository,
@@ -194,7 +185,6 @@ class CharonGradingServiceTest extends MockingTest
 
         $charonGradingService = new CharonGradingService(
             m::mock(GradingService::class),
-            m::mock(SubmissionService::class),
             m::mock(GrademapService::class),
             m::mock(CharonRepository::class),
             m::mock(SubmissionsRepository::class),
@@ -211,7 +201,6 @@ class CharonGradingServiceTest extends MockingTest
     {
         $originalArgs = [
             GradingService::class,
-            SubmissionService::class,
             GrademapService::class,
             CharonRepository::class,
             SubmissionsRepository::class,
