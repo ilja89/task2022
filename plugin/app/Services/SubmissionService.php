@@ -19,8 +19,6 @@ use Zeizig\Moodle\Services\UserService;
  */
 class SubmissionService
 {
-    use GradesStudents;
-
     /** @var UserService */
     protected $userService;
 
