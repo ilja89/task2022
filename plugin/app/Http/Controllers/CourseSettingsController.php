@@ -39,8 +39,6 @@ class CourseSettingsController extends Controller
      */
     public function store(Course $course)
     {
-        // Route model binding doesn't work with tests (???)
-//        $course = Course::where('id', $course_id)->first();
         $courseSettings = $this->getCourseSettings($course);
 
         $courseSettings->unittests_git = $this->request['unittests_git'];
