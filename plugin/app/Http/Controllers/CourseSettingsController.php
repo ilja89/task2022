@@ -33,19 +33,21 @@ class CourseSettingsController extends Controller
     /**
      * Stores the course settings from the request.
      *
-     * @param  Course $course
+     * @param  int  $course_id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Course $course)
+    public function store($course_id)
     {
+        // Route model binding doesn't work with tests (???)
+        $course = Course::where('id', $course_id)->first();
         $courseSettings = $this->getCourseSettings($course);
 
         $courseSettings->unittests_git = $this->request['unittests_git'];
         $courseSettings->tester_type_code = $this->request['tester_type'];
         $courseSettings->save();
 
-        return redirect('/mod/charon/courses/' . $course->id . '/settings');
+        return app('redirect')->action('CourseSettingsFormController@index', ['course' => $course_id]);
     }
 
     /**
