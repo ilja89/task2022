@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -23,6 +24,14 @@ class RequestHandler
         $this->userService = $userService;
     }
 
+    /**
+     * Get a file from the given request array.
+     *
+     * @param  int  $submissionId
+     * @param  array  $request
+     *
+     * @return SubmissionFile
+     */
     public function getFileFromRequest($submissionId, $request)
     {
         return new SubmissionFile([
