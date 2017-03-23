@@ -74,8 +74,6 @@ class CourseSettingsFormController extends Controller
     {
         $this->setUrl($course->id);
 
-        $this->addBreadcrumbs($course);
-
         return view('course_settings_form.form', [
             'header'    => $this->output->header(),
             'footer'    => $this->output->footer(),
@@ -87,22 +85,6 @@ class CourseSettingsFormController extends Controller
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
             'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
         ]);
-    }
-
-    /**
-     * Add breadcrumbs to the page.
-     * Uses Moodle built in breadcrumbs.
-     *
-     * @param  Course $course
-     *
-     * @return void
-     */
-    public function addBreadcrumbs(Course $course)
-    {
-        $this->page->addBreadcrumb(
-            $course->shortname,
-            '/course/view.php?id=' . $course->id
-        );
     }
 
     /**
