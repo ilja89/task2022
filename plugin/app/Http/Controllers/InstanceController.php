@@ -4,14 +4,12 @@ namespace TTU\Charon\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
-use TTU\Charon\Services\TesterCommunicationService;
 use TTU\Charon\Services\UpdateCharonService;
-use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -38,12 +36,6 @@ class InstanceController extends Controller
     /** @var UpdateCharonService */
     protected $updateCharonService;
 
-    /** @var TesterCommunicationService */
-    private $testerCommunicationService;
-
-    /** @var CourseSettingsRepository */
-    private $courseSettingsRepository;
-
     /**
      * InstanceController constructor.
      *
@@ -53,8 +45,6 @@ class InstanceController extends Controller
      * @param  GrademapService $grademapService
      * @param  CreateCharonService $createCharonService
      * @param  UpdateCharonService $updateCharonService
-     * @param  TesterCommunicationService $testerCommunicationService
-     * @param  CourseSettingsRepository $courseSettingsRepository
      */
     public function __construct(
         Request $request,
@@ -62,9 +52,7 @@ class InstanceController extends Controller
         GradebookService $gradebookService,
         GrademapService $grademapService,
         CreateCharonService $createCharonService,
-        UpdateCharonService $updateCharonService,
-        TesterCommunicationService $testerCommunicationService,
-        CourseSettingsRepository $courseSettingsRepository
+        UpdateCharonService $updateCharonService
     ) {
         parent::__construct($request);
         $this->charonRepository           = $charonRepository;
@@ -72,8 +60,6 @@ class InstanceController extends Controller
         $this->grademapService            = $grademapService;
         $this->createCharonService        = $createCharonService;
         $this->updateCharonService        = $updateCharonService;
-        $this->testerCommunicationService = $testerCommunicationService;
-        $this->courseSettingsRepository   = $courseSettingsRepository;
     }
 
     /**
@@ -93,7 +79,7 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
-        $this->sendNewCharonInfoToTester($charon);
+        event(new CharonCreated($charon));
 
         return $charon->id;
     }
@@ -115,7 +101,7 @@ class InstanceController extends Controller
             $this->updateCharonService->updateGrademaps($this->request, $charon);
             $this->updateCharonService->updateDeadlines($this->request, $charon);
 
-            $this->sendNewCharonInfoToTester($charon);
+            event(new CharonCreated($charon));
         }
 
         return "1";
@@ -204,21 +190,5 @@ class InstanceController extends Controller
             'timemodified'        => Carbon::now()->timestamp,
             'course'              => $this->request['course'],
         ]);
-    }
-
-    /**
-     * @param Charon $charon
-     *
-     * @return void
-     */
-    private function sendNewCharonInfoToTester(Charon $charon)
-    {
-        $course         = Course::where('id', $this->request['course'])->first();
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
-        $this->testerCommunicationService->sendAddProjectInfo(
-            $charon,
-            $courseSettings->unittests_git,
-            $course->shortname
-        );
     }
 }

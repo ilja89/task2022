@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Globals\User;

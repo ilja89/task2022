@@ -3,8 +3,6 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Helpers\SubmissionCalculator;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
