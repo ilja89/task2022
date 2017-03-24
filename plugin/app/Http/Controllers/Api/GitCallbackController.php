@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\TesterCommunicationService;
@@ -46,11 +47,11 @@ class GitCallbackController extends Controller
             $this->request->input('user')
         );
 
-        $this->testerCommunicationService->sendGitCallback(
+        event(new GitCallbackReceived(
             $gitCallback,
             $this->request->getUriForPath('/api/tester_callback'),
             $this->request->all()
-        );
+        ));
 
         return "SUCCESS";
     }

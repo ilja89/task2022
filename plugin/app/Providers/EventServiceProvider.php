@@ -15,6 +15,9 @@ class EventServiceProvider extends ServiceProvider
         'TTU\Charon\Events\CharonCreated' => [
             'TTU\Charon\Listeners\SendAddProjectInfoToTester',
         ],
+        'TTU\Charon\Events\GitCallbackReceived' => [
+            'TTU\Charon\Listeners\ForwardGitCallbackToTester',
+        ],
     ];
 
     /**
