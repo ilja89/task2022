@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $repo
  * @property string $user
  * @property string $secret_token
- * @property integer $response_received
  * @property Carbon $created_at
  * @property Carbon first_response_time
  *
