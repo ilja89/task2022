@@ -86,7 +86,7 @@ class SubmissionService
             $result->save();
         }
 
-        $this->includeCustomGrades($submission);
+        $this->includeUnsentGrades($submission);
     }
 
     /**
@@ -186,18 +186,26 @@ class SubmissionService
      *
      * @return void
      */
-    private function includeCustomGrades(Submission $submission)
+    private function includeUnsentGrades(Submission $submission)
     {
         $charon = $submission->charon;
 
         foreach ($charon->grademaps as $grademap) {
-            if ($grademap->gradeType->isCustomGrade()) {
-                $this->submissionsRepository->saveNewEmptyResult(
-                    $submission->id,
-                    $grademap->grade_type_code,
-                    'This result was automatically generated'
-                );
+
+            $result = $submission->results->first(function ($result) use ($grademap) {
+                /** @var Result $result */
+                return $result->grade_type_code === $grademap->grade_type_code;
+            });
+
+            if ($result !== null) {
+                continue;
             }
+
+            $this->submissionsRepository->saveNewEmptyResult(
+                $submission->id,
+                $grademap->grade_type_code,
+                'This result was automatically generated'
+            );
         }
     }
 }

@@ -51,23 +51,28 @@ class SubmissionServiceTest extends TestCase
         $this->assertEquals($submission, $result);
     }
 
-    public function testCreatesCustomGradesOnSave()
+    public function testCreatesUnsentResultsOnSubmission()
     {
         $grademap = m::mock('Grademap');
-        $grademap->gradeType = m::mock(GradeType::class, ['isCustomGrade' => true]);
+        $grademap->gradeType = m::mock(GradeType::class, ['isCustomGrade' => true])->makePartial();
         $grademap->grade_type_code = 1001;
+        $grademap2 = m::mock('Grademap');
+        $grademap2->gradeType = m::mock(GradeType::class)->makePartial();
+        $grademap2->grade_type_code = 101;
 
         $charon = m::mock('Charon');
-        $charon->grademaps = [$grademap];
+        $charon->grademaps = [$grademap, $grademap2];
         $submission = m::mock(Submission::class, ['save' => null])->makePartial();
         $submission->id = 1;
         $submission->charon = $charon;
+        $submission->results = Collection::make([]);
 
         $submissionsRepository = m::mock(SubmissionsRepository::class)
-            ->shouldReceive('saveNewEmptyResult')
-            ->with($submission->id, $grademap->grade_type_code, m::any())
-            ->once()
-            ->getMock();
+                                  ->shouldReceive('saveNewEmptyResult')
+                                  ->with($submission->id, $grademap->grade_type_code, m::any())->once()
+                                  ->shouldReceive('saveNewEmptyResult')
+                                  ->with($submission->id, $grademap2->grade_type_code, m::any())->once()
+                                  ->getMock();
 
         $submissionService = new SubmissionService(
             m::mock(GradebookService::class),
