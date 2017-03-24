@@ -2,20 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\GitCallback;
-use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GitCallbackService;
-use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionService;
-use TTU\Charon\Traits\GradesStudents;
 
 /**
  * Class TesterCallbackController.

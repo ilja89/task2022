@@ -7,12 +7,9 @@ use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
-use TTU\Charon\Services\TesterCommunicationService;
 use TTU\Charon\Services\UpdateCharonService;
-use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**

@@ -5,7 +5,6 @@ namespace Tests\Unit\Services;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use Tests\MockingTest;
-use Tests\TestCase;
 use Tests\Traits\MocksCharon;
 use Tests\Traits\MocksSubmission;
 use TTU\Charon\Helpers\SubmissionCalculator;
@@ -208,14 +207,6 @@ class CharonGradingServiceTest extends MockingTest
         ];
 
         return $this->getNewMock(CharonGradingService::class, $originalArgs, $constructorArgs,
-            $methodReturns)->makePartial();
-    }
-
-    private function getSubmissionService($constructorArgs, $methodReturns)
-    {
-        $originalArgs = [UserService::class, GradebookService::class];
-
-        return $this->getNewMock(SubmissionService::class, $originalArgs, $constructorArgs,
             $methodReturns)->makePartial();
     }
 }

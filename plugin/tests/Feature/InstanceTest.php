@@ -10,7 +10,6 @@ use Tests\TestCase;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
-use Zeizig\Moodle\Models\GradeItem;
 
 class InstanceTest extends TestCase
 {
@@ -30,7 +29,7 @@ class InstanceTest extends TestCase
     {
         $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
         $this->courseId = $course->id;
-        $courseSettings = factory(CourseSettings::class)->create([
+        factory(CourseSettings::class)->create([
             'course_id' => $course->id,
         ]);
 

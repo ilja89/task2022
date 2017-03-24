@@ -2,12 +2,9 @@
 
 namespace TTU\Charon\Services;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use TTU\Charon\Helpers\HttpCommunicator;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
-use Zeizig\Moodle\Services\SettingsService;
 
 /**
  * Class TesterCommunicationService.

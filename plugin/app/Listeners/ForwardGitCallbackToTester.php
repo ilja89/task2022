@@ -3,8 +3,6 @@
 namespace TTU\Charon\Listeners;
 
 use TTU\Charon\Events\GitCallbackReceived;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class ForwardGitCallbackToTester
