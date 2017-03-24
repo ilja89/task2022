@@ -16,3 +16,11 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'timemodified' => $faker->unixTime
     ];
 });
+
+$factory->define(TTU\Charon\Models\CourseSettings::class, function (Faker\Generator $faker) {
+
+    return [
+        'unittests_git' => $faker->word,
+        'tester_type_code' => $faker->randomElement([1, 2, 3, 4]),
+    ];
+});
