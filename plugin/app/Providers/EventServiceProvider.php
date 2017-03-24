@@ -12,8 +12,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'TTU\Charon\Events\SomeEvent' => [
-            'TTU\Charon\Listeners\EventListener',
+        'TTU\Charon\Events\CharonCreated' => [
+            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
         ],
     ];
 

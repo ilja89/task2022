@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
+use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use Zeizig\Moodle\Models\GradeItem;
@@ -52,6 +54,8 @@ class InstanceTest extends TestCase
             'deadlines' => [],
         ];
 
+        Event::fake();
+
         $response = $this->post('/charons', $requestParams);
 
         /** @var Charon $charon */
@@ -61,6 +65,10 @@ class InstanceTest extends TestCase
         $this->assertEquals($requestParams['course'], $course->id);
         $this->assertEquals($requestParams['grademaps'][1]['grademap_name'], $charon->grademaps[0]->name);
         $this->assertEquals($requestParams['name'], $charon->category->fullname);
+
+        Event::assertDispatched(CharonCreated::class, function ($e) use ($charon) {
+            return $e->charon->id === $charon->id;
+        });
 
         // TODO: Figure out how to clear database completely after test (grade items, grade items history)
     }
