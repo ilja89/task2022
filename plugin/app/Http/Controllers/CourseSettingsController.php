@@ -15,12 +15,7 @@ use Zeizig\Moodle\Models\Course;
  */
 class CourseSettingsController extends Controller
 {
-    /** @var Request */
-    private $request;
-
-    /**
-     * @var CourseSettingsRepository
-     */
+    /** @var CourseSettingsRepository */
     private $courseSettingsRepository;
 
     /**
@@ -31,14 +26,14 @@ class CourseSettingsController extends Controller
      */
     public function __construct(Request $request, CourseSettingsRepository $courseSettingsRepository)
     {
-        $this->request = $request;
+        parent::__construct($request);
         $this->courseSettingsRepository = $courseSettingsRepository;
     }
 
     /**
      * Stores the course settings from the request.
      *
-     * @param  Course $course
+     * @param  Course  $course
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -50,7 +45,7 @@ class CourseSettingsController extends Controller
         $courseSettings->tester_type_code = $this->request['tester_type'];
         $courseSettings->save();
 
-        return redirect('/mod/charon/courses/' . $course->id . '/settings');
+        return app('redirect')->action('CourseSettingsFormController@index', ['course' => $course->id]);
     }
 
     /**

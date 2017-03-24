@@ -16,9 +16,6 @@ use Zeizig\Moodle\Models\User;
  */
 class StudentsController extends Controller
 {
-    /** @var Request */
-    protected $request;
-
     /** @var StudentsRepository */
     protected $studentsRepository;
 
@@ -30,7 +27,7 @@ class StudentsController extends Controller
      */
     public function __construct(Request $request, StudentsRepository $studentsRepository)
     {
-        $this->request = $request;
+        parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
     }
 

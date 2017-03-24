@@ -5,7 +5,6 @@ namespace TTU\Charon\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {

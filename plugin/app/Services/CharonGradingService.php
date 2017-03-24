@@ -2,19 +2,24 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Collection;
-use TTU\Charon\Models\Grademap;
+use TTU\Charon\Helpers\SubmissionCalculator;
+use TTU\Charon\Models\Deadline;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradingService;
 
+/**
+ * Class CharonGradingService.
+ * This is names so in order to avoid naming conflicts with \Zeizig\Moodle\GradingService
+ *
+ * @package TTU\Charon\Services
+ */
 class CharonGradingService
 {
     /** @var GradingService */
     private $gradingService;
-
-    /** @var SubmissionService */
-    private $submissionService;
 
     /** @var GrademapService */
     private $grademapService;
@@ -22,24 +27,33 @@ class CharonGradingService
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
+
+    /** @var SubmissionCalculator */
+    private $submissionCalculator;
+
     /**
      * CharonGradingService constructor.
      *
      * @param GradingService $gradingService
-     * @param SubmissionService $submissionService
      * @param GrademapService $grademapService
      * @param CharonRepository $charonRepository
+     * @param SubmissionsRepository $submissionsRepository
+     * @param SubmissionCalculator $submissionCalculator
      */
     public function __construct(
         GradingService $gradingService,
-        SubmissionService $submissionService,
         GrademapService $grademapService,
-        CharonRepository $charonRepository
+        CharonRepository $charonRepository,
+        SubmissionsRepository $submissionsRepository,
+        SubmissionCalculator $submissionCalculator
     ) {
-        $this->gradingService    = $gradingService;
-        $this->submissionService = $submissionService;
-        $this->grademapService   = $grademapService;
-        $this->charonRepository  = $charonRepository;
+        $this->gradingService        = $gradingService;
+        $this->grademapService       = $grademapService;
+        $this->charonRepository      = $charonRepository;
+        $this->submissionsRepository = $submissionsRepository;
+        $this->submissionCalculator = $submissionCalculator;
     }
 
     /**
@@ -53,29 +67,17 @@ class CharonGradingService
      */
     public function updateGradeIfApplicable($submission, $force = false)
     {
-        $charon                 = $submission->charon;
-        $shouldBeUpdated        = ! $this->submissionService->charonHasConfirmedSubmission(
-            $submission->charon_id,
-            $submission->user_id
-        );
-        $grademapGradeTypeCodes = $charon->grademaps->map(function ($grademap) {
-            return $grademap->grade_type_code;
-        });
-
-        
-        if ( ! $force && $shouldBeUpdated && $charon->gradingMethod->isPreferBest()) {
-            $shouldBeUpdated = $this->submissionIsBetterThanLast($submission);
-        }
-
-        if ( ! $force && ! $shouldBeUpdated) {
+        if ( ! $this->gradesShouldBeUpdated($submission, $force)) {
             return;
         }
 
+        $charon = $submission->charon;
         // TODO: Send commit hash info to tester! Grade will now be updated!
         $courseId = $charon->courseModule()->course;
 
+        $gradeTypeCodes = $charon->getGradeTypeCodes();
         foreach ($submission->results as $result) {
-            if ( ! $grademapGradeTypeCodes->contains($result->grade_type_code)) {
+            if ( ! $gradeTypeCodes->contains($result->grade_type_code)) {
                 continue;
             }
 
@@ -99,49 +101,88 @@ class CharonGradingService
     public function confirmSubmission($submission)
     {
         $userId      = $submission->user_id;
-        $submissions = Submission::where('charon_id', $submission->charon_id)
-                                 ->where('user_id', $userId)
-                                 ->where('confirmed', 1)
-                                 ->get();
+        $submissions = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon($userId,
+            $submission->charon_id);
+
         foreach ($submissions as $confirmedSubmission) {
             if ($submission->id === $confirmedSubmission->id) {
                 continue;
             }
-            
-            $confirmedSubmission->confirmed = 0;
-            $confirmedSubmission->save();
+
+            $this->submissionsRepository->unconfirmSubmission($confirmedSubmission);
         }
 
-        $submission->confirmed = 1;
-        $submission->save();
+        $this->submissionsRepository->confirmSubmission($submission);
     }
 
     /**
-     * Check if the current submission is better than the last active one.
+     * Check if the given submission should update grades.
+     *
+     * @param  Submission $submission
+     * @param  bool $force
+     *
+     * @return bool
+     */
+    public function gradesShouldBeUpdated(Submission $submission, $force)
+    {
+        if ($force) {
+            return true;
+        }
+
+        if ($this->hasConfirmedSubmission($submission)) {
+            return false;
+        }
+
+        return $this->shouldUpdateBasedOnGradingMethod($submission);
+    }
+
+    /**
+     * Calculates the calculated results for given new submission and
+     * saves them.
+     *
+     * @param Submission $submission
+     *
+     * @return void
+     */
+    public function calculateCalculatedResultsForNewSubmission(Submission $submission)
+    {
+        $charon = $submission->charon;
+        foreach ($submission->results as $result) {
+            $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result, $charon->deadlines);
+            $result->save();
+        }
+    }
+
+    /**
+     * Check if the submission has a previously confirmed submission.
      *
      * @param  Submission $submission
      *
      * @return bool
      */
-    private function submissionIsBetterThanLast($submission)
+    private function hasConfirmedSubmission(Submission $submission)
     {
-        $submissionSum       = 0;
-        $activeSubmissionSum = 0;
-        foreach ($submission->results as $result) {
-            $grademap   = $this->grademapService->getGrademapByResult($result);
-            if ($grademap === null) {
-                continue;
-            }
+        return $this->submissionsRepository->charonHasConfirmedSubmissions(
+            $submission->charon_id,
+            $submission->user_id
+        );
+    }
 
-            $gradeGrade = $grademap->gradeItem->gradeGrade;
-
-            if ($gradeGrade !== null) {
-                $activeSubmissionSum += $gradeGrade->finalgrade;
-            }
-
-            $submissionSum += $result->calculated_result;
+    /**
+     * Check if the submission should be updated based on the grading
+     * method of the charon.
+     *
+     * @param  Submission $submission
+     *
+     * @return bool
+     */
+    private function shouldUpdateBasedOnGradingMethod(Submission $submission)
+    {
+        $charon = $submission->charon;
+        if ($charon->gradingMethod->isPreferBest()) {
+            return $this->submissionCalculator->submissionIsBetterThanLast($submission);
         }
 
-        return $submissionSum >= $activeSubmissionSum;
+        return true;
     }
 }

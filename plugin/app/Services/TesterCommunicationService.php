@@ -4,8 +4,9 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Log;
+use TTU\Charon\Helpers\HttpCommunicator;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\GitCallback;
 use Zeizig\Moodle\Services\SettingsService;
 
 /**
@@ -15,17 +16,19 @@ use Zeizig\Moodle\Services\SettingsService;
  */
 class TesterCommunicationService
 {
-    /** @var SettingsService */
-    private $settingsService;
+    /** @var HttpCommunicator */
+    private $httpCommunicator;
 
     /**
      * TesterCommunicationService constructor.
      *
-     * @param SettingsService $settingsService
+     * @param HttpCommunicator $httpCommunicator
+     *
+     * @internal param SettingsService $settingsService
      */
-    public function __construct(SettingsService $settingsService)
+    public function __construct(HttpCommunicator $httpCommunicator)
     {
-        $this->settingsService = $settingsService;
+        $this->httpCommunicator = $httpCommunicator;
     }
 
     /**
@@ -58,27 +61,25 @@ class TesterCommunicationService
             ];
         }
 
-        $this->sendInfoToTester('addproject', 'post', $params);
+        $this->httpCommunicator->sendInfoToTester('addproject', 'post', $params);
     }
 
     /**
-     * Sends info to the tester.
+     * Send git callback info to the tester.
      *
-     * @param  string $uri
-     * @param  string $method
-     * @param  array $data
-     *
-     * @return void
+     * @param GitCallback $gitCallback
+     * @param $testerCallbackUrl
+     * @param $extraParameters
      */
-    private function sendInfoToTester($uri, $method, $data)
+    public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $extraParameters)
     {
-        $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'neti.ee');
-        Log::info('Sending data to tester.', ['uri' => $testerUrl . '/' . $uri, 'data' => $data]);
-        $client = new Client();
-        try {
-            $client->request($method, $testerUrl . '/' . $uri, ['json' => $data]);
-        } catch (RequestException $e) {
-            Log::error('Could not send info to tester to url ' . $testerUrl . '/' . $uri);
-        }
+        $params = [
+            'callback_url' => $testerCallbackUrl,
+            'secret_token' => $gitCallback->secret_token,
+        ];
+
+        $params = array_merge($extraParameters, $params);
+
+        $this->httpCommunicator->sendInfoToTester('test', 'post', $params);
     }
 }

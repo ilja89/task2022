@@ -55,7 +55,7 @@ class CreateCharonService
     /**
      * Save Grademaps from the current request.
      * Assumes that these request parameters are set:
-     *      grademaps (where tester_type_code => grademap)
+     *      grademaps (where grade_type_code => grademap)
      *          grademap_name
      *          max_points
      *          id_number
@@ -66,7 +66,7 @@ class CreateCharonService
      *
      * @return void
      */
-    public function saveGrademapsFromRequest(Request $request, Charon $charon)
+    public function saveGrademapsFromRequest($request, Charon $charon)
     {
         foreach ($request->grademaps as $grade_type_code => $grademap) {
             $this->grademapService->createGrademapWithGradeItem($charon, $grade_type_code, $request->course, $grademap);

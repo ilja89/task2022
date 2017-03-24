@@ -10,9 +10,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.requireCourseManagement')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.requireCourseManagement')
-        ->get('courses/{course}/charons', 'PopupController@getCharonsByCourse');
+        ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.requireCharonManaging')
-        ->get('charons/{charon}/submissions', 'PopupController@getSubmissionsByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.requireCharonManaging')
         ->get('charons/{charon}/submissions/{submissionId}', 'SubmissionsController@findById');
 
@@ -24,11 +24,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.requireCharonManaging')
          ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.requireCharonManaging')
-        ->post('charons/{charon}/submissions/{submission}', 'PopupController@saveSubmission');
+        ->post('charons/{charon}/submissions/{submission}', 'SubmissionsController@saveSubmission');
     Route::middleware('auth.requireCharonManaging')
-        ->post('charons/{charon}/comments', 'PopupController@saveComment');
+        ->post('charons/{charon}/comments', 'CommentsController@saveComment');
     Route::middleware('auth.requireCharonManaging')
-        ->get('charons/{charon}/comments', 'PopupController@getComments');
+        ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
     Route::middleware('auth.requireCourseManagement')
         ->get('courses/{course}/users/{userId}', 'StudentsController@findById');
 

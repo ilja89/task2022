@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Repositories\DeadlinesRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -23,21 +24,27 @@ class UpdateCharonService
     /** @var DeadlineService */
     protected $deadlineService;
 
+    /** @var DeadlinesRepository */
+    private $deadlinesRepository;
+
     /**
      * UpdateCharonService constructor.
      *
      * @param  GrademapService $grademapService
      * @param  GradebookService $gradebookService
      * @param  DeadlineService $deadlineService
+     * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
         GrademapService $grademapService,
         GradebookService $gradebookService,
-        DeadlineService $deadlineService
+        DeadlineService $deadlineService,
+        DeadlinesRepository $deadlinesRepository
     ) {
         $this->grademapService  = $grademapService;
         $this->gradebookService = $gradebookService;
         $this->deadlineService  = $deadlineService;
+        $this->deadlinesRepository = $deadlinesRepository;
     }
 
     /**
@@ -80,13 +87,7 @@ class UpdateCharonService
      */
     public function updateDeadlines($request, $charon)
     {
-        // TODO: Can probably be done better with SQL. Delete * from deadlines where charon id = x
-        // Delete old deadlines
-        if (!$charon->deadlines->isEmpty()) {
-            foreach ($charon->deadlines as $deadline) {
-                $deadline->delete();
-            }
-        }
+        $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
 
         // Create new deadlines
         if ($request->deadlines !== null) {

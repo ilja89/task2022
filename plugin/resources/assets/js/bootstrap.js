@@ -2,6 +2,7 @@ import Vue from 'vue';
 import axios from 'axios';
 
 window.Vue = Vue;
+window.VueEvent = new Vue();
 
 window.axios = axios;
 window.axios.defaults.headers.common = {

@@ -26,9 +26,6 @@ class InstanceFormController extends Controller
     /** @var ClassificationsRepository */
     protected $classificationsRepository;
 
-    /** @var Request */
-    protected $request;
-
     /** @var GradebookService */
     private $gradebookService;
 
@@ -56,7 +53,7 @@ class InstanceFormController extends Controller
         CourseSettingsRepository $courseSettingsRepository,
         PresetsRepository $presetsRepository
     ) {
-        $this->request                   = $request;
+        parent::__construct($request);
         $this->charonRepository          = $charonRepository;
         $this->classificationsRepository = $classificationsRepository;
         $this->gradebookService = $gradebookService;

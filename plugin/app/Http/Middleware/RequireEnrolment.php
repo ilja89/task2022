@@ -3,7 +3,6 @@
 namespace TTU\Charon\Http\Middleware;
 
 use Closure;
-use Illuminate\Validation\UnauthorizedException;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Exceptions\ForbiddenException;
 use TTU\Charon\Repositories\CharonRepository;

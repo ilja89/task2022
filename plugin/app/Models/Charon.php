@@ -116,7 +116,7 @@ class Charon extends Model
      *
      * @return int[]
      */
-    public function getGradeTypes()
+    public function getGradeTypeCodes()
     {
         return $this->grademaps->map(function ($grademap) {
             return $grademap->grade_type_code;

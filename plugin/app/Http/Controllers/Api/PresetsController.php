@@ -3,7 +3,6 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Preset;
 use TTU\Charon\Models\PresetGrade;
@@ -16,19 +15,6 @@ use Zeizig\Moodle\Models\Course;
  */
 class PresetsController extends Controller
 {
-    /** @var Request */
-    private $request;
-
-    /**
-     * PresetsController constructor.
-     *
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     /**
      * Save the preset from the request.
      *

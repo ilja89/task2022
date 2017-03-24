@@ -1,0 +1,48 @@
+<template>
+    <div>
+
+        <page-title :student="context.active_student"></page-title>
+
+        <submissions-section :context="context"> </submissions-section>
+
+        <comments-section :charon="context.active_charon" :student="context.active_student"></comments-section>
+
+    </div>
+</template>
+
+<script>
+    import { PageTitle } from '../partials';
+    import { SubmissionsSection, CommentsSection } from './sections';
+    import { User } from '../../../models';
+
+    export default {
+        components: { PageTitle, SubmissionsSection, CommentsSection },
+
+        props: {
+            context: { required: true }
+        },
+
+        mounted() {
+            this.getStudent();
+        },
+
+        watch: {
+            $route() {
+                if (typeof this.$route.params.student_id !== 'undefined'
+                        && this.context.active_student !== null
+                        && this.context.active_student.id != this.$route.params.student_id) {
+                    this.getStudent();
+                }
+            }
+        },
+
+        methods: {
+            getStudent() {
+                User.findById(this.context.course_id, this.$route.params.student_id, user => {
+                    this.context.active_student = user;
+                    this.context.active_submission = null;
+                });
+            }
+        },
+    }
+</script>

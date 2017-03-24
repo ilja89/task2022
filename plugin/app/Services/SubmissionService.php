@@ -4,9 +4,12 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use TTU\Charon\Helpers\RequestHandler;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Models\SubmissionFile;
+use TTU\Charon\Repositories\SubmissionsRepository;
+use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\UserService;
 
 /**
@@ -16,30 +19,50 @@ use Zeizig\Moodle\Services\UserService;
  */
 class SubmissionService
 {
-    /** @var UserService */
-    protected $userService;
+    /** @var GradebookService */
+    private $gradebookService;
+
+    /** @var CharonGradingService */
+    private $charonGradingService;
+
+    /** @var RequestHandler */
+    private $requestHandler;
+
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
 
     /**
      * SubmissionService constructor.
      *
-     * @param UserService $userService
+     * @param GradebookService $gradebookService
+     * @param CharonGradingService $charonGradingService
+     * @param RequestHandler $requestHandler
+     * @param SubmissionsRepository $submissionsRepository
      */
-    public function __construct(UserService $userService)
+    public function __construct(
+        GradebookService $gradebookService,
+        CharonGradingService $charonGradingService,
+        RequestHandler $requestHandler,
+        SubmissionsRepository $submissionsRepository
+    )
     {
-        $this->userService = $userService;
+        $this->gradebookService = $gradebookService;
+        $this->charonGradingService = $charonGradingService;
+        $this->requestHandler = $requestHandler;
+        $this->submissionsRepository = $submissionsRepository;
     }
 
     /**
      * Saves the Submission from the given request.
      * Also saves the Results and Submission Files.
      *
-     * @param  Request  $submissionRequest
+     * @param  Request $submissionRequest
      *
      * @return Submission
      */
     public function saveSubmission($submissionRequest)
     {
-        $submission = $this->getSubmissionFromRequest($submissionRequest);
+        $submission = $this->requestHandler->getSubmissionFromRequest($submissionRequest);
         $submission->save();
 
         $this->saveResults($submission, $submissionRequest['results']);
@@ -51,137 +74,138 @@ class SubmissionService
     /**
      * Save the results from given results request.
      *
-     * @param  Submission  $submission
-     * @param  array  $resultsRequest
+     * @param  Submission $submission
+     * @param  array $resultsRequest
      *
      * @return void
      */
-    public function saveResults($submission, $resultsRequest)
+    private function saveResults($submission, $resultsRequest)
     {
         foreach ($resultsRequest as $resultRequest) {
-            $result = $this->getResultFromRequest($submission->id, $resultRequest);
+            $result = $this->requestHandler->getResultFromRequest($submission->id, $resultRequest);
             $result->save();
         }
 
-        $this->includeCustomGrades($submission);
+        $this->includeUnsentGrades($submission);
     }
 
     /**
      * Save the files from given results request.
      *
-     * @param  Submission  $submission
-     * @param  array  $filesRequest
+     * @param  Submission $submission
+     * @param  array $filesRequest
      *
      * @return void
      */
-    public function saveFiles($submission, $filesRequest)
+    private function saveFiles($submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
-            $submission->files()->save(new SubmissionFile([
-                'path' => $fileRequest['path'],
-                'contents' => $fileRequest['contents']
-            ]));
+            $submissionFile = $this->requestHandler->getFileFromRequest($submission->id, $fileRequest);
+            $submissionFile->save();
         }
     }
 
     /**
-     * Check if the given Charon has any submissions which are confirmed.
+     * Updates the given submissions' results with the given new results.
      *
-     * @param  integer  $charonId
-     * @param  integer  $userId
-     *
-     * @return boolean
-     */
-    public function charonHasConfirmedSubmission($charonId, $userId)
-    {
-        /** @var Submission $submission */
-        $submission = Submission::where('charon_id', $charonId)
-                                ->where('confirmed', 1)
-                                ->where('user_id', $userId)
-                                ->get();
-        return !$submission->isEmpty();
-    }
-
-    /**
-     * Gets the Submission from the given request.
-     * The request should have the following keys: git_timestamp, charon_id, uni_id, git_hash.
-     * Mail, stdout, stderr are optional.
-     *
-     * @param  Request  $request
+     * @param  Submission  $submission
+     * @param  array  $newResults
      *
      * @return Submission
      */
-    private function getSubmissionFromRequest($request)
+    public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
     {
-        $gitTimestamp = isset($request['git_timestamp'])
-                ? Carbon::createFromTimestamp($request['git_timestamp'], config('app.timezone'))
-                : Carbon::now(config('app.timezone'));
-        $gitTimestamp->setTimezone('UTC');
+        foreach ($newResults as $result) {
+            $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
+                return $resultLoop->id == $result['id'];
+            });
 
-        return new Submission([
-            'charon_id' => $request['charon_id'],
-            'user_id' => $this->userService->findUserByIdNumber($request['uni_id'])->id,
-            'git_hash' => $request['git_hash'],
-            'git_timestamp' => $gitTimestamp,
-            'mail' => isset($request['mail']) ? $request['mail'] : null,
-            'stdout' => isset($request['stdout']) ? $request['stdout'] : null,
-            'stderr' => isset($request['stderr']) ? $request['stderr'] : null,
-            'git_commit_message' => isset($request['git_commit_message']) ? $request['git_commit_message'] : null,
-        ]);
+            $existingResult->calculated_result = $result['calculated_result'];
+            $existingResult->save();
+        }
+
+        $this->charonGradingService->updateGradeIfApplicable($submission, true);
+        $this->charonGradingService->confirmSubmission($submission);
+
+        return $submission;
     }
 
     /**
-     * This gets the result from given request. The calculated result is set to 0 by
-     * default and will be calculated later.
+     * Adds a new empty submission for the given user.
      *
-     * Example request:
-     * {
-     *     "grade_type_code": 1,
-     *     "percentage": 100,
-     *     "stdout": "Some result specific stdout",  // Optional
-     *     "stderr": "Some result specific stderr"  // Optional
-     * }
+     * @param Charon $charon
+     * @param  int $studentId
      *
-     * @param  integer  $submissionId
-     * @param  array  $request
-     *
-     * @return Result
+     * @return Submission
      */
-    private function getResultFromRequest($submissionId, $request)
+    public function addNewEmptySubmission(Charon $charon, $studentId)
     {
-        return new Result([
-            'submission_id' => $submissionId,
-            'grade_type_code' => $request['grade_type_code'],
-            'percentage' => floatval($request['percentage']) / 100,
-            'calculated_result' => 0,
-            'stdout' => isset($request['stdout']) ? $request['stdout'] : null,
-            'stderr' => isset($request['stderr']) ? $request['stderr'] : null
+        /** @var Submission $submission */
+        $submission = $charon->submissions()->create([
+            'user_id' => $studentId,
+            'git_hash' => '',
+            'git_timestamp' => Carbon::now(),
+            'stdout' => 'Manually created by teacher',
         ]);
+
+        foreach ($charon->grademaps as $grademap) {
+            $this->submissionsRepository->saveNewEmptyResult($submission->id, $grademap->grade_type_code, '');
+        }
+
+        $this->charonGradingService->updateGradeIfApplicable($submission);
+
+        return $submission;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param  Submission $submission
+     *
+     * @return float
+     */
+    public function calculateSubmissionTotalGrade(Submission $submission)
+    {
+        $charon = $submission->charon;
+
+        $params = [];
+        foreach ($submission->results as $result) {
+            $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+        }
+
+        return $this->gradebookService->calculateResultFromFormula(
+            $charon->category->getGradeItem()->calculation, $params, $charon->course
+        );
     }
 
     /**
      * Include custom grades for the given submission. If custom grademaps exist
      * will create new result for them.
      *
-     * @param  Submission  $submission
+     * @param  Submission $submission
      *
      * @return void
      */
-    private function includeCustomGrades(Submission $submission)
+    private function includeUnsentGrades(Submission $submission)
     {
         $charon = $submission->charon;
 
         foreach ($charon->grademaps as $grademap) {
-            if ($grademap->gradeType->isCustomGrade()) {
-                $result = new Result([
-                    'submission_id' => $submission->id,
-                    'grade_type_code' => $grademap->grade_type_code,
-                    'percentage' => 0,
-                    'calculated_result' => 0,
-                    'stdout' => 'This result was automatically generated.'
-                ]);
-                $result->save();
+
+            $result = $submission->results->first(function ($result) use ($grademap) {
+                /** @var Result $result */
+                return $result->grade_type_code === $grademap->grade_type_code;
+            });
+
+            if ($result !== null) {
+                continue;
             }
+
+            $this->submissionsRepository->saveNewEmptyResult(
+                $submission->id,
+                $grademap->grade_type_code,
+                'This result was automatically generated'
+            );
         }
     }
 }

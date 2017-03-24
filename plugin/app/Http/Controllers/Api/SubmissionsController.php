@@ -2,12 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Services\CharonGradingService;
+use TTU\Charon\Repositories\SubmissionsRepository;
+use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -17,22 +17,29 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class SubmissionsController extends Controller
 {
-    /** @var CharonGradingService */
-    private $charonGradingService;
+    /** @var SubmissionService */
+    private $submissionService;
 
-    /** @var GradebookService */
-    private $gradebookService;
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
 
     /**
      * SubmissionsController constructor.
      *
-     * @param  CharonGradingService  $charonGradingService
-     * @param  GradebookService  $gradebookService
+     * @param  GradebookService $gradebookService
+     * @param Request $request
+     * @param SubmissionService $submissionService
+     * @param SubmissionsRepository $submissionsRepository
      */
-    public function __construct(CharonGradingService $charonGradingService, GradebookService $gradebookService)
-    {
-        $this->charonGradingService = $charonGradingService;
-        $this->gradebookService = $gradebookService;
+    public function __construct(
+        GradebookService $gradebookService,
+        Request $request,
+        SubmissionService $submissionService,
+        SubmissionsRepository $submissionsRepository
+    ) {
+        parent::__construct($request);
+        $this->submissionService     = $submissionService;
+        $this->submissionsRepository = $submissionsRepository;
     }
 
     /**
@@ -45,63 +52,24 @@ class SubmissionsController extends Controller
      */
     public function getOutputs(Submission $submission)
     {
-        $outputs = [];
-        $outputs['submission']['stdout'] = $submission->stdout;
-        $outputs['submission']['stderr'] = $submission->stderr;
-        foreach ($submission->results as $result) {
-            if ($result->getGrademap() === null) {
-                // If has no grademap - result exists but no grademap
-                continue;
-            }
-
-            $outputs['results'][$result->id]['stdout'] = $result->stdout;
-            $outputs['results'][$result->id]['stderr'] = $result->stderr;
-        }
-
+        $outputs = $this->submissionsRepository->findSubmissionOutputs($submission);
         return $outputs;
     }
 
     /**
      * Find a submission by its id.
      *
-     * @param  Charon  $charon
-     * @param  int  $submissionId
+     * @param  Charon $charon
+     * @param  int $submissionId
      *
      * @return Submission
      */
     public function findById(Charon $charon, $submissionId)
     {
-        /** @var Submission $submission */
-        $submission = Submission::with([
-            'results' => function ($query) use ($charon) {
-                // Only select results which have a corresponding grademap
-                $query->whereIn('grade_type_code', $charon->getGradeTypes());
-                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
-            },
-        ])
-                                 ->where('id', $submissionId)
-                                 ->where('charon_id', $charon->id)
-                                 ->first([
-                                     'id',
-                                     'charon_id',
-                                     'confirmed',
-                                     'created_at',
-                                     'git_hash',
-                                     'git_commit_message',
-                                     'git_timestamp',
-                                     'user_id',
-                                     'mail',
-                                 ]);
+        $submission = $this->submissionsRepository->findByIdWithoutOutputs($submissionId, $charon->getGradeTypeCodes());
 
-        $params = [];
-        foreach ($submission->results as $result) {
-            $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
-        }
-
-        $submission->total_result = $this->gradebookService->calculateResultFromFormula(
-            $charon->category->getGradeItem()->calculation, $params, $charon->course
-        );
-        $submission->max_result = $charon->category->getGradeItem()->grademax;
+        $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
+        $submission->max_result   = $charon->category->getGradeItem()->grademax;
 
         return $submission;
     }
@@ -117,24 +85,42 @@ class SubmissionsController extends Controller
      */
     public function addNewEmpty(Request $request, Charon $charon)
     {
-        /** @var Submission $submission */
-        $submission = $charon->submissions()->create([
-            'user_id' => $request['student_id'],
-            'git_hash' => '',
-            'git_timestamp' => Carbon::now(),
-            'stdout' => 'Manually created by teacher',
-        ]);
-
-        foreach ($charon->grademaps as $grademap) {
-            $submission->results()->create([
-                'grade_type_code' => $grademap->grade_type_code,
-                'percentage' => 0,
-                'calculated_result' => 0,
-            ]);
-        }
-
-        $this->charonGradingService->updateGradeIfApplicable($submission);
+        $submission = $this->submissionService->addNewEmptySubmission($charon, $request['student_id']);
 
         return $submission;
+    }
+
+    /**
+     * Saves the Submission results.
+     *
+     * @param  Charon $charon
+     * @param  Submission $submission
+     *
+     * @return array
+     */
+    public function saveSubmission(Charon $charon, Submission $submission)
+    {
+        $newResults = $this->request['submission']['results'];
+
+        $this->submissionService->updateSubmissionCalculatedResults($submission, $newResults);
+
+        return [
+            'status' => 'OK',
+        ];
+    }
+
+    /**
+     * @param Charon $charon
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function getByCharon(Charon $charon)
+    {
+        $submissions = $this->submissionsRepository->paginateSubmissionsByCharonUser(
+            $charon,
+            $this->request['user_id']
+        );
+
+        return $submissions;
     }
 }

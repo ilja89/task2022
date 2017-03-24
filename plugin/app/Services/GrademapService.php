@@ -5,7 +5,6 @@ namespace TTU\Charon\Services;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
-use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -41,7 +40,7 @@ class GrademapService
 
         foreach ($grademaps as $grademap) {
             foreach ($gradeItems as $gradeItem) {
-                if ($gradeItem->itemnumber === $grademap->gradeType->code) {
+                if ($gradeItem->itemnumber === $grademap->grade_type_code) {
                     $grademap->grade_item_id = $gradeItem->id;
                     $grademap->save();
                 }
@@ -86,20 +85,5 @@ class GrademapService
             'grade_type_code' => $gradeTypeCode,
             'name'            => $requestGradeMap['grademap_name'],
         ]));
-    }
-
-    /**
-     * Gets a Grademap from the given Result.
-     *
-     * @param  Result  $result
-     *
-     * @return Grademap
-     */
-    public function getGrademapByResult($result)
-    {
-        // TODO: Move to repository.
-        return Grademap::where('charon_id', $result->submission->charon_id)
-            ->where('grade_type_code', $result->grade_type_code)
-            ->first();
     }
 }
