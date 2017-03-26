@@ -54,10 +54,8 @@ class SubmissionServiceTest extends TestCase
     public function testCreatesUnsentResultsOnSubmission()
     {
         $grademap = m::mock('Grademap');
-        $grademap->gradeType = m::mock(GradeType::class, ['isCustomGrade' => true])->makePartial();
         $grademap->grade_type_code = 1001;
         $grademap2 = m::mock('Grademap');
-        $grademap2->gradeType = m::mock(GradeType::class)->makePartial();
         $grademap2->grade_type_code = 101;
 
         $charon = m::mock('Charon');

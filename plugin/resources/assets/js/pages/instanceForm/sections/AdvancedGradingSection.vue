@@ -20,7 +20,6 @@
 
         <grades-checkboxes
                 :label="translate('grades_label')"
-                :grade_types="form.grade_types"
                 :active_grade_type_codes="getActiveGradeTypes()"
                 @grade-type-was-activated="onGradeTypeActivated"
                 @grade-type-was-deactivated="onGradeTypeDeactivated">
@@ -32,7 +31,7 @@
                     v-for="(grademap, index) in form.fields.grademaps"
                     v-if="typeof grademap !== 'undefined'"
                     :name="getGradeTypeName(grademap.grade_type_code)"
-                    :selected="index === 0 ? true : false">
+                    :selected="index === 0">
 
                 <grademap-row :grademap="grademap"></grademap-row>
 
@@ -92,15 +91,16 @@
             },
 
             getGradeTypeName(grade_type_code) {
-                let grade_name = '';
+                let gradeTypeName = '';
+                if (grade_type_code <= 100) {
+                    gradeTypeName = 'Tests_' + grade_type_code;
+                } else if (grade_type_code <= 1000) {
+                    gradeTypeName = 'Style_' + grade_type_code % 100;
+                } else {
+                    gradeTypeName = 'Custom_' + grade_type_code % 1000;
+                }
 
-                this.form.grade_types.forEach((grade_type) => {
-                    if (grade_type.code === grade_type_code) {
-                        grade_name = grade_type.name;
-                    }
-                });
-
-                return grade_name;
+                return gradeTypeName;
             },
         }
     }

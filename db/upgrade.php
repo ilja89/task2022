@@ -135,5 +135,11 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017032600) {
+        $sql = "DROP TABLE mdl_charon_grade_type";
+
+        $DB->execute($sql);
+    }
+
     return true;
 }

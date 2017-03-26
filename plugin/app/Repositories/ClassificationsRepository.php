@@ -3,7 +3,6 @@
 namespace TTU\Charon\Repositories;
 
 use TTU\Charon\Models\GradeNamePrefix;
-use TTU\Charon\Models\GradeType;
 use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Models\TesterType;
 
@@ -32,16 +31,6 @@ class ClassificationsRepository
     public function getAllGradingMethods()
     {
         return GradingMethod::all();
-    }
-
-    /**
-     * Get all grade types.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function getAllGradeTypes()
-    {
-        return GradeType::all();
     }
 
     /**

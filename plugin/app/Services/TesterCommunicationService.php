@@ -53,7 +53,7 @@ class TesterCommunicationService
         foreach ($charon->grademaps as $grademap) {
             $params['gradeMaps'][] = [
                 'name'            => $grademap->name,
-                'grade_type_name' => $grademap->gradeType->name,
+                'grade_type_name' => $grademap->getGradeTypeName(),
                 'grade_type_code' => $grademap->grade_type_code,
             ];
         }

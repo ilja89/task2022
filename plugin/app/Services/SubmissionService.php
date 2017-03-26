@@ -166,15 +166,25 @@ class SubmissionService
     public function calculateSubmissionTotalGrade(Submission $submission)
     {
         $charon = $submission->charon;
+        $calculation = $charon->category->getGradeItem()->calculation;
 
-        $params = [];
-        foreach ($submission->results as $result) {
-            $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+        if ($calculation !== null) {
+            $params = [];
+            foreach ($submission->results as $result) {
+                $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+            }
+
+            return $this->gradebookService->calculateResultFromFormula(
+                $calculation, $params, $charon->course
+            );
+        } else {
+            $sum = 0;
+            foreach ($submission->results as $result) {
+                $sum += $result->calculated_result;
+            }
+
+            return $sum;
         }
-
-        return $this->gradebookService->calculateResultFromFormula(
-            $charon->category->getGradeItem()->calculation, $params, $charon->course
-        );
     }
 
     /**
