@@ -1,7 +1,6 @@
 <link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 
 <script>
-    window.gradeTypes = {!! $gradeTypes->toJson() !!};
     window.gradingMethods = {!! $gradingMethods->toJson() !!};
     window.testerTypes = {!! $testerTypes->toJson() !!};
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};

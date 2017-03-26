@@ -3,7 +3,6 @@
 
         <grades-checkboxes
                 :label="translate('grades_label')"
-                :grade_types="gradeTypes"
                 :active_grade_type_codes="activeGradeTypeCodes"
                 @grade-type-was-activated="addGrade"
                 @grade-type-was-deactivated="removeGrade">
@@ -87,7 +86,6 @@
         components: { GradesCheckboxes, CharonTabs, CharonTab },
 
         props: {
-            gradeTypes: { required: true },
             grades: { required: true },
             gradeNamePrefixes: { required: true },
         },
@@ -132,15 +130,16 @@
             },
 
             getGradeTypeName(grade_type_code) {
-                let grade_name = '';
+                let gradeTypeName = '';
+                if (grade_type_code <= 100) {
+                    gradeTypeName = 'Tests_' + grade_type_code;
+                } else if (grade_type_code <= 1000) {
+                    gradeTypeName = 'Style_' + grade_type_code % 100;
+                } else {
+                    gradeTypeName = 'Custom_' + grade_type_code % 1000;
+                }
 
-                this.gradeTypes.forEach((grade_type) => {
-                    if (grade_type.code === grade_type_code) {
-                        grade_name = grade_type.name;
-                    }
-                });
-
-                return grade_name;
+                return gradeTypeName;
             },
         }
     }

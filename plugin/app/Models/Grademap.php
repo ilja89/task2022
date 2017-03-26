@@ -3,6 +3,7 @@
 namespace TTU\Charon\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use TTU\Charon\Traits\HasGradeType;
 use Zeizig\Moodle\Models\GradeItem;
 
 /**
@@ -11,16 +12,16 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property integer $id
  * @property string $name
  * @property integer grade_item_id
- * @property integer grade_type_code
  *
  * @property Charon $charon
  * @property GradeItem $gradeItem
- * @property GradeType $gradeType
  *
  * @package TTU\Charon\Models
  */
 class Grademap extends Model
 {
+    use HasGradeType;
+
     protected $table = 'charon_grademap';
     public $timestamps = false;
 
@@ -36,10 +37,5 @@ class Grademap extends Model
     public function gradeItem()
     {
         return $this->hasOne(GradeItem::class, 'id', 'grade_item_id');
-    }
-
-    public function gradeType()
-    {
-        return $this->belongsTo(GradeType::class, 'grade_type_code', 'code');
     }
 }

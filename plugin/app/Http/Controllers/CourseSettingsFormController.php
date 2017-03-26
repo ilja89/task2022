@@ -81,7 +81,6 @@ class CourseSettingsFormController extends Controller
             'course_id' => $course->id,
             'tester_types' => $this->classificationsRepository->getAllTesterTypes(),
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
-            'grade_types' => $this->classificationsRepository->getAllGradeTypes(),
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
             'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
         ]);
