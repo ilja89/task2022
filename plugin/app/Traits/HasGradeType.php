@@ -24,6 +24,16 @@ trait HasGradeType
 
     public function isTestsGrade()
     {
-        return $this->grade_type_code < 100;
+        return $this->grade_type_code <= 100;
+    }
+
+    public function isStyleGrade()
+    {
+        return $this->grade_type_code <= 1000 && $this->grade_type_code > 100;
+    }
+
+    public function isCustomGrade()
+    {
+        return $this->grade_type_code > 1000;
     }
 }

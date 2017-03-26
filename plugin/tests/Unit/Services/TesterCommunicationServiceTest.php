@@ -7,21 +7,18 @@ use Tests\TestCase;
 use TTU\Charon\Helpers\HttpCommunicator;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Grademap;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterCommunicationServiceTest extends TestCase
 {
     public function testSendsAddProjectInfo()
     {
-        $grademap1 = m::mock('Grademap1');
+        $grademap1 = m::mock(Grademap::class, ['getGradeTypeName' => 'Tests_1'])->makePartial();
         $grademap1->name = 'EX01 - Tests';
-        $grademap1->gradeType = new \StdClass;
-        $grademap1->gradeType->name = 'Tests_1';
         $grademap1->grade_type_code = 1;
-        $grademap2 = m::mock('Grademap2');
+        $grademap2 = m::mock(Grademap::class, ['getGradeTypeName' => 'Style_1'])->makePartial();
         $grademap2->name = 'EX01 - Style';
-        $grademap2->gradeType = new \StdClass;
-        $grademap2->gradeType->name = 'Style_1';
         $grademap2->grade_type_code = 101;
 
         $charon = m::mock(Charon::class)->makePartial();
@@ -43,11 +40,11 @@ class TesterCommunicationServiceTest extends TestCase
                 'gradeMaps'    => [
                     [
                         'name'            => $grademap1->name,
-                        'grade_type_name' => $grademap1->gradeType->name,
+                        'grade_type_name' => $grademap1->getGradeTypeName(),
                         'grade_type_code' => $grademap1->grade_type_code,
                     ],[
                         'name'            => $grademap2->name,
-                        'grade_type_name' => $grademap2->gradeType->name,
+                        'grade_type_name' => $grademap2->getGradeTypeName(),
                         'grade_type_code' => $grademap2->grade_type_code,
                     ]
                 ],
