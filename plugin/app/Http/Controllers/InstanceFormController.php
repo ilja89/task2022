@@ -68,7 +68,6 @@ class InstanceFormController extends Controller
      */
     public function index()
     {
-        $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
@@ -78,12 +77,12 @@ class InstanceFormController extends Controller
             $charon = $this->getCharon();
 
             return view('instanceForm.form', compact(
-                'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
+                'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
             ));
         }
 
         return view('instanceForm.form', compact(
-            'gradeTypes', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
+            'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
         ));
     }
 
@@ -107,7 +106,6 @@ class InstanceFormController extends Controller
         $charon->max_score = $this->request['max_score'];
         $charon->calculation_formula = $this->request['calculation_formula'];
 
-        $gradeTypes     = $this->classificationsRepository->getAllGradeTypes();
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
         $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
@@ -116,7 +114,7 @@ class InstanceFormController extends Controller
         $update = true;
 
         return view('instanceForm.form', compact(
-            'charon', 'gradeTypes', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets'
+            'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets'
         ));
     }
 

@@ -12,7 +12,6 @@
             <presets-section
                     :presets="form.presets"
                     :gradingMethods="form.grading_methods"
-                    :gradeTypes="form.grade_types"
                     :gradeNamePrefixes="form.grade_name_prefixes"
                     :courseId="form.course_id">
             </presets-section>

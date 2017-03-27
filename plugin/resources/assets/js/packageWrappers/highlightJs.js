@@ -1,4 +1,4 @@
-var hljs = require("highlight.js/lib/highlight.js");
+let hljs = require("highlight.js/lib/highlight.js");
 
 // Only load languages we need. Can also alias javang
 hljs.registerLanguage('java', require('highlight.js/lib/languages/java'));

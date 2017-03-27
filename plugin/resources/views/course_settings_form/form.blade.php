@@ -11,7 +11,6 @@
         window.tester_types = {!! $tester_types->toJson() !!};
         window.presets = {!! $presets->toJson() !!};
         window.grading_methods = {!! $grading_methods->toJson() !!};
-        window.grade_types = {!! $grade_types->toJson() !!};
         window.grade_name_prefixes = {!! $grade_name_prefixes->toJson() !!};
 
         window.translations = {

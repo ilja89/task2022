@@ -60,13 +60,10 @@
                      REFTABLE="charon" REFFIELDS="id"/>
                 <KEY NAME="FK_grademap_grade_item" TYPE="foreign" FIELDS="grade_item_id"
                      REFTABLE="grade_items" REFFIELDS="id"/>
-                <KEY NAME="FK_grademap_grade_type" TYPE="foreign" FIELDS="grade_type_code"
-                     REFTABLE="charon_grade_type" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_grademap_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_grademap_grade_item" UNIQUE="false" FIELDS="grade_item_id"/>
-                <INDEX NAME="IXFK_grademap_grade_type" UNIQUE="false" FIELDS="grade_type_code"/>
             </INDEXES>
         </TABLE>
 
@@ -161,12 +158,9 @@
                 <KEY NAME="PK_charon_result" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_result_submission" TYPE="foreign" FIELDS="submission_id"
                      REFTABLE="charon_submission" REFFIELDS="id"/>
-                <KEY NAME="FK_result_grade_type" TYPE="foreign" FIELDS="grade_type_code"
-                     REFTABLE="charon_grade_type" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_result_submission" UNIQUE="false" FIELDS="submission_id"/>
-                <INDEX NAME="IXFK_result_grade_type" UNIQUE="false" FIELDS="grade_type_code"/>
             </INDEXES>
         </TABLE>
 
@@ -274,13 +268,10 @@
                      REFTABLE="charon_preset" REFFIELDS="id"/>
                 <KEY NAME="FK_preset_grade_grade_name_prefix" TYPE="foreign" FIELDS="grade_name_prefix_code"
                      REFTABLE="charon_grade_name_prefix" REFFIELDS="code"/>
-                <KEY NAME="FK_preset_grade_grade_type" TYPE="foreign" FIELDS="grade_type_code"
-                     REFTABLE="charon_grade_type" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_preset_grade_preset" UNIQUE="false" FIELDS="preset_id"/>
                 <INDEX NAME="IXFK_preset_grade_grade_name_prefix" UNIQUE="false" FIELDS="grade_name_prefix_code"/>
-                <INDEX NAME="IXFK_preset_grade_grade_type" UNIQUE="false" FIELDS="grade_type_code"/>
             </INDEXES>
         </TABLE>
 

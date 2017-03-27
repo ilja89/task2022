@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
@@ -29,6 +30,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property TesterType $testerType
  * @property Grademap[] $grademaps
  * @property Deadline[] $deadlines
+ * @property Course moodleCourse
  *
  * @package TTU\Charon\Model
  */
@@ -121,5 +123,10 @@ class Charon extends Model
         return $this->grademaps->map(function ($grademap) {
             return $grademap->grade_type_code;
         });
+    }
+
+    public function moodleCourse()
+    {
+        return $this->belongsTo(Course::class, 'course', 'id');
     }
 }

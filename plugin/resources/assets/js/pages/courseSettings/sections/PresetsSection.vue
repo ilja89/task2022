@@ -54,7 +54,6 @@
                 </charon-select>
 
                 <grades-section
-                        :gradeTypes="gradeTypes"
                         :grades="activePreset.preset_grades"
                         :gradeNamePrefixes="gradeNamePrefixes">
                 </grades-section>
@@ -103,7 +102,6 @@
         props: {
             presets: { required: true },
             gradingMethods: { required: true },
-            gradeTypes: { required: true },
             gradeNamePrefixes: { required: true },
             courseId: { required: true },
         },

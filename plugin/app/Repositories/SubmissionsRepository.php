@@ -29,6 +29,7 @@ class SubmissionsRepository
                 // Only select results which have a corresponding grademap
                 $query->whereIn('grade_type_code', $gradeTypeCodes);
                 $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                $query->orderBy('grade_type_code');
             },
         ])
                                 ->where('id', $submissionId)
@@ -90,6 +91,7 @@ class SubmissionsRepository
             'results' => function ($query) use ($charon) {
                 $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
                 $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                $query->orderBy('grade_type_code');
             },
         ])
                                  ->where('charon_id', $charon->id)

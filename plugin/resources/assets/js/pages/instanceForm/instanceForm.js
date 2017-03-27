@@ -7,6 +7,6 @@ const app = new Vue({
     el: '#app',
     components: { InstanceForm },
     data: {
-        form: new InstanceFormForm(instance, gradeTypes, testerTypes, gradingMethods, courseSettings, presets)
+        form: new InstanceFormForm(instance, testerTypes, gradingMethods, courseSettings, presets)
     }
 });

@@ -27,7 +27,7 @@
             </ul>
 
             <p>
-                Total grade calculation formula: {{ form.fields.calculation_formula }}
+                Total grade calculation formula: {{ form.fields.calculation_formula !== null ? form.fields.calculation_formula : 'No formula' }}
             </p>
 
         </div>
@@ -71,17 +71,17 @@
 
         methods: {
             getGradeTypeName(grade_type_code) {
-                let grade_name = '';
+                let gradeTypeName = '';
+                if (grade_type_code <= 100) {
+                    gradeTypeName = 'Tests_' + grade_type_code;
+                } else if (grade_type_code <= 1000) {
+                    gradeTypeName = 'Style_' + grade_type_code % 100;
+                } else {
+                    gradeTypeName = 'Custom_' + grade_type_code % 1000;
+                }
 
-                this.form.grade_types.forEach((grade_type) => {
-                    if (grade_type.code === grade_type_code) {
-                        grade_name = grade_type.name;
-                    }
-                });
-
-                return grade_name;
+                return gradeTypeName;
             },
         }
-
     }
 </script>

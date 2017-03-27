@@ -3,25 +3,26 @@
 namespace TTU\Charon\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use TTU\Charon\Traits\HasGradeType;
 
 /**
  * Class Result.
  *
  * @property integer $id
  * @property integer $submission_id
- * @property integer $grade_type_code
  * @property float $percentage
  * @property float $calculated_result
  * @property string $stdout
  * @property string $stderr
  *
  * @property Submission $submission
- * @property GradeType $gradeType
  *
  * @package TTU\Charon\Models
  */
 class Result extends Model
 {
+    use HasGradeType;
+
     public $timestamps = false;
     protected $table = 'charon_result';
     protected $fillable = [
@@ -31,16 +32,6 @@ class Result extends Model
     public function submission()
     {
         return $this->belongsTo(Submission::class, 'submission_id', 'id');
-    }
-
-    public function gradeType()
-    {
-        return $this->belongsTo(GradeType::class, 'grade_type_code', 'code');
-    }
-
-    public function isTestsGrade()
-    {
-        return $this->grade_type_code < 100;
     }
 
     /**

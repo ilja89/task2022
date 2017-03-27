@@ -1,10 +1,9 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, grade_types, tester_types, grading_methods, courseSettings, presets) {
+    constructor(instance, tester_types, grading_methods, courseSettings, presets) {
         this.initializeFields(instance, courseSettings);
 
-        this.grade_types = grade_types;
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
@@ -162,26 +161,43 @@ export default class InstanceFormForm {
             } else if (presetGrade.grade_name_prefix_code === 2) {
                 grademap.name = this.fields.name + ' ' + presetGrade.grade_name;
             }
-            grademap.id_number = this.fields.project_folder + presetGrade.id_number_postfix;
+            if (presetGrade.id_number_postfix !== null) {
+                grademap.id_number = this.fields.project_folder + presetGrade.id_number_postfix;
+            } else {
+                grademap.id_number = '';
+            }
             grademap.max_points = presetGrade.max_result;
 
-            let gradeType = this.getGradeTypeFromCode(presetGrade.grade_type_code);
-            let replace = "\\[\\[" + gradeType.name + "\\]\\]";
-            let regex = new RegExp(replace, "g");
-            calculationFormula = calculationFormula.replace(regex, "[[" + grademap.id_number + "]]");
+            if (calculationFormula !== null) {
+                let gradeType = this.getGradeTypeFromCode(presetGrade.grade_type_code);
+                let replace = "\\[\\[" + gradeType.name + "\\]\\]";
+                let regex = new RegExp(replace, "g");
+                calculationFormula = calculationFormula.replace(regex, "[[" + grademap.id_number + "]]");
+            } else {
+                calculationFormula = '';
+            }
         });
 
         this.fields.calculation_formula = calculationFormula;
     }
 
     getGradeTypeFromCode(gradeTypeCode) {
-        let correctGradeType = null;
-        this.grade_types.forEach(gradeType => {
-            if (gradeType.code == gradeTypeCode) {
-                correctGradeType = gradeType;
-            }
-        });
+        return {
+            code: gradeTypeCode,
+            name: this.getGradeTypeName(gradeTypeCode)
+        };
+    }
 
-        return correctGradeType;
+    getGradeTypeName(grade_type_code) {
+        let gradeTypeName = '';
+        if (grade_type_code <= 100) {
+            gradeTypeName = 'Tests_' + grade_type_code;
+        } else if (grade_type_code <= 1000) {
+            gradeTypeName = 'Style_' + grade_type_code % 100;
+        } else {
+            gradeTypeName = 'Custom_' + grade_type_code % 1000;
+        }
+
+        return gradeTypeName;
     }
 }
