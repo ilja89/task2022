@@ -1,5 +1,65 @@
 @import '_variables.scss';
 
+#page-header {
+  padding: 0;
+}
+
+#region-main {
+  padding-left: 135px;
+  padding-right: 135px;
+}
+
+.input-helper {
+  font-size: 15px;
+  color: #5e6977;
+}
+
+.fitem {
+  margin-bottom: 20px;
+}
+
+.preset-select-container {
+  margin-bottom: 20px;
+
+  .fitem {
+    margin-bottom: 0;
+  }
+}
+
+.is-half {
+  width: 50%;
+}
+
+.is-quarter {
+  width: 25%;
+}
+
+.update-preset-btn {
+  margin-bottom: 15px;
+}
+
+.grade-name-label {
+  margin-top: 10px;
+}
+
+
+@media (max-width: 1000px) {
+  #region-main {
+    padding: 35px;
+  }
+}
+
+@media (max-width: 700px) {
+  .is-quarter {
+    width: 100%;
+  }
+
+  .is-half {
+    width: 100%;
+  }
+}
+
+
 /*-----------------------*\
   #GRADES_SELECT
 \*-----------------------*/
@@ -74,8 +134,17 @@
   }
 }
 
+.tab-details {
+  border-bottom: 5px solid $brand-primary;
+  margin-bottom: 35px;
+}
+
 .grade-name-container {
   display: flex;
+}
+
+.grade-name-prefix-container {
+  margin-right: 10px;
 }
 
 

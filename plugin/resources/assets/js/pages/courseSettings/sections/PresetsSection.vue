@@ -5,26 +5,30 @@
 
         <slot>
 
-            <charon-select
-                    :label="translate('edit_preset_label')"
-                    name="active_preset"
-                    :options="presets"
-                    :selected="null"
-                    key_field="id"
-                    @input-was-changed="onActivePresetChanged">
-            </charon-select>
+            <div class="preset-select-container">
+                <charon-select
+                        :label="translate('edit_preset_label')"
+                        name="active_preset"
+                        :options="presets"
+                        :selected="null"
+                        key_field="id"
+                        @input-was-changed="onActivePresetChanged">
+                </charon-select>
 
-            <a @click="createPreset" class="btn-link add-preset-btn">
-                Or add a new preset
-            </a>
+                <a @click="createPreset" class="btn-link add-preset-btn">
+                    Or add a new preset
+                </a>
+            </div>
 
             <div v-if="activePreset !== null">
 
                 <charon-text-input
+                        class="is-half"
                         input_name="preset_name"
                         :required="false"
                         :input_label="translate('preset_name_label')"
                         :input_value="activePreset.name"
+                        :helper_text="translate('preset_name_helper')"
                         @input-was-changed="onNameChanged">
                 </charon-text-input>
 
@@ -33,14 +37,17 @@
                         :required="false"
                         :input_label="translate('extra_label')"
                         :input_value="activePreset.extra"
+                        :helper_text="translate('extra_cs_helper')"
                         @input-was-changed="onExtraChanged">
                 </charon-text-input>
 
                 <charon-number-input
+                        class="is-quarter"
                         name="preset_max_result"
                         :required="false"
                         :label="translate('max_points_label')"
                         :input_value="activePreset.max_result"
+                        :helper_text="translate('max_points_cs_helper')"
                         @input-was-changed="onMaxResultChanged">
                 </charon-number-input>
 
@@ -50,6 +57,7 @@
                         :options="gradingMethods"
                         :selected="activePreset.grading_method_code"
                         key_field="code"
+                        :helper_text="translate('grading_method_cs_helper')"
                         @input-was-changed="onGradingMethodChanged">
                 </charon-select>
 
@@ -63,6 +71,7 @@
                         :required="false"
                         :input_label="translate('calculation_formula_label')"
                         :input_value="activePreset.calculation_formula"
+                        :helper_text="translate('calculation_formula_cs_helper')"
                         @input-was-changed="onCalculationFormulaChanged">
                 </charon-text-input>
 
@@ -73,7 +82,7 @@
                 </a>
 
                 <a v-else
-                   class="btn btn-primary"
+                   class="btn btn-primary update-preset-btn"
                    @click="updatePreset">
                     {{ translate('update_preset') }}
                 </a>

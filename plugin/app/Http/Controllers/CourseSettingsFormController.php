@@ -78,7 +78,7 @@ class CourseSettingsFormController extends Controller
             'header'    => $this->output->header(),
             'footer'    => $this->output->footer(),
             'settings'  => $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id),
-            'course_id' => $course->id,
+            'course' => $course,
             'tester_types' => $this->classificationsRepository->getAllTesterTypes(),
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),

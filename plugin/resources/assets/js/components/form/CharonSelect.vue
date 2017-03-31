@@ -2,6 +2,7 @@
     <div :id="'id_' + name + '_container'" class="fcontainer clearfix">
         <div :id="'fitem_id_' + name" class="fitem fitem_select">
             <div class="fitemtitle"><label :for="'id_' + name">{{ label }}</label></div>
+            <p class="input-helper" v-if="helper_text !== null" v-html="helper_text"></p>
             <div class="felement">
                 <select :name="name"
                         :id="'id_' + name"
@@ -26,7 +27,8 @@
             name: { required: true },
             options: { required: true },
             selected: { required: true },
-            key_field: { required: false, default: 'code' }
+            key_field: { required: false, default: 'code' },
+            helper_text: { required: false, default: null },
         },
 
         data() {

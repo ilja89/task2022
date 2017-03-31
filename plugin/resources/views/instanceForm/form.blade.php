@@ -26,6 +26,8 @@
         id_number_label: "{{ translate('id_number') }}",
         calculation_formula_label: "{{ translate('calculation_formula') }}",
         preset_label: "{{ translate('preset') }}",
+
+        unittests_git_helper: "{{ translate('unittests_git_helper') }}",
     };
 </script>
 
