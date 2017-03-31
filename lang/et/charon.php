@@ -82,6 +82,16 @@ $string['deadlines_helper'] = 'Deadlines for this task. If a submission is submi
 $string['deadline_helper'] = 'Deadline date and time.';
 $string['percentage_helper'] = 'Percentage of points multiplied if submission is after deadline.';
 $string['group_helper'] = 'Group for which this deadline applies. Currently does not work.';
+$string['preset_select_helper'] = 'Any settings can be overridden in the advanced section.';
+$string['extra_helper'] = 'Extra parameters sent to the tester. Eg. stylecheck for checking the style.';
+$string['tester_type_helper'] = 'Tester type for this task. Usually just the programming language used.';
+$string['calculation_formula_helper'] = 'Formula to use in calculating the total grade for submissions. '
+                                        . 'This uses the same syntax as Moodle formulas. ID numbers from '
+                                        . 'this task\'s grades should be used. Eg. "=sum([[Tests_1]], [[Tests_2]]) * '
+                                        . '[[Style_1]] * [[Custom_1]]"';
+$string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
+$string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
+$string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
 
 
 /*------------------------*\

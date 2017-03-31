@@ -2,6 +2,7 @@
     <div class="grademap-row">
         <div class="grademap-field">
             <label :for="'grademaps[' + grademap.grade_type_code + '][grademap_name]'">{{ translate('grade_name_label') }}</label><br>
+            <p class="input-helper" v-html="translate('grade_name_helper')"></p>
             <input class="form-control"
                    :name="'grademaps[' + grademap.grade_type_code + '][grademap_name]'"
                    type="text"
@@ -10,11 +11,13 @@
         </div>
         <div class="grademap-field">
             <label :for="'grademaps[' + grademap.grade_type_code + '][max_points]'">{{ translate('max_points_label') }}</label><br>
+            <p class="input-helper" v-html="translate('max_points_grade_helper')"></p>
             <input class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][max_points]'" type="number"
                    v-model="grademap.max_points" step="0.01">
         </div>
         <div class="grademap-field">
             <label :for="'grademaps[' + grademap.grade_type_code + '][id_number]'">{{ translate('id_number_label') }}</label><br>
+            <p class="input-helper" v-html="translate('id_number_helper')"></p>
             <input class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][id_number]'" type="text"
                    v-model="grademap.id_number">
         </div>

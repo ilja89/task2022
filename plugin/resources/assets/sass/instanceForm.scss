@@ -49,6 +49,10 @@ label.required:after {
   color: #5e6977;
 }
 
+.deadline-row:not(:first-child) .deadline-field label {
+  display: none;
+}
+
 
 /*-----------------------*\
   #SECTIONS
@@ -151,6 +155,11 @@ label.required:after {
   .grademap-field {
     width: 100%;
     padding: 0 15px;
+
+    .input-helper {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
@@ -161,10 +170,21 @@ label.required:after {
 
 .deadline-row {
   align-items: flex-end;
+
+  &:not(:first-child) .deadline-field {
+    .input-helper {
+      display: none;
+    }
+  }
 }
 
 .deadline-field {
   padding: 10px 15px;
+
+  .input-helper {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .add-deadline-btn {

@@ -25,14 +25,14 @@ $string['update_preset']        = 'Update preset';
 
 $string['unittests_git_helper'] = 'The Git URL in which there are tests for this course. Tests for each assignment '
                                 . 'should be in the "Project" directory specified in the new Charon form.';
-$string['tester_type_helper']   = 'The tester type this course\'s assignments use. Usually the programming language '
+$string['tester_type_cs_helper']   = 'The tester type this course\'s assignments use. Usually the programming language '
                                 . 'mainly used in the course. Can also be overridden when creating a task.';
 $string['preset_name_helper']   = 'Name of the preset. Choose something easy to understand, eg. home tasks.';
 $string['extra_cs_helper'] = 'Extra parameters sent to the tester. Can be overridden while creating a '
                                         . 'task.';
 $string['max_points_cs_helper'] = 'Maximum points gotten from these types of assignments.';
 $string['grading_method_cs_helper'] = 'Grading method used in these assignments.';
-$string['grades_cs_helper'] = 'Grades checked in tasks with this preset. Tests_X is for automated tests, Style_X '
+$string['grades_helper'] = 'Grades checked in tasks with this preset. Tests_X is for automated tests, Style_X '
                             . 'is for stylechecks (eg. checkstyle), Custom_X can be used in any way but must be '
                             . 'graded manually (useful for defence).';
 $string['grade_name_cs_helper'] = 'Moodle grade name. This is shown to students. Can use the project folder name '
@@ -79,8 +79,19 @@ $string['deadlines_helper'] = 'Deadlines for this task. If a submission is submi
                             . 'test results will be multiplied by the percentage. Eg. deadline with 0% means '
                             . 'that after that deadline the student will receive 0 points for tests.';
 $string['deadline_helper'] = 'Deadline date and time.';
-$string['percentage_helper'] = 'Percentage of points multiplied if submission is after deadline.';
-$string['group_helper'] = 'Group for which this deadline applies. Currently does not work.';
+$string['percentage_helper'] = 'Max percentage of points after deadline.';
+$string['group_helper'] = 'Group for which this deadline applies. WIP';
+$string['preset_select_helper'] = 'Any settings can be overridden in the advanced section.';
+$string['extra_helper'] = 'Extra parameters sent to the tester. Eg. stylecheck for checking the style.';
+$string['tester_type_helper'] = 'Tester type for this task. Usually just the programming language used.';
+$string['max_points_helper'] = 'Total points gotten from this assignment.';
+$string['calculation_formula_helper'] = 'Formula to use in calculating the total grade for submissions. '
+                                        . 'This uses the same syntax as Moodle formulas. ID numbers from '
+                                        . 'this task\'s grades should be used. Eg. "=sum([[Tests_1]], [[Tests_2]]) * '
+                                        . '[[Style_1]] * [[Custom_1]]"';
+$string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
+$string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
+$string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
 
 
 /*------------------------*\

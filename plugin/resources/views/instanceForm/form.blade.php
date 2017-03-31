@@ -37,6 +37,16 @@
         deadline_helper: "{{ translate('deadline_helper') }}",
         percentage_helper: "{{ translate('percentage_helper') }}",
         group_helper: "{{ translate('group_helper') }}",
+        preset_select_helper: "{{ translate('preset_select_helper') }}",
+        extra_helper: "{{ translate('extra_helper') }}",
+        tester_type_helper: "{{ translate('tester_type_helper') }}",
+        grading_method_helper: "{{ translate('grading_method_cs_helper') }}",
+        grades_helper: "{{ translate('grades_helper') }}",
+        max_points_helper: "{{ translate('max_points_helper') }}",
+        calculation_formula_helper: "{{ translate('calculation_formula_helper') }}",
+        grade_name_helper: "{{ translate('grade_name_helper') }}",
+        max_points_grade_helper: "{{ translate('max_points_grade_helper') }}",
+        id_number_helper: "{{ translate('id_number_helper') }}",
 
     };
 </script>

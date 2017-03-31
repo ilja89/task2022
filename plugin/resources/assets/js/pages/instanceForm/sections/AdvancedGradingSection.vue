@@ -7,6 +7,7 @@
                 :options="form.presets"
                 :selected="form.fields.preset !== null ? form.fields.preset.id : null"
                 key_field="id"
+                :helper_text="translate('preset_select_helper')"
                 @input-was-changed="onPresetChanged">
         </charon-select>
 
@@ -15,12 +16,14 @@
                 name="grading_method"
                 :options="form.grading_methods"
                 :selected="form.fields.grading_method"
+                :helper_text="translate('grading_method_helper')"
                 @input-was-changed="onGradingMethodChanged" >
         </charon-select>
 
         <grades-checkboxes
                 :label="translate('grades_label')"
                 :active_grade_type_codes="getActiveGradeTypes()"
+                :helper_text="translate('grades_helper')"
                 @grade-type-was-activated="onGradeTypeActivated"
                 @grade-type-was-deactivated="onGradeTypeDeactivated">
         </grades-checkboxes>
@@ -44,6 +47,7 @@
                 :required="true"
                 :label="translate('max_points_label')"
                 :input_value="form.fields.max_score"
+                :helper_text="translate('max_points_helper')"
                 @input-was-changed="onMaxScoreChanged">
         </charon-number-input>
 
@@ -52,6 +56,7 @@
                 :required="false"
                 :input_label="translate('calculation_formula_label')"
                 :input_value="form.fields.calculation_formula"
+                :helper_text="translate('calculation_formula_helper')"
                 @input-was-changed="onCalculationFormulaChanged">
         </charon-text-input>
 

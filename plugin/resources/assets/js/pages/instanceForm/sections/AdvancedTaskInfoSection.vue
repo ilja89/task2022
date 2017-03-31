@@ -5,6 +5,7 @@
                 :input_label="translate('task_name_label')"
                 :required="true"
                 :input_value="form.fields.name"
+                :helper_text="translate('task_name_helper')"
                 @input-was-changed="onNameChanged">
         </charon-text-input>
 
@@ -13,6 +14,7 @@
                 :input_label="translate('project_folder_name_label')"
                 :required="true"
                 :input_value="form.fields.project_folder"
+                :helper_text="translate('project_folder_name_helper')"
                 @input-was-changed="onProjectFolderChanged">
         </charon-text-input>
 
@@ -21,6 +23,7 @@
                 :input_label="translate('extra_label')"
                 :required="false"
                 :input_value="form.fields.extra"
+                :helper_text="translate('extra_helper')"
                 @input-was-changed="onExtraChanged">
         </charon-text-input>
 
@@ -29,6 +32,7 @@
                 name="tester_type"
                 :options="form.tester_types"
                 :selected="form.fields.tester_type"
+                :helper_text="translate('tester_type_helper')"
                 @input-was-changed="onTesterTypeChanged">
         </charon-select>
 
