@@ -66,6 +66,23 @@ $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset']              = 'Preset';
 
+$string['deadline'] = 'Deadline';
+$string['percentage'] = 'Percentage';
+$string['group'] = 'Group';
+
+$string['task_name_helper'] = 'The name for this assignment. A category with this name will be created which will '
+                            . 'contain this assignment\'s grades.';
+$string['project_folder_name_helper'] = 'The folder name for this assignment. Students have to put their code in '
+                                      . 'this folder. This is not shown to students so it should be included in '
+                                      . 'the task description.';
+$string['deadlines_helper'] = 'Deadlines for this task. If a submission is submitted after the deadline, the '
+                            . 'test results will be multiplied by the percentage. Eg. deadline with 0% means '
+                            . 'that after that deadline the student will receive 0 points for tests.';
+$string['deadline_helper'] = 'Deadline date and time.';
+$string['percentage_helper'] = 'Percentage of points multiplied if submission is after deadline.';
+$string['group_helper'] = 'Group for which this deadline applies. Currently does not work.';
+
+
 /*------------------------*\
    Assignment view
 \*------------------------*/

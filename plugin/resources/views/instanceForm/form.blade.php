@@ -26,8 +26,18 @@
         id_number_label: "{{ translate('id_number') }}",
         calculation_formula_label: "{{ translate('calculation_formula') }}",
         preset_label: "{{ translate('preset') }}",
+        deadlines: "{{ translate('deadlines') }}",
+        deadline_label: "{{ translate('deadline') }}",
+        percentage_label: "{{ translate('percentage') }}",
+        group_label: "{{ translate('group') }}",
 
-        unittests_git_helper: "{{ translate('unittests_git_helper') }}",
+        task_name_helper: "{{ translate('task_name_helper') }}",
+        project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
+        deadlines_helper: "{{ translate('deadlines_helper') }}",
+        deadline_helper: "{{ translate('deadline_helper') }}",
+        percentage_helper: "{{ translate('percentage_helper') }}",
+        group_helper: "{{ translate('group_helper') }}",
+
     };
 </script>
 

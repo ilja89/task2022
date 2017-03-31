@@ -3,6 +3,8 @@
  *
  * IMPORTS
  *
+ * LAYOUT
+ *
  * FORM_FIELDS
  * Labels
  * Sections
@@ -30,6 +32,21 @@
 label.required:after {
   content: ' *';
   color: red;
+}
+
+
+/*-----------------------*\
+  #HELPER_TEXT
+\*-----------------------*/
+
+.fitem .input-helper {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.input-helper {
+  font-size: 15px;
+  color: #5e6977;
 }
 
 
@@ -141,6 +158,10 @@ label.required:after {
 /*-----------------------*\
   #DEADLINES
 \*-----------------------*/
+
+.deadline-row {
+  align-items: flex-end;
+}
 
 .deadline-field {
   padding: 10px 15px;
