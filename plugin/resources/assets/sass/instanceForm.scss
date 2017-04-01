@@ -151,6 +151,12 @@ fieldset legend {
   }
 }
 
+.tab-details {
+  border-bottom: 5px solid $brand-primary;
+  margin-bottom: 35px;
+  padding-bottom: 10px;
+}
+
 .grademap-row {
   display: flex;
   padding-top: 10px;

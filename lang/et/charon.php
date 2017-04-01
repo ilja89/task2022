@@ -24,8 +24,8 @@ $string['id_number_postfix']    = 'ID numbri lõpp';
 $string['save_preset']          = 'Salvesta preset';
 $string['update_preset']        = 'Uuenda preseti';
 
-$string['unittests_git_helper'] = 'The Git URL in which there are tests for this course. Tests for each assignment '
-                                  . 'should be in the "Project" directory specified in the new Charon form.';
+$string['unittests_git_helper'] = 'Giti URL kus asuvad selle kursuse testid. Testid peavad olema sama nimega kaustas '
+                                  . 'kuhu tudengid koodi panevad.';
 $string['tester_type_helper']   = 'The tester type this course\'s assignments use. Usually the programming language '
                                   . 'mainly used in the course. Can also be overridden when creating a task.';
 $string['preset_name_helper']   = 'Name of the preset. Choose something easy to understand, eg. home tasks.';
@@ -67,9 +67,9 @@ $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset']              = 'Preset';
 
-$string['deadline'] = 'Deadline';
-$string['percentage'] = 'Percentage';
-$string['group'] = 'Group';
+$string['deadline'] = 'Tähtaeg';
+$string['percentage'] = 'Protsent';
+$string['group'] = 'Grupp';
 
 $string['task_name_helper'] = 'The name for this assignment. A category with this name will be created which will '
                               . 'contain this assignment\'s grades.';
