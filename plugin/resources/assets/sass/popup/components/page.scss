@@ -17,7 +17,9 @@
 }
 
 .page-right {
+  height: calc(100vh - 60px);
   background-color: $background-grey;
+  overflow-y: scroll;
 }
 
 .popup-body .page-container {
