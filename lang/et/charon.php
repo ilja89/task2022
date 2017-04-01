@@ -68,27 +68,24 @@ $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
 $string['group']      = 'Grupp';
 
-$string['task_name_helper']           = 'The name for this assignment. A category with this name will be created which will '
-                                        . 'contain this assignment\'s grades.';
-$string['project_folder_name_helper'] = 'The folder name for this assignment. Students have to put their code in '
-                                        . 'this folder. This is not shown to students so it should be included in '
-                                        . 'the task description.';
-$string['deadlines_helper']           = 'Deadlines for this task. If a submission is submitted after the deadline, the '
-                                        . 'test results will be multiplied by the percentage. Eg. deadline with 0% means '
-                                        . 'that after that deadline the student will receive 0 points for tests.';
-$string['deadline_helper']            = 'Deadline date and time.';
-$string['percentage_helper']          = 'Percentage of points multiplied if submission is after deadline.';
-$string['group_helper']               = 'Group for which this deadline applies. Currently does not work.';
-$string['preset_select_helper']       = 'Any settings can be overridden in the advanced section.';
-$string['extra_helper']               = 'Extra parameters sent to the tester. Eg. stylecheck for checking the style.';
-$string['tester_type_helper']         = 'Tester type for this task. Usually just the programming language used.';
-$string['calculation_formula_helper'] = 'Formula to use in calculating the total grade for submissions. '
-                                        . 'This uses the same syntax as Moodle formulas. ID numbers from '
-                                        . 'this task\'s grades should be used. Eg. "=sum([[Tests_1]], [[Tests_2]]) * '
-                                        . '[[Style_1]] * [[Custom_1]]"';
-$string['grade_name_helper']          = 'Moodle grade name. Eg. EX01 - Tests.';
-$string['max_points_grade_helper']    = 'Max points possible to get for this grade.';
-$string['id_number_helper']           = 'Unique identifier used in calculating total points using a formula.';
+$string['task_name_helper']           = 'Ülesande pealkiri. Selle nimega luuakse kategooria kuhu tekivad ülesande hinded, '
+                                        . 'grade itemid.';
+$string['project_folder_name_helper'] = 'Kausta nimi, kuhu tudengid peavad oma lahenduse panema. Seda ei näidata tudengile, '
+                                        . 'niiet selle peaks kirjeldusse lisama.';
+$string['deadlines_helper']           = 'Tähtajad, kui esitus on hiljem kui tähtaeg, siis korrutatakse testide tulemus '
+                                        . 'protsendiga. Nt 0%-ga deadline tähendab, et  pärast seda esitades saab hindeks 0.';
+$string['deadline_helper']            = 'Tähtaja kuupäev ja aeg.';
+$string['percentage_helper']          = 'Protsent, mis võetakse hindeks kui pärast tähtaega töö esitatakse.';
+$string['group_helper']               = 'Grupp kellele see hinne kehtib. Praegu ei tööta.';
+$string['preset_select_helper']       = 'Kõiki seadeid saab "advanced" sektsioonis muuta.';
+$string['extra_helper']               = 'Testerile saadetavad extra parameetrid. Nt "stylecheck" käivitab stiili kontrolli.';
+$string['tester_type_helper']         = 'Testeri tüüp, tavaliselt programmeerimise keel.';
+$string['calculation_formula_helper'] = 'Valem mille järgi ülesande kokkuvõttev hinne arvutatakse. Kasutab sama süntaksit '
+                                        . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '
+                                        . 'Nt "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
+$string['grade_name_helper']          = 'Moodli hinde nimetus. Nt EX01 - Testid.';
+$string['max_points_grade_helper']    = 'Selle hinde matsimum punktid.';
+$string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
 
 
 /*------------------------*\
