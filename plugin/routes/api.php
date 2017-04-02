@@ -7,33 +7,33 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('git_callback', 'GitCallbackController@index')
          ->name('git_callback');
 
-    Route::middleware('auth.requireCourseManagement')
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
-    Route::middleware('auth.requireCourseManagement')
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/submissions/{submissionId}', 'SubmissionsController@findById');
 
     // No middleware - used in assignment view too! Should probably use require login tho
     Route::get('submissions/{submission}/files', 'FilesController@index');
 
-    Route::get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
-//         ->middleware('auth.requireSubmissionManaging');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.submission.managing.require')
+         ->get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
+    Route::middleware('auth.charon.managing.require')
          ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/{submission}', 'SubmissionsController@saveSubmission');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/comments', 'CommentsController@saveComment');
-    Route::middleware('auth.requireCharonManaging')
+    Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
-    Route::middleware('auth.requireCourseManagement')
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{userId}', 'StudentsController@findById');
 
-    Route::middleware('auth.requireCourseManagement')
+    Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');
-    Route::middleware('auth.requireCourseManagement')
+    Route::middleware('auth.course.managing.require')
         ->put('courses/{course}/presets/{preset}', 'PresetsController@update');
 });
