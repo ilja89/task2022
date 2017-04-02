@@ -30,7 +30,7 @@ function charon_delete_instance($id) {
     $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
     try {
         // Need to make a request before we can use app->make to get the controller
-        // Cannot use routes because this deleting is initiated by the cron job
+        // Cannot use routes because this deleting is initiated by the cron job (No server, url parameters etc)
         // TODO: Make this better!
         $kernel->handle($request = \Illuminate\Http\Request::capture());
     } catch (Exception $e) { }
