@@ -31,6 +31,10 @@
                 Total grade calculation formula: {{ form.fields.calculation_formula !== null ? form.fields.calculation_formula : 'No formula' }}
             </p>
 
+            <p>
+                Extra: {{ form.fields.extra }}
+            </p>
+
         </div>
 
         <input type="hidden" name="grading_method" :value="form.fields.grading_method">
