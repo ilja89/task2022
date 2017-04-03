@@ -4,6 +4,7 @@
             <div class="fitemtitle">
                 <label>{{ label }}</label>
             </div>
+            <p class="input-helper" v-if="helper_text !== null" v-html="helper_text"></p>
             <div class="felement fcheck grades-select-container">
                 <div class="grades-select-col">
                     <label class="checkbox" v-for="grade_type in testGradeTypes()">
@@ -33,7 +34,12 @@
 
 <script>
     export default {
-        props: [ 'label', 'active_grade_type_codes' ],
+        props: {
+            label: {required: true},
+            active_grade_type_codes: {required: true},
+            helper_text: {required: false, default: null},
+        },
+
 
         data() {
             return {

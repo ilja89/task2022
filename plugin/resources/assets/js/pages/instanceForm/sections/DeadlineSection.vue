@@ -2,7 +2,7 @@
 
     <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
 
-        <legend class="ftoggler">Deadlines</legend>
+        <legend class="ftoggler">{{ translate('deadlines') }}</legend>
 
         <div class="fcontainer clearfix fitem">
 

@@ -4,6 +4,7 @@
         <grades-checkboxes
                 :label="translate('grades_label')"
                 :active_grade_type_codes="activeGradeTypeCodes"
+                :helper_text="translate('grades_cs_helper')"
                 @grade-type-was-activated="addGrade"
                 @grade-type-was-deactivated="removeGrade">
         </grades-checkboxes>
@@ -15,11 +16,12 @@
                     :name="getGradeTypeName(grade.grade_type_code)"
                     :selected="index === 0 ? true : false">
 
-                <h5 class="subtitle">{{ translate('grade_name_label') }}</h5>
+                <label class="grade-name-label">{{ translate('grade_name_label') }}</label>
+                <p class="input-helper" v-html="translate('grade_name_cs_helper')"></p>
 
-                <div class="grade-name-container">
+                <div class="grade-name-container fitem">
 
-                    <div>
+                    <div class="grade-name-prefix-container">
                         <label :for="'preset_grade_name_prefix_' + index">
                             {{ translate('grade_name_prefix_label') }}
                         </label>
@@ -46,23 +48,25 @@
 
                 </div>
 
-                <div class="max-points-container">
+                <div class="max-points-container fitem">
 
                     <label :for="'preset_grade_max_points_' + index">
                         {{ translate('max_points_label') }}
                     </label>
+                    <p class="input-helper" v-html="translate('max_points_grade_cs_helper')"></p>
 
-                    <input type="number" class="form-control" v-model="grade.max_result"
+                    <input type="number" class="form-control is-quarter" v-model="grade.max_result"
                            :id="'preset_grade_max_points_' + index" step="0.01">
                 </div>
 
-                <div class="id-number-postfix-container">
+                <div class="id-number-postfix-container fitem">
 
                     <label :for="'preset_grade_id_number_postfix_' + index">
                         {{ translate('id_number_postfix_label') }}
                     </label>
+                    <p class="input-helper" v-html="translate('id_number_postfix_helper')"></p>
 
-                    <input type="text" class="form-control" v-model="grade.id_number_postfix"
+                    <input type="text" class="form-control is-half" v-model="grade.id_number_postfix"
                            :id="'preset_grade_id_number_postfix_' + index">
 
                 </div>

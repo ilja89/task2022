@@ -6,7 +6,7 @@
 
     <script>
         window.settings = {!! isset($settings) ? $settings->toJson() : '{}'!!};
-        window.course_id = {!! $course_id !!};
+        window.course_id = {!! $course->id !!};
         window.csrf_token = "{!! csrf_token() !!}";
         window.tester_types = {!! $tester_types->toJson() !!};
         window.presets = {!! $presets->toJson() !!};
@@ -33,10 +33,24 @@
 
             save_preset: "{{ translate('save_preset') }}",
             update_preset: "{{ translate('update_preset') }}",
+
+            unittests_git_helper: "{{ translate('unittests_git_helper') }}",
+            tester_type_helper: "{{ translate('tester_type_cs_helper') }}",
+            preset_name_helper: "{{ translate('preset_name_helper') }}",
+            extra_cs_helper: "{{ translate('extra_cs_helper') }}",
+            max_points_cs_helper: "{{ translate('max_points_cs_helper') }}",
+            grading_method_cs_helper: "{{ translate('grading_method_cs_helper') }}",
+            grades_cs_helper: "{{ translate('grades_helper') }}",
+            grade_name_cs_helper: "{{ translate('grade_name_cs_helper') }}",
+            max_points_grade_cs_helper: "{{ translate('max_points_grade_cs_helper') }}",
+            id_number_postfix_helper: "{{ translate('id_number_postfix_helper') }}",
+            calculation_formula_cs_helper: "{{ translate('calculation_formula_cs_helper') }}",
         };
     </script>
 
     <div id="app">
+        <h1>Charon settings for {{ $course->shortname }}</h1>
+
         <course-settings-form
                 :form="form"
                 :csrf_token="getCsrfToken()">

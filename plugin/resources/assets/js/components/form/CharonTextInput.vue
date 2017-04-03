@@ -4,6 +4,7 @@
             <div class="fitemtitle">
                 <label :for="'id_' + input_name" :class="required ? 'required' : ''">{{ input_label }}</label>
             </div>
+            <p class="input-helper" v-if="helper_text !== null" v-html="helper_text"></p>
             <div class="felement ftext">
                 <input size="64" :name="input_name" type="text" :required="required"
                        :id="'id_' + input_name" class="form-control" v-model="value" @keyup="onInputChanged">
@@ -14,9 +15,13 @@
 
 <script>
     export default {
-        props: [
-            'input_name', 'required', 'input_label', 'input_value'
-        ],
+        props: {
+            input_name: { required: true },
+            required: { required: false, default: false },
+            input_label: { required: true },
+            input_value: { required: true },
+            helper_text: { required: false, default: null }
+        },
 
         data() {
             return {

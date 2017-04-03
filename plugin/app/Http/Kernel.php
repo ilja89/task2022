@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use TTU\Charon\Http\Middleware\RequireSubmissionManaging;
 
 class Kernel extends HttpKernel
 {
@@ -56,8 +57,9 @@ class Kernel extends HttpKernel
         'guest' => \TTU\Charon\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-        'auth.requireEnrolment' => \TTU\Charon\Http\Middleware\RequireEnrolment::class,
-        'auth.requireCourseManagement' => \TTU\Charon\Http\Middleware\RequireCourseManagement::class,
-        'auth.requireCharonManaging' => \TTU\Charon\Http\Middleware\RequireCharonManaging::class,
+        'auth.course_module.enrolment.require' => \TTU\Charon\Http\Middleware\RequireEnrolment::class,
+        'auth.course.managing.require' => \TTU\Charon\Http\Middleware\RequireCourseManaging::class,
+        'auth.charon.managing.require' => \TTU\Charon\Http\Middleware\RequireCharonManaging::class,
+        'auth.submission.managing.require' => RequireSubmissionManaging::class,
     ];
 }

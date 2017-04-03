@@ -5,7 +5,7 @@ namespace TTU\Charon\Http\Middleware;
 use Closure;
 use Zeizig\Moodle\Services\PermissionsService;
 
-class RequireCourseManagement
+class RequireCourseManaging
 {
     /** @var PermissionsService */
     private $permissionsService;

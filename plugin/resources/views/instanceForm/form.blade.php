@@ -26,6 +26,28 @@
         id_number_label: "{{ translate('id_number') }}",
         calculation_formula_label: "{{ translate('calculation_formula') }}",
         preset_label: "{{ translate('preset') }}",
+        deadlines: "{{ translate('deadlines') }}",
+        deadline_label: "{{ translate('deadline') }}",
+        percentage_label: "{{ translate('percentage') }}",
+        group_label: "{{ translate('group') }}",
+
+        task_name_helper: "{{ translate('task_name_helper') }}",
+        project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
+        deadlines_helper: "{{ translate('deadlines_helper') }}",
+        deadline_helper: "{{ translate('deadline_helper') }}",
+        percentage_helper: "{{ translate('percentage_helper') }}",
+        group_helper: "{{ translate('group_helper') }}",
+        preset_select_helper: "{{ translate('preset_select_helper') }}",
+        extra_helper: "{{ translate('extra_helper') }}",
+        tester_type_helper: "{{ translate('tester_type_helper') }}",
+        grading_method_helper: "{{ translate('grading_method_cs_helper') }}",
+        grades_helper: "{{ translate('grades_helper') }}",
+        max_points_helper: "{{ translate('max_points_helper') }}",
+        calculation_formula_helper: "{{ translate('calculation_formula_helper') }}",
+        grade_name_helper: "{{ translate('grade_name_helper') }}",
+        max_points_grade_helper: "{{ translate('max_points_grade_helper') }}",
+        id_number_helper: "{{ translate('id_number_helper') }}",
+
     };
 </script>
 

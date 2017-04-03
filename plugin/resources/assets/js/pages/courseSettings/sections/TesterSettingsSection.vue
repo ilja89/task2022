@@ -9,6 +9,7 @@
                     :required="true"
                     :input_label="translate('unittests_git_label')"
                     :input_value="form.fields.unittests_git"
+                    :helper_text="translate('unittests_git_helper')"
                     @input-was-changed="onUnittestsGitChanged">
             </charon-text-input>
 
@@ -17,6 +18,7 @@
                     name="tester_type"
                     :options="form.tester_types"
                     :selected="form.fields.tester_type"
+                    :helper_text="translate('tester_type_helper')"
                     @input-was-changed="onTesterTypeChanged">
             </charon-select>
 
