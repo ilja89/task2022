@@ -8,6 +8,7 @@
 
         <submission-partial v-for="submission in submissions"
                             :submission="submission"
+                            :key="submission.id"
                             @submission-was-selected="onSubmissionSelected(submission)">
         </submission-partial>
 

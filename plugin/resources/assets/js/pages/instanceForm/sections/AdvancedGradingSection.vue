@@ -34,9 +34,10 @@
                     v-for="(grademap, index) in form.fields.grademaps"
                     v-if="typeof grademap !== 'undefined'"
                     :name="getGradeTypeName(grademap.grade_type_code)"
+                    :key="grademap.grade_type_code"
                     :selected="index === 0">
 
-                <grademap-row :grademap="grademap"></grademap-row>
+                <grademap-row :grademap="grademap" :formula="form.fields.calculation_formula"></grademap-row>
 
             </charon-tab>
 

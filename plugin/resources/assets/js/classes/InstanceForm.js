@@ -18,7 +18,7 @@ export default class InstanceFormForm {
         };
         this.fields.grademaps.push(grademap);
 
-        this.fields.grademaps.sort((a, b) => {
+        this.fields.grademaps = this.fields.grademaps.sort((a, b) => {
             return a.grade_type_code > b.grade_type_code ? 1 : -1;
         });
 
@@ -64,10 +64,12 @@ export default class InstanceFormForm {
             // format from previous request.
             let time = null;
 
-            if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
-                time = moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss');
-            } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
-                time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
+            if (deadline.deadline_time !== null) {
+                if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+                    time = moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss');
+                } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
+                    time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
+                }
             }
 
             if (time !== null) {
@@ -80,6 +82,8 @@ export default class InstanceFormForm {
                 };
 
                 this.fields.deadlines.push(deadline_thing);
+            } else {
+                this.addDeadline();
             }
         });
     }
