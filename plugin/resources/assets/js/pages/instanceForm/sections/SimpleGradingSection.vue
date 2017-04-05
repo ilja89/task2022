@@ -19,6 +19,7 @@
 
             <p>
                 Grades:
+                {{ form.fields.grademaps.length === 0 ? '(No grades)' : '' }}
             </p>
 
             <ul>
@@ -28,7 +29,11 @@
             </ul>
 
             <p>
-                Total grade calculation formula: {{ form.fields.calculation_formula !== null ? form.fields.calculation_formula : 'No formula' }}
+                Total grade calculation formula: {{ form.fields.calculation_formula.length > 0 ? form.fields.calculation_formula : '(No formula)' }}
+            </p>
+
+            <p>
+                Extra: {{ form.fields.extra.length > 0 ? form.fields.extra : '(No extra specified)' }}
             </p>
 
         </div>

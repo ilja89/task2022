@@ -9,6 +9,7 @@
             <deadline-row
                     v-for="(deadline, index) in form.fields.deadlines"
                     :deadline="deadline"
+                    :key="index"
                     :id="index">
             </deadline-row>
 

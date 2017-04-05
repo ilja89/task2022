@@ -14,7 +14,8 @@
             <charon-tab
                     v-for="(grade, index) in grades"
                     :name="getGradeTypeName(grade.grade_type_code)"
-                    :selected="index === 0 ? true : false">
+                    :selected="index === 0 ? true : false"
+                    :key="grade.grade_type_code">
 
                 <label class="grade-name-label">{{ translate('grade_name_label') }}</label>
                 <p class="input-helper" v-html="translate('grade_name_cs_helper')"></p>

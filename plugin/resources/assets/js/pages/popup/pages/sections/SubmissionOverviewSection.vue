@@ -5,6 +5,10 @@
             subtitle="Grade the students submission">
 
         <template slot="header-right">
+            <span class="extra-info-text" v-if="charon_confirmed_points !== null">
+                Current points: {{ charon_confirmed_points }}p
+            </span>
+
             <button class="button is-primary  save-submission-btn" @click="saveSubmission">
                 Save
             </button>
@@ -80,7 +84,7 @@
 
 <script>
     import { PopupSection } from '../../layouts';
-    import { Submission } from '../../../../models';
+    import { Submission, Charon } from '../../../../models';
 
     export default {
         components: { PopupSection },
@@ -88,6 +92,12 @@
         props: {
             charon: { required: true },
             submission: { default: null }
+        },
+
+        data() {
+            return {
+                charon_confirmed_points: null,
+            };
         },
 
         computed: {
@@ -103,6 +113,16 @@
                 return this.charon !== null
                     ? this.charon.name
                     : null;
+            }
+        },
+
+        watch: {
+            submission() {
+                if (this.submission !== null) {
+                    Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
+                        this.charon_confirmed_points = points;
+                    });
+                }
             }
         },
 

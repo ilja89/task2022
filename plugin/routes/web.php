@@ -14,6 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('clear_opcache', function () {
+    // Helper to make deployment easier
+    opcache_reset();
+});
+
 Route::get('documentation', 'StaticPagesController@apiDocumentation');
 
 Route::post('charons', 'InstanceController@store');

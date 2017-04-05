@@ -32,11 +32,14 @@
 
         props: {
             grademap: { required: true },
+            formula: { required: false, default: '' },
         },
 
         methods: {
             onGradeNameChange() {
-                this.grademap.id_number = this.grademap.name.replace(/-/g, '').replace(/ /g, '_').replace(/__/g, '_');
+                if (this.formula.length === 0) {
+                    this.grademap.id_number = this.grademap.name.replace(/-/g, '').replace(/ /g, '_').replace(/__/g, '_');
+                }
             }
         }
     }
