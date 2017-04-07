@@ -1,5 +1,7 @@
 <?php
 
+namespace TTU\Charon;
+
 use Illuminate\Http\Request;
 
 function getMoodleRequest($route = null, $method = null) {
@@ -20,4 +22,19 @@ function getMoodleRequest($route = null, $method = null) {
         ]);
 
     return $request;
+}
+
+function getApp() {
+    require_once __DIR__ . '/../../../../config.php';
+    require_once __DIR__ . '/autoload.php';
+    return require __DIR__ . '/app.php';
+}
+
+function handleMoodleRequest($route, $method) {
+
+    $app = getApp();
+    $request = getMoodleRequest($route, $method);
+    $response = $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
+
+    return $response->getOriginalContent();
 }
