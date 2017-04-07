@@ -36,7 +36,7 @@
             },
 
             moodleTimestamp() {
-                return this.submission.created_at;
+                return this.submission.created_at.date.replace(/\.000+/, "");
             }
         }
     }

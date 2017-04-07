@@ -32,11 +32,12 @@ class Submission extends Model
 {
     public $table = 'charon_submission';
     protected $fillable = [
-        'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message'
+        'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message',
+        'created_at', 'updated_at',
     ];
 
     protected $dates = [
-        'git_timestamp'
+        'git_timestamp', 'created_at', 'updated_at'
     ];
 
     public function charon()
@@ -62,6 +63,21 @@ class Submission extends Model
     public function getGitTimestampAttribute($gitTimestamp)
     {
         $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
+        $gitTimestamp = $gitTimestamp->setTimezone(config('app.timezone'));
         return $gitTimestamp;
+    }
+
+    public function getCreatedAtAttribute($createdAt)
+    {
+        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'UTC');
+        $createdAt = $createdAt->setTimezone(config('app.timezone'));
+        return $createdAt;
+    }
+
+    public function getUpdatedAtAttribute($updatedAt)
+    {
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'UTC');
+        $updatedAt = $updatedAt->setTimezone(config('app.timezone'));
+        return $updatedAt;
     }
 }

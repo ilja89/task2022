@@ -13,7 +13,7 @@
                     </span>
 
                     <span class="submission-time">
-                        {{ submission.created_at | date }}
+                        {{ submission.git_timestamp.date | date }}
                     </span>
 
                     <span class="dropdown-arrow">

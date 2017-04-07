@@ -52,12 +52,14 @@ class RequestHandler
      */
     public function getSubmissionFromRequest($request)
     {
+        $now = Carbon::now(config('app.timezone'));
+        $now = $now->setTimezone('UTC');
         $gitTimestamp = isset($request['git_timestamp'])
             ? Carbon::createFromTimestamp($request['git_timestamp'], config('app.timezone'))
-            : Carbon::now(config('app.timezone'));
+            : $now;
         $gitTimestamp->setTimezone('UTC');
 
-        return new Submission([
+        $submission = new Submission([
             'charon_id'          => $request['charon_id'],
             'user_id'            => $this->userService->findUserByIdNumber($request['uni_id'])->id,
             'git_hash'           => $request['git_hash'],
@@ -66,7 +68,11 @@ class RequestHandler
             'stdout'             => isset($request['stdout']) ? $request['stdout'] : null,
             'stderr'             => isset($request['stderr']) ? $request['stderr'] : null,
             'git_commit_message' => isset($request['git_commit_message']) ? $request['git_commit_message'] : null,
+            'created_at'         => $now,
+            'updated_at'         => $now,
         ]);
+
+        return $submission;
     }
 
     /**
