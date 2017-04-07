@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{userId}', 'StudentsController@findById');
+    Route::middleware('auth.course.managing.require')
+         ->get('courses/{course}/users/{user}/report-table', 'StudentsController@getStudentReportTable');
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/results/{user}', 'StudentsController@getStudentActiveResultForCharon');
 

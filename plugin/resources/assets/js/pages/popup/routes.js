@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import { NoStudentSelectedPage, SubmissionPage, GradingPage } from './pages';
+import { NoStudentSelectedPage, SubmissionPage, GradingPage, StudentOverviewPage } from './pages';
 
 const routes = [
     {
@@ -13,6 +13,12 @@ const routes = [
         title: 'Grading',
         component: GradingPage,
         name: 'grading',
+    },
+    {
+        path: '/student-overview/:student_id',
+        title: 'Student overview',
+        component: StudentOverviewPage,
+        name: 'student-overview',
     },
     {
         path: '*',

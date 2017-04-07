@@ -15,7 +15,7 @@
             </li>
 
             <li class="nav-item">
-                <router-link to="/student-overview">
+                <router-link :to="studentOverviewLink">
                     Student overview
                 </router-link>
             </li>
@@ -44,6 +44,14 @@
                     return '/submission/' + this.context.active_submission.id;
                 } else {
                     return '/submission';
+                }
+            },
+
+            studentOverviewLink() {
+                if (this.context.active_student !== null) {
+                    return '/student-overview/' + this.context.active_student.id;
+                } else {
+                    return '/student-overview';
                 }
             }
         }
