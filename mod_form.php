@@ -35,7 +35,9 @@ class mod_charon_mod_form extends moodleform_mod
                 'context'  => $this->context,
                 'subdirs'  => true
             ]
-        )->setValue(['text' => isset($this->current->description) ? $this->current->description : '']);
+        )->setValue([
+            'text' => isset($this->current->description) ? rewritePluginIntroUrls($this->current->description) : ''
+        ]);
         $this->_form->setType('description', PARAM_RAW);
         $this->_form->addRule('description', null, 'required', null);
 

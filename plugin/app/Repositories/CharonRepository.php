@@ -10,6 +10,7 @@ use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -23,14 +24,19 @@ class CharonRepository
     /** @var ModuleService */
     protected $moduleService;
 
+    /** @var FileUploadService */
+    private $fileUploadService;
+
     /**
      * CharonRepository constructor.
      *
      * @param ModuleService $moduleService
+     * @param FileUploadService $fileUploadService
      */
-    public function __construct(ModuleService $moduleService)
+    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService)
     {
         $this->moduleService = $moduleService;
+        $this->fileUploadService = $fileUploadService;
     }
 
     /**
@@ -150,6 +156,12 @@ class CharonRepository
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
         $oldCharon->timemodified = Carbon::now()->timestamp;
+
+        $oldCharon->description = $this->fileUploadService->savePluginIntroTextFiles(
+            'description',
+            $oldCharon->course,
+            $oldCharon->description
+        );
 
         return $oldCharon->save();
     }

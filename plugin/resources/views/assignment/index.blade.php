@@ -7,7 +7,8 @@
 <div class="columns" id="app">
 
     <div class="column assignment-content content">
-        {!! $charon->description !!}
+
+        {!! rewritePluginIntroUrls($charon->description, $charon->course) !!}
 
         @if ($can_edit)
             <div class="edit-container">
