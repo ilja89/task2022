@@ -42,6 +42,9 @@ class GradebookService extends MoodleService
      */
     public function addGradeItem($courseId, $instanceId, $itemNumber, $itemName, $maxGrade, $idNumber)
     {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/gradelib.php';
+
         $extraParams = [
             'itemname' => $itemName,
             'grademin' => 0,
@@ -49,7 +52,7 @@ class GradebookService extends MoodleService
             'idnumber' => $idNumber
         ];
 
-        grade_update(
+        \grade_update(
             'mod/' . config('moodle.plugin_slug'),
             $courseId,
             'mod',
@@ -72,6 +75,11 @@ class GradebookService extends MoodleService
      */
     public function addGradeCategory($courseId, $categoryName)
     {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/grade/constants.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_item.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_category.php';
+
         $grade_category = new \grade_category(['courseid' => $courseId, 'fullname' => $categoryName], false);
         $grade_category->insert();
 

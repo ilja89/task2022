@@ -11,6 +11,11 @@ if (!function_exists('rewriteTextUrls')) {
      * @return string
      */
     function rewritePluginIntroUrls($intro, $courseId = null) {
+
+        if (\App::environment('testing')) {
+            return $intro;
+        }
+
         if ($courseId === null) {
             $courseId = app(\Zeizig\Moodle\Globals\Course::class)->getCourseId();
         }

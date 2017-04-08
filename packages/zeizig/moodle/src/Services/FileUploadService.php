@@ -21,9 +21,14 @@ class FileUploadService
      * @return string
      */
     public function savePluginIntroTextFiles($formFieldName, $courseId, $intro) {
-        $draftid_editor = file_get_submitted_draft_itemid($formFieldName);
-        $context = \context_course::instance($courseId);
-        $newIntro = file_save_draft_area_files($draftid_editor, $context->id, 'mod_' . config('moodle.plugin_slug'), 'intro', 0, [], $intro);
+
+        if (!\App::environment('testing')) {
+            $draftid_editor = file_get_submitted_draft_itemid($formFieldName);
+            $context = \context_course::instance($courseId);
+            $newIntro = file_save_draft_area_files($draftid_editor, $context->id, 'mod_' . config('moodle.plugin_slug'), 'intro', 0, [], $intro);
+        } else {
+            $newIntro = $intro;
+        }
 
         return $newIntro;
     }
