@@ -18,22 +18,19 @@
             </p>
 
             <p>
-                Grades:
-                {{ form.fields.grademaps.length === 0 ? '(No grades)' : '' }}
+                Grades: {{ form.fields.grademaps.length === 0 ? '(No grades)' : '' }}
             </p>
 
             <ul>
                 <li v-for="grademap in form.fields.grademaps">
-                    {{ getGradeTypeName(grademap.grade_type_code) }}: {{ grademap.name }}, {{ grademap.max_points }}p
+                    {{ getGradeTypeName(grademap.grade_type_code) }}:
+                    {{ grademap.name.length > 0 ? grademap.name : '(No name!)' }},
+                    {{ grademap.max_points }}p
                 </li>
             </ul>
 
             <p>
                 Total grade calculation formula: {{ form.fields.calculation_formula.length > 0 ? form.fields.calculation_formula : '(No formula)' }}
-            </p>
-
-            <p>
-                Extra: {{ form.fields.extra.length > 0 ? form.fields.extra : '(No extra specified)' }}
             </p>
 
         </div>

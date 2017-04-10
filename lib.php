@@ -1,31 +1,21 @@
 <?php
 
-function getApp() {
-    require_once __DIR__ . '/../../config.php';
-    require_once __DIR__ . '/plugin/bootstrap/autoload.php';
-    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
-    return require __DIR__ . '/plugin/bootstrap/app.php';
-}
-
-function handleMoodleRequest($route, $method) {
-
-    $app = getApp();
-    $request = getMoodleRequest($route, $method);
-    $response = $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
-
-    return $response->getOriginalContent();
-}
-
 function charon_add_instance($test, $mform) {
-    return handleMoodleRequest('charons', 'post');
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+
+    return TTU\Charon\handleMoodleRequest('charons', 'post');
 }
 
 function charon_update_instance($test, $mform) {
-    return handleMoodleRequest('charons/update', 'post');
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+
+    return TTU\Charon\handleMoodleRequest('charons/update', 'post');
 }
 
 function charon_delete_instance($id) {
-    $app = getApp();
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+
+    $app = TTU\Charon\getApp();
 
     $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
     try {

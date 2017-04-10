@@ -2,6 +2,8 @@
 
 namespace mod_charon;
 
+use function TTU\Charon\getMoodleRequest;
+
 class course_module_created
 {
     public static function course_module_created(\core\event\course_module_created $event)

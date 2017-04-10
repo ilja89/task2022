@@ -2,6 +2,8 @@
 
 namespace mod_charon;
 
+use function TTU\Charon\getMoodleRequest;
+
 class course_module_updated
 {
     public static function course_module_updated(\core\event\course_module_updated $event)

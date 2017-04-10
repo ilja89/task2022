@@ -88,4 +88,25 @@ class StudentsController extends Controller
             return 0;
         }
     }
+
+    public function getStudentReportTable(Course $course, User $user)
+    {
+        global $CFG;
+        require_once $CFG->dirroot . '/grade/lib.php';
+        require_once $CFG->dirroot . '/grade/report/user/lib.php';
+
+        /// return tracking object
+        $gpr = new \grade_plugin_return(array('type'=>'report', 'plugin'=>'user', 'courseid'=>$course->id, 'userid'=>$user->id));
+        $context = \context_course::instance($course->id);
+
+        // Create a report instance
+        $report = new \grade_report_user($course->id, $gpr, $context, $user->id);
+        // print the page
+//    print_grade_page_head($courseid, 'report', 'user', get_string('pluginname', 'gradereport_user'). ' - '.fullname($report->user));
+
+        if ($report->fill_table()) {
+            return $report->print_table(true);
+        }
+        return '';
+    }
 }

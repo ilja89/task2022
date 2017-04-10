@@ -10,6 +10,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\UpdateCharonService;
+use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -21,6 +22,7 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class InstanceController extends Controller
 {
+
     /** @var CharonRepository */
     protected $charonRepository;
 
@@ -36,6 +38,9 @@ class InstanceController extends Controller
     /** @var UpdateCharonService */
     protected $updateCharonService;
 
+    /** @var FileUploadService */
+    private $fileUploadService;
+
     /**
      * InstanceController constructor.
      *
@@ -45,6 +50,7 @@ class InstanceController extends Controller
      * @param  GrademapService $grademapService
      * @param  CreateCharonService $createCharonService
      * @param  UpdateCharonService $updateCharonService
+     * @param FileUploadService $fileUploadService
      */
     public function __construct(
         Request $request,
@@ -52,14 +58,16 @@ class InstanceController extends Controller
         GradebookService $gradebookService,
         GrademapService $grademapService,
         CreateCharonService $createCharonService,
-        UpdateCharonService $updateCharonService
+        UpdateCharonService $updateCharonService,
+        FileUploadService $fileUploadService
     ) {
         parent::__construct($request);
-        $this->charonRepository           = $charonRepository;
-        $this->gradebookService           = $gradebookService;
-        $this->grademapService            = $grademapService;
-        $this->createCharonService        = $createCharonService;
-        $this->updateCharonService        = $updateCharonService;
+        $this->charonRepository    = $charonRepository;
+        $this->gradebookService    = $gradebookService;
+        $this->grademapService     = $grademapService;
+        $this->createCharonService = $createCharonService;
+        $this->updateCharonService = $updateCharonService;
+        $this->fileUploadService   = $fileUploadService;
     }
 
     /**
@@ -69,7 +77,8 @@ class InstanceController extends Controller
      */
     public function store()
     {
-        $charon              = $this->getCharonFromRequest();
+        $charon = $this->getCharonFromRequest();
+        $charon->description = $this->saveDescriptionFiles($charon);
         $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request['course']);
 
         if ( ! $this->charonRepository->save($charon)) {
@@ -179,7 +188,7 @@ class InstanceController extends Controller
         } else {
             $extra = $this->request->input('extra');
         }
-        
+
         return new Charon([
             'name'                => $this->request['name'],
             'description'         => $this->request['description']['text'],
@@ -190,5 +199,23 @@ class InstanceController extends Controller
             'timemodified'        => Carbon::now()->timestamp,
             'course'              => $this->request['course'],
         ]);
+    }
+
+    /**
+     * Saves files from Charon's description.
+     *
+     * @param  Charon  $charon
+     *
+     * @return string
+     */
+    private function saveDescriptionFiles(Charon $charon)
+    {
+        $newDescription = $this->fileUploadService->savePluginIntroTextFiles(
+            'description',
+            $charon->course,
+            $charon->description
+        );
+
+        return $newDescription;
     }
 }
