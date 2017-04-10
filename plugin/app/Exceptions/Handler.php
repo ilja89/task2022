@@ -5,6 +5,7 @@ namespace TTU\Charon\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -29,6 +30,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontSendEmail = [
          // CharonNotFoundException::class,
+        NotFoundHttpException::class,  // When route cannot be matched
     ];
 
     /**
