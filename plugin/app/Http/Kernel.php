@@ -4,6 +4,7 @@ namespace TTU\Charon\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use TTU\Charon\Http\Middleware\RequireSubmissionManaging;
+use TTU\Charon\Http\Middleware\RequireSubmissionsView;
 
 class Kernel extends HttpKernel
 {
@@ -61,5 +62,6 @@ class Kernel extends HttpKernel
         'auth.course.managing.require' => \TTU\Charon\Http\Middleware\RequireCourseManaging::class,
         'auth.charon.managing.require' => \TTU\Charon\Http\Middleware\RequireCharonManaging::class,
         'auth.submission.managing.require' => RequireSubmissionManaging::class,
+        'auth.charon.submissions.view.require' => RequireSubmissionsView::class,
     ];
 }
