@@ -42,4 +42,9 @@ return [
         'title' => 'Cannot access the given course module.',
         'detail' => 'The course module with ID: %d cannot be accessed by user with ID: %d.',
     ],
+
+    'course_management_permission_denied' => [
+        'title' => 'Permission denied for editing the given course.',
+        'detail' => 'The user with ID: %d from IP: %s does not have permission to manage the course with ID: %d.',
+    ],
 ];
