@@ -3,7 +3,9 @@
 namespace TTU\Charon\Http\Middleware;
 
 use Closure;
+use TTU\Charon\Exceptions\CourseManagementPermissionException;
 use TTU\Charon\Models\Submission;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\PermissionsService;
 
 class RequireSubmissionManaging
@@ -24,9 +26,11 @@ class RequireSubmissionManaging
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     *
      * @return mixed
+     * @throws CourseManagementPermissionException
      */
     public function handle($request, Closure $next)
     {
@@ -37,7 +41,16 @@ class RequireSubmissionManaging
         /** @var Submission $submission */
         $submission = $request->route('submission');
         require_login($submission->charon->course);
-        $this->permissionsService->requireCourseManagementCapability($submission->charon->course);
+        try {
+            $this->permissionsService->requireCourseManagementCapability($submission->charon->course);
+        } catch (\required_capability_exception $e) {
+            throw new CourseManagementPermissionException(
+                'course_management_permission_denied',
+                app(User::class)->currentUserId(),
+                $request->getClientIp(),
+                $submission->charon->course
+            );
+        }
 
         return $next($request);
     }

@@ -28,9 +28,11 @@ class RequireCourseManaging
      * Should only be used when there is a Course route model.
      * Ie. /courses/{course}/settings.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     *
      * @return mixed
+     * @throws CourseManagementPermissionException
      */
     public function handle($request, Closure $next)
     {
