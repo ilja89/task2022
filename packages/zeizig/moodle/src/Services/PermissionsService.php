@@ -52,7 +52,7 @@ class PermissionsService extends MoodleService
      *
      * @return void
      */
-    public function requireCourseManagementCapability($courseId)
+    public function requireCourseManagementCapability($courseId, $throwException = false)
     {
         $context = \context_course::instance($courseId);
         $this->page->setContext($context);

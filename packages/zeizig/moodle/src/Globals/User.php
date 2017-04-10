@@ -68,4 +68,14 @@ class User
 
         return false;
     }
+
+    /**
+     * Checks if there is a user logged in.
+     *
+     * @return bool
+     */
+    public function isLoggedIn()
+    {
+        return $this->currentUserId() !== 0;
+    }
 }
