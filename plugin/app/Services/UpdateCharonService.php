@@ -101,12 +101,11 @@ class UpdateCharonService
      * Updates the Category calculation formula and max score for the given Charon.
      *
      * @param  Charon  $charon
-     *
      * @param  Request  $request
      *
      * @return void
      */
-    public function updateCategoryCalculationAndMaxScore($charon, $request)
+    public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
         if ($charon->category_id !== null) {
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);

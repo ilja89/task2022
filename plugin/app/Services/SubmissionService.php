@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Helpers\RequestHandler;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;

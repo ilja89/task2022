@@ -70,6 +70,7 @@ class SubmissionsController extends Controller
 
         $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
         $submission->max_result   = $charon->category->getGradeItem()->grademax;
+        $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
 
         return $submission;
     }

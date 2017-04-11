@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -131,7 +132,9 @@ class SubmissionsRepository
     }
 
     /**
-     * @param Submission $submission
+     * Confirms the given submission.
+     *
+     * @param  Submission  $submission
      *
      * @return void
      */
@@ -142,7 +145,9 @@ class SubmissionsRepository
     }
 
     /**
-     * @param Submission $submission
+     * Unconfirms the given submission.
+     *
+     * @param  Submission  $submission
      *
      * @return void
      */
@@ -152,6 +157,15 @@ class SubmissionsRepository
         $submission->save();
     }
 
+    /**
+     * Check if the given user has any confirmed submissions for the given
+     * Charon.
+     *
+     * @param  int  $charonId
+     * @param  int  $userId
+     *
+     * @return bool
+     */
     public function charonHasConfirmedSubmissions($charonId, $userId)
     {
         /** @var Submission $submission */
@@ -164,6 +178,8 @@ class SubmissionsRepository
     }
 
     /**
+     * Saves the given result.
+     *
      * @param  Result  $result
      *
      * @return Result
@@ -174,6 +190,15 @@ class SubmissionsRepository
         return $result;
     }
 
+    /**
+     * Saves a new empty result with the given parameters.
+     *
+     * @param  int  $submissionId
+     * @param  int  $gradeTypeCode
+     * @param  string  $stdout
+     *
+     * @return void
+     */
     public function saveNewEmptyResult($submissionId, $gradeTypeCode, $stdout = null)
     {
         if ($stdout === null) {
@@ -188,5 +213,21 @@ class SubmissionsRepository
             'stdout'            => $stdout,
         ]);
         $result->save();
+    }
+
+    /**
+     * Gets the order number of the given submission. So if this is the 3rd submission
+     * this will return 3.
+     *
+     * @param Submission $submission
+     *
+     * @return int
+     */
+    public function getSubmissionOrderNumber(Submission $submission)
+    {
+        return DB::table('charon_submission')
+                 ->where('user_id', $submission->user_id)
+                 ->where('git_timestamp', '<', $submission->git_timestamp)
+                 ->count();
     }
 }
