@@ -5,7 +5,7 @@
                 :label="translate('preset_label')"
                 name="preset"
                 :options="form.presets"
-                :selected="form.fields.preset !== null ? form.fields.preset.id : null"
+                :value="form.fields.preset !== null ? form.fields.preset.id : null"
                 key_field="id"
                 :helper_text="translate('preset_select_helper')"
                 @input-was-changed="onPresetChanged">
@@ -15,7 +15,7 @@
                 :label="translate('grading_method_label')"
                 name="grading_method"
                 :options="form.grading_methods"
-                :selected="form.fields.grading_method"
+                :value="form.fields.grading_method"
                 :helper_text="translate('grading_method_helper')"
                 @input-was-changed="onGradingMethodChanged" >
         </charon-select>
@@ -44,19 +44,20 @@
         </charon-tabs>
 
         <charon-number-input
+                input_class="is-quarter"
                 name="max_score"
                 :required="true"
                 :label="translate('max_points_label')"
-                :input_value="form.fields.max_score"
+                :value="form.fields.max_score"
                 :helper_text="translate('max_points_helper')"
                 @input-was-changed="onMaxScoreChanged">
         </charon-number-input>
 
         <charon-text-input
-                input_name="calculation_formula"
+                name="calculation_formula"
                 :required="false"
-                :input_label="translate('calculation_formula_label')"
-                :input_value="form.fields.calculation_formula"
+                :label="translate('calculation_formula_label')"
+                :value="form.fields.calculation_formula"
                 :helper_text="translate('calculation_formula_helper')"
                 @input-was-changed="onCalculationFormulaChanged">
         </charon-text-input>

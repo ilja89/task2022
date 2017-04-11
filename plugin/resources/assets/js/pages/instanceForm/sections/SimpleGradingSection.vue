@@ -5,7 +5,7 @@
                        :label="translate('preset_label')"
                        name="preset"
                        :options="form.presets"
-                       :selected="form.fields.preset !== null ? form.fields.preset.id : null"
+                       :value="form.fields.preset !== null ? form.fields.preset.id : null"
                        key_field="id"
                        :helper_text="translate('preset_select_helper')"
                        @input-was-changed="onPresetChanged">
