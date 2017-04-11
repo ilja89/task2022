@@ -38,6 +38,7 @@
                         :label="translate('extra_label')"
                         :value="activePreset.extra"
                         :helper_text="translate('extra_cs_helper')"
+                        :autocomplete="false"
                         @input-was-changed="onExtraChanged">
                 </charon-text-input>
 

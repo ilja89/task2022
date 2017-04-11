@@ -25,6 +25,7 @@
                 :required="false"
                 :value="form.fields.extra"
                 :helper_text="translate('extra_helper')"
+                :autocomplete="false"
                 @input-was-changed="onExtraChanged">
         </charon-text-input>
 

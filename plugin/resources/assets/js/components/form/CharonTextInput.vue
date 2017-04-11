@@ -11,6 +11,7 @@
                        :name="name"
                        type="text"
                        :required="required"
+                       :autocomplete="autocomplete ? 'on' : 'off'"
                        v-model="input_value"
                        @keyup="onInputChanged">
             </div>
@@ -22,7 +23,12 @@
     import { FormElement } from '../../mixins'
 
     export default {
+
         mixins: [ FormElement ],
+
+        props: {
+            autocomplete: { required: false, default: true },
+        }
     }
 </script>
 

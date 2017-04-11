@@ -14,7 +14,6 @@
                     <option
                             v-for="option in options"
                             :value="option[key_field]">
-                            <!--:selected="option[key_field] === value ? 'selected' : ''">-->
                         {{ option.name }}
                     </option>
                 </select>
