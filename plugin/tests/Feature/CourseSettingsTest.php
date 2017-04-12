@@ -29,22 +29,15 @@ class CourseSettingsTest extends TestCase
 
     public function testCourseSettingsUpdatesExistingSetting()
     {
-        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
+        /** @var CourseSettings $courseSettings */
+        $courseSettings = factory('TTU\Charon\Models\CourseSettings')->create();
 
-        CourseSettings::create([
-            'course_id' => $course->id,
-            'unittests_git' => 'old unittests git',
-            'tester_type_code' => 1,
-        ]);
-
-        $this->post('/courses/' . $course->id . '/settings', [
+        $this->post('/courses/' . $courseSettings->course_id . '/settings', [
             'unittests_git' => 'unittests git here',
             'tester_type' => 2
         ]);
 
-        /** @var CourseSettings $courseSettings */
-        $courseSettings = CourseSettings::where('course_id', $course->id)->first();
-
+        $courseSettings = CourseSettings::where('course_id', $courseSettings->course_id)->first();
         $this->assertEquals(2, $courseSettings->tester_type_code);
         $this->assertEquals('unittests git here', $courseSettings->unittests_git);
     }

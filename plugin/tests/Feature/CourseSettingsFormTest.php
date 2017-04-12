@@ -8,21 +8,16 @@ use TTU\Charon\Models\CourseSettings;
 
 class CourseSettingsFormTest extends TestCase
 {
+
     use DatabaseTransactions;
 
     public function testFindsCorrectSettings()
     {
-        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
+        /** @var CourseSettings $courseSettings */
+        $courseSettings = factory('TTU\Charon\Models\CourseSettings')->create();
+        $courseSettings = CourseSettings::where('id', $courseSettings->id)->first();
 
-        CourseSettings::create([
-            'course_id' => $course->id,
-            'unittests_git' => 'old unittests git',
-            'tester_type_code' => 1,
-        ]);
-        $courseSettings = CourseSettings::where('course_id', $course->id)->first();
-
-        $response = $this->get('/courses/' . $course->id . '/settings');
-
-        $response->assertViewHas('settings', $courseSettings);
+        $this->get('/courses/' . $courseSettings->course_id . '/settings')
+             ->assertViewHas('settings', $courseSettings);
     }
 }
