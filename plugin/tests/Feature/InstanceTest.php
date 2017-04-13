@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Http\Controllers\InstanceController;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use Zeizig\Moodle\Models\CourseModule;
@@ -53,7 +54,7 @@ class InstanceTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_existing_charon()
+    public function charon_can_be_updated()
     {
         /** @var CourseModule $courseModule */
         /** @var Charon $charon */
@@ -72,6 +73,15 @@ class InstanceTest extends TestCase
         $this->assertEquals($params['name'], $charon->name);
         $this->assertEquals($params['course'], $charon->course);
         $this->assertEquals($params['grademaps'][1]['grademap_name'], $charon->grademaps[0]->name);
+    }
+
+    /** @test */
+    public function charon_can_be_deleted()
+    {
+        $charon = factory(Charon::class)->create();
+        app(InstanceController::class)->destroy($charon->id);
+
+        $this->assertNull(Charon::find($charon->id));
     }
 
     private function makeStoreRequestAndGetCharon($params)
