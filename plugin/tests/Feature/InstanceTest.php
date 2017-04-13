@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Faker\Factory;
-use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -15,17 +13,10 @@ class InstanceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /** @var Generator */
-    protected $faker;
     private $courseId;
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->faker = Factory::create();
-    }
-
-    public function testStoreSavesCharon()
+    /** @test */
+    public function it_saves_new_charon()
     {
         $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
         $this->courseId = $course->id;
