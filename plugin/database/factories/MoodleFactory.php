@@ -5,8 +5,8 @@ $factory->define(Zeizig\Moodle\Models\CourseModule::class, function (Faker\Gener
 
     return [
         'instance' => $faker->randomNumber(),
-        'module' => app('Zeizig\Moodle\Services\ModuleService')->getModuleId(),
-        'course' => function () {
+        'module'   => app('Zeizig\Moodle\Services\ModuleService')->getModuleId(),
+        'course'   => function () {
             return factory(Zeizig\Moodle\Models\Course::class)->create()->id;
         }
     ];
@@ -22,7 +22,7 @@ $factory->define(Zeizig\Moodle\Models\Module::class, function (Faker\Generator $
 $factory->define(Zeizig\Moodle\Models\Course::class, function (Faker\Generator $faker) {
 
     return [
-        'fullname' => $faker->sentence,
+        'fullname'  => $faker->sentence,
         'shortname' => $faker->word
     ];
 });

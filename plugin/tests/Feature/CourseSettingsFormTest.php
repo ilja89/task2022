@@ -8,14 +8,14 @@ use TTU\Charon\Models\CourseSettings;
 
 class CourseSettingsFormTest extends TestCase
 {
-
     use DatabaseTransactions;
 
-    public function testFindsCorrectSettings()
+    /** @test */
+    public function shows_correct_course_settings()
     {
         /** @var CourseSettings $courseSettings */
-        $courseSettings = factory('TTU\Charon\Models\CourseSettings')->create();
-        $courseSettings = CourseSettings::where('id', $courseSettings->id)->first();
+        $courseSettings = factory(CourseSettings::class)->create();
+        $courseSettings->wasRecentlyCreated = false;
 
         $this->get('/courses/' . $courseSettings->course_id . '/settings')
              ->assertViewHas('settings', $courseSettings);
