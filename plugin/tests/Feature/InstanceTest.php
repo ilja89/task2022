@@ -8,13 +8,11 @@ use Tests\TestCase;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
-use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\CourseModule;
 
 class InstanceTest extends TestCase
 {
     use DatabaseTransactions;
-
-    private $courseId;
 
     /** @test */
     public function it_saves_new_charon()
@@ -37,6 +35,7 @@ class InstanceTest extends TestCase
         // TODO: Figure out how to clear database completely after test (grade items, grade items history)
     }
 
+    /** @test */
     public function it_notifies_tester_of_new_charon()
     {
         /** @var CourseSettings $courseSettings */
@@ -51,6 +50,28 @@ class InstanceTest extends TestCase
         Event::assertDispatched(CharonCreated::class, function ($e) use ($charon) {
             return $e->charon->id === $charon->id;
         });
+    }
+
+    /** @test */
+    public function it_updates_existing_charon()
+    {
+        /** @var CourseModule $courseModule */
+        /** @var Charon $charon */
+        $courseModule = factory(CourseModule::class)->create();
+        $charon = Charon::find($courseModule->instance);
+        factory(CourseSettings::class)->create([
+            'course_id' => $charon->course,
+        ]);
+
+        $params = $this->getRandomRequest($charon->course);
+        $params['update'] = $courseModule->id;
+
+        $response = $this->post('/charons/update', $params);
+        $charon = Charon::find($courseModule->instance);
+
+        $this->assertEquals($params['name'], $charon->name);
+        $this->assertEquals($params['course'], $charon->course);
+        $this->assertEquals($params['grademaps'][1]['grademap_name'], $charon->grademaps[0]->name);
     }
 
     private function makeStoreRequestAndGetCharon($params)

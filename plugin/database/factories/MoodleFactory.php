@@ -2,25 +2,24 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Zeizig\Moodle\Models\CourseModule::class, function (Faker\Generator $faker) {
-
     return [
-        'instance' => $faker->randomNumber(),
+        'instance' => function () {
+            return factory(\TTU\Charon\Models\Charon::class)->create()->id;
+        },
         'module'   => app('Zeizig\Moodle\Services\ModuleService')->getModuleId(),
-        'course'   => function () {
-            return factory(Zeizig\Moodle\Models\Course::class)->create()->id;
+        'course'   => function (array $courseModule) {
+            return $courseModule['instance'];
         }
     ];
 });
 
 $factory->define(Zeizig\Moodle\Models\Module::class, function (Faker\Generator $faker) {
-
     return [
-        'name' => 'charon'
+        'name' => config('moodle.plugin_slug'),
     ];
 });
 
 $factory->define(Zeizig\Moodle\Models\Course::class, function (Faker\Generator $faker) {
-
     return [
         'fullname'  => $faker->sentence,
         'shortname' => $faker->word

@@ -38,11 +38,17 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
+     *
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
+        if (\App::environment('testing')) {
+            throw $exception;
+        }
+
         if (! $this->shouldntSendEmail($exception) && ! $this->isPrivateEnv()) {
             // Don't try to email exceptions when in local environment.
             app('sneaker')->captureException($exception);
