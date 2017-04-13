@@ -10,4 +10,5 @@ Homestead.yaml
 .DS_Store
 npm-debug.log
 .swp
-/storage/*.key
+.phpstorm.meta.php
+_ide_helper.php
