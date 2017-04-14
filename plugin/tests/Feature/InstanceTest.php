@@ -67,7 +67,7 @@ class InstanceTest extends TestCase
         $params = $this->getRandomRequest($charon->course);
         $params['update'] = $courseModule->id;
 
-        $response = $this->post('/charons/update', $params);
+        $this->post('/charons/update', $params);
         $charon = Charon::find($courseModule->instance);
 
         $this->assertEquals($params['name'], $charon->name);
@@ -79,6 +79,8 @@ class InstanceTest extends TestCase
     public function charon_can_be_deleted()
     {
         $charon = factory(Charon::class)->create();
+
+        $this->assertNotNull(Charon::find($charon->id));
         app(InstanceController::class)->destroy($charon->id);
 
         $this->assertNull(Charon::find($charon->id));

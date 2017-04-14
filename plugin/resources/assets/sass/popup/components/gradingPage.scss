@@ -2,6 +2,10 @@
   #GRADING_PAGE
 \*---------------------*/
 
+.submissions {
+  position: relative;
+}
+
 .submission {
   margin: 20px 0;
   line-height: $submission-height;

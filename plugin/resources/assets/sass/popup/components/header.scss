@@ -37,7 +37,6 @@
   margin: auto;
 }
 
-
 /*
     Header right
  *----------------------------------*/
@@ -146,7 +145,7 @@
 .options-menu {
   position: absolute;
   display: none;
-  z-index: 2;
+  z-index: 5;
   margin-left: -190px;
   margin-top: -10px;
   background-color: #fff;

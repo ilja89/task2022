@@ -6,11 +6,13 @@
             <h3 class="title is-3">No submissions found!</h3>
         </div>
 
-        <submission-partial v-for="submission in submissions"
-                            :submission="submission"
-                            :key="submission.id"
-                            @submission-was-selected="onSubmissionSelected(submission)">
-        </submission-partial>
+        <transition-group name="list">
+            <submission-partial v-for="(submission, index) in submissions"
+                                :submission="submission"
+                                :key="submission.id"
+                                @submission-was-selected="onSubmissionSelected(submission)">
+            </submission-partial>
+        </transition-group>
 
         <div v-if="canLoadMore && submissions.length > 0" class="has-text-centered">
             <button class="button is-primary" @click="loadMoreSubmissions()">
