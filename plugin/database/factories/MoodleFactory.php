@@ -11,6 +11,8 @@ $factory->define(Zeizig\Moodle\Models\CourseModule::class, function (Faker\Gener
         'course'   => function (array $courseModule) {
             return \TTU\Charon\Models\Charon::find($courseModule['instance'])->course;
         },
+        'section' => 1,
+        'added' => \Carbon\Carbon::now()->timestamp,
     ];
 });
 
