@@ -19,9 +19,7 @@ class UpdateCharonServiceTest extends TestCase
 {
     public function testUpdatesGrademaps()
     {
-        $request = m::mock(Request::class);
-        $request->course = 1;
-        $request->grademaps = [
+        $newGrademaps = [
             1 => [
                 'grademap_name' => 'new name 1',
                 'max_points' => 100,
@@ -43,6 +41,7 @@ class UpdateCharonServiceTest extends TestCase
         $grademap2->grade_item_id = 2;
 
         $charon = m::mock(Charon::class)->makePartial();
+        $charon->course = 1;
         $charon->grademaps = [$grademap1, $grademap2];
 
         $gradebookService = m::mock(GradebookService::class)
@@ -57,7 +56,7 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(DeadlinesRepository::class)
         );
 
-        $updateCharonService->updateGrademaps($request, $charon);
+        $updateCharonService->updateGrademaps($newGrademaps, $charon);
 
         $this->assertEquals('new name 1', $grademap1->name);
         $this->assertEquals('new name 2', $grademap2->name);
@@ -65,8 +64,7 @@ class UpdateCharonServiceTest extends TestCase
 
     public function testUpdateGrademapsDeletesGrademap()
     {
-        $request = m::mock(Request::class);
-        $request->grademaps = [];
+        $newGrademaps = [];
         $grademap = m::mock(Grademap::class)->makePartial();
         $grademap->grade_type_code = 1;
         $charon = m::mock(Charon::class)->makePartial();
@@ -82,7 +80,7 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(DeadlinesRepository::class)
         );
 
-        $updateCharonService->updateGrademaps($request, $charon);
+        $updateCharonService->updateGrademaps($newGrademaps, $charon);
     }
 
     public function testUpdatesDeadlines()

@@ -3,6 +3,8 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Helpers\SubmissionCalculator;
+use TTU\Charon\Models\Grademap;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
@@ -127,7 +129,7 @@ class CharonGradingService
             return true;
         }
 
-        if ($this->hasConfirmedSubmission($submission)) {
+        if ($this->hasConfirmedSubmission($submission->charon_id, $submission->user_id)) {
             return false;
         }
 
@@ -154,15 +156,15 @@ class CharonGradingService
     /**
      * Check if the submission has a previously confirmed submission.
      *
-     * @param  Submission $submission
+     * @param  int  $charonId
+     * @param  int  $userId
      *
      * @return bool
      */
-    private function hasConfirmedSubmission(Submission $submission)
+    private function hasConfirmedSubmission($charonId, $userId)
     {
         return $this->submissionsRepository->charonHasConfirmedSubmissions(
-            $submission->charon_id,
-            $submission->user_id
+            $charonId, $userId
         );
     }
 
@@ -182,5 +184,40 @@ class CharonGradingService
         }
 
         return true;
+    }
+
+    /**
+     * Recalculate grades for the given grademap.
+     *
+     * @param  Grademap  $grademap
+     *
+     * @return void
+     */
+    public function recalculateGrades(Grademap $grademap)
+    {
+        // TODO: Charon_id does not exist in results table
+        $results = Result::whereHas('submission', function ($query) use ($grademap) {
+            $query->where('charon_id', $grademap->charon_id);
+        })
+            ->where('grade_type_code', $grademap->grade_type_code)
+            ->get();
+        $deadlines = $grademap->charon->deadlines;
+        $courseId = $grademap->charon->course;
+
+        $results->each(function ($result) use ($grademap, $deadlines, $courseId) {
+            /** @var Result $result */
+            if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
+                $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result, $deadlines);
+                $result->save();
+
+                $this->gradingService->updateGrade(
+                    $courseId,
+                    $grademap->charon_id,
+                    $result->grade_type_code,
+                    $result->submission->user_id,
+                    $result->calculated_result
+                );
+            }
+        });
     }
 }

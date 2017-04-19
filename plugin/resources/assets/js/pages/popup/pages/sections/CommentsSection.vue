@@ -1,5 +1,4 @@
 <template>
-
     <popup-section
             title="Comments"
             subtitle="Comments are for every Charon and student.">

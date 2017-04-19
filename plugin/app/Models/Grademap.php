@@ -9,9 +9,10 @@ use Zeizig\Moodle\Models\GradeItem;
 /**
  * Class Grademap.
  *
- * @property integer $id
- * @property string $name
+ * @property integer id
+ * @property string name
  * @property integer grade_item_id
+ * @property int charon_id
  *
  * @property Charon $charon
  * @property GradeItem $gradeItem
