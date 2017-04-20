@@ -20,27 +20,23 @@ class CharonGradingService
 {
     /** @var GradingService */
     private $gradingService;
-
     /** @var GrademapService */
     private $grademapService;
-
     /** @var CharonRepository */
     private $charonRepository;
-
     /** @var SubmissionsRepository */
     private $submissionsRepository;
-
     /** @var SubmissionCalculator */
     private $submissionCalculator;
 
     /**
      * CharonGradingService constructor.
      *
-     * @param GradingService $gradingService
-     * @param GrademapService $grademapService
-     * @param CharonRepository $charonRepository
-     * @param SubmissionsRepository $submissionsRepository
-     * @param SubmissionCalculator $submissionCalculator
+     * @param  GradingService  $gradingService
+     * @param  GrademapService  $grademapService
+     * @param  CharonRepository  $charonRepository
+     * @param  SubmissionsRepository  $submissionsRepository
+     * @param  SubmissionCalculator  $submissionCalculator
      */
     public function __construct(
         GradingService $gradingService,
@@ -53,15 +49,14 @@ class CharonGradingService
         $this->grademapService       = $grademapService;
         $this->charonRepository      = $charonRepository;
         $this->submissionsRepository = $submissionsRepository;
-        $this->submissionCalculator = $submissionCalculator;
+        $this->submissionCalculator  = $submissionCalculator;
     }
 
     /**
      * Update the grade for the user if it should be updated.
      *
-     * @param  Submission $submission
-     *
-     * @param bool $force
+     * @param  Submission  $submission
+     * @param  bool  $force
      *
      * @return void
      */
@@ -94,7 +89,7 @@ class CharonGradingService
     /**
      * Confirms the given submission and unconfirms the rest for the user.
      *
-     * @param  Submission $submission
+     * @param  Submission  $submission
      *
      * @return void
      */
@@ -118,8 +113,8 @@ class CharonGradingService
     /**
      * Check if the given submission should update grades.
      *
-     * @param  Submission $submission
-     * @param  bool $force
+     * @param  Submission  $submission
+     * @param  bool  $force
      *
      * @return bool
      */
@@ -140,7 +135,7 @@ class CharonGradingService
      * Calculates the calculated results for given new submission and
      * saves them.
      *
-     * @param Submission $submission
+     * @param  Submission  $submission
      *
      * @return void
      */
@@ -148,7 +143,8 @@ class CharonGradingService
     {
         $charon = $submission->charon;
         foreach ($submission->results as $result) {
-            $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result, $charon->deadlines);
+            $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result,
+                $charon->deadlines);
             $result->save();
         }
     }
@@ -172,7 +168,7 @@ class CharonGradingService
      * Check if the submission should be updated based on the grading
      * method of the charon.
      *
-     * @param  Submission $submission
+     * @param  Submission  $submission
      *
      * @return bool
      */
@@ -195,18 +191,17 @@ class CharonGradingService
      */
     public function recalculateGrades(Grademap $grademap)
     {
-        $results = Result::whereHas('submission', function ($query) use ($grademap) {
-            $query->where('charon_id', $grademap->charon_id);
-        })
-            ->where('grade_type_code', $grademap->grade_type_code)
-            ->get();
-        $deadlines = $grademap->charon->deadlines;
-        $courseId = $grademap->charon->course;
+        $results = $this->submissionsRepository->findResultsByCharonAndGradeType(
+            $grademap->charon_id,
+            $grademap->grade_type_code
+        );
 
-        $results->each(function ($result) use ($grademap, $deadlines, $courseId) {
+        $results->each(function ($result) use ($grademap) {
             /** @var Result $result */
-            if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
-                $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result, $deadlines);
+            if ( ! $this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
+                $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines(
+                    $result, $grademap->charon->deadlines
+                );
                 $result->save();
             } else {
                 $result = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon(
@@ -215,7 +210,7 @@ class CharonGradingService
             }
 
             $this->gradingService->updateGrade(
-                $courseId,
+                $grademap->charon->course,
                 $grademap->charon_id,
                 $result->grade_type_code,
                 $result->submission->user_id,

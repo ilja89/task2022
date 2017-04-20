@@ -225,9 +225,18 @@ class SubmissionsRepository
      */
     public function getSubmissionOrderNumber(Submission $submission)
     {
-        return DB::table('charon_submission')
+        return \DB::table('charon_submission')
                  ->where('user_id', $submission->user_id)
                  ->where('git_timestamp', '<', $submission->git_timestamp)
                  ->count();
+    }
+
+    public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
+    {
+        return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
+            $query->where('charon_id', $charonId);
+        })
+                         ->where('grade_type_code', $gradeTypeCode)
+                         ->get();
     }
 }
