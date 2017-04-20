@@ -195,7 +195,6 @@ class CharonGradingService
      */
     public function recalculateGrades(Grademap $grademap)
     {
-        // TODO: Charon_id does not exist in results table
         $results = Result::whereHas('submission', function ($query) use ($grademap) {
             $query->where('charon_id', $grademap->charon_id);
         })
@@ -209,15 +208,19 @@ class CharonGradingService
             if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
                 $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result, $deadlines);
                 $result->save();
-
-                $this->gradingService->updateGrade(
-                    $courseId,
-                    $grademap->charon_id,
-                    $result->grade_type_code,
-                    $result->submission->user_id,
-                    $result->calculated_result
-                );
+            } else {
+                $result = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon(
+                    $result->submission->user_id, $grademap->charon_id
+                )->first()->results()->where('grade_type_code', $result->grade_type_code)->first();
             }
+
+            $this->gradingService->updateGrade(
+                $courseId,
+                $grademap->charon_id,
+                $result->grade_type_code,
+                $result->submission->user_id,
+                $result->calculated_result
+            );
         });
     }
 }
