@@ -37,7 +37,7 @@ class InstanceTest extends TestCase
     }
 
     /** @test */
-    public function it_notifies_tester_of_new_charon()
+    public function creating_a_charon_notifies_tester_of_the_new_charon()
     {
         /** @var CourseSettings $courseSettings */
         /** @var Charon $charon */
