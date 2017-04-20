@@ -30,7 +30,7 @@ class TesterCommunicationServiceTest extends TestCase
         $charon->grademaps = [$grademap1, $grademap2];
 
         $httpCommunicator = m::mock(HttpCommunicationService::class)
-            ->shouldReceive('sendInfoToTester')->with('addproject', 'post', [
+            ->shouldReceive('postToTester')->with('addproject', [
                 'id' => 1,
                 'project'      => $charon->project_folder,
                 'course'       => 'iti0020',
@@ -61,7 +61,7 @@ class TesterCommunicationServiceTest extends TestCase
         $gitCallback->secret_token = 'Very secret token';
 
         $httpCommunicator = m::mock(HttpCommunicationService::class)
-            ->shouldReceive('sendInfoToTester')->with('test', 'post', [
+            ->shouldReceive('postToTester')->with('test', [
                 'callback_url' => 'tester callback url',
                 'secret_token' => $gitCallback->secret_token,
                 'extra' => 'param'

@@ -3,12 +3,14 @@
 namespace Tests\Unit\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Mockery as m;
 use Tests\TestCase;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\DeadlineService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\UpdateCharonService;
@@ -22,12 +24,12 @@ class UpdateCharonServiceTest extends TestCase
         $newGrademaps = [
             1 => [
                 'grademap_name' => 'new name 1',
-                'max_points' => 100,
+                'max_points' => 1,
                 'id_number' => 'idnumber'
             ],
             101 => [
                 'grademap_name' => 'new name 2',
-                'max_points' => 100,
+                'max_points' => 1,
                 'id_number' => 'idnumber'
             ],
         ];
@@ -35,10 +37,14 @@ class UpdateCharonServiceTest extends TestCase
         $grademap1->grade_type_code = 1;
         $grademap1->name = 'old name 1';
         $grademap1->grade_item_id = 1;
+        $grademap1->gradeItem = new \StdClass;
+        $grademap1->gradeItem->grademax = 1;
         $grademap2 = m::mock('Grademap2')->shouldReceive('save')->getMock();
         $grademap2->grade_type_code = 101;
         $grademap2->name = 'old name 2';
         $grademap2->grade_item_id = 2;
+        $grademap2->gradeItem = new \StdClass;
+        $grademap2->gradeItem->grademax = 1;
 
         $charon = m::mock(Charon::class)->makePartial();
         $charon->course = 1;
@@ -53,7 +59,8 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(GrademapService::class),
             $gradebookService,
             m::mock(DeadlineService::class),
-            m::mock(DeadlinesRepository::class)
+            m::mock(DeadlinesRepository::class),
+            m::mock(CharonGradingService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
@@ -77,7 +84,8 @@ class UpdateCharonServiceTest extends TestCase
                 ->getMock(),
             m::mock(GradebookService::class),
             m::mock(DeadlineService::class),
-            m::mock(DeadlinesRepository::class)
+            m::mock(DeadlinesRepository::class),
+            m::mock(CharonGradingService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
@@ -85,8 +93,9 @@ class UpdateCharonServiceTest extends TestCase
 
     public function testUpdatesDeadlines()
     {
-        $charon = m::mock(Charon::class)->makePartial();
+        $charon = m::mock(Charon::class, ['load' => null])->makePartial();
         $charon->id = 1;
+        $charon->deadlines = Collection::make([]);
         $deadline1 = m::mock(Deadline::class)->makePartial();
         $deadline2 = m::mock(Deadline::class)->makePartial();
         $request = m::mock(Request::class);
@@ -101,7 +110,8 @@ class UpdateCharonServiceTest extends TestCase
                 ->getMock(),
             m::mock(DeadlinesRepository::class)
                 ->shouldReceive('deleteAllDeadlinesForCharon')->with($charon->id)->once()
-                ->getMock()
+                ->getMock(),
+            m::mock(CharonGradingService::class)
         );
 
         $updateCharonService->updateDeadlines($request, $charon);
@@ -122,7 +132,8 @@ class UpdateCharonServiceTest extends TestCase
                 ->shouldReceive('getGradeItemByCategoryId')->with($charon->category_id)->andReturn($gradeItem)
                 ->getMock(),
             m::mock(DeadlineService::class),
-            m::mock(DeadlinesRepository::class)
+            m::mock(DeadlinesRepository::class),
+            m::mock(CharonGradingService::class)
         );
 
         $updateCharonService->updateCategoryCalculationAndMaxScore($charon, $request);
