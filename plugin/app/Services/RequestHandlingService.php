@@ -1,6 +1,6 @@
 <?php
 
-namespace TTU\Charon\Helpers;
+namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

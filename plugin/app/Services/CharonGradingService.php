@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use TTU\Charon\Helpers\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;

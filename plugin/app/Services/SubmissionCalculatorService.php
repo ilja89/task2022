@@ -1,6 +1,6 @@
 <?php
 
-namespace TTU\Charon\Helpers;
+namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;

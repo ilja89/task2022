@@ -1,6 +1,6 @@
 <?php
 
-namespace TTU\Charon\Helpers;
+namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;

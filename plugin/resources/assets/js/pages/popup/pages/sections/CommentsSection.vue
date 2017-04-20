@@ -27,8 +27,8 @@
 </template>
 
 <script>
-    import { PopupSection } from '../../layouts';
-    import { Comment } from '../../../../models';
+    import { PopupSection } from '../../layouts'
+    import { Comment } from '../../../../models'
 
     export default {
 
@@ -43,42 +43,46 @@
             return {
                 written_comment: '',
                 comments: []
-            };
+            }
         },
 
         watch: {
             charon() {
-                this.refreshComments();
+                this.refreshComments()
             },
 
             student() {
-                this.refreshComments();
+                this.refreshComments()
             }
         },
 
         mounted() {
-            this.refreshComments();
-            VueEvent.$on('refresh-page', () => this.refreshComments());
+            this.refreshComments()
+            VueEvent.$on('refresh-page', () => this.refreshComments())
         },
 
         methods: {
             saveComment() {
+                if (this.written_comment.length === 0) {
+                    return
+                }
+
                 Comment.save(this.written_comment, this.charon.id, this.student.id, comment => {
-                    this.comments.push(comment);
-                    this.written_comment = '';
-                    VueEvent.$emit('show-notification', 'Comment saved!');
+                    this.comments.push(comment)
+                    this.written_comment = ''
+                    VueEvent.$emit('show-notification', 'Comment saved!')
                 });
             },
 
             refreshComments() {
                 if (this.charon === null || this.student === null) {
-                    this.comments = [];
-                    return;
+                    this.comments = []
+                    return
                 }
 
                 Comment.all(this.charon.id, this.student.id, comments => {
-                    this.comments = comments;
-                });
+                    this.comments = comments
+                })
             }
         }
     }
