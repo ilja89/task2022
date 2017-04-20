@@ -56,7 +56,7 @@ class TesterCommunicationService
             ];
         }
 
-        $this->httpCommunicationService->sendInfoToTester('addproject', 'post', $params);
+        $this->httpCommunicationService->postToTester('addproject', $params);
     }
 
     /**
@@ -75,6 +75,6 @@ class TesterCommunicationService
 
         $params = array_merge($extraParameters, $params);
 
-        $this->httpCommunicationService->sendInfoToTester('test', 'post', $params);
+        $this->httpCommunicationService->postToTester('test', $params);
     }
 }

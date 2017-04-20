@@ -22,7 +22,7 @@ class HttpCommunicationService
     /**
      * HttpCommunicator constructor.
      *
-     * @param SettingsService $settingsService
+     * @param  SettingsService  $settingsService
      */
     public function __construct(SettingsService $settingsService)
     {
@@ -32,9 +32,9 @@ class HttpCommunicationService
     /**
      * Sends info to the tester.
      *
-     * @param  string $uri
-     * @param  string $method
-     * @param  array $data
+     * @param  string  $uri
+     * @param  string  $method
+     * @param  array  $data
      *
      * @return void
      */
@@ -48,5 +48,18 @@ class HttpCommunicationService
         } catch (RequestException $e) {
             Log::error('Could not send info to tester to url ' . $testerUrl . '/' . $uri);
         }
+    }
+
+    /**
+     * Wrapper for sendInfoToTester for easier calling.
+     *
+     * @param  string  $uri
+     * @param  array  $data
+     *
+     * @return void
+     */
+    public function postToTester($uri, $data)
+    {
+        $this->sendInfoToTester($uri, 'post', $data);
     }
 }
