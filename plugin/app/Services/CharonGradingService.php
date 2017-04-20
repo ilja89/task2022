@@ -2,7 +2,7 @@
 
 namespace TTU\Charon\Services;
 
-use TTU\Charon\Helpers\SubmissionCalculator;
+use TTU\Charon\Helpers\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -26,8 +26,8 @@ class CharonGradingService
     private $charonRepository;
     /** @var SubmissionsRepository */
     private $submissionsRepository;
-    /** @var SubmissionCalculator */
-    private $submissionCalculator;
+    /** @var SubmissionCalculatorService */
+    private $submissionCalculatorService;
 
     /**
      * CharonGradingService constructor.
@@ -36,20 +36,20 @@ class CharonGradingService
      * @param  GrademapService  $grademapService
      * @param  CharonRepository  $charonRepository
      * @param  SubmissionsRepository  $submissionsRepository
-     * @param  SubmissionCalculator  $submissionCalculator
+     * @param  SubmissionCalculatorService  $submissionCalculatorService
      */
     public function __construct(
         GradingService $gradingService,
         GrademapService $grademapService,
         CharonRepository $charonRepository,
         SubmissionsRepository $submissionsRepository,
-        SubmissionCalculator $submissionCalculator
+        SubmissionCalculatorService $submissionCalculatorService
     ) {
-        $this->gradingService        = $gradingService;
-        $this->grademapService       = $grademapService;
-        $this->charonRepository      = $charonRepository;
-        $this->submissionsRepository = $submissionsRepository;
-        $this->submissionCalculator  = $submissionCalculator;
+        $this->gradingService              = $gradingService;
+        $this->grademapService             = $grademapService;
+        $this->charonRepository            = $charonRepository;
+        $this->submissionsRepository       = $submissionsRepository;
+        $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
     /**
@@ -143,7 +143,7 @@ class CharonGradingService
     {
         $charon = $submission->charon;
         foreach ($submission->results as $result) {
-            $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines($result,
+            $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines($result,
                 $charon->deadlines);
             $result->save();
         }
@@ -176,7 +176,7 @@ class CharonGradingService
     {
         $charon = $submission->charon;
         if ($charon->gradingMethod->isPreferBest()) {
-            return $this->submissionCalculator->submissionIsBetterThanLast($submission);
+            return $this->submissionCalculatorService->submissionIsBetterThanLast($submission);
         }
 
         return true;
@@ -199,7 +199,7 @@ class CharonGradingService
         $results->each(function ($result) use ($grademap) {
             /** @var Result $result */
             if ( ! $this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
-                $result->calculated_result = $this->submissionCalculator->calculateResultFromDeadlines(
+                $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                     $result, $grademap->charon->deadlines
                 );
                 $result->save();

@@ -4,7 +4,7 @@ namespace Tests\Unit\Helpers;
 
 use Mockery as m;
 use Tests\TestCase;
-use TTU\Charon\Helpers\RequestHandler;
+use TTU\Charon\Helpers\RequestHandlingService;
 use Zeizig\Moodle\Services\UserService;
 
 class RequestHandlerTest extends TestCase
@@ -13,7 +13,7 @@ class RequestHandlerTest extends TestCase
     {
         $request = ['path' => 'EX01/directory/structure/file.java', 'contents' => 'hello world'];
 
-        $requestHandler = new RequestHandler(m::mock(UserService::class));
+        $requestHandler = new RequestHandlingService(m::mock(UserService::class));
 
         $file = $requestHandler->getFileFromRequest(1, $request);
 
@@ -37,7 +37,7 @@ class RequestHandlerTest extends TestCase
         $user = m::mock('user');
         $user->id = 2;
 
-        $requestHandler = new RequestHandler(
+        $requestHandler = new RequestHandlingService(
             m::mock(UserService::class)->shouldReceive('findUserByIdNumber')->andReturn($user)->getMock()
         );
 
@@ -58,7 +58,7 @@ class RequestHandlerTest extends TestCase
             'stderr' => 'stderr text',
         ];
 
-        $requestHandler = new RequestHandler(m::mock(UserService::class));
+        $requestHandler = new RequestHandlingService(m::mock(UserService::class));
         $result = $requestHandler->getResultFromRequest(1, $request);
 
         $this->assertEquals(1, $result->submission_id);

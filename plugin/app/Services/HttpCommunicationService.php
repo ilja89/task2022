@@ -14,7 +14,7 @@ use Zeizig\Moodle\Services\SettingsService;
  *
  * @package TTU\Charon\Helpers
  */
-class HttpCommunicator
+class HttpCommunicationService
 {
     /** @var SettingsService */
     private $settingsService;
