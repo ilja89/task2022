@@ -5,10 +5,11 @@
         <slot>
 
             <charon-text-input
-                    input_name="unittests_git"
+                    input_class="is-half"
+                    name="unittests_git"
                     :required="true"
-                    :input_label="translate('unittests_git_label')"
-                    :input_value="form.fields.unittests_git"
+                    :label="translate('unittests_git_label')"
+                    :value="form.fields.unittests_git"
                     :helper_text="translate('unittests_git_helper')"
                     @input-was-changed="onUnittestsGitChanged">
             </charon-text-input>
@@ -17,7 +18,7 @@
                     :label="translate('tester_type_label')"
                     name="tester_type"
                     :options="form.tester_types"
-                    :selected="form.fields.tester_type"
+                    :value="form.fields.tester_type"
                     :helper_text="translate('tester_type_helper')"
                     @input-was-changed="onTesterTypeChanged">
             </charon-select>

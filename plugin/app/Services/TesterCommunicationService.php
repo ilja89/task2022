@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use TTU\Charon\Helpers\HttpCommunicator;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 
@@ -13,19 +12,17 @@ use TTU\Charon\Models\GitCallback;
  */
 class TesterCommunicationService
 {
-    /** @var HttpCommunicator */
-    private $httpCommunicator;
+    /** @var HttpCommunicationService */
+    private $httpCommunicationService;
 
     /**
      * TesterCommunicationService constructor.
      *
-     * @param HttpCommunicator $httpCommunicator
-     *
-     * @internal param SettingsService $settingsService
+     * @param HttpCommunicationService $httpCommunicationService
      */
-    public function __construct(HttpCommunicator $httpCommunicator)
+    public function __construct(HttpCommunicationService $httpCommunicationService)
     {
-        $this->httpCommunicator = $httpCommunicator;
+        $this->httpCommunicationService = $httpCommunicationService;
     }
 
     /**
@@ -58,7 +55,7 @@ class TesterCommunicationService
             ];
         }
 
-        $this->httpCommunicator->sendInfoToTester('addproject', 'post', $params);
+        $this->httpCommunicationService->postToTester('addproject', $params);
     }
 
     /**
@@ -77,6 +74,6 @@ class TesterCommunicationService
 
         $params = array_merge($extraParameters, $params);
 
-        $this->httpCommunicator->sendInfoToTester('test', 'post', $params);
+        $this->httpCommunicationService->postToTester('test', $params);
     }
 }

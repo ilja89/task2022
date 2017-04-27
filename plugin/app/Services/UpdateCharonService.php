@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
 use Zeizig\Moodle\Services\GradebookService;
@@ -17,62 +18,67 @@ class UpdateCharonService
 {
     /** @var GrademapService */
     protected $grademapService;
-
     /** @var GradebookService */
     protected $gradebookService;
-
     /** @var DeadlineService */
     protected $deadlineService;
-
+    /** @var CharonGradingService */
+    protected $charonGradingService;
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
 
     /**
      * UpdateCharonService constructor.
      *
-     * @param  GrademapService $grademapService
-     * @param  GradebookService $gradebookService
-     * @param  DeadlineService $deadlineService
-     * @param DeadlinesRepository $deadlinesRepository
+     * @param  GrademapService  $grademapService
+     * @param  GradebookService  $gradebookService
+     * @param  DeadlineService  $deadlineService
+     * @param  DeadlinesRepository  $deadlinesRepository
+     * @param  CharonGradingService  $charonGradingService
      */
     public function __construct(
         GrademapService $grademapService,
         GradebookService $gradebookService,
         DeadlineService $deadlineService,
-        DeadlinesRepository $deadlinesRepository
+        DeadlinesRepository $deadlinesRepository,
+        CharonGradingService $charonGradingService
     ) {
-        $this->grademapService  = $grademapService;
-        $this->gradebookService = $gradebookService;
-        $this->deadlineService  = $deadlineService;
+        $this->grademapService     = $grademapService;
+        $this->gradebookService    = $gradebookService;
+        $this->deadlineService     = $deadlineService;
         $this->deadlinesRepository = $deadlinesRepository;
+        $this->charonGradingService = $charonGradingService;
     }
 
     /**
      * Update Grademaps with info from the request.
+     * This assumes that deadlines are updated before this so grades
+     * can be recalculated if needed.
      *
-     * @param  Request $request
-     * @param  Charon $charon
+     * @param  array  $newGrademaps
+     * @param  Charon  $charon
+     * @param  bool  $deadlinesWereUpdated
      *
      * @return void
      */
-    public function updateGrademaps(Request $request, Charon $charon)
+    public function updateGrademaps($newGrademaps, Charon $charon, $deadlinesWereUpdated = false)
     {
-        $grademaps    = $charon->grademaps;
-        $newGrademaps = $request->grademaps;
+        $grademaps = $charon->grademaps;
 
         // Check previous Grademaps.
         foreach ($grademaps as $grademap) {
             $newGrademap = $this->getGrademapByGradeType($newGrademaps, $grademap->grade_type_code);
 
             $newGrademaps[$grademap->grade_type_code]['checked'] = true;
-            $this->updateExistingGrademap($grademap, $newGrademap);
+            $this->updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated);
         }
 
         // Check the rest of the Grademaps.
         foreach ($newGrademaps as $gradeType => $newGrademap) {
             if ( ! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
-                $this->grademapService->createGrademapWithGradeItem($charon, $gradeType, $request->course,
-                    $newGrademap);
+                $this->grademapService->createGrademapWithGradeItem(
+                    $charon, $gradeType, $charon->course, $newGrademap
+                );
             }
         }
     }
@@ -83,10 +89,11 @@ class UpdateCharonService
      * @param  Request $request
      * @param  Charon $charon
      *
-     * @return void
+     * @return bool
      */
     public function updateDeadlines($request, $charon)
     {
+        $oldDeadlines = $charon->deadlines;
         $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
 
         // Create new deadlines
@@ -95,23 +102,26 @@ class UpdateCharonService
                 $this->deadlineService->createDeadline($charon, $deadline);
             }
         }
+
+        $charon->load('deadlines');
+
+        return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }
 
     /**
      * Updates the Category calculation formula and max score for the given Charon.
      *
-     * @param  Charon  $charon
-     *
-     * @param  Request  $request
+     * @param  Charon $charon
+     * @param  Request $request
      *
      * @return void
      */
-    public function updateCategoryCalculationAndMaxScore($charon, $request)
+    public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
         if ($charon->category_id !== null) {
-            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $gradeItem              = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $gradeItem->calculation = $request['calculation_formula'];
-            $gradeItem->grademax = $request['max_score'];
+            $gradeItem->grademax    = $request['max_score'];
             $gradeItem->save();
         }
     }
@@ -123,12 +133,13 @@ class UpdateCharonService
      *
      * New grademap fields: grademap_name, max_points, id_number.
      *
-     * @param  Grademap $grademap
-     * @param  array $newGrademap
+     * @param  Grademap  $grademap
+     * @param  array  $newGrademap
+     * @param  bool  $deadlinesWereUpdated
      *
      * @return Grademap
      */
-    private function updateExistingGrademap($grademap, $newGrademap)
+    private function updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated)
     {
         if ($newGrademap === null) {
             $this->grademapService->deleteGrademap($grademap);
@@ -138,11 +149,16 @@ class UpdateCharonService
 
         $grademap->name = $newGrademap['grademap_name'];
         $grademap->save();
+        $oldMax = $grademap->gradeItem->grademax;
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],
             'grademax' => $newGrademap['max_points'],
             'idnumber' => $newGrademap['id_number'],
         ]);
+
+        if ($oldMax != $newGrademap['max_points'] || $deadlinesWereUpdated) {
+            $this->charonGradingService->recalculateGrades($grademap);
+        }
 
         return $grademap;
     }
@@ -165,5 +181,39 @@ class UpdateCharonService
         }
 
         return null;
+    }
+
+    /**
+     * @param $oldDeadlines
+     * @param $newDeadlines
+     *
+     * @return bool
+     */
+    private function deadlinesAreNew($oldDeadlines, $newDeadlines)
+    {
+        // Check if the count is different
+        if ($oldDeadlines->count() !== $newDeadlines->count()) {
+            return true;
+        }
+
+        // Loop through both and check. n^2
+        foreach ($oldDeadlines as $oldDeadline) {
+            $found = false;
+            foreach ($newDeadlines as $newDeadline) {
+                /** @var Deadline $oldDeadline */
+                /** @var Deadline $newDeadline */
+                if ($oldDeadline->percentage === $newDeadline->percentage
+                    && $oldDeadline->deadline_time->timestamp === $newDeadline->deadline_time->timestamp
+                    && $oldDeadline->group_id === $newDeadline->group_id) {
+                    $found = true;
+                }
+            }
+
+            if (!$found) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

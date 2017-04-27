@@ -25,11 +25,13 @@ class Application extends \Illuminate\Foundation\Application
     /**
      * Redefine the 'app' folder path.
      *
+     * @param string $path
+     *
      * @return string
      */
-    public function path()
+    public function path($path = '')
     {
-        return $this->getPluginDirectory() . 'app';
+        return $this->getPluginDirectory() . 'app' . ($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
 
@@ -56,11 +58,13 @@ class Application extends \Illuminate\Foundation\Application
     /**
      * Redefine the 'config' folder path.
      *
+     * @param string $path
+     *
      * @return string
      */
-    public function configPath()
+    public function configPath($path = '')
     {
-        return $this->getPluginDirectory() . 'config';
+        return $this->getPluginDirectory() . 'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
@@ -76,30 +80,36 @@ class Application extends \Illuminate\Foundation\Application
     /**
      * Redefine the 'database' folder path.
      *
+     * @param string $path
+     *
      * @return string
      */
-    public function databasePath()
+    public function databasePath($path = '')
     {
-        return $this->getPluginDirectory() . 'database';
+        return $this->getPluginDirectory() . 'database'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
      * Redefine the 'resource' folder path.
      *
+     * @param string $path
+     *
      * @return string
      */
-    public function resourcePath()
+    public function resourcePath($path = '')
     {
-        return $this->getPluginDirectory() . 'resources';
+        return $this->getPluginDirectory() . 'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
      * Redefine the 'bootstrap' folder path.
      *
+     * @param string $path
+     *
      * @return string
      */
-    public function bootstrapPath()
+    public function bootstrapPath($path = '')
     {
-        return $this->getPluginDirectory() . 'bootstrap';
+        return $this->getPluginDirectory() . 'bootstrap'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }

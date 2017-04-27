@@ -1,6 +1,6 @@
 <?php
 
-namespace TTU\Charon\Helpers;
+namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
 use Zeizig\Moodle\Services\UserService;
 
-class RequestHandler
+class RequestHandlingService
 {
     /** @var UserService */
     private $userService;

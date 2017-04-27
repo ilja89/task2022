@@ -1,29 +1,31 @@
 <template>
     <div>
         <charon-text-input
-                input_name="name"
-                :input_label="translate('task_name_label')"
+                name="name"
+                :label="translate('task_name_label')"
                 :required="true"
-                :input_value="form.fields.name"
+                :value="form.fields.name"
                 :helper_text="translate('task_name_helper')"
                 @input-was-changed="onNameChanged">
         </charon-text-input>
 
         <charon-text-input
-                input_name="project_folder"
-                :input_label="translate('project_folder_name_label')"
+                name="project_folder"
+                input_class="is-half"
+                :label="translate('project_folder_name_label')"
                 :required="true"
-                :input_value="form.fields.project_folder"
+                :value="form.fields.project_folder"
                 :helper_text="translate('project_folder_name_helper')"
                 @input-was-changed="onProjectFolderChanged">
         </charon-text-input>
 
         <charon-text-input
-                input_name="extra"
-                :input_label="translate('extra_label')"
+                name="extra"
+                :label="translate('extra_label')"
                 :required="false"
-                :input_value="form.fields.extra"
+                :value="form.fields.extra"
                 :helper_text="translate('extra_helper')"
+                :autocomplete="false"
                 @input-was-changed="onExtraChanged">
         </charon-text-input>
 
@@ -31,7 +33,7 @@
                 :label="translate('tester_type_label')"
                 name="tester_type"
                 :options="form.tester_types"
-                :selected="form.fields.tester_type"
+                :value="form.fields.tester_type"
                 :helper_text="translate('tester_type_helper')"
                 @input-was-changed="onTesterTypeChanged">
         </charon-select>

@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use Mockery as m;
 use Tests\TestCase;
-use TTU\Charon\Helpers\HttpCommunicator;
+use TTU\Charon\Helpers\HttpCommunicationService;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
@@ -29,8 +29,8 @@ class TesterCommunicationServiceTest extends TestCase
         $charon->extra = 'stylecheck';
         $charon->grademaps = [$grademap1, $grademap2];
 
-        $httpCommunicator = m::mock(HttpCommunicator::class)
-            ->shouldReceive('sendInfoToTester')->with('addproject', 'post', [
+        $httpCommunicator = m::mock(HttpCommunicationService::class)
+            ->shouldReceive('postToTester')->with('addproject', [
                 'id' => 1,
                 'project'      => $charon->project_folder,
                 'course'       => 'iti0020',
@@ -60,8 +60,8 @@ class TesterCommunicationServiceTest extends TestCase
         $gitCallback = m::mock(GitCallback::class)->makePartial();
         $gitCallback->secret_token = 'Very secret token';
 
-        $httpCommunicator = m::mock(HttpCommunicator::class)
-            ->shouldReceive('sendInfoToTester')->with('test', 'post', [
+        $httpCommunicator = m::mock(HttpCommunicationService::class)
+            ->shouldReceive('postToTester')->with('test', [
                 'callback_url' => 'tester callback url',
                 'secret_token' => $gitCallback->secret_token,
                 'extra' => 'param'

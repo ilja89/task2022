@@ -20,7 +20,9 @@
 
 <script>
     export default {
-        props: [ 'toggle_id' ],
+        props: {
+            toggle_id: { required: true },
+        },
 
         data() {
             return {

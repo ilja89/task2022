@@ -107,8 +107,8 @@ class InstanceController extends Controller
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
-            $this->updateCharonService->updateGrademaps($this->request, $charon);
-            $this->updateCharonService->updateDeadlines($this->request, $charon);
+            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+            $this->updateCharonService->updateGrademaps($this->request->grademaps, $charon, $deadlinesUpdated);
 
             event(new CharonCreated($charon));
         }

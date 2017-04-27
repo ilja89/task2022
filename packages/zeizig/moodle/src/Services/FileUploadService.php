@@ -2,6 +2,12 @@
 
 namespace Zeizig\Moodle\Services;
 
+/**
+ * Class FileUploadService.
+ * Handle saving of files.
+ *
+ * @package Zeizig\Moodle\Services
+ */
 class FileUploadService
 {
 
@@ -20,8 +26,8 @@ class FileUploadService
      *
      * @return string
      */
-    public function savePluginIntroTextFiles($formFieldName, $courseId, $intro) {
-
+    public function savePluginIntroTextFiles($formFieldName, $courseId, $intro)
+    {
         if (!\App::environment('testing')) {
             $draftid_editor = file_get_submitted_draft_itemid($formFieldName);
             $context = \context_course::instance($courseId);

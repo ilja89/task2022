@@ -2,50 +2,49 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 use TTU\Charon\Models\CourseSettings;
+use Zeizig\Moodle\Models\Course;
 
 class CourseSettingsTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testCourseSettingsSavesNewSettings()
+    /** @test */
+    public function it_saves_new_course_settings()
     {
-        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
+        /** @var Course $course */
+        $course = factory(Course::class)->create();
+        $request = $this->getRandomRequest();
 
-        $response = $this->post('/courses/' . $course->id . '/settings', [
-            'unittests_git' => 'unittests git here',
-            'tester_type' => 2
-        ]);
-        $response->assertRedirect('/courses/' . $course->id . '/settings');
+        $this->post('/courses/' . $course->id . '/settings', $request);
 
         /** @var CourseSettings $courseSettings */
         $courseSettings = CourseSettings::where('course_id', $course->id)->first();
-
-        $this->assertEquals(2, $courseSettings->tester_type_code);
-        $this->assertEquals('unittests git here', $courseSettings->unittests_git);
+        $this->assertEquals($request['unittests_git'], $courseSettings->unittests_git);
+        $this->assertEquals($request['tester_type'], $courseSettings->tester_type_code);
     }
 
-    public function testCourseSettingsUpdatesExistingSetting()
+    /** @test */
+    public function it_updates_existing_course_settings()
     {
-        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
-
-        CourseSettings::create([
-            'course_id' => $course->id,
-            'unittests_git' => 'old unittests git',
-            'tester_type_code' => 1,
-        ]);
-
-        $this->post('/courses/' . $course->id . '/settings', [
-            'unittests_git' => 'unittests git here',
-            'tester_type' => 2
-        ]);
-
         /** @var CourseSettings $courseSettings */
-        $courseSettings = CourseSettings::where('course_id', $course->id)->first();
+        $courseSettings = factory(CourseSettings::class)->create();
+        $request = $this->getRandomRequest();
 
-        $this->assertEquals(2, $courseSettings->tester_type_code);
-        $this->assertEquals('unittests git here', $courseSettings->unittests_git);
+        $this->post('/courses/' . $courseSettings->course_id . '/settings', $request);
+
+        $courseSettings = CourseSettings::where('course_id', $courseSettings->course_id)->first();
+        $this->assertEquals($request['unittests_git'], $courseSettings->unittests_git);
+        $this->assertEquals($request['tester_type'], $courseSettings->tester_type_code);
+    }
+
+    private function getRandomRequest()
+    {
+        return [
+            'unittests_git' => $this->faker->word,
+            'tester_type'   => $this->faker->randomElement([1, 2, 3, 4]),
+        ];
     }
 }

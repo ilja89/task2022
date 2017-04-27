@@ -10,19 +10,14 @@ class CourseSettingsFormTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testFindsCorrectSettings()
+    /** @test */
+    public function shows_correct_course_settings()
     {
-        $course = factory(\Zeizig\Moodle\Models\Course::class)->create();
+        /** @var CourseSettings $courseSettings */
+        $courseSettings = factory(CourseSettings::class)->create();
+        $courseSettings->wasRecentlyCreated = false;
 
-        CourseSettings::create([
-            'course_id' => $course->id,
-            'unittests_git' => 'old unittests git',
-            'tester_type_code' => 1,
-        ]);
-        $courseSettings = CourseSettings::where('course_id', $course->id)->first();
-
-        $response = $this->get('/courses/' . $course->id . '/settings');
-
-        $response->assertViewHas('settings', $courseSettings);
+        $this->get('/courses/' . $courseSettings->course_id . '/settings')
+             ->assertViewHas('settings', $courseSettings);
     }
 }

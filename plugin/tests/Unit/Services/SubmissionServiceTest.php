@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use Tests\TestCase;
-use TTU\Charon\Helpers\RequestHandler;
+use TTU\Charon\Helpers\RequestHandlingService;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GradeType;
 use TTU\Charon\Models\Result;
@@ -31,7 +31,7 @@ class SubmissionServiceTest extends TestCase
         $result1 = m::mock(Result::class)->shouldReceive('save')->once()->getMock()->makePartial();
         $result2 = m::mock(Result::class)->shouldReceive('save')->once()->getMock()->makePartial();
 
-        $requestHandler = m::mock(RequestHandler::class)
+        $requestHandler = m::mock(RequestHandlingService::class)
             ->shouldReceive('getSubmissionFromRequest')->with($request)->andReturn($submission)
             ->shouldReceive('getResultFromRequest')->with(1, 'result 1')->andReturn($result1)
             ->shouldReceive('getResultFromRequest')->with(1, 'result 2')->andReturn($result2)
@@ -75,7 +75,7 @@ class SubmissionServiceTest extends TestCase
         $submissionService = new SubmissionService(
             m::mock(GradebookService::class),
             m::mock(CharonGradingService::class),
-            m::mock(RequestHandler::class, [
+            m::mock(RequestHandlingService::class, [
                 'getSubmissionFromRequest' => $submission
             ]),
             $submissionsRepository
@@ -111,7 +111,7 @@ class SubmissionServiceTest extends TestCase
                 ->shouldReceive('updateGradeIfApplicable')->with($submission, true)
                 ->shouldReceive('confirmSubmission')->with($submission)
                 ->getMock(),
-            m::mock(RequestHandler::class),
+            m::mock(RequestHandlingService::class),
             m::mock(SubmissionsRepository::class)
         );
 
@@ -147,7 +147,7 @@ class SubmissionServiceTest extends TestCase
             m::mock(CharonGradingService::class)
                 ->shouldReceive('updateGradeIfApplicable')->with($submission)
                 ->getMock(),
-            m::mock(RequestHandler::class),
+            m::mock(RequestHandlingService::class),
             $submissionsRepository
         );
 
@@ -175,7 +175,7 @@ class SubmissionServiceTest extends TestCase
                 ->andReturn(0.5)
                 ->getMock(),
             m::mock(CharonGradingService::class),
-            m::mock(RequestHandler::class),
+            m::mock(RequestHandlingService::class),
             m::mock(SubmissionsRepository::class)
         );
 

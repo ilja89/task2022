@@ -13,9 +13,9 @@
 
 .card {
   background-color: #ffffff;
-  -webkit-box-shadow: 1px 1.732px 6px 0 rgba( 139, 157, 175, 0.3 );
-  -moz-box-shadow: 1px 1.732px 6px 0 rgba( 139, 157, 175, 0.3 );
-  box-shadow: 1px 1.732px 6px 0 rgba( 139, 157, 175, 0.3 );
+  -webkit-box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
+  -moz-box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
+  box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
 }
 
 .hover-overlay {
@@ -95,4 +95,33 @@
       }
     }
   }
+}
+
+/* Animations */
+
+.list-enter-active, .list-leave-active {
+  transition: all 300ms;
+}
+
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.list-move {
+  transition: transform 1s;
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all 300ms;
+}
+
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.submission.list-leave-active {
+  position: absolute;
+  width: 100%;
 }

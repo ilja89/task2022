@@ -1,15 +1,15 @@
-import '../../bootstrap';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import router from './routes';
+import '../../bootstrap'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import router from './routes'
 
-import Popup from './Popup.vue';
+import Popup from './Popup.vue'
 
-import { PopupContext } from '../../classes';
-import { HighlightDirective } from './../../directives';
+import { PopupContext } from '../../classes'
+import { HighlightDirective } from './../../directives'
 
-Vue.use(VueRouter);
-Vue.directive('highlightjs', HighlightDirective);
+Vue.use(VueRouter)
+Vue.directive('highlightjs', HighlightDirective)
 
 const app = new Vue({
     el: '#app',

@@ -2,7 +2,7 @@
 
     <popup-section
             :title="activeCharonName"
-            subtitle="Grade the students submission">
+            :subtitle="submission.order_nr + '. submission'">
 
         <template slot="header-right">
             <span class="extra-info-text" v-if="charon_confirmed_points !== null">

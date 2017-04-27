@@ -4,7 +4,7 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use TTU\Charon\Helpers\RequestHandler;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -24,8 +24,8 @@ class SubmissionService
     /** @var CharonGradingService */
     private $charonGradingService;
 
-    /** @var RequestHandler */
-    private $requestHandler;
+    /** @var RequestHandlingService */
+    private $requestHandlingService;
 
     /** @var SubmissionsRepository */
     private $submissionsRepository;
@@ -35,20 +35,20 @@ class SubmissionService
      *
      * @param GradebookService $gradebookService
      * @param CharonGradingService $charonGradingService
-     * @param RequestHandler $requestHandler
+     * @param RequestHandlingService $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
-        RequestHandler $requestHandler,
+        RequestHandlingService $requestHandlingService,
         SubmissionsRepository $submissionsRepository
     )
     {
-        $this->gradebookService = $gradebookService;
-        $this->charonGradingService = $charonGradingService;
-        $this->requestHandler = $requestHandler;
-        $this->submissionsRepository = $submissionsRepository;
+        $this->gradebookService       = $gradebookService;
+        $this->charonGradingService   = $charonGradingService;
+        $this->requestHandlingService = $requestHandlingService;
+        $this->submissionsRepository  = $submissionsRepository;
     }
 
     /**
@@ -61,7 +61,7 @@ class SubmissionService
      */
     public function saveSubmission($submissionRequest)
     {
-        $submission = $this->requestHandler->getSubmissionFromRequest($submissionRequest);
+        $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest);
         $submission->save();
 
         $this->saveResults($submission, $submissionRequest['results']);
@@ -81,7 +81,7 @@ class SubmissionService
     private function saveResults($submission, $resultsRequest)
     {
         foreach ($resultsRequest as $resultRequest) {
-            $result = $this->requestHandler->getResultFromRequest($submission->id, $resultRequest);
+            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest);
             $result->save();
         }
 
@@ -99,7 +99,7 @@ class SubmissionService
     private function saveFiles($submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandler->getFileFromRequest($submission->id, $fileRequest);
+            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest);
             $submissionFile->save();
         }
     }

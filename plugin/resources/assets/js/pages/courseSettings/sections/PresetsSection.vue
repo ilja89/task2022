@@ -10,7 +10,7 @@
                         :label="translate('edit_preset_label')"
                         name="active_preset"
                         :options="presets"
-                        :selected="null"
+                        :value="null"
                         key_field="id"
                         @input-was-changed="onActivePresetChanged">
                 </charon-select>
@@ -23,30 +23,31 @@
             <div v-if="activePreset !== null">
 
                 <charon-text-input
-                        class="is-half"
-                        input_name="preset_name"
+                        input_class="is-half"
+                        name="preset_name"
                         :required="false"
-                        :input_label="translate('preset_name_label')"
-                        :input_value="activePreset.name"
+                        :label="translate('preset_name_label')"
+                        :value="activePreset.name"
                         :helper_text="translate('preset_name_helper')"
                         @input-was-changed="onNameChanged">
                 </charon-text-input>
 
                 <charon-text-input
-                        input_name="preset_extra"
+                        name="preset_extra"
                         :required="false"
-                        :input_label="translate('extra_label')"
-                        :input_value="activePreset.extra"
+                        :label="translate('extra_label')"
+                        :value="activePreset.extra"
                         :helper_text="translate('extra_cs_helper')"
+                        :autocomplete="false"
                         @input-was-changed="onExtraChanged">
                 </charon-text-input>
 
                 <charon-number-input
-                        class="is-quarter"
+                        input_class="is-quarter"
                         name="preset_max_result"
                         :required="false"
                         :label="translate('max_points_label')"
-                        :input_value="activePreset.max_result"
+                        :value="activePreset.max_result"
                         :helper_text="translate('max_points_cs_helper')"
                         @input-was-changed="onMaxResultChanged">
                 </charon-number-input>
@@ -55,7 +56,7 @@
                         :label="translate('grading_method_label')"
                         name="preset_grading_method"
                         :options="gradingMethods"
-                        :selected="activePreset.grading_method_code"
+                        :value="activePreset.grading_method_code"
                         key_field="code"
                         :helper_text="translate('grading_method_cs_helper')"
                         @input-was-changed="onGradingMethodChanged">
@@ -67,10 +68,10 @@
                 </grades-section>
 
                 <charon-text-input
-                        input_name="preset_calculation_formula"
+                        name="preset_calculation_formula"
                         :required="false"
-                        :input_label="translate('calculation_formula_label')"
-                        :input_value="activePreset.calculation_formula"
+                        :label="translate('calculation_formula_label')"
+                        :value="activePreset.calculation_formula"
                         :helper_text="translate('calculation_formula_cs_helper')"
                         @input-was-changed="onCalculationFormulaChanged">
                 </charon-text-input>
@@ -81,7 +82,7 @@
                     {{ translate('save_preset') }}
                 </a>
 
-                <a v-else
+                <a v-else-if="isEditing"
                    class="btn btn-primary update-preset-btn"
                    @click="updatePreset">
                     {{ translate('update_preset') }}
@@ -142,7 +143,7 @@
                     parent_category_id: null,
                     calculation_formula: null,
                     extra: '',
-                    grading_method_code: null,
+                    grading_method_code: 1,
                     max_result: null,
                     preset_grades: [ ]
                 };

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 use \Mockery as m;
 use Tests\TestCase;
 use Tests\Traits\MocksSubmission;
-use TTU\Charon\Helpers\SubmissionCalculator;
+use TTU\Charon\Helpers\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -18,12 +18,12 @@ class SubmissionCalculatorTest extends TestCase
 {
     use MocksSubmission;
 
-    /** @var SubmissionCalculator */
+    /** @var SubmissionCalculatorService */
     protected $submissionCalculator;
 
     public function setUp()
     {
-        $this->submissionCalculator = new SubmissionCalculator;
+        $this->submissionCalculator = new SubmissionCalculatorService;
     }
 
     public function testDetectsThatSubmissionIsWorseThanLast()

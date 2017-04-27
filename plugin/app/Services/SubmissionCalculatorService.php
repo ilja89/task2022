@@ -1,6 +1,6 @@
 <?php
 
-namespace TTU\Charon\Helpers;
+namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
@@ -11,7 +11,7 @@ use TTU\Charon\Models\Submission;
  *
  * @package TTU\Charon\Helpers
  */
-class SubmissionCalculator
+class SubmissionCalculatorService
 {
     /**
      * Calculate results for the given Result taking into account the given deadlines.
