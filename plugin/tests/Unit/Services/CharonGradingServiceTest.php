@@ -7,17 +7,14 @@ use Mockery as m;
 use Tests\MockingTest;
 use Tests\Traits\MocksCharon;
 use Tests\Traits\MocksSubmission;
-use TTU\Charon\Helpers\SubmissionCalculatorService;
+use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
-use TTU\Charon\Services\SubmissionService;
-use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\GradingService;
-use Zeizig\Moodle\Services\UserService;
 
 class CharonGradingServiceTest extends MockingTest
 {
