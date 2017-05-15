@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use Mockery as m;
 use Tests\TestCase;
-use TTU\Charon\Helpers\HttpCommunicationService;
+use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;

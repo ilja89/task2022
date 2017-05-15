@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 use \Mockery as m;
 use Tests\TestCase;
 use Tests\Traits\MocksSubmission;
-use TTU\Charon\Helpers\SubmissionCalculatorService;
+use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;

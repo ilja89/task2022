@@ -4,7 +4,7 @@ namespace Tests\Unit\Helpers;
 
 use Mockery as m;
 use Tests\TestCase;
-use TTU\Charon\Helpers\RequestHandlingService;
+use TTU\Charon\Services\RequestHandlingService;
 use Zeizig\Moodle\Services\UserService;
 
 class RequestHandlerTest extends TestCase
