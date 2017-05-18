@@ -2,7 +2,7 @@
 
     <popup-section
             :title="activeCharonName"
-            :subtitle="submission.order_nr + '. submission'">
+            :subtitle="submissionOrderNrText">
 
         <template slot="header-right">
             <span class="extra-info-text" v-if="charon_confirmed_points !== null">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="column is-7 card">
-                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)">
+                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)" :key="result.id">
 
                     <hr v-if="index !== 0" class="hr-result">
                     <div class="result">
@@ -49,8 +49,12 @@
                         </div>
 
                         <div class="result-input-container">
-                            <input type="number" step="0.01" v-model="result.calculated_result"
-                                   class="has-text-centered">
+                            <input type="number"
+                                   step="0.01"
+                                   class="input has-text-centered"
+                                   :class="{ 'is-danger': resultHasError(result) }"
+                                   v-model="result.calculated_result"
+                                   @keydown="errors[result.id] = false">
 
                             <a class="button is-primary" @click="setMaxPoints(result)">
                                 Max
@@ -97,6 +101,7 @@
         data() {
             return {
                 charon_confirmed_points: null,
+                errors: { },
             };
         },
 
@@ -113,6 +118,14 @@
                 return this.charon !== null
                     ? this.charon.name
                     : null;
+            },
+
+            submissionOrderNrText() {
+                if (! this.submission) {
+                    return null
+                }
+
+                return this.submission.order_nr + '. submission'
             }
         },
 
@@ -149,19 +162,32 @@
             },
 
             saveSubmission() {
+
                 Submission.update(this.charon.id, this.submission, response => {
-                    if (response.status == "OK") {
-                        this.submission.confirmed = 1;
-                        VueEvent.$emit('submission-was-saved');
-                        VueEvent.$emit('show-notification', 'Submission saved!');
-                        VueEvent.$emit('refresh-page');
+                    if (response.status !== 200) {
+                        VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
+
+                        this.errors[response.data.resultId] = true
+                    } else {
+                        this.submission.confirmed = 1
+                        VueEvent.$emit('submission-was-saved')
+                        VueEvent.$emit('show-notification', response.data.message)
+                        VueEvent.$emit('refresh-page')
                     }
                 });
             },
 
             setMaxPoints(result) {
                 result.calculated_result = parseFloat(this.getGrademapByResult(result).grade_item.grademax);
-            }
+            },
+
+            resultHasError(result) {
+                return !!this.errors[ result.id ]
+            },
         }
     }
 </script>
+
+<style>
+
+</style>

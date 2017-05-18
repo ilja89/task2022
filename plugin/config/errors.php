@@ -47,4 +47,9 @@ return [
         'title' => 'Permission denied for editing the given course.',
         'detail' => 'The user with ID: %d from IP: %s does not have permission to manage the course with ID: %d.',
     ],
+
+    'result_points_are_required' => [
+        'title' => 'Result points are required.',
+        'detail' => 'All result points are required when saving a submission.',
+    ],
 ];

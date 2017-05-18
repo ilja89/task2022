@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -105,9 +106,12 @@ class SubmissionsController extends Controller
 
         $this->submissionService->updateSubmissionCalculatedResults($submission, $newResults);
 
-        return [
-            'status' => 'OK',
-        ];
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Submission saved!',
+            ],
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -111,10 +112,19 @@ class SubmissionService
      * @param  array  $newResults
      *
      * @return Submission
+     * @throws ResultPointsRequiredException
      */
     public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
     {
         foreach ($newResults as $result) {
+            if ( ! $result['calculated_result']) {
+                throw (new ResultPointsRequiredException('result_points_are_required'))
+                    ->setResultId($result['id']);
+            }
+        }
+
+        foreach ($newResults as $result) {
+
             $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
                 return $resultLoop->id == $result['id'];
             });

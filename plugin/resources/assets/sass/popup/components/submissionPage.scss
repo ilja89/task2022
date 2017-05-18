@@ -46,12 +46,22 @@
   display: flex;
   align-items: center;
 
-  input[type=number] {
+  .input {
     width: 120px;
     height: 35px;
     line-height: 35px;
     font-size: $size-medium;
     border: 1px solid #dbdbdb;
+    border-radius: 0;
+
+    &.is-danger {
+      border-color: $red;
+
+      + .button {
+        /* Show the red border fully (right too) */
+        margin-left: 0;
+      }
+    }
   }
 
   .button {

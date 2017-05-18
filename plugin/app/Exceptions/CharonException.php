@@ -43,12 +43,11 @@ abstract class CharonException extends \Exception
      */
     public function toArray()
     {
-        return [
-            'slug'   => $this->slug,
-            'status' => $this->status,
-            'title'  => $this->title,
-            'detail' => $this->detail,
-        ];
+        $array = get_object_vars($this);
+        // Remove unneeded variables, xdebug messages etc.
+        unset($array['message'], $array['code'], $array['xdebug_message'], $array['file'], $array['line']);
+
+        return $array;
     }
 
     public function getStatus()

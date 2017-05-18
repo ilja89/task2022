@@ -21,6 +21,8 @@ class Handler extends ExceptionHandler
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
+
+        ResultPointsRequiredException::class,
     ];
 
     /**
@@ -31,6 +33,7 @@ class Handler extends ExceptionHandler
     protected $dontSendEmail = [
          // CharonNotFoundException::class,
         NotFoundHttpException::class,  // When route cannot be matched
+        ResultPointsRequiredException::class,  // When no calculated result set while updating results
     ];
 
     /**
