@@ -167,7 +167,10 @@
                     if (response.status !== 200) {
                         VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
 
-                        this.errors[response.data.resultId] = true
+                        let newErrors = { ...this.errors }
+                        newErrors[response.data.resultId] = true
+
+                        this.errors = newErrors
                     } else {
                         this.submission.confirmed = 1
                         VueEvent.$emit('submission-was-saved')
