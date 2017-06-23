@@ -115,6 +115,7 @@
   line-height: initial;
   @include box-shadow(1px 1.732px 6px 0 rgba(139, 157, 175, 0.3));
   z-index: 2;
+  margin-top: 0;
 
   li a {
     padding: 20px;
