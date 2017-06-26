@@ -18,7 +18,13 @@ $grey: #7a7a7a;
 $light-grey: #a0a0a0;
 $primary: $blue;
 
-@import '~bulma';
+$white: #ffffff;
+$weight-semibold: 500;
+
+// Remove bulma
+// @import '~bulma';
+
+@import './assignment_bulma';
 
 
 /*---------------------------------*\
@@ -57,6 +63,23 @@ $primary: $blue;
   border-radius: 0;
   box-shadow: none;
   padding: 1rem 0 0;
+}
+
+.submissions-list {
+  padding: 0;
+  width: 92%;
+}
+
+.results-list {
+  padding: 0;
+}
+
+.column.code {
+  margin-bottom: 0;
+}
+
+#region-main {
+  margin-top: 0;
 }
 
 

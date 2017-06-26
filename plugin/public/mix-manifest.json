@@ -1,12 +1,12 @@
 {
   "/js/popup.js": "/js/popup.js",
   "/js/instanceForm.js": "/js/instanceForm.js",
-  "/css/assignment.css": "/css/assignment.css",
   "/css/instanceForm.css": "/css/instanceForm.css",
   "/css/popup.css": "/css/popup.css",
   "/css/courseSettings.css": "/css/courseSettings.css",
   "/css/highlight.css": "/css/highlight.css",
   "/js/courseSettings.js": "/js/courseSettings.js",
   "/js/assignment.js": "/js/assignment.js",
-  "/js/highlight.js": "/js/highlight.js"
+  "/js/highlight.js": "/js/highlight.js",
+  "/css/assignment.css": "/css/assignment.css"
 }
