@@ -21,9 +21,28 @@
 
 .tag {
   border-radius: 290486px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 290486px;
+  color: #4a4a4a;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 1.25rem;
+  height: 2em;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  line-height: 2.5;
+  padding-left: 0.875em;
+  padding-right: 0.875em;
+  white-space: nowrap;
 
   &.is-info {
     background-color: $blue;
+    color: white;
   }
 }
 
@@ -192,7 +211,6 @@
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  font-size: 1rem;
   height: 2.25em;
   -webkit-box-pack: start;
   -ms-flex-pack: start;
@@ -220,6 +238,7 @@
   padding-right: 0.75em;
   text-align: center;
   white-space: nowrap;
+  font-size: 1em;
 
   &:hover,
   &.is-hovered {
