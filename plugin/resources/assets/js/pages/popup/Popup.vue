@@ -12,8 +12,9 @@
 </template>
 
 <script>
-    import { PopupHeader, PopupBody } from './layouts';
-    import { Loader, Notification } from './components';
+    import { PopupHeader, PopupBody } from './layouts'
+    import { Loader } from './components'
+    import { Notification } from '../../components/partials'
 
     export default {
 

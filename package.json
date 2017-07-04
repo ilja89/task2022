@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
     "bulma": "^0.3.1",
     "highlight.js": "^9.9.0",
     "moment": "^2.17.1",
