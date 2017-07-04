@@ -5,12 +5,21 @@
 .columns {
   display: flex;
 
+  @media (max-width: 1000px) {
+    flex-direction: column;
+  }
+
   .column {
     flex: 1;
+    padding: 1em;
 
     &.is-one-third {
       flex: initial;
       width: 33.3333%;
+
+      @media (max-width: 1000px) {
+        width: 100%;
+      }
     }
 
     &.is-narrow {

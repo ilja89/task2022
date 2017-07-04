@@ -10,7 +10,7 @@
   #IMPORTS
 \*---------------------------------*/
 
-$family-sans-serif: "Roboto","Fira Sans","Segoe UI","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif,"line-icons";
+$family-sans-serif: "Roboto", "Fira Sans", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif, "line-icons";
 $size-6: 16px;
 $blue: #03a9f4;
 $table-text-color: #666666;
@@ -25,7 +25,6 @@ $weight-semibold: 500;
 // @import '~bulma';
 
 @import './assignment_bulma';
-
 
 /*---------------------------------*\
   #MOODLE_FIXES (Snap fixes)
@@ -51,12 +50,12 @@ $weight-semibold: 500;
   color: $table-text-color;
 }
 
-.table>thead:first-child>tr:first-child>th {
+.table > thead:first-child > tr:first-child > th {
   border-top: 1px solid rgb(219, 219, 219);
 }
 
 .modal {
-  z-index: 9996;  // Modal is 1985 but Snap nav is 9995!
+  z-index: 9996; // Modal is 1985 but Snap nav is 9995!
 }
 
 .block_settings .box.block_tree_box {
@@ -147,7 +146,7 @@ pre {
 
 .results-list {
   background-color: #fafafa;
-  box-shadow: inset 0 2px 4px -3px rgba(0,0,0,0.4);
+  box-shadow: inset 0 2px 4px -3px rgba(0, 0, 0, 0.4);
 }
 
 .result-row {
@@ -196,7 +195,6 @@ pre {
     width: 700px;
   }
 }
-
 
 /*---------------------*\
   #ASSIGNMENT

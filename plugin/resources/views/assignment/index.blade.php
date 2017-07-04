@@ -4,7 +4,7 @@
 
 <h1 class="title">{{ $charon->name }}</h1>
 
-<div class="columns" id="app">
+<div class="columns assignment-columns" id="app">
 
     <div class="column assignment-content content">
 
