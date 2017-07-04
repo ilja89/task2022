@@ -11,6 +11,7 @@ use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\FileUploadService;
+use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -24,6 +25,9 @@ class CharonRepository
     /** @var ModuleService */
     protected $moduleService;
 
+    /** @var GradebookService */
+    protected $gradebookService;
+
     /** @var FileUploadService */
     private $fileUploadService;
 
@@ -32,11 +36,13 @@ class CharonRepository
      *
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
+     * @param GradebookService $gradebookService
      */
-    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService)
+    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService, GradebookService $gradebookService)
     {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
+        $this->gradebookService = $gradebookService;
     }
 
     /**
@@ -186,7 +192,11 @@ class CharonRepository
             ->select(
                 'charon.id',
                 'charon.name',
-                'charon_tester_type.name AS tester_type_name'
+                'charon_tester_type.name AS tester_type_name',
+                'charon.project_folder',
+                'course_modules.id AS course_module_id',
+                'charon.category_id',
+                'charon.course'
             )
             ->orderBy('charon.name')
             ->get();
@@ -194,13 +204,16 @@ class CharonRepository
         foreach ($charons as $charon) {
             /** @var Charon $charon */
 
+            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $charon->calculation_formula = $this->gradebookService->denormalizeCalculationFormula($gradeItem->calculation, $charon->course);
+
             $charon->grademaps = Grademap::with([
                 'gradeItem' => function ($query) {
                     $query->select(['id', 'grademax']);
                 },
             ])
-                                         ->where('charon_id', $charon->id)
-                                         ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
+                     ->where('charon_id', $charon->id)
+                     ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
             $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
         }
 

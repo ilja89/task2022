@@ -146,6 +146,11 @@ class GradebookService extends MoodleService
      */
     public function denormalizeCalculationFormula($formula, $courseId)
     {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/grade/constants.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_item.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_category.php';
+
         return \grade_item::denormalize_formula($formula, $courseId);
     }
 

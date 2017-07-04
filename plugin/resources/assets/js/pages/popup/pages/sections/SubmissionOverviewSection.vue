@@ -30,6 +30,16 @@
                     <div class="submission-info-content">{{ submission.git_commit_message }}</div>
                 </div>
 
+                <div>
+                    <div class="submission-info-title">Project folder:</div>
+                    <div class="submission-info-content">{{ charon.project_folder }}</div>
+                </div>
+
+                <div>
+                    <div class="submission-info-title">Calculation formula:</div>
+                    <div class="submission-info-content">{{ charonCalculationFormula }}</div>
+                </div>
+
                 <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="submission-info-title">Deadlines:</div>
                     <ul>
@@ -116,7 +126,9 @@
 
             activeCharonName() {
                 return this.charon !== null
-                    ? this.charon.name
+                    ? '<a href="/mod/charon/view.php?id='
+                        + this.charon.course_module_id + '" class="section-title-link" target="_blank">'
+                        + this.charon.name + '</a>'
                     : null;
             },
 
@@ -126,7 +138,13 @@
                 }
 
                 return this.submission.order_nr + '. submission'
-            }
+            },
+
+            charonCalculationFormula() {
+                return this.charon !== null
+                    ? this.charon.calculation_formula
+                    : ''
+            },
         },
 
         watch: {
