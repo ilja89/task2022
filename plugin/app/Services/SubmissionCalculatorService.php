@@ -2,9 +2,13 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use Zeizig\Moodle\Models\GradeGrade;
+use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class SubmissionCalculator.
@@ -13,6 +17,19 @@ use TTU\Charon\Models\Submission;
  */
 class SubmissionCalculatorService
 {
+    /** @var GradebookService */
+    protected $gradebookService;
+
+    /**
+     * SubmissionCalculatorService constructor.
+     *
+     * @param GradebookService $gradebookService
+     */
+    public function __construct(GradebookService $gradebookService)
+    {
+        $this->gradebookService = $gradebookService;
+    }
+
     /**
      * Calculate results for the given Result taking into account the given deadlines.
      *
@@ -91,5 +108,20 @@ class SubmissionCalculatorService
         }
 
         return $submissionSum >= $activeSubmissionSum;
+    }
+
+    /**
+     * Get the currently active grades for the given charon and user.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     *
+     * @return GradeGrade
+     */
+    public function getUserActiveGradeForCharon(Charon $charon, $userId)
+    {
+        $gradeItem = $charon->category->getGradeItem();
+
+        return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
     }
 }

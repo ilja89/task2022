@@ -40,7 +40,7 @@ class HttpCommunicationService
      */
     public function sendInfoToTester($uri, $method, $data)
     {
-        $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'neti.ee');
+        $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'http://neti.ee');
         Log::info('Sending data to tester.', ['uri' => $testerUrl . '/' . $uri, 'data' => $data]);
         $client = new Client();
         try {

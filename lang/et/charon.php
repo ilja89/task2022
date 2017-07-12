@@ -98,3 +98,5 @@ $string['files']          = 'Failid';
 $string['deadlines']      = 'Tähtajad';
 $string['after']          = 'Pärast';
 $string['percentage']     = 'Protsent';
+$string['your_points']    = 'Sinu punktid';
+$string['total']          = 'Kokku';

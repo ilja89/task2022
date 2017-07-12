@@ -104,3 +104,5 @@ $string['files']          = 'Files';
 $string['deadlines']      = 'Deadlines';
 $string['after']          = 'After';
 $string['percentage']     = 'Percentage';
+$string['your_points']    = 'Your points';
+$string['total']          = 'Total';

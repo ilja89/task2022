@@ -1,6 +1,6 @@
 <template>
     <div class="fitem">
-        <div class="tabs">
+        <div class="tabs" :class="{ sticky: sticky }">
             <ul class="tabs-list">
                 <li v-for="tab in tabs" class="tab" :class="{ 'is-active': tab.isActive }">
                     <a @click="selectTab(tab)">{{ tab.name }}</a>
@@ -20,6 +20,13 @@
 
 <script>
     export default {
+        props: {
+            sticky: {
+                type: Boolean,
+                default() { return false },
+            },
+        },
+
         data() {
             return {
                 tabs: []

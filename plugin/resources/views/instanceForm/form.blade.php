@@ -49,6 +49,9 @@
         id_number_helper: "{{ translate('id_number_helper') }}",
 
     };
+
+    window.courseSettingsUrl = "{{ $courseSettingsUrl }}";
+    window.moduleSettingsUrl = "{{ $moduleSettingsUrl }}";
 </script>
 
 <div id="app">
@@ -62,3 +65,20 @@
 </div>
 
 <script src="/mod/charon/plugin/public/js/instanceForm.js"></script>
+<script>
+    if (window.moduleSettingsUrl.length) {
+        window.VueEvent.$emit(
+            'show-notification',
+            'Tester URL not set in module settings!<br>Ask an administrator to set it <a href="' + window.moduleSettingsUrl + '">here</a>.',
+            'danger',
+            null
+        )
+    } else if (window.courseSettingsUrl.length) {
+        window.VueEvent.$emit(
+            'show-notification',
+            'Unittests Git URL not set in course settings! Set it <a href="' + window.courseSettingsUrl + '">here</a>.',
+            'danger',
+            null
+        )
+    }
+</script>

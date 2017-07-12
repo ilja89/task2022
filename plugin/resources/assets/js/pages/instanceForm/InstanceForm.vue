@@ -39,15 +39,19 @@
         </instance-form-fieldset>
 
         <deadline-section :form="form"></deadline-section>
+
+        <notification :text="notification.text" :show="notification.show" :type="notification.type">
+        </notification>
     </div>
 </template>
 
 <script>
     import {
         AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection
-    } from './sections';
-    import { InstanceFormFieldset } from '../../components/form';
-    import { Translate } from '../../mixins';
+    } from './sections'
+    import { InstanceFormFieldset } from '../../components/form'
+    import { Translate } from '../../mixins'
+    import { Notification } from '../../components/partials'
 
     export default {
         mixins: [ Translate ],
@@ -58,13 +62,20 @@
 
         components: {
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
-            AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset
+            AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset,
+            Notification,
         },
 
         data() {
             return {
                 advanced_info_section_active: false,
-                advanced_grading_section_active: false
+                advanced_grading_section_active: false,
+
+                notification: {
+                    text: '',
+                    show: false,
+                    type: 'success',
+                }
             }
         },
 
@@ -75,6 +86,22 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
+            },
+
+            showNotification(message, type, timeout = 5000) {
+                this.notification.text = message
+                this.notification.show = true
+                this.notification.type = type
+
+                if (timeout) {
+                    setTimeout(() => {
+                        this.notification.show = false
+                    }, timeout)
+                }
+            },
+
+            hideNotification() {
+                this.notification.show = false
             },
         },
 
@@ -102,6 +129,13 @@
             VueEvent.$on('max-score-was-changed', (maxScore) => this.form.fields.max_score = maxScore);
 
             VueEvent.$on('preset-was-changed', presetId => this.form.onPresetSelected(presetId));
-        }
+
+            VueEvent.$on('show-notification', (message, type = 'success', timeout = 5000) => {
+                this.showNotification(message, type, timeout)
+            })
+            VueEvent.$on('close-notification', () => {
+                this.hideNotification()
+            })
+        },
     }
 </script>

@@ -8,5 +8,5 @@ const app = new Vue({
     components: { InstanceForm },
     data: {
         form: new InstanceFormForm(instance, testerTypes, gradingMethods, courseSettings, presets)
-    }
+    },
 });

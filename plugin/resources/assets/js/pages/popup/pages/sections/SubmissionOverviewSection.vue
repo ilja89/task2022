@@ -2,7 +2,7 @@
 
     <popup-section
             :title="activeCharonName"
-            :subtitle="submission.order_nr + '. submission'">
+            :subtitle="submissionOrderNrText">
 
         <template slot="header-right">
             <span class="extra-info-text" v-if="charon_confirmed_points !== null">
@@ -30,6 +30,16 @@
                     <div class="submission-info-content">{{ submission.git_commit_message }}</div>
                 </div>
 
+                <div>
+                    <div class="submission-info-title">Project folder:</div>
+                    <div class="submission-info-content">{{ charon.project_folder }}</div>
+                </div>
+
+                <div>
+                    <div class="submission-info-title">Calculation formula:</div>
+                    <div class="submission-info-content">{{ charonCalculationFormula }}</div>
+                </div>
+
                 <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="submission-info-title">Deadlines:</div>
                     <ul>
@@ -39,7 +49,7 @@
             </div>
 
             <div class="column is-7 card">
-                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)">
+                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)" :key="result.id">
 
                     <hr v-if="index !== 0" class="hr-result">
                     <div class="result">
@@ -49,8 +59,12 @@
                         </div>
 
                         <div class="result-input-container">
-                            <input type="number" step="0.01" v-model="result.calculated_result"
-                                   class="has-text-centered">
+                            <input type="number"
+                                   step="0.01"
+                                   class="input has-text-centered"
+                                   :class="{ 'is-danger': resultHasError(result) }"
+                                   v-model="result.calculated_result"
+                                   @keydown="errors[result.id] = false">
 
                             <a class="button is-primary" @click="setMaxPoints(result)">
                                 Max
@@ -97,6 +111,7 @@
         data() {
             return {
                 charon_confirmed_points: null,
+                errors: { },
             };
         },
 
@@ -111,9 +126,25 @@
 
             activeCharonName() {
                 return this.charon !== null
-                    ? this.charon.name
+                    ? '<a href="/mod/charon/view.php?id='
+                        + this.charon.course_module_id + '" class="section-title-link" target="_blank">'
+                        + this.charon.name + '</a>'
                     : null;
-            }
+            },
+
+            submissionOrderNrText() {
+                if (! this.submission) {
+                    return null
+                }
+
+                return this.submission.order_nr + '. submission'
+            },
+
+            charonCalculationFormula() {
+                return this.charon !== null
+                    ? this.charon.calculation_formula
+                    : ''
+            },
         },
 
         watch: {
@@ -149,19 +180,35 @@
             },
 
             saveSubmission() {
+
                 Submission.update(this.charon.id, this.submission, response => {
-                    if (response.status == "OK") {
-                        this.submission.confirmed = 1;
-                        VueEvent.$emit('submission-was-saved');
-                        VueEvent.$emit('show-notification', 'Submission saved!');
-                        VueEvent.$emit('refresh-page');
+                    if (response.status !== 200) {
+                        VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
+
+                        let newErrors = { ...this.errors }
+                        newErrors[response.data.resultId] = true
+
+                        this.errors = newErrors
+                    } else {
+                        this.submission.confirmed = 1
+                        VueEvent.$emit('submission-was-saved')
+                        VueEvent.$emit('show-notification', response.data.message)
+                        VueEvent.$emit('refresh-page')
                     }
                 });
             },
 
             setMaxPoints(result) {
                 result.calculated_result = parseFloat(this.getGrademapByResult(result).grade_item.grademax);
-            }
+            },
+
+            resultHasError(result) {
+                return !!this.errors[ result.id ]
+            },
         }
     }
 </script>
+
+<style>
+
+</style>

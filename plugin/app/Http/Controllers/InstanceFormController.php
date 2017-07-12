@@ -11,6 +11,7 @@ use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\PresetsRepository;
 use Zeizig\Moodle\Services\GradebookService;
+use Zeizig\Moodle\Services\SettingsService;
 
 /**
  * Class InstanceFormController.
@@ -35,6 +36,9 @@ class InstanceFormController extends Controller
     /** @var PresetsRepository */
     private $presetsRepository;
 
+    /** @var SettingsService */
+    private $settingsService;
+
     /**
      * InstanceFormController constructor.
      *
@@ -44,6 +48,7 @@ class InstanceFormController extends Controller
      * @param GradebookService $gradebookService
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param PresetsRepository $presetsRepository
+     * @param SettingsService $settingsService
      */
     public function __construct(
         Request $request,
@@ -51,7 +56,8 @@ class InstanceFormController extends Controller
         ClassificationsRepository $classificationsRepository,
         GradebookService $gradebookService,
         CourseSettingsRepository $courseSettingsRepository,
-        PresetsRepository $presetsRepository
+        PresetsRepository $presetsRepository,
+        SettingsService $settingsService
     ) {
         parent::__construct($request);
         $this->charonRepository          = $charonRepository;
@@ -59,6 +65,7 @@ class InstanceFormController extends Controller
         $this->gradebookService = $gradebookService;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->presetsRepository = $presetsRepository;
+        $this->settingsService = $settingsService;
     }
 
     /**
@@ -70,19 +77,31 @@ class InstanceFormController extends Controller
     {
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
+
+        $moduleSettingsUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', null)
+            ? '' : "/admin/settings.php?section=modsettingcharon";
 
         if ($this->isUpdate()) {
             $charon = $this->getCharon();
+            $presets = $this->presetsRepository->getPresetsByCourse($charon->course);
+            $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
+            $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
+                ? '' : "/mod/charon/courses/{$charon->course}/settings";
 
             return view('instanceForm.form', compact(
-                'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
+                'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
+                'moduleSettingsUrl'
             ));
         }
 
+        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
+        $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
+            ? '' : "/mod/charon/courses/{$this->request['course']}/settings";
+
         return view('instanceForm.form', compact(
-            'gradingMethods', 'testerTypes', 'courseSettings', 'presets'
+            'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
+            'moduleSettingsUrl'
         ));
     }
 
@@ -109,12 +128,18 @@ class InstanceFormController extends Controller
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
         $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
+
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
+        $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
+            ? '' : "/mod/charon/courses/{$this->request['course']}/settings";
+        $moduleSettingsUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', null)
+            ? '' : "/admin/settings.php?section=modsettingcharon";
 
         $update = true;
 
         return view('instanceForm.form', compact(
-            'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets'
+            'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
+            'moduleSettingsUrl'
         ));
     }
 

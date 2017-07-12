@@ -12,8 +12,9 @@
 </template>
 
 <script>
-    import { PopupHeader, PopupBody } from './layouts';
-    import { Loader, Notification } from './components';
+    import { PopupHeader, PopupBody } from './layouts'
+    import { Loader } from './components'
+    import { Notification } from '../../components/partials'
 
     export default {
 
@@ -41,13 +42,13 @@
         },
 
         methods: {
-            showNotification(message, type) {
+            showNotification(message, type, timeout) {
                 this.notification.text = message
                 this.notification.show = true
                 this.notification.type = type
                 setTimeout(() => {
                     this.notification.show = false
-                }, 2000)
+                }, timeout)
             },
 
             hideLoader() {
@@ -57,12 +58,8 @@
             },
 
             initializeEventListeners() {
-                VueEvent.$on('show-notification', (message, type) => {
-                    if (typeof type === 'undefined') {
-                        this.showNotification(message, 'success')
-                    } else {
-                        this.showNotification(message, type)
-                    }
+                VueEvent.$on('show-notification', (message, type = 'success', timeout = 2000) => {
+                    this.showNotification(message, type, timeout)
                 });
                 VueEvent.$on('close-notification', () => this.notification.show = false);
                 VueEvent.$on('show-loader', () => this.loaderVisible += 1);

@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <p class="control files-select" v-if="files.length > 0">
+        <p class="control tabs-right select-container files-select" v-if="files.length > 0">
             <span class="select">
 
                 <select name="file"

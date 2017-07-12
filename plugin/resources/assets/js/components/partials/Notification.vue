@@ -2,8 +2,8 @@
     <transition name="slide-fade">
         <div v-if="show" class="is-flex popup-notification">
             <div class="notification" :class="[ notificationClass ]">
-                <button class="delete" @click="onClosed()"></button>
-                {{ text }}
+                <button class="delete" type="button" @click="onClosed()"></button>
+                <div v-html="text"></div>
             </div>
         </div>
     </transition>
