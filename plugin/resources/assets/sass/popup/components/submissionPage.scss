@@ -1,3 +1,5 @@
+@import '../variables';
+
 /*---------------------*\
   #SUBMISSION_PAGE
 \*---------------------*/
@@ -101,14 +103,31 @@
 \*---------------------*/
 
 .output-section .tabs .tab a {
-  padding: 1.5em 2em;
+  padding: 0 2em;
   font-size: $size-medium;
+  line-height: 4.5em;
 }
 
 .output-section {
 
   .tabs {
     margin-bottom: 0;
+
+    &.sticky {
+      position: fixed;
+      top: $header-height;
+      z-index: 5;
+      background: #fff;
+      /* Padding of the page body */
+      right: 60px;
+      /* Padding of the page body + sidebar width */
+      left: calc(60px + 16.666667%);
+
+      + .tab-details {
+        /* Tabs height + normal padding of tab-details + font size of the tabs text */
+        padding-top: calc(4.5em + 25px + 1.25rem);
+      }
+    }
   }
 
   .tab-details {

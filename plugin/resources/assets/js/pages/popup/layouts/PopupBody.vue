@@ -3,7 +3,7 @@
 
         <popup-navigation :context="context"></popup-navigation>
 
-        <div class="column page-right">
+        <div class="column page-right" id="page-right">
             <div class="page-container">
                 <keep-alive>
                     <router-view :context="context"></router-view>
