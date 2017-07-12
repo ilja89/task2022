@@ -126,20 +126,26 @@
       + .tab-details {
         /* Tabs height + normal padding of tab-details + font size of the tabs text */
         padding-top: calc(4.5em + 25px + 1.25rem);
+
+        .tabs-right.select-container {
+          position: fixed;
+          top: $header-height + 17px;
+          /* Normal right + padding of the page body */
+          right: 25px + 60px;
+        }
       }
     }
   }
 
   .tab-details {
     padding: 25px;
-  }
 
-  .files-select {
-    margin-bottom: 30px;
-  }
-
-  .output-select {
-    margin-bottom: 30px;
+    .tabs-right.select-container {
+      position: absolute;
+      top: 17px;
+      right: 25px;
+      z-index: 6;
+    }
   }
 }
 

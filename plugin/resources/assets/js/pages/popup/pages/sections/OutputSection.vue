@@ -75,10 +75,6 @@
             },
 
             scrollHandler(e) {
-                console.log('#page-right scrollTop: ' + e.target.scrollTop)
-                console.log('#page-right offsetTop: ' + document.getElementById('page-right').offsetTop)
-                console.log('#tabs offsetTop: ' + document.getElementById('tabs').offsetTop)
-
                 if (this.stickyTabs) {
                     if (e.target.scrollTop + document.getElementById('page-right').offsetTop < document.getElementById('tabs').offsetTop) {
                         this.stickyTabs = false
