@@ -1,0 +1,36 @@
+/*-----------------------------*\
+    Customize file tree
+\*-----------------------------*/
+
+.file-tree-container {
+
+  .file-tree {
+    background-color: #4F5F6F;
+  }
+
+  .file-tree > .file-tree-row > .file-tree-row__title-row {
+    background-color: #4F5F6F;
+    border-bottom-color: #384655;
+
+    &:hover {
+      background-color: #546677;
+    }
+  }
+
+  .file-tree-row__title-row {
+    background-color: #384655;
+    border-bottom: #4F5F6F 1px solid;
+
+    &:hover {
+      background-color: #3e4e5f;
+    }
+  }
+
+  .file-tree-row__icon svg {
+    fill: #59c2e6;
+  }
+
+  .file-tree-row__icon svg .fillable {
+    fill: #8aa0b5;
+  }
+}
