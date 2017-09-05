@@ -6,6 +6,8 @@ Route::group(['namespace' => 'Api'], function () {
          ->name('tester_callback');
     Route::get('git_callback', 'GitCallbackController@index')
          ->name('git_callback');
+    Route::post('git_callback', 'GitCallbackController@indexPost')
+        ->name('git_callback_post');
 
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');

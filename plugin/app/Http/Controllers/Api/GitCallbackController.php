@@ -48,4 +48,25 @@ class GitCallbackController extends Controller
 
         return "SUCCESS";
     }
+
+    public function indexPost()
+    {
+        $repo = $this->request->input('repository')['git_ssh_url'];
+        $username = $this->request->input('user_username');
+        $gitCallback = $this->gitCallbacksRepository->save(
+            $this->request->fullUrl(),
+            $repo,
+            $username
+        );
+
+        $params = ['repo' => $repo, 'user' => $username, 'extra' => $this->request->all()];
+
+        event(new GitCallbackReceived(
+            $gitCallback,
+            $this->request->getUriForPath('/api/tester_callback'),
+            $params
+        ));
+
+        return "SUCCESS";
+    }
 }
