@@ -11,7 +11,8 @@
 
   .column {
     flex: 1;
-    padding: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
 
     &.is-one-third {
       flex: initial;

@@ -1,26 +1,21 @@
 <template>
     <div>
 
-        <!--<p class="control tabs-right select-container files-select" v-if="files.length > 0">-->
-            <!--<span class="select">-->
+        <p class="control tabs-right select-container files-select" v-if="files.length > 0">
+            <span class="select">
 
-                <!--<select name="file"-->
-                        <!--v-model="activeFileId">-->
-                    <!--<option v-for="file in files"-->
-                            <!--:value="file.id">-->
-                        <!--{{ file.path }}-->
-                    <!--</option>-->
-                <!--</select>-->
+                <select name="file"
+                        v-model="activeFileId">
+                    <option v-for="file in files"
+                            :value="file.id">
+                        {{ file.path }}
+                    </option>
+                </select>
 
-            <!--</span>-->
-        <!--</p>-->
+            </span>
+        </p>
 
         <div class="columns is-gapless code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
-
-            <div class="column is-narrow file-tree-container is-one-quarter">
-                <file-tree :data="formattedFiles" @file-clicked="handleFileClicked">
-                </file-tree>
-            </div>
 
             <div class="column line-number-container is-narrow">
                 <span class="line-number-position" v-for="n in activeFile.numbers">
@@ -37,11 +32,8 @@
 <script>
 
     import { File } from '../../models';
-    import FileTree from './FileTree'
 
     export default {
-
-        components: { FileTree },
 
         props: {
             submission: { required: true },
@@ -56,7 +48,6 @@
             return {
                 files: [],
                 activeFileId: null,
-                formattedFiles: [],
             };
         },
 
@@ -96,10 +87,6 @@
                     this.files = files
                     this.formattedFiles = []
 
-                    this.files.forEach(file => {
-                        this.addFormattedFile(file)
-                    })
-
                     if (files.length > 0) {
                         this.activeFileId = files[0].id
                     }
@@ -108,45 +95,6 @@
 
             handleFileClicked(file) {
                 this.activeFileId = file.id
-            },
-
-            addFormattedFile(file) {
-                let path = file.path
-                let pathArray = []
-
-                while (path.includes('/')) {
-                    const slashIndex = path.indexOf('/')
-                    const beforeSlash = path.substring(0, slashIndex)
-                    path = path.substring(slashIndex + 1)
-                    pathArray.push(beforeSlash)
-                }
-
-                let currentContext = this.formattedFiles
-                while (pathArray.length) {
-                    const currentFolder = pathArray.shift()
-                    const hasFolder = currentContext.find((context) => {
-                        return context.title == currentFolder
-                    })
-
-                    if (hasFolder) {
-                        currentContext = hasFolder.contents
-                    } else {
-                        const newContext = {
-                            title: currentFolder,
-                            contents: [],
-                        }
-
-                        currentContext.push(newContext)
-                        currentContext = newContext.contents
-                    }
-                }
-
-                currentContext.push({
-                    title: path,
-                    contents: file.contents,
-                    submission_id: file.submission_id,
-                    id: file.id,
-                })
             },
         }
     }

@@ -33,7 +33,7 @@ class CourseModule extends Model
     {
         $moduleService = app(ModuleService::class);
 
-        return $this->module === $moduleService->getModuleId();
+        return $this->module == $moduleService->getModuleId();
     }
 
     /**
