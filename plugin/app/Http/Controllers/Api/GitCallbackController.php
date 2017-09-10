@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -41,6 +42,11 @@ class GitCallbackController extends Controller
      */
     public function index()
     {
+        $this->validate($this->request, [
+            'repo' => 'required',
+            'user' => 'required',
+        ]);
+
         $gitCallback = $this->gitCallbacksRepository->save(
             $this->request->fullUrl(),
             $this->request->input('repo'),
@@ -58,6 +64,11 @@ class GitCallbackController extends Controller
 
     public function indexPost()
     {
+        $this->validate($this->request, [
+            'repository' => 'required',
+            'user_username' => 'required',
+        ]);
+
         $repo = $this->request->input('repository')['git_ssh_url'];
         $username = $this->request->input('user_username');
         $gitCallback = $this->gitCallbacksRepository->save(
