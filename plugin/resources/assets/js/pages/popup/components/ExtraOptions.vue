@@ -12,8 +12,15 @@
         </div>
 
         <div class="options-menu" :class="{ 'is-active': menu_is_open }">
-            <ul @click="addManualSubmission">
-                <li :class="{ disabled: !canAddSubmission }">Add a manual submission</li>
+            <ul>
+                <li :class="{ disabled: !canAddSubmission }"
+                    @click="addManualSubmission">
+                    Add a manual submission
+                </li>
+                <li :class="{ disabled: !canAddSubmission }"
+                    @click="retestTask">
+                    Retest this task
+                </li>
             </ul>
         </div>
     </div>
@@ -21,7 +28,7 @@
 
 <script>
     import { mixin as clickaway } from 'vue-clickaway';
-    import { Submission } from '../../../models';
+    import { Submission, Charon } from '../../../models';
 
     export default {
 
@@ -41,7 +48,7 @@
         computed: {
             canAddSubmission() {
                 return this.charon !== null && this.student !== null;
-            }
+            },
         },
 
         methods: {
@@ -63,7 +70,17 @@
 
             onClickedAway() {
                 this.menu_is_open = false;
-            }
+            },
+
+            retestTask() {
+                if (!this.canAddSubmission) {
+                    return;
+                }
+
+                Charon.retest(this.charon.id, this.student.id, response => {
+                    console.log(response);
+                });
+            },
         }
     }
 </script>

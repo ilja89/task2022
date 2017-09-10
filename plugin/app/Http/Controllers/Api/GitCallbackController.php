@@ -5,8 +5,15 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 
+/**
+ * Class GitCallbackController.
+ * Receives Git callbacks, saves them and notifies the tester of them.
+ *
+ * @package TTU\Charon\Http\Controllers\Api
+ */
 class GitCallbackController extends Controller
 {
     /** @var GitCallbacksRepository */
@@ -68,5 +75,25 @@ class GitCallbackController extends Controller
         ));
 
         return "SUCCESS";
+    }
+
+    /**
+     * Trigger retesting the student's solution to a given task.
+     *
+     * @param Charon $charon
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function retest(Charon $charon)
+    {
+        // TODO: Make this work
+
+
+        return response()->json([
+            'status' => 500,
+            'data' => [
+                'message' => 'Retesting is not supported yet!',
+            ],
+        ], 500);
     }
 }

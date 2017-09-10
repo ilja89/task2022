@@ -17,6 +17,18 @@ class Charon {
                 VueEvent.$emit('show-notification', 'Error retrieving results.', 'danger')
             })
     }
+
+    static retest(charonId, userId, then) {
+        window.axios.post(`/mod/charon/api/charons/${charonId}/retest`, {
+            userId: userId,
+        })
+            .then(response => {
+                then(response)
+            })
+            .catch(error => {
+                window.VueEvent.$emit('show-notification', 'Retesting is not supported yet!', 'danger')
+            })
+    }
 }
 
 export default Charon
