@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
@@ -42,10 +43,19 @@ class GitCallbackController extends Controller
      */
     public function index()
     {
-        $this->validate($this->request, [
+        $validator = Validator::make($this->request->all(), [
             'repo' => 'required',
             'user' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            Log::notice('Git callback with incorrect parameters', [
+                'url' => $this->request->fullUrl(),
+                'body' => $this->request->all()
+            ]);
+        }
+
+        $validator->validate();
 
         $gitCallback = $this->gitCallbacksRepository->save(
             $this->request->fullUrl(),
@@ -64,10 +74,19 @@ class GitCallbackController extends Controller
 
     public function indexPost()
     {
-        $this->validate($this->request, [
+        $validator = Validator::make($this->request->all(), [
             'repository' => 'required',
             'user_username' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            Log::notice('Git callback with incorrect parameters', [
+                'url' => $this->request->fullUrl(),
+                'body' => $this->request->all()
+            ]);
+        }
+
+        $validator->validate();
 
         $repo = $this->request->input('repository')['git_ssh_url'];
         $username = $this->request->input('user_username');
