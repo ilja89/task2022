@@ -6,9 +6,9 @@
     window.instance = {!! isset($charon) ? $charon->toJson() : '{}'!!};
     window.update = {{ isset($update) ? 'true' : 'false' }};
     window.courseSettings = {!! $courseSettings !== null ? $courseSettings->toJson() : '{}' !!};
-    window.presets = {!! $presets->toJson() !!};
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
+    window.groups = {!! $groups->toJson() !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
@@ -65,6 +65,7 @@
 </div>
 
 <script src="/mod/charon/plugin/public/js/instanceForm.js"></script>
+
 <script>
     if (window.moduleSettingsUrl.length) {
         window.VueEvent.$emit(

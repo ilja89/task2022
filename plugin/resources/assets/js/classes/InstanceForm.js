@@ -1,12 +1,14 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, tester_types, grading_methods, courseSettings, presets) {
+    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups) {
         this.initializeFields(instance, courseSettings);
 
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
+        this.groups = groups;
+        this.groups.unshift({ id: null, name: 'All groups' });
     }
 
     activateGrademap(grade_type_code) {
@@ -43,7 +45,7 @@ export default class InstanceFormForm {
                 time: ''
             },
             percentage: 100,
-            group_id: 1
+            group_id: null,
         });
     }
 
@@ -160,9 +162,9 @@ export default class InstanceFormForm {
 
         preset.preset_grades.forEach(presetGrade => {
             let grademap = this.activateGrademap(presetGrade.grade_type_code);
-            if (presetGrade.grade_name_prefix_code === 1) {
+            if (presetGrade.grade_name_prefix_code == 1) {
                 grademap.name = this.fields.project_folder + ' ' + presetGrade.grade_name;
-            } else if (presetGrade.grade_name_prefix_code === 2) {
+            } else if (presetGrade.grade_name_prefix_code == 2) {
                 grademap.name = this.fields.name + ' ' + presetGrade.grade_name;
             }
             if (presetGrade.id_number_postfix !== null) {

@@ -46,4 +46,12 @@ class Course extends Model
     {
         return $this->hasMany(GradeCategory::class, 'courseid');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class, 'courseid');
+    }
 }

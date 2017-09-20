@@ -10,6 +10,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\PresetsRepository;
+use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\SettingsService;
 
@@ -87,21 +88,26 @@ class InstanceFormController extends Controller
             $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
             $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
                 ? '' : "/mod/charon/courses/{$charon->course}/settings";
+            $groups = $charon->course->groups;
 
             return view('instanceForm.form', compact(
                 'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-                'moduleSettingsUrl'
+                'moduleSettingsUrl', 'groups'
             ));
         }
 
-        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
+        $course = Course::with('groups')
+                        ->where('id', $this->request['course'])
+                        ->first();
+        $presets = $this->presetsRepository->getPresetsByCourse($course->id);
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
-            ? '' : "/mod/charon/courses/{$this->request['course']}/settings";
+            ? '' : "/mod/charon/courses/{$course->id}/settings";
+        $groups = $course->groups;
 
         return view('instanceForm.form', compact(
             'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl'
+            'moduleSettingsUrl', 'groups'
         ));
     }
 

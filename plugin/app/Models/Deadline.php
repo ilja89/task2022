@@ -24,7 +24,7 @@ class Deadline extends Model
     protected $table = 'charon_deadline';
 
     protected $fillable = [
-        'charon_id', 'deadline_time', 'percentage'
+        'charon_id', 'deadline_time', 'percentage', 'group_id',
     ];
 
     public function charon()
