@@ -16,6 +16,7 @@ use Zeizig\Moodle\Models\Group;
  * @property integer $group_id
  *
  * @property Charon $charon
+ * @property Group $group
  *
  * @package TTU\Charon\Models
  */

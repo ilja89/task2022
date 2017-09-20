@@ -4,6 +4,7 @@ namespace Zeizig\Moodle\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * Class Course
@@ -11,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property integer $id
  * @property string $fullname
  * @property string $shortname
- * @property CourseModule[] $courseModules
+ * @property CourseModule[]|Collection $courseModules
+ * @property Group[]|Collection $groups
  *
  * @package TTU\Moodle\Model
  */

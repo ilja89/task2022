@@ -88,7 +88,7 @@ class InstanceFormController extends Controller
             $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
             $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
                 ? '' : "/mod/charon/courses/{$charon->course}/settings";
-            $groups = $charon->course->groups;
+            $groups = $charon->moodleCourse->groups;
 
             return view('instanceForm.form', compact(
                 'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
