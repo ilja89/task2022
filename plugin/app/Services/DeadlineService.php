@@ -33,8 +33,7 @@ class DeadlineService
         $charon->deadlines()->save(new Deadline([
             'deadline_time' => $deadlineTime,
             'percentage' => $deadlineArray['percentage'],
-            // TODO: Set group id.
-//                'group_id' => $deadline['group_id']
+            'group_id' => $deadlineArray['group_id'],
         ]));
     }
 

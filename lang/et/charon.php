@@ -100,3 +100,4 @@ $string['after']          = 'Pärast';
 $string['percentage']     = 'Protsent';
 $string['your_points']    = 'Sinu punktid';
 $string['total']          = 'Kokku';
+$string['all_groups']     = 'Kõik grupid';

@@ -1,6 +1,6 @@
 # Charon
 
-Moodle assignment module for programming tasks. Integrated with automated tester.
+Moodle assignment module for programming tasks. Integrated with automated tester. 
 
 
 ## Requirements
