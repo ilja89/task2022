@@ -106,3 +106,4 @@ $string['after']          = 'After';
 $string['percentage']     = 'Percentage';
 $string['your_points']    = 'Your points';
 $string['total']          = 'Total';
+$string['all_groups']     = 'All groups';

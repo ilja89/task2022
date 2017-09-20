@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Zeizig\Moodle\Models\Group;
 
 /**
  * Class Deadline.
@@ -30,6 +31,11 @@ class Deadline extends Model
     public function charon()
     {
         return $this->belongsTo(Charon::class, 'charon_id', 'id');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
     public function getDeadlineTimeAttribute($deadlineTime)
