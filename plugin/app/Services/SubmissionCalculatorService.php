@@ -2,12 +2,14 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -34,7 +36,7 @@ class SubmissionCalculatorService
      * Calculate results for the given Result taking into account the given deadlines.
      *
      * @param  Result $result
-     * @param  Deadline[] $deadlines
+     * @param  Deadline[]|Collection $deadlines
      *
      * @return float
      */
@@ -52,11 +54,27 @@ class SubmissionCalculatorService
             return $smallestScore;
         }
 
-        /** @var Submission $submission */
         $submission = $result->submission;
-        foreach ($deadlines as $deadline) {
+        $submissionTime = $submission->created_at;
+        // TODO: [Refactor] Maybe select only group IDs via query builder
+        $userGroups = $submission->user
+            ->groups()
+            ->where('courseid', $submission->charon->course)
+            ->get();
+
+        $deadlinesForUser = $deadlines->filter(function ($deadline) use ($userGroups) {
+            return $deadline->group_id === null || $userGroups->contains('id', $deadline->group_id);
+        });
+
+        if ($deadlinesForUser->isEmpty() && $deadlines->isNotEmpty()) {
+            // No deadlines for user - shouldn't get a grade
+            // TODO: [Feature] Think of what should happen
+            return 0;
+        }
+
+        foreach ($deadlinesForUser as $deadline) {
             $deadline->deadline_time->setTimezone(\Config::get('app.timezone'));
-            if ($deadline->deadline_time->lt($submission->created_at)) {
+            if ($deadline->deadline_time->lt($submissionTime)) {
                 $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
                 if ($smallestScore > $score) {
                     $smallestScore = $score;

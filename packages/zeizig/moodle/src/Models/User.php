@@ -3,6 +3,7 @@
 namespace Zeizig\Moodle\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class User.
@@ -13,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $lastname
  * @property string $username
  *
- * @property Group $group
- * @property GradeGrade[] $gradeGrades
+ * @property Group[]|Collection $groups
+ * @property GradeGrade[]|Collection $gradeGrades
  *
  * @package Zeizig\Moodle\Models
  */
@@ -25,7 +26,7 @@ class User extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_members', 'userid', 'groupid');
+        return $this->belongsToMany(Group::class, 'groups_members', 'userid', 'groupid');
     }
 
     public function gradeGrades()
