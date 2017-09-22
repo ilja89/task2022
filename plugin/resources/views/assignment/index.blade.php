@@ -6,7 +6,7 @@
 
 <div class="columns assignment-columns" id="app">
 
-    <div class="column assignment-content content">
+    <div class="column is-two-thirds assignment-content content">
 
         {!! rewritePluginIntroUrls($charon->description, $charon->course) !!}
 
