@@ -142,8 +142,10 @@ class CharonGradingService
     {
         $charon = $submission->charon;
         foreach ($submission->results as $result) {
-            $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines($result,
-                $charon->deadlines);
+            $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
+                $result,
+                $charon->deadlines
+            );
             $result->save();
         }
     }

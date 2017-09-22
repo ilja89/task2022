@@ -68,7 +68,11 @@ class CreateCharonService
      */
     public function saveGrademapsFromRequest($request, Charon $charon)
     {
-        foreach ($request->grademaps as $grade_type_code => $grademap) {
+        if (!$request->has('grademaps')) {
+            return;
+        }
+
+        foreach ($request->input('grademaps') as $grade_type_code => $grademap) {
             $this->grademapService->createGrademapWithGradeItem($charon, $grade_type_code, $request->course, $grademap);
         }
     }

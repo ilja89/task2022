@@ -8,6 +8,7 @@ use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\ModuleService;
 
 /**
  * Charon model class.
@@ -91,8 +92,8 @@ class Charon extends Model
      */
     public function courseModule()
     {
-        /** @var \Zeizig\Moodle\Services\ModuleService $moduleService */
-        $moduleService = app(\Zeizig\Moodle\Services\ModuleService::class);
+        /** @var ModuleService $moduleService */
+        $moduleService = app(ModuleService::class);
 
         return CourseModule::where('instance', $this->id)
                            ->where('module', $moduleService->getModuleId())
