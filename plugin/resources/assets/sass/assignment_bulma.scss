@@ -23,6 +23,15 @@
       }
     }
 
+    &.is-two-thirds {
+      flex: initial;
+      width: 66.6666%;
+
+      @media (max-width: 1000px) {
+        width: 100%;
+      }
+    }
+
     &.is-narrow {
       flex: initial;
     }
