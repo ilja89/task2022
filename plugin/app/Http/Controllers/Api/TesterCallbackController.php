@@ -51,9 +51,11 @@ class TesterCallbackController extends Controller
      */
     public function index()
     {
-        $this->gitCallbackService->checkGitCallbackForToken($this->request->input('secret_token'));
+        $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
+            $this->request->input('secret_token')
+        );
 
-        $submission = $this->submissionService->saveSubmission($this->request);
+        $submission = $this->submissionService->saveSubmission($this->request, $gitCallback->id);
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 

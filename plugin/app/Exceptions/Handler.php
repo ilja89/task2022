@@ -11,6 +11,7 @@ class Handler extends ExceptionHandler
 {
     /**
      * A list of the exception types that should not be reported.
+     * Logged.
      *
      * @var array
      */
@@ -23,6 +24,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
 
         ResultPointsRequiredException::class,
+        SubmissionNoGitCallbackException::class,
     ];
 
     /**
@@ -34,6 +36,7 @@ class Handler extends ExceptionHandler
          // CharonNotFoundException::class,
         NotFoundHttpException::class,  // When route cannot be matched
         ResultPointsRequiredException::class,  // When no calculated result set while updating results
+        SubmissionNoGitCallbackException::class,
     ];
 
     /**

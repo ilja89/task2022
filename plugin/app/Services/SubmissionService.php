@@ -57,12 +57,14 @@ class SubmissionService
      * Also saves the Results and Submission Files.
      *
      * @param  Request $submissionRequest
+     * @param  int  $gitCallbackId
      *
      * @return Submission
      */
-    public function saveSubmission($submissionRequest)
+    public function saveSubmission($submissionRequest, $gitCallbackId)
     {
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest);
+        $submission->git_callback_id = $gitCallbackId;
         $submission->save();
 
         $this->saveResults($submission, $submissionRequest['results']);

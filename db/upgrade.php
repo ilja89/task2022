@@ -140,5 +140,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017100100) {
+        $sql = "ALTER TABLE mdl_charon_submission ADD COLUMN git_callback_id INT";
+        $DB->execute($sql);
+    }
+
     return true;
 }

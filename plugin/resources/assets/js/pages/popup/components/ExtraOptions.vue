@@ -17,7 +17,7 @@
                     @click="addManualSubmission">
                     Add a manual submission
                 </li>
-                <li :class="{ disabled: !canAddSubmission }"
+                <li :class="{ disabled: !canRetestSubmission }"
                     @click="retestTask">
                     Retest this task
                 </li>
@@ -37,6 +37,7 @@
         props: {
             charon: { required: true },
             student: { required: true },
+            submission: { required: true },
         },
 
         data() {
@@ -48,6 +49,10 @@
         computed: {
             canAddSubmission() {
                 return this.charon !== null && this.student !== null;
+            },
+
+            canRetestSubmission() {
+                return !! this.submission
             },
         },
 
@@ -69,17 +74,19 @@
             },
 
             onClickedAway() {
-                this.menu_is_open = false;
+                this.menu_is_open = false
             },
 
             retestTask() {
                 if (!this.canAddSubmission) {
-                    return;
+                    return
                 }
 
-                Charon.retest(this.charon.id, this.student.id, response => {
-                    console.log(response);
-                });
+                Submission.retest(this.submission.id, response => {
+                    if (response.data.status === 200) {
+                        window.VueEvent.$emit('show-notification', response.data.data.message)
+                    }
+                })
             },
         }
     }

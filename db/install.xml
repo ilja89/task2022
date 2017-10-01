@@ -129,6 +129,7 @@
                 <FIELD NAME="mail" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="stdout" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="stderr" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="git_callback_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_submission" TYPE="primary" FIELDS="id"/>
@@ -136,10 +137,13 @@
                      REFTABLE="charon" REFFIELDS="id"/>
                 <KEY NAME="FK_submission_user" TYPE="foreign" FIELDS="user_id"
                      REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="FK_submission_git_callback" TYPE="foreign" FIELDS="git_callback_id"
+                     REFTABLE="charon_git_callback" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_submission_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_submission_user" UNIQUE="false" FIELDS="user_id"/>
+                <INDEX NAME="IXFK_submission_git_callback" UNIQUE="false" FIELDS="git_callback_id"/>
             </INDEXES>
         </TABLE>
 

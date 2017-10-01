@@ -20,11 +20,13 @@ use Zeizig\Moodle\Models\User;
  * @property string $stderr
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property int $git_callback_id
  *
  * @property Charon $charon
  * @property User $user
  * @property Result[] $results
  * @property SubmissionFile[] $files
+ * @property GitCallback $gitCallback
  *
  * @package TTU\Charon\Models
  */
@@ -58,6 +60,11 @@ class Submission extends Model
     public function files()
     {
         return $this->hasMany(SubmissionFile::class);
+    }
+
+    public function gitCallback()
+    {
+        return $this->belongsTo(GitCallback::class, 'git_callback_id', 'id');
     }
 
     public function getGitTimestampAttribute($gitTimestamp)
