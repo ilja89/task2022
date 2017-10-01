@@ -76,39 +76,26 @@ class InstanceFormController extends Controller
      */
     public function index()
     {
-        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
-        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
-
-        $moduleSettingsUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', null)
-            ? '' : "/admin/settings.php?section=modsettingcharon";
-
         if ($this->isUpdate()) {
-            $charon = $this->getCharon();
-            $presets = $this->presetsRepository->getPresetsByCourse($charon->course);
-            $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
-            $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
-                ? '' : "/mod/charon/courses/{$charon->course}/settings";
-            $groups = $charon->moodleCourse->groups;
-
-            return view('instanceForm.form', compact(
-                'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-                'moduleSettingsUrl', 'groups'
-            ));
+            return $this->edit($this->getCharon());
         }
 
         $course = Course::with('groups')
                         ->where('id', $this->request['course'])
                         ->first();
-        $presets = $this->presetsRepository->getPresetsByCourse($course->id);
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
             ? '' : "/mod/charon/courses/{$course->id}/settings";
-        $groups = $course->groups;
 
-        return view('instanceForm.form', compact(
-            'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups'
-        ));
+        return view('instanceForm.form', [
+            'gradingMethods' => $this->classificationsRepository->getAllGradingMethods(),
+            'testerTypes' => $this->classificationsRepository->getAllTesterTypes(),
+            'courseSettings' => $courseSettings,
+            'presets' => $this->presetsRepository->getPresetsByCourse($course->id),
+            'courseSettingsUrl' => $courseSettingsUrl,
+            'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
+            'groups' => $course->groups
+        ]);
     }
 
     /**
@@ -138,8 +125,7 @@ class InstanceFormController extends Controller
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
             ? '' : "/mod/charon/courses/{$this->request['course']}/settings";
-        $moduleSettingsUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', null)
-            ? '' : "/admin/settings.php?section=modsettingcharon";
+        $moduleSettingsUrl = $this->getModuleSettingsUrl();
 
         $update = true;
         $course = Course::with('groups')
@@ -149,6 +135,32 @@ class InstanceFormController extends Controller
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
+            'moduleSettingsUrl', 'groups'
+        ));
+    }
+
+    /**
+     * Show the edit form for a given Charon.
+     *
+     * @param Charon $charon
+     *
+     * @return Factory|View
+     */
+    public function edit(Charon $charon)
+    {
+        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
+        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
+
+        $moduleSettingsUrl = $this->getModuleSettingsUrl();
+
+        $presets = $this->presetsRepository->getPresetsByCourse($charon->course);
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
+        $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
+            ? '' : "/mod/charon/courses/{$charon->course}/settings";
+        $groups = $charon->moodleCourse->groups;
+
+        return view('instanceForm.form', compact(
+            'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
             'moduleSettingsUrl', 'groups'
         ));
     }
@@ -183,5 +195,18 @@ class InstanceFormController extends Controller
         }
 
         return $charon;
+    }
+
+    /**
+     * Get the module settings' URL. If tester URL does not exist, will return the
+     * settings URL. If tester URL is set, will just return an empty string.
+     *
+     * @return string
+     */
+    private function getModuleSettingsUrl()
+    {
+        return $this->settingsService->getSetting('mod_charon', 'tester_url', null)
+            ? ''
+            : "/admin/settings.php?section=modsettingcharon";
     }
 }
