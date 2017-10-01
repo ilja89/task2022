@@ -62,7 +62,7 @@ class RetestController extends Controller
             'repo' => $newGitCallback->repo,
             'user' => $newGitCallback->user,
             'retest' => 1,
-            'submission_id' => $submission->id,
+            'original_submission_id' => $submission->id,
             'commit_hash' => $submission->git_hash,
             'project' => $submission->charon->project_folder,
         ];

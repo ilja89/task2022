@@ -145,5 +145,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2017100101) {
+        $sql = "ALTER TABLE mdl_charon_submission ADD COLUMN original_submission_id INT";
+        $DB->execute($sql);
+    }
+
     return true;
 }
