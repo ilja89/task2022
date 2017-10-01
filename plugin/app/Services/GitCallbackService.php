@@ -26,12 +26,18 @@ class GitCallbackService
     }
 
     /**
+     * Check if the given token is valid and returns a Git callback.
+     *
      * @param  string  $token
+     *
+     * @return GitCallback
      */
     public function checkGitCallbackForToken($token)
     {
         $gitCallback = $this->gitCallbacksRepository->findByToken($token);
         $this->checkGitCallback($gitCallback);
+
+        return $gitCallback;
     }
 
     /**

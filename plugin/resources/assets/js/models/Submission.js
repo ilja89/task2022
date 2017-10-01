@@ -50,6 +50,20 @@ class Submission {
     static canLoadMore() {
         return this.nextUrl !== null
     }
+
+    static retest(submissionId, then) {
+        window.axios.post(`/mod/charon/api/submissions/${submissionId}/retest`)
+            .then(response => {
+                if (response.data.status === 200) {
+                    then(response)
+                } else {
+                    window.VueEvent.$emit('show-notification', response.data.data.detail, 'danger')
+                }
+            })
+            .catch(error => {
+                window.VueEvent.$emit('show-notification', 'Error retesting.', 'danger')
+            })
+    }
 }
 Submission.nextUrl = null
 

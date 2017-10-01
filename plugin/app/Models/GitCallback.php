@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class GitCallback.
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon first_response_time
  *
+ * @property Submission[]|Collection $submissions
+ *
  * @package TTU\Charon\Models
  */
 class GitCallback extends Model
@@ -27,4 +30,9 @@ class GitCallback extends Model
     ];
 
     protected $dates = [ 'created_at', 'first_response_time' ];
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'git_callback_id', 'id');
+    }
 }

@@ -23,7 +23,7 @@ class GitCallbacksRepository
      * @param  string  $repo
      * @param  int  $user
      *
-     * @return mixed
+     * @return GitCallback
      */
     public function save($fullUrl, $repo, $user)
     {
@@ -38,6 +38,16 @@ class GitCallbacksRepository
         ]);
     }
 
+    /**
+     * Find a Git callback by the given secret token. If no token is given
+     * or no GitCallback is found, an IncorrectSecretTokenException will be
+     * thrown.
+     *
+     * @param string $secretToken
+     *
+     * @return GitCallback
+     * @throws IncorrectSecretTokenException
+     */
     public function findByToken($secretToken)
     {
         if ($secretToken === null) {

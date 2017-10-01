@@ -106,24 +106,4 @@ class GitCallbackController extends Controller
 
         return "SUCCESS";
     }
-
-    /**
-     * Trigger retesting the student's solution to a given task.
-     *
-     * @param Charon $charon
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function retest(Charon $charon)
-    {
-        // TODO: Make this work
-
-
-        return response()->json([
-            'status' => 500,
-            'data' => [
-                'message' => 'Retesting is not supported yet!',
-            ],
-        ], 500);
-    }
 }

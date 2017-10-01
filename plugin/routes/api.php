@@ -43,6 +43,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->put('courses/{course}/presets/{preset}', 'PresetsController@update');
 
-    Route::middleware('auth.charon.managing.require')
-        ->post('charons/{charon}/retest', 'GitCallbackController@retest');
+    Route::middleware('auth.submission.managing.require')
+         ->post('submissions/{submission}/retest', 'RetestController@index');
 });

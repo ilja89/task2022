@@ -101,8 +101,6 @@ class StudentsController extends Controller
 
         // Create a report instance
         $report = new \grade_report_user($course->id, $gpr, $context, $user->id);
-        // print the page
-//    print_grade_page_head($courseid, 'report', 'user', get_string('pluginname', 'gradereport_user'). ' - '.fullname($report->user));
 
         if ($report->fill_table()) {
             return $report->print_table(true);

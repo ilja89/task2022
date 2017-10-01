@@ -52,4 +52,9 @@ return [
         'title' => 'Result points are required.',
         'detail' => 'All result points are required when saving a submission.',
     ],
+
+    'submission_git_callback_is_required' => [
+        'title' => 'Submission is not linked to a Git callback.',
+        'detail' => 'Submission requires a Git callback so it can be retested.',
+    ],
 ];

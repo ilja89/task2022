@@ -24,7 +24,12 @@
                     </g></svg>
                 </div>
 
-                <extra-options :student="student" :charon="charon" @submission-was-added="onSubmissionAdded">
+                <extra-options
+                        :student="student"
+                        :charon="charon"
+                        :submission="submission"
+                        @submission-was-added="onSubmissionAdded"
+                >
                 </extra-options>
             </div>
 
@@ -44,6 +49,7 @@
             course_id: { required: true },
             student: { required: true },
             charon: { required: true },
+            submission: { required: true },
         },
 
         methods: {
