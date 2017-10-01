@@ -142,10 +142,14 @@ class InstanceFormController extends Controller
             ? '' : "/admin/settings.php?section=modsettingcharon";
 
         $update = true;
+        $course = Course::with('groups')
+                        ->where('id', $this->request['course'])
+                        ->first();
+        $groups = $course->groups;
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl'
+            'moduleSettingsUrl', 'groups'
         ));
     }
 
