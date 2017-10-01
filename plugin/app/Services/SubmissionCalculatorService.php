@@ -55,7 +55,9 @@ class SubmissionCalculatorService
         }
 
         $submission = $result->submission;
-        $submissionTime = $submission->created_at;
+        $submissionTime = $submission->originalSubmission
+            ? $submission->originalSubmission->created_at
+            : $submission->created_at;
         // TODO: [Refactor] Maybe select only group IDs via query builder
         $userGroups = $submission->user
             ->groups()
