@@ -21,12 +21,14 @@ use Zeizig\Moodle\Models\User;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int $git_callback_id
+ * @property int $original_submission_id
  *
  * @property Charon $charon
  * @property User $user
  * @property Result[] $results
  * @property SubmissionFile[] $files
  * @property GitCallback $gitCallback
+ * @property Submission $originalSubmission
  *
  * @package TTU\Charon\Models
  */
@@ -35,7 +37,7 @@ class Submission extends Model
     public $table = 'charon_submission';
     protected $fillable = [
         'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message',
-        'created_at', 'updated_at',
+        'created_at', 'updated_at', 'original_submission_id',
     ];
 
     protected $dates = [
@@ -65,6 +67,11 @@ class Submission extends Model
     public function gitCallback()
     {
         return $this->belongsTo(GitCallback::class, 'git_callback_id', 'id');
+    }
+
+    public function originalSubmission()
+    {
+        return $this->belongsTo(Submission::class, 'original_submission_id', 'id');
     }
 
     public function getGitTimestampAttribute($gitTimestamp)

@@ -70,6 +70,9 @@ class RequestHandlingService
             'git_commit_message' => isset($request['git_commit_message']) ? $request['git_commit_message'] : null,
             'created_at'         => $now,
             'updated_at'         => $now,
+            'original_submission_id' => $request->has('retest') && !! $request->input('retest')
+                ? $request->input('original_submission_id')
+                : null,
         ]);
 
         return $submission;
