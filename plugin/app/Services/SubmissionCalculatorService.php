@@ -58,6 +58,7 @@ class SubmissionCalculatorService
         $submissionTime = $submission->originalSubmission
             ? $submission->originalSubmission->created_at
             : $submission->created_at;
+
         // TODO: [Refactor] Maybe select only group IDs via query builder
         $userGroups = $submission->user
             ->groups()
@@ -75,7 +76,7 @@ class SubmissionCalculatorService
         }
 
         foreach ($deadlinesForUser as $deadline) {
-            $deadline->deadline_time->setTimezone(\Config::get('app.timezone'));
+            $deadline->deadline_time->setTimezone(config('app.timezone'));
             if ($deadline->deadline_time->lt($submissionTime)) {
                 $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
                 if ($smallestScore > $score) {
