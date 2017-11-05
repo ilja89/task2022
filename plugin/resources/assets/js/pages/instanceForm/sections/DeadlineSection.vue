@@ -18,7 +18,7 @@
 
             <br>
 
-            <label>
+            <label v-if="isEditing">
                 <input type="checkbox" name="recalculate_grades" v-model="form.recalculate_grades">
                 Recalculate grades
             </label>
@@ -42,10 +42,16 @@
             form: { required: true }
         },
 
+        computed: {
+            isEditing() {
+                return window.isEditing;
+            },
+        },
+
         methods: {
             onAddDeadlineClicked() {
                 VueEvent.$emit('deadline-was-added');
-            }
-        }
+            },
+        },
     }
 </script>
