@@ -192,8 +192,6 @@ class CharonGradingService
      */
     public function recalculateGrades(Grademap $grademap)
     {
-        dd('RECALCULATING!', \Request::all());
-
         $results = $this->submissionsRepository->findResultsByCharonAndGradeType(
             $grademap->charon_id,
             $grademap->grade_type_code
