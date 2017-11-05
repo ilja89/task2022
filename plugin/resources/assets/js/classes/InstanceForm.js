@@ -9,6 +9,7 @@ export default class InstanceFormForm {
         this.presets = presets;
         this.groups = groups;
         this.groups.unshift({ id: null, name: 'All groups' });
+        this.recalculate_grades = false;
     }
 
     activateGrademap(grade_type_code) {
@@ -106,7 +107,7 @@ export default class InstanceFormForm {
             grademaps: [ ],
             deadlines: [ ],
 
-            preset: null
+            preset: null,
         };
 
         if (window.update) {

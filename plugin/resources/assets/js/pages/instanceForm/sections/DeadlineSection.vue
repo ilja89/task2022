@@ -16,6 +16,13 @@
 
             <button type="button" class="add-deadline-btn" @click="onAddDeadlineClicked">Add Deadline</button>
 
+            <br>
+
+            <label>
+                <input type="checkbox" name="recalculate_grades" v-model="form.recalculate_grades">
+                Recalculate grades
+            </label>
+
         </div>
 
     </fieldset>
