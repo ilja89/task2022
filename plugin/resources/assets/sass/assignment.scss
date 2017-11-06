@@ -11,6 +11,7 @@
 \*---------------------------------*/
 
 $family-sans-serif: "Roboto", "Fira Sans", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif, "line-icons";
+$family-code: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $size-6: 16px;
 $blue: #03a9f4;
 $table-text-color: #666666;
@@ -32,8 +33,6 @@ $weight-semibold: 500;
 
 #region-main {
   padding-top: 0;
-  margin-left: 0;
-  margin-right: 0;
   max-width: initial;
   margin-top: 30px;
 }
@@ -83,6 +82,13 @@ $weight-semibold: 500;
 
 pre {
   padding: 0;
+
+  code {
+    span {
+      font-family: $family-code;
+      font-size: 1em;
+    }
+  }
 }
 
 
@@ -207,10 +213,14 @@ pre {
 
 .assignment-content {
   margin-top: 0;
-  word-break: break-all;
 
   pre code {
     padding: 13.5px;
+  }
+
+  b,
+  strong {
+    font-weight: 500;
   }
 }
 
