@@ -124,6 +124,7 @@ class UpdateCharonService
      */
     public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
+        // TODO: Notify user when no max score?
         if ($charon->category_id !== null && $request->has('max_score')) {
             $gradeItem              = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $gradeItem->calculation = $request['calculation_formula'];
