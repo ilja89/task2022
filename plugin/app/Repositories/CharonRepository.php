@@ -205,7 +205,12 @@ class CharonRepository
             /** @var Charon $charon */
 
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-            $charon->calculation_formula = $this->gradebookService->denormalizeCalculationFormula($gradeItem->calculation, $charon->course);
+            $charon->calculation_formula = $gradeItem
+                ? $this->gradebookService->denormalizeCalculationFormula(
+                    $gradeItem->calculation,
+                    $courseId
+                )
+                : '';
 
             $charon->grademaps = Grademap::with([
                 'gradeItem' => function ($query) {
