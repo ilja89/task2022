@@ -1,36 +1,30 @@
 <template>
-    <div>
+    <div class="columns is-gapless code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
 
-        <!--<p class="control tabs-right select-container files-select" v-if="files.length > 0">-->
-            <!--<span class="select">-->
-
-                <!--<select name="file"-->
-                        <!--v-model="activeFileId">-->
-                    <!--<option v-for="file in files"-->
-                            <!--:value="file.id">-->
-                        <!--{{ file.path }}-->
-                    <!--</option>-->
-                <!--</select>-->
-
-            <!--</span>-->
-        <!--</p>-->
-
-        <div class="columns is-gapless code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
-
-            <div class="column is-narrow file-tree-container is-one-quarter">
-                <file-tree :data="formattedFiles" @file-clicked="handleFileClicked">
-                </file-tree>
-            </div>
-
-            <div class="column line-number-container is-narrow">
-                <span class="line-number-position" v-for="n in activeFile.numbers">
-                    <span class="line-number">{{ n }}</span>
-                </span>
-            </div>
-
-            <pre class="column code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
+        <div class="column is-narrow file-tree-container is-one-quarter">
+            <file-tree :data="formattedFiles" @file-clicked="handleFileClicked">
+            </file-tree>
         </div>
 
+        <div class="column line-number-container is-narrow">
+            <span class="line-number-position" v-for="n in activeFile.numbers">
+                <span class="line-number">{{ n }}</span>
+            </span>
+        </div>
+
+        <div class="column code-column">
+            <div
+                    class="code-copy-container"
+                    :class="{ sticky: codeCopySticky }"
+                    id="code-copy-container"
+                    @click="handleCopyClicked"
+            >
+                <div class="code-copy">
+                    Copy code
+                </div>
+            </div>
+            <pre class="code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
+        </div>
     </div>
 </template>
 
@@ -49,7 +43,7 @@
             isRound: {
                 type: Boolean,
                 default: true,
-            }
+            },
         },
 
         data() {
@@ -148,7 +142,51 @@
                     id: file.id,
                 })
             },
+
+            handleCopyClicked() {
+                copyTextToClipboard(this.activeFile.contents)
+            },
+        },
+    }
+
+    function copyTextToClipboard(text) {
+        let textArea = document.createElement("textarea");
+
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+
+        textArea.style.padding = 0;
+
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+
+        textArea.style.background = 'transparent';
+
+        textArea.value = text;
+
+        document.body.appendChild(textArea);
+
+        textArea.select();
+
+        try {
+            const successful = document.execCommand('copy')
+            const message = successful
+                ? 'Code copied to clipboard'
+                : 'Error copying code'
+
+            window.VueEvent.$emit('show-notification', message, successful ? 'info' : 'error');
+        } catch (err) {
+            const message = 'Unable to copy';
+
+            window.VueEvent.$emit('show-notification', message, 'error');
         }
+
+        document.body.removeChild(textArea);
     }
 </script>
 
@@ -205,6 +243,31 @@
         .code {
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
+        }
+    }
+
+    .code-column {
+        position: relative;
+        overflow-x: scroll;
+    }
+
+    .code-copy-container {
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        padding: 10px 15px;
+        cursor: pointer;
+
+        .code-copy {
+            border-bottom: 1px solid #4f5f6f;
+        }
+
+        &:hover {
+            color: darken(#4f5f6f, 15%);
+
+            .code-copy {
+                border-bottom: 1px solid darken(#4f5f6f, 15%);
+            }
         }
     }
 

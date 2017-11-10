@@ -1,6 +1,6 @@
 <template>
     <div class="fitem">
-        <div class="tabs" :class="{ sticky: sticky }">
+        <div class="tabs" :class="{ sticky }">
             <ul class="tabs-list">
                 <li v-for="tab in tabs" class="tab" :class="{ 'is-active': tab.isActive }">
                     <a @click="selectTab(tab)">{{ tab.name }}</a>
