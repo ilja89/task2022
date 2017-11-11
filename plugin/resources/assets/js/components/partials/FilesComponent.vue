@@ -1,13 +1,23 @@
 <template>
-    <div class="columns is-gapless code-container" :class="{ 'is-round': isRound }" v-if="activeFile !== null">
+    <div
+            class="columns is-gapless code-container"
+            :class="{ 'is-round': isRound }"
+            v-if="activeFile !== null"
+    >
 
         <div class="column is-narrow file-tree-container is-one-quarter">
-            <file-tree :data="formattedFiles" @file-clicked="handleFileClicked">
+            <file-tree
+                    :data="formattedFiles"
+                    @file-clicked="handleFileClicked"
+            >
             </file-tree>
         </div>
 
         <div class="column line-number-container is-narrow">
-            <span class="line-number-position" v-for="n in activeFile.numbers">
+            <span
+                    v-for="n in activeFile.numbers"
+                    class="line-number-position"
+            >
                 <span class="line-number">{{ n }}</span>
             </span>
         </div>
@@ -96,6 +106,8 @@
                     if (files.length > 0) {
                         this.activeFileId = files[0].id
                     }
+
+                    this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
                 })
             },
 
@@ -144,6 +156,40 @@
 
             handleCopyClicked() {
                 copyTextToClipboard(this.activeFile.contents)
+            },
+
+            compressFiles(file) {
+
+                if (typeof file.contents === 'string') {
+                    // Is file
+                    return { ...file }
+                }
+
+                if (file.contents.length === 1) {
+                    // Is folder with only one item inside
+                    // So should be merged with child
+                    const newContents = file.contents.map(this.compressFiles)
+
+                    let newFile
+                    const child = newContents[0]
+                    if (typeof child.contents !== 'string') {
+                        // The one child is a folder
+                        newFile = {
+                            title: file.title + '/' + child.title,
+                            contents: child.contents,
+                        }
+                    } else {
+                        newFile = { ...file }
+                    }
+
+                    return newFile
+                }
+
+                // Has multiple children
+                return {
+                    ...file,
+                    contents: file.contents.map(this.compressFiles)
+                }
             },
         },
     }
