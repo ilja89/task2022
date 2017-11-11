@@ -22,6 +22,7 @@ use Zeizig\Moodle\Models\User;
  * @property Carbon $updated_at
  * @property int $git_callback_id
  * @property int $original_submission_id
+ * @property int $grader_id
  *
  * @property Charon $charon
  * @property User $user
@@ -72,6 +73,11 @@ class Submission extends Model
     public function originalSubmission()
     {
         return $this->belongsTo(Submission::class, 'original_submission_id', 'id');
+    }
+
+    public function grader()
+    {
+        return $this->belongsTo(User::class, 'grader_id', 'id');
     }
 
     public function getGitTimestampAttribute($gitTimestamp)

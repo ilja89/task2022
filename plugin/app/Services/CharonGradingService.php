@@ -7,6 +7,7 @@ use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\GradingService;
 
 /**
@@ -27,28 +28,33 @@ class CharonGradingService
     private $submissionsRepository;
     /** @var SubmissionCalculatorService */
     private $submissionCalculatorService;
+    /** @var User */
+    private $user;
 
     /**
      * CharonGradingService constructor.
      *
-     * @param  GradingService  $gradingService
-     * @param  GrademapService  $grademapService
-     * @param  CharonRepository  $charonRepository
-     * @param  SubmissionsRepository  $submissionsRepository
-     * @param  SubmissionCalculatorService  $submissionCalculatorService
+     * @param  GradingService $gradingService
+     * @param  GrademapService $grademapService
+     * @param  CharonRepository $charonRepository
+     * @param  SubmissionsRepository $submissionsRepository
+     * @param  SubmissionCalculatorService $submissionCalculatorService
+     * @param  User $user
      */
     public function __construct(
         GradingService $gradingService,
         GrademapService $grademapService,
         CharonRepository $charonRepository,
         SubmissionsRepository $submissionsRepository,
-        SubmissionCalculatorService $submissionCalculatorService
+        SubmissionCalculatorService $submissionCalculatorService,
+        User $user
     ) {
         $this->gradingService              = $gradingService;
         $this->grademapService             = $grademapService;
         $this->charonRepository            = $charonRepository;
         $this->submissionsRepository       = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
+        $this->user = $user;
     }
 
     /**
@@ -95,8 +101,10 @@ class CharonGradingService
     public function confirmSubmission($submission)
     {
         $userId      = $submission->user_id;
-        $submissions = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon($userId,
-            $submission->charon_id);
+        $submissions = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon(
+            $userId,
+            $submission->charon_id
+        );
 
         foreach ($submissions as $confirmedSubmission) {
             if ($submission->id === $confirmedSubmission->id) {
@@ -106,7 +114,8 @@ class CharonGradingService
             $this->submissionsRepository->unconfirmSubmission($confirmedSubmission);
         }
 
-        $this->submissionsRepository->confirmSubmission($submission);
+        $graderId = $this->user->currentUserId();
+        $this->submissionsRepository->confirmSubmission($submission, $graderId);
     }
 
     /**

@@ -42,9 +42,14 @@
 
                 <div class="submission-deadlines" v-if="hasDeadlines">
                     <div class="submission-info-title">Deadlines:</div>
-                    <ul>
-                        <li class="submission-info-content" v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
+                    <ul class="submission-info-content">
+                        <li v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
                     </ul>
+                </div>
+
+                <div v-if="submission.grader">
+                    <div class="submission-info-title">{{ graderInfoTitle }}:</div>
+                    <div class="submission-info-content">{{ graderInfo }}</div>
                 </div>
             </div>
 
@@ -126,9 +131,13 @@
 
             activeCharonName() {
                 return this.charon !== null
-                    ? '<a href="/mod/charon/view.php?id='
-                        + this.charon.course_module_id + '" class="section-title-link" target="_blank">'
-                        + this.charon.name + '</a>'
+                    ? `<a
+                        href="/mode/charon/view.php?id=${this.charon.course_module_id}"
+                        class="section-title-link"
+                        target="_blank"
+                    >
+                        ${this.charon.name}
+                    </a>`
                     : null;
             },
 
@@ -145,16 +154,37 @@
                     ? this.charon.calculation_formula
                     : ''
             },
+
+            graderInfoTitle() {
+                if (this.submission.confirmed) {
+                    return 'Grader'
+                } else {
+                    return 'Previously graded by'
+                }
+            },
+
+            graderInfo() {
+                const grader = this.submission.grader
+                let info;
+
+                if (! grader.idnumber) {
+                    info = `${grader.firstname} ${grader.lastname}`
+                } else {
+                    info = `${grader.firstname} ${grader.lastname} (${grader.idnumber})`
+                }
+
+                return info
+            },
         },
 
         watch: {
             submission() {
                 if (this.submission !== null) {
                     Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
-                        this.charon_confirmed_points = points;
-                    });
+                        this.charon_confirmed_points = points
+                    })
                 }
-            }
+            },
         },
 
         filters: {
@@ -164,7 +194,7 @@
 
             withoutTrailingZeroes(number) {
                 return parseFloat(number);
-            }
+            },
         },
 
         methods: {

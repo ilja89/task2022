@@ -3,7 +3,10 @@
 
         <page-title :student="context.active_student"></page-title>
 
-        <submission-overview-section :charon="context.active_charon" :submission="context.active_submission">
+        <submission-overview-section
+                :charon="context.active_charon"
+                :submission="context.active_submission"
+        >
         </submission-overview-section>
 
         <output-section :submission="context.active_submission" :charon="context.active_charon"></output-section>

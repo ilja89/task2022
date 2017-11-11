@@ -32,19 +32,23 @@ class SubmissionsRepository
                 $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
                 $query->orderBy('grade_type_code');
             },
+            'grader' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname', 'email', 'idnumber']);
+            },
         ])
-                                ->where('id', $submissionId)
-                                ->first([
-                                    'id',
-                                    'charon_id',
-                                    'confirmed',
-                                    'created_at',
-                                    'git_hash',
-                                    'git_commit_message',
-                                    'git_timestamp',
-                                    'user_id',
-                                    'mail',
-                                ]);
+            ->where('id', $submissionId)
+            ->first([
+                'id',
+                'charon_id',
+                'confirmed',
+                'created_at',
+                'git_hash',
+                'git_commit_message',
+                'git_timestamp',
+                'user_id',
+                'mail',
+                'grader_id',
+            ]);
 
         return $submission;
     }
@@ -134,13 +138,15 @@ class SubmissionsRepository
     /**
      * Confirms the given submission.
      *
-     * @param  Submission  $submission
+     * @param  Submission $submission
+     * @param  int|null $graderId
      *
      * @return void
      */
-    public function confirmSubmission(Submission $submission)
+    public function confirmSubmission(Submission $submission, $graderId = null)
     {
         $submission->confirmed = 1;
+        $submission->grader_id = $graderId;
         $submission->save();
     }
 
