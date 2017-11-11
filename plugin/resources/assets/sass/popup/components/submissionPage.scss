@@ -4,21 +4,6 @@
   #SUBMISSION_PAGE
 \*---------------------*/
 
-.submission-info-title {
-  color: $grey;
-  font-weight: 500;
-  font-size: 1.25rem;
-}
-
-.submission-info-content {
-  font-weight: 500;
-  font-size: 1.25rem;
-}
-
-.submission-info-title + .submission-info-content {
-  margin-bottom: 10px;
-}
-
 .submission-overview-container {
   display: flex;
   justify-content: space-between;
@@ -75,8 +60,7 @@
   }
 }
 
-.submission-timestamp,
-.submission-deadlines {
+.submission-timestamp {
   font-weight: $weight-semibold;
   font-size: $size-medium;
 }

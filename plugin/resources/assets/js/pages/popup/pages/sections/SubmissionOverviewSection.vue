@@ -2,7 +2,8 @@
 
     <popup-section
             :title="activeCharonName"
-            :subtitle="submissionOrderNrText">
+            :subtitle="submissionOrderNrText"
+    >
 
         <template slot="header-right">
             <span class="extra-info-text" v-if="charon_confirmed_points !== null">
@@ -17,40 +18,11 @@
         <div class="columns is-gapless is-desktop  submission-overview-container" v-if="hasSubmission">
 
             <div class="column is-one-third card">
-                <div class="submission-info-title">Git time:</div>
-                <div class="submission-info-content">{{ submission.git_timestamp.date | datetime }}</div>
-
-                <div v-if="submission.git_hash !== null && submission.git_hash !== ''">
-                    <div class="submission-info-title">Commit hash:</div>
-                    <div class="submission-info-content">{{ submission.git_hash }}</div>
-                </div>
-
-                <div v-if="submission.git_commit_message !== null && submission.git_commit_message !== ''">
-                    <div class="submission-info-title">Commit message:</div>
-                    <div class="submission-info-content">{{ submission.git_commit_message }}</div>
-                </div>
-
-                <div>
-                    <div class="submission-info-title">Project folder:</div>
-                    <div class="submission-info-content">{{ charon.project_folder }}</div>
-                </div>
-
-                <div>
-                    <div class="submission-info-title">Calculation formula:</div>
-                    <div class="submission-info-content">{{ charonCalculationFormula }}</div>
-                </div>
-
-                <div class="submission-deadlines" v-if="hasDeadlines">
-                    <div class="submission-info-title">Deadlines:</div>
-                    <ul class="submission-info-content">
-                        <li v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
-                    </ul>
-                </div>
-
-                <div v-if="submission.grader">
-                    <div class="submission-info-title">{{ graderInfoTitle }}:</div>
-                    <div class="submission-info-content">{{ graderInfo }}</div>
-                </div>
+                <submission-info
+                        :charon="charon"
+                        :submission="submission"
+                >
+                </submission-info>
             </div>
 
             <div class="column is-7 card">
@@ -102,11 +74,12 @@
 </template>
 
 <script>
-    import { PopupSection } from '../../layouts';
-    import { Submission, Charon } from '../../../../models';
+    import { PopupSection } from '../../layouts'
+    import { Submission, Charon } from '../../../../models'
+    import { SubmissionInfo } from '../../components'
 
     export default {
-        components: { PopupSection },
+        components: { PopupSection, SubmissionInfo },
 
         props: {
             charon: { required: true },
@@ -123,10 +96,6 @@
         computed: {
             hasSubmission() {
                 return this.submission !== null;
-            },
-
-            hasDeadlines() {
-                return this.charon.deadlines.length !== 0;
             },
 
             activeCharonName() {
@@ -147,33 +116,6 @@
                 }
 
                 return this.submission.order_nr + '. submission'
-            },
-
-            charonCalculationFormula() {
-                return this.charon !== null
-                    ? this.charon.calculation_formula
-                    : ''
-            },
-
-            graderInfoTitle() {
-                if (this.submission.confirmed) {
-                    return 'Grader'
-                } else {
-                    return 'Previously graded by'
-                }
-            },
-
-            graderInfo() {
-                const grader = this.submission.grader
-                let info;
-
-                if (! grader.idnumber) {
-                    info = `${grader.firstname} ${grader.lastname}`
-                } else {
-                    info = `${grader.firstname} ${grader.lastname} (${grader.idnumber})`
-                }
-
-                return info
             },
         },
 

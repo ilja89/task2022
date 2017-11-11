@@ -15,7 +15,6 @@
         <div class="column code-column">
             <div
                     class="code-copy-container"
-                    :class="{ sticky: codeCopySticky }"
                     id="code-copy-container"
                     @click="handleCopyClicked"
             >
@@ -224,6 +223,7 @@
         border-left: none;
         overflow-x: scroll;
         background-color: #fafafa;
+        height: 100%;
 
         code {
             padding: 1.25rem 1.25rem 1.25rem 0.5rem;
