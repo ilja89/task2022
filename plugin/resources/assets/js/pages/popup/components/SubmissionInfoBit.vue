@@ -25,7 +25,7 @@
 
     @import '../../../../sass/popup/variables';
 
-    .submission-info {
+    .submission-info:not(:last-of-type) {
         margin-bottom: .75rem;
     }
 

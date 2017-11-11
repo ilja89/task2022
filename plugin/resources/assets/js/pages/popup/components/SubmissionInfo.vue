@@ -1,7 +1,7 @@
 <template>
     <div>
         <submission-info-bit title="Git time">
-            {{ submission.git_timestamp.date | datetime }}
+            {{ formatDatetime(submission.git_timestamp.date) }}
         </submission-info-bit>
 
         <submission-info-bit
@@ -34,7 +34,8 @@
                 title="Deadlines"
         >
             <ul>
-                <li v-for="deadline in charon.deadlines">{{ deadline.deadline_time.date | datetime }} - {{ deadline.percentage }}%</li>
+                <li v-for="deadline in charon.deadlines" v-text="formatDeadline(deadline)">
+                </li>
             </ul>
         </submission-info-bit>
 
@@ -62,12 +63,6 @@
             submission: {
                 required: true,
                 type: Object,
-            },
-        },
-
-        filters: {
-            datetime(date) {
-                return date.replace(/:[0-9]{2}\.[0-9]+/, '')
             },
         },
 
@@ -102,6 +97,22 @@
                 }
 
                 return info
+            },
+        },
+
+        methods: {
+            formatDatetime(date) {
+                return date.replace(/:[0-9]{2}\.[0-9]+/, '')
+            },
+
+            formatDeadline(deadline) {
+                const date = this.formatDatetime(deadline.deadline_time.date)
+                const percentage = deadline.percentage
+                const groupName = deadline.group
+                    ? deadline.group.name
+                    : 'All groups'
+
+                return `${date} - ${percentage}% (${groupName})`
             },
         },
     }

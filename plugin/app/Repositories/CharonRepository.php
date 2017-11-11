@@ -217,9 +217,15 @@ class CharonRepository
                     $query->select(['id', 'grademax']);
                 },
             ])
-                     ->where('charon_id', $charon->id)
-                     ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
-            $charon->deadlines = Deadline::where('charon_id', $charon->id)->get();
+                 ->where('charon_id', $charon->id)
+                 ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
+            $charon->deadlines = Deadline::with([
+                'group' => function ($query) {
+                    $query->select(['id', 'name']);
+                }
+            ])
+                 ->where('charon_id', $charon->id)
+                 ->get();
         }
 
         return $charons;
