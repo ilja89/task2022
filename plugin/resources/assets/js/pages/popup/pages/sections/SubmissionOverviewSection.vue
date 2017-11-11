@@ -54,8 +54,8 @@
                 <hr class="hr-result">
                 <div class="result">
                     <div>
-                        Total {{ parseFloat(submission.total_result) }}
-                        <span class="grademax">/ {{ parseFloat(submission.max_result) }}p</span>
+                        Total {{ submission.total_result | withoutTrailingZeroes }}
+                        <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
                     </div>
                 </div>
 
@@ -95,7 +95,7 @@
 
         computed: {
             hasSubmission() {
-                return this.submission !== null;
+                return this.submission !== null
             },
 
             activeCharonName() {
@@ -107,55 +107,51 @@
                     >
                         ${this.charon.name}
                     </a>`
-                    : null;
+                    : null
             },
 
             submissionOrderNrText() {
-                if (! this.submission) {
-                    return null
-                }
-
-                return this.submission.order_nr + '. submission'
+                return this.submission
+                    ? this.submission.order_nr + '. submission'
+                    : null
             },
         },
 
         watch: {
             submission() {
-                if (this.submission !== null) {
-                    Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
-                        this.charon_confirmed_points = points
-                    })
-                }
+                if (this.submission === null) return
+
+                Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
+                    this.charon_confirmed_points = points
+                })
             },
         },
 
         filters: {
-            datetime(date) {
-                return date.replace(/:[0-9]{2}\.[0-9]+/, '');
-            },
-
             withoutTrailingZeroes(number) {
-                return parseFloat(number);
+                return parseFloat(number)
             },
         },
 
         methods: {
             getGrademapByResult(result) {
-                let correctGrademap = null;
+                let correctGrademap = null
                 this.charon.grademaps.forEach((grademap) => {
                     if (result.grade_type_code == grademap.grade_type_code) {
-                        correctGrademap = grademap;
+                        correctGrademap = grademap
                     }
-                });
+                })
 
-                return correctGrademap;
+                return correctGrademap
             },
 
             saveSubmission() {
 
                 Submission.update(this.charon.id, this.submission, response => {
+                    const emit = window.VueEvent.$emit
+
                     if (response.status !== 200) {
-                        VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
+                        emit('show-notification', response.data.detail, 'danger', 5000)
 
                         let newErrors = { ...this.errors }
                         newErrors[response.data.resultId] = true
@@ -163,21 +159,23 @@
                         this.errors = newErrors
                     } else {
                         this.submission.confirmed = 1
-                        VueEvent.$emit('submission-was-saved')
-                        VueEvent.$emit('show-notification', response.data.message)
-                        VueEvent.$emit('refresh-page')
+                        emit('submission-was-saved')
+                        emit('show-notification', response.data.message)
+                        emit('refresh-page')
                     }
-                });
+                })
             },
 
             setMaxPoints(result) {
-                result.calculated_result = parseFloat(this.getGrademapByResult(result).grade_item.grademax);
+                result.calculated_result = parseFloat(
+                    this.getGrademapByResult(result).grade_item.grademax
+                )
             },
 
             resultHasError(result) {
-                return !!this.errors[ result.id ]
+                return !! this.errors[ result.id ]
             },
-        }
+        },
     }
 </script>
 
