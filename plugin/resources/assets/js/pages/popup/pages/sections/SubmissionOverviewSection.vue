@@ -148,10 +148,8 @@
             saveSubmission() {
 
                 Submission.update(this.charon.id, this.submission, response => {
-                    const emit = window.VueEvent.$emit
-
                     if (response.status !== 200) {
-                        emit('show-notification', response.data.detail, 'danger', 5000)
+                        window.VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
 
                         let newErrors = { ...this.errors }
                         newErrors[response.data.resultId] = true
@@ -159,9 +157,9 @@
                         this.errors = newErrors
                     } else {
                         this.submission.confirmed = 1
-                        emit('submission-was-saved')
-                        emit('show-notification', response.data.message)
-                        emit('refresh-page')
+                        window.VueEvent.$emit('submission-was-saved')
+                        window.VueEvent.$emit('show-notification', response.data.message)
+                        window.VueEvent.$emit('refresh-page')
                     }
                 })
             },
