@@ -119,7 +119,7 @@ class SubmissionService
     public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
     {
         foreach ($newResults as $result) {
-            if ( ! $result['calculated_result']) {
+            if ($result['calculated_result'] !== '0' && ! $result['calculated_result']) {
                 throw (new ResultPointsRequiredException('result_points_are_required'))
                     ->setResultId($result['id']);
             }

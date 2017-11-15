@@ -160,6 +160,8 @@
                         window.VueEvent.$emit('submission-was-saved')
                         window.VueEvent.$emit('show-notification', response.data.message)
                         window.VueEvent.$emit('refresh-page')
+
+                        this.errors = { }
                     }
                 })
             },
