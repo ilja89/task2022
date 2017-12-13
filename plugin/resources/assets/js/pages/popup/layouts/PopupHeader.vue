@@ -2,7 +2,7 @@
 
     <div class="columns is-gapless  popup-header">
 
-        <div class="column is-2  logo-container">
+        <div class="column is-2-desktop is-3-tablet  logo-container">
             <div class="ttu-logo"></div>
         </div>
 

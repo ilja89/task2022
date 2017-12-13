@@ -1,4 +1,5 @@
 @import '../variables';
+@import '~bulma/sass/utilities/mixins';
 
 /*---------------------*\
   #HEADER
@@ -8,6 +9,10 @@
   height: $header-height;
   max-width: inherit;
   margin-top: 0;
+
+  @include mobile {
+    height: initial;
+  }
 }
 
 #app .popup-header {
@@ -17,7 +22,7 @@
 .popup-header .logo-container,
 .popup-header .header-right {
   height: 100%;
-  line-height: $header-height;
+  //line-height: $header-height;
 }
 
 /*
@@ -34,7 +39,7 @@
   @include cover-background("/mod/charon/plugin/public/img/TTU_peamine_logo_EST_Valge.png");
   width: $header-height * 2.83;
   height: $header-height;
-  margin: auto;
+  margin-left: 15px;
 }
 
 /*
@@ -160,6 +165,7 @@
     padding-left: 15px;
     padding-right: 15px;
     font-size: 1.1em;
+    line-height: $header-height;
 
     &:hover {
       color: $darkest-grey;

@@ -1,5 +1,5 @@
 <template>
-    <aside class="column is-2  menu  nav-container">
+    <aside class="column is-2-desktop is-3-tablet  menu  nav-container">
         <ul class="menu-list">
 
             <li class="nav-item">

@@ -100,6 +100,7 @@ class InstanceController extends Controller
      * If the update was successful returns true.
      *
      * @return bool
+     * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      */
     public function update()
     {
