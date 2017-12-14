@@ -1,5 +1,5 @@
 <template>
-    <div class="select">
+    <div class="select  is-medium">
         <select name="charon" id="charon-select" v-model="selected" @change="onCharonSelected">
             <option v-for="charon in charons" :value="charon.id">
                 {{ charon.name }}

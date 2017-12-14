@@ -54,6 +54,13 @@
 
 .search-container {
   display: flex;
+  flex: 1;
+}
+
+.student-search-wrapper {
+  @include mobile {
+    width: calc(100% - 54px);  /* 54px is the search icon width */
+  }
 }
 
 .student-search-label svg {
@@ -92,6 +99,10 @@
 
   &:focus {
     outline: none;
+  }
+
+  @include mobile {
+    width: 100%;
   }
 }
 

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 268);
+/******/ 	return __webpack_require__(__webpack_require__.s = 266);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -184,13 +184,13 @@ module.exports = function(hljs) {
 /***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
-var hljs = __webpack_require__(189);
+var hljs = __webpack_require__(188);
 
 // Only load languages we need. Can also alias javang
 hljs.registerLanguage('java', __webpack_require__(129));
 hljs.registerLanguage('javang', __webpack_require__(129));
-hljs.registerLanguage('python', __webpack_require__(191));
-hljs.registerLanguage('prolog', __webpack_require__(190));
+hljs.registerLanguage('python', __webpack_require__(190));
+hljs.registerLanguage('prolog', __webpack_require__(189));
 
 hljs.configure({
     tabReplace: '    '
@@ -200,7 +200,7 @@ window.hljs = hljs;
 
 /***/ }),
 
-/***/ 189:
+/***/ 188:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1023,7 +1023,7 @@ https://highlightjs.org/
 
 /***/ }),
 
-/***/ 190:
+/***/ 189:
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -1116,7 +1116,7 @@ module.exports = function(hljs) {
 
 /***/ }),
 
-/***/ 191:
+/***/ 190:
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -1237,7 +1237,7 @@ module.exports = function(hljs) {
 
 /***/ }),
 
-/***/ 268:
+/***/ 266:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(134);

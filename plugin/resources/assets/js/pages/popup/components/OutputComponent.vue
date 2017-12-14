@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="control tabs-right select-container output-select" v-if="outputs.length > 0">
-            <span class="select">
+            <span class="select  is-medium">
 
                 <select name="output"
                         v-model="activeOutputSlug">

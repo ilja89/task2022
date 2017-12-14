@@ -150,7 +150,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
-    if ($oldversion < 2017111101) {
+    if ($oldversion < 2017111102) {
         // Add grader to submission
         $sql = "ALTER TABLE mdl_charon_submission ADD COLUMN grader_id INT";
         $DB->execute($sql);

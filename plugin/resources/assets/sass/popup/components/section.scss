@@ -22,6 +22,11 @@
       font-weight: 500;
     }
   }
+
+  @include mobile {
+    flex-direction: column;
+    padding-bottom: 25px;
+  }
 }
 
 .section-header-text {
@@ -33,5 +38,9 @@
 
   .subtitle {
     font-weight: $weight-medium;
+  }
+
+  @include mobile {
+    padding-bottom: 25px;
   }
 }

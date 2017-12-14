@@ -17,53 +17,58 @@
 
         <div class="columns is-gapless is-desktop  submission-overview-container" v-if="hasSubmission">
 
-            <div class="column is-one-third card">
-                <submission-info
-                        :charon="charon"
-                        :submission="submission"
-                >
-                </submission-info>
+            <div class="column  is-one-third">
+                <div class="card">
+                    <submission-info
+                            :charon="charon"
+                            :submission="submission"
+                    >
+                    </submission-info>
+                </div>
             </div>
 
-            <div class="column is-7 card">
-                <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)" :key="result.id">
+            <div class="column is-7">
+                <div class="card">
+                    <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)"
+                         :key="result.id">
 
-                    <hr v-if="index !== 0" class="hr-result">
+                        <hr v-if="index !== 0" class="hr-result">
+                        <div class="result">
+                            <div>
+                                {{ getGrademapByResult(result).name }}
+                                <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
+                            </div>
+
+                            <div class="result-input-container">
+                                <input type="number"
+                                       step="0.01"
+                                       class="input has-text-centered"
+                                       :class="{ 'is-danger': resultHasError(result) }"
+                                       v-model="result.calculated_result"
+                                       @keydown="errors[result.id] = false">
+
+                                <a class="button is-primary" @click="setMaxPoints(result)">
+                                    Max
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="hr-result">
                     <div class="result">
                         <div>
-                            {{ getGrademapByResult(result).name }}
-                            <span class="grademax">/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
-                        </div>
-
-                        <div class="result-input-container">
-                            <input type="number"
-                                   step="0.01"
-                                   class="input has-text-centered"
-                                   :class="{ 'is-danger': resultHasError(result) }"
-                                   v-model="result.calculated_result"
-                                   @keydown="errors[result.id] = false">
-
-                            <a class="button is-primary" @click="setMaxPoints(result)">
-                                Max
-                            </a>
+                            Total {{ submission.total_result | withoutTrailingZeroes }}
+                            <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
                         </div>
                     </div>
 
-                </div>
-
-                <hr class="hr-result">
-                <div class="result">
-                    <div>
-                        Total {{ submission.total_result | withoutTrailingZeroes }}
-                        <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
-                    </div>
-                </div>
-
-                <div class="submission-confirmed"
-                     v-if="submission.confirmed == 1">
-                    <hr>
-                    <div class="confirmed-message">
-                        <strong>Confirmed</strong>
+                    <div class="submission-confirmed"
+                         v-if="submission.confirmed == 1">
+                        <hr>
+                        <div class="confirmed-message">
+                            <strong>Confirmed</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,22 +79,22 @@
 </template>
 
 <script>
-    import { PopupSection } from '../../layouts'
-    import { Submission, Charon } from '../../../../models'
-    import { SubmissionInfo } from '../../components'
+    import {PopupSection} from '../../layouts'
+    import {Submission, Charon} from '../../../../models'
+    import {SubmissionInfo} from '../../components'
 
     export default {
-        components: { PopupSection, SubmissionInfo },
+        components: {PopupSection, SubmissionInfo},
 
         props: {
-            charon: { required: true },
-            submission: { default: null }
+            charon: {required: true},
+            submission: {default: null},
         },
 
         data() {
             return {
                 charon_confirmed_points: null,
-                errors: { },
+                errors: {},
             };
         },
 
@@ -151,7 +156,7 @@
                     if (response.status !== 200) {
                         window.VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
 
-                        let newErrors = { ...this.errors }
+                        let newErrors = {...this.errors}
                         newErrors[response.data.resultId] = true
 
                         this.errors = newErrors
@@ -161,24 +166,20 @@
                         window.VueEvent.$emit('show-notification', response.data.message)
                         window.VueEvent.$emit('refresh-page')
 
-                        this.errors = { }
+                        this.errors = {}
                     }
                 })
             },
 
             setMaxPoints(result) {
                 result.calculated_result = parseFloat(
-                    this.getGrademapByResult(result).grade_item.grademax
+                    this.getGrademapByResult(result).grade_item.grademax,
                 )
             },
 
             resultHasError(result) {
-                return !! this.errors[ result.id ]
+                return !!this.errors[result.id]
             },
         },
     }
 </script>
-
-<style>
-
-</style>

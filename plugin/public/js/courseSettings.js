@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 270);
+/******/ 	return __webpack_require__(__webpack_require__.s = 268);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17645,6 +17645,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 
@@ -17709,6 +17711,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_0__models__["b" /* File */].findBySubmission(this.submission.id, function (files) {
+
                 _this2.files = files;
                 _this2.formattedFiles = [];
 
@@ -17718,9 +17721,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
                 if (files.length > 0) {
                     _this2.activeFileId = files[0].id;
-                }
 
-                _this2.formattedFiles[0] = _this2.compressFiles(_this2.formattedFiles[0]);
+                    _this2.formattedFiles[0] = _this2.compressFiles(_this2.formattedFiles[0]);
+                }
             });
         },
         handleFileClicked: function handleFileClicked(file) {
@@ -18428,7 +18431,7 @@ exports.push([module.i, "\n.datepicker-overlay[data-v-aa7638f4] {\n  position: f
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.line-number[data-v-bc241084] {\n  float: right;\n  padding-left: 10px;\n  padding-right: 10px;\n  font-size: 14px;\n  line-height: 23px;\n  font-family: monospace;\n}\n.columns.code-container .line-number-container[data-v-bc241084] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  background: #ededed;\n  border: 1px solid #dbdbdb;\n  padding-top: 1.25rem;\n}\n.columns.code-container .file-tree-container[data-v-bc241084] {\n  overflow: auto;\n}\npre.code[data-v-bc241084] {\n  border: 1px solid #dbdbdb;\n  border-left: none;\n  overflow-x: scroll;\n  background-color: #fafafa;\n  height: 100%;\n}\npre.code code[data-v-bc241084] {\n    padding: 1.25rem 1.25rem 1.25rem 0.5rem;\n    line-height: 23px;\n    font-size: 14px;\n    font-family: monospace;\n}\n.code-container.is-round .line-number-container[data-v-bc241084] {\n  border-bottom-left-radius: 5px;\n  border-top-left-radius: 5px;\n}\n.code-container.is-round .code[data-v-bc241084] {\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n.code-column[data-v-bc241084] {\n  position: relative;\n  overflow-x: scroll;\n}\n.code-copy-container[data-v-bc241084] {\n  position: absolute;\n  top: 20px;\n  right: 15px;\n  padding: 10px 15px;\n  cursor: pointer;\n}\n.code-copy-container .code-copy[data-v-bc241084] {\n    border-bottom: 1px solid #4f5f6f;\n}\n.code-copy-container[data-v-bc241084]:hover {\n    color: #2f3942;\n}\n.code-copy-container:hover .code-copy[data-v-bc241084] {\n      border-bottom: 1px solid #2f3942;\n}\n@media (max-width: 768px) {\n.columns.code-container .code code[data-v-bc241084] {\n    padding-left: 1.25rem;\n}\n.columns.code-container .line-number-container[data-v-bc241084] {\n    display: none;\n}\n}\n", ""]);
+exports.push([module.i, "\n.line-number[data-v-bc241084] {\n  float: right;\n  padding-left: 10px;\n  padding-right: 10px;\n  font-size: 14px;\n  line-height: 23px;\n  font-family: monospace;\n}\n.columns.code-container .line-number-container[data-v-bc241084] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  height: 100%;\n  padding-top: 1.25rem;\n  padding-bottom: 1.25rem;\n  background: #ededed;\n  border: 1px solid #dbdbdb;\n}\n.columns.code-container .file-tree-container[data-v-bc241084] {\n  overflow: auto;\n}\npre.code[data-v-bc241084] {\n  border: 1px solid #dbdbdb;\n  border-left: none;\n  overflow-x: scroll;\n  background-color: #fafafa;\n  height: 100%;\n  padding: 0;\n}\npre.code code[data-v-bc241084] {\n    padding: 1.25rem 1.25rem 1.25rem 0.5rem;\n    line-height: 23px;\n    font-size: 14px;\n    font-family: monospace;\n}\n.code-container.is-round .line-number-container[data-v-bc241084] {\n  border-bottom-left-radius: 5px;\n  border-top-left-radius: 5px;\n}\n.code-container.is-round .code[data-v-bc241084] {\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n.code-column[data-v-bc241084] {\n  position: relative;\n  overflow-x: scroll;\n}\n.code-copy-container[data-v-bc241084] {\n  position: absolute;\n  top: 20px;\n  right: 15px;\n  padding: 10px 15px;\n  cursor: pointer;\n}\n.code-copy-container .code-copy[data-v-bc241084] {\n    border-bottom: 1px solid #4f5f6f;\n}\n.code-copy-container[data-v-bc241084]:hover {\n    color: #2f3942;\n}\n.code-copy-container:hover .code-copy[data-v-bc241084] {\n      border-bottom: 1px solid #2f3942;\n}\n@media (max-width: 768px) {\n.columns.code-container .code code[data-v-bc241084] {\n    padding-left: 1.25rem;\n}\n.columns.code-container .line-number-container[data-v-bc241084] {\n    display: none;\n}\n}\n", ""]);
 
 /***/ }),
 /* 59 */
@@ -19404,14 +19407,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "file-clicked": _vm.handleFileClicked
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "column line-number-container is-narrow"
+    staticClass: "column  is-narrow"
+  }, [_c('div', {
+    staticClass: "line-number-container"
   }, _vm._l((_vm.activeFile.numbers), function(n) {
     return _c('span', {
       staticClass: "line-number-position"
     }, [_c('span', {
       staticClass: "line-number"
     }, [_vm._v(_vm._s(n))])])
-  })), _vm._v(" "), _c('div', {
+  }))]), _vm._v(" "), _c('div', {
     staticClass: "column code-column"
   }, [_c('div', {
     staticClass: "code-copy-container",
@@ -21276,7 +21281,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(147),
   /* template */
-  __webpack_require__(234),
+  __webpack_require__(233),
   /* scopeId */
   null,
   /* cssModules */
@@ -21314,7 +21319,7 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CourseSettingsForm_vue__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CourseSettingsForm_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CourseSettingsForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CourseSettingsForm_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes__ = __webpack_require__(92);
 
@@ -21878,9 +21883,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GradesSection_vue__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GradesSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__GradesSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TesterSettingsSection_vue__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TesterSettingsSection_vue__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TesterSettingsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TesterSettingsSection_vue__);
 /* unused harmony reexport GradesSection */
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__PresetsSection_vue___default.a; });
@@ -21905,15 +21910,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 191 */,
 /* 192 */,
 /* 193 */,
-/* 194 */,
-/* 195 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(146),
   /* template */
-  __webpack_require__(256),
+  __webpack_require__(255),
   /* scopeId */
   null,
   /* cssModules */
@@ -21940,14 +21944,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(148),
   /* template */
-  __webpack_require__(249),
+  __webpack_require__(248),
   /* scopeId */
   null,
   /* cssModules */
@@ -21974,14 +21978,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(149),
   /* template */
-  __webpack_require__(241),
+  __webpack_require__(240),
   /* scopeId */
   null,
   /* cssModules */
@@ -22008,6 +22012,7 @@ module.exports = Component.exports
 
 
 /***/ }),
+/* 197 */,
 /* 198 */,
 /* 199 */,
 /* 200 */,
@@ -22043,8 +22048,7 @@ module.exports = Component.exports
 /* 230 */,
 /* 231 */,
 /* 232 */,
-/* 233 */,
-/* 234 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22212,13 +22216,13 @@ if (false) {
 }
 
 /***/ }),
+/* 234 */,
 /* 235 */,
 /* 236 */,
 /* 237 */,
 /* 238 */,
 /* 239 */,
-/* 240 */,
-/* 241 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22258,14 +22262,14 @@ if (false) {
 }
 
 /***/ }),
+/* 241 */,
 /* 242 */,
 /* 243 */,
 /* 244 */,
 /* 245 */,
 /* 246 */,
 /* 247 */,
-/* 248 */,
-/* 249 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22374,13 +22378,13 @@ if (false) {
 }
 
 /***/ }),
+/* 249 */,
 /* 250 */,
 /* 251 */,
 /* 252 */,
 /* 253 */,
 /* 254 */,
-/* 255 */,
-/* 256 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22429,6 +22433,7 @@ if (false) {
 }
 
 /***/ }),
+/* 256 */,
 /* 257 */,
 /* 258 */,
 /* 259 */,
@@ -22440,9 +22445,7 @@ if (false) {
 /* 265 */,
 /* 266 */,
 /* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(136);

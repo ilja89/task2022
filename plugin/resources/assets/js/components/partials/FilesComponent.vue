@@ -13,13 +13,15 @@
             </file-tree>
         </div>
 
-        <div class="column line-number-container is-narrow">
-            <span
-                    v-for="n in activeFile.numbers"
-                    class="line-number-position"
-            >
-                <span class="line-number">{{ n }}</span>
-            </span>
+        <div class="column  is-narrow">
+            <div class="line-number-container">
+                <span
+                        v-for="n in activeFile.numbers"
+                        class="line-number-position"
+                >
+                    <span class="line-number">{{ n }}</span>
+                </span>
+            </div>
         </div>
 
         <div class="column code-column">
@@ -96,6 +98,7 @@
         methods: {
             getFiles() {
                 File.findBySubmission(this.submission.id, files => {
+
                     this.files = files
                     this.formattedFiles = []
 
@@ -105,9 +108,9 @@
 
                     if (files.length > 0) {
                         this.activeFileId = files[0].id
-                    }
 
-                    this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
+                        this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
+                    }
                 })
             },
 
@@ -254,9 +257,12 @@
         .line-number-container {
             display: flex;
             flex-direction: column;
+            height: 100%;
+            padding-top:    1.25rem;
+            padding-bottom: 1.25rem;
+
             background: darken(#fafafa, 5%);
             border: 1px solid #dbdbdb;
-            padding-top: 1.25rem;
         }
 
         .file-tree-container {
@@ -270,6 +276,7 @@
         overflow-x: scroll;
         background-color: #fafafa;
         height: 100%;
+        padding: 0;
 
         code {
             padding: 1.25rem 1.25rem 1.25rem 0.5rem;
