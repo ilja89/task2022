@@ -106,7 +106,7 @@
             activeCharonName() {
                 return this.charon !== null
                     ? `<a
-                        href="/mode/charon/view.php?id=${this.charon.course_module_id}"
+                        href="/mod/charon/view.php?id=${this.charon.course_module_id}"
                         class="section-title-link"
                         target="_blank"
                     >
