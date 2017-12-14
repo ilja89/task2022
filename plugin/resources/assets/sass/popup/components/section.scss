@@ -21,6 +21,11 @@
       line-height: 40px;
       font-weight: 500;
     }
+
+    @include mobile {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   @include mobile {

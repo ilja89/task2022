@@ -3,8 +3,8 @@
             @click="$emit('submission-was-selected')">
         <div class="submission-str">{{ submissionString }}</div>
         <div class="submission-timestamps">
-            <span class='timestamp-info'>Git: </span>{{ gitTimestamp }}
-            <span class="timestamp-separator"> | </span>
+            <span class='timestamp-info'>Git: </span>{{ gitTimestamp }}<wbr>
+            <span class="timestamp-separator"> | </span><wbr>
             <span class='timestamp-info'>Moodle: </span>{{ moodleTimestamp }}
         </div>
         <span class="confirmed-check"><div class="confirmed-check-check" v-if="submission.confirmed === 1"></div></span>

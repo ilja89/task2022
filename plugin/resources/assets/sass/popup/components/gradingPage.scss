@@ -7,20 +7,40 @@
 }
 
 .submission {
-  margin: 20px 0;
-  line-height: $submission-height;
-  padding-left: 50px;
   display: flex;
   justify-content: space-between;
 
+  margin: 20px 0;
+  padding-left: 50px;
   border: none;
   border-left: 4px solid $blue;
-  cursor: pointer;
   color: $dark-grey;
+  line-height: $submission-height;
   font-weight: $weight-medium;
+
+  cursor: pointer;
 
   .confirmed-check {
     width: $submission-height;
+
+    @include touch {
+      align-self: flex-end;
+      padding-top: 20px;
+    }
+  }
+
+  @include touch {
+    flex-direction: column;
+    padding-top:  20px;
+    padding-left: 20px;
+
+    line-height: 3;
+  }
+}
+
+.submission-timestamps {
+  @include touch {
+    white-space: nowrap;
   }
 }
 
