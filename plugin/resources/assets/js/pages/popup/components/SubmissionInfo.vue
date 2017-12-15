@@ -19,7 +19,7 @@
         </submission-info-bit>
 
         <submission-info-bit title="Project folder">
-            {{ charon.project_folder }}
+            {{ charon ? charon.project_folder : '' }}
         </submission-info-bit>
 
         <submission-info-bit
@@ -58,7 +58,6 @@
         props: {
             charon: {
                 required: true,
-                type: Object,
             },
             submission: {
                 required: true,
@@ -74,7 +73,7 @@
             },
 
             hasDeadlines() {
-                return this.charon.deadlines.length !== 0
+                return this.charon && this.charon.deadlines.length !== 0
             },
 
             graderInfoTitle() {

@@ -15,9 +15,9 @@
 </template>
 
 <script>
-    import { PageTitle } from '../partials';
-    import { SubmissionOverviewSection, OutputSection } from './sections';
-    import { Submission } from '../../../models';
+    import { PageTitle } from '../partials'
+    import { SubmissionOverviewSection, OutputSection } from './sections'
+    import { Submission, Charon, User } from '../../../models'
 
     export default {
         components: { PageTitle, SubmissionOverviewSection, OutputSection },
@@ -27,26 +27,42 @@
         },
 
         mounted() {
-            this.getSubmission();
+            this.getSubmission()
         },
 
         watch: {
             $route() {
                 if (typeof this.$route.params.submission_id !== 'undefined') {
-                    this.getSubmission();
+                    this.getSubmission()
                 }
             }
         },
 
         methods: {
             getSubmission() {
-                if (this.context.active_charon === null) {
-                    return null;
-                }
-
                 Submission.findById(this.$route.params.submission_id, submission => {
-                    this.context.active_submission = submission;
-                });
+                    this.context.active_submission = submission
+
+                    if (this.context.active_charon === null) {
+                        const charonId = submission.charon_id
+
+                        Charon.all(this.context.course_id, charons => {
+                            charons.forEach(charon => {
+                                if (charon.id === charonId) {
+                                    this.context.active_charon = charon
+                                }
+                            })
+                        })
+                    }
+
+                    if (this.context.active_student === null) {
+                        const studentId = submission.user_id
+
+                        User.findById(this.context.course_id, studentId, user => {
+                            this.context.active_student = user;
+                        })
+                    }
+                })
             }
         }
     }

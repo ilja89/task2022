@@ -10,7 +10,7 @@
 
                 <files-component
                         :submission="submission"
-                        :testerType="charon.tester_type_name"
+                        :testerType="charon ? charon.tester_type_name : ''"
                         :isRound="false">
                 </files-component>
 
@@ -26,7 +26,7 @@
 
                 <output-component
                         :submission="submission"
-                        :grademaps="charon.grademaps">
+                        :grademaps="charon ? charon.grademaps : []">
                 </output-component>
 
             </charon-tab>

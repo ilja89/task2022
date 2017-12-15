@@ -124,7 +124,15 @@
 
         watch: {
             submission() {
-                if (this.submission === null) return
+                if (this.submission === null || this.charon === null) return
+
+                Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
+                    this.charon_confirmed_points = points
+                })
+            },
+
+            charon() {
+                if (this.submission === null || this.charon === null) return
 
                 Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
                     this.charon_confirmed_points = points
@@ -140,6 +148,8 @@
 
         methods: {
             getGrademapByResult(result) {
+                if (!this.charon) return null
+
                 let correctGrademap = null
                 this.charon.grademaps.forEach((grademap) => {
                     if (result.grade_type_code == grademap.grade_type_code) {
