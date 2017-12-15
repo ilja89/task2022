@@ -44,7 +44,7 @@
                     return null;
                 }
 
-                Submission.findById(this.context.active_charon.id, this.$route.params.submission_id, submission => {
+                Submission.findById(this.$route.params.submission_id, submission => {
                     this.context.active_submission = submission;
                 });
             }

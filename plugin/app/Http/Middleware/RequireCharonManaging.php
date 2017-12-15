@@ -42,7 +42,6 @@ class RequireCharonManaging
         try {
             $this->permissionsService->requireCourseManagementCapability($courseId);
         } catch (\required_capability_exception $e) {
-
             throw new CourseManagementPermissionException(
                 'course_management_permission_denied',
                 app(User::class)->currentUserId(),

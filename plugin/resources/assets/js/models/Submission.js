@@ -34,8 +34,8 @@ class Submission {
             })
     }
 
-    static findById(charonId, submissionId, then) {
-        axios.get('/mod/charon/api/charons/' + charonId + '/submissions/' + submissionId)
+    static findById(submissionId, then) {
+        axios.get('/mod/charon/api/submissions/' + submissionId)
             .then(response => {
                 then(response.data)
             }).catch(error => {

@@ -8,6 +8,7 @@ use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Models\Course;
@@ -22,9 +23,10 @@ class SubmissionsController extends Controller
 {
     /** @var SubmissionService */
     private $submissionService;
-
     /** @var SubmissionsRepository */
     private $submissionsRepository;
+    /** @var CharonRepository */
+    private $charonRepository;
 
     /**
      * SubmissionsController constructor.
@@ -33,16 +35,19 @@ class SubmissionsController extends Controller
      * @param Request $request
      * @param SubmissionService $submissionService
      * @param SubmissionsRepository $submissionsRepository
+     * @param CharonRepository $charonRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         Request $request,
         SubmissionService $submissionService,
-        SubmissionsRepository $submissionsRepository
+        SubmissionsRepository $submissionsRepository,
+        CharonRepository $charonRepository
     ) {
         parent::__construct($request);
         $this->submissionService     = $submissionService;
         $this->submissionsRepository = $submissionsRepository;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -62,14 +67,17 @@ class SubmissionsController extends Controller
     /**
      * Find a submission by its id.
      *
-     * @param  Charon $charon
-     * @param  int $submissionId
+     * @param Submission $submission
      *
      * @return Submission
      */
-    public function findById(Charon $charon, $submissionId)
+    public function findById(Submission $submission)
     {
-        $submission = $this->submissionsRepository->findByIdWithoutOutputs($submissionId, $charon->getGradeTypeCodes());
+        $charon = $this->charonRepository->findBySubmission($submission->id);
+        $submission = $this->submissionsRepository->findByIdWithoutOutputs(
+            $submission->id,
+            $charon->getGradeTypeCodes()
+        );
 
         $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
         $submission->max_result   = $charon->category->getGradeItem()->grademax;

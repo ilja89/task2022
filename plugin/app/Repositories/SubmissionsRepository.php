@@ -25,6 +25,19 @@ class SubmissionsRepository
      */
     public function findByIdWithoutOutputs($submissionId, $gradeTypeCodes)
     {
+        $fields = [
+            'id',
+            'charon_id',
+            'confirmed',
+            'created_at',
+            'git_hash',
+            'git_commit_message',
+            'git_timestamp',
+            'user_id',
+            'mail',
+            'grader_id',
+        ];
+
         /** @var Submission $submission */
         $submission = Submission::with([
             'results' => function ($query) use ($gradeTypeCodes) {
@@ -38,18 +51,7 @@ class SubmissionsRepository
             },
         ])
             ->where('id', $submissionId)
-            ->first([
-                'id',
-                'charon_id',
-                'confirmed',
-                'created_at',
-                'git_hash',
-                'git_commit_message',
-                'git_timestamp',
-                'user_id',
-                'mail',
-                'grader_id',
-            ]);
+            ->first($fields);
 
         return $submission;
     }

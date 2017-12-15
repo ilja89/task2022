@@ -248,4 +248,19 @@ class CharonRepository
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    /**
+     * Find a Charon instance by a submission id for that Charon.
+     *
+     * @param int $submissionId
+     *
+     * @return Charon
+     */
+    public function findBySubmission($submissionId)
+    {
+        return Submission::where('id', $submissionId)
+            ->with('charon')
+            ->first()
+            ->charon;
+    }
 }
