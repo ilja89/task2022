@@ -45,4 +45,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.submission.managing.require')
          ->post('submissions/{submission}/retest', 'RetestController@index');
+
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
 });

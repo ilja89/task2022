@@ -1,7 +1,13 @@
 import VueRouter from 'vue-router';
-import { NoStudentSelectedPage, SubmissionPage, GradingPage, StudentOverviewPage } from './pages';
+import { NoStudentSelectedPage, SubmissionPage, GradingPage, StudentOverviewPage, DashboardPage } from './pages';
 
 const routes = [
+    {
+        path: '/',
+        title: 'Dashboard',
+        component: DashboardPage,
+        name: 'dashboard',
+    },
     {
         path: '/submission/:submission_id',
         title: 'Submission',

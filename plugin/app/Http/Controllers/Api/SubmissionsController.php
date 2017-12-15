@@ -3,12 +3,14 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\SubmissionService;
+use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -127,5 +129,17 @@ class SubmissionsController extends Controller
         );
 
         return $submissions;
+    }
+
+    /**
+     * Find the latest submissions in the given course.
+     *
+     * @param Course $course
+     *
+     * @return Collection|Charon[]
+     */
+    public function findLatest(Course $course)
+    {
+        return $this->submissionsRepository->findLatestSubmissions($course->id);
     }
 }

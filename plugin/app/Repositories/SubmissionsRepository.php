@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
@@ -130,9 +131,9 @@ class SubmissionsRepository
     public function findConfirmedSubmissionsForUserAndCharon($userId, $charonId)
     {
         return Submission::where('charon_id', $charonId)
-                                 ->where('user_id', $userId)
-                                 ->where('confirmed', 1)
-                                 ->get();
+            ->where('user_id', $userId)
+            ->where('confirmed', 1)
+            ->get();
     }
 
     /**
@@ -244,5 +245,29 @@ class SubmissionsRepository
         })
                          ->where('grade_type_code', $gradeTypeCode)
                          ->get();
+    }
+
+    /**
+     * Find the latest submissions for the course with the given id.
+     *
+     * @param int $courseId
+     *
+     * @return Collection|Charon[]
+     */
+    public function findLatestSubmissions($courseId)
+    {
+        /** @var Collection|Charon[] $charons */
+        $charons = Charon::where('course', $courseId)->get();
+
+        $charonIds = $charons->pluck('id');
+
+        $submissions = Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
+            ->whereIn('charon_id', $charonIds)
+            ->with(['user' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname', 'idnumber']);
+            }])
+            ->paginate(10);
+
+        return $submissions;
     }
 }

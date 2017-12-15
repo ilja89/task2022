@@ -69,6 +69,16 @@ class Submission {
                 window.VueEvent.$emit('show-notification', 'Error retesting.', 'danger')
             })
     }
+
+    static findLatest(courseId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/submissions/latest')
+            .then(({data}) => {
+                Submission.nextUrl = data.next_page_url
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving latest submissions.', 'danger')
+            })
+    }
 }
 Submission.nextUrl = null
 

@@ -11,7 +11,10 @@
                 required: false,
                 default: ''
             },
-            student: { required: false }
+            student: {
+                required: false,
+                default: null
+            },
         },
 
         computed: {
