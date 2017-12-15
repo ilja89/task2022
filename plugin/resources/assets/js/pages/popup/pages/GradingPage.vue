@@ -1,48 +1,61 @@
 <template>
     <div>
 
-        <page-title :student="context.active_student"></page-title>
+        <page-title :student="student"></page-title>
 
-        <submissions-section :context="context"> </submissions-section>
+        <submissions-section></submissions-section>
 
-        <comments-section :charon="context.active_charon" :student="context.active_student"></comments-section>
+        <comments-section :charon="charon" :student="student"></comments-section>
 
     </div>
 </template>
 
 <script>
-    import { PageTitle } from '../partials';
-    import { SubmissionsSection, CommentsSection } from './sections';
-    import { User } from '../../../models';
+    import { mapState, mapGetters, mapActions } from 'vuex'
+    import { PageTitle } from '../partials'
+    import { SubmissionsSection, CommentsSection } from './sections'
 
     export default {
         components: { PageTitle, SubmissionsSection, CommentsSection },
 
-        props: {
-            context: { required: true }
+        computed: {
+            ...mapState([
+                'student',
+                'charon',
+            ]),
+
+            ...mapGetters([
+                'courseId',
+            ]),
         },
 
         mounted() {
-            this.getStudent();
+            this.getStudent()
         },
 
         watch: {
             $route() {
                 if (typeof this.$route.params.student_id !== 'undefined'
-                        && this.context.active_student !== null
-                        && this.context.active_student.id != this.$route.params.student_id) {
-                    this.getStudent();
+                        && this.student !== null
+                        && this.student.id != this.$route.params.student_id) {
+                    this.getStudent()
                 }
-            }
+            },
         },
 
         methods: {
+            ...mapActions([
+                'fetchStudent',
+                'updateSubmission',
+            ]),
+
             getStudent() {
-                User.findById(this.context.course_id, this.$route.params.student_id, user => {
-                    this.context.active_student = user;
-                    this.context.active_submission = null;
-                });
-            }
+                const courseId = this.courseId
+                const studentId = this.$route.params.student_id
+
+                this.fetchStudent({ courseId, studentId })
+                this.updateSubmission({ submission: null })
+            },
         },
     }
 </script>

@@ -1,5 +1,8 @@
+import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { NoStudentSelectedPage, SubmissionPage, GradingPage, StudentOverviewPage, DashboardPage } from './pages';
+
+Vue.use(VueRouter)
 
 const routes = [
     {
@@ -9,7 +12,7 @@ const routes = [
         name: 'dashboard',
     },
     {
-        path: '/submission/:submission_id',
+        path: '/submissions/:submission_id',
         title: 'Submission',
         component: SubmissionPage,
         name: 'submission',

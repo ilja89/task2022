@@ -8,10 +8,7 @@
 
         <div class="column  header-right">
 
-            <student-search
-                    :courseId="course_id"
-                    @student-was-changed="onStudentChanged">
-            </student-search>
+            <student-search @student-was-changed="onStudentChanged"></student-search>
 
             <div class="header-icons">
 
@@ -46,7 +43,6 @@
         components: { StudentSearch, ExtraOptions },
 
         props: {
-            course_id: { required: true },
             student: { required: true },
             charon: { required: true },
             submission: { required: true },

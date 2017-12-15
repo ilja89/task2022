@@ -6,15 +6,15 @@
 
         <template slot="header-right">
             <charon-select
-                    :active_charon="context.active_charon"
+                    :active_charon="charon"
                     @charon-was-changed="onCharonChanged">
             </charon-select>
         </template>
 
         <submissions-list
-                :charon="context.active_charon"
-                :student="context.active_student"
-                :active_submission="context.active_submission">
+                :charon="charon"
+                :student="student"
+                :active_submission="submission">
         </submissions-list>
 
     </popup-section>
@@ -22,21 +22,31 @@
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex'
     import { PopupSection } from '../../layouts';
     import { CharonSelect, SubmissionsList } from '../../components';
 
     export default {
         components: { PopupSection, CharonSelect, SubmissionsList },
 
-        props: {
-            context: { required: true }
+        computed: {
+            ...mapState([
+                'student',
+                'charon',
+                'submission',
+            ]),
         },
 
         methods: {
+            ...mapActions([
+                'updateCharon',
+                'updateSubmission',
+            ]),
+
             onCharonChanged(charon) {
-                this.context.active_charon = charon;
-                this.context.active_submission = null;
+                this.updateCharon({ charon })
+                this.updateSubmission({ submission: null })
             },
-        }
+        },
     }
 </script>

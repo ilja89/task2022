@@ -9,7 +9,7 @@
             </li>
 
             <li class="nav-item">
-                <router-link :to="submissionLink">
+                <router-link :to="submissionLink()">
                     Submission
                 </router-link>
             </li>
@@ -25,33 +25,32 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
+
     export default {
-        props: {
-            context: { required: true },
-        },
-
         computed: {
-            gradingLink() {
-                if (this.context.active_student !== null) {
-                    return '/grading/' + this.context.active_student.id;
-                } else {
-                    return '/grading';
-                }
-            },
+            ...mapState([
+                'student',
+                'submission',
+            ]),
 
-            submissionLink() {
-                if (this.context.active_submission !== null) {
-                    return '/submission/' + this.context.active_submission.id;
+            ...mapGetters([
+                'submissionLink',
+            ]),
+
+            gradingLink() {
+                if (this.student !== null) {
+                    return '/grading/' + this.student.id
                 } else {
-                    return '/submission';
+                    return '/grading'
                 }
             },
 
             studentOverviewLink() {
-                if (this.context.active_student !== null) {
-                    return '/student-overview/' + this.context.active_student.id;
+                if (this.student !== null) {
+                    return '/student-overview/' + this.student.id
                 } else {
-                    return '/student-overview';
+                    return '/student-overview'
                 }
             }
         }

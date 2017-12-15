@@ -4,9 +4,10 @@
 
         <popup-section
                 title="Grades report"
-                subtitle="Grading report for the current student.">
+                subtitle="Grading report for the current student."
+        >
 
-            <div class="card student-overview-card" v-html="table"></div>
+            <div class="card  student-overview-card" v-html="table"></div>
 
         </popup-section>
 
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+    import { mapState, mapGetters, mapActions } from 'vuex'
     import { PageTitle } from '../partials'
     import { User } from '../../../models'
     import { PopupSection } from '../layouts'
@@ -22,44 +24,55 @@
 
         components: { PageTitle, PopupSection },
 
-        props: {
-            context: { required: true },
-        },
-
         data() {
             return {
                 table: '',
-                student: null,
             }
+        },
+
+        computed: {
+            ...mapState([
+                'student'
+            ]),
+
+            ...mapGetters([
+                'courseId',
+            ]),
+
+            routeStudentId() {
+                return this.$route.params.student_id
+            },
         },
 
         watch: {
             $route() {
-                if (typeof this.$route.params.student_id !== 'undefined') {
+                if (typeof this.routeStudentId !== 'undefined') {
                     this.getStudent()
                     this.getStudentOverviewTable()
                 }
-            }
+            },
         },
 
         methods: {
+            ...mapActions([
+                'fetchStudent',
+            ]),
+
             getStudentOverviewTable() {
-                User.getReportTable(this.context.course_id, this.$route.params.student_id, (table) => {
+                User.getReportTable(this.courseId, this.routeStudentId, (table) => {
                     this.table = table
                 })
             },
 
             getStudent() {
-                User.findById(this.context.course_id, this.$route.params.student_id, (user) => {
-                    this.student = user
-                })
+                this.fetchStudent({ courseId: this.courseId, studentId: this.routeStudentId })
             }
         },
 
         mounted() {
             this.getStudent()
             this.getStudentOverviewTable()
-        }
+        },
     }
 </script>
 

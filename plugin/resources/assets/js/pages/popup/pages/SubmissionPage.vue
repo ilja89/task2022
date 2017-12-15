@@ -1,15 +1,15 @@
 <template>
     <div>
 
-        <page-title :student="context.active_student"></page-title>
+        <page-title :student="student"></page-title>
 
         <submission-overview-section
-                :charon="context.active_charon"
-                :submission="context.active_submission"
+                :charon="charon"
+                :submission="submission"
         >
         </submission-overview-section>
 
-        <output-section :submission="context.active_submission" :charon="context.active_charon"></output-section>
+        <output-section :submission="submission" :charon="charon"></output-section>
 
     </div>
 </template>
@@ -18,12 +18,21 @@
     import { PageTitle } from '../partials'
     import { SubmissionOverviewSection, OutputSection } from './sections'
     import { Submission, Charon, User } from '../../../models'
+    import { mapState, mapActions, mapGetters } from 'vuex'
 
     export default {
         components: { PageTitle, SubmissionOverviewSection, OutputSection },
 
-        props: {
-            context: { required: true }
+        computed: {
+            ...mapState([
+                'student',
+                'charon',
+                'submission',
+            ]),
+
+            ...mapGetters([
+                'courseId',
+            ]),
         },
 
         mounted() {
@@ -39,28 +48,34 @@
         },
 
         methods: {
+
+            ...mapActions([
+                'fetchStudent',
+                'updateCharon',
+                'updateSubmission',
+            ]),
+
             getSubmission() {
                 Submission.findById(this.$route.params.submission_id, submission => {
-                    this.context.active_submission = submission
+                    this.updateSubmission({ submission })
 
-                    if (this.context.active_charon === null) {
+                    if (this.charon === null) {
                         const charonId = submission.charon_id
 
-                        Charon.all(this.context.course_id, charons => {
+                        Charon.all(this.courseId, charons => {
                             charons.forEach(charon => {
                                 if (charon.id === charonId) {
-                                    this.context.active_charon = charon
+                                    this.updateCharon({ charon })
                                 }
                             })
                         })
                     }
 
-                    if (this.context.active_student === null) {
+                    if (this.student === null) {
                         const studentId = submission.user_id
+                        const courseId = this.courseId
 
-                        User.findById(this.context.course_id, studentId, user => {
-                            this.context.active_student = user;
-                        })
+                        this.fetchStudent({ studentId, courseId })
                     }
                 })
             }

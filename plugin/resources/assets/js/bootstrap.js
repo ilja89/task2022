@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import axios from 'axios';
+import Vue from 'vue'
+import axios from 'axios'
 
-window.Vue = Vue;
-window.VueEvent = new Vue();
+window.Vue = Vue
+window.VueEvent = new Vue()
 
-window.axios = axios;
+window.axios = axios
 window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest'
-};
+}
 
 // Before request and response show and hide loader
 // TODO: Move to separate file?

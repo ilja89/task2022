@@ -10,7 +10,7 @@
             <div class="card">
                 <ul>
                     <li v-for="submission in latestSubmissions">
-                        <router-link :to="'/students/' + submission.user.id + '/submissions/' + submission.id">
+                        <router-link :to="submissionLink(submission.id)">
                             by {{ submission.user | user }}
                         </router-link>
                     </li>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
     import { PageTitle } from '../partials'
     import { Submission } from '../../../models'
     import { PopupSection } from '../layouts'
@@ -30,12 +31,6 @@
         name: "dashboard-page",
 
         components: { PageTitle, PopupSection },
-
-        props: {
-            context: {
-                required: true,
-            },
-        },
 
         data() {
             return {
@@ -46,6 +41,17 @@
             }
         },
 
+        computed: {
+            ...mapState([
+                'course',
+            ]),
+
+            ...mapGetters([
+                'courseId',
+                'submissionLink',
+            ]),
+        },
+
         filters: {
             user(user) {
                 return `${user.firstname} ${user.lastname} (${user.idnumber})`
@@ -54,7 +60,7 @@
 
         methods: {
             fetchLatestSubmissions() {
-                Submission.findLatest(this.context.course_id, submissions => {
+                Submission.findLatest(this.courseId, submissions => {
                     this.latestSubmissions = submissions
                 })
             },

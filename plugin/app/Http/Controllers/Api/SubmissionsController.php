@@ -83,7 +83,7 @@ class SubmissionsController extends Controller
         $submission->max_result   = $charon->category->getGradeItem()->grademax;
         $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
 
-        return $submission;
+        return $submission->makeHidden(['charon', 'grader_id']);
     }
 
     /**

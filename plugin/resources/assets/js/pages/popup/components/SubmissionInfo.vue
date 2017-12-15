@@ -50,6 +50,7 @@
 
 <script>
     import SubmissionInfoBit from './SubmissionInfoBit.vue'
+    import { formatName, removeDateSeconds } from '../helpers/formatting'
 
     export default {
 
@@ -86,25 +87,16 @@
 
             graderInfo() {
                 const grader = this.submission.grader
-                if (! grader) return null
-                let info;
 
-                if (! grader.idnumber) {
-                    info = `${grader.firstname} ${grader.lastname}`
-                } else {
-                    info = `${grader.firstname} ${grader.lastname} (${grader.idnumber})`
-                }
-
-                return info
+                return formatName(grader)
             },
         },
 
         methods: {
-            formatDatetime(date) {
-                return date.replace(/:[0-9]{2}\.[0-9]+/, '')
-            },
+            formatDatetime: removeDateSeconds,
 
             formatDeadline(deadline) {
+
                 const date = this.formatDatetime(deadline.deadline_time.date)
                 const percentage = deadline.percentage
                 const groupName = deadline.group

@@ -1,20 +1,26 @@
 <template>
     <div>
-        <p class="control tabs-right select-container output-select" v-if="outputs.length > 0">
-            <span class="select  is-medium">
+        <div
+                v-if="outputs.length > 0"
+                class="tabs-right  select-container  output-select"
+        >
+            <div class="select  is-medium">
 
-                <select name="output"
-                        v-model="activeOutputSlug">
-
-                    <option v-for="output in outputs"
-                            :value="output.slug">
+                <select
+                        name="output"
+                        v-model="activeOutputSlug"
+                >
+                    <option
+                            v-for="output in outputs"
+                            :value="output.slug"
+                    >
                         {{ output.title }}
                     </option>
 
                 </select>
 
-            </span>
-        </p>
+            </div>
+        </div>
 
         <pre class="output-content" v-if="outputs.length > 0">{{ activeOutput }}</pre>
     </div>

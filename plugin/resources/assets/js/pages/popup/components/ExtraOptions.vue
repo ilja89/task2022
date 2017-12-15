@@ -11,14 +11,12 @@
             </svg>
         </div>
 
-        <div class="options-menu" :class="{ 'is-active': menu_is_open }">
+        <div class="options-menu" :class="{ 'is-active': menuIsOpen }">
             <ul>
-                <li :class="{ disabled: !canAddSubmission }"
-                    @click="addManualSubmission">
+                <li :class="{ disabled: !canAddSubmission }" @click="addManualSubmission">
                     Add a manual submission
                 </li>
-                <li :class="{ disabled: !canRetestSubmission }"
-                    @click="retestTask">
+                <li :class="{ disabled: !canRetestSubmission }" @click="retestTask">
                     Retest this task
                 </li>
             </ul>
@@ -42,7 +40,7 @@
 
         data() {
             return {
-                menu_is_open: false,
+                menuIsOpen: false,
             };
         },
 
@@ -58,7 +56,7 @@
 
         methods: {
             onIconClicked() {
-                this.menu_is_open = !this.menu_is_open;
+                this.menuIsOpen = !this.menuIsOpen;
             },
 
             addManualSubmission() {
@@ -69,12 +67,12 @@
 
                 Submission.addNewEmpty(this.charon.id, this.student.id, submission => {
                     this.$emit('submission-was-added');
-                    this.menu_is_open = false;
+                    this.menuIsOpen = false;
                 });
             },
 
             onClickedAway() {
-                this.menu_is_open = false
+                this.menuIsOpen = false
             },
 
             retestTask() {

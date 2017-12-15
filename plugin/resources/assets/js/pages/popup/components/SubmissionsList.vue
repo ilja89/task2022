@@ -7,10 +7,12 @@
         </div>
 
         <transition-group name="list">
-            <submission-partial v-for="(submission, index) in submissions"
-                                :submission="submission"
-                                :key="submission.id"
-                                @submission-was-selected="onSubmissionSelected(submission)">
+            <submission-partial
+                    v-for="submission in submissions"
+                    :submission="submission"
+                    :key="submission.id"
+                    @submission-was-selected="onSubmissionSelected(submission)"
+            >
             </submission-partial>
         </transition-group>
 
@@ -25,10 +27,13 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import { Submission as SubmissionPartial } from '../partials';
     import { Submission } from '../../../models';
 
     export default {
+
+        components: { SubmissionPartial },
 
         props: {
             active_submission: { required: true },
@@ -43,7 +48,11 @@
             };
         },
 
-        components: { SubmissionPartial },
+        computed: {
+            ...mapGetters([
+                'submissionLink',
+           ]),
+        },
 
         watch: {
             charon() {
@@ -69,7 +78,7 @@
             },
 
             onSubmissionSelected(submission) {
-                this.$router.push('/submission/' + submission.id)
+                this.$router.push(this.submissionLink(submission.id))
             },
 
             loadMoreSubmissions() {

@@ -2,14 +2,13 @@
     <div class="popup-container">
 
         <popup-header
-                :course_id="context.course_id"
-                :student="context.active_student"
-                :charon="context.active_charon"
-                :submission="context.active_submission"
+                :student="student"
+                :charon="charon"
+                :submission="submission"
         >
         </popup-header>
 
-        <popup-body :context="context"></popup-body>
+        <popup-body></popup-body>
 
         <loader :visible="loaderVisible !== 0"></loader>
         <notification :text="notification.text" :show="notification.show" :type="notification.type"></notification>
@@ -17,6 +16,7 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
     import { PopupHeader, PopupBody } from './layouts'
     import { Loader } from './components'
     import { Notification } from '../../components/partials'
@@ -24,10 +24,6 @@
     export default {
 
         components: { PopupHeader, PopupBody, Loader, Notification },
-
-        props: {
-            context: { required: true }
-        },
 
         data() {
             return {
@@ -39,11 +35,19 @@
                     show: false,
                     type: 'success',
                 }
-            };
+            }
+        },
+
+        computed: {
+            ...mapState([
+                'student',
+                'charon',
+                'submission',
+            ]),
         },
 
         mounted() {
-            this.initializeEventListeners();
+            this.initializeEventListeners()
         },
 
         methods: {

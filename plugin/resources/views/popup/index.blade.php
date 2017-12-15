@@ -1,7 +1,7 @@
 @include('popup.header')
 
 <div id="app">
-    <popup :context="context"></popup>
+    <popup></popup>
 </div>
 
 <script>

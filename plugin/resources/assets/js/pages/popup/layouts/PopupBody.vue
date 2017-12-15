@@ -1,12 +1,12 @@
 <template>
     <div class="columns is-gapless popup-body">
 
-        <popup-navigation :context="context"></popup-navigation>
+        <popup-navigation></popup-navigation>
 
         <div class="column page-right" id="page-right">
             <div class="page-container">
                 <keep-alive>
-                    <router-view :context="context"></router-view>
+                    <router-view></router-view>
                 </keep-alive>
             </div>
         </div>
@@ -20,9 +20,5 @@
     export default {
 
         components: { PopupNavigation },
-
-        props: {
-            context: { required: true },
-        }
     }
 </script>
