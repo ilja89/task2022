@@ -20,6 +20,9 @@ $darkest-grey: #384655;
 $light-blue: #72d8fb;
 $blue: #59c2e6;
 
+$table-striped-row-even-background-color: lighten($background-grey, 3%);
+$table-cell-border: 1px solid $light-grey;
+
 
 /*---------------------*\
   #BULMA_OVERWRITES

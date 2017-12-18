@@ -77,7 +77,7 @@
             ]),
 
             studentsChunks() {
-                const nrOfChunks = 3
+                const nrOfChunks = 4
 
                 let chunks = []
                 for (let i = 0; i < nrOfChunks; i++) {
@@ -122,8 +122,7 @@
 <style lang="scss" scoped>
 
     .active-students__list {
-        list-style: disc;
-        padding-left: 10px;
+        text-align: center;
     }
 
 </style>

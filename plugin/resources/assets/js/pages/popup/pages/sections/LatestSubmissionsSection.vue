@@ -4,22 +4,29 @@
             subtitle="Here are the latest submissions for all tasks in this course"
     >
         <div class="latest-submissions">
-            <div
-                    v-for="submissionChunk in latestSubmissionsChunks"
-                    class="columns"
-            >
+            <transition-group name="list">
                 <div
-                        v-for="submission in submissionChunk"
-                        class="column"
+                        v-for="(submissionChunk, index) in latestSubmissionsChunks"
+                        :key="index"
+                        class="columns"
                 >
                     <div
-                            class="card  hover-overlay  submission"
-                            @click="submissionSelected(submission)"
+                            v-for="submission in submissionChunk"
+                            class="column"
                     >
-                        {{ submission | submissionTime }}: <wbr>{{ submission.charon.name }} - <wbr>{{ submission.user | user }}
+                        <div
+                                class="card  hover-overlay  submission"
+                                @click="submissionSelected(submission)"
+                        >
+                            <div>
+                                {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
+                                <wbr>{{ submission.charon.name }} <span class="timestamp-separator">|</span>
+                                <wbr>{{ submission.user | user }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition-group>
         </div>
     </popup-section>
 </template>
@@ -115,6 +122,11 @@
             padding-bottom: 20px;
             padding-left: 10px;
         }
+    }
+
+    .timestamp-separator {
+        padding-left:  4px;
+        padding-right: 4px;
     }
 
 </style>
