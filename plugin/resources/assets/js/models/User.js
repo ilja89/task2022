@@ -17,6 +17,15 @@ class User {
                 VueEvent.$emit('show-notification', 'Error retrieving report table.', 'danger')
             })
     }
+
+    static findActiveUsers(courseId, period, then) {
+        window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/users/active', { params: { period } })
+            .then(({data}) => {
+                then(data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving active students.', 'danger')
+            })
+    }
 }
 
 export default User

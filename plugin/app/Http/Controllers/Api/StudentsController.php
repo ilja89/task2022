@@ -2,10 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\StudentsRepository;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
@@ -106,5 +108,36 @@ class StudentsController extends Controller
             return $report->print_table(true);
         }
         return '';
+    }
+
+    public function findActive(Course $course)
+    {
+        $period = $this->request->query('period');
+
+        $startTime = Carbon::now();
+        if ($period === 'day') {
+            $startTime = $startTime->subDay();
+        } else if ($period === 'week') {
+            $startTime = $startTime->subWeek();
+        } else if ($period === 'month') {
+            $startTime = $startTime->subMonth();
+        }
+
+        $users = Submission::with([
+                'user' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
+            ])
+            ->whereHas('charon', function ($query) use ($course) {
+                $query->where('course', $course->id);
+            })
+            ->where('created_at', '>=', $startTime)
+            ->get()
+            ->pluck('user')
+            ->unique()
+            ->values()
+        ;
+
+        return $users;
     }
 }

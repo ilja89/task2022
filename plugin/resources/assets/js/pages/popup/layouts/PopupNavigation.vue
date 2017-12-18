@@ -3,6 +3,12 @@
         <ul class="menu-list">
 
             <li class="nav-item">
+                <router-link to="/" exact>
+                    Dashboard
+                </router-link>
+            </li>
+
+            <li class="nav-item">
                 <router-link :to="gradingLink">
                     Grading
                 </router-link>

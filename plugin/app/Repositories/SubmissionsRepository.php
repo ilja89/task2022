@@ -94,6 +94,16 @@ class SubmissionsRepository
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, $userId)
     {
+        $fields = [
+            'id',
+            'charon_id',
+            'confirmed',
+            'created_at',
+            'git_hash',
+            'git_timestamp',
+            'git_commit_message',
+            'user_id',
+        ];
         $submissions = Submission::with([
             // Only select results which have a corresponding grademap
             'results' => function ($query) use ($charon) {
@@ -102,21 +112,12 @@ class SubmissionsRepository
                 $query->orderBy('grade_type_code');
             },
         ])
-                                 ->where('charon_id', $charon->id)
-                                 ->where('user_id', $userId)
-                                 ->orderBy('git_timestamp', 'desc')
-                                 ->orderBy('created_at', 'desc')
-                                 ->select([
-                                     'id',
-                                     'charon_id',
-                                     'confirmed',
-                                     'created_at',
-                                     'git_hash',
-                                     'git_timestamp',
-                                     'git_commit_message',
-                                     'user_id',
-                                 ])
-                                 ->simplePaginate(5);
+             ->where('charon_id', $charon->id)
+             ->where('user_id', $userId)
+             ->orderBy('created_at', 'desc')
+             ->orderBy('git_timestamp', 'desc')
+             ->select($fields)
+             ->simplePaginate(5);
         $submissions->appends(['user_id' => $userId])->links();
 
         return $submissions;
@@ -265,10 +266,21 @@ class SubmissionsRepository
 
         $submissions = Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
             ->whereIn('charon_id', $charonIds)
-            ->with(['user' => function ($query) {
-                $query->select(['id', 'firstname', 'lastname', 'idnumber']);
-            }])
-            ->paginate(10);
+            ->with([
+                'user' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
+                'charon' => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+//                'results' => function ($query) use ($charon) {
+//                    $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
+//                    $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+//                    $query->orderBy('grade_type_code');
+//                },
+            ])
+            ->latest()
+            ->simplePaginate(10);
 
         return $submissions;
     }

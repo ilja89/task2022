@@ -16,6 +16,10 @@
   -webkit-box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
   -moz-box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
   box-shadow: 1px 1.732px 6px 0 rgba(139, 157, 175, 0.3);
+
+  &.has-padding {
+    padding: 20px 30px;
+  }
 }
 
 .hover-overlay {

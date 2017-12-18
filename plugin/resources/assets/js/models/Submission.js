@@ -71,7 +71,7 @@ class Submission {
     }
 
     static findLatest(courseId, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/submissions/latest')
+        window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/latest')
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
