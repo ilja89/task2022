@@ -11,7 +11,7 @@ use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
- * Charon model class.
+ * Submission model class.
  *
  * @property integer $id
  * @property string $name
@@ -33,7 +33,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property Deadline[] $deadlines
  * @property Course moodleCourse
  *
- * @package TTU\Charon\Model
+ * @package TTU\Submission\Model
  */
 class Charon extends Model
 {

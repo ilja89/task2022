@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Charon',
+    'name' => 'Submission',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,7 @@ return [
          */
         TTU\Charon\Providers\AppServiceProvider::class,
         TTU\Charon\Providers\AuthServiceProvider::class,
-        // TTU\Charon\Providers\BroadcastServiceProvider::class,
+        // TTU\Submission\Providers\BroadcastServiceProvider::class,
         TTU\Charon\Providers\EventServiceProvider::class,
         TTU\Charon\Providers\RouteServiceProvider::class,
 

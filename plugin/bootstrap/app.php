@@ -46,8 +46,8 @@ $app->singleton(
 );
 
 // Declare singletons so that they can be used in Moodle files. Eg. mod_form.php.
-//$app->singleton(TTU\Charon\Http\Controllers\InstanceFormController::class, function ($app) {
-//    return new \TTU\Charon\Http\Controllers\InstanceFormController(new \TTU\Charon\Repositories\CharonRepository);
+//$app->singleton(TTU\Submission\Http\Controllers\InstanceFormController::class, function ($app) {
+//    return new \TTU\Submission\Http\Controllers\InstanceFormController(new \TTU\Submission\Repositories\CharonRepository);
 //});
 
 /*

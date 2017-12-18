@@ -13,7 +13,7 @@ use TTU\Charon\Services\SubmissionService;
  * Class TesterCallbackController.
  * Handles accepting submissions and results from the tester.
  *
- * @package TTU\Charon\Http\Controllers
+ * @package TTU\Submission\Http\Controllers
  */
 class TesterCallbackController extends Controller
 {

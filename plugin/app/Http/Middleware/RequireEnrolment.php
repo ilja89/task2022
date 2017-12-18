@@ -50,7 +50,7 @@ class RequireEnrolment
         try {
             $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
         } catch (CharonNotFoundException $e) {
-            return redirect('/', 'The requested Charon could not be found.');
+            return redirect('/', 'The requested Submission could not be found.');
         }
 
         $modinfo = get_fast_modinfo($charon->course);

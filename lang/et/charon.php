@@ -3,8 +3,8 @@
 /*------------------------*\
    General
 \*------------------------*/
-$string['pluginname']           = 'Charon';
-$string['modulename']           = 'Charon';
+$string['pluginname']           = 'Submission';
+$string['modulename']           = 'Submission';
 $string['plugin_settings']      = 'Charoni seaded';
 $string['pluginadministration'] = 'Charoni administreerimine';
 $string['modulenameplural']     = 'Charonid';

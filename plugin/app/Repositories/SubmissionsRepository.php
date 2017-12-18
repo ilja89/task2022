@@ -11,7 +11,7 @@ use TTU\Charon\Models\Submission;
 /**
  * Class SubmissionsRepository.
  *
- * @package TTU\Charon\Repositories
+ * @package TTU\Submission\Repositories
  */
 class SubmissionsRepository
 {
@@ -124,7 +124,7 @@ class SubmissionsRepository
     }
 
     /**
-     * Finds all submissions which are confirmed for given user and Charon.
+     * Finds all submissions which are confirmed for given user and Submission.
      *
      * @param  int  $userId
      * @param  int  $charonId
@@ -169,7 +169,7 @@ class SubmissionsRepository
 
     /**
      * Check if the given user has any confirmed submissions for the given
-     * Charon.
+     * Submission.
      *
      * @param  int  $charonId
      * @param  int  $userId
@@ -283,5 +283,16 @@ class SubmissionsRepository
             ->simplePaginate(10);
 
         return $submissions;
+    }
+
+    public function findSubmissionCounts($courseId)
+    {
+        // TODO: Convert to query builder?
+        $result = DB::select(
+            'select c.project_folder, c.id, count(distinct cs.user_id) as diff_users, count(distinct cs.id) as tot_subs, count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user from mdl_charon c left join mdl_charon_submission cs on c.id = cs.charon_id where c.course = ? group by c.project_folder, c.id order by subs_per_user desc;',
+            [$courseId]
+        );
+
+        return $result;
     }
 }

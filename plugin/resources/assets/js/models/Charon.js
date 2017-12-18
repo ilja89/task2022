@@ -1,7 +1,11 @@
 class Charon {
 
+    static getRoot() {
+        return '/mod/charon/api'
+    }
+
     static all(courseId, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/charons')
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/charons')
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -10,7 +14,7 @@ class Charon {
     }
 
     static getResultForStudent(charonId, userId, then) {
-        axios.get('/mod/charon/api/charons/' + charonId + '/results/' + userId)
+        window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/results/' + userId)
             .then(response => {
                 then(response.data)
             }).catch(error => {

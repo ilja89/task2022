@@ -79,7 +79,17 @@ class Submission {
                 VueEvent.$emit('show-notification', 'Error retrieving latest submissions.', 'danger')
             })
     }
+
+    static findSubmissionCounts(courseId, then) {
+        window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/counts')
+            .then(({data}) => {
+                then(data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.', 'danger')
+            })
+    }
 }
+
 Submission.nextUrl = null
 
 export default Submission
