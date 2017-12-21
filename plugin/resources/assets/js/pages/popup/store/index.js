@@ -20,14 +20,22 @@ const store = new Vuex.Store({
         /**
          * @type {{
          *      id: Number,
+         *      order_nr: String,
          * }|null}
          */
         submission: null,
         /**
          * @type {{
-         *      id: Number, calculation_formula: String, category_id: Number, course: Number,
-         *      course_module_id: Number, deadlines: Array<Object>, grademaps: Array<Object>,
-         *      name: String, project_folder: String, tester_type_name: String
+         *      id: Number,
+         *      calculation_formula: String,
+         *      category_id: Number,
+         *      course: Number,
+         *      course_module_id: Number,
+         *      deadlines: Array<Object>,
+         *      grademaps: Array<Object>,
+         *      name: String,
+         *      project_folder: String,
+         *      tester_type_name: String,
          * }|null}
          */
         charon: null,

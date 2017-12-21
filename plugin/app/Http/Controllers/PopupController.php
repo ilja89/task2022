@@ -7,12 +7,12 @@ use Zeizig\Moodle\Models\Course;
 /**
  * Class PopupController.
  *
- * @package TTU\Submission\Http\Controllers
+ * @package TTU\Charon\Http\Controllers
  */
 class PopupController extends Controller
 {
     /**
-     * Display the Submission popup.
+     * Display the Charon popup.
      *
      * @param Course $course
      *

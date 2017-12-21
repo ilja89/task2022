@@ -17,7 +17,7 @@ use Zeizig\Moodle\Services\GradebookService;
 /**
  * Class SubmissionsController.
  *
- * @package TTU\Submission\Http\Controllers\Api
+ * @package TTU\Charon\Http\Controllers\Api
  */
 class SubmissionsController extends Controller
 {
@@ -87,7 +87,7 @@ class SubmissionsController extends Controller
     }
 
     /**
-     * Add a new empty submission to the given Submission. Empty means that all the
+     * Add a new empty submission to the given Charon. Empty means that all the
      * outputs are empty and all results are 0.
      *
      * @param Request $request

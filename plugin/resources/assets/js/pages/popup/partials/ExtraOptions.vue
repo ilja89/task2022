@@ -13,10 +13,16 @@
 
         <div class="options-menu" :class="{ 'is-active': menuIsOpen }">
             <ul>
-                <li :class="{ disabled: !canAddSubmission }" @click="addManualSubmission">
+                <li
+                    :class="{ disabled: !canAddSubmission }"
+                    @click="addManualSubmission"
+                >
                     Add a manual submission
                 </li>
-                <li :class="{ disabled: !canRetestSubmission }" @click="retestTask">
+                <li
+                    :class="{ disabled: !canRetestSubmission }"
+                    @click="retestTask"
+                >
                     Retest this task
                 </li>
             </ul>
@@ -25,18 +31,13 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     import { mixin as clickaway } from 'vue-clickaway';
-    import { Submission } from '../../../models';
+    import { Submission } from '../../../api';
 
     export default {
 
         mixins: [ clickaway ],
-
-        props: {
-            charon: { required: true },
-            student: { required: true },
-            submission: { required: true },
-        },
 
         data() {
             return {
@@ -45,6 +46,12 @@
         },
 
         computed: {
+            ...mapState([
+                'charon',
+                'student',
+                'submission',
+            ]),
+
             canAddSubmission() {
                 return this.charon !== null && this.student !== null;
             },

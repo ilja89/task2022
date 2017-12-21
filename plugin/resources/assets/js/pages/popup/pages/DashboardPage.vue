@@ -16,10 +16,9 @@
 
 <script>
     import { PageTitle } from '../partials'
-    import { Submission } from '../../../models'
     import {
         LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection, StudentsByTotalPointsSection,
-    } from './sections'
+    } from '../sections'
 
     export default {
         name: "dashboard-page",
@@ -30,7 +29,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

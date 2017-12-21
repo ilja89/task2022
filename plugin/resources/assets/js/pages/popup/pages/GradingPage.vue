@@ -5,7 +5,7 @@
 
         <submissions-section></submissions-section>
 
-        <comments-section :charon="charon" :student="student"></comments-section>
+        <comments-section></comments-section>
 
     </div>
 </template>
@@ -13,7 +13,7 @@
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { PageTitle } from '../partials'
-    import { SubmissionsSection, CommentsSection } from './sections'
+    import { SubmissionsSection, CommentsSection } from '../sections'
 
     export default {
         components: { PageTitle, SubmissionsSection, CommentsSection },
@@ -21,7 +21,6 @@
         computed: {
             ...mapState([
                 'student',
-                'charon',
             ]),
 
             ...mapGetters([
@@ -36,8 +35,9 @@
         watch: {
             $route() {
                 if (typeof this.$route.params.student_id !== 'undefined'
-                        && this.student !== null
-                        && this.student.id != this.$route.params.student_id) {
+                    && this.student !== null
+                    && this.student.id != this.$route.params.student_id
+                ) {
                     this.getStudent()
                 }
             },

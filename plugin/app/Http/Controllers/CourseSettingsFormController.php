@@ -14,7 +14,7 @@ use Zeizig\Moodle\Models\Course;
  * Class CourseSettingsFormController.
  * This controller renders the course settings form.
  *
- * @package TTU\Submission\Http\Controllers
+ * @package TTU\Charon\Http\Controllers
  */
 class CourseSettingsFormController extends Controller
 {

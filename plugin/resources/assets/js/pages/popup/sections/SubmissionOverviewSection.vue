@@ -1,12 +1,11 @@
 <template>
-
     <popup-section
-            :title="activeCharonName"
-            :subtitle="submissionOrderNrText"
+        :title="activeCharonName"
+        :subtitle="submissionOrderNrText"
     >
 
         <template slot="header-right">
-            <span class="extra-info-text" v-if="charon_confirmed_points !== null">
+            <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p
             </span>
 
@@ -15,22 +14,24 @@
             </button>
         </template>
 
-        <div class="columns is-gapless is-desktop  submission-overview-container" v-if="hasSubmission">
+        <div
+            v-if="hasSubmission"
+            class="columns  is-gapless  is-desktop  submission-overview-container"
+        >
 
             <div class="column  is-one-third">
                 <div class="card">
-                    <submission-info
-                            :charon="charon"
-                            :submission="submission"
-                    >
-                    </submission-info>
+                    <submission-info/>
                 </div>
             </div>
 
             <div class="column is-7">
                 <div class="card">
-                    <div v-for="(result, index) in submission.results" v-if="getGrademapByResult(result)"
-                         :key="result.id">
+                    <div
+                        v-for="(result, index) in submission.results"
+                        v-if="getGrademapByResult(result)"
+                        :key="result.id"
+                    >
 
                         <hr v-if="index !== 0" class="hr-result">
                         <div class="result">
@@ -40,12 +41,14 @@
                             </div>
 
                             <div class="result-input-container">
-                                <input type="number"
-                                       step="0.01"
-                                       class="input has-text-centered"
-                                       :class="{ 'is-danger': resultHasError(result) }"
-                                       v-model="result.calculated_result"
-                                       @keydown="errors[result.id] = false">
+                                <input
+                                    class="input has-text-centered"
+                                    :class="{ 'is-danger': resultHasError(result) }"
+                                    type="number"
+                                    step="0.01"
+                                    v-model="result.calculated_result"
+                                    @keydown="errors[result.id] = false"
+                                >
 
                                 <a class="button is-primary" @click="setMaxPoints(result)">
                                     Max
@@ -75,30 +78,34 @@
         </div>
 
     </popup-section>
-
 </template>
 
 <script>
-    import {PopupSection} from '../../layouts'
-    import {Submission, Charon} from '../../../../models'
-    import {SubmissionInfo} from '../../components'
+    import { mapState, mapGetters } from 'vuex'
+    import { PopupSection } from '../layouts/index'
+    import { Submission, Charon } from '../../../api/index'
+    import { SubmissionInfo } from '../partials/index'
 
     export default {
-        components: {PopupSection, SubmissionInfo},
-
-        props: {
-            charon: {required: true},
-            submission: {default: null},
-        },
+        components: { PopupSection, SubmissionInfo },
 
         data() {
             return {
                 charon_confirmed_points: null,
                 errors: {},
-            };
+            }
         },
 
         computed: {
+            ...mapState([
+                'charon',
+                'submission',
+            ]),
+
+            ...mapGetters([
+                'charonLink',
+            ]),
+
             hasSubmission() {
                 return this.submission !== null
             },
@@ -106,7 +113,7 @@
             activeCharonName() {
                 return this.charon !== null
                     ? `<a
-                        href="/mod/charon/view.php?id=${this.charon.course_module_id}"
+                        href="${this.charonLink}"
                         class="section-title-link"
                         target="_blank"
                     >
@@ -124,19 +131,11 @@
 
         watch: {
             submission() {
-                if (this.submission === null || this.charon === null) return
-
-                Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
-                    this.charon_confirmed_points = points
-                })
+                this.getTotalResult()
             },
 
             charon() {
-                if (this.submission === null || this.charon === null) return
-
-                Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
-                    this.charon_confirmed_points = points
-                })
+                this.getTotalResult()
             },
         },
 
@@ -166,7 +165,7 @@
                     if (response.status !== 200) {
                         window.VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
 
-                        let newErrors = {...this.errors}
+                        let newErrors = { ...this.errors }
                         newErrors[response.data.resultId] = true
 
                         this.errors = newErrors
@@ -189,6 +188,14 @@
 
             resultHasError(result) {
                 return !!this.errors[result.id]
+            },
+
+            getTotalResult() {
+                if (this.submission === null || this.charon === null) return
+
+                Charon.getResultForStudent(this.charon.id, this.submission.user_id, points => {
+                    this.charon_confirmed_points = points
+                })
             },
         },
     }

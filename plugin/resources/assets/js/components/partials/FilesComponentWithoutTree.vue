@@ -31,7 +31,7 @@
 
 <script>
 
-    import { File } from '../../models';
+    import { File } from '../../api';
 
     export default {
 

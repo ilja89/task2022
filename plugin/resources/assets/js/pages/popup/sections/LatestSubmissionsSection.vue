@@ -34,9 +34,9 @@
 <script>
     import moment from 'moment'
     import { mapGetters } from 'vuex'
-    import { PopupSection } from '../../layouts'
-    import { Submission } from '../../../../models'
-    import { formatName } from '../../helpers/formatting'
+    import { PopupSection } from '../layouts/index'
+    import { Submission } from '../../../api/index'
+    import { formatName } from '../helpers/formatting'
 
     export default {
         name: "latest-submissions-section",
@@ -110,7 +110,7 @@
 
 <style lang="scss" scoped>
 
-    @import '~bulma/sass/utilities/_all';
+    @import '../../../../../../../node_modules/bulma/sass/utilities/all';
 
     .submission {
         margin-top:    0;

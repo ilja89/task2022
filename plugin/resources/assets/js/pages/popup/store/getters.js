@@ -12,11 +12,12 @@ export const courseId = state => {
 /**
  * Get the students search url for the current course.
  * @param state {Object}
+ * @param getters {Object}
  * @returns {String|null}
  */
-export const studentsSearchUrl = state => {
-    return state.course
-        ? '/mod/charon/api/courses/' + state.course.id + '/students/search'
+export const studentsSearchUrl = (state, getters) => {
+    return getters.courseId
+        ? `/mod/charon/api/courses/${getters.courseId}/students/search`
         : null
 }
 
@@ -24,10 +25,12 @@ export const studentsSearchUrl = state => {
  * @name submissionLinkReturns
  * @function
  * @param {Number} submissionId=null
+ * @return {String}
  */
 
 /**
- *
+ * Get a link to a submission. If a submission ID is given, use that,
+ * otherwise use the currently active submission.
  * @param state {Object}
  * @returns {submissionLinkReturns}
  */
@@ -42,3 +45,12 @@ export const submissionLink = state => (submissionId = null) => {
 
     return '/submissions'
 }
+
+/**
+ * Get the link to the currently active Charon.
+ * @param state {Object}
+ * @returns {string}
+ */
+export const charonLink = state => state.charon
+    ? `/mod/charon/view.php?id=${state.charon.course_module_id}`
+    : null

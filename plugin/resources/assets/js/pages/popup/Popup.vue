@@ -1,24 +1,22 @@
 <template>
     <div class="popup-container">
+        <popup-header/>
 
-        <popup-header
-                :student="student"
-                :charon="charon"
-                :submission="submission"
-        >
-        </popup-header>
+        <popup-body/>
 
-        <popup-body></popup-body>
+        <loader :visible="loaderVisible !== 0"/>
 
-        <loader :visible="loaderVisible !== 0"></loader>
-        <notification :text="notification.text" :show="notification.show" :type="notification.type"></notification>
+        <notification
+            :text="notification.text"
+            :show="notification.show"
+            :type="notification.type"
+        />
     </div>
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
     import { PopupHeader, PopupBody } from './layouts'
-    import { Loader } from './components'
+    import { Loader } from './partials'
     import { Notification } from '../../components/partials'
 
     export default {
@@ -38,14 +36,6 @@
             }
         },
 
-        computed: {
-            ...mapState([
-                'student',
-                'charon',
-                'submission',
-            ]),
-        },
-
         mounted() {
             this.initializeEventListeners()
         },
@@ -62,7 +52,7 @@
 
             hideLoader() {
                 if (this.loaderVisible !== 0) {
-                    this.loaderVisible--;
+                    this.loaderVisible--
                 }
             },
 
@@ -70,10 +60,10 @@
                 VueEvent.$on('show-notification', (message, type = 'success', timeout = 2000) => {
                     this.showNotification(message, type, timeout)
                 });
-                VueEvent.$on('close-notification', () => this.notification.show = false);
-                VueEvent.$on('show-loader', () => this.loaderVisible += 1);
-                VueEvent.$on('hide-loader', () => this.hideLoader());
-            }
-        }
+                VueEvent.$on('close-notification', _ => this.notification.show = false)
+                VueEvent.$on('show-loader', _ => this.loaderVisible += 1)
+                VueEvent.$on('hide-loader', _ => this.hideLoader())
+            },
+        },
     }
 </script>

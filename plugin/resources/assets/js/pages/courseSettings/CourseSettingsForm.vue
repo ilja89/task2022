@@ -28,7 +28,7 @@
 <script>
     import { TesterSettingsSection, PresetsSection } from './sections';
     import { Translate } from '../../mixins';
-    import Loader from '../popup/components/Loader.vue';
+    import Loader from '../popup/partials/Loader.vue';
 
     export default {
         mixins: [ Translate ],

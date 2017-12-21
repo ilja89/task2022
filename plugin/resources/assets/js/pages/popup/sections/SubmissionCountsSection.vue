@@ -1,7 +1,7 @@
 <template>
     <popup-section
-            title="Submission counts"
-            subtitle="Submission counts for Charons."
+        title="Submission counts"
+        subtitle="Submission counts for Charons."
     >
         <div class="card has-padding">
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
@@ -48,8 +48,8 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { Submission } from '../../../../models'
-    import { PopupSection } from '../../layouts'
+    import { Submission } from '../../../api/index'
+    import { PopupSection } from '../layouts/index'
 
     export default {
         name: "submission-counts-section",

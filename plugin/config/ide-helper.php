@@ -46,8 +46,8 @@ return array(
     | Model locations to include
     |--------------------------------------------------------------------------
     |
-    | Define in which directories the ide-helper:models command should look
-    | for models.
+    | Define in which directories the ide-helper:api command should look
+    | for api.
     |
     */
 

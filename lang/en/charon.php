@@ -2,12 +2,12 @@
 /**
  * General
  ***************************************************************/
-$string['pluginname']           = 'Submission';
-$string['modulename']           = 'Submission';
-$string['plugin_settings']      = 'Submission settings';
-$string['pluginadministration'] = 'Submission administration';
+$string['pluginname']           = 'Charon';
+$string['modulename']           = 'Charon';
+$string['plugin_settings']      = 'Charon settings';
+$string['pluginadministration'] = 'Charon administration';
 $string['modulenameplural']     = 'Charons';
-$string['capella:addinstance']  = 'Add a new Submission';
+$string['capella:addinstance']  = 'Add a new Charon';
 
 /*------------------------*\
    Course settings form
@@ -24,7 +24,7 @@ $string['save_preset']          = 'Save preset';
 $string['update_preset']        = 'Update preset';
 
 $string['unittests_git_helper'] = 'The Git URL in which there are tests for this course. Tests for each assignment '
-                                . 'should be in the "Project" directory specified in the new Submission form.';
+                                . 'should be in the "Project" directory specified in the new Charon form.';
 $string['tester_type_cs_helper']   = 'The tester type this course\'s assignments use. Usually the programming language '
                                 . 'mainly used in the course. Can also be overridden when creating a task.';
 $string['preset_name_helper']   = 'Name of the preset. Choose something easy to understand, eg. home tasks.';

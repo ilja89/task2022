@@ -1,14 +1,14 @@
 <template>
     <popup-section
-            title="Students by total points"
-            subtitle=""
+        title="Students by total points"
+        subtitle=""
     >
 
     </popup-section>
 </template>
 
 <script>
-    import { PopupSection } from '../../layouts'
+    import { PopupSection } from '../layouts/index'
 
     export default {
         name: "students-by-total-points-section",

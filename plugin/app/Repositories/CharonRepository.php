@@ -18,7 +18,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * Class CharonRepository.
  * Used to handle database actions.
  *
- * @package TTU\Submission\Repositories
+ * @package TTU\Charon\Repositories
  */
 class CharonRepository
 {
@@ -46,7 +46,7 @@ class CharonRepository
     }
 
     /**
-     * Save the charon instance.
+     * Save the Charon instance.
      *
      * @param  Charon  $charon
      *
@@ -58,7 +58,7 @@ class CharonRepository
     }
 
     /**
-     * Get all charons.
+     * Get all Charons.
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
@@ -68,7 +68,7 @@ class CharonRepository
     }
 
     /**
-     * Get an instance of charon by its id.
+     * Get an instance of Charon by its id.
      *
      * @param  integer  $id
      *
@@ -80,8 +80,8 @@ class CharonRepository
     }
 
     /**
-     * Gets a charon instance by course module id.
-     * Returns null if no course module is found or if the given course module is not a Submission.
+     * Gets a Charon instance by course module id.
+     * Returns null if no course module is found or if the given course module is not a Charon.
      *
      * @param  integer $id
      *
@@ -146,7 +146,7 @@ class CharonRepository
     }
 
     /**
-     * Takes the old instance and override its values with the new Submission values.
+     * Takes the old instance and override its values with the new Charon values.
      *
      * @param  Charon  $oldCharon
      * @param  Charon  $newCharon
@@ -232,7 +232,7 @@ class CharonRepository
     }
 
     /**
-     * Gets Submissions by Submission and user.
+     * Gets Charons by Charon and user.
      *
      * @param  integer  $charonId
      * @param  integer  $userId

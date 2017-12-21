@@ -56,7 +56,7 @@
 
 <script>
     import { Translate } from '../../../mixins';
-    import { Submission } from '../../../models';
+    import { Submission } from '../../../api';
 
     export default {
         mixins: [ Translate ],

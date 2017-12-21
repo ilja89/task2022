@@ -31,7 +31,7 @@
 
     .submission-info__title {
         color: $grey;
-        font-weight: 500;
+        font-weight: $weight-medium;
         font-size: 1.25rem;
     }
 

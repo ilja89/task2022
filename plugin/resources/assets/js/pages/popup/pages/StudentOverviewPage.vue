@@ -3,21 +3,20 @@
         <page-title :student="student"></page-title>
 
         <popup-section
-                title="Grades report"
-                subtitle="Grading report for the current student."
+            title="Grades report"
+            subtitle="Grading report for the current student."
         >
 
             <div class="card  student-overview-card" v-html="table"></div>
 
         </popup-section>
-
     </div>
 </template>
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { PageTitle } from '../partials'
-    import { User } from '../../../models'
+    import { User } from '../../../api'
     import { PopupSection } from '../layouts'
 
     export default {
@@ -32,7 +31,7 @@
 
         computed: {
             ...mapState([
-                'student'
+                'student',
             ]),
 
             ...mapGetters([
@@ -66,7 +65,7 @@
 
             getStudent() {
                 this.fetchStudent({ courseId: this.courseId, studentId: this.routeStudentId })
-            }
+            },
         },
 
         mounted() {

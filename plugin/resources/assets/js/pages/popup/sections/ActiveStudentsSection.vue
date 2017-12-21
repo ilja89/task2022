@@ -1,30 +1,23 @@
 <template>
     <popup-section
-            title="Active students"
-            subtitle="Choose a time period to see active users"
+        title="Active students"
+        subtitle="Choose a time period to see active users"
     >
         <template slot="header-right">
-            <div class="select  is-medium">
-                <select
-                        name="period"
-                        v-model="period"
-                        @change="onPeriodChanged"
-                >
-                    <option
-                            v-for="selectPeriod in periods"
-                            :value="selectPeriod.value"
-                    >
-                        {{ selectPeriod.label }}
-                    </option>
-                </select>
-            </div>
+            <popup-select
+                name="period"
+                :options="periods"
+                placeholder-key="label"
+                size="medium"
+                v-model="period"
+            />
         </template>
 
         <div class="card  has-padding">
             <div class="columns">
                 <div
-                        v-for="studentChunk in studentsChunks"
-                        class="column"
+                    v-for="studentChunk in studentsChunks"
+                    class="column"
                 >
                     <ul class="active-students__list">
                         <li v-for="student in studentChunk">
@@ -41,14 +34,15 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { PopupSection } from '../../layouts'
-    import { User } from '../../../../models'
-    import { formatName } from '../../helpers/formatting'
+    import { PopupSection } from '../layouts'
+    import { User } from '../../../api'
+    import { formatName } from '../helpers/formatting'
+    import { PopupSelect } from '../partials'
 
     export default {
         name: "active-students-section",
 
-        components: { PopupSection },
+        components: { PopupSection, PopupSelect },
 
         data() {
             return {
@@ -95,6 +89,12 @@
                 })
 
                 return chunks
+            },
+        },
+
+        watch: {
+            period() {
+                this.onPeriodChanged()
             },
         },
 

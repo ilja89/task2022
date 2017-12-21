@@ -1,19 +1,20 @@
 <template>
     <div>
+
         <submission-info-bit title="Git time">
-            {{ formatDatetime(submission.git_timestamp.date) }}
+            {{ removeDateSeconds(submission.git_timestamp.date) }}
         </submission-info-bit>
 
         <submission-info-bit
-                v-if="submission.git_hash"
-                title="Commit hash"
+            v-if="submission.git_hash"
+            title="Commit hash"
         >
             {{ submission.git_hash }}
         </submission-info-bit>
 
         <submission-info-bit
-                v-if="submission.git_commit_message"
-                title="Commit message"
+            v-if="submission.git_commit_message"
+            title="Commit message"
         >
             {{ submission.git_commit_message }}
         </submission-info-bit>
@@ -23,50 +24,49 @@
         </submission-info-bit>
 
         <submission-info-bit
-                v-if="charonCalculationFormula.length"
-                title="Calculation formula"
+            v-if="charonCalculationFormula.length"
+            title="Calculation formula"
         >
             {{ charonCalculationFormula }}
         </submission-info-bit>
 
         <submission-info-bit
-                v-if="hasDeadlines"
-                title="Deadlines"
+            v-if="hasDeadlines"
+            title="Deadlines"
         >
             <ul>
-                <li v-for="deadline in charon.deadlines" v-text="formatDeadline(deadline)">
-                </li>
+                <li
+                    v-for="deadline in charon.deadlines"
+                    v-text="formatDeadline(deadline)"
+                />
             </ul>
         </submission-info-bit>
 
         <submission-info-bit
-                v-if="submission.grader"
-                :title="graderInfoTitle"
+            v-if="submission.grader"
+            :title="graderInfoTitle"
         >
             {{ graderInfo }}
         </submission-info-bit>
+
     </div>
 </template>
 
 <script>
-    import SubmissionInfoBit from './SubmissionInfoBit.vue'
-    import { formatName, removeDateSeconds } from '../helpers/formatting'
+    import { mapState } from 'vuex'
+    import SubmissionInfoBit from './SubmissionInfoBit'
+    import { formatName, removeDateSeconds, formatDeadline } from '../helpers/formatting'
 
     export default {
 
         components: { SubmissionInfoBit },
 
-        props: {
-            charon: {
-                required: true,
-            },
-            submission: {
-                required: true,
-                type: Object,
-            },
-        },
-
         computed: {
+            ...mapState([
+                'charon',
+                'submission',
+            ]),
+
             charonCalculationFormula() {
                 return this.charon !== null
                     ? this.charon.calculation_formula
@@ -86,25 +86,14 @@
             },
 
             graderInfo() {
-                const grader = this.submission.grader
-
-                return formatName(grader)
+                return formatName(this.submission.grader)
             },
         },
 
         methods: {
-            formatDatetime: removeDateSeconds,
+            removeDateSeconds,
 
-            formatDeadline(deadline) {
-
-                const date = this.formatDatetime(deadline.deadline_time.date)
-                const percentage = deadline.percentage
-                const groupName = deadline.group
-                    ? deadline.group.name
-                    : 'All groups'
-
-                return `${date} - ${percentage}% (${groupName})`
-            },
+            formatDeadline,
         },
     }
 </script>

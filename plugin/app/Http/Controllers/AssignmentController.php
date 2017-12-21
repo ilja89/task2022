@@ -19,7 +19,7 @@ use Zeizig\Moodle\Services\PermissionsService;
  * Class AssignmentController.
  * Used to display the assignment view.
  *
- * @package TTU\Submission\Http\Controllers
+ * @package TTU\Charon\Http\Controllers
  */
 class AssignmentController extends Controller
 {
@@ -98,10 +98,11 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Gets the Submission by the course module id. Wrapper for Submission repository
+     * Gets the Charon by the course module id. Wrapper for Charon repository
      * simpler to use.
      *
      * @return Charon
+     * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      */
     private function getCharon()
     {

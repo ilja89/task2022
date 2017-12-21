@@ -6,6 +6,8 @@ class Output {
                 then(data)
             }).catch(error => {
                 VueEvent.$emit('show-notification', 'Error retrieving outputs.', 'danger')
+                console.log('error')
+                console.log(error)
             })
     }
 }

@@ -3,22 +3,19 @@
 
         <page-title :student="student"></page-title>
 
-        <submission-overview-section
-                :charon="charon"
-                :submission="submission"
-        >
-        </submission-overview-section>
+        <submission-overview-section/>
 
-        <output-section :submission="submission" :charon="charon"></output-section>
+        <output-section/>
 
     </div>
 </template>
 
 <script>
-    import { PageTitle } from '../partials'
-    import { SubmissionOverviewSection, OutputSection } from './sections'
-    import { Submission, Charon, User } from '../../../models'
     import { mapState, mapActions, mapGetters } from 'vuex'
+
+    import { PageTitle } from '../partials'
+    import { SubmissionOverviewSection, OutputSection } from '../sections'
+    import { Submission, Charon, User } from '../../../api'
 
     export default {
         components: { PageTitle, SubmissionOverviewSection, OutputSection },
@@ -27,7 +24,6 @@
             ...mapState([
                 'student',
                 'charon',
-                'submission',
             ]),
 
             ...mapGetters([

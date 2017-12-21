@@ -1,5 +1,4 @@
 <template>
-
     <div class="columns is-gapless  popup-header">
 
         <div class="column is-2-desktop is-3-tablet  logo-container">
@@ -8,7 +7,7 @@
 
         <div class="column  header-right">
 
-            <student-search @student-was-changed="onStudentChanged"></student-search>
+            <student-search @student-was-changed="onStudentChanged"/>
 
             <div class="header-icons">
 
@@ -21,32 +20,19 @@
                     </g></svg>
                 </div>
 
-                <extra-options
-                        :student="student"
-                        :charon="charon"
-                        :submission="submission"
-                        @submission-was-added="onSubmissionAdded"
-                >
-                </extra-options>
+                <extra-options @submission-was-added="onSubmissionAdded"/>
             </div>
 
         </div>
 
     </div>
-
 </template>
 
 <script>
-    import { StudentSearch, ExtraOptions } from '../components';
+    import { StudentSearch, ExtraOptions } from '../partials/index';
 
     export default {
         components: { StudentSearch, ExtraOptions },
-
-        props: {
-            student: { required: true },
-            charon: { required: true },
-            submission: { required: true },
-        },
 
         methods: {
             onRefreshClicked() {
@@ -59,7 +45,7 @@
 
             onSubmissionAdded() {
                 VueEvent.$emit('refresh-page');
-            }
-        }
+            },
+        },
     }
 </script>

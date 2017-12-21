@@ -1,38 +1,33 @@
 <template>
     <div>
         <div
-                v-if="outputs.length > 0"
-                class="tabs-right  select-container  output-select"
+            v-if="outputs.length > 0"
+            class="tabs-right  select-container  output-select"
         >
-            <div class="select  is-medium">
-
-                <select
-                        name="output"
-                        v-model="activeOutputSlug"
-                >
-                    <option
-                            v-for="output in outputs"
-                            :value="output.slug"
-                    >
-                        {{ output.title }}
-                    </option>
-
-                </select>
-
-            </div>
+            <popup-select
+                size="medium"
+                name="output"
+                :options="outputs"
+                value-key="slug"
+                placeholder-key="title"
+                v-model="activeOutputSlug"
+            />
         </div>
 
-        <pre class="output-content" v-if="outputs.length > 0">{{ activeOutput }}</pre>
+        <pre class="output-content" v-if="outputs.length">{{ activeOutput }}</pre>
     </div>
 </template>
 
 <script>
-    import { Output } from '../../../models';
+    import { mapState } from 'vuex'
+    import { Output } from '../../../api'
+    import PopupSelect from './PopupSelect'
 
     export default {
 
+        components: { PopupSelect },
+
         props: {
-            submission: { required: true },
             grademaps: { required: true },
         },
 
@@ -40,103 +35,104 @@
             return {
                 outputs: [],
                 activeOutputSlug: null,
-            };
+            }
         },
 
         computed: {
+            ...mapState([
+                'submission',
+            ]),
+
             activeOutput() {
                 if (this.activeOutputSlug === null) {
-                    return 'No output selected.';
+                    return 'No output selected.'
                 }
 
                 const activeOutput = this.outputs.find(output => {
-                    return output.slug === this.activeOutputSlug;
-                });
+                    return output.slug === this.activeOutputSlug
+                })
 
                 if (typeof activeOutput !== 'undefined') {
-                    return activeOutput.content;
+                    return activeOutput.content
                 }
 
-                return '';
+                return ''
             }
         },
 
         watch: {
             submission() {
-                this.getOutputs();
+                this.getOutputs()
             }
         },
 
         mounted() {
-            this.getOutputs();
+            this.getOutputs()
         },
 
         methods: {
             hasOutput(object, kind) {
-                return object !== null && object[kind] !== null && object[kind].length > 0;
+                return object !== null && object[kind] !== null && object[kind].length > 0
             },
 
             getGrademapByResultId(resultId) {
 
                 let result = this.submission.results.find(result => {
-                    return result.id == resultId;
-                });
+                    return result.id == resultId
+                })
 
                 if (typeof result === 'undefined') {
-                    return null;
+                    return null
                 }
 
-                let correctGrademap = null;
+                let correctGrademap = null
                 this.grademaps.forEach((grademap) => {
                     if (result.grade_type_code == grademap.grade_type_code) {
-                        correctGrademap = grademap;
+                        correctGrademap = grademap
                     }
-                });
+                })
 
-                return correctGrademap;
+                return correctGrademap
             },
 
             getOutputs() {
                 Output.findBySubmission(this.submission.id, outputs => {
-                    this.outputs = [];
+                    this.outputs = []
 
                     if (this.hasOutput(outputs['submission'], 'stdout')) {
                         this.outputs.push({
                             slug: 'submission__stdout',
                             title: 'Submission stdout',
                             content: outputs['submission']['stdout']
-                        });
+                        })
                     }
                     if (this.hasOutput(outputs['submission'], 'stderr')) {
                         this.outputs.push({
                             slug: 'submission__stderr',
                             title: 'Submission stderr',
                             content: outputs['submission']['stderr']
-                        });
+                        })
                     }
 
                     for (let resultId in outputs['results']) {
+                        const grademap = this.getGrademapByResultId(resultId)
                         if (this.hasOutput(outputs['results'][resultId], 'stdout')) {
                             this.outputs.push({
                                 slug: 'result__stdout__' + resultId,
-                                title: this.getGrademapByResultId(resultId).name + ' stdout',
+                                title: (grademap ? grademap.name : '') + ' stdout',
                                 content: outputs['results'][resultId]['stdout']
-                            });
+                            })
                         }
                         if (this.hasOutput(outputs['results'][resultId], 'stderr')) {
                             this.outputs.push({
                                 slug: 'result__stderr__' + resultId,
-                                title: this.getGrademapByResultId(resultId).name + ' stderr',
+                                title: (grademap ? grademap.name : '') + ' stderr',
                                 content: outputs['results'][resultId]['stderr']
-                            });
+                            })
                         }
                     }
-
-                    if (this.outputs.length > 0) {
-                        this.activeOutputSlug = this.outputs[0].slug;
-                    }
-                });
-            }
-        }
+                })
+            },
+        },
     }
 </script>

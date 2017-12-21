@@ -20,7 +20,7 @@ class SubmissionServiceTest extends TestCase
     public function testSavesSubmissionWithResultsAndFiles()
     {
         $request = ['files' => ['file 1', 'file 2'], 'results' => ['result 1', 'result 2']];  // Not important content as it will only loop through the contents
-        $charon = m::mock('Submission');
+        $charon = m::mock('Charon');
         $charon->grademaps = [];
         $submission = m::mock(Submission::class)->shouldReceive('save')->once()->getMock()->makePartial();
         $submission->id = 1;
@@ -57,7 +57,7 @@ class SubmissionServiceTest extends TestCase
         $grademap2 = m::mock('Grademap');
         $grademap2->grade_type_code = 101;
 
-        $charon = m::mock('Submission');
+        $charon = m::mock('Charon');
         $charon->grademaps = [$grademap, $grademap2];
         $submission = m::mock(Submission::class, ['save' => null])->makePartial();
         $submission->id = 1;
@@ -157,7 +157,7 @@ class SubmissionServiceTest extends TestCase
     {
         $gradeItem = m::mock('GradeItem');
         $gradeItem->calculation = '=##gi1## * ##gi2##';
-        $charon = m::mock('Submission');
+        $charon = m::mock('Charon');
         $charon->course = 2;
         $charon->category = m::mock('Category', ['getGradeItem' => $gradeItem]);
         $submission = m::mock(Submission::class)->makePartial();

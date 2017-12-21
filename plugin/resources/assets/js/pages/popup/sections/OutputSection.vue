@@ -2,17 +2,23 @@
     <popup-section
             title="Email and outputs"
             subtitle="Output from the tester and mail sent to the student."
-            class="output-section">
+            class="output-section"
+    >
 
-        <charon-tabs :sticky="stickyTabs" id="tabs" class="card" v-if="submission !== null">
+        <charon-tabs
+            v-if="submission"
+            class="card"
+            id="tabs"
+            :sticky="stickyTabs"
+        >
 
             <charon-tab name="Code" :selected="true">
 
                 <files-component
                         :submission="submission"
                         :testerType="charon ? charon.tester_type_name : ''"
-                        :isRound="false">
-                </files-component>
+                        :isRound="false"
+                />
 
             </charon-tab>
 
@@ -24,10 +30,7 @@
 
             <charon-tab name="Outputs">
 
-                <output-component
-                        :submission="submission"
-                        :grademaps="charon ? charon.grademaps : []">
-                </output-component>
+                <output-component :grademaps="charon ? charon.grademaps : []"/>
 
             </charon-tab>
 
@@ -37,18 +40,14 @@
 </template>
 
 <script>
-    import { CharonTabs, CharonTab, FilesComponent } from '../../../../components/partials';
-    import { PopupSection } from '../../layouts';
-    import { OutputComponent } from '../../components';
+    import { mapState } from 'vuex'
+    import { CharonTabs, CharonTab, FilesComponent } from '../../../components/partials/index';
+    import { PopupSection } from '../layouts/index';
+    import { OutputComponent } from '../partials/index';
 
     export default {
 
         components: { PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent },
-
-        props: {
-            submission: { required: true },
-            charon: { required: true }
-        },
 
         data() {
             return {
@@ -57,9 +56,14 @@
         },
 
         computed: {
+            ...mapState([
+                'charon',
+                'submission',
+            ]),
+
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
-            }
+            },
         },
 
         watch: {

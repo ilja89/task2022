@@ -41,7 +41,7 @@
 
 <script>
 
-    import { File } from '../../models';
+    import { File } from '../../api';
     import FileTree from './FileTree'
 
     export default {

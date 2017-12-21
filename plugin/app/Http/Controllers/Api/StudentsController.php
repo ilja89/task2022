@@ -16,7 +16,7 @@ use Zeizig\Moodle\Services\GradebookService;
 /**
  * Class StudentsController.
  *
- * @package TTU\Submission\Http\Controllers\Api
+ * @package TTU\Charon\Http\Controllers\Api
  */
 class StudentsController extends Controller
 {

@@ -11,7 +11,7 @@ use TTU\Charon\Models\Submission;
 /**
  * Class SubmissionsRepository.
  *
- * @package TTU\Submission\Repositories
+ * @package TTU\Charon\Repositories
  */
 class SubmissionsRepository
 {
@@ -124,7 +124,7 @@ class SubmissionsRepository
     }
 
     /**
-     * Finds all submissions which are confirmed for given user and Submission.
+     * Finds all submissions which are confirmed for given user and Charon.
      *
      * @param  int  $userId
      * @param  int  $charonId
@@ -169,7 +169,7 @@ class SubmissionsRepository
 
     /**
      * Check if the given user has any confirmed submissions for the given
-     * Submission.
+     * Charon.
      *
      * @param  int  $charonId
      * @param  int  $userId

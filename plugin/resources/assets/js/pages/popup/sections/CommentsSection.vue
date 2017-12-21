@@ -1,10 +1,10 @@
 <template>
     <popup-section
-            title="Comments"
-            subtitle="Comments are for every Charon and student.">
+        title="Comments"
+        subtitle="Comments are for every Charon and student."
+    >
 
         <div class="card">
-
             <div class="comments-container">
                 <ul>
                     <li v-for="comment in comments" class="comment">
@@ -17,8 +17,13 @@
             </div>
 
             <div class="comment-input-container">
-                <input type="text" placeholder="Write a comment..." class="comment-input"
-                       v-model="written_comment" @keyup.enter="saveComment">
+                <input
+                    type="text"
+                    placeholder="Write a comment..."
+                    class="comment-input"
+                    v-model="writtenComment"
+                    @keyup.enter="saveComment"
+                >
                 <button class="button is-primary" @click="saveComment">COMMENT</button>
             </div>
         </div>
@@ -27,23 +32,26 @@
 </template>
 
 <script>
-    import { PopupSection } from '../../layouts'
-    import { Comment } from '../../../../models'
+    import { mapState } from 'vuex'
+    import { PopupSection } from '../layouts/index'
+    import { Comment } from '../../../api/index'
 
     export default {
 
         components: { PopupSection },
 
-        props: {
-            charon: { required: true },
-            student: { required: true }
-        },
-
         data() {
             return {
-                written_comment: '',
-                comments: []
+                writtenComment: '',
+                comments: [],
             }
+        },
+
+        computed: {
+            ...mapState([
+                'charon',
+                'student',
+            ]),
         },
 
         watch: {
@@ -53,7 +61,7 @@
 
             student() {
                 this.refreshComments()
-            }
+            },
         },
 
         mounted() {
@@ -63,13 +71,13 @@
 
         methods: {
             saveComment() {
-                if (this.written_comment.length === 0) {
+                if (this.writtenComment.length === 0) {
                     return
                 }
 
-                Comment.save(this.written_comment, this.charon.id, this.student.id, comment => {
+                Comment.save(this.writtenComment, this.charon.id, this.student.id, comment => {
                     this.comments.push(comment)
-                    this.written_comment = ''
+                    this.writtenComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
             },
@@ -83,7 +91,7 @@
                 Comment.all(this.charon.id, this.student.id, comments => {
                     this.comments = comments
                 })
-            }
-        }
+            },
+        },
     }
 </script>

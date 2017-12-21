@@ -1,4 +1,4 @@
-import { User } from '../../../models/index'
+import { User } from '../../../api'
 
 /**
  * Fetch the student by their id and the course id.
