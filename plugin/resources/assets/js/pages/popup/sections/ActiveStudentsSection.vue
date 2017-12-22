@@ -13,7 +13,7 @@
             />
         </template>
 
-        <div class="card  has-padding">
+        <div v-if="students.length" class="card  has-padding">
             <div class="columns">
                 <div
                     v-for="studentChunk in studentsChunks"
@@ -29,6 +29,11 @@
                 </div>
             </div>
         </div>
+
+        <h3 v-if="!students.length" class="title  is-3">
+            No active students!
+        </h3>
+
     </popup-section>
 </template>
 

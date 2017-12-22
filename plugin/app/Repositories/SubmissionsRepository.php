@@ -289,9 +289,34 @@ class SubmissionsRepository
     {
         // TODO: Convert to query builder?
         $result = DB::select(
-            'select c.project_folder, c.id, count(distinct cs.user_id) as diff_users, count(distinct cs.id) as tot_subs, count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user from mdl_charon c left join mdl_charon_submission cs on c.id = cs.charon_id where c.course = ? group by c.project_folder, c.id order by subs_per_user desc;',
+            'select     
+	c.project_folder,     
+	count(distinct cs.user_id) as diff_users,     
+	count(distinct cs.id) as tot_subs,     
+	count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user ,     
+	(
+	select          
+		avg(gg.finalgrade)     
+	from        
+		mdl_grade_grades gg        
+	inner join 
+		mdl_grade_items gi 
+	on 
+		gg.itemid = gi.id        
+	where gi.courseid = c.course        
+	and gi.itemtype = \'category\'        
+	and gi.iteminstance = c.category_id
+	) as avg_grade
+from mdl_charon c     
+left join 
+	mdl_charon_submission cs on c.id = cs.charon_id     
+where c.course = ?
+group by 
+	c.project_folder, c.category_id, c.course
+order by subs_per_user desc',
             [$courseId]
         );
+
 
         return $result;
     }

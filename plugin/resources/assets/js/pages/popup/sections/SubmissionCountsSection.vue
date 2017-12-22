@@ -1,9 +1,9 @@
 <template>
     <popup-section
         title="Submission counts"
-        subtitle="Submission counts for Charons."
+        subtitle="Submission counts and averages for Charons."
     >
-        <div class="card has-padding">
+        <div v-if="submissionCounts.length" class="card  has-padding">
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
@@ -31,6 +31,12 @@
                             {{ sortingArrow }}
                         </span>
                     </th>
+                    <th @click="toggleSorted('avg_grade', 'asc')">
+                        Average grade
+                        <span v-if="sorted[0] === 'avg_grade'">
+                            {{ sortingArrow }}
+                        </span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,10 +45,15 @@
                     <td>{{ charon.diff_users }}</td>
                     <td>{{ charon.tot_subs }}</td>
                     <td>{{ charon.subs_per_user ? charon.subs_per_user : 0 }}</td>
+                    <td>{{ charon.avg_grade ? charon.avg_grade : 0 }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+        <h3 v-if="!submissionCounts.length" class="title  is-3">
+            No Charons for this course!
+        </h3>
     </popup-section>
 </template>
 
@@ -52,7 +63,7 @@
     import { PopupSection } from '../layouts/index'
 
     export default {
-        name: "submission-counts-section",
+        name: 'submission-counts-section',
 
         components: { PopupSection },
 
@@ -130,7 +141,7 @@
 
 <style lang="scss" scoped>
 
-    $columns: 4;
+    $columns: 5;
 
     .submission-counts__table th {
         width: 100% / $columns;
