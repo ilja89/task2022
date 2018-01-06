@@ -44,8 +44,8 @@
                     <td>{{ charon.project_folder }}</td>
                     <td>{{ charon.diff_users }}</td>
                     <td>{{ charon.tot_subs }}</td>
-                    <td>{{ charon.subs_per_user ? charon.subs_per_user : 0 }}</td>
-                    <td>{{ charon.avg_grade ? charon.avg_grade : 0 }}</td>
+                    <td>{{ charon.subs_per_user ? parseFloat(charon.subs_per_user) : 0 }}</td>
+                    <td>{{ charon.avg_grade ? parseFloat(charon.avg_grade) : 0 }}</td>
                 </tr>
                 </tbody>
             </table>

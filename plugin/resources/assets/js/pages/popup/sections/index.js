@@ -5,9 +5,9 @@ import SubmissionsSection from './SubmissionsSection.vue'
 import LatestSubmissionsSection from './LatestSubmissionsSection'
 import ActiveStudentsSection from './ActiveStudentsSection'
 import SubmissionCountsSection from './SubmissionCountsSection'
-import StudentsByTotalPointsSection from './StudentsByTotalPointsSection'
+import StudentsDistributionSection from './StudentsDistributionSection'
 
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection, SubmissionsSection, LatestSubmissionsSection,
-    ActiveStudentsSection, SubmissionCountsSection, StudentsByTotalPointsSection,
+    ActiveStudentsSection, SubmissionCountsSection, StudentsDistributionSection,
 }

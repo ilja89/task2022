@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -139,5 +140,58 @@ class StudentsController extends Controller
         ;
 
         return $users;
+    }
+
+    public function findDistribution(Course $course)
+    {
+        $parts = 5;
+        $sql = 'select
+                floor((gg.finalgrade * ?) / (max_grades.max_grade + 0.1)) as part,
+                count(gg.userid) as user_count,
+                max_grades.max_grade as max_grade
+            from
+                mdl_grade_grades gg
+            inner join
+                mdl_grade_items gi
+                on
+                    gg.itemid = gi.id
+            inner join
+                (
+                    select
+                        max(gg_inner.finalgrade) as max_grade,
+                        gi_inner.courseid as course_id
+                    from
+                      mdl_grade_items as gi_inner
+                      inner join mdl_grade_grades as gg_inner
+                          on gi_inner.id = gg_inner.itemid
+                    where gi_inner.itemtype = \'course\'
+                    and gi_inner.courseid = ?
+                    group by gi_inner.id, gi_inner.courseid
+                ) as max_grades
+                on max_grades.course_id = gi.courseid
+            where gi.courseid = ?
+            and gi.categoryid is null
+            and gi.itemtype = \'course\'
+            and gg.userid is not null
+            group by 1, max_grade
+        ';
+
+        $result = DB::select($sql, [$parts, $course->id, $course->id]);
+
+        $studentsDistribution = Collection::make($result);
+        $maxResult = $studentsDistribution->isEmpty() ? 0 : $studentsDistribution->first()->max_grade;
+        for ($i = 0; $i < $parts; $i++) {
+            $contains = $studentsDistribution->contains('part', $i);
+            if (!$contains) {
+                $distribution = [
+                    'max_grade' => $maxResult,
+                    'part' => $i,
+                    'user_count' => 0,
+                ];
+                $studentsDistribution->push($distribution);
+            }
+        }
+
+        return $studentsDistribution;
     }
 }

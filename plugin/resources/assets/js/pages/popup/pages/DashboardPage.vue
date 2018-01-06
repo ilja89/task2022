@@ -9,7 +9,7 @@
 
         <submission-counts-section></submission-counts-section>
 
-        <students-by-total-points-section></students-by-total-points-section>
+        <students-distribution-section></students-distribution-section>
 
     </div>
 </template>
@@ -17,7 +17,7 @@
 <script>
     import { PageTitle } from '../partials'
     import {
-        LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection, StudentsByTotalPointsSection,
+        LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection, StudentsDistributionSection,
     } from '../sections'
 
     export default {
@@ -25,7 +25,7 @@
 
         components: {
             PageTitle, LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection,
-            StudentsByTotalPointsSection,
+            StudentsDistributionSection,
         },
     }
 </script>
