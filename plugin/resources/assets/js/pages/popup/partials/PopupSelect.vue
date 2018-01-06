@@ -75,8 +75,23 @@
                 }
             },
 
-            options() {
-                this.resetOptions()
+            options(newOptions, options) {
+                let changed = false
+
+                if (newOptions.length === options.length) {
+                    for (let i = 0; i < newOptions.length; i++) {
+                        if (newOptions[i][this.valueKey] !== options[i][this.valueKey]) {
+                            changed = true
+                            break
+                        }
+                    }
+                } else {
+                    changed = true
+                }
+
+                if (changed) {
+                    this.resetOptions()
+                }
             },
         },
 
