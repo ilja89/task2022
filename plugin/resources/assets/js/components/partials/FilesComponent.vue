@@ -158,7 +158,8 @@
             },
 
             handleCopyClicked() {
-                copyTextToClipboard(this.activeFile.contents)
+                const contents = this.activeFile.contents.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                copyTextToClipboard(contents)
             },
 
             compressFiles(file) {
