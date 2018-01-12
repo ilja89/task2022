@@ -5,6 +5,7 @@ namespace TTU\Charon\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -55,7 +56,11 @@ class Handler extends ExceptionHandler
             throw $exception;
         }
 
-        if (! $this->shouldntSendEmail($exception) && ! $this->isPrivateEnv()) {
+        if (
+            $this->shouldReport($exception) &&
+            $this->shouldSendEmail($exception) &&
+            ! $this->isPrivateEnv()
+        ) {
             // Don't try to email exceptions when in local environment.
             app('sneaker')->captureException($exception);
         }
@@ -114,6 +119,11 @@ class Handler extends ExceptionHandler
         }
 
         return false;
+    }
+
+    protected function shouldSendEmail(\Exception $e)
+    {
+        return ! $this->shouldntSendEmail($e);
     }
 
     private function isPrivateEnv()
