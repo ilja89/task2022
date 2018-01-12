@@ -38,6 +38,7 @@ class Handler extends ExceptionHandler
         NotFoundHttpException::class,  // When route cannot be matched
         ResultPointsRequiredException::class,  // When no calculated result set while updating results
         SubmissionNoGitCallbackException::class,
+        \require_login_exception::class,
     ];
 
     /**
