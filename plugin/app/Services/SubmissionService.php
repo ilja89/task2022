@@ -211,6 +211,10 @@ class SubmissionService
     {
         $charon = $submission->charon;
 
+        if (!$charon) {
+            return;
+        }
+
         foreach ($charon->grademaps as $grademap) {
 
             $result = $submission->results->first(function ($result) use ($grademap) {
