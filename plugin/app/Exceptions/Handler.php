@@ -57,8 +57,6 @@ class Handler extends ExceptionHandler
             throw $exception;
         }
 
-        dd($exception, $this->shouldReport($exception), $this->shouldSendEmail($exception));
-
         if (
             $this->shouldReport($exception) &&
             $this->shouldSendEmail($exception) &&
