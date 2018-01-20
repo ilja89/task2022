@@ -40,7 +40,7 @@ class GitCallbacksRepository
 
     /**
      * Find a Git callback by the given secret token. If no token is given
-     * or no GitCallback is found, an IncorrectSecretTokenException will be
+     * or no GitCallbackRequest is found, an IncorrectSecretTokenException will be
      * thrown.
      *
      * @param string $secretToken

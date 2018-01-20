@@ -3,7 +3,10 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GitCallbackService;
@@ -48,14 +51,18 @@ class TesterCallbackController extends Controller
 
     /**
      * Accepts submissions from the tester.
+     *
+     * @param TesterCallbackRequest $request
+     *
+     * @return Submission
      */
-    public function index()
+    public function index(TesterCallbackRequest $request)
     {
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $this->request->input('secret_token')
+            $request->input('secret_token')
         );
 
-        $submission = $this->submissionService->saveSubmission($this->request, $gitCallback->id);
+        $submission = $this->submissionService->saveSubmission($request, $gitCallback->id);
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 

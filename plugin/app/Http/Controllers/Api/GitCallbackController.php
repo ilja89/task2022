@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\Charon;
+use TTU\Charon\Http\Requests\GitCallbackPostRequest;
+use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 
 /**
@@ -40,67 +41,54 @@ class GitCallbackController extends Controller
      * This will take all received parameters and add some and send these
      * to the tester.
      * The tester will then run tests and send the results back to Moodle.
+     *
+     * @param GitCallbackRequest $request
+     *
+     * @return string
      */
-    public function index()
+    public function index(GitCallbackRequest $request)
     {
-        $validator = Validator::make($this->request->all(), [
-            'repo' => 'required',
-            'user' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            Log::notice('Git callback with incorrect parameters', [
-                'url' => $this->request->fullUrl(),
-                'body' => $this->request->all()
-            ]);
-        }
-
-        $validator->validate();
-
         $gitCallback = $this->gitCallbacksRepository->save(
-            $this->request->fullUrl(),
-            $this->request->input('repo'),
-            $this->request->input('user')
+            $request->fullUrl(),
+            $request->input('repo'),
+            $request->input('user')
         );
 
         event(new GitCallbackReceived(
             $gitCallback,
-            $this->request->getUriForPath('/api/tester_callback'),
-            $this->request->all()
+            $request->getUriForPath('/api/tester_callback'),
+            $request->all()
         ));
 
         return "SUCCESS";
     }
 
-    public function indexPost()
+    /**
+     * Handle the Git callback. Will generate a key and send it to the tester.
+     * This will take all received parameters and add some and send these
+     * to the tester.
+     * The tester will then run tests and send the results back to Moodle.
+     * This is for the new POST request.
+     *
+     * @param GitCallbackPostRequest $request
+     *
+     * @return string
+     */
+    public function indexPost(GitCallbackPostRequest $request)
     {
-        $validator = Validator::make($this->request->all(), [
-            'repository' => 'required',
-            'user_username' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            Log::notice('Git callback with incorrect parameters', [
-                'url' => $this->request->fullUrl(),
-                'body' => $this->request->all()
-            ]);
-        }
-
-        $validator->validate();
-
-        $repo = $this->request->input('repository')['git_ssh_url'];
-        $username = $this->request->input('user_username');
+        $repo = $request->input('repository')['git_ssh_url'];
+        $username = $request->input('user_username');
         $gitCallback = $this->gitCallbacksRepository->save(
-            $this->request->fullUrl(),
+            $request->fullUrl(),
             $repo,
             $username
         );
 
-        $params = ['repo' => $repo, 'user' => $username, 'extra' => $this->request->all()];
+        $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
 
         event(new GitCallbackReceived(
             $gitCallback,
-            $this->request->getUriForPath('/api/tester_callback'),
+            $request->getUriForPath('/api/tester_callback'),
             $params
         ));
 
