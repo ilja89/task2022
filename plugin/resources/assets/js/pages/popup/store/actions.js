@@ -7,8 +7,12 @@ import { User } from '../../../api'
  * @param courseId {Number}
  */
 export const fetchStudent = ({ commit }, { studentId, courseId }) => {
-    User.findById(courseId, studentId, user => {
-        commit('UPDATE_STUDENT', { student: user })
+    return new Promise((resolve, reject) => {
+        User.findById(courseId, studentId, user => {
+            commit('UPDATE_STUDENT', { student: user })
+
+            resolve(user)
+        })
     })
 }
 

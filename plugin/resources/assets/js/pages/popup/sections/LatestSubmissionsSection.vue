@@ -33,7 +33,7 @@
 
 <script>
     import moment from 'moment'
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import { PopupSection } from '../layouts/index'
     import { Submission } from '../../../api/index'
     import { formatName } from '../helpers/formatting'
@@ -90,6 +90,10 @@
         },
 
         methods: {
+            ...mapActions([
+                'fetchStudent',
+            ]),
+
             fetchLatestSubmissions() {
                 Submission.findLatest(this.courseId, submissions => {
                     this.latestSubmissions = submissions
@@ -97,13 +101,18 @@
             },
 
             submissionSelected(submission) {
+                this.fetchStudent({
+                    studentId: submission.user.id,
+                    courseId: this.courseId,
+                })
+
                 this.$router.push(this.submissionLink(submission.id))
             },
         },
 
         mounted() {
             this.fetchLatestSubmissions()
-            VueEvent.$on('refresh-page', this.fetchLatestSubmissions);
+            VueEvent.$on('refresh-page', this.fetchLatestSubmissions)
         },
     }
 </script>

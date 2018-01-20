@@ -1,7 +1,7 @@
 class Submission {
 
     static findByUserCharon(userId, charonId, then) {
-        axios.get('/mod/charon/api/charons/' + charonId + '/submissions', { params: { user_id: userId } })
+        axios.get(`/mod/charon/api/charons/${charonId}/submissions`, { params: { user_id: userId } })
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
@@ -21,7 +21,7 @@ class Submission {
     }
 
     static update(charonId, submission, then) {
-        axios.post('/mod/charon/api/charons/' + charonId + '/submissions/' + submission.id, { submission: submission })
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/${submission.id}`, { submission: submission })
             .then(response => {
                 console.log('answer')
                 console.log(response)
@@ -35,7 +35,7 @@ class Submission {
     }
 
     static findById(submissionId, then) {
-        axios.get('/mod/charon/api/submissions/' + submissionId)
+        axios.get(`/mod/charon/api/submissions/${submissionId}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -44,7 +44,7 @@ class Submission {
     }
 
     static addNewEmpty(charonId, studentId, then) {
-        axios.post('/mod/charon/api/charons/' + charonId + '/submissions/add', { student_id: studentId })
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/add`, { student_id: studentId })
             .then(response => {
                 then(response)
             }).catch(error => {
@@ -71,7 +71,7 @@ class Submission {
     }
 
     static findLatest(courseId, then) {
-        window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/latest')
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/latest`)
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
@@ -81,7 +81,7 @@ class Submission {
     }
 
     static findSubmissionCounts(courseId, then) {
-        window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/counts')
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/counts`)
             .then(({data}) => {
                 then(data)
             }).catch(error => {

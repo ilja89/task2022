@@ -4,7 +4,10 @@ namespace TTU\Charon\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -72,17 +75,28 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
-        if ($request->expectsJson() && $exception instanceof CharonException) {
-            return response()->json([
-                'status' => $exception->getStatus(),
-                'data' => $exception->toArray()
-            ]);
+        if ($request->expectsJson()) {
+            if ($exception instanceof CharonException) {
+                return response()->json([
+                    'status' => $exception->getStatus(),
+                    'data' => $exception->toArray()
+                ]);
+            }
+
+            if ($exception instanceof ModelNotFoundException) {
+                return response()->json([
+                    'status' => 404,
+                    'data' => [
+                        'message' => $exception->getMessage(),
+                    ],
+                ], 404);
+            }
         }
 
         return parent::render($request, $exception);
@@ -91,9 +105,9 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
