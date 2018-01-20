@@ -54,20 +54,24 @@ class RequestHandlingService
     {
         $now = Carbon::now(config('app.timezone'));
         $now = $now->setTimezone('UTC');
-        $gitTimestamp = isset($request['git_timestamp'])
-            ? Carbon::createFromTimestamp($request['git_timestamp'], config('app.timezone'))
+        $gitTimestamp = $request->has('git_timestamp')
+            ? Carbon::createFromTimestamp($request->input('git_timestamp'), config('app.timezone'))
             : $now;
         $gitTimestamp->setTimezone('UTC');
 
+        $uniId = $request->input('uni_id');
+        $student = $this->userService->findUserByIdNumber($uniId);
+        $studentId = $student->id;
+
         $submission = new Submission([
-            'charon_id'          => $request['charon_id'],
-            'user_id'            => $this->userService->findUserByIdNumber($request['uni_id'])->id,
-            'git_hash'           => $request['git_hash'],
+            'charon_id'          => $request->input('charon_id'),
+            'user_id'            => $studentId,
+            'git_hash'           => $request->input('git_hash'),
             'git_timestamp'      => $gitTimestamp,
-            'mail'               => isset($request['mail']) ? $request['mail'] : null,
-            'stdout'             => isset($request['stdout']) ? $request['stdout'] : null,
-            'stderr'             => isset($request['stderr']) ? $request['stderr'] : null,
-            'git_commit_message' => isset($request['git_commit_message']) ? $request['git_commit_message'] : null,
+            'mail'               => $request->input('mail'),
+            'stdout'             => $request->input('stdout'),
+            'stderr'             => $request->input('stderr'),
+            'git_commit_message' => $request->input('git_commit_message'),
             'created_at'         => $now,
             'updated_at'         => $now,
             'original_submission_id' => $request->has('retest') && !! $request->input('retest')
