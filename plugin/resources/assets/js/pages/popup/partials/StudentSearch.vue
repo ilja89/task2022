@@ -10,8 +10,8 @@
         <autocomplete
             :url="studentsSearchUrl"
             anchor="fullname"
+            label=""
             :on-select="onStudentSelected"
-            class-name="student-search"
             id="student-search"
             placeholder="Student name"
             :min="2"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import autocomplete from 'vue2-autocomplete-js';
+    import autocomplete from 'vue2-autocomplete-js'
     import { mapGetters } from 'vuex'
 
     export default {
