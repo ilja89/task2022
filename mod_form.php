@@ -11,6 +11,8 @@ class mod_charon_mod_form extends moodleform_mod
 
     function definition()
     {
+        $mform = $this->_form;
+
         require_once __DIR__ . '/plugin/bootstrap/helpers.php';
 
         /** @var \TTU\Charon\Foundation\Application $app */
@@ -23,9 +25,25 @@ class mod_charon_mod_form extends moodleform_mod
         $request = TTU\Charon\getMoodleRequest('instance_form');
         $response = $kernel->handle($request);
 
-        $this->_form->addElement("html", $response->getContent());
+        $mform->addElement("html", $response->getContent());
 
-        $this->_form->addElement(
+        $currentEditor = null;
+        $currentDescription = [
+            'text' => '',
+            'format' => FORMAT_HTML,
+            'itemid' => null,
+        ];
+        if (isset($this->current->update)) {
+            $currentEditor = file_get_submitted_draft_itemid('description');
+            $context = \context_module::instance($this->current->update);
+            $currenttext = file_prepare_draft_area($currentEditor, $context->id,
+                'mod_charon', 'description', 0, [],
+                $this->current->description
+            );
+            $currentDescription = ['text' => $currenttext, 'format' => FORMAT_HTML, 'itemid' => $currentEditor];
+        }
+
+        $mform->addElement(
             'editor',
             'description',
             'Description',
@@ -37,16 +55,12 @@ class mod_charon_mod_form extends moodleform_mod
                 'subdirs'  => true,
             ]
         )->setValue([
-            'text' => isset($this->current->description)
-                ? rewritePluginTextUrls(
-                    $this->current->description,
-                    'description',
-                    isset($this->current->update) ? $this->current->update : null
-                )
-                : '',
+            'text' => $currentDescription['text'],
+            'itemid' => $currentEditor,
+            'format' => $currentDescription['format'],
         ]);
-        $this->_form->setType('description', PARAM_RAW);
-        $this->_form->addRule('description', null, 'required', null);
+        $mform->setType('description', PARAM_RAW);
+        $mform->addRule('description', null, 'required', null);
 
         $this->standard_coursemodule_elements();
         $this->_form->removeElement('cmidnumber');
