@@ -27,7 +27,7 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
         $charon = new backup_nested_element('charon', ['id'], [
             'category_id', 'name', 'description', 'project_folder', 'extra', 'created_at',
             'updated_at', 'tester_type_code', 'grading_method_code', 'intro', 'introformat',
-            'timemodified', 'calculation_formula', 'grademax',
+            'timemodified', 'calculation_formula', 'grademax', 'unittests_git',
         ]);
 
 
@@ -97,16 +97,18 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
         //    set_source_table() or set_source_sql()
 
         // Define sources
-       ;
 
         $charon->set_source_sql('
             select 
                 c.*,
                 gi.calculation as calculation_formula,
-                gi.grademax as grademax
+                gi.grademax as grademax,
+                cs.unittests_git as unittests_git
             from {charon} as c
             inner join {grade_items} as gi
                 on c.category_id = gi.iteminstance
+            inner join {charon_course_settings} as cs
+                on cs.course_id = c.course
             where gi.itemtype = \'category\'
                 and c.id = ?
         ', [backup::VAR_ACTIVITYID]);

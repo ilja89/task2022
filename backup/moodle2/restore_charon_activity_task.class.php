@@ -1,6 +1,7 @@
 <?php
 
 require_once($CFG->dirroot . '/mod/charon/backup/moodle2/restore_charon_stepslib.php');
+require_once $CFG->dirroot . '/mod/charon/plugin/bootstrap/helpers.php';
 
 /**
  * Charon restore task that provides all the settings and steps to perform one
@@ -106,6 +107,8 @@ class restore_charon_activity_task extends restore_activity_task
         $this->updateGradeItemsAndGrademaps();
 
         $this->updateCategoryInfo();
+
+        $this->sendAddProjectInfoToTester();
     }
 
     /**
@@ -182,5 +185,31 @@ class restore_charon_activity_task extends restore_activity_task
             $this->charon->grademax,
             $this->charon->category_id,
         ]);
+    }
+
+    private function sendAddProjectInfoToTester()
+    {
+        $app = \TTU\Charon\getApp();
+
+        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+        try {
+            // Need to make a request before we can use app->make to get the controller
+            // Cannot use routes because this is not always triggered in a web
+            // environment
+            // TODO: Make this better!
+            $kernel->handle($request = \Illuminate\Http\Request::capture());
+        } catch (Exception $e) { }
+
+        /** @var \TTU\Charon\Services\TesterCommunicationService $testerCommunicationService */
+        $testerCommunicationService = $app->make(\TTU\Charon\Services\TesterCommunicationService::class);
+
+        /** @var \TTU\Charon\Models\Charon $charon */
+        $charon = \TTU\Charon\Models\Charon::find($this->charon->id);
+
+        $testerCommunicationService->sendAddProjectInfo(
+            $charon,
+            $this->charon->unittests_git,
+            $charon->moodleCourse->shortname
+        );
     }
 }
