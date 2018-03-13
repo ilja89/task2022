@@ -78,7 +78,6 @@ class InstanceController extends Controller
     public function store()
     {
         $charon = $this->getCharonFromRequest();
-        $charon->description = $this->saveDescriptionFiles($charon);
         $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request['course']);
 
         if ( ! $this->charonRepository->save($charon)) {
@@ -146,6 +145,10 @@ class InstanceController extends Controller
     public function postCourseModuleCreated($charonId)
     {
         $this->postCourseModuleCreatedOrUpdated($charonId);
+
+        $charon = $this->charonRepository->getCharonById($charonId);
+        $charon->description = $this->saveDescriptionFiles($charon);
+        $charon->save();
     }
 
     /**
@@ -216,10 +219,10 @@ class InstanceController extends Controller
      */
     private function saveDescriptionFiles(Charon $charon)
     {
-        $newDescription = $this->fileUploadService->savePluginIntroTextFiles(
+        $newDescription = $this->fileUploadService->savePluginFiles(
+            $charon->description,
             'description',
-            $charon->course,
-            $charon->description
+            $charon->courseModule()->id
         );
 
         return $newDescription;

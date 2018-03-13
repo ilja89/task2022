@@ -3,29 +3,32 @@
 if (!function_exists('rewriteTextUrls')) {
 
     /**
-     * Rewrites the URLs containing in the given text to actual uploaded file urls.
+     * Rewrites the URLs containing in the given text to actual uploaded file
+     * urls.
      *
-     * @param  string  $intro
-     * @param  int  $courseId
+     * @param  string  $text
+     * @param  string  $area
+     * @param  int  $courseModuleId
+     * @param  int  $itemId - Some extra identifier for the uploaded file, has
+     *                        to be the same as when saving the file
      *
      * @return string
      */
-    function rewritePluginIntroUrls($intro, $courseId = null) {
-
+    function rewritePluginTextUrls($text, $area, $courseModuleId, $itemId = 0)
+    {
         if (\App::environment('testing')) {
-            return $intro;
+            return $text;
         }
 
-        if ($courseId === null) {
-            $courseId = app(\Zeizig\Moodle\Globals\Course::class)->getCourseId();
-        }
+        $context = \context_module::instance($courseModuleId);
 
         return file_rewrite_pluginfile_urls(
-            $intro,
+            $text,
             'pluginfile.php',  // There might be other ways to save files, this is sort of a configuration
-            \context_course::instance($courseId)->id,
+            $context->id,
             'mod_' . config('moodle.plugin_slug'),
-            'intro', null
+            $area,
+            $itemId
         );
     }
 }

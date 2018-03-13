@@ -156,17 +156,16 @@ class CharonRepository
     public function update($oldCharon, $newCharon)
     {
         $oldCharon->name = $newCharon->name;
-        $oldCharon->description = $newCharon->description;
         $oldCharon->project_folder = $newCharon->project_folder;
         $oldCharon->extra = $newCharon->extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
         $oldCharon->timemodified = Carbon::now()->timestamp;
 
-        $oldCharon->description = $this->fileUploadService->savePluginIntroTextFiles(
+        $oldCharon->description = $this->fileUploadService->savePluginFiles(
+            $newCharon->description,
             'description',
-            $oldCharon->course,
-            $oldCharon->description
+            $oldCharon->courseModule()->id
         );
 
         return $oldCharon->save();

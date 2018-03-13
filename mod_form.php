@@ -21,7 +21,7 @@ class mod_charon_mod_form extends moodleform_mod
         // Get new request with route since the original one can't be used for routing.
         /** @var \Illuminate\Http\Request $request */
         $request = TTU\Charon\getMoodleRequest('instance_form');
-        $response = $kernel->handle($request = $request);
+        $response = $kernel->handle($request);
 
         $this->_form->addElement("html", $response->getContent());
 
@@ -29,14 +29,21 @@ class mod_charon_mod_form extends moodleform_mod
             'editor',
             'description',
             'Description',
-            ['rows' => 10], [
+            ['rows' => 10],
+            [
                 'maxfiles' => EDITOR_UNLIMITED_FILES,
                 'noclean'  => true,
                 'context'  => $this->context,
-                'subdirs'  => true
+                'subdirs'  => true,
             ]
         )->setValue([
-            'text' => isset($this->current->description) ? rewritePluginIntroUrls($this->current->description) : ''
+            'text' => isset($this->current->description)
+                ? rewritePluginTextUrls(
+                    $this->current->description,
+                    'description',
+                    isset($this->current->update) ? $this->current->update : null
+                )
+                : '',
         ]);
         $this->_form->setType('description', PARAM_RAW);
         $this->_form->addRule('description', null, 'required', null);

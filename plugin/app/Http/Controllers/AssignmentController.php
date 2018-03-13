@@ -81,6 +81,8 @@ class AssignmentController extends Controller
      * This is the view shown to students.
      *
      * @return Factory|View
+     *
+     * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      */
     public function index()
     {
@@ -92,6 +94,7 @@ class AssignmentController extends Controller
             'header' => $this->output->header(),
             'footer' => $this->output->footer(),
             'charon' => $charon,
+            'course_module_id' => $this->request->input('id'),
             'can_edit' => $this->permissionsService->canManageCourse($charon->course),
             'student_id' => $this->user->currentUserId(),
         ]);

@@ -8,7 +8,7 @@
 
     <div class="column is-two-thirds assignment-content content">
 
-        {!! rewritePluginIntroUrls($charon->description, $charon->course) !!}
+        {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
 
         @if ($can_edit)
             <div class="edit-container">
