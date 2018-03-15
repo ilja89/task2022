@@ -127,22 +127,32 @@ class CharonRepository
     /**
      * Deletes the instance with given id.
      *
-     * @param  integer  $id
+     * @param  integer $id
      *
      * @return boolean
+     *
+     * @throws \Exception
      */
     public function deleteByInstanceId($id)
     {
-        GradeItem::where('itemtype', 'mod')
-                           ->where('itemmodule', config('moodle.plugin_slug'))
-                           ->where('iteminstance', $id)
-                           ->delete();
-        Grademap::where('charon_id', $id)
-            ->delete();
-        Deadline::where('charon_id', $id)
-            ->delete();
+        /** @var Charon $charon */
+        $charon = Charon::find($id);
 
-        return Charon::destroy($id);
+        GradeItem::where('itemtype', 'mod')
+            ->where('itemmodule', config('moodle.plugin_slug'))
+            ->where('iteminstance', $id)
+            ->delete();
+        Grademap::where('charon_id', $id)->delete();
+        Deadline::where('charon_id', $id)->delete();
+
+        $result = $charon->delete();
+
+        $this->gradebookService->deleteGradeCategory(
+            $charon->category_id,
+            $charon->course
+        );
+
+        return $result;
     }
 
     /**
@@ -249,9 +259,9 @@ class CharonRepository
     }
 
     /**
-     * Find a Submission instance by a submission id for that Submission.
+     * Find a Charon instance by a submission id for that Submission.
      *
-     * @param int $submissionId
+     * @param  int  $submissionId
      *
      * @return Charon
      */

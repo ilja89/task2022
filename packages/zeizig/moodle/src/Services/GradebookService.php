@@ -197,4 +197,39 @@ class GradebookService extends MoodleService
                          ->where('userid', $userId)
                          ->first();
     }
+
+    /**
+     * Delete the grade category with the given id in the given course.
+     *
+     * This is basically copied from Moodle code since there is no real method
+     * which deletes the category.
+     *
+     * Just deleting from the database did not work and broke Gradebook!
+     *
+     * @param  int  $categoryId
+     * @param  int  $courseId
+     *
+     * @return  bool
+     */
+    public function deleteGradeCategory($categoryId, $courseId)
+    {
+        global $CFG;
+        require_once $CFG->dirroot.'/grade/lib.php';
+        require_once $CFG->dirroot.'/grade/report/lib.php';
+        require_once $CFG->dirroot.'/grade/edit/tree/lib.php';
+
+        $gtree = new \grade_tree($courseId, false, false);
+
+        $elementId = 'cg' . $categoryId;
+        $element = $gtree->locate_element($elementId);
+
+        if (!$element) {
+            return false;
+        }
+
+        $object = $element['object'];
+        $object->delete('grade/report/grader/category');
+
+        return true;
+    }
 }
