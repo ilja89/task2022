@@ -82,11 +82,17 @@ $weight-semibold: 500;
 
 pre {
   padding: 0;
+  // To align the copy button to the top right
+  position: relative;
 
   code {
     span {
       font-family: $family-code;
       font-size: 1em;
+    }
+
+    p {
+      margin-bottom: 0;
     }
   }
 }
@@ -226,4 +232,24 @@ pre {
 
 .load-more-button {
   margin-top: 10px;
+}
+
+.button--copy {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  padding: 5px 10px;
+  height: auto;
+
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #4f5f6f;
+
+  color: #4f5f6f;
+  background: transparent;
+
+  &:hover {
+    color: darken(#4f5f6f, 15%);
+    border-bottom-color: darken(#4f5f6f, 15%);
+  }
 }

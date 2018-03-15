@@ -28,6 +28,6 @@ const app = new Vue({
 
         hideModal() {
             this.activeSubmission = null;
-        }
-    }
+        },
+    },
 });

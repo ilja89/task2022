@@ -50,6 +50,26 @@
   text-transform: uppercase;
 }
 
+.button--copy {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  padding: 5px 10px;
+  height: auto;
+
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #4f5f6f;
+
+  color: #4f5f6f;
+  background: transparent;
+
+  &:hover {
+    color: darken(#4f5f6f, 15%);
+    border-bottom-color: darken(#4f5f6f, 15%);
+  }
+}
+
 .popup-notification {
   position: fixed;
   bottom: 30px;

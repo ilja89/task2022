@@ -1,14 +1,14 @@
 <template>
     <div
-            class="columns is-gapless code-container"
-            :class="{ 'is-round': isRound }"
-            v-if="activeFile !== null"
+        class="columns is-gapless code-container"
+        :class="{ 'is-round': isRound }"
+        v-if="activeFile !== null"
     >
 
         <div class="column is-narrow file-tree-container is-one-quarter">
             <file-tree
-                    :data="formattedFiles"
-                    @file-clicked="handleFileClicked"
+                :data="formattedFiles"
+                @file-clicked="handleFileClicked"
             >
             </file-tree>
         </div>
@@ -16,8 +16,8 @@
         <div class="column  is-narrow">
             <div class="line-number-container">
                 <span
-                        v-for="n in activeFile.numbers"
-                        class="line-number-position"
+                    v-for="n in activeFile.numbers"
+                    class="line-number-position"
                 >
                     <span class="line-number">{{ n }}</span>
                 </span>
@@ -25,15 +25,6 @@
         </div>
 
         <div class="column code-column">
-            <div
-                    class="code-copy-container"
-                    id="code-copy-container"
-                    @click="handleCopyClicked"
-            >
-                <div class="code-copy">
-                    Copy code
-                </div>
-            </div>
             <pre class="code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
         </div>
     </div>
@@ -41,7 +32,7 @@
 
 <script>
 
-    import { File } from '../../api';
+    import { File } from '../../api'
     import FileTree from './FileTree'
 
     export default {
@@ -62,18 +53,18 @@
                 files: [],
                 activeFileId: null,
                 formattedFiles: [],
-            };
+            }
         },
 
         computed: {
             activeFile() {
                 if (this.files.length === 0) {
-                    return null;
+                    return null
                 }
 
                 let file = this.files.find(file => {
-                    return file.id === this.activeFileId;
-                });
+                    return file.id === this.activeFileId
+                })
 
                 return {
                     id: file.id,
@@ -82,17 +73,16 @@
                     numbers: file.contents.trim().split(/\r\n|\r|\n/).length,
                 }
             },
-
         },
 
         watch: {
             submission() {
-                this.getFiles();
-            }
+                this.getFiles()
+            },
         },
 
         mounted() {
-            this.getFiles();
+            this.getFiles()
         },
 
         methods: {
@@ -157,11 +147,6 @@
                 })
             },
 
-            handleCopyClicked() {
-                const contents = this.activeFile.contents.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-                copyTextToClipboard(contents)
-            },
-
             compressFiles(file) {
 
                 if (typeof file.contents === 'string') {
@@ -196,46 +181,6 @@
                 }
             },
         },
-    }
-
-    function copyTextToClipboard(text) {
-        let textArea = document.createElement("textarea");
-
-        textArea.style.position = 'fixed';
-        textArea.style.top = 0;
-        textArea.style.left = 0;
-
-        textArea.style.width = '2em';
-        textArea.style.height = '2em';
-
-        textArea.style.padding = 0;
-
-        textArea.style.border = 'none';
-        textArea.style.outline = 'none';
-        textArea.style.boxShadow = 'none';
-
-        textArea.style.background = 'transparent';
-
-        textArea.value = text;
-
-        document.body.appendChild(textArea);
-
-        textArea.select();
-
-        try {
-            const successful = document.execCommand('copy')
-            const message = successful
-                ? 'Code copied to clipboard'
-                : 'Error copying code'
-
-            window.VueEvent.$emit('show-notification', message, successful ? 'info' : 'error');
-        } catch (err) {
-            const message = 'Unable to copy';
-
-            window.VueEvent.$emit('show-notification', message, 'error');
-        }
-
-        document.body.removeChild(textArea);
     }
 </script>
 
@@ -303,26 +248,6 @@
     .code-column {
         position: relative;
         overflow-x: scroll;
-    }
-
-    .code-copy-container {
-        position: absolute;
-        top: 20px;
-        right: 15px;
-        padding: 10px 15px;
-        cursor: pointer;
-
-        .code-copy {
-            border-bottom: 1px solid #4f5f6f;
-        }
-
-        &:hover {
-            color: darken(#4f5f6f, 15%);
-
-            .code-copy {
-                border-bottom: 1px solid darken(#4f5f6f, 15%);
-            }
-        }
     }
 
     @media (max-width: 768px) {

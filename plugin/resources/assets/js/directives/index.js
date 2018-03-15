@@ -1,4 +1,4 @@
-import HighlightDirective from './HighlightDirective';
+import HighlightDirective from './HighlightDirective'
 
 export {
     HighlightDirective,

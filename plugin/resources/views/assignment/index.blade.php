@@ -6,7 +6,7 @@
 
 <div class="columns assignment-columns" id="app">
 
-    <div class="column is-two-thirds assignment-content content">
+    <div class="column is-two-thirds assignment-content content" v-highlightjs>
 
         {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
 
