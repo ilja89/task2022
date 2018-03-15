@@ -176,6 +176,8 @@
                         window.VueEvent.$emit('refresh-page')
 
                         this.errors = {}
+
+                        this.getTotalResult()
                     }
                 })
             },
