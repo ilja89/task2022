@@ -228,6 +228,18 @@ pre {
   strong {
     font-weight: 500;
   }
+
+  .hljs {
+    // Extra precise so that hljs CSS does not override this. Hljs makes code
+    // blocks `display: block` by default so they cannot be used inline.
+    display: inline;
+  }
+
+  pre .hljs {
+    // If the code block is wrapped by a `<pre>` tag, then we know that it is a
+    // large code block and needs block styling.
+    display: block;
+  }
 }
 
 .load-more-button {

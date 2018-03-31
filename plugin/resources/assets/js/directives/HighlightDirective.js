@@ -44,7 +44,10 @@ export default {
                 target.innerHTML = binding.value
             }
 
-            insertCopyButton(target)
+            if (target.parentElement.nodeName === 'PRE') {
+                // Only add a copy button for non-inline code
+                insertCopyButton(target)
+            }
 
             window.hljs.highlightBlock(target)
         })
@@ -58,7 +61,10 @@ export default {
                 target.innerHTML = binding.value
             }
 
-            insertCopyButton(target)
+            if (target.parentElement.nodeName === 'PRE') {
+                // Only add a copy button for non-inline code
+                insertCopyButton(target)
+            }
 
             window.hljs.highlightBlock(target)
         })
