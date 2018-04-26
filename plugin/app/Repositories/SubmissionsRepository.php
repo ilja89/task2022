@@ -103,6 +103,7 @@ class SubmissionsRepository
             'git_timestamp',
             'git_commit_message',
             'user_id',
+            'mail',
         ];
         $submissions = Submission::with([
             // Only select results which have a corresponding grademap

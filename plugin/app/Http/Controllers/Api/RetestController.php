@@ -48,8 +48,10 @@ class RetestController extends Controller
     {
         $gitCallback = $submission->gitCallback;
         if (! $gitCallback) {
-            throw (new SubmissionNoGitCallbackException('submission_git_callback_is_required'))
-                ->setSubmissionId($submission->id);
+            $exception = new SubmissionNoGitCallbackException('submission_git_callback_is_required');
+            $exception->setSubmissionId($submission->id);
+
+            throw $exception;
         }
 
         // TODO: Make this work

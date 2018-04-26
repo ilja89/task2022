@@ -46,6 +46,7 @@
         commitMessageText: "{{ translate('commit_message') }}",
         filesText: "{{ translate('files') }}",
         submissionsText: "{{ translate('submissions') }}",
+        testerFeedbackText: "{{ translate('tester_feedback') }}",
     };
 </script>
 

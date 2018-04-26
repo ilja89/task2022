@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import { StudentSearch, ExtraOptions } from '../partials/index';
+    import { StudentSearch, ExtraOptions } from '../partials';
 
     export default {
         components: { StudentSearch, ExtraOptions },

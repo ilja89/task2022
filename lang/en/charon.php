@@ -97,13 +97,14 @@ $string['id_number_helper'] = 'Unique identifier used in calculating total point
 /*------------------------*\
    Assignment view
 \*------------------------*/
-$string['submission']     = 'Submission';
-$string['submissions']    = 'Submissions';
-$string['commit_message'] = 'Commit message';
-$string['files']          = 'Files';
-$string['deadlines']      = 'Deadlines';
-$string['after']          = 'After';
-$string['percentage']     = 'Percentage';
-$string['your_points']    = 'Your points';
-$string['total']          = 'Total';
-$string['all_groups']     = 'All groups';
+$string['submission']      = 'Submission';
+$string['submissions']     = 'Submissions';
+$string['commit_message']  = 'Commit message';
+$string['files']           = 'Files';
+$string['deadlines']       = 'Deadlines';
+$string['after']           = 'After';
+$string['percentage']      = 'Percentage';
+$string['your_points']     = 'Your points';
+$string['total']           = 'Total';
+$string['all_groups']      = 'All groups';
+$string['tester_feedback'] = 'Tester feedback';

@@ -11,6 +11,11 @@
                 <p>{{ submission.git_commit_message }}</p>
             </div>
 
+            <div v-if="hasMail">
+                <h3>{{ translate('testerFeedbackText') }}</h3>
+                <div>{{ submission.mail }}</div>
+            </div>
+
             <h3>{{ translate('filesText') }}</h3>
             <files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
             </files-component-without-tree>
@@ -20,8 +25,8 @@
 </template>
 
 <script>
-    import { Modal, FilesComponentWithoutTree } from '../../../components/partials';
-    import { Translate } from '../../../mixins';
+    import { Modal, FilesComponentWithoutTree } from '../../../components/partials'
+    import { Translate } from '../../../mixins'
 
     export default {
         mixins: [ Translate ],
@@ -35,21 +40,25 @@
         data() {
             return {
                 testerType: '',
-            };
+            }
         },
 
         computed: {
             isActive() {
-                return this.submission !== null;
+                return this.submission !== null
             },
 
             hasCommitMessage() {
-                return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0;
+                return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0
+            },
+
+            hasMail() {
+                return this.submission.mail !== null && this.submission.mail.length > 0
             },
         },
 
         mounted() {
-            this.testerType = window.testerType;
-        }
+            this.testerType = window.testerType
+        },
     }
 </script>

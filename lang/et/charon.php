@@ -91,13 +91,14 @@ $string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatak
 /*------------------------*\
    Assignment view
 \*------------------------*/
-$string['submission']     = 'Esitus';
-$string['submissions']    = 'Esitused';
-$string['commit_message'] = 'Commiti kommentaar';
-$string['files']          = 'Failid';
-$string['deadlines']      = 'Tähtajad';
-$string['after']          = 'Pärast';
-$string['percentage']     = 'Protsent';
-$string['your_points']    = 'Sinu punktid';
-$string['total']          = 'Kokku';
-$string['all_groups']     = 'Kõik grupid';
+$string['submission']      = 'Esitus';
+$string['submissions']     = 'Esitused';
+$string['commit_message']  = 'Commiti kommentaar';
+$string['files']           = 'Failid';
+$string['deadlines']       = 'Tähtajad';
+$string['after']           = 'Pärast';
+$string['percentage']      = 'Protsent';
+$string['your_points']     = 'Sinu punktid';
+$string['total']           = 'Kokku';
+$string['all_groups']      = 'Kõik grupid';
+$string['tester_feedback'] = 'Testeri tagasiside';
