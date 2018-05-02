@@ -13,7 +13,7 @@
 
             <div v-if="hasMail">
                 <h3>{{ translate('testerFeedbackText') }}</h3>
-                <div>{{ submission.mail }}</div>
+                <pre>{{ submission.mail }}</pre>
             </div>
 
             <h3>{{ translate('filesText') }}</h3>
