@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
@@ -30,7 +31,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property GradingMethod $gradingMethod
  * @property TesterType $testerType
  * @property Grademap[] $grademaps
- * @property Deadline[] $deadlines
+ * @property Deadline[]|Collection $deadlines
  * @property Course moodleCourse
  *
  * @package TTU\Charon\Model
