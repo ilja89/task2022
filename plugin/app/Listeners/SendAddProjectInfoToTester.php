@@ -29,10 +29,10 @@ class SendAddProjectInfoToTester
     /**
      * Handle the event.
      *
-     * @param  CharonCreated  $event
+     * @param $event
      * @return void
      */
-    public function handle(CharonCreated $event)
+    public function handle($event)
     {
         $courseId       = $event->charon->course;
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($courseId);

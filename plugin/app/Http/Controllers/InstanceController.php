@@ -5,6 +5,8 @@ namespace TTU\Charon\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Events\CharonDeleted;
+use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CreateCharonService;
@@ -107,6 +109,8 @@ class InstanceController extends Controller
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
+            $oldDeadlineEventIds = $charon->deadlines->pluck('event_id');
+
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
             $this->updateCharonService->updateGrademaps(
                 $this->request->grademaps,
@@ -115,7 +119,7 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
 
-            event(new CharonCreated($charon));
+            event(new CharonUpdated($charon, $oldDeadlineEventIds));
         }
 
         return "1";
@@ -127,6 +131,8 @@ class InstanceController extends Controller
      * @param $charonId
      *
      * @return bool true if instance was deleted successfully
+     *
+     * @throws \Exception
      */
     public function destroy($charonId)
     {

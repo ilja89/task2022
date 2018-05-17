@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
             'TTU\Charon\Listeners\SendAddProjectInfoToTester',
             'TTU\Charon\Listeners\AddDeadlinesToCalendar',
         ],
+        'TTU\Charon\Events\CharonUpdated' => [
+            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
+            'TTU\Charon\Listeners\UpdateCalendarDeadlines',
+        ],
         'TTU\Charon\Events\GitCallbackReceived' => [
             'TTU\Charon\Listeners\ForwardGitCallbackToTester',
         ],
