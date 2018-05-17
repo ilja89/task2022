@@ -29,6 +29,8 @@ class CalendarService
      * @param bool $isAction
      * @param int $groupId
      * @param int $timeDuration
+     *
+     * @return
      */
     public function createEvent(
         $eventType,
@@ -60,6 +62,6 @@ class CalendarService
         $event->visible = $isVisible;
         $event->timeduration = $timeDuration;
 
-        \calendar_event::create($event);
+        return \calendar_event::create($event);
     }
 }

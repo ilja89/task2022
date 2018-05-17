@@ -156,5 +156,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2018051700) {
+        $sql = "ALTER TABLE {charon_deadline} ADD COLUMN event_id INT";
+        $DB->execute($sql);
+    }
+
     return true;
 }

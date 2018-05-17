@@ -74,6 +74,7 @@
                 <FIELD NAME="deadline_time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="percentage" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="group_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="event_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_deadline" TYPE="primary" FIELDS="id"/>
@@ -81,10 +82,13 @@
                      REFTABLE="charon" REFFIELDS="id"/>
                 <KEY NAME="FK_deadline_groups" TYPE="foreign" FIELDS="group_id"
                      REFTABLE="groups" REFFIELDS="id"/>
+                <KEY NAME="FK_deadline_events" TYPE="foreign" FIELDS="event_id"
+                     REFTABLE="event" REFFIELDS="id" />
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_deadline_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_deadline_groups" UNIQUE="false" FIELDS="group_id"/>
+                <INDEX NAME="IXFK_deadline_events" UNIQUE="false" FIELDS="event_id" />
             </INDEXES>
         </TABLE>
 

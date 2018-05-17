@@ -35,7 +35,7 @@ class AddDeadlinesToCalendar
         $previousPercentage = 100;
         $charon->deadlines->each(function ($deadline) use ($charon, &$previousPercentage) {
             /** @var Deadline $deadline */
-            $this->calendarService->createEvent(
+            $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 "{$charon->name} - {$previousPercentage}%",
                 $charon->description,
@@ -46,6 +46,9 @@ class AddDeadlinesToCalendar
                 true,
                 true
             );
+
+            $deadline->event_id = $event->id;
+            $deadline->save();
 
             $previousPercentage = $deadline->percentage;
         });

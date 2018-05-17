@@ -4,16 +4,18 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Zeizig\Moodle\Models\Event;
 use Zeizig\Moodle\Models\Group;
 
 /**
  * Class Deadline.
  *
- * @property integer $id
- * @property integer $charon_id
- * @property integer $percentage
- * @property Carbon $deadline_time
- * @property integer $group_id
+ * @property int id
+ * @property int charon_id
+ * @property int percentage
+ * @property Carbon deadline_time
+ * @property int group_id
+ * @property int event_id
  *
  * @property Charon $charon
  * @property Group $group
@@ -37,6 +39,11 @@ class Deadline extends Model
     public function group()
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
     public function getDeadlineTimeAttribute($deadlineTime)
