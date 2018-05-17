@@ -33,6 +33,8 @@
 
         mounted() {
             this.getSubmission()
+
+            window.VueEvent.$on('submission-was-saved', this.getSubmission)
         },
 
         watch: {
