@@ -45,11 +45,11 @@ export default {
             }
 
             if (target.parentElement.nodeName === 'PRE') {
-                // Only add a copy button for non-inline code
+                // Only add a copy button and highlighting for non-inline code
                 insertCopyButton(target)
-            }
 
-            window.hljs.highlightBlock(target)
+                window.hljs.highlightBlock(target)
+            }
         })
     },
 
@@ -62,11 +62,11 @@ export default {
             }
 
             if (target.parentElement.nodeName === 'PRE') {
-                // Only add a copy button for non-inline code
+                // Only add a copy button and highlighting for non-inline code
                 insertCopyButton(target)
-            }
 
-            window.hljs.highlightBlock(target)
+                window.hljs.highlightBlock(target)
+            }
         })
     },
 };
