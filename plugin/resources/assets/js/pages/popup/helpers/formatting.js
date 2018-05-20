@@ -21,11 +21,12 @@ export const removeDateSeconds = date => date.replace(/:[0-9]{2}\.[0-9]+/, '')
 /**
  * Format the results of a Submission into a string.
  * @param submission {{results: {calculated_result: String}[]}}
+ * @param separator {string}
  * @returns {String}
  */
-export const formatSubmissionResults = submission => submission.results
+export const formatSubmissionResults = (submission, separator = ' | ') => submission.results
     .map(result => result.calculated_result)
-    .join(' | ')
+    .join(separator)
 
 /**
  * Format the given deadline to a string.

@@ -20,6 +20,7 @@
                         >
                             <div>
                                 {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
+                                <wbr>{{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
                                 <wbr>{{ submission.charon.name }} <span class="timestamp-separator">|</span>
                                 <wbr>{{ submission.user | user }}
                             </div>
@@ -36,7 +37,7 @@
     import { mapGetters, mapActions } from 'vuex'
     import { PopupSection } from '../layouts/index'
     import { Submission } from '../../../api/index'
-    import { formatName } from '../helpers/formatting'
+    import { formatName, formatSubmissionResults } from '../helpers/formatting'
 
     export default {
         name: "latest-submissions-section",
@@ -108,6 +109,10 @@
 
                 this.$router.push(this.submissionLink(submission.id))
             },
+
+            formatSubmissionResults(submission) {
+                return formatSubmissionResults(submission, ', ');
+            },
         },
 
         mounted() {
@@ -124,8 +129,11 @@
     .submission {
         margin-top:    0;
         margin-bottom: 0;
+        padding-top:    30px;
+        padding-bottom: 30px;
 
         white-space: nowrap;
+        line-height: 1.5rem;
 
         @include touch {
             padding-bottom: 20px;

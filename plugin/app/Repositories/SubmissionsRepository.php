@@ -274,11 +274,10 @@ class SubmissionsRepository
                 'charon' => function ($query) {
                     $query->select(['id', 'name']);
                 },
-//                'results' => function ($query) use ($charon) {
-//                    $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
-//                    $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
-//                    $query->orderBy('grade_type_code');
-//                },
+                'results' => function ($query) {
+                    $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                    $query->orderBy('grade_type_code');
+                },
             ])
             ->latest()
             ->simplePaginate(10);
