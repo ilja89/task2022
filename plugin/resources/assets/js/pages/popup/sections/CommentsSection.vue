@@ -66,7 +66,15 @@
 
         mounted() {
             this.refreshComments()
-            VueEvent.$on('refresh-page', () => this.refreshComments())
+            VueEvent.$on('refresh-page', this.refreshComments)
+        },
+
+        /**
+         * Remove global event listeners for more efficient refreshes on other
+         * pages.
+         */
+        deactivated() {
+            VueEvent.$off('refresh-page', this.refreshComments)
         },
 
         methods: {
