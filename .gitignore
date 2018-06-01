@@ -12,3 +12,4 @@ npm-debug.log
 .swp
 .phpstorm.meta.php
 _ide_helper.php
+.tern-port

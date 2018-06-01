@@ -35,6 +35,15 @@
             this.getSubmission()
 
             window.VueEvent.$on('submission-was-saved', this.getSubmission)
+            window.VueEvent.$on('refresh-page', this.getSubmission)
+        },
+
+        /**
+         * Remove global event listeners for more efficient refreshes on other
+         * pages.
+         */
+        deactivated() {
+            VueEvent.$off('refresh-page', this.getSubmission)
         },
 
         watch: {
@@ -76,7 +85,7 @@
                         this.fetchStudent({ studentId, courseId })
                     }
                 })
-            }
-        }
+            },
+        },
     }
 </script>
