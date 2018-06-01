@@ -27,6 +27,7 @@ class GitCallbackPostRequest extends FormRequest
     {
         return [
             'repository' => 'required',
+            'repository.git_ssh_url' => 'required',
             'user_username' => 'required',
         ];
     }
