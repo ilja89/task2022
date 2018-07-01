@@ -41,7 +41,8 @@ class TesterCommunicationService
             'project'      => $charon->project_folder,
             'course'       => $courseShortName,
             'tester'       => $charon->testerType->name,
-            'extra'        => $charon->extra,
+            'testerExtra'  => $charon->tester_extra,
+            'systemExtra'  => $charon->system_extra,
             'unittestsUrl' => $unittestsGit,
             'gradeMaps'    => [],
         ];
