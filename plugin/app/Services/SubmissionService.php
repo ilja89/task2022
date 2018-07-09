@@ -151,11 +151,15 @@ class SubmissionService
      */
     public function addNewEmptySubmission(Charon $charon, $studentId)
     {
+        $now = Carbon::now(config('app.timezone'));
+        $now = $now->setTimezone('UTC');
         /** @var Submission $submission */
         $submission = $charon->submissions()->create([
             'user_id' => $studentId,
             'git_hash' => '',
-            'git_timestamp' => Carbon::now(),
+            'git_timestamp' => $now,
+            'created_at' => $now,
+            'updated_at' => $now,
             'stdout' => 'Manually created by teacher',
         ]);
 
