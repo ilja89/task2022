@@ -52,6 +52,7 @@ $string['calculation_formula_cs_helper'] = 'Formula for calculating the resultin
 \*------------------------*/
 $string['naming']              = 'Naming';
 $string['task_info']           = 'Task info';
+$string['plagiarism_detection'] = 'Plagiarism detection';
 $string['task_name']           = 'Task name';
 $string['project_folder_name'] = 'Project folder name';
 $string['extra']               = 'Extra parameters';

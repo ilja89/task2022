@@ -50,6 +50,7 @@ $string['calculation_formula_cs_helper'] = 'Valem mille järgi ülesande kokkuv�
 \*------------------------*/
 $string['naming']              = 'Nimetamine';
 $string['task_info']           = 'Ülesande andmed';
+$string['plagiarism_detection'] = 'Plagiarismikontroll';
 $string['task_name']           = 'Ülesande nimi';
 $string['project_folder_name'] = 'Projekti kausta nimi';
 $string['extra']               = 'Ekstra parameetrid';

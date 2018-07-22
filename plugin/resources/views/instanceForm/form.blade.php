@@ -12,6 +12,7 @@
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
+        plagiarism_detection: "{{ translate('plagiarism_detection') }}",
         task_info_title: "{{ translate('task_info') }}",
         grading_title: "{{ translate('grading') }}",
 

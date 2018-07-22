@@ -1,19 +1,19 @@
 <template>
     <div>
         <instance-form-fieldset
-                toggle_id="tgl1"
-                @advanced-was-toggled="toggleAdvancedInfoSection">
+            toggle_id="tgl1"
+            @advanced-was-toggled="toggleAdvancedInfoSection">
 
             <template slot="title">{{ translate('task_info_title') }}</template>
 
             <slot>
                 <advanced-task-info-section
-                        v-if="advanced_info_section_active"
-                        :form="form">
+                    v-if="advanced_info_section_active"
+                    :form="form">
                 </advanced-task-info-section>
                 <simple-task-info-section
-                        v-else
-                        :form="form">
+                    v-else
+                    :form="form">
                 </simple-task-info-section>
             </slot>
 
@@ -21,6 +21,25 @@
 
         <instance-form-fieldset
                 toggle_id="tgl2"
+                @advanced-was-toggled="toggleAdvancedPlagiarismSection">
+
+            <template slot="title">{{ translate('plagiarism_detection') }}</template>
+
+            <slot>
+                <advanced-plagiarism-section
+                        v-if="advanced_plagiarism_section_active"
+                        :form="form">
+                </advanced-plagiarism-section>
+                <simple-plagiarism-section
+                        v-else
+                        :form="form">
+                </simple-plagiarism-section>
+            </slot>
+
+        </instance-form-fieldset>
+
+        <instance-form-fieldset
+                toggle_id="tgl3"
                 @advanced-was-toggled="toggleAdvancedGradingSection">
 
             <template slot="title">{{ translate('grading_title') }}</template>
@@ -47,7 +66,9 @@
 
 <script>
     import {
-        AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection
+        AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection,
+        SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
+        SimplePlagiarismSection,
     } from './sections'
     import { InstanceFormFieldset } from '../../components/form'
     import { Translate } from '../../mixins'
@@ -62,14 +83,16 @@
 
         components: {
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
-            AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset,
-            Notification,
+            AdvancedTaskInfoSection, AdvancedGradingSection,
+            InstanceFormFieldset, Notification, AdvancedPlagiarismSection,
+            SimplePlagiarismSection,
         },
 
         data() {
             return {
                 advanced_info_section_active: false,
                 advanced_grading_section_active: false,
+                advanced_plagiarism_section_active: false,
 
                 notification: {
                     text: '',
@@ -86,6 +109,10 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
+            },
+
+            toggleAdvancedPlagiarismSection(advanced_toggle) {
+                this.advanced_plagiarism_section_active = advanced_toggle;
             },
 
             showNotification(message, type, timeout = 5000) {
