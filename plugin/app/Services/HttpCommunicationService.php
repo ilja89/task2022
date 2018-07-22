@@ -32,31 +32,49 @@ class HttpCommunicationService
     /**
      * Sends info to the tester.
      *
-     * @param  string  $uri
-     * @param  string  $method
-     * @param  array  $data
+     * @param string $uri
+     * @param string $method
+     * @param array $data
      *
      * @return void
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function sendInfoToTester($uri, $method, $data)
     {
-        $testerUrl = $this->settingsService->getSetting('mod_charon', 'tester_url', 'http://neti.ee');
-        Log::info('Sending data to tester.', ['uri' => $testerUrl . '/' . $uri, 'data' => $data]);
+        $testerUrl = $this->settingsService->getSetting(
+            'mod_charon',
+            'tester_url',
+            'http://neti.ee'
+        );
+        Log::info('Sending data to tester.', [
+            'uri' => $testerUrl . '/' . $uri,
+            'data' => $data,
+        ]);
+
         $client = new Client();
         try {
-            $client->request($method, $testerUrl . '/' . $uri, ['json' => $data]);
+            $client->request(
+                $method, $testerUrl . '/' . $uri,
+                ['json' => $data]
+            );
         } catch (RequestException $e) {
-            Log::error('Could not send info to tester to url ' . $testerUrl . '/' . $uri);
+            Log::error(
+                'Could not send info to tester to url '
+                . $testerUrl . '/' . $uri
+            );
         }
     }
 
     /**
      * Wrapper for sendInfoToTester for easier calling.
      *
-     * @param  string  $uri
-     * @param  array  $data
+     * @param string $uri
+     * @param array $data
      *
      * @return void
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postToTester($uri, $data)
     {
@@ -67,13 +85,13 @@ class HttpCommunicationService
      * Send a request to the plagiarism service. The URL of the service is
      * specified in Charon settings (on a site-wide, not a per-course basis).
      *
-     * @param  string  $uri
-     * @param  string  $method - 'post'/'get' or any method Guzzle accepts.
-     * @param  array  $data
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param string $uri
+     * @param string $method - 'post'/'get' or any method Guzzle accepts.
+     * @param array $data
      *
      * @return void
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function sendPlagiarismServiceRequest($uri, $method, $data)
     {

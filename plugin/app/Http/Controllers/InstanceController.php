@@ -5,7 +5,6 @@ namespace TTU\Charon\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Events\CharonDeleted;
 use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
@@ -46,12 +45,12 @@ class InstanceController extends Controller
     /**
      * InstanceController constructor.
      *
-     * @param  Request $request
-     * @param  CharonRepository $charonRepository
-     * @param  GradebookService $gradebookService
-     * @param  GrademapService $grademapService
-     * @param  CreateCharonService $createCharonService
-     * @param  UpdateCharonService $updateCharonService
+     * @param Request $request
+     * @param CharonRepository $charonRepository
+     * @param GradebookService $gradebookService
+     * @param GrademapService $grademapService
+     * @param CreateCharonService $createCharonService
+     * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      */
     public function __construct(
@@ -62,32 +61,38 @@ class InstanceController extends Controller
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService
-    ) {
+    )
+    {
         parent::__construct($request);
-        $this->charonRepository    = $charonRepository;
-        $this->gradebookService    = $gradebookService;
-        $this->grademapService     = $grademapService;
+        $this->charonRepository = $charonRepository;
+        $this->gradebookService = $gradebookService;
+        $this->grademapService = $grademapService;
         $this->createCharonService = $createCharonService;
         $this->updateCharonService = $updateCharonService;
-        $this->fileUploadService   = $fileUploadService;
+        $this->fileUploadService = $fileUploadService;
     }
 
     /**
      * Store a new task instance.
      *
-     * @return integer new task ID
+     * @return int - new task ID
      */
     public function store()
     {
         $charon = $this->getCharonFromRequest();
-        $charon->category_id = $this->createCharonService->addCategoryForCharon($charon, $this->request['course']);
+        $charon->category_id = $this->createCharonService->addCategoryForCharon(
+            $charon,
+            $this->request->input('course')
+        );
 
-        if ( ! $this->charonRepository->save($charon)) {
+        if (!$this->charonRepository->save($charon)) {
             return null;
         }
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+
+        // TODO: Plagiarism, create checksuite and save its id on the charon
 
         event(new CharonCreated($charon));
 
@@ -95,17 +100,19 @@ class InstanceController extends Controller
     }
 
     /**
-     * Updates the given plugin instance.
-     * Takes the information from the request.
+     * Updates the given plugin instance. Takes the information from the
+     * request.
      *
-     * If the update was successful returns true.
+     * Returns "1" if the update was successful so that Moodle can understand
+     * that it was successful, throws exceptions otherwise.
      *
-     * @return bool
+     * @return string
+     *
      * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      */
     public function update()
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->update);
+        $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
@@ -113,7 +120,7 @@ class InstanceController extends Controller
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
             $this->updateCharonService->updateGrademaps(
-                $this->request->grademaps,
+                $this->request->input('grademaps'),
                 $charon,
                 $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
@@ -128,7 +135,7 @@ class InstanceController extends Controller
     /**
      * Deletes the plugin instance with given id.
      *
-     * @param $charonId
+     * @param int $charonId
      *
      * @return bool true if instance was deleted successfully
      *
@@ -141,10 +148,10 @@ class InstanceController extends Controller
 
     /**
      * Run after the course module has been created for the Charon instance.
-     * This means that all Grade Items and Grade Categories have been created and can
-     * be accessed, moved around and changed.
+     * This means that all Grade Items and Grade Categories have been created
+     * and can be accessed, moved around and changed.
      *
-     * @param  integer $charonId
+     * @param int $charonId
      *
      * @return void
      */
@@ -159,10 +166,10 @@ class InstanceController extends Controller
 
     /**
      * Run after the course module has been updated for the Charon instance.
-     * This means that all Grade Items and Grade Categories have been created and can
-     * be accessed, moved around and changed.
+     * This means that all Grade Items and Grade Categories have been created
+     * and can be accessed, moved around and changed.
      *
-     * @param  integer $charonId
+     * @param integer $charonId
      *
      * @return void
      */
@@ -172,10 +179,10 @@ class InstanceController extends Controller
     }
 
     /**
-     * Called when the Charon course module has been created or updated.
-     * Groups identical functionality from both.
+     * Called when the Charon course module has been created or updated. Groups
+     * identical functionality from both.
      *
-     * @param  integer $charonId
+     * @param integer $charonId
      *
      * @return void
      */
@@ -185,10 +192,16 @@ class InstanceController extends Controller
         $this->grademapService->linkGrademapsAndGradeItems($charon);
 
         foreach ($charon->grademaps as $grademap) {
-            $this->gradebookService->moveGradeItemToCategory($grademap->grade_item_id, $charon->category_id);
+            $this->gradebookService->moveGradeItemToCategory(
+                $grademap->grade_item_id,
+                $charon->category_id
+            );
         }
 
-        $this->updateCharonService->updateCategoryCalculationAndMaxScore($charon, $this->request);
+        $this->updateCharonService->updateCategoryCalculationAndMaxScore(
+            $charon,
+            $this->request
+        );
     }
 
     /**
@@ -205,21 +218,21 @@ class InstanceController extends Controller
         }
 
         return new Charon([
-            'name'                => $this->request['name'],
-            'description'         => $this->request['description']['text'],
-            'project_folder'      => $this->request['project_folder'],
-            'extra'               => $extra,
-            'tester_type_code'    => $this->request['tester_type'],
-            'grading_method_code' => $this->request['grading_method'],
-            'timemodified'        => Carbon::now()->timestamp,
-            'course'              => $this->request['course'],
+            'name' => $this->request->input('name'),
+            'description' => $this->request->input('description')['text'],
+            'project_folder' => $this->request->input('project_folder'),
+            'extra' => $extra,
+            'tester_type_code' => $this->request->input('tester_type'),
+            'grading_method_code' => $this->request->input('grading_method'),
+            'timemodified' => Carbon::now()->timestamp,
+            'course' => $this->request->input('course'),
         ]);
     }
 
     /**
      * Saves files from Charon's description.
      *
-     * @param  Charon  $charon
+     * @param Charon $charon
      *
      * @return string
      */
