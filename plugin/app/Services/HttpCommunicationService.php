@@ -9,8 +9,8 @@ use Zeizig\Moodle\Services\SettingsService;
 
 /**
  * Class HttpCommunicator.
- * Sends HTTP requests. Wrapper to make it easier to unit test classes
- * which send HTTP requests via Guzzle.
+ * Sends HTTP requests. Wrapper to make it easier to unit test classes which
+ * send HTTP requests via Guzzle.
  *
  * @package TTU\Charon\Helpers
  */
@@ -61,5 +61,43 @@ class HttpCommunicationService
     public function postToTester($uri, $data)
     {
         $this->sendInfoToTester($uri, 'post', $data);
+    }
+
+    /**
+     * Send a request to the plagiarism service. The URL of the service is
+     * specified in Charon settings (on a site-wide, not a per-course basis).
+     *
+     * @param  string  $uri
+     * @param  string  $method - 'post'/'get' or any method Guzzle accepts.
+     * @param  array  $data
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return void
+     */
+    public function sendPlagiarismServiceRequest($uri, $method, $data)
+    {
+        $plagiarismUrl = $this->settingsService->getSetting(
+            'mod_charon',
+            'plagiarism_service_url'
+        );
+        Log::info('Sending data to plagiarism service.', [
+            'uri' => $plagiarismUrl . '/' . $uri,
+            'data' => $data,
+        ]);
+
+        $client = new Client();
+        try {
+            $client->request(
+                $method,
+                $plagiarismUrl . '/' . $uri,
+                ['json' => $data]
+            );
+        } catch (RequestException $e) {
+            Log::error(
+                'Could not send info to the plagiarism service to the url "'
+                . $plagiarismUrl . '/' . $uri . '".'
+            );
+        }
     }
 }
