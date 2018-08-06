@@ -22,4 +22,13 @@ if ($ADMIN->fulltree) {
             PARAM_TEXT,
             50)
     );
+
+    $settings->add(new admin_setting_configtext(
+            'mod_charon/plagiarism_service_auth_token',
+            'Plagiarism service authentication token',
+            'The authentication token for the plagiarism service.',
+            null,
+            PARAM_TEXT,
+            50)
+    );
 }

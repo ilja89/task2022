@@ -4,18 +4,18 @@ namespace TTU\Charon\Services;
 
 class PlagiarismCommunicationService
 {
-    /** @var PlagiarismCommunicationService */
-    private $plagiarismCommunicationService;
+    /** @var HttpCommunicationService */
+    private $httpCommunicationService;
 
     /**
      * PlagiarismCommunicationService constructor.
      *
-     * @param  PlagiarismCommunicationService  $plagiarismCommunicationService
+     * @param HttpCommunicationService $httpCommunicationService
      */
     public function __construct(
-        PlagiarismCommunicationService $plagiarismCommunicationService
+        HttpCommunicationService $httpCommunicationService
     )
     {
-        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
+        $this->httpCommunicationService = $httpCommunicationService;
     }
 }
