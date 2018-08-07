@@ -15,6 +15,7 @@ function xmldb_charon_install() {
 
     $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
     $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
     $kernel->call('cache:clear');
 
     return true;

@@ -161,5 +161,19 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2018080700) {
+        $sql = "CREATE TABLE {charon_plagiarism_service}(".
+            "code INT NOT NULL,".
+            "name VARCHAR(255) NOT NULL,".
+            "PRIMARY KEY (code)".
+            ")";
+        $DB->execute($sql);
+
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+    }
+
     return true;
 }
