@@ -30,10 +30,14 @@
                         v-if="advanced_plagiarism_section_active"
                         :form="form">
                 </advanced-plagiarism-section>
-                <simple-plagiarism-section
-                        v-else
-                        :form="form">
-                </simple-plagiarism-section>
+                <advanced-plagiarism-section
+                    v-else
+                    :form="form">
+                </advanced-plagiarism-section>
+                <!--<simple-plagiarism-section-->
+                        <!--v-else-->
+                        <!--:form="form">-->
+                <!--</simple-plagiarism-section>-->
             </slot>
 
         </instance-form-fieldset>
@@ -162,6 +166,16 @@
             })
             VueEvent.$on('close-notification', () => {
                 this.hideNotification()
+            })
+
+            VueEvent.$on('plagiarism-service-was-changed', (index, serviceCode) => {
+                this.form.fields.plagiarism_services[index] = serviceCode
+            })
+            VueEvent.$on('plagiarism-service-was-added', () => {
+                this.form.fields.plagiarism_services.push(null)
+            })
+            VueEvent.$on('plagiarism-service-was-removed', index => {
+                this.form.fields.plagiarism_services.splice(index, 1)
             })
         },
     }

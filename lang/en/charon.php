@@ -66,6 +66,7 @@ $string['max_points']          = 'Max points';
 $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset']              = 'Preset';
+$string['plagiarism_service']  = 'Plagiarism service';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -93,6 +94,11 @@ $string['calculation_formula_helper'] = 'Formula to use in calculating the total
 $string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
 $string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
 $string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
+$string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
+    . 'check the submissions.';
+
+$string['remove_button_text'] = 'Remove';
+$string['add_button_text'] = 'Add';
 
 
 /*------------------------*\

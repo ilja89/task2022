@@ -64,6 +64,7 @@ $string['max_points']          = 'Maksimum punktid';
 $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset']              = 'Preset';
+$string['plagiarism_service']  = 'Plagiarismi teenus';
 
 $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -87,6 +88,10 @@ $string['calculation_formula_helper'] = 'Valem mille järgi ülesande kokkuvõtt
 $string['grade_name_helper']          = 'Moodli hinde nimetus. Nt EX01 - Testid.';
 $string['max_points_grade_helper']    = 'Selle hinde matsimum punktid.';
 $string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
+$string['plagiarism_service_helper'] = 'Plagiarismikontrolli teenus, mida kasutatakse plagiarismi teenuse poolt.';
+
+$string['remove_button_text'] = 'Eemalda';
+$string['add_button_text'] = 'Lisa';
 
 
 /*------------------------*\

@@ -1,13 +1,14 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups) {
+    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, plagiarism_services) {
         this.initializeFields(instance, courseSettings);
 
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
         this.groups = groups;
+        this.plagiarism_services = plagiarism_services;
         this.groups.unshift({ id: null, name: 'All groups' });
         this.recalculate_grades = false;
     }
@@ -107,6 +108,8 @@ export default class InstanceFormForm {
             grademaps: [ ],
             deadlines: [ ],
 
+            plagiarism_services: [null],
+
             preset: null,
         };
 
@@ -193,6 +196,14 @@ export default class InstanceFormForm {
             code: gradeTypeCode,
             name: this.getGradeTypeName(gradeTypeCode)
         };
+    }
+
+    addPlagiarismService() {
+        this.fields.plagiarism_services.push(null);
+    }
+
+    removePlagiarismService(index) {
+        this.fields.plagiarism_services.splice(index, 1);
     }
 
     getGradeTypeName(grade_type_code) {

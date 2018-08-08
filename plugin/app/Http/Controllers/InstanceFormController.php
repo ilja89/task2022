@@ -94,7 +94,8 @@ class InstanceFormController extends Controller
             'presets' => $this->presetsRepository->getPresetsByCourse($course->id),
             'courseSettingsUrl' => $courseSettingsUrl,
             'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
-            'groups' => $course->groups
+            'groups' => $course->groups,
+            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
         ]);
     }
 

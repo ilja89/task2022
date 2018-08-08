@@ -9,6 +9,7 @@
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
     window.groups = {!! $groups->toJson() !!};
+    window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
@@ -31,6 +32,7 @@
         deadline_label: "{{ translate('deadline') }}",
         percentage_label: "{{ translate('percentage') }}",
         group_label: "{{ translate('group') }}",
+        plagiarism_service_label: "{{ translate('plagiarism_service') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
@@ -48,7 +50,10 @@
         grade_name_helper: "{{ translate('grade_name_helper') }}",
         max_points_grade_helper: "{{ translate('max_points_grade_helper') }}",
         id_number_helper: "{{ translate('id_number_helper') }}",
+        plagiarism_service_helper: "{{ translate('plagiarism_service_helper') }}",
 
+        remove: "{{ translate('remove_button_text') }}",
+        add: "{{ translate('add_button_text') }}",
     };
 
     window.courseSettingsUrl = "{{ $courseSettingsUrl }}";

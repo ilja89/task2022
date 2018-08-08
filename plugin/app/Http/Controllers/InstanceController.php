@@ -92,7 +92,8 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
-        // TODO: Plagiarism, create checksuite and save its id on the charon
+        // TODO: Plagiarism: create checksuite and save its id on the charon
+        // Plagiarism services under plagiarism_services as list of codes
 
         event(new CharonCreated($charon));
 

@@ -38,6 +38,18 @@ export default {
 
         onPresetChanged(presetId) {
             VueEvent.$emit('preset-was-changed', presetId);
-        }
-    }
+        },
+
+        onPlagiarismServiceChanged(index, serviceCode) {
+            VueEvent.$emit('plagiarism-service-was-changed', index, serviceCode);
+        },
+
+        onPlagiarismServiceAdded() {
+            VueEvent.$emit('plagiarism-service-was-added');
+        },
+
+        onPlagiarismServiceRemoved(index) {
+            VueEvent.$emit('plagiarism-service-was-removed', index);
+        },
+    },
 };

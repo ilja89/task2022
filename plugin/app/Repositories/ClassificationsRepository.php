@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
+use TTU\Charon\Models\PlagiarismService;
 use TTU\Charon\Models\TesterType;
 
 /**
@@ -41,5 +42,16 @@ class ClassificationsRepository
     public function getAllGradeNamePrefixes()
     {
         return GradeNamePrefix::all();
+    }
+
+    /**
+     * Get all the plagiarism checking services that the plagiarism service
+     * (julia) supports.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|PlagiarismService[]
+     */
+    public function getAllPlagiarismServices()
+    {
+        return PlagiarismService::all();
     }
 }
