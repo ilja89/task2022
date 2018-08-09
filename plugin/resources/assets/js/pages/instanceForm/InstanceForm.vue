@@ -177,6 +177,23 @@
             VueEvent.$on('plagiarism-service-was-removed', index => {
                 this.form.fields.plagiarism_services.splice(index, 1)
             })
+            VueEvent.$on('plagiarism-enabled-was-changed', (plagiarismEnabled) => {
+                this.form.fields.plagiarism_enabled = plagiarismEnabled
+            })
+            VueEvent.$on('plagiarism-resource-provider-was-added', () => {
+                this.form.fields.plagiarism_resource_providers.push({
+                    repository: '',
+                })
+            })
+            VueEvent.$on('plagiarism-resource-provider-repository-changed', (index, repo) => {
+                this.form.fields.plagiarism_resource_providers[index].repository = repo
+            })
+            VueEvent.$on('plagiarism-resource-provider-removed', index => {
+                this.form.fields.plagiarism_resource_providers.splice(index, 1)
+            })
+            VueEvent.$on('plagiarism-excludes-was-changed', excludes => {
+                this.form.fields.plagiarism_excludes = excludes
+            })
         },
     }
 </script>

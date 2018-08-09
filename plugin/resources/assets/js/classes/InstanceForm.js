@@ -108,7 +108,12 @@ export default class InstanceFormForm {
             grademaps: [ ],
             deadlines: [ ],
 
+            plagiarism_enabled: false,
             plagiarism_services: [null],
+            plagiarism_resource_providers: [
+                {repository: ''},
+            ],
+            plagiarism_excludes: '',
 
             preset: null,
         };

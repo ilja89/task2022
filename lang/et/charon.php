@@ -65,6 +65,9 @@ $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset']              = 'Preset';
 $string['plagiarism_service']  = 'Plagiarismi teenus';
+$string['plagiarism_enabled']  = 'Plagiarismikontroll aktiivne';
+$string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
+$string['plagiarism_excludes'] = 'Plagiarismikontrollist välja jäetud failid';
 
 $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -89,6 +92,7 @@ $string['grade_name_helper']          = 'Moodli hinde nimetus. Nt EX01 - Testid.
 $string['max_points_grade_helper']    = 'Selle hinde matsimum punktid.';
 $string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
 $string['plagiarism_service_helper'] = 'Plagiarismikontrolli teenus, mida kasutatakse plagiarismi teenuse poolt.';
+$string['plagiarism_resource_provider_repository_helper'] = 'Giti repositoorium, milles olevaid faile kontrollitakse plagiarismi teenuse poolt.';
 
 $string['remove_button_text'] = 'Eemalda';
 $string['add_button_text'] = 'Lisa';

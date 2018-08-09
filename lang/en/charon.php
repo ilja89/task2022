@@ -67,6 +67,9 @@ $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset']              = 'Preset';
 $string['plagiarism_service']  = 'Plagiarism service';
+$string['plagiarism_enabled']  = 'Plagiarism enabled';
+$string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
+$string['plagiarism_excludes'] = 'Plagiarism excludes';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -96,6 +99,8 @@ $string['max_points_grade_helper'] = 'Max points possible to get for this grade.
 $string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
 $string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
     . 'check the submissions.';
+$string['plagiarism_resource_provider_repository_helper'] = 'Git repository that will be checked for plagiarism.';
+$string['plagiarism_excludes_helper'] = 'Pattern for files which will be excluded by the plagiarism check.';
 
 $string['remove_button_text'] = 'Remove';
 $string['add_button_text'] = 'Add';

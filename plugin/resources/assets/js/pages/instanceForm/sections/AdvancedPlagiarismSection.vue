@@ -1,5 +1,11 @@
 <template>
     <div>
+        <label class="checkbox">
+            <input type="checkbox" @click="onPlagiarismEnabledChanged"
+                   :checked="form.fields.plagiarism_enabled">
+            {{ translate('plagiarism_enabled') }}
+        </label>
+
         <!--
         TODO: Have just the select inputs in the loop and inside felement so
         that they are collapsed
@@ -23,19 +29,48 @@
         </div>
 
         <button type="button" @click="onPlagiarismServiceAdded">{{ translate('add') }}</button>
+
+        <div
+            v-for="(resource_provider, index) in form.fields.plagiarism_resource_providers"
+            :key="`resource_providers_${index}`"
+        >
+            <charon-text-input
+                :name="`resource_provider[${index}].repository`"
+                :value="resource_provider.repository"
+                :label="translate('plagiarism_resource_provider_repository')"
+                :helper_text="translate('plagiarism_resource_provider_repository_helper')"
+                @input-was-changed="onPlagiarismResourceProviderRepositoryChanged(index, $event)"
+            >
+            </charon-text-input>
+
+            <button type="button" @click="onPlagiarismResourceProviderRemoved">{{ translate('remove') }}</button>
+        </div>
+
+        <button type="button" @click="onPlagiarismResourceProviderAdded">{{ translate('add') }}</button>
+
+        <!-- TODO: Is this excludes correct? -->
+
+        <charon-text-input
+            name="plagiarism_excludes"
+            :value="form.fields.plagiarism_excludes"
+            :label="translate('plagiarism_excludes')"
+            :helper-text="translate('plagiarism_excludes_helper')"
+            @input-was-changed="onPlagiarismExcludesChanged"
+        >
+        </charon-text-input>
     </div>
 </template>
 
 <script>
-    import { CharonSelect } from '../../../components/form'
-    import { Translate, EmitEventOnInputChange } from '../../../mixins'
+    import { CharonSelect, CharonTextInput } from '../../../components/form'
+    import { Translate, EmitEventOnInputChange  } from '../../../mixins'
 
     export default {
         name: 'advanced-plagiarism-section',
 
         mixins: [ Translate, EmitEventOnInputChange ],
 
-        components: { CharonSelect },
+        components: { CharonSelect, CharonTextInput },
 
         props: {
             form: { required: true },
