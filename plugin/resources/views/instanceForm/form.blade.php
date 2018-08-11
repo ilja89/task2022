@@ -35,6 +35,7 @@
         plagiarism_service_label: "{{ translate('plagiarism_service') }}",
         plagiarism_enabled: "{{ translate('plagiarism_enabled') }}",
         plagiarism_resource_provider_repository: "{{ translate('plagiarism_resource_provider_repository') }}",
+        plagiarism_includes: "{{ translate('plagiarism_includes') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
@@ -54,6 +55,7 @@
         id_number_helper: "{{ translate('id_number_helper') }}",
         plagiarism_service_helper: "{{ translate('plagiarism_service_helper') }}",
         plagiarism_resource_provider_repository_helper: "{{ translate('plagiarism_resource_provider_repository_helper') }}",
+        plagiarism_includes_helper: "{{ translate('plagiarism_includes_helper') }}",
 
         remove: "{{ translate('remove_button_text') }}",
         add: "{{ translate('add_button_text') }}",
