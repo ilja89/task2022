@@ -23,12 +23,22 @@
                 @input-was-changed="onPlagiarismServiceChanged(index, $event)">
             </charon-select>
 
-            <button type="button" @click="onPlagiarismServiceRemoved(index)">
+            <button
+                class="btn btn-primary"
+                type="button"
+                @click="onPlagiarismServiceRemoved(index)"
+            >
                 {{ translate('remove') }}
             </button>
         </div>
 
-        <button type="button" @click="onPlagiarismServiceAdded">{{ translate('add') }}</button>
+        <button
+            class="btn btn-primary"
+            type="button"
+            @click="onPlagiarismServiceAdded"
+        >
+            {{ translate('add') }}
+        </button>
 
         <div
             v-for="(resource_provider, index) in form.fields.plagiarism_resource_providers"
@@ -43,10 +53,30 @@
             >
             </charon-text-input>
 
-            <button type="button" @click="onPlagiarismResourceProviderRemoved">{{ translate('remove') }}</button>
+            <charon-text-area
+                :name="`resource_provider[${index}].private_key`"
+                :value="resource_provider.private_key"
+                :label="translate('plagiarism_resource_provider_private_key')"
+                :helper_text="translate('plagiarism_resource_provider_private_key_helper')"
+                @input-was-changed="form.fields.plagiarism_resource_providers[index].private_key = $event"
+            ></charon-text-area>
+
+            <button
+                class="btn btn-primary"
+                type="button"
+                @click="onPlagiarismResourceProviderRemoved"
+            >
+                {{ translate('remove') }}
+            </button>
         </div>
 
-        <button type="button" @click="onPlagiarismResourceProviderAdded">{{ translate('add') }}</button>
+        <button
+            class="btn btn-primary"
+            type="button"
+            @click="onPlagiarismResourceProviderAdded"
+        >
+            {{ translate('add') }}
+        </button>
 
         <!-- TODO: Is this includes correct? -->
 
@@ -62,19 +92,27 @@
                 @input-was-changed="form.fields.plagiarism_includes[index] = $event"
             >
             </charon-text-input>
-            <button type="button" @click="form.fields.plagiarism_includes.splice(index, 1)">
+            <button
+                class="btn btn-primary"
+                type="button"
+                @click="form.fields.plagiarism_includes.splice(index, 1)"
+            >
                 {{ translate('remove') }}
             </button>
         </div>
 
-        <button type="button" @click="form.fields.plagiarism_includes.push('')">
+        <button
+            class="btn btn-primary"
+            type="button"
+            @click="form.fields.plagiarism_includes.push('')"
+        >
             {{ translate('add') }}
         </button>
     </div>
 </template>
 
 <script>
-    import { CharonSelect, CharonTextInput } from '../../../components/form'
+    import { CharonSelect, CharonTextInput, CharonTextArea } from '../../../components/form'
     import { Translate, EmitEventOnInputChange  } from '../../../mixins'
 
     export default {
@@ -82,7 +120,7 @@
 
         mixins: [ Translate, EmitEventOnInputChange ],
 
-        components: { CharonSelect, CharonTextInput },
+        components: { CharonSelect, CharonTextInput, CharonTextArea },
 
         props: {
             form: { required: true },

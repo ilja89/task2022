@@ -69,6 +69,7 @@ $string['preset']              = 'Preset';
 $string['plagiarism_service']  = 'Plagiarism service';
 $string['plagiarism_enabled']  = 'Plagiarism enabled';
 $string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
+$string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
 $string['plagiarism_includes'] = 'Plagiarism includes';
 
 $string['deadline'] = 'Deadline';
@@ -100,6 +101,8 @@ $string['id_number_helper'] = 'Unique identifier used in calculating total point
 $string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
     . 'check the submissions.';
 $string['plagiarism_resource_provider_repository_helper'] = 'Git repository that will be checked for plagiarism.';
+$string['plagiarism_resource_provider_private_key_helper'] = 'The private key which will be used to access files in '
+    . 'the repository.';
 $string['plagiarism_includes_helper'] = 'Pattern for files which will be included by the plagiarism check. For '
     . 'example, ".*/EX13.*", will include everything in EX13 folders.';
 

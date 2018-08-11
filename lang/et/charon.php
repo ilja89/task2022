@@ -67,7 +67,8 @@ $string['preset']              = 'Preset';
 $string['plagiarism_service']  = 'Plagiarismi teenus';
 $string['plagiarism_enabled']  = 'Plagiarismikontroll aktiivne';
 $string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
-$string['plagiarism_excludes'] = 'Plagiarismikontrollist välja jäetud failid';
+$string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
+$string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
 
 $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -93,6 +94,8 @@ $string['max_points_grade_helper']    = 'Selle hinde matsimum punktid.';
 $string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
 $string['plagiarism_service_helper'] = 'Plagiarismikontrolli teenus, mida kasutatakse plagiarismi teenuse poolt.';
 $string['plagiarism_resource_provider_repository_helper'] = 'Giti repositoorium, milles olevaid faile kontrollitakse plagiarismi teenuse poolt.';
+$string['plagiarism_resource_provider_private_key_helper'] = 'Privaatvõti, mida kasutatakse repositooriumi failidele '
+    . 'ligipääsuks.';
 $string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, mida plagiaadikontroll kontrollib. '
     . 'Näiteks, regex ".*/EX13.*", kontrollib kõiki faile EX13 kaustades.';
 
