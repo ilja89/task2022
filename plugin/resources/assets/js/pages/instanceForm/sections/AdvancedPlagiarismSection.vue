@@ -45,7 +45,7 @@
             :key="`resource_providers_${index}`"
         >
             <charon-text-input
-                :name="`resource_provider[${index}].repository`"
+                :name="`resource_providers[${index}][repository]`"
                 :value="resource_provider.repository"
                 :label="translate('plagiarism_resource_provider_repository')"
                 :helper_text="translate('plagiarism_resource_provider_repository_helper')"
@@ -54,7 +54,7 @@
             </charon-text-input>
 
             <charon-text-area
-                :name="`resource_provider[${index}].private_key`"
+                :name="`resource_providers[${index}][private_key]`"
                 :value="resource_provider.private_key"
                 :label="translate('plagiarism_resource_provider_private_key')"
                 :helper_text="translate('plagiarism_resource_provider_private_key_helper')"
