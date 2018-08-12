@@ -32,14 +32,13 @@ class PlagiarismCommunicationService
      * @param array $providers
      * @param string[] $includes
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \StdClass
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createChecksuite(Charon $charon, $services, $providers, $includes)
     {
-        $plagiarismServices = PlagiarismService::whereIn('code', $services)
-            ->get();
+        $plagiarismServices = PlagiarismService::whereIn('code', $services)->get();
         $data = [
             'name' => "charon__{$charon->id}__{$charon->name}",
             'resourceProviders' => Collection::make($providers)
@@ -59,7 +58,7 @@ class PlagiarismCommunicationService
                 })
                 ->toArray(),
             // TODO: Fix this when the field is correctly named 'includes'
-            'excludes' => $includes
+            'regex' => $includes
         ];
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             'api/plagiarism/checksuite',
@@ -67,8 +66,6 @@ class PlagiarismCommunicationService
             $data
         );
 
-        dd($response);
-
-        return $response->getBody();
+        return json_decode((string) $response->getBody());
     }
 }

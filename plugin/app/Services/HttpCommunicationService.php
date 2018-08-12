@@ -99,17 +99,23 @@ class HttpCommunicationService
             'mod_charon',
             'plagiarism_service_url'
         );
+        $token = $this->settingsService->getSetting(
+            'mod_charon',
+            'plagiarism_service_auth_token'
+        );
+        $headers = ['Authorization' => "Bearer {$token}"];
+
         Log::info('Sending data to plagiarism service.', [
             'uri' => $plagiarismUrl . '/' . $uri,
             'data' => $data,
         ]);
 
-        $client = new Client();
+        $client = new Client(['base_uri' => $plagiarismUrl]);
         try {
             return $client->request(
                 $method,
-                $plagiarismUrl . '/' . $uri,
-                ['json' => $data]
+                "/{$uri}",
+                ['json' => $data, 'headers' => $headers]
             );
         } catch (RequestException $e) {
             Log::error(
