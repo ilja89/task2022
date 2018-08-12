@@ -167,7 +167,8 @@ class CharonRepository
     {
         $oldCharon->name = $newCharon->name;
         $oldCharon->project_folder = $newCharon->project_folder;
-        $oldCharon->extra = $newCharon->extra;
+        $oldCharon->tester_extra = $newCharon->tester_extra;
+        $oldCharon->system_extra = $newCharon->system_extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
         $oldCharon->timemodified = Carbon::now()->timestamp;

@@ -74,7 +74,8 @@ class PresetsController extends Controller
         $preset->name = $this->request['preset']['name'];
         $preset->parent_category_id = $this->request['preset']['parent_category_id'];
         $preset->calculation_formula = $this->request['preset']['calculation_formula'];
-        $preset->extra = $this->request['preset']['extra'];
+        $preset->tester_extra = $this->request['preset']['tester_extra'];
+        $preset->system_extra = $this->request['preset']['system_extra'];
         $preset->max_result = $this->request['preset']['max_result'];
         $preset->grading_method_code = $this->request['preset']['grading_method_code'];
 

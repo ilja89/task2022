@@ -95,7 +95,8 @@ export default class InstanceFormForm {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
-            extra: instance['extra'] ? instance['extra'] : '',
+            tester_extra: instance['tester_extra'] ? instance['tester_extra'] : '',
+            system_extra: instance['system_extra'] ? instance['system_extra'] : '',
             calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
             max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
 
@@ -153,7 +154,8 @@ export default class InstanceFormForm {
 
     updateFieldsToMatchActivePreset() {
         let preset = this.fields.preset;
-        this.fields.extra = preset.extra;
+        this.fields.tester_extra = preset.tester_extra;
+        this.fields.system_extra = preset.system_extra;
         this.fields.grading_method = preset.grading_method_code;
         this.fields.max_score = preset.max_result;
 

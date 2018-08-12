@@ -105,7 +105,7 @@ class InstanceTest extends TestCase
             'description'    => [
                 'text' => $this->faker->text
             ],
-            'extra'          => 'stylecheck',
+            'tester_extra'   => 'stylecheck',
             'project_folder' => $this->faker->word,
             'tester_type'    => $this->faker->randomElement([1, 2, 3, 4]),
             'grading_method' => $this->faker->randomElement([1, 2]),
