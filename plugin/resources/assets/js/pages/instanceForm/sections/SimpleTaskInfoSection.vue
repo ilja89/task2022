@@ -21,10 +21,17 @@
         </charon-text-input>
 
         <p>
-            Extra: {{ form.fields.extra.length > 0 ? form.fields.extra : '(No extra specified)' }}
+            {{ translate('tester_extra_label') }}:
+            {{ form.fields.tester_extra.length > 0 ? form.fields.tester_extra : '(No tester extra specified)' }}
         </p>
 
-        <input type="hidden" name="extra" :value="form.fields.extra">
+        <p>
+            {{ translate('system_extra_label') }}:
+            {{ form.fields.system_extra.length > 0 ? form.fields.system_extra : '(No system extra specified)' }}
+        </p>
+
+        <input type="hidden" name="tester_extra" :value="form.fields.tester_extra">
+        <input type="hidden" name="system_extra" :value="form.fields.system_extra">
         <input type="hidden" name="tester_type" :value="form.fields.tester_type">
 
     </div>

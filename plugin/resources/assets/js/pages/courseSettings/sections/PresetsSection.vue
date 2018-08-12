@@ -33,13 +33,23 @@
                 </charon-text-input>
 
                 <charon-text-input
-                        name="preset_extra"
+                    name="preset_tester_extra"
+                    :required="false"
+                    :label="translate('tester_extra_label')"
+                    :value="activePreset.tester_extra"
+                    :helper_text="translate('tester_extra_cs_helper')"
+                    :autocomplete="false"
+                    @input-was-changed="onTesterExtraChanged">
+                </charon-text-input>
+
+                <charon-text-input
+                        name="preset_system_extra"
                         :required="false"
-                        :label="translate('extra_label')"
-                        :value="activePreset.extra"
-                        :helper_text="translate('extra_cs_helper')"
+                        :label="translate('system_extra_label')"
+                        :value="activePreset.system_extra"
+                        :helper_text="translate('system_extra_cs_helper')"
                         :autocomplete="false"
-                        @input-was-changed="onExtraChanged">
+                        @input-was-changed="onSystemExtraChanged">
                 </charon-text-input>
 
                 <charon-number-input
@@ -142,7 +152,8 @@
                     name: '',
                     parent_category_id: null,
                     calculation_formula: null,
-                    extra: '',
+                    tester_extra: '',
+                    system_extra: '',
                     grading_method_code: 1,
                     max_result: null,
                     preset_grades: [ ]
@@ -153,8 +164,12 @@
                 this.activePreset.name = name;
             },
 
-            onExtraChanged(extra) {
-                this.activePreset.extra = extra;
+            onTesterExtraChanged(extra) {
+                this.activePreset.tester_extra = extra;
+            },
+
+            onSystemExtraChanged(extra) {
+                this.activePreset.system_extra = extra;
             },
 
             onMaxResultChanged(maxResult) {

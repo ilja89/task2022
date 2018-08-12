@@ -49,7 +49,7 @@ class InstanceFormTest extends TestCase
         $this->post('/instance_form', $params)
              ->assertStatus(200)
             ->assertSee($params['name'])
-            ->assertSee($params['extra'])
+            ->assertSee($params['tester_extra'])
             ->assertSee('' . $params['max_score'])
             ->assertSee($params['project_folder']);
     }
@@ -62,7 +62,7 @@ class InstanceFormTest extends TestCase
                 'text' => $this->faker->paragraph,
             ],
             'project_folder'      => $this->faker->word,
-            'extra'               => $this->faker->word,
+            'tester_extra'        => $this->faker->word,
             'tester_type_code'    => $this->faker->randomElement([1, 2, 3, 4]),
             'grading_method_code' => $this->faker->randomElement([1, 2]),
             'grademaps' => [],

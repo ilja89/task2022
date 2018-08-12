@@ -20,13 +20,23 @@
         </charon-text-input>
 
         <charon-text-input
-                name="extra"
-                :label="translate('extra_label')"
+                name="tester_extra"
+                :label="translate('tester_extra_label')"
                 :required="false"
-                :value="form.fields.extra"
-                :helper_text="translate('extra_helper')"
+                :value="form.fields.tester_extra"
+                :helper_text="translate('tester_extra_helper')"
                 :autocomplete="false"
-                @input-was-changed="onExtraChanged">
+                @input-was-changed="onTesterExtraChanged">
+        </charon-text-input>
+
+        <charon-text-input
+            name="system_extra"
+            :label="translate('system_extra_label')"
+            :required="false"
+            :value="form.fields.system_extra"
+            :helper_text="translate('system_extra_helper')"
+            :autocomplete="false"
+            @input-was-changed="onSystemExtraChanged">
         </charon-text-input>
 
         <charon-select

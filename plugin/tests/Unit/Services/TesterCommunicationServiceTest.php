@@ -26,7 +26,7 @@ class TesterCommunicationServiceTest extends TestCase
         $charon->project_folder = 'EX01';
         $charon->testerType = new \StdClass;
         $charon->testerType->name = 'java';
-        $charon->extra = 'stylecheck';
+        $charon->tester_extra = 'stylecheck';
         $charon->grademaps = [$grademap1, $grademap2];
 
         $httpCommunicator = m::mock(HttpCommunicationService::class)
@@ -35,7 +35,7 @@ class TesterCommunicationServiceTest extends TestCase
                 'project'      => $charon->project_folder,
                 'course'       => 'iti0020',
                 'tester'       => $charon->testerType->name,
-                'extra'        => $charon->extra,
+                'tester_extra' => $charon->tester_extra,
                 'unittestsUrl' => 'ained.testid',
                 'gradeMaps'    => [
                     [

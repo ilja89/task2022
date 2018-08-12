@@ -29,7 +29,8 @@ $string['unittests_git_helper']          = 'Giti URL kus asuvad selle kursuse te
 $string['tester_type_helper']            = 'Selle kursuse ülesannete testeri tüüp, programmeerimise keel. Ülesannet luues saab '
                                            . 'seda muuta.';
 $string['preset_name_helper']            = 'Preseti nimi. Nt. kodutööd.';
-$string['extra_cs_helper']               = 'Testerile saadetavad extra parameetrid. Ülesannet luues saab seda muuta.';
+$string['tester_extra_cs_helper'] = 'Konkreetsele testerile (java, python, jne.) saadetavad ekstra parameetrid. Ülesannet luues saab seda muuta.';
+$string['system_extra_cs_helper'] = 'Testeri süsteemile saadetavad parameetrid. Ülesannet luues saab seda muuta.';
 $string['max_points_cs_helper']          = 'Selle presetiga loodud ülesannete maksimum punktid.';
 $string['grading_method_cs_helper']      = 'Selle presetiga loodud ülesannete hindamise meetod. Prefer last: hinne '
                                            . 'muudetakse alati, kui pole kinnitatud esitust. Prefer best: hinne muudetakse '
@@ -53,7 +54,8 @@ $string['task_info']           = 'Ülesande andmed';
 $string['plagiarism_detection'] = 'Plagiarismikontroll';
 $string['task_name']           = 'Ülesande nimi';
 $string['project_folder_name'] = 'Projekti kausta nimi';
-$string['extra']               = 'Ekstra parameetrid';
+$string['tester_extra']        = 'Ekstra parameetrid testerile';
+$string['system_extra']        = 'Ekstra parameetrid süsteemile';
 $string['tester_type']         = 'Testeri tüüp';
 $string['grading']             = 'Hindamine';
 $string['grading_method']      = 'Hindamise meetod';
@@ -84,7 +86,8 @@ $string['deadline_helper']            = 'Tähtaja kuupäev ja aeg.';
 $string['percentage_helper']          = 'Protsent, mis võetakse hindeks kui pärast tähtaega töö esitatakse.';
 $string['group_helper']               = 'Grupp kellele see hinne kehtib. Praegu ei tööta.';
 $string['preset_select_helper']       = 'Kõiki seadeid saab "advanced" sektsioonis muuta.';
-$string['extra_helper']               = 'Testerile saadetavad extra parameetrid. Nt "stylecheck" käivitab stiili kontrolli.';
+$string['tester_extra_helper'] = 'Konkreetsele testerile (java, python, jne.) saadetavad ekstra parameetrid.';
+$string['system_extra_helper'] = 'Testeri süsteemile saadetavad parameetrid.';
 $string['tester_type_helper']         = 'Testeri tüüp, tavaliselt programmeerimise keel.';
 $string['calculation_formula_helper'] = 'Valem mille järgi ülesande kokkuvõttev hinne arvutatakse. Kasutab sama süntaksit '
                                         . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '

@@ -212,21 +212,16 @@ class InstanceController extends Controller
      */
     private function getCharonFromRequest()
     {
-        if ($this->request->input('extra') === null) {
-            $extra = '';
-        } else {
-            $extra = $this->request->input('extra');
-        }
-
         return new Charon([
             'name' => $this->request->input('name'),
             'description' => $this->request->input('description')['text'],
             'project_folder' => $this->request->input('project_folder'),
-            'extra' => $extra,
             'tester_type_code' => $this->request->input('tester_type'),
             'grading_method_code' => $this->request->input('grading_method'),
             'timemodified' => Carbon::now()->timestamp,
             'course' => $this->request->input('course'),
+            'tester_extra' => $this->request->input('tester_extra', ''),
+            'system_extra' => $this->request->input('system_extra', ''),
         ]);
     }
 

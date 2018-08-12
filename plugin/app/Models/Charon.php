@@ -18,7 +18,8 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string $name
  * @property string $description
  * @property string $project_folder
- * @property string $extra
+ * @property string $tester_extra
+ * @property string $system_extra
  * @property integer $tester_type_code
  * @property integer $grading_method_code
  * @property Carbon $created_at
@@ -44,13 +45,13 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'extra', 'tester_type_code', 'grading_method_code', 'course',
-        'timemodified'
+        'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
+        'tester_type_code', 'grading_method_code', 'course', 'timemodified',
     ];
 
     /**
-     * Required since Laravel thinks the table name should be charons.
-     * Moodle however, wants plugin table names to be singular.
+     * Required since Laravel thinks the table name should be charons. Moodle
+     * however, wants plugin table names to be singular.
      *
      * @var string
      */
