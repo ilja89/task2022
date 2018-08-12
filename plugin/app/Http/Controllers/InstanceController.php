@@ -212,6 +212,16 @@ class InstanceController extends Controller
      */
     private function getCharonFromRequest()
     {
+        $testerExtra = $this->request->input('tester_extra', '');
+        if ($testerExtra === null) {
+            $testerExtra = '';
+        }
+
+        $systemExtra = $this->request->input('system_extra', '');
+        if ($systemExtra === null) {
+            $systemExtra = '';
+        }
+
         return new Charon([
             'name' => $this->request->input('name'),
             'description' => $this->request->input('description')['text'],
@@ -220,8 +230,8 @@ class InstanceController extends Controller
             'grading_method_code' => $this->request->input('grading_method'),
             'timemodified' => Carbon::now()->timestamp,
             'course' => $this->request->input('course'),
-            'tester_extra' => $this->request->input('tester_extra', ''),
-            'system_extra' => $this->request->input('system_extra', ''),
+            'tester_extra' => $testerExtra,
+            'system_extra' => $systemExtra,
         ]);
     }
 
