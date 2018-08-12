@@ -123,6 +123,7 @@ class InstanceFormController extends Controller
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
         $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
         $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
+        $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
@@ -137,7 +138,7 @@ class InstanceFormController extends Controller
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups'
+            'moduleSettingsUrl', 'groups', 'plagiarismServices'
         ));
     }
 

@@ -10,6 +10,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
+use TTU\Charon\Services\PlagiarismCommunicationService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -42,6 +43,9 @@ class InstanceController extends Controller
     /** @var FileUploadService */
     private $fileUploadService;
 
+    /** @var PlagiarismCommunicationService */
+    private $plagiarismCommunicationService;
+
     /**
      * InstanceController constructor.
      *
@@ -52,6 +56,7 @@ class InstanceController extends Controller
      * @param CreateCharonService $createCharonService
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
+     * @param PlagiarismCommunicationService $plagiarismCommunicationService
      */
     public function __construct(
         Request $request,
@@ -60,7 +65,8 @@ class InstanceController extends Controller
         GrademapService $grademapService,
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
-        FileUploadService $fileUploadService
+        FileUploadService $fileUploadService,
+        PlagiarismCommunicationService $plagiarismCommunicationService
     )
     {
         parent::__construct($request);
@@ -70,12 +76,15 @@ class InstanceController extends Controller
         $this->createCharonService = $createCharonService;
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
+        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
     }
 
     /**
      * Store a new task instance.
      *
      * @return int - new task ID
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function store()
     {
@@ -92,10 +101,16 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
+        event(new CharonCreated($charon));
+
         // TODO: Plagiarism: create checksuite and save its id on the charon
         // Plagiarism services under plagiarism_services as list of codes
-
-        event(new CharonCreated($charon));
+        $this->plagiarismCommunicationService->createChecksuite(
+            $charon,
+            $this->request->input('plagiarism_services'),
+            $this->request->input('resource_providers'),
+            $this->request->input('plagiarism_includes')
+        );
 
         return $charon->id;
     }

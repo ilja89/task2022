@@ -89,7 +89,7 @@ class HttpCommunicationService
      * @param string $method - 'post'/'get' or any method Guzzle accepts.
      * @param array $data
      *
-     * @return void
+     * @return mixed|\Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -106,7 +106,7 @@ class HttpCommunicationService
 
         $client = new Client();
         try {
-            $client->request(
+            return $client->request(
                 $method,
                 $plagiarismUrl . '/' . $uri,
                 ['json' => $data]
@@ -114,7 +114,8 @@ class HttpCommunicationService
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to the plagiarism service to the url "'
-                . $plagiarismUrl . '/' . $uri . '".'
+                . $plagiarismUrl . '/' . $uri . '".',
+                ['error' => $e]
             );
         }
     }
