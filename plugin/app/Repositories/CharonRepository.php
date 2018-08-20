@@ -273,4 +273,20 @@ class CharonRepository
             ->first()
             ->charon;
     }
+
+    /**
+     * Set the plagiarism checksuite id for the given Charon.
+     *
+     * @param Charon $charon
+     * @param string $checksuiteId
+     *
+     * @return Charon
+     */
+    public function updatePlagiarismChecksuiteId(Charon $charon, $checksuiteId)
+    {
+        $charon->plagiarism_checksuite_id = $checksuiteId;
+        $charon->save();
+
+        return $charon;
+    }
 }

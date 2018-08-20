@@ -103,15 +103,19 @@ class InstanceController extends Controller
 
         event(new CharonCreated($charon));
 
-        // TODO: If plagiarism enabled
-        $response = $this->plagiarismCommunicationService->createChecksuite(
-            $charon,
-            $this->request->input('plagiarism_services'),
-            $this->request->input('resource_providers'),
-            $this->request->input('plagiarism_includes')
-        );
-        // TODO: Plagiarism: create checksuite and save its id on the charon
-        // TODO: Take $response->id;
+        if ($this->request->input('plagiarism_enabled')) {
+            $response = $this->plagiarismCommunicationService->createChecksuite(
+                $charon,
+                $this->request->input('plagiarism_services'),
+                $this->request->input('resource_providers'),
+                $this->request->input('plagiarism_includes')
+            );
+
+            $charon = $this->charonRepository->updatePlagiarismChecksuiteId(
+                $charon,
+                $response->id
+            );
+        }
 
         return $charon->id;
     }

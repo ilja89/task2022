@@ -1,8 +1,13 @@
 <template>
     <div>
         <label class="checkbox">
-            <input type="checkbox" @click="onPlagiarismEnabledChanged"
-                   :checked="form.fields.plagiarism_enabled">
+            <input
+                type="checkbox"
+                name="plagiarism_enabled"
+                :checked="form.fields.plagiarism_enabled"
+                value="1"
+                @click="onPlagiarismEnabledChanged"
+            >
             {{ translate('plagiarism_enabled') }}
         </label>
 
