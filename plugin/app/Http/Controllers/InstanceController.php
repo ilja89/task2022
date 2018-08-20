@@ -10,7 +10,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
-use TTU\Charon\Services\PlagiarismCommunicationService;
+use TTU\Charon\Services\PlagiarismService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -43,8 +43,8 @@ class InstanceController extends Controller
     /** @var FileUploadService */
     private $fileUploadService;
 
-    /** @var PlagiarismCommunicationService */
-    private $plagiarismCommunicationService;
+    /** @var PlagiarismService */
+    private $plagiarismService;
 
     /**
      * InstanceController constructor.
@@ -56,7 +56,7 @@ class InstanceController extends Controller
      * @param CreateCharonService $createCharonService
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
-     * @param PlagiarismCommunicationService $plagiarismCommunicationService
+     * @param PlagiarismService $plagiarismService
      */
     public function __construct(
         Request $request,
@@ -66,7 +66,7 @@ class InstanceController extends Controller
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
-        PlagiarismCommunicationService $plagiarismCommunicationService
+        PlagiarismService $plagiarismService
     )
     {
         parent::__construct($request);
@@ -76,7 +76,7 @@ class InstanceController extends Controller
         $this->createCharonService = $createCharonService;
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
-        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
+        $this->plagiarismService = $plagiarismService;
     }
 
     /**
@@ -104,16 +104,11 @@ class InstanceController extends Controller
         event(new CharonCreated($charon));
 
         if ($this->request->input('plagiarism_enabled')) {
-            $response = $this->plagiarismCommunicationService->createChecksuite(
+            $charon = $this->plagiarismService->createChecksuiteForCharon(
                 $charon,
                 $this->request->input('plagiarism_services'),
                 $this->request->input('resource_providers'),
                 $this->request->input('plagiarism_includes')
-            );
-
-            $charon = $this->charonRepository->updatePlagiarismChecksuiteId(
-                $charon,
-                $response->id
             );
         }
 
