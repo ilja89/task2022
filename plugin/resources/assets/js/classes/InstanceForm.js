@@ -114,7 +114,7 @@ export default class InstanceFormForm {
             plagiarism_resource_providers: [
                 {repository: '', private_key: ''},
             ],
-            plagiarism_includes: [''],
+            plagiarism_includes: '',
 
             preset: null,
         };

@@ -103,6 +103,7 @@ class InstanceController extends Controller
 
         event(new CharonCreated($charon));
 
+        // TODO: If plagiarism enabled
         $response = $this->plagiarismCommunicationService->createChecksuite(
             $charon,
             $this->request->input('plagiarism_services'),

@@ -80,34 +80,14 @@
 
         <!-- TODO: Is this includes correct? -->
 
-        <div
-            v-for="(includes, index) in form.fields.plagiarism_includes"
-            :key="`includes_${index}`"
+        <charon-text-input
+            name="plagiarism_includes"
+            :value="form.fields.plagiarism_includes"
+            :label="translate('plagiarism_includes')"
+            :helper_text="translate('plagiarism_includes_helper')"
+            @input-was-changed="form.fields.plagiarism_includes = $event"
         >
-            <charon-text-input
-                :name="`plagiarism_includes[${index}]`"
-                :value="includes"
-                :label="translate('plagiarism_includes')"
-                :helper_text="translate('plagiarism_includes_helper')"
-                @input-was-changed="form.fields.plagiarism_includes[index] = $event"
-            >
-            </charon-text-input>
-            <button
-                class="btn btn-primary"
-                type="button"
-                @click="form.fields.plagiarism_includes.splice(index, 1)"
-            >
-                {{ translate('remove') }}
-            </button>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            type="button"
-            @click="form.fields.plagiarism_includes.push('')"
-        >
-            {{ translate('add') }}
-        </button>
+        </charon-text-input>
     </div>
 </template>
 

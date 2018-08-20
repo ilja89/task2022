@@ -123,6 +123,8 @@ class HttpCommunicationService
                 . $plagiarismUrl . '/' . $uri . '".',
                 ['error' => $e]
             );
+
+            throw $e;
         }
     }
 }

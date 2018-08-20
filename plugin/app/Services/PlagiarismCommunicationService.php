@@ -30,7 +30,7 @@ class PlagiarismCommunicationService
      * @param Charon $charon
      * @param string[] $services
      * @param array $providers
-     * @param string[] $includes
+     * @param string $includes
      *
      * @return \StdClass
      *
