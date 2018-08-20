@@ -192,5 +192,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
     }
 
+    if ($oldversion < 2018082000) {
+        $sql = "ALTER TABLE {charon} ADD COLUMN plagiarism_checksuite_id VARCHAR(255)";
+        $DB->execute($sql);
+    }
+
     return true;
 }

@@ -19,6 +19,7 @@
                 <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="true" DEFAULT=""/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
 
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
