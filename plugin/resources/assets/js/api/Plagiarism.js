@@ -18,6 +18,17 @@ class Plagiarism {
                 }
             })
     }
+
+    static fetchSimilarities(charonId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/similarities`)
+            .then(response => {
+                console.log(response)
+                then(response)
+            })
+            .catch(error => {
+                VueEvent.$emit('show-notification', 'Error fetching plagiarism similarities.', 'danger')
+            })
+    }
 }
 
 export default Plagiarism
