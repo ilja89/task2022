@@ -11,7 +11,11 @@ class Plagiarism {
                 then(response.data)
             })
             .catch(error => {
-                VueEvent.$emit('show-notification', 'Error running plagiarism checksuite.', 'danger')
+                if (error.response && error.response.data && error.response.data.message) {
+                    VueEvent.$emit('show-notification', error.response.data.message, 'danger')
+                } else {
+                    VueEvent.$emit('show-notification', 'Error running plagiarism checksuite.', 'danger')
+                }
             })
     }
 }

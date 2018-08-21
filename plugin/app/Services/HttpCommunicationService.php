@@ -93,7 +93,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendPlagiarismServiceRequest($uri, $method, $data)
+    public function sendPlagiarismServiceRequest($uri, $method, $data = [])
     {
         $plagiarismUrl = $this->settingsService->getSetting(
             'mod_charon',
