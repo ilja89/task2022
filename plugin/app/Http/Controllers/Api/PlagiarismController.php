@@ -5,7 +5,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Services\PlagiarismCommunicationService;
+use TTU\Charon\Services\PlagiarismService;
 
 /**
  * Class PlagiarismController.
@@ -14,17 +14,19 @@ use TTU\Charon\Services\PlagiarismCommunicationService;
  */
 class PlagiarismController extends Controller
 {
-    /** @var PlagiarismCommunicationService */
-    private $plagiarismCommunicationService;
+    /** @var PlagiarismService */
+    private $plagiarismService;
 
     /**
      * PlagiarismController constructor.
      *
-     * @param PlagiarismCommunicationService $plagiarismCommunicationService
+     * @param Request $request
+     * @param PlagiarismService $plagiarismService
      */
-    public function __construct(PlagiarismCommunicationService $plagiarismCommunicationService)
+    public function __construct(Request $request, PlagiarismService $plagiarismService)
     {
-        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
+        parent::__construct($request);
+        $this->plagiarismService = $plagiarismService;
     }
 
     /**
@@ -47,7 +49,7 @@ class PlagiarismController extends Controller
             ], 400);
         }
 
-        $response = $this->plagiarismCommunicationService->runChecksuite($checksuiteId);
+        $this->plagiarismService->runChecksuite($charon);
 
         return response()->json([
             'message' => 'Plagiarism service has been notified to re-run the checksuite.',

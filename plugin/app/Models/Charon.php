@@ -29,6 +29,8 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property int timemodified
  * @property string|null plagiarism_checksuite_id - Id of the associated
  *      checksuite in the Julia plagiarism service.
+ * @property string|null plagiarism_latest_check_id - Id of the latest check
+ *      for this Charon in the Julia plagiarism service.
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
@@ -49,7 +51,6 @@ class Charon extends Model
     protected $fillable = [
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'timemodified',
-        'plagiarism_checksuite_id',
     ];
 
     /**

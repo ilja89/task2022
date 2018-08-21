@@ -74,7 +74,7 @@ class PlagiarismCommunicationService
      *
      * @param string $checksuiteId
      *
-     * @return array
+     * @return \StdClass
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -83,6 +83,25 @@ class PlagiarismCommunicationService
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/plagiarism/checksuite/{$checksuiteId}/run",
             'post'
+        );
+
+        return json_decode((string) $response->getBody());
+    }
+
+    /**
+     * Get the details about one checksuite.
+     *
+     * @param string $checksuiteId
+     *
+     * @return \StdClass
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getChecksuiteDetails($checksuiteId)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/plagiarism/checksuite/{$checksuiteId}",
+            'get'
         );
 
         return json_decode((string) $response->getBody());
