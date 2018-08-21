@@ -48,7 +48,6 @@ class PlagiarismController extends Controller
         }
 
         $response = $this->plagiarismCommunicationService->runChecksuite($checksuiteId);
-        dd($response);
 
         return response()->json([
             'message' => 'Plagiarism service has been notified to re-run the checksuite.',
