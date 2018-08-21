@@ -197,5 +197,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2018082100) {
+        $sql = "ALTER TABLE {charon} ADD COLUMN plagiarism_latest_check_id VARCHAR(255)";
+        $DB->execute($sql);
+    }
+
     return true;
 }
