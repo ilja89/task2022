@@ -55,4 +55,30 @@ class PlagiarismController extends Controller
             'message' => 'Plagiarism service has been notified to re-run the checksuite.',
         ], 200);
     }
+
+    /**
+     * Fetch the similarities for the latest check of the given Charon.
+     *
+     * @param Charon $charon
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function fetchSimilarities(Charon $charon)
+    {
+        if (!$charon->plagiarism_latest_check_id && !$charon->plagiarism_checksuite_id) {
+            return response()->json([
+                'message' => 'The given Charon does not have plagiarism enabled.',
+            ], 400);
+        } else if (!$charon->plagiarism_latest_check_id && $charon->plagiarism_checksuite_id) {
+            $charon = $this->plagiarismService->runChecksuite($charon);
+        }
+
+        $similarities = $this->plagiarismService->getLatestSimilarities($charon);
+
+        return response()->json([
+            'similarities' => $similarities,
+        ], 200);
+    }
 }

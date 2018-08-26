@@ -106,4 +106,23 @@ class PlagiarismCommunicationService
 
         return json_decode((string) $response->getBody());
     }
+
+    /**
+     * Get the details for one check.
+     *
+     * @param int $checkId
+     *
+     * @return \StdClass
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getCheckDetails($checkId)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/plagiarism/similarity/check/{$checkId}",
+            'get'
+        );
+
+        return json_decode((string) $response->getBody());
+    }
 }

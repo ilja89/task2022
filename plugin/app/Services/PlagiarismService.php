@@ -107,4 +107,51 @@ class PlagiarismService
 
         return $charon;
     }
+
+    /**
+     * Get the similarities for the given Charon from the plagiarism service.
+     *
+     * Returns a list where each element contains information for one service.
+     * If the service check was unsuccessful, or is pending, will just include
+     * the status information. Otherwise, if the check was successful, will
+     * include its similarities.
+     *
+     * @param Charon $charon
+     *
+     * @return array - the similarities for each service (moss, jplag) if we
+     *      have that data, otherwise show status (pending, error).
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getLatestSimilarities(Charon $charon)
+    {
+        $check = $this->plagiarismCommunicationService->getCheckDetails(
+            $charon->plagiarism_latest_check_id
+        );
+
+        $similarities = [];
+        // Map the statuses of the services to similarities
+        $serviceTrackings = $check->check->plagiarismServiceTrackings;
+        foreach ($serviceTrackings as $serviceTracking) {
+            if ($serviceTracking->state === 'PLAGIARISM_SERVICE_SUCCESS') {
+                // If the status for this service is successful, we can use the
+                // similarity and show its data.
+                $similarity = collect($check->similarities)
+                    ->first(function ($value) use ($serviceTracking) {
+                        return $value->name === $serviceTracking->name;
+                    });
+                $similarity->state = $serviceTracking->state;
+            } else {
+                // If the status is not successful (pending, error), then we do
+                // not have any similarities to show. But we can append the
+                // service status info, so that we can show some message on the
+                // front-end.
+                $similarity = $serviceTracking;
+            }
+
+            $similarities[] = $similarity;
+        }
+
+        return $similarities;
+    }
 }
