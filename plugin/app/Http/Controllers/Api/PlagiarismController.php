@@ -45,7 +45,7 @@ class PlagiarismController extends Controller
 
         if (!$checksuiteId) {
             return response()->json([
-                'message' => 'The given Charon does not have plagiarism enabled.',
+                'message' => 'This Charon does not have plagiarism enabled.',
             ], 400);
         }
 
@@ -69,7 +69,7 @@ class PlagiarismController extends Controller
     {
         if (!$charon->plagiarism_latest_check_id && !$charon->plagiarism_checksuite_id) {
             return response()->json([
-                'message' => 'The given Charon does not have plagiarism enabled.',
+                'message' => 'This Charon does not have plagiarism enabled.',
             ], 400);
         } else if (!$charon->plagiarism_latest_check_id && $charon->plagiarism_checksuite_id) {
             $charon = $this->plagiarismService->runChecksuite($charon);
