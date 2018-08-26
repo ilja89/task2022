@@ -8,36 +8,9 @@
             <charon-select/>
         </template>
 
-        <div v-for="similarity in similarities">
-            <h3
-                class="title  is-3  mb"
-                v-if="similarity.state === 'PLAGIARISM_SERVICE_FAILED'"
-            >
-                Plagiarism service
-                <strong class="has-text-weight-semibold">
-                    {{similarity.name}}
-                </strong>
-                has failed.
-            </h3>
-            <h3
-                class="title  is-3  mb"
-                v-if="similarity.state === 'PLAGIARISM_SERVICE_PROCESSING'"
-            >
-                Plagiarism service
-                <strong class="has-text-weight-semibold">
-                    {{similarity.name}}
-                </strong>
-                is processing.
-            </h3>
-            <div
-                v-if="similarity.state === 'PLAGIARISM_SERVICE_SUCCESS'"
-                class="mb"
-            >
-                <plagiarism-similarities-table
-                    :similarity="similarity"
-                />
-            </div>
-        </div>
+        <plagiarism-similarities-tabs
+            :similarities="similarities"
+        />
 
     </popup-section>
 </template>
@@ -46,13 +19,13 @@
     import { mapState } from 'vuex'
 
     import { PopupSection } from '../layouts'
-    import { CharonSelect, PlagiarismSimilaritiesTable } from '../partials'
+    import { CharonSelect, PlagiarismSimilaritiesTabs } from '../partials'
     import { Plagiarism } from '../../../api'
 
     export default {
         name: 'plagiarism-results-section',
 
-        components: { PopupSection, CharonSelect, PlagiarismSimilaritiesTable },
+        components: { PopupSection, CharonSelect, PlagiarismSimilaritiesTabs },
 
         data() {
             return {

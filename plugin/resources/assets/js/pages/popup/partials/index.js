@@ -15,4 +15,4 @@ export {
     SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect,
 }
 
-export { default as PlagiarismSimilaritiesTable } from './PlagiarismSimilaritiesTable'
+export { default as PlagiarismSimilaritiesTabs } from './PlagiarismSimilaritiesTabs'
