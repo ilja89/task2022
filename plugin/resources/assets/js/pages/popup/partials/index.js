@@ -14,3 +14,5 @@ export {
     CharonSelect, ExtraOptions, Loader, OutputComponent, StudentSearch, SubmissionsList,
     SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect,
 }
+
+export { default as PlagiarismSimilaritiesTable } from './PlagiarismSimilaritiesTable'
