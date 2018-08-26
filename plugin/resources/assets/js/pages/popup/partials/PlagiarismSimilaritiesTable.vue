@@ -4,6 +4,17 @@
             {{similarity.name}}
         </h3>
 
+        <p>
+            Link:
+            <a
+                :href="similarity.link"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                {{similarity.link}}
+            </a>
+        </p>
+
         <table class="table is-fullwidth">
             <tr>
                 <th>Similarity</th>
