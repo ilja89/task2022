@@ -143,6 +143,8 @@ class InstanceController extends Controller
             );
 
             event(new CharonUpdated($charon, $oldDeadlineEventIds));
+
+            // TODO: Plagiarism
         }
 
         return "1";
