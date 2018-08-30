@@ -15,8 +15,8 @@
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
-                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="true" DEFAULT=""/>
-                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
@@ -247,8 +247,8 @@
                 <FIELD NAME="parent_category_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="calculation_formula" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
-                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="true" DEFAULT=""/>
-                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="true" DEFAULT=""/>
+                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="max_result" SEQUENCE="false" TYPE="number" NOTNULL="false" LENGTH="10" DECIMALS="2"/>
             </FIELDS>
