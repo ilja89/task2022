@@ -161,10 +161,11 @@ class InstanceFormController extends Controller
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
             ? '' : "/mod/charon/courses/{$charon->course}/settings";
         $groups = $charon->moodleCourse->groups;
+        $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups'
+            'moduleSettingsUrl', 'groups', 'plagiarismServices'
         ));
     }
 
