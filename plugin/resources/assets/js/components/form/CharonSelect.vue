@@ -8,6 +8,7 @@
 
             <div class="felement">
                 <select :name="name"
+                        class="custom-select"
                         :id="'id_' + name"
                         v-model="input_value"
                         @change="onInputChanged">

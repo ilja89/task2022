@@ -52,6 +52,7 @@ $string['calculation_formula_cs_helper'] = 'Formula for calculating the resultin
 \*------------------------*/
 $string['naming']              = 'Naming';
 $string['task_info']           = 'Task info';
+$string['plagiarism_detection'] = 'Plagiarism detection';
 $string['task_name']           = 'Task name';
 $string['project_folder_name'] = 'Project folder name';
 $string['tester_extra']        = 'Extra tester parameters';
@@ -66,6 +67,11 @@ $string['max_points']          = 'Max points';
 $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset']              = 'Preset';
+$string['plagiarism_service']  = 'Plagiarism service';
+$string['plagiarism_enabled']  = 'Plagiarism enabled';
+$string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
+$string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
+$string['plagiarism_includes'] = 'Plagiarism includes';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -94,6 +100,16 @@ $string['calculation_formula_helper'] = 'Formula to use in calculating the total
 $string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
 $string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
 $string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
+$string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
+    . 'check the submissions.';
+$string['plagiarism_resource_provider_repository_helper'] = 'Git repository that will be checked for plagiarism.';
+$string['plagiarism_resource_provider_private_key_helper'] = 'The private key which will be used to access files in '
+    . 'the repository.';
+$string['plagiarism_includes_helper'] = 'Pattern for files which will be included by the plagiarism check. For '
+    . 'example, ".*/EX13.*", will include everything in EX13 folders.';
+
+$string['remove_button_text'] = 'Remove';
+$string['add_button_text'] = 'Add';
 
 
 /*------------------------*\

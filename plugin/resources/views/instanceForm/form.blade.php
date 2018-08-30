@@ -9,9 +9,11 @@
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
     window.groups = {!! $groups->toJson() !!};
+    window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",
+        plagiarism_detection: "{{ translate('plagiarism_detection') }}",
         task_info_title: "{{ translate('task_info') }}",
         grading_title: "{{ translate('grading') }}",
 
@@ -31,6 +33,11 @@
         deadline_label: "{{ translate('deadline') }}",
         percentage_label: "{{ translate('percentage') }}",
         group_label: "{{ translate('group') }}",
+        plagiarism_service_label: "{{ translate('plagiarism_service') }}",
+        plagiarism_enabled: "{{ translate('plagiarism_enabled') }}",
+        plagiarism_resource_provider_repository: "{{ translate('plagiarism_resource_provider_repository') }}",
+        plagiarism_resource_provider_private_key: "{{ translate('plagiarism_resource_provider_private_key') }}",
+        plagiarism_includes: "{{ translate('plagiarism_includes') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
@@ -49,7 +56,13 @@
         grade_name_helper: "{{ translate('grade_name_helper') }}",
         max_points_grade_helper: "{{ translate('max_points_grade_helper') }}",
         id_number_helper: "{{ translate('id_number_helper') }}",
+        plagiarism_service_helper: "{{ translate('plagiarism_service_helper') }}",
+        plagiarism_resource_provider_repository_helper: "{{ translate('plagiarism_resource_provider_repository_helper') }}",
+        plagiarism_resource_provider_private_key_helper: "{{ translate('plagiarism_resource_provider_private_key_helper') }}",
+        plagiarism_includes_helper: "{{ translate('plagiarism_includes_helper') }}",
 
+        remove: "{{ translate('remove_button_text') }}",
+        add: "{{ translate('add_button_text') }}",
     };
 
     window.courseSettingsUrl = "{{ $courseSettingsUrl }}";

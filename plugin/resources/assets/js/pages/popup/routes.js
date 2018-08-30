@@ -1,6 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { NoStudentSelectedPage, SubmissionPage, GradingPage, StudentOverviewPage, DashboardPage } from './pages';
+import {
+    NoStudentSelectedPage,
+    SubmissionPage,
+    GradingPage,
+    StudentOverviewPage,
+    DashboardPage,
+    PlagiarismPage,
+} from './pages';
 
 Vue.use(VueRouter)
 
@@ -30,11 +37,17 @@ const routes = [
         name: 'student-overview',
     },
     {
+        path: '/plagiarism',
+        title: 'Plagiarism',
+        component: PlagiarismPage,
+        name: 'plagiarism',
+    },
+    {
         path: '*',
         title: 'No student selected',
         component: NoStudentSelectedPage,
         name: 'no-student-selected'
-    }
+    },
 ];
 
 const router = new VueRouter({

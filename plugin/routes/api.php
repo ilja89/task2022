@@ -33,6 +33,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
 
+    Route::middleware('auth.charon.managing.require')
+        ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');
+    Route::middleware('auth.charon.managing.require')
+        ->get('charons/{charon}/similarities', 'PlagiarismController@fetchSimilarities');
+
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/active', 'StudentsController@findActive');
     Route::middleware('auth.course.managing.require')

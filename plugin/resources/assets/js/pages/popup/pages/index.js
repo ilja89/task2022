@@ -3,7 +3,9 @@ import NoStudentSelectedPage from './NoStudentSelectedPage.vue'
 import SubmissionPage from './SubmissionPage.vue'
 import StudentOverviewPage from './StudentOverviewPage.vue'
 import DashboardPage from './DashboardPage.vue'
+import PlagiarismPage from './PlagiarismPage'
 
 export {
-    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DashboardPage,
+    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage,
+    DashboardPage, PlagiarismPage,
 }

@@ -7,7 +7,10 @@ import ActiveStudentsSection from './ActiveStudentsSection'
 import SubmissionCountsSection from './SubmissionCountsSection'
 import StudentsDistributionSection from './StudentsDistributionSection'
 
+export { default as PlagiarismResultsSection } from './PlagiarismResultsSection'
+
 export {
-    CommentsSection, OutputSection, SubmissionOverviewSection, SubmissionsSection, LatestSubmissionsSection,
-    ActiveStudentsSection, SubmissionCountsSection, StudentsDistributionSection,
+    CommentsSection, OutputSection, SubmissionOverviewSection,
+    SubmissionsSection, LatestSubmissionsSection, ActiveStudentsSection,
+    SubmissionCountsSection, StudentsDistributionSection,
 }
