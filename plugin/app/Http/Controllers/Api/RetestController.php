@@ -67,6 +67,7 @@ class RetestController extends Controller
             'original_submission_id' => $submission->id,
             'commit_hash' => $submission->git_hash,
             'project' => $submission->charon->project_folder,
+            'course' => $submission->charon->moodleCourse->shortname,
         ];
 
         $this->testerCommunicationService->sendGitCallback(
