@@ -28,8 +28,13 @@
             ]),
         },
 
-        mounted() {
+        activated() {
             this.getStudent()
+            window.VueEvent.$on('refresh-page', this.getStudent)
+        },
+
+        deactivated() {
+            window.VueEvent.$off('refresh-page', this.getStudent)
         },
 
         watch: {
