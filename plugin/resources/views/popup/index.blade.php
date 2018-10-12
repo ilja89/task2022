@@ -6,6 +6,7 @@
 
 <script>
     window.course_id = {!! $course->id !!};
+    window.course_name = '{!! $course->fullname !!}';
 </script>
 
 @include('popup.footer')

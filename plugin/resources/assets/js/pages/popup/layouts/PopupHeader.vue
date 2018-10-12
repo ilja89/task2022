@@ -9,6 +9,8 @@
 
             <student-search @student-was-changed="onStudentChanged"/>
 
+            <div class="course-title-container"><h1>{{getCourseName()}}</h1></div>
+
             <div class="header-icons">
 
                 <div class="header-icon-container extra-options-container" @click="onRefreshClicked">
@@ -46,6 +48,9 @@
             onSubmissionAdded() {
                 VueEvent.$emit('refresh-page');
             },
+            getCourseName() {
+                return window.course_name;
+            }
         },
     }
 </script>
