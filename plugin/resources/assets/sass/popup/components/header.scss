@@ -57,6 +57,13 @@
   flex: 1;
 }
 
+.course-title-container {
+  font-size: 1.5em;
+  margin: auto;
+  display: flex;
+  flex: 1;
+}
+
 .student-search-wrapper {
   @include mobile {
     width: calc(100% - 54px);  /* 54px is the search icon width */
