@@ -5,6 +5,10 @@
             <div class="ttu-logo"></div>
         </div>
 
+        <div class="column header-right mobile-title-header-right">
+            <div class="course-title-mobile-container"><h1>{{getCourseName()}}</h1></div>
+        </div>
+
         <div class="column  header-right">
 
             <student-search @student-was-changed="onStudentChanged"/>
