@@ -62,6 +62,26 @@
   margin: auto;
   display: flex;
   flex: 1;
+  @include mobile {
+    flex: none;
+    display: none;
+  }
+}
+
+.mobile-title-header-right {
+  display: none;
+  @include mobile {
+    display: flex;
+  }
+}
+
+.course-title-mobile-container {
+  font-size: 1.5em;
+  margin: auto;
+  display: none;
+  @include mobile {
+    display: flex;
+  }
 }
 
 .student-search-wrapper {
