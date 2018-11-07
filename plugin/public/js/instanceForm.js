@@ -23211,7 +23211,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return _this2.form.fields.grading_method = grading_method;
         });
         VueEvent.$on('grouping-was-changed', function (grouping_id) {
-            return _this2.form.fields.grouping_id = grouping_id;
+            return _this2.form.fields.grouping_id = 2;
         });
         VueEvent.$on('grade-type-was-activated', function (activated_grade_type_code) {
             _this2.form.activateGrademap(activated_grade_type_code);

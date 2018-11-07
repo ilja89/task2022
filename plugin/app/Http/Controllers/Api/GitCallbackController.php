@@ -93,6 +93,9 @@ class GitCallbackController extends Controller
             ['project_folder', $project_folder],
             ['course', $course->id]])->first();
 
+        // remove when ready
+        $username = $request->input('repository')['user_username'];
+
         $gitCallback = $this->gitCallbacksRepository->save(
             $request->fullUrl(),
             $repo,
@@ -101,9 +104,6 @@ class GitCallbackController extends Controller
 
         //TODO: find if user is in charon's grouping
         //TODO iterate through user's group
-        
-        // remove when ready
-        $username = $request->input('repository')['user_username'];
         
         $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
 

@@ -26,7 +26,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int category_id
- * @property int grouping_id
+ * @property int $grouping_id
  * @property int course
  * @property int timemodified
  * @property string|null plagiarism_checksuite_id - Id of the associated

@@ -245,6 +245,7 @@ class InstanceController extends Controller
             'project_folder' => $this->request->input('project_folder'),
             'tester_type_code' => $this->request->input('tester_type'),
             'grading_method_code' => $this->request->input('grading_method'),
+            'grouping_id' => $this->request->input('grouping_id'),
             'timemodified' => Carbon::now()->timestamp,
             'course' => $this->request->input('course'),
             'tester_extra' => $testerExtra,
