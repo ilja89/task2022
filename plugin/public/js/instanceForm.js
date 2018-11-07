@@ -22034,7 +22034,7 @@ var InstanceFormForm = function () {
 
                 tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1,
                 grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
-                grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
+                grouping_id: instance['grouping_id'],
 
                 grademaps: [],
                 deadlines: [],
@@ -23818,14 +23818,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -24751,26 +24743,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ftoggler"
   }, [_vm._v(_vm._s(_vm.translate('grouping')))]), _vm._v(" "), _c('div', {
     staticClass: "fcontainer clearfix fitem"
-  }, [_c('charon-select', {
-    attrs: {
-      "helper_text": _vm.translate('grouping_selection_helper'),
-      "name": "grouping",
-      "options": _vm.form.groupings,
-      "value-key": "id",
-      "placeholder-key": "name"
-    },
-    on: {
-      "input-was-changed": _vm.onGroupingChanged
-    }
-  }), _vm._v(" "), _c('select', {
+  }, [_c('p', {
+    staticClass: "input-helper"
+  }, [_vm._v(_vm._s(_vm.translate('grouping_selection_helper')))]), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.groupingid),
-      expression: "groupingid"
+      value: (_vm.form.fields.grouping_id),
+      expression: "form.fields.grouping_id"
     }],
-    staticClass: "custom",
+    staticClass: "custom-select",
     on: {
+      "input-was-changed": function($event) {
+        _vm.onGroupingChanged(_vm.form.fields.grouping_id)
+      },
       "change": function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
           return o.selected
@@ -24778,14 +24764,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.groupingid = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.$set(_vm.form.fields, "grouping_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
       }
     }
   }, _vm._l((_vm.form.groupings), function(grouping) {
     return _c('option', {
-      key: grouping.id
+      key: grouping.id,
+      domProps: {
+        "value": grouping.id
+      }
     }, [_vm._v("\n                " + _vm._s(grouping.name) + "\n  ")])
-  })), _vm._v(" "), _c('br')], 1), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.form.fields.grouping_id))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.form))])])
+  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

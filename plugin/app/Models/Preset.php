@@ -18,7 +18,6 @@ use Zeizig\Moodle\Models\GradeCategory;
  * @property string tester_extra
  * @property string system_extra
  * @property int grading_method_code
- * @property int grouping_id
  * @property float max_result
  *
  * @property PresetGrade[] presetGrades
@@ -57,9 +56,5 @@ class Preset extends Model
     public function gradingMethod()
     {
         return $this->belongsTo(GradingMethod::class, 'grading_method_code', 'code');
-    }
-    public function grouping()
-    {
-        return $this->belongsTo(Grouping::class, 'grouping_id', 'id');
     }
 }

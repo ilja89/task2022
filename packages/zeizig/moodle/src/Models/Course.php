@@ -65,4 +65,15 @@ class Course extends Model
     {
         return $this->hasMany(Grouping::class, 'courseid');
     }
+
+    /**
+     * Get the course ID by name.
+     *
+     * @return integer
+     */
+    public function getCourseByName($courseName)
+    {
+        $course = Course::select('id')->where('shortname', $courseName)->first();
+        return $course->id;
+    }
 }

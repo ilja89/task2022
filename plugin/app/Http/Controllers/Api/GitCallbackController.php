@@ -10,7 +10,8 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
-
+use Zeizig\Moodle\Models\Course;
+use TTU\Charon\Models\Charon;
 /**
  * Class GitCallbackController.
  * Receives Git callbacks, saves them and notifies the tester of them.
@@ -77,13 +78,33 @@ class GitCallbackController extends Controller
     public function indexPost(GitCallbackPostRequest $request)
     {
         $repo = $request->input('repository')['git_ssh_url'];
-        $username = $request->input('user_username');
+        $initial_user = $request->input('repository')['user_username'];
+        
+        // Fetch Course name and Project folder from Git repo address
+        $meta = preg_split('~-(?=[^-]*$)~', str_replace('.git', '', substr($repo, strrpos($repo, '/') + 1)));
+        $project_folder = $meta[1];
+        $course_name = $meta[0];
+
+        // Find course with specified name
+        $course = Course::where('shortname', $course_name)->first();
+        
+        // Find charon
+        $charon = Charon::where([
+            ['project_folder', $project_folder],
+            ['course', $course->id]])->first();
+
         $gitCallback = $this->gitCallbacksRepository->save(
             $request->fullUrl(),
             $repo,
             $username
         );
 
+        //TODO: find if user is in charon's grouping
+        //TODO iterate through user's group
+        
+        // remove when ready
+        $username = $request->input('repository')['user_username'];
+        
         $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
 
         event(new GitCallbackReceived(

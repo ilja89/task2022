@@ -6,26 +6,18 @@
 
         <div class="fcontainer clearfix fitem">
 
-        <charon-select
-            :helper_text="translate('grouping_selection_helper')"
-            name="grouping"
-            :options="form.groupings"
-            value-key="id"
-            placeholder-key="name"
-            @input-was-changed="onGroupingChanged"
-            >
-        </charon-select>
-
-        <select v-model="groupingid" class="custom">
-            <option v-for="grouping in form.groupings" v-bind:key="grouping.id">
+        <p class="input-helper">{{ translate('grouping_selection_helper') }}</p>
+        <select v-model="form.fields.grouping_id"
+        @input-was-changed="onGroupingChanged(form.fields.grouping_id)"
+        class="custom-select">
+            <option v-for="grouping in form.groupings" v-bind:key="grouping.id" v-bind:value="grouping.id">
                 {{ grouping.name }}
   </option>
 </select>
 
         <br />
+        <br />
         </div>
-        <p>{{ form.fields.grouping_id }}</p>
-        <p>{{ form }}</p>
 
     </fieldset>
 
