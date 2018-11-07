@@ -22059,7 +22059,7 @@ var InstanceFormForm = function () {
 
                 tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1,
                 grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
-                grouping_id: instance['grouping_id'],
+                grouping_id: instance['grouping_id'] ? instance['grouping_id'] : 5,
 
                 grademaps: [],
                 deadlines: [],

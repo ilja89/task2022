@@ -114,7 +114,7 @@ class InstanceFormController extends Controller
             'system_extra'        => $this->request['system_extra'],
             'tester_type_code'    => $this->request['tester_type'],
             'grading_method_code' => $this->request['grading_method'],
-            'grouping_id'         => $this->request['grouping_id']   
+            'grouping_id'         => $this->request['grouping_id'], 
         ]);
 
         $charon->grademaps = $this->request['grademaps'];

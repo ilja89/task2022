@@ -6,14 +6,14 @@
 
         <div class="fcontainer clearfix fitem">
 
-        <p class="input-helper">{{ translate('grouping_selection_helper') }}</p>
-        <select v-model="form.fields.grouping_id"
-        @input-was-changed="onGroupingChanged(form.fields.grouping_id)"
-        class="custom-select">
-            <option v-for="grouping in form.groupings" v-bind:key="grouping.id" v-bind:value="grouping.id">
-                {{ grouping.name }}
-  </option>
-</select>
+        <charon-select
+                name="grouping_id"
+                :options="form.groupings"
+                key_field="id"
+                :value="form.fields.grouping_id"
+                :helper_text="translate('grouping_selection_helper')"
+                @input-was-changed="onGroupingChanged" >
+        </charon-select>
 
         <br />
         <br />
@@ -41,8 +41,8 @@
             },
         },
         methods: {
-            onGroupingChanged(grouping) {
-                VueEvent.$emit('grouping-was-changed', grouping);
+            onGroupingChanged(grouping_id) {
+                VueEvent.$emit('grouping-was-changed', grouping_id);
             }
         }
     }

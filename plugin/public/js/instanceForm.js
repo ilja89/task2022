@@ -22034,7 +22034,7 @@ var InstanceFormForm = function () {
 
                 tester_type: instance['tester_type_code'] ? instance['tester_type_code'] : courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1,
                 grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
-                grouping_id: instance['grouping_id'],
+                grouping_id: instance['grouping_id'] ? instance['grouping_id'] : 5,
 
                 grademaps: [],
                 deadlines: [],
@@ -23211,7 +23211,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return _this2.form.fields.grading_method = grading_method;
         });
         VueEvent.$on('grouping-was-changed', function (grouping_id) {
-            return _this2.form.fields.grouping_id = 2;
+            return _this2.form.fields.grouping_id = grouping_id;
         });
         VueEvent.$on('grade-type-was-activated', function (activated_grade_type_code) {
             _this2.form.activateGrademap(activated_grade_type_code);
@@ -23836,8 +23836,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        onGroupingChanged: function onGroupingChanged(grouping) {
-            VueEvent.$emit('grouping-was-changed', grouping);
+        onGroupingChanged: function onGroupingChanged(grouping_id) {
+            VueEvent.$emit('grouping-was-changed', grouping_id);
         }
     }
 });
@@ -24743,38 +24743,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ftoggler"
   }, [_vm._v(_vm._s(_vm.translate('grouping')))]), _vm._v(" "), _c('div', {
     staticClass: "fcontainer clearfix fitem"
-  }, [_c('p', {
-    staticClass: "input-helper"
-  }, [_vm._v(_vm._s(_vm.translate('grouping_selection_helper')))]), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.form.fields.grouping_id),
-      expression: "form.fields.grouping_id"
-    }],
-    staticClass: "custom-select",
+  }, [_c('charon-select', {
+    attrs: {
+      "name": "grouping_id",
+      "options": _vm.form.groupings,
+      "key_field": "id",
+      "value": _vm.form.fields.grouping_id,
+      "helper_text": _vm.translate('grouping_selection_helper')
+    },
     on: {
-      "input-was-changed": function($event) {
-        _vm.onGroupingChanged(_vm.form.fields.grouping_id)
-      },
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.$set(_vm.form.fields, "grouping_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-      }
+      "input-was-changed": _vm.onGroupingChanged
     }
-  }, _vm._l((_vm.form.groupings), function(grouping) {
-    return _c('option', {
-      key: grouping.id,
-      domProps: {
-        "value": grouping.id
-      }
-    }, [_vm._v("\n                " + _vm._s(grouping.name) + "\n  ")])
-  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')])])
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

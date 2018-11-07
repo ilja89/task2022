@@ -144,7 +144,7 @@
             VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);
             VueEvent.$on('tester-type-was-changed', (tester_type) => this.form.fields.tester_type = tester_type);
             VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
-            VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = 2);
+            VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = grouping_id);
             VueEvent.$on('grade-type-was-activated', (activated_grade_type_code) => {
                 this.form.activateGrademap(activated_grade_type_code);
             });
