@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
@@ -12,6 +13,7 @@ use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\Group;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Models\Grouping;
 use TTU\Charon\Models\Charon;
 /**
@@ -92,7 +94,7 @@ class GitCallbackController extends Controller
         // Find course with specified name
         $course = Course::where('shortname', $course_name)->first();
 
-        Log::info("Found course. It's id is " . $course->id . " :)");
+        Log::info("Found course. It's id is " . $course->id);
         
         // Find charon
         $charon = Charon::where([
@@ -101,21 +103,36 @@ class GitCallbackController extends Controller
 
         Log::info("Found charon with id: " . $charon->id);
 
+        // TODO: Trim model requests to select only required fields
+
         if($charon->grouping_id !== null) {
-            Log::info('Charon has grouping id' . $charon->grouping_id);
+            Log::info('Charon has grouping id ' . $charon->grouping_id);
             // Get grouping
             $grouping = Grouping::where('id', $charon->grouping_id)->first();
-            // Get groups in grouping
-            $groups = $grouping->groups()->get();
+            // Get submitter's User ID by username
+            $initiator = User::where('username', $initial_user)->first()->id;
+            Log::info('Initiator ID is: ' . $initiator);
+            // Get groups of submitter
+            $initiator_groups = DB::table('groups_members')->select('groupid')->where('userid', $initiator)->get();
 
-            
-            foreach($groups as $group) {
-                $members = $group->members()->get();
-                foreach($members as $member) {
-                    Log::info('User in group: ' . $member->username);
+            $usernames = array();
+            foreach($initiator_groups as $group) {
+                // Select groups that are in chosen Charon's grouping
+                $grouping_group = $grouping->groups()->where('groups.id', $group->groupid)->first();
+                if($grouping_group) {
+                    // Fetch usernames from group
+                    Log::info('Grouping group' . $grouping_group->name);
+                    $members = $grouping_group->members()->get();
+                    foreach($members as $member) {
+                        //TODO: Verify uniqueness
+                        Log::info('User: ' . $member->username);
+                        array_push($usernames, $member->username);
+                    }
                 }
             }
-            // TODO: select only group that this user has + iteration1
+
+            // TODO: Iterate through usernames array
+            // TODO: Remove when implemented
             $username = $request->input('user_username');
         } else {
             Log::info('This charon is not a group work. Forwarding to tester.');
@@ -127,9 +144,6 @@ class GitCallbackController extends Controller
             $repo,
             $username
         );
-
-        //TODO: find if user is in charon's grouping
-        //TODO iterate through user's group
         
         $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
 
