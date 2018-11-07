@@ -9,6 +9,7 @@ use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -25,6 +26,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int category_id
+ * @property int grouping_id
  * @property int course
  * @property int timemodified
  * @property string|null plagiarism_checksuite_id - Id of the associated
@@ -38,6 +40,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property Grademap[] $grademaps
  * @property Deadline[]|Collection $deadlines
  * @property Course moodleCourse
+ * @property Grouping $grouping
  *
  * @package TTU\Charon\Model
  */
@@ -50,7 +53,7 @@ class Charon extends Model
      */
     protected $fillable = [
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
-        'tester_type_code', 'grading_method_code', 'course', 'timemodified',
+        'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
     ];
 
     /**
@@ -84,6 +87,11 @@ class Charon extends Model
     public function category()
     {
         return $this->belongsTo(GradeCategory::class, 'category_id');
+    }
+
+    public function grouping()
+    {
+        return $this->belongsTo(Grouping::class, 'grouping_id');
     }
 
     public function submissions()

@@ -14,6 +14,7 @@ const app = new Vue({
             courseSettings,
             presets,
             groups,
+            groupings,
             plagiarismServices
         )
     },

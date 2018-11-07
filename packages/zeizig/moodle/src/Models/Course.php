@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
  * @property string $shortname
  * @property CourseModule[]|Collection $courseModules
  * @property Group[]|Collection $groups
+ * @property Grouping[]|Collection $groupings
  *
  * @package TTU\Moodle\Model
  */
@@ -55,5 +56,13 @@ class Course extends Model
     public function groups()
     {
         return $this->hasMany(Group::class, 'courseid');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function groupings()
+    {
+        return $this->hasMany(Grouping::class, 'courseid');
     }
 }

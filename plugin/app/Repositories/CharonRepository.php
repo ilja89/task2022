@@ -118,7 +118,7 @@ class CharonRepository
         if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
             throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
-        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group')
+        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
                      ->where('id', $courseModule->instance)
                      ->first();
         return $charon;
@@ -171,6 +171,7 @@ class CharonRepository
         $oldCharon->system_extra = $newCharon->system_extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
+        $oldCharon->grouping_id = $newCharon->grouping_id;
         $oldCharon->timemodified = Carbon::now()->timestamp;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
@@ -206,6 +207,7 @@ class CharonRepository
                 'charon.project_folder',
                 'course_modules.id AS course_module_id',
                 'charon.category_id',
+                'charon.grouping_id',
                 'charon.course'
             )
             ->orderBy('charon.name')
