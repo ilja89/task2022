@@ -31,4 +31,5 @@ class Grouping extends Model
     {
         return $this->belongsToMany(Group::class, 'groupings_groups', 'groupingid', 'groupid');
     }
+
 }

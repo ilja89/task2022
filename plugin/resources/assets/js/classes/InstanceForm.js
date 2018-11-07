@@ -106,7 +106,7 @@ export default class InstanceFormForm {
                 ? instance['tester_type_code']
                 : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
-            grouping_id: instance['grouping_id'] ? instance['grouping_id'] : 5,
+            grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
 
             grademaps: [ ],
             deadlines: [ ],
