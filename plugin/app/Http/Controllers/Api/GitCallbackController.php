@@ -129,7 +129,7 @@ class GitCallbackController extends Controller {
         $grouping = Grouping::where('id', $charon->grouping_id)->first();
         // Get submitter's User ID by username
         Log::info('Trying to get ID of user "' . $initial_user . '"');
-        $initiator = User::where('username', $initial_user)->first();
+        $initiator = User::where('username', $initial_user . "@ttu.ee")->first();
         Log::info('User object is: ' . $initiator);
         //Log::info('Initiator ID is: ' . $initiator);
         Log::info('Initiator ID is: ' . $initiator->id);
