@@ -16,7 +16,6 @@ use Zeizig\Moodle\Models\Group;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Models\Grouping;
 use TTU\Charon\Models\Charon;
-use Zeizig\Moodle\Services\UserService;
 /**
  * Class GitCallbackController.
  * Receives Git callbacks, saves them and notifies the tester of them.
@@ -130,9 +129,9 @@ class GitCallbackController extends Controller {
         $grouping = Grouping::where('id', $charon->grouping_id)->first();
         // Get submitter's User ID by username
         Log::info('Trying to get ID of user "' . $initial_user . '"');
-        //$initiator = User::where('username', $initial_user . "@ttu.ee")->first()->id;
-        $student = $this->userService->findUserByIdNumber($initial_user);
-        $initiator = $student->id;
+        $initiator = User::where('username', $initial_user . "@ttu.ee")->first()->id;
+        //Log::info('User object is: ' . $initiator);
+        //Log::info('Initiator ID is: ' . $initiator);
         Log::info('Initiator ID is: ' . $initiator);
         // Get groups of submitter
         $initiator_groups = DB::table('groups_members')->select('groupid')->where('userid', $initiator)->get();
@@ -162,6 +161,7 @@ class GitCallbackController extends Controller {
     }
     
     foreach($usernames as $username) {
+      $username = str_replace('@ttu.ee', '', $username);
       Log::info('Submitting work as user "' .$username. '"');
       $gitCallback = $this->gitCallbacksRepository->save(
         $request->fullUrl(),
