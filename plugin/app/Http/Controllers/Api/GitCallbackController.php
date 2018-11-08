@@ -82,6 +82,7 @@ class GitCallbackController extends Controller {
     $initial_user = $request->input('user_username');
     $usernames = array();
 
+    Log::info('Initial user has username: "' . $initial_user . '"');
     // Fetch Course name and Project folder from Git repo address
     $meta = str_replace('.git', '', substr($repo, strrpos($repo, '/') + 1));
     if(substr_count($meta, '-') > 1) {
@@ -127,8 +128,11 @@ class GitCallbackController extends Controller {
         // Get grouping
         $grouping = Grouping::where('id', $charon->grouping_id)->first();
         // Get submitter's User ID by username
-        $initiator = User::where('username', $initial_user)->first()->id;
-        Log::info('Initiator ID is: ' . $initiator);
+        Log::info('Trying to get ID of user "' . $initial_user . '"');
+        $initiator = User::where('username', $initial_user)->first();
+        Log::info('User object is: ' . $initiator);
+        //Log::info('Initiator ID is: ' . $initiator);
+        Log::info('Initiator ID is: ' . $initiator->id);
         // Get groups of submitter
         $initiator_groups = DB::table('groups_members')->select('groupid')->where('userid', $initiator)->get();
 
