@@ -88,6 +88,7 @@ class GitCallbackController extends Controller {
 
     // try course with full name (no grouping)
     $course = Course::where('shortname', $meta)->first();
+    $course_name = $meta;
     if (!$course) {
       // try to split COURSE-PROJECT
       $pos = strrpos($meta, "-");
