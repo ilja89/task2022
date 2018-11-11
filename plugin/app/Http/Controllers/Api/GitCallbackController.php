@@ -85,12 +85,23 @@ class GitCallbackController extends Controller {
     Log::info('Initial user has username: "' . $initial_user . '"');
     // Fetch Course name and Project folder from Git repo address
     $meta = str_replace('.git', '', substr($repo, strrpos($repo, '/') + 1));
-    if(substr_count($meta, '-') > 1) {
-      $meta = preg_split('~-(?=[^-]*$)~', $meta);
-      $project_folder = $meta[1];
-      $course_name = $meta[0];
-    } else {
-      $course_name = $meta;
+
+    // try course with full name (no grouping)
+    $course = Course::where('shortname', $meta)->first();
+    if (!$course) {
+      // try to split COURSE-PROJECT
+      $pos = strrpos($meta, "-");
+      while ($pos !== false) {
+        $course_name = substr($meta, 0, $pos);
+        $project_folder = substr($meta, $pos + 1);
+        Log::info('Looking for course"' . $course_name . '" and project "' . $project_folder . '"');
+        $course = Course::where('shortname', $course_name)->first();
+        if ($course) {
+          Log::info("Course found!");
+          break;
+        }
+        $pos = strrpos($meta, "-", $pos - 1);
+      }
     }
 
     if(isset($project_folder)) {
@@ -98,9 +109,6 @@ class GitCallbackController extends Controller {
     } else {
       Log::info('Discovered course name: "'.$course_name.'" but no project folder.');
     }
-
-    // Find course with specified name
-    $course = Course::where('shortname', $course_name)->first();
 
     if(!$course) {
       Log::info('No course discovered, maybe git repo address is not in valid format.');
@@ -114,40 +122,40 @@ class GitCallbackController extends Controller {
         if (!in_array($request->input('user_username'), $usernames)) {
           array_push($usernames, $request->input('user_username'));
         }
-    } else {
-      // Find charon
-      $charon = Charon::where([
-        ['project_folder', $project_folder],
-        ['course', $course->id]])->first();
+      } else {
+        // Find charon
+        $charon = Charon::where([
+          ['project_folder', $project_folder],
+          ['course', $course->id]])->first();
 
-      Log::info("Found charon with id: " . $charon->id);
+        Log::info("Found charon with id: " . $charon->id);
 
-      // TODO: Trim model requests to select only required fields
-      if($charon->grouping_id !== null) {
-        Log::info('Charon has grouping id ' . $charon->grouping_id);
-        // Get grouping
-        $grouping = Grouping::where('id', $charon->grouping_id)->first();
-        // Get submitter's User ID by username
-        Log::info('Trying to get ID of user "' . $initial_user . '"');
-        $initiator = User::where('username', $initial_user . "@ttu.ee")->first()->id;
-        //Log::info('User object is: ' . $initiator);
-        //Log::info('Initiator ID is: ' . $initiator);
-        Log::info('Initiator ID is: ' . $initiator);
-        // Get groups of submitter
-        $initiator_groups = DB::table('groups_members')->select('groupid')->where('userid', $initiator)->get();
+        // TODO: Trim model requests to select only required fields
+        if($charon->grouping_id !== null) {
+          Log::info('Charon has grouping id ' . $charon->grouping_id);
+          // Get grouping
+          $grouping = Grouping::where('id', $charon->grouping_id)->first();
+          // Get submitter's User ID by username
+          Log::info('Trying to get ID of user "' . $initial_user . '"');
+          $initiator = User::where('username', $initial_user . "@ttu.ee")->first()->id;
+          //Log::info('User object is: ' . $initiator);
+          //Log::info('Initiator ID is: ' . $initiator);
+          Log::info('Initiator ID is: ' . $initiator);
+          // Get groups of submitter
+          $initiator_groups = DB::table('groups_members')->select('groupid')->where('userid', $initiator)->get();
 
-        foreach($initiator_groups as $group) {
-          // Select groups that are in chosen Charon's grouping
-          $grouping_group = $grouping->groups()->where('groups.id', $group->groupid)->first();
-          if($grouping_group) {
-            // Fetch usernames from group
-            Log::info('Grouping group' . $grouping_group->name);
-            $members = $grouping_group->members()->get();
-            foreach($members as $member) {
-              if (!in_array($member->username, $usernames)) {
-                array_push($usernames, $member->username);
+          foreach($initiator_groups as $group) {
+            // Select groups that are in chosen Charon's grouping
+            $grouping_group = $grouping->groups()->where('groups.id', $group->groupid)->first();
+            if($grouping_group) {
+              // Fetch usernames from group
+              Log::info('Grouping group' . $grouping_group->name);
+              $members = $grouping_group->members()->get();
+              foreach($members as $member) {
+                if (!in_array($member->username, $usernames)) {
+                  array_push($usernames, $member->username);
+                }
               }
-            }
               break;
             }
           }
@@ -170,6 +178,8 @@ class GitCallbackController extends Controller {
       );
 
       $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
+      // tester reads email from ['extra']['user_email']
+      $params['extra']['user_email'] = $username . "@ttu.ee";
 
       event(new GitCallbackReceived(
         $gitCallback,
