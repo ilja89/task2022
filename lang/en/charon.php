@@ -111,7 +111,8 @@ $string['plagiarism_includes_helper'] = 'Pattern for files which will be include
 $string['remove_button_text'] = 'Remove';
 $string['add_button_text'] = 'Add';
 
-
+$string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
+$string['grouping'] = "Grouping";
 /*------------------------*\
    Assignment view
 \*------------------------*/

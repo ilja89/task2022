@@ -2,6 +2,6 @@
 
 defined('MOODLE_INTERNAL') || die('Direct access to this script is forbidden.');
 
-$plugin->version   = 2018082100;    // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015050500;    // Requires this Moodle version
+$plugin->version   = 2018110801;    // The current module version (Date: YYYYMMDDXX)
+$plugin->requires  = 2018051700;    // Requires this Moodle version
 $plugin->component = 'mod_charon';  // Full name of the plugin (used for diagnostics)

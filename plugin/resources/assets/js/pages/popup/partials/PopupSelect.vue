@@ -6,7 +6,7 @@
         >
             <option
                 v-for="option in options"
-                :value="option[valueKey]"
+                v-bind:key=option[valueKey]
             >
                 {{ option[placeholderKey] }}
             </option>

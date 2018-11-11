@@ -80,7 +80,7 @@ class InstanceFormController extends Controller
             return $this->edit($this->getCharon());
         }
 
-        $course = Course::with('groups')
+        $course = Course::with(['groups', 'groupings'])
                         ->where('id', $this->request['course'])
                         ->first();
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
@@ -95,6 +95,7 @@ class InstanceFormController extends Controller
             'courseSettingsUrl' => $courseSettingsUrl,
             'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
             'groups' => $course->groups,
+            'groupings' => $course->groupings,
             'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
         ]);
     }
@@ -113,6 +114,7 @@ class InstanceFormController extends Controller
             'system_extra'        => $this->request['system_extra'],
             'tester_type_code'    => $this->request['tester_type'],
             'grading_method_code' => $this->request['grading_method'],
+            'grouping_id'         => $this->request['grouping_id'], 
         ]);
 
         $charon->grademaps = $this->request['grademaps'];
@@ -131,14 +133,15 @@ class InstanceFormController extends Controller
         $moduleSettingsUrl = $this->getModuleSettingsUrl();
 
         $update = true;
-        $course = Course::with('groups')
+        $course = Course::with(['groups', 'groupings'])
                         ->where('id', $this->request['course'])
                         ->first();
         $groups = $course->groups;
+        $groupings = $course->groupings;
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'plagiarismServices'
+            'moduleSettingsUrl', 'groups', 'groupings','plagiarismServices'
         ));
     }
 
@@ -161,11 +164,12 @@ class InstanceFormController extends Controller
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
             ? '' : "/mod/charon/courses/{$charon->course}/settings";
         $groups = $charon->moodleCourse->groups;
+        $groupings = $charon->moodleCourse->groupings;
         $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'plagiarismServices'
+            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices'
         ));
     }
 

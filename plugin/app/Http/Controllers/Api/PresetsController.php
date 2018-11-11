@@ -78,6 +78,7 @@ class PresetsController extends Controller
         $preset->system_extra = $this->request['preset']['system_extra'];
         $preset->max_result = $this->request['preset']['max_result'];
         $preset->grading_method_code = $this->request['preset']['grading_method_code'];
+        //$preset->grouping_id = $this->request['preset']['grouping_id'];
 
         return $preset;
     }

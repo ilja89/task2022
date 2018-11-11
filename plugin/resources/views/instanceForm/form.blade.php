@@ -9,6 +9,7 @@
     window.presets = {!! $presets !== null ? $presets->toJson() : '[]' !!};
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
     window.groups = {!! $groups->toJson() !!};
+    window.groupings = {!! $groupings->toJson() !!};
     window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
 
     window.translations = {
@@ -38,7 +39,9 @@
         plagiarism_resource_provider_repository: "{{ translate('plagiarism_resource_provider_repository') }}",
         plagiarism_resource_provider_private_key: "{{ translate('plagiarism_resource_provider_private_key') }}",
         plagiarism_includes: "{{ translate('plagiarism_includes') }}",
-
+        grouping: "{{ translate('grouping') }}",
+        grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
+        
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
         deadlines_helper: "{{ translate('deadlines_helper') }}",

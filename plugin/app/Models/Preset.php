@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\GradeCategory;
 
 /**
@@ -32,6 +33,7 @@ class Preset extends Model
     protected $fillable = [
         'name', 'parent_category_id', 'course_id', 'calculation_formula',
         'tester_extra', 'system_extra', 'max_result', 'grading_method_code',
+        'grouping_id'
     ];
 
     protected $table = 'charon_preset';

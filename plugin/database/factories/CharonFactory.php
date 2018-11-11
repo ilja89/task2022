@@ -13,6 +13,7 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'system_extra' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
         'grading_method_code' => $faker->randomElement([1, 2]),
+        'grouping_id' => $faker->randomElement([1, 2]),
         'course' => $courseGradeItem->courseid,
         'timemodified' => $faker->unixTime,
         'category_id' => function () use ($courseGradeItem) {

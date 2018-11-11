@@ -105,7 +105,8 @@ $string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, 
 $string['remove_button_text'] = 'Eemalda';
 $string['add_button_text'] = 'Lisa';
 
-
+$string['grouping'] = "Grupeering";
+$string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
 /*------------------------*\
    Assignment view
 \*------------------------*/
