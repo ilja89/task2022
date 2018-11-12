@@ -9,6 +9,7 @@ use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -18,14 +19,20 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string $name
  * @property string $description
  * @property string $project_folder
- * @property string $extra
+ * @property string $tester_extra
+ * @property string $system_extra
  * @property integer $tester_type_code
  * @property integer $grading_method_code
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int category_id
+ * @property int $grouping_id
  * @property int course
  * @property int timemodified
+ * @property string|null plagiarism_checksuite_id - Id of the associated
+ *      checksuite in the Julia plagiarism service.
+ * @property string|null plagiarism_latest_check_id - Id of the latest check
+ *      for this Charon in the Julia plagiarism service.
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
@@ -33,6 +40,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property Grademap[] $grademaps
  * @property Deadline[]|Collection $deadlines
  * @property Course moodleCourse
+ * @property Grouping $grouping
  *
  * @package TTU\Charon\Model
  */
@@ -44,13 +52,13 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'extra', 'tester_type_code', 'grading_method_code', 'course',
-        'timemodified'
+        'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
+        'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
     ];
 
     /**
-     * Required since Laravel thinks the table name should be charons.
-     * Moodle however, wants plugin table names to be singular.
+     * Required since Laravel thinks the table name should be charons. Moodle
+     * however, wants plugin table names to be singular.
      *
      * @var string
      */
@@ -79,6 +87,11 @@ class Charon extends Model
     public function category()
     {
         return $this->belongsTo(GradeCategory::class, 'category_id');
+    }
+
+    public function grouping()
+    {
+        return $this->belongsTo(Grouping::class, 'grouping_id');
     }
 
     public function submissions()

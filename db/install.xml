@@ -15,9 +15,12 @@
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
-                <FIELD NAME="extra" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
+                <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
 
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
@@ -244,7 +247,8 @@
                 <FIELD NAME="parent_category_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="calculation_formula" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
-                <FIELD NAME="extra" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="max_result" SEQUENCE="false" TYPE="number" NOTNULL="false" LENGTH="10" DECIMALS="2"/>
             </FIELDS>
@@ -331,6 +335,17 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_grade_name_prefix" TYPE="primary" FIELDS="code"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="charon_plagiarism_service"
+               COMMENT="Plagiarism services used to configure which services the plagiarism service uses to check for plagiarism.">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_plagiarism_service" TYPE="primary" FIELDS="code"/>
             </KEYS>
         </TABLE>
 

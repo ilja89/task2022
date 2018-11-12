@@ -1,13 +1,15 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups) {
+    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services) {
         this.initializeFields(instance, courseSettings);
 
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
         this.groups = groups;
+        this.groupings = groupings;
+        this.plagiarism_services = plagiarism_services;
         this.groups.unshift({ id: null, name: 'All groups' });
         this.recalculate_grades = false;
     }
@@ -95,7 +97,8 @@ export default class InstanceFormForm {
         this.fields = {
             name: instance['name'] ? instance['name'] : '',
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
-            extra: instance['extra'] ? instance['extra'] : '',
+            tester_extra: instance['tester_extra'] ? instance['tester_extra'] : '',
+            system_extra: instance['system_extra'] ? instance['system_extra'] : '',
             calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
             max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
 
@@ -103,9 +106,17 @@ export default class InstanceFormForm {
                 ? instance['tester_type_code']
                 : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
+            grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
 
             grademaps: [ ],
             deadlines: [ ],
+
+            plagiarism_enabled: false,
+            plagiarism_services: [null],
+            plagiarism_resource_providers: [
+                {repository: '', private_key: ''},
+            ],
+            plagiarism_includes: '',
 
             preset: null,
         };
@@ -153,7 +164,8 @@ export default class InstanceFormForm {
 
     updateFieldsToMatchActivePreset() {
         let preset = this.fields.preset;
-        this.fields.extra = preset.extra;
+        this.fields.tester_extra = preset.tester_extra;
+        this.fields.system_extra = preset.system_extra;
         this.fields.grading_method = preset.grading_method_code;
         this.fields.max_score = preset.max_result;
 
@@ -193,6 +205,14 @@ export default class InstanceFormForm {
             code: gradeTypeCode,
             name: this.getGradeTypeName(gradeTypeCode)
         };
+    }
+
+    addPlagiarismService() {
+        this.fields.plagiarism_services.push(null);
+    }
+
+    removePlagiarismService(index) {
+        this.fields.plagiarism_services.splice(index, 1);
     }
 
     getGradeTypeName(grade_type_code) {

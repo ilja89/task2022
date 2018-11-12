@@ -118,7 +118,7 @@ class CharonRepository
         if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
             throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
-        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group')
+        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
                      ->where('id', $courseModule->instance)
                      ->first();
         return $charon;
@@ -167,9 +167,11 @@ class CharonRepository
     {
         $oldCharon->name = $newCharon->name;
         $oldCharon->project_folder = $newCharon->project_folder;
-        $oldCharon->extra = $newCharon->extra;
+        $oldCharon->tester_extra = $newCharon->tester_extra;
+        $oldCharon->system_extra = $newCharon->system_extra;
         $oldCharon->tester_type_code = $newCharon->tester_type_code;
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
+        $oldCharon->grouping_id = $newCharon->grouping_id;
         $oldCharon->timemodified = Carbon::now()->timestamp;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
@@ -205,6 +207,7 @@ class CharonRepository
                 'charon.project_folder',
                 'course_modules.id AS course_module_id',
                 'charon.category_id',
+                'charon.grouping_id',
                 'charon.course'
             )
             ->orderBy('charon.name')
@@ -271,5 +274,21 @@ class CharonRepository
             ->with('charon')
             ->first()
             ->charon;
+    }
+
+    /**
+     * Set the plagiarism checksuite id for the given Charon.
+     *
+     * @param Charon $charon
+     * @param string $checksuiteId
+     *
+     * @return Charon
+     */
+    public function updatePlagiarismChecksuiteId(Charon $charon, $checksuiteId)
+    {
+        $charon->plagiarism_checksuite_id = $checksuiteId;
+        $charon->save();
+
+        return $charon;
     }
 }

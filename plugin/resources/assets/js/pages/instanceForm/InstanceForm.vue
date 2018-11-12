@@ -1,19 +1,19 @@
 <template>
     <div>
         <instance-form-fieldset
-                toggle_id="tgl1"
-                @advanced-was-toggled="toggleAdvancedInfoSection">
+            toggle_id="tgl1"
+            @advanced-was-toggled="toggleAdvancedInfoSection">
 
             <template slot="title">{{ translate('task_info_title') }}</template>
 
             <slot>
                 <advanced-task-info-section
-                        v-if="advanced_info_section_active"
-                        :form="form">
+                    v-if="advanced_info_section_active"
+                    :form="form">
                 </advanced-task-info-section>
                 <simple-task-info-section
-                        v-else
-                        :form="form">
+                    v-else
+                    :form="form">
                 </simple-task-info-section>
             </slot>
 
@@ -21,6 +21,29 @@
 
         <instance-form-fieldset
                 toggle_id="tgl2"
+                @advanced-was-toggled="toggleAdvancedPlagiarismSection">
+
+            <template slot="title">{{ translate('plagiarism_detection') }}</template>
+
+            <slot>
+                <advanced-plagiarism-section
+                        v-if="advanced_plagiarism_section_active"
+                        :form="form">
+                </advanced-plagiarism-section>
+                <advanced-plagiarism-section
+                    v-else
+                    :form="form">
+                </advanced-plagiarism-section>
+                <!--<simple-plagiarism-section-->
+                        <!--v-else-->
+                        <!--:form="form">-->
+                <!--</simple-plagiarism-section>-->
+            </slot>
+
+        </instance-form-fieldset>
+
+        <instance-form-fieldset
+                toggle_id="tgl3"
                 @advanced-was-toggled="toggleAdvancedGradingSection">
 
             <template slot="title">{{ translate('grading_title') }}</template>
@@ -39,6 +62,7 @@
         </instance-form-fieldset>
 
         <deadline-section :form="form"></deadline-section>
+        <grouping-section :form="form"></grouping-section>
 
         <notification :text="notification.text" :show="notification.show" :type="notification.type">
         </notification>
@@ -47,7 +71,9 @@
 
 <script>
     import {
-        AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection
+        AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection,
+        SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
+        SimplePlagiarismSection, GroupingSection
     } from './sections'
     import { InstanceFormFieldset } from '../../components/form'
     import { Translate } from '../../mixins'
@@ -62,14 +88,16 @@
 
         components: {
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
-            AdvancedTaskInfoSection, AdvancedGradingSection, InstanceFormFieldset,
-            Notification,
+            AdvancedTaskInfoSection, AdvancedGradingSection,
+            InstanceFormFieldset, Notification, AdvancedPlagiarismSection,
+            SimplePlagiarismSection, GroupingSection
         },
 
         data() {
             return {
                 advanced_info_section_active: false,
                 advanced_grading_section_active: false,
+                advanced_plagiarism_section_active: false,
 
                 notification: {
                     text: '',
@@ -86,6 +114,10 @@
 
             toggleAdvancedGradingSection(advanced_toggle) {
                 this.advanced_grading_section_active = advanced_toggle;
+            },
+
+            toggleAdvancedPlagiarismSection(advanced_toggle) {
+                this.advanced_plagiarism_section_active = advanced_toggle;
             },
 
             showNotification(message, type, timeout = 5000) {
@@ -108,10 +140,11 @@
         mounted() {
             VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
             VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
-            VueEvent.$on('extra-was-changed', (extra) => this.form.fields.extra = extra);
+            VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
+            VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);
             VueEvent.$on('tester-type-was-changed', (tester_type) => this.form.fields.tester_type = tester_type);
             VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
-
+            VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = grouping_id);
             VueEvent.$on('grade-type-was-activated', (activated_grade_type_code) => {
                 this.form.activateGrademap(activated_grade_type_code);
             });
@@ -135,6 +168,33 @@
             })
             VueEvent.$on('close-notification', () => {
                 this.hideNotification()
+            })
+
+            VueEvent.$on('plagiarism-service-was-changed', (index, serviceCode) => {
+                this.form.fields.plagiarism_services[index] = serviceCode
+            })
+            VueEvent.$on('plagiarism-service-was-added', () => {
+                this.form.fields.plagiarism_services.push(null)
+            })
+            VueEvent.$on('plagiarism-service-was-removed', index => {
+                this.form.fields.plagiarism_services.splice(index, 1)
+            })
+            VueEvent.$on('plagiarism-enabled-was-changed', (plagiarismEnabled) => {
+                this.form.fields.plagiarism_enabled = plagiarismEnabled
+            })
+            VueEvent.$on('plagiarism-resource-provider-was-added', () => {
+                this.form.fields.plagiarism_resource_providers.push({
+                    repository: '',
+                })
+            })
+            VueEvent.$on('plagiarism-resource-provider-repository-changed', (index, repo) => {
+                this.form.fields.plagiarism_resource_providers[index].repository = repo
+            })
+            VueEvent.$on('plagiarism-resource-provider-removed', index => {
+                this.form.fields.plagiarism_resource_providers.splice(index, 1)
+            })
+            VueEvent.$on('plagiarism-excludes-was-changed', excludes => {
+                this.form.fields.plagiarism_excludes = excludes
             })
         },
     }

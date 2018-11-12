@@ -28,8 +28,8 @@ $string['unittests_git_helper'] = 'The Git URL in which there are tests for this
 $string['tester_type_cs_helper']   = 'The tester type this course\'s assignments use. Usually the programming language '
                                 . 'mainly used in the course. Can also be overridden when creating a task.';
 $string['preset_name_helper']   = 'Name of the preset. Choose something easy to understand, eg. home tasks.';
-$string['extra_cs_helper'] = 'Extra parameters sent to the tester. Can be overridden while creating a '
-                                        . 'task.';
+$string['tester_extra_cs_helper'] = 'Extra parameters sent to the concrete tester (java, python, etc.). Eg. stylecheck for checking the style. Can also be overridden while creating a task.';
+$string['system_extra_cs_helper'] = 'Extra parameters sent to the core system. Eg. send uniid to the tester. Can also be overridden while creating a task.';
 $string['max_points_cs_helper'] = 'Maximum points gotten from these types of assignments.';
 $string['grading_method_cs_helper'] = 'Grading method used in these assignments.';
 $string['grades_helper'] = 'Grades checked in tasks with this preset. Tests_X is for automated tests, Style_X '
@@ -52,9 +52,11 @@ $string['calculation_formula_cs_helper'] = 'Formula for calculating the resultin
 \*------------------------*/
 $string['naming']              = 'Naming';
 $string['task_info']           = 'Task info';
+$string['plagiarism_detection'] = 'Plagiarism detection';
 $string['task_name']           = 'Task name';
 $string['project_folder_name'] = 'Project folder name';
-$string['extra']               = 'Extra parameters';
+$string['tester_extra']        = 'Extra tester parameters';
+$string['system_extra']        = 'Extra system parameters';
 $string['tester_type']         = 'Tester type';
 $string['grading']             = 'Grading';
 $string['grading_method']      = 'Grading method';
@@ -65,6 +67,11 @@ $string['max_points']          = 'Max points';
 $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset']              = 'Preset';
+$string['plagiarism_service']  = 'Plagiarism service';
+$string['plagiarism_enabled']  = 'Plagiarism enabled';
+$string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
+$string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
+$string['plagiarism_includes'] = 'Plagiarism includes';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -82,7 +89,8 @@ $string['deadline_helper'] = 'Deadline date and time.';
 $string['percentage_helper'] = 'Max percentage of points after deadline.';
 $string['group_helper'] = 'Group for which this deadline applies. WIP';
 $string['preset_select_helper'] = 'Any settings can be overridden in the advanced section.';
-$string['extra_helper'] = 'Extra parameters sent to the tester. Eg. stylecheck for checking the style.';
+$string['tester_extra_helper'] = 'Extra parameters sent to the concrete tester (java, python, etc.). Eg. stylecheck for checking the style.';
+$string['system_extra_helper'] = 'Extra parameters sent to the core system. Eg. send uniid to the tester.';
 $string['tester_type_helper'] = 'Tester type for this task. Usually just the programming language used.';
 $string['max_points_helper'] = 'Total points gotten from this assignment.';
 $string['calculation_formula_helper'] = 'Formula to use in calculating the total grade for submissions. '
@@ -92,8 +100,19 @@ $string['calculation_formula_helper'] = 'Formula to use in calculating the total
 $string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
 $string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
 $string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
+$string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
+    . 'check the submissions.';
+$string['plagiarism_resource_provider_repository_helper'] = 'Git repository that will be checked for plagiarism.';
+$string['plagiarism_resource_provider_private_key_helper'] = 'The private key which will be used to access files in '
+    . 'the repository.';
+$string['plagiarism_includes_helper'] = 'Pattern for files which will be included by the plagiarism check. For '
+    . 'example, ".*/EX13.*", will include everything in EX13 folders.';
 
+$string['remove_button_text'] = 'Remove';
+$string['add_button_text'] = 'Add';
 
+$string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
+$string['grouping'] = "Grouping";
 /*------------------------*\
    Assignment view
 \*------------------------*/

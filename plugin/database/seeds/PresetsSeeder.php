@@ -10,7 +10,7 @@ class PresetsSeeder extends Seeder
             'parent_category_id' => null,
             'course_id' => null,
             'calculation_formula' => '=[[Tests_1]] * [[Style_1]]',
-            'extra' => 'stylecheck',
+            'tester_extra' => 'stylecheck',
             'grading_method_code' => 1,
             'max_result' => 1,
             'preset_grades' => [
@@ -36,7 +36,7 @@ class PresetsSeeder extends Seeder
             'parent_category_id' => null,
             'course_id' => null,
             'calculation_formula' => '=[[Tests_1]] * [[Custom_1]]',
-            'extra' => '',
+            'tester_extra' => '',
             'grading_method_code' => 1,
             'max_result' => 1,
             'preset_grades' => [
@@ -62,7 +62,7 @@ class PresetsSeeder extends Seeder
             'parent_category_id' => null,
             'course_id' => null,
             'calculation_formula' => '=[[Tests_1]] * [[Style_1]] * [[Custom_1]]',
-            'extra' => 'stylecheck',
+            'tester_extra' => 'stylecheck',
             'grading_method_code' => 1,
             'max_result' => 1,
             'preset_grades' => [
@@ -104,14 +104,15 @@ class PresetsSeeder extends Seeder
                 'parent_category_id' => $preset['parent_category_id'],
                 'course_id' => $preset['course_id'],
                 'calculation_formula' => $preset['calculation_formula'],
-                'extra' => $preset['extra'],
+                'tester_extra' => $preset['tester_extra'],
                 'grading_method_code' => $preset['grading_method_code'],
                 'max_result' => $preset['max_result'],
             ]);
             foreach ($preset['preset_grades'] as $presetGrade) {
-                DB::table('charon_preset_grade')->insert(array_merge($presetGrade, [
-                    'preset_id' => $id
-                ]));
+                DB::table('charon_preset_grade')->insert(array_merge(
+                    $presetGrade,
+                    ['preset_id' => $id]
+                ));
             }
         }
     }

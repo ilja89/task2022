@@ -4,10 +4,9 @@
             subtitle="Output from the tester and mail sent to the student."
             class="output-section"
     >
-
         <charon-tabs
             v-if="submission"
-            class="card"
+            class="card popup-tabs"
             id="tabs"
             :sticky="stickyTabs"
         >

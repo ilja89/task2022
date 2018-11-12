@@ -29,7 +29,8 @@ $string['unittests_git_helper']          = 'Giti URL kus asuvad selle kursuse te
 $string['tester_type_helper']            = 'Selle kursuse ülesannete testeri tüüp, programmeerimise keel. Ülesannet luues saab '
                                            . 'seda muuta.';
 $string['preset_name_helper']            = 'Preseti nimi. Nt. kodutööd.';
-$string['extra_cs_helper']               = 'Testerile saadetavad extra parameetrid. Ülesannet luues saab seda muuta.';
+$string['tester_extra_cs_helper'] = 'Konkreetsele testerile (java, python, jne.) saadetavad ekstra parameetrid. Ülesannet luues saab seda muuta.';
+$string['system_extra_cs_helper'] = 'Testeri süsteemile saadetavad parameetrid. Ülesannet luues saab seda muuta.';
 $string['max_points_cs_helper']          = 'Selle presetiga loodud ülesannete maksimum punktid.';
 $string['grading_method_cs_helper']      = 'Selle presetiga loodud ülesannete hindamise meetod. Prefer last: hinne '
                                            . 'muudetakse alati, kui pole kinnitatud esitust. Prefer best: hinne muudetakse '
@@ -50,9 +51,11 @@ $string['calculation_formula_cs_helper'] = 'Valem mille järgi ülesande kokkuv�
 \*------------------------*/
 $string['naming']              = 'Nimetamine';
 $string['task_info']           = 'Ülesande andmed';
+$string['plagiarism_detection'] = 'Plagiarismikontroll';
 $string['task_name']           = 'Ülesande nimi';
 $string['project_folder_name'] = 'Projekti kausta nimi';
-$string['extra']               = 'Ekstra parameetrid';
+$string['tester_extra']        = 'Ekstra parameetrid testerile';
+$string['system_extra']        = 'Ekstra parameetrid süsteemile';
 $string['tester_type']         = 'Testeri tüüp';
 $string['grading']             = 'Hindamine';
 $string['grading_method']      = 'Hindamise meetod';
@@ -63,6 +66,11 @@ $string['max_points']          = 'Maksimum punktid';
 $string['id_number']           = 'ID number';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset']              = 'Preset';
+$string['plagiarism_service']  = 'Plagiarismi teenus';
+$string['plagiarism_enabled']  = 'Plagiarismikontroll aktiivne';
+$string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
+$string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
+$string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
 
 $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -78,7 +86,8 @@ $string['deadline_helper']            = 'Tähtaja kuupäev ja aeg.';
 $string['percentage_helper']          = 'Protsent, mis võetakse hindeks kui pärast tähtaega töö esitatakse.';
 $string['group_helper']               = 'Grupp kellele see hinne kehtib. Praegu ei tööta.';
 $string['preset_select_helper']       = 'Kõiki seadeid saab "advanced" sektsioonis muuta.';
-$string['extra_helper']               = 'Testerile saadetavad extra parameetrid. Nt "stylecheck" käivitab stiili kontrolli.';
+$string['tester_extra_helper'] = 'Konkreetsele testerile (java, python, jne.) saadetavad ekstra parameetrid.';
+$string['system_extra_helper'] = 'Testeri süsteemile saadetavad parameetrid.';
 $string['tester_type_helper']         = 'Testeri tüüp, tavaliselt programmeerimise keel.';
 $string['calculation_formula_helper'] = 'Valem mille järgi ülesande kokkuvõttev hinne arvutatakse. Kasutab sama süntaksit '
                                         . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '
@@ -86,8 +95,18 @@ $string['calculation_formula_helper'] = 'Valem mille järgi ülesande kokkuvõtt
 $string['grade_name_helper']          = 'Moodli hinde nimetus. Nt EX01 - Testid.';
 $string['max_points_grade_helper']    = 'Selle hinde matsimum punktid.';
 $string['id_number_helper']           = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
+$string['plagiarism_service_helper'] = 'Plagiarismikontrolli teenus, mida kasutatakse plagiarismi teenuse poolt.';
+$string['plagiarism_resource_provider_repository_helper'] = 'Giti repositoorium, milles olevaid faile kontrollitakse plagiarismi teenuse poolt.';
+$string['plagiarism_resource_provider_private_key_helper'] = 'Privaatvõti, mida kasutatakse repositooriumi failidele '
+    . 'ligipääsuks.';
+$string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, mida plagiaadikontroll kontrollib. '
+    . 'Näiteks, regex ".*/EX13.*", kontrollib kõiki faile EX13 kaustades.';
 
+$string['remove_button_text'] = 'Eemalda';
+$string['add_button_text'] = 'Lisa';
 
+$string['grouping'] = "Grupeering";
+$string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
 /*------------------------*\
    Assignment view
 \*------------------------*/

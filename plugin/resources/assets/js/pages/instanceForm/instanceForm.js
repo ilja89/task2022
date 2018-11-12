@@ -7,6 +7,15 @@ const app = new Vue({
     el: '#app',
     components: { InstanceForm },
     data: {
-        form: new InstanceFormForm(instance, testerTypes, gradingMethods, courseSettings, presets, groups)
+        form: new InstanceFormForm(
+            instance,
+            testerTypes,
+            gradingMethods,
+            courseSettings,
+            presets,
+            groups,
+            groupings,
+            plagiarismServices
+        )
     },
 });

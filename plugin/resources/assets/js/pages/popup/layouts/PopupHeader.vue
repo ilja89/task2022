@@ -5,9 +5,15 @@
             <div class="ttu-logo"></div>
         </div>
 
+        <div class="column header-right mobile-title-header-right">
+            <div class="course-title-mobile-container"><h1>{{getCourseName()}}</h1></div>
+        </div>
+
         <div class="column  header-right">
 
             <student-search @student-was-changed="onStudentChanged"/>
+
+            <div class="course-title-container"><h1>{{getCourseName()}}</h1></div>
 
             <div class="header-icons">
 
@@ -46,6 +52,9 @@
             onSubmissionAdded() {
                 VueEvent.$emit('refresh-page');
             },
+            getCourseName() {
+                return window.course_name;
+            }
         },
     }
 </script>

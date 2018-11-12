@@ -8,8 +8,12 @@ export default {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
         },
 
-        onExtraChanged(extra) {
-            VueEvent.$emit('extra-was-changed', extra);
+        onTesterExtraChanged(extra) {
+            VueEvent.$emit('tester-extra-was-changed', extra);
+        },
+
+        onSystemExtraChanged(extra) {
+            VueEvent.$emit('system-extra-was-changed', extra);
         },
 
         onTesterTypeChanged(testerType) {
@@ -38,6 +42,38 @@ export default {
 
         onPresetChanged(presetId) {
             VueEvent.$emit('preset-was-changed', presetId);
-        }
-    }
+        },
+
+        onPlagiarismServiceChanged(index, serviceCode) {
+            VueEvent.$emit('plagiarism-service-was-changed', index, serviceCode);
+        },
+
+        onPlagiarismServiceAdded() {
+            VueEvent.$emit('plagiarism-service-was-added');
+        },
+
+        onPlagiarismServiceRemoved(index) {
+            VueEvent.$emit('plagiarism-service-was-removed', index);
+        },
+
+        onPlagiarismEnabledChanged(plagiarismEnabled) {
+            VueEvent.$emit('plagiarism-enabled-was-changed', plagiarismEnabled.target.checked)
+        },
+
+        onPlagiarismResourceProviderAdded() {
+            VueEvent.$emit('plagiarism-resource-provider-was-added')
+        },
+
+        onPlagiarismResourceProviderRepositoryChanged(index, repo) {
+            VueEvent.$emit('plagiarism-resource-provider-repository-changed', index, repo)
+        },
+
+        onPlagiarismResourceProviderRemoved(index) {
+            VueEvent.$emit('plagiarism-resource-provider-removed', index)
+        },
+
+        onPlagiarismExcludesChanged(excludes) {
+            VueEvent.$emit('plagiarism-excludes-was-changed', excludes)
+        },
+    },
 };

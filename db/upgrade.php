@@ -161,5 +161,46 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2018063002) {
+        # TODO: Make into single change
+        $sql = "UPDATE {charon} SET extra = '' WHERE extra IS NULL";
+        $DB->execute($sql);
+        $sql = "UPDATE {charon_preset} SET extra = '' WHERE extra IS NULL";
+        $DB->execute($sql);
+
+        $sql = "ALTER TABLE {charon} CHANGE COLUMN extra tester_extra TEXT";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE {charon} ADD COLUMN system_extra TEXT";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE {charon_preset} CHANGE COLUMN extra tester_extra TEXT";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE {charon_preset} ADD COLUMN system_extra TEXT";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2018080700) {
+        $sql = "CREATE TABLE {charon_plagiarism_service}(".
+            "code INT NOT NULL,".
+            "name VARCHAR(255) NOT NULL,".
+            "PRIMARY KEY (code)".
+            ")";
+        $DB->execute($sql);
+
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+    }
+
+    if ($oldversion < 2018082000) {
+        $sql = "ALTER TABLE {charon} ADD COLUMN plagiarism_checksuite_id VARCHAR(255)";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2018082100) {
+        $sql = "ALTER TABLE {charon} ADD COLUMN plagiarism_latest_check_id VARCHAR(255)";
+        $DB->execute($sql);
+    }
+
     return true;
 }

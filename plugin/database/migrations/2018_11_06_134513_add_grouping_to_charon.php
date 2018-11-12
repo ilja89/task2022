@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCourseToCharon extends Migration
+class AddGroupingToCharon extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddCourseToCharon extends Migration
     public function up()
     {
         Schema::table('charon', function (Blueprint $table) {
-            $table->bigInteger('course');
+            $table->bigInteger('grouping_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddCourseToCharon extends Migration
     public function down()
     {
         Schema::table('charon', function (Blueprint $table) {
-            $table->dropColumn('course');
+            $table->dropColumn('grouping_id');
         });
     }
 }

@@ -6,6 +6,8 @@ import Preset from './Preset'
 import Submission from './Submission'
 import User from './User'
 
+export { default as Plagiarism } from './Plagiarism'
+
 export {
-    Charon, Comment, File, Output, Preset, Submission, User
+    Charon, Comment, File, Output, Preset, Submission, User,
 }
