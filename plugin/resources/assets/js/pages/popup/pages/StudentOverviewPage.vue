@@ -45,7 +45,7 @@
 
         watch: {
             $route() {
-                if (typeof this.routeStudentId !== 'undefined') {
+                if (typeof this.routeStudentId !== 'undefined' && this.$route.name == 'student-overview') {
                     this.getStudent()
                     this.getStudentOverviewTable()
                 }
