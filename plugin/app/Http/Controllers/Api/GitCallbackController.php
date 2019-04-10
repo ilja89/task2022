@@ -101,7 +101,8 @@ class GitCallbackController extends Controller {
           Log::info("Course found!");
           break;
         }
-        $pos = strrpos($meta, "-", $pos - 1);
+        // find the next place to split the rest of the name
+        $pos = strrpos($course_name, "-");
       }
     }
 
