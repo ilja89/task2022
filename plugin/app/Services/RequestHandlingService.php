@@ -38,6 +38,7 @@ class RequestHandlingService
             'submission_id' => $submissionId,
             'path'     => $request['path'],
             'contents' => $request['contents'],
+            'is_test'  => $request['isTest'],
         ]);
     }
 
