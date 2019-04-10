@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer $id
  * @property integer $submission_id
+ * @property integer $is_test
  * @property string $path
  * @property string $contents
  *
@@ -21,7 +22,7 @@ class SubmissionFile extends Model
     public $timestamps = false;
     protected $table = 'charon_submission_file';
     protected $fillable = [
-        'submission_id', 'path', 'contents'
+        'submission_id', 'path', 'contents', 'is_test'
     ];
 
     public function submission()
