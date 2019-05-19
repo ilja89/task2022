@@ -7,6 +7,9 @@ import router from './routes'
 import store from './store'
 
 import { HighlightDirective } from './../../directives'
+import VueApexCharts from 'vue-apexcharts';
+
+Vue.component('apexcharts', VueApexCharts);
 
 Vue.directive('highlightjs', HighlightDirective)
 window.axiosNoLoading = axios.create()

@@ -4,7 +4,6 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -12,6 +11,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -137,6 +137,31 @@ class SubmissionsController extends Controller
         );
 
         return $submissions;
+    }
+
+    /**
+     * Find all confirmed submissions for user.
+     *
+     * @param Course $course
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getByUser(Course $course, User $user)
+    {
+        return $this->submissionsRepository->findConfirmedSubmissionsForUser($user->id);
+    }
+
+    /**
+     * Find average Charon submission result in the given course.
+     *
+     * @param Course $course
+     *
+     * @return array
+     */
+    public function findBestAverageCourseSubmissions(Course $course)
+    {
+        return $this->submissionsRepository->findBestAverageCourseSubmissions($course->id);
     }
 
     /**
