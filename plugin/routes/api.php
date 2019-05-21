@@ -65,4 +65,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/submissions/counts', 'SubmissionsController@findSubmissionCounts');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/average', 'SubmissionsController@findBestAverageCourseSubmissions');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/submissions/submissions-report', 'SubmissionsController@findAllSubmissionsForReport');
 });

@@ -186,4 +186,16 @@ class SubmissionsController extends Controller
     {
         return $this->submissionsRepository->findSubmissionCounts($course->id);
     }
+
+    /**
+     * Find all Submissions for report table.
+     *
+     * @param Course $course
+     *
+     * @return array
+     */
+    public function findAllSubmissionsForReport(Course $course)
+    {
+        return $this->submissionsRepository->findAllSubmissionsForReport($course->id);
+    }
 }

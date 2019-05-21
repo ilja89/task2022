@@ -103,6 +103,15 @@ class Submission {
                 VueEvent.$emit('show-notification', 'Error retrieving Submission submission average.', 'danger')
             })
     }
+
+    static findAllSubmissionsForReport(courseId, then) {
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/submissions-report`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
+        })
+    }
 }
 
 Submission.nextUrl = null

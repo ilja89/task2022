@@ -369,6 +369,25 @@ order by subs_per_user desc',
             [$courseId]
         );
 
+        return $result;
+    }
+
+    /**
+     * Find all Submissions for report table by given id.
+     *
+     * @param $courseId
+     * 
+     * @return mixed
+     */
+    public function findAllSubmissionsForReport($courseId) {
+        $result = DB::select(DB::raw(
+            "SELECT ch_su.id, us.firstname, us.lastname, ch.name, ch_re.calculated_result, ch_su.confirmed, ch_su.git_timestamp
+                FROM mdl_charon_submission ch_su
+	                INNER JOIN mdl_user us ON us.id = ch_su.user_id
+	                INNER JOIN mdl_charon ch ON ch.id = ch_su.charon_id
+	                INNER JOIN mdl_charon_result ch_re ON ch_re.submission_id = ch_su.id
+	                WHERE ch_re.grade_type_code = 1 AND ch.course = '$courseId'"
+        ));
 
         return $result;
     }
