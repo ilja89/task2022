@@ -90,9 +90,12 @@ class Submission {
     }
 
     static findByUser(courseId, userId, then) {
-        axios.get(`/mod/charon/api/courses/${courseId}/users/${userId}/submissions`).then(data => {
-            then(data.data);
-        });
+        axios.get(`/mod/charon/api/courses/${courseId}/users/${userId}/submissions`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger')
+            })
     }
 
     static findBestAverageCourseSubmissions(courseId, then) {
@@ -100,7 +103,7 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Submission submission average.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger')
             })
     }
 
@@ -109,8 +112,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
+            })
     }
 }
 

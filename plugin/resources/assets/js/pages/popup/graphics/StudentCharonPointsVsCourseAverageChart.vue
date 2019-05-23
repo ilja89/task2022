@@ -96,15 +96,15 @@
                             text: 'Exercises',
                             style: {
                                 fontSize: '20px'
-                            }
-                        }
+                            },
+                        },
                     },
                     yaxis: {
                         title: {
                             text: 'Points',
                             style: {
                                 fontSize: '20px'
-                            }
+                            },
                         },
                     },
                 };
@@ -126,7 +126,7 @@
                         data:
                     },*/
                 ];
-            }
+            },
         },
 
         methods: {
@@ -148,8 +148,8 @@
                 immediate: true,
                 handler() {
                     Submission.findByUser(this.courseId, this.student.id, this.getStudentConfirmedSubmissions);
-                }
-            }
-        }
+                },
+            },
+        },
     };
 </script>

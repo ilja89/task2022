@@ -170,14 +170,6 @@ class SubmissionsRepository
     public function findBestAverageCourseSubmissions($courseId)
     {
         // TODO: Convert to query builder?
-        /*$sub = DB::table('charon as ch')
-            ->select('cs.user_id', 'ch.id', DB::raw('MAX(mdl_cr.calculated_result) as max_calc_result'))
-            ->join('charon_submission as cs', 'cs.charon_id', '=', 'ch.id')
-            ->join('charon_result as cr', 'cr.submission_id', '=', 'cs.id')
-            ->where('cr.grade_type_code', 1)
-            ->where('ch.course', $courseId)
-            ->groupBy('cs.user_id', 'ch.id')
-            ->get();*/
 
         $result = DB::select(DB::raw(
             "SELECT sub.id, ROUND(AVG(sub.max_calc_result), 2) as average_calc_result FROM
@@ -379,7 +371,10 @@ order by subs_per_user desc',
      *
      * @return mixed
      */
-    public function findAllSubmissionsForReport($courseId) {
+    public function findAllSubmissionsForReport($courseId)
+    {
+        // TODO: Convert to query builder?
+
         $result = DB::select(DB::raw(
             "SELECT sub.id, sub.firstname, sub.lastname, sub.name, GROUP_CONCAT(sub.calculated_result 
                 ORDER BY sub.grade_type_code SEPARATOR ' | ') AS submission_result, ROUND(sub.finalgrade, 2) 

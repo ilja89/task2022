@@ -40,7 +40,7 @@
                 return this.charons.map(c => {
                     return {name: c.name, id: c.id};
                 });
-            }
+            },
         },
 
         data() {
@@ -77,8 +77,8 @@
             ]),
 
             getStudent() {
-                const courseId = this.courseId
-                const studentId = this.$route.params.student_id
+                const courseId = this.courseId;
+                const studentId = this.$route.params.student_id;
 
                 this.fetchStudent({ courseId, studentId });
                 Charon.all(courseId, this.setCharons);
@@ -91,10 +91,10 @@
 
             setAverageSubmissions(averageSubmissions) {
                 this.averageSubmissions = averageSubmissions;
-            }
+            },
         },
         created() {
             Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
-        }
+        },
     }
 </script>
