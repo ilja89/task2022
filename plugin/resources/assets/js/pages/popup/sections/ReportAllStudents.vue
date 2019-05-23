@@ -2,7 +2,7 @@
 
     <popup-section
             title="Students report"
-            subtitle="Search in all students submissions in this course. "
+            subtitle="Search in all students submissions in this course."
     >
         <div>
             <vue-good-table ref="myTable"
@@ -33,6 +33,9 @@
                 @on-column-filter="onColumnFilter"
             >
                 <div slot="table-actions">
+                    <button class="button is-primary" @click="resetFilters">
+                        Reset Filters
+                    </button>
                     <vue-json-to-csv
                         :json-data="jsonData"
                         :csv-title="'ReportExportToCsvTable'"
@@ -42,7 +45,8 @@
                                    submissionResult: { title: 'Submission Result' },
                                    submissionTotal: { title: 'Submission Total' },
                                    isConfirmed: { title: 'Is Confirmed' },
-                                   gitTimestamp: { title: 'Git Push Time' } }"
+                                   gitTimestamp: { title: 'Git Push Time' }
+                        }"
                         :separator="';'">
                         <button class="button is-primary">
                             Export CSV Table
@@ -101,18 +105,18 @@
                     {
                         label: 'Exercise Name',
                         field: 'exerciseName',
+                        width: '155px',
                         filterOptions: {
                             enabled: true,
                             placeholder: 'Filter Exercises',
                             filterDropdownItems: this.submissionsForReport,
                         },
-                        width: '155px',
                     },
                     {
                         label: 'Submission Result',
                         field: 'submissionResult',
-                        formatFn: this.formatSubmissionResult,
-                        width: '290px'
+                        width: '290px',
+                        formatFn: this.formatSubmissionResult
                     },
                     {
                         label: 'Submission Total',
@@ -122,22 +126,27 @@
                     {
                         label: 'Is Confirmed',
                         field: 'isConfirmed',
+                        width: '180px',
                         filterOptions: {
                             enabled: true,
                             placeholder: 'Filter (un)confirmed',
                             filterValue: '',
                             filterDropdownItems: this.submissionsForReport,
                         },
-                        width: '180px',
                     },
                     {
                         label: 'Git push time',
                         field: 'gitTimestamp',
                         type: 'datetime',
-                        width: '185px'
+                        width: '190px',
+                        filterOptions: {
+                            enabled: true,
+                            placeholder: 'Filter Commit',
+                            filterDropdownItems: this.submissionsForReport,
+                        },
                     },
                 ],
-                search: {}
+                search: {} // Object is needed for filtered data export.
             };
         },
 
@@ -151,9 +160,9 @@
             },
 
             jsonData() {
-                this.search.changed = true;
+                this.search.changed = true; // Changing data to call method in computed section.
                 return this.$refs.myTable ? this.$refs.myTable.filteredRows[0].children : [];
-            }
+            },
         },
 
         methods: {
@@ -179,10 +188,14 @@
             onColumnFilter(searchValue) {
                 this.search = searchValue;
             },
+
+            resetFilters() {
+                this.$refs.myTable.reset();
+            },
         },
 
         created() {
             Submission.findAllSubmissionsForReport(this.courseId, this.setSubmissionsForReport);
-        }
+        },
     };
 </script>

@@ -89132,6 +89132,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -89167,17 +89171,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, {
                 label: 'Exercise Name',
                 field: 'exerciseName',
+                width: '155px',
                 filterOptions: {
                     enabled: true,
                     placeholder: 'Filter Exercises',
                     filterDropdownItems: this.submissionsForReport
-                },
-                width: '155px'
+                }
             }, {
                 label: 'Submission Result',
                 field: 'submissionResult',
-                formatFn: this.formatSubmissionResult,
-                width: '290px'
+                width: '290px',
+                formatFn: this.formatSubmissionResult
             }, {
                 label: 'Submission Total',
                 field: 'submissionTotal',
@@ -89185,20 +89189,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, {
                 label: 'Is Confirmed',
                 field: 'isConfirmed',
+                width: '180px',
                 filterOptions: {
                     enabled: true,
                     placeholder: 'Filter (un)confirmed',
                     filterValue: '',
                     filterDropdownItems: this.submissionsForReport
-                },
-                width: '180px'
+                }
             }, {
                 label: 'Git push time',
                 field: 'gitTimestamp',
                 type: 'datetime',
-                width: '185px'
+                width: '190px',
+                filterOptions: {
+                    enabled: true,
+                    placeholder: 'Filter Commit',
+                    filterDropdownItems: this.submissionsForReport
+                }
             }],
-            search: {}
+            search: {} // Object is needed for filtered data export.
         };
     },
 
@@ -89208,7 +89217,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             return this.submissionsForReport;
         },
         jsonData: function jsonData() {
-            this.search.changed = true;
+            this.search.changed = true; // Changing data to call method in computed section.
             return this.$refs.myTable ? this.$refs.myTable.filteredRows[0].children : [];
         }
     }),
@@ -89233,6 +89242,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
         onColumnFilter: function onColumnFilter(searchValue) {
             this.search = searchValue;
+        },
+        resetFilters: function resetFilters() {
+            this.$refs.myTable.reset();
         }
     },
 
@@ -106302,7 +106314,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('popup-section', {
     attrs: {
       "title": "Students report",
-      "subtitle": "Search in all students submissions in this course. "
+      "subtitle": "Search in all students submissions in this course."
     }
   }, [_c('div', [_c('vue-good-table', {
     ref: "myTable",
@@ -106340,7 +106352,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "table-actions"
     },
     slot: "table-actions"
-  }, [_c('vue-json-to-csv', {
+  }, [_c('button', {
+    staticClass: "button is-primary",
+    on: {
+      "click": _vm.resetFilters
+    }
+  }, [_vm._v("\n                    Reset Filters\n                ")]), _vm._v(" "), _c('vue-json-to-csv', {
     attrs: {
       "json-data": _vm.jsonData,
       "csv-title": 'ReportExportToCsvTable',
