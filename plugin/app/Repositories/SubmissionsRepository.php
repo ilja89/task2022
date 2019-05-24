@@ -388,7 +388,7 @@ order by subs_per_user desc',
 				            LEFT JOIN mdl_grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
 				            LEFT JOIN mdl_grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
 				            WHERE gr_gr.itemid = gr_it.id) sub
-	                GROUP BY sub.id"
+	                GROUP BY sub.id, sub.firstname, sub.lastname, sub.name, sub.finalgrade"
         ));
 
         return $result;
