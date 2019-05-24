@@ -88,6 +88,33 @@ class Submission {
                 VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.', 'danger')
             })
     }
+
+    static findByUser(courseId, userId, then) {
+        axios.get(`/mod/charon/api/courses/${courseId}/users/${userId}/submissions`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger')
+            })
+    }
+
+    static findBestAverageCourseSubmissions(courseId, then) {
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/average`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger')
+            })
+    }
+
+    static findAllSubmissionsForReport(courseId, then) {
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/submissions-report`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
+            })
+    }
 }
 
 Submission.nextUrl = null

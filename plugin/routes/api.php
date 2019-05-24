@@ -58,7 +58,13 @@ Route::group(['namespace' => 'Api'], function () {
          ->post('submissions/{submission}/retest', 'RetestController@index');
 
     Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/counts', 'SubmissionsController@findSubmissionCounts');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/submissions/average', 'SubmissionsController@findBestAverageCourseSubmissions');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/submissions/submissions-report', 'SubmissionsController@findAllSubmissionsForReport');
 });

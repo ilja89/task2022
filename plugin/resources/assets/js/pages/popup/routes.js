@@ -7,6 +7,7 @@ import {
     StudentOverviewPage,
     DashboardPage,
     PlagiarismPage,
+    ReportStatistics,
 } from './pages';
 
 Vue.use(VueRouter)
@@ -41,6 +42,12 @@ const routes = [
         title: 'Plagiarism',
         component: PlagiarismPage,
         name: 'plagiarism',
+    },
+    {
+        path: '/report-statistics',
+        title: 'Report & Statictics',
+        component: ReportStatistics,
+        name: 'report-statistics',
     },
     {
         path: '*',

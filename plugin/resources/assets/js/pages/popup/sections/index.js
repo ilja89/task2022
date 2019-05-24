@@ -6,11 +6,12 @@ import LatestSubmissionsSection from './LatestSubmissionsSection'
 import ActiveStudentsSection from './ActiveStudentsSection'
 import SubmissionCountsSection from './SubmissionCountsSection'
 import StudentsDistributionSection from './StudentsDistributionSection'
+import ReportAllStudents from './ReportAllStudents'
 
 export { default as PlagiarismResultsSection } from './PlagiarismResultsSection'
 
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, ActiveStudentsSection,
-    SubmissionCountsSection, StudentsDistributionSection,
+    SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents,
 }

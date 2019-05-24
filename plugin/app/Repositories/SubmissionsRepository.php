@@ -141,6 +141,50 @@ class SubmissionsRepository
     }
 
     /**
+     * Finds all confirmed submissions for given user.
+     *
+     * @param  int  $userId
+     *
+     * @return array
+     */
+    public function findConfirmedSubmissionsForUser($userId)
+    {
+        $result = DB::table('charon_result as cr')
+            ->select('cr.calculated_result', 'cs.charon_id')
+            ->join('charon_submission as cs', 'cs.id', '=', 'cr.submission_id')
+            ->where('cs.user_id', $userId)
+            ->where('cr.grade_type_code', 1)
+            ->where('cs.confirmed', 1)
+            ->get();
+
+        return $result;
+    }
+
+    /**
+     * Finds all course submissions and calculates each Charon average.
+     *
+     * @param $courseId
+     *
+     * @return array
+     */
+    public function findBestAverageCourseSubmissions($courseId)
+    {
+        // TODO: Convert to query builder?
+
+        $result = DB::select(DB::raw(
+            "SELECT sub.id, ROUND(AVG(sub.max_calc_result), 2) as average_calc_result FROM
+		        (SELECT su.user_id, ch.id, MAX(re.calculated_result) as max_calc_result FROM mdl_charon ch
+                    INNER JOIN mdl_charon_submission su ON su.charon_id = ch.id
+			        INNER JOIN mdl_charon_result re on re.submission_id = su.id
+			        WHERE re.grade_type_code = 1 AND ch.course = '$courseId'
+		        GROUP BY su.user_id, ch.id) sub
+            GROUP BY sub.id"
+        ));
+
+        return $result;
+    }
+
+    /**
      * Confirms the given submission.
      *
      * @param  Submission $submission
@@ -317,6 +361,35 @@ order by subs_per_user desc',
             [$courseId]
         );
 
+        return $result;
+    }
+
+    /**
+     * Find all Submissions for report table by given id.
+     *
+     * @param $courseId
+     *
+     * @return mixed
+     */
+    public function findAllSubmissionsForReport($courseId)
+    {
+        // TODO: Convert to query builder?
+
+        $result = DB::select(DB::raw(
+            "SELECT sub.id, sub.firstname, sub.lastname, sub.name, GROUP_CONCAT(sub.calculated_result 
+                ORDER BY sub.grade_type_code SEPARATOR ' | ') AS submission_result, ROUND(sub.finalgrade, 2) 
+                AS finalgrade, sub.confirmed, sub.git_timestamp
+	                FROM (SELECT ch_su.id, us.firstname, us.lastname, ch.name, ch_re.calculated_result, ch_re.grade_type_code,
+	                        gr_gr.finalgrade, ch_su.confirmed, ch_su.git_timestamp
+			            FROM mdl_charon_submission ch_su
+				            INNER JOIN mdl_user us ON us.id = ch_su.user_id
+				            INNER JOIN mdl_charon ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
+				            INNER JOIN mdl_charon_result ch_re ON ch_re.submission_id = ch_su.id
+				            LEFT JOIN mdl_grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
+				            LEFT JOIN mdl_grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
+				            WHERE gr_gr.itemid = gr_it.id) sub
+	                GROUP BY sub.id"
+        ));
 
         return $result;
     }
