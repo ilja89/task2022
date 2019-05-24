@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 525);
+/******/ 	return __webpack_require__(__webpack_require__.s = 528);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2279,7 +2279,7 @@ var index_esm = {
   createNamespacedHelpers: createNamespacedHelpers
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (index_esm);
+/* harmony default export */ __webpack_exports__["a"] = index_esm;
 
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
@@ -7023,87 +7023,6 @@ module.exports = defaults;
 
 /***/ }),
 /* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue__ = __webpack_require__(426);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PopupBody_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue__ = __webpack_require__(427);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue__ = __webpack_require__(428);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__PopupSection_vue__);
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue___default.a; });
-/* unused harmony reexport PopupNavigation */
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue___default.a; });
-
-
-
-
-
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CharonSelect__ = __webpack_require__(436);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CharonSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CharonSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ExtraOptions__ = __webpack_require__(437);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ExtraOptions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ExtraOptions__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loader__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loader__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__OutputComponent__ = __webpack_require__(438);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__OutputComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__OutputComponent__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StudentSearch__ = __webpack_require__(441);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StudentSearch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__StudentSearch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SubmissionsList__ = __webpack_require__(443);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SubmissionsList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__SubmissionsList__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo__ = __webpack_require__(442);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__SubmissionInfo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PageTitle__ = __webpack_require__(439);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PageTitle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__PageTitle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Submission__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Submission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Submission__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__PopupSelect__ = __webpack_require__(148);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__PopupSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__PopupSelect__);
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__CharonSelect___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__ExtraOptions___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_2__Loader___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_3__OutputComponent___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__StudentSearch___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_5__SubmissionsList___default.a; });
-/* unused harmony reexport SubmissionInfoBit */
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__PageTitle___default.a; });
-/* unused harmony reexport Submission */
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_10__PopupSelect___default.a; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs__);
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs___default.a; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -7171,6 +7090,87 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue__ = __webpack_require__(428);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PopupBody_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue__ = __webpack_require__(429);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__PopupNavigation_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue__ = __webpack_require__(430);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__PopupSection_vue__);
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__PopupBody_vue___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__PopupHeader_vue___default.a; });
+/* unused harmony reexport PopupNavigation */
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__PopupSection_vue___default.a; });
+
+
+
+
+
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CharonSelect__ = __webpack_require__(438);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CharonSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CharonSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ExtraOptions__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ExtraOptions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ExtraOptions__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loader__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loader__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__OutputComponent__ = __webpack_require__(440);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__OutputComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__OutputComponent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StudentSearch__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StudentSearch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__StudentSearch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SubmissionsList__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SubmissionsList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__SubmissionsList__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__SubmissionInfoBit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo__ = __webpack_require__(444);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__SubmissionInfo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PageTitle__ = __webpack_require__(441);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PageTitle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__PageTitle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Submission__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Submission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Submission__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__PopupSelect__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__PopupSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__PopupSelect__);
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__CharonSelect___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__ExtraOptions___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_2__Loader___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_3__OutputComponent___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__StudentSearch___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_5__SubmissionsList___default.a; });
+/* unused harmony reexport SubmissionInfoBit */
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_7__SubmissionInfo___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__PageTitle___default.a; });
+/* unused harmony reexport Submission */
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_10__PopupSelect___default.a; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs__ = __webpack_require__(442);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs__);
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_11__PlagiarismSimilaritiesTabs___default.a; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /***/ }),
 /* 15 */
@@ -9293,7 +9293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         name: { required: true },
         selected: { default: false }
@@ -9307,7 +9307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.isActive = this.selected;
     }
-});
+};
 
 /***/ }),
 /* 46 */
@@ -9336,7 +9336,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         sticky: {
             type: Boolean,
@@ -9363,7 +9363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     }
-});
+};
 
 /***/ }),
 /* 47 */
@@ -9385,7 +9385,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { DatePicker: __WEBPACK_IMPORTED_MODULE_0_vue_datepicker___default.a },
 
@@ -9427,7 +9427,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }]
         };
     }
-});
+};
 
 /***/ }),
 /* 48 */
@@ -9451,7 +9451,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: 'FileTree',
 
     components: { FileTreeRow: __WEBPACK_IMPORTED_MODULE_0__FileTreeRow___default.a },
@@ -9459,7 +9459,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         data: { required: true }
     }
-});
+};
 
 /***/ }),
 /* 49 */
@@ -9541,7 +9541,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
   name: 'FileTreeRow',
 
   props: {
@@ -9581,7 +9581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   }
-});
+};
 
 /***/ }),
 /* 50 */
@@ -9631,7 +9631,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { FileTree: __WEBPACK_IMPORTED_MODULE_1__FileTree___default.a },
 
@@ -9784,7 +9784,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
 /* 51 */
@@ -9828,7 +9828,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     props: {
         submission: { required: true },
@@ -9896,7 +9896,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.activeFileId = file.id;
         }
     }
-});
+};
 
 /***/ }),
 /* 52 */
@@ -9925,12 +9925,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     props: {
         isActive: { required: true }
     }
-});
+};
 
 /***/ }),
 /* 53 */
@@ -9950,7 +9950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         text: { required: true },
         show: { required: true },
@@ -9968,7 +9968,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             VueEvent.$emit('close-notification');
         }
     }
-});
+};
 
 /***/ }),
 /* 54 */
@@ -10012,7 +10012,7 @@ var Charon = function () {
     return Charon;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (Charon);
+/* harmony default export */ __webpack_exports__["a"] = Charon;
 
 /***/ }),
 /* 55 */
@@ -10054,7 +10054,7 @@ var Comment = function () {
     return Comment;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (Comment);
+/* harmony default export */ __webpack_exports__["a"] = Comment;
 
 /***/ }),
 /* 56 */
@@ -10086,7 +10086,7 @@ var File = function () {
     return File;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (File);
+/* harmony default export */ __webpack_exports__["a"] = File;
 
 /***/ }),
 /* 57 */
@@ -10120,7 +10120,7 @@ var Output = function () {
     return Output;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (Output);
+/* harmony default export */ __webpack_exports__["a"] = Output;
 
 /***/ }),
 /* 58 */
@@ -10176,7 +10176,7 @@ var Plagiarism = function () {
     return Plagiarism;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (Plagiarism);
+/* harmony default export */ __webpack_exports__["a"] = Plagiarism;
 
 /***/ }),
 /* 59 */
@@ -10219,7 +10219,7 @@ var Preset = function () {
     return Preset;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (Preset);
+/* harmony default export */ __webpack_exports__["a"] = Preset;
 
 /***/ }),
 /* 60 */
@@ -10337,6 +10337,8 @@ var Submission = function () {
         value: function findByUser(courseId, userId, then) {
             axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/submissions').then(function (data) {
                 then(data.data);
+            }).catch(function (error) {
+                VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger');
             });
         }
     }, {
@@ -10345,7 +10347,7 @@ var Submission = function () {
             window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/average').then(function (data) {
                 then(data.data);
             }).catch(function (error) {
-                VueEvent.$emit('show-notification', 'Error retrieving Submission submission average.', 'danger');
+                VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger');
             });
         }
     }, {
@@ -10364,7 +10366,7 @@ var Submission = function () {
 
 Submission.nextUrl = null;
 
-/* harmony default export */ __webpack_exports__["a"] = (Submission);
+/* harmony default export */ __webpack_exports__["a"] = Submission;
 
 /***/ }),
 /* 61 */
@@ -10429,7 +10431,7 @@ var User = function () {
     return User;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (User);
+/* harmony default export */ __webpack_exports__["a"] = User;
 
 /***/ }),
 /* 62 */
@@ -10629,7 +10631,7 @@ function webpackContext(req) {
 };
 function webpackContextResolve(req) {
 	var id = map[req];
-	if(!(id + 1)) // check for number or string
+	if(!(id + 1)) // check for number
 		throw new Error("Cannot find module '" + req + "'.");
 	return id;
 };
@@ -10639,6 +10641,7 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 70;
+
 
 /***/ }),
 /* 71 */
@@ -23942,7 +23945,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(14).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(12).setImmediate))
 
 /***/ }),
 /* 99 */
@@ -23955,7 +23958,7 @@ module.exports = Vue;
  * Released under the MIT License.
  */
 var e=Object.freeze({});function t(e){return null==e}function n(e){return null!=e}function r(e){return!0===e}function i(e){return"string"==typeof e||"number"==typeof e||"symbol"==typeof e||"boolean"==typeof e}function o(e){return null!==e&&"object"==typeof e}var a=Object.prototype.toString;function s(e){return"[object Object]"===a.call(e)}function c(e){var t=parseFloat(String(e));return t>=0&&Math.floor(t)===t&&isFinite(e)}function u(e){return n(e)&&"function"==typeof e.then&&"function"==typeof e.catch}function l(e){return null==e?"":Array.isArray(e)||s(e)&&e.toString===a?JSON.stringify(e,null,2):String(e)}function f(e){var t=parseFloat(e);return isNaN(t)?e:t}function p(e,t){for(var n=Object.create(null),r=e.split(","),i=0;i<r.length;i++)n[r[i]]=!0;return t?function(e){return n[e.toLowerCase()]}:function(e){return n[e]}}var d=p("slot,component",!0),v=p("key,ref,slot,slot-scope,is");function h(e,t){if(e.length){var n=e.indexOf(t);if(n>-1)return e.splice(n,1)}}var m=Object.prototype.hasOwnProperty;function y(e,t){return m.call(e,t)}function g(e){var t=Object.create(null);return function(n){return t[n]||(t[n]=e(n))}}var _=/-(\w)/g,b=g(function(e){return e.replace(_,function(e,t){return t?t.toUpperCase():""})}),$=g(function(e){return e.charAt(0).toUpperCase()+e.slice(1)}),w=/\B([A-Z])/g,C=g(function(e){return e.replace(w,"-$1").toLowerCase()});var x=Function.prototype.bind?function(e,t){return e.bind(t)}:function(e,t){function n(n){var r=arguments.length;return r?r>1?e.apply(t,arguments):e.call(t,n):e.call(t)}return n._length=e.length,n};function k(e,t){t=t||0;for(var n=e.length-t,r=new Array(n);n--;)r[n]=e[n+t];return r}function A(e,t){for(var n in t)e[n]=t[n];return e}function O(e){for(var t={},n=0;n<e.length;n++)e[n]&&A(t,e[n]);return t}function S(e,t,n){}var T=function(e,t,n){return!1},E=function(e){return e};function N(e,t){if(e===t)return!0;var n=o(e),r=o(t);if(!n||!r)return!n&&!r&&String(e)===String(t);try{var i=Array.isArray(e),a=Array.isArray(t);if(i&&a)return e.length===t.length&&e.every(function(e,n){return N(e,t[n])});if(e instanceof Date&&t instanceof Date)return e.getTime()===t.getTime();if(i||a)return!1;var s=Object.keys(e),c=Object.keys(t);return s.length===c.length&&s.every(function(n){return N(e[n],t[n])})}catch(e){return!1}}function j(e,t){for(var n=0;n<e.length;n++)if(N(e[n],t))return n;return-1}function D(e){var t=!1;return function(){t||(t=!0,e.apply(this,arguments))}}var L="data-server-rendered",M=["component","directive","filter"],I=["beforeCreate","created","beforeMount","mounted","beforeUpdate","updated","beforeDestroy","destroyed","activated","deactivated","errorCaptured","serverPrefetch"],F={optionMergeStrategies:Object.create(null),silent:!1,productionTip:!1,devtools:!1,performance:!1,errorHandler:null,warnHandler:null,ignoredElements:[],keyCodes:Object.create(null),isReservedTag:T,isReservedAttr:T,isUnknownElement:T,getTagNamespace:S,parsePlatformTagName:E,mustUseProp:T,async:!0,_lifecycleHooks:I},P=/a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;function R(e,t,n,r){Object.defineProperty(e,t,{value:n,enumerable:!!r,writable:!0,configurable:!0})}var H=new RegExp("[^"+P.source+".$_\\d]");var B,U="__proto__"in{},z="undefined"!=typeof window,V="undefined"!=typeof WXEnvironment&&!!WXEnvironment.platform,K=V&&WXEnvironment.platform.toLowerCase(),J=z&&window.navigator.userAgent.toLowerCase(),q=J&&/msie|trident/.test(J),W=J&&J.indexOf("msie 9.0")>0,Z=J&&J.indexOf("edge/")>0,G=(J&&J.indexOf("android"),J&&/iphone|ipad|ipod|ios/.test(J)||"ios"===K),X=(J&&/chrome\/\d+/.test(J),J&&/phantomjs/.test(J),J&&J.match(/firefox\/(\d+)/)),Y={}.watch,Q=!1;if(z)try{var ee={};Object.defineProperty(ee,"passive",{get:function(){Q=!0}}),window.addEventListener("test-passive",null,ee)}catch(e){}var te=function(){return void 0===B&&(B=!z&&!V&&"undefined"!=typeof global&&(global.process&&"server"===global.process.env.VUE_ENV)),B},ne=z&&window.__VUE_DEVTOOLS_GLOBAL_HOOK__;function re(e){return"function"==typeof e&&/native code/.test(e.toString())}var ie,oe="undefined"!=typeof Symbol&&re(Symbol)&&"undefined"!=typeof Reflect&&re(Reflect.ownKeys);ie="undefined"!=typeof Set&&re(Set)?Set:function(){function e(){this.set=Object.create(null)}return e.prototype.has=function(e){return!0===this.set[e]},e.prototype.add=function(e){this.set[e]=!0},e.prototype.clear=function(){this.set=Object.create(null)},e}();var ae=S,se=0,ce=function(){this.id=se++,this.subs=[]};ce.prototype.addSub=function(e){this.subs.push(e)},ce.prototype.removeSub=function(e){h(this.subs,e)},ce.prototype.depend=function(){ce.target&&ce.target.addDep(this)},ce.prototype.notify=function(){for(var e=this.subs.slice(),t=0,n=e.length;t<n;t++)e[t].update()},ce.target=null;var ue=[];function le(e){ue.push(e),ce.target=e}function fe(){ue.pop(),ce.target=ue[ue.length-1]}var pe=function(e,t,n,r,i,o,a,s){this.tag=e,this.data=t,this.children=n,this.text=r,this.elm=i,this.ns=void 0,this.context=o,this.fnContext=void 0,this.fnOptions=void 0,this.fnScopeId=void 0,this.key=t&&t.key,this.componentOptions=a,this.componentInstance=void 0,this.parent=void 0,this.raw=!1,this.isStatic=!1,this.isRootInsert=!0,this.isComment=!1,this.isCloned=!1,this.isOnce=!1,this.asyncFactory=s,this.asyncMeta=void 0,this.isAsyncPlaceholder=!1},de={child:{configurable:!0}};de.child.get=function(){return this.componentInstance},Object.defineProperties(pe.prototype,de);var ve=function(e){void 0===e&&(e="");var t=new pe;return t.text=e,t.isComment=!0,t};function he(e){return new pe(void 0,void 0,void 0,String(e))}function me(e){var t=new pe(e.tag,e.data,e.children&&e.children.slice(),e.text,e.elm,e.context,e.componentOptions,e.asyncFactory);return t.ns=e.ns,t.isStatic=e.isStatic,t.key=e.key,t.isComment=e.isComment,t.fnContext=e.fnContext,t.fnOptions=e.fnOptions,t.fnScopeId=e.fnScopeId,t.asyncMeta=e.asyncMeta,t.isCloned=!0,t}var ye=Array.prototype,ge=Object.create(ye);["push","pop","shift","unshift","splice","sort","reverse"].forEach(function(e){var t=ye[e];R(ge,e,function(){for(var n=[],r=arguments.length;r--;)n[r]=arguments[r];var i,o=t.apply(this,n),a=this.__ob__;switch(e){case"push":case"unshift":i=n;break;case"splice":i=n.slice(2)}return i&&a.observeArray(i),a.dep.notify(),o})});var _e=Object.getOwnPropertyNames(ge),be=!0;function $e(e){be=e}var we=function(e){var t;this.value=e,this.dep=new ce,this.vmCount=0,R(e,"__ob__",this),Array.isArray(e)?(U?(t=ge,e.__proto__=t):function(e,t,n){for(var r=0,i=n.length;r<i;r++){var o=n[r];R(e,o,t[o])}}(e,ge,_e),this.observeArray(e)):this.walk(e)};function Ce(e,t){var n;if(o(e)&&!(e instanceof pe))return y(e,"__ob__")&&e.__ob__ instanceof we?n=e.__ob__:be&&!te()&&(Array.isArray(e)||s(e))&&Object.isExtensible(e)&&!e._isVue&&(n=new we(e)),t&&n&&n.vmCount++,n}function xe(e,t,n,r,i){var o=new ce,a=Object.getOwnPropertyDescriptor(e,t);if(!a||!1!==a.configurable){var s=a&&a.get,c=a&&a.set;s&&!c||2!==arguments.length||(n=e[t]);var u=!i&&Ce(n);Object.defineProperty(e,t,{enumerable:!0,configurable:!0,get:function(){var t=s?s.call(e):n;return ce.target&&(o.depend(),u&&(u.dep.depend(),Array.isArray(t)&&function e(t){for(var n=void 0,r=0,i=t.length;r<i;r++)(n=t[r])&&n.__ob__&&n.__ob__.dep.depend(),Array.isArray(n)&&e(n)}(t))),t},set:function(t){var r=s?s.call(e):n;t===r||t!=t&&r!=r||s&&!c||(c?c.call(e,t):n=t,u=!i&&Ce(t),o.notify())}})}}function ke(e,t,n){if(Array.isArray(e)&&c(t))return e.length=Math.max(e.length,t),e.splice(t,1,n),n;if(t in e&&!(t in Object.prototype))return e[t]=n,n;var r=e.__ob__;return e._isVue||r&&r.vmCount?n:r?(xe(r.value,t,n),r.dep.notify(),n):(e[t]=n,n)}function Ae(e,t){if(Array.isArray(e)&&c(t))e.splice(t,1);else{var n=e.__ob__;e._isVue||n&&n.vmCount||y(e,t)&&(delete e[t],n&&n.dep.notify())}}we.prototype.walk=function(e){for(var t=Object.keys(e),n=0;n<t.length;n++)xe(e,t[n])},we.prototype.observeArray=function(e){for(var t=0,n=e.length;t<n;t++)Ce(e[t])};var Oe=F.optionMergeStrategies;function Se(e,t){if(!t)return e;for(var n,r,i,o=oe?Reflect.ownKeys(t):Object.keys(t),a=0;a<o.length;a++)"__ob__"!==(n=o[a])&&(r=e[n],i=t[n],y(e,n)?r!==i&&s(r)&&s(i)&&Se(r,i):ke(e,n,i));return e}function Te(e,t,n){return n?function(){var r="function"==typeof t?t.call(n,n):t,i="function"==typeof e?e.call(n,n):e;return r?Se(r,i):i}:t?e?function(){return Se("function"==typeof t?t.call(this,this):t,"function"==typeof e?e.call(this,this):e)}:t:e}function Ee(e,t){var n=t?e?e.concat(t):Array.isArray(t)?t:[t]:e;return n?function(e){for(var t=[],n=0;n<e.length;n++)-1===t.indexOf(e[n])&&t.push(e[n]);return t}(n):n}function Ne(e,t,n,r){var i=Object.create(e||null);return t?A(i,t):i}Oe.data=function(e,t,n){return n?Te(e,t,n):t&&"function"!=typeof t?e:Te(e,t)},I.forEach(function(e){Oe[e]=Ee}),M.forEach(function(e){Oe[e+"s"]=Ne}),Oe.watch=function(e,t,n,r){if(e===Y&&(e=void 0),t===Y&&(t=void 0),!t)return Object.create(e||null);if(!e)return t;var i={};for(var o in A(i,e),t){var a=i[o],s=t[o];a&&!Array.isArray(a)&&(a=[a]),i[o]=a?a.concat(s):Array.isArray(s)?s:[s]}return i},Oe.props=Oe.methods=Oe.inject=Oe.computed=function(e,t,n,r){if(!e)return t;var i=Object.create(null);return A(i,e),t&&A(i,t),i},Oe.provide=Te;var je=function(e,t){return void 0===t?e:t};function De(e,t,n){if("function"==typeof t&&(t=t.options),function(e,t){var n=e.props;if(n){var r,i,o={};if(Array.isArray(n))for(r=n.length;r--;)"string"==typeof(i=n[r])&&(o[b(i)]={type:null});else if(s(n))for(var a in n)i=n[a],o[b(a)]=s(i)?i:{type:i};e.props=o}}(t),function(e,t){var n=e.inject;if(n){var r=e.inject={};if(Array.isArray(n))for(var i=0;i<n.length;i++)r[n[i]]={from:n[i]};else if(s(n))for(var o in n){var a=n[o];r[o]=s(a)?A({from:o},a):{from:a}}}}(t),function(e){var t=e.directives;if(t)for(var n in t){var r=t[n];"function"==typeof r&&(t[n]={bind:r,update:r})}}(t),!t._base&&(t.extends&&(e=De(e,t.extends,n)),t.mixins))for(var r=0,i=t.mixins.length;r<i;r++)e=De(e,t.mixins[r],n);var o,a={};for(o in e)c(o);for(o in t)y(e,o)||c(o);function c(r){var i=Oe[r]||je;a[r]=i(e[r],t[r],n,r)}return a}function Le(e,t,n,r){if("string"==typeof n){var i=e[t];if(y(i,n))return i[n];var o=b(n);if(y(i,o))return i[o];var a=$(o);return y(i,a)?i[a]:i[n]||i[o]||i[a]}}function Me(e,t,n,r){var i=t[e],o=!y(n,e),a=n[e],s=Pe(Boolean,i.type);if(s>-1)if(o&&!y(i,"default"))a=!1;else if(""===a||a===C(e)){var c=Pe(String,i.type);(c<0||s<c)&&(a=!0)}if(void 0===a){a=function(e,t,n){if(!y(t,"default"))return;var r=t.default;if(e&&e.$options.propsData&&void 0===e.$options.propsData[n]&&void 0!==e._props[n])return e._props[n];return"function"==typeof r&&"Function"!==Ie(t.type)?r.call(e):r}(r,i,e);var u=be;$e(!0),Ce(a),$e(u)}return a}function Ie(e){var t=e&&e.toString().match(/^\s*function (\w+)/);return t?t[1]:""}function Fe(e,t){return Ie(e)===Ie(t)}function Pe(e,t){if(!Array.isArray(t))return Fe(t,e)?0:-1;for(var n=0,r=t.length;n<r;n++)if(Fe(t[n],e))return n;return-1}function Re(e,t,n){le();try{if(t)for(var r=t;r=r.$parent;){var i=r.$options.errorCaptured;if(i)for(var o=0;o<i.length;o++)try{if(!1===i[o].call(r,e,t,n))return}catch(e){Be(e,r,"errorCaptured hook")}}Be(e,t,n)}finally{fe()}}function He(e,t,n,r,i){var o;try{(o=n?e.apply(t,n):e.call(t))&&!o._isVue&&u(o)&&!o._handled&&(o.catch(function(e){return Re(e,r,i+" (Promise/async)")}),o._handled=!0)}catch(e){Re(e,r,i)}return o}function Be(e,t,n){if(F.errorHandler)try{return F.errorHandler.call(null,e,t,n)}catch(t){t!==e&&Ue(t,null,"config.errorHandler")}Ue(e,t,n)}function Ue(e,t,n){if(!z&&!V||"undefined"==typeof console)throw e;console.error(e)}var ze,Ve=!1,Ke=[],Je=!1;function qe(){Je=!1;var e=Ke.slice(0);Ke.length=0;for(var t=0;t<e.length;t++)e[t]()}if("undefined"!=typeof Promise&&re(Promise)){var We=Promise.resolve();ze=function(){We.then(qe),G&&setTimeout(S)},Ve=!0}else if(q||"undefined"==typeof MutationObserver||!re(MutationObserver)&&"[object MutationObserverConstructor]"!==MutationObserver.toString())ze="undefined"!=typeof setImmediate&&re(setImmediate)?function(){setImmediate(qe)}:function(){setTimeout(qe,0)};else{var Ze=1,Ge=new MutationObserver(qe),Xe=document.createTextNode(String(Ze));Ge.observe(Xe,{characterData:!0}),ze=function(){Ze=(Ze+1)%2,Xe.data=String(Ze)},Ve=!0}function Ye(e,t){var n;if(Ke.push(function(){if(e)try{e.call(t)}catch(e){Re(e,t,"nextTick")}else n&&n(t)}),Je||(Je=!0,ze()),!e&&"undefined"!=typeof Promise)return new Promise(function(e){n=e})}var Qe=new ie;function et(e){!function e(t,n){var r,i;var a=Array.isArray(t);if(!a&&!o(t)||Object.isFrozen(t)||t instanceof pe)return;if(t.__ob__){var s=t.__ob__.dep.id;if(n.has(s))return;n.add(s)}if(a)for(r=t.length;r--;)e(t[r],n);else for(i=Object.keys(t),r=i.length;r--;)e(t[i[r]],n)}(e,Qe),Qe.clear()}var tt=g(function(e){var t="&"===e.charAt(0),n="~"===(e=t?e.slice(1):e).charAt(0),r="!"===(e=n?e.slice(1):e).charAt(0);return{name:e=r?e.slice(1):e,once:n,capture:r,passive:t}});function nt(e,t){function n(){var e=arguments,r=n.fns;if(!Array.isArray(r))return He(r,null,arguments,t,"v-on handler");for(var i=r.slice(),o=0;o<i.length;o++)He(i[o],null,e,t,"v-on handler")}return n.fns=e,n}function rt(e,n,i,o,a,s){var c,u,l,f;for(c in e)u=e[c],l=n[c],f=tt(c),t(u)||(t(l)?(t(u.fns)&&(u=e[c]=nt(u,s)),r(f.once)&&(u=e[c]=a(f.name,u,f.capture)),i(f.name,u,f.capture,f.passive,f.params)):u!==l&&(l.fns=u,e[c]=l));for(c in n)t(e[c])&&o((f=tt(c)).name,n[c],f.capture)}function it(e,i,o){var a;e instanceof pe&&(e=e.data.hook||(e.data.hook={}));var s=e[i];function c(){o.apply(this,arguments),h(a.fns,c)}t(s)?a=nt([c]):n(s.fns)&&r(s.merged)?(a=s).fns.push(c):a=nt([s,c]),a.merged=!0,e[i]=a}function ot(e,t,r,i,o){if(n(t)){if(y(t,r))return e[r]=t[r],o||delete t[r],!0;if(y(t,i))return e[r]=t[i],o||delete t[i],!0}return!1}function at(e){return i(e)?[he(e)]:Array.isArray(e)?function e(o,a){var s=[];var c,u,l,f;for(c=0;c<o.length;c++)t(u=o[c])||"boolean"==typeof u||(l=s.length-1,f=s[l],Array.isArray(u)?u.length>0&&(st((u=e(u,(a||"")+"_"+c))[0])&&st(f)&&(s[l]=he(f.text+u[0].text),u.shift()),s.push.apply(s,u)):i(u)?st(f)?s[l]=he(f.text+u):""!==u&&s.push(he(u)):st(u)&&st(f)?s[l]=he(f.text+u.text):(r(o._isVList)&&n(u.tag)&&t(u.key)&&n(a)&&(u.key="__vlist"+a+"_"+c+"__"),s.push(u)));return s}(e):void 0}function st(e){return n(e)&&n(e.text)&&!1===e.isComment}function ct(e,t){if(e){for(var n=Object.create(null),r=oe?Reflect.ownKeys(e):Object.keys(e),i=0;i<r.length;i++){var o=r[i];if("__ob__"!==o){for(var a=e[o].from,s=t;s;){if(s._provided&&y(s._provided,a)){n[o]=s._provided[a];break}s=s.$parent}if(!s&&"default"in e[o]){var c=e[o].default;n[o]="function"==typeof c?c.call(t):c}}}return n}}function ut(e,t){if(!e||!e.length)return{};for(var n={},r=0,i=e.length;r<i;r++){var o=e[r],a=o.data;if(a&&a.attrs&&a.attrs.slot&&delete a.attrs.slot,o.context!==t&&o.fnContext!==t||!a||null==a.slot)(n.default||(n.default=[])).push(o);else{var s=a.slot,c=n[s]||(n[s]=[]);"template"===o.tag?c.push.apply(c,o.children||[]):c.push(o)}}for(var u in n)n[u].every(lt)&&delete n[u];return n}function lt(e){return e.isComment&&!e.asyncFactory||" "===e.text}function ft(t,n,r){var i,o=Object.keys(n).length>0,a=t?!!t.$stable:!o,s=t&&t.$key;if(t){if(t._normalized)return t._normalized;if(a&&r&&r!==e&&s===r.$key&&!o&&!r.$hasNormal)return r;for(var c in i={},t)t[c]&&"$"!==c[0]&&(i[c]=pt(n,c,t[c]))}else i={};for(var u in n)u in i||(i[u]=dt(n,u));return t&&Object.isExtensible(t)&&(t._normalized=i),R(i,"$stable",a),R(i,"$key",s),R(i,"$hasNormal",o),i}function pt(e,t,n){var r=function(){var e=arguments.length?n.apply(null,arguments):n({});return(e=e&&"object"==typeof e&&!Array.isArray(e)?[e]:at(e))&&(0===e.length||1===e.length&&e[0].isComment)?void 0:e};return n.proxy&&Object.defineProperty(e,t,{get:r,enumerable:!0,configurable:!0}),r}function dt(e,t){return function(){return e[t]}}function vt(e,t){var r,i,a,s,c;if(Array.isArray(e)||"string"==typeof e)for(r=new Array(e.length),i=0,a=e.length;i<a;i++)r[i]=t(e[i],i);else if("number"==typeof e)for(r=new Array(e),i=0;i<e;i++)r[i]=t(i+1,i);else if(o(e))if(oe&&e[Symbol.iterator]){r=[];for(var u=e[Symbol.iterator](),l=u.next();!l.done;)r.push(t(l.value,r.length)),l=u.next()}else for(s=Object.keys(e),r=new Array(s.length),i=0,a=s.length;i<a;i++)c=s[i],r[i]=t(e[c],c,i);return n(r)||(r=[]),r._isVList=!0,r}function ht(e,t,n,r){var i,o=this.$scopedSlots[e];o?(n=n||{},r&&(n=A(A({},r),n)),i=o(n)||t):i=this.$slots[e]||t;var a=n&&n.slot;return a?this.$createElement("template",{slot:a},i):i}function mt(e){return Le(this.$options,"filters",e)||E}function yt(e,t){return Array.isArray(e)?-1===e.indexOf(t):e!==t}function gt(e,t,n,r,i){var o=F.keyCodes[t]||n;return i&&r&&!F.keyCodes[t]?yt(i,r):o?yt(o,e):r?C(r)!==t:void 0}function _t(e,t,n,r,i){if(n)if(o(n)){var a;Array.isArray(n)&&(n=O(n));var s=function(o){if("class"===o||"style"===o||v(o))a=e;else{var s=e.attrs&&e.attrs.type;a=r||F.mustUseProp(t,s,o)?e.domProps||(e.domProps={}):e.attrs||(e.attrs={})}var c=b(o),u=C(o);c in a||u in a||(a[o]=n[o],i&&((e.on||(e.on={}))["update:"+o]=function(e){n[o]=e}))};for(var c in n)s(c)}else;return e}function bt(e,t){var n=this._staticTrees||(this._staticTrees=[]),r=n[e];return r&&!t?r:(wt(r=n[e]=this.$options.staticRenderFns[e].call(this._renderProxy,null,this),"__static__"+e,!1),r)}function $t(e,t,n){return wt(e,"__once__"+t+(n?"_"+n:""),!0),e}function wt(e,t,n){if(Array.isArray(e))for(var r=0;r<e.length;r++)e[r]&&"string"!=typeof e[r]&&Ct(e[r],t+"_"+r,n);else Ct(e,t,n)}function Ct(e,t,n){e.isStatic=!0,e.key=t,e.isOnce=n}function xt(e,t){if(t)if(s(t)){var n=e.on=e.on?A({},e.on):{};for(var r in t){var i=n[r],o=t[r];n[r]=i?[].concat(i,o):o}}else;return e}function kt(e,t,n,r){t=t||{$stable:!n};for(var i=0;i<e.length;i++){var o=e[i];Array.isArray(o)?kt(o,t,n):o&&(o.proxy&&(o.fn.proxy=!0),t[o.key]=o.fn)}return r&&(t.$key=r),t}function At(e,t){for(var n=0;n<t.length;n+=2){var r=t[n];"string"==typeof r&&r&&(e[t[n]]=t[n+1])}return e}function Ot(e,t){return"string"==typeof e?t+e:e}function St(e){e._o=$t,e._n=f,e._s=l,e._l=vt,e._t=ht,e._q=N,e._i=j,e._m=bt,e._f=mt,e._k=gt,e._b=_t,e._v=he,e._e=ve,e._u=kt,e._g=xt,e._d=At,e._p=Ot}function Tt(t,n,i,o,a){var s,c=this,u=a.options;y(o,"_uid")?(s=Object.create(o))._original=o:(s=o,o=o._original);var l=r(u._compiled),f=!l;this.data=t,this.props=n,this.children=i,this.parent=o,this.listeners=t.on||e,this.injections=ct(u.inject,o),this.slots=function(){return c.$slots||ft(t.scopedSlots,c.$slots=ut(i,o)),c.$slots},Object.defineProperty(this,"scopedSlots",{enumerable:!0,get:function(){return ft(t.scopedSlots,this.slots())}}),l&&(this.$options=u,this.$slots=this.slots(),this.$scopedSlots=ft(t.scopedSlots,this.$slots)),u._scopeId?this._c=function(e,t,n,r){var i=Pt(s,e,t,n,r,f);return i&&!Array.isArray(i)&&(i.fnScopeId=u._scopeId,i.fnContext=o),i}:this._c=function(e,t,n,r){return Pt(s,e,t,n,r,f)}}function Et(e,t,n,r,i){var o=me(e);return o.fnContext=n,o.fnOptions=r,t.slot&&((o.data||(o.data={})).slot=t.slot),o}function Nt(e,t){for(var n in t)e[b(n)]=t[n]}St(Tt.prototype);var jt={init:function(e,t){if(e.componentInstance&&!e.componentInstance._isDestroyed&&e.data.keepAlive){var r=e;jt.prepatch(r,r)}else{(e.componentInstance=function(e,t){var r={_isComponent:!0,_parentVnode:e,parent:t},i=e.data.inlineTemplate;n(i)&&(r.render=i.render,r.staticRenderFns=i.staticRenderFns);return new e.componentOptions.Ctor(r)}(e,Wt)).$mount(t?e.elm:void 0,t)}},prepatch:function(t,n){var r=n.componentOptions;!function(t,n,r,i,o){var a=i.data.scopedSlots,s=t.$scopedSlots,c=!!(a&&!a.$stable||s!==e&&!s.$stable||a&&t.$scopedSlots.$key!==a.$key),u=!!(o||t.$options._renderChildren||c);t.$options._parentVnode=i,t.$vnode=i,t._vnode&&(t._vnode.parent=i);if(t.$options._renderChildren=o,t.$attrs=i.data.attrs||e,t.$listeners=r||e,n&&t.$options.props){$e(!1);for(var l=t._props,f=t.$options._propKeys||[],p=0;p<f.length;p++){var d=f[p],v=t.$options.props;l[d]=Me(d,v,n,t)}$e(!0),t.$options.propsData=n}r=r||e;var h=t.$options._parentListeners;t.$options._parentListeners=r,qt(t,r,h),u&&(t.$slots=ut(o,i.context),t.$forceUpdate())}(n.componentInstance=t.componentInstance,r.propsData,r.listeners,n,r.children)},insert:function(e){var t,n=e.context,r=e.componentInstance;r._isMounted||(r._isMounted=!0,Yt(r,"mounted")),e.data.keepAlive&&(n._isMounted?((t=r)._inactive=!1,en.push(t)):Xt(r,!0))},destroy:function(e){var t=e.componentInstance;t._isDestroyed||(e.data.keepAlive?function e(t,n){if(n&&(t._directInactive=!0,Gt(t)))return;if(!t._inactive){t._inactive=!0;for(var r=0;r<t.$children.length;r++)e(t.$children[r]);Yt(t,"deactivated")}}(t,!0):t.$destroy())}},Dt=Object.keys(jt);function Lt(i,a,s,c,l){if(!t(i)){var f=s.$options._base;if(o(i)&&(i=f.extend(i)),"function"==typeof i){var p;if(t(i.cid)&&void 0===(i=function(e,i){if(r(e.error)&&n(e.errorComp))return e.errorComp;if(n(e.resolved))return e.resolved;var a=Ht;a&&n(e.owners)&&-1===e.owners.indexOf(a)&&e.owners.push(a);if(r(e.loading)&&n(e.loadingComp))return e.loadingComp;if(a&&!n(e.owners)){var s=e.owners=[a],c=!0,l=null,f=null;a.$on("hook:destroyed",function(){return h(s,a)});var p=function(e){for(var t=0,n=s.length;t<n;t++)s[t].$forceUpdate();e&&(s.length=0,null!==l&&(clearTimeout(l),l=null),null!==f&&(clearTimeout(f),f=null))},d=D(function(t){e.resolved=Bt(t,i),c?s.length=0:p(!0)}),v=D(function(t){n(e.errorComp)&&(e.error=!0,p(!0))}),m=e(d,v);return o(m)&&(u(m)?t(e.resolved)&&m.then(d,v):u(m.component)&&(m.component.then(d,v),n(m.error)&&(e.errorComp=Bt(m.error,i)),n(m.loading)&&(e.loadingComp=Bt(m.loading,i),0===m.delay?e.loading=!0:l=setTimeout(function(){l=null,t(e.resolved)&&t(e.error)&&(e.loading=!0,p(!1))},m.delay||200)),n(m.timeout)&&(f=setTimeout(function(){f=null,t(e.resolved)&&v(null)},m.timeout)))),c=!1,e.loading?e.loadingComp:e.resolved}}(p=i,f)))return function(e,t,n,r,i){var o=ve();return o.asyncFactory=e,o.asyncMeta={data:t,context:n,children:r,tag:i},o}(p,a,s,c,l);a=a||{},$n(i),n(a.model)&&function(e,t){var r=e.model&&e.model.prop||"value",i=e.model&&e.model.event||"input";(t.attrs||(t.attrs={}))[r]=t.model.value;var o=t.on||(t.on={}),a=o[i],s=t.model.callback;n(a)?(Array.isArray(a)?-1===a.indexOf(s):a!==s)&&(o[i]=[s].concat(a)):o[i]=s}(i.options,a);var d=function(e,r,i){var o=r.options.props;if(!t(o)){var a={},s=e.attrs,c=e.props;if(n(s)||n(c))for(var u in o){var l=C(u);ot(a,c,u,l,!0)||ot(a,s,u,l,!1)}return a}}(a,i);if(r(i.options.functional))return function(t,r,i,o,a){var s=t.options,c={},u=s.props;if(n(u))for(var l in u)c[l]=Me(l,u,r||e);else n(i.attrs)&&Nt(c,i.attrs),n(i.props)&&Nt(c,i.props);var f=new Tt(i,c,a,o,t),p=s.render.call(null,f._c,f);if(p instanceof pe)return Et(p,i,f.parent,s);if(Array.isArray(p)){for(var d=at(p)||[],v=new Array(d.length),h=0;h<d.length;h++)v[h]=Et(d[h],i,f.parent,s);return v}}(i,d,a,s,c);var v=a.on;if(a.on=a.nativeOn,r(i.options.abstract)){var m=a.slot;a={},m&&(a.slot=m)}!function(e){for(var t=e.hook||(e.hook={}),n=0;n<Dt.length;n++){var r=Dt[n],i=t[r],o=jt[r];i===o||i&&i._merged||(t[r]=i?Mt(o,i):o)}}(a);var y=i.options.name||l;return new pe("vue-component-"+i.cid+(y?"-"+y:""),a,void 0,void 0,void 0,s,{Ctor:i,propsData:d,listeners:v,tag:l,children:c},p)}}}function Mt(e,t){var n=function(n,r){e(n,r),t(n,r)};return n._merged=!0,n}var It=1,Ft=2;function Pt(e,a,s,c,u,l){return(Array.isArray(s)||i(s))&&(u=c,c=s,s=void 0),r(l)&&(u=Ft),function(e,i,a,s,c){if(n(a)&&n(a.__ob__))return ve();n(a)&&n(a.is)&&(i=a.is);if(!i)return ve();Array.isArray(s)&&"function"==typeof s[0]&&((a=a||{}).scopedSlots={default:s[0]},s.length=0);c===Ft?s=at(s):c===It&&(s=function(e){for(var t=0;t<e.length;t++)if(Array.isArray(e[t]))return Array.prototype.concat.apply([],e);return e}(s));var u,l;if("string"==typeof i){var f;l=e.$vnode&&e.$vnode.ns||F.getTagNamespace(i),u=F.isReservedTag(i)?new pe(F.parsePlatformTagName(i),a,s,void 0,void 0,e):a&&a.pre||!n(f=Le(e.$options,"components",i))?new pe(i,a,s,void 0,void 0,e):Lt(f,a,e,s,i)}else u=Lt(i,a,e,s);return Array.isArray(u)?u:n(u)?(n(l)&&function e(i,o,a){i.ns=o;"foreignObject"===i.tag&&(o=void 0,a=!0);if(n(i.children))for(var s=0,c=i.children.length;s<c;s++){var u=i.children[s];n(u.tag)&&(t(u.ns)||r(a)&&"svg"!==u.tag)&&e(u,o,a)}}(u,l),n(a)&&function(e){o(e.style)&&et(e.style);o(e.class)&&et(e.class)}(a),u):ve()}(e,a,s,c,u)}var Rt,Ht=null;function Bt(e,t){return(e.__esModule||oe&&"Module"===e[Symbol.toStringTag])&&(e=e.default),o(e)?t.extend(e):e}function Ut(e){return e.isComment&&e.asyncFactory}function zt(e){if(Array.isArray(e))for(var t=0;t<e.length;t++){var r=e[t];if(n(r)&&(n(r.componentOptions)||Ut(r)))return r}}function Vt(e,t){Rt.$on(e,t)}function Kt(e,t){Rt.$off(e,t)}function Jt(e,t){var n=Rt;return function r(){null!==t.apply(null,arguments)&&n.$off(e,r)}}function qt(e,t,n){Rt=e,rt(t,n||{},Vt,Kt,Jt,e),Rt=void 0}var Wt=null;function Zt(e){var t=Wt;return Wt=e,function(){Wt=t}}function Gt(e){for(;e&&(e=e.$parent);)if(e._inactive)return!0;return!1}function Xt(e,t){if(t){if(e._directInactive=!1,Gt(e))return}else if(e._directInactive)return;if(e._inactive||null===e._inactive){e._inactive=!1;for(var n=0;n<e.$children.length;n++)Xt(e.$children[n]);Yt(e,"activated")}}function Yt(e,t){le();var n=e.$options[t],r=t+" hook";if(n)for(var i=0,o=n.length;i<o;i++)He(n[i],e,null,e,r);e._hasHookEvent&&e.$emit("hook:"+t),fe()}var Qt=[],en=[],tn={},nn=!1,rn=!1,on=0;var an=0,sn=Date.now;if(z&&!q){var cn=window.performance;cn&&"function"==typeof cn.now&&sn()>document.createEvent("Event").timeStamp&&(sn=function(){return cn.now()})}function un(){var e,t;for(an=sn(),rn=!0,Qt.sort(function(e,t){return e.id-t.id}),on=0;on<Qt.length;on++)(e=Qt[on]).before&&e.before(),t=e.id,tn[t]=null,e.run();var n=en.slice(),r=Qt.slice();on=Qt.length=en.length=0,tn={},nn=rn=!1,function(e){for(var t=0;t<e.length;t++)e[t]._inactive=!0,Xt(e[t],!0)}(n),function(e){var t=e.length;for(;t--;){var n=e[t],r=n.vm;r._watcher===n&&r._isMounted&&!r._isDestroyed&&Yt(r,"updated")}}(r),ne&&F.devtools&&ne.emit("flush")}var ln=0,fn=function(e,t,n,r,i){this.vm=e,i&&(e._watcher=this),e._watchers.push(this),r?(this.deep=!!r.deep,this.user=!!r.user,this.lazy=!!r.lazy,this.sync=!!r.sync,this.before=r.before):this.deep=this.user=this.lazy=this.sync=!1,this.cb=n,this.id=++ln,this.active=!0,this.dirty=this.lazy,this.deps=[],this.newDeps=[],this.depIds=new ie,this.newDepIds=new ie,this.expression="","function"==typeof t?this.getter=t:(this.getter=function(e){if(!H.test(e)){var t=e.split(".");return function(e){for(var n=0;n<t.length;n++){if(!e)return;e=e[t[n]]}return e}}}(t),this.getter||(this.getter=S)),this.value=this.lazy?void 0:this.get()};fn.prototype.get=function(){var e;le(this);var t=this.vm;try{e=this.getter.call(t,t)}catch(e){if(!this.user)throw e;Re(e,t,'getter for watcher "'+this.expression+'"')}finally{this.deep&&et(e),fe(),this.cleanupDeps()}return e},fn.prototype.addDep=function(e){var t=e.id;this.newDepIds.has(t)||(this.newDepIds.add(t),this.newDeps.push(e),this.depIds.has(t)||e.addSub(this))},fn.prototype.cleanupDeps=function(){for(var e=this.deps.length;e--;){var t=this.deps[e];this.newDepIds.has(t.id)||t.removeSub(this)}var n=this.depIds;this.depIds=this.newDepIds,this.newDepIds=n,this.newDepIds.clear(),n=this.deps,this.deps=this.newDeps,this.newDeps=n,this.newDeps.length=0},fn.prototype.update=function(){this.lazy?this.dirty=!0:this.sync?this.run():function(e){var t=e.id;if(null==tn[t]){if(tn[t]=!0,rn){for(var n=Qt.length-1;n>on&&Qt[n].id>e.id;)n--;Qt.splice(n+1,0,e)}else Qt.push(e);nn||(nn=!0,Ye(un))}}(this)},fn.prototype.run=function(){if(this.active){var e=this.get();if(e!==this.value||o(e)||this.deep){var t=this.value;if(this.value=e,this.user)try{this.cb.call(this.vm,e,t)}catch(e){Re(e,this.vm,'callback for watcher "'+this.expression+'"')}else this.cb.call(this.vm,e,t)}}},fn.prototype.evaluate=function(){this.value=this.get(),this.dirty=!1},fn.prototype.depend=function(){for(var e=this.deps.length;e--;)this.deps[e].depend()},fn.prototype.teardown=function(){if(this.active){this.vm._isBeingDestroyed||h(this.vm._watchers,this);for(var e=this.deps.length;e--;)this.deps[e].removeSub(this);this.active=!1}};var pn={enumerable:!0,configurable:!0,get:S,set:S};function dn(e,t,n){pn.get=function(){return this[t][n]},pn.set=function(e){this[t][n]=e},Object.defineProperty(e,n,pn)}function vn(e){e._watchers=[];var t=e.$options;t.props&&function(e,t){var n=e.$options.propsData||{},r=e._props={},i=e.$options._propKeys=[];e.$parent&&$e(!1);var o=function(o){i.push(o);var a=Me(o,t,n,e);xe(r,o,a),o in e||dn(e,"_props",o)};for(var a in t)o(a);$e(!0)}(e,t.props),t.methods&&function(e,t){e.$options.props;for(var n in t)e[n]="function"!=typeof t[n]?S:x(t[n],e)}(e,t.methods),t.data?function(e){var t=e.$options.data;s(t=e._data="function"==typeof t?function(e,t){le();try{return e.call(t,t)}catch(e){return Re(e,t,"data()"),{}}finally{fe()}}(t,e):t||{})||(t={});var n=Object.keys(t),r=e.$options.props,i=(e.$options.methods,n.length);for(;i--;){var o=n[i];r&&y(r,o)||(a=void 0,36!==(a=(o+"").charCodeAt(0))&&95!==a&&dn(e,"_data",o))}var a;Ce(t,!0)}(e):Ce(e._data={},!0),t.computed&&function(e,t){var n=e._computedWatchers=Object.create(null),r=te();for(var i in t){var o=t[i],a="function"==typeof o?o:o.get;r||(n[i]=new fn(e,a||S,S,hn)),i in e||mn(e,i,o)}}(e,t.computed),t.watch&&t.watch!==Y&&function(e,t){for(var n in t){var r=t[n];if(Array.isArray(r))for(var i=0;i<r.length;i++)_n(e,n,r[i]);else _n(e,n,r)}}(e,t.watch)}var hn={lazy:!0};function mn(e,t,n){var r=!te();"function"==typeof n?(pn.get=r?yn(t):gn(n),pn.set=S):(pn.get=n.get?r&&!1!==n.cache?yn(t):gn(n.get):S,pn.set=n.set||S),Object.defineProperty(e,t,pn)}function yn(e){return function(){var t=this._computedWatchers&&this._computedWatchers[e];if(t)return t.dirty&&t.evaluate(),ce.target&&t.depend(),t.value}}function gn(e){return function(){return e.call(this,this)}}function _n(e,t,n,r){return s(n)&&(r=n,n=n.handler),"string"==typeof n&&(n=e[n]),e.$watch(t,n,r)}var bn=0;function $n(e){var t=e.options;if(e.super){var n=$n(e.super);if(n!==e.superOptions){e.superOptions=n;var r=function(e){var t,n=e.options,r=e.sealedOptions;for(var i in n)n[i]!==r[i]&&(t||(t={}),t[i]=n[i]);return t}(e);r&&A(e.extendOptions,r),(t=e.options=De(n,e.extendOptions)).name&&(t.components[t.name]=e)}}return t}function wn(e){this._init(e)}function Cn(e){e.cid=0;var t=1;e.extend=function(e){e=e||{};var n=this,r=n.cid,i=e._Ctor||(e._Ctor={});if(i[r])return i[r];var o=e.name||n.options.name,a=function(e){this._init(e)};return(a.prototype=Object.create(n.prototype)).constructor=a,a.cid=t++,a.options=De(n.options,e),a.super=n,a.options.props&&function(e){var t=e.options.props;for(var n in t)dn(e.prototype,"_props",n)}(a),a.options.computed&&function(e){var t=e.options.computed;for(var n in t)mn(e.prototype,n,t[n])}(a),a.extend=n.extend,a.mixin=n.mixin,a.use=n.use,M.forEach(function(e){a[e]=n[e]}),o&&(a.options.components[o]=a),a.superOptions=n.options,a.extendOptions=e,a.sealedOptions=A({},a.options),i[r]=a,a}}function xn(e){return e&&(e.Ctor.options.name||e.tag)}function kn(e,t){return Array.isArray(e)?e.indexOf(t)>-1:"string"==typeof e?e.split(",").indexOf(t)>-1:(n=e,"[object RegExp]"===a.call(n)&&e.test(t));var n}function An(e,t){var n=e.cache,r=e.keys,i=e._vnode;for(var o in n){var a=n[o];if(a){var s=xn(a.componentOptions);s&&!t(s)&&On(n,o,r,i)}}}function On(e,t,n,r){var i=e[t];!i||r&&i.tag===r.tag||i.componentInstance.$destroy(),e[t]=null,h(n,t)}!function(t){t.prototype._init=function(t){var n=this;n._uid=bn++,n._isVue=!0,t&&t._isComponent?function(e,t){var n=e.$options=Object.create(e.constructor.options),r=t._parentVnode;n.parent=t.parent,n._parentVnode=r;var i=r.componentOptions;n.propsData=i.propsData,n._parentListeners=i.listeners,n._renderChildren=i.children,n._componentTag=i.tag,t.render&&(n.render=t.render,n.staticRenderFns=t.staticRenderFns)}(n,t):n.$options=De($n(n.constructor),t||{},n),n._renderProxy=n,n._self=n,function(e){var t=e.$options,n=t.parent;if(n&&!t.abstract){for(;n.$options.abstract&&n.$parent;)n=n.$parent;n.$children.push(e)}e.$parent=n,e.$root=n?n.$root:e,e.$children=[],e.$refs={},e._watcher=null,e._inactive=null,e._directInactive=!1,e._isMounted=!1,e._isDestroyed=!1,e._isBeingDestroyed=!1}(n),function(e){e._events=Object.create(null),e._hasHookEvent=!1;var t=e.$options._parentListeners;t&&qt(e,t)}(n),function(t){t._vnode=null,t._staticTrees=null;var n=t.$options,r=t.$vnode=n._parentVnode,i=r&&r.context;t.$slots=ut(n._renderChildren,i),t.$scopedSlots=e,t._c=function(e,n,r,i){return Pt(t,e,n,r,i,!1)},t.$createElement=function(e,n,r,i){return Pt(t,e,n,r,i,!0)};var o=r&&r.data;xe(t,"$attrs",o&&o.attrs||e,null,!0),xe(t,"$listeners",n._parentListeners||e,null,!0)}(n),Yt(n,"beforeCreate"),function(e){var t=ct(e.$options.inject,e);t&&($e(!1),Object.keys(t).forEach(function(n){xe(e,n,t[n])}),$e(!0))}(n),vn(n),function(e){var t=e.$options.provide;t&&(e._provided="function"==typeof t?t.call(e):t)}(n),Yt(n,"created"),n.$options.el&&n.$mount(n.$options.el)}}(wn),function(e){var t={get:function(){return this._data}},n={get:function(){return this._props}};Object.defineProperty(e.prototype,"$data",t),Object.defineProperty(e.prototype,"$props",n),e.prototype.$set=ke,e.prototype.$delete=Ae,e.prototype.$watch=function(e,t,n){if(s(t))return _n(this,e,t,n);(n=n||{}).user=!0;var r=new fn(this,e,t,n);if(n.immediate)try{t.call(this,r.value)}catch(e){Re(e,this,'callback for immediate watcher "'+r.expression+'"')}return function(){r.teardown()}}}(wn),function(e){var t=/^hook:/;e.prototype.$on=function(e,n){var r=this;if(Array.isArray(e))for(var i=0,o=e.length;i<o;i++)r.$on(e[i],n);else(r._events[e]||(r._events[e]=[])).push(n),t.test(e)&&(r._hasHookEvent=!0);return r},e.prototype.$once=function(e,t){var n=this;function r(){n.$off(e,r),t.apply(n,arguments)}return r.fn=t,n.$on(e,r),n},e.prototype.$off=function(e,t){var n=this;if(!arguments.length)return n._events=Object.create(null),n;if(Array.isArray(e)){for(var r=0,i=e.length;r<i;r++)n.$off(e[r],t);return n}var o,a=n._events[e];if(!a)return n;if(!t)return n._events[e]=null,n;for(var s=a.length;s--;)if((o=a[s])===t||o.fn===t){a.splice(s,1);break}return n},e.prototype.$emit=function(e){var t=this._events[e];if(t){t=t.length>1?k(t):t;for(var n=k(arguments,1),r='event handler for "'+e+'"',i=0,o=t.length;i<o;i++)He(t[i],this,n,this,r)}return this}}(wn),function(e){e.prototype._update=function(e,t){var n=this,r=n.$el,i=n._vnode,o=Zt(n);n._vnode=e,n.$el=i?n.__patch__(i,e):n.__patch__(n.$el,e,t,!1),o(),r&&(r.__vue__=null),n.$el&&(n.$el.__vue__=n),n.$vnode&&n.$parent&&n.$vnode===n.$parent._vnode&&(n.$parent.$el=n.$el)},e.prototype.$forceUpdate=function(){this._watcher&&this._watcher.update()},e.prototype.$destroy=function(){var e=this;if(!e._isBeingDestroyed){Yt(e,"beforeDestroy"),e._isBeingDestroyed=!0;var t=e.$parent;!t||t._isBeingDestroyed||e.$options.abstract||h(t.$children,e),e._watcher&&e._watcher.teardown();for(var n=e._watchers.length;n--;)e._watchers[n].teardown();e._data.__ob__&&e._data.__ob__.vmCount--,e._isDestroyed=!0,e.__patch__(e._vnode,null),Yt(e,"destroyed"),e.$off(),e.$el&&(e.$el.__vue__=null),e.$vnode&&(e.$vnode.parent=null)}}}(wn),function(e){St(e.prototype),e.prototype.$nextTick=function(e){return Ye(e,this)},e.prototype._render=function(){var e,t=this,n=t.$options,r=n.render,i=n._parentVnode;i&&(t.$scopedSlots=ft(i.data.scopedSlots,t.$slots,t.$scopedSlots)),t.$vnode=i;try{Ht=t,e=r.call(t._renderProxy,t.$createElement)}catch(n){Re(n,t,"render"),e=t._vnode}finally{Ht=null}return Array.isArray(e)&&1===e.length&&(e=e[0]),e instanceof pe||(e=ve()),e.parent=i,e}}(wn);var Sn=[String,RegExp,Array],Tn={KeepAlive:{name:"keep-alive",abstract:!0,props:{include:Sn,exclude:Sn,max:[String,Number]},created:function(){this.cache=Object.create(null),this.keys=[]},destroyed:function(){for(var e in this.cache)On(this.cache,e,this.keys)},mounted:function(){var e=this;this.$watch("include",function(t){An(e,function(e){return kn(t,e)})}),this.$watch("exclude",function(t){An(e,function(e){return!kn(t,e)})})},render:function(){var e=this.$slots.default,t=zt(e),n=t&&t.componentOptions;if(n){var r=xn(n),i=this.include,o=this.exclude;if(i&&(!r||!kn(i,r))||o&&r&&kn(o,r))return t;var a=this.cache,s=this.keys,c=null==t.key?n.Ctor.cid+(n.tag?"::"+n.tag:""):t.key;a[c]?(t.componentInstance=a[c].componentInstance,h(s,c),s.push(c)):(a[c]=t,s.push(c),this.max&&s.length>parseInt(this.max)&&On(a,s[0],s,this._vnode)),t.data.keepAlive=!0}return t||e&&e[0]}}};!function(e){var t={get:function(){return F}};Object.defineProperty(e,"config",t),e.util={warn:ae,extend:A,mergeOptions:De,defineReactive:xe},e.set=ke,e.delete=Ae,e.nextTick=Ye,e.observable=function(e){return Ce(e),e},e.options=Object.create(null),M.forEach(function(t){e.options[t+"s"]=Object.create(null)}),e.options._base=e,A(e.options.components,Tn),function(e){e.use=function(e){var t=this._installedPlugins||(this._installedPlugins=[]);if(t.indexOf(e)>-1)return this;var n=k(arguments,1);return n.unshift(this),"function"==typeof e.install?e.install.apply(e,n):"function"==typeof e&&e.apply(null,n),t.push(e),this}}(e),function(e){e.mixin=function(e){return this.options=De(this.options,e),this}}(e),Cn(e),function(e){M.forEach(function(t){e[t]=function(e,n){return n?("component"===t&&s(n)&&(n.name=n.name||e,n=this.options._base.extend(n)),"directive"===t&&"function"==typeof n&&(n={bind:n,update:n}),this.options[t+"s"][e]=n,n):this.options[t+"s"][e]}})}(e)}(wn),Object.defineProperty(wn.prototype,"$isServer",{get:te}),Object.defineProperty(wn.prototype,"$ssrContext",{get:function(){return this.$vnode&&this.$vnode.ssrContext}}),Object.defineProperty(wn,"FunctionalRenderContext",{value:Tt}),wn.version="2.6.10";var En=p("style,class"),Nn=p("input,textarea,option,select,progress"),jn=function(e,t,n){return"value"===n&&Nn(e)&&"button"!==t||"selected"===n&&"option"===e||"checked"===n&&"input"===e||"muted"===n&&"video"===e},Dn=p("contenteditable,draggable,spellcheck"),Ln=p("events,caret,typing,plaintext-only"),Mn=function(e,t){return Hn(t)||"false"===t?"false":"contenteditable"===e&&Ln(t)?t:"true"},In=p("allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"),Fn="http://www.w3.org/1999/xlink",Pn=function(e){return":"===e.charAt(5)&&"xlink"===e.slice(0,5)},Rn=function(e){return Pn(e)?e.slice(6,e.length):""},Hn=function(e){return null==e||!1===e};function Bn(e){for(var t=e.data,r=e,i=e;n(i.componentInstance);)(i=i.componentInstance._vnode)&&i.data&&(t=Un(i.data,t));for(;n(r=r.parent);)r&&r.data&&(t=Un(t,r.data));return function(e,t){if(n(e)||n(t))return zn(e,Vn(t));return""}(t.staticClass,t.class)}function Un(e,t){return{staticClass:zn(e.staticClass,t.staticClass),class:n(e.class)?[e.class,t.class]:t.class}}function zn(e,t){return e?t?e+" "+t:e:t||""}function Vn(e){return Array.isArray(e)?function(e){for(var t,r="",i=0,o=e.length;i<o;i++)n(t=Vn(e[i]))&&""!==t&&(r&&(r+=" "),r+=t);return r}(e):o(e)?function(e){var t="";for(var n in e)e[n]&&(t&&(t+=" "),t+=n);return t}(e):"string"==typeof e?e:""}var Kn={svg:"http://www.w3.org/2000/svg",math:"http://www.w3.org/1998/Math/MathML"},Jn=p("html,body,base,head,link,meta,style,title,address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,menuitem,summary,content,element,shadow,template,blockquote,iframe,tfoot"),qn=p("svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",!0),Wn=function(e){return Jn(e)||qn(e)};function Zn(e){return qn(e)?"svg":"math"===e?"math":void 0}var Gn=Object.create(null);var Xn=p("text,number,password,search,email,tel,url");function Yn(e){if("string"==typeof e){var t=document.querySelector(e);return t||document.createElement("div")}return e}var Qn=Object.freeze({createElement:function(e,t){var n=document.createElement(e);return"select"!==e?n:(t.data&&t.data.attrs&&void 0!==t.data.attrs.multiple&&n.setAttribute("multiple","multiple"),n)},createElementNS:function(e,t){return document.createElementNS(Kn[e],t)},createTextNode:function(e){return document.createTextNode(e)},createComment:function(e){return document.createComment(e)},insertBefore:function(e,t,n){e.insertBefore(t,n)},removeChild:function(e,t){e.removeChild(t)},appendChild:function(e,t){e.appendChild(t)},parentNode:function(e){return e.parentNode},nextSibling:function(e){return e.nextSibling},tagName:function(e){return e.tagName},setTextContent:function(e,t){e.textContent=t},setStyleScope:function(e,t){e.setAttribute(t,"")}}),er={create:function(e,t){tr(t)},update:function(e,t){e.data.ref!==t.data.ref&&(tr(e,!0),tr(t))},destroy:function(e){tr(e,!0)}};function tr(e,t){var r=e.data.ref;if(n(r)){var i=e.context,o=e.componentInstance||e.elm,a=i.$refs;t?Array.isArray(a[r])?h(a[r],o):a[r]===o&&(a[r]=void 0):e.data.refInFor?Array.isArray(a[r])?a[r].indexOf(o)<0&&a[r].push(o):a[r]=[o]:a[r]=o}}var nr=new pe("",{},[]),rr=["create","activate","update","remove","destroy"];function ir(e,i){return e.key===i.key&&(e.tag===i.tag&&e.isComment===i.isComment&&n(e.data)===n(i.data)&&function(e,t){if("input"!==e.tag)return!0;var r,i=n(r=e.data)&&n(r=r.attrs)&&r.type,o=n(r=t.data)&&n(r=r.attrs)&&r.type;return i===o||Xn(i)&&Xn(o)}(e,i)||r(e.isAsyncPlaceholder)&&e.asyncFactory===i.asyncFactory&&t(i.asyncFactory.error))}function or(e,t,r){var i,o,a={};for(i=t;i<=r;++i)n(o=e[i].key)&&(a[o]=i);return a}var ar={create:sr,update:sr,destroy:function(e){sr(e,nr)}};function sr(e,t){(e.data.directives||t.data.directives)&&function(e,t){var n,r,i,o=e===nr,a=t===nr,s=ur(e.data.directives,e.context),c=ur(t.data.directives,t.context),u=[],l=[];for(n in c)r=s[n],i=c[n],r?(i.oldValue=r.value,i.oldArg=r.arg,fr(i,"update",t,e),i.def&&i.def.componentUpdated&&l.push(i)):(fr(i,"bind",t,e),i.def&&i.def.inserted&&u.push(i));if(u.length){var f=function(){for(var n=0;n<u.length;n++)fr(u[n],"inserted",t,e)};o?it(t,"insert",f):f()}l.length&&it(t,"postpatch",function(){for(var n=0;n<l.length;n++)fr(l[n],"componentUpdated",t,e)});if(!o)for(n in s)c[n]||fr(s[n],"unbind",e,e,a)}(e,t)}var cr=Object.create(null);function ur(e,t){var n,r,i=Object.create(null);if(!e)return i;for(n=0;n<e.length;n++)(r=e[n]).modifiers||(r.modifiers=cr),i[lr(r)]=r,r.def=Le(t.$options,"directives",r.name);return i}function lr(e){return e.rawName||e.name+"."+Object.keys(e.modifiers||{}).join(".")}function fr(e,t,n,r,i){var o=e.def&&e.def[t];if(o)try{o(n.elm,e,n,r,i)}catch(r){Re(r,n.context,"directive "+e.name+" "+t+" hook")}}var pr=[er,ar];function dr(e,r){var i=r.componentOptions;if(!(n(i)&&!1===i.Ctor.options.inheritAttrs||t(e.data.attrs)&&t(r.data.attrs))){var o,a,s=r.elm,c=e.data.attrs||{},u=r.data.attrs||{};for(o in n(u.__ob__)&&(u=r.data.attrs=A({},u)),u)a=u[o],c[o]!==a&&vr(s,o,a);for(o in(q||Z)&&u.value!==c.value&&vr(s,"value",u.value),c)t(u[o])&&(Pn(o)?s.removeAttributeNS(Fn,Rn(o)):Dn(o)||s.removeAttribute(o))}}function vr(e,t,n){e.tagName.indexOf("-")>-1?hr(e,t,n):In(t)?Hn(n)?e.removeAttribute(t):(n="allowfullscreen"===t&&"EMBED"===e.tagName?"true":t,e.setAttribute(t,n)):Dn(t)?e.setAttribute(t,Mn(t,n)):Pn(t)?Hn(n)?e.removeAttributeNS(Fn,Rn(t)):e.setAttributeNS(Fn,t,n):hr(e,t,n)}function hr(e,t,n){if(Hn(n))e.removeAttribute(t);else{if(q&&!W&&"TEXTAREA"===e.tagName&&"placeholder"===t&&""!==n&&!e.__ieph){var r=function(t){t.stopImmediatePropagation(),e.removeEventListener("input",r)};e.addEventListener("input",r),e.__ieph=!0}e.setAttribute(t,n)}}var mr={create:dr,update:dr};function yr(e,r){var i=r.elm,o=r.data,a=e.data;if(!(t(o.staticClass)&&t(o.class)&&(t(a)||t(a.staticClass)&&t(a.class)))){var s=Bn(r),c=i._transitionClasses;n(c)&&(s=zn(s,Vn(c))),s!==i._prevClass&&(i.setAttribute("class",s),i._prevClass=s)}}var gr,_r,br,$r,wr,Cr,xr={create:yr,update:yr},kr=/[\w).+\-_$\]]/;function Ar(e){var t,n,r,i,o,a=!1,s=!1,c=!1,u=!1,l=0,f=0,p=0,d=0;for(r=0;r<e.length;r++)if(n=t,t=e.charCodeAt(r),a)39===t&&92!==n&&(a=!1);else if(s)34===t&&92!==n&&(s=!1);else if(c)96===t&&92!==n&&(c=!1);else if(u)47===t&&92!==n&&(u=!1);else if(124!==t||124===e.charCodeAt(r+1)||124===e.charCodeAt(r-1)||l||f||p){switch(t){case 34:s=!0;break;case 39:a=!0;break;case 96:c=!0;break;case 40:p++;break;case 41:p--;break;case 91:f++;break;case 93:f--;break;case 123:l++;break;case 125:l--}if(47===t){for(var v=r-1,h=void 0;v>=0&&" "===(h=e.charAt(v));v--);h&&kr.test(h)||(u=!0)}}else void 0===i?(d=r+1,i=e.slice(0,r).trim()):m();function m(){(o||(o=[])).push(e.slice(d,r).trim()),d=r+1}if(void 0===i?i=e.slice(0,r).trim():0!==d&&m(),o)for(r=0;r<o.length;r++)i=Or(i,o[r]);return i}function Or(e,t){var n=t.indexOf("(");if(n<0)return'_f("'+t+'")('+e+")";var r=t.slice(0,n),i=t.slice(n+1);return'_f("'+r+'")('+e+(")"!==i?","+i:i)}function Sr(e,t){console.error("[Vue compiler]: "+e)}function Tr(e,t){return e?e.map(function(e){return e[t]}).filter(function(e){return e}):[]}function Er(e,t,n,r,i){(e.props||(e.props=[])).push(Rr({name:t,value:n,dynamic:i},r)),e.plain=!1}function Nr(e,t,n,r,i){(i?e.dynamicAttrs||(e.dynamicAttrs=[]):e.attrs||(e.attrs=[])).push(Rr({name:t,value:n,dynamic:i},r)),e.plain=!1}function jr(e,t,n,r){e.attrsMap[t]=n,e.attrsList.push(Rr({name:t,value:n},r))}function Dr(e,t,n,r,i,o,a,s){(e.directives||(e.directives=[])).push(Rr({name:t,rawName:n,value:r,arg:i,isDynamicArg:o,modifiers:a},s)),e.plain=!1}function Lr(e,t,n){return n?"_p("+t+',"'+e+'")':e+t}function Mr(t,n,r,i,o,a,s,c){var u;(i=i||e).right?c?n="("+n+")==='click'?'contextmenu':("+n+")":"click"===n&&(n="contextmenu",delete i.right):i.middle&&(c?n="("+n+")==='click'?'mouseup':("+n+")":"click"===n&&(n="mouseup")),i.capture&&(delete i.capture,n=Lr("!",n,c)),i.once&&(delete i.once,n=Lr("~",n,c)),i.passive&&(delete i.passive,n=Lr("&",n,c)),i.native?(delete i.native,u=t.nativeEvents||(t.nativeEvents={})):u=t.events||(t.events={});var l=Rr({value:r.trim(),dynamic:c},s);i!==e&&(l.modifiers=i);var f=u[n];Array.isArray(f)?o?f.unshift(l):f.push(l):u[n]=f?o?[l,f]:[f,l]:l,t.plain=!1}function Ir(e,t,n){var r=Fr(e,":"+t)||Fr(e,"v-bind:"+t);if(null!=r)return Ar(r);if(!1!==n){var i=Fr(e,t);if(null!=i)return JSON.stringify(i)}}function Fr(e,t,n){var r;if(null!=(r=e.attrsMap[t]))for(var i=e.attrsList,o=0,a=i.length;o<a;o++)if(i[o].name===t){i.splice(o,1);break}return n&&delete e.attrsMap[t],r}function Pr(e,t){for(var n=e.attrsList,r=0,i=n.length;r<i;r++){var o=n[r];if(t.test(o.name))return n.splice(r,1),o}}function Rr(e,t){return t&&(null!=t.start&&(e.start=t.start),null!=t.end&&(e.end=t.end)),e}function Hr(e,t,n){var r=n||{},i=r.number,o="$$v";r.trim&&(o="(typeof $$v === 'string'? $$v.trim(): $$v)"),i&&(o="_n("+o+")");var a=Br(t,o);e.model={value:"("+t+")",expression:JSON.stringify(t),callback:"function ($$v) {"+a+"}"}}function Br(e,t){var n=function(e){if(e=e.trim(),gr=e.length,e.indexOf("[")<0||e.lastIndexOf("]")<gr-1)return($r=e.lastIndexOf("."))>-1?{exp:e.slice(0,$r),key:'"'+e.slice($r+1)+'"'}:{exp:e,key:null};_r=e,$r=wr=Cr=0;for(;!zr();)Vr(br=Ur())?Jr(br):91===br&&Kr(br);return{exp:e.slice(0,wr),key:e.slice(wr+1,Cr)}}(e);return null===n.key?e+"="+t:"$set("+n.exp+", "+n.key+", "+t+")"}function Ur(){return _r.charCodeAt(++$r)}function zr(){return $r>=gr}function Vr(e){return 34===e||39===e}function Kr(e){var t=1;for(wr=$r;!zr();)if(Vr(e=Ur()))Jr(e);else if(91===e&&t++,93===e&&t--,0===t){Cr=$r;break}}function Jr(e){for(var t=e;!zr()&&(e=Ur())!==t;);}var qr,Wr="__r",Zr="__c";function Gr(e,t,n){var r=qr;return function i(){null!==t.apply(null,arguments)&&Qr(e,i,n,r)}}var Xr=Ve&&!(X&&Number(X[1])<=53);function Yr(e,t,n,r){if(Xr){var i=an,o=t;t=o._wrapper=function(e){if(e.target===e.currentTarget||e.timeStamp>=i||e.timeStamp<=0||e.target.ownerDocument!==document)return o.apply(this,arguments)}}qr.addEventListener(e,t,Q?{capture:n,passive:r}:n)}function Qr(e,t,n,r){(r||qr).removeEventListener(e,t._wrapper||t,n)}function ei(e,r){if(!t(e.data.on)||!t(r.data.on)){var i=r.data.on||{},o=e.data.on||{};qr=r.elm,function(e){if(n(e[Wr])){var t=q?"change":"input";e[t]=[].concat(e[Wr],e[t]||[]),delete e[Wr]}n(e[Zr])&&(e.change=[].concat(e[Zr],e.change||[]),delete e[Zr])}(i),rt(i,o,Yr,Qr,Gr,r.context),qr=void 0}}var ti,ni={create:ei,update:ei};function ri(e,r){if(!t(e.data.domProps)||!t(r.data.domProps)){var i,o,a=r.elm,s=e.data.domProps||{},c=r.data.domProps||{};for(i in n(c.__ob__)&&(c=r.data.domProps=A({},c)),s)i in c||(a[i]="");for(i in c){if(o=c[i],"textContent"===i||"innerHTML"===i){if(r.children&&(r.children.length=0),o===s[i])continue;1===a.childNodes.length&&a.removeChild(a.childNodes[0])}if("value"===i&&"PROGRESS"!==a.tagName){a._value=o;var u=t(o)?"":String(o);ii(a,u)&&(a.value=u)}else if("innerHTML"===i&&qn(a.tagName)&&t(a.innerHTML)){(ti=ti||document.createElement("div")).innerHTML="<svg>"+o+"</svg>";for(var l=ti.firstChild;a.firstChild;)a.removeChild(a.firstChild);for(;l.firstChild;)a.appendChild(l.firstChild)}else if(o!==s[i])try{a[i]=o}catch(e){}}}}function ii(e,t){return!e.composing&&("OPTION"===e.tagName||function(e,t){var n=!0;try{n=document.activeElement!==e}catch(e){}return n&&e.value!==t}(e,t)||function(e,t){var r=e.value,i=e._vModifiers;if(n(i)){if(i.number)return f(r)!==f(t);if(i.trim)return r.trim()!==t.trim()}return r!==t}(e,t))}var oi={create:ri,update:ri},ai=g(function(e){var t={},n=/:(.+)/;return e.split(/;(?![^(]*\))/g).forEach(function(e){if(e){var r=e.split(n);r.length>1&&(t[r[0].trim()]=r[1].trim())}}),t});function si(e){var t=ci(e.style);return e.staticStyle?A(e.staticStyle,t):t}function ci(e){return Array.isArray(e)?O(e):"string"==typeof e?ai(e):e}var ui,li=/^--/,fi=/\s*!important$/,pi=function(e,t,n){if(li.test(t))e.style.setProperty(t,n);else if(fi.test(n))e.style.setProperty(C(t),n.replace(fi,""),"important");else{var r=vi(t);if(Array.isArray(n))for(var i=0,o=n.length;i<o;i++)e.style[r]=n[i];else e.style[r]=n}},di=["Webkit","Moz","ms"],vi=g(function(e){if(ui=ui||document.createElement("div").style,"filter"!==(e=b(e))&&e in ui)return e;for(var t=e.charAt(0).toUpperCase()+e.slice(1),n=0;n<di.length;n++){var r=di[n]+t;if(r in ui)return r}});function hi(e,r){var i=r.data,o=e.data;if(!(t(i.staticStyle)&&t(i.style)&&t(o.staticStyle)&&t(o.style))){var a,s,c=r.elm,u=o.staticStyle,l=o.normalizedStyle||o.style||{},f=u||l,p=ci(r.data.style)||{};r.data.normalizedStyle=n(p.__ob__)?A({},p):p;var d=function(e,t){var n,r={};if(t)for(var i=e;i.componentInstance;)(i=i.componentInstance._vnode)&&i.data&&(n=si(i.data))&&A(r,n);(n=si(e.data))&&A(r,n);for(var o=e;o=o.parent;)o.data&&(n=si(o.data))&&A(r,n);return r}(r,!0);for(s in f)t(d[s])&&pi(c,s,"");for(s in d)(a=d[s])!==f[s]&&pi(c,s,null==a?"":a)}}var mi={create:hi,update:hi},yi=/\s+/;function gi(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(yi).forEach(function(t){return e.classList.add(t)}):e.classList.add(t);else{var n=" "+(e.getAttribute("class")||"")+" ";n.indexOf(" "+t+" ")<0&&e.setAttribute("class",(n+t).trim())}}function _i(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(yi).forEach(function(t){return e.classList.remove(t)}):e.classList.remove(t),e.classList.length||e.removeAttribute("class");else{for(var n=" "+(e.getAttribute("class")||"")+" ",r=" "+t+" ";n.indexOf(r)>=0;)n=n.replace(r," ");(n=n.trim())?e.setAttribute("class",n):e.removeAttribute("class")}}function bi(e){if(e){if("object"==typeof e){var t={};return!1!==e.css&&A(t,$i(e.name||"v")),A(t,e),t}return"string"==typeof e?$i(e):void 0}}var $i=g(function(e){return{enterClass:e+"-enter",enterToClass:e+"-enter-to",enterActiveClass:e+"-enter-active",leaveClass:e+"-leave",leaveToClass:e+"-leave-to",leaveActiveClass:e+"-leave-active"}}),wi=z&&!W,Ci="transition",xi="animation",ki="transition",Ai="transitionend",Oi="animation",Si="animationend";wi&&(void 0===window.ontransitionend&&void 0!==window.onwebkittransitionend&&(ki="WebkitTransition",Ai="webkitTransitionEnd"),void 0===window.onanimationend&&void 0!==window.onwebkitanimationend&&(Oi="WebkitAnimation",Si="webkitAnimationEnd"));var Ti=z?window.requestAnimationFrame?window.requestAnimationFrame.bind(window):setTimeout:function(e){return e()};function Ei(e){Ti(function(){Ti(e)})}function Ni(e,t){var n=e._transitionClasses||(e._transitionClasses=[]);n.indexOf(t)<0&&(n.push(t),gi(e,t))}function ji(e,t){e._transitionClasses&&h(e._transitionClasses,t),_i(e,t)}function Di(e,t,n){var r=Mi(e,t),i=r.type,o=r.timeout,a=r.propCount;if(!i)return n();var s=i===Ci?Ai:Si,c=0,u=function(){e.removeEventListener(s,l),n()},l=function(t){t.target===e&&++c>=a&&u()};setTimeout(function(){c<a&&u()},o+1),e.addEventListener(s,l)}var Li=/\b(transform|all)(,|$)/;function Mi(e,t){var n,r=window.getComputedStyle(e),i=(r[ki+"Delay"]||"").split(", "),o=(r[ki+"Duration"]||"").split(", "),a=Ii(i,o),s=(r[Oi+"Delay"]||"").split(", "),c=(r[Oi+"Duration"]||"").split(", "),u=Ii(s,c),l=0,f=0;return t===Ci?a>0&&(n=Ci,l=a,f=o.length):t===xi?u>0&&(n=xi,l=u,f=c.length):f=(n=(l=Math.max(a,u))>0?a>u?Ci:xi:null)?n===Ci?o.length:c.length:0,{type:n,timeout:l,propCount:f,hasTransform:n===Ci&&Li.test(r[ki+"Property"])}}function Ii(e,t){for(;e.length<t.length;)e=e.concat(e);return Math.max.apply(null,t.map(function(t,n){return Fi(t)+Fi(e[n])}))}function Fi(e){return 1e3*Number(e.slice(0,-1).replace(",","."))}function Pi(e,r){var i=e.elm;n(i._leaveCb)&&(i._leaveCb.cancelled=!0,i._leaveCb());var a=bi(e.data.transition);if(!t(a)&&!n(i._enterCb)&&1===i.nodeType){for(var s=a.css,c=a.type,u=a.enterClass,l=a.enterToClass,p=a.enterActiveClass,d=a.appearClass,v=a.appearToClass,h=a.appearActiveClass,m=a.beforeEnter,y=a.enter,g=a.afterEnter,_=a.enterCancelled,b=a.beforeAppear,$=a.appear,w=a.afterAppear,C=a.appearCancelled,x=a.duration,k=Wt,A=Wt.$vnode;A&&A.parent;)k=A.context,A=A.parent;var O=!k._isMounted||!e.isRootInsert;if(!O||$||""===$){var S=O&&d?d:u,T=O&&h?h:p,E=O&&v?v:l,N=O&&b||m,j=O&&"function"==typeof $?$:y,L=O&&w||g,M=O&&C||_,I=f(o(x)?x.enter:x),F=!1!==s&&!W,P=Bi(j),R=i._enterCb=D(function(){F&&(ji(i,E),ji(i,T)),R.cancelled?(F&&ji(i,S),M&&M(i)):L&&L(i),i._enterCb=null});e.data.show||it(e,"insert",function(){var t=i.parentNode,n=t&&t._pending&&t._pending[e.key];n&&n.tag===e.tag&&n.elm._leaveCb&&n.elm._leaveCb(),j&&j(i,R)}),N&&N(i),F&&(Ni(i,S),Ni(i,T),Ei(function(){ji(i,S),R.cancelled||(Ni(i,E),P||(Hi(I)?setTimeout(R,I):Di(i,c,R)))})),e.data.show&&(r&&r(),j&&j(i,R)),F||P||R()}}}function Ri(e,r){var i=e.elm;n(i._enterCb)&&(i._enterCb.cancelled=!0,i._enterCb());var a=bi(e.data.transition);if(t(a)||1!==i.nodeType)return r();if(!n(i._leaveCb)){var s=a.css,c=a.type,u=a.leaveClass,l=a.leaveToClass,p=a.leaveActiveClass,d=a.beforeLeave,v=a.leave,h=a.afterLeave,m=a.leaveCancelled,y=a.delayLeave,g=a.duration,_=!1!==s&&!W,b=Bi(v),$=f(o(g)?g.leave:g),w=i._leaveCb=D(function(){i.parentNode&&i.parentNode._pending&&(i.parentNode._pending[e.key]=null),_&&(ji(i,l),ji(i,p)),w.cancelled?(_&&ji(i,u),m&&m(i)):(r(),h&&h(i)),i._leaveCb=null});y?y(C):C()}function C(){w.cancelled||(!e.data.show&&i.parentNode&&((i.parentNode._pending||(i.parentNode._pending={}))[e.key]=e),d&&d(i),_&&(Ni(i,u),Ni(i,p),Ei(function(){ji(i,u),w.cancelled||(Ni(i,l),b||(Hi($)?setTimeout(w,$):Di(i,c,w)))})),v&&v(i,w),_||b||w())}}function Hi(e){return"number"==typeof e&&!isNaN(e)}function Bi(e){if(t(e))return!1;var r=e.fns;return n(r)?Bi(Array.isArray(r)?r[0]:r):(e._length||e.length)>1}function Ui(e,t){!0!==t.data.show&&Pi(t)}var zi=function(e){var o,a,s={},c=e.modules,u=e.nodeOps;for(o=0;o<rr.length;++o)for(s[rr[o]]=[],a=0;a<c.length;++a)n(c[a][rr[o]])&&s[rr[o]].push(c[a][rr[o]]);function l(e){var t=u.parentNode(e);n(t)&&u.removeChild(t,e)}function f(e,t,i,o,a,c,l){if(n(e.elm)&&n(c)&&(e=c[l]=me(e)),e.isRootInsert=!a,!function(e,t,i,o){var a=e.data;if(n(a)){var c=n(e.componentInstance)&&a.keepAlive;if(n(a=a.hook)&&n(a=a.init)&&a(e,!1),n(e.componentInstance))return d(e,t),v(i,e.elm,o),r(c)&&function(e,t,r,i){for(var o,a=e;a.componentInstance;)if(a=a.componentInstance._vnode,n(o=a.data)&&n(o=o.transition)){for(o=0;o<s.activate.length;++o)s.activate[o](nr,a);t.push(a);break}v(r,e.elm,i)}(e,t,i,o),!0}}(e,t,i,o)){var f=e.data,p=e.children,m=e.tag;n(m)?(e.elm=e.ns?u.createElementNS(e.ns,m):u.createElement(m,e),g(e),h(e,p,t),n(f)&&y(e,t),v(i,e.elm,o)):r(e.isComment)?(e.elm=u.createComment(e.text),v(i,e.elm,o)):(e.elm=u.createTextNode(e.text),v(i,e.elm,o))}}function d(e,t){n(e.data.pendingInsert)&&(t.push.apply(t,e.data.pendingInsert),e.data.pendingInsert=null),e.elm=e.componentInstance.$el,m(e)?(y(e,t),g(e)):(tr(e),t.push(e))}function v(e,t,r){n(e)&&(n(r)?u.parentNode(r)===e&&u.insertBefore(e,t,r):u.appendChild(e,t))}function h(e,t,n){if(Array.isArray(t))for(var r=0;r<t.length;++r)f(t[r],n,e.elm,null,!0,t,r);else i(e.text)&&u.appendChild(e.elm,u.createTextNode(String(e.text)))}function m(e){for(;e.componentInstance;)e=e.componentInstance._vnode;return n(e.tag)}function y(e,t){for(var r=0;r<s.create.length;++r)s.create[r](nr,e);n(o=e.data.hook)&&(n(o.create)&&o.create(nr,e),n(o.insert)&&t.push(e))}function g(e){var t;if(n(t=e.fnScopeId))u.setStyleScope(e.elm,t);else for(var r=e;r;)n(t=r.context)&&n(t=t.$options._scopeId)&&u.setStyleScope(e.elm,t),r=r.parent;n(t=Wt)&&t!==e.context&&t!==e.fnContext&&n(t=t.$options._scopeId)&&u.setStyleScope(e.elm,t)}function _(e,t,n,r,i,o){for(;r<=i;++r)f(n[r],o,e,t,!1,n,r)}function b(e){var t,r,i=e.data;if(n(i))for(n(t=i.hook)&&n(t=t.destroy)&&t(e),t=0;t<s.destroy.length;++t)s.destroy[t](e);if(n(t=e.children))for(r=0;r<e.children.length;++r)b(e.children[r])}function $(e,t,r,i){for(;r<=i;++r){var o=t[r];n(o)&&(n(o.tag)?(w(o),b(o)):l(o.elm))}}function w(e,t){if(n(t)||n(e.data)){var r,i=s.remove.length+1;for(n(t)?t.listeners+=i:t=function(e,t){function n(){0==--n.listeners&&l(e)}return n.listeners=t,n}(e.elm,i),n(r=e.componentInstance)&&n(r=r._vnode)&&n(r.data)&&w(r,t),r=0;r<s.remove.length;++r)s.remove[r](e,t);n(r=e.data.hook)&&n(r=r.remove)?r(e,t):t()}else l(e.elm)}function C(e,t,r,i){for(var o=r;o<i;o++){var a=t[o];if(n(a)&&ir(e,a))return o}}function x(e,i,o,a,c,l){if(e!==i){n(i.elm)&&n(a)&&(i=a[c]=me(i));var p=i.elm=e.elm;if(r(e.isAsyncPlaceholder))n(i.asyncFactory.resolved)?O(e.elm,i,o):i.isAsyncPlaceholder=!0;else if(r(i.isStatic)&&r(e.isStatic)&&i.key===e.key&&(r(i.isCloned)||r(i.isOnce)))i.componentInstance=e.componentInstance;else{var d,v=i.data;n(v)&&n(d=v.hook)&&n(d=d.prepatch)&&d(e,i);var h=e.children,y=i.children;if(n(v)&&m(i)){for(d=0;d<s.update.length;++d)s.update[d](e,i);n(d=v.hook)&&n(d=d.update)&&d(e,i)}t(i.text)?n(h)&&n(y)?h!==y&&function(e,r,i,o,a){for(var s,c,l,p=0,d=0,v=r.length-1,h=r[0],m=r[v],y=i.length-1,g=i[0],b=i[y],w=!a;p<=v&&d<=y;)t(h)?h=r[++p]:t(m)?m=r[--v]:ir(h,g)?(x(h,g,o,i,d),h=r[++p],g=i[++d]):ir(m,b)?(x(m,b,o,i,y),m=r[--v],b=i[--y]):ir(h,b)?(x(h,b,o,i,y),w&&u.insertBefore(e,h.elm,u.nextSibling(m.elm)),h=r[++p],b=i[--y]):ir(m,g)?(x(m,g,o,i,d),w&&u.insertBefore(e,m.elm,h.elm),m=r[--v],g=i[++d]):(t(s)&&(s=or(r,p,v)),t(c=n(g.key)?s[g.key]:C(g,r,p,v))?f(g,o,e,h.elm,!1,i,d):ir(l=r[c],g)?(x(l,g,o,i,d),r[c]=void 0,w&&u.insertBefore(e,l.elm,h.elm)):f(g,o,e,h.elm,!1,i,d),g=i[++d]);p>v?_(e,t(i[y+1])?null:i[y+1].elm,i,d,y,o):d>y&&$(0,r,p,v)}(p,h,y,o,l):n(y)?(n(e.text)&&u.setTextContent(p,""),_(p,null,y,0,y.length-1,o)):n(h)?$(0,h,0,h.length-1):n(e.text)&&u.setTextContent(p,""):e.text!==i.text&&u.setTextContent(p,i.text),n(v)&&n(d=v.hook)&&n(d=d.postpatch)&&d(e,i)}}}function k(e,t,i){if(r(i)&&n(e.parent))e.parent.data.pendingInsert=t;else for(var o=0;o<t.length;++o)t[o].data.hook.insert(t[o])}var A=p("attrs,class,staticClass,staticStyle,key");function O(e,t,i,o){var a,s=t.tag,c=t.data,u=t.children;if(o=o||c&&c.pre,t.elm=e,r(t.isComment)&&n(t.asyncFactory))return t.isAsyncPlaceholder=!0,!0;if(n(c)&&(n(a=c.hook)&&n(a=a.init)&&a(t,!0),n(a=t.componentInstance)))return d(t,i),!0;if(n(s)){if(n(u))if(e.hasChildNodes())if(n(a=c)&&n(a=a.domProps)&&n(a=a.innerHTML)){if(a!==e.innerHTML)return!1}else{for(var l=!0,f=e.firstChild,p=0;p<u.length;p++){if(!f||!O(f,u[p],i,o)){l=!1;break}f=f.nextSibling}if(!l||f)return!1}else h(t,u,i);if(n(c)){var v=!1;for(var m in c)if(!A(m)){v=!0,y(t,i);break}!v&&c.class&&et(c.class)}}else e.data!==t.text&&(e.data=t.text);return!0}return function(e,i,o,a){if(!t(i)){var c,l=!1,p=[];if(t(e))l=!0,f(i,p);else{var d=n(e.nodeType);if(!d&&ir(e,i))x(e,i,p,null,null,a);else{if(d){if(1===e.nodeType&&e.hasAttribute(L)&&(e.removeAttribute(L),o=!0),r(o)&&O(e,i,p))return k(i,p,!0),e;c=e,e=new pe(u.tagName(c).toLowerCase(),{},[],void 0,c)}var v=e.elm,h=u.parentNode(v);if(f(i,p,v._leaveCb?null:h,u.nextSibling(v)),n(i.parent))for(var y=i.parent,g=m(i);y;){for(var _=0;_<s.destroy.length;++_)s.destroy[_](y);if(y.elm=i.elm,g){for(var w=0;w<s.create.length;++w)s.create[w](nr,y);var C=y.data.hook.insert;if(C.merged)for(var A=1;A<C.fns.length;A++)C.fns[A]()}else tr(y);y=y.parent}n(h)?$(0,[e],0,0):n(e.tag)&&b(e)}}return k(i,p,l),i.elm}n(e)&&b(e)}}({nodeOps:Qn,modules:[mr,xr,ni,oi,mi,z?{create:Ui,activate:Ui,remove:function(e,t){!0!==e.data.show?Ri(e,t):t()}}:{}].concat(pr)});W&&document.addEventListener("selectionchange",function(){var e=document.activeElement;e&&e.vmodel&&Xi(e,"input")});var Vi={inserted:function(e,t,n,r){"select"===n.tag?(r.elm&&!r.elm._vOptions?it(n,"postpatch",function(){Vi.componentUpdated(e,t,n)}):Ki(e,t,n.context),e._vOptions=[].map.call(e.options,Wi)):("textarea"===n.tag||Xn(e.type))&&(e._vModifiers=t.modifiers,t.modifiers.lazy||(e.addEventListener("compositionstart",Zi),e.addEventListener("compositionend",Gi),e.addEventListener("change",Gi),W&&(e.vmodel=!0)))},componentUpdated:function(e,t,n){if("select"===n.tag){Ki(e,t,n.context);var r=e._vOptions,i=e._vOptions=[].map.call(e.options,Wi);if(i.some(function(e,t){return!N(e,r[t])}))(e.multiple?t.value.some(function(e){return qi(e,i)}):t.value!==t.oldValue&&qi(t.value,i))&&Xi(e,"change")}}};function Ki(e,t,n){Ji(e,t,n),(q||Z)&&setTimeout(function(){Ji(e,t,n)},0)}function Ji(e,t,n){var r=t.value,i=e.multiple;if(!i||Array.isArray(r)){for(var o,a,s=0,c=e.options.length;s<c;s++)if(a=e.options[s],i)o=j(r,Wi(a))>-1,a.selected!==o&&(a.selected=o);else if(N(Wi(a),r))return void(e.selectedIndex!==s&&(e.selectedIndex=s));i||(e.selectedIndex=-1)}}function qi(e,t){return t.every(function(t){return!N(t,e)})}function Wi(e){return"_value"in e?e._value:e.value}function Zi(e){e.target.composing=!0}function Gi(e){e.target.composing&&(e.target.composing=!1,Xi(e.target,"input"))}function Xi(e,t){var n=document.createEvent("HTMLEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}function Yi(e){return!e.componentInstance||e.data&&e.data.transition?e:Yi(e.componentInstance._vnode)}var Qi={model:Vi,show:{bind:function(e,t,n){var r=t.value,i=(n=Yi(n)).data&&n.data.transition,o=e.__vOriginalDisplay="none"===e.style.display?"":e.style.display;r&&i?(n.data.show=!0,Pi(n,function(){e.style.display=o})):e.style.display=r?o:"none"},update:function(e,t,n){var r=t.value;!r!=!t.oldValue&&((n=Yi(n)).data&&n.data.transition?(n.data.show=!0,r?Pi(n,function(){e.style.display=e.__vOriginalDisplay}):Ri(n,function(){e.style.display="none"})):e.style.display=r?e.__vOriginalDisplay:"none")},unbind:function(e,t,n,r,i){i||(e.style.display=e.__vOriginalDisplay)}}},eo={name:String,appear:Boolean,css:Boolean,mode:String,type:String,enterClass:String,leaveClass:String,enterToClass:String,leaveToClass:String,enterActiveClass:String,leaveActiveClass:String,appearClass:String,appearActiveClass:String,appearToClass:String,duration:[Number,String,Object]};function to(e){var t=e&&e.componentOptions;return t&&t.Ctor.options.abstract?to(zt(t.children)):e}function no(e){var t={},n=e.$options;for(var r in n.propsData)t[r]=e[r];var i=n._parentListeners;for(var o in i)t[b(o)]=i[o];return t}function ro(e,t){if(/\d-keep-alive$/.test(t.tag))return e("keep-alive",{props:t.componentOptions.propsData})}var io=function(e){return e.tag||Ut(e)},oo=function(e){return"show"===e.name},ao={name:"transition",props:eo,abstract:!0,render:function(e){var t=this,n=this.$slots.default;if(n&&(n=n.filter(io)).length){var r=this.mode,o=n[0];if(function(e){for(;e=e.parent;)if(e.data.transition)return!0}(this.$vnode))return o;var a=to(o);if(!a)return o;if(this._leaving)return ro(e,o);var s="__transition-"+this._uid+"-";a.key=null==a.key?a.isComment?s+"comment":s+a.tag:i(a.key)?0===String(a.key).indexOf(s)?a.key:s+a.key:a.key;var c=(a.data||(a.data={})).transition=no(this),u=this._vnode,l=to(u);if(a.data.directives&&a.data.directives.some(oo)&&(a.data.show=!0),l&&l.data&&!function(e,t){return t.key===e.key&&t.tag===e.tag}(a,l)&&!Ut(l)&&(!l.componentInstance||!l.componentInstance._vnode.isComment)){var f=l.data.transition=A({},c);if("out-in"===r)return this._leaving=!0,it(f,"afterLeave",function(){t._leaving=!1,t.$forceUpdate()}),ro(e,o);if("in-out"===r){if(Ut(a))return u;var p,d=function(){p()};it(c,"afterEnter",d),it(c,"enterCancelled",d),it(f,"delayLeave",function(e){p=e})}}return o}}},so=A({tag:String,moveClass:String},eo);function co(e){e.elm._moveCb&&e.elm._moveCb(),e.elm._enterCb&&e.elm._enterCb()}function uo(e){e.data.newPos=e.elm.getBoundingClientRect()}function lo(e){var t=e.data.pos,n=e.data.newPos,r=t.left-n.left,i=t.top-n.top;if(r||i){e.data.moved=!0;var o=e.elm.style;o.transform=o.WebkitTransform="translate("+r+"px,"+i+"px)",o.transitionDuration="0s"}}delete so.mode;var fo={Transition:ao,TransitionGroup:{props:so,beforeMount:function(){var e=this,t=this._update;this._update=function(n,r){var i=Zt(e);e.__patch__(e._vnode,e.kept,!1,!0),e._vnode=e.kept,i(),t.call(e,n,r)}},render:function(e){for(var t=this.tag||this.$vnode.data.tag||"span",n=Object.create(null),r=this.prevChildren=this.children,i=this.$slots.default||[],o=this.children=[],a=no(this),s=0;s<i.length;s++){var c=i[s];c.tag&&null!=c.key&&0!==String(c.key).indexOf("__vlist")&&(o.push(c),n[c.key]=c,(c.data||(c.data={})).transition=a)}if(r){for(var u=[],l=[],f=0;f<r.length;f++){var p=r[f];p.data.transition=a,p.data.pos=p.elm.getBoundingClientRect(),n[p.key]?u.push(p):l.push(p)}this.kept=e(t,null,u),this.removed=l}return e(t,null,o)},updated:function(){var e=this.prevChildren,t=this.moveClass||(this.name||"v")+"-move";e.length&&this.hasMove(e[0].elm,t)&&(e.forEach(co),e.forEach(uo),e.forEach(lo),this._reflow=document.body.offsetHeight,e.forEach(function(e){if(e.data.moved){var n=e.elm,r=n.style;Ni(n,t),r.transform=r.WebkitTransform=r.transitionDuration="",n.addEventListener(Ai,n._moveCb=function e(r){r&&r.target!==n||r&&!/transform$/.test(r.propertyName)||(n.removeEventListener(Ai,e),n._moveCb=null,ji(n,t))})}}))},methods:{hasMove:function(e,t){if(!wi)return!1;if(this._hasMove)return this._hasMove;var n=e.cloneNode();e._transitionClasses&&e._transitionClasses.forEach(function(e){_i(n,e)}),gi(n,t),n.style.display="none",this.$el.appendChild(n);var r=Mi(n);return this.$el.removeChild(n),this._hasMove=r.hasTransform}}}};wn.config.mustUseProp=jn,wn.config.isReservedTag=Wn,wn.config.isReservedAttr=En,wn.config.getTagNamespace=Zn,wn.config.isUnknownElement=function(e){if(!z)return!0;if(Wn(e))return!1;if(e=e.toLowerCase(),null!=Gn[e])return Gn[e];var t=document.createElement(e);return e.indexOf("-")>-1?Gn[e]=t.constructor===window.HTMLUnknownElement||t.constructor===window.HTMLElement:Gn[e]=/HTMLUnknownElement/.test(t.toString())},A(wn.options.directives,Qi),A(wn.options.components,fo),wn.prototype.__patch__=z?zi:S,wn.prototype.$mount=function(e,t){return function(e,t,n){var r;return e.$el=t,e.$options.render||(e.$options.render=ve),Yt(e,"beforeMount"),r=function(){e._update(e._render(),n)},new fn(e,r,S,{before:function(){e._isMounted&&!e._isDestroyed&&Yt(e,"beforeUpdate")}},!0),n=!1,null==e.$vnode&&(e._isMounted=!0,Yt(e,"mounted")),e}(this,e=e&&z?Yn(e):void 0,t)},z&&setTimeout(function(){F.devtools&&ne&&ne.emit("init",wn)},0);var po=/\{\{((?:.|\r?\n)+?)\}\}/g,vo=/[-.*+?^${}()|[\]\/\\]/g,ho=g(function(e){var t=e[0].replace(vo,"\\$&"),n=e[1].replace(vo,"\\$&");return new RegExp(t+"((?:.|\\n)+?)"+n,"g")});var mo={staticKeys:["staticClass"],transformNode:function(e,t){t.warn;var n=Fr(e,"class");n&&(e.staticClass=JSON.stringify(n));var r=Ir(e,"class",!1);r&&(e.classBinding=r)},genData:function(e){var t="";return e.staticClass&&(t+="staticClass:"+e.staticClass+","),e.classBinding&&(t+="class:"+e.classBinding+","),t}};var yo,go={staticKeys:["staticStyle"],transformNode:function(e,t){t.warn;var n=Fr(e,"style");n&&(e.staticStyle=JSON.stringify(ai(n)));var r=Ir(e,"style",!1);r&&(e.styleBinding=r)},genData:function(e){var t="";return e.staticStyle&&(t+="staticStyle:"+e.staticStyle+","),e.styleBinding&&(t+="style:("+e.styleBinding+"),"),t}},_o=function(e){return(yo=yo||document.createElement("div")).innerHTML=e,yo.textContent},bo=p("area,base,br,col,embed,frame,hr,img,input,isindex,keygen,link,meta,param,source,track,wbr"),$o=p("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source"),wo=p("address,article,aside,base,blockquote,body,caption,col,colgroup,dd,details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta,optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead,title,tr,track"),Co=/^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/,xo=/^\s*((?:v-[\w-]+:|@|:|#)\[[^=]+\][^\s"'<>\/=]*)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/,ko="[a-zA-Z_][\\-\\.0-9_a-zA-Z"+P.source+"]*",Ao="((?:"+ko+"\\:)?"+ko+")",Oo=new RegExp("^<"+Ao),So=/^\s*(\/?)>/,To=new RegExp("^<\\/"+Ao+"[^>]*>"),Eo=/^<!DOCTYPE [^>]+>/i,No=/^<!\--/,jo=/^<!\[/,Do=p("script,style,textarea",!0),Lo={},Mo={"&lt;":"<","&gt;":">","&quot;":'"',"&amp;":"&","&#10;":"\n","&#9;":"\t","&#39;":"'"},Io=/&(?:lt|gt|quot|amp|#39);/g,Fo=/&(?:lt|gt|quot|amp|#39|#10|#9);/g,Po=p("pre,textarea",!0),Ro=function(e,t){return e&&Po(e)&&"\n"===t[0]};function Ho(e,t){var n=t?Fo:Io;return e.replace(n,function(e){return Mo[e]})}var Bo,Uo,zo,Vo,Ko,Jo,qo,Wo,Zo=/^@|^v-on:/,Go=/^v-|^@|^:/,Xo=/([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/,Yo=/,([^,\}\]]*)(?:,([^,\}\]]*))?$/,Qo=/^\(|\)$/g,ea=/^\[.*\]$/,ta=/:(.*)$/,na=/^:|^\.|^v-bind:/,ra=/\.[^.\]]+(?=[^\]]*$)/g,ia=/^v-slot(:|$)|^#/,oa=/[\r\n]/,aa=/\s+/g,sa=g(_o),ca="_empty_";function ua(e,t,n){return{type:1,tag:e,attrsList:t,attrsMap:ma(t),rawAttrsMap:{},parent:n,children:[]}}function la(e,t){Bo=t.warn||Sr,Jo=t.isPreTag||T,qo=t.mustUseProp||T,Wo=t.getTagNamespace||T;t.isReservedTag;zo=Tr(t.modules,"transformNode"),Vo=Tr(t.modules,"preTransformNode"),Ko=Tr(t.modules,"postTransformNode"),Uo=t.delimiters;var n,r,i=[],o=!1!==t.preserveWhitespace,a=t.whitespace,s=!1,c=!1;function u(e){if(l(e),s||e.processed||(e=fa(e,t)),i.length||e===n||n.if&&(e.elseif||e.else)&&da(n,{exp:e.elseif,block:e}),r&&!e.forbidden)if(e.elseif||e.else)a=e,(u=function(e){var t=e.length;for(;t--;){if(1===e[t].type)return e[t];e.pop()}}(r.children))&&u.if&&da(u,{exp:a.elseif,block:a});else{if(e.slotScope){var o=e.slotTarget||'"default"';(r.scopedSlots||(r.scopedSlots={}))[o]=e}r.children.push(e),e.parent=r}var a,u;e.children=e.children.filter(function(e){return!e.slotScope}),l(e),e.pre&&(s=!1),Jo(e.tag)&&(c=!1);for(var f=0;f<Ko.length;f++)Ko[f](e,t)}function l(e){if(!c)for(var t;(t=e.children[e.children.length-1])&&3===t.type&&" "===t.text;)e.children.pop()}return function(e,t){for(var n,r,i=[],o=t.expectHTML,a=t.isUnaryTag||T,s=t.canBeLeftOpenTag||T,c=0;e;){if(n=e,r&&Do(r)){var u=0,l=r.toLowerCase(),f=Lo[l]||(Lo[l]=new RegExp("([\\s\\S]*?)(</"+l+"[^>]*>)","i")),p=e.replace(f,function(e,n,r){return u=r.length,Do(l)||"noscript"===l||(n=n.replace(/<!\--([\s\S]*?)-->/g,"$1").replace(/<!\[CDATA\[([\s\S]*?)]]>/g,"$1")),Ro(l,n)&&(n=n.slice(1)),t.chars&&t.chars(n),""});c+=e.length-p.length,e=p,A(l,c-u,c)}else{var d=e.indexOf("<");if(0===d){if(No.test(e)){var v=e.indexOf("--\x3e");if(v>=0){t.shouldKeepComment&&t.comment(e.substring(4,v),c,c+v+3),C(v+3);continue}}if(jo.test(e)){var h=e.indexOf("]>");if(h>=0){C(h+2);continue}}var m=e.match(Eo);if(m){C(m[0].length);continue}var y=e.match(To);if(y){var g=c;C(y[0].length),A(y[1],g,c);continue}var _=x();if(_){k(_),Ro(_.tagName,e)&&C(1);continue}}var b=void 0,$=void 0,w=void 0;if(d>=0){for($=e.slice(d);!(To.test($)||Oo.test($)||No.test($)||jo.test($)||(w=$.indexOf("<",1))<0);)d+=w,$=e.slice(d);b=e.substring(0,d)}d<0&&(b=e),b&&C(b.length),t.chars&&b&&t.chars(b,c-b.length,c)}if(e===n){t.chars&&t.chars(e);break}}function C(t){c+=t,e=e.substring(t)}function x(){var t=e.match(Oo);if(t){var n,r,i={tagName:t[1],attrs:[],start:c};for(C(t[0].length);!(n=e.match(So))&&(r=e.match(xo)||e.match(Co));)r.start=c,C(r[0].length),r.end=c,i.attrs.push(r);if(n)return i.unarySlash=n[1],C(n[0].length),i.end=c,i}}function k(e){var n=e.tagName,c=e.unarySlash;o&&("p"===r&&wo(n)&&A(r),s(n)&&r===n&&A(n));for(var u=a(n)||!!c,l=e.attrs.length,f=new Array(l),p=0;p<l;p++){var d=e.attrs[p],v=d[3]||d[4]||d[5]||"",h="a"===n&&"href"===d[1]?t.shouldDecodeNewlinesForHref:t.shouldDecodeNewlines;f[p]={name:d[1],value:Ho(v,h)}}u||(i.push({tag:n,lowerCasedTag:n.toLowerCase(),attrs:f,start:e.start,end:e.end}),r=n),t.start&&t.start(n,f,u,e.start,e.end)}function A(e,n,o){var a,s;if(null==n&&(n=c),null==o&&(o=c),e)for(s=e.toLowerCase(),a=i.length-1;a>=0&&i[a].lowerCasedTag!==s;a--);else a=0;if(a>=0){for(var u=i.length-1;u>=a;u--)t.end&&t.end(i[u].tag,n,o);i.length=a,r=a&&i[a-1].tag}else"br"===s?t.start&&t.start(e,[],!0,n,o):"p"===s&&(t.start&&t.start(e,[],!1,n,o),t.end&&t.end(e,n,o))}A()}(e,{warn:Bo,expectHTML:t.expectHTML,isUnaryTag:t.isUnaryTag,canBeLeftOpenTag:t.canBeLeftOpenTag,shouldDecodeNewlines:t.shouldDecodeNewlines,shouldDecodeNewlinesForHref:t.shouldDecodeNewlinesForHref,shouldKeepComment:t.comments,outputSourceRange:t.outputSourceRange,start:function(e,o,a,l,f){var p=r&&r.ns||Wo(e);q&&"svg"===p&&(o=function(e){for(var t=[],n=0;n<e.length;n++){var r=e[n];ya.test(r.name)||(r.name=r.name.replace(ga,""),t.push(r))}return t}(o));var d,v=ua(e,o,r);p&&(v.ns=p),"style"!==(d=v).tag&&("script"!==d.tag||d.attrsMap.type&&"text/javascript"!==d.attrsMap.type)||te()||(v.forbidden=!0);for(var h=0;h<Vo.length;h++)v=Vo[h](v,t)||v;s||(!function(e){null!=Fr(e,"v-pre")&&(e.pre=!0)}(v),v.pre&&(s=!0)),Jo(v.tag)&&(c=!0),s?function(e){var t=e.attrsList,n=t.length;if(n)for(var r=e.attrs=new Array(n),i=0;i<n;i++)r[i]={name:t[i].name,value:JSON.stringify(t[i].value)},null!=t[i].start&&(r[i].start=t[i].start,r[i].end=t[i].end);else e.pre||(e.plain=!0)}(v):v.processed||(pa(v),function(e){var t=Fr(e,"v-if");if(t)e.if=t,da(e,{exp:t,block:e});else{null!=Fr(e,"v-else")&&(e.else=!0);var n=Fr(e,"v-else-if");n&&(e.elseif=n)}}(v),function(e){null!=Fr(e,"v-once")&&(e.once=!0)}(v)),n||(n=v),a?u(v):(r=v,i.push(v))},end:function(e,t,n){var o=i[i.length-1];i.length-=1,r=i[i.length-1],u(o)},chars:function(e,t,n){if(r&&(!q||"textarea"!==r.tag||r.attrsMap.placeholder!==e)){var i,u,l,f=r.children;if(e=c||e.trim()?"script"===(i=r).tag||"style"===i.tag?e:sa(e):f.length?a?"condense"===a&&oa.test(e)?"":" ":o?" ":"":"")c||"condense"!==a||(e=e.replace(aa," ")),!s&&" "!==e&&(u=function(e,t){var n=t?ho(t):po;if(n.test(e)){for(var r,i,o,a=[],s=[],c=n.lastIndex=0;r=n.exec(e);){(i=r.index)>c&&(s.push(o=e.slice(c,i)),a.push(JSON.stringify(o)));var u=Ar(r[1].trim());a.push("_s("+u+")"),s.push({"@binding":u}),c=i+r[0].length}return c<e.length&&(s.push(o=e.slice(c)),a.push(JSON.stringify(o))),{expression:a.join("+"),tokens:s}}}(e,Uo))?l={type:2,expression:u.expression,tokens:u.tokens,text:e}:" "===e&&f.length&&" "===f[f.length-1].text||(l={type:3,text:e}),l&&f.push(l)}},comment:function(e,t,n){if(r){var i={type:3,text:e,isComment:!0};r.children.push(i)}}}),n}function fa(e,t){var n,r;(r=Ir(n=e,"key"))&&(n.key=r),e.plain=!e.key&&!e.scopedSlots&&!e.attrsList.length,function(e){var t=Ir(e,"ref");t&&(e.ref=t,e.refInFor=function(e){var t=e;for(;t;){if(void 0!==t.for)return!0;t=t.parent}return!1}(e))}(e),function(e){var t;"template"===e.tag?(t=Fr(e,"scope"),e.slotScope=t||Fr(e,"slot-scope")):(t=Fr(e,"slot-scope"))&&(e.slotScope=t);var n=Ir(e,"slot");n&&(e.slotTarget='""'===n?'"default"':n,e.slotTargetDynamic=!(!e.attrsMap[":slot"]&&!e.attrsMap["v-bind:slot"]),"template"===e.tag||e.slotScope||Nr(e,"slot",n,function(e,t){return e.rawAttrsMap[":"+t]||e.rawAttrsMap["v-bind:"+t]||e.rawAttrsMap[t]}(e,"slot")));if("template"===e.tag){var r=Pr(e,ia);if(r){var i=va(r),o=i.name,a=i.dynamic;e.slotTarget=o,e.slotTargetDynamic=a,e.slotScope=r.value||ca}}else{var s=Pr(e,ia);if(s){var c=e.scopedSlots||(e.scopedSlots={}),u=va(s),l=u.name,f=u.dynamic,p=c[l]=ua("template",[],e);p.slotTarget=l,p.slotTargetDynamic=f,p.children=e.children.filter(function(e){if(!e.slotScope)return e.parent=p,!0}),p.slotScope=s.value||ca,e.children=[],e.plain=!1}}}(e),function(e){"slot"===e.tag&&(e.slotName=Ir(e,"name"))}(e),function(e){var t;(t=Ir(e,"is"))&&(e.component=t);null!=Fr(e,"inline-template")&&(e.inlineTemplate=!0)}(e);for(var i=0;i<zo.length;i++)e=zo[i](e,t)||e;return function(e){var t,n,r,i,o,a,s,c,u=e.attrsList;for(t=0,n=u.length;t<n;t++)if(r=i=u[t].name,o=u[t].value,Go.test(r))if(e.hasBindings=!0,(a=ha(r.replace(Go,"")))&&(r=r.replace(ra,"")),na.test(r))r=r.replace(na,""),o=Ar(o),(c=ea.test(r))&&(r=r.slice(1,-1)),a&&(a.prop&&!c&&"innerHtml"===(r=b(r))&&(r="innerHTML"),a.camel&&!c&&(r=b(r)),a.sync&&(s=Br(o,"$event"),c?Mr(e,'"update:"+('+r+")",s,null,!1,0,u[t],!0):(Mr(e,"update:"+b(r),s,null,!1,0,u[t]),C(r)!==b(r)&&Mr(e,"update:"+C(r),s,null,!1,0,u[t])))),a&&a.prop||!e.component&&qo(e.tag,e.attrsMap.type,r)?Er(e,r,o,u[t],c):Nr(e,r,o,u[t],c);else if(Zo.test(r))r=r.replace(Zo,""),(c=ea.test(r))&&(r=r.slice(1,-1)),Mr(e,r,o,a,!1,0,u[t],c);else{var l=(r=r.replace(Go,"")).match(ta),f=l&&l[1];c=!1,f&&(r=r.slice(0,-(f.length+1)),ea.test(f)&&(f=f.slice(1,-1),c=!0)),Dr(e,r,i,o,f,c,a,u[t])}else Nr(e,r,JSON.stringify(o),u[t]),!e.component&&"muted"===r&&qo(e.tag,e.attrsMap.type,r)&&Er(e,r,"true",u[t])}(e),e}function pa(e){var t;if(t=Fr(e,"v-for")){var n=function(e){var t=e.match(Xo);if(!t)return;var n={};n.for=t[2].trim();var r=t[1].trim().replace(Qo,""),i=r.match(Yo);i?(n.alias=r.replace(Yo,"").trim(),n.iterator1=i[1].trim(),i[2]&&(n.iterator2=i[2].trim())):n.alias=r;return n}(t);n&&A(e,n)}}function da(e,t){e.ifConditions||(e.ifConditions=[]),e.ifConditions.push(t)}function va(e){var t=e.name.replace(ia,"");return t||"#"!==e.name[0]&&(t="default"),ea.test(t)?{name:t.slice(1,-1),dynamic:!0}:{name:'"'+t+'"',dynamic:!1}}function ha(e){var t=e.match(ra);if(t){var n={};return t.forEach(function(e){n[e.slice(1)]=!0}),n}}function ma(e){for(var t={},n=0,r=e.length;n<r;n++)t[e[n].name]=e[n].value;return t}var ya=/^xmlns:NS\d+/,ga=/^NS\d+:/;function _a(e){return ua(e.tag,e.attrsList.slice(),e.parent)}var ba=[mo,go,{preTransformNode:function(e,t){if("input"===e.tag){var n,r=e.attrsMap;if(!r["v-model"])return;if((r[":type"]||r["v-bind:type"])&&(n=Ir(e,"type")),r.type||n||!r["v-bind"]||(n="("+r["v-bind"]+").type"),n){var i=Fr(e,"v-if",!0),o=i?"&&("+i+")":"",a=null!=Fr(e,"v-else",!0),s=Fr(e,"v-else-if",!0),c=_a(e);pa(c),jr(c,"type","checkbox"),fa(c,t),c.processed=!0,c.if="("+n+")==='checkbox'"+o,da(c,{exp:c.if,block:c});var u=_a(e);Fr(u,"v-for",!0),jr(u,"type","radio"),fa(u,t),da(c,{exp:"("+n+")==='radio'"+o,block:u});var l=_a(e);return Fr(l,"v-for",!0),jr(l,":type",n),fa(l,t),da(c,{exp:i,block:l}),a?c.else=!0:s&&(c.elseif=s),c}}}}];var $a,wa,Ca={expectHTML:!0,modules:ba,directives:{model:function(e,t,n){var r=t.value,i=t.modifiers,o=e.tag,a=e.attrsMap.type;if(e.component)return Hr(e,r,i),!1;if("select"===o)!function(e,t,n){var r='var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return '+(n&&n.number?"_n(val)":"val")+"});";r=r+" "+Br(t,"$event.target.multiple ? $$selectedVal : $$selectedVal[0]"),Mr(e,"change",r,null,!0)}(e,r,i);else if("input"===o&&"checkbox"===a)!function(e,t,n){var r=n&&n.number,i=Ir(e,"value")||"null",o=Ir(e,"true-value")||"true",a=Ir(e,"false-value")||"false";Er(e,"checked","Array.isArray("+t+")?_i("+t+","+i+")>-1"+("true"===o?":("+t+")":":_q("+t+","+o+")")),Mr(e,"change","var $$a="+t+",$$el=$event.target,$$c=$$el.checked?("+o+"):("+a+");if(Array.isArray($$a)){var $$v="+(r?"_n("+i+")":i)+",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&("+Br(t,"$$a.concat([$$v])")+")}else{$$i>-1&&("+Br(t,"$$a.slice(0,$$i).concat($$a.slice($$i+1))")+")}}else{"+Br(t,"$$c")+"}",null,!0)}(e,r,i);else if("input"===o&&"radio"===a)!function(e,t,n){var r=n&&n.number,i=Ir(e,"value")||"null";Er(e,"checked","_q("+t+","+(i=r?"_n("+i+")":i)+")"),Mr(e,"change",Br(t,i),null,!0)}(e,r,i);else if("input"===o||"textarea"===o)!function(e,t,n){var r=e.attrsMap.type,i=n||{},o=i.lazy,a=i.number,s=i.trim,c=!o&&"range"!==r,u=o?"change":"range"===r?Wr:"input",l="$event.target.value";s&&(l="$event.target.value.trim()"),a&&(l="_n("+l+")");var f=Br(t,l);c&&(f="if($event.target.composing)return;"+f),Er(e,"value","("+t+")"),Mr(e,u,f,null,!0),(s||a)&&Mr(e,"blur","$forceUpdate()")}(e,r,i);else if(!F.isReservedTag(o))return Hr(e,r,i),!1;return!0},text:function(e,t){t.value&&Er(e,"textContent","_s("+t.value+")",t)},html:function(e,t){t.value&&Er(e,"innerHTML","_s("+t.value+")",t)}},isPreTag:function(e){return"pre"===e},isUnaryTag:bo,mustUseProp:jn,canBeLeftOpenTag:$o,isReservedTag:Wn,getTagNamespace:Zn,staticKeys:function(e){return e.reduce(function(e,t){return e.concat(t.staticKeys||[])},[]).join(",")}(ba)},xa=g(function(e){return p("type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap"+(e?","+e:""))});function ka(e,t){e&&($a=xa(t.staticKeys||""),wa=t.isReservedTag||T,function e(t){t.static=function(e){if(2===e.type)return!1;if(3===e.type)return!0;return!(!e.pre&&(e.hasBindings||e.if||e.for||d(e.tag)||!wa(e.tag)||function(e){for(;e.parent;){if("template"!==(e=e.parent).tag)return!1;if(e.for)return!0}return!1}(e)||!Object.keys(e).every($a)))}(t);if(1===t.type){if(!wa(t.tag)&&"slot"!==t.tag&&null==t.attrsMap["inline-template"])return;for(var n=0,r=t.children.length;n<r;n++){var i=t.children[n];e(i),i.static||(t.static=!1)}if(t.ifConditions)for(var o=1,a=t.ifConditions.length;o<a;o++){var s=t.ifConditions[o].block;e(s),s.static||(t.static=!1)}}}(e),function e(t,n){if(1===t.type){if((t.static||t.once)&&(t.staticInFor=n),t.static&&t.children.length&&(1!==t.children.length||3!==t.children[0].type))return void(t.staticRoot=!0);if(t.staticRoot=!1,t.children)for(var r=0,i=t.children.length;r<i;r++)e(t.children[r],n||!!t.for);if(t.ifConditions)for(var o=1,a=t.ifConditions.length;o<a;o++)e(t.ifConditions[o].block,n)}}(e,!1))}var Aa=/^([\w$_]+|\([^)]*?\))\s*=>|^function\s*(?:[\w$]+)?\s*\(/,Oa=/\([^)]*?\);*$/,Sa=/^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['[^']*?']|\["[^"]*?"]|\[\d+]|\[[A-Za-z_$][\w$]*])*$/,Ta={esc:27,tab:9,enter:13,space:32,up:38,left:37,right:39,down:40,delete:[8,46]},Ea={esc:["Esc","Escape"],tab:"Tab",enter:"Enter",space:[" ","Spacebar"],up:["Up","ArrowUp"],left:["Left","ArrowLeft"],right:["Right","ArrowRight"],down:["Down","ArrowDown"],delete:["Backspace","Delete","Del"]},Na=function(e){return"if("+e+")return null;"},ja={stop:"$event.stopPropagation();",prevent:"$event.preventDefault();",self:Na("$event.target !== $event.currentTarget"),ctrl:Na("!$event.ctrlKey"),shift:Na("!$event.shiftKey"),alt:Na("!$event.altKey"),meta:Na("!$event.metaKey"),left:Na("'button' in $event && $event.button !== 0"),middle:Na("'button' in $event && $event.button !== 1"),right:Na("'button' in $event && $event.button !== 2")};function Da(e,t){var n=t?"nativeOn:":"on:",r="",i="";for(var o in e){var a=La(e[o]);e[o]&&e[o].dynamic?i+=o+","+a+",":r+='"'+o+'":'+a+","}return r="{"+r.slice(0,-1)+"}",i?n+"_d("+r+",["+i.slice(0,-1)+"])":n+r}function La(e){if(!e)return"function(){}";if(Array.isArray(e))return"["+e.map(function(e){return La(e)}).join(",")+"]";var t=Sa.test(e.value),n=Aa.test(e.value),r=Sa.test(e.value.replace(Oa,""));if(e.modifiers){var i="",o="",a=[];for(var s in e.modifiers)if(ja[s])o+=ja[s],Ta[s]&&a.push(s);else if("exact"===s){var c=e.modifiers;o+=Na(["ctrl","shift","alt","meta"].filter(function(e){return!c[e]}).map(function(e){return"$event."+e+"Key"}).join("||"))}else a.push(s);return a.length&&(i+=function(e){return"if(!$event.type.indexOf('key')&&"+e.map(Ma).join("&&")+")return null;"}(a)),o&&(i+=o),"function($event){"+i+(t?"return "+e.value+"($event)":n?"return ("+e.value+")($event)":r?"return "+e.value:e.value)+"}"}return t||n?e.value:"function($event){"+(r?"return "+e.value:e.value)+"}"}function Ma(e){var t=parseInt(e,10);if(t)return"$event.keyCode!=="+t;var n=Ta[e],r=Ea[e];return"_k($event.keyCode,"+JSON.stringify(e)+","+JSON.stringify(n)+",$event.key,"+JSON.stringify(r)+")"}var Ia={on:function(e,t){e.wrapListeners=function(e){return"_g("+e+","+t.value+")"}},bind:function(e,t){e.wrapData=function(n){return"_b("+n+",'"+e.tag+"',"+t.value+","+(t.modifiers&&t.modifiers.prop?"true":"false")+(t.modifiers&&t.modifiers.sync?",true":"")+")"}},cloak:S},Fa=function(e){this.options=e,this.warn=e.warn||Sr,this.transforms=Tr(e.modules,"transformCode"),this.dataGenFns=Tr(e.modules,"genData"),this.directives=A(A({},Ia),e.directives);var t=e.isReservedTag||T;this.maybeComponent=function(e){return!!e.component||!t(e.tag)},this.onceId=0,this.staticRenderFns=[],this.pre=!1};function Pa(e,t){var n=new Fa(t);return{render:"with(this){return "+(e?Ra(e,n):'_c("div")')+"}",staticRenderFns:n.staticRenderFns}}function Ra(e,t){if(e.parent&&(e.pre=e.pre||e.parent.pre),e.staticRoot&&!e.staticProcessed)return Ha(e,t);if(e.once&&!e.onceProcessed)return Ba(e,t);if(e.for&&!e.forProcessed)return za(e,t);if(e.if&&!e.ifProcessed)return Ua(e,t);if("template"!==e.tag||e.slotTarget||t.pre){if("slot"===e.tag)return function(e,t){var n=e.slotName||'"default"',r=qa(e,t),i="_t("+n+(r?","+r:""),o=e.attrs||e.dynamicAttrs?Ga((e.attrs||[]).concat(e.dynamicAttrs||[]).map(function(e){return{name:b(e.name),value:e.value,dynamic:e.dynamic}})):null,a=e.attrsMap["v-bind"];!o&&!a||r||(i+=",null");o&&(i+=","+o);a&&(i+=(o?"":",null")+","+a);return i+")"}(e,t);var n;if(e.component)n=function(e,t,n){var r=t.inlineTemplate?null:qa(t,n,!0);return"_c("+e+","+Va(t,n)+(r?","+r:"")+")"}(e.component,e,t);else{var r;(!e.plain||e.pre&&t.maybeComponent(e))&&(r=Va(e,t));var i=e.inlineTemplate?null:qa(e,t,!0);n="_c('"+e.tag+"'"+(r?","+r:"")+(i?","+i:"")+")"}for(var o=0;o<t.transforms.length;o++)n=t.transforms[o](e,n);return n}return qa(e,t)||"void 0"}function Ha(e,t){e.staticProcessed=!0;var n=t.pre;return e.pre&&(t.pre=e.pre),t.staticRenderFns.push("with(this){return "+Ra(e,t)+"}"),t.pre=n,"_m("+(t.staticRenderFns.length-1)+(e.staticInFor?",true":"")+")"}function Ba(e,t){if(e.onceProcessed=!0,e.if&&!e.ifProcessed)return Ua(e,t);if(e.staticInFor){for(var n="",r=e.parent;r;){if(r.for){n=r.key;break}r=r.parent}return n?"_o("+Ra(e,t)+","+t.onceId+++","+n+")":Ra(e,t)}return Ha(e,t)}function Ua(e,t,n,r){return e.ifProcessed=!0,function e(t,n,r,i){if(!t.length)return i||"_e()";var o=t.shift();return o.exp?"("+o.exp+")?"+a(o.block)+":"+e(t,n,r,i):""+a(o.block);function a(e){return r?r(e,n):e.once?Ba(e,n):Ra(e,n)}}(e.ifConditions.slice(),t,n,r)}function za(e,t,n,r){var i=e.for,o=e.alias,a=e.iterator1?","+e.iterator1:"",s=e.iterator2?","+e.iterator2:"";return e.forProcessed=!0,(r||"_l")+"(("+i+"),function("+o+a+s+"){return "+(n||Ra)(e,t)+"})"}function Va(e,t){var n="{",r=function(e,t){var n=e.directives;if(!n)return;var r,i,o,a,s="directives:[",c=!1;for(r=0,i=n.length;r<i;r++){o=n[r],a=!0;var u=t.directives[o.name];u&&(a=!!u(e,o,t.warn)),a&&(c=!0,s+='{name:"'+o.name+'",rawName:"'+o.rawName+'"'+(o.value?",value:("+o.value+"),expression:"+JSON.stringify(o.value):"")+(o.arg?",arg:"+(o.isDynamicArg?o.arg:'"'+o.arg+'"'):"")+(o.modifiers?",modifiers:"+JSON.stringify(o.modifiers):"")+"},")}if(c)return s.slice(0,-1)+"]"}(e,t);r&&(n+=r+","),e.key&&(n+="key:"+e.key+","),e.ref&&(n+="ref:"+e.ref+","),e.refInFor&&(n+="refInFor:true,"),e.pre&&(n+="pre:true,"),e.component&&(n+='tag:"'+e.tag+'",');for(var i=0;i<t.dataGenFns.length;i++)n+=t.dataGenFns[i](e);if(e.attrs&&(n+="attrs:"+Ga(e.attrs)+","),e.props&&(n+="domProps:"+Ga(e.props)+","),e.events&&(n+=Da(e.events,!1)+","),e.nativeEvents&&(n+=Da(e.nativeEvents,!0)+","),e.slotTarget&&!e.slotScope&&(n+="slot:"+e.slotTarget+","),e.scopedSlots&&(n+=function(e,t,n){var r=e.for||Object.keys(t).some(function(e){var n=t[e];return n.slotTargetDynamic||n.if||n.for||Ka(n)}),i=!!e.if;if(!r)for(var o=e.parent;o;){if(o.slotScope&&o.slotScope!==ca||o.for){r=!0;break}o.if&&(i=!0),o=o.parent}var a=Object.keys(t).map(function(e){return Ja(t[e],n)}).join(",");return"scopedSlots:_u(["+a+"]"+(r?",null,true":"")+(!r&&i?",null,false,"+function(e){var t=5381,n=e.length;for(;n;)t=33*t^e.charCodeAt(--n);return t>>>0}(a):"")+")"}(e,e.scopedSlots,t)+","),e.model&&(n+="model:{value:"+e.model.value+",callback:"+e.model.callback+",expression:"+e.model.expression+"},"),e.inlineTemplate){var o=function(e,t){var n=e.children[0];if(n&&1===n.type){var r=Pa(n,t.options);return"inlineTemplate:{render:function(){"+r.render+"},staticRenderFns:["+r.staticRenderFns.map(function(e){return"function(){"+e+"}"}).join(",")+"]}"}}(e,t);o&&(n+=o+",")}return n=n.replace(/,$/,"")+"}",e.dynamicAttrs&&(n="_b("+n+',"'+e.tag+'",'+Ga(e.dynamicAttrs)+")"),e.wrapData&&(n=e.wrapData(n)),e.wrapListeners&&(n=e.wrapListeners(n)),n}function Ka(e){return 1===e.type&&("slot"===e.tag||e.children.some(Ka))}function Ja(e,t){var n=e.attrsMap["slot-scope"];if(e.if&&!e.ifProcessed&&!n)return Ua(e,t,Ja,"null");if(e.for&&!e.forProcessed)return za(e,t,Ja);var r=e.slotScope===ca?"":String(e.slotScope),i="function("+r+"){return "+("template"===e.tag?e.if&&n?"("+e.if+")?"+(qa(e,t)||"undefined")+":undefined":qa(e,t)||"undefined":Ra(e,t))+"}",o=r?"":",proxy:true";return"{key:"+(e.slotTarget||'"default"')+",fn:"+i+o+"}"}function qa(e,t,n,r,i){var o=e.children;if(o.length){var a=o[0];if(1===o.length&&a.for&&"template"!==a.tag&&"slot"!==a.tag){var s=n?t.maybeComponent(a)?",1":",0":"";return""+(r||Ra)(a,t)+s}var c=n?function(e,t){for(var n=0,r=0;r<e.length;r++){var i=e[r];if(1===i.type){if(Wa(i)||i.ifConditions&&i.ifConditions.some(function(e){return Wa(e.block)})){n=2;break}(t(i)||i.ifConditions&&i.ifConditions.some(function(e){return t(e.block)}))&&(n=1)}}return n}(o,t.maybeComponent):0,u=i||Za;return"["+o.map(function(e){return u(e,t)}).join(",")+"]"+(c?","+c:"")}}function Wa(e){return void 0!==e.for||"template"===e.tag||"slot"===e.tag}function Za(e,t){return 1===e.type?Ra(e,t):3===e.type&&e.isComment?(r=e,"_e("+JSON.stringify(r.text)+")"):"_v("+(2===(n=e).type?n.expression:Xa(JSON.stringify(n.text)))+")";var n,r}function Ga(e){for(var t="",n="",r=0;r<e.length;r++){var i=e[r],o=Xa(i.value);i.dynamic?n+=i.name+","+o+",":t+='"'+i.name+'":'+o+","}return t="{"+t.slice(0,-1)+"}",n?"_d("+t+",["+n.slice(0,-1)+"])":t}function Xa(e){return e.replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029")}new RegExp("\\b"+"do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const,super,throw,while,yield,delete,export,import,return,switch,default,extends,finally,continue,debugger,function,arguments".split(",").join("\\b|\\b")+"\\b");function Ya(e,t){try{return new Function(e)}catch(n){return t.push({err:n,code:e}),S}}function Qa(e){var t=Object.create(null);return function(n,r,i){(r=A({},r)).warn;delete r.warn;var o=r.delimiters?String(r.delimiters)+n:n;if(t[o])return t[o];var a=e(n,r),s={},c=[];return s.render=Ya(a.render,c),s.staticRenderFns=a.staticRenderFns.map(function(e){return Ya(e,c)}),t[o]=s}}var es,ts,ns=(es=function(e,t){var n=la(e.trim(),t);!1!==t.optimize&&ka(n,t);var r=Pa(n,t);return{ast:n,render:r.render,staticRenderFns:r.staticRenderFns}},function(e){function t(t,n){var r=Object.create(e),i=[],o=[];if(n)for(var a in n.modules&&(r.modules=(e.modules||[]).concat(n.modules)),n.directives&&(r.directives=A(Object.create(e.directives||null),n.directives)),n)"modules"!==a&&"directives"!==a&&(r[a]=n[a]);r.warn=function(e,t,n){(n?o:i).push(e)};var s=es(t.trim(),r);return s.errors=i,s.tips=o,s}return{compile:t,compileToFunctions:Qa(t)}})(Ca),rs=(ns.compile,ns.compileToFunctions);function is(e){return(ts=ts||document.createElement("div")).innerHTML=e?'<a href="\n"/>':'<div a="\n"/>',ts.innerHTML.indexOf("&#10;")>0}var os=!!z&&is(!1),as=!!z&&is(!0),ss=g(function(e){var t=Yn(e);return t&&t.innerHTML}),cs=wn.prototype.$mount;wn.prototype.$mount=function(e,t){if((e=e&&Yn(e))===document.body||e===document.documentElement)return this;var n=this.$options;if(!n.render){var r=n.template;if(r)if("string"==typeof r)"#"===r.charAt(0)&&(r=ss(r));else{if(!r.nodeType)return this;r=r.innerHTML}else e&&(r=function(e){if(e.outerHTML)return e.outerHTML;var t=document.createElement("div");return t.appendChild(e.cloneNode(!0)),t.innerHTML}(e));if(r){var i=rs(r,{outputSourceRange:!1,shouldDecodeNewlines:os,shouldDecodeNewlinesForHref:as,delimiters:n.delimiters,comments:n.comments},this),o=i.render,a=i.staticRenderFns;n.render=o,n.staticRenderFns=a}}return cs.call(this,e,t)},wn.compile=rs,module.exports=wn;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(14).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(12).setImmediate))
 
 /***/ }),
 /* 100 */
@@ -24027,25 +24030,25 @@ function getISOYear (dirtyDate, dirtyOptions) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentsSection_vue__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentsSection_vue__ = __webpack_require__(447);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__OutputSection_vue__ = __webpack_require__(447);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__OutputSection_vue__ = __webpack_require__(449);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__OutputSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__OutputSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionOverviewSection_vue__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionOverviewSection_vue__ = __webpack_require__(454);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionOverviewSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SubmissionOverviewSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SubmissionsSection_vue__ = __webpack_require__(453);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SubmissionsSection_vue__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SubmissionsSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SubmissionsSection_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LatestSubmissionsSection__ = __webpack_require__(446);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LatestSubmissionsSection__ = __webpack_require__(448);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LatestSubmissionsSection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LatestSubmissionsSection__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ActiveStudentsSection__ = __webpack_require__(444);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ActiveStudentsSection__ = __webpack_require__(446);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ActiveStudentsSection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ActiveStudentsSection__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionCountsSection__ = __webpack_require__(451);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionCountsSection__ = __webpack_require__(453);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SubmissionCountsSection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__SubmissionCountsSection__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__StudentsDistributionSection__ = __webpack_require__(450);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__StudentsDistributionSection__ = __webpack_require__(452);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__StudentsDistributionSection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__StudentsDistributionSection__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ReportAllStudents__ = __webpack_require__(449);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ReportAllStudents__ = __webpack_require__(451);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ReportAllStudents___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ReportAllStudents__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__PlagiarismResultsSection__ = __webpack_require__(448);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__PlagiarismResultsSection__ = __webpack_require__(450);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__PlagiarismResultsSection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__PlagiarismResultsSection__);
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_9__PlagiarismResultsSection___default.a; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_0__CommentsSection_vue___default.a; });
@@ -24216,11 +24219,11 @@ function differenceInCalendarDays (dirtyDateLeft, dirtyDateRight, dirtyOptions) 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_formatDistance_index_js__ = __webpack_require__(366);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_formatLong_index_js__ = __webpack_require__(367);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_formatRelative_index_js__ = __webpack_require__(368);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_localize_index_js__ = __webpack_require__(369);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_match_index_js__ = __webpack_require__(370);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_formatDistance_index_js__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_formatLong_index_js__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_formatRelative_index_js__ = __webpack_require__(370);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_localize_index_js__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_match_index_js__ = __webpack_require__(372);
 
 
 
@@ -24246,7 +24249,7 @@ var locale = {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (locale);
+/* harmony default export */ __webpack_exports__["a"] = locale;
 
 
 /***/ }),
@@ -24561,14 +24564,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         visible: {
             type: Boolean,
             required: true
         }
     }
-});
+};
 
 /***/ }),
 /* 123 */,
@@ -24611,7 +24614,7 @@ var insertCopyButton = function insertCopyButton(element) {
     });
 };
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* harmony default export */ __webpack_exports__["a"] = {
 
     deep: true,
 
@@ -24647,7 +24650,7 @@ var insertCopyButton = function insertCopyButton(element) {
             }
         });
     }
-});
+};
 
 /***/ }),
 /* 127 */
@@ -25064,9 +25067,9 @@ module.exports = Component.exports
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(247),
+  __webpack_require__(248),
   /* template */
-  __webpack_require__(500),
+  __webpack_require__(502),
   /* scopeId */
   null,
   /* cssModules */
@@ -25821,9 +25824,9 @@ function endOfWeek (dirtyDate, dirtyOptions) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toDate_index_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isValid_index_js__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__locale_en_US_index_js__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_formatters_index_js__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_formatters_index_js__ = __webpack_require__(315);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_cloneObject_index_js__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_addUTCMinutes_index_js__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_addUTCMinutes_index_js__ = __webpack_require__(288);
 /* harmony export (immutable) */ __webpack_exports__["a"] = format;
 
 
@@ -26727,10 +26730,262 @@ function subISOYears (dirtyDate, dirtyAmount, dirtyOptions) {
 /***/ }),
 /* 193 */,
 /* 194 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
-   true ? module.exports = factory(__webpack_require__(211), __webpack_require__(212)) :
+   true ? module.exports = factory(__webpack_require__(212), __webpack_require__(213)) :
   typeof define === 'function' && define.amd ? define(['apexcharts/dist/apexcharts.common', 'apexcharts'], factory) :
   (global.VueApexCharts = factory(global.ApexCharts,global.ApexCharts));
 }(this, (function (ApexCharts,ApexCharts$1) { 'use strict';
@@ -26967,22 +27222,22 @@ function subISOYears (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_diacriticless__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_diacriticless__ = __webpack_require__(398);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_diacriticless___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_diacriticless__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_clonedeep__ = __webpack_require__(401);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_clonedeep__ = __webpack_require__(403);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_clonedeep___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash_clonedeep__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isequal__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isequal__ = __webpack_require__(406);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isequal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash_isequal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_assign__ = __webpack_require__(400);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_assign__ = __webpack_require__(402);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_assign__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns__ = __webpack_require__(330);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_foreach__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_foreach__ = __webpack_require__(405);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_foreach___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_lodash_foreach__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_lodash_filter__ = __webpack_require__(402);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_lodash_filter__ = __webpack_require__(404);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_lodash_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_lodash_filter__);
 /* unused harmony export VueGoodTable */
 /**
@@ -29344,26 +29599,26 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(VueGoodTablePlugin);
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (VueGoodTablePlugin);
+/* harmony default export */ __webpack_exports__["a"] = VueGoodTablePlugin;
 
 
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(t,n){ true?module.exports=n():"function"==typeof define&&define.amd?define("vue-json-to-csv",[],n):"object"==typeof exports?exports["vue-json-to-csv"]=n():t["vue-json-to-csv"]=n()}(this,function(){return function(t){function n(r){if(e[r])return e[r].exports;var o=e[r]={exports:{},id:r,loaded:!1};return t[r].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}var e={};return n.m=t,n.c=e,n.p="",n(0)}([function(t,n,e){var r=e(1)(e(2),e(83),null,null);t.exports=r.exports},function(t,n){t.exports=function(t,n,e,r){var o,i=t=t||{},u=typeof t["default"];"object"!==u&&"function"!==u||(o=t,i=t["default"]);var c="function"==typeof i?i.options:i;if(n&&(c.render=n.render,c.staticRenderFns=n.staticRenderFns),e&&(c._scopeId=e),r){var f=Object.create(c.computed||null);Object.keys(r).forEach(function(t){var n=r[t];f[t]=function(){return n}}),c.computed=f}return{esModule:o,exports:i,options:c}}},function(t,n,e){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}Object.defineProperty(n,"__esModule",{value:!0});var o=e(3),i=r(o),u=e(42),c=r(u),f=e(48),s=r(f),a=e(51),l=r(a);n["default"]={mixins:[l["default"]],props:{jsonData:{type:Array,required:!0},csvTitle:{type:[String,Number],"default":"csv",required:!1},showLabels:{type:Boolean,"default":!0,required:!1},labels:{type:Object,required:!1},separator:{type:String,"default":",",required:!1}},data:function(){return{csvLabels:null,csvData:null}},destroyed:function(){this.csvLabels=null,this.csvData=null},methods:{handleClick:function(){var t=(0,s["default"])(this._events).indexOf("error")>-1,n=(0,s["default"])(this._events).indexOf("success")>-1;if(!this.jsonData.length)return void this.handleError("Error: Data are empty",t);if(this.labels&&!(0,s["default"])(this.labels).length)return void this.handleError("Error: Labels are empty",t);var e=(0,c["default"])((0,i["default"])({},this.jsonData[0])),r=this.labels||this.$_createCsvLabelsConf(e);if(this.csvLabels=this.showLabels?this.$_createCsvLabels(r,this.separator):"",this.csvData=this.$_createCsvContent(this.jsonData,r,this.separator),"error"===this.csvLabels||"error"===this.csvData)return void this.handleError("Error: An error occured while parsing the data.",t);var o=this.csvLabels+this.csvData,u=this.$_downloadCsv("csv-"+this._uid,o,this.csvTitle);u||this.handleError("An error has occured",t),u&&n&&this.$emit("success",!0)},handleError:function(t,n){throw t}}}},function(t,n,e){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}n.__esModule=!0;var o=e(4),i=r(o);n["default"]=i["default"]||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var r in e)Object.prototype.hasOwnProperty.call(e,r)&&(t[r]=e[r])}return t}},function(t,n,e){t.exports={"default":e(5),__esModule:!0}},function(t,n,e){e(6),t.exports=e(9).Object.assign},function(t,n,e){var r=e(7);r(r.S+r.F,"Object",{assign:e(23)})},function(t,n,e){var r=e(8),o=e(9),i=e(10),u=e(12),c=e(22),f="prototype",s=function(t,n,e){var a,l,p,d=t&s.F,v=t&s.G,y=t&s.S,h=t&s.P,b=t&s.B,m=t&s.W,x=v?o:o[n]||(o[n]={}),g=x[f],O=v?r:y?r[n]:(r[n]||{})[f];v&&(e=n);for(a in e)l=!d&&O&&void 0!==O[a],l&&c(x,a)||(p=l?O[a]:e[a],x[a]=v&&"function"!=typeof O[a]?e[a]:b&&l?i(p,r):m&&O[a]==p?function(t){var n=function(n,e,r){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(n);case 2:return new t(n,e)}return new t(n,e,r)}return t.apply(this,arguments)};return n[f]=t[f],n}(p):h&&"function"==typeof p?i(Function.call,p):p,h&&((x.virtual||(x.virtual={}))[a]=p,t&s.R&&g&&!g[a]&&u(g,a,p)))};s.F=1,s.G=2,s.S=4,s.P=8,s.B=16,s.W=32,s.U=64,s.R=128,t.exports=s},function(t,n){var e=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=e)},function(t,n){var e=t.exports={version:"2.5.7"};"number"==typeof __e&&(__e=e)},function(t,n,e){var r=e(11);t.exports=function(t,n,e){if(r(t),void 0===n)return t;switch(e){case 1:return function(e){return t.call(n,e)};case 2:return function(e,r){return t.call(n,e,r)};case 3:return function(e,r,o){return t.call(n,e,r,o)}}return function(){return t.apply(n,arguments)}}},function(t,n){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,n,e){var r=e(13),o=e(21);t.exports=e(17)?function(t,n,e){return r.f(t,n,o(1,e))}:function(t,n,e){return t[n]=e,t}},function(t,n,e){var r=e(14),o=e(16),i=e(20),u=Object.defineProperty;n.f=e(17)?Object.defineProperty:function(t,n,e){if(r(t),n=i(n,!0),r(e),o)try{return u(t,n,e)}catch(c){}if("get"in e||"set"in e)throw TypeError("Accessors not supported!");return"value"in e&&(t[n]=e.value),t}},function(t,n,e){var r=e(15);t.exports=function(t){if(!r(t))throw TypeError(t+" is not an object!");return t}},function(t,n){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,n,e){t.exports=!e(17)&&!e(18)(function(){return 7!=Object.defineProperty(e(19)("div"),"a",{get:function(){return 7}}).a})},function(t,n,e){t.exports=!e(18)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,n){t.exports=function(t){try{return!!t()}catch(n){return!0}}},function(t,n,e){var r=e(15),o=e(8).document,i=r(o)&&r(o.createElement);t.exports=function(t){return i?o.createElement(t):{}}},function(t,n,e){var r=e(15);t.exports=function(t,n){if(!r(t))return t;var e,o;if(n&&"function"==typeof(e=t.toString)&&!r(o=e.call(t)))return o;if("function"==typeof(e=t.valueOf)&&!r(o=e.call(t)))return o;if(!n&&"function"==typeof(e=t.toString)&&!r(o=e.call(t)))return o;throw TypeError("Can't convert object to primitive value")}},function(t,n){t.exports=function(t,n){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:n}}},function(t,n){var e={}.hasOwnProperty;t.exports=function(t,n){return e.call(t,n)}},function(t,n,e){"use strict";var r=e(24),o=e(39),i=e(40),u=e(41),c=e(27),f=Object.assign;t.exports=!f||e(18)(function(){var t={},n={},e=Symbol(),r="abcdefghijklmnopqrst";return t[e]=7,r.split("").forEach(function(t){n[t]=t}),7!=f({},t)[e]||Object.keys(f({},n)).join("")!=r})?function(t,n){for(var e=u(t),f=arguments.length,s=1,a=o.f,l=i.f;f>s;)for(var p,d=c(arguments[s++]),v=a?r(d).concat(a(d)):r(d),y=v.length,h=0;y>h;)l.call(d,p=v[h++])&&(e[p]=d[p]);return e}:f},function(t,n,e){var r=e(25),o=e(38);t.exports=Object.keys||function(t){return r(t,o)}},function(t,n,e){var r=e(22),o=e(26),i=e(30)(!1),u=e(34)("IE_PROTO");t.exports=function(t,n){var e,c=o(t),f=0,s=[];for(e in c)e!=u&&r(c,e)&&s.push(e);for(;n.length>f;)r(c,e=n[f++])&&(~i(s,e)||s.push(e));return s}},function(t,n,e){var r=e(27),o=e(29);t.exports=function(t){return r(o(t))}},function(t,n,e){var r=e(28);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==r(t)?t.split(""):Object(t)}},function(t,n){var e={}.toString;t.exports=function(t){return e.call(t).slice(8,-1)}},function(t,n){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,n,e){var r=e(26),o=e(31),i=e(33);t.exports=function(t){return function(n,e,u){var c,f=r(n),s=o(f.length),a=i(u,s);if(t&&e!=e){for(;s>a;)if(c=f[a++],c!=c)return!0}else for(;s>a;a++)if((t||a in f)&&f[a]===e)return t||a||0;return!t&&-1}}},function(t,n,e){var r=e(32),o=Math.min;t.exports=function(t){return t>0?o(r(t),9007199254740991):0}},function(t,n){var e=Math.ceil,r=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?r:e)(t)}},function(t,n,e){var r=e(32),o=Math.max,i=Math.min;t.exports=function(t,n){return t=r(t),t<0?o(t+n,0):i(t,n)}},function(t,n,e){var r=e(35)("keys"),o=e(37);t.exports=function(t){return r[t]||(r[t]=o(t))}},function(t,n,e){var r=e(9),o=e(8),i="__core-js_shared__",u=o[i]||(o[i]={});(t.exports=function(t,n){return u[t]||(u[t]=void 0!==n?n:{})})("versions",[]).push({version:r.version,mode:e(36)?"pure":"global",copyright:"© 2018 Denis Pushkarev (zloirock.ru)"})},function(t,n){t.exports=!0},function(t,n){var e=0,r=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++e+r).toString(36))}},function(t,n){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,n){n.f=Object.getOwnPropertySymbols},function(t,n){n.f={}.propertyIsEnumerable},function(t,n,e){var r=e(29);t.exports=function(t){return Object(r(t))}},function(t,n,e){t.exports={"default":e(43),__esModule:!0}},function(t,n,e){e(44);var r=e(9).Object;t.exports=function(t){return r.getOwnPropertyNames(t)}},function(t,n,e){e(45)("getOwnPropertyNames",function(){return e(46).f})},function(t,n,e){var r=e(7),o=e(9),i=e(18);t.exports=function(t,n){var e=(o.Object||{})[t]||Object[t],u={};u[t]=n(e),r(r.S+r.F*i(function(){e(1)}),"Object",u)}},function(t,n,e){var r=e(26),o=e(47).f,i={}.toString,u="object"==typeof window&&window&&Object.getOwnPropertyNames?Object.getOwnPropertyNames(window):[],c=function(t){try{return o(t)}catch(n){return u.slice()}};t.exports.f=function(t){return u&&"[object Window]"==i.call(t)?c(t):o(r(t))}},function(t,n,e){var r=e(25),o=e(38).concat("length","prototype");n.f=Object.getOwnPropertyNames||function(t){return r(t,o)}},function(t,n,e){t.exports={"default":e(49),__esModule:!0}},function(t,n,e){e(50),t.exports=e(9).Object.keys},function(t,n,e){var r=e(41),o=e(24);e(45)("keys",function(){return function(t){return o(r(t))}})},function(t,n,e){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}var o=e(52),i=r(o),u=e(48),c=r(u);t.exports={methods:{$_createCsvLabelsConf:function(t){var n={};return t.map(function(t,e){n[t]={title:t}}),n},$_createCsvLabels:function(t,n){var e="",r="";try{(0,c["default"])(t).map(function(r,o){e+='"'+t[r].title+'"'+n}),e=e.slice(0,-1),r+=e+"\r\n"}catch(o){r="error"}finally{return r}},$_createCsvContent:function(t,n,e){var r="",o="",u="";try{t.map(function(t,f){r="",(0,c["default"])(n).map(function(n,o){u=(0,i["default"])(t[n]),r+="number"===u||"float"===u?t[n]+e:'"'+t[n]+'"'+e}),r=r.slice(0,-1),o+=r+"\r\n"})}catch(f){o="error"}finally{return o}},$_downloadCsv:function(t,n,e){try{var r="data:text/csv;charset=utf-8,\ufeff"+encodeURI(n),o=document.createElement("a");return o.id="csv-"+t,o.href=r,document.body.appendChild(o),document.getElementById(o.id).style.visibility="hidden",document.getElementById(o.id).download=e+".csv",document.body.appendChild(o),document.getElementById(o.id).click(),setTimeout(function(){document.body.removeChild(o)}),!0}catch(i){return!1}}}}},function(t,n,e){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}n.__esModule=!0;var o=e(53),i=r(o),u=e(72),c=r(u),f="function"==typeof c["default"]&&"symbol"==typeof i["default"]?function(t){return typeof t}:function(t){return t&&"function"==typeof c["default"]&&t.constructor===c["default"]&&t!==c["default"].prototype?"symbol":typeof t};n["default"]="function"==typeof c["default"]&&"symbol"===f(i["default"])?function(t){return"undefined"==typeof t?"undefined":f(t)}:function(t){return t&&"function"==typeof c["default"]&&t.constructor===c["default"]&&t!==c["default"].prototype?"symbol":"undefined"==typeof t?"undefined":f(t)}},function(t,n,e){t.exports={"default":e(54),__esModule:!0}},function(t,n,e){e(55),e(67),t.exports=e(71).f("iterator")},function(t,n,e){"use strict";var r=e(56)(!0);e(57)(String,"String",function(t){this._t=String(t),this._i=0},function(){var t,n=this._t,e=this._i;return e>=n.length?{value:void 0,done:!0}:(t=r(n,e),this._i+=t.length,{value:t,done:!1})})},function(t,n,e){var r=e(32),o=e(29);t.exports=function(t){return function(n,e){var i,u,c=String(o(n)),f=r(e),s=c.length;return f<0||f>=s?t?"":void 0:(i=c.charCodeAt(f),i<55296||i>56319||f+1===s||(u=c.charCodeAt(f+1))<56320||u>57343?t?c.charAt(f):i:t?c.slice(f,f+2):(i-55296<<10)+(u-56320)+65536)}}},function(t,n,e){"use strict";var r=e(36),o=e(7),i=e(58),u=e(12),c=e(59),f=e(60),s=e(64),a=e(66),l=e(65)("iterator"),p=!([].keys&&"next"in[].keys()),d="@@iterator",v="keys",y="values",h=function(){return this};t.exports=function(t,n,e,b,m,x,g){f(e,n,b);var O,_,S,j=function(t){if(!p&&t in P)return P[t];switch(t){case v:return function(){return new e(this,t)};case y:return function(){return new e(this,t)}}return function(){return new e(this,t)}},w=n+" Iterator",E=m==y,L=!1,P=t.prototype,M=P[l]||P[d]||m&&P[m],C=M||j(m),k=m?E?j("entries"):C:void 0,T="Array"==n?P.entries||M:M;if(T&&(S=a(T.call(new t)),S!==Object.prototype&&S.next&&(s(S,w,!0),r||"function"==typeof S[l]||u(S,l,h))),E&&M&&M.name!==y&&(L=!0,C=function(){return M.call(this)}),r&&!g||!p&&!L&&P[l]||u(P,l,C),c[n]=C,c[w]=h,m)if(O={values:E?C:j(y),keys:x?C:j(v),entries:k},g)for(_ in O)_ in P||i(P,_,O[_]);else o(o.P+o.F*(p||L),n,O);return O}},function(t,n,e){t.exports=e(12)},function(t,n){t.exports={}},function(t,n,e){"use strict";var r=e(61),o=e(21),i=e(64),u={};e(12)(u,e(65)("iterator"),function(){return this}),t.exports=function(t,n,e){t.prototype=r(u,{next:o(1,e)}),i(t,n+" Iterator")}},function(t,n,e){var r=e(14),o=e(62),i=e(38),u=e(34)("IE_PROTO"),c=function(){},f="prototype",s=function(){var t,n=e(19)("iframe"),r=i.length,o="<",u=">";for(n.style.display="none",e(63).appendChild(n),n.src="javascript:",t=n.contentWindow.document,t.open(),t.write(o+"script"+u+"document.F=Object"+o+"/script"+u),t.close(),s=t.F;r--;)delete s[f][i[r]];return s()};t.exports=Object.create||function(t,n){var e;return null!==t?(c[f]=r(t),e=new c,c[f]=null,e[u]=t):e=s(),void 0===n?e:o(e,n)}},function(t,n,e){var r=e(13),o=e(14),i=e(24);t.exports=e(17)?Object.defineProperties:function(t,n){o(t);for(var e,u=i(n),c=u.length,f=0;c>f;)r.f(t,e=u[f++],n[e]);return t}},function(t,n,e){var r=e(8).document;t.exports=r&&r.documentElement},function(t,n,e){var r=e(13).f,o=e(22),i=e(65)("toStringTag");t.exports=function(t,n,e){t&&!o(t=e?t:t.prototype,i)&&r(t,i,{configurable:!0,value:n})}},function(t,n,e){var r=e(35)("wks"),o=e(37),i=e(8).Symbol,u="function"==typeof i,c=t.exports=function(t){return r[t]||(r[t]=u&&i[t]||(u?i:o)("Symbol."+t))};c.store=r},function(t,n,e){var r=e(22),o=e(41),i=e(34)("IE_PROTO"),u=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=o(t),r(t,i)?t[i]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?u:null}},function(t,n,e){e(68);for(var r=e(8),o=e(12),i=e(59),u=e(65)("toStringTag"),c="CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,TextTrackList,TouchList".split(","),f=0;f<c.length;f++){var s=c[f],a=r[s],l=a&&a.prototype;l&&!l[u]&&o(l,u,s),i[s]=i.Array}},function(t,n,e){"use strict";var r=e(69),o=e(70),i=e(59),u=e(26);t.exports=e(57)(Array,"Array",function(t,n){this._t=u(t),this._i=0,this._k=n},function(){var t=this._t,n=this._k,e=this._i++;return!t||e>=t.length?(this._t=void 0,o(1)):"keys"==n?o(0,e):"values"==n?o(0,t[e]):o(0,[e,t[e]])},"values"),i.Arguments=i.Array,r("keys"),r("values"),r("entries")},function(t,n){t.exports=function(){}},function(t,n){t.exports=function(t,n){return{value:n,done:!!t}}},function(t,n,e){n.f=e(65)},function(t,n,e){t.exports={"default":e(73),__esModule:!0}},function(t,n,e){e(74),e(80),e(81),e(82),t.exports=e(9).Symbol},function(t,n,e){"use strict";var r=e(8),o=e(22),i=e(17),u=e(7),c=e(58),f=e(75).KEY,s=e(18),a=e(35),l=e(64),p=e(37),d=e(65),v=e(71),y=e(76),h=e(77),b=e(78),m=e(14),x=e(15),g=e(26),O=e(20),_=e(21),S=e(61),j=e(46),w=e(79),E=e(13),L=e(24),P=w.f,M=E.f,C=j.f,k=r.Symbol,T=r.JSON,D=T&&T.stringify,F="prototype",A=d("_hidden"),N=d("toPrimitive"),I={}.propertyIsEnumerable,R=a("symbol-registry"),$=a("symbols"),G=a("op-symbols"),q=Object[F],B="function"==typeof k,V=r.QObject,W=!V||!V[F]||!V[F].findChild,H=i&&s(function(){return 7!=S(M({},"a",{get:function(){return M(this,"a",{value:7}).a}})).a})?function(t,n,e){var r=P(q,n);r&&delete q[n],M(t,n,e),r&&t!==q&&M(q,n,r)}:M,J=function(t){var n=$[t]=S(k[F]);return n._k=t,n},z=B&&"symbol"==typeof k.iterator?function(t){return"symbol"==typeof t}:function(t){return t instanceof k},K=function(t,n,e){return t===q&&K(G,n,e),m(t),n=O(n,!0),m(e),o($,n)?(e.enumerable?(o(t,A)&&t[A][n]&&(t[A][n]=!1),e=S(e,{enumerable:_(0,!1)})):(o(t,A)||M(t,A,_(1,{})),t[A][n]=!0),H(t,n,e)):M(t,n,e)},U=function(t,n){m(t);for(var e,r=h(n=g(n)),o=0,i=r.length;i>o;)K(t,e=r[o++],n[e]);return t},Y=function(t,n){return void 0===n?S(t):U(S(t),n)},Q=function(t){var n=I.call(this,t=O(t,!0));return!(this===q&&o($,t)&&!o(G,t))&&(!(n||!o(this,t)||!o($,t)||o(this,A)&&this[A][t])||n)},X=function(t,n){if(t=g(t),n=O(n,!0),t!==q||!o($,n)||o(G,n)){var e=P(t,n);return!e||!o($,n)||o(t,A)&&t[A][n]||(e.enumerable=!0),e}},Z=function(t){for(var n,e=C(g(t)),r=[],i=0;e.length>i;)o($,n=e[i++])||n==A||n==f||r.push(n);return r},tt=function(t){for(var n,e=t===q,r=C(e?G:g(t)),i=[],u=0;r.length>u;)!o($,n=r[u++])||e&&!o(q,n)||i.push($[n]);return i};B||(k=function(){if(this instanceof k)throw TypeError("Symbol is not a constructor!");var t=p(arguments.length>0?arguments[0]:void 0),n=function(e){this===q&&n.call(G,e),o(this,A)&&o(this[A],t)&&(this[A][t]=!1),H(this,t,_(1,e))};return i&&W&&H(q,t,{configurable:!0,set:n}),J(t)},c(k[F],"toString",function(){return this._k}),w.f=X,E.f=K,e(47).f=j.f=Z,e(40).f=Q,e(39).f=tt,i&&!e(36)&&c(q,"propertyIsEnumerable",Q,!0),v.f=function(t){return J(d(t))}),u(u.G+u.W+u.F*!B,{Symbol:k});for(var nt="hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables".split(","),et=0;nt.length>et;)d(nt[et++]);for(var rt=L(d.store),ot=0;rt.length>ot;)y(rt[ot++]);u(u.S+u.F*!B,"Symbol",{"for":function(t){return o(R,t+="")?R[t]:R[t]=k(t)},keyFor:function(t){if(!z(t))throw TypeError(t+" is not a symbol!");for(var n in R)if(R[n]===t)return n},useSetter:function(){W=!0},useSimple:function(){W=!1}}),u(u.S+u.F*!B,"Object",{create:Y,defineProperty:K,defineProperties:U,getOwnPropertyDescriptor:X,getOwnPropertyNames:Z,getOwnPropertySymbols:tt}),T&&u(u.S+u.F*(!B||s(function(){var t=k();return"[null]"!=D([t])||"{}"!=D({a:t})||"{}"!=D(Object(t))})),"JSON",{stringify:function(t){for(var n,e,r=[t],o=1;arguments.length>o;)r.push(arguments[o++]);if(e=n=r[1],(x(n)||void 0!==t)&&!z(t))return b(n)||(n=function(t,n){if("function"==typeof e&&(n=e.call(this,t,n)),!z(n))return n}),r[1]=n,D.apply(T,r)}}),k[F][N]||e(12)(k[F],N,k[F].valueOf),l(k,"Symbol"),l(Math,"Math",!0),l(r.JSON,"JSON",!0)},function(t,n,e){var r=e(37)("meta"),o=e(15),i=e(22),u=e(13).f,c=0,f=Object.isExtensible||function(){return!0},s=!e(18)(function(){return f(Object.preventExtensions({}))}),a=function(t){u(t,r,{value:{i:"O"+ ++c,w:{}}})},l=function(t,n){if(!o(t))return"symbol"==typeof t?t:("string"==typeof t?"S":"P")+t;if(!i(t,r)){if(!f(t))return"F";if(!n)return"E";a(t)}return t[r].i},p=function(t,n){if(!i(t,r)){if(!f(t))return!0;if(!n)return!1;a(t)}return t[r].w},d=function(t){return s&&v.NEED&&f(t)&&!i(t,r)&&a(t),t},v=t.exports={KEY:r,NEED:!1,fastKey:l,getWeak:p,onFreeze:d}},function(t,n,e){var r=e(8),o=e(9),i=e(36),u=e(71),c=e(13).f;t.exports=function(t){var n=o.Symbol||(o.Symbol=i?{}:r.Symbol||{});"_"==t.charAt(0)||t in n||c(n,t,{value:u.f(t)})}},function(t,n,e){var r=e(24),o=e(39),i=e(40);t.exports=function(t){var n=r(t),e=o.f;if(e)for(var u,c=e(t),f=i.f,s=0;c.length>s;)f.call(t,u=c[s++])&&n.push(u);return n}},function(t,n,e){var r=e(28);t.exports=Array.isArray||function(t){return"Array"==r(t)}},function(t,n,e){var r=e(40),o=e(21),i=e(26),u=e(20),c=e(22),f=e(16),s=Object.getOwnPropertyDescriptor;n.f=e(17)?s:function(t,n){if(t=i(t),n=u(n,!0),f)try{return s(t,n)}catch(e){}if(c(t,n))return o(!r.f.call(t,n),t[n])}},function(t,n){},function(t,n,e){e(76)("asyncIterator")},function(t,n,e){e(76)("observable")},function(t,n){t.exports={render:function(){var t=this,n=t.$createElement,e=t._self._c||n;return e("span",{attrs:{id:"json-to-csv-"+t._uid},on:{click:t.handleClick}},[t._t("default",[e("button",[t._v("\n      Download\n    ")])])],2)},staticRenderFns:[]}}])});
 
 /***/ }),
-/* 197 */,
-/* 198 */
+/* 198 */,
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(234),
+  __webpack_require__(235),
   /* template */
-  __webpack_require__(458),
+  __webpack_require__(460),
   /* scopeId */
   null,
   /* cssModules */
@@ -29390,14 +29645,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(249),
+  __webpack_require__(250),
   /* template */
-  __webpack_require__(499),
+  __webpack_require__(501),
   /* scopeId */
   null,
   /* cssModules */
@@ -29424,18 +29679,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(517)
+__webpack_require__(519)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(251),
+  __webpack_require__(252),
   /* template */
-  __webpack_require__(504),
+  __webpack_require__(506),
   /* scopeId */
   "data-v-f14182d0",
   /* cssModules */
@@ -29462,11 +29717,11 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 201 */,
 /* 202 */,
 /* 203 */,
 /* 204 */,
-/* 205 */
+/* 205 */,
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29476,17 +29731,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Popup_vue__ = __webpack_require__(424);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Popup_vue__ = __webpack_require__(426);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Popup_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Popup_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__routes__ = __webpack_require__(268);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__routes__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store__ = __webpack_require__(272);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directives__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_apexcharts__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_apexcharts__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_apexcharts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vue_apexcharts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_good_table__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_good_table_dist_vue_good_table_css__ = __webpack_require__(406);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_good_table__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_good_table_dist_vue_good_table_css__ = __webpack_require__(407);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_good_table_dist_vue_good_table_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_vue_good_table_dist_vue_good_table_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_vue_json_to_csv__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_vue_json_to_csv__ = __webpack_require__(197);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_vue_json_to_csv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_vue_json_to_csv__);
 
 
@@ -29527,12 +29782,12 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 });
 
 /***/ }),
-/* 206 */,
 /* 207 */,
 /* 208 */,
 /* 209 */,
 /* 210 */,
-/* 211 */
+/* 211 */,
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58095,10 +58350,10 @@ function () {
 
 module.exports = ApexCharts$1;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12).setImmediate))
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78072,7 +78327,7 @@ function () {
 
 (function (root, factory) {
   /* istanbul ignore next */
-  if (typeof define === 'function' && __webpack_require__(519)) {
+  if (typeof define === 'function' && __webpack_require__(522)) {
     define(function () {
       return factory(root, root.document);
     });
@@ -86657,12 +86912,11 @@ function () {
   return ApexCharts;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (ApexCharts$1);
+/* harmony default export */ __webpack_exports__["default"] = ApexCharts$1;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14).setImmediate, __webpack_require__(520)(module)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(12).setImmediate, __webpack_require__(523)(module)))
 
 /***/ }),
-/* 213 */,
 /* 214 */,
 /* 215 */,
 /* 216 */,
@@ -86679,13 +86933,14 @@ function () {
 /* 227 */,
 /* 228 */,
 /* 229 */,
-/* 230 */
+/* 230 */,
+/* 231 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__layouts__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__layouts__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_partials__ = __webpack_require__(23);
 //
 //
@@ -86708,7 +86963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { PopupHeader: __WEBPACK_IMPORTED_MODULE_0__layouts__["b" /* PopupHeader */], PopupBody: __WEBPACK_IMPORTED_MODULE_0__layouts__["c" /* PopupBody */], Loader: __WEBPACK_IMPORTED_MODULE_1__partials__["j" /* Loader */], Notification: __WEBPACK_IMPORTED_MODULE_2__components_partials__["f" /* Notification */] },
 
@@ -86765,18 +87020,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_apexcharts__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_apexcharts__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_apexcharts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_apexcharts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -86801,7 +87056,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_2__layouts__["a" /* PopupSection */], 'apexcharts': __WEBPACK_IMPORTED_MODULE_1_vue_apexcharts___default.a },
     props: ['student', 'charons', 'averageSubmissions'],
 
@@ -86924,15 +87179,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         }
     }
-});
+};
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupNavigation_vue__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupNavigation_vue__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PopupNavigation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PopupNavigation_vue__);
 //
 //
@@ -86953,17 +87208,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PopupNavigation: __WEBPACK_IMPORTED_MODULE_0__PopupNavigation_vue___default.a }
-});
+};
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(14);
 //
 //
 //
@@ -87003,7 +87258,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { StudentSearch: __WEBPACK_IMPORTED_MODULE_0__partials__["b" /* StudentSearch */], ExtraOptions: __WEBPACK_IMPORTED_MODULE_0__partials__["c" /* ExtraOptions */] },
 
     methods: {
@@ -87020,10 +87275,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return window.course_name;
         }
     }
-});
+};
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87078,7 +87333,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['student', 'submission']), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['submissionLink']), {
         gradingLink: function gradingLink() {
             if (this.student !== null) {
@@ -87095,44 +87350,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         }
     })
-});
-
-/***/ }),
-/* 235 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        title: { required: true },
-        subtitle: {
-            required: false,
-            default: ''
-        }
-    }
-});
+};
 
 /***/ }),
 /* 236 */
@@ -87140,7 +87358,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(13);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: {
+        title: { required: true },
+        subtitle: {
+            required: false,
+            default: ''
+        }
+    }
+};
+
+/***/ }),
+/* 237 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections__ = __webpack_require__(104);
 //
 //
@@ -87162,26 +87417,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: "dashboard-page",
 
     components: {
         PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials__["a" /* PageTitle */], LatestSubmissionsSection: __WEBPACK_IMPORTED_MODULE_1__sections__["c" /* LatestSubmissionsSection */], ActiveStudentsSection: __WEBPACK_IMPORTED_MODULE_1__sections__["d" /* ActiveStudentsSection */], SubmissionCountsSection: __WEBPACK_IMPORTED_MODULE_1__sections__["e" /* SubmissionCountsSection */],
         StudentsDistributionSection: __WEBPACK_IMPORTED_MODULE_1__sections__["f" /* StudentsDistributionSection */]
     }
-});
+};
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__graphics__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__graphics__ = __webpack_require__(267);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -87210,7 +87465,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PageTitle: __WEBPACK_IMPORTED_MODULE_1__partials__["a" /* PageTitle */], SubmissionsSection: __WEBPACK_IMPORTED_MODULE_2__sections__["i" /* SubmissionsSection */], CommentsSection: __WEBPACK_IMPORTED_MODULE_2__sections__["j" /* CommentsSection */], StudentCharonPointsVsCourseAverageChart: __WEBPACK_IMPORTED_MODULE_4__graphics__["a" /* StudentCharonPointsVsCourseAverageChart */] },
 
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['student', 'charon']), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['courseId']), {
@@ -87263,16 +87518,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     created: function created() {
         __WEBPACK_IMPORTED_MODULE_3__api__["a" /* Submission */].findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions);
     }
-});
+};
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -87302,7 +87557,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: 'plagiarism-page',
 
     components: { PageTitle: __WEBPACK_IMPORTED_MODULE_1__partials__["a" /* PageTitle */], PlagiarismResultsSection: __WEBPACK_IMPORTED_MODULE_2__sections__["b" /* PlagiarismResultsSection */] },
@@ -87316,15 +87571,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections___ = __webpack_require__(104);
 //
 //
@@ -87340,20 +87595,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PageTitle: __WEBPACK_IMPORTED_MODULE_0__partials__["a" /* PageTitle */], ReportAllStudents: __WEBPACK_IMPORTED_MODULE_1__sections___["a" /* ReportAllStudents */] }
-});
+};
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layouts__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layouts__ = __webpack_require__(13);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -87377,7 +87632,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { PageTitle: __WEBPACK_IMPORTED_MODULE_1__partials__["a" /* PageTitle */], PopupSection: __WEBPACK_IMPORTED_MODULE_3__layouts__["a" /* PopupSection */] },
 
@@ -87420,16 +87675,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.getStudent();
         this.getStudentOverviewTable();
     }
-});
+};
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -87453,7 +87708,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PageTitle: __WEBPACK_IMPORTED_MODULE_1__partials__["a" /* PageTitle */], SubmissionOverviewSection: __WEBPACK_IMPORTED_MODULE_2__sections__["g" /* SubmissionOverviewSection */], OutputSection: __WEBPACK_IMPORTED_MODULE_2__sections__["h" /* OutputSection */] },
 
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['student', 'charon']), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['courseId'])),
@@ -87511,10 +87766,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     })
-});
+};
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87541,7 +87796,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PopupSelect: __WEBPACK_IMPORTED_MODULE_2__PopupSelect___default.a },
 
     data: function data() {
@@ -87598,16 +87853,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     })
-});
+};
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_clickaway__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_clickaway__ = __webpack_require__(409);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_clickaway___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_clickaway__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -87649,7 +87904,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     mixins: [__WEBPACK_IMPORTED_MODULE_1_vue_clickaway__["mixin"]],
 
@@ -87700,10 +87955,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87739,7 +87994,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { PopupSelect: __WEBPACK_IMPORTED_MODULE_2__PopupSelect___default.a },
 
@@ -87850,10 +88105,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87876,7 +88131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         title: {
             required: false,
@@ -87900,10 +88155,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         }
     }
-});
+};
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87985,7 +88240,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: 'plagiarism-similarities-tabs',
     components: { CharonTab: __WEBPACK_IMPORTED_MODULE_0__components_partials__["c" /* CharonTab */], CharonTabs: __WEBPACK_IMPORTED_MODULE_0__components_partials__["d" /* CharonTabs */] },
     props: {
@@ -87993,10 +88248,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Array
         }
     }
-});
+};
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88018,7 +88273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: "popup-select",
 
     props: {
@@ -88112,15 +88367,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.resetOptions();
         }
     }
-});
+};
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js__ = __webpack_require__(518);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js__ = __webpack_require__(520);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(8);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -88161,7 +88416,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { autocomplete: __WEBPACK_IMPORTED_MODULE_0_vue2_autocomplete_js___default.a },
 
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])(['studentsSearchUrl'])),
@@ -88179,10 +88434,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$emit('student-was-changed', student);
         }
     }
-});
+};
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88213,7 +88468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     props: {
         /**
          * @type {{
@@ -88240,16 +88495,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_formatting__["b" /* removeDateSeconds */])(this.submission.created_at.date);
         }
     }
-});
+};
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SubmissionInfoBit__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SubmissionInfoBit__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SubmissionInfoBit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SubmissionInfoBit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_formatting__ = __webpack_require__(110);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -88313,7 +88568,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { SubmissionInfoBit: __WEBPACK_IMPORTED_MODULE_1__SubmissionInfoBit___default.a },
 
@@ -88341,10 +88596,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         formatDeadline: __WEBPACK_IMPORTED_MODULE_2__helpers_formatting__["d" /* formatDeadline */]
     }
-});
+};
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88359,7 +88614,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     name: 'submission-info-bit',
 
@@ -88369,16 +88624,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String
         }
     }
-});
+};
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Submission__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Submission__ = __webpack_require__(200);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Submission___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Submission__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -88414,7 +88669,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { SubmissionPartial: __WEBPACK_IMPORTED_MODULE_1__Submission___default.a },
 
@@ -88482,19 +88737,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     deactivated: function deactivated() {
         VueEvent.$off('refresh-page', this.refreshSubmissions);
     }
-});
+};
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__helpers_formatting__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__partials__ = __webpack_require__(14);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -88543,7 +88798,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: "active-students-section",
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_1__layouts__["a" /* PopupSection */], PopupSelect: __WEBPACK_IMPORTED_MODULE_4__partials__["f" /* PopupSelect */] },
@@ -88623,16 +88878,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     deactivated: function deactivated() {
         VueEvent.$off('refresh-page', this.fetchActiveStudents);
     }
-});
+};
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts_index__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts_index__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_index__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -88674,7 +88929,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_1__layouts_index__["a" /* PopupSection */] },
 
@@ -88739,10 +88994,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88750,7 +89005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_index__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_formatting__ = __webpack_require__(110);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -88796,7 +89051,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: "latest-submissions-section",
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_2__layouts_index__["a" /* PopupSection */] },
@@ -88876,18 +89131,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     deactivated: function deactivated() {
         VueEvent.$off('refresh-page', this.fetchLatestSubmissions);
     }
-});
+};
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_partials_index__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_index__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_index__ = __webpack_require__(14);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -88936,7 +89191,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_2__layouts_index__["a" /* PopupSection */], CharonTabs: __WEBPACK_IMPORTED_MODULE_1__components_partials_index__["d" /* CharonTabs */], CharonTab: __WEBPACK_IMPORTED_MODULE_1__components_partials_index__["c" /* CharonTab */], FilesComponent: __WEBPACK_IMPORTED_MODULE_1__components_partials_index__["e" /* FilesComponent */], OutputComponent: __WEBPACK_IMPORTED_MODULE_3__partials_index__["i" /* OutputComponent */] },
 
@@ -88982,17 +89237,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     mounted: function mounted() {
         this.registerScrollListener();
     }
-});
+};
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -89020,7 +89275,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: 'plagiarism-results-section',
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_1__layouts__["a" /* PopupSection */], CharonSelect: __WEBPACK_IMPORTED_MODULE_2__partials__["d" /* CharonSelect */], PlagiarismSimilaritiesTabs: __WEBPACK_IMPORTED_MODULE_2__partials__["e" /* PlagiarismSimilaritiesTabs */] },
@@ -89051,20 +89306,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 258 */
+/* 259 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_good_table__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_json_to_csv__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_json_to_csv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_json_to_csv__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api___ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__layouts___ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api___ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts___ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_good_table__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_json_to_csv__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_json_to_csv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_json_to_csv__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue2_daterange_picker__ = __webpack_require__(521);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue2_daterange_picker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue2_daterange_picker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_moment__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_moment__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -89136,6 +89397,22 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -89143,8 +89420,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_4__layouts___["a" /* PopupSection */], VueGoodTablePlugin: __WEBPACK_IMPORTED_MODULE_1_vue_good_table__["a" /* default */], VueJsonToCsv: __WEBPACK_IMPORTED_MODULE_2_vue_json_to_csv___default.a },
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    components: { PopupSection: __WEBPACK_IMPORTED_MODULE_2__layouts___["a" /* PopupSection */], VueGoodTablePlugin: __WEBPACK_IMPORTED_MODULE_3_vue_good_table__["a" /* default */], DateRangePicker: __WEBPACK_IMPORTED_MODULE_5_vue2_daterange_picker___default.a, VueJsonToCsv: __WEBPACK_IMPORTED_MODULE_4_vue_json_to_csv___default.a },
 
     data: function data() {
         return {
@@ -89155,7 +89435,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 filterOptions: {
                     enabled: true, // enable filter for this column
                     placeholder: 'Filter First Name', // placeholder for filter input
-                    //filterValue: '', // initial populated value for this filter
+                    filterValue: '', // initial populated value for this filter
                     filterDropdownItems: this.submissionsForReport // dropdown (with selected values) instead of text input
                     //filterFn: this.columnFilterFn, //custom filter function that
                     //trigger: 'enter', //only trigger on enter not on keyup
@@ -89166,6 +89446,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 filterOptions: {
                     enabled: true,
                     placeholder: 'Filter Last Name',
+                    filterValue: '',
                     filterDropdownItems: this.submissionsForReport
                 }
             }, {
@@ -89175,12 +89456,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 filterOptions: {
                     enabled: true,
                     placeholder: 'Filter Exercises',
+                    filterValue: '',
                     filterDropdownItems: this.submissionsForReport
                 }
             }, {
                 label: 'Submission Result',
                 field: 'submissionResult',
-                width: '290px',
+                width: '190px',
                 formatFn: this.formatSubmissionResult
             }, {
                 label: 'Submission Total',
@@ -89189,6 +89471,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, {
                 label: 'Is Confirmed',
                 field: 'isConfirmed',
+                type: 'number',
                 width: '180px',
                 filterOptions: {
                     enabled: true,
@@ -89197,17 +89480,62 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     filterDropdownItems: this.submissionsForReport
                 }
             }, {
-                label: 'Git push time',
-                field: 'gitTimestamp',
+                label: 'Period Start',
+                field: 'gitTimestampForStartDate',
                 type: 'datetime',
-                width: '190px',
+                width: '195px',
                 filterOptions: {
                     enabled: true,
                     placeholder: 'Filter Commit',
+                    filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
+                    filterFn: this.startDateFilter,
+                    filterDropdownItems: this.submissionsForReport
+                }
+            }, {
+                label: 'Period end',
+                field: 'gitTimestampForEndDate',
+                type: 'datetime',
+                width: '195px',
+                filterOptions: {
+                    enabled: true,
+                    placeholder: 'Filter Commit',
+                    filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().format("YYYY-MM-DD HH:mm:ss"),
+                    filterFn: this.endDateFilter,
                     filterDropdownItems: this.submissionsForReport
                 }
             }],
-            search: {} // Object is needed for filtered data export.
+            search: {}, // Object is needed for filtered data export.
+
+            startDate: __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(6, 'days'),
+            endDate: __WEBPACK_IMPORTED_MODULE_7_moment___default()(),
+            opens: "left", // which way the picker opens, default "center", can be "left"/"right"
+            locale: {
+                direction: 'ltr', // direction of text
+                format: 'DD-MM-YYYY', // format of the dates displayed
+                separator: ' - ', // separator between the two ranges
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+                weekLabel: 'W',
+                customRangeLabel: 'Custom Range',
+                daysOfWeek: __WEBPACK_IMPORTED_MODULE_7_moment___default.a.weekdaysMin(), // array of days - see moment documentations for details
+                monthNames: __WEBPACK_IMPORTED_MODULE_7_moment___default.a.monthsShort(), // array of month names - see moment documentations for details
+                firstDay: 1, // ISO first day of week - see moment documentations for details
+                showWeekNumbers: true // show week numbers on each row of the calendar
+            },
+            ranges: { // default value for ranges object (if you set this to false ranges will no be rendered)
+                '30min ago': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(30, 'minutes'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()],
+                '1h ago': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()],
+                '2h ago': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(2, 'hour'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()],
+                '5h ago': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(5, 'hour'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()],
+                '24h ago': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'day'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()],
+                'Today': [__WEBPACK_IMPORTED_MODULE_7_moment___default()().startOf('day'), __WEBPACK_IMPORTED_MODULE_7_moment___default()()]
+                /*'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last week': [moment().subtract(1, 'week').startOf('week').add(1, 'days'),
+                                moment().subtract(1, 'week').endOf('week').add(1, 'days')],
+                'This month': [moment().startOf('month'), moment().endOf('month')],
+                'Last month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'This year': [moment().startOf('year'), moment().endOf('year')],*/
+            }
         };
     },
 
@@ -89218,7 +89546,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
         jsonData: function jsonData() {
             this.search.changed = true; // Changing data to call method in computed section.
-            return this.$refs.myTable ? this.$refs.myTable.filteredRows[0].children : [];
+            return this.$refs.reportTable ? this.$refs.reportTable.filteredRows[0].children : [];
         }
     }),
 
@@ -89233,7 +89561,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     submissionResult: submission.submission_result,
                     submissionTotal: submission.finalgrade,
                     isConfirmed: submission.confirmed,
-                    gitTimestamp: submission.git_timestamp
+                    gitTimestampForStartDate: submission.git_timestamp,
+                    gitTimestampForEndDate: submission.git_timestamp
                 };
             });
         },
@@ -89244,23 +89573,41 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.search = searchValue;
         },
         resetFilters: function resetFilters() {
-            this.$refs.myTable.reset();
+            this.$refs.reportTable.columnFilters.firstName = '';
+            this.$refs.reportTable.columnFilters.lastName = '';
+            this.$refs.reportTable.columnFilters.exerciseName = '';
+            this.$refs.reportTable.columnFilters.isConfirmed = '';
+            this.$refs.reportTable.columnFilters.gitTimestampForStartDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss");
+            this.$refs.reportTable.columnFilters.gitTimestampForEndDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()().format("YYYY-MM-DD HH:mm:ss");
+        },
+        startDateFilter: function startDateFilter(data, filterString) {
+            return data = Date.parse(data) >= Date.parse(filterString);
+        },
+        endDateFilter: function endDateFilter(data, filterString) {
+            return data = Date.parse(data) <= Date.parse(filterString);
+        },
+        updatePeriodDates: function updatePeriodDates(value) {
+            this.$refs.reportTable.columnFilters.gitTimestampForStartDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()(value.startDate).format("YYYY-MM-DD HH:mm:ss");
+            this.$refs.reportTable.columnFilters.gitTimestampForEndDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()(value.endDate).format("YYYY-MM-DD HH:mm:ss");
+
+            this.startDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForStartDate);
+            this.endDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForEndDate);
         }
     },
 
     created: function created() {
-        __WEBPACK_IMPORTED_MODULE_3__api___["a" /* Submission */].findAllSubmissionsForReport(this.courseId, this.setSubmissionsForReport);
+        __WEBPACK_IMPORTED_MODULE_1__api___["a" /* Submission */].findAllSubmissionsForReport(this.courseId, this.setSubmissionsForReport);
     }
-});
+};
 
 /***/ }),
-/* 259 */
+/* 260 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(5);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -89293,7 +89640,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: "students-by-total-points-section",
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_1__layouts__["a" /* PopupSection */] },
@@ -89352,17 +89699,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     mounted: function mounted() {
         this.fetchStudentsDistribution();
     }
-});
+};
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_index__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_index__ = __webpack_require__(13);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -89431,7 +89778,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     name: 'submission-counts-section',
 
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_2__layouts_index__["a" /* PopupSection */] },
@@ -89513,18 +89860,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         }
     }
-});
+};
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts_index__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts_index__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_index__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_index__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__partials_index__ = __webpack_require__(14);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -89615,7 +89962,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_1__layouts_index__["a" /* PopupSection */], SubmissionInfo: __WEBPACK_IMPORTED_MODULE_3__partials_index__["h" /* SubmissionInfo */] },
 
     data: function data() {
@@ -89705,16 +90052,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }
     }
-});
+};
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__layouts__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__layouts__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials__ = __webpack_require__(14);
 //
 //
 //
@@ -89734,19 +90081,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = {
     components: { PopupSection: __WEBPACK_IMPORTED_MODULE_0__layouts__["a" /* PopupSection */], CharonSelect: __WEBPACK_IMPORTED_MODULE_1__partials__["d" /* CharonSelect */], SubmissionsList: __WEBPACK_IMPORTED_MODULE_1__partials__["g" /* SubmissionsList */] }
-});
+};
 
 /***/ }),
-/* 263 */,
 /* 264 */,
 /* 265 */,
-/* 266 */
+/* 266 */,
+/* 267 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StudentCharonPointsVsCourseAverageChart_vue__ = __webpack_require__(425);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StudentCharonPointsVsCourseAverageChart_vue__ = __webpack_require__(427);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StudentCharonPointsVsCourseAverageChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__StudentCharonPointsVsCourseAverageChart_vue__);
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__StudentCharonPointsVsCourseAverageChart_vue___default.a; });
 
@@ -89754,23 +90101,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GradingPage_vue__ = __webpack_require__(430);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GradingPage_vue__ = __webpack_require__(432);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GradingPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__GradingPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NoStudentSelectedPage_vue__ = __webpack_require__(431);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NoStudentSelectedPage_vue__ = __webpack_require__(433);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NoStudentSelectedPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NoStudentSelectedPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionPage_vue__ = __webpack_require__(435);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionPage_vue__ = __webpack_require__(437);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SubmissionPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SubmissionPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StudentOverviewPage_vue__ = __webpack_require__(434);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StudentOverviewPage_vue__ = __webpack_require__(436);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StudentOverviewPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__StudentOverviewPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DashboardPage_vue__ = __webpack_require__(429);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DashboardPage_vue__ = __webpack_require__(431);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DashboardPage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__DashboardPage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PlagiarismPage__ = __webpack_require__(432);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PlagiarismPage__ = __webpack_require__(434);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PlagiarismPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__PlagiarismPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ReportStatistics__ = __webpack_require__(433);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ReportStatistics__ = __webpack_require__(435);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ReportStatistics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ReportStatistics__);
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__GradingPage_vue___default.a; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_1__NoStudentSelectedPage_vue___default.a; });
@@ -89790,14 +90137,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(505);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages__ = __webpack_require__(268);
 
 
 
@@ -89846,10 +90193,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     linkActiveClass: 'is-active'
 });
 
-/* harmony default export */ __webpack_exports__["a"] = (router);
+/* harmony default export */ __webpack_exports__["a"] = router;
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -89920,7 +90267,7 @@ var updateSubmission = function updateSubmission(_ref7, _ref8) {
 };
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -89987,16 +90334,16 @@ var charonLink = function charonLink(state) {
 };
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(272);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(271);
 
 
 
@@ -90050,10 +90397,10 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   actions: __WEBPACK_IMPORTED_MODULE_2__actions__
 });
 
-/* harmony default export */ __webpack_exports__["a"] = (store);
+/* harmony default export */ __webpack_exports__["a"] = store;
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90087,80 +90434,87 @@ var UPDATE_CHARON = function UPDATE_CHARON(state, _ref4) {
 };
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, ".vgt-right-align{text-align:right}.vgt-left-align{text-align:left}.vgt-center-align{text-align:center}.vgt-pull-left{float:left!important}.vgt-pull-right{float:right!important}.vgt-clearfix::after{display:block;content:\"\";clear:both}.vgt-responsive{width:100%;overflow-x:auto;position:relative}.vgt-text-disabled{color:#909399}.vgt-wrap{position:relative}.vgt-fixed-header{position:absolute;z-index:10;width:100%;overflow-x:auto}table.vgt-table{font-size:16px;border-collapse:collapse;background-color:#fff;width:100%;max-width:100%;table-layout:auto;border:1px solid #dcdfe6}table.vgt-table td{padding:.75em .75em .75em .75em;vertical-align:top;border-bottom:1px solid #dcdfe6;color:#606266}table.vgt-table tr.clickable{cursor:pointer}table.vgt-table tr.clickable:hover{background-color:#f1f5fd}.vgt-table th{padding:.75em 1.5em .75em .75em;vertical-align:middle;position:relative}.vgt-table th.sorting{cursor:pointer}.vgt-table th.sorting:after{content:'';display:none;position:absolute;height:0;width:0;right:6px;top:50%;margin-top:-3px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #409eff}.vgt-table th.sorting:hover:after{display:inline-block;border-bottom-color:#73b8ff}.vgt-table th.line-numbers,.vgt-table th.vgt-checkbox-col{padding:0 .75em 0 .75em;color:#606266;border-right:1px solid #dcdfe6;word-wrap:break-word;width:25px;text-align:center;background:linear-gradient(#f4f5f8,#f1f3f6)}.vgt-table th.filter-th{padding:.75em .75em .75em .75em}.vgt-table th.vgt-row-header{border-bottom:2px solid #dcdfe6;border-top:2px solid #dcdfe6;background-color:#fafafb}.vgt-table thead th{color:#606266;vertical-align:bottom;border-bottom:1px solid #dcdfe6;padding-right:1.5em;background:linear-gradient(#f4f5f8,#f1f3f6)}.vgt-table thead th.vgt-checkbox-col{vertical-align:middle}.vgt-table thead th.sorting-asc,.vgt-table thead th.sorting-desc{color:#3b3c3f}.vgt-table thead th.sorting-asc:after,.vgt-table thead th.sorting-desc:after{content:'';display:block}.vgt-table thead th.sorting-desc:after{border-top:6px solid #409eff;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:none}.vgt-input,.vgt-select{width:100%;height:32px;line-height:1;display:block;font-size:14px;font-weight:regular;padding:6px 12px;color:#606266;border-radius:4px;box-sizing:border-box;background-image:none;background-color:#fff;border:1px solid #dcdfe6;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.vgt-input::placeholder,.vgt-select::placeholder{color:#606266;opacity:.3}.vgt-input:focus,.vgt-select:focus{outline:0;border-color:#409eff}.vgt-loading{position:absolute;width:100%;z-index:10;margin-top:117px}.vgt-loading__content{background-color:#c0dfff;color:#409eff;padding:7px 30px;border-radius:3px}.vgt-inner-wrap.is-loading{opacity:.5;pointer-events:none}.vgt-table.bordered td,.vgt-table.bordered th{border:1px solid #dcdfe6}.vgt-table.bordered th.vgt-row-header{border-bottom:3px solid #dcdfe6}.vgt-table.striped tbody tr:nth-of-type(odd){background-color:rgba(51,68,109,.03)}.vgt-wrap.rtl{direction:rtl}.vgt-wrap.rtl .vgt-table td,.vgt-wrap.rtl .vgt-table th:not(.line-numbers){padding:.75em .75em .75em 1.5em}.vgt-wrap.rtl .vgt-table thead th,.vgt-wrap.rtl .vgt-table.condensed thead th{padding-left:1.5em;padding-right:.75em}.vgt-wrap.rtl .vgt-table th.sorting-asc:after,.vgt-wrap.rtl .vgt-table th.sorting:after{margin-right:5px;margin-left:0}.vgt-table.condensed td,.vgt-table.condensed th.vgt-row-header{padding:.4em .4em .4em .4em}.vgt-global-search{padding:5px 0;display:flex;flex-wrap:no-wrap;align-items:stretch;border:1px solid #dcdfe6;border-bottom:0;background:linear-gradient(#f4f5f8,#f1f3f6)}.vgt-global-search__input{position:relative;padding-left:40px;flex-grow:1}.vgt-global-search__input .input__icon{position:absolute;left:0;max-width:32px}.vgt-global-search__input .input__icon .magnifying-glass{margin-top:3px;margin-left:8px;display:block;width:16px;height:16px;border:2px solid #d6dae2;position:relative;border-radius:50%}.vgt-global-search__input .input__icon .magnifying-glass:before{content:\"\";display:block;position:absolute;right:-7px;bottom:-5px;background:#d6dae2;width:8px;height:4px;border-radius:2px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg)}.vgt-global-search__actions{margin-left:10px}.vgt-selection-info-row{background:#fdf9e8;padding:5px 16px;font-size:13px;border-top:1px solid #dcdfe6;border-left:1px solid #dcdfe6;border-right:1px solid #dcdfe6;color:#d3aa3b;font-weight:700}.vgt-selection-info-row a{font-weight:700;display:inline-block;margin-left:10px}.vgt-wrap__actions-footer{border:1px solid #dcdfe6}.vgt-wrap__footer{color:#606266;padding:1em;border:1px solid #dcdfe6;background:linear-gradient(#f4f5f8,#f1f3f6)}.vgt-wrap__footer .footer__row-count__label,.vgt-wrap__footer .footer__row-count__select{display:inline-block;vertical-align:middle}.vgt-wrap__footer .footer__row-count__label{font-size:14px;color:#909399}.vgt-wrap__footer .footer__row-count__select{background-color:transparent;width:auto;padding:0;border:0;border-radius:0;height:auto;font-size:14px;margin-left:8px;color:#606266;font-weight:700}.vgt-wrap__footer .footer__row-count__select:focus{outline:0;border-color:#409eff}.vgt-wrap__footer .footer__navigation{font-size:14px}.vgt-wrap__footer .footer__navigation__info,.vgt-wrap__footer .footer__navigation__page-btn,.vgt-wrap__footer .footer__navigation__page-info{display:inline-block;vertical-align:middle}.vgt-wrap__footer .footer__navigation__page-btn{text-decoration:none;color:#606266;font-weight:700;white-space:nowrap}.vgt-wrap__footer .footer__navigation__page-btn:focus{outline:0;border:0}.vgt-wrap__footer .footer__navigation__page-btn.disabled,.vgt-wrap__footer .footer__navigation__page-btn.disabled:hover{opacity:.5;cursor:not-allowed}.vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.left:after,.vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.left:after{border-right-color:#606266}.vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.right:after,.vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.right:after{border-left-color:#606266}.vgt-wrap__footer .footer__navigation__page-btn .chevron{width:24px;height:24px;border-radius:15%;position:relative;margin:0 8px}.vgt-wrap__footer .footer__navigation__page-btn .chevron:after{content:'';position:absolute;display:block;left:50%;top:50%;margin-top:-6px;border-top:6px solid transparent;border-bottom:6px solid transparent}.vgt-wrap__footer .footer__navigation__page-btn .chevron.left::after{border-right:6px solid #409eff;margin-left:-3px}.vgt-wrap__footer .footer__navigation__page-btn .chevron.right::after{border-left:6px solid #409eff;margin-left:-3px}.vgt-wrap__footer .footer__navigation__info,.vgt-wrap__footer .footer__navigation__page-info{display:inline-block;color:#909399;margin:0 16px}.vgt-wrap__footer .footer__navigation__page-info__current-entry{width:30px;text-align:center;display:inline-block;margin:0 10px;font-weight:700}@media only screen and (max-width:750px){.vgt-wrap__footer .footer__navigation__info{display:none}.vgt-wrap__footer .footer__navigation__page-btn{margin-left:16px}}.vgt-table.nocturnal{border:1px solid #435169;background-color:#324057}.vgt-table.nocturnal tr.clickable:hover{background-color:#445168}.vgt-table.nocturnal td{border-bottom:1px solid #435169;color:#c7ced8}.vgt-table.nocturnal th.line-numbers,.vgt-table.nocturnal th.vgt-checkbox-col{color:#c7ced8;border-right:1px solid #435169;background:linear-gradient(#2c394f,#2c394f)}.vgt-table.nocturnal thead th{color:#c7ced8;border-bottom:1px solid #435169;background:linear-gradient(#2c394f,#2c394f)}.vgt-table.nocturnal thead th.sorting-asc,.vgt-table.nocturnal thead th.sorting-desc{color:#9aa7b9}.vgt-table.nocturnal.bordered td,.vgt-table.nocturnal.bordered th{border:1px solid #435169}.vgt-table.nocturnal .vgt-input,.vgt-table.nocturnal .vgt-select{color:#c7ced8;background-color:#232d3f;border:1px solid #435169}.vgt-table.nocturnal .vgt-input::placeholder,.vgt-table.nocturnal .vgt-select::placeholder{color:#c7ced8;opacity:.3}.vgt-wrap.nocturnal .vgt-wrap__footer{color:#c7ced8;border:1px solid #435169;background:linear-gradient(#2c394f,#2c394f)}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__row-count__label{color:#8290a7}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__row-count__select{color:#c7ced8}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__row-count__select:focus{border-color:#409eff}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-btn{color:#c7ced8}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.left:after,.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.left:after{border-right-color:#c7ced8}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.right:after,.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.right:after{border-left-color:#c7ced8}.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__info,.vgt-wrap.nocturnal .vgt-wrap__footer .footer__navigation__page-info{color:#8290a7}.vgt-wrap.nocturnal .vgt-global-search{border:1px solid #435169;background:linear-gradient(#2c394f,#2c394f)}.vgt-wrap.nocturnal .vgt-global-search__input .input__icon .magnifying-glass{border:2px solid #3f4c63}.vgt-wrap.nocturnal .vgt-global-search__input .input__icon .magnifying-glass:before{background:#3f4c63}.vgt-wrap.nocturnal .vgt-global-search__input .vgt-input,.vgt-wrap.nocturnal .vgt-global-search__input .vgt-select{color:#c7ced8;background-color:#232d3f;border:1px solid #435169}.vgt-wrap.nocturnal .vgt-global-search__input .vgt-input::placeholder,.vgt-wrap.nocturnal .vgt-global-search__input .vgt-select::placeholder{color:#c7ced8;opacity:.3}.vgt-table.black-rhino{border:1px solid #435169;background-color:#dfe5ee}.vgt-table.black-rhino tr.clickable:hover{background-color:#fff}.vgt-table.black-rhino td{border-bottom:1px solid #bbc5d6;color:#49515e}.vgt-table.black-rhino th.line-numbers,.vgt-table.black-rhino th.vgt-checkbox-col{color:#dae2f0;border-right:1px solid #435169;background:linear-gradient(#4c5c79,#4e5d7c)}.vgt-table.black-rhino thead th{color:#dae2f0;text-shadow:1px 1px #3e5170;border-bottom:1px solid #435169;background:linear-gradient(#4c5c79,#4e5d7c)}.vgt-table.black-rhino thead th.sorting-asc,.vgt-table.black-rhino thead th.sorting-desc{color:#fff}.vgt-table.black-rhino.bordered td{border:1px solid #bbc5d6}.vgt-table.black-rhino.bordered th{border:1px solid #435169}.vgt-table.black-rhino .vgt-input,.vgt-table.black-rhino .vgt-select{color:#dae2f0;background-color:#34445f;border:1px solid transparent}.vgt-table.black-rhino .vgt-input::placeholder,.vgt-table.black-rhino .vgt-select::placeholder{color:#dae2f0;opacity:.3}.vgt-wrap.black-rhino .vgt-wrap__footer{color:#dae2f0;border:1px solid #435169;background:linear-gradient(#4c5c79,#4e5d7c)}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count{position:relative;padding-right:3px}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count__label{color:#98a5b9}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count__select{color:#49515e;background:#dfe5ee;border:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:15px;padding-left:5px;border-radius:3px}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count__select::-ms-expand{display:none}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count__select:focus{border-color:#409eff}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__row-count::after{content:'';display:block;position:absolute;height:0;width:0;right:6px;top:50%;margin-top:-1px;border-top:6px solid #49515e;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:none;pointer-events:none}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-btn{color:#dae2f0}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.left:after,.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.left:after{border-right-color:#dae2f0}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.right:after,.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.right:after{border-left-color:#dae2f0}.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__info,.vgt-wrap.black-rhino .vgt-wrap__footer .footer__navigation__page-info{color:#dae2f0}.vgt-wrap.black-rhino .vgt-global-search{border:1px solid #435169;background:linear-gradient(#4c5c79,#4e5d7c)}.vgt-wrap.black-rhino .vgt-global-search__input .input__icon .magnifying-glass{border:2px solid #3f4c63}.vgt-wrap.black-rhino .vgt-global-search__input .input__icon .magnifying-glass:before{background:#3f4c63}.vgt-wrap.black-rhino .vgt-global-search__input .vgt-input,.vgt-wrap.black-rhino .vgt-global-search__input .vgt-select{color:#dae2f0;background-color:#44516c;border:1px solid transparent}.vgt-wrap.black-rhino .vgt-global-search__input .vgt-input::placeholder,.vgt-wrap.black-rhino .vgt-global-search__input .vgt-select::placeholder{color:#dae2f0;opacity:.3}\n\n\n\n\n\n", ""]);
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.student-overview-card {\n  padding: 25px;\n}\n.b1l {\n  padding: 0;\n  width: 24px;\n  min-width: 24px;\n}\n.student-overview-card th {\n  padding: 0.75em;\n}\n.student-overview-card th img {\n    margin-right: 15px;\n}\n.student-overview-card td {\n  padding: 0.75em;\n}\n", ""]);
 
 /***/ }),
-/* 275 */,
 /* 276 */,
-/* 277 */
+/* 277 */,
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.active-students__list[data-v-58db2830] {\n  text-align: center;\n}\n", ""]);
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.section-title-link:hover {\n  color: #4f5f6f;\n}\n", ""]);
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "/**\n * COMPONENTS\n *\n * COLORS\n * BULMA_OVERWRITES\n * HEADER\n * NAVIGATION\n */\n/*---------------------*\\\n  #COLORS\n\\*---------------------*/\n/*---------------------*\\\n  #BULMA_OVERWRITES\n\\*---------------------*/\n/*---------------------*\\\n  #HEADER\n\\*---------------------*/\n/*---------------------*\\\n  #NAVIGATION\n\\*---------------------*/\n/*---------------------*\\\n  #NAVIGATION\n\\*---------------------*/\n/*---------------------*\\\n  #MIXINS\n\\*---------------------*/\n.similarity-link a svg[data-v-7afe30d5] {\n  display: inline-block;\n  vertical-align: middle;\n  width: 1rem;\n  height: 1rem;\n  fill: #59c2e6;\n}\n.similarity-link a[data-v-7afe30d5]:hover {\n  color: #72d8fb;\n}\n.similarity-link a:hover svg[data-v-7afe30d5] {\n    fill: #72d8fb;\n}\n.state-message[data-v-7afe30d5] {\n  margin: 2rem 0;\n}\n", ""]);
 
 /***/ }),
-/* 280 */,
-/* 281 */
+/* 281 */,
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.submission-counts__table th[data-v-99c29514] {\n  width: 20%;\n  cursor: pointer;\n}\n", ""]);
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.title--with-right[data-v-b7104de4] {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: justify;\n      justify-content: space-between;\n}\n", ""]);
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n@keyframes spinAround {\nfrom {\n    transform: rotate(0deg);\n}\nto {\n    transform: rotate(359deg);\n}\n}\n.submission[data-v-c26959d8] {\n  margin-top: 0;\n  margin-bottom: 0;\n  padding-top: 30px;\n  padding-bottom: 30px;\n  white-space: nowrap;\n  line-height: 1.5rem;\n}\n@media screen and (max-width: 1023px) {\n.submission[data-v-c26959d8] {\n      padding-bottom: 20px;\n      padding-left: 10px;\n}\n}\n.timestamp-separator[data-v-c26959d8] {\n  padding-left: 4px;\n  padding-right: 4px;\n}\n", ""]);
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.mb[data-v-e3a3722e] {\n  margin-bottom: 2rem;\n}\n", ""]);
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "/**\n * COMPONENTS\n *\n * COLORS\n * BULMA_OVERWRITES\n * HEADER\n * NAVIGATION\n */\n/*---------------------*\\\n  #COLORS\n\\*---------------------*/\n/*---------------------*\\\n  #BULMA_OVERWRITES\n\\*---------------------*/\n/*---------------------*\\\n  #HEADER\n\\*---------------------*/\n/*---------------------*\\\n  #NAVIGATION\n\\*---------------------*/\n/*---------------------*\\\n  #NAVIGATION\n\\*---------------------*/\n/*---------------------*\\\n  #MIXINS\n\\*---------------------*/\n.submission-info[data-v-f14182d0]:not(:last-of-type) {\n  margin-bottom: .75rem;\n}\n.submission-info__title[data-v-f14182d0] {\n  color: #a0a0b0;\n  font-weight: 500;\n  font-size: 1.25rem;\n}\n.submission-info__content[data-v-f14182d0] {\n  font-weight: 500;\n  font-size: 1.25rem;\n}\n", ""]);
 
 /***/ }),
-/* 286 */
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+exports.push([module.i, ".daterangepicker{position:absolute;color:inherit;background-color:#fff;border-radius:4px;border:1px solid #ddd;width:278px;max-width:none;padding:0;margin-top:7px;top:100px;left:20px;z-index:3001;display:none;font-size:15px;line-height:1em}.daterangepicker:after,.daterangepicker:before{position:absolute;display:inline-block;border-bottom-color:rgba(0,0,0,.2);content:\"\"}.daterangepicker:before{top:-7px;border-right:7px solid transparent;border-left:7px solid transparent;border-bottom:7px solid #ccc}.daterangepicker:after{top:-6px;border-right:6px solid transparent;border-bottom:6px solid #fff;border-left:6px solid transparent}.daterangepicker.opensleft:before{right:9px}.daterangepicker.opensleft:after{right:10px}.daterangepicker.openscenter:after,.daterangepicker.openscenter:before{left:0;right:0;width:0;margin-left:auto;margin-right:auto}.daterangepicker.opensright:before{left:9px}.daterangepicker.opensright:after{left:10px}.daterangepicker.drop-up{margin-top:-7px}.daterangepicker.drop-up:before{top:auto;bottom:-7px;border-bottom:initial;border-top:7px solid #ccc}.daterangepicker.drop-up:after{top:auto;bottom:-6px;border-bottom:initial;border-top:6px solid #fff}.daterangepicker.single .daterangepicker .ranges,.daterangepicker.single .drp-calendar{float:none}.daterangepicker.single .drp-selected{display:none}.daterangepicker.show-calendar .drp-buttons,.daterangepicker.show-calendar .drp-calendar{display:block}.daterangepicker.auto-apply .drp-buttons{display:none}.daterangepicker .drp-calendar{display:none;max-width:270px}.daterangepicker .drp-calendar.left{padding:8px 0 8px 8px}.daterangepicker .drp-calendar.right{padding:8px}.daterangepicker .drp-calendar.single .calendar-table{border:none}.daterangepicker .calendar-table .next span,.daterangepicker .calendar-table .prev span{color:#fff;border:solid #000;border-width:0 2px 2px 0;border-radius:0;display:inline-block;padding:3px}.daterangepicker .calendar-table .next span{transform:rotate(-45deg);-webkit-transform:rotate(-45deg)}.daterangepicker .calendar-table .prev span{transform:rotate(135deg);-webkit-transform:rotate(135deg)}.daterangepicker .calendar-table td,.daterangepicker .calendar-table th{text-align:center;vertical-align:middle;min-width:32px;width:32px;height:24px;line-height:24px;font-size:12px;border-radius:4px;border:1px solid transparent;white-space:nowrap;cursor:pointer}.daterangepicker .calendar-table{border:1px solid #fff;border-radius:4px;background-color:#fff}.daterangepicker .calendar-table table{width:100%;margin:0;border-spacing:0;border-collapse:collapse}.daterangepicker td.available:hover,.daterangepicker th.available:hover{background-color:#eee;border-color:transparent;color:inherit}.daterangepicker td.week,.daterangepicker th.week{font-size:80%;color:#ccc}.daterangepicker td.off,.daterangepicker td.off.end-date,.daterangepicker td.off.in-range,.daterangepicker td.off.start-date{background-color:#fff;border-color:transparent;color:#999}.daterangepicker td.in-range{background-color:#ebf4f8;border-color:transparent;color:#000;border-radius:0}.daterangepicker td.start-date{border-radius:4px 0 0 4px}.daterangepicker td.end-date{border-radius:0 4px 4px 0}.daterangepicker td.start-date.end-date{border-radius:4px}.daterangepicker td.active,.daterangepicker td.active:hover{background-color:#357ebd;border-color:transparent;color:#fff}.daterangepicker th.month{width:auto}.daterangepicker option.disabled,.daterangepicker td.disabled{color:#999;cursor:not-allowed;text-decoration:line-through}.daterangepicker select.monthselect,.daterangepicker select.yearselect{font-size:12px;padding:1px;height:auto;margin:0;cursor:default}.daterangepicker select.monthselect{margin-right:2%;width:56%}.daterangepicker select.yearselect{width:40%}.daterangepicker select.ampmselect,.daterangepicker select.hourselect,.daterangepicker select.minuteselect,.daterangepicker select.secondselect{width:50px;margin:0 auto;background:#eee;border:1px solid #eee;padding:2px;outline:0;font-size:12px}.daterangepicker .calendar-time{text-align:center;margin:4px auto 0;line-height:30px;position:relative}.daterangepicker .calendar-time select.disabled{color:#ccc;cursor:not-allowed}.daterangepicker .drp-buttons{clear:both;text-align:right;padding:8px;border-top:1px solid #ddd;display:none;line-height:12px;vertical-align:middle}.daterangepicker .drp-selected{display:inline-block;font-size:12px;padding-right:8px}.daterangepicker .drp-buttons .btn{margin-left:8px;font-size:12px;font-weight:700;padding:4px 8px}.daterangepicker.show-ranges .drp-calendar.left{border-left:1px solid #ddd}.daterangepicker .ranges{float:none;text-align:left;margin:0}.daterangepicker.show-calendar .ranges{margin-top:8px}.daterangepicker .ranges ul{list-style:none;margin:0 auto;padding:0;width:100%}.daterangepicker .ranges li{font-size:12px;padding:8px 12px;cursor:pointer}.daterangepicker .ranges li:hover{background-color:#eee}.daterangepicker .ranges li.active{background-color:#08c;color:#fff}@media (min-width:564px){.daterangepicker{width:auto}.daterangepicker .ranges ul{width:140px}.daterangepicker.single .ranges ul{width:100%}.daterangepicker.single .drp-calendar.left{clear:none}.daterangepicker.single.ltr .drp-calendar,.daterangepicker.single.ltr .ranges{float:left}.daterangepicker.single.rtl .drp-calendar,.daterangepicker.single.rtl .ranges{float:right}.daterangepicker.ltr{direction:ltr;text-align:left}.daterangepicker.ltr .drp-calendar.left{clear:left;margin-right:0}.daterangepicker.ltr .drp-calendar.left .calendar-table{border-right:none;border-top-right-radius:0;border-bottom-right-radius:0}.daterangepicker.ltr .drp-calendar.right{margin-left:0}.daterangepicker.ltr .drp-calendar.right .calendar-table{border-left:none;border-top-left-radius:0;border-bottom-left-radius:0}.daterangepicker.ltr .drp-calendar.left .calendar-table{padding-right:8px}.daterangepicker.ltr .drp-calendar,.daterangepicker.ltr .ranges{float:left}.daterangepicker.rtl{direction:rtl;text-align:right}.daterangepicker.rtl .drp-calendar.left{clear:right;margin-left:0}.daterangepicker.rtl .drp-calendar.left .calendar-table{border-left:none;border-top-left-radius:0;border-bottom-left-radius:0}.daterangepicker.rtl .drp-calendar.right{margin-right:0}.daterangepicker.rtl .drp-calendar.right .calendar-table{border-right:none;border-top-right-radius:0;border-bottom-right-radius:0}.daterangepicker.rtl .drp-calendar.left .calendar-table{padding-left:12px}.daterangepicker.rtl .drp-calendar,.daterangepicker.rtl .ranges{text-align:right;float:right}}@media (min-width:730px){.daterangepicker .ranges{width:auto}.daterangepicker.ltr .ranges{float:left}.daterangepicker.rtl .ranges{float:right}.daterangepicker .drp-calendar.left{clear:none!important}}.reportrange-text[data-v-2e43d84d]{background:#fff;cursor:pointer;padding:5px 10px;border:1px solid #ccc;width:100%}.daterangepicker[data-v-2e43d84d]{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;display:-webkit-box;display:-ms-flexbox;display:flex;width:auto}@media screen and (max-width:768px){.daterangepicker.show-ranges .drp-calendar.left[data-v-2e43d84d]{border-left:0}.daterangepicker.show-ranges .ranges[data-v-2e43d84d]{border-bottom:1px solid #ddd}.daterangepicker.show-ranges .ranges ::v-deep ul[data-v-2e43d84d]{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;width:auto}}@media screen and (min-width:540px){.daterangepicker[data-v-2e43d84d]{min-width:486px}.daterangepicker.show-weeknumbers[data-v-2e43d84d]{min-width:544px}}@media screen and (min-width:768px){.daterangepicker.show-ranges[data-v-2e43d84d]{min-width:628px}.daterangepicker.show-ranges.show-weeknumbers[data-v-2e43d84d]{min-width:682px}}@media screen and (max-width:340px){.daterangepicker.single[data-v-2e43d84d]{min-width:250px}.daterangepicker.single.show-weeknumbers[data-v-2e43d84d]{min-width:304px}}@media screen and (min-width:339px){.daterangepicker.single[data-v-2e43d84d]{min-width:auto}.daterangepicker.single.show-ranges[data-v-2e43d84d]{min-width:328px}.daterangepicker.single.show-ranges.show-weeknumbers[data-v-2e43d84d]{min-width:382px}.daterangepicker.single.show-ranges .drp-calendar.left[data-v-2e43d84d]{border-left:1px solid #ddd}.daterangepicker.single.show-ranges .ranges[data-v-2e43d84d]{width:auto;max-width:none;-ms-flex-preferred-size:auto;flex-basis:auto;border-bottom:0}.daterangepicker.single.show-ranges .ranges ::v-deep ul[data-v-2e43d84d]{display:block;width:100%}}.daterangepicker.show-calendar[data-v-2e43d84d]{display:block}div.daterangepicker.opensleft[data-v-2e43d84d]{top:35px;right:10px;left:auto}div.daterangepicker.openscenter[data-v-2e43d84d]{top:35px;right:auto;left:50%;-webkit-transform:translate(-50%);transform:translate(-50%)}div.daterangepicker.opensright[data-v-2e43d84d]{top:35px;left:10px;right:auto}.slide-fade-enter-active[data-v-2e43d84d]{transition:all .2s ease}.slide-fade-leave-active[data-v-2e43d84d]{transition:all .1s cubic-bezier(1,.5,.8,1)}.slide-fade-enter[data-v-2e43d84d],.slide-fade-leave-to[data-v-2e43d84d]{-webkit-transform:translateX(10px);transform:translateX(10px);opacity:0}td[data-v-b8502d84],th[data-v-b8502d84]{padding:2px;background-color:#fff}td.today[data-v-b8502d84]{font-weight:700}td.disabled[data-v-b8502d84]{pointer-events:none;background-color:#eee;border-radius:0;opacity:.6}.fa[data-v-b8502d84]{display:inline-block;width:100%;height:100%;background:transparent no-repeat 50%;background-size:100% 100%;fill:#ccc}.next[data-v-b8502d84]:hover,.prev[data-v-b8502d84]:hover{background-color:transparent!important}.next .fa[data-v-b8502d84]:hover,.prev .fa[data-v-b8502d84]:hover{opacity:.6}.chevron-left[data-v-b8502d84]{width:16px;height:16px;display:block;background-image:url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 10 10'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E\")}.chevron-right[data-v-b8502d84]{width:16px;height:16px;display:block;background-image:url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 10 10'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E\")}", ""]);
+
+/***/ }),
+/* 288 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90179,7 +90533,7 @@ function addUTCMinutes (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 287 */
+/* 289 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90203,7 +90557,7 @@ function getUTCDayOfYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 288 */
+/* 290 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90241,7 +90595,7 @@ function setUTCDay (dirtyDate, dirtyDay, dirtyOptions) {
 
 
 /***/ }),
-/* 289 */
+/* 291 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90273,7 +90627,7 @@ function setUTCISODay (dirtyDate, dirtyDay, dirtyOptions) {
 
 
 /***/ }),
-/* 290 */
+/* 292 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90295,7 +90649,7 @@ function setUTCISOWeek (dirtyDate, dirtyISOWeek, dirtyOptions) {
 
 
 /***/ }),
-/* 291 */
+/* 293 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90324,7 +90678,7 @@ function setUTCISOWeekYear (dirtyDate, dirtyISOYear, dirtyOptions) {
 
 
 /***/ }),
-/* 292 */
+/* 294 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90387,7 +90741,7 @@ function areIntervalsOverlapping (dirtyIntervalLeft, dirtyIntervalRight, dirtyOp
 
 
 /***/ }),
-/* 293 */
+/* 295 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90472,7 +90826,7 @@ function closestIndexTo (dirtyDateToCompare, dirtyDatesArray, dirtyOptions) {
 
 
 /***/ }),
-/* 294 */
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90555,7 +90909,7 @@ function closestTo (dirtyDateToCompare, dirtyDatesArray, dirtyOptions) {
 
 
 /***/ }),
-/* 295 */
+/* 297 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90623,7 +90977,7 @@ function compareDesc (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 296 */
+/* 298 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90681,7 +91035,7 @@ function differenceInCalendarISOWeeks (dirtyDateLeft, dirtyDateRight, dirtyOptio
 
 
 /***/ }),
-/* 297 */
+/* 299 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90731,7 +91085,7 @@ function differenceInCalendarQuarters (dirtyDateLeft, dirtyDateRight, dirtyOptio
 
 
 /***/ }),
-/* 298 */
+/* 300 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90800,7 +91154,7 @@ function differenceInCalendarWeeks (dirtyDateLeft, dirtyDateRight, dirtyOptions)
 
 
 /***/ }),
-/* 299 */
+/* 301 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90845,7 +91199,7 @@ function differenceInHours (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 300 */
+/* 302 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90906,7 +91260,7 @@ function differenceInISOYears (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 301 */
+/* 303 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90951,7 +91305,7 @@ function differenceInMinutes (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 302 */
+/* 304 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90994,7 +91348,7 @@ function differenceInQuarters (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 303 */
+/* 305 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91037,7 +91391,7 @@ function differenceInWeeks (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 304 */
+/* 306 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91093,7 +91447,7 @@ function differenceInYears (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 305 */
+/* 307 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91163,7 +91517,7 @@ function eachDayOfInterval (dirtyInterval, dirtyOptions) {
 
 
 /***/ }),
-/* 306 */
+/* 308 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91204,7 +91558,7 @@ function endOfHour (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 307 */
+/* 309 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91249,7 +91603,7 @@ function endOfISOWeek (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 308 */
+/* 310 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91299,7 +91653,7 @@ function endOfISOYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 309 */
+/* 311 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91340,7 +91694,7 @@ function endOfMinute (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 310 */
+/* 312 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91384,7 +91738,7 @@ function endOfQuarter (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 311 */
+/* 313 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91425,7 +91779,7 @@ function endOfSecond (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 312 */
+/* 314 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91468,11 +91822,11 @@ function endOfYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 313 */
+/* 315 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_getUTCDayOfYear_index_js__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_getUTCDayOfYear_index_js__ = __webpack_require__(289);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_getUTCISOWeek_index_js__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_getUTCISOWeekYear_index_js__ = __webpack_require__(163);
 
@@ -91731,11 +92085,11 @@ function addLeadingZeros (number, targetLength) {
   return output
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (formatters);
+/* harmony default export */ __webpack_exports__["a"] = formatters;
 
 
 /***/ }),
-/* 314 */
+/* 316 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91963,7 +92317,7 @@ function formatDistance (dirtyDate, dirtyBaseDate, dirtyOptions) {
 
 
 /***/ }),
-/* 315 */
+/* 317 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92176,7 +92530,7 @@ function formatDistanceStrict (dirtyDate, dirtyBaseDate, dirtyOptions) {
 
 
 /***/ }),
-/* 316 */
+/* 318 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92274,7 +92628,7 @@ function formatRelative (dirtyDate, dirtyBaseDate, dirtyOptions) {
 
 
 /***/ }),
-/* 317 */
+/* 319 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92314,7 +92668,7 @@ function getDate (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 318 */
+/* 320 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92354,7 +92708,7 @@ function getDay (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 319 */
+/* 321 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92399,7 +92753,7 @@ function getDayOfYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 320 */
+/* 322 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92445,7 +92799,7 @@ function getDaysInYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 321 */
+/* 323 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92485,7 +92839,7 @@ function getHours (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 322 */
+/* 324 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92535,7 +92889,7 @@ function getISOWeeksInYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 323 */
+/* 325 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92575,7 +92929,7 @@ function getMilliseconds (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 324 */
+/* 326 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92615,7 +92969,7 @@ function getMinutes (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 325 */
+/* 327 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92655,7 +93009,7 @@ function getMonth (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 326 */
+/* 328 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92737,7 +93091,7 @@ function getOverlappingDaysInIntervals (dirtyIntervalLeft, dirtyIntervalRight, d
 
 
 /***/ }),
-/* 327 */
+/* 329 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92777,7 +93131,7 @@ function getSeconds (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 328 */
+/* 330 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92817,7 +93171,7 @@ function getTime (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 329 */
+/* 331 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92857,7 +93211,7 @@ function getYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 330 */
+/* 332 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92881,211 +93235,211 @@ function getYear (dirtyDate, dirtyOptions) {
 /* unused harmony reexport addWeeks */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__addYears_index_js__ = __webpack_require__(169);
 /* unused harmony reexport addYears */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__areIntervalsOverlapping_index_js__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__areIntervalsOverlapping_index_js__ = __webpack_require__(294);
 /* unused harmony reexport areIntervalsOverlapping */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__closestIndexTo_index_js__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__closestIndexTo_index_js__ = __webpack_require__(295);
 /* unused harmony reexport closestIndexTo */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__closestTo_index_js__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__closestTo_index_js__ = __webpack_require__(296);
 /* unused harmony reexport closestTo */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__compareAsc_index_js__ = __webpack_require__(68);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_13__compareAsc_index_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__compareDesc_index_js__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__compareDesc_index_js__ = __webpack_require__(297);
 /* unused harmony reexport compareDesc */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__differenceInCalendarDays_index_js__ = __webpack_require__(107);
 /* unused harmony reexport differenceInCalendarDays */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__differenceInCalendarISOWeeks_index_js__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__differenceInCalendarISOWeeks_index_js__ = __webpack_require__(298);
 /* unused harmony reexport differenceInCalendarISOWeeks */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__differenceInCalendarISOYears_index_js__ = __webpack_require__(170);
 /* unused harmony reexport differenceInCalendarISOYears */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__differenceInCalendarMonths_index_js__ = __webpack_require__(171);
 /* unused harmony reexport differenceInCalendarMonths */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__differenceInCalendarQuarters_index_js__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__differenceInCalendarQuarters_index_js__ = __webpack_require__(299);
 /* unused harmony reexport differenceInCalendarQuarters */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__differenceInCalendarWeeks_index_js__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__differenceInCalendarWeeks_index_js__ = __webpack_require__(300);
 /* unused harmony reexport differenceInCalendarWeeks */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__differenceInCalendarYears_index_js__ = __webpack_require__(172);
 /* unused harmony reexport differenceInCalendarYears */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__differenceInDays_index_js__ = __webpack_require__(173);
 /* unused harmony reexport differenceInDays */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__differenceInHours_index_js__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__differenceInHours_index_js__ = __webpack_require__(301);
 /* unused harmony reexport differenceInHours */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__differenceInISOYears_index_js__ = __webpack_require__(300);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__differenceInISOYears_index_js__ = __webpack_require__(302);
 /* unused harmony reexport differenceInISOYears */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__differenceInMilliseconds_index_js__ = __webpack_require__(113);
 /* unused harmony reexport differenceInMilliseconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__differenceInMinutes_index_js__ = __webpack_require__(301);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__differenceInMinutes_index_js__ = __webpack_require__(303);
 /* unused harmony reexport differenceInMinutes */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__differenceInMonths_index_js__ = __webpack_require__(135);
 /* unused harmony reexport differenceInMonths */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__differenceInQuarters_index_js__ = __webpack_require__(302);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__differenceInQuarters_index_js__ = __webpack_require__(304);
 /* unused harmony reexport differenceInQuarters */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__differenceInSeconds_index_js__ = __webpack_require__(136);
 /* unused harmony reexport differenceInSeconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__differenceInWeeks_index_js__ = __webpack_require__(303);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__differenceInWeeks_index_js__ = __webpack_require__(305);
 /* unused harmony reexport differenceInWeeks */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__differenceInYears_index_js__ = __webpack_require__(304);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__differenceInYears_index_js__ = __webpack_require__(306);
 /* unused harmony reexport differenceInYears */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__eachDayOfInterval_index_js__ = __webpack_require__(305);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__eachDayOfInterval_index_js__ = __webpack_require__(307);
 /* unused harmony reexport eachDayOfInterval */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__endOfDay_index_js__ = __webpack_require__(174);
 /* unused harmony reexport endOfDay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__endOfHour_index_js__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__endOfHour_index_js__ = __webpack_require__(308);
 /* unused harmony reexport endOfHour */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__endOfISOWeek_index_js__ = __webpack_require__(307);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__endOfISOWeek_index_js__ = __webpack_require__(309);
 /* unused harmony reexport endOfISOWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__endOfISOYear_index_js__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__endOfISOYear_index_js__ = __webpack_require__(310);
 /* unused harmony reexport endOfISOYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__endOfMinute_index_js__ = __webpack_require__(309);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__endOfMinute_index_js__ = __webpack_require__(311);
 /* unused harmony reexport endOfMinute */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__endOfMonth_index_js__ = __webpack_require__(175);
 /* unused harmony reexport endOfMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__endOfQuarter_index_js__ = __webpack_require__(310);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__endOfQuarter_index_js__ = __webpack_require__(312);
 /* unused harmony reexport endOfQuarter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__endOfSecond_index_js__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__endOfSecond_index_js__ = __webpack_require__(313);
 /* unused harmony reexport endOfSecond */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__endOfWeek_index_js__ = __webpack_require__(176);
 /* unused harmony reexport endOfWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__endOfYear_index_js__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__endOfYear_index_js__ = __webpack_require__(314);
 /* unused harmony reexport endOfYear */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__format_index_js__ = __webpack_require__(177);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_43__format_index_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__formatDistance_index_js__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__formatDistance_index_js__ = __webpack_require__(316);
 /* unused harmony reexport formatDistance */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__formatDistanceStrict_index_js__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__formatDistanceStrict_index_js__ = __webpack_require__(317);
 /* unused harmony reexport formatDistanceStrict */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__formatRelative_index_js__ = __webpack_require__(316);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__formatRelative_index_js__ = __webpack_require__(318);
 /* unused harmony reexport formatRelative */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__getDate_index_js__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__getDate_index_js__ = __webpack_require__(319);
 /* unused harmony reexport getDate */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__getDay_index_js__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__getDay_index_js__ = __webpack_require__(320);
 /* unused harmony reexport getDay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__getDayOfYear_index_js__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__getDayOfYear_index_js__ = __webpack_require__(321);
 /* unused harmony reexport getDayOfYear */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__getDaysInMonth_index_js__ = __webpack_require__(137);
 /* unused harmony reexport getDaysInMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__getDaysInYear_index_js__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__getDaysInYear_index_js__ = __webpack_require__(322);
 /* unused harmony reexport getDaysInYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__getHours_index_js__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__getHours_index_js__ = __webpack_require__(323);
 /* unused harmony reexport getHours */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__getISODay_index_js__ = __webpack_require__(178);
 /* unused harmony reexport getISODay */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__getISOWeek_index_js__ = __webpack_require__(179);
 /* unused harmony reexport getISOWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__getISOWeeksInYear_index_js__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__getISOWeeksInYear_index_js__ = __webpack_require__(324);
 /* unused harmony reexport getISOWeeksInYear */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__getISOYear_index_js__ = __webpack_require__(100);
 /* unused harmony reexport getISOYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__getMilliseconds_index_js__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__getMilliseconds_index_js__ = __webpack_require__(325);
 /* unused harmony reexport getMilliseconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__getMinutes_index_js__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__getMinutes_index_js__ = __webpack_require__(326);
 /* unused harmony reexport getMinutes */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__getMonth_index_js__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__getMonth_index_js__ = __webpack_require__(327);
 /* unused harmony reexport getMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__getOverlappingDaysInIntervals_index_js__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__getOverlappingDaysInIntervals_index_js__ = __webpack_require__(328);
 /* unused harmony reexport getOverlappingDaysInIntervals */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__getQuarter_index_js__ = __webpack_require__(180);
 /* unused harmony reexport getQuarter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__getSeconds_index_js__ = __webpack_require__(327);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__getSeconds_index_js__ = __webpack_require__(329);
 /* unused harmony reexport getSeconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__getTime_index_js__ = __webpack_require__(328);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__getTime_index_js__ = __webpack_require__(330);
 /* unused harmony reexport getTime */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__getYear_index_js__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__getYear_index_js__ = __webpack_require__(331);
 /* unused harmony reexport getYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__isAfter_index_js__ = __webpack_require__(331);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__isAfter_index_js__ = __webpack_require__(333);
 /* unused harmony reexport isAfter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__isBefore_index_js__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__isBefore_index_js__ = __webpack_require__(334);
 /* unused harmony reexport isBefore */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__isEqual_index_js__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__isEqual_index_js__ = __webpack_require__(335);
 /* unused harmony reexport isEqual */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__isFirstDayOfMonth_index_js__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__isFirstDayOfMonth_index_js__ = __webpack_require__(336);
 /* unused harmony reexport isFirstDayOfMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__isFriday_index_js__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__isFriday_index_js__ = __webpack_require__(337);
 /* unused harmony reexport isFriday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__isLastDayOfMonth_index_js__ = __webpack_require__(336);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__isLastDayOfMonth_index_js__ = __webpack_require__(338);
 /* unused harmony reexport isLastDayOfMonth */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__isLeapYear_index_js__ = __webpack_require__(181);
 /* unused harmony reexport isLeapYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__isMonday_index_js__ = __webpack_require__(337);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__isMonday_index_js__ = __webpack_require__(339);
 /* unused harmony reexport isMonday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__isSameDay_index_js__ = __webpack_require__(338);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__isSameDay_index_js__ = __webpack_require__(340);
 /* unused harmony reexport isSameDay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_74__isSameHour_index_js__ = __webpack_require__(339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_74__isSameHour_index_js__ = __webpack_require__(341);
 /* unused harmony reexport isSameHour */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__isSameISOWeek_index_js__ = __webpack_require__(340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__isSameISOWeek_index_js__ = __webpack_require__(342);
 /* unused harmony reexport isSameISOWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_76__isSameISOYear_index_js__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_76__isSameISOYear_index_js__ = __webpack_require__(343);
 /* unused harmony reexport isSameISOYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_77__isSameMinute_index_js__ = __webpack_require__(342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_77__isSameMinute_index_js__ = __webpack_require__(344);
 /* unused harmony reexport isSameMinute */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_78__isSameMonth_index_js__ = __webpack_require__(343);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_78__isSameMonth_index_js__ = __webpack_require__(345);
 /* unused harmony reexport isSameMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_79__isSameQuarter_index_js__ = __webpack_require__(344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_79__isSameQuarter_index_js__ = __webpack_require__(346);
 /* unused harmony reexport isSameQuarter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_80__isSameSecond_index_js__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_80__isSameSecond_index_js__ = __webpack_require__(347);
 /* unused harmony reexport isSameSecond */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_81__isSameWeek_index_js__ = __webpack_require__(182);
 /* unused harmony reexport isSameWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_82__isSameYear_index_js__ = __webpack_require__(346);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_82__isSameYear_index_js__ = __webpack_require__(348);
 /* unused harmony reexport isSameYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_83__isSaturday_index_js__ = __webpack_require__(347);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_83__isSaturday_index_js__ = __webpack_require__(349);
 /* unused harmony reexport isSaturday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_84__isSunday_index_js__ = __webpack_require__(348);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_84__isSunday_index_js__ = __webpack_require__(350);
 /* unused harmony reexport isSunday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_85__isThursday_index_js__ = __webpack_require__(349);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_85__isThursday_index_js__ = __webpack_require__(351);
 /* unused harmony reexport isThursday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_86__isTuesday_index_js__ = __webpack_require__(350);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_86__isTuesday_index_js__ = __webpack_require__(352);
 /* unused harmony reexport isTuesday */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_87__isValid_index_js__ = __webpack_require__(183);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_87__isValid_index_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_88__isWednesday_index_js__ = __webpack_require__(351);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_88__isWednesday_index_js__ = __webpack_require__(353);
 /* unused harmony reexport isWednesday */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_89__isWeekend_index_js__ = __webpack_require__(352);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_89__isWeekend_index_js__ = __webpack_require__(354);
 /* unused harmony reexport isWeekend */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_90__isWithinInterval_index_js__ = __webpack_require__(353);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_90__isWithinInterval_index_js__ = __webpack_require__(355);
 /* unused harmony reexport isWithinInterval */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_91__lastDayOfISOWeek_index_js__ = __webpack_require__(354);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_91__lastDayOfISOWeek_index_js__ = __webpack_require__(356);
 /* unused harmony reexport lastDayOfISOWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_92__lastDayOfISOYear_index_js__ = __webpack_require__(355);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_92__lastDayOfISOYear_index_js__ = __webpack_require__(357);
 /* unused harmony reexport lastDayOfISOYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_93__lastDayOfMonth_index_js__ = __webpack_require__(356);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_93__lastDayOfMonth_index_js__ = __webpack_require__(358);
 /* unused harmony reexport lastDayOfMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_94__lastDayOfQuarter_index_js__ = __webpack_require__(357);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_94__lastDayOfQuarter_index_js__ = __webpack_require__(359);
 /* unused harmony reexport lastDayOfQuarter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_95__lastDayOfWeek_index_js__ = __webpack_require__(184);
 /* unused harmony reexport lastDayOfWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_96__lastDayOfYear_index_js__ = __webpack_require__(358);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_96__lastDayOfYear_index_js__ = __webpack_require__(360);
 /* unused harmony reexport lastDayOfYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_97__max_index_js__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_97__max_index_js__ = __webpack_require__(373);
 /* unused harmony reexport max */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_98__min_index_js__ = __webpack_require__(372);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_98__min_index_js__ = __webpack_require__(374);
 /* unused harmony reexport min */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_99__parse_index_js__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_99__parse_index_js__ = __webpack_require__(377);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_99__parse_index_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_100__setDate_index_js__ = __webpack_require__(376);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_100__setDate_index_js__ = __webpack_require__(378);
 /* unused harmony reexport setDate */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_101__setDay_index_js__ = __webpack_require__(377);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_101__setDay_index_js__ = __webpack_require__(379);
 /* unused harmony reexport setDay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_102__setDayOfYear_index_js__ = __webpack_require__(378);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_102__setDayOfYear_index_js__ = __webpack_require__(380);
 /* unused harmony reexport setDayOfYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_103__setHours_index_js__ = __webpack_require__(379);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_103__setHours_index_js__ = __webpack_require__(381);
 /* unused harmony reexport setHours */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_104__setISODay_index_js__ = __webpack_require__(380);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_104__setISODay_index_js__ = __webpack_require__(382);
 /* unused harmony reexport setISODay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_105__setISOWeek_index_js__ = __webpack_require__(381);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_105__setISOWeek_index_js__ = __webpack_require__(383);
 /* unused harmony reexport setISOWeek */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_106__setISOYear_index_js__ = __webpack_require__(185);
 /* unused harmony reexport setISOYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_107__setMilliseconds_index_js__ = __webpack_require__(382);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_107__setMilliseconds_index_js__ = __webpack_require__(384);
 /* unused harmony reexport setMilliseconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_108__setMinutes_index_js__ = __webpack_require__(383);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_108__setMinutes_index_js__ = __webpack_require__(385);
 /* unused harmony reexport setMinutes */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_109__setMonth_index_js__ = __webpack_require__(186);
 /* unused harmony reexport setMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_110__setQuarter_index_js__ = __webpack_require__(384);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_110__setQuarter_index_js__ = __webpack_require__(386);
 /* unused harmony reexport setQuarter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_111__setSeconds_index_js__ = __webpack_require__(385);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_111__setSeconds_index_js__ = __webpack_require__(387);
 /* unused harmony reexport setSeconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_112__setYear_index_js__ = __webpack_require__(386);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_112__setYear_index_js__ = __webpack_require__(388);
 /* unused harmony reexport setYear */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_113__startOfDay_index_js__ = __webpack_require__(138);
 /* unused harmony reexport startOfDay */
@@ -93097,7 +93451,7 @@ function getYear (dirtyDate, dirtyOptions) {
 /* unused harmony reexport startOfISOYear */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_117__startOfMinute_index_js__ = __webpack_require__(188);
 /* unused harmony reexport startOfMinute */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_118__startOfMonth_index_js__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_118__startOfMonth_index_js__ = __webpack_require__(389);
 /* unused harmony reexport startOfMonth */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_119__startOfQuarter_index_js__ = __webpack_require__(189);
 /* unused harmony reexport startOfQuarter */
@@ -93107,25 +93461,25 @@ function getYear (dirtyDate, dirtyOptions) {
 /* unused harmony reexport startOfWeek */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_122__startOfYear_index_js__ = __webpack_require__(191);
 /* unused harmony reexport startOfYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_123__subDays_index_js__ = __webpack_require__(388);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_123__subDays_index_js__ = __webpack_require__(390);
 /* unused harmony reexport subDays */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_124__subHours_index_js__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_124__subHours_index_js__ = __webpack_require__(391);
 /* unused harmony reexport subHours */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_125__subISOYears_index_js__ = __webpack_require__(192);
 /* unused harmony reexport subISOYears */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_126__subMilliseconds_index_js__ = __webpack_require__(390);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_126__subMilliseconds_index_js__ = __webpack_require__(392);
 /* unused harmony reexport subMilliseconds */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_127__subMinutes_index_js__ = __webpack_require__(139);
 /* unused harmony reexport subMinutes */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_128__subMonths_index_js__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_128__subMonths_index_js__ = __webpack_require__(393);
 /* unused harmony reexport subMonths */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_129__subQuarters_index_js__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_129__subQuarters_index_js__ = __webpack_require__(394);
 /* unused harmony reexport subQuarters */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_130__subSeconds_index_js__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_130__subSeconds_index_js__ = __webpack_require__(395);
 /* unused harmony reexport subSeconds */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_131__subWeeks_index_js__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_131__subWeeks_index_js__ = __webpack_require__(396);
 /* unused harmony reexport subWeeks */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_132__subYears_index_js__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_132__subYears_index_js__ = __webpack_require__(397);
 /* unused harmony reexport subYears */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_133__toDate_index_js__ = __webpack_require__(1);
 /* unused harmony reexport toDate */
@@ -93268,7 +93622,7 @@ function getYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 331 */
+/* 333 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93309,7 +93663,7 @@ function isAfter (dirtyDate, dirtyDateToCompare, dirtyOptions) {
 
 
 /***/ }),
-/* 332 */
+/* 334 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93350,7 +93704,7 @@ function isBefore (dirtyDate, dirtyDateToCompare, dirtyOptions) {
 
 
 /***/ }),
-/* 333 */
+/* 335 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93394,7 +93748,7 @@ function isEqual (dirtyLeftDate, dirtyRightDate, dirtyOptions) {
 
 
 /***/ }),
-/* 334 */
+/* 336 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93432,7 +93786,7 @@ function isFirstDayOfMonth (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 335 */
+/* 337 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93470,7 +93824,7 @@ function isFriday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 336 */
+/* 338 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93513,7 +93867,7 @@ function isLastDayOfMonth (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 337 */
+/* 339 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93551,7 +93905,7 @@ function isMonday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 338 */
+/* 340 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93596,7 +93950,7 @@ function isSameDay (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 339 */
+/* 341 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93641,7 +93995,7 @@ function isSameHour (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 340 */
+/* 342 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93689,7 +94043,7 @@ function isSameISOWeek (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 341 */
+/* 343 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93736,7 +94090,7 @@ function isSameISOYear (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 342 */
+/* 344 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93782,7 +94136,7 @@ function isSameMinute (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 343 */
+/* 345 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93827,7 +94181,7 @@ function isSameMonth (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 344 */
+/* 346 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93872,7 +94226,7 @@ function isSameQuarter (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 345 */
+/* 347 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93918,7 +94272,7 @@ function isSameSecond (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 346 */
+/* 348 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93962,7 +94316,7 @@ function isSameYear (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
 
 
 /***/ }),
-/* 347 */
+/* 349 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94000,7 +94354,7 @@ function isSaturday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 348 */
+/* 350 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94038,7 +94392,7 @@ function isSunday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 349 */
+/* 351 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94076,7 +94430,7 @@ function isThursday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 350 */
+/* 352 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94114,7 +94468,7 @@ function isTuesday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 351 */
+/* 353 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94152,7 +94506,7 @@ function isWednesday (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 352 */
+/* 354 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94192,7 +94546,7 @@ function isWeekend (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 353 */
+/* 355 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94254,7 +94608,7 @@ function isWithinInterval (dirtyDate, dirtyInterval, dirtyOptions) {
 
 
 /***/ }),
-/* 354 */
+/* 356 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94299,7 +94653,7 @@ function lastDayOfISOWeek (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 355 */
+/* 357 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94349,7 +94703,7 @@ function lastDayOfISOYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 356 */
+/* 358 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94392,7 +94746,7 @@ function lastDayOfMonth (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 357 */
+/* 359 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94436,7 +94790,7 @@ function lastDayOfQuarter (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 358 */
+/* 360 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94479,7 +94833,7 @@ function lastDayOfYear (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 359 */
+/* 361 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94553,7 +94907,7 @@ function buildFormatLongFn (obj) {
 
 
 /***/ }),
-/* 360 */
+/* 362 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94591,7 +94945,7 @@ function buildLocalizeArrayFn (values, defaultType) {
 
 
 /***/ }),
-/* 361 */
+/* 363 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94641,7 +94995,7 @@ function buildLocalizeFn (values, defaultType, indexCallback) {
 
 
 /***/ }),
-/* 362 */
+/* 364 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94683,7 +95037,7 @@ function buildMatchFn (patterns, defaultType) {
 
 
 /***/ }),
-/* 363 */
+/* 365 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94713,7 +95067,7 @@ function buildMatchPatternFn (pattern) {
 
 
 /***/ }),
-/* 364 */
+/* 366 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94755,7 +95109,7 @@ function buildParseFn (patterns, defaultType) {
 
 
 /***/ }),
-/* 365 */
+/* 367 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94786,7 +95140,7 @@ function parseDecimal (matchResult) {
 
 
 /***/ }),
-/* 366 */
+/* 368 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94885,11 +95239,11 @@ function formatDistance (token, count, options) {
 
 
 /***/ }),
-/* 367 */
+/* 369 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildFormatLongFn_index_js__ = __webpack_require__(359);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildFormatLongFn_index_js__ = __webpack_require__(361);
 
 
 var formatLong = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_buildFormatLongFn_index_js__["a" /* default */])({
@@ -94901,11 +95255,11 @@ var formatLong = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_buildFor
   LLLL: 'dddd, MMMM D YYYY h:mm aa'
 })
 
-/* harmony default export */ __webpack_exports__["a"] = (formatLong);
+/* harmony default export */ __webpack_exports__["a"] = formatLong;
 
 
 /***/ }),
-/* 368 */
+/* 370 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94925,12 +95279,12 @@ function formatRelative (token, date, baseDate, options) {
 
 
 /***/ }),
-/* 369 */
+/* 371 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildLocalizeFn_index_js__ = __webpack_require__(361);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildLocalizeArrayFn_index_js__ = __webpack_require__(360);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildLocalizeFn_index_js__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildLocalizeArrayFn_index_js__ = __webpack_require__(362);
 
 
 
@@ -95019,18 +95373,18 @@ var localize = {
   timesOfDay: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__lib_buildLocalizeArrayFn_index_js__["a" /* default */])(timeOfDayValues, 'long')
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (localize);
+/* harmony default export */ __webpack_exports__["a"] = localize;
 
 
 /***/ }),
-/* 370 */
+/* 372 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildMatchFn_index_js__ = __webpack_require__(362);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildParseFn_index_js__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_buildMatchPatternFn_index_js__ = __webpack_require__(363);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_parseDecimal_index_js__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildMatchFn_index_js__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildParseFn_index_js__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_buildMatchPatternFn_index_js__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_parseDecimal_index_js__ = __webpack_require__(367);
 
 
 
@@ -95088,11 +95442,11 @@ var match = {
   timeOfDay: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__lib_buildParseFn_index_js__["a" /* default */])(parseTimeOfDayPatterns, 'any')
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (match);
+/* harmony default export */ __webpack_exports__["a"] = match;
 
 
 /***/ }),
-/* 371 */
+/* 373 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -95160,7 +95514,7 @@ function max (dirtyDatesArray, dirtyOptions) {
 
 
 /***/ }),
-/* 372 */
+/* 374 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -95228,7 +95582,7 @@ function min (dirtyDatesArray, dirtyOptions) {
 
 
 /***/ }),
-/* 373 */
+/* 375 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -95671,18 +96025,18 @@ var parsers = {
 
 parsers['a'] = parsers['A']
 
-/* harmony default export */ __webpack_exports__["a"] = (parsers);
+/* harmony default export */ __webpack_exports__["a"] = parsers;
 
 
 /***/ }),
-/* 374 */
+/* 376 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_setUTCDay_index_js__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_setUTCISODay_index_js__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_setUTCISOWeek_index_js__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_setUTCISOWeekYear_index_js__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_setUTCDay_index_js__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_setUTCISODay_index_js__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_setUTCISOWeek_index_js__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_setUTCISOWeekYear_index_js__ = __webpack_require__(293);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_startOfUTCISOWeek_index_js__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_startOfUTCISOWeekYear_index_js__ = __webpack_require__(133);
 
@@ -95870,19 +96224,19 @@ var units = {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (units);
+/* harmony default export */ __webpack_exports__["a"] = units;
 
 
 /***/ }),
-/* 375 */
+/* 377 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toDate_index_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__subMinutes_index_js__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__locale_en_US_index_js__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_parsers_index_js__ = __webpack_require__(373);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_units_index_js__ = __webpack_require__(374);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_parsers_index_js__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_units_index_js__ = __webpack_require__(376);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_cloneObject_index_js__ = __webpack_require__(26);
 /* harmony export (immutable) */ __webpack_exports__["a"] = parse;
 
@@ -96193,7 +96547,7 @@ function cleanEscapedString (input) {
 
 
 /***/ }),
-/* 376 */
+/* 378 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96235,7 +96589,7 @@ function setDate (dirtyDate, dirtyDayOfMonth, dirtyOptions) {
 
 
 /***/ }),
-/* 377 */
+/* 379 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96303,7 +96657,7 @@ function setDay (dirtyDate, dirtyDay, dirtyOptions) {
 
 
 /***/ }),
-/* 378 */
+/* 380 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96346,7 +96700,7 @@ function setDayOfYear (dirtyDate, dirtyDayOfYear, dirtyOptions) {
 
 
 /***/ }),
-/* 379 */
+/* 381 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96388,7 +96742,7 @@ function setHours (dirtyDate, dirtyHours, dirtyOptions) {
 
 
 /***/ }),
-/* 380 */
+/* 382 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96437,7 +96791,7 @@ function setISODay (dirtyDate, dirtyDay, dirtyOptions) {
 
 
 /***/ }),
-/* 381 */
+/* 383 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96484,7 +96838,7 @@ function setISOWeek (dirtyDate, dirtyISOWeek, dirtyOptions) {
 
 
 /***/ }),
-/* 382 */
+/* 384 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96526,7 +96880,7 @@ function setMilliseconds (dirtyDate, dirtyMilliseconds, dirtyOptions) {
 
 
 /***/ }),
-/* 383 */
+/* 385 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96568,7 +96922,7 @@ function setMinutes (dirtyDate, dirtyMinutes, dirtyOptions) {
 
 
 /***/ }),
-/* 384 */
+/* 386 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96613,7 +96967,7 @@ function setQuarter (dirtyDate, dirtyQuarter, dirtyOptions) {
 
 
 /***/ }),
-/* 385 */
+/* 387 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96655,7 +97009,7 @@ function setSeconds (dirtyDate, dirtySeconds, dirtyOptions) {
 
 
 /***/ }),
-/* 386 */
+/* 388 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96703,7 +97057,7 @@ function setYear (dirtyDate, dirtyYear, dirtyOptions) {
 
 
 /***/ }),
-/* 387 */
+/* 389 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96745,7 +97099,7 @@ function startOfMonth (dirtyDate, dirtyOptions) {
 
 
 /***/ }),
-/* 388 */
+/* 390 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96785,7 +97139,7 @@ function subDays (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 389 */
+/* 391 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96825,7 +97179,7 @@ function subHours (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 390 */
+/* 392 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96865,7 +97219,7 @@ function subMilliseconds (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 391 */
+/* 393 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96905,7 +97259,7 @@ function subMonths (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 392 */
+/* 394 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96945,7 +97299,7 @@ function subQuarters (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 393 */
+/* 395 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96985,7 +97339,7 @@ function subSeconds (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 394 */
+/* 396 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97025,7 +97379,7 @@ function subWeeks (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 395 */
+/* 397 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97065,7 +97419,7 @@ function subYears (dirtyDate, dirtyAmount, dirtyOptions) {
 
 
 /***/ }),
-/* 396 */
+/* 398 */
 /***/ (function(module, exports) {
 
 // all diacritics
@@ -97185,10 +97539,10 @@ module.exports = function (text) {
 };
 
 /***/ }),
-/* 397 */,
-/* 398 */,
 /* 399 */,
-/* 400 */
+/* 400 */,
+/* 401 */,
+/* 402 */
 /***/ (function(module, exports) {
 
 /**
@@ -97831,7 +98185,7 @@ module.exports = assign;
 
 
 /***/ }),
-/* 401 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -99586,7 +99940,7 @@ module.exports = cloneDeep;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(25)(module)))
 
 /***/ }),
-/* 402 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -101959,7 +102313,7 @@ module.exports = filter;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(25)(module)))
 
 /***/ }),
-/* 403 */
+/* 405 */
 /***/ (function(module, exports) {
 
 /**
@@ -102530,7 +102884,7 @@ module.exports = forEach;
 
 
 /***/ }),
-/* 404 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -104385,268 +104739,16 @@ module.exports = isEqual;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(25)(module)))
 
 /***/ }),
-/* 405 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 406 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(273);
+var content = __webpack_require__(274);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(405)(content, {});
+var update = __webpack_require__(194)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -104663,7 +104765,33 @@ if(false) {
 }
 
 /***/ }),
-/* 407 */
+/* 408 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(287);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(194)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../css-loader/index.js!./vue-daterange-picker.min.css", function() {
+			var newContent = require("!!../../../css-loader/index.js!./vue-daterange-picker.min.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -104753,8 +104881,6 @@ exports.mixin = mixin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 408 */,
-/* 409 */,
 /* 410 */,
 /* 411 */,
 /* 412 */,
@@ -104769,14 +104895,16 @@ exports.mixin = mixin;
 /* 421 */,
 /* 422 */,
 /* 423 */,
-/* 424 */
+/* 424 */,
+/* 425 */,
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(230),
+  __webpack_require__(231),
   /* template */
-  __webpack_require__(457),
+  __webpack_require__(459),
   /* scopeId */
   null,
   /* cssModules */
@@ -104803,14 +104931,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 425 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(231),
+  __webpack_require__(232),
   /* template */
-  __webpack_require__(464),
+  __webpack_require__(466),
   /* scopeId */
   null,
   /* cssModules */
@@ -104837,14 +104965,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 426 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(232),
+  __webpack_require__(233),
   /* template */
-  __webpack_require__(482),
+  __webpack_require__(484),
   /* scopeId */
   null,
   /* cssModules */
@@ -104871,14 +104999,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 427 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(233),
+  __webpack_require__(234),
   /* template */
-  __webpack_require__(490),
+  __webpack_require__(492),
   /* scopeId */
   null,
   /* cssModules */
@@ -104905,18 +105033,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 428 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(510)
+__webpack_require__(512)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(235),
+  __webpack_require__(236),
   /* template */
-  __webpack_require__(480),
+  __webpack_require__(482),
   /* scopeId */
   null,
   /* cssModules */
@@ -104943,14 +105071,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 429 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(236),
+  __webpack_require__(237),
   /* template */
-  __webpack_require__(487),
+  __webpack_require__(489),
   /* scopeId */
   null,
   /* cssModules */
@@ -104977,14 +105105,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 430 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(237),
+  __webpack_require__(238),
   /* template */
-  __webpack_require__(459),
+  __webpack_require__(461),
   /* scopeId */
   null,
   /* cssModules */
@@ -105011,14 +105139,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 431 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   null,
   /* template */
-  __webpack_require__(503),
+  __webpack_require__(505),
   /* scopeId */
   null,
   /* cssModules */
@@ -105045,14 +105173,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 432 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(238),
+  __webpack_require__(239),
   /* template */
-  __webpack_require__(463),
+  __webpack_require__(465),
   /* scopeId */
   null,
   /* cssModules */
@@ -105079,14 +105207,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 433 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(239),
+  __webpack_require__(240),
   /* template */
-  __webpack_require__(462),
+  __webpack_require__(464),
   /* scopeId */
   null,
   /* cssModules */
@@ -105113,18 +105241,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 434 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(506)
+__webpack_require__(508)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(240),
+  __webpack_require__(241),
   /* template */
-  __webpack_require__(470),
+  __webpack_require__(472),
   /* scopeId */
   null,
   /* cssModules */
@@ -105151,14 +105279,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 435 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(241),
+  __webpack_require__(242),
   /* template */
-  __webpack_require__(497),
+  __webpack_require__(499),
   /* scopeId */
   null,
   /* cssModules */
@@ -105185,14 +105313,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 436 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(242),
+  __webpack_require__(243),
   /* template */
-  __webpack_require__(479),
+  __webpack_require__(481),
   /* scopeId */
   null,
   /* cssModules */
@@ -105219,14 +105347,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 437 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(243),
+  __webpack_require__(244),
   /* template */
-  __webpack_require__(477),
+  __webpack_require__(479),
   /* scopeId */
   null,
   /* cssModules */
@@ -105253,14 +105381,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 438 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(244),
+  __webpack_require__(245),
   /* template */
-  __webpack_require__(478),
+  __webpack_require__(480),
   /* scopeId */
   null,
   /* cssModules */
@@ -105287,18 +105415,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 439 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(514)
+__webpack_require__(516)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(245),
+  __webpack_require__(246),
   /* template */
-  __webpack_require__(494),
+  __webpack_require__(496),
   /* scopeId */
   "data-v-b7104de4",
   /* cssModules */
@@ -105325,18 +105453,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 440 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(511)
+__webpack_require__(513)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(246),
+  __webpack_require__(247),
   /* template */
-  __webpack_require__(486),
+  __webpack_require__(488),
   /* scopeId */
   "data-v-7afe30d5",
   /* cssModules */
@@ -105363,14 +105491,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 441 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(248),
+  __webpack_require__(249),
   /* template */
-  __webpack_require__(461),
+  __webpack_require__(463),
   /* scopeId */
   null,
   /* cssModules */
@@ -105397,14 +105525,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 442 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(250),
+  __webpack_require__(251),
   /* template */
-  __webpack_require__(460),
+  __webpack_require__(462),
   /* scopeId */
   null,
   /* cssModules */
@@ -105431,14 +105559,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 443 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(252),
+  __webpack_require__(253),
   /* template */
-  __webpack_require__(483),
+  __webpack_require__(485),
   /* scopeId */
   null,
   /* cssModules */
@@ -105465,18 +105593,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 444 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(509)
+__webpack_require__(511)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(253),
+  __webpack_require__(254),
   /* template */
-  __webpack_require__(475),
+  __webpack_require__(477),
   /* scopeId */
   "data-v-58db2830",
   /* cssModules */
@@ -105503,14 +105631,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 445 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(254),
+  __webpack_require__(255),
   /* template */
-  __webpack_require__(456),
+  __webpack_require__(458),
   /* scopeId */
   null,
   /* cssModules */
@@ -105537,18 +105665,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 446 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(515)
+__webpack_require__(517)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(255),
+  __webpack_require__(256),
   /* template */
-  __webpack_require__(498),
+  __webpack_require__(500),
   /* scopeId */
   "data-v-c26959d8",
   /* cssModules */
@@ -105575,14 +105703,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 447 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(256),
+  __webpack_require__(257),
   /* template */
-  __webpack_require__(495),
+  __webpack_require__(497),
   /* scopeId */
   null,
   /* cssModules */
@@ -105609,18 +105737,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 448 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(516)
+__webpack_require__(518)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(257),
+  __webpack_require__(258),
   /* template */
-  __webpack_require__(501),
+  __webpack_require__(503),
   /* scopeId */
   "data-v-e3a3722e",
   /* cssModules */
@@ -105647,14 +105775,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 449 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(258),
+  __webpack_require__(259),
   /* template */
-  __webpack_require__(476),
+  __webpack_require__(478),
   /* scopeId */
   null,
   /* cssModules */
@@ -105681,14 +105809,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 450 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(259),
+  __webpack_require__(260),
   /* template */
-  __webpack_require__(492),
+  __webpack_require__(494),
   /* scopeId */
   null,
   /* cssModules */
@@ -105715,18 +105843,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 451 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(513)
+__webpack_require__(515)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(260),
+  __webpack_require__(261),
   /* template */
-  __webpack_require__(491),
+  __webpack_require__(493),
   /* scopeId */
   "data-v-99c29514",
   /* cssModules */
@@ -105753,14 +105881,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 452 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(261),
+  __webpack_require__(262),
   /* template */
-  __webpack_require__(481),
+  __webpack_require__(483),
   /* scopeId */
   null,
   /* cssModules */
@@ -105787,14 +105915,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 453 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(262),
+  __webpack_require__(263),
   /* template */
-  __webpack_require__(471),
+  __webpack_require__(473),
   /* scopeId */
   null,
   /* cssModules */
@@ -105821,9 +105949,9 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 454 */,
-/* 455 */,
-/* 456 */
+/* 456 */,
+/* 457 */,
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -105885,7 +106013,7 @@ if (false) {
 }
 
 /***/ }),
-/* 457 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -105912,7 +106040,7 @@ if (false) {
 }
 
 /***/ }),
-/* 458 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -105968,7 +106096,7 @@ if (false) {
 }
 
 /***/ }),
-/* 459 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -105993,7 +106121,7 @@ if (false) {
 }
 
 /***/ }),
-/* 460 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106042,7 +106170,7 @@ if (false) {
 }
 
 /***/ }),
-/* 461 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106105,7 +106233,7 @@ if (false) {
 }
 
 /***/ }),
-/* 462 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106124,7 +106252,7 @@ if (false) {
 }
 
 /***/ }),
-/* 463 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106151,7 +106279,7 @@ if (false) {
 }
 
 /***/ }),
-/* 464 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106192,12 +106320,12 @@ if (false) {
 }
 
 /***/ }),
-/* 465 */,
-/* 466 */,
 /* 467 */,
 /* 468 */,
 /* 469 */,
-/* 470 */
+/* 470 */,
+/* 471 */,
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106228,7 +106356,7 @@ if (false) {
 }
 
 /***/ }),
-/* 471 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106250,10 +106378,10 @@ if (false) {
 }
 
 /***/ }),
-/* 472 */,
-/* 473 */,
 /* 474 */,
-/* 475 */
+/* 475 */,
+/* 476 */,
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106307,7 +106435,7 @@ if (false) {
 }
 
 /***/ }),
-/* 476 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106317,10 +106445,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "subtitle": "Search in all students submissions in this course."
     }
   }, [_c('div', [_c('vue-good-table', {
-    ref: "myTable",
+    ref: "reportTable",
     attrs: {
       "columns": _vm.columns,
       "rows": _vm.rows,
+      "fixed-header": true,
+      "line-numbers": false,
       "search-options": {
         enabled: false
         //trigger: 'enter'
@@ -106328,7 +106458,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "sort-options": {
         enabled: true,
         initialSortBy: [{
-            field: 'gitTimestamp',
+            field: 'gitTimestampForEndDate',
             type: 'desc'
           } ]
       },
@@ -106340,9 +106470,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         perPageDropdown: [25, 50, 100],
         dropdownAllowAll: false,
       },
-      "max-height": "750px",
-      "fixed-header": true,
-      "line-numbers": false
+      "max-height": "750px"
     },
     on: {
       "on-column-filter": _vm.onColumnFilter
@@ -106357,7 +106485,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.resetFilters
     }
-  }, [_vm._v("\n                    Reset Filters\n                ")]), _vm._v(" "), _c('vue-json-to-csv', {
+  }, [_vm._v("\n                    Reset Filters\n                ")]), _vm._v(" "), _c('date-range-picker', {
+    attrs: {
+      "startDate": _vm.startDate,
+      "endDate": _vm.endDate,
+      "locale-data": _vm.locale,
+      "opens": _vm.opens,
+      "ranges": _vm.ranges
+    },
+    on: {
+      "update": _vm.updatePeriodDates
+    },
+    scopedSlots: _vm._u([{
+      key: "input",
+      fn: function(picker) {
+        return _c('button', {
+          staticClass: "button is-primary"
+        }, [_vm._v("\n                        Select Period\n                    ")])
+      }
+    }])
+  }), _vm._v(" "), _c('vue-json-to-csv', {
     attrs: {
       "json-data": _vm.jsonData,
       "csv-title": 'ReportExportToCsvTable',
@@ -106380,8 +106527,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         isConfirmed: {
           title: 'Is Confirmed'
         },
-        gitTimestamp: {
-          title: 'Git Push Time'
+        gitTimestampForStartDate: {
+          title: 'Git Commit'
         }
       },
       "separator": ';'
@@ -106406,7 +106553,7 @@ if (false) {
 }
 
 /***/ }),
-/* 477 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106498,7 +106645,7 @@ if (false) {
 }
 
 /***/ }),
-/* 478 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106532,7 +106679,7 @@ if (false) {
 }
 
 /***/ }),
-/* 479 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106562,7 +106709,7 @@ if (false) {
 }
 
 /***/ }),
-/* 480 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106597,7 +106744,7 @@ if (false) {
 }
 
 /***/ }),
-/* 481 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106692,7 +106839,7 @@ if (false) {
 }
 
 /***/ }),
-/* 482 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106716,7 +106863,7 @@ if (false) {
 }
 
 /***/ }),
-/* 483 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106766,9 +106913,9 @@ if (false) {
 }
 
 /***/ }),
-/* 484 */,
-/* 485 */,
-/* 486 */
+/* 486 */,
+/* 487 */,
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106830,7 +106977,7 @@ if (false) {
 }
 
 /***/ }),
-/* 487 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106849,9 +106996,9 @@ if (false) {
 }
 
 /***/ }),
-/* 488 */,
-/* 489 */,
-/* 490 */
+/* 490 */,
+/* 491 */,
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106926,7 +107073,7 @@ if (false) {
 }
 
 /***/ }),
-/* 491 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -106984,7 +107131,7 @@ if (false) {
 }
 
 /***/ }),
-/* 492 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107010,8 +107157,8 @@ if (false) {
 }
 
 /***/ }),
-/* 493 */,
-/* 494 */
+/* 495 */,
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107031,7 +107178,7 @@ if (false) {
 }
 
 /***/ }),
-/* 495 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107083,8 +107230,8 @@ if (false) {
 }
 
 /***/ }),
-/* 496 */,
-/* 497 */
+/* 498 */,
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107103,7 +107250,7 @@ if (false) {
 }
 
 /***/ }),
-/* 498 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107151,7 +107298,7 @@ if (false) {
 }
 
 /***/ }),
-/* 499 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107190,7 +107337,7 @@ if (false) {
 }
 
 /***/ }),
-/* 500 */
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107235,7 +107382,7 @@ if (false) {
 }
 
 /***/ }),
-/* 501 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107261,8 +107408,8 @@ if (false) {
 }
 
 /***/ }),
-/* 502 */,
-/* 503 */
+/* 504 */,
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107285,7 +107432,7 @@ if (false) {
 }
 
 /***/ }),
-/* 504 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -107306,7 +107453,7 @@ if (false) {
 }
 
 /***/ }),
-/* 505 */
+/* 507 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -109980,18 +110127,18 @@ if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (VueRouter);
+/* harmony default export */ __webpack_exports__["a"] = VueRouter;
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
 
 /***/ }),
-/* 506 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(274);
+var content = __webpack_require__(275);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110011,15 +110158,15 @@ if(false) {
 }
 
 /***/ }),
-/* 507 */,
-/* 508 */,
-/* 509 */
+/* 509 */,
+/* 510 */,
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(277);
+var content = __webpack_require__(278);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110039,13 +110186,13 @@ if(false) {
 }
 
 /***/ }),
-/* 510 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(278);
+var content = __webpack_require__(279);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110065,13 +110212,13 @@ if(false) {
 }
 
 /***/ }),
-/* 511 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(279);
+var content = __webpack_require__(280);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110091,14 +110238,14 @@ if(false) {
 }
 
 /***/ }),
-/* 512 */,
-/* 513 */
+/* 514 */,
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(281);
+var content = __webpack_require__(282);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110118,13 +110265,13 @@ if(false) {
 }
 
 /***/ }),
-/* 514 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(282);
+var content = __webpack_require__(283);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110144,13 +110291,13 @@ if(false) {
 }
 
 /***/ }),
-/* 515 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(283);
+var content = __webpack_require__(284);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110170,13 +110317,13 @@ if(false) {
 }
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(284);
+var content = __webpack_require__(285);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110196,13 +110343,13 @@ if(false) {
 }
 
 /***/ }),
-/* 517 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(285);
+var content = __webpack_require__(286);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -110222,7 +110369,7 @@ if(false) {
 }
 
 /***/ }),
-/* 518 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -110963,7 +111110,20 @@ if (false) {
 });
 
 /***/ }),
-/* 519 */
+/* 521 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["vue-daterange-picker"]=t():e["vue-daterange-picker"]=t()}(this,function(){return function(e){function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:a})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="/vue2-daterange-picker/dist",t(t.s=141)}([function(e,t,n){(function(e){!function(t,n){e.exports=n()}(0,function(){"use strict";function t(){return Oa.apply(null,arguments)}function a(e){return e instanceof Array||"[object Array]"===Object.prototype.toString.call(e)}function r(e){return null!=e&&"[object Object]"===Object.prototype.toString.call(e)}function s(e){if(Object.getOwnPropertyNames)return 0===Object.getOwnPropertyNames(e).length;var t;for(t in e)if(e.hasOwnProperty(t))return!1;return!0}function i(e){return void 0===e}function o(e){return"number"==typeof e||"[object Number]"===Object.prototype.toString.call(e)}function d(e){return e instanceof Date||"[object Date]"===Object.prototype.toString.call(e)}function u(e,t){var n,a=[];for(n=0;n<e.length;++n)a.push(t(e[n],n));return a}function _(e,t){return Object.prototype.hasOwnProperty.call(e,t)}function l(e,t){for(var n in t)_(t,n)&&(e[n]=t[n]);return _(t,"toString")&&(e.toString=t.toString),_(t,"valueOf")&&(e.valueOf=t.valueOf),e}function m(e,t,n,a){return Tt(e,t,n,a,!0).utc()}function c(){return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1,parsedDateParts:[],meridiem:null,rfc2822:!1,weekdayMismatch:!1}}function h(e){return null==e._pf&&(e._pf=c()),e._pf}function f(e){if(null==e._isValid){var t=h(e),n=Pa.call(t.parsedDateParts,function(e){return null!=e}),a=!isNaN(e._d.getTime())&&t.overflow<0&&!t.empty&&!t.invalidMonth&&!t.invalidWeekday&&!t.weekdayMismatch&&!t.nullInput&&!t.invalidFormat&&!t.userInvalidated&&(!t.meridiem||t.meridiem&&n);if(e._strict&&(a=a&&0===t.charsLeftOver&&0===t.unusedTokens.length&&void 0===t.bigHour),null!=Object.isFrozen&&Object.isFrozen(e))return a;e._isValid=a}return e._isValid}function M(e){var t=m(NaN);return null!=e?l(h(t),e):h(t).userInvalidated=!0,t}function p(e,t){var n,a,r;if(i(t._isAMomentObject)||(e._isAMomentObject=t._isAMomentObject),i(t._i)||(e._i=t._i),i(t._f)||(e._f=t._f),i(t._l)||(e._l=t._l),i(t._strict)||(e._strict=t._strict),i(t._tzm)||(e._tzm=t._tzm),i(t._isUTC)||(e._isUTC=t._isUTC),i(t._offset)||(e._offset=t._offset),i(t._pf)||(e._pf=h(t)),i(t._locale)||(e._locale=t._locale),Aa.length>0)for(n=0;n<Aa.length;n++)a=Aa[n],r=t[a],i(r)||(e[a]=r);return e}function y(e){p(this,e),this._d=new Date(null!=e._d?e._d.getTime():NaN),this.isValid()||(this._d=new Date(NaN)),!1===Wa&&(Wa=!0,t.updateOffset(this),Wa=!1)}function L(e){return e instanceof y||null!=e&&null!=e._isAMomentObject}function Y(e){return e<0?Math.ceil(e)||0:Math.floor(e)}function v(e){var t=+e,n=0;return 0!==t&&isFinite(t)&&(n=Y(t)),n}function k(e,t,n){var a,r=Math.min(e.length,t.length),s=Math.abs(e.length-t.length),i=0;for(a=0;a<r;a++)(n&&e[a]!==t[a]||!n&&v(e[a])!==v(t[a]))&&i++;return i+s}function g(e){!1===t.suppressDeprecationWarnings&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+e)}function D(e,n){var a=!0;return l(function(){if(null!=t.deprecationHandler&&t.deprecationHandler(null,e),a){for(var r,s=[],i=0;i<arguments.length;i++){if(r="","object"==typeof arguments[i]){r+="\n["+i+"] ";for(var o in arguments[0])r+=o+": "+arguments[0][o]+", ";r=r.slice(0,-2)}else r=arguments[i];s.push(r)}g(e+"\nArguments: "+Array.prototype.slice.call(s).join("")+"\n"+(new Error).stack),a=!1}return n.apply(this,arguments)},n)}function w(e,n){null!=t.deprecationHandler&&t.deprecationHandler(e,n),Ea[e]||(g(n),Ea[e]=!0)}function T(e){return e instanceof Function||"[object Function]"===Object.prototype.toString.call(e)}function b(e){var t,n;for(n in e)t=e[n],T(t)?this[n]=t:this["_"+n]=t;this._config=e,this._dayOfMonthOrdinalParseLenient=new RegExp((this._dayOfMonthOrdinalParse.source||this._ordinalParse.source)+"|"+/\d{1,2}/.source)}function S(e,t){var n,a=l({},e);for(n in t)_(t,n)&&(r(e[n])&&r(t[n])?(a[n]={},l(a[n],e[n]),l(a[n],t[n])):null!=t[n]?a[n]=t[n]:delete a[n]);for(n in e)_(e,n)&&!_(t,n)&&r(e[n])&&(a[n]=l({},a[n]));return a}function H(e){null!=e&&this.set(e)}function j(e,t,n){var a=this._calendar[e]||this._calendar.sameElse;return T(a)?a.call(t,n):a}function x(e){var t=this._longDateFormat[e],n=this._longDateFormat[e.toUpperCase()];return t||!n?t:(this._longDateFormat[e]=n.replace(/MMMM|MM|DD|dddd/g,function(e){return e.slice(1)}),this._longDateFormat[e])}function O(){return this._invalidDate}function P(e){return this._ordinal.replace("%d",e)}function A(e,t,n,a){var r=this._relativeTime[n];return T(r)?r(e,t,n,a):r.replace(/%d/i,e)}function W(e,t){var n=this._relativeTime[e>0?"future":"past"];return T(n)?n(t):n.replace(/%s/i,t)}function E(e,t){var n=e.toLowerCase();$a[n]=$a[n+"s"]=$a[t]=e}function C(e){return"string"==typeof e?$a[e]||$a[e.toLowerCase()]:void 0}function F(e){var t,n,a={};for(n in e)_(e,n)&&(t=C(n))&&(a[t]=e[n]);return a}function z(e,t){Ja[e]=t}function N(e){var t=[];for(var n in e)t.push({unit:n,priority:Ja[n]});return t.sort(function(e,t){return e.priority-t.priority}),t}function I(e,t,n){var a=""+Math.abs(e),r=t-a.length;return(e>=0?n?"+":"":"-")+Math.pow(10,Math.max(0,r)).toString().substr(1)+a}function $(e,t,n,a){var r=a;"string"==typeof a&&(r=function(){return this[a]()}),e&&(Va[e]=r),t&&(Va[t[0]]=function(){return I(r.apply(this,arguments),t[1],t[2])}),n&&(Va[n]=function(){return this.localeData().ordinal(r.apply(this,arguments),e)})}function J(e){return e.match(/\[[\s\S]/)?e.replace(/^\[|\]$/g,""):e.replace(/\\/g,"")}function R(e){var t,n,a=e.match(Ra);for(t=0,n=a.length;t<n;t++)Va[a[t]]?a[t]=Va[a[t]]:a[t]=J(a[t]);return function(t){var r,s="";for(r=0;r<n;r++)s+=T(a[r])?a[r].call(t,e):a[r];return s}}function U(e,t){return e.isValid()?(t=G(t,e.localeData()),Ga[t]=Ga[t]||R(t),Ga[t](e)):e.localeData().invalidDate()}function G(e,t){function n(e){return t.longDateFormat(e)||e}var a=5;for(Ua.lastIndex=0;a>=0&&Ua.test(e);)e=e.replace(Ua,n),Ua.lastIndex=0,a-=1;return e}function V(e,t,n){lr[e]=T(t)?t:function(e,a){return e&&n?n:t}}function B(e,t){return _(lr,e)?lr[e](t._strict,t._locale):new RegExp(K(e))}function K(e){return q(e.replace("\\","").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(e,t,n,a,r){return t||n||a||r}))}function q(e){return e.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function Z(e,t){var n,a=t;for("string"==typeof e&&(e=[e]),o(t)&&(a=function(e,n){n[t]=v(e)}),n=0;n<e.length;n++)mr[e[n]]=a}function Q(e,t){Z(e,function(e,n,a,r){a._w=a._w||{},t(e,a._w,a,r)})}function X(e,t,n){null!=t&&_(mr,e)&&mr[e](t,n._a,n,e)}function ee(e){return te(e)?366:365}function te(e){return e%4==0&&e%100!=0||e%400==0}function ne(){return te(this.year())}function ae(e,n){return function(a){return null!=a?(se(this,e,a),t.updateOffset(this,n),this):re(this,e)}}function re(e,t){return e.isValid()?e._d["get"+(e._isUTC?"UTC":"")+t]():NaN}function se(e,t,n){e.isValid()&&!isNaN(n)&&("FullYear"===t&&te(e.year())&&1===e.month()&&29===e.date()?e._d["set"+(e._isUTC?"UTC":"")+t](n,e.month(),ue(n,e.month())):e._d["set"+(e._isUTC?"UTC":"")+t](n))}function ie(e){return e=C(e),T(this[e])?this[e]():this}function oe(e,t){if("object"==typeof e){e=F(e);for(var n=N(e),a=0;a<n.length;a++)this[n[a].unit](e[n[a].unit])}else if(e=C(e),T(this[e]))return this[e](t);return this}function de(e,t){return(e%t+t)%t}function ue(e,t){if(isNaN(e)||isNaN(t))return NaN;var n=de(t,12);return e+=(t-n)/12,1===n?te(e)?29:28:31-n%7%2}function _e(e,t){return e?a(this._months)?this._months[e.month()]:this._months[(this._months.isFormat||Dr).test(t)?"format":"standalone"][e.month()]:a(this._months)?this._months:this._months.standalone}function le(e,t){return e?a(this._monthsShort)?this._monthsShort[e.month()]:this._monthsShort[Dr.test(t)?"format":"standalone"][e.month()]:a(this._monthsShort)?this._monthsShort:this._monthsShort.standalone}function me(e,t,n){var a,r,s,i=e.toLocaleLowerCase();if(!this._monthsParse)for(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[],a=0;a<12;++a)s=m([2e3,a]),this._shortMonthsParse[a]=this.monthsShort(s,"").toLocaleLowerCase(),this._longMonthsParse[a]=this.months(s,"").toLocaleLowerCase();return n?"MMM"===t?(r=kr.call(this._shortMonthsParse,i),-1!==r?r:null):(r=kr.call(this._longMonthsParse,i),-1!==r?r:null):"MMM"===t?-1!==(r=kr.call(this._shortMonthsParse,i))?r:(r=kr.call(this._longMonthsParse,i),-1!==r?r:null):-1!==(r=kr.call(this._longMonthsParse,i))?r:(r=kr.call(this._shortMonthsParse,i),-1!==r?r:null)}function ce(e,t,n){var a,r,s;if(this._monthsParseExact)return me.call(this,e,t,n);for(this._monthsParse||(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[]),a=0;a<12;a++){if(r=m([2e3,a]),n&&!this._longMonthsParse[a]&&(this._longMonthsParse[a]=new RegExp("^"+this.months(r,"").replace(".","")+"$","i"),this._shortMonthsParse[a]=new RegExp("^"+this.monthsShort(r,"").replace(".","")+"$","i")),n||this._monthsParse[a]||(s="^"+this.months(r,"")+"|^"+this.monthsShort(r,""),this._monthsParse[a]=new RegExp(s.replace(".",""),"i")),n&&"MMMM"===t&&this._longMonthsParse[a].test(e))return a;if(n&&"MMM"===t&&this._shortMonthsParse[a].test(e))return a;if(!n&&this._monthsParse[a].test(e))return a}}function he(e,t){var n;if(!e.isValid())return e;if("string"==typeof t)if(/^\d+$/.test(t))t=v(t);else if(t=e.localeData().monthsParse(t),!o(t))return e;return n=Math.min(e.date(),ue(e.year(),t)),e._d["set"+(e._isUTC?"UTC":"")+"Month"](t,n),e}function fe(e){return null!=e?(he(this,e),t.updateOffset(this,!0),this):re(this,"Month")}function Me(){return ue(this.year(),this.month())}function pe(e){return this._monthsParseExact?(_(this,"_monthsRegex")||Le.call(this),e?this._monthsShortStrictRegex:this._monthsShortRegex):(_(this,"_monthsShortRegex")||(this._monthsShortRegex=br),this._monthsShortStrictRegex&&e?this._monthsShortStrictRegex:this._monthsShortRegex)}function ye(e){return this._monthsParseExact?(_(this,"_monthsRegex")||Le.call(this),e?this._monthsStrictRegex:this._monthsRegex):(_(this,"_monthsRegex")||(this._monthsRegex=Sr),this._monthsStrictRegex&&e?this._monthsStrictRegex:this._monthsRegex)}function Le(){function e(e,t){return t.length-e.length}var t,n,a=[],r=[],s=[];for(t=0;t<12;t++)n=m([2e3,t]),a.push(this.monthsShort(n,"")),r.push(this.months(n,"")),s.push(this.months(n,"")),s.push(this.monthsShort(n,""));for(a.sort(e),r.sort(e),s.sort(e),t=0;t<12;t++)a[t]=q(a[t]),r[t]=q(r[t]);for(t=0;t<24;t++)s[t]=q(s[t]);this._monthsRegex=new RegExp("^("+s.join("|")+")","i"),this._monthsShortRegex=this._monthsRegex,this._monthsStrictRegex=new RegExp("^("+r.join("|")+")","i"),this._monthsShortStrictRegex=new RegExp("^("+a.join("|")+")","i")}function Ye(e,t,n,a,r,s,i){var o;return e<100&&e>=0?(o=new Date(e+400,t,n,a,r,s,i),isFinite(o.getFullYear())&&o.setFullYear(e)):o=new Date(e,t,n,a,r,s,i),o}function ve(e){var t;if(e<100&&e>=0){var n=Array.prototype.slice.call(arguments);n[0]=e+400,t=new Date(Date.UTC.apply(null,n)),isFinite(t.getUTCFullYear())&&t.setUTCFullYear(e)}else t=new Date(Date.UTC.apply(null,arguments));return t}function ke(e,t,n){var a=7+t-n;return-(7+ve(e,0,a).getUTCDay()-t)%7+a-1}function ge(e,t,n,a,r){var s,i,o=(7+n-a)%7,d=ke(e,a,r),u=1+7*(t-1)+o+d;return u<=0?(s=e-1,i=ee(s)+u):u>ee(e)?(s=e+1,i=u-ee(e)):(s=e,i=u),{year:s,dayOfYear:i}}function De(e,t,n){var a,r,s=ke(e.year(),t,n),i=Math.floor((e.dayOfYear()-s-1)/7)+1;return i<1?(r=e.year()-1,a=i+we(r,t,n)):i>we(e.year(),t,n)?(a=i-we(e.year(),t,n),r=e.year()+1):(r=e.year(),a=i),{week:a,year:r}}function we(e,t,n){var a=ke(e,t,n),r=ke(e+1,t,n);return(ee(e)-a+r)/7}function Te(e){return De(e,this._week.dow,this._week.doy).week}function be(){return this._week.dow}function Se(){return this._week.doy}function He(e){var t=this.localeData().week(this);return null==e?t:this.add(7*(e-t),"d")}function je(e){var t=De(this,1,4).week;return null==e?t:this.add(7*(e-t),"d")}function xe(e,t){return"string"!=typeof e?e:isNaN(e)?(e=t.weekdaysParse(e),"number"==typeof e?e:null):parseInt(e,10)}function Oe(e,t){return"string"==typeof e?t.weekdaysParse(e)%7||7:isNaN(e)?null:e}function Pe(e,t){return e.slice(t,7).concat(e.slice(0,t))}function Ae(e,t){var n=a(this._weekdays)?this._weekdays:this._weekdays[e&&!0!==e&&this._weekdays.isFormat.test(t)?"format":"standalone"];return!0===e?Pe(n,this._week.dow):e?n[e.day()]:n}function We(e){return!0===e?Pe(this._weekdaysShort,this._week.dow):e?this._weekdaysShort[e.day()]:this._weekdaysShort}function Ee(e){return!0===e?Pe(this._weekdaysMin,this._week.dow):e?this._weekdaysMin[e.day()]:this._weekdaysMin}function Ce(e,t,n){var a,r,s,i=e.toLocaleLowerCase();if(!this._weekdaysParse)for(this._weekdaysParse=[],this._shortWeekdaysParse=[],this._minWeekdaysParse=[],a=0;a<7;++a)s=m([2e3,1]).day(a),this._minWeekdaysParse[a]=this.weekdaysMin(s,"").toLocaleLowerCase(),this._shortWeekdaysParse[a]=this.weekdaysShort(s,"").toLocaleLowerCase(),this._weekdaysParse[a]=this.weekdays(s,"").toLocaleLowerCase();return n?"dddd"===t?(r=kr.call(this._weekdaysParse,i),-1!==r?r:null):"ddd"===t?(r=kr.call(this._shortWeekdaysParse,i),-1!==r?r:null):(r=kr.call(this._minWeekdaysParse,i),-1!==r?r:null):"dddd"===t?-1!==(r=kr.call(this._weekdaysParse,i))?r:-1!==(r=kr.call(this._shortWeekdaysParse,i))?r:(r=kr.call(this._minWeekdaysParse,i),-1!==r?r:null):"ddd"===t?-1!==(r=kr.call(this._shortWeekdaysParse,i))?r:-1!==(r=kr.call(this._weekdaysParse,i))?r:(r=kr.call(this._minWeekdaysParse,i),-1!==r?r:null):-1!==(r=kr.call(this._minWeekdaysParse,i))?r:-1!==(r=kr.call(this._weekdaysParse,i))?r:(r=kr.call(this._shortWeekdaysParse,i),-1!==r?r:null)}function Fe(e,t,n){var a,r,s;if(this._weekdaysParseExact)return Ce.call(this,e,t,n);for(this._weekdaysParse||(this._weekdaysParse=[],this._minWeekdaysParse=[],this._shortWeekdaysParse=[],this._fullWeekdaysParse=[]),a=0;a<7;a++){if(r=m([2e3,1]).day(a),n&&!this._fullWeekdaysParse[a]&&(this._fullWeekdaysParse[a]=new RegExp("^"+this.weekdays(r,"").replace(".","\\.?")+"$","i"),this._shortWeekdaysParse[a]=new RegExp("^"+this.weekdaysShort(r,"").replace(".","\\.?")+"$","i"),this._minWeekdaysParse[a]=new RegExp("^"+this.weekdaysMin(r,"").replace(".","\\.?")+"$","i")),this._weekdaysParse[a]||(s="^"+this.weekdays(r,"")+"|^"+this.weekdaysShort(r,"")+"|^"+this.weekdaysMin(r,""),this._weekdaysParse[a]=new RegExp(s.replace(".",""),"i")),n&&"dddd"===t&&this._fullWeekdaysParse[a].test(e))return a;if(n&&"ddd"===t&&this._shortWeekdaysParse[a].test(e))return a;if(n&&"dd"===t&&this._minWeekdaysParse[a].test(e))return a;if(!n&&this._weekdaysParse[a].test(e))return a}}function ze(e){if(!this.isValid())return null!=e?this:NaN;var t=this._isUTC?this._d.getUTCDay():this._d.getDay();return null!=e?(e=xe(e,this.localeData()),this.add(e-t,"d")):t}function Ne(e){if(!this.isValid())return null!=e?this:NaN;var t=(this.day()+7-this.localeData()._week.dow)%7;return null==e?t:this.add(e-t,"d")}function Ie(e){if(!this.isValid())return null!=e?this:NaN;if(null!=e){var t=Oe(e,this.localeData());return this.day(this.day()%7?t:t-7)}return this.day()||7}function $e(e){return this._weekdaysParseExact?(_(this,"_weekdaysRegex")||Ue.call(this),e?this._weekdaysStrictRegex:this._weekdaysRegex):(_(this,"_weekdaysRegex")||(this._weekdaysRegex=Pr),this._weekdaysStrictRegex&&e?this._weekdaysStrictRegex:this._weekdaysRegex)}function Je(e){return this._weekdaysParseExact?(_(this,"_weekdaysRegex")||Ue.call(this),e?this._weekdaysShortStrictRegex:this._weekdaysShortRegex):(_(this,"_weekdaysShortRegex")||(this._weekdaysShortRegex=Ar),this._weekdaysShortStrictRegex&&e?this._weekdaysShortStrictRegex:this._weekdaysShortRegex)}function Re(e){return this._weekdaysParseExact?(_(this,"_weekdaysRegex")||Ue.call(this),e?this._weekdaysMinStrictRegex:this._weekdaysMinRegex):(_(this,"_weekdaysMinRegex")||(this._weekdaysMinRegex=Wr),this._weekdaysMinStrictRegex&&e?this._weekdaysMinStrictRegex:this._weekdaysMinRegex)}function Ue(){function e(e,t){return t.length-e.length}var t,n,a,r,s,i=[],o=[],d=[],u=[];for(t=0;t<7;t++)n=m([2e3,1]).day(t),a=this.weekdaysMin(n,""),r=this.weekdaysShort(n,""),s=this.weekdays(n,""),i.push(a),o.push(r),d.push(s),u.push(a),u.push(r),u.push(s);for(i.sort(e),o.sort(e),d.sort(e),u.sort(e),t=0;t<7;t++)o[t]=q(o[t]),d[t]=q(d[t]),u[t]=q(u[t]);this._weekdaysRegex=new RegExp("^("+u.join("|")+")","i"),this._weekdaysShortRegex=this._weekdaysRegex,this._weekdaysMinRegex=this._weekdaysRegex,this._weekdaysStrictRegex=new RegExp("^("+d.join("|")+")","i"),this._weekdaysShortStrictRegex=new RegExp("^("+o.join("|")+")","i"),this._weekdaysMinStrictRegex=new RegExp("^("+i.join("|")+")","i")}function Ge(){return this.hours()%12||12}function Ve(){return this.hours()||24}function Be(e,t){$(e,0,0,function(){return this.localeData().meridiem(this.hours(),this.minutes(),t)})}function Ke(e,t){return t._meridiemParse}function qe(e){return"p"===(e+"").toLowerCase().charAt(0)}function Ze(e,t,n){return e>11?n?"pm":"PM":n?"am":"AM"}function Qe(e){return e?e.toLowerCase().replace("_","-"):e}function Xe(e){for(var t,n,a,r,s=0;s<e.length;){for(r=Qe(e[s]).split("-"),t=r.length,n=Qe(e[s+1]),n=n?n.split("-"):null;t>0;){if(a=et(r.slice(0,t).join("-")))return a;if(n&&n.length>=t&&k(r,n,!0)>=t-1)break;t--}s++}return Er}function et(t){var a=null;if(!Nr[t]&&void 0!==e&&e&&e.exports)try{a=Er._abbr;n(179)("./"+t),tt(a)}catch(e){}return Nr[t]}function tt(e,t){var n;return e&&(n=i(t)?rt(e):nt(e,t),n?Er=n:"undefined"!=typeof console&&console.warn&&console.warn("Locale "+e+" not found. Did you forget to load it?")),Er._abbr}function nt(e,t){if(null!==t){var n,a=zr;if(t.abbr=e,null!=Nr[e])w("defineLocaleOverride","use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."),a=Nr[e]._config;else if(null!=t.parentLocale)if(null!=Nr[t.parentLocale])a=Nr[t.parentLocale]._config;else{if(null==(n=et(t.parentLocale)))return Ir[t.parentLocale]||(Ir[t.parentLocale]=[]),Ir[t.parentLocale].push({name:e,config:t}),null;a=n._config}return Nr[e]=new H(S(a,t)),Ir[e]&&Ir[e].forEach(function(e){nt(e.name,e.config)}),tt(e),Nr[e]}return delete Nr[e],null}function at(e,t){if(null!=t){var n,a,r=zr;a=et(e),null!=a&&(r=a._config),t=S(r,t),n=new H(t),n.parentLocale=Nr[e],Nr[e]=n,tt(e)}else null!=Nr[e]&&(null!=Nr[e].parentLocale?Nr[e]=Nr[e].parentLocale:null!=Nr[e]&&delete Nr[e]);return Nr[e]}function rt(e){var t;if(e&&e._locale&&e._locale._abbr&&(e=e._locale._abbr),!e)return Er;if(!a(e)){if(t=et(e))return t;e=[e]}return Xe(e)}function st(){return Ca(Nr)}function it(e){var t,n=e._a;return n&&-2===h(e).overflow&&(t=n[hr]<0||n[hr]>11?hr:n[fr]<1||n[fr]>ue(n[cr],n[hr])?fr:n[Mr]<0||n[Mr]>24||24===n[Mr]&&(0!==n[pr]||0!==n[yr]||0!==n[Lr])?Mr:n[pr]<0||n[pr]>59?pr:n[yr]<0||n[yr]>59?yr:n[Lr]<0||n[Lr]>999?Lr:-1,h(e)._overflowDayOfYear&&(t<cr||t>fr)&&(t=fr),h(e)._overflowWeeks&&-1===t&&(t=Yr),h(e)._overflowWeekday&&-1===t&&(t=vr),h(e).overflow=t),e}function ot(e,t,n){return null!=e?e:null!=t?t:n}function dt(e){var n=new Date(t.now());return e._useUTC?[n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate()]:[n.getFullYear(),n.getMonth(),n.getDate()]}function ut(e){var t,n,a,r,s,i=[];if(!e._d){for(a=dt(e),e._w&&null==e._a[fr]&&null==e._a[hr]&&_t(e),null!=e._dayOfYear&&(s=ot(e._a[cr],a[cr]),(e._dayOfYear>ee(s)||0===e._dayOfYear)&&(h(e)._overflowDayOfYear=!0),n=ve(s,0,e._dayOfYear),e._a[hr]=n.getUTCMonth(),e._a[fr]=n.getUTCDate()),t=0;t<3&&null==e._a[t];++t)e._a[t]=i[t]=a[t];for(;t<7;t++)e._a[t]=i[t]=null==e._a[t]?2===t?1:0:e._a[t];24===e._a[Mr]&&0===e._a[pr]&&0===e._a[yr]&&0===e._a[Lr]&&(e._nextDay=!0,e._a[Mr]=0),e._d=(e._useUTC?ve:Ye).apply(null,i),r=e._useUTC?e._d.getUTCDay():e._d.getDay(),null!=e._tzm&&e._d.setUTCMinutes(e._d.getUTCMinutes()-e._tzm),e._nextDay&&(e._a[Mr]=24),e._w&&void 0!==e._w.d&&e._w.d!==r&&(h(e).weekdayMismatch=!0)}}function _t(e){var t,n,a,r,s,i,o,d;if(t=e._w,null!=t.GG||null!=t.W||null!=t.E)s=1,i=4,n=ot(t.GG,e._a[cr],De(bt(),1,4).year),a=ot(t.W,1),((r=ot(t.E,1))<1||r>7)&&(d=!0);else{s=e._locale._week.dow,i=e._locale._week.doy;var u=De(bt(),s,i);n=ot(t.gg,e._a[cr],u.year),a=ot(t.w,u.week),null!=t.d?((r=t.d)<0||r>6)&&(d=!0):null!=t.e?(r=t.e+s,(t.e<0||t.e>6)&&(d=!0)):r=s}a<1||a>we(n,s,i)?h(e)._overflowWeeks=!0:null!=d?h(e)._overflowWeekday=!0:(o=ge(n,a,r,s,i),e._a[cr]=o.year,e._dayOfYear=o.dayOfYear)}function lt(e){var t,n,a,r,s,i,o=e._i,d=$r.exec(o)||Jr.exec(o);if(d){for(h(e).iso=!0,t=0,n=Ur.length;t<n;t++)if(Ur[t][1].exec(d[1])){r=Ur[t][0],a=!1!==Ur[t][2];break}if(null==r)return void(e._isValid=!1);if(d[3]){for(t=0,n=Gr.length;t<n;t++)if(Gr[t][1].exec(d[3])){s=(d[2]||" ")+Gr[t][0];break}if(null==s)return void(e._isValid=!1)}if(!a&&null!=s)return void(e._isValid=!1);if(d[4]){if(!Rr.exec(d[4]))return void(e._isValid=!1);i="Z"}e._f=r+(s||"")+(i||""),Lt(e)}else e._isValid=!1}function mt(e,t,n,a,r,s){var i=[ct(e),Tr.indexOf(t),parseInt(n,10),parseInt(a,10),parseInt(r,10)];return s&&i.push(parseInt(s,10)),i}function ct(e){var t=parseInt(e,10);return t<=49?2e3+t:t<=999?1900+t:t}function ht(e){return e.replace(/\([^)]*\)|[\n\t]/g," ").replace(/(\s\s+)/g," ").replace(/^\s\s*/,"").replace(/\s\s*$/,"")}function ft(e,t,n){if(e){if(xr.indexOf(e)!==new Date(t[0],t[1],t[2]).getDay())return h(n).weekdayMismatch=!0,n._isValid=!1,!1}return!0}function Mt(e,t,n){if(e)return Kr[e];if(t)return 0;var a=parseInt(n,10),r=a%100;return(a-r)/100*60+r}function pt(e){var t=Br.exec(ht(e._i));if(t){var n=mt(t[4],t[3],t[2],t[5],t[6],t[7]);if(!ft(t[1],n,e))return;e._a=n,e._tzm=Mt(t[8],t[9],t[10]),e._d=ve.apply(null,e._a),e._d.setUTCMinutes(e._d.getUTCMinutes()-e._tzm),h(e).rfc2822=!0}else e._isValid=!1}function yt(e){var n=Vr.exec(e._i);if(null!==n)return void(e._d=new Date(+n[1]));lt(e),!1===e._isValid&&(delete e._isValid,pt(e),!1===e._isValid&&(delete e._isValid,t.createFromInputFallback(e)))}function Lt(e){if(e._f===t.ISO_8601)return void lt(e);if(e._f===t.RFC_2822)return void pt(e);e._a=[],h(e).empty=!0;var n,a,r,s,i,o=""+e._i,d=o.length,u=0;for(r=G(e._f,e._locale).match(Ra)||[],n=0;n<r.length;n++)s=r[n],a=(o.match(B(s,e))||[])[0],a&&(i=o.substr(0,o.indexOf(a)),i.length>0&&h(e).unusedInput.push(i),o=o.slice(o.indexOf(a)+a.length),u+=a.length),Va[s]?(a?h(e).empty=!1:h(e).unusedTokens.push(s),X(s,a,e)):e._strict&&!a&&h(e).unusedTokens.push(s);h(e).charsLeftOver=d-u,o.length>0&&h(e).unusedInput.push(o),e._a[Mr]<=12&&!0===h(e).bigHour&&e._a[Mr]>0&&(h(e).bigHour=void 0),h(e).parsedDateParts=e._a.slice(0),h(e).meridiem=e._meridiem,e._a[Mr]=Yt(e._locale,e._a[Mr],e._meridiem),ut(e),it(e)}function Yt(e,t,n){var a;return null==n?t:null!=e.meridiemHour?e.meridiemHour(t,n):null!=e.isPM?(a=e.isPM(n),a&&t<12&&(t+=12),a||12!==t||(t=0),t):t}function vt(e){var t,n,a,r,s;if(0===e._f.length)return h(e).invalidFormat=!0,void(e._d=new Date(NaN));for(r=0;r<e._f.length;r++)s=0,t=p({},e),null!=e._useUTC&&(t._useUTC=e._useUTC),t._f=e._f[r],Lt(t),f(t)&&(s+=h(t).charsLeftOver,s+=10*h(t).unusedTokens.length,h(t).score=s,(null==a||s<a)&&(a=s,n=t));l(e,n||t)}function kt(e){if(!e._d){var t=F(e._i);e._a=u([t.year,t.month,t.day||t.date,t.hour,t.minute,t.second,t.millisecond],function(e){return e&&parseInt(e,10)}),ut(e)}}function gt(e){var t=new y(it(Dt(e)));return t._nextDay&&(t.add(1,"d"),t._nextDay=void 0),t}function Dt(e){var t=e._i,n=e._f;return e._locale=e._locale||rt(e._l),null===t||void 0===n&&""===t?M({nullInput:!0}):("string"==typeof t&&(e._i=t=e._locale.preparse(t)),L(t)?new y(it(t)):(d(t)?e._d=t:a(n)?vt(e):n?Lt(e):wt(e),f(e)||(e._d=null),e))}function wt(e){var n=e._i;i(n)?e._d=new Date(t.now()):d(n)?e._d=new Date(n.valueOf()):"string"==typeof n?yt(e):a(n)?(e._a=u(n.slice(0),function(e){return parseInt(e,10)}),ut(e)):r(n)?kt(e):o(n)?e._d=new Date(n):t.createFromInputFallback(e)}function Tt(e,t,n,i,o){var d={};return!0!==n&&!1!==n||(i=n,n=void 0),(r(e)&&s(e)||a(e)&&0===e.length)&&(e=void 0),d._isAMomentObject=!0,d._useUTC=d._isUTC=o,d._l=n,d._i=e,d._f=t,d._strict=i,gt(d)}function bt(e,t,n,a){return Tt(e,t,n,a,!1)}function St(e,t){var n,r;if(1===t.length&&a(t[0])&&(t=t[0]),!t.length)return bt();for(n=t[0],r=1;r<t.length;++r)t[r].isValid()&&!t[r][e](n)||(n=t[r]);return n}function Ht(){return St("isBefore",[].slice.call(arguments,0))}function jt(){return St("isAfter",[].slice.call(arguments,0))}function xt(e){for(var t in e)if(-1===kr.call(Xr,t)||null!=e[t]&&isNaN(e[t]))return!1;for(var n=!1,a=0;a<Xr.length;++a)if(e[Xr[a]]){if(n)return!1;parseFloat(e[Xr[a]])!==v(e[Xr[a]])&&(n=!0)}return!0}function Ot(){return this._isValid}function Pt(){return Qt(NaN)}function At(e){var t=F(e),n=t.year||0,a=t.quarter||0,r=t.month||0,s=t.week||t.isoWeek||0,i=t.day||0,o=t.hour||0,d=t.minute||0,u=t.second||0,_=t.millisecond||0;this._isValid=xt(t),this._milliseconds=+_+1e3*u+6e4*d+1e3*o*60*60,this._days=+i+7*s,this._months=+r+3*a+12*n,this._data={},this._locale=rt(),this._bubble()}function Wt(e){return e instanceof At}function Et(e){return e<0?-1*Math.round(-1*e):Math.round(e)}function Ct(e,t){$(e,0,0,function(){var e=this.utcOffset(),n="+";return e<0&&(e=-e,n="-"),n+I(~~(e/60),2)+t+I(~~e%60,2)})}function Ft(e,t){var n=(t||"").match(e);if(null===n)return null;var a=n[n.length-1]||[],r=(a+"").match(es)||["-",0,0],s=60*r[1]+v(r[2]);return 0===s?0:"+"===r[0]?s:-s}function zt(e,n){var a,r;return n._isUTC?(a=n.clone(),r=(L(e)||d(e)?e.valueOf():bt(e).valueOf())-a.valueOf(),a._d.setTime(a._d.valueOf()+r),t.updateOffset(a,!1),a):bt(e).local()}function Nt(e){return 15*-Math.round(e._d.getTimezoneOffset()/15)}function It(e,n,a){var r,s=this._offset||0;if(!this.isValid())return null!=e?this:NaN;if(null!=e){if("string"==typeof e){if(null===(e=Ft(dr,e)))return this}else Math.abs(e)<16&&!a&&(e*=60);return!this._isUTC&&n&&(r=Nt(this)),this._offset=e,this._isUTC=!0,null!=r&&this.add(r,"m"),s!==e&&(!n||this._changeInProgress?an(this,Qt(e-s,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,t.updateOffset(this,!0),this._changeInProgress=null)),this}return this._isUTC?s:Nt(this)}function $t(e,t){return null!=e?("string"!=typeof e&&(e=-e),this.utcOffset(e,t),this):-this.utcOffset()}function Jt(e){return this.utcOffset(0,e)}function Rt(e){return this._isUTC&&(this.utcOffset(0,e),this._isUTC=!1,e&&this.subtract(Nt(this),"m")),this}function Ut(){if(null!=this._tzm)this.utcOffset(this._tzm,!1,!0);else if("string"==typeof this._i){var e=Ft(or,this._i);null!=e?this.utcOffset(e):this.utcOffset(0,!0)}return this}function Gt(e){return!!this.isValid()&&(e=e?bt(e).utcOffset():0,(this.utcOffset()-e)%60==0)}function Vt(){return this.utcOffset()>this.clone().month(0).utcOffset()||this.utcOffset()>this.clone().month(5).utcOffset()}function Bt(){if(!i(this._isDSTShifted))return this._isDSTShifted;var e={};if(p(e,this),e=Dt(e),e._a){var t=e._isUTC?m(e._a):bt(e._a);this._isDSTShifted=this.isValid()&&k(e._a,t.toArray())>0}else this._isDSTShifted=!1;return this._isDSTShifted}function Kt(){return!!this.isValid()&&!this._isUTC}function qt(){return!!this.isValid()&&this._isUTC}function Zt(){return!!this.isValid()&&(this._isUTC&&0===this._offset)}function Qt(e,t){var n,a,r,s=e,i=null;return Wt(e)?s={ms:e._milliseconds,d:e._days,M:e._months}:o(e)?(s={},t?s[t]=e:s.milliseconds=e):(i=ts.exec(e))?(n="-"===i[1]?-1:1,s={y:0,d:v(i[fr])*n,h:v(i[Mr])*n,m:v(i[pr])*n,s:v(i[yr])*n,ms:v(Et(1e3*i[Lr]))*n}):(i=ns.exec(e))?(n="-"===i[1]?-1:1,s={y:Xt(i[2],n),M:Xt(i[3],n),w:Xt(i[4],n),d:Xt(i[5],n),h:Xt(i[6],n),m:Xt(i[7],n),s:Xt(i[8],n)}):null==s?s={}:"object"==typeof s&&("from"in s||"to"in s)&&(r=tn(bt(s.from),bt(s.to)),s={},s.ms=r.milliseconds,s.M=r.months),a=new At(s),Wt(e)&&_(e,"_locale")&&(a._locale=e._locale),a}function Xt(e,t){var n=e&&parseFloat(e.replace(",","."));return(isNaN(n)?0:n)*t}function en(e,t){var n={};return n.months=t.month()-e.month()+12*(t.year()-e.year()),e.clone().add(n.months,"M").isAfter(t)&&--n.months,n.milliseconds=+t-+e.clone().add(n.months,"M"),n}function tn(e,t){var n;return e.isValid()&&t.isValid()?(t=zt(t,e),e.isBefore(t)?n=en(e,t):(n=en(t,e),n.milliseconds=-n.milliseconds,n.months=-n.months),n):{milliseconds:0,months:0}}function nn(e,t){return function(n,a){var r,s;return null===a||isNaN(+a)||(w(t,"moment()."+t+"(period, number) is deprecated. Please use moment()."+t+"(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."),s=n,n=a,a=s),n="string"==typeof n?+n:n,r=Qt(n,a),an(this,r,e),this}}function an(e,n,a,r){var s=n._milliseconds,i=Et(n._days),o=Et(n._months);e.isValid()&&(r=null==r||r,o&&he(e,re(e,"Month")+o*a),i&&se(e,"Date",re(e,"Date")+i*a),s&&e._d.setTime(e._d.valueOf()+s*a),r&&t.updateOffset(e,i||o))}function rn(e,t){var n=e.diff(t,"days",!0);return n<-6?"sameElse":n<-1?"lastWeek":n<0?"lastDay":n<1?"sameDay":n<2?"nextDay":n<7?"nextWeek":"sameElse"}function sn(e,n){var a=e||bt(),r=zt(a,this).startOf("day"),s=t.calendarFormat(this,r)||"sameElse",i=n&&(T(n[s])?n[s].call(this,a):n[s]);return this.format(i||this.localeData().calendar(s,this,bt(a)))}function on(){return new y(this)}function dn(e,t){var n=L(e)?e:bt(e);return!(!this.isValid()||!n.isValid())&&(t=C(t)||"millisecond","millisecond"===t?this.valueOf()>n.valueOf():n.valueOf()<this.clone().startOf(t).valueOf())}function un(e,t){var n=L(e)?e:bt(e);return!(!this.isValid()||!n.isValid())&&(t=C(t)||"millisecond","millisecond"===t?this.valueOf()<n.valueOf():this.clone().endOf(t).valueOf()<n.valueOf())}function _n(e,t,n,a){var r=L(e)?e:bt(e),s=L(t)?t:bt(t);return!!(this.isValid()&&r.isValid()&&s.isValid())&&(a=a||"()",("("===a[0]?this.isAfter(r,n):!this.isBefore(r,n))&&(")"===a[1]?this.isBefore(s,n):!this.isAfter(s,n)))}function ln(e,t){var n,a=L(e)?e:bt(e);return!(!this.isValid()||!a.isValid())&&(t=C(t)||"millisecond","millisecond"===t?this.valueOf()===a.valueOf():(n=a.valueOf(),this.clone().startOf(t).valueOf()<=n&&n<=this.clone().endOf(t).valueOf()))}function mn(e,t){return this.isSame(e,t)||this.isAfter(e,t)}function cn(e,t){return this.isSame(e,t)||this.isBefore(e,t)}function hn(e,t,n){var a,r,s;if(!this.isValid())return NaN;if(a=zt(e,this),!a.isValid())return NaN;switch(r=6e4*(a.utcOffset()-this.utcOffset()),t=C(t)){case"year":s=fn(this,a)/12;break;case"month":s=fn(this,a);break;case"quarter":s=fn(this,a)/3;break;case"second":s=(this-a)/1e3;break;case"minute":s=(this-a)/6e4;break;case"hour":s=(this-a)/36e5;break;case"day":s=(this-a-r)/864e5;break;case"week":s=(this-a-r)/6048e5;break;default:s=this-a}return n?s:Y(s)}function fn(e,t){var n,a,r=12*(t.year()-e.year())+(t.month()-e.month()),s=e.clone().add(r,"months");return t-s<0?(n=e.clone().add(r-1,"months"),a=(t-s)/(s-n)):(n=e.clone().add(r+1,"months"),a=(t-s)/(n-s)),-(r+a)||0}function Mn(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")}function pn(e){if(!this.isValid())return null;var t=!0!==e,n=t?this.clone().utc():this;return n.year()<0||n.year()>9999?U(n,t?"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]":"YYYYYY-MM-DD[T]HH:mm:ss.SSSZ"):T(Date.prototype.toISOString)?t?this.toDate().toISOString():new Date(this.valueOf()+60*this.utcOffset()*1e3).toISOString().replace("Z",U(n,"Z")):U(n,t?"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]":"YYYY-MM-DD[T]HH:mm:ss.SSSZ")}function yn(){if(!this.isValid())return"moment.invalid(/* "+this._i+" */)";var e="moment",t="";this.isLocal()||(e=0===this.utcOffset()?"moment.utc":"moment.parseZone",t="Z");var n="["+e+'("]',a=0<=this.year()&&this.year()<=9999?"YYYY":"YYYYYY",r=t+'[")]';return this.format(n+a+"-MM-DD[T]HH:mm:ss.SSS"+r)}function Ln(e){e||(e=this.isUtc()?t.defaultFormatUtc:t.defaultFormat);var n=U(this,e);return this.localeData().postformat(n)}function Yn(e,t){return this.isValid()&&(L(e)&&e.isValid()||bt(e).isValid())?Qt({to:this,from:e}).locale(this.locale()).humanize(!t):this.localeData().invalidDate()}function vn(e){return this.from(bt(),e)}function kn(e,t){return this.isValid()&&(L(e)&&e.isValid()||bt(e).isValid())?Qt({from:this,to:e}).locale(this.locale()).humanize(!t):this.localeData().invalidDate()}function gn(e){return this.to(bt(),e)}function Dn(e){var t;return void 0===e?this._locale._abbr:(t=rt(e),null!=t&&(this._locale=t),this)}function wn(){return this._locale}function Tn(e,t){return(e%t+t)%t}function bn(e,t,n){return e<100&&e>=0?new Date(e+400,t,n)-us:new Date(e,t,n).valueOf()}function Sn(e,t,n){return e<100&&e>=0?Date.UTC(e+400,t,n)-us:Date.UTC(e,t,n)}function Hn(e){var n;if(void 0===(e=C(e))||"millisecond"===e||!this.isValid())return this;var a=this._isUTC?Sn:bn;switch(e){case"year":n=a(this.year(),0,1);break;case"quarter":n=a(this.year(),this.month()-this.month()%3,1);break;case"month":n=a(this.year(),this.month(),1);break;case"week":n=a(this.year(),this.month(),this.date()-this.weekday());break;case"isoWeek":n=a(this.year(),this.month(),this.date()-(this.isoWeekday()-1));break;case"day":case"date":n=a(this.year(),this.month(),this.date());break;case"hour":n=this._d.valueOf(),n-=Tn(n+(this._isUTC?0:this.utcOffset()*os),ds);break;case"minute":n=this._d.valueOf(),n-=Tn(n,os);break;case"second":n=this._d.valueOf(),n-=Tn(n,is)}return this._d.setTime(n),t.updateOffset(this,!0),this}function jn(e){var n;if(void 0===(e=C(e))||"millisecond"===e||!this.isValid())return this;var a=this._isUTC?Sn:bn;switch(e){case"year":n=a(this.year()+1,0,1)-1;break;case"quarter":n=a(this.year(),this.month()-this.month()%3+3,1)-1;break;case"month":n=a(this.year(),this.month()+1,1)-1;break;case"week":n=a(this.year(),this.month(),this.date()-this.weekday()+7)-1;break;case"isoWeek":n=a(this.year(),this.month(),this.date()-(this.isoWeekday()-1)+7)-1;break;case"day":case"date":n=a(this.year(),this.month(),this.date()+1)-1;break;case"hour":n=this._d.valueOf(),n+=ds-Tn(n+(this._isUTC?0:this.utcOffset()*os),ds)-1;break;case"minute":n=this._d.valueOf(),n+=os-Tn(n,os)-1;break;case"second":n=this._d.valueOf(),n+=is-Tn(n,is)-1}return this._d.setTime(n),t.updateOffset(this,!0),this}function xn(){return this._d.valueOf()-6e4*(this._offset||0)}function On(){return Math.floor(this.valueOf()/1e3)}function Pn(){return new Date(this.valueOf())}function An(){var e=this;return[e.year(),e.month(),e.date(),e.hour(),e.minute(),e.second(),e.millisecond()]}function Wn(){var e=this;return{years:e.year(),months:e.month(),date:e.date(),hours:e.hours(),minutes:e.minutes(),seconds:e.seconds(),milliseconds:e.milliseconds()}}function En(){return this.isValid()?this.toISOString():null}function Cn(){return f(this)}function Fn(){return l({},h(this))}function zn(){return h(this).overflow}function Nn(){return{input:this._i,format:this._f,locale:this._locale,isUTC:this._isUTC,strict:this._strict}}function In(e,t){$(0,[e,e.length],0,t)}function $n(e){return Gn.call(this,e,this.week(),this.weekday(),this.localeData()._week.dow,this.localeData()._week.doy)}function Jn(e){return Gn.call(this,e,this.isoWeek(),this.isoWeekday(),1,4)}function Rn(){return we(this.year(),1,4)}function Un(){var e=this.localeData()._week;return we(this.year(),e.dow,e.doy)}function Gn(e,t,n,a,r){var s;return null==e?De(this,a,r).year:(s=we(e,a,r),t>s&&(t=s),Vn.call(this,e,t,n,a,r))}function Vn(e,t,n,a,r){var s=ge(e,t,n,a,r),i=ve(s.year,0,s.dayOfYear);return this.year(i.getUTCFullYear()),this.month(i.getUTCMonth()),this.date(i.getUTCDate()),this}function Bn(e){return null==e?Math.ceil((this.month()+1)/3):this.month(3*(e-1)+this.month()%3)}function Kn(e){var t=Math.round((this.clone().startOf("day")-this.clone().startOf("year"))/864e5)+1;return null==e?t:this.add(e-t,"d")}function qn(e,t){t[Lr]=v(1e3*("0."+e))}function Zn(){return this._isUTC?"UTC":""}function Qn(){return this._isUTC?"Coordinated Universal Time":""}function Xn(e){return bt(1e3*e)}function ea(){return bt.apply(null,arguments).parseZone()}function ta(e){return e}function na(e,t,n,a){var r=rt(),s=m().set(a,t);return r[n](s,e)}function aa(e,t,n){if(o(e)&&(t=e,e=void 0),e=e||"",null!=t)return na(e,t,n,"month");var a,r=[];for(a=0;a<12;a++)r[a]=na(e,a,n,"month");return r}function ra(e,t,n,a){"boolean"==typeof e?(o(t)&&(n=t,t=void 0),t=t||""):(t=e,n=t,e=!1,o(t)&&(n=t,t=void 0),t=t||"");var r=rt(),s=e?r._week.dow:0;if(null!=n)return na(t,(n+s)%7,a,"day");var i,d=[];for(i=0;i<7;i++)d[i]=na(t,(i+s)%7,a,"day");return d}function sa(e,t){return aa(e,t,"months")}function ia(e,t){return aa(e,t,"monthsShort")}function oa(e,t,n){return ra(e,t,n,"weekdays")}function da(e,t,n){return ra(e,t,n,"weekdaysShort")}function ua(e,t,n){return ra(e,t,n,"weekdaysMin")}function _a(){var e=this._data;return this._milliseconds=ps(this._milliseconds),this._days=ps(this._days),this._months=ps(this._months),e.milliseconds=ps(e.milliseconds),e.seconds=ps(e.seconds),e.minutes=ps(e.minutes),e.hours=ps(e.hours),e.months=ps(e.months),e.years=ps(e.years),this}function la(e,t,n,a){var r=Qt(t,n);return e._milliseconds+=a*r._milliseconds,e._days+=a*r._days,e._months+=a*r._months,e._bubble()}function ma(e,t){return la(this,e,t,1)}function ca(e,t){return la(this,e,t,-1)}function ha(e){return e<0?Math.floor(e):Math.ceil(e)}function fa(){var e,t,n,a,r,s=this._milliseconds,i=this._days,o=this._months,d=this._data;return s>=0&&i>=0&&o>=0||s<=0&&i<=0&&o<=0||(s+=864e5*ha(pa(o)+i),i=0,o=0),d.milliseconds=s%1e3,e=Y(s/1e3),d.seconds=e%60,t=Y(e/60),d.minutes=t%60,n=Y(t/60),d.hours=n%24,i+=Y(n/24),r=Y(Ma(i)),o+=r,i-=ha(pa(r)),a=Y(o/12),o%=12,d.days=i,d.months=o,d.years=a,this}function Ma(e){return 4800*e/146097}function pa(e){return 146097*e/4800}function ya(e){if(!this.isValid())return NaN;var t,n,a=this._milliseconds;if("month"===(e=C(e))||"quarter"===e||"year"===e)switch(t=this._days+a/864e5,n=this._months+Ma(t),e){case"month":return n;case"quarter":return n/3;case"year":return n/12}else switch(t=this._days+Math.round(pa(this._months)),e){case"week":return t/7+a/6048e5;case"day":return t+a/864e5;case"hour":return 24*t+a/36e5;case"minute":return 1440*t+a/6e4;case"second":return 86400*t+a/1e3;case"millisecond":return Math.floor(864e5*t)+a;default:throw new Error("Unknown unit "+e)}}function La(){return this.isValid()?this._milliseconds+864e5*this._days+this._months%12*2592e6+31536e6*v(this._months/12):NaN}function Ya(e){return function(){return this.as(e)}}function va(){return Qt(this)}function ka(e){return e=C(e),this.isValid()?this[e+"s"]():NaN}function ga(e){return function(){return this.isValid()?this._data[e]:NaN}}function Da(){return Y(this.days()/7)}function wa(e,t,n,a,r){return r.relativeTime(t||1,!!n,e,a)}function Ta(e,t,n){var a=Qt(e).abs(),r=As(a.as("s")),s=As(a.as("m")),i=As(a.as("h")),o=As(a.as("d")),d=As(a.as("M")),u=As(a.as("y")),_=r<=Ws.ss&&["s",r]||r<Ws.s&&["ss",r]||s<=1&&["m"]||s<Ws.m&&["mm",s]||i<=1&&["h"]||i<Ws.h&&["hh",i]||o<=1&&["d"]||o<Ws.d&&["dd",o]||d<=1&&["M"]||d<Ws.M&&["MM",d]||u<=1&&["y"]||["yy",u];return _[2]=t,_[3]=+e>0,_[4]=n,wa.apply(null,_)}function ba(e){return void 0===e?As:"function"==typeof e&&(As=e,!0)}function Sa(e,t){return void 0!==Ws[e]&&(void 0===t?Ws[e]:(Ws[e]=t,"s"===e&&(Ws.ss=t-1),!0))}function Ha(e){if(!this.isValid())return this.localeData().invalidDate();var t=this.localeData(),n=Ta(this,!e,t);return e&&(n=t.pastFuture(+this,n)),t.postformat(n)}function ja(e){return(e>0)-(e<0)||+e}function xa(){if(!this.isValid())return this.localeData().invalidDate();var e,t,n,a=Es(this._milliseconds)/1e3,r=Es(this._days),s=Es(this._months);e=Y(a/60),t=Y(e/60),a%=60,e%=60,n=Y(s/12),s%=12;var i=n,o=s,d=r,u=t,_=e,l=a?a.toFixed(3).replace(/\.?0+$/,""):"",m=this.asSeconds();if(!m)return"P0D";var c=m<0?"-":"",h=ja(this._months)!==ja(m)?"-":"",f=ja(this._days)!==ja(m)?"-":"",M=ja(this._milliseconds)!==ja(m)?"-":"";return c+"P"+(i?h+i+"Y":"")+(o?h+o+"M":"")+(d?f+d+"D":"")+(u||_||l?"T":"")+(u?M+u+"H":"")+(_?M+_+"M":"")+(l?M+l+"S":"")}var Oa,Pa;Pa=Array.prototype.some?Array.prototype.some:function(e){for(var t=Object(this),n=t.length>>>0,a=0;a<n;a++)if(a in t&&e.call(this,t[a],a,t))return!0;return!1};var Aa=t.momentProperties=[],Wa=!1,Ea={};t.suppressDeprecationWarnings=!1,t.deprecationHandler=null;var Ca;Ca=Object.keys?Object.keys:function(e){var t,n=[];for(t in e)_(e,t)&&n.push(t);return n};var Fa={sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},za={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},Na=/\d{1,2}/,Ia={future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},$a={},Ja={},Ra=/(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,Ua=/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,Ga={},Va={},Ba=/\d/,Ka=/\d\d/,qa=/\d{3}/,Za=/\d{4}/,Qa=/[+-]?\d{6}/,Xa=/\d\d?/,er=/\d\d\d\d?/,tr=/\d\d\d\d\d\d?/,nr=/\d{1,3}/,ar=/\d{1,4}/,rr=/[+-]?\d{1,6}/,sr=/\d+/,ir=/[+-]?\d+/,or=/Z|[+-]\d\d:?\d\d/gi,dr=/Z|[+-]\d\d(?::?\d\d)?/gi,ur=/[+-]?\d+(\.\d{1,3})?/,_r=/[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i,lr={},mr={},cr=0,hr=1,fr=2,Mr=3,pr=4,yr=5,Lr=6,Yr=7,vr=8;$("Y",0,0,function(){var e=this.year();return e<=9999?""+e:"+"+e}),$(0,["YY",2],0,function(){return this.year()%100}),$(0,["YYYY",4],0,"year"),$(0,["YYYYY",5],0,"year"),$(0,["YYYYYY",6,!0],0,"year"),E("year","y"),z("year",1),V("Y",ir),V("YY",Xa,Ka),V("YYYY",ar,Za),V("YYYYY",rr,Qa),V("YYYYYY",rr,Qa),Z(["YYYYY","YYYYYY"],cr),Z("YYYY",function(e,n){n[cr]=2===e.length?t.parseTwoDigitYear(e):v(e)}),Z("YY",function(e,n){n[cr]=t.parseTwoDigitYear(e)}),Z("Y",function(e,t){t[cr]=parseInt(e,10)}),t.parseTwoDigitYear=function(e){return v(e)+(v(e)>68?1900:2e3)};var kr,gr=ae("FullYear",!0);kr=Array.prototype.indexOf?Array.prototype.indexOf:function(e){var t;for(t=0;t<this.length;++t)if(this[t]===e)return t;return-1},$("M",["MM",2],"Mo",function(){return this.month()+1}),$("MMM",0,0,function(e){return this.localeData().monthsShort(this,e)}),$("MMMM",0,0,function(e){return this.localeData().months(this,e)}),E("month","M"),z("month",8),V("M",Xa),V("MM",Xa,Ka),V("MMM",function(e,t){return t.monthsShortRegex(e)}),V("MMMM",function(e,t){return t.monthsRegex(e)}),Z(["M","MM"],function(e,t){t[hr]=v(e)-1}),Z(["MMM","MMMM"],function(e,t,n,a){var r=n._locale.monthsParse(e,a,n._strict);null!=r?t[hr]=r:h(n).invalidMonth=e});var Dr=/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,wr="January_February_March_April_May_June_July_August_September_October_November_December".split("_"),Tr="Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),br=_r,Sr=_r;$("w",["ww",2],"wo","week"),$("W",["WW",2],"Wo","isoWeek"),E("week","w"),E("isoWeek","W"),z("week",5),z("isoWeek",5),V("w",Xa),V("ww",Xa,Ka),V("W",Xa),V("WW",Xa,Ka),Q(["w","ww","W","WW"],function(e,t,n,a){t[a.substr(0,1)]=v(e)});var Hr={dow:0,doy:6};$("d",0,"do","day"),$("dd",0,0,function(e){return this.localeData().weekdaysMin(this,e)}),$("ddd",0,0,function(e){return this.localeData().weekdaysShort(this,e)}),$("dddd",0,0,function(e){return this.localeData().weekdays(this,e)}),$("e",0,0,"weekday"),$("E",0,0,"isoWeekday"),E("day","d"),E("weekday","e"),E("isoWeekday","E"),z("day",11),z("weekday",11),z("isoWeekday",11),V("d",Xa),V("e",Xa),V("E",Xa),V("dd",function(e,t){return t.weekdaysMinRegex(e)}),V("ddd",function(e,t){return t.weekdaysShortRegex(e)}),V("dddd",function(e,t){return t.weekdaysRegex(e)}),Q(["dd","ddd","dddd"],function(e,t,n,a){var r=n._locale.weekdaysParse(e,a,n._strict);null!=r?t.d=r:h(n).invalidWeekday=e}),Q(["d","e","E"],function(e,t,n,a){t[a]=v(e)});var jr="Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),xr="Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),Or="Su_Mo_Tu_We_Th_Fr_Sa".split("_"),Pr=_r,Ar=_r,Wr=_r;$("H",["HH",2],0,"hour"),$("h",["hh",2],0,Ge),$("k",["kk",2],0,Ve),$("hmm",0,0,function(){return""+Ge.apply(this)+I(this.minutes(),2)}),$("hmmss",0,0,function(){return""+Ge.apply(this)+I(this.minutes(),2)+I(this.seconds(),2)}),$("Hmm",0,0,function(){return""+this.hours()+I(this.minutes(),2)}),$("Hmmss",0,0,function(){return""+this.hours()+I(this.minutes(),2)+I(this.seconds(),2)}),Be("a",!0),Be("A",!1),E("hour","h"),z("hour",13),V("a",Ke),V("A",Ke),V("H",Xa),V("h",Xa),V("k",Xa),V("HH",Xa,Ka),V("hh",Xa,Ka),V("kk",Xa,Ka),V("hmm",er),V("hmmss",tr),V("Hmm",er),V("Hmmss",tr),Z(["H","HH"],Mr),Z(["k","kk"],function(e,t,n){var a=v(e);t[Mr]=24===a?0:a}),Z(["a","A"],function(e,t,n){n._isPm=n._locale.isPM(e),n._meridiem=e}),Z(["h","hh"],function(e,t,n){t[Mr]=v(e),h(n).bigHour=!0}),Z("hmm",function(e,t,n){var a=e.length-2;t[Mr]=v(e.substr(0,a)),t[pr]=v(e.substr(a)),h(n).bigHour=!0}),Z("hmmss",function(e,t,n){var a=e.length-4,r=e.length-2;t[Mr]=v(e.substr(0,a)),t[pr]=v(e.substr(a,2)),t[yr]=v(e.substr(r)),h(n).bigHour=!0}),Z("Hmm",function(e,t,n){var a=e.length-2;t[Mr]=v(e.substr(0,a)),t[pr]=v(e.substr(a))}),Z("Hmmss",function(e,t,n){var a=e.length-4,r=e.length-2;t[Mr]=v(e.substr(0,a)),t[pr]=v(e.substr(a,2)),t[yr]=v(e.substr(r))});var Er,Cr=/[ap]\.?m?\.?/i,Fr=ae("Hours",!0),zr={calendar:Fa,longDateFormat:za,invalidDate:"Invalid date",ordinal:"%d",dayOfMonthOrdinalParse:Na,relativeTime:Ia,months:wr,monthsShort:Tr,week:Hr,weekdays:jr,weekdaysMin:Or,weekdaysShort:xr,meridiemParse:Cr},Nr={},Ir={},$r=/^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Jr=/^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Rr=/Z|[+-]\d\d(?::?\d\d)?/,Ur=[["YYYYYY-MM-DD",/[+-]\d{6}-\d\d-\d\d/],["YYYY-MM-DD",/\d{4}-\d\d-\d\d/],["GGGG-[W]WW-E",/\d{4}-W\d\d-\d/],["GGGG-[W]WW",/\d{4}-W\d\d/,!1],["YYYY-DDD",/\d{4}-\d{3}/],["YYYY-MM",/\d{4}-\d\d/,!1],["YYYYYYMMDD",/[+-]\d{10}/],["YYYYMMDD",/\d{8}/],["GGGG[W]WWE",/\d{4}W\d{3}/],["GGGG[W]WW",/\d{4}W\d{2}/,!1],["YYYYDDD",/\d{7}/]],Gr=[["HH:mm:ss.SSSS",/\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss,SSSS",/\d\d:\d\d:\d\d,\d+/],["HH:mm:ss",/\d\d:\d\d:\d\d/],["HH:mm",/\d\d:\d\d/],["HHmmss.SSSS",/\d\d\d\d\d\d\.\d+/],["HHmmss,SSSS",/\d\d\d\d\d\d,\d+/],["HHmmss",/\d\d\d\d\d\d/],["HHmm",/\d\d\d\d/],["HH",/\d\d/]],Vr=/^\/?Date\((\-?\d+)/i,Br=/^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,Kr={UT:0,GMT:0,EDT:-240,EST:-300,CDT:-300,CST:-360,MDT:-360,MST:-420,PDT:-420,PST:-480};t.createFromInputFallback=D("value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",function(e){e._d=new Date(e._i+(e._useUTC?" UTC":""))}),t.ISO_8601=function(){},t.RFC_2822=function(){};var qr=D("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var e=bt.apply(null,arguments);return this.isValid()&&e.isValid()?e<this?this:e:M()}),Zr=D("moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var e=bt.apply(null,arguments);return this.isValid()&&e.isValid()?e>this?this:e:M()}),Qr=function(){return Date.now?Date.now():+new Date},Xr=["year","quarter","month","week","day","hour","minute","second","millisecond"];Ct("Z",":"),Ct("ZZ",""),V("Z",dr),V("ZZ",dr),Z(["Z","ZZ"],function(e,t,n){n._useUTC=!0,n._tzm=Ft(dr,e)});var es=/([\+\-]|\d\d)/gi;t.updateOffset=function(){};var ts=/^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/,ns=/^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;Qt.fn=At.prototype,Qt.invalid=Pt;var as=nn(1,"add"),rs=nn(-1,"subtract");t.defaultFormat="YYYY-MM-DDTHH:mm:ssZ",t.defaultFormatUtc="YYYY-MM-DDTHH:mm:ss[Z]";var ss=D("moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",function(e){return void 0===e?this.localeData():this.locale(e)}),is=1e3,os=60*is,ds=60*os,us=3506328*ds;$(0,["gg",2],0,function(){return this.weekYear()%100}),$(0,["GG",2],0,function(){return this.isoWeekYear()%100}),In("gggg","weekYear"),In("ggggg","weekYear"),In("GGGG","isoWeekYear"),In("GGGGG","isoWeekYear"),E("weekYear","gg"),E("isoWeekYear","GG"),z("weekYear",1),z("isoWeekYear",1),V("G",ir),V("g",ir),V("GG",Xa,Ka),V("gg",Xa,Ka),V("GGGG",ar,Za),V("gggg",ar,Za),V("GGGGG",rr,Qa),V("ggggg",rr,Qa),Q(["gggg","ggggg","GGGG","GGGGG"],function(e,t,n,a){t[a.substr(0,2)]=v(e)}),Q(["gg","GG"],function(e,n,a,r){n[r]=t.parseTwoDigitYear(e)}),$("Q",0,"Qo","quarter"),E("quarter","Q"),z("quarter",7),V("Q",Ba),Z("Q",function(e,t){t[hr]=3*(v(e)-1)}),$("D",["DD",2],"Do","date"),E("date","D"),z("date",9),V("D",Xa),V("DD",Xa,Ka),V("Do",function(e,t){return e?t._dayOfMonthOrdinalParse||t._ordinalParse:t._dayOfMonthOrdinalParseLenient}),Z(["D","DD"],fr),Z("Do",function(e,t){t[fr]=v(e.match(Xa)[0])});var _s=ae("Date",!0);$("DDD",["DDDD",3],"DDDo","dayOfYear"),E("dayOfYear","DDD"),z("dayOfYear",4),V("DDD",nr),V("DDDD",qa),Z(["DDD","DDDD"],function(e,t,n){n._dayOfYear=v(e)}),$("m",["mm",2],0,"minute"),E("minute","m"),z("minute",14),V("m",Xa),V("mm",Xa,Ka),Z(["m","mm"],pr);var ls=ae("Minutes",!1);$("s",["ss",2],0,"second"),E("second","s"),z("second",15),V("s",Xa),V("ss",Xa,Ka),Z(["s","ss"],yr);var ms=ae("Seconds",!1);$("S",0,0,function(){return~~(this.millisecond()/100)}),$(0,["SS",2],0,function(){return~~(this.millisecond()/10)}),$(0,["SSS",3],0,"millisecond"),$(0,["SSSS",4],0,function(){return 10*this.millisecond()}),$(0,["SSSSS",5],0,function(){return 100*this.millisecond()}),$(0,["SSSSSS",6],0,function(){return 1e3*this.millisecond()}),$(0,["SSSSSSS",7],0,function(){return 1e4*this.millisecond()}),$(0,["SSSSSSSS",8],0,function(){return 1e5*this.millisecond()}),$(0,["SSSSSSSSS",9],0,function(){return 1e6*this.millisecond()}),E("millisecond","ms"),z("millisecond",16),V("S",nr,Ba),V("SS",nr,Ka),V("SSS",nr,qa);var cs;for(cs="SSSS";cs.length<=9;cs+="S")V(cs,sr);for(cs="S";cs.length<=9;cs+="S")Z(cs,qn);var hs=ae("Milliseconds",!1);$("z",0,0,"zoneAbbr"),$("zz",0,0,"zoneName");var fs=y.prototype;fs.add=as,fs.calendar=sn,fs.clone=on,fs.diff=hn,fs.endOf=jn,fs.format=Ln,fs.from=Yn,fs.fromNow=vn,fs.to=kn,fs.toNow=gn,fs.get=ie,fs.invalidAt=zn,fs.isAfter=dn,fs.isBefore=un,fs.isBetween=_n,fs.isSame=ln,fs.isSameOrAfter=mn,fs.isSameOrBefore=cn,fs.isValid=Cn,fs.lang=ss,fs.locale=Dn,fs.localeData=wn,fs.max=Zr,fs.min=qr,fs.parsingFlags=Fn,fs.set=oe,fs.startOf=Hn,fs.subtract=rs,fs.toArray=An,fs.toObject=Wn,fs.toDate=Pn,fs.toISOString=pn,fs.inspect=yn,fs.toJSON=En,fs.toString=Mn,fs.unix=On,fs.valueOf=xn,fs.creationData=Nn,fs.year=gr,fs.isLeapYear=ne,fs.weekYear=$n,fs.isoWeekYear=Jn,fs.quarter=fs.quarters=Bn,fs.month=fe,fs.daysInMonth=Me,fs.week=fs.weeks=He,fs.isoWeek=fs.isoWeeks=je,fs.weeksInYear=Un,fs.isoWeeksInYear=Rn,fs.date=_s,fs.day=fs.days=ze,fs.weekday=Ne,fs.isoWeekday=Ie,fs.dayOfYear=Kn,fs.hour=fs.hours=Fr,fs.minute=fs.minutes=ls,fs.second=fs.seconds=ms,fs.millisecond=fs.milliseconds=hs,fs.utcOffset=It,fs.utc=Jt,fs.local=Rt,fs.parseZone=Ut,fs.hasAlignedHourOffset=Gt,fs.isDST=Vt,fs.isLocal=Kt,fs.isUtcOffset=qt,fs.isUtc=Zt,fs.isUTC=Zt,fs.zoneAbbr=Zn,fs.zoneName=Qn,fs.dates=D("dates accessor is deprecated. Use date instead.",_s),fs.months=D("months accessor is deprecated. Use month instead",fe),fs.years=D("years accessor is deprecated. Use year instead",gr),fs.zone=D("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",$t),fs.isDSTShifted=D("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",Bt);var Ms=H.prototype;Ms.calendar=j,Ms.longDateFormat=x,Ms.invalidDate=O,Ms.ordinal=P,Ms.preparse=ta,Ms.postformat=ta,Ms.relativeTime=A,Ms.pastFuture=W,Ms.set=b,Ms.months=_e,Ms.monthsShort=le,Ms.monthsParse=ce,Ms.monthsRegex=ye,Ms.monthsShortRegex=pe,Ms.week=Te,Ms.firstDayOfYear=Se,Ms.firstDayOfWeek=be,Ms.weekdays=Ae,Ms.weekdaysMin=Ee,Ms.weekdaysShort=We,Ms.weekdaysParse=Fe,Ms.weekdaysRegex=$e,Ms.weekdaysShortRegex=Je,Ms.weekdaysMinRegex=Re,Ms.isPM=qe,Ms.meridiem=Ze,tt("en",{dayOfMonthOrdinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(e){var t=e%10;return e+(1===v(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")}}),t.lang=D("moment.lang is deprecated. Use moment.locale instead.",tt),t.langData=D("moment.langData is deprecated. Use moment.localeData instead.",rt);var ps=Math.abs,ys=Ya("ms"),Ls=Ya("s"),Ys=Ya("m"),vs=Ya("h"),ks=Ya("d"),gs=Ya("w"),Ds=Ya("M"),ws=Ya("Q"),Ts=Ya("y"),bs=ga("milliseconds"),Ss=ga("seconds"),Hs=ga("minutes"),js=ga("hours"),xs=ga("days"),Os=ga("months"),Ps=ga("years"),As=Math.round,Ws={ss:44,s:45,m:45,h:22,d:26,M:11},Es=Math.abs,Cs=At.prototype;return Cs.isValid=Ot,Cs.abs=_a,Cs.add=ma,Cs.subtract=ca,Cs.as=ya,Cs.asMilliseconds=ys,Cs.asSeconds=Ls,Cs.asMinutes=Ys,Cs.asHours=vs,Cs.asDays=ks,Cs.asWeeks=gs,Cs.asMonths=Ds,Cs.asQuarters=ws,Cs.asYears=Ts,Cs.valueOf=La,Cs._bubble=fa,Cs.clone=va,Cs.get=ka,Cs.milliseconds=bs,Cs.seconds=Ss,Cs.minutes=Hs,Cs.hours=js,Cs.days=xs,Cs.weeks=Da,Cs.months=Os,Cs.years=Ps,Cs.humanize=Ha,Cs.toISOString=xa,Cs.toString=xa,Cs.toJSON=xa,Cs.locale=Dn,Cs.localeData=wn,Cs.toIsoString=D("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",xa),Cs.lang=ss,$("X",0,0,"unix"),$("x",0,0,"valueOf"),V("x",ir),V("X",ur),Z("X",function(e,t,n){n._d=new Date(1e3*parseFloat(e,10))}),Z("x",function(e,t,n){n._d=new Date(v(e))}),t.version="2.24.0",function(e){Oa=e}(bt),t.fn=fs,t.min=Ht,t.max=jt,t.now=Qr,t.utc=m,t.unix=Xn,t.months=sa,t.isDate=d,t.locale=tt,t.invalid=M,t.duration=Qt,t.isMoment=L,t.weekdays=oa,t.parseZone=ea,t.localeData=rt,t.isDuration=Wt,t.monthsShort=ia,t.weekdaysMin=ua,t.defineLocale=nt,t.updateLocale=at,t.locales=st,t.weekdaysShort=da,t.normalizeUnits=C,t.relativeTimeRounding=ba,t.relativeTimeThreshold=Sa,t.calendarFormat=rn,t.prototype=fs,t.HTML5_FMT={DATETIME_LOCAL:"YYYY-MM-DDTHH:mm",DATETIME_LOCAL_SECONDS:"YYYY-MM-DDTHH:mm:ss",DATETIME_LOCAL_MS:"YYYY-MM-DDTHH:mm:ss.SSS",DATE:"YYYY-MM-DD",TIME:"HH:mm",TIME_SECONDS:"HH:mm:ss",TIME_MS:"HH:mm:ss.SSS",WEEK:"GGGG-[W]WW",MONTH:"YYYY-MM"},t})}).call(t,n(192)(e))},function(e,t){e.exports=function(e,t,n,a,r){var s,i=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(s=e,i=e.default);var d="function"==typeof i?i.options:i;t&&(d.render=t.render,d.staticRenderFns=t.staticRenderFns),a&&(d._scopeId=a);var u;if(r?(u=function(e){e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,e||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),n&&n.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(r)},d._ssrRegister=u):n&&(u=n),u){var _=d.functional,l=_?d.render:d.beforeCreate;_?d.render=function(e,t){return u.call(t),l(e,t)}:d.beforeCreate=l?[].concat(l,u):[u]}return{esModule:s,exports:i,options:d}}},function(e,t,n){e.exports=!n(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(e,t){e.exports=function(e){try{return!!e()}catch(e){return!0}}},function(e,t){var n=e.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(e,t){e.exports=function(e){return"object"==typeof e?null!==e:"function"==typeof e}},function(e,t){var n=e.exports={version:"2.5.1"};"number"==typeof __e&&(__e=n)},function(e,t){e.exports=function(e){if(void 0==e)throw TypeError("Can't call method on  "+e);return e}},function(e,t,n){var a=n(152);e.exports=Object("z").propertyIsEnumerable(0)?Object:function(e){return"String"==a(e)?e.split(""):Object(e)}},function(e,t){var n=Math.ceil,a=Math.floor;e.exports=function(e){return isNaN(e=+e)?0:(e>0?a:n)(e)}},function(e,t,n){var a=n(8),r=n(7);e.exports=function(e){return a(r(e))}},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("af",{months:"Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember".split("_"),monthsShort:"Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des".split("_"),weekdays:"Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag".split("_"),weekdaysShort:"Son_Maa_Din_Woe_Don_Vry_Sat".split("_"),weekdaysMin:"So_Ma_Di_Wo_Do_Vr_Sa".split("_"),meridiemParse:/vm|nm/i,isPM:function(e){return/^nm$/i.test(e)},meridiem:function(e,t,n){return e<12?n?"vm":"VM":n?"nm":"NM"},longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Vandag om] LT",nextDay:"[Môre om] LT",nextWeek:"dddd [om] LT",lastDay:"[Gister om] LT",lastWeek:"[Laas] dddd [om] LT",sameElse:"L"},relativeTime:{future:"oor %s",past:"%s gelede",s:"'n paar sekondes",ss:"%d sekondes",m:"'n minuut",mm:"%d minute",h:"'n uur",hh:"%d ure",d:"'n dag",dd:"%d dae",M:"'n maand",MM:"%d maande",y:"'n jaar",yy:"%d jaar"},dayOfMonthOrdinalParse:/\d{1,2}(ste|de)/,ordinal:function(e){return e+(1===e||8===e||e>=20?"ste":"de")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ar-dz",{months:"جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),monthsShort:"جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"احد_اثنين_ثلاثاء_اربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"أح_إث_ثلا_أر_خم_جم_سب".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",ss:"%d ثانية",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},week:{dow:0,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ar-kw",{months:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),monthsShort:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),weekdays:"الأحد_الإتنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"احد_اتنين_ثلاثاء_اربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",ss:"%d ثانية",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},week:{dow:0,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",0:"0"},n=function(e){return 0===e?0:1===e?1:2===e?2:e%100>=3&&e%100<=10?3:e%100>=11?4:5},a={s:["أقل من ثانية","ثانية واحدة",["ثانيتان","ثانيتين"],"%d ثوان","%d ثانية","%d ثانية"],m:["أقل من دقيقة","دقيقة واحدة",["دقيقتان","دقيقتين"],"%d دقائق","%d دقيقة","%d دقيقة"],h:["أقل من ساعة","ساعة واحدة",["ساعتان","ساعتين"],"%d ساعات","%d ساعة","%d ساعة"],d:["أقل من يوم","يوم واحد",["يومان","يومين"],"%d أيام","%d يومًا","%d يوم"],M:["أقل من شهر","شهر واحد",["شهران","شهرين"],"%d أشهر","%d شهرا","%d شهر"],y:["أقل من عام","عام واحد",["عامان","عامين"],"%d أعوام","%d عامًا","%d عام"]},r=function(e){return function(t,r,s,i){var o=n(t),d=a[e][n(t)];return 2===o&&(d=d[r?0:1]),d.replace(/%d/i,t)}},s=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];return e.defineLocale("ar-ly",{months:s,monthsShort:s,weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"D/‏M/‏YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},meridiemParse:/ص|م/,isPM:function(e){return"م"===e},meridiem:function(e,t,n){return e<12?"ص":"م"},calendar:{sameDay:"[اليوم عند الساعة] LT",nextDay:"[غدًا عند الساعة] LT",nextWeek:"dddd [عند الساعة] LT",lastDay:"[أمس عند الساعة] LT",lastWeek:"dddd [عند الساعة] LT",sameElse:"L"},relativeTime:{future:"بعد %s",past:"منذ %s",s:r("s"),ss:r("s"),m:r("m"),mm:r("m"),h:r("h"),hh:r("h"),d:r("d"),dd:r("d"),M:r("M"),MM:r("M"),y:r("y"),yy:r("y")},preparse:function(e){return e.replace(/،/g,",")},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]}).replace(/,/g,"،")},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ar-ma",{months:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),monthsShort:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),weekdays:"الأحد_الإتنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"احد_اتنين_ثلاثاء_اربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",ss:"%d ثانية",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"١",2:"٢",3:"٣",4:"٤",5:"٥",6:"٦",7:"٧",8:"٨",9:"٩",0:"٠"},n={"١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٠":"0"};return e.defineLocale("ar-sa",{months:"يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),monthsShort:"يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},meridiemParse:/ص|م/,isPM:function(e){return"م"===e},meridiem:function(e,t,n){return e<12?"ص":"م"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",ss:"%d ثانية",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},preparse:function(e){return e.replace(/[١٢٣٤٥٦٧٨٩٠]/g,function(e){return n[e]}).replace(/،/g,",")},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]}).replace(/,/g,"،")},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ar-tn",{months:"جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),monthsShort:"جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",ss:"%d ثانية",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"١",2:"٢",3:"٣",4:"٤",5:"٥",6:"٦",7:"٧",8:"٨",9:"٩",0:"٠"},n={"١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٠":"0"},a=function(e){return 0===e?0:1===e?1:2===e?2:e%100>=3&&e%100<=10?3:e%100>=11?4:5},r={s:["أقل من ثانية","ثانية واحدة",["ثانيتان","ثانيتين"],"%d ثوان","%d ثانية","%d ثانية"],m:["أقل من دقيقة","دقيقة واحدة",["دقيقتان","دقيقتين"],"%d دقائق","%d دقيقة","%d دقيقة"],h:["أقل من ساعة","ساعة واحدة",["ساعتان","ساعتين"],"%d ساعات","%d ساعة","%d ساعة"],d:["أقل من يوم","يوم واحد",["يومان","يومين"],"%d أيام","%d يومًا","%d يوم"],M:["أقل من شهر","شهر واحد",["شهران","شهرين"],"%d أشهر","%d شهرا","%d شهر"],y:["أقل من عام","عام واحد",["عامان","عامين"],"%d أعوام","%d عامًا","%d عام"]},s=function(e){return function(t,n,s,i){var o=a(t),d=r[e][a(t)];return 2===o&&(d=d[n?0:1]),d.replace(/%d/i,t)}},i=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];return e.defineLocale("ar",{months:i,monthsShort:i,weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"D/‏M/‏YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},meridiemParse:/ص|م/,isPM:function(e){return"م"===e},meridiem:function(e,t,n){return e<12?"ص":"م"},calendar:{sameDay:"[اليوم عند الساعة] LT",nextDay:"[غدًا عند الساعة] LT",nextWeek:"dddd [عند الساعة] LT",lastDay:"[أمس عند الساعة] LT",lastWeek:"dddd [عند الساعة] LT",sameElse:"L"},relativeTime:{future:"بعد %s",past:"منذ %s",s:s("s"),ss:s("s"),m:s("m"),mm:s("m"),h:s("h"),hh:s("h"),d:s("d"),dd:s("d"),M:s("M"),MM:s("M"),y:s("y"),yy:s("y")},preparse:function(e){return e.replace(/[١٢٣٤٥٦٧٨٩٠]/g,function(e){return n[e]}).replace(/،/g,",")},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]}).replace(/,/g,"،")},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"-inci",5:"-inci",8:"-inci",70:"-inci",80:"-inci",2:"-nci",7:"-nci",20:"-nci",50:"-nci",3:"-üncü",4:"-üncü",100:"-üncü",6:"-ncı",9:"-uncu",10:"-uncu",30:"-uncu",60:"-ıncı",90:"-ıncı"};return e.defineLocale("az",{months:"yanvar_fevral_mart_aprel_may_iyun_iyul_avqust_sentyabr_oktyabr_noyabr_dekabr".split("_"),monthsShort:"yan_fev_mar_apr_may_iyn_iyl_avq_sen_okt_noy_dek".split("_"),weekdays:"Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə".split("_"),weekdaysShort:"Baz_BzE_ÇAx_Çər_CAx_Cüm_Şən".split("_"),weekdaysMin:"Bz_BE_ÇA_Çə_CA_Cü_Şə".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[bugün saat] LT",nextDay:"[sabah saat] LT",nextWeek:"[gələn həftə] dddd [saat] LT",lastDay:"[dünən] LT",lastWeek:"[keçən həftə] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s sonra",past:"%s əvvəl",s:"birneçə saniyə",ss:"%d saniyə",m:"bir dəqiqə",mm:"%d dəqiqə",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir il",yy:"%d il"},meridiemParse:/gecə|səhər|gündüz|axşam/,isPM:function(e){return/^(gündüz|axşam)$/.test(e)},meridiem:function(e,t,n){return e<4?"gecə":e<12?"səhər":e<17?"gündüz":"axşam"},dayOfMonthOrdinalParse:/\d{1,2}-(ıncı|inci|nci|üncü|ncı|uncu)/,ordinal:function(e){if(0===e)return e+"-ıncı";var n=e%10,a=e%100-n,r=e>=100?100:null;return e+(t[n]||t[a]||t[r])},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t){var n=e.split("_");return t%10==1&&t%100!=11?n[0]:t%10>=2&&t%10<=4&&(t%100<10||t%100>=20)?n[1]:n[2]}function n(e,n,a){var r={ss:n?"секунда_секунды_секунд":"секунду_секунды_секунд",mm:n?"хвіліна_хвіліны_хвілін":"хвіліну_хвіліны_хвілін",hh:n?"гадзіна_гадзіны_гадзін":"гадзіну_гадзіны_гадзін",dd:"дзень_дні_дзён",MM:"месяц_месяцы_месяцаў",yy:"год_гады_гадоў"};return"m"===a?n?"хвіліна":"хвіліну":"h"===a?n?"гадзіна":"гадзіну":e+" "+t(r[a],+e)}return e.defineLocale("be",{months:{format:"студзеня_лютага_сакавіка_красавіка_траўня_чэрвеня_ліпеня_жніўня_верасня_кастрычніка_лістапада_снежня".split("_"),standalone:"студзень_люты_сакавік_красавік_травень_чэрвень_ліпень_жнівень_верасень_кастрычнік_лістапад_снежань".split("_")},monthsShort:"студ_лют_сак_крас_трав_чэрв_ліп_жнів_вер_каст_ліст_снеж".split("_"),weekdays:{format:"нядзелю_панядзелак_аўторак_сераду_чацвер_пятніцу_суботу".split("_"),standalone:"нядзеля_панядзелак_аўторак_серада_чацвер_пятніца_субота".split("_"),isFormat:/\[ ?[Ууў] ?(?:мінулую|наступную)? ?\] ?dddd/},weekdaysShort:"нд_пн_ат_ср_чц_пт_сб".split("_"),weekdaysMin:"нд_пн_ат_ср_чц_пт_сб".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY г.",LLL:"D MMMM YYYY г., HH:mm",LLLL:"dddd, D MMMM YYYY г., HH:mm"},calendar:{sameDay:"[Сёння ў] LT",nextDay:"[Заўтра ў] LT",lastDay:"[Учора ў] LT",nextWeek:function(){return"[У] dddd [ў] LT"},lastWeek:function(){switch(this.day()){case 0:case 3:case 5:case 6:return"[У мінулую] dddd [ў] LT";case 1:case 2:case 4:return"[У мінулы] dddd [ў] LT"}},sameElse:"L"},relativeTime:{future:"праз %s",past:"%s таму",s:"некалькі секунд",m:n,mm:n,h:n,hh:n,d:"дзень",dd:n,M:"месяц",MM:n,y:"год",yy:n},meridiemParse:/ночы|раніцы|дня|вечара/,isPM:function(e){return/^(дня|вечара)$/.test(e)},meridiem:function(e,t,n){return e<4?"ночы":e<12?"раніцы":e<17?"дня":"вечара"},dayOfMonthOrdinalParse:/\d{1,2}-(і|ы|га)/,ordinal:function(e,t){switch(t){case"M":case"d":case"DDD":case"w":case"W":return e%10!=2&&e%10!=3||e%100==12||e%100==13?e+"-ы":e+"-і";case"D":return e+"-га";default:return e}},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("bg",{months:"януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември".split("_"),monthsShort:"янр_фев_мар_апр_май_юни_юли_авг_сеп_окт_ное_дек".split("_"),weekdays:"неделя_понеделник_вторник_сряда_четвъртък_петък_събота".split("_"),weekdaysShort:"нед_пон_вто_сря_чет_пет_съб".split("_"),weekdaysMin:"нд_пн_вт_ср_чт_пт_сб".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},calendar:{sameDay:"[Днес в] LT",nextDay:"[Утре в] LT",nextWeek:"dddd [в] LT",lastDay:"[Вчера в] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[В изминалата] dddd [в] LT";case 1:case 2:case 4:case 5:return"[В изминалия] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"след %s",past:"преди %s",s:"няколко секунди",ss:"%d секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дни",M:"месец",MM:"%d месеца",y:"година",yy:"%d години"},dayOfMonthOrdinalParse:/\d{1,2}-(ев|ен|ти|ви|ри|ми)/,ordinal:function(e){var t=e%10,n=e%100;return 0===e?e+"-ев":0===n?e+"-ен":n>10&&n<20?e+"-ти":1===t?e+"-ви":2===t?e+"-ри":7===t||8===t?e+"-ми":e+"-ти"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("bm",{months:"Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo".split("_"),monthsShort:"Zan_Few_Mar_Awi_Mɛ_Zuw_Zul_Uti_Sɛt_ɔku_Now_Des".split("_"),weekdays:"Kari_Ntɛnɛn_Tarata_Araba_Alamisa_Juma_Sibiri".split("_"),weekdaysShort:"Kar_Ntɛ_Tar_Ara_Ala_Jum_Sib".split("_"),weekdaysMin:"Ka_Nt_Ta_Ar_Al_Ju_Si".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"MMMM [tile] D [san] YYYY",LLL:"MMMM [tile] D [san] YYYY [lɛrɛ] HH:mm",LLLL:"dddd MMMM [tile] D [san] YYYY [lɛrɛ] HH:mm"},calendar:{sameDay:"[Bi lɛrɛ] LT",nextDay:"[Sini lɛrɛ] LT",nextWeek:"dddd [don lɛrɛ] LT",lastDay:"[Kunu lɛrɛ] LT",lastWeek:"dddd [tɛmɛnen lɛrɛ] LT",sameElse:"L"},relativeTime:{future:"%s kɔnɔ",past:"a bɛ %s bɔ",s:"sanga dama dama",ss:"sekondi %d",m:"miniti kelen",mm:"miniti %d",h:"lɛrɛ kelen",hh:"lɛrɛ %d",d:"tile kelen",dd:"tile %d",M:"kalo kelen",MM:"kalo %d",y:"san kelen",yy:"san %d"},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"১",2:"২",3:"৩",4:"৪",5:"৫",6:"৬",7:"৭",8:"৮",9:"৯",0:"০"},n={"১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9","০":"0"};return e.defineLocale("bn",{months:"জানুয়ারী_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর".split("_"),monthsShort:"জানু_ফেব_মার্চ_এপ্র_মে_জুন_জুল_আগ_সেপ্ট_অক্টো_নভে_ডিসে".split("_"),weekdays:"রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পতিবার_শুক্রবার_শনিবার".split("_"),weekdaysShort:"রবি_সোম_মঙ্গল_বুধ_বৃহস্পতি_শুক্র_শনি".split("_"),weekdaysMin:"রবি_সোম_মঙ্গ_বুধ_বৃহঃ_শুক্র_শনি".split("_"),longDateFormat:{LT:"A h:mm সময়",LTS:"A h:mm:ss সময়",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm সময়",LLLL:"dddd, D MMMM YYYY, A h:mm সময়"},calendar:{sameDay:"[আজ] LT",nextDay:"[আগামীকাল] LT",nextWeek:"dddd, LT",lastDay:"[গতকাল] LT",lastWeek:"[গত] dddd, LT",sameElse:"L"},relativeTime:{future:"%s পরে",past:"%s আগে",s:"কয়েক সেকেন্ড",ss:"%d সেকেন্ড",m:"এক মিনিট",mm:"%d মিনিট",h:"এক ঘন্টা",hh:"%d ঘন্টা",d:"এক দিন",dd:"%d দিন",M:"এক মাস",MM:"%d মাস",y:"এক বছর",yy:"%d বছর"},preparse:function(e){return e.replace(/[১২৩৪৫৬৭৮৯০]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/রাত|সকাল|দুপুর|বিকাল|রাত/,meridiemHour:function(e,t){return 12===e&&(e=0),"রাত"===t&&e>=4||"দুপুর"===t&&e<5||"বিকাল"===t?e+12:e},meridiem:function(e,t,n){return e<4?"রাত":e<10?"সকাল":e<17?"দুপুর":e<20?"বিকাল":"রাত"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"༡",2:"༢",3:"༣",4:"༤",5:"༥",6:"༦",7:"༧",8:"༨",9:"༩",0:"༠"},n={"༡":"1","༢":"2","༣":"3","༤":"4","༥":"5","༦":"6","༧":"7","༨":"8","༩":"9","༠":"0"};return e.defineLocale("bo",{months:"ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),monthsShort:"ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),weekdays:"གཟའ་ཉི་མ་_གཟའ་ཟླ་བ་_གཟའ་མིག་དམར་_གཟའ་ལྷག་པ་_གཟའ་ཕུར་བུ_གཟའ་པ་སངས་_གཟའ་སྤེན་པ་".split("_"),weekdaysShort:"ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),weekdaysMin:"ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),longDateFormat:{LT:"A h:mm",LTS:"A h:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm",LLLL:"dddd, D MMMM YYYY, A h:mm"},calendar:{sameDay:"[དི་རིང] LT",nextDay:"[སང་ཉིན] LT",nextWeek:"[བདུན་ཕྲག་རྗེས་མ], LT",lastDay:"[ཁ་སང] LT",lastWeek:"[བདུན་ཕྲག་མཐའ་མ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s ལ་",past:"%s སྔན་ལ",s:"ལམ་སང",ss:"%d སྐར་ཆ།",m:"སྐར་མ་གཅིག",mm:"%d སྐར་མ",h:"ཆུ་ཚོད་གཅིག",hh:"%d ཆུ་ཚོད",d:"ཉིན་གཅིག",dd:"%d ཉིན་",M:"ཟླ་བ་གཅིག",MM:"%d ཟླ་བ",y:"ལོ་གཅིག",yy:"%d ལོ"},preparse:function(e){return e.replace(/[༡༢༣༤༥༦༧༨༩༠]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/མཚན་མོ|ཞོགས་ཀས|ཉིན་གུང|དགོང་དག|མཚན་མོ/,meridiemHour:function(e,t){return 12===e&&(e=0),"མཚན་མོ"===t&&e>=4||"ཉིན་གུང"===t&&e<5||"དགོང་དག"===t?e+12:e},meridiem:function(e,t,n){return e<4?"མཚན་མོ":e<10?"ཞོགས་ཀས":e<17?"ཉིན་གུང":e<20?"དགོང་དག":"མཚན་མོ"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n){return e+" "+r({mm:"munutenn",MM:"miz",dd:"devezh"}[n],e)}function n(e){switch(a(e)){case 1:case 3:case 4:case 5:case 9:return e+" bloaz";default:return e+" vloaz"}}function a(e){return e>9?a(e%10):e}function r(e,t){return 2===t?s(e):e}function s(e){var t={m:"v",b:"v",d:"z"};return void 0===t[e.charAt(0)]?e:t[e.charAt(0)]+e.substring(1)}return e.defineLocale("br",{months:"Genver_C'hwevrer_Meurzh_Ebrel_Mae_Mezheven_Gouere_Eost_Gwengolo_Here_Du_Kerzu".split("_"),monthsShort:"Gen_C'hwe_Meu_Ebr_Mae_Eve_Gou_Eos_Gwe_Her_Du_Ker".split("_"),weekdays:"Sul_Lun_Meurzh_Merc'her_Yaou_Gwener_Sadorn".split("_"),weekdaysShort:"Sul_Lun_Meu_Mer_Yao_Gwe_Sad".split("_"),weekdaysMin:"Su_Lu_Me_Mer_Ya_Gw_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"h[e]mm A",LTS:"h[e]mm:ss A",L:"DD/MM/YYYY",LL:"D [a viz] MMMM YYYY",LLL:"D [a viz] MMMM YYYY h[e]mm A",LLLL:"dddd, D [a viz] MMMM YYYY h[e]mm A"},calendar:{sameDay:"[Hiziv da] LT",nextDay:"[Warc'hoazh da] LT",nextWeek:"dddd [da] LT",lastDay:"[Dec'h da] LT",lastWeek:"dddd [paset da] LT",sameElse:"L"},relativeTime:{future:"a-benn %s",past:"%s 'zo",s:"un nebeud segondennoù",ss:"%d eilenn",m:"ur vunutenn",mm:t,h:"un eur",hh:"%d eur",d:"un devezh",dd:t,M:"ur miz",MM:t,y:"ur bloaz",yy:n},dayOfMonthOrdinalParse:/\d{1,2}(añ|vet)/,ordinal:function(e){return e+(1===e?"añ":"vet")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n){var a=e+" ";switch(n){case"ss":return a+=1===e?"sekunda":2===e||3===e||4===e?"sekunde":"sekundi";case"m":return t?"jedna minuta":"jedne minute";case"mm":return a+=1===e?"minuta":2===e||3===e||4===e?"minute":"minuta";case"h":return t?"jedan sat":"jednog sata";case"hh":return a+=1===e?"sat":2===e||3===e||4===e?"sata":"sati";case"dd":return a+=1===e?"dan":"dana";case"MM":return a+=1===e?"mjesec":2===e||3===e||4===e?"mjeseca":"mjeseci";case"yy":return a+=1===e?"godina":2===e||3===e||4===e?"godine":"godina"}}return e.defineLocale("bs",{months:"januar_februar_mart_april_maj_juni_juli_august_septembar_oktobar_novembar_decembar".split("_"),monthsShort:"jan._feb._mar._apr._maj._jun._jul._aug._sep._okt._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[jučer u] LT",lastWeek:function(){switch(this.day()){case 0:case 3:return"[prošlu] dddd [u] LT";case 6:return"[prošle] [subote] [u] LT";case 1:case 2:case 4:case 5:return"[prošli] dddd [u] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"par sekundi",ss:t,m:t,mm:t,h:t,hh:t,d:"dan",dd:t,M:"mjesec",MM:t,y:"godinu",yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ca",{months:{standalone:"gener_febrer_març_abril_maig_juny_juliol_agost_setembre_octubre_novembre_desembre".split("_"),format:"de gener_de febrer_de març_d'abril_de maig_de juny_de juliol_d'agost_de setembre_d'octubre_de novembre_de desembre".split("_"),isFormat:/D[oD]?(\s)+MMMM/},monthsShort:"gen._febr._març_abr._maig_juny_jul._ag._set._oct._nov._des.".split("_"),monthsParseExact:!0,weekdays:"diumenge_dilluns_dimarts_dimecres_dijous_divendres_dissabte".split("_"),weekdaysShort:"dg._dl._dt._dc._dj._dv._ds.".split("_"),weekdaysMin:"dg_dl_dt_dc_dj_dv_ds".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM [de] YYYY",ll:"D MMM YYYY",LLL:"D MMMM [de] YYYY [a les] H:mm",lll:"D MMM YYYY, H:mm",LLLL:"dddd D MMMM [de] YYYY [a les] H:mm",llll:"ddd D MMM YYYY, H:mm"},calendar:{sameDay:function(){return"[avui a "+(1!==this.hours()?"les":"la")+"] LT"},nextDay:function(){return"[demà a "+(1!==this.hours()?"les":"la")+"] LT"},nextWeek:function(){return"dddd [a "+(1!==this.hours()?"les":"la")+"] LT"},lastDay:function(){return"[ahir a "+(1!==this.hours()?"les":"la")+"] LT"},lastWeek:function(){return"[el] dddd [passat a "+(1!==this.hours()?"les":"la")+"] LT"},sameElse:"L"},relativeTime:{future:"d'aquí %s",past:"fa %s",s:"uns segons",ss:"%d segons",m:"un minut",mm:"%d minuts",h:"una hora",hh:"%d hores",d:"un dia",dd:"%d dies",M:"un mes",MM:"%d mesos",y:"un any",yy:"%d anys"},dayOfMonthOrdinalParse:/\d{1,2}(r|n|t|è|a)/,ordinal:function(e,t){var n=1===e?"r":2===e?"n":3===e?"r":4===e?"t":"è";return"w"!==t&&"W"!==t||(n="a"),e+n},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){return e>1&&e<5&&1!=~~(e/10)}function n(e,n,a,r){var s=e+" ";switch(a){case"s":return n||r?"pár sekund":"pár sekundami";case"ss":return n||r?s+(t(e)?"sekundy":"sekund"):s+"sekundami";case"m":return n?"minuta":r?"minutu":"minutou";case"mm":return n||r?s+(t(e)?"minuty":"minut"):s+"minutami";case"h":return n?"hodina":r?"hodinu":"hodinou";case"hh":return n||r?s+(t(e)?"hodiny":"hodin"):s+"hodinami";case"d":return n||r?"den":"dnem";case"dd":return n||r?s+(t(e)?"dny":"dní"):s+"dny";case"M":return n||r?"měsíc":"měsícem";case"MM":return n||r?s+(t(e)?"měsíce":"měsíců"):s+"měsíci";case"y":return n||r?"rok":"rokem";case"yy":return n||r?s+(t(e)?"roky":"let"):s+"lety"}}var a="leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec".split("_"),r="led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro".split("_"),s=[/^led/i,/^úno/i,/^bře/i,/^dub/i,/^kvě/i,/^(čvn|červen$|června)/i,/^(čvc|červenec|července)/i,/^srp/i,/^zář/i,/^říj/i,/^lis/i,/^pro/i],i=/^(leden|únor|březen|duben|květen|červenec|července|červen|června|srpen|září|říjen|listopad|prosinec|led|úno|bře|dub|kvě|čvn|čvc|srp|zář|říj|lis|pro)/i;return e.defineLocale("cs",{months:a,monthsShort:r,monthsRegex:i,monthsShortRegex:i,monthsStrictRegex:/^(leden|ledna|února|únor|březen|března|duben|dubna|květen|května|červenec|července|červen|června|srpen|srpna|září|říjen|října|listopadu|listopad|prosinec|prosince)/i,monthsShortStrictRegex:/^(led|úno|bře|dub|kvě|čvn|čvc|srp|zář|říj|lis|pro)/i,monthsParse:s,longMonthsParse:s,shortMonthsParse:s,weekdays:"neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota".split("_"),weekdaysShort:"ne_po_út_st_čt_pá_so".split("_"),weekdaysMin:"ne_po_út_st_čt_pá_so".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd D. MMMM YYYY H:mm",l:"D. M. YYYY"},calendar:{sameDay:"[dnes v] LT",nextDay:"[zítra v] LT",nextWeek:function(){switch(this.day()){case 0:return"[v neděli v] LT";case 1:case 2:return"[v] dddd [v] LT";case 3:return"[ve středu v] LT";case 4:return"[ve čtvrtek v] LT";case 5:return"[v pátek v] LT";case 6:return"[v sobotu v] LT"}},lastDay:"[včera v] LT",lastWeek:function(){switch(this.day()){case 0:return"[minulou neděli v] LT";case 1:case 2:return"[minulé] dddd [v] LT";case 3:return"[minulou středu v] LT";case 4:case 5:return"[minulý] dddd [v] LT";case 6:return"[minulou sobotu v] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"před %s",s:n,ss:n,m:n,mm:n,h:n,hh:n,d:n,dd:n,M:n,MM:n,y:n,yy:n},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("cv",{months:"кӑрлач_нарӑс_пуш_ака_май_ҫӗртме_утӑ_ҫурла_авӑн_юпа_чӳк_раштав".split("_"),monthsShort:"кӑр_нар_пуш_ака_май_ҫӗр_утӑ_ҫур_авн_юпа_чӳк_раш".split("_"),weekdays:"вырсарникун_тунтикун_ытларикун_юнкун_кӗҫнерникун_эрнекун_шӑматкун".split("_"),weekdaysShort:"выр_тун_ытл_юн_кӗҫ_эрн_шӑм".split("_"),weekdaysMin:"вр_тн_ыт_юн_кҫ_эр_шм".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD-MM-YYYY",LL:"YYYY [ҫулхи] MMMM [уйӑхӗн] D[-мӗшӗ]",LLL:"YYYY [ҫулхи] MMMM [уйӑхӗн] D[-мӗшӗ], HH:mm",LLLL:"dddd, YYYY [ҫулхи] MMMM [уйӑхӗн] D[-мӗшӗ], HH:mm"},calendar:{sameDay:"[Паян] LT [сехетре]",nextDay:"[Ыран] LT [сехетре]",lastDay:"[Ӗнер] LT [сехетре]",nextWeek:"[Ҫитес] dddd LT [сехетре]",lastWeek:"[Иртнӗ] dddd LT [сехетре]",sameElse:"L"},relativeTime:{future:function(e){return e+(/сехет$/i.exec(e)?"рен":/ҫул$/i.exec(e)?"тан":"ран")},past:"%s каялла",s:"пӗр-ик ҫеккунт",ss:"%d ҫеккунт",m:"пӗр минут",mm:"%d минут",h:"пӗр сехет",hh:"%d сехет",d:"пӗр кун",dd:"%d кун",M:"пӗр уйӑх",MM:"%d уйӑх",y:"пӗр ҫул",yy:"%d ҫул"},dayOfMonthOrdinalParse:/\d{1,2}-мӗш/,ordinal:"%d-мӗш",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("cy",{months:"Ionawr_Chwefror_Mawrth_Ebrill_Mai_Mehefin_Gorffennaf_Awst_Medi_Hydref_Tachwedd_Rhagfyr".split("_"),monthsShort:"Ion_Chwe_Maw_Ebr_Mai_Meh_Gor_Aws_Med_Hyd_Tach_Rhag".split("_"),weekdays:"Dydd Sul_Dydd Llun_Dydd Mawrth_Dydd Mercher_Dydd Iau_Dydd Gwener_Dydd Sadwrn".split("_"),weekdaysShort:"Sul_Llun_Maw_Mer_Iau_Gwe_Sad".split("_"),weekdaysMin:"Su_Ll_Ma_Me_Ia_Gw_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Heddiw am] LT",nextDay:"[Yfory am] LT",nextWeek:"dddd [am] LT",lastDay:"[Ddoe am] LT",lastWeek:"dddd [diwethaf am] LT",sameElse:"L"},relativeTime:{future:"mewn %s",past:"%s yn ôl",s:"ychydig eiliadau",ss:"%d eiliad",m:"munud",mm:"%d munud",h:"awr",hh:"%d awr",d:"diwrnod",dd:"%d diwrnod",M:"mis",MM:"%d mis",y:"blwyddyn",yy:"%d flynedd"},dayOfMonthOrdinalParse:/\d{1,2}(fed|ain|af|il|ydd|ed|eg)/,ordinal:function(e){var t=e,n="",a=["","af","il","ydd","ydd","ed","ed","ed","fed","fed","fed","eg","fed","eg","eg","fed","eg","eg","fed","eg","fed"];return t>20?n=40===t||50===t||60===t||80===t||100===t?"fed":"ain":t>0&&(n=a[t]),e+n},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("da",{months:"januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn_man_tir_ons_tor_fre_lør".split("_"),weekdaysMin:"sø_ma_ti_on_to_fr_lø".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY HH:mm",LLLL:"dddd [d.] D. MMMM YYYY [kl.] HH:mm"},calendar:{sameDay:"[i dag kl.] LT",nextDay:"[i morgen kl.] LT",nextWeek:"på dddd [kl.] LT",lastDay:"[i går kl.] LT",lastWeek:"[i] dddd[s kl.] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"%s siden",s:"få sekunder",ss:"%d sekunder",m:"et minut",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dage",M:"en måned",MM:"%d måneder",y:"et år",yy:"%d år"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={m:["eine Minute","einer Minute"],h:["eine Stunde","einer Stunde"],d:["ein Tag","einem Tag"],dd:[e+" Tage",e+" Tagen"],M:["ein Monat","einem Monat"],MM:[e+" Monate",e+" Monaten"],y:["ein Jahr","einem Jahr"],yy:[e+" Jahre",e+" Jahren"]};return t?r[n][0]:r[n][1]}return e.defineLocale("de-at",{months:"Jänner_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jän._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),monthsParseExact:!0,weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY HH:mm",LLLL:"dddd, D. MMMM YYYY HH:mm"},calendar:{sameDay:"[heute um] LT [Uhr]",sameElse:"L",nextDay:"[morgen um] LT [Uhr]",nextWeek:"dddd [um] LT [Uhr]",lastDay:"[gestern um] LT [Uhr]",lastWeek:"[letzten] dddd [um] LT [Uhr]"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",ss:"%d Sekunden",m:t,mm:"%d Minuten",h:t,hh:"%d Stunden",d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={m:["eine Minute","einer Minute"],h:["eine Stunde","einer Stunde"],d:["ein Tag","einem Tag"],dd:[e+" Tage",e+" Tagen"],M:["ein Monat","einem Monat"],MM:[e+" Monate",e+" Monaten"],y:["ein Jahr","einem Jahr"],yy:[e+" Jahre",e+" Jahren"]};return t?r[n][0]:r[n][1]}return e.defineLocale("de-ch",{months:"Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),monthsParseExact:!0,weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),weekdaysMin:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY HH:mm",LLLL:"dddd, D. MMMM YYYY HH:mm"},calendar:{sameDay:"[heute um] LT [Uhr]",sameElse:"L",nextDay:"[morgen um] LT [Uhr]",nextWeek:"dddd [um] LT [Uhr]",lastDay:"[gestern um] LT [Uhr]",lastWeek:"[letzten] dddd [um] LT [Uhr]"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",ss:"%d Sekunden",m:t,mm:"%d Minuten",h:t,hh:"%d Stunden",d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={m:["eine Minute","einer Minute"],h:["eine Stunde","einer Stunde"],d:["ein Tag","einem Tag"],dd:[e+" Tage",e+" Tagen"],M:["ein Monat","einem Monat"],MM:[e+" Monate",e+" Monaten"],y:["ein Jahr","einem Jahr"],yy:[e+" Jahre",e+" Jahren"]};return t?r[n][0]:r[n][1]}return e.defineLocale("de",{months:"Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),monthsParseExact:!0,weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY HH:mm",LLLL:"dddd, D. MMMM YYYY HH:mm"},calendar:{sameDay:"[heute um] LT [Uhr]",sameElse:"L",nextDay:"[morgen um] LT [Uhr]",nextWeek:"dddd [um] LT [Uhr]",lastDay:"[gestern um] LT [Uhr]",lastWeek:"[letzten] dddd [um] LT [Uhr]"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",ss:"%d Sekunden",m:t,mm:"%d Minuten",h:t,hh:"%d Stunden",d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t=["ޖެނުއަރީ","ފެބްރުއަރީ","މާރިޗު","އޭޕްރީލު","މޭ","ޖޫން","ޖުލައި","އޯގަސްޓު","ސެޕްޓެމްބަރު","އޮކްޓޯބަރު","ނޮވެމްބަރު","ޑިސެމްބަރު"],n=["އާދިއްތަ","ހޯމަ","އަންގާރަ","ބުދަ","ބުރާސްފަތި","ހުކުރު","ހޮނިހިރު"];return e.defineLocale("dv",{months:t,monthsShort:t,weekdays:n,weekdaysShort:n,weekdaysMin:"އާދި_ހޯމަ_އަން_ބުދަ_ބުރާ_ހުކު_ހޮނި".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"D/M/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},meridiemParse:/މކ|މފ/,isPM:function(e){return"މފ"===e},meridiem:function(e,t,n){return e<12?"މކ":"މފ"},calendar:{sameDay:"[މިއަދު] LT",nextDay:"[މާދަމާ] LT",nextWeek:"dddd LT",lastDay:"[އިއްޔެ] LT",lastWeek:"[ފާއިތުވި] dddd LT",sameElse:"L"},relativeTime:{future:"ތެރޭގައި %s",past:"ކުރިން %s",s:"ސިކުންތުކޮޅެއް",ss:"d% ސިކުންތު",m:"މިނިޓެއް",mm:"މިނިޓު %d",h:"ގަޑިއިރެއް",hh:"ގަޑިއިރު %d",d:"ދުވަހެއް",dd:"ދުވަސް %d",M:"މަހެއް",MM:"މަސް %d",y:"އަހަރެއް",yy:"އަހަރު %d"},preparse:function(e){return e.replace(/،/g,",")},postformat:function(e){return e.replace(/,/g,"،")},week:{dow:7,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){return e instanceof Function||"[object Function]"===Object.prototype.toString.call(e)}return e.defineLocale("el",{monthsNominativeEl:"Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος".split("_"),monthsGenitiveEl:"Ιανουαρίου_Φεβρουαρίου_Μαρτίου_Απριλίου_Μαΐου_Ιουνίου_Ιουλίου_Αυγούστου_Σεπτεμβρίου_Οκτωβρίου_Νοεμβρίου_Δεκεμβρίου".split("_"),months:function(e,t){return e?"string"==typeof t&&/D/.test(t.substring(0,t.indexOf("MMMM")))?this._monthsGenitiveEl[e.month()]:this._monthsNominativeEl[e.month()]:this._monthsNominativeEl},monthsShort:"Ιαν_Φεβ_Μαρ_Απρ_Μαϊ_Ιουν_Ιουλ_Αυγ_Σεπ_Οκτ_Νοε_Δεκ".split("_"),weekdays:"Κυριακή_Δευτέρα_Τρίτη_Τετάρτη_Πέμπτη_Παρασκευή_Σάββατο".split("_"),weekdaysShort:"Κυρ_Δευ_Τρι_Τετ_Πεμ_Παρ_Σαβ".split("_"),weekdaysMin:"Κυ_Δε_Τρ_Τε_Πε_Πα_Σα".split("_"),meridiem:function(e,t,n){return e>11?n?"μμ":"ΜΜ":n?"πμ":"ΠΜ"},isPM:function(e){return"μ"===(e+"").toLowerCase()[0]},meridiemParse:/[ΠΜ]\.?Μ?\.?/i,longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendarEl:{sameDay:"[Σήμερα {}] LT",nextDay:"[Αύριο {}] LT",nextWeek:"dddd [{}] LT",lastDay:"[Χθες {}] LT",lastWeek:function(){switch(this.day()){case 6:return"[το προηγούμενο] dddd [{}] LT";default:return"[την προηγούμενη] dddd [{}] LT"}},sameElse:"L"},calendar:function(e,n){var a=this._calendarEl[e],r=n&&n.hours();return t(a)&&(a=a.apply(n)),a.replace("{}",r%12==1?"στη":"στις")},relativeTime:{future:"σε %s",past:"%s πριν",s:"λίγα δευτερόλεπτα",ss:"%d δευτερόλεπτα",m:"ένα λεπτό",mm:"%d λεπτά",h:"μία ώρα",hh:"%d ώρες",d:"μία μέρα",dd:"%d μέρες",M:"ένας μήνας",MM:"%d μήνες",y:"ένας χρόνος",yy:"%d χρόνια"},dayOfMonthOrdinalParse:/\d{1,2}η/,ordinal:"%dη",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-SG",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-au",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-ca",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"YYYY-MM-DD",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-gb",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-ie",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-il",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("en-nz",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",ss:"%d seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("eo",{months:"januaro_februaro_marto_aprilo_majo_junio_julio_aŭgusto_septembro_oktobro_novembro_decembro".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aŭg_sep_okt_nov_dec".split("_"),weekdays:"dimanĉo_lundo_mardo_merkredo_ĵaŭdo_vendredo_sabato".split("_"),weekdaysShort:"dim_lun_mard_merk_ĵaŭ_ven_sab".split("_"),weekdaysMin:"di_lu_ma_me_ĵa_ve_sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"D[-a de] MMMM, YYYY",LLL:"D[-a de] MMMM, YYYY HH:mm",LLLL:"dddd, [la] D[-a de] MMMM, YYYY HH:mm"},meridiemParse:/[ap]\.t\.m/i,isPM:function(e){return"p"===e.charAt(0).toLowerCase()},meridiem:function(e,t,n){return e>11?n?"p.t.m.":"P.T.M.":n?"a.t.m.":"A.T.M."},calendar:{sameDay:"[Hodiaŭ je] LT",nextDay:"[Morgaŭ je] LT",nextWeek:"dddd [je] LT",lastDay:"[Hieraŭ je] LT",lastWeek:"[pasinta] dddd [je] LT",sameElse:"L"},relativeTime:{future:"post %s",past:"antaŭ %s",s:"sekundoj",ss:"%d sekundoj",m:"minuto",mm:"%d minutoj",h:"horo",hh:"%d horoj",d:"tago",dd:"%d tagoj",M:"monato",MM:"%d monatoj",y:"jaro",yy:"%d jaroj"},dayOfMonthOrdinalParse:/\d{1,2}a/,ordinal:"%da",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),n="ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),a=[/^ene/i,/^feb/i,/^mar/i,/^abr/i,/^may/i,/^jun/i,/^jul/i,/^ago/i,/^sep/i,/^oct/i,/^nov/i,/^dic/i],r=/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;return e.defineLocale("es-do",{months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsRegex:r,monthsShortRegex:r,monthsStrictRegex:/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,monthsShortStrictRegex:/^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,monthsParse:a,longMonthsParse:a,shortMonthsParse:a,weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"do_lu_ma_mi_ju_vi_sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY h:mm A",LLLL:"dddd, D [de] MMMM [de] YYYY h:mm A"},calendar:{sameDay:function(){return"[hoy a la"+(1!==this.hours()?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(1!==this.hours()?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(1!==this.hours()?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(1!==this.hours()?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(1!==this.hours()?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",ss:"%d segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),n="ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),a=[/^ene/i,/^feb/i,/^mar/i,/^abr/i,/^may/i,/^jun/i,/^jul/i,/^ago/i,/^sep/i,/^oct/i,/^nov/i,/^dic/i],r=/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;return e.defineLocale("es-us",{months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsRegex:r,monthsShortRegex:r,monthsStrictRegex:/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,monthsShortStrictRegex:/^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,monthsParse:a,longMonthsParse:a,shortMonthsParse:a,weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"do_lu_ma_mi_ju_vi_sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"MM/DD/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY h:mm A",LLLL:"dddd, D [de] MMMM [de] YYYY h:mm A"},calendar:{sameDay:function(){return"[hoy a la"+(1!==this.hours()?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(1!==this.hours()?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(1!==this.hours()?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(1!==this.hours()?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(1!==this.hours()?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",ss:"%d segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),n="ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),a=[/^ene/i,/^feb/i,/^mar/i,/^abr/i,/^may/i,/^jun/i,/^jul/i,/^ago/i,/^sep/i,/^oct/i,/^nov/i,/^dic/i],r=/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;return e.defineLocale("es",{months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsRegex:r,monthsShortRegex:r,monthsStrictRegex:/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,monthsShortStrictRegex:/^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,monthsParse:a,longMonthsParse:a,shortMonthsParse:a,weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"do_lu_ma_mi_ju_vi_sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY H:mm",LLLL:"dddd, D [de] MMMM [de] YYYY H:mm"},calendar:{sameDay:function(){return"[hoy a la"+(1!==this.hours()?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(1!==this.hours()?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(1!==this.hours()?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(1!==this.hours()?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(1!==this.hours()?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",ss:"%d segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={s:["mõne sekundi","mõni sekund","paar sekundit"],ss:[e+"sekundi",e+"sekundit"],m:["ühe minuti","üks minut"],mm:[e+" minuti",e+" minutit"],h:["ühe tunni","tund aega","üks tund"],hh:[e+" tunni",e+" tundi"],d:["ühe päeva","üks päev"],M:["kuu aja","kuu aega","üks kuu"],MM:[e+" kuu",e+" kuud"],y:["ühe aasta","aasta","üks aasta"],yy:[e+" aasta",e+" aastat"]};return t?r[n][2]?r[n][2]:r[n][1]:a?r[n][0]:r[n][1]}return e.defineLocale("et",{months:"jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember".split("_"),monthsShort:"jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets".split("_"),weekdays:"pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev".split("_"),weekdaysShort:"P_E_T_K_N_R_L".split("_"),weekdaysMin:"P_E_T_K_N_R_L".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[Täna,] LT",nextDay:"[Homme,] LT",nextWeek:"[Järgmine] dddd LT",lastDay:"[Eile,] LT",lastWeek:"[Eelmine] dddd LT",sameElse:"L"},relativeTime:{future:"%s pärast",past:"%s tagasi",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:"%d päeva",M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("eu",{months:"urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),monthsShort:"urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),monthsParseExact:!0,weekdays:"igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),weekdaysShort:"ig._al._ar._az._og._ol._lr.".split("_"),weekdaysMin:"ig_al_ar_az_og_ol_lr".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"YYYY[ko] MMMM[ren] D[a]",LLL:"YYYY[ko] MMMM[ren] D[a] HH:mm",LLLL:"dddd, YYYY[ko] MMMM[ren] D[a] HH:mm",l:"YYYY-M-D",ll:"YYYY[ko] MMM D[a]",lll:"YYYY[ko] MMM D[a] HH:mm",llll:"ddd, YYYY[ko] MMM D[a] HH:mm"},calendar:{sameDay:"[gaur] LT[etan]",nextDay:"[bihar] LT[etan]",nextWeek:"dddd LT[etan]",lastDay:"[atzo] LT[etan]",lastWeek:"[aurreko] dddd LT[etan]",sameElse:"L"},relativeTime:{future:"%s barru",past:"duela %s",s:"segundo batzuk",ss:"%d segundo",m:"minutu bat",mm:"%d minutu",h:"ordu bat",hh:"%d ordu",d:"egun bat",dd:"%d egun",M:"hilabete bat",MM:"%d hilabete",y:"urte bat",yy:"%d urte"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"۱",2:"۲",3:"۳",4:"۴",5:"۵",6:"۶",7:"۷",8:"۸",9:"۹",0:"۰"},n={"۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9","۰":"0"};return e.defineLocale("fa",{months:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),monthsShort:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),weekdays:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysShort:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysMin:"ی_د_س_چ_پ_ج_ش".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},meridiemParse:/قبل از ظهر|بعد از ظهر/,isPM:function(e){return/بعد از ظهر/.test(e)},meridiem:function(e,t,n){return e<12?"قبل از ظهر":"بعد از ظهر"},calendar:{sameDay:"[امروز ساعت] LT",nextDay:"[فردا ساعت] LT",nextWeek:"dddd [ساعت] LT",lastDay:"[دیروز ساعت] LT",lastWeek:"dddd [پیش] [ساعت] LT",sameElse:"L"},relativeTime:{future:"در %s",past:"%s پیش",s:"چند ثانیه",ss:"ثانیه d%",m:"یک دقیقه",mm:"%d دقیقه",h:"یک ساعت",hh:"%d ساعت",d:"یک روز",dd:"%d روز",M:"یک ماه",MM:"%d ماه",y:"یک سال",yy:"%d سال"},preparse:function(e){return e.replace(/[۰-۹]/g,function(e){return n[e]}).replace(/،/g,",")},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]}).replace(/,/g,"،")},dayOfMonthOrdinalParse:/\d{1,2}م/,ordinal:"%dم",week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,a,r){var s="";switch(a){case"s":return r?"muutaman sekunnin":"muutama sekunti";case"ss":return r?"sekunnin":"sekuntia";case"m":return r?"minuutin":"minuutti";case"mm":s=r?"minuutin":"minuuttia";break;case"h":return r?"tunnin":"tunti";case"hh":s=r?"tunnin":"tuntia";break;case"d":return r?"päivän":"päivä";case"dd":s=r?"päivän":"päivää";break;case"M":return r?"kuukauden":"kuukausi";case"MM":s=r?"kuukauden":"kuukautta";break;case"y":return r?"vuoden":"vuosi";case"yy":s=r?"vuoden":"vuotta"}return s=n(e,r)+" "+s}function n(e,t){return e<10?t?r[e]:a[e]:e}var a="nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän".split(" "),r=["nolla","yhden","kahden","kolmen","neljän","viiden","kuuden",a[7],a[8],a[9]];return e.defineLocale("fi",{months:"tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split("_"),monthsShort:"tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu".split("_"),weekdays:"sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split("_"),weekdaysShort:"su_ma_ti_ke_to_pe_la".split("_"),weekdaysMin:"su_ma_ti_ke_to_pe_la".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD.MM.YYYY",LL:"Do MMMM[ta] YYYY",LLL:"Do MMMM[ta] YYYY, [klo] HH.mm",LLLL:"dddd, Do MMMM[ta] YYYY, [klo] HH.mm",l:"D.M.YYYY",ll:"Do MMM YYYY",lll:"Do MMM YYYY, [klo] HH.mm",llll:"ddd, Do MMM YYYY, [klo] HH.mm"},calendar:{sameDay:"[tänään] [klo] LT",nextDay:"[huomenna] [klo] LT",nextWeek:"dddd [klo] LT",lastDay:"[eilen] [klo] LT",lastWeek:"[viime] dddd[na] [klo] LT",sameElse:"L"},relativeTime:{future:"%s päästä",past:"%s sitten",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("fo",{months:"januar_februar_mars_apríl_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sunnudagur_mánadagur_týsdagur_mikudagur_hósdagur_fríggjadagur_leygardagur".split("_"),weekdaysShort:"sun_mán_týs_mik_hós_frí_ley".split("_"),weekdaysMin:"su_má_tý_mi_hó_fr_le".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D. MMMM, YYYY HH:mm"},calendar:{sameDay:"[Í dag kl.] LT",nextDay:"[Í morgin kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[Í gjár kl.] LT",lastWeek:"[síðstu] dddd [kl] LT",sameElse:"L"},relativeTime:{future:"um %s",past:"%s síðani",s:"fá sekund",ss:"%d sekundir",m:"ein minuttur",mm:"%d minuttir",h:"ein tími",hh:"%d tímar",d:"ein dagur",dd:"%d dagar",M:"ein mánaður",MM:"%d mánaðir",y:"eitt ár",yy:"%d ár"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("fr-ca",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),monthsParseExact:!0,weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"di_lu_ma_me_je_ve_sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Aujourd’hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",ss:"%d secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},dayOfMonthOrdinalParse:/\d{1,2}(er|e)/,ordinal:function(e,t){switch(t){default:case"M":case"Q":case"D":case"DDD":case"d":return e+(1===e?"er":"e");case"w":case"W":return e+(1===e?"re":"e")}}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("fr-ch",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),monthsParseExact:!0,weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"di_lu_ma_me_je_ve_sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Aujourd’hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",ss:"%d secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},dayOfMonthOrdinalParse:/\d{1,2}(er|e)/,ordinal:function(e,t){switch(t){default:case"M":case"Q":case"D":case"DDD":case"d":return e+(1===e?"er":"e");case"w":case"W":return e+(1===e?"re":"e")}},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("fr",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),monthsParseExact:!0,weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"di_lu_ma_me_je_ve_sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Aujourd’hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",ss:"%d secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},dayOfMonthOrdinalParse:/\d{1,2}(er|)/,ordinal:function(e,t){switch(t){case"D":return e+(1===e?"er":"");default:case"M":case"Q":case"DDD":case"d":return e+(1===e?"er":"e");case"w":case"W":return e+(1===e?"re":"e")}},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="jan._feb._mrt._apr._mai_jun._jul._aug._sep._okt._nov._des.".split("_"),n="jan_feb_mrt_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_");return e.defineLocale("fy",{months:"jannewaris_febrewaris_maart_april_maaie_juny_july_augustus_septimber_oktober_novimber_desimber".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsParseExact:!0,weekdays:"snein_moandei_tiisdei_woansdei_tongersdei_freed_sneon".split("_"),weekdaysShort:"si._mo._ti._wo._to._fr._so.".split("_"),weekdaysMin:"Si_Mo_Ti_Wo_To_Fr_So".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[hjoed om] LT",nextDay:"[moarn om] LT",nextWeek:"dddd [om] LT",lastDay:"[juster om] LT",lastWeek:"[ôfrûne] dddd [om] LT",sameElse:"L"},relativeTime:{future:"oer %s",past:"%s lyn",s:"in pear sekonden",ss:"%d sekonden",m:"ien minút",mm:"%d minuten",h:"ien oere",hh:"%d oeren",d:"ien dei",dd:"%d dagen",M:"ien moanne",MM:"%d moannen",y:"ien jier",yy:"%d jierren"},dayOfMonthOrdinalParse:/\d{1,2}(ste|de)/,ordinal:function(e){return e+(1===e||8===e||e>=20?"ste":"de")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t=["Eanáir","Feabhra","Márta","Aibreán","Bealtaine","Méitheamh","Iúil","Lúnasa","Meán Fómhair","Deaireadh Fómhair","Samhain","Nollaig"],n=["Eaná","Feab","Márt","Aibr","Beal","Méit","Iúil","Lúna","Meán","Deai","Samh","Noll"],a=["Dé Domhnaigh","Dé Luain","Dé Máirt","Dé Céadaoin","Déardaoin","Dé hAoine","Dé Satharn"],r=["Dom","Lua","Mái","Céa","Déa","hAo","Sat"],s=["Do","Lu","Má","Ce","Dé","hA","Sa"];return e.defineLocale("ga",{months:t,monthsShort:n,monthsParseExact:!0,weekdays:a,weekdaysShort:r,weekdaysMin:s,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Inniu ag] LT",nextDay:"[Amárach ag] LT",nextWeek:"dddd [ag] LT",lastDay:"[Inné aig] LT",lastWeek:"dddd [seo caite] [ag] LT",sameElse:"L"},relativeTime:{future:"i %s",past:"%s ó shin",s:"cúpla soicind",ss:"%d soicind",m:"nóiméad",mm:"%d nóiméad",h:"uair an chloig",hh:"%d uair an chloig",d:"lá",dd:"%d lá",M:"mí",MM:"%d mí",y:"bliain",yy:"%d bliain"},dayOfMonthOrdinalParse:/\d{1,2}(d|na|mh)/,ordinal:function(e){return e+(1===e?"d":e%10==2?"na":"mh")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t=["Am Faoilleach","An Gearran","Am Màrt","An Giblean","An Cèitean","An t-Ògmhios","An t-Iuchar","An Lùnastal","An t-Sultain","An Dàmhair","An t-Samhain","An Dùbhlachd"],n=["Faoi","Gear","Màrt","Gibl","Cèit","Ògmh","Iuch","Lùn","Sult","Dàmh","Samh","Dùbh"],a=["Didòmhnaich","Diluain","Dimàirt","Diciadain","Diardaoin","Dihaoine","Disathairne"],r=["Did","Dil","Dim","Dic","Dia","Dih","Dis"],s=["Dò","Lu","Mà","Ci","Ar","Ha","Sa"];return e.defineLocale("gd",{months:t,monthsShort:n,monthsParseExact:!0,weekdays:a,weekdaysShort:r,weekdaysMin:s,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[An-diugh aig] LT",nextDay:"[A-màireach aig] LT",nextWeek:"dddd [aig] LT",lastDay:"[An-dè aig] LT",lastWeek:"dddd [seo chaidh] [aig] LT",sameElse:"L"},relativeTime:{future:"ann an %s",past:"bho chionn %s",s:"beagan diogan",ss:"%d diogan",m:"mionaid",mm:"%d mionaidean",h:"uair",hh:"%d uairean",d:"latha",dd:"%d latha",M:"mìos",MM:"%d mìosan",y:"bliadhna",yy:"%d bliadhna"},dayOfMonthOrdinalParse:/\d{1,2}(d|na|mh)/,ordinal:function(e){return e+(1===e?"d":e%10==2?"na":"mh")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("gl",{months:"xaneiro_febreiro_marzo_abril_maio_xuño_xullo_agosto_setembro_outubro_novembro_decembro".split("_"),monthsShort:"xan._feb._mar._abr._mai._xuñ._xul._ago._set._out._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"domingo_luns_martes_mércores_xoves_venres_sábado".split("_"),weekdaysShort:"dom._lun._mar._mér._xov._ven._sáb.".split("_"),weekdaysMin:"do_lu_ma_mé_xo_ve_sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY H:mm",LLLL:"dddd, D [de] MMMM [de] YYYY H:mm"},calendar:{sameDay:function(){return"[hoxe "+(1!==this.hours()?"ás":"á")+"] LT"},nextDay:function(){return"[mañá "+(1!==this.hours()?"ás":"á")+"] LT"},nextWeek:function(){return"dddd ["+(1!==this.hours()?"ás":"a")+"] LT"},lastDay:function(){return"[onte "+(1!==this.hours()?"á":"a")+"] LT"},lastWeek:function(){return"[o] dddd [pasado "+(1!==this.hours()?"ás":"a")+"] LT"},sameElse:"L"},relativeTime:{future:function(e){return 0===e.indexOf("un")?"n"+e:"en "+e},past:"hai %s",s:"uns segundos",ss:"%d segundos",m:"un minuto",mm:"%d minutos",h:"unha hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un ano",yy:"%d anos"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={s:["thodde secondanim","thodde second"],ss:[e+" secondanim",e+" second"],m:["eka mintan","ek minute"],mm:[e+" mintanim",e+" mintam"],h:["eka voran","ek vor"],hh:[e+" voranim",e+" voram"],d:["eka disan","ek dis"],dd:[e+" disanim",e+" dis"],M:["eka mhoinean","ek mhoino"],MM:[e+" mhoineanim",e+" mhoine"],y:["eka vorsan","ek voros"],yy:[e+" vorsanim",e+" vorsam"]};return t?r[n][0]:r[n][1]}return e.defineLocale("gom-latn",{months:"Janer_Febrer_Mars_Abril_Mai_Jun_Julai_Agost_Setembr_Otubr_Novembr_Dezembr".split("_"),monthsShort:"Jan._Feb._Mars_Abr._Mai_Jun_Jul._Ago._Set._Otu._Nov._Dez.".split("_"),monthsParseExact:!0,weekdays:"Aitar_Somar_Mongllar_Budvar_Brestar_Sukrar_Son'var".split("_"),weekdaysShort:"Ait._Som._Mon._Bud._Bre._Suk._Son.".split("_"),weekdaysMin:"Ai_Sm_Mo_Bu_Br_Su_Sn".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"A h:mm [vazta]",LTS:"A h:mm:ss [vazta]",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY A h:mm [vazta]",LLLL:"dddd, MMMM[achea] Do, YYYY, A h:mm [vazta]",llll:"ddd, D MMM YYYY, A h:mm [vazta]"},calendar:{sameDay:"[Aiz] LT",nextDay:"[Faleam] LT",nextWeek:"[Ieta to] dddd[,] LT",lastDay:"[Kal] LT",lastWeek:"[Fatlo] dddd[,] LT",sameElse:"L"},relativeTime:{future:"%s",past:"%s adim",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}(er)/,ordinal:function(e,t){switch(t){case"D":return e+"er";default:case"M":case"Q":case"DDD":case"d":case"w":case"W":return e}},week:{dow:1,doy:4},meridiemParse:/rati|sokalli|donparam|sanje/,meridiemHour:function(e,t){return 12===e&&(e=0),"rati"===t?e<4?e:e+12:"sokalli"===t?e:"donparam"===t?e>12?e:e+12:"sanje"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"rati":e<12?"sokalli":e<16?"donparam":e<20?"sanje":"rati"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"૧",2:"૨",3:"૩",4:"૪",5:"૫",6:"૬",7:"૭",8:"૮",9:"૯",0:"૦"},n={"૧":"1","૨":"2","૩":"3","૪":"4","૫":"5","૬":"6","૭":"7","૮":"8","૯":"9","૦":"0"};return e.defineLocale("gu",{months:"જાન્યુઆરી_ફેબ્રુઆરી_માર્ચ_એપ્રિલ_મે_જૂન_જુલાઈ_ઑગસ્ટ_સપ્ટેમ્બર_ઑક્ટ્બર_નવેમ્બર_ડિસેમ્બર".split("_"),monthsShort:"જાન્યુ._ફેબ્રુ._માર્ચ_એપ્રિ._મે_જૂન_જુલા._ઑગ._સપ્ટે._ઑક્ટ્._નવે._ડિસે.".split("_"),monthsParseExact:!0,weekdays:"રવિવાર_સોમવાર_મંગળવાર_બુધ્વાર_ગુરુવાર_શુક્રવાર_શનિવાર".split("_"),weekdaysShort:"રવિ_સોમ_મંગળ_બુધ્_ગુરુ_શુક્ર_શનિ".split("_"),weekdaysMin:"ર_સો_મં_બુ_ગુ_શુ_શ".split("_"),longDateFormat:{LT:"A h:mm વાગ્યે",LTS:"A h:mm:ss વાગ્યે",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm વાગ્યે",LLLL:"dddd, D MMMM YYYY, A h:mm વાગ્યે"},calendar:{sameDay:"[આજ] LT",nextDay:"[કાલે] LT",nextWeek:"dddd, LT",lastDay:"[ગઇકાલે] LT",lastWeek:"[પાછલા] dddd, LT",sameElse:"L"},relativeTime:{future:"%s મા",past:"%s પેહલા",s:"અમુક પળો",ss:"%d સેકંડ",m:"એક મિનિટ",mm:"%d મિનિટ",h:"એક કલાક",hh:"%d કલાક",d:"એક દિવસ",dd:"%d દિવસ",M:"એક મહિનો",MM:"%d મહિનો",y:"એક વર્ષ",yy:"%d વર્ષ"},preparse:function(e){return e.replace(/[૧૨૩૪૫૬૭૮૯૦]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/રાત|બપોર|સવાર|સાંજ/,meridiemHour:function(e,t){return 12===e&&(e=0),"રાત"===t?e<4?e:e+12:"સવાર"===t?e:"બપોર"===t?e>=10?e:e+12:"સાંજ"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"રાત":e<10?"સવાર":e<17?"બપોર":e<20?"સાંજ":"રાત"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("he",{months:"ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר".split("_"),monthsShort:"ינו׳_פבר׳_מרץ_אפר׳_מאי_יוני_יולי_אוג׳_ספט׳_אוק׳_נוב׳_דצמ׳".split("_"),weekdays:"ראשון_שני_שלישי_רביעי_חמישי_שישי_שבת".split("_"),weekdaysShort:"א׳_ב׳_ג׳_ד׳_ה׳_ו׳_ש׳".split("_"),weekdaysMin:"א_ב_ג_ד_ה_ו_ש".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D [ב]MMMM YYYY",LLL:"D [ב]MMMM YYYY HH:mm",LLLL:"dddd, D [ב]MMMM YYYY HH:mm",l:"D/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY HH:mm",llll:"ddd, D MMM YYYY HH:mm"},calendar:{sameDay:"[היום ב־]LT",nextDay:"[מחר ב־]LT",nextWeek:"dddd [בשעה] LT",lastDay:"[אתמול ב־]LT",lastWeek:"[ביום] dddd [האחרון בשעה] LT",sameElse:"L"},relativeTime:{future:"בעוד %s",past:"לפני %s",s:"מספר שניות",ss:"%d שניות",m:"דקה",mm:"%d דקות",h:"שעה",hh:function(e){return 2===e?"שעתיים":e+" שעות"},d:"יום",dd:function(e){return 2===e?"יומיים":e+" ימים"},M:"חודש",MM:function(e){return 2===e?"חודשיים":e+" חודשים"},y:"שנה",yy:function(e){return 2===e?"שנתיים":e%10==0&&10!==e?e+" שנה":e+" שנים"}},meridiemParse:/אחה"צ|לפנה"צ|אחרי הצהריים|לפני הצהריים|לפנות בוקר|בבוקר|בערב/i,isPM:function(e){return/^(אחה"צ|אחרי הצהריים|בערב)$/.test(e)},meridiem:function(e,t,n){return e<5?"לפנות בוקר":e<10?"בבוקר":e<12?n?'לפנה"צ':"לפני הצהריים":e<18?n?'אחה"צ':"אחרי הצהריים":"בערב"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},n={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return e.defineLocale("hi",{months:"जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर".split("_"),monthsShort:"जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.".split("_"),monthsParseExact:!0,weekdays:"रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm बजे",LTS:"A h:mm:ss बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm बजे",LLLL:"dddd, D MMMM YYYY, A h:mm बजे"},calendar:{sameDay:"[आज] LT",nextDay:"[कल] LT",nextWeek:"dddd, LT",lastDay:"[कल] LT",lastWeek:"[पिछले] dddd, LT",sameElse:"L"},relativeTime:{future:"%s में",past:"%s पहले",s:"कुछ ही क्षण",ss:"%d सेकंड",m:"एक मिनट",mm:"%d मिनट",h:"एक घंटा",hh:"%d घंटे",d:"एक दिन",dd:"%d दिन",M:"एक महीने",MM:"%d महीने",y:"एक वर्ष",yy:"%d वर्ष"},preparse:function(e){return e.replace(/[१२३४५६७८९०]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/रात|सुबह|दोपहर|शाम/,meridiemHour:function(e,t){return 12===e&&(e=0),"रात"===t?e<4?e:e+12:"सुबह"===t?e:"दोपहर"===t?e>=10?e:e+12:"शाम"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"रात":e<10?"सुबह":e<17?"दोपहर":e<20?"शाम":"रात"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n){var a=e+" ";switch(n){case"ss":return a+=1===e?"sekunda":2===e||3===e||4===e?"sekunde":"sekundi";case"m":return t?"jedna minuta":"jedne minute";case"mm":return a+=1===e?"minuta":2===e||3===e||4===e?"minute":"minuta";case"h":return t?"jedan sat":"jednog sata";case"hh":return a+=1===e?"sat":2===e||3===e||4===e?"sata":"sati";case"dd":return a+=1===e?"dan":"dana";case"MM":return a+=1===e?"mjesec":2===e||3===e||4===e?"mjeseca":"mjeseci";case"yy":return a+=1===e?"godina":2===e||3===e||4===e?"godine":"godina"}}return e.defineLocale("hr",{months:{format:"siječnja_veljače_ožujka_travnja_svibnja_lipnja_srpnja_kolovoza_rujna_listopada_studenoga_prosinca".split("_"),standalone:"siječanj_veljača_ožujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac".split("_")},monthsShort:"sij._velj._ožu._tra._svi._lip._srp._kol._ruj._lis._stu._pro.".split("_"),monthsParseExact:!0,weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[jučer u] LT",lastWeek:function(){switch(this.day()){case 0:case 3:return"[prošlu] dddd [u] LT";case 6:return"[prošle] [subote] [u] LT";case 1:case 2:case 4:case 5:return"[prošli] dddd [u] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"par sekundi",ss:t,m:t,mm:t,h:t,hh:t,d:"dan",dd:t,M:"mjesec",MM:t,y:"godinu",yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r=e;switch(n){case"s":return a||t?"néhány másodperc":"néhány másodperce";case"ss":return r+(a||t)?" másodperc":" másodperce";case"m":return"egy"+(a||t?" perc":" perce");case"mm":return r+(a||t?" perc":" perce");case"h":return"egy"+(a||t?" óra":" órája");case"hh":return r+(a||t?" óra":" órája");case"d":return"egy"+(a||t?" nap":" napja");case"dd":return r+(a||t?" nap":" napja");case"M":return"egy"+(a||t?" hónap":" hónapja");case"MM":return r+(a||t?" hónap":" hónapja");case"y":return"egy"+(a||t?" év":" éve");case"yy":return r+(a||t?" év":" éve")}return""}function n(e){return(e?"":"[múlt] ")+"["+a[this.day()]+"] LT[-kor]"}var a="vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton".split(" ");return e.defineLocale("hu",{months:"január_február_március_április_május_június_július_augusztus_szeptember_október_november_december".split("_"),monthsShort:"jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec".split("_"),weekdays:"vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat".split("_"),weekdaysShort:"vas_hét_kedd_sze_csüt_pén_szo".split("_"),weekdaysMin:"v_h_k_sze_cs_p_szo".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"YYYY.MM.DD.",LL:"YYYY. MMMM D.",LLL:"YYYY. MMMM D. H:mm",LLLL:"YYYY. MMMM D., dddd H:mm"},meridiemParse:/de|du/i,isPM:function(e){return"u"===e.charAt(1).toLowerCase()},meridiem:function(e,t,n){return e<12?!0===n?"de":"DE":!0===n?"du":"DU"},calendar:{sameDay:"[ma] LT[-kor]",nextDay:"[holnap] LT[-kor]",nextWeek:function(){return n.call(this,!0)},lastDay:"[tegnap] LT[-kor]",lastWeek:function(){return n.call(this,!1)},sameElse:"L"},relativeTime:{future:"%s múlva",past:"%s",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("hy-am",{months:{format:"հունվարի_փետրվարի_մարտի_ապրիլի_մայիսի_հունիսի_հուլիսի_օգոստոսի_սեպտեմբերի_հոկտեմբերի_նոյեմբերի_դեկտեմբերի".split("_"),standalone:"հունվար_փետրվար_մարտ_ապրիլ_մայիս_հունիս_հուլիս_օգոստոս_սեպտեմբեր_հոկտեմբեր_նոյեմբեր_դեկտեմբեր".split("_")},monthsShort:"հնվ_փտր_մրտ_ապր_մյս_հնս_հլս_օգս_սպտ_հկտ_նմբ_դկտ".split("_"),weekdays:"կիրակի_երկուշաբթի_երեքշաբթի_չորեքշաբթի_հինգշաբթի_ուրբաթ_շաբաթ".split("_"),weekdaysShort:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),weekdaysMin:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY թ.",LLL:"D MMMM YYYY թ., HH:mm",LLLL:"dddd, D MMMM YYYY թ., HH:mm"},calendar:{sameDay:"[այսօր] LT",nextDay:"[վաղը] LT",lastDay:"[երեկ] LT",nextWeek:function(){return"dddd [օրը ժամը] LT"},lastWeek:function(){return"[անցած] dddd [օրը ժամը] LT"},sameElse:"L"},relativeTime:{future:"%s հետո",past:"%s առաջ",s:"մի քանի վայրկյան",ss:"%d վայրկյան",m:"րոպե",mm:"%d րոպե",h:"ժամ",hh:"%d ժամ",d:"օր",dd:"%d օր",M:"ամիս",MM:"%d ամիս",y:"տարի",yy:"%d տարի"},meridiemParse:/գիշերվա|առավոտվա|ցերեկվա|երեկոյան/,isPM:function(e){return/^(ցերեկվա|երեկոյան)$/.test(e)},meridiem:function(e){return e<4?"գիշերվա":e<12?"առավոտվա":e<17?"ցերեկվա":"երեկոյան"},dayOfMonthOrdinalParse:/\d{1,2}|\d{1,2}-(ին|րդ)/,ordinal:function(e,t){switch(t){case"DDD":case"w":case"W":case"DDDo":return 1===e?e+"-ին":e+"-րդ";default:return e}},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("id",{months:"Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember".split("_"),monthsShort:"Jan_Feb_Mar_Apr_Mei_Jun_Jul_Agt_Sep_Okt_Nov_Des".split("_"),weekdays:"Minggu_Senin_Selasa_Rabu_Kamis_Jumat_Sabtu".split("_"),weekdaysShort:"Min_Sen_Sel_Rab_Kam_Jum_Sab".split("_"),weekdaysMin:"Mg_Sn_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] HH.mm",LLLL:"dddd, D MMMM YYYY [pukul] HH.mm"},meridiemParse:/pagi|siang|sore|malam/,meridiemHour:function(e,t){return 12===e&&(e=0),"pagi"===t?e:"siang"===t?e>=11?e:e+12:"sore"===t||"malam"===t?e+12:void 0},meridiem:function(e,t,n){return e<11?"pagi":e<15?"siang":e<19?"sore":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Besok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kemarin pukul] LT",lastWeek:"dddd [lalu pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lalu",s:"beberapa detik",ss:"%d detik",m:"semenit",mm:"%d menit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){return e%100==11||e%10!=1}function n(e,n,a,r){var s=e+" ";switch(a){case"s":return n||r?"nokkrar sekúndur":"nokkrum sekúndum";case"ss":return t(e)?s+(n||r?"sekúndur":"sekúndum"):s+"sekúnda";case"m":return n?"mínúta":"mínútu";case"mm":return t(e)?s+(n||r?"mínútur":"mínútum"):n?s+"mínúta":s+"mínútu";case"hh":return t(e)?s+(n||r?"klukkustundir":"klukkustundum"):s+"klukkustund";case"d":return n?"dagur":r?"dag":"degi";case"dd":return t(e)?n?s+"dagar":s+(r?"daga":"dögum"):n?s+"dagur":s+(r?"dag":"degi");case"M":return n?"mánuður":r?"mánuð":"mánuði";case"MM":return t(e)?n?s+"mánuðir":s+(r?"mánuði":"mánuðum"):n?s+"mánuður":s+(r?"mánuð":"mánuði");case"y":return n||r?"ár":"ári";case"yy":return t(e)?s+(n||r?"ár":"árum"):s+(n||r?"ár":"ári")}}return e.defineLocale("is",{months:"janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember".split("_"),monthsShort:"jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des".split("_"),weekdays:"sunnudagur_mánudagur_þriðjudagur_miðvikudagur_fimmtudagur_föstudagur_laugardagur".split("_"),weekdaysShort:"sun_mán_þri_mið_fim_fös_lau".split("_"),weekdaysMin:"Su_Má_Þr_Mi_Fi_Fö_La".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] H:mm",LLLL:"dddd, D. MMMM YYYY [kl.] H:mm"},calendar:{sameDay:"[í dag kl.] LT",nextDay:"[á morgun kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[í gær kl.] LT",lastWeek:"[síðasta] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"eftir %s",past:"fyrir %s síðan",s:n,ss:n,m:n,mm:n,h:"klukkustund",hh:n,d:n,dd:n,M:n,MM:n,y:n,yy:n},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("it-ch",{months:"gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split("_"),monthsShort:"gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),weekdays:"domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato".split("_"),weekdaysShort:"dom_lun_mar_mer_gio_ven_sab".split("_"),weekdaysMin:"do_lu_ma_me_gi_ve_sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:function(){switch(this.day()){case 0:return"[la scorsa] dddd [alle] LT";default:return"[lo scorso] dddd [alle] LT"}},sameElse:"L"},relativeTime:{future:function(e){return(/^[0-9].+$/.test(e)?"tra":"in")+" "+e},past:"%s fa",s:"alcuni secondi",ss:"%d secondi",m:"un minuto",mm:"%d minuti",h:"un'ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("it",{months:"gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split("_"),monthsShort:"gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),weekdays:"domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato".split("_"),weekdaysShort:"dom_lun_mar_mer_gio_ven_sab".split("_"),weekdaysMin:"do_lu_ma_me_gi_ve_sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:function(){switch(this.day()){case 0:return"[la scorsa] dddd [alle] LT";default:return"[lo scorso] dddd [alle] LT"}},sameElse:"L"},relativeTime:{future:function(e){return(/^[0-9].+$/.test(e)?"tra":"in")+" "+e},past:"%s fa",s:"alcuni secondi",ss:"%d secondi",m:"un minuto",mm:"%d minuti",h:"un'ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ja",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日".split("_"),weekdaysShort:"日_月_火_水_木_金_土".split("_"),weekdaysMin:"日_月_火_水_木_金_土".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日 HH:mm",LLLL:"YYYY年M月D日 dddd HH:mm",l:"YYYY/MM/DD",ll:"YYYY年M月D日",lll:"YYYY年M月D日 HH:mm",llll:"YYYY年M月D日(ddd) HH:mm"},meridiemParse:/午前|午後/i,isPM:function(e){return"午後"===e},meridiem:function(e,t,n){return e<12?"午前":"午後"},calendar:{sameDay:"[今日] LT",nextDay:"[明日] LT",nextWeek:function(e){return e.week()<this.week()?"[来週]dddd LT":"dddd LT"},lastDay:"[昨日] LT",lastWeek:function(e){return this.week()<e.week()?"[先週]dddd LT":"dddd LT"},sameElse:"L"},dayOfMonthOrdinalParse:/\d{1,2}日/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"日";default:return e}},relativeTime:{future:"%s後",past:"%s前",s:"数秒",ss:"%d秒",m:"1分",mm:"%d分",h:"1時間",hh:"%d時間",d:"1日",dd:"%d日",M:"1ヶ月",MM:"%dヶ月",y:"1年",yy:"%d年"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("jv",{months:"Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember".split("_"),monthsShort:"Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nop_Des".split("_"),weekdays:"Minggu_Senen_Seloso_Rebu_Kemis_Jemuwah_Septu".split("_"),weekdaysShort:"Min_Sen_Sel_Reb_Kem_Jem_Sep".split("_"),weekdaysMin:"Mg_Sn_Sl_Rb_Km_Jm_Sp".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] HH.mm",LLLL:"dddd, D MMMM YYYY [pukul] HH.mm"},meridiemParse:/enjing|siyang|sonten|ndalu/,meridiemHour:function(e,t){return 12===e&&(e=0),"enjing"===t?e:"siyang"===t?e>=11?e:e+12:"sonten"===t||"ndalu"===t?e+12:void 0},meridiem:function(e,t,n){return e<11?"enjing":e<15?"siyang":e<19?"sonten":"ndalu"},calendar:{sameDay:"[Dinten puniko pukul] LT",nextDay:"[Mbenjang pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kala wingi pukul] LT",lastWeek:"dddd [kepengker pukul] LT",sameElse:"L"},relativeTime:{future:"wonten ing %s",past:"%s ingkang kepengker",s:"sawetawis detik",ss:"%d detik",m:"setunggal menit",mm:"%d menit",h:"setunggal jam",hh:"%d jam",d:"sedinten",dd:"%d dinten",M:"sewulan",MM:"%d wulan",y:"setaun",yy:"%d taun"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ka",{months:{standalone:"იანვარი_თებერვალი_მარტი_აპრილი_მაისი_ივნისი_ივლისი_აგვისტო_სექტემბერი_ოქტომბერი_ნოემბერი_დეკემბერი".split("_"),format:"იანვარს_თებერვალს_მარტს_აპრილის_მაისს_ივნისს_ივლისს_აგვისტს_სექტემბერს_ოქტომბერს_ნოემბერს_დეკემბერს".split("_")},monthsShort:"იან_თებ_მარ_აპრ_მაი_ივნ_ივლ_აგვ_სექ_ოქტ_ნოე_დეკ".split("_"),weekdays:{standalone:"კვირა_ორშაბათი_სამშაბათი_ოთხშაბათი_ხუთშაბათი_პარასკევი_შაბათი".split("_"),format:"კვირას_ორშაბათს_სამშაბათს_ოთხშაბათს_ხუთშაბათს_პარასკევს_შაბათს".split("_"),isFormat:/(წინა|შემდეგ)/},weekdaysShort:"კვი_ორშ_სამ_ოთხ_ხუთ_პარ_შაბ".split("_"),weekdaysMin:"კვ_ორ_სა_ოთ_ხუ_პა_შა".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendar:{sameDay:"[დღეს] LT[-ზე]",nextDay:"[ხვალ] LT[-ზე]",lastDay:"[გუშინ] LT[-ზე]",nextWeek:"[შემდეგ] dddd LT[-ზე]",lastWeek:"[წინა] dddd LT-ზე",sameElse:"L"},relativeTime:{future:function(e){return/(წამი|წუთი|საათი|წელი)/.test(e)?e.replace(/ი$/,"ში"):e+"ში"},past:function(e){return/(წამი|წუთი|საათი|დღე|თვე)/.test(e)?e.replace(/(ი|ე)$/,"ის წინ"):/წელი/.test(e)?e.replace(/წელი$/,"წლის წინ"):void 0},s:"რამდენიმე წამი",ss:"%d წამი",m:"წუთი",mm:"%d წუთი",h:"საათი",hh:"%d საათი",d:"დღე",dd:"%d დღე",M:"თვე",MM:"%d თვე",y:"წელი",yy:"%d წელი"},dayOfMonthOrdinalParse:/0|1-ლი|მე-\d{1,2}|\d{1,2}-ე/,ordinal:function(e){return 0===e?e:1===e?e+"-ლი":e<20||e<=100&&e%20==0||e%100==0?"მე-"+e:e+"-ე"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={0:"-ші",1:"-ші",2:"-ші",3:"-ші",4:"-ші",5:"-ші",6:"-шы",7:"-ші",8:"-ші",9:"-шы",10:"-шы",20:"-шы",30:"-шы",40:"-шы",50:"-ші",60:"-шы",70:"-ші",80:"-ші",90:"-шы",100:"-ші"};return e.defineLocale("kk",{months:"қаңтар_ақпан_наурыз_сәуір_мамыр_маусым_шілде_тамыз_қыркүйек_қазан_қараша_желтоқсан".split("_"),monthsShort:"қаң_ақп_нау_сәу_мам_мау_шіл_там_қыр_қаз_қар_жел".split("_"),weekdays:"жексенбі_дүйсенбі_сейсенбі_сәрсенбі_бейсенбі_жұма_сенбі".split("_"),weekdaysShort:"жек_дүй_сей_сәр_бей_жұм_сен".split("_"),weekdaysMin:"жк_дй_сй_ср_бй_жм_сн".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Бүгін сағат] LT",nextDay:"[Ертең сағат] LT",nextWeek:"dddd [сағат] LT",lastDay:"[Кеше сағат] LT",lastWeek:"[Өткен аптаның] dddd [сағат] LT",sameElse:"L"},relativeTime:{future:"%s ішінде",past:"%s бұрын",s:"бірнеше секунд",ss:"%d секунд",m:"бір минут",mm:"%d минут",h:"бір сағат",hh:"%d сағат",d:"бір күн",dd:"%d күн",M:"бір ай",MM:"%d ай",y:"бір жыл",yy:"%d жыл"},dayOfMonthOrdinalParse:/\d{1,2}-(ші|шы)/,ordinal:function(e){var n=e%10,a=e>=100?100:null;return e+(t[e]||t[n]||t[a])},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"១",2:"២",3:"៣",4:"៤",5:"៥",6:"៦",7:"៧",8:"៨",9:"៩",0:"០"},n={"១":"1","២":"2","៣":"3","៤":"4","៥":"5","៦":"6","៧":"7","៨":"8","៩":"9","០":"0"};return e.defineLocale("km",{months:"មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),monthsShort:"មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),weekdays:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),weekdaysShort:"អា_ច_អ_ព_ព្រ_សុ_ស".split("_"),weekdaysMin:"អា_ច_អ_ព_ព្រ_សុ_ស".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},meridiemParse:/ព្រឹក|ល្ងាច/,isPM:function(e){return"ល្ងាច"===e},meridiem:function(e,t,n){return e<12?"ព្រឹក":"ល្ងាច"},calendar:{sameDay:"[ថ្ងៃនេះ ម៉ោង] LT",nextDay:"[ស្អែក ម៉ោង] LT",nextWeek:"dddd [ម៉ោង] LT",lastDay:"[ម្សិលមិញ ម៉ោង] LT",lastWeek:"dddd [សប្តាហ៍មុន] [ម៉ោង] LT",sameElse:"L"},relativeTime:{future:"%sទៀត",past:"%sមុន",s:"ប៉ុន្មានវិនាទី",ss:"%d វិនាទី",m:"មួយនាទី",mm:"%d នាទី",h:"មួយម៉ោង",hh:"%d ម៉ោង",d:"មួយថ្ងៃ",dd:"%d ថ្ងៃ",M:"មួយខែ",MM:"%d ខែ",y:"មួយឆ្នាំ",yy:"%d ឆ្នាំ"},dayOfMonthOrdinalParse:/ទី\d{1,2}/,ordinal:"ទី%d",preparse:function(e){return e.replace(/[១២៣៤៥៦៧៨៩០]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"೧",2:"೨",3:"೩",4:"೪",5:"೫",6:"೬",7:"೭",8:"೮",9:"೯",0:"೦"},n={"೧":"1","೨":"2","೩":"3","೪":"4","೫":"5","೬":"6","೭":"7","೮":"8","೯":"9","೦":"0"};return e.defineLocale("kn",{months:"ಜನವರಿ_ಫೆಬ್ರವರಿ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂಬರ್_ಅಕ್ಟೋಬರ್_ನವೆಂಬರ್_ಡಿಸೆಂಬರ್".split("_"),monthsShort:"ಜನ_ಫೆಬ್ರ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂ_ಅಕ್ಟೋ_ನವೆಂ_ಡಿಸೆಂ".split("_"),monthsParseExact:!0,weekdays:"ಭಾನುವಾರ_ಸೋಮವಾರ_ಮಂಗಳವಾರ_ಬುಧವಾರ_ಗುರುವಾರ_ಶುಕ್ರವಾರ_ಶನಿವಾರ".split("_"),weekdaysShort:"ಭಾನು_ಸೋಮ_ಮಂಗಳ_ಬುಧ_ಗುರು_ಶುಕ್ರ_ಶನಿ".split("_"),weekdaysMin:"ಭಾ_ಸೋ_ಮಂ_ಬು_ಗು_ಶು_ಶ".split("_"),longDateFormat:{LT:"A h:mm",LTS:"A h:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm",LLLL:"dddd, D MMMM YYYY, A h:mm"},calendar:{sameDay:"[ಇಂದು] LT",nextDay:"[ನಾಳೆ] LT",nextWeek:"dddd, LT",lastDay:"[ನಿನ್ನೆ] LT",lastWeek:"[ಕೊನೆಯ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s ನಂತರ",past:"%s ಹಿಂದೆ",s:"ಕೆಲವು ಕ್ಷಣಗಳು",ss:"%d ಸೆಕೆಂಡುಗಳು",m:"ಒಂದು ನಿಮಿಷ",mm:"%d ನಿಮಿಷ",h:"ಒಂದು ಗಂಟೆ",hh:"%d ಗಂಟೆ",d:"ಒಂದು ದಿನ",dd:"%d ದಿನ",M:"ಒಂದು ತಿಂಗಳು",MM:"%d ತಿಂಗಳು",y:"ಒಂದು ವರ್ಷ",yy:"%d ವರ್ಷ"},preparse:function(e){return e.replace(/[೧೨೩೪೫೬೭೮೯೦]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,meridiemHour:function(e,t){return 12===e&&(e=0),"ರಾತ್ರಿ"===t?e<4?e:e+12:"ಬೆಳಿಗ್ಗೆ"===t?e:"ಮಧ್ಯಾಹ್ನ"===t?e>=10?e:e+12:"ಸಂಜೆ"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"ರಾತ್ರಿ":e<10?"ಬೆಳಿಗ್ಗೆ":e<17?"ಮಧ್ಯಾಹ್ನ":e<20?"ಸಂಜೆ":"ರಾತ್ರಿ"},dayOfMonthOrdinalParse:/\d{1,2}(ನೇ)/,ordinal:function(e){return e+"ನೇ"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ko",{months:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),monthsShort:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),weekdays:"일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),weekdaysShort:"일_월_화_수_목_금_토".split("_"),weekdaysMin:"일_월_화_수_목_금_토".split("_"),longDateFormat:{LT:"A h:mm",LTS:"A h:mm:ss",L:"YYYY.MM.DD.",LL:"YYYY년 MMMM D일",LLL:"YYYY년 MMMM D일 A h:mm",LLLL:"YYYY년 MMMM D일 dddd A h:mm",l:"YYYY.MM.DD.",ll:"YYYY년 MMMM D일",lll:"YYYY년 MMMM D일 A h:mm",llll:"YYYY년 MMMM D일 dddd A h:mm"},calendar:{sameDay:"오늘 LT",nextDay:"내일 LT",nextWeek:"dddd LT",lastDay:"어제 LT",lastWeek:"지난주 dddd LT",sameElse:"L"},relativeTime:{future:"%s 후",past:"%s 전",s:"몇 초",ss:"%d초",m:"1분",mm:"%d분",h:"한 시간",hh:"%d시간",d:"하루",dd:"%d일",M:"한 달",MM:"%d달",y:"일 년",yy:"%d년"},dayOfMonthOrdinalParse:/\d{1,2}(일|월|주)/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"일";case"M":return e+"월";case"w":case"W":return e+"주";default:return e}},meridiemParse:/오전|오후/,isPM:function(e){return"오후"===e},meridiem:function(e,t,n){return e<12?"오전":"오후"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"١",2:"٢",3:"٣",4:"٤",5:"٥",6:"٦",7:"٧",8:"٨",9:"٩",0:"٠"},n={"١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٠":"0"},a=["کانونی دووەم","شوبات","ئازار","نیسان","ئایار","حوزەیران","تەمموز","ئاب","ئەیلوول","تشرینی یەكەم","تشرینی دووەم","كانونی یەکەم"];return e.defineLocale("ku",{months:a,monthsShort:a,weekdays:"یه‌كشه‌ممه‌_دووشه‌ممه‌_سێشه‌ممه‌_چوارشه‌ممه‌_پێنجشه‌ممه‌_هه‌ینی_شه‌ممه‌".split("_"),weekdaysShort:"یه‌كشه‌م_دووشه‌م_سێشه‌م_چوارشه‌م_پێنجشه‌م_هه‌ینی_شه‌ممه‌".split("_"),weekdaysMin:"ی_د_س_چ_پ_ه_ش".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},meridiemParse:/ئێواره‌|به‌یانی/,isPM:function(e){return/ئێواره‌/.test(e)},meridiem:function(e,t,n){return e<12?"به‌یانی":"ئێواره‌"},calendar:{sameDay:"[ئه‌مرۆ كاتژمێر] LT",nextDay:"[به‌یانی كاتژمێر] LT",nextWeek:"dddd [كاتژمێر] LT",lastDay:"[دوێنێ كاتژمێر] LT",lastWeek:"dddd [كاتژمێر] LT",sameElse:"L"},relativeTime:{future:"له‌ %s",past:"%s",s:"چه‌ند چركه‌یه‌ك",ss:"چركه‌ %d",m:"یه‌ك خوله‌ك",mm:"%d خوله‌ك",h:"یه‌ك كاتژمێر",hh:"%d كاتژمێر",d:"یه‌ك ڕۆژ",dd:"%d ڕۆژ",M:"یه‌ك مانگ",MM:"%d مانگ",y:"یه‌ك ساڵ",yy:"%d ساڵ"},preparse:function(e){return e.replace(/[١٢٣٤٥٦٧٨٩٠]/g,function(e){return n[e]}).replace(/،/g,",")},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]}).replace(/,/g,"،")},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={0:"-чү",1:"-чи",2:"-чи",3:"-чү",4:"-чү",5:"-чи",6:"-чы",7:"-чи",8:"-чи",9:"-чу",10:"-чу",20:"-чы",30:"-чу",40:"-чы",50:"-чү",60:"-чы",70:"-чи",80:"-чи",90:"-чу",100:"-чү"};return e.defineLocale("ky",{months:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),monthsShort:"янв_фев_март_апр_май_июнь_июль_авг_сен_окт_ноя_дек".split("_"),weekdays:"Жекшемби_Дүйшөмбү_Шейшемби_Шаршемби_Бейшемби_Жума_Ишемби".split("_"),weekdaysShort:"Жек_Дүй_Шей_Шар_Бей_Жум_Ише".split("_"),weekdaysMin:"Жк_Дй_Шй_Шр_Бй_Жм_Иш".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Бүгүн саат] LT",nextDay:"[Эртең саат] LT",nextWeek:"dddd [саат] LT",lastDay:"[Кечээ саат] LT",lastWeek:"[Өткөн аптанын] dddd [күнү] [саат] LT",sameElse:"L"},relativeTime:{future:"%s ичинде",past:"%s мурун",s:"бирнече секунд",ss:"%d секунд",m:"бир мүнөт",mm:"%d мүнөт",h:"бир саат",hh:"%d саат",d:"бир күн",dd:"%d күн",M:"бир ай",MM:"%d ай",y:"бир жыл",yy:"%d жыл"},dayOfMonthOrdinalParse:/\d{1,2}-(чи|чы|чү|чу)/,ordinal:function(e){var n=e%10,a=e>=100?100:null;return e+(t[e]||t[n]||t[a])},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={m:["eng Minutt","enger Minutt"],h:["eng Stonn","enger Stonn"],d:["een Dag","engem Dag"],M:["ee Mount","engem Mount"],y:["ee Joer","engem Joer"]};return t?r[n][0]:r[n][1]}function n(e){return r(e.substr(0,e.indexOf(" ")))?"a "+e:"an "+e}function a(e){return r(e.substr(0,e.indexOf(" ")))?"viru "+e:"virun "+e}function r(e){if(e=parseInt(e,10),isNaN(e))return!1;if(e<0)return!0;if(e<10)return 4<=e&&e<=7;if(e<100){var t=e%10,n=e/10;return r(0===t?n:t)}if(e<1e4){for(;e>=10;)e/=10;return r(e)}return e/=1e3,r(e)}return e.defineLocale("lb",{months:"Januar_Februar_Mäerz_Abrëll_Mee_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Abr._Mee_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),monthsParseExact:!0,weekdays:"Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg".split("_"),weekdaysShort:"So._Mé._Dë._Më._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mé_Dë_Më_Do_Fr_Sa".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm [Auer]",LTS:"H:mm:ss [Auer]",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm [Auer]",LLLL:"dddd, D. MMMM YYYY H:mm [Auer]"},calendar:{sameDay:"[Haut um] LT",sameElse:"L",nextDay:"[Muer um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gëschter um] LT",lastWeek:function(){switch(this.day()){case 2:case 4:return"[Leschten] dddd [um] LT";default:return"[Leschte] dddd [um] LT"}}},relativeTime:{future:n,past:a,s:"e puer Sekonnen",ss:"%d Sekonnen",m:t,mm:"%d Minutten",h:t,hh:"%d Stonnen",d:t,dd:"%d Deeg",M:t,MM:"%d Méint",y:t,yy:"%d Joer"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("lo",{months:"ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ".split("_"),monthsShort:"ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ".split("_"),weekdays:"ອາທິດ_ຈັນ_ອັງຄານ_ພຸດ_ພະຫັດ_ສຸກ_ເສົາ".split("_"),weekdaysShort:"ທິດ_ຈັນ_ອັງຄານ_ພຸດ_ພະຫັດ_ສຸກ_ເສົາ".split("_"),weekdaysMin:"ທ_ຈ_ອຄ_ພ_ພຫ_ສກ_ສ".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"ວັນdddd D MMMM YYYY HH:mm"},meridiemParse:/ຕອນເຊົ້າ|ຕອນແລງ/,isPM:function(e){return"ຕອນແລງ"===e},meridiem:function(e,t,n){return e<12?"ຕອນເຊົ້າ":"ຕອນແລງ"},calendar:{sameDay:"[ມື້ນີ້ເວລາ] LT",nextDay:"[ມື້ອື່ນເວລາ] LT",nextWeek:"[ວັນ]dddd[ໜ້າເວລາ] LT",lastDay:"[ມື້ວານນີ້ເວລາ] LT",lastWeek:"[ວັນ]dddd[ແລ້ວນີ້ເວລາ] LT",sameElse:"L"},relativeTime:{future:"ອີກ %s",past:"%sຜ່ານມາ",s:"ບໍ່ເທົ່າໃດວິນາທີ",ss:"%d ວິນາທີ",m:"1 ນາທີ",mm:"%d ນາທີ",h:"1 ຊົ່ວໂມງ",hh:"%d ຊົ່ວໂມງ",d:"1 ມື້",dd:"%d ມື້",M:"1 ເດືອນ",MM:"%d ເດືອນ",y:"1 ປີ",yy:"%d ປີ"},dayOfMonthOrdinalParse:/(ທີ່)\d{1,2}/,ordinal:function(e){return"ທີ່"+e}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){return t?"kelios sekundės":a?"kelių sekundžių":"kelias sekundes"}function n(e,t,n,a){return t?r(n)[0]:a?r(n)[1]:r(n)[2]}function a(e){return e%10==0||e>10&&e<20}function r(e){return i[e].split("_")}function s(e,t,s,i){var o=e+" ";return 1===e?o+n(e,t,s[0],i):t?o+(a(e)?r(s)[1]:r(s)[0]):i?o+r(s)[1]:o+(a(e)?r(s)[1]:r(s)[2])}var i={ss:"sekundė_sekundžių_sekundes",m:"minutė_minutės_minutę",mm:"minutės_minučių_minutes",h:"valanda_valandos_valandą",hh:"valandos_valandų_valandas",d:"diena_dienos_dieną",dd:"dienos_dienų_dienas",M:"mėnuo_mėnesio_mėnesį",MM:"mėnesiai_mėnesių_mėnesius",y:"metai_metų_metus",yy:"metai_metų_metus"};return e.defineLocale("lt",{months:{format:"sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio".split("_"),standalone:"sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis".split("_"),isFormat:/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?|MMMM?(\[[^\[\]]*\]|\s)+D[oD]?/},monthsShort:"sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),weekdays:{format:"sekmadienį_pirmadienį_antradienį_trečiadienį_ketvirtadienį_penktadienį_šeštadienį".split("_"),standalone:"sekmadienis_pirmadienis_antradienis_trečiadienis_ketvirtadienis_penktadienis_šeštadienis".split("_"),isFormat:/dddd HH:mm/},weekdaysShort:"Sek_Pir_Ant_Tre_Ket_Pen_Šeš".split("_"),weekdaysMin:"S_P_A_T_K_Pn_Š".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"YYYY [m.] MMMM D [d.]",LLL:"YYYY [m.] MMMM D [d.], HH:mm [val.]",LLLL:"YYYY [m.] MMMM D [d.], dddd, HH:mm [val.]",l:"YYYY-MM-DD",ll:"YYYY [m.] MMMM D [d.]",lll:"YYYY [m.] MMMM D [d.], HH:mm [val.]",llll:"YYYY [m.] MMMM D [d.], ddd, HH:mm [val.]"},calendar:{sameDay:"[Šiandien] LT",nextDay:"[Rytoj] LT",nextWeek:"dddd LT",lastDay:"[Vakar] LT",lastWeek:"[Praėjusį] dddd LT",sameElse:"L"},relativeTime:{future:"po %s",past:"prieš %s",s:t,ss:s,m:n,mm:s,h:n,hh:s,d:n,dd:s,M:n,MM:s,y:n,yy:s},dayOfMonthOrdinalParse:/\d{1,2}-oji/,ordinal:function(e){return e+"-oji"},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n){return n?t%10==1&&t%100!=11?e[2]:e[3]:t%10==1&&t%100!=11?e[0]:e[1]}function n(e,n,a){return e+" "+t(s[a],e,n)}function a(e,n,a){return t(s[a],e,n)}function r(e,t){return t?"dažas sekundes":"dažām sekundēm"}var s={ss:"sekundes_sekundēm_sekunde_sekundes".split("_"),m:"minūtes_minūtēm_minūte_minūtes".split("_"),mm:"minūtes_minūtēm_minūte_minūtes".split("_"),h:"stundas_stundām_stunda_stundas".split("_"),hh:"stundas_stundām_stunda_stundas".split("_"),d:"dienas_dienām_diena_dienas".split("_"),dd:"dienas_dienām_diena_dienas".split("_"),M:"mēneša_mēnešiem_mēnesis_mēneši".split("_"),MM:"mēneša_mēnešiem_mēnesis_mēneši".split("_"),y:"gada_gadiem_gads_gadi".split("_"),yy:"gada_gadiem_gads_gadi".split("_")};return e.defineLocale("lv",{months:"janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),monthsShort:"jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),weekdays:"svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),weekdaysShort:"Sv_P_O_T_C_Pk_S".split("_"),weekdaysMin:"Sv_P_O_T_C_Pk_S".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY.",LL:"YYYY. [gada] D. MMMM",LLL:"YYYY. [gada] D. MMMM, HH:mm",LLLL:"YYYY. [gada] D. MMMM, dddd, HH:mm"},calendar:{sameDay:"[Šodien pulksten] LT",nextDay:"[Rīt pulksten] LT",nextWeek:"dddd [pulksten] LT",lastDay:"[Vakar pulksten] LT",lastWeek:"[Pagājušā] dddd [pulksten] LT",sameElse:"L"},relativeTime:{future:"pēc %s",past:"pirms %s",s:r,ss:n,m:a,mm:n,h:a,hh:n,d:a,dd:n,M:a,MM:n,y:a,yy:n},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={words:{ss:["sekund","sekunda","sekundi"],m:["jedan minut","jednog minuta"],mm:["minut","minuta","minuta"],h:["jedan sat","jednog sata"],hh:["sat","sata","sati"],dd:["dan","dana","dana"],MM:["mjesec","mjeseca","mjeseci"],yy:["godina","godine","godina"]},correctGrammaticalCase:function(e,t){return 1===e?t[0]:e>=2&&e<=4?t[1]:t[2]},translate:function(e,n,a){var r=t.words[a];return 1===a.length?n?r[0]:r[1]:e+" "+t.correctGrammaticalCase(e,r)}};return e.defineLocale("me",{months:"januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar".split("_"),monthsShort:"jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[danas u] LT",nextDay:"[sjutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[juče u] LT",lastWeek:function(){return["[prošle] [nedjelje] [u] LT","[prošlog] [ponedjeljka] [u] LT","[prošlog] [utorka] [u] LT","[prošle] [srijede] [u] LT","[prošlog] [četvrtka] [u] LT","[prošlog] [petka] [u] LT","[prošle] [subote] [u] LT"][this.day()]},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"nekoliko sekundi",ss:t.translate,m:t.translate,mm:t.translate,h:t.translate,hh:t.translate,d:"dan",dd:t.translate,M:"mjesec",MM:t.translate,y:"godinu",yy:t.translate},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("mi",{months:"Kohi-tāte_Hui-tanguru_Poutū-te-rangi_Paenga-whāwhā_Haratua_Pipiri_Hōngoingoi_Here-turi-kōkā_Mahuru_Whiringa-ā-nuku_Whiringa-ā-rangi_Hakihea".split("_"),monthsShort:"Kohi_Hui_Pou_Pae_Hara_Pipi_Hōngoi_Here_Mahu_Whi-nu_Whi-ra_Haki".split("_"),monthsRegex:/(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,monthsStrictRegex:/(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,monthsShortRegex:/(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,monthsShortStrictRegex:/(?:['a-z\u0101\u014D\u016B]+\-?){1,2}/i,weekdays:"Rātapu_Mane_Tūrei_Wenerei_Tāite_Paraire_Hātarei".split("_"),weekdaysShort:"Ta_Ma_Tū_We_Tāi_Pa_Hā".split("_"),weekdaysMin:"Ta_Ma_Tū_We_Tāi_Pa_Hā".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [i] HH:mm",LLLL:"dddd, D MMMM YYYY [i] HH:mm"},calendar:{sameDay:"[i teie mahana, i] LT",nextDay:"[apopo i] LT",nextWeek:"dddd [i] LT",lastDay:"[inanahi i] LT",lastWeek:"dddd [whakamutunga i] LT",sameElse:"L"},relativeTime:{future:"i roto i %s",past:"%s i mua",s:"te hēkona ruarua",ss:"%d hēkona",m:"he meneti",mm:"%d meneti",h:"te haora",hh:"%d haora",d:"he ra",dd:"%d ra",M:"he marama",MM:"%d marama",y:"he tau",yy:"%d tau"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("mk",{months:"јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември".split("_"),monthsShort:"јан_фев_мар_апр_мај_јун_јул_авг_сеп_окт_ное_дек".split("_"),weekdays:"недела_понеделник_вторник_среда_четврток_петок_сабота".split("_"),weekdaysShort:"нед_пон_вто_сре_чет_пет_саб".split("_"),weekdaysMin:"нe_пo_вт_ср_че_пе_сa".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},calendar:{sameDay:"[Денес во] LT",nextDay:"[Утре во] LT",nextWeek:"[Во] dddd [во] LT",lastDay:"[Вчера во] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[Изминатата] dddd [во] LT";case 1:case 2:case 4:case 5:return"[Изминатиот] dddd [во] LT"}},sameElse:"L"},relativeTime:{future:"после %s",past:"пред %s",s:"неколку секунди",ss:"%d секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дена",M:"месец",MM:"%d месеци",y:"година",yy:"%d години"},dayOfMonthOrdinalParse:/\d{1,2}-(ев|ен|ти|ви|ри|ми)/,ordinal:function(e){var t=e%10,n=e%100;return 0===e?e+"-ев":0===n?e+"-ен":n>10&&n<20?e+"-ти":1===t?e+"-ви":2===t?e+"-ри":7===t||8===t?e+"-ми":e+"-ти"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ml",{months:"ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ".split("_"),monthsShort:"ജനു._ഫെബ്രു._മാർ._ഏപ്രി._മേയ്_ജൂൺ_ജൂലൈ._ഓഗ._സെപ്റ്റ._ഒക്ടോ._നവം._ഡിസം.".split("_"),monthsParseExact:!0,weekdays:"ഞായറാഴ്ച_തിങ്കളാഴ്ച_ചൊവ്വാഴ്ച_ബുധനാഴ്ച_വ്യാഴാഴ്ച_വെള്ളിയാഴ്ച_ശനിയാഴ്ച".split("_"),weekdaysShort:"ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി".split("_"),weekdaysMin:"ഞാ_തി_ചൊ_ബു_വ്യാ_വെ_ശ".split("_"),longDateFormat:{LT:"A h:mm -നു",LTS:"A h:mm:ss -നു",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm -നു",LLLL:"dddd, D MMMM YYYY, A h:mm -നു"},calendar:{sameDay:"[ഇന്ന്] LT",nextDay:"[നാളെ] LT",nextWeek:"dddd, LT",lastDay:"[ഇന്നലെ] LT",lastWeek:"[കഴിഞ്ഞ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s കഴിഞ്ഞ്",past:"%s മുൻപ്",s:"അൽപ നിമിഷങ്ങൾ",ss:"%d സെക്കൻഡ്",m:"ഒരു മിനിറ്റ്",mm:"%d മിനിറ്റ്",h:"ഒരു മണിക്കൂർ",hh:"%d മണിക്കൂർ",d:"ഒരു ദിവസം",dd:"%d ദിവസം",M:"ഒരു മാസം",MM:"%d മാസം",y:"ഒരു വർഷം",yy:"%d വർഷം"},meridiemParse:/രാത്രി|രാവിലെ|ഉച്ച കഴിഞ്ഞ്|വൈകുന്നേരം|രാത്രി/i,meridiemHour:function(e,t){return 12===e&&(e=0),"രാത്രി"===t&&e>=4||"ഉച്ച കഴിഞ്ഞ്"===t||"വൈകുന്നേരം"===t?e+12:e},meridiem:function(e,t,n){return e<4?"രാത്രി":e<12?"രാവിലെ":e<17?"ഉച്ച കഴിഞ്ഞ്":e<20?"വൈകുന്നേരം":"രാത്രി"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){switch(n){case"s":return t?"хэдхэн секунд":"хэдхэн секундын";case"ss":return e+(t?" секунд":" секундын");case"m":case"mm":return e+(t?" минут":" минутын");case"h":case"hh":return e+(t?" цаг":" цагийн");case"d":case"dd":return e+(t?" өдөр":" өдрийн");case"M":case"MM":return e+(t?" сар":" сарын");case"y":case"yy":return e+(t?" жил":" жилийн");default:return e}}return e.defineLocale("mn",{months:"Нэгдүгээр сар_Хоёрдугаар сар_Гуравдугаар сар_Дөрөвдүгээр сар_Тавдугаар сар_Зургадугаар сар_Долдугаар сар_Наймдугаар сар_Есдүгээр сар_Аравдугаар сар_Арван нэгдүгээр сар_Арван хоёрдугаар сар".split("_"),monthsShort:"1 сар_2 сар_3 сар_4 сар_5 сар_6 сар_7 сар_8 сар_9 сар_10 сар_11 сар_12 сар".split("_"),monthsParseExact:!0,weekdays:"Ням_Даваа_Мягмар_Лхагва_Пүрэв_Баасан_Бямба".split("_"),weekdaysShort:"Ням_Дав_Мяг_Лха_Пүр_Баа_Бям".split("_"),weekdaysMin:"Ня_Да_Мя_Лх_Пү_Ба_Бя".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"YYYY оны MMMMын D",LLL:"YYYY оны MMMMын D HH:mm",LLLL:"dddd, YYYY оны MMMMын D HH:mm"},meridiemParse:/ҮӨ|ҮХ/i,isPM:function(e){return"ҮХ"===e},meridiem:function(e,t,n){return e<12?"ҮӨ":"ҮХ"},calendar:{sameDay:"[Өнөөдөр] LT",nextDay:"[Маргааш] LT",nextWeek:"[Ирэх] dddd LT",lastDay:"[Өчигдөр] LT",lastWeek:"[Өнгөрсөн] dddd LT",sameElse:"L"},relativeTime:{future:"%s дараа",past:"%s өмнө",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2} өдөр/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+" өдөр";default:return e}}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r="";if(t)switch(n){case"s":r="काही सेकंद";break;case"ss":r="%d सेकंद";break;case"m":r="एक मिनिट";break;case"mm":r="%d मिनिटे";break;case"h":r="एक तास";break;case"hh":r="%d तास";break;case"d":r="एक दिवस";break;case"dd":r="%d दिवस";break;case"M":r="एक महिना";break;case"MM":r="%d महिने";break;case"y":r="एक वर्ष";break;case"yy":r="%d वर्षे"}else switch(n){case"s":r="काही सेकंदां";break;case"ss":r="%d सेकंदां";break;case"m":r="एका मिनिटा";break;case"mm":r="%d मिनिटां";break;case"h":r="एका तासा";break;case"hh":r="%d तासां";break;case"d":r="एका दिवसा";break;case"dd":r="%d दिवसां";break;case"M":r="एका महिन्या";break;case"MM":r="%d महिन्यां";break;case"y":r="एका वर्षा";break;case"yy":r="%d वर्षां"}return r.replace(/%d/i,e)}var n={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},a={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return e.defineLocale("mr",{months:"जानेवारी_फेब्रुवारी_मार्च_एप्रिल_मे_जून_जुलै_ऑगस्ट_सप्टेंबर_ऑक्टोबर_नोव्हेंबर_डिसेंबर".split("_"),monthsShort:"जाने._फेब्रु._मार्च._एप्रि._मे._जून._जुलै._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.".split("_"),monthsParseExact:!0,weekdays:"रविवार_सोमवार_मंगळवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगळ_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm वाजता",LTS:"A h:mm:ss वाजता",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm वाजता",LLLL:"dddd, D MMMM YYYY, A h:mm वाजता"},calendar:{sameDay:"[आज] LT",nextDay:"[उद्या] LT",nextWeek:"dddd, LT",lastDay:"[काल] LT",lastWeek:"[मागील] dddd, LT",sameElse:"L"},relativeTime:{future:"%sमध्ये",past:"%sपूर्वी",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},preparse:function(e){return e.replace(/[१२३४५६७८९०]/g,function(e){return a[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return n[e]})},meridiemParse:/रात्री|सकाळी|दुपारी|सायंकाळी/,meridiemHour:function(e,t){return 12===e&&(e=0),"रात्री"===t?e<4?e:e+12:"सकाळी"===t?e:"दुपारी"===t?e>=10?e:e+12:"सायंकाळी"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"रात्री":e<10?"सकाळी":e<17?"दुपारी":e<20?"सायंकाळी":"रात्री"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ms-my",{months:"Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split("_"),monthsShort:"Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),weekdays:"Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),weekdaysShort:"Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),weekdaysMin:"Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] HH.mm",LLLL:"dddd, D MMMM YYYY [pukul] HH.mm"},meridiemParse:/pagi|tengahari|petang|malam/,meridiemHour:function(e,t){return 12===e&&(e=0),"pagi"===t?e:"tengahari"===t?e>=11?e:e+12:"petang"===t||"malam"===t?e+12:void 0},meridiem:function(e,t,n){return e<11?"pagi":e<15?"tengahari":e<19?"petang":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Esok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kelmarin pukul] LT",lastWeek:"dddd [lepas pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lepas",s:"beberapa saat",ss:"%d saat",m:"seminit",mm:"%d minit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ms",{months:"Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split("_"),monthsShort:"Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),weekdays:"Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),weekdaysShort:"Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),weekdaysMin:"Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] HH.mm",LLLL:"dddd, D MMMM YYYY [pukul] HH.mm"},meridiemParse:/pagi|tengahari|petang|malam/,meridiemHour:function(e,t){return 12===e&&(e=0),"pagi"===t?e:"tengahari"===t?e>=11?e:e+12:"petang"===t||"malam"===t?e+12:void 0},meridiem:function(e,t,n){return e<11?"pagi":e<15?"tengahari":e<19?"petang":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Esok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kelmarin pukul] LT",lastWeek:"dddd [lepas pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lepas",s:"beberapa saat",ss:"%d saat",m:"seminit",mm:"%d minit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("mt",{months:"Jannar_Frar_Marzu_April_Mejju_Ġunju_Lulju_Awwissu_Settembru_Ottubru_Novembru_Diċembru".split("_"),monthsShort:"Jan_Fra_Mar_Apr_Mej_Ġun_Lul_Aww_Set_Ott_Nov_Diċ".split("_"),weekdays:"Il-Ħadd_It-Tnejn_It-Tlieta_L-Erbgħa_Il-Ħamis_Il-Ġimgħa_Is-Sibt".split("_"),weekdaysShort:"Ħad_Tne_Tli_Erb_Ħam_Ġim_Sib".split("_"),weekdaysMin:"Ħa_Tn_Tl_Er_Ħa_Ġi_Si".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Illum fil-]LT",nextDay:"[Għada fil-]LT",nextWeek:"dddd [fil-]LT",lastDay:"[Il-bieraħ fil-]LT",lastWeek:"dddd [li għadda] [fil-]LT",sameElse:"L"},relativeTime:{future:"f’ %s",past:"%s ilu",s:"ftit sekondi",ss:"%d sekondi",m:"minuta",mm:"%d minuti",h:"siegħa",hh:"%d siegħat",d:"ġurnata",dd:"%d ġranet",M:"xahar",MM:"%d xhur",y:"sena",yy:"%d sni"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"၁",2:"၂",3:"၃",4:"၄",5:"၅",6:"၆",7:"၇",8:"၈",9:"၉",0:"၀"},n={"၁":"1","၂":"2","၃":"3","၄":"4","၅":"5","၆":"6","၇":"7","၈":"8","၉":"9","၀":"0"};return e.defineLocale("my",{months:"ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ".split("_"),monthsShort:"ဇန်_ဖေ_မတ်_ပြီ_မေ_ဇွန်_လိုင်_သြ_စက်_အောက်_နို_ဒီ".split("_"),weekdays:"တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ".split("_"),weekdaysShort:"နွေ_လာ_ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),weekdaysMin:"နွေ_လာ_ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[ယနေ.] LT [မှာ]",nextDay:"[မနက်ဖြန်] LT [မှာ]",nextWeek:"dddd LT [မှာ]",lastDay:"[မနေ.က] LT [မှာ]",lastWeek:"[ပြီးခဲ့သော] dddd LT [မှာ]",sameElse:"L"},relativeTime:{future:"လာမည့် %s မှာ",past:"လွန်ခဲ့သော %s က",s:"စက္ကန်.အနည်းငယ်",ss:"%d စက္ကန့်",m:"တစ်မိနစ်",mm:"%d မိနစ်",h:"တစ်နာရီ",hh:"%d နာရီ",d:"တစ်ရက်",dd:"%d ရက်",M:"တစ်လ",MM:"%d လ",y:"တစ်နှစ်",yy:"%d နှစ်"},preparse:function(e){return e.replace(/[၁၂၃၄၅၆၇၈၉၀]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("nb",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan._feb._mars_april_mai_juni_juli_aug._sep._okt._nov._des.".split("_"),monthsParseExact:!0,weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"sø._ma._ti._on._to._fr._lø.".split("_"),weekdaysMin:"sø_ma_ti_on_to_fr_lø".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] HH:mm",LLLL:"dddd D. MMMM YYYY [kl.] HH:mm"},calendar:{sameDay:"[i dag kl.] LT",nextDay:"[i morgen kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[i går kl.] LT",lastWeek:"[forrige] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"%s siden",s:"noen sekunder",ss:"%d sekunder",m:"ett minutt",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dager",M:"en måned",MM:"%d måneder",y:"ett år",yy:"%d år"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},n={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return e.defineLocale("ne",{months:"जनवरी_फेब्रुवरी_मार्च_अप्रिल_मई_जुन_जुलाई_अगष्ट_सेप्टेम्बर_अक्टोबर_नोभेम्बर_डिसेम्बर".split("_"),monthsShort:"जन._फेब्रु._मार्च_अप्रि._मई_जुन_जुलाई._अग._सेप्ट._अक्टो._नोभे._डिसे.".split("_"),monthsParseExact:!0,weekdays:"आइतबार_सोमबार_मङ्गलबार_बुधबार_बिहिबार_शुक्रबार_शनिबार".split("_"),weekdaysShort:"आइत._सोम._मङ्गल._बुध._बिहि._शुक्र._शनि.".split("_"),weekdaysMin:"आ._सो._मं._बु._बि._शु._श.".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"Aको h:mm बजे",LTS:"Aको h:mm:ss बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, Aको h:mm बजे",LLLL:"dddd, D MMMM YYYY, Aको h:mm बजे"},preparse:function(e){return e.replace(/[१२३४५६७८९०]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/राति|बिहान|दिउँसो|साँझ/,meridiemHour:function(e,t){return 12===e&&(e=0),"राति"===t?e<4?e:e+12:"बिहान"===t?e:"दिउँसो"===t?e>=10?e:e+12:"साँझ"===t?e+12:void 0},meridiem:function(e,t,n){return e<3?"राति":e<12?"बिहान":e<16?"दिउँसो":e<20?"साँझ":"राति"},calendar:{sameDay:"[आज] LT",nextDay:"[भोलि] LT",nextWeek:"[आउँदो] dddd[,] LT",lastDay:"[हिजो] LT",lastWeek:"[गएको] dddd[,] LT",sameElse:"L"},relativeTime:{future:"%sमा",past:"%s अगाडि",s:"केही क्षण",ss:"%d सेकेण्ड",m:"एक मिनेट",mm:"%d मिनेट",h:"एक घण्टा",hh:"%d घण्टा",d:"एक दिन",dd:"%d दिन",M:"एक महिना",MM:"%d महिना",y:"एक बर्ष",yy:"%d बर्ष"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),n="jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"),a=[/^jan/i,/^feb/i,/^maart|mrt.?$/i,/^apr/i,/^mei$/i,/^jun[i.]?$/i,/^jul[i.]?$/i,/^aug/i,/^sep/i,/^okt/i,/^nov/i,/^dec/i],r=/^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;return e.defineLocale("nl-be",{months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsRegex:r,monthsShortRegex:r,monthsStrictRegex:/^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,monthsShortStrictRegex:/^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,monthsParse:a,longMonthsParse:a,shortMonthsParse:a,weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),weekdaysMin:"zo_ma_di_wo_do_vr_za".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[vandaag om] LT",nextDay:"[morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",ss:"%d seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},dayOfMonthOrdinalParse:/\d{1,2}(ste|de)/,ordinal:function(e){return e+(1===e||8===e||e>=20?"ste":"de")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t="jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),n="jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"),a=[/^jan/i,/^feb/i,/^maart|mrt.?$/i,/^apr/i,/^mei$/i,/^jun[i.]?$/i,/^jul[i.]?$/i,/^aug/i,/^sep/i,/^okt/i,/^nov/i,/^dec/i],r=/^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;return e.defineLocale("nl",{months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:function(e,a){return e?/-MMM-/.test(a)?n[e.month()]:t[e.month()]:t},monthsRegex:r,monthsShortRegex:r,monthsStrictRegex:/^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,monthsShortStrictRegex:/^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,monthsParse:a,longMonthsParse:a,shortMonthsParse:a,weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),weekdaysMin:"zo_ma_di_wo_do_vr_za".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[vandaag om] LT",nextDay:"[morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",ss:"%d seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},dayOfMonthOrdinalParse:/\d{1,2}(ste|de)/,ordinal:function(e){return e+(1===e||8===e||e>=20?"ste":"de")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("nn",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sundag_måndag_tysdag_onsdag_torsdag_fredag_laurdag".split("_"),weekdaysShort:"sun_mån_tys_ons_tor_fre_lau".split("_"),weekdaysMin:"su_må_ty_on_to_fr_lø".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] H:mm",LLLL:"dddd D. MMMM YYYY [kl.] HH:mm"},calendar:{sameDay:"[I dag klokka] LT",nextDay:"[I morgon klokka] LT",nextWeek:"dddd [klokka] LT",lastDay:"[I går klokka] LT",lastWeek:"[Føregåande] dddd [klokka] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"%s sidan",s:"nokre sekund",ss:"%d sekund",m:"eit minutt",mm:"%d minutt",h:"ein time",hh:"%d timar",d:"ein dag",dd:"%d dagar",M:"ein månad",MM:"%d månader",y:"eit år",yy:"%d år"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"੧",2:"੨",3:"੩",4:"੪",5:"੫",6:"੬",7:"੭",8:"੮",9:"੯",0:"੦"},n={"੧":"1","੨":"2","੩":"3","੪":"4","੫":"5","੬":"6","੭":"7","੮":"8","੯":"9","੦":"0"};return e.defineLocale("pa-in",{months:"ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ".split("_"),monthsShort:"ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ".split("_"),weekdays:"ਐਤਵਾਰ_ਸੋਮਵਾਰ_ਮੰਗਲਵਾਰ_ਬੁਧਵਾਰ_ਵੀਰਵਾਰ_ਸ਼ੁੱਕਰਵਾਰ_ਸ਼ਨੀਚਰਵਾਰ".split("_"),weekdaysShort:"ਐਤ_ਸੋਮ_ਮੰਗਲ_ਬੁਧ_ਵੀਰ_ਸ਼ੁਕਰ_ਸ਼ਨੀ".split("_"),weekdaysMin:"ਐਤ_ਸੋਮ_ਮੰਗਲ_ਬੁਧ_ਵੀਰ_ਸ਼ੁਕਰ_ਸ਼ਨੀ".split("_"),longDateFormat:{LT:"A h:mm ਵਜੇ",LTS:"A h:mm:ss ਵਜੇ",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm ਵਜੇ",LLLL:"dddd, D MMMM YYYY, A h:mm ਵਜੇ"},calendar:{sameDay:"[ਅਜ] LT",nextDay:"[ਕਲ] LT",nextWeek:"[ਅਗਲਾ] dddd, LT",lastDay:"[ਕਲ] LT",lastWeek:"[ਪਿਛਲੇ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s ਵਿੱਚ",past:"%s ਪਿਛਲੇ",s:"ਕੁਝ ਸਕਿੰਟ",ss:"%d ਸਕਿੰਟ",m:"ਇਕ ਮਿੰਟ",mm:"%d ਮਿੰਟ",h:"ਇੱਕ ਘੰਟਾ",hh:"%d ਘੰਟੇ",d:"ਇੱਕ ਦਿਨ",dd:"%d ਦਿਨ",M:"ਇੱਕ ਮਹੀਨਾ",MM:"%d ਮਹੀਨੇ",y:"ਇੱਕ ਸਾਲ",yy:"%d ਸਾਲ"},preparse:function(e){return e.replace(/[੧੨੩੪੫੬੭੮੯੦]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/ਰਾਤ|ਸਵੇਰ|ਦੁਪਹਿਰ|ਸ਼ਾਮ/,meridiemHour:function(e,t){return 12===e&&(e=0),"ਰਾਤ"===t?e<4?e:e+12:"ਸਵੇਰ"===t?e:"ਦੁਪਹਿਰ"===t?e>=10?e:e+12:"ਸ਼ਾਮ"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"ਰਾਤ":e<10?"ਸਵੇਰ":e<17?"ਦੁਪਹਿਰ":e<20?"ਸ਼ਾਮ":"ਰਾਤ"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){return e%10<5&&e%10>1&&~~(e/10)%10!=1}function n(e,n,a){var r=e+" ";switch(a){case"ss":return r+(t(e)?"sekundy":"sekund");case"m":return n?"minuta":"minutę";case"mm":return r+(t(e)?"minuty":"minut");case"h":return n?"godzina":"godzinę";case"hh":return r+(t(e)?"godziny":"godzin");case"MM":return r+(t(e)?"miesiące":"miesięcy");case"yy":return r+(t(e)?"lata":"lat")}}var a="styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),r="stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia".split("_");return e.defineLocale("pl",{months:function(e,t){return e?""===t?"("+r[e.month()]+"|"+a[e.month()]+")":/D MMMM/.test(t)?r[e.month()]:a[e.month()]:a},monthsShort:"sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),weekdays:"niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),weekdaysShort:"ndz_pon_wt_śr_czw_pt_sob".split("_"),weekdaysMin:"Nd_Pn_Wt_Śr_Cz_Pt_So".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Dziś o] LT",nextDay:"[Jutro o] LT",nextWeek:function(){switch(this.day()){case 0:return"[W niedzielę o] LT";case 2:return"[We wtorek o] LT";case 3:return"[W środę o] LT";case 6:return"[W sobotę o] LT";default:return"[W] dddd [o] LT"}},lastDay:"[Wczoraj o] LT",lastWeek:function(){switch(this.day()){case 0:return"[W zeszłą niedzielę o] LT";case 3:return"[W zeszłą środę o] LT";case 6:return"[W zeszłą sobotę o] LT";default:return"[W zeszły] dddd [o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"%s temu",s:"kilka sekund",ss:n,m:n,mm:n,h:n,hh:n,d:"1 dzień",dd:"%d dni",M:"miesiąc",MM:n,y:"rok",yy:n},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("pt-br",{months:"Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),monthsShort:"Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),weekdays:"Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),weekdaysShort:"Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),weekdaysMin:"Do_2ª_3ª_4ª_5ª_6ª_Sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY [às] HH:mm",LLLL:"dddd, D [de] MMMM [de] YYYY [às] HH:mm"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"há %s",s:"poucos segundos",ss:"%d segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº"})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("pt",{months:"Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),monthsShort:"Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),weekdays:"Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),weekdaysShort:"Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),weekdaysMin:"Do_2ª_3ª_4ª_5ª_6ª_Sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY HH:mm",LLLL:"dddd, D [de] MMMM [de] YYYY HH:mm"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"há %s",s:"segundos",ss:"%d segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},dayOfMonthOrdinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n){var a={ss:"secunde",mm:"minute",hh:"ore",dd:"zile",MM:"luni",yy:"ani"},r=" ";return(e%100>=20||e>=100&&e%100==0)&&(r=" de "),e+r+a[n]}return e.defineLocale("ro",{months:"ianuarie_februarie_martie_aprilie_mai_iunie_iulie_august_septembrie_octombrie_noiembrie_decembrie".split("_"),monthsShort:"ian._febr._mart._apr._mai_iun._iul._aug._sept._oct._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"duminică_luni_marți_miercuri_joi_vineri_sâmbătă".split("_"),weekdaysShort:"Dum_Lun_Mar_Mie_Joi_Vin_Sâm".split("_"),weekdaysMin:"Du_Lu_Ma_Mi_Jo_Vi_Sâ".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},calendar:{sameDay:"[azi la] LT",nextDay:"[mâine la] LT",nextWeek:"dddd [la] LT",lastDay:"[ieri la] LT",lastWeek:"[fosta] dddd [la] LT",sameElse:"L"},relativeTime:{future:"peste %s",past:"%s în urmă",s:"câteva secunde",ss:t,m:"un minut",mm:t,h:"o oră",hh:t,d:"o zi",dd:t,M:"o lună",MM:t,y:"un an",yy:t},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t){var n=e.split("_");return t%10==1&&t%100!=11?n[0]:t%10>=2&&t%10<=4&&(t%100<10||t%100>=20)?n[1]:n[2]}function n(e,n,a){var r={ss:n?"секунда_секунды_секунд":"секунду_секунды_секунд",mm:n?"минута_минуты_минут":"минуту_минуты_минут",hh:"час_часа_часов",dd:"день_дня_дней",MM:"месяц_месяца_месяцев",yy:"год_года_лет"};return"m"===a?n?"минута":"минуту":e+" "+t(r[a],+e)}var a=[/^янв/i,/^фев/i,/^мар/i,/^апр/i,/^ма[йя]/i,/^июн/i,/^июл/i,/^авг/i,/^сен/i,/^окт/i,/^ноя/i,/^дек/i];return e.defineLocale("ru",{months:{format:"января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря".split("_"),standalone:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_")},monthsShort:{format:"янв._февр._мар._апр._мая_июня_июля_авг._сент._окт._нояб._дек.".split("_"),standalone:"янв._февр._март_апр._май_июнь_июль_авг._сент._окт._нояб._дек.".split("_")},weekdays:{standalone:"воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),format:"воскресенье_понедельник_вторник_среду_четверг_пятницу_субботу".split("_"),isFormat:/\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?\] ?dddd/},weekdaysShort:"вс_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"вс_пн_вт_ср_чт_пт_сб".split("_"),monthsParse:a,longMonthsParse:a,shortMonthsParse:a,monthsRegex:/^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,monthsShortRegex:/^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,monthsStrictRegex:/^(январ[яь]|феврал[яь]|марта?|апрел[яь]|ма[яй]|июн[яь]|июл[яь]|августа?|сентябр[яь]|октябр[яь]|ноябр[яь]|декабр[яь])/i,monthsShortStrictRegex:/^(янв\.|февр?\.|мар[т.]|апр\.|ма[яй]|июн[ья.]|июл[ья.]|авг\.|сент?\.|окт\.|нояб?\.|дек\.)/i,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY г.",LLL:"D MMMM YYYY г., H:mm",LLLL:"dddd, D MMMM YYYY г., H:mm"},calendar:{sameDay:"[Сегодня, в] LT",nextDay:"[Завтра, в] LT",lastDay:"[Вчера, в] LT",nextWeek:function(e){if(e.week()===this.week())return 2===this.day()?"[Во] dddd, [в] LT":"[В] dddd, [в] LT";switch(this.day()){case 0:return"[В следующее] dddd, [в] LT";case 1:case 2:case 4:return"[В следующий] dddd, [в] LT";case 3:case 5:case 6:return"[В следующую] dddd, [в] LT"}},lastWeek:function(e){if(e.week()===this.week())return 2===this.day()?"[Во] dddd, [в] LT":"[В] dddd, [в] LT";switch(this.day()){case 0:return"[В прошлое] dddd, [в] LT";case 1:case 2:case 4:return"[В прошлый] dddd, [в] LT";case 3:case 5:case 6:return"[В прошлую] dddd, [в] LT"}},sameElse:"L"},relativeTime:{future:"через %s",past:"%s назад",s:"несколько секунд",ss:n,m:n,mm:n,h:"час",hh:n,d:"день",dd:n,M:"месяц",MM:n,y:"год",yy:n},meridiemParse:/ночи|утра|дня|вечера/i,isPM:function(e){return/^(дня|вечера)$/.test(e)},meridiem:function(e,t,n){return e<4?"ночи":e<12?"утра":e<17?"дня":"вечера"},dayOfMonthOrdinalParse:/\d{1,2}-(й|го|я)/,ordinal:function(e,t){switch(t){case"M":case"d":case"DDD":return e+"-й";case"D":return e+"-го";case"w":case"W":return e+"-я";default:return e}},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t=["جنوري","فيبروري","مارچ","اپريل","مئي","جون","جولاءِ","آگسٽ","سيپٽمبر","آڪٽوبر","نومبر","ڊسمبر"],n=["آچر","سومر","اڱارو","اربع","خميس","جمع","ڇنڇر"];return e.defineLocale("sd",{months:t,monthsShort:t,weekdays:n,weekdaysShort:n,weekdaysMin:n,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd، D MMMM YYYY HH:mm"},meridiemParse:/صبح|شام/,isPM:function(e){return"شام"===e},meridiem:function(e,t,n){return e<12?"صبح":"شام"},calendar:{sameDay:"[اڄ] LT",nextDay:"[سڀاڻي] LT",nextWeek:"dddd [اڳين هفتي تي] LT",lastDay:"[ڪالهه] LT",lastWeek:"[گزريل هفتي] dddd [تي] LT",sameElse:"L"},relativeTime:{future:"%s پوء",past:"%s اڳ",s:"چند سيڪنڊ",ss:"%d سيڪنڊ",m:"هڪ منٽ",mm:"%d منٽ",h:"هڪ ڪلاڪ",hh:"%d ڪلاڪ",d:"هڪ ڏينهن",dd:"%d ڏينهن",M:"هڪ مهينو",MM:"%d مهينا",y:"هڪ سال",yy:"%d سال"},preparse:function(e){return e.replace(/،/g,",")},postformat:function(e){return e.replace(/,/g,"،")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("se",{months:"ođđajagemánnu_guovvamánnu_njukčamánnu_cuoŋománnu_miessemánnu_geassemánnu_suoidnemánnu_borgemánnu_čakčamánnu_golggotmánnu_skábmamánnu_juovlamánnu".split("_"),monthsShort:"ođđj_guov_njuk_cuo_mies_geas_suoi_borg_čakč_golg_skáb_juov".split("_"),weekdays:"sotnabeaivi_vuossárga_maŋŋebárga_gaskavahkku_duorastat_bearjadat_lávvardat".split("_"),weekdaysShort:"sotn_vuos_maŋ_gask_duor_bear_láv".split("_"),weekdaysMin:"s_v_m_g_d_b_L".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"MMMM D. [b.] YYYY",LLL:"MMMM D. [b.] YYYY [ti.] HH:mm",LLLL:"dddd, MMMM D. [b.] YYYY [ti.] HH:mm"},calendar:{sameDay:"[otne ti] LT",nextDay:"[ihttin ti] LT",nextWeek:"dddd [ti] LT",lastDay:"[ikte ti] LT",lastWeek:"[ovddit] dddd [ti] LT",sameElse:"L"},relativeTime:{future:"%s geažes",past:"maŋit %s",s:"moadde sekunddat",ss:"%d sekunddat",m:"okta minuhta",mm:"%d minuhtat",h:"okta diimmu",hh:"%d diimmut",d:"okta beaivi",dd:"%d beaivvit",M:"okta mánnu",MM:"%d mánut",y:"okta jahki",yy:"%d jagit"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("si",{months:"ජනවාරි_පෙබරවාරි_මාර්තු_අප්‍රේල්_මැයි_ජූනි_ජූලි_අගෝස්තු_සැප්තැම්බර්_ඔක්තෝබර්_නොවැම්බර්_දෙසැම්බර්".split("_"),monthsShort:"ජන_පෙබ_මාර්_අප්_මැයි_ජූනි_ජූලි_අගෝ_සැප්_ඔක්_නොවැ_දෙසැ".split("_"),weekdays:"ඉරිදා_සඳුදා_අඟහරුවාදා_බදාදා_බ්‍රහස්පතින්දා_සිකුරාදා_සෙනසුරාදා".split("_"),weekdaysShort:"ඉරි_සඳු_අඟ_බදා_බ්‍රහ_සිකු_සෙන".split("_"),weekdaysMin:"ඉ_ස_අ_බ_බ්‍ර_සි_සෙ".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"a h:mm",LTS:"a h:mm:ss",L:"YYYY/MM/DD",LL:"YYYY MMMM D",LLL:"YYYY MMMM D, a h:mm",LLLL:"YYYY MMMM D [වැනි] dddd, a h:mm:ss"},calendar:{sameDay:"[අද] LT[ට]",nextDay:"[හෙට] LT[ට]",nextWeek:"dddd LT[ට]",lastDay:"[ඊයේ] LT[ට]",lastWeek:"[පසුගිය] dddd LT[ට]",sameElse:"L"},relativeTime:{future:"%sකින්",past:"%sකට පෙර",s:"තත්පර කිහිපය",ss:"තත්පර %d",m:"මිනිත්තුව",mm:"මිනිත්තු %d",h:"පැය",hh:"පැය %d",d:"දිනය",dd:"දින %d",M:"මාසය",MM:"මාස %d",y:"වසර",yy:"වසර %d"},dayOfMonthOrdinalParse:/\d{1,2} වැනි/,ordinal:function(e){return e+" වැනි"},meridiemParse:/පෙර වරු|පස් වරු|පෙ.ව|ප.ව./,isPM:function(e){return"ප.ව."===e||"පස් වරු"===e},meridiem:function(e,t,n){return e>11?n?"ප.ව.":"පස් වරු":n?"පෙ.ව.":"පෙර වරු"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){return e>1&&e<5}function n(e,n,a,r){var s=e+" ";switch(a){case"s":return n||r?"pár sekúnd":"pár sekundami";case"ss":return n||r?s+(t(e)?"sekundy":"sekúnd"):s+"sekundami";case"m":return n?"minúta":r?"minútu":"minútou";case"mm":return n||r?s+(t(e)?"minúty":"minút"):s+"minútami";case"h":return n?"hodina":r?"hodinu":"hodinou";case"hh":return n||r?s+(t(e)?"hodiny":"hodín"):s+"hodinami";case"d":return n||r?"deň":"dňom";case"dd":return n||r?s+(t(e)?"dni":"dní"):s+"dňami";case"M":return n||r?"mesiac":"mesiacom";case"MM":return n||r?s+(t(e)?"mesiace":"mesiacov"):s+"mesiacmi";case"y":return n||r?"rok":"rokom";case"yy":return n||r?s+(t(e)?"roky":"rokov"):s+"rokmi"}}var a="január_február_marec_apríl_máj_jún_júl_august_september_október_november_december".split("_"),r="jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec".split("_");return e.defineLocale("sk",{months:a,monthsShort:r,weekdays:"nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota".split("_"),weekdaysShort:"ne_po_ut_st_št_pi_so".split("_"),weekdaysMin:"ne_po_ut_st_št_pi_so".split("_"),longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd D. MMMM YYYY H:mm"},calendar:{sameDay:"[dnes o] LT",nextDay:"[zajtra o] LT",nextWeek:function(){switch(this.day()){case 0:return"[v nedeľu o] LT";case 1:case 2:return"[v] dddd [o] LT";case 3:return"[v stredu o] LT";case 4:return"[vo štvrtok o] LT";case 5:return"[v piatok o] LT";case 6:return"[v sobotu o] LT"}},lastDay:"[včera o] LT",lastWeek:function(){switch(this.day()){case 0:return"[minulú nedeľu o] LT";case 1:case 2:return"[minulý] dddd [o] LT";case 3:return"[minulú stredu o] LT";case 4:case 5:return"[minulý] dddd [o] LT";case 6:return"[minulú sobotu o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"pred %s",s:n,ss:n,m:n,mm:n,h:n,hh:n,d:n,dd:n,M:n,MM:n,y:n,yy:n},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r=e+" ";switch(n){case"s":return t||a?"nekaj sekund":"nekaj sekundami";case"ss":return r+=1===e?t?"sekundo":"sekundi":2===e?t||a?"sekundi":"sekundah":e<5?t||a?"sekunde":"sekundah":"sekund";case"m":return t?"ena minuta":"eno minuto";case"mm":return r+=1===e?t?"minuta":"minuto":2===e?t||a?"minuti":"minutama":e<5?t||a?"minute":"minutami":t||a?"minut":"minutami";case"h":return t?"ena ura":"eno uro";case"hh":return r+=1===e?t?"ura":"uro":2===e?t||a?"uri":"urama":e<5?t||a?"ure":"urami":t||a?"ur":"urami";case"d":return t||a?"en dan":"enim dnem";case"dd":return r+=1===e?t||a?"dan":"dnem":2===e?t||a?"dni":"dnevoma":t||a?"dni":"dnevi";case"M":return t||a?"en mesec":"enim mesecem";case"MM":return r+=1===e?t||a?"mesec":"mesecem":2===e?t||a?"meseca":"mesecema":e<5?t||a?"mesece":"meseci":t||a?"mesecev":"meseci";case"y":return t||a?"eno leto":"enim letom";case"yy":return r+=1===e?t||a?"leto":"letom":2===e?t||a?"leti":"letoma":e<5?t||a?"leta":"leti":t||a?"let":"leti"}}return e.defineLocale("sl",{months:"januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"nedelja_ponedeljek_torek_sreda_četrtek_petek_sobota".split("_"),weekdaysShort:"ned._pon._tor._sre._čet._pet._sob.".split("_"),weekdaysMin:"ne_po_to_sr_če_pe_so".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[danes ob] LT",nextDay:"[jutri ob] LT",nextWeek:function(){switch(this.day()){case 0:return"[v] [nedeljo] [ob] LT";case 3:return"[v] [sredo] [ob] LT";case 6:return"[v] [soboto] [ob] LT";case 1:case 2:case 4:case 5:return"[v] dddd [ob] LT"}},lastDay:"[včeraj ob] LT",lastWeek:function(){switch(this.day()){case 0:return"[prejšnjo] [nedeljo] [ob] LT";case 3:return"[prejšnjo] [sredo] [ob] LT";case 6:return"[prejšnjo] [soboto] [ob] LT";case 1:case 2:case 4:case 5:return"[prejšnji] dddd [ob] LT"}},sameElse:"L"},relativeTime:{future:"čez %s",past:"pred %s",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("sq",{months:"Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor".split("_"),monthsShort:"Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_Nën_Dhj".split("_"),weekdays:"E Diel_E Hënë_E Martë_E Mërkurë_E Enjte_E Premte_E Shtunë".split("_"),weekdaysShort:"Die_Hën_Mar_Mër_Enj_Pre_Sht".split("_"),weekdaysMin:"D_H_Ma_Më_E_P_Sh".split("_"),weekdaysParseExact:!0,meridiemParse:/PD|MD/,isPM:function(e){return"M"===e.charAt(0)},meridiem:function(e,t,n){return e<12?"PD":"MD"},longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Sot në] LT",nextDay:"[Nesër në] LT",nextWeek:"dddd [në] LT",lastDay:"[Dje në] LT",lastWeek:"dddd [e kaluar në] LT",sameElse:"L"},relativeTime:{future:"në %s",past:"%s më parë",s:"disa sekonda",ss:"%d sekonda",m:"një minutë",mm:"%d minuta",h:"një orë",hh:"%d orë",d:"një ditë",dd:"%d ditë",M:"një muaj",MM:"%d muaj",y:"një vit",yy:"%d vite"},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={words:{ss:["секунда","секунде","секунди"],m:["један минут","једне минуте"],mm:["минут","минуте","минута"],h:["један сат","једног сата"],hh:["сат","сата","сати"],dd:["дан","дана","дана"],MM:["месец","месеца","месеци"],yy:["година","године","година"]},correctGrammaticalCase:function(e,t){return 1===e?t[0]:e>=2&&e<=4?t[1]:t[2]},translate:function(e,n,a){var r=t.words[a];return 1===a.length?n?r[0]:r[1]:e+" "+t.correctGrammaticalCase(e,r)}};return e.defineLocale("sr-cyrl",{months:"јануар_фебруар_март_април_мај_јун_јул_август_септембар_октобар_новембар_децембар".split("_"),monthsShort:"јан._феб._мар._апр._мај_јун_јул_авг._сеп._окт._нов._дец.".split("_"),monthsParseExact:!0,weekdays:"недеља_понедељак_уторак_среда_четвртак_петак_субота".split("_"),weekdaysShort:"нед._пон._уто._сре._чет._пет._суб.".split("_"),weekdaysMin:"не_по_ут_ср_че_пе_су".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[данас у] LT",nextDay:"[сутра у] LT",nextWeek:function(){switch(this.day()){case 0:return"[у] [недељу] [у] LT";case 3:return"[у] [среду] [у] LT";case 6:return"[у] [суботу] [у] LT";case 1:case 2:case 4:case 5:return"[у] dddd [у] LT"}},lastDay:"[јуче у] LT",lastWeek:function(){return["[прошле] [недеље] [у] LT","[прошлог] [понедељка] [у] LT","[прошлог] [уторка] [у] LT","[прошле] [среде] [у] LT","[прошлог] [четвртка] [у] LT","[прошлог] [петка] [у] LT","[прошле] [суботе] [у] LT"][this.day()]},sameElse:"L"},relativeTime:{future:"за %s",past:"пре %s",s:"неколико секунди",ss:t.translate,m:t.translate,mm:t.translate,h:t.translate,hh:t.translate,d:"дан",dd:t.translate,M:"месец",MM:t.translate,y:"годину",yy:t.translate},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={words:{ss:["sekunda","sekunde","sekundi"],m:["jedan minut","jedne minute"],mm:["minut","minute","minuta"],h:["jedan sat","jednog sata"],hh:["sat","sata","sati"],dd:["dan","dana","dana"],MM:["mesec","meseca","meseci"],yy:["godina","godine","godina"]},correctGrammaticalCase:function(e,t){return 1===e?t[0]:e>=2&&e<=4?t[1]:t[2]},translate:function(e,n,a){var r=t.words[a];return 1===a.length?n?r[0]:r[1]:e+" "+t.correctGrammaticalCase(e,r)}};return e.defineLocale("sr",{months:"januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar".split("_"),monthsShort:"jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.".split("_"),monthsParseExact:!0,weekdays:"nedelja_ponedeljak_utorak_sreda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sre._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY H:mm",LLLL:"dddd, D. MMMM YYYY H:mm"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedelju] [u] LT";case 3:return"[u] [sredu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[juče u] LT",lastWeek:function(){return["[prošle] [nedelje] [u] LT","[prošlog] [ponedeljka] [u] LT","[prošlog] [utorka] [u] LT","[prošle] [srede] [u] LT","[prošlog] [četvrtka] [u] LT","[prošlog] [petka] [u] LT","[prošle] [subote] [u] LT"][this.day()]},sameElse:"L"},relativeTime:{future:"za %s",past:"pre %s",s:"nekoliko sekundi",ss:t.translate,m:t.translate,mm:t.translate,h:t.translate,hh:t.translate,d:"dan",dd:t.translate,M:"mesec",MM:t.translate,y:"godinu",yy:t.translate},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ss",{months:"Bhimbidvwane_Indlovana_Indlov'lenkhulu_Mabasa_Inkhwekhweti_Inhlaba_Kholwane_Ingci_Inyoni_Imphala_Lweti_Ingongoni".split("_"),monthsShort:"Bhi_Ina_Inu_Mab_Ink_Inh_Kho_Igc_Iny_Imp_Lwe_Igo".split("_"),weekdays:"Lisontfo_Umsombuluko_Lesibili_Lesitsatfu_Lesine_Lesihlanu_Umgcibelo".split("_"),weekdaysShort:"Lis_Umb_Lsb_Les_Lsi_Lsh_Umg".split("_"),weekdaysMin:"Li_Us_Lb_Lt_Ls_Lh_Ug".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendar:{sameDay:"[Namuhla nga] LT",nextDay:"[Kusasa nga] LT",nextWeek:"dddd [nga] LT",lastDay:"[Itolo nga] LT",lastWeek:"dddd [leliphelile] [nga] LT",sameElse:"L"},relativeTime:{future:"nga %s",past:"wenteka nga %s",s:"emizuzwana lomcane",ss:"%d mzuzwana",m:"umzuzu",mm:"%d emizuzu",h:"lihora",hh:"%d emahora",d:"lilanga",dd:"%d emalanga",M:"inyanga",MM:"%d tinyanga",y:"umnyaka",yy:"%d iminyaka"},meridiemParse:/ekuseni|emini|entsambama|ebusuku/,meridiem:function(e,t,n){return e<11?"ekuseni":e<15?"emini":e<19?"entsambama":"ebusuku"},meridiemHour:function(e,t){return 12===e&&(e=0),"ekuseni"===t?e:"emini"===t?e>=11?e:e+12:"entsambama"===t||"ebusuku"===t?0===e?0:e+12:void 0},dayOfMonthOrdinalParse:/\d{1,2}/,ordinal:"%d",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("sv",{months:"januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),weekdaysShort:"sön_mån_tis_ons_tor_fre_lör".split("_"),weekdaysMin:"sö_må_ti_on_to_fr_lö".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [kl.] HH:mm",LLLL:"dddd D MMMM YYYY [kl.] HH:mm",lll:"D MMM YYYY HH:mm",llll:"ddd D MMM YYYY HH:mm"},calendar:{sameDay:"[Idag] LT",nextDay:"[Imorgon] LT",lastDay:"[Igår] LT",nextWeek:"[På] dddd LT",lastWeek:"[I] dddd[s] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"för %s sedan",s:"några sekunder",ss:"%d sekunder",m:"en minut",mm:"%d minuter",h:"en timme",hh:"%d timmar",d:"en dag",dd:"%d dagar",M:"en månad",MM:"%d månader",y:"ett år",yy:"%d år"},dayOfMonthOrdinalParse:/\d{1,2}(e|a)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"e":1===t?"a":2===t?"a":"e")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("sw",{months:"Januari_Februari_Machi_Aprili_Mei_Juni_Julai_Agosti_Septemba_Oktoba_Novemba_Desemba".split("_"),monthsShort:"Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ago_Sep_Okt_Nov_Des".split("_"),weekdays:"Jumapili_Jumatatu_Jumanne_Jumatano_Alhamisi_Ijumaa_Jumamosi".split("_"),weekdaysShort:"Jpl_Jtat_Jnne_Jtan_Alh_Ijm_Jmos".split("_"),weekdaysMin:"J2_J3_J4_J5_Al_Ij_J1".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[leo saa] LT",nextDay:"[kesho saa] LT",nextWeek:"[wiki ijayo] dddd [saat] LT",lastDay:"[jana] LT",lastWeek:"[wiki iliyopita] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s baadaye",past:"tokea %s",s:"hivi punde",ss:"sekunde %d",m:"dakika moja",mm:"dakika %d",h:"saa limoja",hh:"masaa %d",d:"siku moja",dd:"masiku %d",M:"mwezi mmoja",MM:"miezi %d",y:"mwaka mmoja",yy:"miaka %d"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"௧",2:"௨",3:"௩",4:"௪",5:"௫",6:"௬",7:"௭",8:"௮",9:"௯",0:"௦"},n={"௧":"1","௨":"2","௩":"3","௪":"4","௫":"5","௬":"6","௭":"7","௮":"8","௯":"9","௦":"0"};return e.defineLocale("ta",{months:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),monthsShort:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),weekdays:"ஞாயிற்றுக்கிழமை_திங்கட்கிழமை_செவ்வாய்கிழமை_புதன்கிழமை_வியாழக்கிழமை_வெள்ளிக்கிழமை_சனிக்கிழமை".split("_"),weekdaysShort:"ஞாயிறு_திங்கள்_செவ்வாய்_புதன்_வியாழன்_வெள்ளி_சனி".split("_"),weekdaysMin:"ஞா_தி_செ_பு_வி_வெ_ச".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, HH:mm",LLLL:"dddd, D MMMM YYYY, HH:mm"},calendar:{sameDay:"[இன்று] LT",nextDay:"[நாளை] LT",nextWeek:"dddd, LT",lastDay:"[நேற்று] LT",lastWeek:"[கடந்த வாரம்] dddd, LT",sameElse:"L"},relativeTime:{future:"%s இல்",past:"%s முன்",s:"ஒரு சில விநாடிகள்",ss:"%d விநாடிகள்",m:"ஒரு நிமிடம்",mm:"%d நிமிடங்கள்",h:"ஒரு மணி நேரம்",hh:"%d மணி நேரம்",d:"ஒரு நாள்",dd:"%d நாட்கள்",M:"ஒரு மாதம்",MM:"%d மாதங்கள்",y:"ஒரு வருடம்",yy:"%d ஆண்டுகள்"},dayOfMonthOrdinalParse:/\d{1,2}வது/,ordinal:function(e){return e+"வது"},preparse:function(e){return e.replace(/[௧௨௩௪௫௬௭௮௯௦]/g,function(e){return n[e]})},postformat:function(e){return e.replace(/\d/g,function(e){return t[e]})},meridiemParse:/யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,meridiem:function(e,t,n){return e<2?" யாமம்":e<6?" வைகறை":e<10?" காலை":e<14?" நண்பகல்":e<18?" எற்பாடு":e<22?" மாலை":" யாமம்"},meridiemHour:function(e,t){return 12===e&&(e=0),"யாமம்"===t?e<2?e:e+12:"வைகறை"===t||"காலை"===t?e:"நண்பகல்"===t&&e>=10?e:e+12},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("te",{months:"జనవరి_ఫిబ్రవరి_మార్చి_ఏప్రిల్_మే_జూన్_జులై_ఆగస్టు_సెప్టెంబర్_అక్టోబర్_నవంబర్_డిసెంబర్".split("_"),monthsShort:"జన._ఫిబ్ర._మార్చి_ఏప్రి._మే_జూన్_జులై_ఆగ._సెప్._అక్టో._నవ._డిసె.".split("_"),monthsParseExact:!0,weekdays:"ఆదివారం_సోమవారం_మంగళవారం_బుధవారం_గురువారం_శుక్రవారం_శనివారం".split("_"),weekdaysShort:"ఆది_సోమ_మంగళ_బుధ_గురు_శుక్ర_శని".split("_"),weekdaysMin:"ఆ_సో_మం_బు_గు_శు_శ".split("_"),longDateFormat:{LT:"A h:mm",LTS:"A h:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, A h:mm",LLLL:"dddd, D MMMM YYYY, A h:mm"},calendar:{sameDay:"[నేడు] LT",nextDay:"[రేపు] LT",nextWeek:"dddd, LT",lastDay:"[నిన్న] LT",lastWeek:"[గత] dddd, LT",sameElse:"L"},relativeTime:{future:"%s లో",past:"%s క్రితం",s:"కొన్ని క్షణాలు",ss:"%d సెకన్లు",m:"ఒక నిమిషం",mm:"%d నిమిషాలు",h:"ఒక గంట",hh:"%d గంటలు",d:"ఒక రోజు",dd:"%d రోజులు",M:"ఒక నెల",MM:"%d నెలలు",y:"ఒక సంవత్సరం",yy:"%d సంవత్సరాలు"},dayOfMonthOrdinalParse:/\d{1,2}వ/,ordinal:"%dవ",meridiemParse:/రాత్రి|ఉదయం|మధ్యాహ్నం|సాయంత్రం/,meridiemHour:function(e,t){return 12===e&&(e=0),"రాత్రి"===t?e<4?e:e+12:"ఉదయం"===t?e:"మధ్యాహ్నం"===t?e>=10?e:e+12:"సాయంత్రం"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"రాత్రి":e<10?"ఉదయం":e<17?"మధ్యాహ్నం":e<20?"సాయంత్రం":"రాత్రి"},week:{dow:0,doy:6}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("tet",{months:"Janeiru_Fevereiru_Marsu_Abril_Maiu_Juñu_Jullu_Agustu_Setembru_Outubru_Novembru_Dezembru".split("_"),monthsShort:"Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),weekdays:"Domingu_Segunda_Tersa_Kuarta_Kinta_Sesta_Sabadu".split("_"),weekdaysShort:"Dom_Seg_Ters_Kua_Kint_Sest_Sab".split("_"),weekdaysMin:"Do_Seg_Te_Ku_Ki_Ses_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Ohin iha] LT",nextDay:"[Aban iha] LT",nextWeek:"dddd [iha] LT",lastDay:"[Horiseik iha] LT",lastWeek:"dddd [semana kotuk] [iha] LT",sameElse:"L"},relativeTime:{future:"iha %s",past:"%s liuba",s:"minutu balun",ss:"minutu %d",m:"minutu ida",mm:"minutu %d",h:"oras ida",hh:"oras %d",d:"loron ida",dd:"loron %d",M:"fulan ida",MM:"fulan %d",y:"tinan ida",yy:"tinan %d"},dayOfMonthOrdinalParse:/\d{1,2}(st|nd|rd|th)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={0:"-ум",1:"-ум",2:"-юм",3:"-юм",4:"-ум",5:"-ум",6:"-ум",7:"-ум",8:"-ум",9:"-ум",10:"-ум",12:"-ум",13:"-ум",20:"-ум",30:"-юм",40:"-ум",50:"-ум",60:"-ум",70:"-ум",80:"-ум",90:"-ум",100:"-ум"};return e.defineLocale("tg",{months:"январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"якшанбе_душанбе_сешанбе_чоршанбе_панҷшанбе_ҷумъа_шанбе".split("_"),weekdaysShort:"яшб_дшб_сшб_чшб_пшб_ҷум_шнб".split("_"),weekdaysMin:"яш_дш_сш_чш_пш_ҷм_шб".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[Имрӯз соати] LT",nextDay:"[Пагоҳ соати] LT",lastDay:"[Дирӯз соати] LT",nextWeek:"dddd[и] [ҳафтаи оянда соати] LT",lastWeek:"dddd[и] [ҳафтаи гузашта соати] LT",sameElse:"L"},relativeTime:{future:"баъди %s",past:"%s пеш",s:"якчанд сония",m:"як дақиқа",mm:"%d дақиқа",h:"як соат",hh:"%d соат",d:"як рӯз",dd:"%d рӯз",M:"як моҳ",MM:"%d моҳ",y:"як сол",yy:"%d сол"},meridiemParse:/шаб|субҳ|рӯз|бегоҳ/,meridiemHour:function(e,t){return 12===e&&(e=0),"шаб"===t?e<4?e:e+12:"субҳ"===t?e:"рӯз"===t?e>=11?e:e+12:"бегоҳ"===t?e+12:void 0},meridiem:function(e,t,n){return e<4?"шаб":e<11?"субҳ":e<16?"рӯз":e<19?"бегоҳ":"шаб"},dayOfMonthOrdinalParse:/\d{1,2}-(ум|юм)/,ordinal:function(e){var n=e%10,a=e>=100?100:null;return e+(t[e]||t[n]||t[a])},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("th",{months:"มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม".split("_"),monthsShort:"ม.ค._ก.พ._มี.ค._เม.ย._พ.ค._มิ.ย._ก.ค._ส.ค._ก.ย._ต.ค._พ.ย._ธ.ค.".split("_"),monthsParseExact:!0,weekdays:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์".split("_"),weekdaysShort:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัส_ศุกร์_เสาร์".split("_"),weekdaysMin:"อา._จ._อ._พ._พฤ._ศ._ส.".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY เวลา H:mm",LLLL:"วันddddที่ D MMMM YYYY เวลา H:mm"},meridiemParse:/ก่อนเที่ยง|หลังเที่ยง/,isPM:function(e){return"หลังเที่ยง"===e},meridiem:function(e,t,n){return e<12?"ก่อนเที่ยง":"หลังเที่ยง"},calendar:{sameDay:"[วันนี้ เวลา] LT",nextDay:"[พรุ่งนี้ เวลา] LT",nextWeek:"dddd[หน้า เวลา] LT",lastDay:"[เมื่อวานนี้ เวลา] LT",lastWeek:"[วัน]dddd[ที่แล้ว เวลา] LT",sameElse:"L"},relativeTime:{future:"อีก %s",past:"%sที่แล้ว",s:"ไม่กี่วินาที",ss:"%d วินาที",m:"1 นาที",mm:"%d นาที",h:"1 ชั่วโมง",hh:"%d ชั่วโมง",d:"1 วัน",dd:"%d วัน",M:"1 เดือน",MM:"%d เดือน",y:"1 ปี",yy:"%d ปี"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("tl-ph",{months:"Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre".split("_"),monthsShort:"Ene_Peb_Mar_Abr_May_Hun_Hul_Ago_Set_Okt_Nob_Dis".split("_"),weekdays:"Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado".split("_"),weekdaysShort:"Lin_Lun_Mar_Miy_Huw_Biy_Sab".split("_"),weekdaysMin:"Li_Lu_Ma_Mi_Hu_Bi_Sab".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"MM/D/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY HH:mm",LLLL:"dddd, MMMM DD, YYYY HH:mm"},calendar:{sameDay:"LT [ngayong araw]",nextDay:"[Bukas ng] LT",nextWeek:"LT [sa susunod na] dddd",lastDay:"LT [kahapon]",lastWeek:"LT [noong nakaraang] dddd",sameElse:"L"},relativeTime:{future:"sa loob ng %s",past:"%s ang nakalipas",s:"ilang segundo",ss:"%d segundo",m:"isang minuto",mm:"%d minuto",h:"isang oras",hh:"%d oras",d:"isang araw",dd:"%d araw",M:"isang buwan",MM:"%d buwan",y:"isang taon",yy:"%d taon"},dayOfMonthOrdinalParse:/\d{1,2}/,ordinal:function(e){return e},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e){var t=e;return t=-1!==e.indexOf("jaj")?t.slice(0,-3)+"leS":-1!==e.indexOf("jar")?t.slice(0,-3)+"waQ":-1!==e.indexOf("DIS")?t.slice(0,-3)+"nem":t+" pIq"}function n(e){var t=e;return t=-1!==e.indexOf("jaj")?t.slice(0,-3)+"Hu’":-1!==e.indexOf("jar")?t.slice(0,-3)+"wen":-1!==e.indexOf("DIS")?t.slice(0,-3)+"ben":t+" ret"}function a(e,t,n,a){var s=r(e);switch(n){case"ss":return s+" lup";case"mm":return s+" tup";case"hh":return s+" rep";case"dd":return s+" jaj";case"MM":return s+" jar";case"yy":return s+" DIS"}}function r(e){var t=Math.floor(e%1e3/100),n=Math.floor(e%100/10),a=e%10,r="";return t>0&&(r+=s[t]+"vatlh"),n>0&&(r+=(""!==r?" ":"")+s[n]+"maH"),a>0&&(r+=(""!==r?" ":"")+s[a]),""===r?"pagh":r}var s="pagh_wa’_cha’_wej_loS_vagh_jav_Soch_chorgh_Hut".split("_");return e.defineLocale("tlh",{months:"tera’ jar wa’_tera’ jar cha’_tera’ jar wej_tera’ jar loS_tera’ jar vagh_tera’ jar jav_tera’ jar Soch_tera’ jar chorgh_tera’ jar Hut_tera’ jar wa’maH_tera’ jar wa’maH wa’_tera’ jar wa’maH cha’".split("_"),monthsShort:"jar wa’_jar cha’_jar wej_jar loS_jar vagh_jar jav_jar Soch_jar chorgh_jar Hut_jar wa’maH_jar wa’maH wa’_jar wa’maH cha’".split("_"),monthsParseExact:!0,weekdays:"lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split("_"),weekdaysShort:"lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split("_"),weekdaysMin:"lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[DaHjaj] LT",nextDay:"[wa’leS] LT",nextWeek:"LLL",lastDay:"[wa’Hu’] LT",lastWeek:"LLL",sameElse:"L"},relativeTime:{future:t,past:n,s:"puS lup",ss:a,m:"wa’ tup",mm:a,h:"wa’ rep",hh:a,d:"wa’ jaj",dd:a,M:"wa’ jar",MM:a,y:"wa’ DIS",yy:a},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t={1:"'inci",5:"'inci",8:"'inci",70:"'inci",80:"'inci",2:"'nci",7:"'nci",20:"'nci",50:"'nci",3:"'üncü",4:"'üncü",100:"'üncü",6:"'ncı",9:"'uncu",10:"'uncu",30:"'uncu",60:"'ıncı",90:"'ıncı"};return e.defineLocale("tr",{months:"Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),monthsShort:"Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),weekdays:"Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),weekdaysShort:"Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),weekdaysMin:"Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[bugün saat] LT",nextDay:"[yarın saat] LT",nextWeek:"[gelecek] dddd [saat] LT",lastDay:"[dün] LT",lastWeek:"[geçen] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s sonra",past:"%s önce",s:"birkaç saniye",ss:"%d saniye",m:"bir dakika",mm:"%d dakika",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir yıl",yy:"%d yıl"},ordinal:function(e,n){switch(n){case"d":case"D":case"Do":case"DD":return e;default:if(0===e)return e+"'ıncı";var a=e%10,r=e%100-a,s=e>=100?100:null;return e+(t[a]||t[r]||t[s])}},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t,n,a){var r={s:["viensas secunds","'iensas secunds"],ss:[e+" secunds",e+" secunds"],m:["'n míut","'iens míut"],mm:[e+" míuts",e+" míuts"],h:["'n þora","'iensa þora"],hh:[e+" þoras",e+" þoras"],d:["'n ziua","'iensa ziua"],dd:[e+" ziuas",e+" ziuas"],M:["'n mes","'iens mes"],MM:[e+" mesen",e+" mesen"],y:["'n ar","'iens ar"],yy:[e+" ars",e+" ars"]};return a?r[n][0]:t?r[n][0]:r[n][1]}return e.defineLocale("tzl",{months:"Januar_Fevraglh_Març_Avrïu_Mai_Gün_Julia_Guscht_Setemvar_Listopäts_Noemvar_Zecemvar".split("_"),monthsShort:"Jan_Fev_Mar_Avr_Mai_Gün_Jul_Gus_Set_Lis_Noe_Zec".split("_"),weekdays:"Súladi_Lúneçi_Maitzi_Márcuri_Xhúadi_Viénerçi_Sáturi".split("_"),weekdaysShort:"Súl_Lún_Mai_Már_Xhú_Vié_Sát".split("_"),weekdaysMin:"Sú_Lú_Ma_Má_Xh_Vi_Sá".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD.MM.YYYY",LL:"D. MMMM [dallas] YYYY",LLL:"D. MMMM [dallas] YYYY HH.mm",LLLL:"dddd, [li] D. MMMM [dallas] YYYY HH.mm"},meridiemParse:/d\'o|d\'a/i,isPM:function(e){return"d'o"===e.toLowerCase()},meridiem:function(e,t,n){return e>11?n?"d'o":"D'O":n?"d'a":"D'A"},calendar:{sameDay:"[oxhi à] LT",nextDay:"[demà à] LT",nextWeek:"dddd [à] LT",lastDay:"[ieiri à] LT",lastWeek:"[sür el] dddd [lasteu à] LT",sameElse:"L"},relativeTime:{future:"osprei %s",past:"ja%s",s:t,ss:t,m:t,mm:t,h:t,hh:t,d:t,dd:t,M:t,MM:t,y:t,yy:t},dayOfMonthOrdinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("tzm-latn",{months:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),monthsShort:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),weekdays:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysShort:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysMin:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[asdkh g] LT",nextDay:"[aska g] LT",nextWeek:"dddd [g] LT",lastDay:"[assant g] LT",lastWeek:"dddd [g] LT",sameElse:"L"},relativeTime:{future:"dadkh s yan %s",past:"yan %s",s:"imik",ss:"%d imik",m:"minuḍ",mm:"%d minuḍ",h:"saɛa",hh:"%d tassaɛin",d:"ass",dd:"%d ossan",M:"ayowr",MM:"%d iyyirn",y:"asgas",yy:"%d isgasn"},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("tzm",{months:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),monthsShort:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),weekdays:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysShort:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysMin:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd D MMMM YYYY HH:mm"},calendar:{sameDay:"[ⴰⵙⴷⵅ ⴴ] LT",nextDay:"[ⴰⵙⴽⴰ ⴴ] LT",nextWeek:"dddd [ⴴ] LT",lastDay:"[ⴰⵚⴰⵏⵜ ⴴ] LT",lastWeek:"dddd [ⴴ] LT",sameElse:"L"},relativeTime:{future:"ⴷⴰⴷⵅ ⵙ ⵢⴰⵏ %s",past:"ⵢⴰⵏ %s",s:"ⵉⵎⵉⴽ",ss:"%d ⵉⵎⵉⴽ",m:"ⵎⵉⵏⵓⴺ",mm:"%d ⵎⵉⵏⵓⴺ",h:"ⵙⴰⵄⴰ",hh:"%d ⵜⴰⵙⵙⴰⵄⵉⵏ",d:"ⴰⵙⵙ",dd:"%d oⵙⵙⴰⵏ",M:"ⴰⵢoⵓⵔ",MM:"%d ⵉⵢⵢⵉⵔⵏ",y:"ⴰⵙⴳⴰⵙ",yy:"%d ⵉⵙⴳⴰⵙⵏ"},week:{dow:6,doy:12}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("ug-cn",{months:"يانۋار_فېۋرال_مارت_ئاپرېل_ماي_ئىيۇن_ئىيۇل_ئاۋغۇست_سېنتەبىر_ئۆكتەبىر_نويابىر_دېكابىر".split("_"),monthsShort:"يانۋار_فېۋرال_مارت_ئاپرېل_ماي_ئىيۇن_ئىيۇل_ئاۋغۇست_سېنتەبىر_ئۆكتەبىر_نويابىر_دېكابىر".split("_"),weekdays:"يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_پەيشەنبە_جۈمە_شەنبە".split("_"),weekdaysShort:"يە_دۈ_سە_چا_پە_جۈ_شە".split("_"),weekdaysMin:"يە_دۈ_سە_چا_پە_جۈ_شە".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY-MM-DD",LL:"YYYY-يىلىM-ئاينىڭD-كۈنى",LLL:"YYYY-يىلىM-ئاينىڭD-كۈنى، HH:mm",LLLL:"dddd، YYYY-يىلىM-ئاينىڭD-كۈنى، HH:mm"},meridiemParse:/يېرىم كېچە|سەھەر|چۈشتىن بۇرۇن|چۈش|چۈشتىن كېيىن|كەچ/,meridiemHour:function(e,t){return 12===e&&(e=0),"يېرىم كېچە"===t||"سەھەر"===t||"چۈشتىن بۇرۇن"===t?e:"چۈشتىن كېيىن"===t||"كەچ"===t?e+12:e>=11?e:e+12},meridiem:function(e,t,n){var a=100*e+t;return a<600?"يېرىم كېچە":a<900?"سەھەر":a<1130?"چۈشتىن بۇرۇن":a<1230?"چۈش":a<1800?"چۈشتىن كېيىن":"كەچ"},calendar:{sameDay:"[بۈگۈن سائەت] LT",nextDay:"[ئەتە سائەت] LT",nextWeek:"[كېلەركى] dddd [سائەت] LT",lastDay:"[تۆنۈگۈن] LT",lastWeek:"[ئالدىنقى] dddd [سائەت] LT",sameElse:"L"},relativeTime:{future:"%s كېيىن",past:"%s بۇرۇن",s:"نەچچە سېكونت",ss:"%d سېكونت",m:"بىر مىنۇت",mm:"%d مىنۇت",h:"بىر سائەت",hh:"%d سائەت",d:"بىر كۈن",dd:"%d كۈن",M:"بىر ئاي",MM:"%d ئاي",y:"بىر يىل",yy:"%d يىل"},dayOfMonthOrdinalParse:/\d{1,2}(-كۈنى|-ئاي|-ھەپتە)/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"-كۈنى";case"w":case"W":return e+"-ھەپتە";default:return e}},preparse:function(e){return e.replace(/،/g,",")},postformat:function(e){return e.replace(/,/g,"،")},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";function t(e,t){var n=e.split("_");return t%10==1&&t%100!=11?n[0]:t%10>=2&&t%10<=4&&(t%100<10||t%100>=20)?n[1]:n[2]}function n(e,n,a){var r={ss:n?"секунда_секунди_секунд":"секунду_секунди_секунд",mm:n?"хвилина_хвилини_хвилин":"хвилину_хвилини_хвилин",hh:n?"година_години_годин":"годину_години_годин",dd:"день_дні_днів",MM:"місяць_місяці_місяців",yy:"рік_роки_років"};return"m"===a?n?"хвилина":"хвилину":"h"===a?n?"година":"годину":e+" "+t(r[a],+e)}function a(e,t){var n={nominative:"неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота".split("_"),accusative:"неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу".split("_"),genitive:"неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи".split("_")};return!0===e?n.nominative.slice(1,7).concat(n.nominative.slice(0,1)):e?n[/(\[[ВвУу]\]) ?dddd/.test(t)?"accusative":/\[?(?:минулої|наступної)? ?\] ?dddd/.test(t)?"genitive":"nominative"][e.day()]:n.nominative}function r(e){return function(){return e+"о"+(11===this.hours()?"б":"")+"] LT"}}return e.defineLocale("uk",{months:{format:"січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня".split("_"),standalone:"січень_лютий_березень_квітень_травень_червень_липень_серпень_вересень_жовтень_листопад_грудень".split("_")},monthsShort:"січ_лют_бер_квіт_трав_черв_лип_серп_вер_жовт_лист_груд".split("_"),weekdays:a,weekdaysShort:"нд_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"нд_пн_вт_ср_чт_пт_сб".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY р.",LLL:"D MMMM YYYY р., HH:mm",LLLL:"dddd, D MMMM YYYY р., HH:mm"},calendar:{sameDay:r("[Сьогодні "),nextDay:r("[Завтра "),lastDay:r("[Вчора "),nextWeek:r("[У] dddd ["),lastWeek:function(){switch(this.day()){case 0:case 3:case 5:case 6:return r("[Минулої] dddd [").call(this);case 1:case 2:case 4:return r("[Минулого] dddd [").call(this)}},sameElse:"L"},relativeTime:{future:"за %s",past:"%s тому",s:"декілька секунд",ss:n,m:n,mm:n,h:"годину",hh:n,d:"день",dd:n,M:"місяць",MM:n,y:"рік",yy:n},meridiemParse:/ночі|ранку|дня|вечора/,isPM:function(e){return/^(дня|вечора)$/.test(e)},meridiem:function(e,t,n){return e<4?"ночі":e<12?"ранку":e<17?"дня":"вечора"},dayOfMonthOrdinalParse:/\d{1,2}-(й|го)/,ordinal:function(e,t){switch(t){case"M":case"d":case"DDD":case"w":case"W":return e+"-й";case"D":return e+"-го";default:return e}},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";var t=["جنوری","فروری","مارچ","اپریل","مئی","جون","جولائی","اگست","ستمبر","اکتوبر","نومبر","دسمبر"],n=["اتوار","پیر","منگل","بدھ","جمعرات","جمعہ","ہفتہ"];return e.defineLocale("ur",{months:t,monthsShort:t,weekdays:n,weekdaysShort:n,weekdaysMin:n,longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd، D MMMM YYYY HH:mm"},meridiemParse:/صبح|شام/,isPM:function(e){return"شام"===e},meridiem:function(e,t,n){return e<12?"صبح":"شام"},calendar:{sameDay:"[آج بوقت] LT",nextDay:"[کل بوقت] LT",nextWeek:"dddd [بوقت] LT",lastDay:"[گذشتہ روز بوقت] LT",lastWeek:"[گذشتہ] dddd [بوقت] LT",sameElse:"L"},relativeTime:{future:"%s بعد",past:"%s قبل",s:"چند سیکنڈ",ss:"%d سیکنڈ",m:"ایک منٹ",mm:"%d منٹ",h:"ایک گھنٹہ",hh:"%d گھنٹے",d:"ایک دن",dd:"%d دن",M:"ایک ماہ",MM:"%d ماہ",y:"ایک سال",yy:"%d سال"},preparse:function(e){return e.replace(/،/g,",")},postformat:function(e){return e.replace(/,/g,"،")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("uz-latn",{months:"Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr".split("_"),monthsShort:"Yan_Fev_Mar_Apr_May_Iyun_Iyul_Avg_Sen_Okt_Noy_Dek".split("_"),weekdays:"Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba".split("_"),weekdaysShort:"Yak_Dush_Sesh_Chor_Pay_Jum_Shan".split("_"),weekdaysMin:"Ya_Du_Se_Cho_Pa_Ju_Sha".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"D MMMM YYYY, dddd HH:mm"},calendar:{sameDay:"[Bugun soat] LT [da]",nextDay:"[Ertaga] LT [da]",nextWeek:"dddd [kuni soat] LT [da]",lastDay:"[Kecha soat] LT [da]",lastWeek:"[O'tgan] dddd [kuni soat] LT [da]",sameElse:"L"},relativeTime:{future:"Yaqin %s ichida",past:"Bir necha %s oldin",s:"soniya",ss:"%d soniya",m:"bir daqiqa",mm:"%d daqiqa",h:"bir soat",hh:"%d soat",d:"bir kun",dd:"%d kun",M:"bir oy",MM:"%d oy",y:"bir yil",yy:"%d yil"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("uz",{months:"январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба".split("_"),weekdaysShort:"Якш_Душ_Сеш_Чор_Пай_Жум_Шан".split("_"),weekdaysMin:"Як_Ду_Се_Чо_Па_Жу_Ша".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"D MMMM YYYY, dddd HH:mm"},calendar:{sameDay:"[Бугун соат] LT [да]",nextDay:"[Эртага] LT [да]",nextWeek:"dddd [куни соат] LT [да]",lastDay:"[Кеча соат] LT [да]",lastWeek:"[Утган] dddd [куни соат] LT [да]",sameElse:"L"},relativeTime:{future:"Якин %s ичида",past:"Бир неча %s олдин",s:"фурсат",ss:"%d фурсат",m:"бир дакика",mm:"%d дакика",h:"бир соат",hh:"%d соат",d:"бир кун",dd:"%d кун",M:"бир ой",MM:"%d ой",y:"бир йил",yy:"%d йил"},week:{dow:1,doy:7}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("vi",{months:"tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12".split("_"),monthsShort:"Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12".split("_"),monthsParseExact:!0,weekdays:"chủ nhật_thứ hai_thứ ba_thứ tư_thứ năm_thứ sáu_thứ bảy".split("_"),weekdaysShort:"CN_T2_T3_T4_T5_T6_T7".split("_"),weekdaysMin:"CN_T2_T3_T4_T5_T6_T7".split("_"),weekdaysParseExact:!0,meridiemParse:/sa|ch/i,isPM:function(e){return/^ch$/i.test(e)},meridiem:function(e,t,n){return e<12?n?"sa":"SA":n?"ch":"CH"},longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM [năm] YYYY",LLL:"D MMMM [năm] YYYY HH:mm",LLLL:"dddd, D MMMM [năm] YYYY HH:mm",l:"DD/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY HH:mm",llll:"ddd, D MMM YYYY HH:mm"},calendar:{sameDay:"[Hôm nay lúc] LT",nextDay:"[Ngày mai lúc] LT",nextWeek:"dddd [tuần tới lúc] LT",lastDay:"[Hôm qua lúc] LT",lastWeek:"dddd [tuần rồi lúc] LT",sameElse:"L"},relativeTime:{future:"%s tới",past:"%s trước",s:"vài giây",ss:"%d giây",m:"một phút",mm:"%d phút",h:"một giờ",hh:"%d giờ",d:"một ngày",dd:"%d ngày",M:"một tháng",MM:"%d tháng",y:"một năm",yy:"%d năm"},dayOfMonthOrdinalParse:/\d{1,2}/,ordinal:function(e){return e},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("x-pseudo",{months:"J~áñúá~rý_F~ébrú~árý_~Márc~h_Áp~ríl_~Máý_~Júñé~_Júl~ý_Áú~gúst~_Sép~témb~ér_Ó~ctób~ér_Ñ~óvém~bér_~Décé~mbér".split("_"),monthsShort:"J~áñ_~Féb_~Már_~Ápr_~Máý_~Júñ_~Júl_~Áúg_~Sép_~Óct_~Ñóv_~Déc".split("_"),monthsParseExact:!0,weekdays:"S~úñdá~ý_Mó~ñdáý~_Túé~sdáý~_Wéd~ñésd~áý_T~húrs~dáý_~Fríd~áý_S~átúr~dáý".split("_"),weekdaysShort:"S~úñ_~Móñ_~Túé_~Wéd_~Thú_~Frí_~Sát".split("_"),weekdaysMin:"S~ú_Mó~_Tú_~Wé_T~h_Fr~_Sá".split("_"),weekdaysParseExact:!0,longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},calendar:{sameDay:"[T~ódá~ý át] LT",nextDay:"[T~ómó~rró~w át] LT",nextWeek:"dddd [át] LT",lastDay:"[Ý~ést~érdá~ý át] LT",lastWeek:"[L~ást] dddd [át] LT",sameElse:"L"},relativeTime:{future:"í~ñ %s",past:"%s á~gó",s:"á ~féw ~sécó~ñds",ss:"%d s~écóñ~ds",m:"á ~míñ~úté",mm:"%d m~íñú~tés",h:"á~ñ hó~úr",hh:"%d h~óúrs",d:"á ~dáý",dd:"%d d~áýs",M:"á ~móñ~th",MM:"%d m~óñt~hs",y:"á ~ýéár",yy:"%d ý~éárs"},dayOfMonthOrdinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(e){var t=e%10;return e+(1==~~(e%100/10)?"th":1===t?"st":2===t?"nd":3===t?"rd":"th")},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("yo",{months:"Sẹ́rẹ́_Èrèlè_Ẹrẹ̀nà_Ìgbé_Èbibi_Òkùdu_Agẹmo_Ògún_Owewe_Ọ̀wàrà_Bélú_Ọ̀pẹ̀̀".split("_"),monthsShort:"Sẹ́r_Èrl_Ẹrn_Ìgb_Èbi_Òkù_Agẹ_Ògú_Owe_Ọ̀wà_Bél_Ọ̀pẹ̀̀".split("_"),weekdays:"Àìkú_Ajé_Ìsẹ́gun_Ọjọ́rú_Ọjọ́bọ_Ẹtì_Àbámẹ́ta".split("_"),weekdaysShort:"Àìk_Ajé_Ìsẹ́_Ọjr_Ọjb_Ẹtì_Àbá".split("_"),weekdaysMin:"Àì_Aj_Ìs_Ọr_Ọb_Ẹt_Àb".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY h:mm A",LLLL:"dddd, D MMMM YYYY h:mm A"},calendar:{sameDay:"[Ònì ni] LT",nextDay:"[Ọ̀la ni] LT",nextWeek:"dddd [Ọsẹ̀ tón'bọ] [ni] LT",lastDay:"[Àna ni] LT",lastWeek:"dddd [Ọsẹ̀ tólọ́] [ni] LT",sameElse:"L"},relativeTime:{future:"ní %s",past:"%s kọjá",s:"ìsẹjú aayá die",ss:"aayá %d",m:"ìsẹjú kan",mm:"ìsẹjú %d",h:"wákati kan",hh:"wákati %d",d:"ọjọ́ kan",dd:"ọjọ́ %d",M:"osù kan",MM:"osù %d",y:"ọdún kan",yy:"ọdún %d"},dayOfMonthOrdinalParse:/ọjọ́\s\d{1,2}/,ordinal:"ọjọ́ %d",week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("zh-cn",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"周日_周一_周二_周三_周四_周五_周六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日Ah点mm分",LLLL:"YYYY年M月D日ddddAh点mm分",l:"YYYY/M/D",ll:"YYYY年M月D日",lll:"YYYY年M月D日 HH:mm",llll:"YYYY年M月D日dddd HH:mm"},meridiemParse:/凌晨|早上|上午|中午|下午|晚上/,meridiemHour:function(e,t){return 12===e&&(e=0),"凌晨"===t||"早上"===t||"上午"===t?e:"下午"===t||"晚上"===t?e+12:e>=11?e:e+12},meridiem:function(e,t,n){var a=100*e+t;return a<600?"凌晨":a<900?"早上":a<1130?"上午":a<1230?"中午":a<1800?"下午":"晚上"},calendar:{sameDay:"[今天]LT",nextDay:"[明天]LT",nextWeek:"[下]ddddLT",lastDay:"[昨天]LT",lastWeek:"[上]ddddLT",sameElse:"L"},dayOfMonthOrdinalParse:/\d{1,2}(日|月|周)/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"日";case"M":return e+"月";case"w":case"W":return e+"周";default:return e}},relativeTime:{future:"%s内",past:"%s前",s:"几秒",ss:"%d 秒",m:"1 分钟",mm:"%d 分钟",h:"1 小时",hh:"%d 小时",d:"1 天",dd:"%d 天",M:"1 个月",MM:"%d 个月",y:"1 年",yy:"%d 年"},week:{dow:1,doy:4}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("zh-hk",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"週日_週一_週二_週三_週四_週五_週六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日 HH:mm",LLLL:"YYYY年M月D日dddd HH:mm",l:"YYYY/M/D",ll:"YYYY年M月D日",lll:"YYYY年M月D日 HH:mm",llll:"YYYY年M月D日dddd HH:mm"},meridiemParse:/凌晨|早上|上午|中午|下午|晚上/,meridiemHour:function(e,t){return 12===e&&(e=0),"凌晨"===t||"早上"===t||"上午"===t?e:"中午"===t?e>=11?e:e+12:"下午"===t||"晚上"===t?e+12:void 0},meridiem:function(e,t,n){var a=100*e+t;return a<600?"凌晨":a<900?"早上":a<1130?"上午":a<1230?"中午":a<1800?"下午":"晚上"},calendar:{sameDay:"[今天]LT",nextDay:"[明天]LT",nextWeek:"[下]ddddLT",lastDay:"[昨天]LT",lastWeek:"[上]ddddLT",sameElse:"L"},dayOfMonthOrdinalParse:/\d{1,2}(日|月|週)/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"日";case"M":return e+"月";case"w":case"W":return e+"週";default:return e}},relativeTime:{future:"%s內",past:"%s前",s:"幾秒",ss:"%d 秒",m:"1 分鐘",mm:"%d 分鐘",h:"1 小時",hh:"%d 小時",d:"1 天",dd:"%d 天",M:"1 個月",MM:"%d 個月",y:"1 年",yy:"%d 年"}})})},function(e,t,n){!function(e,t){t(n(0))}(0,function(e){"use strict";return e.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"週日_週一_週二_週三_週四_週五_週六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日 HH:mm",LLLL:"YYYY年M月D日dddd HH:mm",l:"YYYY/M/D",ll:"YYYY年M月D日",lll:"YYYY年M月D日 HH:mm",llll:"YYYY年M月D日dddd HH:mm"},meridiemParse:/凌晨|早上|上午|中午|下午|晚上/,meridiemHour:function(e,t){return 12===e&&(e=0),"凌晨"===t||"早上"===t||"上午"===t?e:"中午"===t?e>=11?e:e+12:"下午"===t||"晚上"===t?e+12:void 0},meridiem:function(e,t,n){var a=100*e+t;return a<600?"凌晨":a<900?"早上":a<1130?"上午":a<1230?"中午":a<1800?"下午":"晚上"},calendar:{sameDay:"[今天] LT",nextDay:"[明天] LT",nextWeek:"[下]dddd LT",lastDay:"[昨天] LT",lastWeek:"[上]dddd LT",sameElse:"L"},dayOfMonthOrdinalParse:/\d{1,2}(日|月|週)/,ordinal:function(e,t){switch(t){case"d":case"D":case"DDD":return e+"日";case"M":return e+"月";case"w":case"W":return e+"週";default:return e}},relativeTime:{future:"%s內",past:"%s前",s:"幾秒",ss:"%d 秒",m:"1 分鐘",mm:"%d 分鐘",h:"1 小時",hh:"%d 小時",d:"1 天",dd:"%d 天",M:"1 個月",MM:"%d 個月",y:"1 年",yy:"%d 年"}})})},function(e,t){var n;n=function(){return this}();try{n=n||Function("return this")()||(0,eval)("this")}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){function a(e){n(175),n(176)}var r=n(1)(n(145),n(188),a,"data-v-2e43d84d",null);e.exports=r.exports},function(e,t,n){"use strict";n.d(t,"a",function(){return a}),n.d(t,"b",function(){return r});var a=function(e){var t=11===e.getMonth(),n=t?0:e.getMonth()+1,a=t?e.getFullYear()+1:e.getFullYear();return new Date(a,n,1)},r=function(e){var t=0===e.getMonth(),n=t?11:e.getMonth()-1,a=t?e.getFullYear()-1:e.getFullYear();return new Date(a,n,1)}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=n(139),r=n.n(a);t.default=r.a},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=n(0),r=n.n(a);t.default={name:"calendar",props:{monthDate:Date,locale:Object,start:Date,end:Date,minDate:Date,maxDate:Date,showDropdowns:{type:Boolean,default:!1},showWeekNumbers:{type:Boolean,default:!1}},methods:{dayClass:function(e){var t=new Date(e);t.setHours(0,0,0,0);var n=new Date(this.start);n.setHours(0,0,0,0);var a=new Date(this.end);return a.setHours(0,0,0,0),{off:e.month()!==this.month,weekend:e.isoWeekday()>5,today:t.setHours(0,0,0,0)==(new Date).setHours(0,0,0,0),active:t.setHours(0,0,0,0)==new Date(this.start).setHours(0,0,0,0)||t.setHours(0,0,0,0)==new Date(this.end).setHours(0,0,0,0),"in-range":t>=n&&t<=a,"start-date":t.getTime()===n.getTime(),"end-date":t.getTime()===a.getTime(),disabled:this.minDate&&r()(t).startOf("day").isBefore(r()(this.minDate).startOf("day"))||this.maxDate&&r()(t).startOf("day").isAfter(r()(this.maxDate).startOf("day"))}}},computed:{monthName:function(){return this.locale.monthNames[this.monthDate.getMonth()]},year:{get:function(){return this.monthDate.getFullYear()},set:function(e){this.$emit("change-month",{month:this.month,year:e})}},month:{get:function(){return this.monthDate.getMonth()},set:function(e){this.$emit("change-month",{month:e,year:this.year})}},calendar:function(){for(var e=this.month,t=this.monthDate.getFullYear(),n=new Date(t,e,0).getDate(),a=new Date(t,e,1),s=(new Date(t,e,n),r()(a).subtract(1,"month").month()),i=r()(a).subtract(1,"month").year(),o=r()([i,s]).daysInMonth(),d=a.getDay(),u=[],_=0;_<6;_++)u[_]=[];var l=o-d+this.locale.firstDay+1;l>o&&(l-=7),d===this.locale.firstDay&&(l=o-6);for(var m=r()([i,s,l,12,0,0]),c=0,h=0,f=0;c<42;c++,h++,m=r()(m).add(1,"day"))c>0&&h%7==0&&(h=0,f++),u[f][h]=m.clone(),m.hour(12);return u},months:function(){var e=this.maxDate.getFullYear()-this.minDate.getFullYear();if(e<2){var t=[];if(e<1)for(var n=this.minDate.getMonth();n<=this.maxDate.getMonth();n++)t.push(n);else{for(var a=0;a<=this.maxDate.getMonth();a++)t.push(a);for(var r=this.minDate.getMonth();r<12;r++)t.push(r)}if(t.length>0)return this.locale.monthNames.filter(function(e,n){return t.findIndex(function(e){return e===n})>-1})}return this.locale.monthNames},years:function(){for(var e=[],t=0,n=this.start.getFullYear();t<=20;n++)t++,e.push(n-10);return e}},filters:{dateNum:function(e){return e.date()},weeknumber:function(e){return e.week()}}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={props:["ranges"]}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={filters:{formatNumber:function(e){return e<10?"0"+e.toString():e.toString()}},props:{miniuteIncrement:{type:Number,default:5},hour24:{type:Boolean,default:!0},secondPicker:{type:Boolean,default:!1},currentTime:{default:function(){return new Date}}},data:function(){var e=this.currentTime.getHours();return{hour:this.hour24?e:e%12+1,minute:this.currentTime.getMinutes()-this.currentTime.getMinutes()%this.miniuteIncrement,second:this.currentTime.getSeconds(),ampm:e<12?"AM":"PM"}},computed:{hours:function(){for(var e=[],t=this.hour24?24:12,n=0;n<t;n++)e.push(this.hour24?n:n+1);return e},minutes:function(){for(var e=[],t=0;t<60;t+=this.miniuteIncrement)e.push(t);return e}},watch:{hour:function(){this.onChange()},minute:function(){this.onChange()},second:function(){this.onChange()},ampm:function(){this.onChange()}},methods:{onChange:function(){this.$emit("update",{hours:this.hour24?this.hour:this.hour-1+("AM"===this.ampm?0:12),minutes:this.minute,seconds:this.second})}}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=n(147),r=n.n(a),s=n(0),i=n.n(s),o=n(184),d=n.n(o),u=n(186),_=n.n(u),l=n(185),m=n.n(l),c=n(140),h=n(183);n.n(h);t.default={components:{Calendar:d.a,CalendarTime:_.a,CalendarRanges:m.a},mixins:[h.mixin],model:{prop:"dateRange",event:"update"},props:{minDate:{type:[String,Date],default:function(){return new Date(0)}},maxDate:{type:[String,Date],default:function(){return new Date(864e13)}},showWeekNumbers:{type:Boolean,default:!1},singleDatePicker:{type:Boolean,default:!1},showDropdowns:{type:Boolean,default:!1},timePicker:{type:Boolean,default:!1},timePickerIncrement:{type:Number,default:5},timePicker24Hour:{type:Boolean,default:!0},timePickerSeconds:{type:Boolean,default:!1},autoApply:{type:Boolean,default:!1},localeData:{type:Object,default:function(){return{}}},dateRange:{default:null},startDate:{default:function(){return new Date}},endDate:{default:function(){return new Date}},ranges:{type:[Object,Boolean],default:function(){return{Today:[i()(),i()()],Yesterday:[i()().subtract(1,"days"),i()().subtract(1,"days")],"This month":[i()().startOf("month"),i()().endOf("month")],"This year":[i()().startOf("year"),i()().endOf("year")],"Last week":[i()().subtract(1,"week").startOf("week"),i()().subtract(1,"week").endOf("week")],"Last month":[i()().subtract(1,"month").startOf("month"),i()().subtract(1,"month").endOf("month")]}}},opens:{type:String,default:"center"}},data:function(){var e={direction:"ltr",format:i.a.localeData().longDateFormat("L"),separator:" - ",applyLabel:"Apply",cancelLabel:"Cancel",weekLabel:"W",customRangeLabel:"Custom Range",daysOfWeek:i.a.weekdaysMin(),monthNames:i.a.monthsShort(),firstDay:i.a.localeData().firstDayOfWeek()},t={locale:r()({},e,this.localeData)},n=this.startDate,a=this.endDate;if(null!==this.dateRange&&(n=this.dateRange.startDate,a=this.dateRange.endDate),t.monthDate=new Date(n),t.start=new Date(n),this.singleDatePicker?t.end=new Date(n):t.end=new Date(a),t.in_selection=!1,t.open=!1,0!==t.locale.firstDay)for(var s=t.locale.firstDay;s>0;)t.locale.daysOfWeek.push(t.locale.daysOfWeek.shift()),s--;return t},methods:{changeMonth:function(e){var t=new Date(this.max),n=new Date(this.min);i()(e).isBetween(n,t)?this.monthDate=e:i()(e).isAfter(t)?this.monthDate=new Date(t):this.monthDate=new Date(n)},nextMonth:function(){this.changeMonth(n.i(c.a)(new Date(this.monthDate.getFullYear(),this.monthDate.getMonth(),1)))},prevMonth:function(){this.changeMonth(n.i(c.b)(new Date(this.monthDate.getFullYear(),this.monthDate.getMonth(),1)))},changeLeftMonth:function(e){var t=new Date(e.year,e.month,1);this.changeMonth(t)},changeRightMonth:function(e){e.month<=0?(e.month=11,e.year-=1):e.month-=1,this.changeMonth(e)},normalizeDatetime:function(e,t){var n=new Date(e);return this.timePicker&&(n.setHours(t.getHours()),n.setMinutes(t.getMinutes()),n.setSeconds(t.getSeconds()),n.setMilliseconds(t.getMilliseconds())),n},dateClick:function(e){this.in_selection?(this.in_selection=!1,this.end=this.normalizeDatetime(e,this.end),this.end<this.start&&(this.in_selection=!0,this.start=this.normalizeDatetime(e,this.start)),!this.in_selection&&this.autoApply&&this.clickedApply()):(this.start=this.normalizeDatetime(e,this.start),this.end=this.normalizeDatetime(e,this.end),this.singleDatePicker?this.autoApply&&this.clickedApply():this.in_selection=!0)},hoverDate:function(e){var t=this.normalizeDatetime(e,this.end);this.in_selection&&t>this.start&&(this.end=t)},togglePicker:function(){this.open=!this.open},clickedApply:function(){this.open=!1,this.$emit("update",{startDate:this.start,endDate:this.end})},clickAway:function(){if(this.open){var e=this.startDate,t=this.endDate;null!==this.dateRange&&(e=this.dateRange.startDate,t=this.dateRange.endDate),this.start=new Date(e),this.end=new Date(t),this.open=!1}},clickRange:function(e){this.start=new Date(e[0]),this.end=new Date(e[1]),this.monthDate=new Date(e[0]),this.autoApply&&this.clickedApply()},onUpdateStartTime:function(e){var t=new Date(this.start);t.setHours(e.hours),t.setMinutes(e.minutes),t.setSeconds(e.seconds),this.start=t},onUpdateEndTime:function(e){var t=new Date(this.end);t.setHours(e.hours),t.setMinutes(e.minutes),t.setSeconds(e.seconds),this.end=t}},computed:{nextMonthDate:function(){return n.i(c.a)(this.monthDate)},startText:function(){return i()(this.start).format(this.locale.format)},endText:function(){return i()(new Date(this.end)).format(this.locale.format)},rangeText:function(){var e=this.startText;return this.singleDatePicker||(e+=" "+this.locale.separator+" "+this.endText),e},min:function(){return this.minDate?new Date(this.minDate):null},max:function(){return this.maxDate?new Date(this.maxDate):null},pickerStyles:function(){return{"show-calendar":this.open,"show-ranges":!!this.ranges,"show-weeknumbers":this.showWeekNumbers,single:this.singleDatePicker,opensright:"right"===this.opens,opensleft:"left"===this.opens,openscenter:"center"===this.opens}}},watch:{startDate:function(e){this.start=new Date(e)},endDate:function(e){this.end=new Date(e)},minDate:function(e){this.changeMonth(this.monthDate)},maxDate:function(e){this.changeMonth(this.monthDate)},dateRange:function(e){e&&(e.startDate&&(this.start=new Date(e.startDate)),e.endDate&&(this.end=new Date(e.endDate)))}}}},function(e,t,n){e.exports={default:n(148),__esModule:!0}},function(e,t,n){"use strict";t.__esModule=!0;var a=n(146),r=function(e){return e&&e.__esModule?e:{default:e}}(a);t.default=r.default||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e}},function(e,t,n){n(174),e.exports=n(6).Object.assign},function(e,t){e.exports=function(e){if("function"!=typeof e)throw TypeError(e+" is not a function!");return e}},function(e,t,n){var a=n(5);e.exports=function(e){if(!a(e))throw TypeError(e+" is not an object!");return e}},function(e,t,n){var a=n(10),r=n(170),s=n(169);e.exports=function(e){return function(t,n,i){var o,d=a(t),u=r(d.length),_=s(i,u);if(e&&n!=n){for(;u>_;)if((o=d[_++])!=o)return!0}else for(;u>_;_++)if((e||_ in d)&&d[_]===n)return e||_||0;return!e&&-1}}},function(e,t){var n={}.toString;e.exports=function(e){return n.call(e).slice(8,-1)}},function(e,t,n){var a=n(149);e.exports=function(e,t,n){if(a(e),void 0===t)return e;switch(n){case 1:return function(n){return e.call(t,n)};case 2:return function(n,a){return e.call(t,n,a)};case 3:return function(n,a,r){return e.call(t,n,a,r)}}return function(){return e.apply(t,arguments)}}},function(e,t,n){var a=n(5),r=n(4).document,s=a(r)&&a(r.createElement);e.exports=function(e){return s?r.createElement(e):{}}},function(e,t){e.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(e,t,n){var a=n(4),r=n(6),s=n(153),i=n(158),o=function(e,t,n){var d,u,_,l=e&o.F,m=e&o.G,c=e&o.S,h=e&o.P,f=e&o.B,M=e&o.W,p=m?r:r[t]||(r[t]={}),y=p.prototype,L=m?a:c?a[t]:(a[t]||{}).prototype;m&&(n=t);for(d in n)(u=!l&&L&&void 0!==L[d])&&d in p||(_=u?L[d]:n[d],p[d]=m&&"function"!=typeof L[d]?n[d]:f&&u?s(_,a):M&&L[d]==_?function(e){var t=function(t,n,a){if(this instanceof e){switch(arguments.length){case 0:return new e;case 1:return new e(t);case 2:return new e(t,n)}return new e(t,n,a)}return e.apply(this,arguments)};return t.prototype=e.prototype,t}(_):h&&"function"==typeof _?s(Function.call,_):_,h&&((p.virtual||(p.virtual={}))[d]=_,e&o.R&&y&&!y[d]&&i(y,d,_)))};o.F=1,o.G=2,o.S=4,o.P=8,o.B=16,o.W=32,o.U=64,o.R=128,e.exports=o},function(e,t){var n={}.hasOwnProperty;e.exports=function(e,t){return n.call(e,t)}},function(e,t,n){var a=n(161),r=n(166);e.exports=n(2)?function(e,t,n){return a.f(e,t,r(1,n))}:function(e,t,n){return e[t]=n,e}},function(e,t,n){e.exports=!n(2)&&!n(3)(function(){return 7!=Object.defineProperty(n(154)("div"),"a",{get:function(){return 7}}).a})},function(e,t,n){"use strict";var a=n(164),r=n(162),s=n(165),i=n(171),o=n(8),d=Object.assign;e.exports=!d||n(3)(function(){var e={},t={},n=Symbol(),a="abcdefghijklmnopqrst";return e[n]=7,a.split("").forEach(function(e){t[e]=e}),7!=d({},e)[n]||Object.keys(d({},t)).join("")!=a})?function(e,t){for(var n=i(e),d=arguments.length,u=1,_=r.f,l=s.f;d>u;)for(var m,c=o(arguments[u++]),h=_?a(c).concat(_(c)):a(c),f=h.length,M=0;f>M;)l.call(c,m=h[M++])&&(n[m]=c[m]);return n}:d},function(e,t,n){var a=n(150),r=n(159),s=n(172),i=Object.defineProperty;t.f=n(2)?Object.defineProperty:function(e,t,n){if(a(e),t=s(t,!0),a(n),r)try{return i(e,t,n)}catch(e){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(e[t]=n.value),e}},function(e,t){t.f=Object.getOwnPropertySymbols},function(e,t,n){var a=n(157),r=n(10),s=n(151)(!1),i=n(167)("IE_PROTO");e.exports=function(e,t){var n,o=r(e),d=0,u=[];for(n in o)n!=i&&a(o,n)&&u.push(n);for(;t.length>d;)a(o,n=t[d++])&&(~s(u,n)||u.push(n));return u}},function(e,t,n){var a=n(163),r=n(155);e.exports=Object.keys||function(e){return a(e,r)}},function(e,t){t.f={}.propertyIsEnumerable},function(e,t){e.exports=function(e,t){return{enumerable:!(1&e),configurable:!(2&e),writable:!(4&e),value:t}}},function(e,t,n){var a=n(168)("keys"),r=n(173);e.exports=function(e){return a[e]||(a[e]=r(e))}},function(e,t,n){var a=n(4),r=a["__core-js_shared__"]||(a["__core-js_shared__"]={});e.exports=function(e){return r[e]||(r[e]={})}},function(e,t,n){var a=n(9),r=Math.max,s=Math.min;e.exports=function(e,t){return e=a(e),e<0?r(e+t,0):s(e,t)}},function(e,t,n){var a=n(9),r=Math.min;e.exports=function(e){return e>0?r(a(e),9007199254740991):0}},function(e,t,n){var a=n(7);e.exports=function(e){return Object(a(e))}},function(e,t,n){var a=n(5);e.exports=function(e,t){if(!a(e))return e;var n,r;if(t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;if("function"==typeof(n=e.valueOf)&&!a(r=n.call(e)))return r;if(!t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;throw TypeError("Can't convert object to primitive value")}},function(e,t){var n=0,a=Math.random();e.exports=function(e){return"Symbol(".concat(void 0===e?"":e,")_",(++n+a).toString(36))}},function(e,t,n){var a=n(156);a(a.S+a.F,"Object",{assign:n(160)})},function(e,t){},function(e,t){},function(e,t){},function(e,t){},function(e,t,n){function a(e){return n(r(e))}function r(e){var t=s[e];if(!(t+1))throw new Error("Cannot find module '"+e+"'.");return t}var s={"./af":11,"./af.js":11,"./ar":18,"./ar-dz":12,"./ar-dz.js":12,"./ar-kw":13,"./ar-kw.js":13,"./ar-ly":14,"./ar-ly.js":14,"./ar-ma":15,"./ar-ma.js":15,"./ar-sa":16,"./ar-sa.js":16,"./ar-tn":17,"./ar-tn.js":17,"./ar.js":18,"./az":19,"./az.js":19,"./be":20,"./be.js":20,"./bg":21,"./bg.js":21,"./bm":22,"./bm.js":22,"./bn":23,"./bn.js":23,"./bo":24,"./bo.js":24,"./br":25,"./br.js":25,"./bs":26,"./bs.js":26,"./ca":27,"./ca.js":27,"./cs":28,"./cs.js":28,"./cv":29,"./cv.js":29,"./cy":30,"./cy.js":30,"./da":31,"./da.js":31,"./de":34,"./de-at":32,"./de-at.js":32,"./de-ch":33,"./de-ch.js":33,"./de.js":34,"./dv":35,"./dv.js":35,"./el":36,"./el.js":36,"./en-SG":37,"./en-SG.js":37,"./en-au":38,"./en-au.js":38,"./en-ca":39,"./en-ca.js":39,"./en-gb":40,"./en-gb.js":40,"./en-ie":41,"./en-ie.js":41,"./en-il":42,"./en-il.js":42,"./en-nz":43,"./en-nz.js":43,"./eo":44,"./eo.js":44,"./es":47,"./es-do":45,"./es-do.js":45,"./es-us":46,"./es-us.js":46,"./es.js":47,"./et":48,"./et.js":48,"./eu":49,"./eu.js":49,"./fa":50,"./fa.js":50,"./fi":51,"./fi.js":51,"./fo":52,"./fo.js":52,"./fr":55,"./fr-ca":53,"./fr-ca.js":53,"./fr-ch":54,"./fr-ch.js":54,"./fr.js":55,"./fy":56,"./fy.js":56,"./ga":57,"./ga.js":57,"./gd":58,"./gd.js":58,"./gl":59,"./gl.js":59,"./gom-latn":60,"./gom-latn.js":60,"./gu":61,"./gu.js":61,"./he":62,"./he.js":62,"./hi":63,"./hi.js":63,"./hr":64,"./hr.js":64,"./hu":65,"./hu.js":65,"./hy-am":66,"./hy-am.js":66,"./id":67,"./id.js":67,"./is":68,"./is.js":68,"./it":70,"./it-ch":69,"./it-ch.js":69,"./it.js":70,"./ja":71,"./ja.js":71,"./jv":72,"./jv.js":72,"./ka":73,"./ka.js":73,"./kk":74,"./kk.js":74,"./km":75,"./km.js":75,"./kn":76,"./kn.js":76,"./ko":77,"./ko.js":77,"./ku":78,"./ku.js":78,"./ky":79,"./ky.js":79,"./lb":80,"./lb.js":80,"./lo":81,"./lo.js":81,"./lt":82,"./lt.js":82,"./lv":83,"./lv.js":83,"./me":84,"./me.js":84,"./mi":85,"./mi.js":85,"./mk":86,"./mk.js":86,"./ml":87,"./ml.js":87,"./mn":88,"./mn.js":88,"./mr":89,"./mr.js":89,"./ms":91,"./ms-my":90,"./ms-my.js":90,"./ms.js":91,"./mt":92,"./mt.js":92,"./my":93,"./my.js":93,"./nb":94,"./nb.js":94,"./ne":95,"./ne.js":95,"./nl":97,"./nl-be":96,"./nl-be.js":96,"./nl.js":97,"./nn":98,"./nn.js":98,"./pa-in":99,"./pa-in.js":99,"./pl":100,"./pl.js":100,"./pt":102,"./pt-br":101,"./pt-br.js":101,"./pt.js":102,"./ro":103,"./ro.js":103,"./ru":104,"./ru.js":104,"./sd":105,"./sd.js":105,"./se":106,"./se.js":106,"./si":107,"./si.js":107,"./sk":108,"./sk.js":108,"./sl":109,"./sl.js":109,"./sq":110,"./sq.js":110,"./sr":112,"./sr-cyrl":111,"./sr-cyrl.js":111,"./sr.js":112,"./ss":113,"./ss.js":113,"./sv":114,"./sv.js":114,"./sw":115,"./sw.js":115,"./ta":116,"./ta.js":116,"./te":117,"./te.js":117,"./tet":118,"./tet.js":118,"./tg":119,"./tg.js":119,"./th":120,"./th.js":120,"./tl-ph":121,"./tl-ph.js":121,"./tlh":122,"./tlh.js":122,"./tr":123,"./tr.js":123,"./tzl":124,"./tzl.js":124,"./tzm":126,"./tzm-latn":125,"./tzm-latn.js":125,"./tzm.js":126,"./ug-cn":127,"./ug-cn.js":127,"./uk":128,"./uk.js":128,"./ur":129,"./ur.js":129,"./uz":131,"./uz-latn":130,"./uz-latn.js":130,"./uz.js":131,"./vi":132,"./vi.js":132,"./x-pseudo":133,"./x-pseudo.js":133,"./yo":134,"./yo.js":134,"./zh-cn":135,"./zh-cn.js":135,"./zh-hk":136,"./zh-hk.js":136,"./zh-tw":137,"./zh-tw.js":137};a.keys=function(){return Object.keys(s)},a.resolve=r,e.exports=a,a.id=179},function(e,t){function n(){throw new Error("setTimeout has not been defined")}function a(){throw new Error("clearTimeout has not been defined")}function r(e){if(_===setTimeout)return setTimeout(e,0);if((_===n||!_)&&setTimeout)return _=setTimeout,setTimeout(e,0);try{return _(e,0)}catch(t){try{return _.call(null,e,0)}catch(t){return _.call(this,e,0)}}}function s(e){if(l===clearTimeout)return clearTimeout(e);if((l===a||!l)&&clearTimeout)return l=clearTimeout,clearTimeout(e);try{return l(e)}catch(t){try{return l.call(null,e)}catch(t){return l.call(this,e)}}}function i(){f&&c&&(f=!1,c.length?h=c.concat(h):M=-1,h.length&&o())}function o(){if(!f){var e=r(i);f=!0;for(var t=h.length;t;){for(c=h,h=[];++M<t;)c&&c[M].run();M=-1,t=h.length}c=null,f=!1,s(e)}}function d(e,t){this.fun=e,this.array=t}function u(){}var _,l,m=e.exports={};!function(){try{_="function"==typeof setTimeout?setTimeout:n}catch(e){_=n}try{l="function"==typeof clearTimeout?clearTimeout:a}catch(e){l=a}}();var c,h=[],f=!1,M=-1;m.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];h.push(new d(e,t)),1!==h.length||f||r(o)},d.prototype.run=function(){this.fun.apply(null,this.array)},m.title="browser",m.browser=!0,m.env={},m.argv=[],m.version="",m.versions={},m.on=u,m.addListener=u,m.once=u,m.off=u,m.removeListener=u,m.removeAllListeners=u,m.emit=u,m.prependListener=u,m.prependOnceListener=u,m.listeners=function(e){return[]},m.binding=function(e){throw new Error("process.binding is not supported")},m.cwd=function(){return"/"},m.chdir=function(e){throw new Error("process.chdir is not supported")},m.umask=function(){return 0}},function(e,t,n){(function(e,t){!function(e,n){"use strict";function a(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var a={callback:e,args:t};return u[d]=a,o(d),d++}function r(e){delete u[e]}function s(e){var t=e.callback,a=e.args;switch(a.length){case 0:t();break;case 1:t(a[0]);break;case 2:t(a[0],a[1]);break;case 3:t(a[0],a[1],a[2]);break;default:t.apply(n,a)}}function i(e){if(_)setTimeout(i,0,e);else{var t=u[e];if(t){_=!0;try{s(t)}finally{r(e),_=!1}}}}if(!e.setImmediate){var o,d=1,u={},_=!1,l=e.document,m=Object.getPrototypeOf&&Object.getPrototypeOf(e);m=m&&m.setTimeout?m:e,"[object process]"==={}.toString.call(e.process)?function(){o=function(e){t.nextTick(function(){i(e)})}}():function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?function(){var t="setImmediate$"+Math.random()+"$",n=function(n){n.source===e&&"string"==typeof n.data&&0===n.data.indexOf(t)&&i(+n.data.slice(t.length))};e.addEventListener?e.addEventListener("message",n,!1):e.attachEvent("onmessage",n),o=function(n){e.postMessage(t+n,"*")}}():e.MessageChannel?function(){var e=new MessageChannel;e.port1.onmessage=function(e){i(e.data)},o=function(t){e.port2.postMessage(t)}}():l&&"onreadystatechange"in l.createElement("script")?function(){var e=l.documentElement;o=function(t){var n=l.createElement("script");n.onreadystatechange=function(){i(t),n.onreadystatechange=null,e.removeChild(n),n=null},e.appendChild(n)}}():function(){o=function(e){setTimeout(i,0,e)}}(),m.setImmediate=a,m.clearImmediate=r}}("undefined"==typeof self?void 0===e?this:e:self)}).call(t,n(138),n(180))},function(e,t,n){function a(e,t){this._id=e,this._clearFn=t}var r=Function.prototype.apply;t.setTimeout=function(){return new a(r.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new a(r.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},a.prototype.unref=a.prototype.ref=function(){},a.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout(function(){e._onTimeout&&e._onTimeout()},t))},n(181),t.setImmediate=setImmediate,t.clearImmediate=clearImmediate},function(e,t,n){"use strict";function a(e,t,n){r(e);var a=n.context,s=t.value;if("function"==typeof s){var o=!1;setTimeout(function(){o=!0},0),e[i]=function(t){var n=t.path||(t.composedPath?t.composedPath():void 0);if(o&&(n?n.indexOf(e)<0:!e.contains(t.target)))return s.call(a,t)},document.documentElement.addEventListener("click",e[i],!1)}}function r(e){document.documentElement.removeEventListener("click",e[i],!1),delete e[i]}var s=n(191);s="default"in s?s.default:s;/^2\./.test(s.version)||s.util.warn("VueClickaway 2.2.2 only supports Vue 2.x, and does not support Vue "+s.version);var i="_vue_clickaway_handler",o={bind:a,update:function(e,t){t.value!==t.oldValue&&a(e,t)},unbind:r},d={directives:{onClickaway:o}};t.version="2.2.2",t.directive=o,t.mixin=d},function(e,t,n){function a(e){n(178)}var r=n(1)(n(142),n(190),a,"data-v-b8502d84",null);e.exports=r.exports},function(e,t,n){var a=n(1)(n(143),n(187),null,null,null);e.exports=a.exports},function(e,t,n){function a(e){n(177)}var r=n(1)(n(144),n(189),a,"data-v-6550aeab",null);e.exports=r.exports},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"ranges"},[e.ranges?n("ul",e._l(e.ranges,function(t,a){return n("li",{key:a,attrs:{"data-range-key":a},on:{click:function(n){return e.$emit("clickRange",t)}}},[e._v(e._s(a))])}),0):e._e()])},staticRenderFns:[]}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticStyle:{position:"relative",display:"inline-block"}},[n("div",{staticClass:"form-control",on:{click:e.togglePicker}},[e._t("input",[n("i",{staticClass:"glyphicon glyphicon-calendar fa fa-calendar"}),e._v(" \n            "),n("span",[e._v(e._s(e.rangeText))]),e._v(" "),n("b",{staticClass:"caret"})],{startDate:e.start,endDate:e.end,ranges:e.ranges})],2),e._v(" "),n("transition",{attrs:{name:"slide-fade",mode:"out-in"}},[e.open?n("div",{directives:[{name:"on-clickaway",rawName:"v-on-clickaway",value:e.clickAway,expression:"clickAway"}],staticClass:"daterangepicker dropdown-menu ltr",class:e.pickerStyles},[n("div",{staticClass:"calendars row no-gutters"},[!1!==e.ranges?e._t("ranges",[n("calendar-ranges",{staticClass:"col-12 col-md-auto",attrs:{ranges:e.ranges},on:{clickRange:e.clickRange}})]):e._e(),e._v(" "),n("div",{staticClass:"drp-calendar col left",class:{single:e.singleDatePicker}},[e._e(),e._v(" "),n("div",{staticClass:"calendar-table"},[n("calendar",{attrs:{monthDate:e.monthDate,locale:e.locale,start:e.start,end:e.end,minDate:e.min,maxDate:e.max,"show-dropdowns":e.showDropdowns,showWeekNumbers:e.showWeekNumbers},on:{nextMonth:e.nextMonth,prevMonth:e.prevMonth,"change-month":e.changeLeftMonth,dateClick:e.dateClick,hoverDate:e.hoverDate}})],1),e._v(" "),e.timePicker?n("calendar-time",{attrs:{"miniute-increment":e.timePickerIncrement,hour24:e.timePicker24Hour,"second-picker":e.timePickerSeconds,"current-time":e.start},on:{update:e.onUpdateStartTime}}):e._e()],1),e._v(" "),e.singleDatePicker?e._e():n("div",{staticClass:"drp-calendar col right"},[e._e(),e._v(" "),n("div",{staticClass:"calendar-table"},[n("calendar",{attrs:{monthDate:e.nextMonthDate,locale:e.locale,start:e.start,end:e.end,minDate:e.min,maxDate:e.max,"show-dropdowns":e.showDropdowns,showWeekNumbers:e.showWeekNumbers},on:{nextMonth:e.nextMonth,prevMonth:e.prevMonth,"change-month":e.changeRightMonth,dateClick:e.dateClick,hoverDate:e.hoverDate}})],1),e._v(" "),e.timePicker?n("calendar-time",{attrs:{"miniute-increment":e.timePickerIncrement,hour24:e.timePicker24Hour,"second-picker":e.timePickerSeconds,"current-time":e.end},on:{update:e.onUpdateEndTime}}):e._e()],1)],2),e._v(" "),e.autoApply?e._e():n("div",{staticClass:"drp-buttons"},[n("span",{staticClass:"drp-selected"},[e._v(e._s(e.rangeText))]),e._v(" "),n("button",{staticClass:"cancelBtn btn btn-sm btn-default",attrs:{type:"button"},on:{click:e.clickAway}},[e._v(e._s(e.locale.cancelLabel)+"\n                ")]),e._v(" "),n("button",{staticClass:"applyBtn btn btn-sm btn-success",attrs:{disabled:e.in_selection,type:"button"},on:{click:e.clickedApply}},[e._v(e._s(e.locale.applyLabel)+"\n                ")])])]):e._e()])],1)},staticRenderFns:[]}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"calendar-time"},[n("select",{directives:[{name:"model",rawName:"v-model",value:e.hour,expression:"hour"}],staticClass:"hourselect",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.hour=t.target.multiple?n:n[0]}}},e._l(e.hours,function(t){return n("option",{key:t,domProps:{value:t}},[e._v(e._s(e._f("formatNumber")(t)))])}),0),e._v("\n  :"),n("select",{directives:[{name:"model",rawName:"v-model",value:e.minute,expression:"minute"}],staticClass:"minuteselect",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.minute=t.target.multiple?n:n[0]}}},e._l(e.minutes,function(t){return n("option",{key:t,domProps:{value:t}},[e._v(e._s(e._f("formatNumber")(t)))])}),0),e._v(" "),e.secondPicker?[e._v("\n    :"),n("select",{directives:[{name:"model",rawName:"v-model",value:e.second,expression:"second"}],staticClass:"secondselect",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.second=t.target.multiple?n:n[0]}}},e._l(60,function(t){return n("option",{key:t-1,domProps:{value:t-1}},[e._v(e._s(e._f("formatNumber")(t-1)))])}),0)]:e._e(),e._v(" "),e.hour24?e._e():n("select",{directives:[{name:"model",rawName:"v-model",value:e.ampm,expression:"ampm"}],staticClass:"ampmselect",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.ampm=t.target.multiple?n:n[0]}}},[n("option",{attrs:{value:"AM"}},[e._v("AM")]),e._v(" "),n("option",{attrs:{value:"PM"}},[e._v("PM")])])],2)},staticRenderFns:[]}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("table",{staticClass:"table-condensed"},[n("thead",[n("tr",[n("th",{staticClass:"prev available",on:{click:function(t){return e.$emit("prevMonth")}}},[n("span")]),e._v(" "),e.showDropdowns?n("th",{staticClass:"month",attrs:{colspan:e.showWeekNumbers?6:5}},[n("div",{staticClass:"row mx-1"},[n("select",{directives:[{name:"model",rawName:"v-model",value:e.month,expression:"month"}],staticClass:"monthselect col",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.month=t.target.multiple?n:n[0]}}},e._l(e.months,function(t,a){return n("option",{key:t,domProps:{value:a}},[e._v(e._s(t))])}),0),e._v(" "),n("select",{directives:[{name:"model",rawName:"v-model",value:e.year,expression:"year"}],staticClass:"yearselect col",on:{change:function(t){var n=Array.prototype.filter.call(t.target.options,function(e){return e.selected}).map(function(e){return"_value"in e?e._value:e.value});e.year=t.target.multiple?n:n[0]}}},e._l(e.years,function(t){return n("option",{key:t,domProps:{value:t}},[e._v(e._s(t))])}),0)])]):n("th",{staticClass:"month",attrs:{colspan:"5"}},[e._v(e._s(e.monthName)+" "+e._s(e.year))]),e._v(" "),n("th",{staticClass:"next available",on:{click:function(t){return e.$emit("nextMonth")}}},[n("span")])])]),e._v(" "),n("tbody",[n("tr",[e.showWeekNumbers?n("th",{staticClass:"week"},[e._v(e._s(e.locale.weekLabel))]):e._e(),e._v(" "),e._l(e.locale.daysOfWeek,function(t){return n("th",{key:t},[e._v(e._s(t))])})],2),e._v(" "),e._l(e.calendar,function(t,a){return n("tr",{key:a},[e.showWeekNumbers&&(a%7||0===a)?n("td",{staticClass:"week"},[e._v("\n            "+e._s(e._f("weeknumber")(t[0]))+"\n        ")]):e._e(),e._v(" "),e._l(t,function(t,a){return e._t("date-slot",[n("td",{key:a,class:e.dayClass(t),on:{click:function(n){return e.$emit("dateClick",t)},mouseover:function(n){return e.$emit("hoverDate",t)}}},[e._v("\n                "+e._s(e._f("dateNum")(t))+"\n            ")])])})],2)})],2)])},staticRenderFns:[]}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),function(e,n){function a(e){return void 0===e||null===e}function r(e){return void 0!==e&&null!==e}function s(e){return!0===e}function i(e){return!1===e}function o(e){return"string"==typeof e||"number"==typeof e||"symbol"==typeof e||"boolean"==typeof e}function d(e){return null!==e&&"object"==typeof e}function u(e){return"[object Object]"===Sa.call(e)}function _(e){return"[object RegExp]"===Sa.call(e)}function l(e){var t=parseFloat(String(e));return t>=0&&Math.floor(t)===t&&isFinite(e)}function m(e){return r(e)&&"function"==typeof e.then&&"function"==typeof e.catch}function c(e){return null==e?"":Array.isArray(e)||u(e)&&e.toString===Sa?JSON.stringify(e,null,2):String(e)}function h(e){var t=parseFloat(e);return isNaN(t)?e:t}function f(e,t){for(var n=Object.create(null),a=e.split(","),r=0;r<a.length;r++)n[a[r]]=!0;return t?function(e){return n[e.toLowerCase()]}:function(e){return n[e]}}function M(e,t){if(e.length){var n=e.indexOf(t);if(n>-1)return e.splice(n,1)}}function p(e,t){return ja.call(e,t)}function y(e){var t=Object.create(null);return function(n){return t[n]||(t[n]=e(n))}}function L(e,t){function n(n){var a=arguments.length;return a?a>1?e.apply(t,arguments):e.call(t,n):e.call(t)}return n._length=e.length,n}function Y(e,t){return e.bind(t)}function v(e,t){t=t||0;for(var n=e.length-t,a=new Array(n);n--;)a[n]=e[n+t];return a}function k(e,t){for(var n in t)e[n]=t[n];return e}function g(e){for(var t={},n=0;n<e.length;n++)e[n]&&k(t,e[n]);return t}function D(e,t,n){}function w(e,t){if(e===t)return!0;var n=d(e),a=d(t);if(!n||!a)return!n&&!a&&String(e)===String(t);try{var r=Array.isArray(e),s=Array.isArray(t);if(r&&s)return e.length===t.length&&e.every(function(e,n){return w(e,t[n])});if(e instanceof Date&&t instanceof Date)return e.getTime()===t.getTime();if(r||s)return!1;var i=Object.keys(e),o=Object.keys(t);return i.length===o.length&&i.every(function(n){return w(e[n],t[n])})}catch(e){return!1}}function T(e,t){for(var n=0;n<e.length;n++)if(w(e[n],t))return n;return-1}function b(e){var t=!1;return function(){t||(t=!0,e.apply(this,arguments))}}function S(e){var t=(e+"").charCodeAt(0);return 36===t||95===t}function H(e,t,n,a){Object.defineProperty(e,t,{value:n,enumerable:!!a,writable:!0,configurable:!0})}function j(e){if(!Ra.test(e)){var t=e.split(".");return function(e){for(var n=0;n<t.length;n++){if(!e)return;e=e[t[n]]}return e}}}function x(e){return"function"==typeof e&&/native code/.test(e.toString())}function O(e){lr.push(e),_r.target=e}function P(){lr.pop(),_r.target=lr[lr.length-1]}function A(e){return new mr(void 0,void 0,void 0,String(e))}function W(e){var t=new mr(e.tag,e.data,e.children&&e.children.slice(),e.text,e.elm,e.context,e.componentOptions,e.asyncFactory);return t.ns=e.ns,t.isStatic=e.isStatic,t.key=e.key,t.isComment=e.isComment,t.fnContext=e.fnContext,t.fnOptions=e.fnOptions,t.fnScopeId=e.fnScopeId,t.asyncMeta=e.asyncMeta,t.isCloned=!0,t}function E(e){yr=e}function C(e,t){e.__proto__=t}function F(e,t,n){for(var a=0,r=n.length;a<r;a++){var s=n[a];H(e,s,t[s])}}function z(e,t){if(d(e)&&!(e instanceof mr)){var n;return p(e,"__ob__")&&e.__ob__ instanceof Lr?n=e.__ob__:yr&&!sr()&&(Array.isArray(e)||u(e))&&Object.isExtensible(e)&&!e._isVue&&(n=new Lr(e)),t&&n&&n.vmCount++,n}}function N(e,t,n,a,r){var s=new _r,i=Object.getOwnPropertyDescriptor(e,t);if(!i||!1!==i.configurable){var o=i&&i.get,d=i&&i.set;o&&!d||2!==arguments.length||(n=e[t]);var u=!r&&z(n);Object.defineProperty(e,t,{enumerable:!0,configurable:!0,get:function(){var t=o?o.call(e):n;return _r.target&&(s.depend(),u&&(u.dep.depend(),Array.isArray(t)&&J(t))),t},set:function(t){var a=o?o.call(e):n;t===a||t!==t&&a!==a||o&&!d||(d?d.call(e,t):n=t,u=!r&&z(t),s.notify())}})}}function I(e,t,n){if(Array.isArray(e)&&l(t))return e.length=Math.max(e.length,t),e.splice(t,1,n),n;if(t in e&&!(t in Object.prototype))return e[t]=n,n;var a=e.__ob__;return e._isVue||a&&a.vmCount?n:a?(N(a.value,t,n),a.dep.notify(),n):(e[t]=n,n)}function $(e,t){if(Array.isArray(e)&&l(t))return void e.splice(t,1);var n=e.__ob__;e._isVue||n&&n.vmCount||p(e,t)&&(delete e[t],n&&n.dep.notify())}function J(e){for(var t=void 0,n=0,a=e.length;n<a;n++)t=e[n],t&&t.__ob__&&t.__ob__.dep.depend(),Array.isArray(t)&&J(t)}function R(e,t){if(!t)return e;for(var n,a,r,s=or?Reflect.ownKeys(t):Object.keys(t),i=0;i<s.length;i++)"__ob__"!==(n=s[i])&&(a=e[n],r=t[n],p(e,n)?a!==r&&u(a)&&u(r)&&R(a,r):I(e,n,r));return e}function U(e,t,n){return n?function(){var a="function"==typeof t?t.call(n,n):t,r="function"==typeof e?e.call(n,n):e;return a?R(a,r):r}:t?e?function(){return R("function"==typeof t?t.call(this,this):t,"function"==typeof e?e.call(this,this):e)}:t:e}function G(e,t){var n=t?e?e.concat(t):Array.isArray(t)?t:[t]:e;return n?V(n):n}function V(e){for(var t=[],n=0;n<e.length;n++)-1===t.indexOf(e[n])&&t.push(e[n]);return t}function B(e,t,n,a){var r=Object.create(e||null);return t?k(r,t):r}function K(e,t){var n=e.props;if(n){var a,r,s,i={};if(Array.isArray(n))for(a=n.length;a--;)"string"==typeof(r=n[a])&&(s=Oa(r),i[s]={type:null});else if(u(n))for(var o in n)r=n[o],s=Oa(o),i[s]=u(r)?r:{type:r};e.props=i}}function q(e,t){var n=e.inject;if(n){var a=e.inject={};if(Array.isArray(n))for(var r=0;r<n.length;r++)a[n[r]]={from:n[r]};else if(u(n))for(var s in n){var i=n[s];a[s]=u(i)?k({from:s},i):{from:i}}}}function Z(e){var t=e.directives;if(t)for(var n in t){var a=t[n];"function"==typeof a&&(t[n]={bind:a,update:a})}}function Q(e,t,n){function a(a){var r=Yr[a]||kr;o[a]=r(e[a],t[a],n,a)}if("function"==typeof t&&(t=t.options),K(t,n),q(t,n),Z(t),!t._base&&(t.extends&&(e=Q(e,t.extends,n)),t.mixins))for(var r=0,s=t.mixins.length;r<s;r++)e=Q(e,t.mixins[r],n);var i,o={};for(i in e)a(i);for(i in t)p(e,i)||a(i);return o}function X(e,t,n,a){if("string"==typeof n){var r=e[t];if(p(r,n))return r[n];var s=Oa(n);if(p(r,s))return r[s];var i=Pa(s);if(p(r,i))return r[i];return r[n]||r[s]||r[i]}}function ee(e,t,n,a){var r=t[e],s=!p(n,e),i=n[e],o=re(Boolean,r.type);if(o>-1)if(s&&!p(r,"default"))i=!1;else if(""===i||i===Wa(e)){var d=re(String,r.type);(d<0||o<d)&&(i=!0)}if(void 0===i){i=te(a,r,e);var u=yr;E(!0),z(i),E(u)}return i}function te(e,t,n){if(p(t,"default")){var a=t.default;return e&&e.$options.propsData&&void 0===e.$options.propsData[n]&&void 0!==e._props[n]?e._props[n]:"function"==typeof a&&"Function"!==ne(t.type)?a.call(e):a}}function ne(e){var t=e&&e.toString().match(/^\s*function (\w+)/);return t?t[1]:""}function ae(e,t){return ne(e)===ne(t)}function re(e,t){if(!Array.isArray(t))return ae(t,e)?0:-1;for(var n=0,a=t.length;n<a;n++)if(ae(t[n],e))return n;return-1}function se(e,t,n){if(t)for(var a=t;a=a.$parent;){var r=a.$options.errorCaptured;if(r)for(var s=0;s<r.length;s++)try{var i=!1===r[s].call(a,e,t,n);if(i)return}catch(e){oe(e,a,"errorCaptured hook")}}oe(e,t,n)}function ie(e,t,n,a,r){var s;try{s=n?e.apply(t,n):e.call(t),s&&!s._isVue&&m(s)&&s.catch(function(e){return se(e,a,r+" (Promise/async)")})}catch(e){se(e,a,r)}return s}function oe(e,t,n){if($a.errorHandler)try{return $a.errorHandler.call(null,e,t,n)}catch(e){de(e,null,"config.errorHandler")}de(e,t,n)}function de(e,t,n){if(!Ga&&!Va||"undefined"==typeof console)throw e;console.error(e)}function ue(){wr=!1;var e=Dr.slice(0);Dr.length=0;for(var t=0;t<e.length;t++)e[t]()}function _e(e,t){var n;if(Dr.push(function(){if(e)try{e.call(t)}catch(e){se(e,t,"nextTick")}else n&&n(t)}),wr||(wr=!0,vr()),!e&&"undefined"!=typeof Promise)return new Promise(function(e){n=e})}function le(e){me(e,xr),xr.clear()}function me(e,t){var n,a,r=Array.isArray(e);if(!(!r&&!d(e)||Object.isFrozen(e)||e instanceof mr)){if(e.__ob__){var s=e.__ob__.dep.id;if(t.has(s))return;t.add(s)}if(r)for(n=e.length;n--;)me(e[n],t);else for(a=Object.keys(e),n=a.length;n--;)me(e[a[n]],t)}}function ce(e,t){function n(){var e=arguments,a=n.fns;if(!Array.isArray(a))return ie(a,null,arguments,t,"v-on handler");for(var r=a.slice(),s=0;s<r.length;s++)ie(r[s],null,e,t,"v-on handler")}return n.fns=e,n}function he(e,t,n,r,i,o){var d,u,_,l;for(d in e)u=e[d],_=t[d],l=Or(d),a(u)||(a(_)?(a(u.fns)&&(u=e[d]=ce(u,o)),s(l.once)&&(u=e[d]=i(l.name,u,l.capture)),n(l.name,u,l.capture,l.passive,l.params)):u!==_&&(_.fns=u,e[d]=_));for(d in t)a(e[d])&&(l=Or(d),r(l.name,t[d],l.capture))}function fe(e,t,n){function i(){n.apply(this,arguments),M(o.fns,i)}e instanceof mr&&(e=e.data.hook||(e.data.hook={}));var o,d=e[t];a(d)?o=ce([i]):r(d.fns)&&s(d.merged)?(o=d,o.fns.push(i)):o=ce([d,i]),o.merged=!0,e[t]=o}function Me(e,t,n){var s=t.options.props;if(!a(s)){var i={},o=e.attrs,d=e.props;if(r(o)||r(d))for(var u in s){var _=Wa(u);pe(i,d,u,_,!0)||pe(i,o,u,_,!1)}return i}}function pe(e,t,n,a,s){if(r(t)){if(p(t,n))return e[n]=t[n],s||delete t[n],!0;if(p(t,a))return e[n]=t[a],s||delete t[a],!0}return!1}function ye(e){for(var t=0;t<e.length;t++)if(Array.isArray(e[t]))return Array.prototype.concat.apply([],e);return e}function Le(e){return o(e)?[A(e)]:Array.isArray(e)?ve(e):void 0}function Ye(e){return r(e)&&r(e.text)&&i(e.isComment)}function ve(e,t){var n,i,d,u,_=[];for(n=0;n<e.length;n++)i=e[n],a(i)||"boolean"==typeof i||(d=_.length-1,u=_[d],Array.isArray(i)?i.length>0&&(i=ve(i,(t||"")+"_"+n),Ye(i[0])&&Ye(u)&&(_[d]=A(u.text+i[0].text),i.shift()),_.push.apply(_,i)):o(i)?Ye(u)?_[d]=A(u.text+i):""!==i&&_.push(A(i)):Ye(i)&&Ye(u)?_[d]=A(u.text+i.text):(s(e._isVList)&&r(i.tag)&&a(i.key)&&r(t)&&(i.key="__vlist"+t+"_"+n+"__"),_.push(i)));return _}function ke(e,t){return(e.__esModule||or&&"Module"===e[Symbol.toStringTag])&&(e=e.default),d(e)?t.extend(e):e}function ge(e,t,n,a,r){var s=hr();return s.asyncFactory=e,s.asyncMeta={data:t,context:n,children:a,tag:r},s}function De(e,t,n){if(s(e.error)&&r(e.errorComp))return e.errorComp;if(r(e.resolved))return e.resolved;if(s(e.loading)&&r(e.loadingComp))return e.loadingComp;if(!r(e.contexts)){var i=e.contexts=[n],o=!0,u=function(e){for(var t=0,n=i.length;t<n;t++)i[t].$forceUpdate();e&&(i.length=0)},_=b(function(n){e.resolved=ke(n,t),o?i.length=0:u(!0)}),l=b(function(t){r(e.errorComp)&&(e.error=!0,u(!0))}),c=e(_,l);return d(c)&&(m(c)?a(e.resolved)&&c.then(_,l):m(c.component)&&(c.component.then(_,l),r(c.error)&&(e.errorComp=ke(c.error,t)),r(c.loading)&&(e.loadingComp=ke(c.loading,t),0===c.delay?e.loading=!0:setTimeout(function(){a(e.resolved)&&a(e.error)&&(e.loading=!0,u(!1))},c.delay||200)),r(c.timeout)&&setTimeout(function(){a(e.resolved)&&l(null)},c.timeout))),o=!1,e.loading?e.loadingComp:e.resolved}e.contexts.push(n)}function we(e){return e.isComment&&e.asyncFactory}function Te(e){if(Array.isArray(e))for(var t=0;t<e.length;t++){var n=e[t];if(r(n)&&(r(n.componentOptions)||we(n)))return n}}function be(e){e._events=Object.create(null),e._hasHookEvent=!1;var t=e.$options._parentListeners;t&&xe(e,t)}function Se(e,t){jr.$on(e,t)}function He(e,t){jr.$off(e,t)}function je(e,t){var n=jr;return function a(){null!==t.apply(null,arguments)&&n.$off(e,a)}}function xe(e,t,n){jr=e,he(t,n||{},Se,He,je,e),jr=void 0}function Oe(e,t){if(!e||!e.length)return{};for(var n={},a=0,r=e.length;a<r;a++){var s=e[a],i=s.data;if(i&&i.attrs&&i.attrs.slot&&delete i.attrs.slot,s.context!==t&&s.fnContext!==t||!i||null==i.slot)(n.default||(n.default=[])).push(s);else{var o=i.slot,d=n[o]||(n[o]=[]);"template"===s.tag?d.push.apply(d,s.children||[]):d.push(s)}}for(var u in n)n[u].every(Pe)&&delete n[u];return n}function Pe(e){return e.isComment&&!e.asyncFactory||" "===e.text}function Ae(e,t,n){n=n||{$stable:!t};for(var a=0;a<e.length;a++){var r=e[a];Array.isArray(r)?Ae(r,t,n):r&&(n[r.key]=r.fn)}return n}function We(e){var t=Pr;return Pr=e,function(){Pr=t}}function Ee(e){var t=e.$options,n=t.parent;if(n&&!t.abstract){for(;n.$options.abstract&&n.$parent;)n=n.$parent;n.$children.push(e)}e.$parent=n,e.$root=n?n.$root:e,e.$children=[],e.$refs={},e._watcher=null,e._inactive=null,e._directInactive=!1,e._isMounted=!1,e._isDestroyed=!1,e._isBeingDestroyed=!1}function Ce(e,t,n){e.$el=t,e.$options.render||(e.$options.render=hr),$e(e,"beforeMount");var a;return a=function(){e._update(e._render(),n)},new Jr(e,a,D,{before:function(){e._isMounted&&!e._isDestroyed&&$e(e,"beforeUpdate")}},!0),n=!1,null==e.$vnode&&(e._isMounted=!0,$e(e,"mounted")),e}function Fe(e,t,n,a,r){var s=!!(a.data.scopedSlots&&!a.data.scopedSlots.$stable||e.$scopedSlots!==ba&&!e.$scopedSlots.$stable),i=!!(r||e.$options._renderChildren||s);if(e.$options._parentVnode=a,e.$vnode=a,e._vnode&&(e._vnode.parent=a),e.$options._renderChildren=r,e.$attrs=a.data.attrs||ba,e.$listeners=n||ba,t&&e.$options.props){E(!1);for(var o=e._props,d=e.$options._propKeys||[],u=0;u<d.length;u++){var _=d[u],l=e.$options.props;o[_]=ee(_,l,t,e)}E(!0),e.$options.propsData=t}n=n||ba;var m=e.$options._parentListeners;e.$options._parentListeners=n,xe(e,n,m),i&&(e.$slots=Oe(r,a.context),e.$forceUpdate())}function ze(e){for(;e&&(e=e.$parent);)if(e._inactive)return!0;return!1}function Ne(e,t){if(t){if(e._directInactive=!1,ze(e))return}else if(e._directInactive)return;if(e._inactive||null===e._inactive){e._inactive=!1;for(var n=0;n<e.$children.length;n++)Ne(e.$children[n]);$e(e,"activated")}}function Ie(e,t){if(!(t&&(e._directInactive=!0,ze(e))||e._inactive)){e._inactive=!0;for(var n=0;n<e.$children.length;n++)Ie(e.$children[n]);$e(e,"deactivated")}}function $e(e,t){O();var n=e.$options[t],a=t+" hook";if(n)for(var r=0,s=n.length;r<s;r++)ie(n[r],e,null,e,a);e._hasHookEvent&&e.$emit("hook:"+t),P()}function Je(){zr=Ar.length=Wr.length=0,Er={},Cr=Fr=!1}function Re(){Nr=Ir(),Fr=!0;var e,t;for(Ar.sort(function(e,t){return e.id-t.id}),zr=0;zr<Ar.length;zr++)e=Ar[zr],e.before&&e.before(),t=e.id,Er[t]=null,e.run();var n=Wr.slice(),a=Ar.slice();Je(),Ve(n),Ue(a),ir&&$a.devtools&&ir.emit("flush")}function Ue(e){for(var t=e.length;t--;){var n=e[t],a=n.vm;a._watcher===n&&a._isMounted&&!a._isDestroyed&&$e(a,"updated")}}function Ge(e){e._inactive=!1,Wr.push(e)}function Ve(e){for(var t=0;t<e.length;t++)e[t]._inactive=!0,Ne(e[t],!0)}function Be(e){var t=e.id;if(null==Er[t]){if(Er[t]=!0,Fr){for(var n=Ar.length-1;n>zr&&Ar[n].id>e.id;)n--;Ar.splice(n+1,0,e)}else Ar.push(e);Cr||(Cr=!0,_e(Re))}}function Ke(e,t,n){Rr.get=function(){return this[t][n]},Rr.set=function(e){this[t][n]=e},Object.defineProperty(e,n,Rr)}function qe(e){e._watchers=[];var t=e.$options;t.props&&Ze(e,t.props),t.methods&&rt(e,t.methods),t.data?Qe(e):z(e._data={},!0),t.computed&&et(e,t.computed),t.watch&&t.watch!==er&&st(e,t.watch)}function Ze(e,t){var n=e.$options.propsData||{},a=e._props={},r=e.$options._propKeys=[],s=!e.$parent;s||E(!1);for(var i in t)!function(s){r.push(s);var i=ee(s,t,n,e);N(a,s,i),s in e||Ke(e,"_props",s)}(i);E(!0)}function Qe(e){var t=e.$options.data;t=e._data="function"==typeof t?Xe(t,e):t||{},u(t)||(t={});for(var n=Object.keys(t),a=e.$options.props,r=(e.$options.methods,n.length);r--;){var s=n[r];a&&p(a,s)||S(s)||Ke(e,"_data",s)}z(t,!0)}function Xe(e,t){O();try{return e.call(t,t)}catch(e){return se(e,t,"data()"),{}}finally{P()}}function et(e,t){var n=e._computedWatchers=Object.create(null),a=sr();for(var r in t){var s=t[r],i="function"==typeof s?s:s.get;a||(n[r]=new Jr(e,i||D,D,Ur)),r in e||tt(e,r,s)}}function tt(e,t,n){var a=!sr();"function"==typeof n?(Rr.get=a?nt(t):at(n),Rr.set=D):(Rr.get=n.get?a&&!1!==n.cache?nt(t):at(n.get):D,Rr.set=n.set||D),Object.defineProperty(e,t,Rr)}function nt(e){return function(){var t=this._computedWatchers&&this._computedWatchers[e];if(t)return t.dirty&&t.evaluate(),_r.target&&t.depend(),t.value}}function at(e){return function(){return e.call(this,this)}}function rt(e,t){e.$options.props;for(var n in t)e[n]="function"!=typeof t[n]?D:Ea(t[n],e)}function st(e,t){for(var n in t){var a=t[n];if(Array.isArray(a))for(var r=0;r<a.length;r++)it(e,n,a[r]);else it(e,n,a)}}function it(e,t,n,a){return u(n)&&(a=n,n=n.handler),"string"==typeof n&&(n=e[n]),e.$watch(t,n,a)}function ot(e){var t=e.$options.provide;t&&(e._provided="function"==typeof t?t.call(e):t)}function dt(e){var t=ut(e.$options.inject,e);t&&(E(!1),Object.keys(t).forEach(function(n){N(e,n,t[n])}),E(!0))}function ut(e,t){if(e){for(var n=Object.create(null),a=or?Reflect.ownKeys(e):Object.keys(e),r=0;r<a.length;r++){var s=a[r];if("__ob__"!==s){for(var i=e[s].from,o=t;o;){if(o._provided&&p(o._provided,i)){n[s]=o._provided[i];break}o=o.$parent}if(!o&&"default"in e[s]){var d=e[s].default;n[s]="function"==typeof d?d.call(t):d}}}return n}}function _t(e,t){var n;if(e){if(e._normalized)return e;n={};for(var a in e)e[a]&&"$"!==a[0]&&(n[a]=lt(t,a,e[a]))}else n={};for(var r in t)r in n||(n[r]=mt(t,r));return n._normalized=!0,n.$stable=!e||e.$stable,n}function lt(e,t,n){var a=function(e){void 0===e&&(e={});var t=n(e);return t&&"object"==typeof t&&!Array.isArray(t)?[t]:Le(t)};return p(e,t)||Object.defineProperty(e,t,{get:a}),a}function mt(e,t){return function(){return e[t]}}function ct(e,t){var n,a,s,i,o;if(Array.isArray(e)||"string"==typeof e)for(n=new Array(e.length),a=0,s=e.length;a<s;a++)n[a]=t(e[a],a);else if("number"==typeof e)for(n=new Array(e),a=0;a<e;a++)n[a]=t(a+1,a);else if(d(e))if(or&&e[Symbol.iterator]){n=[];for(var u=e[Symbol.iterator](),_=u.next();!_.done;)n.push(t(_.value,n.length)),_=u.next()}else for(i=Object.keys(e),n=new Array(i.length),a=0,s=i.length;a<s;a++)o=i[a],n[a]=t(e[o],o,a);return r(n)||(n=[]),n._isVList=!0,n}function ht(e,t,n,a){var r,s=this.$scopedSlots[e];s?(n=n||{},a&&(n=k(k({},a),n)),r=s(n)||t):r=this.$slots[e]||t;var i=n&&n.slot;return i?this.$createElement("template",{slot:i},r):r}function ft(e){return X(this.$options,"filters",e,!0)||Fa}function Mt(e,t){return Array.isArray(e)?-1===e.indexOf(t):e!==t}function pt(e,t,n,a,r){var s=$a.keyCodes[t]||n;return r&&a&&!$a.keyCodes[t]?Mt(r,a):s?Mt(s,e):a?Wa(a)!==t:void 0}function yt(e,t,n,a,r){if(n)if(d(n)){Array.isArray(n)&&(n=g(n));var s;for(var i in n)!function(i){if("class"===i||"style"===i||Ha(i))s=e;else{var o=e.attrs&&e.attrs.type;s=a||$a.mustUseProp(t,o,i)?e.domProps||(e.domProps={}):e.attrs||(e.attrs={})}var d=Oa(i);if(!(i in s||d in s)&&(s[i]=n[i],r)){(e.on||(e.on={}))["update:"+d]=function(e){n[i]=e}}}(i)}else;return e}function Lt(e,t){var n=this._staticTrees||(this._staticTrees=[]),a=n[e];return a&&!t?a:(a=n[e]=this.$options.staticRenderFns[e].call(this._renderProxy,null,this),vt(a,"__static__"+e,!1),a)}function Yt(e,t,n){return vt(e,"__once__"+t+(n?"_"+n:""),!0),e}function vt(e,t,n){if(Array.isArray(e))for(var a=0;a<e.length;a++)e[a]&&"string"!=typeof e[a]&&kt(e[a],t+"_"+a,n);else kt(e,t,n)}function kt(e,t,n){e.isStatic=!0,e.key=t,e.isOnce=n}function gt(e,t){if(t)if(u(t)){var n=e.on=e.on?k({},e.on):{};for(var a in t){var r=n[a],s=t[a];n[a]=r?[].concat(r,s):s}}else;return e}function Dt(e,t){for(var n=0;n<t.length;n+=2){var a=t[n];"string"==typeof a&&a&&(e[t[n]]=t[n+1])}return e}function wt(e,t){return"string"==typeof e?t+e:e}function Tt(e){e._o=Yt,e._n=h,e._s=c,e._l=ct,e._t=ht,e._q=w,e._i=T,e._m=Lt,e._f=ft,e._k=pt,e._b=yt,e._v=A,e._e=hr,e._u=Ae,e._g=gt,e._d=Dt,e._p=wt}function bt(e,t,n,a,r){var i,o=r.options;p(a,"_uid")?(i=Object.create(a),i._original=a):(i=a,a=a._original);var d=s(o._compiled),u=!d;this.data=e,this.props=t,this.children=n,this.parent=a,this.listeners=e.on||ba,this.injections=ut(o.inject,a),this.slots=function(){return Oe(n,a)},Object.defineProperty(this,"scopedSlots",{enumerable:!0,get:function(){return _t(e.scopedSlots,this.slots())}}),d&&(this.$options=o,this.$slots=this.slots(),this.$scopedSlots=_t(e.scopedSlots,this.$slots)),o._scopeId?this._c=function(e,t,n,r){var s=Et(i,e,t,n,r,u);return s&&!Array.isArray(s)&&(s.fnScopeId=o._scopeId,s.fnContext=a),s}:this._c=function(e,t,n,a){return Et(i,e,t,n,a,u)}}function St(e,t,n,a,s){var i=e.options,o={},d=i.props;if(r(d))for(var u in d)o[u]=ee(u,d,t||ba);else r(n.attrs)&&jt(o,n.attrs),r(n.props)&&jt(o,n.props);var _=new bt(n,o,s,a,e),l=i.render.call(null,_._c,_);if(l instanceof mr)return Ht(l,n,_.parent,i,_);if(Array.isArray(l)){for(var m=Le(l)||[],c=new Array(m.length),h=0;h<m.length;h++)c[h]=Ht(m[h],n,_.parent,i,_);return c}}function Ht(e,t,n,a,r){var s=W(e);return s.fnContext=n,s.fnOptions=a,t.slot&&((s.data||(s.data={})).slot=t.slot),s}function jt(e,t){for(var n in t)e[Oa(n)]=t[n]}function xt(e,t,n,i,o){if(!a(e)){var u=n.$options._base;if(d(e)&&(e=u.extend(e)),"function"==typeof e){var _;if(a(e.cid)&&(_=e,void 0===(e=De(_,u,n))))return ge(_,t,n,i,o);t=t||{},$t(e),r(t.model)&&Wt(e.options,t);var l=Me(t,e,o);if(s(e.options.functional))return St(e,l,t,n,i);var m=t.on;if(t.on=t.nativeOn,s(e.options.abstract)){var c=t.slot;t={},c&&(t.slot=c)}Pt(t);var h=e.options.name||o;return new mr("vue-component-"+e.cid+(h?"-"+h:""),t,void 0,void 0,void 0,n,{Ctor:e,propsData:l,listeners:m,tag:o,children:i},_)}}}function Ot(e,t){var n={_isComponent:!0,_parentVnode:e,parent:t},a=e.data.inlineTemplate;return r(a)&&(n.render=a.render,n.staticRenderFns=a.staticRenderFns),new e.componentOptions.Ctor(n)}function Pt(e){for(var t=e.hook||(e.hook={}),n=0;n<Vr.length;n++){var a=Vr[n],r=t[a],s=Gr[a];r===s||r&&r._merged||(t[a]=r?At(s,r):s)}}function At(e,t){var n=function(n,a){e(n,a),t(n,a)};return n._merged=!0,n}function Wt(e,t){var n=e.model&&e.model.prop||"value",a=e.model&&e.model.event||"input";(t.attrs||(t.attrs={}))[n]=t.model.value;var s=t.on||(t.on={}),i=s[a],o=t.model.callback;r(i)?(Array.isArray(i)?-1===i.indexOf(o):i!==o)&&(s[a]=[o].concat(i)):s[a]=o}function Et(e,t,n,a,r,i){return(Array.isArray(n)||o(n))&&(r=a,a=n,n=void 0),s(i)&&(r=Kr),Ct(e,t,n,a,r)}function Ct(e,t,n,a,s){if(r(n)&&r(n.__ob__))return hr();if(r(n)&&r(n.is)&&(t=n.is),!t)return hr();Array.isArray(a)&&"function"==typeof a[0]&&(n=n||{},n.scopedSlots={default:a[0]},a.length=0),s===Kr?a=Le(a):s===Br&&(a=ye(a));var i,o;if("string"==typeof t){var d;o=e.$vnode&&e.$vnode.ns||$a.getTagNamespace(t),i=$a.isReservedTag(t)?new mr($a.parsePlatformTagName(t),n,a,void 0,void 0,e):n&&n.pre||!r(d=X(e.$options,"components",t))?new mr(t,n,a,void 0,void 0,e):xt(d,n,e,a,t)}else i=xt(t,n,e,a);return Array.isArray(i)?i:r(i)?(r(o)&&Ft(i,o),r(n)&&zt(n),i):hr()}function Ft(e,t,n){if(e.ns=t,"foreignObject"===e.tag&&(t=void 0,n=!0),r(e.children))for(var i=0,o=e.children.length;i<o;i++){var d=e.children[i];r(d.tag)&&(a(d.ns)||s(n)&&"svg"!==d.tag)&&Ft(d,t,n)}}function zt(e){d(e.style)&&le(e.style),d(e.class)&&le(e.class)}function Nt(e){e._vnode=null,e._staticTrees=null;var t=e.$options,n=e.$vnode=t._parentVnode,a=n&&n.context;e.$slots=Oe(t._renderChildren,a),e.$scopedSlots=ba,e._c=function(t,n,a,r){return Et(e,t,n,a,r,!1)},e.$createElement=function(t,n,a,r){return Et(e,t,n,a,r,!0)};var r=n&&n.data;N(e,"$attrs",r&&r.attrs||ba,null,!0),N(e,"$listeners",t._parentListeners||ba,null,!0)}function It(e,t){var n=e.$options=Object.create(e.constructor.options),a=t._parentVnode;n.parent=t.parent,n._parentVnode=a;var r=a.componentOptions;n.propsData=r.propsData,n._parentListeners=r.listeners,n._renderChildren=r.children,n._componentTag=r.tag,t.render&&(n.render=t.render,n.staticRenderFns=t.staticRenderFns)}function $t(e){var t=e.options;if(e.super){var n=$t(e.super);if(n!==e.superOptions){e.superOptions=n;var a=Jt(e);a&&k(e.extendOptions,a),t=e.options=Q(n,e.extendOptions),t.name&&(t.components[t.name]=e)}}return t}function Jt(e){var t,n=e.options,a=e.sealedOptions;for(var r in n)n[r]!==a[r]&&(t||(t={}),t[r]=n[r]);return t}function Rt(e){this._init(e)}function Ut(e){e.use=function(e){var t=this._installedPlugins||(this._installedPlugins=[]);if(t.indexOf(e)>-1)return this;var n=v(arguments,1);return n.unshift(this),"function"==typeof e.install?e.install.apply(e,n):"function"==typeof e&&e.apply(null,n),t.push(e),this}}function Gt(e){e.mixin=function(e){return this.options=Q(this.options,e),this}}function Vt(e){e.cid=0;var t=1;e.extend=function(e){e=e||{};var n=this,a=n.cid,r=e._Ctor||(e._Ctor={});if(r[a])return r[a];var s=e.name||n.options.name,i=function(e){this._init(e)};return i.prototype=Object.create(n.prototype),i.prototype.constructor=i,i.cid=t++,i.options=Q(n.options,e),i.super=n,i.options.props&&Bt(i),i.options.computed&&Kt(i),i.extend=n.extend,i.mixin=n.mixin,i.use=n.use,Na.forEach(function(e){i[e]=n[e]}),s&&(i.options.components[s]=i),i.superOptions=n.options,i.extendOptions=e,i.sealedOptions=k({},i.options),r[a]=i,i}}function Bt(e){var t=e.options.props;for(var n in t)Ke(e.prototype,"_props",n)}function Kt(e){var t=e.options.computed;for(var n in t)tt(e.prototype,n,t[n])}function qt(e){Na.forEach(function(t){e[t]=function(e,n){return n?("component"===t&&u(n)&&(n.name=n.name||e,n=this.options._base.extend(n)),"directive"===t&&"function"==typeof n&&(n={bind:n,update:n}),this.options[t+"s"][e]=n,n):this.options[t+"s"][e]}})}function Zt(e){return e&&(e.Ctor.options.name||e.tag)}function Qt(e,t){return Array.isArray(e)?e.indexOf(t)>-1:"string"==typeof e?e.split(",").indexOf(t)>-1:!!_(e)&&e.test(t)}function Xt(e,t){var n=e.cache,a=e.keys,r=e._vnode;for(var s in n){var i=n[s];if(i){var o=Zt(i.componentOptions);o&&!t(o)&&en(n,s,a,r)}}}function en(e,t,n,a){var r=e[t];!r||a&&r.tag===a.tag||r.componentInstance.$destroy(),e[t]=null,M(n,t)}function tn(e){for(var t=e.data,n=e,a=e;r(a.componentInstance);)(a=a.componentInstance._vnode)&&a.data&&(t=nn(a.data,t));for(;r(n=n.parent);)n&&n.data&&(t=nn(t,n.data));return an(t.staticClass,t.class)}function nn(e,t){return{staticClass:rn(e.staticClass,t.staticClass),class:r(e.class)?[e.class,t.class]:t.class}}function an(e,t){return r(e)||r(t)?rn(e,sn(t)):""}function rn(e,t){return e?t?e+" "+t:e:t||""}function sn(e){return Array.isArray(e)?on(e):d(e)?dn(e):"string"==typeof e?e:""}function on(e){for(var t,n="",a=0,s=e.length;a<s;a++)r(t=sn(e[a]))&&""!==t&&(n&&(n+=" "),n+=t);return n}function dn(e){var t="";for(var n in e)e[n]&&(t&&(t+=" "),t+=n);return t}function un(e){return Ms(e)?"svg":"math"===e?"math":void 0}function _n(e){if(!Ga)return!0;if(ps(e))return!1;if(e=e.toLowerCase(),null!=ys[e])return ys[e];var t=document.createElement(e);return e.indexOf("-")>-1?ys[e]=t.constructor===window.HTMLUnknownElement||t.constructor===window.HTMLElement:ys[e]=/HTMLUnknownElement/.test(t.toString())}function ln(e){if("string"==typeof e){var t=document.querySelector(e);return t||document.createElement("div")}return e}function mn(e,t){var n=document.createElement(e);return"select"!==e?n:(t.data&&t.data.attrs&&void 0!==t.data.attrs.multiple&&n.setAttribute("multiple","multiple"),n)}function cn(e,t){return document.createElementNS(hs[e],t)}function hn(e){return document.createTextNode(e)}function fn(e){return document.createComment(e)}function Mn(e,t,n){e.insertBefore(t,n)}function pn(e,t){e.removeChild(t)}function yn(e,t){e.appendChild(t)}function Ln(e){return e.parentNode}function Yn(e){return e.nextSibling}function vn(e){return e.tagName}function kn(e,t){e.textContent=t}function gn(e,t){e.setAttribute(t,"")}function Dn(e,t){var n=e.data.ref;if(r(n)){var a=e.context,s=e.componentInstance||e.elm,i=a.$refs;t?Array.isArray(i[n])?M(i[n],s):i[n]===s&&(i[n]=void 0):e.data.refInFor?Array.isArray(i[n])?i[n].indexOf(s)<0&&i[n].push(s):i[n]=[s]:i[n]=s}}function wn(e,t){return e.key===t.key&&(e.tag===t.tag&&e.isComment===t.isComment&&r(e.data)===r(t.data)&&Tn(e,t)||s(e.isAsyncPlaceholder)&&e.asyncFactory===t.asyncFactory&&a(t.asyncFactory.error))}function Tn(e,t){if("input"!==e.tag)return!0;var n,a=r(n=e.data)&&r(n=n.attrs)&&n.type,s=r(n=t.data)&&r(n=n.attrs)&&n.type;return a===s||Ls(a)&&Ls(s)}function bn(e,t,n){var a,s,i={};for(a=t;a<=n;++a)s=e[a].key,r(s)&&(i[s]=a);return i}function Sn(e,t){(e.data.directives||t.data.directives)&&Hn(e,t)}function Hn(e,t){var n,a,r,s=e===ks,i=t===ks,o=jn(e.data.directives,e.context),d=jn(t.data.directives,t.context),u=[],_=[];for(n in d)a=o[n],r=d[n],a?(r.oldValue=a.value,r.oldArg=a.arg,On(r,"update",t,e),r.def&&r.def.componentUpdated&&_.push(r)):(On(r,"bind",t,e),r.def&&r.def.inserted&&u.push(r));if(u.length){var l=function(){for(var n=0;n<u.length;n++)On(u[n],"inserted",t,e)};s?fe(t,"insert",l):l()}if(_.length&&fe(t,"postpatch",function(){for(var n=0;n<_.length;n++)On(_[n],"componentUpdated",t,e)}),!s)for(n in o)d[n]||On(o[n],"unbind",e,e,i)}function jn(e,t){var n=Object.create(null);if(!e)return n;var a,r;for(a=0;a<e.length;a++)r=e[a],r.modifiers||(r.modifiers=ws),n[xn(r)]=r,r.def=X(t.$options,"directives",r.name,!0);return n}function xn(e){return e.rawName||e.name+"."+Object.keys(e.modifiers||{}).join(".")}function On(e,t,n,a,r){var s=e.def&&e.def[t];if(s)try{s(n.elm,e,n,a,r)}catch(a){se(a,n.context,"directive "+e.name+" "+t+" hook")}}function Pn(e,t){var n=t.componentOptions;if(!(r(n)&&!1===n.Ctor.options.inheritAttrs||a(e.data.attrs)&&a(t.data.attrs))){var s,i,o=t.elm,d=e.data.attrs||{},u=t.data.attrs||{};r(u.__ob__)&&(u=t.data.attrs=k({},u));for(s in u)i=u[s],d[s]!==i&&An(o,s,i);(qa||Qa)&&u.value!==d.value&&An(o,"value",u.value);for(s in d)a(u[s])&&(ls(s)?o.removeAttributeNS(_s,ms(s)):is(s)||o.removeAttribute(s))}}function An(e,t,n){e.tagName.indexOf("-")>-1?Wn(e,t,n):us(t)?cs(n)?e.removeAttribute(t):(n="allowfullscreen"===t&&"EMBED"===e.tagName?"true":t,e.setAttribute(t,n)):is(t)?e.setAttribute(t,ds(t,n)):ls(t)?cs(n)?e.removeAttributeNS(_s,ms(t)):e.setAttributeNS(_s,t,n):Wn(e,t,n)}function Wn(e,t,n){if(cs(n))e.removeAttribute(t);else{if(qa&&!Za&&"TEXTAREA"===e.tagName&&"placeholder"===t&&""!==n&&!e.__ieph){var a=function(t){t.stopImmediatePropagation(),e.removeEventListener("input",a)};e.addEventListener("input",a),e.__ieph=!0}e.setAttribute(t,n)}}function En(e,t){var n=t.elm,s=t.data,i=e.data;if(!(a(s.staticClass)&&a(s.class)&&(a(i)||a(i.staticClass)&&a(i.class)))){var o=tn(t),d=n._transitionClasses;r(d)&&(o=rn(o,sn(d))),o!==n._prevClass&&(n.setAttribute("class",o),n._prevClass=o)}}function Cn(e){if(r(e[Hs])){var t=qa?"change":"input";e[t]=[].concat(e[Hs],e[t]||[]),delete e[Hs]}r(e[js])&&(e.change=[].concat(e[js],e.change||[]),delete e[js])}function Fn(e,t,n){var a=es;return function r(){null!==t.apply(null,arguments)&&Nn(e,r,n,a)}}function zn(e,t,n,a){if(gr){var r=Nr,s=t;t=s._wrapper=function(e){if(e.timeStamp>=r)return s.apply(this,arguments)}}es.addEventListener(e,t,tr?{capture:n,passive:a}:n)}function Nn(e,t,n,a){(a||es).removeEventListener(e,t._wrapper||t,n)}function In(e,t){if(!a(e.data.on)||!a(t.data.on)){var n=t.data.on||{},r=e.data.on||{};es=t.elm,Cn(n),he(n,r,zn,Nn,Fn,t.context),es=void 0}}function $n(e,t){if(!a(e.data.domProps)||!a(t.data.domProps)){var n,s,i=t.elm,o=e.data.domProps||{},d=t.data.domProps||{};r(d.__ob__)&&(d=t.data.domProps=k({},d));for(n in o)a(d[n])&&(i[n]="");for(n in d){if(s=d[n],"textContent"===n||"innerHTML"===n){if(t.children&&(t.children.length=0),s===o[n])continue;1===i.childNodes.length&&i.removeChild(i.childNodes[0])}if("value"===n||s!==o[n])if("value"===n){i._value=s;var u=a(s)?"":String(s);Jn(i,u)&&(i.value=u)}else if("innerHTML"===n&&Ms(i.tagName)&&a(i.innerHTML)){ts=ts||document.createElement("div"),ts.innerHTML="<svg>"+s+"</svg>";for(var _=ts.firstChild;i.firstChild;)i.removeChild(i.firstChild);for(;_.firstChild;)i.appendChild(_.firstChild)}else i[n]=s}}}function Jn(e,t){return!e.composing&&("OPTION"===e.tagName||Rn(e,t)||Un(e,t))}function Rn(e,t){var n=!0;try{n=document.activeElement!==e}catch(e){}return n&&e.value!==t}function Un(e,t){var n=e.value,a=e._vModifiers;if(r(a)){if(a.number)return h(n)!==h(t);if(a.trim)return n.trim()!==t.trim()}return n!==t}function Gn(e){var t=Vn(e.style);return e.staticStyle?k(e.staticStyle,t):t}function Vn(e){return Array.isArray(e)?g(e):"string"==typeof e?Ps(e):e}function Bn(e,t){var n,a={};if(t)for(var r=e;r.componentInstance;)(r=r.componentInstance._vnode)&&r.data&&(n=Gn(r.data))&&k(a,n);(n=Gn(e.data))&&k(a,n);for(var s=e;s=s.parent;)s.data&&(n=Gn(s.data))&&k(a,n);return a}function Kn(e,t){var n=t.data,s=e.data;if(!(a(n.staticStyle)&&a(n.style)&&a(s.staticStyle)&&a(s.style))){var i,o,d=t.elm,u=s.staticStyle,_=s.normalizedStyle||s.style||{},l=u||_,m=Vn(t.data.style)||{};t.data.normalizedStyle=r(m.__ob__)?k({},m):m;var c=Bn(t,!0);for(o in l)a(c[o])&&Es(d,o,"");for(o in c)(i=c[o])!==l[o]&&Es(d,o,null==i?"":i)}}function qn(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(Ns).forEach(function(t){return e.classList.add(t)}):e.classList.add(t);else{var n=" "+(e.getAttribute("class")||"")+" ";n.indexOf(" "+t+" ")<0&&e.setAttribute("class",(n+t).trim())}}function Zn(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(Ns).forEach(function(t){return e.classList.remove(t)}):e.classList.remove(t),e.classList.length||e.removeAttribute("class");else{for(var n=" "+(e.getAttribute("class")||"")+" ",a=" "+t+" ";n.indexOf(a)>=0;)n=n.replace(a," ");n=n.trim(),n?e.setAttribute("class",n):e.removeAttribute("class")}}function Qn(e){if(e){if("object"==typeof e){var t={};return!1!==e.css&&k(t,Is(e.name||"v")),k(t,e),t}return"string"==typeof e?Is(e):void 0}}function Xn(e){Ks(function(){Ks(e)})}function ea(e,t){var n=e._transitionClasses||(e._transitionClasses=[]);n.indexOf(t)<0&&(n.push(t),qn(e,t))}function ta(e,t){e._transitionClasses&&M(e._transitionClasses,t),Zn(e,t)}function na(e,t,n){var a=aa(e,t),r=a.type,s=a.timeout,i=a.propCount;if(!r)return n();var o=r===Js?Gs:Bs,d=0,u=function(){e.removeEventListener(o,_),n()},_=function(t){t.target===e&&++d>=i&&u()};setTimeout(function(){d<i&&u()},s+1),e.addEventListener(o,_)}function aa(e,t){var n,a=window.getComputedStyle(e),r=(a[Us+"Delay"]||"").split(", "),s=(a[Us+"Duration"]||"").split(", "),i=ra(r,s),o=(a[Vs+"Delay"]||"").split(", "),d=(a[Vs+"Duration"]||"").split(", "),u=ra(o,d),_=0,l=0;return t===Js?i>0&&(n=Js,_=i,l=s.length):t===Rs?u>0&&(n=Rs,_=u,l=d.length):(_=Math.max(i,u),n=_>0?i>u?Js:Rs:null,l=n?n===Js?s.length:d.length:0),{type:n,timeout:_,propCount:l,hasTransform:n===Js&&qs.test(a[Us+"Property"])}}function ra(e,t){for(;e.length<t.length;)e=e.concat(e);return Math.max.apply(null,t.map(function(t,n){return sa(t)+sa(e[n])}))}function sa(e){return 1e3*Number(e.slice(0,-1).replace(",","."))}function ia(e,t){var n=e.elm;r(n._leaveCb)&&(n._leaveCb.cancelled=!0,n._leaveCb());var s=Qn(e.data.transition);if(!a(s)&&!r(n._enterCb)&&1===n.nodeType){for(var i=s.css,o=s.type,u=s.enterClass,_=s.enterToClass,l=s.enterActiveClass,m=s.appearClass,c=s.appearToClass,f=s.appearActiveClass,M=s.beforeEnter,p=s.enter,y=s.afterEnter,L=s.enterCancelled,Y=s.beforeAppear,v=s.appear,k=s.afterAppear,g=s.appearCancelled,D=s.duration,w=Pr,T=Pr.$vnode;T&&T.parent;)T=T.parent,w=T.context;var S=!w._isMounted||!e.isRootInsert;if(!S||v||""===v){var H=S&&m?m:u,j=S&&f?f:l,x=S&&c?c:_,O=S?Y||M:M,P=S&&"function"==typeof v?v:p,A=S?k||y:y,W=S?g||L:L,E=h(d(D)?D.enter:D),C=!1!==i&&!Za,F=ua(P),z=n._enterCb=b(function(){C&&(ta(n,x),ta(n,j)),z.cancelled?(C&&ta(n,H),W&&W(n)):A&&A(n),n._enterCb=null});e.data.show||fe(e,"insert",function(){var t=n.parentNode,a=t&&t._pending&&t._pending[e.key];a&&a.tag===e.tag&&a.elm._leaveCb&&a.elm._leaveCb(),P&&P(n,z)}),O&&O(n),C&&(ea(n,H),ea(n,j),Xn(function(){ta(n,H),z.cancelled||(ea(n,x),F||(da(E)?setTimeout(z,E):na(n,o,z)))})),e.data.show&&(t&&t(),P&&P(n,z)),C||F||z()}}}function oa(e,t){function n(){g.cancelled||(!e.data.show&&s.parentNode&&((s.parentNode._pending||(s.parentNode._pending={}))[e.key]=e),c&&c(s),Y&&(ea(s,_),ea(s,m),Xn(function(){ta(s,_),g.cancelled||(ea(s,l),v||(da(k)?setTimeout(g,k):na(s,u,g)))})),f&&f(s,g),Y||v||g())}var s=e.elm;r(s._enterCb)&&(s._enterCb.cancelled=!0,s._enterCb());var i=Qn(e.data.transition);if(a(i)||1!==s.nodeType)return t();if(!r(s._leaveCb)){var o=i.css,u=i.type,_=i.leaveClass,l=i.leaveToClass,m=i.leaveActiveClass,c=i.beforeLeave,f=i.leave,M=i.afterLeave,p=i.leaveCancelled,y=i.delayLeave,L=i.duration,Y=!1!==o&&!Za,v=ua(f),k=h(d(L)?L.leave:L),g=s._leaveCb=b(function(){s.parentNode&&s.parentNode._pending&&(s.parentNode._pending[e.key]=null),Y&&(ta(s,l),ta(s,m)),g.cancelled?(Y&&ta(s,_),p&&p(s)):(t(),M&&M(s)),s._leaveCb=null});y?y(n):n()}}function da(e){return"number"==typeof e&&!isNaN(e)}function ua(e){if(a(e))return!1;var t=e.fns;return r(t)?ua(Array.isArray(t)?t[0]:t):(e._length||e.length)>1}function _a(e,t){!0!==t.data.show&&ia(t)}function la(e,t,n){ma(e,t,n),(qa||Qa)&&setTimeout(function(){ma(e,t,n)},0)}function ma(e,t,n){var a=t.value,r=e.multiple;if(!r||Array.isArray(a)){for(var s,i,o=0,d=e.options.length;o<d;o++)if(i=e.options[o],r)s=T(a,ha(i))>-1,i.selected!==s&&(i.selected=s);else if(w(ha(i),a))return void(e.selectedIndex!==o&&(e.selectedIndex=o));r||(e.selectedIndex=-1)}}function ca(e,t){return t.every(function(t){return!w(t,e)})}function ha(e){return"_value"in e?e._value:e.value}function fa(e){e.target.composing=!0}function Ma(e){e.target.composing&&(e.target.composing=!1,pa(e.target,"input"))}function pa(e,t){var n=document.createEvent("HTMLEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}function ya(e){return!e.componentInstance||e.data&&e.data.transition?e:ya(e.componentInstance._vnode)}function La(e){var t=e&&e.componentOptions;return t&&t.Ctor.options.abstract?La(Te(t.children)):e}function Ya(e){var t={},n=e.$options;for(var a in n.propsData)t[a]=e[a];var r=n._parentListeners;for(var s in r)t[Oa(s)]=r[s];return t}function va(e,t){if(/\d-keep-alive$/.test(t.tag))return e("keep-alive",{props:t.componentOptions.propsData})}function ka(e){for(;e=e.parent;)if(e.data.transition)return!0}function ga(e,t){return t.key===e.key&&t.tag===e.tag}function Da(e){e.elm._moveCb&&e.elm._moveCb(),e.elm._enterCb&&e.elm._enterCb()}function wa(e){e.data.newPos=e.elm.getBoundingClientRect()}function Ta(e){var t=e.data.pos,n=e.data.newPos,a=t.left-n.left,r=t.top-n.top;if(a||r){e.data.moved=!0;var s=e.elm.style;s.transform=s.WebkitTransform="translate("+a+"px,"+r+"px)",s.transitionDuration="0s"}}/*!
+ * Vue.js v2.6.2
+ * (c) 2014-2019 Evan You
+ * Released under the MIT License.
+ */
+var ba=Object.freeze({}),Sa=Object.prototype.toString,Ha=(f("slot,component",!0),f("key,ref,slot,slot-scope,is")),ja=Object.prototype.hasOwnProperty,xa=/-(\w)/g,Oa=y(function(e){return e.replace(xa,function(e,t){return t?t.toUpperCase():""})}),Pa=y(function(e){return e.charAt(0).toUpperCase()+e.slice(1)}),Aa=/\B([A-Z])/g,Wa=y(function(e){return e.replace(Aa,"-$1").toLowerCase()}),Ea=Function.prototype.bind?Y:L,Ca=function(e,t,n){return!1},Fa=function(e){return e},za="data-server-rendered",Na=["component","directive","filter"],Ia=["beforeCreate","created","beforeMount","mounted","beforeUpdate","updated","beforeDestroy","destroyed","activated","deactivated","errorCaptured","serverPrefetch"],$a={optionMergeStrategies:Object.create(null),silent:!1,productionTip:!1,devtools:!1,performance:!1,errorHandler:null,warnHandler:null,ignoredElements:[],keyCodes:Object.create(null),isReservedTag:Ca,isReservedAttr:Ca,isUnknownElement:Ca,getTagNamespace:D,parsePlatformTagName:Fa,mustUseProp:Ca,async:!0,_lifecycleHooks:Ia},Ja="a-zA-Z·À-ÖØ-öø-ͽͿ-῿‌-‍‿-⁀⁰-↏Ⰰ-⿯、-퟿豈-﷏ﷰ-�",Ra=new RegExp("[^"+Ja+".$_\\d]"),Ua="__proto__"in{},Ga="undefined"!=typeof window,Va="undefined"!=typeof WXEnvironment&&!!WXEnvironment.platform,Ba=Va&&WXEnvironment.platform.toLowerCase(),Ka=Ga&&window.navigator.userAgent.toLowerCase(),qa=Ka&&/msie|trident/.test(Ka),Za=Ka&&Ka.indexOf("msie 9.0")>0,Qa=Ka&&Ka.indexOf("edge/")>0,Xa=(Ka&&Ka.indexOf("android"),Ka&&/iphone|ipad|ipod|ios/.test(Ka)||"ios"===Ba),er=(Ka&&/chrome\/\d+/.test(Ka),Ka&&/phantomjs/.test(Ka),{}.watch),tr=!1;if(Ga)try{var nr={};Object.defineProperty(nr,"passive",{get:function(){tr=!0}}),window.addEventListener("test-passive",null,nr)}catch(e){}var ar,rr,sr=function(){return void 0===ar&&(ar=!Ga&&!Va&&void 0!==e&&(e.process&&"server"===e.process.env.VUE_ENV)),ar},ir=Ga&&window.__VUE_DEVTOOLS_GLOBAL_HOOK__,or="undefined"!=typeof Symbol&&x(Symbol)&&"undefined"!=typeof Reflect&&x(Reflect.ownKeys);rr="undefined"!=typeof Set&&x(Set)?Set:function(){function e(){this.set=Object.create(null)}return e.prototype.has=function(e){return!0===this.set[e]},e.prototype.add=function(e){this.set[e]=!0},e.prototype.clear=function(){this.set=Object.create(null)},e}();var dr=D,ur=0,_r=function(){this.id=ur++,this.subs=[]};_r.prototype.addSub=function(e){this.subs.push(e)},_r.prototype.removeSub=function(e){M(this.subs,e)},_r.prototype.depend=function(){_r.target&&_r.target.addDep(this)},_r.prototype.notify=function(){for(var e=this.subs.slice(),t=0,n=e.length;t<n;t++)e[t].update()},_r.target=null;var lr=[],mr=function(e,t,n,a,r,s,i,o){this.tag=e,this.data=t,this.children=n,this.text=a,this.elm=r,this.ns=void 0,this.context=s,this.fnContext=void 0,this.fnOptions=void 0,this.fnScopeId=void 0,this.key=t&&t.key,this.componentOptions=i,this.componentInstance=void 0,this.parent=void 0,this.raw=!1,this.isStatic=!1,this.isRootInsert=!0,this.isComment=!1,this.isCloned=!1,this.isOnce=!1,this.asyncFactory=o,this.asyncMeta=void 0,this.isAsyncPlaceholder=!1},cr={child:{configurable:!0}};cr.child.get=function(){return this.componentInstance},Object.defineProperties(mr.prototype,cr);var hr=function(e){void 0===e&&(e="");var t=new mr;return t.text=e,t.isComment=!0,t},fr=Array.prototype,Mr=Object.create(fr);["push","pop","shift","unshift","splice","sort","reverse"].forEach(function(e){var t=fr[e];H(Mr,e,function(){for(var n=[],a=arguments.length;a--;)n[a]=arguments[a];var r,s=t.apply(this,n),i=this.__ob__;switch(e){case"push":case"unshift":r=n;break;case"splice":r=n.slice(2)}return r&&i.observeArray(r),i.dep.notify(),s})});var pr=Object.getOwnPropertyNames(Mr),yr=!0,Lr=function(e){this.value=e,this.dep=new _r,this.vmCount=0,H(e,"__ob__",this),Array.isArray(e)?(Ua?C(e,Mr):F(e,Mr,pr),this.observeArray(e)):this.walk(e)};Lr.prototype.walk=function(e){for(var t=Object.keys(e),n=0;n<t.length;n++)N(e,t[n])},Lr.prototype.observeArray=function(e){for(var t=0,n=e.length;t<n;t++)z(e[t])};var Yr=$a.optionMergeStrategies;Yr.data=function(e,t,n){return n?U(e,t,n):t&&"function"!=typeof t?e:U(e,t)},Ia.forEach(function(e){Yr[e]=G}),Na.forEach(function(e){Yr[e+"s"]=B}),Yr.watch=function(e,t,n,a){if(e===er&&(e=void 0),t===er&&(t=void 0),!t)return Object.create(e||null);if(!e)return t;var r={};k(r,e);for(var s in t){var i=r[s],o=t[s];i&&!Array.isArray(i)&&(i=[i]),r[s]=i?i.concat(o):Array.isArray(o)?o:[o]}return r},Yr.props=Yr.methods=Yr.inject=Yr.computed=function(e,t,n,a){if(!e)return t;var r=Object.create(null);return k(r,e),t&&k(r,t),r},Yr.provide=U;var vr,kr=function(e,t){return void 0===t?e:t},gr=!1,Dr=[],wr=!1;if("undefined"!=typeof Promise&&x(Promise)){var Tr=Promise.resolve();vr=function(){Tr.then(ue),Xa&&setTimeout(D)},gr=!0}else if(qa||"undefined"==typeof MutationObserver||!x(MutationObserver)&&"[object MutationObserverConstructor]"!==MutationObserver.toString())vr=void 0!==n&&x(n)?function(){n(ue)}:function(){setTimeout(ue,0)};else{var br=1,Sr=new MutationObserver(ue),Hr=document.createTextNode(String(br));Sr.observe(Hr,{characterData:!0}),vr=function(){br=(br+1)%2,Hr.data=String(br)},gr=!0}var jr,xr=new rr,Or=y(function(e){var t="&"===e.charAt(0);e=t?e.slice(1):e;var n="~"===e.charAt(0);e=n?e.slice(1):e;var a="!"===e.charAt(0);return e=a?e.slice(1):e,{name:e,once:n,capture:a,passive:t}}),Pr=null,Ar=[],Wr=[],Er={},Cr=!1,Fr=!1,zr=0,Nr=0,Ir=Date.now;Ga&&Ir()>document.createEvent("Event").timeStamp&&(Ir=function(){return performance.now()});var $r=0,Jr=function(e,t,n,a,r){this.vm=e,r&&(e._watcher=this),e._watchers.push(this),a?(this.deep=!!a.deep,this.user=!!a.user,this.lazy=!!a.lazy,this.sync=!!a.sync,this.before=a.before):this.deep=this.user=this.lazy=this.sync=!1,this.cb=n,this.id=++$r,this.active=!0,this.dirty=this.lazy,this.deps=[],this.newDeps=[],this.depIds=new rr,this.newDepIds=new rr,this.expression="","function"==typeof t?this.getter=t:(this.getter=j(t),this.getter||(this.getter=D)),this.value=this.lazy?void 0:this.get()};Jr.prototype.get=function(){O(this);var e,t=this.vm;try{e=this.getter.call(t,t)}catch(e){if(!this.user)throw e;se(e,t,'getter for watcher "'+this.expression+'"')}finally{this.deep&&le(e),P(),this.cleanupDeps()}return e},Jr.prototype.addDep=function(e){var t=e.id;this.newDepIds.has(t)||(this.newDepIds.add(t),this.newDeps.push(e),this.depIds.has(t)||e.addSub(this))},Jr.prototype.cleanupDeps=function(){for(var e=this.deps.length;e--;){var t=this.deps[e];this.newDepIds.has(t.id)||t.removeSub(this)}var n=this.depIds;this.depIds=this.newDepIds,this.newDepIds=n,this.newDepIds.clear(),n=this.deps,this.deps=this.newDeps,this.newDeps=n,this.newDeps.length=0},Jr.prototype.update=function(){this.lazy?this.dirty=!0:this.sync?this.run():Be(this)},Jr.prototype.run=function(){if(this.active){var e=this.get();if(e!==this.value||d(e)||this.deep){var t=this.value;if(this.value=e,this.user)try{this.cb.call(this.vm,e,t)}catch(e){se(e,this.vm,'callback for watcher "'+this.expression+'"')}else this.cb.call(this.vm,e,t)}}},Jr.prototype.evaluate=function(){this.value=this.get(),this.dirty=!1},Jr.prototype.depend=function(){for(var e=this.deps.length;e--;)this.deps[e].depend()},Jr.prototype.teardown=function(){if(this.active){this.vm._isBeingDestroyed||M(this.vm._watchers,this);for(var e=this.deps.length;e--;)this.deps[e].removeSub(this);this.active=!1}};var Rr={enumerable:!0,configurable:!0,get:D,set:D},Ur={lazy:!0};Tt(bt.prototype);var Gr={init:function(e,t){if(e.componentInstance&&!e.componentInstance._isDestroyed&&e.data.keepAlive){var n=e;Gr.prepatch(n,n)}else{(e.componentInstance=Ot(e,Pr)).$mount(t?e.elm:void 0,t)}},prepatch:function(e,t){var n=t.componentOptions;Fe(t.componentInstance=e.componentInstance,n.propsData,n.listeners,t,n.children)},insert:function(e){var t=e.context,n=e.componentInstance;n._isMounted||(n._isMounted=!0,$e(n,"mounted")),e.data.keepAlive&&(t._isMounted?Ge(n):Ne(n,!0))},destroy:function(e){var t=e.componentInstance;t._isDestroyed||(e.data.keepAlive?Ie(t,!0):t.$destroy())}},Vr=Object.keys(Gr),Br=1,Kr=2,qr=0;!function(e){e.prototype._init=function(e){var t=this;t._uid=qr++,t._isVue=!0,e&&e._isComponent?It(t,e):t.$options=Q($t(t.constructor),e||{},t),t._renderProxy=t,t._self=t,Ee(t),be(t),Nt(t),$e(t,"beforeCreate"),dt(t),qe(t),ot(t),$e(t,"created"),t.$options.el&&t.$mount(t.$options.el)}}(Rt),function(e){var t={};t.get=function(){return this._data};var n={};n.get=function(){return this._props},Object.defineProperty(e.prototype,"$data",t),Object.defineProperty(e.prototype,"$props",n),e.prototype.$set=I,e.prototype.$delete=$,e.prototype.$watch=function(e,t,n){var a=this;if(u(t))return it(a,e,t,n);n=n||{},n.user=!0;var r=new Jr(a,e,t,n);if(n.immediate)try{t.call(a,r.value)}catch(e){se(e,a,'callback for immediate watcher "'+r.expression+'"')}return function(){r.teardown()}}}(Rt),function(e){var t=/^hook:/;e.prototype.$on=function(e,n){var a=this;if(Array.isArray(e))for(var r=0,s=e.length;r<s;r++)a.$on(e[r],n);else(a._events[e]||(a._events[e]=[])).push(n),t.test(e)&&(a._hasHookEvent=!0);return a},e.prototype.$once=function(e,t){function n(){a.$off(e,n),t.apply(a,arguments)}var a=this;return n.fn=t,a.$on(e,n),a},e.prototype.$off=function(e,t){var n=this;if(!arguments.length)return n._events=Object.create(null),n;if(Array.isArray(e)){for(var a=0,r=e.length;a<r;a++)n.$off(e[a],t);return n}var s=n._events[e];if(!s)return n;if(!t)return n._events[e]=null,n;for(var i,o=s.length;o--;)if((i=s[o])===t||i.fn===t){s.splice(o,1);break}return n},e.prototype.$emit=function(e){var t=this,n=t._events[e];if(n){n=n.length>1?v(n):n;for(var a=v(arguments,1),r='event handler for "'+e+'"',s=0,i=n.length;s<i;s++)ie(n[s],t,a,t,r)}return t}}(Rt),function(e){e.prototype._update=function(e,t){var n=this,a=n.$el,r=n._vnode,s=We(n);n._vnode=e,n.$el=r?n.__patch__(r,e):n.__patch__(n.$el,e,t,!1),s(),a&&(a.__vue__=null),n.$el&&(n.$el.__vue__=n),n.$vnode&&n.$parent&&n.$vnode===n.$parent._vnode&&(n.$parent.$el=n.$el)},e.prototype.$forceUpdate=function(){var e=this;e._watcher&&e._watcher.update()},e.prototype.$destroy=function(){var e=this;if(!e._isBeingDestroyed){$e(e,"beforeDestroy"),e._isBeingDestroyed=!0;var t=e.$parent;!t||t._isBeingDestroyed||e.$options.abstract||M(t.$children,e),e._watcher&&e._watcher.teardown();for(var n=e._watchers.length;n--;)e._watchers[n].teardown();e._data.__ob__&&e._data.__ob__.vmCount--,e._isDestroyed=!0,e.__patch__(e._vnode,null),$e(e,"destroyed"),e.$off(),e.$el&&(e.$el.__vue__=null),e.$vnode&&(e.$vnode.parent=null)}}}(Rt),function(e){Tt(e.prototype),e.prototype.$nextTick=function(e){return _e(e,this)},e.prototype._render=function(){var e=this,t=e.$options,n=t.render,a=t._parentVnode;a&&(e.$scopedSlots=_t(a.data.scopedSlots,e.$slots)),e.$vnode=a;var r;try{r=n.call(e._renderProxy,e.$createElement)}catch(t){se(t,e,"render"),r=e._vnode}return Array.isArray(r)&&1===r.length&&(r=r[0]),r instanceof mr||(r=hr()),r.parent=a,r}}(Rt);var Zr=[String,RegExp,Array],Qr={name:"keep-alive",abstract:!0,props:{include:Zr,exclude:Zr,max:[String,Number]},created:function(){this.cache=Object.create(null),this.keys=[]},destroyed:function(){for(var e in this.cache)en(this.cache,e,this.keys)},mounted:function(){var e=this;this.$watch("include",function(t){Xt(e,function(e){return Qt(t,e)})}),this.$watch("exclude",function(t){Xt(e,function(e){return!Qt(t,e)})})},render:function(){var e=this.$slots.default,t=Te(e),n=t&&t.componentOptions;if(n){var a=Zt(n),r=this,s=r.include,i=r.exclude;if(s&&(!a||!Qt(s,a))||i&&a&&Qt(i,a))return t;var o=this,d=o.cache,u=o.keys,_=null==t.key?n.Ctor.cid+(n.tag?"::"+n.tag:""):t.key;d[_]?(t.componentInstance=d[_].componentInstance,M(u,_),u.push(_)):(d[_]=t,u.push(_),this.max&&u.length>parseInt(this.max)&&en(d,u[0],u,this._vnode)),t.data.keepAlive=!0}return t||e&&e[0]}},Xr={KeepAlive:Qr};!function(e){var t={};t.get=function(){return $a},Object.defineProperty(e,"config",t),e.util={warn:dr,extend:k,mergeOptions:Q,defineReactive:N},e.set=I,e.delete=$,e.nextTick=_e,e.observable=function(e){return z(e),e},e.options=Object.create(null),Na.forEach(function(t){e.options[t+"s"]=Object.create(null)}),e.options._base=e,k(e.options.components,Xr),Ut(e),Gt(e),Vt(e),qt(e)}(Rt),Object.defineProperty(Rt.prototype,"$isServer",{get:sr}),Object.defineProperty(Rt.prototype,"$ssrContext",{get:function(){return this.$vnode&&this.$vnode.ssrContext}}),Object.defineProperty(Rt,"FunctionalRenderContext",{value:bt}),Rt.version="2.6.2";var es,ts,ns,as=f("style,class"),rs=f("input,textarea,option,select,progress"),ss=function(e,t,n){return"value"===n&&rs(e)&&"button"!==t||"selected"===n&&"option"===e||"checked"===n&&"input"===e||"muted"===n&&"video"===e},is=f("contenteditable,draggable,spellcheck"),os=f("events,caret,typing,plaintext-only"),ds=function(e,t){return cs(t)||"false"===t?"false":"contenteditable"===e&&os(t)?t:"true"},us=f("allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"),_s="http://www.w3.org/1999/xlink",ls=function(e){return":"===e.charAt(5)&&"xlink"===e.slice(0,5)},ms=function(e){return ls(e)?e.slice(6,e.length):""},cs=function(e){return null==e||!1===e},hs={svg:"http://www.w3.org/2000/svg",math:"http://www.w3.org/1998/Math/MathML"},fs=f("html,body,base,head,link,meta,style,title,address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,menuitem,summary,content,element,shadow,template,blockquote,iframe,tfoot"),Ms=f("svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",!0),ps=function(e){return fs(e)||Ms(e)},ys=Object.create(null),Ls=f("text,number,password,search,email,tel,url"),Ys=Object.freeze({createElement:mn,createElementNS:cn,createTextNode:hn,createComment:fn,insertBefore:Mn,removeChild:pn,appendChild:yn,parentNode:Ln,nextSibling:Yn,tagName:vn,setTextContent:kn,setStyleScope:gn}),vs={create:function(e,t){Dn(t)},update:function(e,t){e.data.ref!==t.data.ref&&(Dn(e,!0),Dn(t))},destroy:function(e){Dn(e,!0)}},ks=new mr("",{},[]),gs=["create","activate","update","remove","destroy"],Ds={create:Sn,update:Sn,destroy:function(e){Sn(e,ks)}},ws=Object.create(null),Ts=[vs,Ds],bs={create:Pn,update:Pn},Ss={create:En,update:En},Hs="__r",js="__c",xs={create:In,update:In},Os={create:$n,update:$n},Ps=y(function(e){var t={},n=/;(?![^(]*\))/g,a=/:(.+)/;return e.split(n).forEach(function(e){if(e){var n=e.split(a);n.length>1&&(t[n[0].trim()]=n[1].trim())}}),t}),As=/^--/,Ws=/\s*!important$/,Es=function(e,t,n){if(As.test(t))e.style.setProperty(t,n);else if(Ws.test(n))e.style.setProperty(Wa(t),n.replace(Ws,""),"important");else{var a=Fs(t);if(Array.isArray(n))for(var r=0,s=n.length;r<s;r++)e.style[a]=n[r];else e.style[a]=n}},Cs=["Webkit","Moz","ms"],Fs=y(function(e){if(ns=ns||document.createElement("div").style,"filter"!==(e=Oa(e))&&e in ns)return e;for(var t=e.charAt(0).toUpperCase()+e.slice(1),n=0;n<Cs.length;n++){var a=Cs[n]+t;if(a in ns)return a}}),zs={create:Kn,update:Kn},Ns=/\s+/,Is=y(function(e){return{enterClass:e+"-enter",enterToClass:e+"-enter-to",enterActiveClass:e+"-enter-active",leaveClass:e+"-leave",leaveToClass:e+"-leave-to",leaveActiveClass:e+"-leave-active"}}),$s=Ga&&!Za,Js="transition",Rs="animation",Us="transition",Gs="transitionend",Vs="animation",Bs="animationend";$s&&(void 0===window.ontransitionend&&void 0!==window.onwebkittransitionend&&(Us="WebkitTransition",Gs="webkitTransitionEnd"),void 0===window.onanimationend&&void 0!==window.onwebkitanimationend&&(Vs="WebkitAnimation",Bs="webkitAnimationEnd"));var Ks=Ga?window.requestAnimationFrame?window.requestAnimationFrame.bind(window):setTimeout:function(e){return e()},qs=/\b(transform|all)(,|$)/,Zs=Ga?{create:_a,activate:_a,remove:function(e,t){!0!==e.data.show?oa(e,t):t()}}:{},Qs=[bs,Ss,xs,Os,zs,Zs],Xs=Qs.concat(Ts),ei=function(e){function t(e){return new mr(x.tagName(e).toLowerCase(),{},[],void 0,e)}function n(e,t){function n(){0==--n.listeners&&i(e)}return n.listeners=t,n}function i(e){var t=x.parentNode(e);r(t)&&x.removeChild(t,e)}function d(e,t,n,a,i,o,d){if(r(e.elm)&&r(o)&&(e=o[d]=W(e)),e.isRootInsert=!i,!u(e,t,n,a)){var _=e.data,l=e.children,h=e.tag;r(h)?(e.elm=e.ns?x.createElementNS(e.ns,h):x.createElement(h,e),p(e),c(e,l,t),r(_)&&M(e,t),m(n,e.elm,a)):s(e.isComment)?(e.elm=x.createComment(e.text),m(n,e.elm,a)):(e.elm=x.createTextNode(e.text),m(n,e.elm,a))}}function u(e,t,n,a){var i=e.data;if(r(i)){var o=r(e.componentInstance)&&i.keepAlive;if(r(i=i.hook)&&r(i=i.init)&&i(e,!1),r(e.componentInstance))return _(e,t),m(n,e.elm,a),s(o)&&l(e,t,n,a),!0}}function _(e,t){r(e.data.pendingInsert)&&(t.push.apply(t,e.data.pendingInsert),e.data.pendingInsert=null),e.elm=e.componentInstance.$el,h(e)?(M(e,t),p(e)):(Dn(e),t.push(e))}function l(e,t,n,a){for(var s,i=e;i.componentInstance;)if(i=i.componentInstance._vnode,r(s=i.data)&&r(s=s.transition)){for(s=0;s<H.activate.length;++s)H.activate[s](ks,i);t.push(i);break}m(n,e.elm,a)}function m(e,t,n){r(e)&&(r(n)?x.parentNode(n)===e&&x.insertBefore(e,t,n):x.appendChild(e,t))}function c(e,t,n){if(Array.isArray(t))for(var a=0;a<t.length;++a)d(t[a],n,e.elm,null,!0,t,a);else o(e.text)&&x.appendChild(e.elm,x.createTextNode(String(e.text)))}function h(e){for(;e.componentInstance;)e=e.componentInstance._vnode;return r(e.tag)}function M(e,t){for(var n=0;n<H.create.length;++n)H.create[n](ks,e);b=e.data.hook,r(b)&&(r(b.create)&&b.create(ks,e),r(b.insert)&&t.push(e))}function p(e){var t;if(r(t=e.fnScopeId))x.setStyleScope(e.elm,t);else for(var n=e;n;)r(t=n.context)&&r(t=t.$options._scopeId)&&x.setStyleScope(e.elm,t),n=n.parent;r(t=Pr)&&t!==e.context&&t!==e.fnContext&&r(t=t.$options._scopeId)&&x.setStyleScope(e.elm,t)}function y(e,t,n,a,r,s){for(;a<=r;++a)d(n[a],s,e,t,!1,n,a)}function L(e){var t,n,a=e.data;if(r(a))for(r(t=a.hook)&&r(t=t.destroy)&&t(e),t=0;t<H.destroy.length;++t)H.destroy[t](e);if(r(t=e.children))for(n=0;n<e.children.length;++n)L(e.children[n])}function Y(e,t,n,a){for(;n<=a;++n){var s=t[n];r(s)&&(r(s.tag)?(v(s),L(s)):i(s.elm))}}function v(e,t){if(r(t)||r(e.data)){var a,s=H.remove.length+1;for(r(t)?t.listeners+=s:t=n(e.elm,s),r(a=e.componentInstance)&&r(a=a._vnode)&&r(a.data)&&v(a,t),a=0;a<H.remove.length;++a)H.remove[a](e,t);r(a=e.data.hook)&&r(a=a.remove)?a(e,t):t()}else i(e.elm)}function k(e,t,n,s,i){for(var o,u,_,l,m=0,c=0,h=t.length-1,f=t[0],M=t[h],p=n.length-1,L=n[0],v=n[p],k=!i;m<=h&&c<=p;)a(f)?f=t[++m]:a(M)?M=t[--h]:wn(f,L)?(D(f,L,s,n,c),f=t[++m],L=n[++c]):wn(M,v)?(D(M,v,s,n,p),M=t[--h],v=n[--p]):wn(f,v)?(D(f,v,s,n,p),k&&x.insertBefore(e,f.elm,x.nextSibling(M.elm)),f=t[++m],v=n[--p]):wn(M,L)?(D(M,L,s,n,c),k&&x.insertBefore(e,M.elm,f.elm),M=t[--h],L=n[++c]):(a(o)&&(o=bn(t,m,h)),u=r(L.key)?o[L.key]:g(L,t,m,h),a(u)?d(L,s,e,f.elm,!1,n,c):(_=t[u],wn(_,L)?(D(_,L,s,n,c),t[u]=void 0,k&&x.insertBefore(e,_.elm,f.elm)):d(L,s,e,f.elm,!1,n,c)),L=n[++c]);m>h?(l=a(n[p+1])?null:n[p+1].elm,y(e,l,n,c,p,s)):c>p&&Y(e,t,m,h)}function g(e,t,n,a){for(var s=n;s<a;s++){var i=t[s];if(r(i)&&wn(e,i))return s}}function D(e,t,n,i,o,d){if(e!==t){r(t.elm)&&r(i)&&(t=i[o]=W(t));var u=t.elm=e.elm;if(s(e.isAsyncPlaceholder))return void(r(t.asyncFactory.resolved)?T(e.elm,t,n):t.isAsyncPlaceholder=!0);if(s(t.isStatic)&&s(e.isStatic)&&t.key===e.key&&(s(t.isCloned)||s(t.isOnce)))return void(t.componentInstance=e.componentInstance);var _,l=t.data;r(l)&&r(_=l.hook)&&r(_=_.prepatch)&&_(e,t);var m=e.children,c=t.children;if(r(l)&&h(t)){for(_=0;_<H.update.length;++_)H.update[_](e,t);r(_=l.hook)&&r(_=_.update)&&_(e,t)}a(t.text)?r(m)&&r(c)?m!==c&&k(u,m,c,n,d):r(c)?(r(e.text)&&x.setTextContent(u,""),y(u,null,c,0,c.length-1,n)):r(m)?Y(u,m,0,m.length-1):r(e.text)&&x.setTextContent(u,""):e.text!==t.text&&x.setTextContent(u,t.text),r(l)&&r(_=l.hook)&&r(_=_.postpatch)&&_(e,t)}}function w(e,t,n){if(s(n)&&r(e.parent))e.parent.data.pendingInsert=t;else for(var a=0;a<t.length;++a)t[a].data.hook.insert(t[a])}function T(e,t,n,a){var i,o=t.tag,d=t.data,u=t.children;if(a=a||d&&d.pre,t.elm=e,s(t.isComment)&&r(t.asyncFactory))return t.isAsyncPlaceholder=!0,!0;if(r(d)&&(r(i=d.hook)&&r(i=i.init)&&i(t,!0),r(i=t.componentInstance)))return _(t,n),!0;if(r(o)){if(r(u))if(e.hasChildNodes())if(r(i=d)&&r(i=i.domProps)&&r(i=i.innerHTML)){if(i!==e.innerHTML)return!1}else{for(var l=!0,m=e.firstChild,h=0;h<u.length;h++){if(!m||!T(m,u[h],n,a)){l=!1;break}m=m.nextSibling}if(!l||m)return!1}else c(t,u,n);if(r(d)){var f=!1;for(var p in d)if(!O(p)){f=!0,M(t,n);break}!f&&d.class&&le(d.class)}}else e.data!==t.text&&(e.data=t.text);return!0}var b,S,H={},j=e.modules,x=e.nodeOps;for(b=0;b<gs.length;++b)for(H[gs[b]]=[],S=0;S<j.length;++S)r(j[S][gs[b]])&&H[gs[b]].push(j[S][gs[b]]);var O=f("attrs,class,staticClass,staticStyle,key");return function(e,n,i,o){if(a(n))return void(r(e)&&L(e));var u=!1,_=[];if(a(e))u=!0,d(n,_);else{var l=r(e.nodeType);if(!l&&wn(e,n))D(e,n,_,null,null,o);else{if(l){if(1===e.nodeType&&e.hasAttribute(za)&&(e.removeAttribute(za),i=!0),s(i)&&T(e,n,_))return w(n,_,!0),e;e=t(e)}var m=e.elm,c=x.parentNode(m);if(d(n,_,m._leaveCb?null:c,x.nextSibling(m)),r(n.parent))for(var f=n.parent,M=h(n);f;){for(var p=0;p<H.destroy.length;++p)H.destroy[p](f);if(f.elm=n.elm,M){for(var y=0;y<H.create.length;++y)H.create[y](ks,f);var v=f.data.hook.insert;if(v.merged)for(var k=1;k<v.fns.length;k++)v.fns[k]()}else Dn(f);f=f.parent}r(c)?Y(c,[e],0,0):r(e.tag)&&L(e)}}return w(n,_,u),n.elm}}({nodeOps:Ys,modules:Xs});Za&&document.addEventListener("selectionchange",function(){var e=document.activeElement;e&&e.vmodel&&pa(e,"input")});var ti={inserted:function(e,t,n,a){"select"===n.tag?(a.elm&&!a.elm._vOptions?fe(n,"postpatch",function(){ti.componentUpdated(e,t,n)}):la(e,t,n.context),e._vOptions=[].map.call(e.options,ha)):("textarea"===n.tag||Ls(e.type))&&(e._vModifiers=t.modifiers,t.modifiers.lazy||(e.addEventListener("compositionstart",fa),e.addEventListener("compositionend",Ma),e.addEventListener("change",Ma),Za&&(e.vmodel=!0)))},componentUpdated:function(e,t,n){if("select"===n.tag){la(e,t,n.context);var a=e._vOptions,r=e._vOptions=[].map.call(e.options,ha);if(r.some(function(e,t){return!w(e,a[t])})){(e.multiple?t.value.some(function(e){return ca(e,r)}):t.value!==t.oldValue&&ca(t.value,r))&&pa(e,"change")}}}},ni={bind:function(e,t,n){var a=t.value;n=ya(n);var r=n.data&&n.data.transition,s=e.__vOriginalDisplay="none"===e.style.display?"":e.style.display;a&&r?(n.data.show=!0,ia(n,function(){e.style.display=s})):e.style.display=a?s:"none"},update:function(e,t,n){var a=t.value;!a!=!t.oldValue&&(n=ya(n),n.data&&n.data.transition?(n.data.show=!0,a?ia(n,function(){e.style.display=e.__vOriginalDisplay}):oa(n,function(){e.style.display="none"})):e.style.display=a?e.__vOriginalDisplay:"none")},unbind:function(e,t,n,a,r){r||(e.style.display=e.__vOriginalDisplay)}},ai={model:ti,show:ni},ri={name:String,appear:Boolean,css:Boolean,mode:String,type:String,enterClass:String,leaveClass:String,enterToClass:String,leaveToClass:String,enterActiveClass:String,leaveActiveClass:String,appearClass:String,appearActiveClass:String,appearToClass:String,duration:[Number,String,Object]},si=function(e){return e.tag||we(e)},ii=function(e){return"show"===e.name},oi={name:"transition",props:ri,abstract:!0,render:function(e){var t=this,n=this.$slots.default;if(n&&(n=n.filter(si),n.length)){var a=this.mode,r=n[0];if(ka(this.$vnode))return r;var s=La(r);if(!s)return r;if(this._leaving)return va(e,r);var i="__transition-"+this._uid+"-";s.key=null==s.key?s.isComment?i+"comment":i+s.tag:o(s.key)?0===String(s.key).indexOf(i)?s.key:i+s.key:s.key;var d=(s.data||(s.data={})).transition=Ya(this),u=this._vnode,_=La(u);if(s.data.directives&&s.data.directives.some(ii)&&(s.data.show=!0),_&&_.data&&!ga(s,_)&&!we(_)&&(!_.componentInstance||!_.componentInstance._vnode.isComment)){var l=_.data.transition=k({},d);if("out-in"===a)return this._leaving=!0,fe(l,"afterLeave",function(){t._leaving=!1,t.$forceUpdate()}),va(e,r);if("in-out"===a){if(we(s))return u;var m,c=function(){m()};fe(d,"afterEnter",c),fe(d,"enterCancelled",c),fe(l,"delayLeave",function(e){m=e})}}return r}}},di=k({tag:String,moveClass:String},ri);delete di.mode;var ui={props:di,beforeMount:function(){var e=this,t=this._update;this._update=function(n,a){var r=We(e);e.__patch__(e._vnode,e.kept,!1,!0),e._vnode=e.kept,r(),t.call(e,n,a)}},render:function(e){for(var t=this.tag||this.$vnode.data.tag||"span",n=Object.create(null),a=this.prevChildren=this.children,r=this.$slots.default||[],s=this.children=[],i=Ya(this),o=0;o<r.length;o++){var d=r[o];if(d.tag)if(null!=d.key&&0!==String(d.key).indexOf("__vlist"))s.push(d),n[d.key]=d,(d.data||(d.data={})).transition=i;else;}if(a){for(var u=[],_=[],l=0;l<a.length;l++){var m=a[l];m.data.transition=i,m.data.pos=m.elm.getBoundingClientRect(),n[m.key]?u.push(m):_.push(m)}this.kept=e(t,null,u),this.removed=_}return e(t,null,s)},updated:function(){var e=this.prevChildren,t=this.moveClass||(this.name||"v")+"-move";e.length&&this.hasMove(e[0].elm,t)&&(e.forEach(Da),e.forEach(wa),e.forEach(Ta),this._reflow=document.body.offsetHeight,e.forEach(function(e){if(e.data.moved){var n=e.elm,a=n.style;ea(n,t),a.transform=a.WebkitTransform=a.transitionDuration="",n.addEventListener(Gs,n._moveCb=function e(a){a&&a.target!==n||a&&!/transform$/.test(a.propertyName)||(n.removeEventListener(Gs,e),n._moveCb=null,ta(n,t))})}}))},methods:{hasMove:function(e,t){if(!$s)return!1;if(this._hasMove)return this._hasMove;var n=e.cloneNode();e._transitionClasses&&e._transitionClasses.forEach(function(e){Zn(n,e)}),qn(n,t),n.style.display="none",this.$el.appendChild(n);var a=aa(n);return this.$el.removeChild(n),this._hasMove=a.hasTransform}}},_i={Transition:oi,TransitionGroup:ui};Rt.config.mustUseProp=ss,Rt.config.isReservedTag=ps,Rt.config.isReservedAttr=as,Rt.config.getTagNamespace=un,Rt.config.isUnknownElement=_n,k(Rt.options.directives,ai),k(Rt.options.components,_i),Rt.prototype.__patch__=Ga?ei:D,Rt.prototype.$mount=function(e,t){return e=e&&Ga?ln(e):void 0,Ce(this,e,t)},Ga&&setTimeout(function(){$a.devtools&&ir&&ir.emit("init",Rt)},0),t.default=Rt}.call(t,n(138),n(182).setImmediate)},function(e,t){e.exports=function(e){return e.webpackPolyfill||(e.deprecate=function(){},e.paths=[],e.children||(e.children=[]),Object.defineProperty(e,"loaded",{enumerable:!0,get:function(){return e.l}}),Object.defineProperty(e,"id",{enumerable:!0,get:function(){return e.i}}),e.webpackPolyfill=1),e}}])});
+//# sourceMappingURL=vue-daterange-picker.min.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12).setImmediate, __webpack_require__(12).clearImmediate))
+
+/***/ }),
+/* 522 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -110972,7 +111132,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 520 */
+/* 523 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -111002,14 +111162,14 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 521 */,
-/* 522 */,
-/* 523 */,
 /* 524 */,
-/* 525 */
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(205);
+module.exports = __webpack_require__(206);
 
 
 /***/ })
