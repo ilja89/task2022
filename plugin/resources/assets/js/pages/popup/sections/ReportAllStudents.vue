@@ -175,7 +175,7 @@
                         width: '195px',
                         filterOptions: {
                             enabled: true,
-                            placeholder: 'Filter Commit',
+                            placeholder: 'Type Commit Time',
                             filterValue: moment().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
                             filterFn: this.startDateFilter,
                             filterDropdownItems: this.submissionsForReport,
@@ -188,7 +188,7 @@
                         width: '195px',
                         filterOptions: {
                             enabled: true,
-                            placeholder: 'Filter Commit',
+                            placeholder: 'Type Commit Time',
                             filterValue: moment().format("YYYY-MM-DD HH:mm:ss"),
                             filterFn: this.endDateFilter,
                             filterDropdownItems: this.submissionsForReport,

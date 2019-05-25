@@ -89497,7 +89497,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 width: '195px',
                 filterOptions: {
                     enabled: true,
-                    placeholder: 'Filter Commit',
+                    placeholder: 'Type Commit Time',
                     filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
                     filterFn: this.startDateFilter,
                     filterDropdownItems: this.submissionsForReport
@@ -89509,7 +89509,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 width: '195px',
                 filterOptions: {
                     enabled: true,
-                    placeholder: 'Filter Commit',
+                    placeholder: 'Type Commit Time',
                     filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().format("YYYY-MM-DD HH:mm:ss"),
                     filterFn: this.endDateFilter,
                     filterDropdownItems: this.submissionsForReport
