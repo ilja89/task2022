@@ -2,7 +2,10 @@
 
     <popup-section
             title="Students report"
-            subtitle="Search in all students submissions in this course."
+            subtitle="Search in all students submissions in this course.
+                     <br/>
+                     <br/> For activating preset period or period selected from calendar click on filter and press enter.
+                     <br/> For multi-column sorting choose first column and then hold down shift button for selecting next columns."
     >
         <div>
             <vue-good-table ref="reportTable"
@@ -58,6 +61,7 @@
                                    lastName: { title: 'Last Name' },
                                    exerciseName: { title: 'Exercise Name' },
                                    submissionResult: { title: 'Submission Result' },
+                                   submissionTestsSum: { title: 'Submission Tests Sum' },
                                    submissionTotal: { title: 'Submission Total' },
                                    isConfirmed: { title: 'Is Confirmed' },
                                    gitTimestampForStartDate: { title: 'Git Commit' }
@@ -105,7 +109,7 @@
                         field: 'firstName',
                         filterOptions: {
                             enabled: true, // enable filter for this column
-                            placeholder: 'Filter First Name', // placeholder for filter input
+                            placeholder: 'Type First Name', // placeholder for filter input
                             filterValue: '', // initial populated value for this filter
                             filterDropdownItems: this.submissionsForReport, // dropdown (with selected values) instead of text input
                             //filterFn: this.columnFilterFn, //custom filter function that
@@ -117,7 +121,7 @@
                         field: 'lastName',
                         filterOptions: {
                             enabled: true,
-                            placeholder: 'Filter Last Name',
+                            placeholder: 'Type Last Name',
                             filterValue: '',
                             filterDropdownItems: this.submissionsForReport,
                         },
@@ -128,7 +132,7 @@
                         width: '155px',
                         filterOptions: {
                             enabled: true,
-                            placeholder: 'Filter Exercises',
+                            placeholder: 'Type Exercise',
                             filterValue: '',
                             filterDropdownItems: this.submissionsForReport,
                         },
@@ -140,18 +144,26 @@
                         formatFn: this.formatSubmissionResult
                     },
                     {
-                        label: 'Submission Total',
+                        label: 'Tests Sum',
+                        field: 'submissionTestsSum',
+                        type: 'number',
+                        width: '120px',
+                        formatFn: this.formatSubmissionResult
+                    },
+                    {
+                        label: 'Total',
                         field: 'submissionTotal',
-                        width: '170px',
+                        type: 'number',
+                        width: '75px',
                     },
                     {
                         label: 'Is Confirmed',
                         field: 'isConfirmed',
                         type: 'number',
-                        width: '180px',
+                        width: '140px',
                         filterOptions: {
                             enabled: true,
-                            placeholder: 'Filter (un)confirmed',
+                            placeholder: 'Type 0 or 1',
                             filterValue: '',
                             filterDropdownItems: this.submissionsForReport,
                         },
@@ -242,6 +254,7 @@
                         lastName: submission.lastname,
                         exerciseName: submission.name,
                         submissionResult: submission.submission_result,
+                        submissionTestsSum: submission.submission_tests_sum,
                         submissionTotal: submission.finalgrade,
                         isConfirmed: submission.confirmed,
                         gitTimestampForStartDate: submission.git_timestamp,
