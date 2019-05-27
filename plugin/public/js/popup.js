@@ -89472,8 +89472,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 label: 'Tests Sum',
                 field: 'submissionTestsSum',
                 type: 'number',
-                width: '120px',
-                formatFn: this.formatSubmissionResult
+                width: '120px'
             }, {
                 label: 'Total',
                 field: 'submissionTotal',

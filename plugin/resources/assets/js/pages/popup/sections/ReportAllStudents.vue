@@ -148,7 +148,6 @@
                         field: 'submissionTestsSum',
                         type: 'number',
                         width: '120px',
-                        formatFn: this.formatSubmissionResult
                     },
                     {
                         label: 'Total',
