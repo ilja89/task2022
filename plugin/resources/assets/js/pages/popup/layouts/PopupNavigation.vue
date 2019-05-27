@@ -32,6 +32,12 @@
                 </router-link>
             </li>
 
+            <li class="nav-item">
+                <router-link to="/report-statistics">
+                    Report & Statistics
+                </router-link>
+            </li>
+
         </ul>
     </aside>
 </template>
