@@ -194,8 +194,11 @@ class SubmissionsController extends Controller
      *
      * @return array
      */
-    public function findAllSubmissionsForReport(Course $course)
+    public function findAllSubmissionsForReport(Course $course, $page, $perPage, $sortField, $sortType, $firstName = null,
+                                                $lastName = null, $exerciseName = null, $isConfirmed = null,
+                                                $gitTimestampForStartDate = null, $gitTimestampForEndDate = null)
     {
-        return $this->submissionsRepository->findAllSubmissionsForReport($course->id);
+        return $this->submissionsRepository->findAllSubmissionsForReport($course->id, $page, $perPage, $sortField, $sortType,
+            $firstName, $lastName, $exerciseName, $isConfirmed, $gitTimestampForStartDate, $gitTimestampForEndDate);
     }
 }

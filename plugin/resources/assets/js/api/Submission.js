@@ -107,8 +107,17 @@ class Submission {
             })
     }
 
-    static findAllSubmissionsForReport(courseId, then) {
-        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/submissions-report`)
+    static findAllSubmissionsForReport(courseId, serverParams, columnFilters, then) {
+        window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/submissions-report/${serverParams.page}/` +
+            `${serverParams.perPage}/` +
+            `${serverParams.sort.field  }/` +
+            `${serverParams.sort.type}/` +
+            `${serverParams.columnFilters.firstName ? serverParams.columnFilters.firstName : ' '}/` +
+            `${serverParams.columnFilters.lastName ? serverParams.columnFilters.lastName : ' '}/` +
+            `${serverParams.columnFilters.exerciseName ? serverParams.columnFilters.exerciseName : ' '}/` +
+            `${serverParams.columnFilters.isConfirmed ? serverParams.columnFilters.isConfirmed : ' '}/` +
+            `${serverParams.columnFilters.gitTimestampForStartDate ? serverParams.columnFilters.gitTimestampForStartDate : ' '}/` +
+            `${serverParams.columnFilters.gitTimestampForEndDate ? serverParams.columnFilters.gitTimestampForEndDate : ' '}/`)
             .then(data => {
                 then(data.data)
             }).catch(error => {

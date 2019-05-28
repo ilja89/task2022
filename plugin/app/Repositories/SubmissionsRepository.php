@@ -371,24 +371,72 @@ order by subs_per_user desc',
      *
      * @return mixed
      */
-    public function findAllSubmissionsForReport($courseId)
+    public function findAllSubmissionsForReport($courseId, $page, $perPage, $sortField, $sortType, $firstName, $lastName,
+                                                $exerciseName, $isConfirmed, $gitTimestampForStartDate, $gitTimestampForEndDate)
     {
         // TODO: Convert to query builder?
+        function escapeDoubleQuotes($string)
+        {
+            $return = DB::getPdo()->quote($string);
+            return $return && strlen($return) >= 2 ? substr($return, 1, strlen($return)-2) : $return;
+        }
+        $firstName = escapeDoubleQuotes($firstName);
+        $lastName = escapeDoubleQuotes($lastName);
+        $exerciseName = escapeDoubleQuotes($exerciseName);
+        $isConfirmed = escapeDoubleQuotes($isConfirmed);
+        $gitTimestampForStartDate = escapeDoubleQuotes($gitTimestampForStartDate);
+        $gitTimestampForEndDate = escapeDoubleQuotes($gitTimestampForEndDate);
+        $page = escapeDoubleQuotes($page);
+        $perPage = escapeDoubleQuotes($perPage);
+        $sortField = escapeDoubleQuotes($sortField);
+        $sortType = escapeDoubleQuotes($sortType);
+
+        $rows = ($page - 1) * $perPage;
+        $where = '';
+
+        if ($firstName != ' ')
+            $where .= " AND us.firstname like '%$firstName%'";
+        if ($lastName != ' ')
+            $where .= " AND us.lastname like '%$lastName%'";
+        if ($exerciseName != ' ')
+            $where .= " AND ch.name like '%$exerciseName%'";
+        if ($isConfirmed != ' ')
+            $where .= " AND ch_su.confirmed = '$isConfirmed'";
+        if ($gitTimestampForStartDate != ' ')
+            $where .= " AND ch_su.git_timestamp >= '$gitTimestampForStartDate'";
+        if ($gitTimestampForEndDate != ' ')
+            $where .= " AND ch_su.git_timestamp <= '$gitTimestampForEndDate'";
+
+        if($sortField == 'exerciseName')
+            $sortField = 'name';
+        if($sortField == 'isConfirmed')
+            $sortField = 'confirmed';
+        if($sortField == 'gitTimestampForStartDate')
+            $sortField = 'git_timestamp';
+        if($sortField == 'gitTimestampForEndDate')
+            $sortField = 'git_timestamp';
 
         $result = DB::select(DB::raw(
-            "SELECT ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result ORDER BY ch_re.grade_type_code SEPARATOR ' | ') AS submission_result,
-            SUM(CASE WHEN ch_re.grade_type_code <= 100 THEN ch_re.calculated_result ELSE 0 END) AS submission_tests_sum,
-            ROUND(gr_gr.finalgrade, 2) AS finalgrade, ch_su.confirmed, ch_su.git_timestamp
+            "SELECT SQL_CALC_FOUND_ROWS ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result
+            ORDER BY ch_re.grade_type_code SEPARATOR ' | ') AS submission_result, SUM(CASE WHEN ch_re.grade_type_code <= 100
+            THEN ch_re.calculated_result ELSE 0 END) AS submission_tests_sum, ROUND(gr_gr.finalgrade, 2) AS finalgrade,
+            ch_su.confirmed, ch_su.git_timestamp
 	            FROM mdl_charon_submission ch_su
 		            INNER JOIN mdl_user us ON us.id = ch_su.user_id
 		            INNER JOIN mdl_charon ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
 		            INNER JOIN mdl_charon_result ch_re ON ch_re.submission_id = ch_su.id
 		            LEFT JOIN mdl_grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
 		            LEFT JOIN mdl_grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
-		        WHERE gr_gr.itemid = gr_it.id
-	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp"
+		        WHERE gr_gr.itemid = gr_it.id $where
+	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
+	        ORDER BY $sortField $sortType
+	        LIMIT $rows, $perPage"
         ));
 
-        return $result;
+        $resultRows = DB::select(DB::raw(
+            "SELECT FOUND_ROWS() AS totalRecords"
+        ));
+
+        return array("rows"=>$result, "totalRecords"=>$resultRows[0]->totalRecords);
     }
 }

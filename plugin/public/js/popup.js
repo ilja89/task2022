@@ -10352,8 +10352,8 @@ var Submission = function () {
         }
     }, {
         key: 'findAllSubmissionsForReport',
-        value: function findAllSubmissionsForReport(courseId, then) {
-            window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/submissions-report').then(function (data) {
+        value: function findAllSubmissionsForReport(courseId, serverParams, columnFilters, then) {
+            window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/submissions-report/' + serverParams.page + '/' + (serverParams.perPage + '/') + (serverParams.sort.field + '/') + (serverParams.sort.type + '/') + ((serverParams.columnFilters.firstName ? serverParams.columnFilters.firstName : ' ') + '/') + ((serverParams.columnFilters.lastName ? serverParams.columnFilters.lastName : ' ') + '/') + ((serverParams.columnFilters.exerciseName ? serverParams.columnFilters.exerciseName : ' ') + '/') + ((serverParams.columnFilters.isConfirmed ? serverParams.columnFilters.isConfirmed : ' ') + '/') + ((serverParams.columnFilters.gitTimestampForStartDate ? serverParams.columnFilters.gitTimestampForStartDate : ' ') + '/') + ((serverParams.columnFilters.gitTimestampForEndDate ? serverParams.columnFilters.gitTimestampForEndDate : ' ') + '/')).then(function (data) {
                 then(data.data);
             }).catch(function (error) {
                 VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger');
@@ -89417,6 +89417,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 
@@ -89432,7 +89434,21 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     data: function data() {
         return {
+            remote: "remote",
+            isLoading: false,
             submissionsForReport: [],
+            rows: [],
+            totalRecords: 0,
+            serverParams: {
+                columnFilters: {},
+                sort: {
+                    field: 'gitTimestampForEndDate',
+                    type: 'desc'
+                },
+                page: 1,
+                perPage: 10
+            },
+            search: {}, // Object is needed for filtered data export.
             columns: [{
                 label: 'First Name',
                 field: 'firstName',
@@ -89440,9 +89456,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true, // enable filter for this column
                     placeholder: 'Type First Name', // placeholder for filter input
                     filterValue: '', // initial populated value for this filter
-                    filterDropdownItems: this.submissionsForReport // dropdown (with selected values) instead of text input
+                    filterDropdownItems: this.rows, // dropdown (with selected values) instead of text input
                     //filterFn: this.columnFilterFn, //custom filter function that
-                    //trigger: 'enter', //only trigger on enter not on keyup
+                    trigger: 'enter' //only trigger on enter not on keyup
                 }
             }, {
                 label: 'Last Name',
@@ -89451,7 +89467,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true,
                     placeholder: 'Type Last Name',
                     filterValue: '',
-                    filterDropdownItems: this.submissionsForReport
+                    filterDropdownItems: this.rows,
+                    trigger: 'enter'
                 }
             }, {
                 label: 'Exercise Name',
@@ -89461,7 +89478,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true,
                     placeholder: 'Type Exercise',
                     filterValue: '',
-                    filterDropdownItems: this.submissionsForReport
+                    filterDropdownItems: this.rows,
+                    trigger: 'enter'
                 }
             }, {
                 label: 'Submission Result',
@@ -89487,7 +89505,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true,
                     placeholder: 'Type 0 or 1',
                     filterValue: '',
-                    filterDropdownItems: this.submissionsForReport
+                    filterDropdownItems: this.rows
+                    //trigger: 'enter',
                 }
             }, {
                 label: 'Period Start',
@@ -89498,8 +89517,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true,
                     placeholder: 'Type Commit Time',
                     filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
-                    filterFn: this.startDateFilter,
-                    filterDropdownItems: this.submissionsForReport
+                    filterDropdownItems: this.rows,
+                    trigger: 'enter'
                 }
             }, {
                 label: 'Period end',
@@ -89510,12 +89529,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     enabled: true,
                     placeholder: 'Type Commit Time',
                     filterValue: __WEBPACK_IMPORTED_MODULE_7_moment___default()().format("YYYY-MM-DD HH:mm:ss"),
-                    filterFn: this.endDateFilter,
-                    filterDropdownItems: this.submissionsForReport
+                    filterDropdownItems: this.rows,
+                    trigger: 'enter'
                 }
             }],
-            search: {}, // Object is needed for filtered data export.
 
+            // Datepicker options
             startDate: __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(6, 'days'),
             endDate: __WEBPACK_IMPORTED_MODULE_7_moment___default()(),
             opens: "left", // which way the picker opens, default "center", can be "left"/"right"
@@ -89551,9 +89570,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['courseId']), {
-        rows: function rows() {
-            return this.submissionsForReport;
-        },
         jsonData: function jsonData() {
             this.search.changed = true; // Changing data to call method in computed section.
             return this.$refs.reportTable ? this.$refs.reportTable.filteredRows[0].children : [];
@@ -89562,7 +89578,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     methods: {
         setSubmissionsForReport: function setSubmissionsForReport(submissionsForReport) {
-            this.submissionsForReport = submissionsForReport.map(function (submission) {
+            this.submissionsForReport = submissionsForReport.rows.map(function (submission) {
                 return {
                     submissionId: submission.id,
                     firstName: submission.firstname,
@@ -89576,12 +89592,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     gitTimestampForEndDate: submission.git_timestamp
                 };
             });
+            this.totalRecords = submissionsForReport.totalRecords;
+            this.rows = this.submissionsForReport;
         },
         formatSubmissionResult: function formatSubmissionResult(value) {
             return '| ' + value + ' |';
-        },
-        onColumnFilter: function onColumnFilter(searchValue) {
-            this.search = searchValue;
         },
         resetFilters: function resetFilters() {
             this.$refs.reportTable.columnFilters.firstName = '';
@@ -89590,24 +89605,44 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$refs.reportTable.columnFilters.isConfirmed = '';
             this.$refs.reportTable.columnFilters.gitTimestampForStartDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss");
             this.$refs.reportTable.columnFilters.gitTimestampForEndDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()().format("YYYY-MM-DD HH:mm:ss");
-        },
-        startDateFilter: function startDateFilter(data, filterString) {
-            return data = Date.parse(data) >= Date.parse(filterString);
-        },
-        endDateFilter: function endDateFilter(data, filterString) {
-            return data = Date.parse(data) <= Date.parse(filterString);
+            this.loadItems();
         },
         updatePeriodDates: function updatePeriodDates(value) {
             this.$refs.reportTable.columnFilters.gitTimestampForStartDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()(value.startDate).format("YYYY-MM-DD HH:mm:ss");
             this.$refs.reportTable.columnFilters.gitTimestampForEndDate = __WEBPACK_IMPORTED_MODULE_7_moment___default()(value.endDate).format("YYYY-MM-DD HH:mm:ss");
 
-            this.startDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForStartDate);
-            this.endDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForEndDate);
+            this.loadItems();
+        },
+        updateParams: function updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onPageChange: function onPageChange(params) {
+            this.updateParams({ page: params.currentPage });
+            this.loadItems();
+        },
+        onPerPageChange: function onPerPageChange(params) {
+            if (this.serverParams.perPage !== params.currentPerPage) {
+                this.updateParams({ perPage: params.currentPerPage });
+                this.loadItems();
+            }
+        },
+        onSortChange: function onSortChange(params) {
+            this.updateParams({
+                sort: {
+                    type: params[0].type,
+                    field: params[0].field
+                }
+            });
+            this.loadItems();
+        },
+        onColumnFilter: function onColumnFilter(params) {
+            this.search = params;
+            this.updateParams(params);
+            this.loadItems();
+        },
+        loadItems: function loadItems() {
+            __WEBPACK_IMPORTED_MODULE_1__api___["a" /* Submission */].findAllSubmissionsForReport(this.courseId, this.serverParams, this.columns, this.setSubmissionsForReport);
         }
-    },
-
-    created: function created() {
-        __WEBPACK_IMPORTED_MODULE_1__api___["a" /* Submission */].findAllSubmissionsForReport(this.courseId, this.setSubmissionsForReport);
     }
 };
 
@@ -106453,13 +106488,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('popup-section', {
     attrs: {
       "title": "Students report",
-      "subtitle": "Search in all students submissions in this course.\n                 <br/>\n                 <br/> For activating preset period or period selected from calendar click on filter and press enter.\n                 <br/> For multi-column sorting choose first column and then hold down shift button for selecting next columns."
+      "subtitle": "Search in all students submissions in this course.\n                 <br/>\n                 <br/> For activating preset period or period selected from calendar click on filter and press enter."
     }
   }, [_c('div', [_c('vue-good-table', {
     ref: "reportTable",
     attrs: {
       "columns": _vm.columns,
       "rows": _vm.rows,
+      "mode": _vm.remote,
+      "totalRows": _vm.totalRecords,
+      "isLoading": _vm.isLoading,
       "fixed-header": true,
       "line-numbers": false,
       "search-options": {
@@ -106468,23 +106506,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       "sort-options": {
         enabled: true,
-        initialSortBy: [{
-            field: 'gitTimestampForEndDate',
-            type: 'desc'
-          } ]
+        initialSortBy: {
+          field: 'gitTimestampForEndDate',
+          type: 'desc'
+        }
+        //{field: 'name', type: 'asc'}
       },
       "pagination-options": {
         enabled: true,
         mode: 'pages',
         position: 'top',
-        perPage: 10,
-        perPageDropdown: [25, 50, 100],
+        perPageDropdown: [10, 25, 50, 100],
         dropdownAllowAll: false,
       },
       "max-height": "750px"
     },
     on: {
-      "on-column-filter": _vm.onColumnFilter
+      "on-page-change": _vm.onPageChange,
+      "on-sort-change": _vm.onSortChange,
+      "on-column-filter": _vm.onColumnFilter,
+      "on-per-page-change": _vm.onPerPageChange,
+      "update:isLoading": function($event) {
+        _vm.isLoading = $event
+      },
+      "update:is-loading": function($event) {
+        _vm.isLoading = $event
+      }
     }
   }, [_c('div', {
     attrs: {

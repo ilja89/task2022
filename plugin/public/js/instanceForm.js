@@ -8953,8 +8953,8 @@ var Submission = function () {
         }
     }, {
         key: 'findAllSubmissionsForReport',
-        value: function findAllSubmissionsForReport(courseId, then) {
-            window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/submissions-report').then(function (data) {
+        value: function findAllSubmissionsForReport(courseId, serverParams, columnFilters, then) {
+            window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/submissions/submissions-report/' + serverParams.page + '/' + (serverParams.perPage + '/') + (serverParams.sort.field + '/') + (serverParams.sort.type + '/') + ((serverParams.columnFilters.firstName ? serverParams.columnFilters.firstName : ' ') + '/') + ((serverParams.columnFilters.lastName ? serverParams.columnFilters.lastName : ' ') + '/') + ((serverParams.columnFilters.exerciseName ? serverParams.columnFilters.exerciseName : ' ') + '/') + ((serverParams.columnFilters.isConfirmed ? serverParams.columnFilters.isConfirmed : ' ') + '/') + ((serverParams.columnFilters.gitTimestampForStartDate ? serverParams.columnFilters.gitTimestampForStartDate : ' ') + '/') + ((serverParams.columnFilters.gitTimestampForEndDate ? serverParams.columnFilters.gitTimestampForEndDate : ' ') + '/')).then(function (data) {
                 then(data.data);
             }).catch(function (error) {
                 VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger');
