@@ -4,13 +4,19 @@
             title="Students report"
             subtitle="Search in all students submissions in this course.
                      <br/>
-                     <br/> For activating preset period or period selected from calendar click on filter and press enter.
-                     <br/> For multi-column sorting choose first column and then hold down shift button for selecting next columns."
+                     <br/> For activating preset period or period selected from calendar click on filter and press enter."
     >
         <div>
             <vue-good-table ref="reportTable"
                 :columns="columns"
                 :rows="rows"
+                :mode="remote"
+                :totalRows="totalRecords"
+                @on-page-change="onPageChange"
+                @on-sort-change="onSortChange"
+                @on-column-filter="onColumnFilter"
+                @on-per-page-change="onPerPageChange"
+                :isLoading.sync="isLoading"
                 :fixed-header="true"
                 :line-numbers="false"
                 :search-options="{
@@ -19,21 +25,18 @@
                 }"
                 :sort-options="{
                     enabled: true,
-                    initialSortBy: [
+                    initialSortBy:
                         {field: 'gitTimestampForEndDate', type: 'desc'}
                         //{field: 'name', type: 'asc'}
-                    ]
                 }"
                 :pagination-options="{
                     enabled: true,
                     mode: 'pages',
                     position: 'top',
-                    perPage: 10,
-                    perPageDropdown: [25, 50, 100],
+                    perPageDropdown: [10, 25, 50, 100],
                     dropdownAllowAll: false,
                 }"
                 max-height="750px"
-                @on-column-filter="onColumnFilter"
             >
                 <div slot="table-actions">
                     <button class="button is-primary" @click="resetFilters">
@@ -48,7 +51,6 @@
                         :ranges="ranges"
                         @update="updatePeriodDates"
                     >
-                        <!--Optional scope for the input displaying the dates -->
                         <button class="button is-primary" slot="input" slot-scope="picker">
                             Select Period
                         </button>
@@ -102,7 +104,21 @@
 
         data() {
             return {
+                remote: "remote",
+                isLoading: false,
                 submissionsForReport: [],
+                rows: [],
+                totalRecords: 0,
+                serverParams: {
+                    columnFilters: {},
+                    sort: {
+                        field: 'gitTimestampForEndDate',
+                        type: 'desc',
+                    },
+                    page: 1,
+                    perPage: 10
+                },
+                search: {}, // Object is needed for filtered data export.
                 columns: [
                     {
                         label: 'First Name',
@@ -111,9 +127,9 @@
                             enabled: true, // enable filter for this column
                             placeholder: 'Type First Name', // placeholder for filter input
                             filterValue: '', // initial populated value for this filter
-                            filterDropdownItems: this.submissionsForReport, // dropdown (with selected values) instead of text input
+                            filterDropdownItems: this.rows, // dropdown (with selected values) instead of text input
                             //filterFn: this.columnFilterFn, //custom filter function that
-                            //trigger: 'enter', //only trigger on enter not on keyup
+                            trigger: 'enter', //only trigger on enter not on keyup
                         },
                     },
                     {
@@ -123,7 +139,8 @@
                             enabled: true,
                             placeholder: 'Type Last Name',
                             filterValue: '',
-                            filterDropdownItems: this.submissionsForReport,
+                            filterDropdownItems: this.rows,
+                            trigger: 'enter',
                         },
                     },
                     {
@@ -134,7 +151,8 @@
                             enabled: true,
                             placeholder: 'Type Exercise',
                             filterValue: '',
-                            filterDropdownItems: this.submissionsForReport,
+                            filterDropdownItems: this.rows,
+                            trigger: 'enter',
                         },
                     },
                     {
@@ -164,7 +182,8 @@
                             enabled: true,
                             placeholder: 'Type 0 or 1',
                             filterValue: '',
-                            filterDropdownItems: this.submissionsForReport,
+                            filterDropdownItems: this.rows,
+                            //trigger: 'enter',
                         },
                     },
                     {
@@ -176,8 +195,8 @@
                             enabled: true,
                             placeholder: 'Type Commit Time',
                             filterValue: moment().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
-                            filterFn: this.startDateFilter,
-                            filterDropdownItems: this.submissionsForReport,
+                            filterDropdownItems: this.rows,
+                            trigger: 'enter',
                         },
                     },
                     {
@@ -189,13 +208,13 @@
                             enabled: true,
                             placeholder: 'Type Commit Time',
                             filterValue: moment().format("YYYY-MM-DD HH:mm:ss"),
-                            filterFn: this.endDateFilter,
-                            filterDropdownItems: this.submissionsForReport,
+                            filterDropdownItems: this.rows,
+                            trigger: 'enter',
                         },
                     },
                 ],
-                search: {}, // Object is needed for filtered data export.
 
+                // Datepicker options
                 startDate: moment().subtract(6, 'days'),
                 endDate: moment(),
                 opens: "left",// which way the picker opens, default "center", can be "left"/"right"
@@ -234,10 +253,6 @@
                 'courseId'
             ]),
 
-            rows() {
-                return this.submissionsForReport;
-            },
-
             jsonData() {
                 this.search.changed = true; // Changing data to call method in computed section.
                 return this.$refs.reportTable ? this.$refs.reportTable.filteredRows[0].children : [];
@@ -246,7 +261,7 @@
 
         methods: {
             setSubmissionsForReport(submissionsForReport) {
-                this.submissionsForReport = submissionsForReport.map(submission => {
+                this.submissionsForReport = submissionsForReport.rows.map(submission => {
                     return {
                         submissionId: submission.id,
                         firstName: submission.firstname,
@@ -260,14 +275,12 @@
                         gitTimestampForEndDate: submission.git_timestamp
                     };
                 });
+                this.totalRecords = submissionsForReport.totalRecords;
+                this.rows = this.submissionsForReport;
             },
 
             formatSubmissionResult(value) {
                 return '| ' + value + ' |';
-            },
-
-            onColumnFilter(searchValue) {
-                this.search = searchValue;
             },
 
             resetFilters() {
@@ -277,27 +290,51 @@
                 this.$refs.reportTable.columnFilters.isConfirmed = '';
                 this.$refs.reportTable.columnFilters.gitTimestampForStartDate = moment().subtract(1, 'hour').format("YYYY-MM-DD HH:mm:ss");
                 this.$refs.reportTable.columnFilters.gitTimestampForEndDate = moment().format("YYYY-MM-DD HH:mm:ss");
-            },
-
-            startDateFilter(data, filterString) {
-                return (data = Date.parse(data) >= Date.parse(filterString));
-            },
-
-            endDateFilter(data, filterString) {
-                return (data = Date.parse(data) <= Date.parse(filterString));
+                this.loadItems();
             },
 
             updatePeriodDates(value) {
                 this.$refs.reportTable.columnFilters.gitTimestampForStartDate = moment(value.startDate).format("YYYY-MM-DD HH:mm:ss");
                 this.$refs.reportTable.columnFilters.gitTimestampForEndDate = moment(value.endDate).format("YYYY-MM-DD HH:mm:ss");
 
-                this.startDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForStartDate);
-                this.endDateFilter(this.submissionsForReport, this.$refs.reportTable.columnFilters.gitTimestampForEndDate);
+                this.loadItems();
             },
-        },
 
-        created() {
-            Submission.findAllSubmissionsForReport(this.courseId, this.setSubmissionsForReport);
+            updateParams(newProps) {
+                this.serverParams = Object.assign({}, this.serverParams, newProps);
+            },
+
+            onPageChange(params) {
+                this.updateParams({page: params.currentPage});
+                this.loadItems();
+            },
+
+            onPerPageChange(params) {
+                if (this.serverParams.perPage !== params.currentPerPage) {
+                    this.updateParams({perPage: params.currentPerPage});
+                    this.loadItems();
+                }
+            },
+
+            onSortChange(params) {
+                this.updateParams({
+                    sort: {
+                        type: params[0].type,
+                        field: params[0].field,
+                    },
+                });
+                this.loadItems();
+            },
+
+            onColumnFilter(params) {
+                this.search = params;
+                this.updateParams(params);
+                this.loadItems();
+            },
+
+            loadItems() {
+                Submission.findAllSubmissionsForReport(this.courseId, this.serverParams, this.columns, this.setSubmissionsForReport)
+            },
         },
     };
 </script>
