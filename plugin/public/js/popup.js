@@ -87064,7 +87064,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         return {
             isOpen: false,
             results: [],
-            studentConfirmedPoints: []
+            submissionNames: [],
+            courseAverageGrades: [],
+            courseMaximumGrades: [],
+            finalGrades: []
         };
     },
 
@@ -87077,8 +87080,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var calculatedStudentCharonResult = [];
             var sumResult = 0;
 
-            for (var i = 0; i < this.studentConfirmedPoints.length; i++) {
-                sumResult += this.studentConfirmedPoints[i];
+            for (var i = 0; i < this.finalGrades.length; i++) {
+                sumResult += this.finalGrades[i];
                 sumResult = +sumResult.toFixed(2);
                 calculatedStudentCharonResult.push(sumResult);
             }
@@ -87088,8 +87091,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var calculatedStudentCharonResult = [];
             var sumResult = 0;
 
-            for (var i = 0; i < this.averageSubmissions.length; i++) {
-                sumResult += +this.averageSubmissions[i].average_calc_result;
+            for (var i = 0; i < this.courseAverageGrades.length; i++) {
+                sumResult += +this.courseAverageGrades[i];
+                sumResult = +sumResult.toFixed(2);
+                calculatedStudentCharonResult.push(sumResult);
+            }
+            return calculatedStudentCharonResult;
+        },
+        sumMaximum: function sumMaximum() {
+            var calculatedStudentCharonResult = [];
+            var sumResult = 0;
+
+            for (var i = 0; i < this.courseMaximumGrades.length; i++) {
+                sumResult += +this.courseMaximumGrades[i];
                 sumResult = +sumResult.toFixed(2);
                 calculatedStudentCharonResult.push(sumResult);
             }
@@ -87111,7 +87125,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         show: false
                     }*/
                 },
-                colors: ['#59c2e6', '#4f5f6f'],
+                colors: ['#59c2e6', '#4f5f6f', '#ff8c00'],
                 dataLabels: {
                     enabled: true
                 },
@@ -87122,9 +87136,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     text: ""
                 },*/
                 xaxis: {
-                    categories: this.charons.map(function (c) {
-                        return c.name;
-                    }),
+                    categories: this.submissionNames,
                     title: {
                         text: 'Exercises',
                         style: {
@@ -87149,6 +87161,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, {
                 name: "Course Average",
                 data: this.sumAverage
+            }, {
+                name: "Course Maximum",
+                data: this.sumMaximum
             }];
         }
     }),
@@ -87158,19 +87173,21 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.isOpen = !this.isOpen;
         },
         getStudentConfirmedSubmissions: function getStudentConfirmedSubmissions(data) {
-            var confirmedSubmissionsIds = data.map(function (submission) {
-                return submission.charon_id;
+            this.submissionNames = data.map(function (submission) {
+                return submission.name;
             });
-            this.studentConfirmedPoints = this.averageSubmissions.map(function (charon) {
-                if (confirmedSubmissionsIds.includes(charon.id)) {
-                    return Number(data.find(function (s) {
-                        return s.charon_id === charon.id;
-                    }).calculated_result);
-                }
-                return 0;
+            this.finalGrades = data.map(function (submission) {
+                return Number(submission.finalgrade);
+            });
+            this.courseAverageGrades = this.averageSubmissions.map(function (averageSubmissions) {
+                return Number(averageSubmissions.course_average_finalgrade);
+            });
+            this.courseMaximumGrades = this.averageSubmissions.map(function (averageSubmissions) {
+                return Number(averageSubmissions.grademax);
             });
         }
     },
+
     watch: {
         student: {
             immediate: true,

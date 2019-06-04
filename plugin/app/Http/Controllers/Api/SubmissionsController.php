@@ -149,7 +149,7 @@ class SubmissionsController extends Controller
      */
     public function getByUser(Course $course, User $user)
     {
-        return $this->submissionsRepository->findConfirmedSubmissionsForUser($user->id);
+        return $this->submissionsRepository->findConfirmedSubmissionsForUser($course->id, $user->id);
     }
 
     /**

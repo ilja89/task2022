@@ -27,7 +27,10 @@
             return {
                 isOpen: false,
                 results: [],
-                studentConfirmedPoints: [],
+                submissionNames: [],
+                courseAverageGrades: [],
+                courseMaximumGrades: [],
+                finalGrades: [],
             };
         },
 
@@ -44,8 +47,8 @@
                 let calculatedStudentCharonResult = [];
                 let sumResult = 0;
 
-                for (let i = 0; i < this.studentConfirmedPoints.length; i++) {
-                    sumResult += this.studentConfirmedPoints[i];
+                for (let i = 0; i < this.finalGrades.length; i++) {
+                    sumResult += this.finalGrades[i];
                     sumResult = +sumResult.toFixed(2);
                     calculatedStudentCharonResult.push(sumResult);
                 }
@@ -56,8 +59,20 @@
                 let calculatedStudentCharonResult = [];
                 let sumResult = 0;
 
-                for (let i = 0; i < this.averageSubmissions.length; i++) {
-                    sumResult += +this.averageSubmissions[i].average_calc_result;
+                for (let i = 0; i < this.courseAverageGrades.length; i++) {
+                    sumResult += +this.courseAverageGrades[i];
+                    sumResult = +sumResult.toFixed(2);
+                    calculatedStudentCharonResult.push(sumResult);
+                }
+                return calculatedStudentCharonResult;
+            },
+
+            sumMaximum() {
+                let calculatedStudentCharonResult = [];
+                let sumResult = 0;
+
+                for (let i = 0; i < this.courseMaximumGrades.length; i++) {
+                    sumResult += +this.courseMaximumGrades[i];
                     sumResult = +sumResult.toFixed(2);
                     calculatedStudentCharonResult.push(sumResult);
                 }
@@ -80,7 +95,7 @@
                             show: false
                         }*/
                     },
-                    colors: ['#59c2e6', '#4f5f6f'],
+                    colors: ['#59c2e6', '#4f5f6f', '#ff8c00'],
                     dataLabels: {
                         enabled: true
                     },
@@ -91,7 +106,7 @@
                         text: ""
                     },*/
                     xaxis: {
-                        categories: this.charons.map(c => c.name),
+                        categories: this.submissionNames,
                         title: {
                             text: 'Exercises',
                             style: {
@@ -120,11 +135,10 @@
                         name: "Course Average",
                         data: this.sumAverage
                     },
-                    /*{
-                        name: "To pass course",
-                        // Data should contain method that calculates points to pass course cumulatively
-                        data:
-                    },*/
+                    {
+                        name: "Course Maximum",
+                        data: this.sumMaximum
+                    },
                 ];
             },
         },
@@ -134,15 +148,13 @@
                 this.isOpen = !this.isOpen;
             },
             getStudentConfirmedSubmissions(data) {
-                const confirmedSubmissionsIds = data.map(submission => submission.charon_id);
-                this.studentConfirmedPoints = this.averageSubmissions.map(charon => {
-                    if (confirmedSubmissionsIds.includes(charon.id)) {
-                        return Number(data.find(s => s.charon_id === charon.id).calculated_result);
-                    }
-                    return 0;
-                });
+                this.submissionNames = data.map(submission => submission.name);
+                this.finalGrades = data.map(submission => Number(submission.finalgrade));
+                this.courseAverageGrades = this.averageSubmissions.map(averageSubmissions => Number(averageSubmissions.course_average_finalgrade));
+                this.courseMaximumGrades = this.averageSubmissions.map(averageSubmissions => Number(averageSubmissions.grademax));
             },
         },
+        
         watch: {
             student: {
                 immediate: true,
