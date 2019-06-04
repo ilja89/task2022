@@ -154,7 +154,7 @@
                 this.courseMaximumGrades = this.averageSubmissions.map(averageSubmissions => Number(averageSubmissions.grademax));
             },
         },
-        
+
         watch: {
             student: {
                 immediate: true,
