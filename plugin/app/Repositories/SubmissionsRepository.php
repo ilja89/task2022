@@ -147,16 +147,14 @@ class SubmissionsRepository
      *
      * @return array
      */
-    public function findConfirmedSubmissionsForUser($userId)
+    public function findConfirmedSubmissionsForUser($courseId, $userId)
     {
-        $result = DB::table('charon_result as cr')
-            ->select('cr.calculated_result', 'cs.charon_id')
-            ->join('charon_submission as cs', 'cs.id', '=', 'cr.submission_id')
-            ->where('cs.user_id', $userId)
-            ->where('cr.grade_type_code', 1)
-            ->where('cs.confirmed', 1)
-            ->get();
-
+        $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
+	                            FROM mdl_charon ch
+	                            LEFT JOIN mdl_grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	                            LEFT JOIN mdl_grade_grades gr_gr ON gr_gr.itemid = gr_it.id
+	                        WHERE ch.course = ? AND gr_gr.userid = ?', [$courseId, $userId]
+        );
         return $result;
     }
 
@@ -169,17 +167,14 @@ class SubmissionsRepository
      */
     public function findBestAverageCourseSubmissions($courseId)
     {
-        // TODO: Convert to query builder?
-
-        $result = DB::select(DB::raw(
-            "SELECT sub.id, ROUND(AVG(sub.max_calc_result), 2) as average_calc_result FROM
-		        (SELECT su.user_id, ch.id, MAX(re.calculated_result) as max_calc_result FROM mdl_charon ch
-                    INNER JOIN mdl_charon_submission su ON su.charon_id = ch.id
-			        INNER JOIN mdl_charon_result re on re.submission_id = su.id
-			        WHERE re.grade_type_code = 1 AND ch.course = '$courseId'
-		        GROUP BY su.user_id, ch.id) sub
-            GROUP BY sub.id"
-        ));
+        $result = DB::select(
+            'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
+	            FROM mdl_charon ch
+	            LEFT JOIN mdl_grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	            LEFT JOIN mdl_grade_grades gr_gr ON gr_gr.itemid = gr_it.id
+	            WHERE ch.course = ?
+	        GROUP BY ch.id, ch.name, gr_it.grademax', [$courseId]
+        );
 
         return $result;
     }
