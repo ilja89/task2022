@@ -209,5 +209,9 @@ function xmldb_charon_upgrade($oldversion = 0)
       $DB->execute($sql);
     }
 
+    if($oldversion < 2019052800) {
+        $sql = "alter table mdl_charon add column grouping_id int null";
+        $DB->execute($sql);
+    }
     return true;
 }
