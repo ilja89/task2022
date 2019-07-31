@@ -28,6 +28,7 @@
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
                 <FIELD NAME="timemodified" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="grouping_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="FK_charon_course" TYPE="foreign" FIELDS="course"
@@ -137,6 +138,7 @@
                 <FIELD NAME="stderr" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="git_callback_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="original_submission_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="grader_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_submission" TYPE="primary" FIELDS="id"/>
@@ -185,6 +187,7 @@
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="path" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="contents" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="is_test" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_submission_file" TYPE="primary" FIELDS="id"/>

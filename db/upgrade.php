@@ -205,7 +205,7 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2019041000) {
       // is_test field for file
       // {charon_submission_file} ?
-      $sql = "alter table mdl_charon_submission_file add column is_test tinyint(1) null";
+      $sql = "alter table mdl_charon_submission_file add column is_test int(1) null";
       $DB->execute($sql);
     }
 
