@@ -15,8 +15,8 @@ function xmldb_charon_install() {
     $charon_path = $CFG->dirroot . "/mod/charon/";
     echo "<pre>";
 
-    if (! in_array($CFG->dbtype, ['mysql', 'mysqli'])) {
-        charon_installation_error("This plugin only supports MySQL databases.");
+    if (! in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
+        charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
     if (! function_exists('apache_get_modules') ){
         charon_installation_error("This plugin needs apache to redirect requests.");
