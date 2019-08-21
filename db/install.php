@@ -66,7 +66,7 @@ function xmldb_charon_install() {
     $input->setInteractive(false);
     $cmdret = $app->doRun($input,$output); //unfortunately ->run() call exit() so we use doRun()
     echo "\n\nCleaning up...\n";
-    $filesToRemove = ["composer-installer.php", "composer.phar", "composer.lock", "keys.dev.pub", "keys.tags.pub"];
+    $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
     foreach($filesToRemove as $filetoRemove) {
         if (file_exists($charon_path . $filetoRemove)) {
             if (unlink($charon_path . $filetoRemove)) {
