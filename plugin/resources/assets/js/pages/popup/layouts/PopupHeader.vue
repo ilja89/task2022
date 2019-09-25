@@ -13,6 +13,10 @@
 
             <student-search @student-was-changed="onStudentChanged"/>
 
+            <div v-if="this.student" class="student-groups">
+                <div v-for="group in groupsDirect" v-bind:key="group.name" class="chip">{{group.name}}</div>
+            </div>
+
             <div class="course-title-container"><h1>{{getCourseName()}}</h1></div>
 
             <div class="header-icons">
@@ -36,10 +40,22 @@
 
 <script>
     import { StudentSearch, ExtraOptions } from '../partials';
+    import { mapState, mapGetters } from 'vuex';
 
     export default {
         components: { StudentSearch, ExtraOptions },
-
+        computed: {
+            ...mapState([
+                'student'
+            ]),
+        groupsDirect() {  // <--no getter, just store listener
+            if(this.student !== null) {
+                console.log(this.student.groups);
+                return this.student.groups; 
+            } else {
+                return []
+            }
+    }},
         methods: {
             onRefreshClicked() {
                 VueEvent.$emit('refresh-page');
