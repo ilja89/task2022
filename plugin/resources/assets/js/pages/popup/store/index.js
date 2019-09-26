@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     state: {
         /**
          * @type {
-         *      {id: Number, firstname: String, lastname: String}
+         *      {id: Number, firstname: String, lastname: String, groups: Array<Object>}
          * |null}
          */
         student: null,
