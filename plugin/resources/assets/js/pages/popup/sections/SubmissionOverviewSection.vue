@@ -43,9 +43,10 @@
                             <div class="result-input-container">
                                 <input
                                     class="input has-text-centered"
-                                    :class="{ 'is-danger': resultHasError(result) }"
+                                    :class="{ 'is-danger': resultHasError(result) | result.calculated_result > getGrademapByResult(result).grade_item.grademax }"
                                     type="number"
                                     step="0.01"
+                                    max= getGrademapByResult(result).grade_item.grademax
                                     v-model="result.calculated_result"
                                     @keydown="errors[result.id] = false"
                                 >
@@ -160,7 +161,12 @@
             },
 
             saveSubmission() {
-
+                for (let res in this.submission.results) {
+                    if(this.submission.results[res].calculated_result > parseFloat(this.getGrademapByResult(this.submission.results[res]).grade_item.grademax)) {
+                        window.VueEvent.$emit('show-notification', this.getGrademapByResult(this.submission.results[res]).name + " points are out of range", 'danger', 5000)
+                        return;
+                    }
+                }
                 Submission.update(this.charon.id, this.submission, response => {
                     if (response.status !== 200) {
                         window.VueEvent.$emit('show-notification', response.data.detail, 'danger', 5000)
