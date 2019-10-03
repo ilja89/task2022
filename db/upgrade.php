@@ -213,7 +213,7 @@ function xmldb_charon_upgrade($oldversion = 0)
       try {
         $sql = "alter table mdl_charon add column grouping_id int null";
         $DB->execute($sql);
-      } catch (dml_exception $e) {
+      } catch (dml_write_exception $e) {
         // Ignored intentionally
       }
     }
