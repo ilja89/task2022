@@ -113,7 +113,7 @@ class StudentsController extends Controller
 
     public function getStudentGroups(Course $course, int $userId)
     {
-        return $this->findById($course, $userId)->groups()->where('courseid', $course->id)->get(["name"]);
+        return $this->findById($course, $userId)->groups()->with('members:idnumber,firstname,lastname')->where('courseid', $course->id)->get();
     }
 
     public function findActive(Course $course)

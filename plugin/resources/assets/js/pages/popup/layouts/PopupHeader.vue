@@ -12,30 +12,6 @@
 
     <div class="column header-right">
       <student-search @student-was-changed="onStudentChanged" />
-
-      <div v-if="this.student" class="student-groups">
-        <div v-if="groupsDirect.length > 0">
-            <div v-if="groupsDirect.length > 2">
-          <tippy to="userGroups" arrow>
-            <div>
-              <h3>Groups for {{this.student.firstname}} {{this.student.lastname}}</h3>
-              <p v-for="group in groupsDirect" v-bind:key="group.name">{{group.name}}</p>
-            </div>
-          </tippy>
-
-          <div class="chip-button" name="userGroups">
-            <h3>
-              Groups
-              <span class="badge badge--smaller badge--info">{{groupsDirect.length}}</span>
-            </h3>
-          </div>
-        </div>
-        <div v-else>
-            <div v-for="group in groupsDirect" v-bind:key="group.name" class="chip">{{group.name}}</div>
-        </div>
-      </div>
-      </div>
-
       <div class="course-title-container">
         <h1>{{getCourseName()}}</h1>
       </div>
@@ -92,14 +68,6 @@ export default {
   components: { StudentSearch, ExtraOptions, TippyComponent },
   computed: {
     ...mapState(["student"]),
-    groupsDirect() {
-      // <--no getter, just store listener
-      if (this.student !== null) {
-        return this.student.groups;
-      } else {
-        return [];
-      }
-    }
   },
   methods: {
     onRefreshClicked() {

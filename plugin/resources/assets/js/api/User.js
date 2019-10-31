@@ -21,6 +21,7 @@ class User {
     static getUserGroups(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/groups')
             .then(({data}) => {
+                console.log(data);
                 then(data)
             }).catch(error => {
                 VueEvent.$emit('show-notification', 'Error retrieving user groups.', 'danger')
