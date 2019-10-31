@@ -5,42 +5,6 @@
   >
     <template v-if="hasRight">
       <div>{{ currentTitle }}</div>
-      <div v-if="this.student" class="student-groups">
-        <div v-if="groupsDirect.length > 0">
-          <div v-if="groupsDirect.length > 2">
-            <tippy to="userGroups" arrow>
-              <div>
-                <h3>Groups for {{this.student.firstname}} {{this.student.lastname}}</h3>
-                <p v-for="group in groupsDirect" v-bind:key="group.name">{{group.name}}</p>
-              </div>
-            </tippy>
-
-            <div class="chip-button" name="userGroups">
-              <h3>
-                Groups
-                <span class="badge badge--smaller badge--info">{{groupsDirect.length}}</span>
-              </h3>
-            </div>
-          </div>
-          <div v-else>
-            <tippy to="groupMembers" arrow>
-              <div>
-                <h3>Groups for {{this.student.firstname}} {{this.student.lastname}}</h3>
-                <p
-                  v-for="member in groupsDirect[0].members"
-                  v-bind:key="member.idnumber"
-                >{{member}}}</p>
-              </div>
-            </tippy>
-            <div
-              v-for="group in groupsDirect"
-              v-bind:key="group.name"
-              name="groupMembers"
-              class="chip"
-            >{{group.name}}</div>
-          </div>
-        </div>
-      </div>
       <div>
         <slot></slot>
       </div>
@@ -48,9 +12,9 @@
     <template v-else>
       <div>
         {{ currentTitle }}
-        <div v-if="this.student" class="column student-groups">
-          <div v-if="groupsDirect.length > 0">
-            <div v-for="group in groupsDirect" v-bind:key="group.name">
+        <div v-if="this.student" style="vertical-align: text-bottom;" class="is-inline-block student-groups">
+          <div class="is-inline-block" v-if="groupsDirect.length > 0">
+            <div class="is-inline-block" v-for="group in groupsDirect" v-bind:key="group.name">
               <div :name="createBadgeName(group.id)" class="chip">{{group.name}}</div>
               <tippy :to="createBadgeName(group.id)" arrow>
                 <div>
