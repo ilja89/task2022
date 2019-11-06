@@ -68,7 +68,7 @@ class StudentsController extends Controller
     public function findById(Course $course, $userId)
     {
         return User::where('id', $userId)
-            ->first(['id', 'firstname', 'lastname']);
+            ->first(['id', 'firstname', 'lastname', 'idnumber']);
     }
 
     /**
