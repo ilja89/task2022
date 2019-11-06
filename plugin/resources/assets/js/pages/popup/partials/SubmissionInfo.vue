@@ -9,14 +9,15 @@
             v-if="submission.git_hash"
             title="Commit hash"
         >
-            {{ submission.git_hash }}
+            <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
+            <a v-else href="#">{{ submission.git_hash }}</a>
         </submission-info-bit>
 
         <submission-info-bit
             v-if="submission.git_commit_message"
             title="Commit message"
         >
-            {{ submission.git_commit_message }}
+             {{ submission.git_commit_message }}
         </submission-info-bit>
 
         <submission-info-bit title="Project folder">
@@ -64,7 +65,9 @@
         computed: {
             ...mapState([
                 'charon',
+                'student',
                 'submission',
+                'course',
             ]),
 
             charonCalculationFormula() {
@@ -76,7 +79,20 @@
             hasDeadlines() {
                 return this.charon && this.charon.deadlines.length !== 0
             },
+            getCommitLink() {
+                var gitlabUrl = "https://gitlab.cs.ttu.ee/";
+                var gitUser;
+                var courseShortname;
 
+                if(this.student) {
+                    gitUser = this.student.idnumber.split("@")[0];
+                } else {
+                    gitUser = "" // this should never happen
+                }
+                courseShortname = window.course_shortname;
+
+                return gitlabUrl + gitUser + "/" + courseShortname + "/commit/" + this.submission.git_hash
+            },
             graderInfoTitle() {
                 if (this.submission.confirmed) {
                     return 'Grader'
