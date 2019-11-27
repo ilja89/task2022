@@ -7,7 +7,7 @@
 
         <transition-group name="list">
             <submission-partial
-                v-for="submission in submissions"
+                v-for="submission in orderedSubmissions"
                 :key="submission.id"
                 :submission="submission"
                 @submission-was-selected="onSubmissionSelected(submission)"
@@ -26,6 +26,7 @@
 
 <script>
     import { mapState, mapGetters } from 'vuex'
+    import _ from 'lodash';
     import SubmissionPartial from './Submission'
     import { Submission } from '../../../api'
 
@@ -49,6 +50,9 @@
                 'charon',
                 'student',
             ]),
+            orderedSubmissions: function () {
+                return _.orderBy(this.submissions, 'confirmed', 'desc')
+            },
         },
 
         watch: {
