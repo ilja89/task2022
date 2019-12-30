@@ -64,6 +64,30 @@ class HttpCommunicationService
                 . $testerUrl . '/' . $uri
             );
         }
+        if (array_key_exists('repo', $data) && strpos($data['repo'], 'iti0102-2019') !== false) {
+            Log::info("Sending to new tester");
+            $serverUrl = '10.4.1.11:8098/test';
+            $ndata = [];
+            $ndata['gitStudentRepo'] = str_replace('.git', '', $data['extra']['project']['git_http_url']);
+            $ndata['returnUrl'] = $data['callback_url'];
+            $ndata['systemExtra'] = ['noMail'];
+            $ndata['testingPlatform'] = 'python';
+            $ndata['gitTestSource'] = 'https://gitlab.cs.ttu.ee/iti0102-2019/ex';
+
+            $client = new Client();
+            try {
+                $client->request(
+                    $method, $serverUrl,
+                    ['json' => $ndata]
+                );
+            } catch (RequestException $e) {
+                Log::error(
+                    'Could not send info to tester to url '
+                    . $serverUrl
+                );
+            }
+
+        }
     }
 
     /**
