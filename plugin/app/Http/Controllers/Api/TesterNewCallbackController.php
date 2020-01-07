@@ -6,19 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Http\Requests\TesterCallbackRequest;
+use TTU\Charon\Http\Requests\TesterNewCallbackRequest;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\SubmissionService;
 
 /**
- * Class TesterCallbackController.
- * Handles accepting submissions and results from the tester.
+ * Class TesterNewCallbackController.
+ * Handles accepting submissions and results from the tester (Arete v2).
  *
  * @package TTU\Charon\Http\Controllers
  */
-class TesterCallbackController extends Controller
+class TesterNewCallbackController extends Controller
 {
     /** @var SubmissionService */
     private $submissionService;
@@ -52,14 +52,16 @@ class TesterCallbackController extends Controller
     /**
      * Accepts submissions from the tester.
      *
-     * @param TesterCallbackRequest $request
+     * @param TesterNewCallbackRequest $request
      *
      * @return Submission
      */
-    public function index(TesterCallbackRequest $request)
+    public function index(TesterNewCallbackRequest $request)
     {
+
+        Log::info("new callback", [$request]);
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $request->input('secret_token')
+            $request->input('token')
         );
 
         $submission = $this->submissionService->saveSubmission($request, $gitCallback);

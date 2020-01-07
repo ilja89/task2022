@@ -4,6 +4,9 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('tester_callback', 'TesterCallbackController@index')
          ->name('tester_callback');
+    // Arete 2.0 callback
+    Route::post('tester_new_callback', 'TesterNewCallbackController@index')
+        ->name('tester_new_callback');
     Route::get('git_callback', 'GitCallbackController@index')
          ->name('git_callback');
     Route::post('git_callback', 'GitCallbackController@indexPost')
