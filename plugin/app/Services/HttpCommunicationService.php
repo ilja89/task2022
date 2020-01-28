@@ -68,9 +68,15 @@ class HttpCommunicationService
             Log::info("Sending to new tester");
             $serverUrl = '10.4.1.11:8098/test';
             $ndata = [];
-            $ndata['gitStudentRepo'] = str_replace('.git', '', $data['extra']['project']['git_http_url']);
-            $ndata['returnUrl'] = $data['callback_url'];
-            $ndata['systemExtra'] = ['noMail'];
+            $ndata['gitStudentRepo'] = $data['repo'];
+            $data['uniid'] = $data['user'];
+            //$ndata['gitStudentRepo'] = str_replace('.git', '', $data['extra']['project']['git_http_url']);
+            //$ndata['uniid'] = $data['extra']['user_username'];
+            $ndata['token'] = $data['secret_token'];
+            $ndata['returnExtra'] = ['token' => $data['secret_token']];
+            $ndata['returnUrl'] = 'https://ained.ttu.ee/mod/charon/api/tester_new_callback';
+            //$ndata['systemExtra'] = ['noMail'];
+            $ndata['dockerExtra'] = ["stylecheck"];
             $ndata['testingPlatform'] = 'python';
             $ndata['gitTestSource'] = 'https://gitlab.cs.ttu.ee/iti0102-2019/ex';
 

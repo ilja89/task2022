@@ -61,7 +61,7 @@ class TesterNewCallbackController extends Controller
 
         Log::info("new callback", [$request]);
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $request->input('token')
+            $request->input('returnExtra')['token']
         );
 
         $submission = $this->submissionService->saveSubmission($request, $gitCallback);
