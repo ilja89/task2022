@@ -127,13 +127,30 @@ class RequestHandlingService
         ['project_folder', $request->input("slug")],
         ['course', $course->id]])->first();
 
+        $output = "";
+        $stackOutput = "";
+        if ($request->has("testSuites")) {
+            foreach ($request['testSuites'] as $suite) {
+                foreach ($suite['unitTests'] as $test) {
+                    if ($test['stackTrace']) {
+                        $stackOutput .= "\n\n" . $test['stackTrace'];
+                    }
+                }
+            }
+        }
+        if ($stackOutput) {
+            $output = $stackOutput;
+        }
+        // add original output
+        $output .= "\n" . $request['consoleOutputs'][0]['content'];
+
         $submission = new Submission([
             'charon_id'          => $charon->id,
             'user_id'            => $studentId,
             'git_hash'           => $request->input('hash'),
             'git_timestamp'      => $gitTimestamp,
             'mail'               => $request->input('output'),
-            'stdout'             => $request['consoleOutputs'][0]['content'],
+            'stdout'             => $output,
             'stderr'             => 'stderr',
             'git_commit_message' => $request->input('message'),
             'created_at'         => $now,
