@@ -89,9 +89,9 @@ class SubmissionService
             ]);
             $result->save();
         }
-        $this->saveNewResults($submission, $submissionRequest['testSuites']);
+        $this->saveResults($submission, $submissionRequest['testSuites']);
 
-        $this->saveNewFiles($submission, $submissionRequest['files']);
+        $this->saveFiles($submission, $submissionRequest['files']);
 
 
         return $submission;
@@ -105,7 +105,7 @@ class SubmissionService
      *
      * @return void
      */
-    private function saveNewResults($submission, $resultsRequest)
+    private function saveResults($submission, $resultsRequest)
     {
         $gradeCode = 1;
         foreach ($resultsRequest as $resultRequest) {
@@ -124,7 +124,7 @@ class SubmissionService
      *
      * @return void
      */
-    private function saveNewFiles($submission, $filesRequest)
+    private function saveFiles($submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
             $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
