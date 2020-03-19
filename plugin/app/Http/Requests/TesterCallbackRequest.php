@@ -25,13 +25,12 @@ class TesterCallbackRequest extends FormRequest
      */
     public function rules()
     {
-        // FIXME do we need these rules?
         return [
-            //'slug' => 'required',
-            //'uniid' => 'required',
-            //'timestamp' => 'required',
-            //'hash' => 'required',
-            //'commitMessage' => 'required',
+            'slug' => 'required',
+            'uniid' => 'required',
+            'timestamp' => 'required',
+            'hash' => 'required',
+            'commitMessage' => 'required',
         ];
     }
 
