@@ -47,52 +47,25 @@ class HttpCommunicationService
             'tester_url',
             'http://neti.ee'
         );
+
+        $serverUrl = $testerUrl . '/' . $uri;
+
         Log::info('Sending data to tester.', [
-            'uri' => $testerUrl . '/' . $uri,
+            'uri' => $serverUrl,
             'data' => $data,
         ]);
 
         $client = new Client();
         try {
             $client->request(
-                $method, $testerUrl . '/' . $uri,
+                $method, $serverUrl,
                 ['json' => $data]
             );
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to tester to url '
-                . $testerUrl . '/' . $uri
+                . $serverUrl
             );
-        }
-        if (array_key_exists('repo', $data) && strpos($data['repo'], 'iti0102-2019') !== false) {
-            Log::info("Sending to new tester");
-            $serverUrl = '10.4.1.11:8098/test';
-            $ndata = [];
-            $ndata['gitStudentRepo'] = $data['repo'];
-            $data['uniid'] = $data['user'];
-            //$ndata['gitStudentRepo'] = str_replace('.git', '', $data['extra']['project']['git_http_url']);
-            //$ndata['uniid'] = $data['extra']['user_username'];
-            $ndata['token'] = $data['secret_token'];
-            $ndata['returnExtra'] = ['token' => $data['secret_token']];
-            $ndata['returnUrl'] = 'https://ained.ttu.ee/mod/charon/api/tester_new_callback';
-            //$ndata['systemExtra'] = ['noMail'];
-            $ndata['dockerExtra'] = ["stylecheck"];
-            $ndata['testingPlatform'] = 'python';
-            $ndata['gitTestSource'] = 'https://gitlab.cs.ttu.ee/iti0102-2019/ex';
-
-            $client = new Client();
-            try {
-                $client->request(
-                    $method, $serverUrl,
-                    ['json' => $ndata]
-                );
-            } catch (RequestException $e) {
-                Log::error(
-                    'Could not send info to tester to url '
-                    . $serverUrl
-                );
-            }
-
         }
     }
 

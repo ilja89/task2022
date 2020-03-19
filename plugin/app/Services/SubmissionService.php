@@ -64,45 +64,35 @@ class SubmissionService
      */
     public function saveSubmission($submissionRequest, $gitCallback)
     {
-        $submission = null;
-        $isNewArete = $submissionRequest->input("version") == "arete_2.0";
-        if ($isNewArete) {
-            $submission = $this->requestHandlingService->getSubmissionFromNewRequest($submissionRequest, $gitCallback);
-        } else {
-            $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest);
-        }
+        $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
+
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
 
-        if ($isNewArete) {
-
-            // style
-            $styleError = false;
-            foreach ($submissionRequest['errors'] as $error) {
-                if (isset($error['kind']) && $error['kind'] == 'style error') {
-                    $styleError = true;
-                    break;
-                }
+        // style
+        $styleError = false;
+        foreach ($submissionRequest['errors'] as $error) {
+            if (isset($error['kind']) && $error['kind'] == 'style error') {
+                $styleError = true;
+                break;
             }
-            if (true) {
-                $result = new Result([
-                    'submission_id'     => $submission->id,
-                    'grade_type_code'   => 101,
-                    'percentage'        => $styleError ? 0 : 1,
-                    'calculated_result' => 0,
-                    'stdout'            => null,
-                    'stderr'            => null,
-                ]);
-                $result->save();
-            }
-            $this->saveNewResults($submission, $submissionRequest['testSuites']);
-
-            $this->saveNewFiles($submission, $submissionRequest['files']);
-
-        } else {
-            $this->saveResults($submission, $submissionRequest['results']);
-            $this->saveFiles($submission, $submissionRequest['files']);
         }
+
+        if (strpos($submission->charon->tester_extra, "stylecheck")) {
+                $result = new Result([
+                'submission_id'     => $submission->id,
+                'grade_type_code'   => 101,
+                'percentage'        => $styleError ? 0 : 1,
+                'calculated_result' => 0,
+                'stdout'            => null,
+                'stderr'            => null,
+            ]);
+            $result->save();
+        }
+        $this->saveNewResults($submission, $submissionRequest['testSuites']);
+
+        $this->saveNewFiles($submission, $submissionRequest['files']);
+
 
         return $submission;
     }
@@ -119,7 +109,7 @@ class SubmissionService
     {
         $gradeCode = 1;
         foreach ($resultsRequest as $resultRequest) {
-            $result = $this->requestHandlingService->getResultFromNewRequest($submission->id, $resultRequest, $gradeCode++);
+            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest, $gradeCode++);
             $result->save();
         }
 
@@ -137,41 +127,7 @@ class SubmissionService
     private function saveNewFiles($submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandlingService->getFileFromNewRequest($submission->id, $fileRequest, false);
-            $submissionFile->save();
-        }
-    }
-
-    /**
-     * Save the results from given results request.
-     *
-     * @param  Submission $submission
-     * @param  array $resultsRequest
-     *
-     * @return void
-     */
-    private function saveResults($submission, $resultsRequest)
-    {
-        foreach ($resultsRequest as $resultRequest) {
-            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest);
-            $result->save();
-        }
-
-        $this->includeUnsentGrades($submission);
-    }
-
-    /**
-     * Save the files from given results request.
-     *
-     * @param  Submission $submission
-     * @param  array $filesRequest
-     *
-     * @return void
-     */
-    private function saveFiles($submission, $filesRequest)
-    {
-        foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest);
+            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
             $submissionFile->save();
         }
     }

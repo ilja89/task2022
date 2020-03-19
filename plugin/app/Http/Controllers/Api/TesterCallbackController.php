@@ -14,7 +14,7 @@ use TTU\Charon\Services\SubmissionService;
 
 /**
  * Class TesterCallbackController.
- * Handles accepting submissions and results from the tester.
+ * Handles accepting submissions and results from the tester (Arete v2).
  *
  * @package TTU\Charon\Http\Controllers
  */
@@ -58,8 +58,10 @@ class TesterCallbackController extends Controller
      */
     public function index(TesterCallbackRequest $request)
     {
+
+        Log::info("Arete 2.0 callback", [$request]);
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $request->input('secret_token')
+            $request->input('returnExtra')['token']
         );
 
         $submission = $this->submissionService->saveSubmission($request, $gitCallback);
