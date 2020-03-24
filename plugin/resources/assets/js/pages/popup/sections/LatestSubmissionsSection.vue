@@ -102,11 +102,6 @@
             },
 
             submissionSelected(submission) {
-                this.fetchStudent({
-                    studentId: submission.user.id,
-                    courseId: this.courseId,
-                })
-
                 this.$router.push(this.submissionLink(submission.id))
             },
 
