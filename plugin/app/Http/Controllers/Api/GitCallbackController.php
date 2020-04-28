@@ -11,6 +11,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\Group;
 use Zeizig\Moodle\Models\User;
@@ -26,18 +27,24 @@ class GitCallbackController extends Controller {
   /** @var GitCallbacksRepository */
   private $gitCallbacksRepository;
 
+  /** @var CourseSettingsRepository */
+  private $courseSettingsRepository;
+
   /**
    * GitCallbackController constructor.
    *
    * @param  Request $request
    * @param GitCallbacksRepository $gitCallbacksRepository
+   * @param CourseSettingsRepository $courseSettingsRepository
    */
   public function __construct(
     Request $request,
-      GitCallbacksRepository $gitCallbacksRepository
+      GitCallbacksRepository $gitCallbacksRepository,
+      CourseSettingsRepository $courseSettingsRepository
     ) {
         parent::__construct($request);
         $this->gitCallbacksRepository     = $gitCallbacksRepository;
+        $this->courseSettingsRepository   = $courseSettingsRepository;
     }
 
   /**
@@ -81,6 +88,10 @@ class GitCallbackController extends Controller {
     $repo = $request->input('repository')['git_ssh_url'];
     $initial_user = $request->input('user_username');
     $usernames = array();
+
+    $testingPlatform = '';
+    $gitTestSource = '';
+    $dockerExtra = array();
 
     Log::info('Initial user has username: "' . $initial_user . '"');
     // Fetch Course name and Project folder from Git repo address
@@ -132,6 +143,10 @@ class GitCallbackController extends Controller {
 
         Log::info("Found charon with id: " . $charon->id);
 
+        $testingPlatform = $charon->testerType->name;
+        $dockerExtra = explode(',', $charon->tester_extra);
+        $gitTestSource = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->unittests_git;
+        
         // TODO: Trim model requests to select only required fields
         if($charon->grouping_id !== null) {
           Log::info('Charon has grouping id ' . $charon->grouping_id);
@@ -169,7 +184,7 @@ class GitCallbackController extends Controller {
         }
       }
     }
-    
+
     foreach($usernames as $username) {
       $username = str_replace('@ttu.ee', '', $username);
       Log::info('Submitting work as user "' .$username. '"');
@@ -179,7 +194,8 @@ class GitCallbackController extends Controller {
         $username
       );
 
-      $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all()];
+      $params = ['repo' => $repo, 'user' => $username, 'extra' => $request->all(), 'gitStudentRepo' => $repo,
+          'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestSource' => $gitTestSource];
       // tester reads email from ['extra']['user_email']
       $params['extra']['user_email'] = $username . "@ttu.ee";
 

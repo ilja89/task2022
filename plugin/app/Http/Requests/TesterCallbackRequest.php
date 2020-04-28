@@ -26,11 +26,11 @@ class TesterCallbackRequest extends FormRequest
     public function rules()
     {
         return [
-            'charon_id' => 'required|integer',
-            'uni_id' => 'required',
-            'git_timestamp' => 'required',
-            'git_hash' => 'required',
-            'git_commit_message' => 'required',
+            'slug' => 'required',
+            'uniid' => 'required',
+            'timestamp' => 'required',
+            'hash' => 'required',
+            'commitMessage' => 'required',
         ];
     }
 
@@ -40,7 +40,7 @@ class TesterCallbackRequest extends FormRequest
     public function withValidator($validator)
     {
         if ($validator->fails()) {
-            Log::notice('Tester callback with incorrect parameters.', [
+            Log::notice('Tester NEW callback with incorrect parameters.', [
                 'url' => $this->fullUrl(),
                 'body' => $this->all()
             ]);

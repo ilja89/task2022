@@ -47,21 +47,24 @@ class HttpCommunicationService
             'tester_url',
             'http://neti.ee'
         );
+
+        $serverUrl = $testerUrl . '/' . $uri;
+
         Log::info('Sending data to tester.', [
-            'uri' => $testerUrl . '/' . $uri,
+            'uri' => $serverUrl,
             'data' => $data,
         ]);
 
         $client = new Client();
         try {
             $client->request(
-                $method, $testerUrl . '/' . $uri,
+                $method, $serverUrl,
                 ['json' => $data]
             );
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to tester to url '
-                . $testerUrl . '/' . $uri
+                . $serverUrl
             );
         }
     }

@@ -198,6 +198,8 @@ export default {
     },
 
     setMaxPoints(result) {
+      // TODO: compare to the current grade?
+      this.points_changed = true;
       result.calculated_result = parseFloat(
         this.getGrademapByResult(result).grade_item.grademax
       );

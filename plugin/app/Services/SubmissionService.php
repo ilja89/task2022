@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
@@ -57,24 +58,47 @@ class SubmissionService
      * Also saves the Results and Submission Files.
      *
      * @param  Request $submissionRequest
-     * @param  int  $gitCallbackId
+     * @param  GitCallback  $gitCallback
      *
      * @return Submission
      */
-    public function saveSubmission($submissionRequest, $gitCallbackId)
+    public function saveSubmission($submissionRequest, $gitCallback)
     {
-        $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest);
-        $submission->git_callback_id = $gitCallbackId;
+        $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
+
+        $submission->git_callback_id = $gitCallback->id;
         $submission->save();
 
-        $this->saveResults($submission, $submissionRequest['results']);
+        // style
+        $styleError = false;
+        foreach ($submissionRequest['errors'] as $error) {
+            if (isset($error['kind']) && $error['kind'] == 'style error') {
+                $styleError = true;
+                break;
+            }
+        }
+
+        if (strpos($submission->charon->tester_extra, "stylecheck")) {
+                $result = new Result([
+                'submission_id'     => $submission->id,
+                'grade_type_code'   => 101,
+                'percentage'        => $styleError ? 0 : 1,
+                'calculated_result' => 0,
+                'stdout'            => null,
+                'stderr'            => null,
+            ]);
+            $result->save();
+        }
+        $this->saveResults($submission, $submissionRequest['testSuites']);
+
         $this->saveFiles($submission, $submissionRequest['files']);
+
 
         return $submission;
     }
 
     /**
-     * Save the results from given results request.
+     * Save the results from given results request (arete v2).
      *
      * @param  Submission $submission
      * @param  array $resultsRequest
@@ -83,8 +107,9 @@ class SubmissionService
      */
     private function saveResults($submission, $resultsRequest)
     {
+        $gradeCode = 1;
         foreach ($resultsRequest as $resultRequest) {
-            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest);
+            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest, $gradeCode++);
             $result->save();
         }
 
@@ -92,7 +117,7 @@ class SubmissionService
     }
 
     /**
-     * Save the files from given results request.
+     * Save the files from given results request (arete v2).
      *
      * @param  Submission $submission
      * @param  array $filesRequest
@@ -102,7 +127,7 @@ class SubmissionService
     private function saveFiles($submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest);
+            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
             $submissionFile->save();
         }
     }

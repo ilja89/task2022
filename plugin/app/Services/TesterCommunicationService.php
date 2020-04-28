@@ -68,9 +68,11 @@ class TesterCommunicationService
      */
     public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $extraParameters)
     {
+        $secret_token = $gitCallback->secret_token;
         $params = [
-            'callback_url' => $testerCallbackUrl,
-            'secret_token' => $gitCallback->secret_token,
+            'returnUrl' => $testerCallbackUrl,
+            'token' => $secret_token,
+            'return_extra' => ['token' => $secret_token]
         ];
 
         $params = array_merge($extraParameters, $params);
