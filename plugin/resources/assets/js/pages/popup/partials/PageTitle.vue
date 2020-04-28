@@ -13,7 +13,10 @@
       <div>
         {{ currentTitle }}
         <div v-if="this.student" style="vertical-align: text-bottom;" class="is-inline-block student-groups">
-          <div class="is-inline-block" v-if="groupsDirect.length > 0">
+          <div class="is-inline-block" v-if="totalPointsLabel">
+            <div class="chip badge badge--warning">{{totalPointsLabel}}</div>
+          </div>
+          <template v-if="groupsDirect.length > 0">
             <div class="is-inline-block" v-for="group in groupsDirect" v-bind:key="group.name">
               <div :name="createBadgeName(group.id)" class="chip">{{group.name}}</div>
               <tippy :to="createBadgeName(group.id)" arrow>
@@ -26,7 +29,7 @@
                 </div>
               </tippy>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </template>
@@ -63,6 +66,13 @@ export default {
         return this.student.groups;
       } else {
         return [];
+      }
+    },
+    totalPointsLabel() {
+      if (this.student !== null) {
+        return `Total points: ${this.student.totalPoints}`
+      } else {
+        return null;
       }
     }
   },

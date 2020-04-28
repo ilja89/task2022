@@ -8,14 +8,11 @@ import { User } from '../../../api'
  */
 export const fetchStudent = ({ commit }, { studentId, courseId }) => {
     return new Promise((resolve, reject) => {
-        User.findById(courseId, studentId, user => {
-             User.getUserGroups(courseId, studentId, groups => {
-                user.groups = groups;
-                commit('UPDATE_STUDENT', { student: user })
-
-                resolve(user)
-            });
+        User.getStudentInfo(courseId, studentId, user => {
+            commit('UPDATE_STUDENT', { student: user });
+            resolve(user);
         })
+
     })
 }
 

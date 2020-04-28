@@ -1,6 +1,6 @@
 class User {
 
-    static findById(courseId, userId, then) {
+    static getStudentInfo(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId)
             .then(({data}) => {
                 then(data)
@@ -18,14 +18,6 @@ class User {
             })
     }
 
-    static getUserGroups(courseId, userId, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/groups')
-            .then(({data}) => {
-                then(data)
-            }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving user groups.', 'danger')
-            })
-    }
 
     static findActiveUsers(courseId, period, then) {
         window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/users/active', { params: { period } })

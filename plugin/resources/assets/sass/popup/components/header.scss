@@ -36,6 +36,7 @@
   //margin-bottom: 5px;
   margin-right: 10px;
   //margin: auto;
+  vertical-align: text-bottom;
   }
 
   .chip-button {
@@ -72,14 +73,13 @@
       display: inline-block;
       background-color: $badge-default-bg;
       color: $badge-text-color;
-      
+      vertical-align: text-bottom;
       border-radius: 3rem; // As longe as this is bigger than the fontsize
       text-align: center;
   
       font-size: 1.6rem;
       font-weight: 400;
       padding: .05rem .8rem .1rem;
-      line-height: inherit;
   }
   
   // Style

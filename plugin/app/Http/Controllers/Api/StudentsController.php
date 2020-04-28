@@ -11,6 +11,8 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\StudentsRepository;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\GradeGrade;
+use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -115,6 +117,22 @@ class StudentsController extends Controller
     {
         return $this->findById($course, $userId)->groups()->with('members:idnumber,firstname,lastname')->where('courseid', $course->id)->get();
     }
+
+
+    public function getStudentInfo(Course $course, int $userId)
+    {
+        $student = $this->findById($course, $userId);
+        $student['groups'] = $this->getStudentGroups($course, $userId);
+        $student['totalPoints'] = $this->getStudentTotalGrade($course, $userId);
+        return $student;
+    }
+
+    public function getStudentTotalGrade(Course $course, int $userId) {
+        $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course')) -> first();
+        $grade = GradeGrade::where(array('itemid'=>$gradeItem->id, 'userid'=>$userId)) -> first();
+        return floatval($grade->finalgrade);
+    }
+
 
     public function findActive(Course $course)
     {
