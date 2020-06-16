@@ -42,9 +42,10 @@ class TesterCallbackController extends Controller
         SubmissionService $submissionService,
         CharonGradingService $charonGradingService,
         GitCallbackService $gitCallbackService
-    ) {
+    )
+    {
         parent::__construct($request);
-        $this->submissionService    = $submissionService;
+        $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->gitCallbackService = $gitCallbackService;
     }
@@ -58,8 +59,7 @@ class TesterCallbackController extends Controller
      */
     public function index(TesterCallbackRequest $request)
     {
-
-        Log::info("Arete 2.0 callback", [$request]);
+        Log::info("Arete 2.0 callback", [$request->input('returnExtra')]);
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
             $request->input('returnExtra')['token']
         );

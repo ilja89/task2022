@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Providers;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 use TTU\Charon\Foundation\Application;
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            Log::useFiles('php://stderr');
         }
     }
 }

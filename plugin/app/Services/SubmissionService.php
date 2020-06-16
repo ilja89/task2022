@@ -65,7 +65,6 @@ class SubmissionService
     public function saveSubmission($submissionRequest, $gitCallback)
     {
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
-
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
 

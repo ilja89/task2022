@@ -33,8 +33,8 @@ class RequestHandlingService
      * The request should have the following keys: uniid, slug.
      * Mail, stdout, stderr are optional.
      *
-     * @param  Request $request
-     * @param  GitCallback $gitCallback
+     * @param Request $request
+     * @param GitCallback $gitCallback
      *
      * @return Submission
      */
@@ -48,25 +48,24 @@ class RequestHandlingService
         $gitTimestamp->setTimezone('UTC');
 
         $uniId = $request->input('uniid');
-        $student = $this->userService->findUserByIdNumber($uniId);
+        $student = $this->userService->findUserByEmail($uniId . "@ttu.ee");
         $studentId = $student->id;
-
         $courseIdCode = "";
         $repo = $gitCallback->repo;
         if (strpos($repo, "exams")) {
-            if (preg_match('/gitlab.cs.ttu.ee:([a-zA-Z0-9_.-]+)\/exams/', $repo, $matches)) {
+            if (preg_match('/([a-zA-Z0-9_.-]+)\/exams/', $repo, $matches)) {
                 $courseIdCode = $matches[1];
             }
         } else {
-            if (preg_match('/gitlab.cs.ttu.ee:([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\.git/', $repo, $matches)) {
+            if (preg_match('/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\.git/', $repo, $matches)) {
                 $courseIdCode = $matches[2];
             }
         }
         Log::info("Course id code:" . $courseIdCode);
         $course = Course::where('shortname', $courseIdCode)->first();
         $charon = Charon::where([
-        ['project_folder', $request->input("slug")],
-        ['course', $course->id]])->first();
+            ['project_folder', $request->input("slug")],
+            ['course', $course->id]])->first();
 
         $output = "";
         $stackOutput = "";
@@ -86,17 +85,17 @@ class RequestHandlingService
         $output .= "\n" . $request['consoleOutputs'][0]['content'];
 
         $submission = new Submission([
-            'charon_id'          => $charon->id,
-            'user_id'            => $studentId,
-            'git_hash'           => $request->input('hash'),
-            'git_timestamp'      => $gitTimestamp,
-            'mail'               => $request->input('output'),
-            'stdout'             => $output,
-            'stderr'             => 'stderr',
+            'charon_id' => $charon->id,
+            'user_id' => $studentId,
+            'git_hash' => $request->input('hash'),
+            'git_timestamp' => $gitTimestamp,
+            'mail' => $request->input('output'),
+            'stdout' => $output,
+            'stderr' => 'stderr',
             'git_commit_message' => $request->input('message'),
-            'created_at'         => $now,
-            'updated_at'         => $now,
-            'original_submission_id' => $request->has('retest') && !! $request->input('retest')
+            'created_at' => $now,
+            'updated_at' => $now,
+            'original_submission_id' => $request->has('retest') && !!$request->input('retest')
                 ? $request->input('original_submission_id')
                 : null,
         ]);
@@ -124,12 +123,12 @@ class RequestHandlingService
     public function getResultFromRequest($submissionId, $request, $gradeCode)
     {
         return new Result([
-            'submission_id'     => $submissionId,
-            'grade_type_code'   => $gradeCode,
-            'percentage'        => floatval($request['grade']) / 100,
+            'submission_id' => $submissionId,
+            'grade_type_code' => $gradeCode,
+            'percentage' => floatval($request['grade']) / 100,
             'calculated_result' => 0,
-            'stdout'            => null,
-            'stderr'            => null,
+            'stdout' => null,
+            'stderr' => null,
         ]);
     }
 
@@ -146,9 +145,9 @@ class RequestHandlingService
     {
         return new SubmissionFile([
             'submission_id' => $submissionId,
-            'path'     => $request['path'],
+            'path' => $request['path'],
             'contents' => $request['contents'],
-            'is_test'  => $isTest,
+            'is_test' => $isTest,
         ]);
     }
 
