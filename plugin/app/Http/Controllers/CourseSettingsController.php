@@ -55,7 +55,7 @@ class CourseSettingsController extends Controller
      *
      * @return CourseSettings
      */
-    private function getCourseSettings(Course $course)
+    public function getCourseSettings(Course $course)
     {
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 

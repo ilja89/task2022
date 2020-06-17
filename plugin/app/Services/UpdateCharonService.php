@@ -101,6 +101,7 @@ class UpdateCharonService
     {
         $oldDeadlines = $charon->deadlines;
         $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
+        $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
 
         // Create new deadlines
         if ($request->deadlines !== null) {

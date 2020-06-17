@@ -205,9 +205,17 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2019041000) {
       // is_test field for file
       // {charon_submission_file} ?
-      $sql = "alter table mdl_charon_submission_file add column is_test tinyint(1) null";
+      $sql = "alter table mdl_charon_submission_file add column is_test int(1) null";
       $DB->execute($sql);
     }
 
+    if($oldversion < 2019052801) {
+      try {
+        $sql = "alter table mdl_charon add column grouping_id int null";
+        $DB->execute($sql);
+      } catch (dml_write_exception $e) {
+        // Ignored intentionally
+      }
+    }
     return true;
 }

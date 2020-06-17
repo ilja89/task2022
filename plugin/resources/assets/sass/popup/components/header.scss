@@ -19,6 +19,103 @@
   margin-bottom: 0;
 }
 
+.student-groups {
+  margin: auto;
+  margin-right: 20px;
+}
+.chip {
+  display: inline-block;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.6);
+  line-height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background-color: #91a0ae;
+  //margin-bottom: 5px;
+  margin-right: 10px;
+  //margin: auto;
+  vertical-align: text-bottom;
+  }
+
+  .chip-button {
+    border-color: #4f5f6f;
+    align-items: center;
+    border-radius: 1rem;
+    display: inline-flex;
+    display: -ms-inline-flexbox;
+    -ms-flex-align: center;
+    font-size: 100%;
+    height: 2rem;
+    line-height: .8rem;
+    max-width: 320px;
+    overflow: hidden;
+    padding: .2rem .4rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+    border-style: solid;
+    border-width: thin;
+}
+  // Badges
+  $badge-text-color: #ffffff;
+  $badge-default-bg: #2c3e50;
+  $badge-info-bg: #4f5f6f;
+  $badge-warning-bg: #f1c40f;
+  $badge-danger-bg: #e74c3c;
+  $badge-success-bg: #2ecc71;
+  
+  // Basiz setup
+  .badge {
+      box-sizing: border-box;
+      display: inline-block;
+      background-color: $badge-default-bg;
+      color: $badge-text-color;
+      vertical-align: text-bottom;
+      border-radius: 3rem; // As longe as this is bigger than the fontsize
+      text-align: center;
+  
+      font-size: 1.6rem;
+      font-weight: 400;
+      padding: .05rem .8rem .1rem;
+  }
+  
+  // Style
+  .badge--line {
+      background-color: transparent;
+      color: #95a5a6;
+      box-shadow: 0 0 0 1px #95a5a6;
+  }
+  
+  .badge--info {
+      background-color: $badge-info-bg;
+  }
+  
+  .badge--warning {
+      background-color: $badge-warning-bg;
+  }
+  
+  .badge--danger {
+      background-color: $badge-danger-bg;
+  }
+  
+  .badge--success {
+      background-color: $badge-success-bg;
+  }
+  
+  // Sizes
+  .badge--small {
+      font-size: 1.2rem;
+      padding: .1rem .65rem .2rem;
+  }
+  
+  .badge--smaller {
+    font-size: .8rem;
+    padding: .1rem .4rem .15rem;
+  }
+
 .popup-header .logo-container,
 .popup-header .header-right {
   height: 100%;

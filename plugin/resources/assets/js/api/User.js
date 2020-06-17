@@ -1,6 +1,6 @@
 class User {
 
-    static findById(courseId, userId, then) {
+    static getStudentInfo(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId)
             .then(({data}) => {
                 then(data)
@@ -17,6 +17,7 @@ class User {
                 VueEvent.$emit('show-notification', 'Error retrieving report table.', 'danger')
             })
     }
+
 
     static findActiveUsers(courseId, period, then) {
         window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/users/active', { params: { period } })

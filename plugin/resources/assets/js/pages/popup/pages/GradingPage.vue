@@ -73,7 +73,7 @@
         methods: {
             ...mapActions([
                 'fetchStudent',
-                'updateSubmission',
+                'updateSubmission'
             ]),
 
             getStudent() {

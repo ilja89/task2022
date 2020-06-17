@@ -14,7 +14,7 @@ use TTU\Charon\Services\SubmissionService;
 
 /**
  * Class TesterCallbackController.
- * Handles accepting submissions and results from the tester.
+ * Handles accepting submissions and results from the tester (Arete v2).
  *
  * @package TTU\Charon\Http\Controllers
  */
@@ -42,9 +42,10 @@ class TesterCallbackController extends Controller
         SubmissionService $submissionService,
         CharonGradingService $charonGradingService,
         GitCallbackService $gitCallbackService
-    ) {
+    )
+    {
         parent::__construct($request);
-        $this->submissionService    = $submissionService;
+        $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->gitCallbackService = $gitCallbackService;
     }
@@ -58,11 +59,12 @@ class TesterCallbackController extends Controller
      */
     public function index(TesterCallbackRequest $request)
     {
+        Log::info("Arete 2.0 callback", [$request->input('returnExtra')]);
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $request->input('secret_token')
+            $request->input('returnExtra')['token']
         );
 
-        $submission = $this->submissionService->saveSubmission($request, $gitCallback->id);
+        $submission = $this->submissionService->saveSubmission($request, $gitCallback);
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 

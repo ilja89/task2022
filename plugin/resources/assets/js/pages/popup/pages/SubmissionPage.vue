@@ -1,91 +1,106 @@
 <template>
-    <div>
+  <div>
+    <page-title :student="student"></page-title>
 
-        <page-title :student="student"></page-title>
+    <submission-overview-section />
 
-        <submission-overview-section/>
-
-        <output-section/>
-
-    </div>
+    <output-section />
+  </div>
 </template>
 
 <script>
-    import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from "vuex";
 
-    import { PageTitle } from '../partials'
-    import { SubmissionOverviewSection, OutputSection } from '../sections'
-    import { Submission, Charon } from '../../../api'
+import { PageTitle } from "../partials";
+import { SubmissionOverviewSection, OutputSection } from "../sections";
+import { Submission, Charon } from "../../../api";
 
-    export default {
-        components: { PageTitle, SubmissionOverviewSection, OutputSection },
+export default {
+  components: { PageTitle, SubmissionOverviewSection, OutputSection },
 
-        computed: {
-            ...mapState([
-                'student',
-                'charon',
-            ]),
+  data() {
+    return {
+      guard_navigation: false
+    };
+  },
 
-            ...mapGetters([
-                'courseId',
-            ]),
-        },
+  computed: {
+    ...mapState(["student", "charon"]),
 
-        mounted() {
-            this.getSubmission()
+    ...mapGetters(["courseId"])
+  },
 
-            window.VueEvent.$on('submission-was-saved', this.getSubmission)
-            window.VueEvent.$on('refresh-page', this.getSubmission)
-        },
+  mounted() {
+    this.getSubmission();
 
-        /**
-         * Remove global event listeners for more efficient refreshes on other
-         * pages.
-         */
-        deactivated() {
-            VueEvent.$off('refresh-page', this.getSubmission)
-        },
+    window.VueEvent.$on("submission-was-saved", _ => {this.getSubmission; this.guardFromNavigation(false)});
+    window.VueEvent.$on("submission-being-edited", _ =>
+      this.guardFromNavigation(true)
+    );
+    window.VueEvent.$on("refresh-page", this.getSubmission);
+  },
 
-        watch: {
-            $route() {
-                if (typeof this.$route.params.submission_id !== 'undefined') {
-                    this.getSubmission()
-                }
-            }
-        },
+  /**
+   * Remove global event listeners for more efficient refreshes on other
+   * pages.
+   */
+  deactivated() {
+    VueEvent.$off("refresh-page", this.getSubmission);
+  },
 
-        methods: {
-
-            ...mapActions([
-                'fetchStudent',
-                'updateCharon',
-                'updateSubmission',
-            ]),
-
-            getSubmission() {
-                Submission.findById(this.$route.params.submission_id, submission => {
-                    this.updateSubmission({ submission })
-
-                    if (this.charon === null) {
-                        const charonId = submission.charon_id
-
-                        Charon.all(this.courseId, charons => {
-                            charons.forEach(charon => {
-                                if (charon.id === charonId) {
-                                    this.updateCharon({ charon })
-                                }
-                            })
-                        })
-                    }
-
-                    if (this.student === null) {
-                        const studentId = submission.user_id
-                        const courseId = this.courseId
-
-                        this.fetchStudent({ studentId, courseId })
-                    }
-                })
-            },
-        },
+  beforeRouteLeave(to, from, next) {
+    if (this.guard_navigation === true) {
+      const answer = window.confirm(
+        "Do you really want to leave? you have unsaved changes!"
+      );
+      if (answer) {
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
     }
+  },
+
+  watch: {
+    $route() {
+      if (typeof this.$route.params.submission_id !== "undefined") {
+        this.getSubmission();
+      }
+    }
+  },
+
+  methods: {
+    ...mapActions(["fetchStudent", "updateCharon", "updateSubmission"]),
+
+    getSubmission() {
+      Submission.findById(this.$route.params.submission_id, submission => {
+        this.updateSubmission({ submission });
+
+        if (this.charon === null) {
+          const charonId = submission.charon_id;
+
+          Charon.all(this.courseId, charons => {
+            charons.forEach(charon => {
+              if (charon.id === charonId) {
+                this.updateCharon({ charon });
+              }
+            });
+          });
+        }
+
+        if (this.student === null) {
+          const studentId = submission.user_id;
+          const courseId = this.courseId;
+
+          this.fetchStudent({ studentId, courseId });
+        }
+      });
+    },
+    guardFromNavigation(state) {
+      this.guard_navigation = state;
+    }
+  }
+};
 </script>

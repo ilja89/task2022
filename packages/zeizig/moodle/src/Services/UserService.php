@@ -23,4 +23,16 @@ class UserService
     {
         return User::where('idnumber', $idNumber . config('moodle.user_id_number_postfix'))->first();
     }
+
+    /**
+     * Finds a user by its email. The email should be unique.
+     *
+     * @param  string  $email
+     *
+     * @return User
+     **/
+    public function findUserByEmail($email)
+    {
+        return User::where('email', $email)->first();
+    }
 }
