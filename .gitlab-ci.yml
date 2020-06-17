@@ -63,6 +63,7 @@ deploy:
     - docker images
   script:
     - docker exec moodle_moodle_1 bash
+    - ls -a
     - cd /bitnami/moodle/mod/
     - rm -rf charon/
     - git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
