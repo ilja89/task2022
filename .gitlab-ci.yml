@@ -62,13 +62,11 @@ deploy:
     - docker container ls
     - docker images
   script:
-    - cd ~/moodle/moodle_data/moodle/mod/
-    - rm -rf charon/
-    - git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-    - cd charon
-    - php composer.phar install
-    - cp -p .env.example .env
-    - php artisan key:generate
+    - cd ~/moodle/moodle_data/moodle/mod/charon
+    - git pull
+#    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
+
+
   after_script:
     - docker container ls
     - docker images
