@@ -1,6 +1,7 @@
 variables:
   DOCKER_DRIVER: overlay
 
+
 stages:
   - test
   - staging
