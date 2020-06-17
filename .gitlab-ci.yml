@@ -66,9 +66,9 @@ deploy:
     - rm -rf charon/
     - git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
     - cd charon
-    - php composer.phar install
-    - cp -p .env.example .env
-    - php artisan key:generate
+    - sudo php composer.phar install
+    - sudo cp -p .env.example .env
+    - sudo php artisan key:generate
   after_script:
     - docker container ls
     - docker images
