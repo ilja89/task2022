@@ -1,7 +1,6 @@
 variables:
   DOCKER_DRIVER: overlay
 
-
 stages:
   - test
   - build
@@ -62,15 +61,8 @@ deploy:
     - docker container ls
     - docker images
   script:
-    - docker exec moodle_moodle_1 bash
-    - ls -a
-    - cd /bitnami/moodle/mod/
-    - rm -rf charon/
-    - git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-    - cd charon
-    - php composer.phar install
-    - cp -p .env.example .env
-    - php artisan key:generate
+    - cd ~/moodle/moodle_data/moodle/mod/charon
+    - git pull
   after_script:
     - docker container ls
     - docker images
