@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use Zeizig\Moodle\Services\GradebookService;
@@ -18,7 +19,7 @@ class GrademapService
     /**
      * GrademapService constructor.
      *
-     * @param  GradebookService  $gradebookService
+     * @param GradebookService $gradebookService
      */
     public function __construct(GradebookService $gradebookService)
     {
@@ -30,7 +31,7 @@ class GrademapService
      * This is called after the Grade Items have been created, by observing the
      * course_module_created event.
      *
-     * @param  Charon  $charon
+     * @param Charon $charon
      */
     public function linkGrademapsAndGradeItems(Charon $charon)
     {
@@ -50,7 +51,7 @@ class GrademapService
     /**
      * Deletes the given Grademap.
      *
-     * @param  Grademap  $grademap
+     * @param Grademap $grademap
      *
      * @return void
      */
@@ -62,13 +63,15 @@ class GrademapService
     }
 
     /**
-     * @param  Charon $charon
-     * @param  integer $gradeTypeCode
-     * @param  integer  $courseId
-     * @param  array $requestGradeMap
+     * @param Charon $charon
+     * @param integer $gradeTypeCode
+     * @param integer $courseId
+     * @param array $requestGradeMap
      */
     public function createGrademapWithGradeItem($charon, $gradeTypeCode, $courseId, $requestGradeMap)
     {
+
+        Log::info("Creating a grade map: ", [$requestGradeMap]);
         $this->gradebookService->addGradeItem(
             $courseId,
             $charon->id,
@@ -82,7 +85,8 @@ class GrademapService
         // Instead we can use event listeners (db/events.php) and wait for them to be added.
         $charon->grademaps()->save(new Grademap([
             'grade_type_code' => $gradeTypeCode,
-            'name'            => $requestGradeMap['grademap_name'],
+            'name' => $requestGradeMap['grademap_name'],
+            'grade_item_id' => 0
         ]));
     }
 }

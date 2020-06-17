@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 
@@ -25,9 +26,10 @@ class DeadlineService
     public function createDeadline(Charon $charon, $deadlineArray)
     {
         if (!$this->correctDeadline($deadlineArray)) {
+            Log::info("invalid deadline: ", [$deadlineArray]);
             return;
         }
-
+        Log::info("Creating a deadline: ", [$deadlineArray]);
         $deadlineTime = Carbon::createFromFormat('d-m-Y H:i', $deadlineArray['deadline_time'], \Config::get('app.timezone'));
         $deadlineTime->setTimezone('UTC');
         $charon->deadlines()->save(new Deadline([

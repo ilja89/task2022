@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use Zeizig\Moodle\Services\GradebookService;
 
