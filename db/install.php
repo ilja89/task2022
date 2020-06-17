@@ -10,22 +10,64 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_charon_install() {
+function xmldb_charon_install()
+{
     global $CFG;
+    global $DB;
+
     $charon_path = $CFG->dirroot . "/mod/charon/";
     echo "<pre>";
 
-    if (! in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
+    if (!in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
-    if (! function_exists('apache_get_modules') ){
+
+    try { // if missing - load - else - ignore
+        $sql = "INSERT IGNORE INTO mdl_charon_grading_method SET code=1,name='prefer_best'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grading_method SET code=2,name='prefer_last'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=1,name='tests'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=2,name='style'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=3,name='defence'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=1,name='python'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=2,name='java'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=3,name='prolog'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=1,name='EX'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=2,name='PR'";
+        $DB->execute($sql);
+
+        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=3,name='XP'";
+        $DB->execute($sql);
+
+    } catch (exception $e) { // cant connect to db - that's bad
+        charon_installation_error("Failed to preload database");
+    }
+
+    if (!function_exists('apache_get_modules')) {
         charon_installation_error("This plugin needs apache to redirect requests.");
     }
-    if (! in_array('mod_rewrite', apache_get_modules())) {
+    if (!in_array('mod_rewrite', apache_get_modules())) {
         charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
     }
 
-    if (! is_writable(__DIR__ . "/../") || ! is_writable(__DIR__ . "/../plugin/storage/logs/")) {
+    if (!is_writable(__DIR__ . "/../") || !is_writable(__DIR__ . "/../plugin/storage/logs/")) {
         charon_installation_error("mod/charon folder must be writable.");
     }
 
@@ -39,7 +81,7 @@ function xmldb_charon_install() {
         charon_installation_error("Couldn't find 'php' in the system, please check that you have php cli installed.");
     }
 
-    $composerInstall = "COMPOSER_HOME=\"". $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
+    $composerInstall = "COMPOSER_HOME=\"" . $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
 
     if (charon_is_function_available("exec")) {
         echo exec($composerInstall) . "\n";
@@ -64,10 +106,10 @@ function xmldb_charon_install() {
         '--no-dev' => true
     ));
     $input->setInteractive(false);
-    $cmdret = $app->doRun($input,$output); //unfortunately ->run() call exit() so we use doRun()
+    $cmdret = $app->doRun($input, $output); //unfortunately ->run() call exit() so we use doRun()
     echo "\n\nCleaning up...\n";
     $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
-    foreach($filesToRemove as $filetoRemove) {
+    foreach ($filesToRemove as $filetoRemove) {
         if (file_exists($charon_path . $filetoRemove)) {
             if (unlink($charon_path . $filetoRemove)) {
                 echo "Deleted: " . $filetoRemove . "\n";
@@ -100,7 +142,8 @@ if (!function_exists("charon_command_exists")) {
      * @param string $command The command to check
      * @return bool True if the command has been found ; otherwise, false.
      */
-    function charon_command_exists ($command) {
+    function charon_command_exists($command)
+    {
         $whereIsCommand = (PHP_OS == 'WINNT') ? 'where' : 'which';
 
         $process = proc_open(
@@ -132,7 +175,8 @@ if (!function_exists("charon_is_function_available")) {
      * @param string $command
      * @return bool - true if available
      */
-    function charon_is_function_available($command) {
+    function charon_is_function_available($command)
+    {
         static $available;
 
         if (!isset($available)) {
@@ -156,8 +200,9 @@ if (!function_exists("charon_is_function_available")) {
 }
 
 if (!function_exists("charon_remove_directory")) {
-    function charon_remove_directory($dir) {
-        foreach(scandir($dir) as $file) {
+    function charon_remove_directory($dir)
+    {
+        foreach (scandir($dir) as $file) {
             if ('.' === $file || '..' === $file) continue;
             if (is_dir("$dir/$file")) charon_remove_directory("$dir/$file");
             else unlink("$dir/$file");
@@ -167,7 +212,8 @@ if (!function_exists("charon_remove_directory")) {
 }
 
 if (!function_exists("charon_installation_error")) {
-    function charon_installation_error($error_msg) {
+    function charon_installation_error($error_msg)
+    {
         global $OUTPUT;
 
         $progress = new \progress_trace_buffer(new text_progress_trace(), false);
@@ -179,7 +225,7 @@ if (!function_exists("charon_installation_error")) {
         if (function_exists("purge_all_caches")) {
             purge_all_caches();
         }
-        echo "</pre><div class='alert alert-danger alert-block'>". $error_msg ."</div>";
+        echo "</pre><div class='alert alert-danger alert-block'>" . $error_msg . "</div>";
         echo $OUTPUT->continue_button(new moodle_url('/admin/index.php'));
         echo $OUTPUT->footer();
         exit();
