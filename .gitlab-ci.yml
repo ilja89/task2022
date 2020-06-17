@@ -63,6 +63,9 @@ deploy:
   script:
     - cd ~/moodle/moodle_data/moodle/mod/charon
     - git pull
+#    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
+
+
   after_script:
     - docker container ls
     - docker images
