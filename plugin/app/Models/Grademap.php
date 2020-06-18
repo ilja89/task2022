@@ -27,7 +27,7 @@ class Grademap extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'charon_id', 'grade_type_code', 'name'
+        'charon_id', 'grade_type_code', 'name', 'grade_item_id'
     ];
 
     public function charon()

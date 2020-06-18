@@ -22,43 +22,19 @@ function xmldb_charon_install()
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
 
-    try { // if missing - load - else - ignore
-        $sql = "INSERT IGNORE INTO mdl_charon_grading_method SET code=1,name='prefer_best'";
-        $DB->execute($sql);
+    echo "</pre>";
 
-        $sql = "INSERT IGNORE INTO mdl_charon_grading_method SET code=2,name='prefer_last'";
-        $DB->execute($sql);
+    echo "Seeding database\n";
 
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=1,name='tests'";
-        $DB->execute($sql);
+    require __DIR__ . '/../plugin/bootstrap/autoload.php';
+    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=2,name='style'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_type SET code=3,name='defence'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=1,name='python'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=2,name='java'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_tester_type SET code=3,name='prolog'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=1,name='EX'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=2,name='PR'";
-        $DB->execute($sql);
-
-        $sql = "INSERT IGNORE INTO mdl_charon_grade_name_prefix SET code=3,name='XP'";
-        $DB->execute($sql);
-
-    } catch (exception $e) { // cant connect to db - that's bad
-        charon_installation_error("Failed to preload database");
-    }
+    $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+    $kernel->call('config:clear');
+    $kernel->call('cache:clear');
 
     if (!function_exists('apache_get_modules')) {
         charon_installation_error("This plugin needs apache to redirect requests.");
@@ -118,19 +94,6 @@ function xmldb_charon_install()
     }
     charon_remove_directory("cache");
     echo "Deleted: cache\n";
-    echo "</pre>";
-
-    echo "Seeding database\n";
-
-    require __DIR__ . '/../plugin/bootstrap/autoload.php';
-    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-
-    $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
-    $kernel->call('config:clear');
-    $kernel->call('cache:clear');
 
     return true;
 }

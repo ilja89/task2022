@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Events\CharonUpdated;
@@ -103,6 +104,7 @@ class InstanceController extends Controller
 
         event(new CharonCreated($charon));
 
+        Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
         if ($this->request->input('plagiarism_enabled')) {
             $charon = $this->plagiarismService->createChecksuiteForCharon(
                 $charon,
@@ -111,7 +113,6 @@ class InstanceController extends Controller
                 $this->request->input('plagiarism_includes')
             );
         }
-
         return $charon->id;
     }
 
@@ -128,7 +129,9 @@ class InstanceController extends Controller
      */
     public function update()
     {
+
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
+        Log::info("Update charon ", [$charon]);
 
         if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
@@ -161,6 +164,7 @@ class InstanceController extends Controller
      */
     public function destroy($charonId)
     {
+        Log::info("Delete charon ", [$charonId]);
         return $this->charonRepository->deleteByInstanceId($charonId);
     }
 
@@ -175,6 +179,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleCreated($charonId)
     {
+        Log::info("postCourseModuleCreated: ", [$charonId]);
         $this->postCourseModuleCreatedOrUpdated($charonId);
 
         $charon = $this->charonRepository->getCharonById($charonId);
@@ -193,6 +198,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleUpdated($charonId)
     {
+        Log::info("postCourseModuleUpdated: ", [$charonId]);
         $this->postCourseModuleCreatedOrUpdated($charonId);
     }
 

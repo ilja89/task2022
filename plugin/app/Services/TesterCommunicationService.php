@@ -25,39 +25,39 @@ class TesterCommunicationService
         $this->httpCommunicationService = $httpCommunicationService;
     }
 
-    /**
-     * Sends new Charon info to the tester.
-     *
-     * @param  Charon $charon
-     * @param  string $unittestsGit
-     * @param  string $courseShortName
-     *
-     * @return void
-     */
-    public function sendAddProjectInfo($charon, $unittestsGit, $courseShortName)
-    {
-        $params = [
-            'id'           => $charon->id,
-            'project'      => $charon->project_folder,
-            'course'       => $courseShortName,
-            'tester'       => $charon->testerType->name,
-            'testerExtra'  => $charon->tester_extra,
-            'systemExtra'  => $charon->system_extra,
-            'unittestsUrl' => $unittestsGit,
-            'gradeMaps'    => [],
-        ];
-        // TODO: Refactor to use grademaps instead of gradeMaps
-
-        foreach ($charon->grademaps as $grademap) {
-            $params['gradeMaps'][] = [
-                'name'            => $grademap->name,
-                'grade_type_name' => $grademap->getGradeTypeName(),
-                'grade_type_code' => $grademap->grade_type_code,
-            ];
-        }
-
-        $this->httpCommunicationService->postToTester('addproject', $params);
-    }
+//    /**
+//     * Sends new Charon info to the tester.
+//     *
+//     * @param  Charon $charon
+//     * @param  string $unittestsGit
+//     * @param  string $courseShortName
+//     *
+//     * @return void
+//     */
+//    public function sendAddProjectInfo($charon, $unittestsGit, $courseShortName)
+//    {
+//        $params = [
+//            'id'           => $charon->id,
+//            'project'      => $charon->project_folder,
+//            'course'       => $courseShortName,
+//            'tester'       => $charon->testerType->name,
+//            'testerExtra'  => $charon->tester_extra,
+//            'systemExtra'  => $charon->system_extra,
+//            'unittestsUrl' => $unittestsGit,
+//            'gradeMaps'    => [],
+//        ];
+//        // TODO: Refactor to use grademaps instead of gradeMaps
+//
+//        foreach ($charon->grademaps as $grademap) {
+//            $params['gradeMaps'][] = [
+//                'name'            => $grademap->name,
+//                'grade_type_name' => $grademap->getGradeTypeName(),
+//                'grade_type_code' => $grademap->grade_type_code,
+//            ];
+//        }
+//
+//        $this->httpCommunicationService->postToTester('addproject', $params);
+//    }
 
     /**
      * Send git callback info to the tester.
