@@ -19,8 +19,6 @@ function xmldb_charon_install()
 
     echo "<pre>";
 
-    try_seed_database();
-
     if (!in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
