@@ -65,7 +65,7 @@ deploy:
   script:
     - cd ~/moodle/moodle_data/moodle/mod/charon
     - git pull
-#    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
+  #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
   after_script:
     - docker container ls
     - docker images
@@ -80,9 +80,8 @@ create_artifacts:
     - master
     - 101-ci-cd-create-zip-that-is-ready-to-be-installed-without-hacks
   script:
-    - mkdir -p $CI_PROJECT_DIR/artifacts
-    - ls -la
-#    - cp -a ./. $CI_PROJECT_DIR/artifacts/
+    - php -v
+    #    - cp -a ./. $CI_PROJECT_DIR/artifacts/
   artifacts:
     paths:
-      - $CI_PROJECT_DIR/artifacts
+      - $CI_PROJECT_DIR
