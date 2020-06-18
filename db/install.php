@@ -89,7 +89,7 @@ function try_install(string $charon_path)
         $input->setInteractive(false);
         $cmdret = $app->doRun($input, $output); //unfortunately ->run() call exit() so we use doRun()
     } catch (exception $e) {
-
+        echo $e->getMessage();
     }
 }
 
@@ -111,6 +111,7 @@ function try_cleanup(string $charon_path)
         charon_remove_directory("cache");
         echo "Deleted: cache\n";
     } catch (exception $e) {
+        echo $e->getMessage();
     }
 }
 
@@ -129,7 +130,7 @@ function try_seed_database()
         $kernel->call('config:clear');
         $kernel->call('cache:clear');
     } catch (exception $e) {
-
+        echo $e->getMessage();
     }
 }
 
@@ -166,6 +167,7 @@ if (!function_exists("charon_command_exists")) {
         return false;
     }
 }
+
 if (!function_exists("charon_is_function_available")) {
     /**
      * Checks if function is disabled or available
