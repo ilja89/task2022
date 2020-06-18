@@ -24,18 +24,6 @@ function xmldb_charon_install()
 
     echo "</pre>";
 
-    echo "Seeding database\n";
-
-    require __DIR__ . '/../plugin/bootstrap/autoload.php';
-    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-
-    $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
-    $kernel->call('config:clear');
-    $kernel->call('cache:clear');
-
     if (!function_exists('apache_get_modules')) {
         charon_installation_error("This plugin needs apache to redirect requests.");
     }
@@ -67,33 +55,57 @@ function xmldb_charon_install()
         charon_installation_error("Command 'exec' must be available to install this plugin.");
     }
 
-    require_once "phar://" . $charon_path . "composer.phar/src/bootstrap.php";
-    chdir($charon_path);
-    putenv("COMPOSER_HOME={$charon_path}");
-    putenv("COMPOSER={$charon_path}composer.json");
-    putenv("COMPOSER_VENDOR_DIR={$charon_path}vendor");
-    putenv("OSTYPE=OS400");
-    $app = new \Composer\Console\Application();
-    $factory = new \Composer\Factory();
-    $output = $factory->createOutput();
-    $input = new \Symfony\Component\Console\Input\ArrayInput(array(
-        'command' => 'install',
-        '--no-progress' => true,
-        '--no-dev' => true
-    ));
-    $input->setInteractive(false);
-    $cmdret = $app->doRun($input, $output); //unfortunately ->run() call exit() so we use doRun()
-    echo "\n\nCleaning up...\n";
-    $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
-    foreach ($filesToRemove as $filetoRemove) {
-        if (file_exists($charon_path . $filetoRemove)) {
-            if (unlink($charon_path . $filetoRemove)) {
-                echo "Deleted: " . $filetoRemove . "\n";
+    try {
+        require_once "phar://" . $charon_path . "composer.phar/src/bootstrap.php";
+        chdir($charon_path);
+        putenv("COMPOSER_HOME={$charon_path}");
+        putenv("COMPOSER={$charon_path}composer.json");
+        putenv("COMPOSER_VENDOR_DIR={$charon_path}vendor");
+        putenv("OSTYPE=OS400");
+        $app = new \Composer\Console\Application();
+        $factory = new \Composer\Factory();
+        $output = $factory->createOutput();
+        $input = new \Symfony\Component\Console\Input\ArrayInput(array(
+            'command' => 'install',
+            '--no-progress' => true,
+            '--no-dev' => true
+        ));
+        $input->setInteractive(false);
+        $cmdret = $app->doRun($input, $output); //unfortunately ->run() call exit() so we use doRun()
+    } catch (exception $e) {
+
+    }
+
+    try {
+        echo "Seeding database\n";
+
+        require __DIR__ . '/../plugin/bootstrap/autoload.php';
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+        $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
+        $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+        $kernel->call('config:clear');
+        $kernel->call('cache:clear');
+    } catch (exception $e) {
+
+    }
+
+    try {
+        echo "\n\nCleaning up...\n";
+        $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
+        foreach ($filesToRemove as $filetoRemove) {
+            if (file_exists($charon_path . $filetoRemove)) {
+                if (unlink($charon_path . $filetoRemove)) {
+                    echo "Deleted: " . $filetoRemove . "\n";
+                }
             }
         }
+        charon_remove_directory("cache");
+        echo "Deleted: cache\n";
+    } catch (exception $e) {
     }
-    charon_remove_directory("cache");
-    echo "Deleted: cache\n";
 
     return true;
 }
