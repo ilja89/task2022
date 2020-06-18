@@ -16,7 +16,10 @@ function xmldb_charon_install()
     global $DB;
 
     $charon_path = $CFG->dirroot . "/mod/charon/";
+
     echo "<pre>";
+
+    try_seed_database();
 
     if (!in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
@@ -46,6 +49,20 @@ function xmldb_charon_install()
         charon_installation_error("Couldn't find 'php' in the system, please check that you have php cli installed.");
     }
 
+    try_install($charon_path);
+
+    try_seed_database();
+
+    try_cleanup($charon_path);
+
+    return true;
+}
+
+/**
+ * @param string $charon_path
+ */
+function try_install(string $charon_path)
+{
     try {
         $composerInstall = "COMPOSER_HOME=\"" . $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
 
@@ -76,7 +93,31 @@ function xmldb_charon_install()
     } catch (exception $e) {
 
     }
+}
 
+/**
+ * @param string $charon_path
+ */
+function try_cleanup(string $charon_path)
+{
+    try {
+        echo "\n\nCleaning up...\n";
+        $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
+        foreach ($filesToRemove as $filetoRemove) {
+            if (file_exists($charon_path . $filetoRemove)) {
+                if (unlink($charon_path . $filetoRemove)) {
+                    echo "Deleted: " . $filetoRemove . "\n";
+                }
+            }
+        }
+        charon_remove_directory("cache");
+        echo "Deleted: cache\n";
+    } catch (exception $e) {
+    }
+}
+
+function try_seed_database()
+{
     try {
         echo "Seeding database\n";
 
@@ -92,23 +133,6 @@ function xmldb_charon_install()
     } catch (exception $e) {
 
     }
-
-    try {
-        echo "\n\nCleaning up...\n";
-        $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
-        foreach ($filesToRemove as $filetoRemove) {
-            if (file_exists($charon_path . $filetoRemove)) {
-                if (unlink($charon_path . $filetoRemove)) {
-                    echo "Deleted: " . $filetoRemove . "\n";
-                }
-            }
-        }
-        charon_remove_directory("cache");
-        echo "Deleted: cache\n";
-    } catch (exception $e) {
-    }
-
-    return true;
 }
 
 if (!function_exists("charon_command_exists")) {
