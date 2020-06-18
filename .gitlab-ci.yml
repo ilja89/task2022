@@ -82,8 +82,6 @@ create_artifacts:
   script:
     - mkdir -p $CI_PROJECT_DIR/artifacts
     - cp ./README.md $CI_PROJECT_DIR/artifacts
-
-
-artifacts:
-  paths:
-    - $CI_PROJECT_DIR/artifacts
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/artifacts
