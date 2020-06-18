@@ -27,6 +27,7 @@ function xmldb_charon_install()
     if (!function_exists('apache_get_modules')) {
         charon_installation_error("This plugin needs apache to redirect requests.");
     }
+
     if (!in_array('mod_rewrite', apache_get_modules())) {
         charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
     }
@@ -45,17 +46,17 @@ function xmldb_charon_install()
         charon_installation_error("Couldn't find 'php' in the system, please check that you have php cli installed.");
     }
 
-    $composerInstall = "COMPOSER_HOME=\"" . $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
-
-    if (charon_is_function_available("exec")) {
-        echo exec($composerInstall) . "\n";
-    } else if (charon_is_function_available("shell_exec")) {
-        echo shell_exec($composerInstall) . "\n";
-    } else {
-        charon_installation_error("Command 'exec' must be available to install this plugin.");
-    }
-
     try {
+        $composerInstall = "COMPOSER_HOME=\"" . $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
+
+        if (charon_is_function_available("exec")) {
+            echo exec($composerInstall) . "\n";
+        } else if (charon_is_function_available("shell_exec")) {
+            echo shell_exec($composerInstall) . "\n";
+        } else {
+            charon_installation_error("Command 'exec' must be available to install this plugin.");
+        }
+
         require_once "phar://" . $charon_path . "composer.phar/src/bootstrap.php";
         chdir($charon_path);
         putenv("COMPOSER_HOME={$charon_path}");
