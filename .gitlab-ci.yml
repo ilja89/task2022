@@ -81,7 +81,8 @@ create_artifacts:
     - 101-ci-cd-create-zip-that-is-ready-to-be-installed-without-hacks
   script:
     - mkdir -p $CI_PROJECT_DIR/artifacts
-    - cp -a ./. $CI_PROJECT_DIR/artifacts/
+    - ls -la
+#    - cp -a ./. $CI_PROJECT_DIR/artifacts/
   artifacts:
     paths:
       - $CI_PROJECT_DIR/artifacts
