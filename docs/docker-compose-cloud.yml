@@ -16,7 +16,7 @@ services:
     volumes:
       - './mariadb_data:/bitnami'
     ports:
-      - "8190:8080"
+      - "3306:3306"
 
 volumes:
   mariadb_data:
