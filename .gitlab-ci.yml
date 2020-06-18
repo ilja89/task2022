@@ -80,8 +80,9 @@ create_artifacts:
     - master
     - 101-ci-cd-create-zip-that-is-ready-to-be-installed-without-hacks
   script:
-    - php -v
-    #    - cp -a ./. $CI_PROJECT_DIR/artifacts/
+    - php composer.phar install
+    - cp -p .env.develop .env
+    - php artisan key:generate
   artifacts:
     paths:
       - $CI_PROJECT_DIR
