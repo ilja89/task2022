@@ -84,9 +84,8 @@ create_artifacts:
     - cp -p .env.develop .env
     - php artisan key:generate
     - mkdir mod_charon
-    - mv * mod_charon || true
-    - mv .* mod_charon || true
-    - rm .
+    - mv * artifacts/mod_charon || true
+    - mv .* artifacts/mod_charon || true
   artifacts:
     paths:
-      - $CI_PROJECT_DIR
+      - $CI_PROJECT_DIR/artifacts
