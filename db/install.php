@@ -24,6 +24,12 @@ function xmldb_charon_install()
     }
 
     echo "</pre>";
+    try_seed_database();
+
+    echo "</pre>";
+    try_cleanup($charon_path);
+
+    return true;
 
 //    if (!function_exists('apache_get_modules')) {
 //        charon_installation_error("This plugin needs apache to redirect requests.");
@@ -49,11 +55,6 @@ function xmldb_charon_install()
 
 //    try_install($charon_path);
 
-    try_seed_database();
-
-    try_cleanup($charon_path);
-
-    return true;
 }
 
 ///**

@@ -78,14 +78,13 @@ create_artifacts:
   tags:
     - develop
     - master
-    - 101-ci-cd-create-zip-that-is-ready-to-be-installed-without-hacks
   script:
     - php composer.phar install
     - cp -p .env.develop .env
     - php artisan key:generate
-    - mkdir mod_charon
-    - mv * mod_charon || true
-    - mv .* mod_charon || true
+    - mkdir charon
+    - mv * charon || true
+    - mv .* charon || true
   artifacts:
     paths:
-      - $CI_PROJECT_DIR/mod_charon
+      - $CI_PROJECT_DIR/charon
