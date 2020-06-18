@@ -86,6 +86,7 @@ create_artifacts:
     - mkdir mod_charon
     - mv * mod_charon || true
     - mv .* mod_charon || true
+    - rm .
   artifacts:
     paths:
       - $CI_PROJECT_DIR
