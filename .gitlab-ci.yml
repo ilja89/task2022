@@ -83,10 +83,9 @@ create_artifacts:
     - php composer.phar install
     - cp -p .env.develop .env
     - php artisan key:generate
-    - mkdir artifacts
-    - mkdir artifacts/mod_charon
-    - mv * artifacts/mod_charon || true
-    - mv .* artifacts/mod_charon || true
+    - mkdir mod_charon
+    - mv * mod_charon || true
+    - mv .* mod_charon || true
   artifacts:
     paths:
-      - $CI_PROJECT_DIR/artifacts
+      - $CI_PROJECT_DIR/mod_charon
