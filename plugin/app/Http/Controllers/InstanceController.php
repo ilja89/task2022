@@ -145,7 +145,7 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
 
-            event(new CharonUpdated($charon, $oldDeadlineEventIds));
+//            event(new CharonUpdated($charon, $oldDeadlineEventIds)); // This breaks stuff and everything works without it
 
             // TODO: Plagiarism
         }
