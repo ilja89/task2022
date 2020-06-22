@@ -42,6 +42,7 @@
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
             </KEYS>
             <INDEXES>
+                <INDEX NAME="IXUNIQUE_project_folder" UNIQUE="true" FIELDS="project_folder"/>
                 <INDEX NAME="IXFK_charon_course" UNIQUE="false" FIELDS="course"/>
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
