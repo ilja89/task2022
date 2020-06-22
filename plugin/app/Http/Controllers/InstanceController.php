@@ -165,8 +165,6 @@ class InstanceController extends Controller
 
             if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
-                $oldDeadlineEventIds = $charon->deadlines->pluck('event_id');
-
                 $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
                 $this->updateCharonService->updateGrademaps(
                     $this->request->input('grademaps'),
@@ -174,8 +172,6 @@ class InstanceController extends Controller
                     $deadlinesUpdated,
                     $this->request->input('recalculate_grades')
                 );
-
-                event(new CharonUpdated($charon, $oldDeadlineEventIds));
 
                 // TODO: Plagiarism
             }
