@@ -217,5 +217,13 @@ function xmldb_charon_upgrade($oldversion = 0)
         // Ignored intentionally
       }
     }
+
+    if ($oldversion < 2020061701) {
+        // is_test field for file
+        // {charon_submission_file} ?
+        $sql = "alter table mdl_charon add unique (project_folder)";
+        $DB->execute($sql);
+    }
+
     return true;
 }
