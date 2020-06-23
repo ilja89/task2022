@@ -6,7 +6,8 @@ stages:
   - test
   - build
   - deploy
-  - create_artifacts
+  - create_dev_artifacts
+  - create_production_artifacts
 
 
 test:
@@ -74,13 +75,28 @@ deploy:
     - master
 
 
-create_artifacts:
+create_dev_artifacts:
   tags:
     - develop
     - master
   script:
     - php composer.phar install
     - cp -p .env.develop .env
+    - php artisan key:generate
+    - mkdir charon
+    - mv * charon || true
+    - mv .* charon || true
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/charon
+
+create_production_artifacts:
+  tags:
+    - develop
+    - master
+  script:
+    - php composer.phar install --no-dev
+    - cp -p .env.production .env
     - php artisan key:generate
     - mkdir charon
     - mv * charon || true

@@ -16,7 +16,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
 
   moodle:
-    image: 'bitnami/moodle:3.8.3'
+    image: 'bitnami/moodle:3.9.0'
     environment:
       - MARIADB_HOST=mariadb
       - MARIADB_PORT_NUMBER=3306
