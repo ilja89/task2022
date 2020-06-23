@@ -31,68 +31,7 @@ function xmldb_charon_install()
 
     return true;
 
-//    if (!function_exists('apache_get_modules')) {
-//        charon_installation_error("This plugin needs apache to redirect requests.");
-//    }
-
-//    if (!in_array('mod_rewrite', apache_get_modules())) {
-//        charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
-//    }
-
-//    if (!is_writable(__DIR__ . "/../") || !is_writable(__DIR__ . "/../plugin/storage/logs/")) {
-//        charon_installation_error("mod/charon folder must be writable.");
-//    }
-
-//    if (file_put_contents($charon_path . "composer-installer.php", fopen("https://getcomposer.org/installer", 'r'))) {
-//        echo "Downloaded composer installer...\n";
-//    } else {
-//        charon_installation_error("Failed to download composer installer.");
-//    }
-
-//    if (!charon_command_exists("php")) {
-//        charon_installation_error("Couldn't find 'php' in the system, please check that you have php cli installed.");
-//    }
-
-//    try_install($charon_path);
-
 }
-
-///**
-// * @param string $charon_path
-// */
-//function try_install(string $charon_path)
-//{
-//    try {
-//        $composerInstall = "COMPOSER_HOME=\"" . $charon_path . "\" php " . $charon_path . "composer-installer.php --install-dir=" . $charon_path;
-//
-//        if (charon_is_function_available("exec")) {
-//            echo exec($composerInstall) . "\n";
-//        } else if (charon_is_function_available("shell_exec")) {
-//            echo shell_exec($composerInstall) . "\n";
-//        } else {
-//            charon_installation_error("Command 'exec' must be available to install this plugin.");
-//        }
-//
-//        require_once "phar://" . $charon_path . "composer.phar/src/bootstrap.php";
-//        chdir($charon_path);
-//        putenv("COMPOSER_HOME={$charon_path}");
-//        putenv("COMPOSER={$charon_path}composer.json");
-//        putenv("COMPOSER_VENDOR_DIR={$charon_path}vendor");
-//        putenv("OSTYPE=OS400");
-//        $app = new \Composer\Console\Application();
-//        $factory = new \Composer\Factory();
-//        $output = $factory->createOutput();
-//        $input = new \Symfony\Component\Console\Input\ArrayInput(array(
-//            'command' => 'install',
-//            '--no-progress' => true,
-//            '--no-dev' => true
-//        ));
-//        $input->setInteractive(false);
-//        $cmdret = $app->doRun($input, $output); //unfortunately ->run() call exit() so we use doRun()
-//    } catch (exception $e) {
-//        echo $e->getMessage();
-//    }
-//}
 
 /**
  * @param string $charon_path

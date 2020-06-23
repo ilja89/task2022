@@ -229,7 +229,7 @@ definitions:
       callback_url:
         description: Tester callback URL, tester should send callback to this URL
         type: string
-        example: 'http://localhost:9717/mod/charon/api/tester_callback'
+        example: 'http://localhost:9717/mod/charon/api/tester_new_callback'
       secret_token:
         description: Secret token to include in tester callback. This can be quite a long string
         type: string
