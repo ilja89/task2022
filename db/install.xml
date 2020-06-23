@@ -42,7 +42,7 @@
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
             </KEYS>
             <INDEXES>
-                <INDEX NAME="IXUNIQUE_project_folder" UNIQUE="true" FIELDS="project_folder"/>
+                <INDEX NAME="IXUNIQUE_project_folder_and_course" UNIQUE="true" FIELDS="project_folder,course"/>
                 <INDEX NAME="IXFK_charon_course" UNIQUE="false" FIELDS="course"/>
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
@@ -87,12 +87,12 @@
                 <KEY NAME="FK_deadline_groups" TYPE="foreign" FIELDS="group_id"
                      REFTABLE="groups" REFFIELDS="id"/>
                 <KEY NAME="FK_deadline_events" TYPE="foreign" FIELDS="event_id"
-                     REFTABLE="event" REFFIELDS="id" />
+                     REFTABLE="event" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_deadline_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_deadline_groups" UNIQUE="false" FIELDS="group_id"/>
-                <INDEX NAME="IXFK_deadline_events" UNIQUE="false" FIELDS="event_id" />
+                <INDEX NAME="IXFK_deadline_events" UNIQUE="false" FIELDS="event_id"/>
             </INDEXES>
         </TABLE>
 
@@ -270,7 +270,7 @@
                 <INDEX NAME="IXFK_preset_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
             </INDEXES>
         </TABLE>
-        
+
         <TABLE NAME="charon_preset_grade" COMMENT="Preset grades.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
