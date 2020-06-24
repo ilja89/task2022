@@ -1,12 +1,10 @@
 variables:
   DOCKER_DRIVER: overlay
 
-
 stages:
   - test
   - staging
   - deploy
-
 
 test:
   tags:
@@ -16,36 +14,22 @@ test:
   stage: test
   services:
     - name: docker:dind
-  before_script:
-    - docker container ls
-    - docker images
   script:
     - whoami  # run tests somehow
-  after_script:
-    - docker container ls
-    - docker images
   only:
     - dev
     - master
 
 deploy:
   tags:
-    - develop
-    - master
-  image: misterio92/ci-php-node:4.0
+    - deploy
   stage: deploy
   services:
     - name: docker:dind
-  before_script:
-    - docker container ls
-    - docker images
   script:
     - cd ~/moodle/moodle_data/moodle/mod/charon
     - git pull
   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-  after_script:
-    - docker container ls
-    - docker images
   only:
     - dev
     - master
