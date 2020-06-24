@@ -8,7 +8,8 @@ stages:
 
 test:
   tags:
-    - deploy
+    - develop
+    - master
   image: misterio92/ci-php-node:4.0
   stage: test
   services:
@@ -36,7 +37,8 @@ deploy:
 
 create_dev_artifacts:
   tags:
-    - deploy
+    - develop
+    - master
   stage: staging
   image: misterio92/ci-php-node:4.0
   services:
@@ -57,7 +59,8 @@ create_dev_artifacts:
 
 create_production_artifacts:
   tags:
-    - deploy
+    - develop
+    - master
   stage: staging
   image: misterio92/ci-php-node:4.0
   script:
