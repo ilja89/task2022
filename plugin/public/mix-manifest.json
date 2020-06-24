@@ -8,5 +8,5 @@
   "/css/highlight.css": "/css/highlight.css",
   "/js/courseSettings.js": "/js/courseSettings.js",
   "/js/assignment.js": "/js/assignment.js",
-  "/js/highlight.js": "/js/highlight.js"
+  "/plugin/public/js/highlight.js": "/plugin/public/js/highlight.js"
 }

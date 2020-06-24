@@ -4,7 +4,6 @@ variables:
 
 stages:
   - test
-  - build
   - deploy
   - create_dev_artifacts
   - create_production_artifacts
@@ -29,28 +28,6 @@ test:
   only:
     - dev
     - master
-
-
-build:
-  tags:
-    - develop
-    - master
-  image: docker:latest
-  stage: build
-  services:
-    - name: docker:dind
-  before_script:
-    - docker container ls
-    - docker images
-  script:
-    - whoami  # build the js thingy
-  after_script:
-    - docker container ls
-    - docker images
-  only:
-    - dev
-    - master
-
 
 deploy:
   tags:
@@ -79,10 +56,14 @@ create_dev_artifacts:
   tags:
     - develop
     - master
+  stage: deploy
   script:
     - php composer.phar install
     - cp -p .env.develop .env
     - php artisan key:generate
+    - npm i
+    - npm run dev
+    - rm -rf node_modules
     - mkdir charon
     - mv * charon || true
     - mv .* charon || true
@@ -94,10 +75,14 @@ create_production_artifacts:
   tags:
     - develop
     - master
+  stage: deploy
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
     - php artisan key:generate
+    - npm i
+    - npm run production
+    - rm -rf node_modules
     - mkdir charon
     - mv * charon || true
     - mv .* charon || true
