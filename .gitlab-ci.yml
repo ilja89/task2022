@@ -89,3 +89,18 @@ create_production_artifacts:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
+
+create_production_artifacts:
+  tags:
+    - develop
+    - master
+  script:
+    - php composer.phar install --no-dev
+    - cp -p .env.production .env
+    - php artisan key:generate
+    - mkdir charon
+    - mv * charon || true
+    - mv .* charon || true
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/charon
