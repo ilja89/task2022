@@ -8,10 +8,9 @@ stages:
 
 test:
   tags:
-    - develop
-    - master
-#  image: misterio92/ci-php-node:4.0
-  stage: deploy
+    - deploy
+  image: misterio92/ci-php-node:4.0
+  stage: test
   services:
     - name: docker:dind
   script:
@@ -37,10 +36,9 @@ deploy:
 
 create_dev_artifacts:
   tags:
-    - develop
-    - master
-  stage: deploy
-#  image: misterio92/ci-php-node:4.0
+    - deploy
+  stage: staging
+  image: misterio92/ci-php-node:4.0
   services:
     - name: docker:dind
   script:
@@ -59,10 +57,9 @@ create_dev_artifacts:
 
 create_production_artifacts:
   tags:
-    - develop
-    - master
-  stage: deploy
-#  image: misterio92/ci-php-node:4.0
+    - deploy
+  stage: staging
+  image: misterio92/ci-php-node:4.0
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
