@@ -4,16 +4,15 @@ variables:
 
 stages:
   - test
+  - staging
   - deploy
-  - create_dev_artifacts
-  - create_production_artifacts
 
 
 test:
   tags:
     - develop
     - master
-  image: docker:latest
+  image: misterio92/ci-php-node:4.0
   stage: test
   services:
     - name: docker:dind
@@ -33,7 +32,7 @@ deploy:
   tags:
     - develop
     - master
-  image: $DOCKER_USER/arete:latest
+  image: misterio92/ci-php-node:4.0
   stage: deploy
   services:
     - name: docker:dind
@@ -56,7 +55,10 @@ create_dev_artifacts:
   tags:
     - develop
     - master
-  stage: deploy
+  stage: staging
+  image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
   script:
     - php composer.phar install
     - cp -p .env.develop .env
@@ -75,7 +77,8 @@ create_production_artifacts:
   tags:
     - develop
     - master
-  stage: deploy
+  stage: staging
+  image: misterio92/ci-php-node:4.0
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
