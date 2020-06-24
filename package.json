@@ -31,5 +31,8 @@
     "vue2-autocomplete-js": "0.2.1",
     "vue2-daterange-picker": "^0.2.3",
     "vuex": "^3.0.1"
+  },
+  "resolutions": {
+    "image-webpack-loader/imagemin-pngquant": "5.0.1"
   }
 }
