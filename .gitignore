@@ -15,3 +15,4 @@ _ide_helper.php
 .tern-port
 composer.lock
 package-lock.json
+npm-shrinkwrap.json

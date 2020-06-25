@@ -47,6 +47,7 @@ create_dev_artifacts:
     - php composer.phar install
     - cp -p .env.develop .env
     - php artisan key:generate
+    - npm shrinkwrap --dev
     - npm install --unsafe-perm=true --allow-root --loglevel silly
     - npm run dev
     - rm -rf node_modules
@@ -67,6 +68,7 @@ create_production_artifacts:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
     - php artisan key:generate
+    - npm shrinkwrap
     - npm install --unsafe-perm=true --allow-root --loglevel silly
     - npm run production
     - rm -rf node_modules
