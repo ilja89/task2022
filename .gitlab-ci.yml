@@ -37,7 +37,7 @@ deploy:
 
 create_dev_artifacts:
   tags:
-    - cloud
+    - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
   services:
@@ -59,7 +59,7 @@ create_dev_artifacts:
 
 create_production_artifacts:
   tags:
-    - cloud
+    - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
   script:
