@@ -32,8 +32,8 @@ class StudentsController extends Controller
     /**
      * StudentsController constructor.
      *
-     * @param  Request $request
-     * @param  StudentsRepository $studentsRepository
+     * @param Request $request
+     * @param StudentsRepository $studentsRepository
      * @param GradebookService $gradebookService
      */
     public function __construct(Request $request, StudentsRepository $studentsRepository, GradebookService $gradebookService)
@@ -46,7 +46,7 @@ class StudentsController extends Controller
     /**
      * Search students by the given keyword.
      *
-     * @param  Course  $course
+     * @param Course $course
      *
      * @return Collection
      */
@@ -63,7 +63,7 @@ class StudentsController extends Controller
      * Find the user by the given ID.
      *
      * @param Course $course
-     * @param  int $userId
+     * @param int $userId
      *
      * @return User
      */
@@ -77,8 +77,8 @@ class StudentsController extends Controller
      * Get active result for the given charon and user. Takes the value
      * from gradebook.
      *
-     * @param  Charon  $charon
-     * @param  User  $user
+     * @param Charon $charon
+     * @param User $user
      *
      * @return float
      */
@@ -101,7 +101,7 @@ class StudentsController extends Controller
         require_once $CFG->dirroot . '/grade/report/user/lib.php';
 
         /// return tracking object
-        $gpr = new \grade_plugin_return(array('type'=>'report', 'plugin'=>'user', 'courseid'=>$course->id, 'userid'=>$user->id));
+        $gpr = new \grade_plugin_return(array('type' => 'report', 'plugin' => 'user', 'courseid' => $course->id, 'userid' => $user->id));
         $context = \context_course::instance($course->id);
 
         // Create a report instance
@@ -127,10 +127,15 @@ class StudentsController extends Controller
         return $student;
     }
 
-    public function getStudentTotalGrade(Course $course, int $userId) {
-        $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course')) -> first();
-        $grade = GradeGrade::where(array('itemid'=>$gradeItem->id, 'userid'=>$userId)) -> first();
-        return floatval($grade->finalgrade);
+    public function getStudentTotalGrade(Course $course, int $userId)
+    {
+        $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course'))->first();
+        $grade = GradeGrade::where(array('itemid' => $gradeItem->id, 'userid' => $userId))->first();
+        if (isset($grade->finalgrade)) {
+            floatval($grade->finalgrade);
+        } else {
+            return 0;
+        }
     }
 
 
@@ -148,10 +153,10 @@ class StudentsController extends Controller
         }
 
         $users = Submission::with([
-                'user' => function ($query) {
-                    $query->select(['id', 'firstname', 'lastname']);
-                },
-            ])
+            'user' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+        ])
             ->whereHas('charon', function ($query) use ($course) {
                 $query->where('course', $course->id);
             })
@@ -159,8 +164,7 @@ class StudentsController extends Controller
             ->get()
             ->pluck('user')
             ->unique()
-            ->values()
-        ;
+            ->values();
 
         return $users;
     }
