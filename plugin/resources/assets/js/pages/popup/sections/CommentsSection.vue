@@ -3,7 +3,6 @@
         title="Comments"
         subtitle="Comments are for every Charon and student."
     >
-
         <div class="card">
             <div class="comments-container">
                 <ul>
@@ -27,7 +26,6 @@
                 <button class="button is-primary" @click="saveComment">COMMENT</button>
             </div>
         </div>
-
     </popup-section>
 </template>
 

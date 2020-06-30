@@ -69,12 +69,13 @@
 }
 
 .comments-container {
-  height: 300px;
-  overflow: scroll;
+  max-height: 209px;
+  overflow: auto;
 }
 
 .comment-input-container {
   display: flex;
+  height: 30px;
 }
 
 .comment-input {
