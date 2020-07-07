@@ -17,3 +17,4 @@ _ide_helper.php
 composer.lock
 package-lock.json
 npm-shrinkwrap.json
+mix-manifest.json
