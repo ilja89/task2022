@@ -67,7 +67,7 @@ create_production_artifacts:
     - cp -p .env.production .env
     - php artisan key:generate
     - npm shrinkwrap
-    - npm install --unsafe-perm=true --allow-root --loglevel silly
+    - npm install
     - npm run production
     - rm -rf node_modules
     - mkdir charon

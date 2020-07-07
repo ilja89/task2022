@@ -132,7 +132,7 @@ class StudentsController extends Controller
         $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course'))->first();
         $grade = GradeGrade::where(array('itemid' => $gradeItem->id, 'userid' => $userId))->first();
         if (isset($grade->finalgrade)) {
-            floatval($grade->finalgrade);
+            return floatval($grade->finalgrade);
         } else {
             return 0;
         }
