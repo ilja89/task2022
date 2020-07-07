@@ -1,14 +1,9 @@
 /node_modules
-/plugin/public
-!/plugin/public/documentation
-!/plugin/public/img
-!/plugin/public/*.ico
-!/plugin/public/*.php
-!/plugin/public/*.txt
-!/plugin/public/*.json
-!/plugin/public/*.config
 /vendor
 /.idea
+/plugin/public/css
+/plugin/public/plugin
+/plugin/public/js
 Homestead.json
 Homestead.yaml
 .env

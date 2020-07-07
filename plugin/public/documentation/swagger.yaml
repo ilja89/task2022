@@ -1,0 +1,474 @@
+swagger: '2.0'
+
+host: localhost:9717
+basePath: /mod/charon/api
+
+info:
+  description: |
+  
+    # Introduction
+    
+    This is the documentation for the API used in Charon. **VERY** in-development version!
+    
+    There are three main API sections:
+      - Tester communication
+      - Popup requests
+      - Presets (course settings requests)
+    
+    This also documents request done by Charon to the tester (addproject and git callback).
+      
+    # Authentication
+    
+    ### Tester communication
+    
+    There is no API token for tester communication. Instead, a secret token is used. 
+    The token will be sent to the tester along with Git commit info from `/git_callback`.
+    The token for every submission is unique.
+    
+    ### Popup requests
+    
+    There is no API token for popup API calls. 
+    These requests make use of Moodle's sessions. 
+    This means that if you are logged into Moodle your account permissions will be checked.
+    This takes away unneccessary complication from API communications.
+    
+    So, no extra authentication is needed when Popup is sending requests to the API endpoints.
+    
+    However, it is probably a good idea to integrate some extra authentication in the future, just for extra security.
+    
+    <!-- ReDoc-Inject: <security-definitions> -->
+    
+  version: "1.0.0"
+  title: Charon API documentation
+ 
+tags:
+  - name: tester-callback
+    description: Results from the tester
+  - name: git-callback
+    description: Git commit info when student pushes to Git
+  - name: from-charon
+    description: Requests sent from Charon to tester
+x-tagGroups:
+  - name: Tester communication
+    tags:
+      - git-callback
+      - tester-callback
+  - name: From Charon
+    tags:
+      - from-charon
+
+securityDefinitions:
+  secret_token:
+    description: |
+      Secret token sent to the tester with new Git commit info.
+      Include this in `POST` parameters in field `secret_token` when sending test results via tester callback.
+    type: apiKey
+    name: secret_token
+    in: query
+
+paths:
+
+
+  /git_callback:
+    get:
+      tags:
+        - git-callback
+        
+      summary: Git callback
+      description: |
+        Sends info that a student has commited and pushed something to Git.
+        This will forward the info to the tester.
+        ALL the parameters will be forwarded to the tester so you can add anything you like if the tester makes use of it.
+        
+        The response is currently shown to the student so there should not be any sensitive info returned.
+        
+      parameters:
+        -
+          name: repo
+          in: query
+          description: Student's repo
+          type: string
+        -
+          name: user
+          in: query
+          description: Student's uni-id
+          type: string
+          
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: string
+            default: SUCCESS
+        500:
+          description: Some error, might not be able to communicate with the tester
+          
+            
+  /tester_callback:
+    post:
+      tags:
+        - tester-callback
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        
+      summary: Tester callback
+      description: |
+        Tester sends submission info to Charon.
+        
+        Custom grade results do not need to be included here, they are automatically created if none are sent.
+        
+        Will return the newly saved submission.
+        
+      parameters:
+        -
+          in: body
+          name: body
+          description: Tester callback data
+          required: true
+          schema:
+            $ref: "#/definitions/TesterCallback"
+            
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Submission'
+            
+            
+  /test:
+    post:
+      tags:
+        - from-charon
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        
+      summary: Forward Git callback info to tester
+      description: |
+        Send Git callback info forward to the tester.
+        This describes the request Charon makes to the tester.
+        ALL parameters that come from Git callback are forwarded to the tester!
+        
+      parameters:
+        - 
+          in: body
+          name: body
+          description: Git callback sent body
+          required: true
+          schema:
+            $ref: "#/definitions/GitCallbackSent"
+          
+      responses:
+        200:
+          description: Successful operation
+  
+  
+  /addproject:
+    post:
+      tags:
+        - from-charon
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        
+      summary: Addproject to tester
+      description: |
+        Notify tester of the new Charon. After this, the tester can test submissions.
+      
+      parameters:
+        - 
+          in: body
+          name: body
+          description: Add project request body
+          required: true
+          schema:
+            $ref: "#/definitions/AddProjectRequest"
+        
+      responses:
+        200:
+          description: Successful operation
+
+
+
+# Definitions
+        
+definitions:
+
+
+  Id:
+    type: integer
+    example: 1
+    
+  
+  DateTime:
+    type: object
+    properties:
+      date:
+        type: string
+        example: '2017-03-08 00:26:00.000000'
+      timezone_type:
+        description: 'Currently unknown. TODO: Find out!'
+        type: integer
+        example: 3
+      timezone:
+        type: string
+        example: UTC
+        
+
+  GitCallbackSent:
+    type: object
+    description: Git callback info sent to the tester
+    required:
+      - callback_url
+      - secret_token
+    properties:
+      callback_url:
+        description: Tester callback URL, tester should send callback to this URL
+        type: string
+        example: 'http://localhost:9717/mod/charon/api/tester_new_callback'
+      secret_token:
+        description: Secret token to include in tester callback. This can be quite a long string
+        type: string
+        example: 'eyJpdiI6ImFi='
+      repo:
+        description: Student's repo
+        type: string
+        example: 'ained/iti0140/ago.luberg'
+      user:
+        description: Student's uni-id
+        type: string
+        example: 'ago.luberg'
+        
+        
+  TesterCallback:
+    type: object
+    description: Tester callback request
+    required:
+      - secret_token
+      - charon_id
+      - uni_id
+    properties:
+      secret_token:
+        description: Secret token to include in tester callback
+        type: string
+        example: 'eyJpdiI6ImFiUndBMm'
+      charon_id:
+        description: ID for the charon the submission is for
+        allOf:
+          - $ref: '#/definitions/Id'
+      uni_id:
+        description: Uni-id of the student this submission belongs to
+        type: string
+        example: 'ago.luberg'
+      git_hash:
+        description: Git commit hash
+        type: string
+        example: '752e106'
+      git_commit_message:
+        description: Git commit message
+        type: string
+        example: 'Good commit, finished EX01'
+      git_timestamp:
+        description: Timestamp when the commit was made
+        type: integer
+        example: 1488932760
+      mail:
+        description: The mail sent to the student as feedback
+        type: string
+        example: 'You did good! 100%, 10/10'
+      stdout:
+        description: Output from the tester for the whole submission
+        type: string
+        example: 'Some output from tester'
+      stderr:
+        description: Error output from the tester (eg. compile errors)
+        type: string
+        example: 'Syntax error at line 10, no semicolon found!'
+      results:
+        description: List of results from the tester. Each should correspond to one grademap from Charon
+        type: array
+        items:
+          $ref: '#/definitions/Result'
+      files:
+        description: List of files commited to Git
+        type: array
+        items:
+          $ref: '#/definitions/File'
+          
+          
+  Submission:
+    type: object
+    description: A submission
+    required:
+      - id
+      - charon_id
+      - user_id
+      - updated_at
+      - created_at
+      - results
+    properties:
+      id:
+        description: Submission ID
+        allOf:
+          - $ref: '#/definitions/Id'
+      charon_id:
+        description: Charon ID
+        allOf:
+          - $ref: '#/definitions/Id'
+      user_id:
+        description: Student ID
+        allOf:
+          - $ref: '#/definitions/Id'
+      created_at:
+        allOf:
+          - $ref: '#/definitions/DateTime'
+      updated_at:
+        allOf:
+          - $ref: '#/definitions/DateTime'
+      results:
+        description: List of results, each corresponding to a grademap based on the grade type
+        type: array
+        items:
+          $ref: '#/definitions/SavedResult'
+  
+  
+  Result:
+    type: object
+    description: A result which is not saved yet, should correspond to one grademap from Charon. Mapped by grade type
+    required:
+      - grade_type_code
+      - percentage
+    properties:
+      grade_type_code:
+        description: |
+          'Type of the grade. 1-100: tests, 101 - 1000: style, 1001 - ...: custom'
+        type: integer
+        example: 1
+      percentage:
+        description: Percentage of the score from the tester
+        type: number
+        example: 50.5
+      stdout:
+        description: Output for the given result tests
+        type: string
+        example: '2/6 tests passed'
+      stderr:
+        description: Error output for the given result tests
+        type: string
+        example: 'Error at line 10'
+        
+    
+  SavedResult:
+    description: A saved result with all calculated data
+    allOf:
+      - $ref: '#/definitions/Result'
+      - type: object
+        properties:
+          id:
+            allOf:
+              - $ref: '#/definitions/Id'
+          submission_id:
+            allOf:
+              - $ref: '#/definitions/Id'
+          calculated_result:
+            description: Calculated result from percentage, max points and deadlines
+            type: number
+            example: 0.5
+        required:
+          - id
+          - submission_id
+          - calculated_result
+          
+          
+  File:
+    type: object
+    description: A not yet saved file
+    required:
+      - path
+      - contents
+    properties:
+      path:
+        description: File path from the Git root folder
+        type: string
+        example: 'EX01/src/main/Main.java'
+      contents:
+        description: File contents
+        type: string
+        example: 'class Main {\\n   public static void main(String[] args) {\\n        System.out.println("Hello World");\\n    }\\n}'
+        
+  AddProjectRequest:
+    type: object
+    description: Add project request
+    required:
+      - id
+      - project
+      - course
+      - tester
+      - extra
+      - unittestsUrl
+      - gradeMaps
+    properties:
+      id:
+        allOf:
+          - $ref: '#/definitions/Id'
+      project:
+        description: Project folder in which this tasks files are in Git
+        type: string
+        example: 'EX01'
+      course:
+        description: The short name for the course. Taken from Moodle course
+        type: string
+        example: 'ITI0020'
+      tester:
+        description: The tester to be used for testing this task
+        type: string
+        example: 'python'
+      extra:
+        description: Extra fields to tell tester more info
+        type: string
+        example: 'stylecheck'
+      unittestsUrl:
+        description: The URL for unit tests. Taken from course settings
+        type: string
+        example: 'https://git.ttu.ee/ained/iti0020/tests.git'
+      gradeMaps:
+        description: List of grademaps for the Charon
+        type: array
+        items:
+          $ref: '#/definitions/Grademap'
+          
+  
+  Grademap:
+    type: object
+    description: A grademap
+    required:
+      - name
+      - grade_type_name
+      - grade_type_code
+    properties:
+      name:
+        description: Name of the grademap
+        type: string
+        example: 'EX01 - Tests'
+      grade_type_name:
+        description: Name of the grade type
+        type: string
+        example: 'Tests_1'
+      grade_type_code:
+        description: Code of the grade type
+        type: integer
+        example: 1
+        
+        
+        
+    
+    
+    
+    
+    
+    
+  
