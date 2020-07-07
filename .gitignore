@@ -1,6 +1,12 @@
 /node_modules
-/plugin/public/storage
-/plugin/storage/*.key
+/plugin/public
+!/plugin/public/documentation
+!/plugin/public/img
+!/plugin/public/*.ico
+!/plugin/public/*.php
+!/plugin/public/*.txt
+!/plugin/public/*.json
+!/plugin/public/*.config
 /vendor
 /.idea
 Homestead.json
