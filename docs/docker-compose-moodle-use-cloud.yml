@@ -1,9 +1,10 @@
-version: '2'
+version: '3.4'
 services:
 
   moodle:
-    image: 'bitnami/moodle:3.8.3'
+    image: 'bitnami/moodle:3.9.0'
     environment:
+      - MOODLE_SKIP_INSTALL=yes
       - MARIADB_HOST=35.217.3.154
       - MARIADB_PORT_NUMBER=3306
       - MOODLE_DATABASE_USER=bn_moodle
