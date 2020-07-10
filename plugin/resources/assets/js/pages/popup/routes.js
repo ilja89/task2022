@@ -8,7 +8,9 @@ import {
     DashboardPage,
     PlagiarismPage,
     ReportStatistics,
+    LabsPage
 } from './pages';
+import LabsForm from "./pages/labs/LabsForm";
 
 Vue.use(VueRouter)
 
@@ -54,6 +56,18 @@ const routes = [
         title: 'No student selected',
         component: NoStudentSelectedPage,
         name: 'no-student-selected'
+    },
+    {
+        path: '/labs',
+        title: 'Labs',
+        component: LabsPage,
+        name: 'labs'
+    },
+    {
+        path:'/labsForm',
+        title: 'Labs Form',
+        component: LabsForm,
+        name: 'labs-form'
     },
 ];
 

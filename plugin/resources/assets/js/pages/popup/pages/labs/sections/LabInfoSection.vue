@@ -7,7 +7,7 @@
         <div class="fcontainer clearfix fitem">
 
             <lab-info-row :deadline="deadline"
-                          :teachers="teachers">
+                          :teachers="form.teachers">
             </lab-info-row>
 
         </div>
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-    import { Translate } from '../../../mixins';
-    import { LabInfoRow } from '../components';
+    import { Translate } from '../../../../../mixins';
+    import LabInfoRow from "../components/LabInfoRow";
 
     export default {
         mixins: [ Translate ],

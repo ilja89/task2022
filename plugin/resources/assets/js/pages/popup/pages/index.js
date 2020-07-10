@@ -5,8 +5,9 @@ import StudentOverviewPage from './StudentOverviewPage.vue'
 import DashboardPage from './DashboardPage.vue'
 import PlagiarismPage from './PlagiarismPage'
 import ReportStatistics from './ReportStatistics'
+import LabsPage from "./LabsPage"
 
 export {
     GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage,
-    DashboardPage, PlagiarismPage, ReportStatistics,
+    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage
 }

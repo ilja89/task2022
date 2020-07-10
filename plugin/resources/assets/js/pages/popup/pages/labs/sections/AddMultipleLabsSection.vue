@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import { Translate } from '../../../mixins';
+    import { Translate } from '../../../../../mixins';
     import Multiselect from 'vue-multiselect';
 
     export default {
@@ -50,4 +50,4 @@
     }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="../../../../../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
