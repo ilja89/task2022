@@ -4,17 +4,16 @@
 
         <legend class="ftoggler">Add multiple lab sessions</legend>
 
-        <div class="fcontainer clearfix fitem">
+        <div class="fcontainer clearfix fitem" style="margin-bottom: 10px">
 
             <label>Weeks</label>
 
             <p class="input-helper">Choose weeks when this lab session takes place.</p>
 
-            <select v-model="chosen_weeks">
-                <option v-for="week in weeks" :value="week">
-                    {{ week }}
-                </option>
-            </select>
+            <multiselect v-model="chosen_weeks" :options="weeks" :multiple="true"
+                         :close-on-select="false" placeholder="Select weeks"
+                         :clear-on-select="true" class="multiselect__width" style="width: 350px">
+            </multiselect>
 
         </div>
 
@@ -24,15 +23,22 @@
 
 <script>
     import { Translate } from '../../../mixins';
+    import Multiselect from 'vue-multiselect';
 
     export default {
         mixins: [ Translate ],
 
+        components: { Multiselect },
+
         data() {
             return {
                 weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-                chosen_weeks: []
+                chosen_weeks: []  // actually form.lab.weeks or form.lab={id}.weeks or sth like that
             }
+        },
+
+        props: {
+            form: {required: true}
         },
 
         computed: {
@@ -43,3 +49,5 @@
 
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

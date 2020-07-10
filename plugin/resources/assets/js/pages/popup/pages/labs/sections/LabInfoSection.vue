@@ -32,8 +32,12 @@
                     {name: 'Ago', id: 1},
                     {name: 'Kadri', id: 2},
                     {name: 'Orav', id: 3}
-                ]
+                ]  // actually form.teachers
             }
+        },
+
+        props: {
+            form: {required: true}
         },
 
         computed: {
