@@ -8,6 +8,7 @@ import {
     DashboardPage,
     PlagiarismPage,
     ReportStatistics,
+    LabsPage
 } from './pages';
 
 Vue.use(VueRouter)
@@ -54,6 +55,12 @@ const routes = [
         title: 'No student selected',
         component: NoStudentSelectedPage,
         name: 'no-student-selected'
+    },
+    {
+        path: '/labs',
+        title: 'Labs',
+        component: LabsPage,
+        name: 'labs',
     },
 ];
 
