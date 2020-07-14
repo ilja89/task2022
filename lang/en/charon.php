@@ -121,6 +121,30 @@ $string['add_button_text'] = 'Add';
 
 $string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
 $string['grouping'] = "Grouping";
+
+/*------------------------*\
+   Labs form
+\*------------------------*/
+
+$string['save'] = "Save";
+$string['cancel'] = "Cancel";
+
+$string['lab_info'] = "Lab info";
+$string['multiple_labs'] = "Add multiple lab sessions";
+
+$string['start'] = "Start";
+$string['end'] = "End";
+$string['teachers'] = "Teachers";
+$string['weeks'] = "Weeks";
+
+$string['start_helper'] = "Start date and time.";
+$string['end_helper'] = "End time.";
+$string['teachers_helper'] = "Teachers attending this lab session.";
+$string['weeks_helper'] = "Choose weeks when this lab session takes place.";
+
+$string['teachers_placeholder'] = "Select teachers";
+$string['weeks_placeholder'] = "Select weeks";
+
 /*------------------------*\
    Assignment view
 \*------------------------*/
@@ -136,3 +160,5 @@ $string['your_points']     = 'Your points';
 $string['total']           = 'Total';
 $string['all_groups']      = 'All groups';
 $string['tester_feedback'] = 'Tester feedback';
+
+

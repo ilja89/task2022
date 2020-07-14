@@ -114,6 +114,30 @@ $string['add_button_text'] = 'Lisa';
 
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
+
+/*------------------------*\
+        Labs form
+\*------------------------*/
+
+$string['save'] = "Salvesta";
+$string['cancel'] = "Tühista";
+
+$string['lab_info'] = "Praktikumi info";
+$string['multiple_labs'] = "Lisa mitu praktikumi sessiooni";
+
+$string['start'] = "Algus";
+$string['end'] = "Lõpp";
+$string['teachers'] = "Õppejõud";
+$string['weeks'] = "Nädalad";
+
+$string['start_helper'] = "Alguse kuupäev ja aeg.";
+$string['end_helper'] = "Lõpu aeg.";
+$string['teachers_helper'] = "Õppejõud, kes selles praktikumis kohal on.";
+$string['weeks_helper'] = "Vali nädalad, millal see praktikum aset leiab.";
+
+$string['teachers_placeholder'] = "Vali õppejõud";
+$string['weeks_placeholder'] = "Vali nädalad";
+
 /*------------------------*\
    Assignment view
 \*------------------------*/

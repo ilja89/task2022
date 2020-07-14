@@ -19,7 +19,7 @@
 /*---------------------------------*\
   #IMPORTS
 \*---------------------------------*/
-@import '_variables.scss';
+@import 'plugin/resources/assets/sass/variables';
 
 
 /*---------------------------------*\
@@ -40,17 +40,19 @@ label.required:after {
   #HELPER_TEXT
 \*-----------------------*/
 
-.fitem .input-helper {
+.fitem .input-helper-labs {
   padding-left: 15px;
   padding-right: 15px;
 }
 
-.input-helper {
+.input-helper-labs {
   font-size: 15px;
   color: #5e6977;
+  margin-block-end: 1em;
+  margin-block-start: .5rem;
 }
 
-.deadline-row:not(:first-child) .deadline-field label {
+.labs-row:not(:first-child) .labs-field label {
   display: none;
 }
 
@@ -73,116 +75,46 @@ label.required:after {
   font-size: 0.8em;
 }
 
-fieldset legend {
+fieldset {
+  border-bottom: 1px solid #dee2e6;
+}
+
+
+/*-----------------------*\
+  #LABS
+\*-----------------------*/
+
+.topic-open {
   padding-top: 20px;
-}
-
-
-/*-----------------------*\
-  #GRADES_SELECT
-\*-----------------------*/
-
-.grades-select-container {
-  display: flex;
-}
-
-
-.grades-select-col {
-  padding: 0 10px;
-
-  .checkbox input[type='checkbox'] {
-    position: static;
-    margin-left: 0;
+  legend {
+    background: url(/theme/image.php/boost/core/1594247207/t/expanded) 0 center no-repeat;
   }
 }
 
-
-/*-----------------------*\
-  #GRADEMAP_TABS
-\*-----------------------*/
-
-.tabs {
-  margin-top: 10px;
-  border-bottom: 5px solid $brand-primary;
-
-  ul {
-    list-style: none;
-    display: flex;
-    padding: 0;
-    margin: 0;
-    flex-wrap: wrap;
+.topic-closed {
+  padding-top: 20px;
+  legend {
+    background: url(/theme/image.php/boost/core/1594247207/t/collapsed) 0 center no-repeat;
   }
 }
-
-
-.tabs .tab {
-  flex-grow: 1;
-  margin: 0 5px;
-  text-align: center;
-
-  cursor: pointer;
-  background-color: $background-grey;
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  a {
-    display: inline-block;
-    padding: 5px;
-    width: 100%;
-    color: $dark-text-color;
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
-  }
-
-  &.is-active {
-    background-color: $brand-primary;
-
-    a {
-      color: #ffffff;
-    }
-  }
+label {
+  color: black;
+  font-size: 15px;
 }
 
-.tab-details {
-  border-bottom: 5px solid $brand-primary;
-  margin-bottom: 35px;
-  padding-bottom: 10px;
+legend {
+  padding: 0 5px 0 1.5rem;
+  margin-left: -1.5rem;
+  color: #1177d1;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 400;
 }
 
-.grademap-row {
-  display: flex;
-  padding-top: 10px;
-  padding-bottom: 10px;
-
-  .grademap-field {
-    width: 100%;
-    padding: 0 15px;
-
-    .input-helper {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-}
-
-
-/*-----------------------*\
-  #DEADLINES
-\*-----------------------*/
-
-.deadline-row {
+.labs-row {
   align-items: flex-end;
 
-  &:not(:first-child) .deadline-field {
+  &:not(:first-child) .labs-field {
     .input-helper {
       visibility: hidden;
       height: 0;
@@ -191,43 +123,7 @@ fieldset legend {
   }
 }
 
-.deadline-field {
-  padding: 10px 15px;
-
-  .input-helper {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-.add-deadline-btn {
-  height: 46px;
-  margin: 10px 15px;
-}
-
-.remove-deadline-btn {
-  height: 46px;
-  min-width: 100%;
-  margin: 0;
-}
-
-/*-----------------------*\
-  #DEFENSE
-\*-----------------------*/
-
-.defense-row {
-  align-items: flex-end;
-
-  &:not(:first-child) .defense-field {
-    .input-helper {
-      visibility: hidden;
-      height: 0;
-      margin: 0;
-    }
-  }
-}
-
-.defense-field {
+.labs-field {
   padding: 10px 15px;
 
   .input-helper {
@@ -244,12 +140,71 @@ fieldset legend {
   .multiselect__width {
     max-width: 275px;
   }
+
 }
 
 /*---------------------------------*\
   #ACCESSORIES
 \*---------------------------------*/
 
+.btn-container {
+  width: 50%; margin-top: 8px;
+}
+
+.btn-container-left {
+  float:left;
+  text-align: right;
+}
+
+.btn-container-right {
+  float: right;
+}
+
+.btn-save-labs {
+  color: #fff;
+  background-color: #1177d1;
+  border-color: #1177d1;
+}
+
+.btn-save-labs:hover {
+  background-color: darken(#1177d1, 10%);
+}
+
+.btn-cancel-labs {
+  color: #212529;
+  background-color: #ced4da;
+  border-color: #ced4da;
+}
+
+.btn-cancel-labs:hover {
+  background-color: darken(#ced4da, 10%);
+}
+
+.btn-labs {
+  cursor: pointer;
+  border-style: none;
+  margin: 2px;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: .375rem .75rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  border-radius: 0;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  -o-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-labs:focus {
+  border: none;
+  outline: none;
+}
 
 /*-----------------------*\
   #TOGGLE
@@ -261,50 +216,6 @@ fieldset legend {
 
 .is-flex-1 {
   flex-grow: 1;
-}
-
-
-/*-----------------------*\
-  #TOGGLE
-\*-----------------------*/
-
-.toggle {
-  display: none;
-
-  + .toggle-btn {
-    outline: 0;
-    display: block;
-    width: 2.6em;
-    height: 1.3em;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    &:after,
-    &:before {
-      position: relative;
-      display: block;
-      content: "";
-      width: 50%;
-      height: 100%;
-    }
-
-    &:after {
-      left: 0;
-    }
-
-    &:before {
-      display: none;
-    }
-  }
-
-  &:checked + .toggle-btn:after {
-    left: 50%;
-  }
-}
-
-
-.toggle-btn {
-  margin: 2px;
 }
 
 

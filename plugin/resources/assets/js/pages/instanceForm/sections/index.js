@@ -6,14 +6,10 @@ import SimpleTaskInfoSection from './SimpleTaskInfoSection.vue'
 import AdvancedPlagiarismSection from './AdvancedPlagiarismSection.vue'
 import SimplePlagiarismSection from './SimplePlagiarismSection.vue'
 import GroupingSection from './GroupingSection.vue';
-import LabInfoSection from "./LabInfoSection";
-import AddMultipleLabsSection from "./AddMultipleLabsSection";
 import DefendingSection from "./DefendingSection";
 
 export {
     AdvancedGradingSection, AdvancedTaskInfoSection, DeadlineSection,
     SimpleGradingSection, SimpleTaskInfoSection, SimplePlagiarismSection,
-    AdvancedPlagiarismSection, GroupingSection, LabInfoSection,
-    AddMultipleLabsSection, DefendingSection
-
+    AdvancedPlagiarismSection, GroupingSection, DefendingSection
 }
