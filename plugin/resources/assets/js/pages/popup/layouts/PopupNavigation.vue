@@ -37,6 +37,12 @@
                     Report & Statistics
                 </router-link>
             </li>
+            <!-- Adding Labs to the Popup menu -->
+            <li class="nav-item">
+                <router-link to="/labs">
+                    Labs
+                </router-link>
+            </li>
 
         </ul>
     </aside>
