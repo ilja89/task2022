@@ -7,7 +7,7 @@
             <p class="pl-5">Time: {{lab.time}}</p>
             <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher}}, </b> ...</p>
         </div>
-        <button class="font btn">+ Add a new lab session</button>
+        <button v-on:click="clickAddNewLabSession" class="font btn">+ Add a new lab session</button>
     </div>
 </template>
 
@@ -15,6 +15,11 @@
     export default {
         name: "LabSection.vue",
         props: ["LabsList"],
+        methods: {
+            clickAddNewLabSession() {
+                window.location = "popup#/labsForm";
+            }
+        }
     }
 
 
