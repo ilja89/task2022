@@ -56,10 +56,5 @@
             },
         },
 
-        methods: {
-            onAddDeadlineClicked() {
-                VueEvent.$emit('deadline-was-added');
-            },
-        },
     }
 </script>

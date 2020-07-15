@@ -45,6 +45,23 @@
     import Multiselect from 'vue-multiselect';
 
     export default {
+        data() {
+            return {
+                defense: {
+                    deadline: '23-09-2020 23:59',  // actually same as deadline section's deadline, has some more parameters
+                    duration: 8,  // duration in minutes
+                    labs: [
+                        {
+                        start: '12-12-2020 10:00',
+                        end: '12-12-2020 11:30',
+                        teachers: [{name: 'Ago Luberg'}, {name: 'Keegi Veel'}],  // full teacher object probably
+                        weeks: [1, 4, 9, 10, 14, 15]
+                        }
+                    ],  // list of labs
+                    teacher: true  // boolean - student can choose teacher
+                }
+            }
+        },
         mixins: [ Translate ],
 
         components: { Datepicker, CharonSelect, Multiselect },

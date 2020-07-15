@@ -10,6 +10,7 @@ import {
     ReportStatistics,
     LabsPage
 } from './pages';
+import LabsForm from "./pages/labs/LabsForm";
 
 Vue.use(VueRouter)
 
@@ -60,7 +61,13 @@ const routes = [
         path: '/labs',
         title: 'Labs',
         component: LabsPage,
-        name: 'labs',
+        name: 'labs'
+    },
+    {
+        path:'/labsForm',
+        title: 'Labs Form',
+        component: LabsForm,
+        name: 'labs-form'
     },
 ];
 
