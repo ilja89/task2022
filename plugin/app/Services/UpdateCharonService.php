@@ -115,6 +115,10 @@ class UpdateCharonService
         return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }
 
+    public function updateDefense($request, $charon) {
+        $oldDefense = $charon->defense;
+    }
+
     /**
      * Updates the Category calculation formula and max score for the given Charon.
      *

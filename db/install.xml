@@ -21,6 +21,9 @@
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
+                <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
+                <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" NOTNULL="false"/>
+                <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
 
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
@@ -93,6 +96,53 @@
                 <INDEX NAME="IXFK_deadline_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_deadline_groups" UNIQUE="false" FIELDS="group_id"/>
                 <INDEX NAME="IXFK_deadline_events" UNIQUE="false" FIELDS="event_id"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="lab_dummy" COMMENT="Dummy lab table. To be replaced with real lab table.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <!-- also contains teachers, in another table -->
+            </FIELDS>
+        </TABLE>
+
+        <TABLE NAME="lab_teacher" COMMENT="Teacher attending this lab.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_lab_teacher" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_lab_teacher_lab" TYPE="foreign" FIELDS="lab_id"
+                    REFTABLE="lab_dummy" REFFIELDS="id"/> <!-- lab_dummy to be replaced with real lab table -->
+                <KEY NAME="FK_lab_teacher_teacher" TYPE="foreign" FIELDS="teacher_id"
+                    REFTABLE="user" REFFIELDS="id"/> <!-- not sure if it's user -->
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_lab_teacher_lab" UNIQUE="false" FIELDS="lab_id"/>
+                <INDEX NAME="IXFK_lab_teacher_teacher" UNIQUE="false" FIELDS="teacher_id"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="charon_defense_lab" COMMENT="Labs where the Charon can be defended.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_defense_lab" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_defense_lab_lab" TYPE="foreign" FIELDS="lab_id"
+                    REFTABLE="lab_dummy" REFFIELDS="id"/> <!-- lab_dummy to be replaced with real lab table -->
+                <KEY NAME="FK_charon_defense_lab_charon" TYPE="foreign" FIELDS="charon_id"
+                    REFTABLE="charon" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_defense_lab_lab" UNIQUE="false" FIELDS="lab_id"/>
+                <INDEX NAME="IXFK_charon_defense_lab_charon" UNIQUE="false" FIELDS="charon_id"/>
             </INDEXES>
         </TABLE>
 
