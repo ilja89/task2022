@@ -38,6 +38,6 @@ class CharonDefenseLabController extends Controller
      */
     public function getByCharon(Charon $charon)
     {
-        return $this->charonDefenseLabRepository->findLabDummiesByCourse($charon->id);
+        return $this->charonDefenseLabRepository->findLabsByCourse($charon->id);
     }
 }

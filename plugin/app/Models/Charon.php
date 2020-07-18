@@ -33,9 +33,9 @@ use Zeizig\Moodle\Services\ModuleService;
  *      checksuite in the Julia plagiarism service.
  * @property string|null plagiarism_latest_check_id - Id of the latest check
  *      for this Charon in the Julia plagiarism service.
- * @property Carbon defenseDeadline
- * @property int defenseDuration
- * @property bool chooseTeacher
+ * @property Carbon defense_deadline
+ * @property int defense_duration
+ * @property bool choose_teacher
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod

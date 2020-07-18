@@ -20,10 +20,10 @@ use Zeizig\Moodle\Models\User;
  *
  * @package TTU\Charon\Models
  */
-class LabDummy extends Model
+class Lab extends Model
 {
     public $timestamps = false;
-    protected $table = 'lab_dummy';
+    protected $table = 'lab';
 
     protected $fillable = [
         'start', 'end'

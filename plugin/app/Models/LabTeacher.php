@@ -27,7 +27,7 @@ class LabTeacher extends Model
 
     public function labDummy()
     {
-        return $this->belongsTo(LabDummy::class);
+        return $this->belongsTo(Lab::class);
     }
 
     public function teacher()

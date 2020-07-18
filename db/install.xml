@@ -99,25 +99,24 @@
             </INDEXES>
         </TABLE>
 
-        <TABLE NAME="lab_dummy" COMMENT="Dummy lab table. To be replaced with real lab table.">
+        <TABLE NAME="lab" COMMENT="Lab.">
             <FIELDS>
-                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
-                <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <!-- also contains teachers, in another table -->
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
         </TABLE>
 
         <TABLE NAME="lab_teacher" COMMENT="Teacher attending this lab.">
             <FIELDS>
-                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
-                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
-                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_lab_teacher" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_lab_teacher_lab" TYPE="foreign" FIELDS="lab_id"
-                    REFTABLE="lab_dummy" REFFIELDS="id"/> <!-- lab_dummy to be replaced with real lab table -->
+                    REFTABLE="lab" REFFIELDS="id"/>
                 <KEY NAME="FK_lab_teacher_teacher" TYPE="foreign" FIELDS="teacher_id"
                     REFTABLE="user" REFFIELDS="id"/> <!-- not sure if it's user -->
             </KEYS>
@@ -129,14 +128,14 @@
 
         <TABLE NAME="charon_defense_lab" COMMENT="Labs where the Charon can be defended.">
             <FIELDS>
-                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true"/>
-                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
-                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="true"/>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_defense_lab" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_charon_defense_lab_lab" TYPE="foreign" FIELDS="lab_id"
-                    REFTABLE="lab_dummy" REFFIELDS="id"/> <!-- lab_dummy to be replaced with real lab table -->
+                    REFTABLE="lab" REFFIELDS="id"/>
                 <KEY NAME="FK_charon_defense_lab_charon" TYPE="foreign" FIELDS="charon_id"
                     REFTABLE="charon" REFFIELDS="id"/>
             </KEYS>

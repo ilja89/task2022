@@ -5,9 +5,11 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\LabDummy;
+use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -21,7 +23,7 @@ use Zeizig\Moodle\Services\ModuleService;
  *
  * @package TTU\Charon\Repositories
  */
-class LabDummyRepository
+class LabRepository
 {
     /** @var ModuleService */
     protected $moduleService;
@@ -39,13 +41,13 @@ class LabDummyRepository
     /**
      * Save the lab instance.
      *
-     * @param  LabDummy  $labDummy
+     * @param  Lab  $lab
      *
      * @return boolean
      */
-    public function save(LabDummy $labDummy)
+    public function save(Lab $lab)
     {
-        return $labDummy->save();
+        return $lab->save();
     }
 
     /**
@@ -55,7 +57,7 @@ class LabDummyRepository
      */
     public function getAllLabs()
     {
-        return LabDummy::all();
+        return Lab::all();
     }
 
     /**
@@ -63,11 +65,11 @@ class LabDummyRepository
      *
      * @param  integer  $id
      *
-     * @return LabDummy
+     * @return Lab
      */
-    public function getLabDummyById($id)
+    public function getLabById($id)
     {
-        return LabDummy::find($id);
+        return Lab::find($id);
     }
 
     /**
@@ -81,28 +83,28 @@ class LabDummyRepository
      */
     public function deleteByInstanceId($id)
     {
-        /** @var LabDummy $labDummy */
-        $labDummy = LabDummy::find($id);
+        /** @var Lab $lab */
+        $lab = Lab::find($id);
 
-        // TODO CharonDefenseLab::where('lab_id', $id)->delete();
-        // TODO LabTeacher::where('lab_id', $id)->delete();
+        CharonDefenseLab::where('lab_id', $id)->delete();
+        LabTeacher::where('lab_id', $id)->delete();
 
-        return $labDummy->delete();
+        return $lab->delete();
     }
 
     /**
      * Takes the old instance and override its values with the new Charon values.
      *
-     * @param  LabDummy  $oldLabDummy
-     * @param  LabDummy  $newLabDummy
+     * @param  Lab  $oldLab
+     * @param  Lab  $newLab
      *
      * @return boolean
      */
-    public function update($oldLabDummy, $newLabDummy)
+    public function update($oldLab, $newLab)
     {
-        $oldLabDummy->start = $newLabDummy->start;
-        $oldLabDummy->end = $newLabDummy->end;
-        $oldLabDummy->teachers = $newLabDummy->teachers;  // necessary?
+        $oldLab->start = $newLab->start;
+        $oldLab->end = $newLab->end;
+        $oldLab->teachers = $newLab->teachers;  // necessary?
         /*$oldCharon->name = $newCharon->name;
         $oldCharon->project_folder = $newCharon->project_folder;
         $oldCharon->tester_extra = $newCharon->tester_extra;
@@ -118,7 +120,7 @@ class LabDummyRepository
             $oldCharon->courseModule()->id
         );*/
 
-        return $oldLabDummy->save();
+        return $oldLab->save();
     }
 
     /**
@@ -127,9 +129,9 @@ class LabDummyRepository
      *
      * @param  integer $courseId
      *
-     * @return LabDummy[]
+     * @return Lab[]
      */
-    public function findLabDummiesByCourse($courseId)
+    public function findLabsByCourse($courseId)
     {
         // someone else's to implement
     }
