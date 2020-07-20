@@ -282,5 +282,28 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql3);
     }
 
+    if ($oldversion < 2020071901) {
+        $sql1 = "ALTER TABLE mdl_charon MODIFY defense_deadline DATETIME NULL DEFAULT NULL";
+        $sql2 = "ALTER TABLE mdl_charon MODIFY defense_duration INT NULL DEFAULT NULL";
+        $sql3 = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NULL DEFAULT NULL";
+        $DB-> execute($sql1);
+        $DB-> execute($sql2);
+        $DB-> execute($sql3);
+    }
+
+    if ($oldversion < 2020071902) {
+        $sql1 = "ALTER TABLE mdl_charon MODIFY defense_deadline DATETIME NULL";
+        $sql2 = "ALTER TABLE mdl_charon MODIFY defense_duration INT NULL";
+        $sql3 = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NOT NULL";
+        $DB-> execute($sql1);
+        $DB-> execute($sql2);
+        $DB-> execute($sql3);
+    }
+
+    if ($oldversion < 2020071903) {
+        $sql = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NULL";
+        $DB->execute($sql);
+    }
+
     return true;
 }
