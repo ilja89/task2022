@@ -305,5 +305,18 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
+    if ($oldversion < 2020072001) {
+        $sql = "ALTER TABLE mdl_lab ADD COLUMN course_id BIGINT(10) NOT NULL";
+        $sql2 = "ALTER TABLE mdl_lab ADD CONSTRAINT FK_lab_course".
+            "   FOREIGN KEY (course_id)".
+            "       REFERENCES mdl_course(id)".
+            "       ON DELETE CASCADE".
+            "       ON UPDATE CASCADE";
+        $sql3 = "ALTER TABLE mdl_lab ADD INDEX IXFK_lab_charon (course_id)";
+        $DB->execute($sql);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+    }
+
     return true;
 }
