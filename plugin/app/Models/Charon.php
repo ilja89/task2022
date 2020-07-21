@@ -74,6 +74,11 @@ class Charon extends Model
         return $this->hasMany(Grademap::class);
     }
 
+    //public function defenseLabs()
+   // {
+    //    return $this->hasMany(CharonDefenseLab::class)->orderBy('id');
+   // }
+
     public function deadlines()
     {
         return $this->hasMany(Deadline::class)->orderBy('deadline_time');

@@ -28,7 +28,7 @@ class LabController extends Controller
     }
 
     /**
-     * Get Charons by course.
+     * Get Labs by course.
      *
      * @param  Course $course
      *
@@ -38,4 +38,24 @@ class LabController extends Controller
     {
         return $this->labRepository->findLabsByCourse($course->id);
     }
+
+    /**
+     * Get all Labs.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|Lab[]
+     */
+    public function all() {
+        return $this->labRepository->getAllLabs();
+    }
+
+    /**
+     * Save lab.
+     * @param Course $course
+     *
+     * @return bool
+     */
+    public function save(Course $course) {
+        return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id);
+    }
+
 }

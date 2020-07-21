@@ -5,9 +5,11 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Repositories\CommentsRepository;
+use TTU\Charon\Models\CharonDefenseLab;
+use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Models\Course;
 
 /**
  * Class CommentsController.
@@ -26,52 +28,29 @@ class LabTeacherController extends Controller
      * CommentsController constructor.
      *
      * @param Request $request
-     * @param CommentsRepository $commentsRepository
+     * @param LabTeacherRepository $labTeacherRepository
      * @param User $user
      */
-    public function __construct(Request $request, CommentsRepository $commentsRepository, User $user)
+    public function __construct(Request $request, LabTeacherRepository $labTeacherRepository, User $user)
     {
         parent::__construct($request);
-        $this->commentsRepository = $commentsRepository;
+        $this->labTeacherRepository = $labTeacherRepository;
         $this->user = $user;
     }
 
-    /**
-     * Get comments by the charon and student from request.
-     *
-     * @param Charon $charon
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|\TTU\Charon\Models\Comment[]
-     */
-    public function getByCharonAndStudent(Charon $charon)
-    {
-        $comments = $this->commentsRepository->findCommentsByCharonAndStudent(
-            $charon->id,
-            $this->request['student_id']
-        );
-
-        return $comments;
+    public function getByLab(Course $course, Lab $lab) {
+        return $this->labTeacherRepository->getTeachersByLabId($course->id, $lab->id);
     }
 
     /**
-     * Saves a comment. Comment details are taken from the request.
+     * Get teachers by charon and defense lab id.
      *
      * @param  Charon $charon
+     * @param CharonDefenseLab $charonDefenseLab
      *
      * @return array
      */
-    public function saveComment(Charon $charon)
-    {
-        $comment = $this->commentsRepository->saveComment(
-            $charon->id,
-            $this->request['student_id'],
-            $this->user->currentUserId(),
-            $this->request['comment']
-        );
-
-        return [
-            'status'  => 'OK',
-            'comment' => $comment,
-        ];
+    public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab) {
+        return $this->labTeacherRepository->getTeachersByCharonAndLabId($charon->id, $charonDefenseLab->id);
     }
 }

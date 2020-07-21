@@ -1,7 +1,7 @@
 <template>
     <div class="labs-row is-flex">
         <div class="labs-field">
-            <label class="required">Start</label>
+            <label v-on:click="ehm" class="required">Start</label>
             <p class="input-helper-labs">Start date and time.</p>
             <datepicker :datetime="dd"></datepicker>
             <input type="hidden" :value="dd">
@@ -34,6 +34,7 @@
     import { Translate } from '../../../../../mixins';
     import { CharonSelect } from '../../../../../components/form';
     import Multiselect from 'vue-multiselect';
+    import Lab from "../../../../../api/Lab";
 
     export default {
         mixins: [ Translate ],
@@ -56,6 +57,14 @@
         props: {
             deadline: { required: true },
             teachers: { required: true },
+        },
+        methods: {
+            ehm() {
+                console.log(this.dd)
+                Lab.save('1', this.dd.time, this.ddd.time, lab => {  // works
+                    VueEvent.$emit('show-notification', 'Lab saved!')
+                });
+            }
         }
     }
 </script>
