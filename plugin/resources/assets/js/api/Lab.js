@@ -18,6 +18,10 @@ class Lab {
         }).catch(error => {
             VueEvent.$emit('show-notification', 'Error saving lab.', 'danger')
         })
+        //Lab.save(this.course.id, start, end, lab => {
+        //                     this.labs.push(lab)
+        //                     VueEvent.$emit('show-notification', 'Lab saved!')
+        //                 });
     }
 
     static delete(courseId, labId, then) {

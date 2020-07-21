@@ -3,18 +3,9 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use TTU\Charon\Exceptions\CharonNotFoundException;
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
-use TTU\Charon\Models\Submission;
-use Zeizig\Moodle\Models\CourseModule;
-use Zeizig\Moodle\Models\GradeItem;
-use Zeizig\Moodle\Services\FileUploadService;
-use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -41,13 +32,21 @@ class LabRepository
     /**
      * Save the lab instance.
      *
-     * @param  Lab  $lab
+     * @param $start
+     * @param $end
+     * @param $courseId
      *
      * @return boolean
      */
-    public function save(Lab $lab)
+    public function save($start, $end, $courseId)
     {
-        return $lab->save();
+        $lab = Lab::create([
+            'start'  => Carbon::parse($start)->format('Y-m-d H:i:s'),
+            'end' => Carbon::parse($end)->format('Y-m-d H:i:s'),
+            'course_id' => $courseId
+        ]);
+        $lab->save();
+        return $lab;
     }
 
     /**
@@ -133,6 +132,12 @@ class LabRepository
      */
     public function findLabsByCourse($courseId)
     {
-        // someone else's to implement
+        $labs = \DB::table('lab')  // id, start, end
+        //->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
+            ->where('course_id', $courseId)
+            ->select('id', 'start', 'end', 'course_id')
+            ->get();
+        return $labs;
     }
+
 }

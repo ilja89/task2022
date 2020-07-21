@@ -15,6 +15,7 @@ use Zeizig\Moodle\Models\User;
  * @property int id
  * @property Carbon start
  * @property Carbon end
+ * @property int course_id
  *
  * @property User[]|Collection $teachers
  *
@@ -26,9 +27,8 @@ class Lab extends Model
     protected $table = 'lab';
 
     protected $fillable = [
-        'start', 'end'
+        'start', 'end', 'course_id'
     ];
-
 
     public function teachers()
     {
