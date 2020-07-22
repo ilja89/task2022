@@ -97,6 +97,7 @@ class InstanceFormController extends Controller
             'groups' => $course->groups,
             'groupings' => $course->groupings,
             'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
+            //'defense_labs' =>
         ]);
     }
 
@@ -114,7 +115,10 @@ class InstanceFormController extends Controller
             'system_extra'        => $this->request['system_extra'],
             'tester_type_code'    => $this->request['tester_type'],
             'grading_method_code' => $this->request['grading_method'],
-            'grouping_id'         => $this->request['grouping_id'], 
+            'grouping_id'         => $this->request['grouping_id'],
+            'defense_deadline'    => $this->request['defense_deadline'],
+            'defense_duration'    => $this->request['defense_duration'],
+            'choose_teacher'      => $this->request['choose_teacher'],
         ]);
 
         $charon->grademaps = $this->request['grademaps'];

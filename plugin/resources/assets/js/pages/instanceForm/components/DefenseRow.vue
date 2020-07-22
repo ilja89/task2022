@@ -45,6 +45,7 @@
     import Multiselect from 'vue-multiselect';
     import {Comment} from "../../../api";
     import Lab from "../../../api/Lab";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
         data() {
@@ -87,6 +88,8 @@
                 return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
             getLabs() {
+                console.log(this.courseId)
+                console.log('course id up')
                 Lab.all(1, labs => {
                     this.labs = labs
                     this.getNamesForLabs()
