@@ -4,6 +4,8 @@ Intention of the following document is to make it easier to start working with d
 
 ## Using local database
 
+Needed file is **docker-compose.yml**
+
 If you want use local database, you can meet such trouble like your db container will not able to start again after stopping. Right now we found temporary solution, let`s talk about it.
 
 #### Change password for root
@@ -57,38 +59,51 @@ $ mysql -u root
 
 After that you can stop your container without fears.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Using database in the cloud
 
+Needed file is **docker-compose-moodle-cloud.yml** (Rename this file to **docker-compose.yml** before starting 'docker-compose up' command. )
 
+For using this method you need to have some database in the cloud. In our case we have running database instances at 35.217.3.154:adminer port | maria_db port
 
+- 8280|3326 - moodle_devops2_mariadb_1
 
+- 8380|3338 - moodle_devops3_mariadb_1
 
+- 8480|3346 - moodle_devops4_mariadb_1
 
+#### Choose ports for working with database
 
+For example we will use 
+**8280|3326 - moodle_devops2_mariadb_1**
 
+- 8280 - Adminer port
+- 3326 - Maria db port
+- moodle_devops2_mariadb_1 - Server
 
+#### Change port number in the docker-compose file
 
+Before you run "docker-compose up" command you need to change port in the **docker-compose.yml** file.
 
+You need to change MARIADB_PORT_NUMBER=3306 line, in our case we change the number to 3326
 
+After that you can run 'docker-compose up' and install Moodle and Charon according to the usual instructions.
 
+#### Log in with Adminer
+
+You can open the Adminer page with your Adminer port http://35.217.3.154:8280/
+
+For log in use parameter **server** from step **'Choose ports for working with database'**
+
+Login settings:
+```
+System: MySQL
+Server: moodle_devops2_mariadb_1
+Username: root
+Password: root
+Database: bitnami_moodle
+```
+
+If username or password is incorrect, contact with person who created this database in the cloud.
 
 
 
