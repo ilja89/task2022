@@ -10,7 +10,7 @@
         <div class="defense-field">
             <label>Duration</label>
             <p class="input-helper">Defense duration in minutes.</p>
-            <input type="number"
+            <input v-on:click="" type="number"
 
                    v-model="form.fields.defense_duration"
                    class="form-control">
@@ -100,7 +100,7 @@
                     this.labs[i].name = this.getDayTimeFormat(new Date(this.labs[i].start))
                         + ' (' + this.getNiceDate(new Date(this.labs[i].start)) + ')'
                 }
-            }
+            },
         },
         mounted() {
             this.getLabs();

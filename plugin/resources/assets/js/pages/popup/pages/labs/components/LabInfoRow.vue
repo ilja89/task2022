@@ -1,17 +1,17 @@
 <template>
     <div class="labs-row is-flex">
         <div class="labs-field">
-            <label v-on:click="ehm" class="required">Start</label>
+            <label class="required">Start</label>
             <p class="input-helper-labs">Start date and time.</p>
-            <datepicker :datetime="dd"></datepicker>
-            <input type="hidden" :value="dd">
+            <datepicker :datetime="form.start"></datepicker>
+            <input type="hidden" :value="form.start">
         </div>
 
         <div class="labs-field">
             <label class="required">End</label>
             <p class="input-helper-labs">End time.</p>
-            <datepicker :datetime="ddd"></datepicker>
-            <input type="hidden" :value="ddd">
+            <datepicker :datetime="form.end"></datepicker>
+            <input type="hidden" :value="form.end">
         </div>
 
         <div class="labs-field is-flex-1">
@@ -43,28 +43,13 @@
 
         data() {
             return {
-                dd: {time: null},
-                ddd: {time: null},
-                lab: {
-                    start: '12-12-2020 10:00',
-                    end: '12-12-2020 11:30',
-                    teachers: [{name: 'Ago Luberg'}, {name: 'Keegi Veel'}],  // full teacher object probably
-                    weeks: [1, 4, 9, 10, 14, 15]
-                }
+                deadline: {teachers: []}
             }
         },
 
         props: {
-            deadline: { required: true },
             teachers: { required: true },
-        },
-        methods: {
-            ehm() {
-                console.log(this.dd)
-                Lab.save('1', this.dd.time, this.ddd.time, lab => {  // works
-                    VueEvent.$emit('show-notification', 'Lab saved!')
-                });
-            }
+            form: { required: true}
         }
     }
 </script>

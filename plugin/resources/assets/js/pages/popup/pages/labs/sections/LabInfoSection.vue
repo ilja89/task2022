@@ -10,8 +10,8 @@
 
         <div v-if="show_info" class="fcontainer clearfix fitem">
 
-            <lab-info-row :deadline="deadline"
-                          :teachers="form.teachers">
+            <lab-info-row :teachers="teachers"
+                          :form="form">
             </lab-info-row>
 
         </div>
@@ -49,13 +49,6 @@
             isEditing() {
                 return window.isEditing;
             },
-        },
-
-        methods: {
-            onAddDeadlineClicked() {
-                VueEvent.$emit('deadline-was-added');
-            },
-
         },
     }
 </script>

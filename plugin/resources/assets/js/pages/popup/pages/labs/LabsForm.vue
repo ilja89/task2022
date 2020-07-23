@@ -16,6 +16,7 @@
 <script>
     import LabInfoSection from "./sections/LabInfoSection";
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import Lab from "../../../../api/Lab";
 
     export default {
 
@@ -23,14 +24,18 @@
 
         data() {
             return {
-                form: {teachers: [{name: "Ago", id: 1}, {name: "Kadri", id: 2}, {name: "Orav", id: 3}]}
+                form: {start: {time: null}, end: {time: null}, weeks: []}
             }
         },
 
         methods: {
             saveClicked() {
                 // send info to backend
-                window.location = "popup#/labs";
+                //window.location = "popup#/labs";
+                console.log(this.form)
+                Lab.save('1', this.form.start.time, this.form.end.time, lab => {  // works
+                    VueEvent.$emit('show-notification', 'Lab saved!')
+                });
             },
             cancelClicked() {
                 window.location = "popup#/labs";

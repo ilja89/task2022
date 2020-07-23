@@ -318,5 +318,9 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql3);
     }
 
+    if ($oldVersion < 2020072203) {
+
+    }
+
     return true;
 }
