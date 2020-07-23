@@ -3,15 +3,15 @@
         <div class="labs-field">
             <label class="required">Start</label>
             <p class="input-helper-labs">Start date and time.</p>
-            <datepicker :datetime="dd"></datepicker>
-            <input type="hidden" :value="dd">
+            <datepicker :datetime="lab_given.start"></datepicker>
+            <input type="hidden" :value="lab_given.start">
         </div>
 
         <div class="labs-field">
             <label class="required">End</label>
             <p class="input-helper-labs">End time.</p>
-            <datepicker :datetime="ddd"></datepicker>
-            <input type="hidden" :value="ddd">
+            <datepicker :datetime="lab_given.end"></datepicker>
+            <input type="hidden" :value="lab_given.end">
         </div>
 
         <div class="labs-field is-flex-1">
@@ -19,7 +19,7 @@
 
             <p class="input-helper-labs">Teachers attending this lab session.</p>
 
-            <multiselect v-model="deadline.teachers" :options="teachers" :multiple="true" label="name"
+            <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="name"
                          :close-on-select="false" placeholder="Select teachers" trackBy="name"
                          :clear-on-select="true" style="width: 300px">
             </multiselect>
@@ -42,20 +42,12 @@
 
         data() {
             return {
-                dd: {time: null},
-                ddd: {time: null},
-                lab: {
-                    start: '12-12-2020 10:00',
-                    end: '12-12-2020 11:30',
-                    teachers: [{name: 'Ago Luberg'}, {name: 'Keegi Veel'}],  // full teacher object probably
-                    weeks: [1, 4, 9, 10, 14, 15]
-                }
+                teachers: [{name: 'Ago Luberg'}, {name: 'Keegi Veel'}]  // TODO api to get all teachers for this charon
             }
         },
 
         props: {
-            deadline: { required: true },
-            teachers: { required: true },
+            lab_given: {required: true}
         }
     }
 </script>

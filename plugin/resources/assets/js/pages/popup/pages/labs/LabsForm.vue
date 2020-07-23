@@ -1,13 +1,13 @@
 <template>
     <div>
-        <lab-info-section :form="form"></lab-info-section>
-        <add-multiple-labs-section :form="form"></add-multiple-labs-section>
+        <lab-info-section :lab_given="lab"></lab-info-section>
+        <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
         <div class="btn-container btn-container-left">
             <button v-on:click="saveClicked" class="btn-labs btn-save-labs">Save</button>
         </div>
 
         <div class="btn-container btn-container-right">
-            <button v-on:click="cancelClicked" class="btn-labs btn-cancel-labs">Cancel</button>
+            <router-link to="/labs"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
         </div>
 
     </div>
@@ -16,25 +16,36 @@
 <script>
     import LabInfoSection from "./sections/LabInfoSection";
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import {mapState} from "vuex";
+    import Lab from "../../../../api/Lab";
 
     export default {
 
         components: { LabInfoSection, AddMultipleLabsSection },
 
-        data() {
-            return {
-                form: {teachers: [{name: "Ago", id: 1}, {name: "Kadri", id: 2}, {name: "Orav", id: 3}]}
-            }
-        },
-
         methods: {
             saveClicked() {
                 // send info to backend
-                window.location = "popup#/labs";
-            },
-            cancelClicked() {
-                window.location = "popup#/labs";
+                if (this.lab.id != null) {
+                    // update lab
+                    //console.log('update lab')
+                    VueEvent.$emit('show-notification', 'Lab updated!');
+                } else {
+                    // save lab
+                    //console.log('save lab')
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, () => {
+                        //window.location = "popup#/labs";
+                        VueEvent.$emit('show-notification', 'Lab saved!');
+                    })
+                }
             }
+        },
+        computed: {
+
+            ...mapState([
+                'lab',
+                'course'
+            ]),
         }
     }
 </script>

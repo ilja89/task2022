@@ -67,7 +67,7 @@ const routes = [
         path:'/labsForm',
         title: 'Labs Form',
         component: LabsForm,
-        name: 'labs-form'
+        name: 'labs-form',
     },
 ];
 

@@ -44,3 +44,21 @@ export const updateCharon = ({ commit }, { charon }) => {
 export const updateSubmission = ({ commit }, { submission }) => {
     commit('UPDATE_SUBMISSION', { submission })
 }
+
+/**
+ * Update the lab in the store.
+ * @param commit {Function}
+ * @param submission {Object}
+ */
+export const updateLab = ({ commit }, { lab }) => {
+    commit('UPDATE_LAB', { lab })
+}
+
+/**
+ * Update the lab in the store to null.
+ * @param commit {Function}
+ * @param submission {Object}
+ */
+export const updateLabToEmpty = ({ commit }) => {
+    commit('UPDATE_LAB_TO_EMPTY')
+}
