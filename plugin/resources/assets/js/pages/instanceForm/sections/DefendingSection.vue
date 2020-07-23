@@ -8,7 +8,7 @@
 
             <defense-row
                     :defense="form_fields_defense.def"
-                    :labs="form_fields_defense.labs">
+                    :form="form">
             </defense-row>
 
             <br>
@@ -36,17 +36,18 @@
         data() {
             return {
                 form_fields_defense: {
-                    labs: [{name: 'T12', date: new Date('14-07-2020 12:00')},
-                        {name: 'T14', date: new Date('14-07-2020 14:00')},
-                        {name: 'N9', date: new Date('16-07-2020 9:00')},
-                        {name: 'N16', date: new Date('16-07-2020 16:00')}],
+                    labs: [{id:1, start: new Date('2020-08-07 12:00')},
+                        {id: 2, start: new Date('2020-08-10 14:00')},
+                        {id: 3, start: new Date('2020-08-12 9:00')},
+                        {id: 4, start: new Date('2020-08-13 16:00')},
+                        {id: 5, start: new Date('2020-08-20 16:00')}],
                     def: {
                         deadline: {time: new Date('09-07-2020 11:45')},
                         duration: 10,
                         labs: [],
                         teacher: true
                     }
-                }
+                },
             }
         },
 
@@ -54,7 +55,7 @@
             isEditing() {
                 return window.isEditing;
             },
-        },
+        }
 
     }
 </script>

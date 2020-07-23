@@ -38,6 +38,9 @@
                         VueEvent.$emit('show-notification', 'Lab saved!');
                     })
                 }
+            },
+            cancelClicked() {
+                window.location = "popup#/labs";
             }
         },
         computed: {

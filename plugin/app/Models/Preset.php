@@ -33,7 +33,7 @@ class Preset extends Model
     protected $fillable = [
         'name', 'parent_category_id', 'course_id', 'calculation_formula',
         'tester_extra', 'system_extra', 'max_result', 'grading_method_code',
-        'grouping_id'
+        'grouping_id', 'defense_duration', 'defense_deadline', 'choose_teacher'
     ];
 
     protected $table = 'charon_preset';

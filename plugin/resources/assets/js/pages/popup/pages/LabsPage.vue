@@ -16,11 +16,7 @@
         name: "labs-page",
         data() {
             return {
-                labs: {},
-                LabsList: [
-                    {id:"T14", date: "02.09.2020", time: "14:00 - 15:30", teachers: ["Kadri Männimets", "Nikita Ojamäe", "Ago Luberg"]},
-                    {id:"N9", date: "04.09.2020", time: "9:00 - 10:30", teachers: ["Kadri Männimets", "Nikita Ojamäe", "Ago Luberg"]},
-                ]
+                labs: {}
             }
         },
 
@@ -28,12 +24,10 @@
             PageTitle, LabSection
         },
         mounted() {
-
             axios.get('http://localhost:82/mod/charon/api/courses/' + this.course.id + '/labs')
                 .then(response => {
                     this.labs = response.data;
                     this.formatLabs()});
-            //console.log(this.given);
         },
         computed: {
 

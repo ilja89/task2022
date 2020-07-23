@@ -1,7 +1,6 @@
 <template>
     <div class="lab">
         <div class="section font pb-5" v-for="lab in labs">
-
             <h2 class="pl-5 font">{{getDayTimeFormat(lab.start.time)}}
                 <button class="btn font" v-on:click="editLabClicked(lab)" style="background-color: #d7dde4">Edit</button></h2>
             <hr>
@@ -14,19 +13,12 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from "vuex";
+    import {mapActions} from "vuex";
 
     export default {
         name: "LabSection.vue",
         props: {
             labs: {required: true}
-        },
-
-        computed: {
-
-            ...mapState([
-                'lab',
-            ]),
         },
 
         methods: {
@@ -56,17 +48,14 @@
             },
             getTeachersInThisLab(labId) {
                 let teachers = [];
-                //axios.get('http://localhost:82/mod/charon/api/courses/1/labs/' + labId + '/teachers')
-                  //  .then(response => (teachers = response));
+                axios.get('http://localhost:82/mod/charon/api/courses/1/labs/' + labId + '/teachers')
+                    .then(response => (teachers = response));
                 return teachers; // teachers.data
             },
             editLabClicked(lab) {
                 this.updateLab({lab})
                 window.location = "popup#/labsForm";
             }
-        },
-        mounted() {
-            console.log(this.labs)
         }
     }
 
