@@ -23,21 +23,27 @@ class CreateCharonService
     /** @var DeadlineService */
     protected $deadlineService;
 
+    /** @var CharonDefenseLabService */
+    protected $charonDefenseLabService;
+
     /**
      * CreateCharonService constructor.
      *
      * @param  GradebookService $gradebookService
      * @param  GrademapService $grademapService
-     * @param DeadlineService $deadlineService
+     * @param  DeadlineService $deadlineService
+     * @param  CharonDefenseLabService $charonDefenseLabService
      */
     public function __construct(
         GradebookService $gradebookService,
         GrademapService $grademapService,
-        DeadlineService $deadlineService
+        DeadlineService $deadlineService,
+        CharonDefenseLabService $charonDefenseLabService
     ) {
         $this->gradebookService = $gradebookService;
         $this->grademapService  = $grademapService;
         $this->deadlineService  = $deadlineService;
+        $this->charonDefenseLabService = $charonDefenseLabService;
     }
 
     /**
@@ -95,6 +101,25 @@ class CreateCharonService
 
         foreach ($request->deadlines as $deadline) {
             $this->deadlineService->createDeadline($charon, $deadline);
+        }
+    }
+
+    /**
+     * Save defense labs from the current request.
+     *
+     * @param  Request $request
+     * @param  Charon $charon
+     *
+     * @return void
+     */
+    public function saveDefenseLabsFromRequest(Request $request, $charon)
+    {
+        if ($request->defenseLabs === null) {
+            return;
+        }
+
+        foreach ($request->defenseLabs as $defenseLab) {
+            $this->charonDefenseLabService->createCharonDefenseLab($charon, $defenseLab);
         }
     }
 }

@@ -225,7 +225,100 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
-    if ($oldVersion < 2020072202) {
+    if ($oldversion < 2020071801) {
+        $sql1 = "CREATE TABLE mdl_lab(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    start DATETIME NOT NULL,".
+            "    end DATETIME NOT NULL,".
+            "    PRIMARY KEY (id)".
+            ")";
+        $DB->execute($sql1);
+        $sql2 = "CREATE TABLE mdl_lab_teacher(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    lab_id BIGINT(10) NOT NULL,".
+            "    teacher_id BIGINT(10) NOT NULL,".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_lab_teacher_lab (lab_id),".
+            "    INDEX IXFK_lab_teacher_teacher (teacher_id),".
+            "    CONSTRAINT FK_lab_teacher_lab".
+            "        FOREIGN KEY (lab_id)".
+            "            REFERENCES mdl_lab(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_lab_teacher_teacher".
+            "        FOREIGN KEY (teacher_id)".
+            "            REFERENCES mdl_user(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE".
+            ")";
+        $DB->execute($sql2);
+        $sql3 = "CREATE TABLE mdl_charon_defense_lab(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    lab_id BIGINT(10) NOT NULL,".
+            "    charon_id BIGINT(10) NOT NULL,".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_charon_defense_lab_lab (lab_id),".
+            "    INDEX IXFK_charon_defense_lab_charon (charon_id),".
+            "    CONSTRAINT FK_charon_defense_lab_lab".
+            "        FOREIGN KEY (lab_id)".
+            "            REFERENCES mdl_lab(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_charon_defense_lab_charon".
+            "        FOREIGN KEY (charon_id)".
+            "            REFERENCES mdl_charon(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE".
+            ")";
+        $DB->execute($sql3);
+    }
+
+    if ($oldversion < 2020071803) {
+        $sql1 = "ALTER TABLE mdl_charon ADD COLUMN defense_deadline DATETIME NOT NULL";
+        $sql2 = "ALTER TABLE mdl_charon ADD COLUMN defense_duration INT NOT NULL";
+        $sql3 = "ALTER TABLE mdl_charon ADD COLUMN choose_teacher BOOL NOT NULL";
+        $DB->execute($sql1);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+    }
+
+    if ($oldversion < 2020071901) {
+        $sql1 = "ALTER TABLE mdl_charon MODIFY defense_deadline DATETIME NULL DEFAULT NULL";
+        $sql2 = "ALTER TABLE mdl_charon MODIFY defense_duration INT NULL DEFAULT NULL";
+        $sql3 = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NULL DEFAULT NULL";
+        $DB-> execute($sql1);
+        $DB-> execute($sql2);
+        $DB-> execute($sql3);
+    }
+
+    if ($oldversion < 2020071902) {
+        $sql1 = "ALTER TABLE mdl_charon MODIFY defense_deadline DATETIME NULL";
+        $sql2 = "ALTER TABLE mdl_charon MODIFY defense_duration INT NULL";
+        $sql3 = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NOT NULL";
+        $DB-> execute($sql1);
+        $DB-> execute($sql2);
+        $DB-> execute($sql3);
+    }
+
+    if ($oldversion < 2020071903) {
+        $sql = "ALTER TABLE mdl_charon MODIFY choose_teacher BOOL NULL";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2020072001) {
+        $sql = "ALTER TABLE mdl_lab ADD COLUMN course_id BIGINT(10) NOT NULL";
+        $sql2 = "ALTER TABLE mdl_lab ADD CONSTRAINT FK_lab_course".
+            "   FOREIGN KEY (course_id)".
+            "       REFERENCES mdl_course(id)".
+            "       ON DELETE CASCADE".
+            "       ON UPDATE CASCADE";
+        $sql3 = "ALTER TABLE mdl_lab ADD INDEX IXFK_lab_charon (course_id)";
+        $DB->execute($sql);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+    }
+
+    if ($oldVersion < 2020072203) {
 
     }
 

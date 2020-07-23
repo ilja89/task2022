@@ -34,6 +34,7 @@
     import { Translate } from '../../../../../mixins';
     import { CharonSelect } from '../../../../../components/form';
     import Multiselect from 'vue-multiselect';
+    import Lab from "../../../../../api/Lab";
 
     export default {
         mixins: [ Translate ],

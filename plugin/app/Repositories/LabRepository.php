@@ -3,7 +3,9 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\LabTeacher;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -83,6 +85,8 @@ class LabRepository
         /** @var Lab $lab */
         $lab = Lab::find($id);
 
+        CharonDefenseLab::where('lab_id', $id)->delete();
+        LabTeacher::where('lab_id', $id)->delete();
         //CharonDefenseLab::where('lab_id', $id)->delete();
         //LabTeacher::where('lab_id', $id)->delete();
 
@@ -132,6 +136,7 @@ class LabRepository
     {
         $labs = \DB::table('lab')  // id, start, end
         //->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
+            ->where('course_id', $courseId)
         ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
             ->get();
