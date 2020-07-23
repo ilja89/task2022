@@ -18,6 +18,12 @@ const store = new Vuex.Store({
          */
         student: null,
         /**
+         * @type {
+         *      {id: Number, start: Date, end: Date, teachers: Array<Object>}
+         * |null}
+         */
+        lab: null,
+        /**
          * @type {{
          *      id: Number,
          *      order_nr: String,
