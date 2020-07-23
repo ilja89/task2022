@@ -11,6 +11,7 @@
     window.groups = {!! $groups->toJson() !!};
     window.groupings = {!! $groupings->toJson() !!};
     window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
+    // ...
 
     window.translations = {
         naming_title: "{{ translate('naming') }}",

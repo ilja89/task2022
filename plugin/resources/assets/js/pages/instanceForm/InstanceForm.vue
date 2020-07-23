@@ -140,6 +140,7 @@
         },
 
         mounted() {
+            console.log(this.form);
             VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
             VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
             VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
@@ -147,6 +148,9 @@
             VueEvent.$on('tester-type-was-changed', (tester_type) => this.form.fields.tester_type = tester_type);
             VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
             VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = grouping_id);
+            VueEvent.$on('defense-deadline-was-changed', (defense_deadline) => this.form.fields.defense_deadline = defense_deadline);
+            VueEvent.$on('defense-duration-was-changed', (defense_duration) => this.form.fields.defense_duration = defense_duration);
+            VueEvent.$on('choose-teacher-was-changed', (choose_teacher) => this.form.fields.choose_teacher = choose_teacher);
             VueEvent.$on('grade-type-was-activated', (activated_grade_type_code) => {
                 this.form.activateGrademap(activated_grade_type_code);
             });
