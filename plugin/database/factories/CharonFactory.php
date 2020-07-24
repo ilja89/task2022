@@ -14,6 +14,9 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
         'grading_method_code' => $faker->randomElement([1, 2]),
         'grouping_id' => $faker->randomElement([1, 2]),
+        'defense_deadline' => $faker->unixTime,
+        'defense_duration' => $faker->numberBetween(0, 10),
+        'choose_teacher' => $faker->boolean,
         'course' => $courseGradeItem->courseid,
         'timemodified' => $faker->unixTime,
         'category_id' => function () use ($courseGradeItem) {

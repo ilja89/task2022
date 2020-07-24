@@ -3,6 +3,8 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Events\CharonUpdated;
@@ -84,35 +86,56 @@ class InstanceController extends Controller
      *
      * @return int - new task ID
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Exception
      */
     public function store()
     {
-        $charon = $this->getCharonFromRequest();
-        $charon->category_id = $this->createCharonService->addCategoryForCharon(
-            $charon,
-            $this->request->input('course')
-        );
 
-        if (!$this->charonRepository->save($charon)) {
-            return null;
-        }
+        global $DB;
 
-        $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
-        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+        try {
 
-        event(new CharonCreated($charon));
+            $sql = "START TRANSACTION";
+            $DB->execute($sql);
 
-        if ($this->request->input('plagiarism_enabled')) {
-            $charon = $this->plagiarismService->createChecksuiteForCharon(
+            $charon = $this->getCharonFromRequest();
+            $charon->category_id = $this->createCharonService->addCategoryForCharon(
                 $charon,
-                $this->request->input('plagiarism_services'),
-                $this->request->input('resource_providers'),
-                $this->request->input('plagiarism_includes')
+                $this->request->input('course')
             );
-        }
 
-        return $charon->id;
+            if (!$this->charonRepository->save($charon)) {
+                return null;
+            }
+
+            $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
+            $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+
+            event(new CharonCreated($charon));
+
+            Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
+            if ($this->request->input('plagiarism_enabled')) {
+                $charon = $this->plagiarismService->createChecksuiteForCharon(
+                    $charon,
+                    $this->request->input('plagiarism_services'),
+                    $this->request->input('resource_providers'),
+                    $this->request->input('plagiarism_includes')
+                );
+            }
+
+            $sql = "COMMIT";
+            $DB->execute($sql);
+
+            return $charon->id;
+
+        } catch (\Exception $e) {
+
+            $sql = "ROLLBACK";
+            $DB->execute($sql);
+
+            throw $e;
+        }
     }
 
     /**
@@ -125,29 +148,47 @@ class InstanceController extends Controller
      * @return string
      *
      * @throws \TTU\Charon\Exceptions\CharonNotFoundException
+     * @throws \Exception
      */
     public function update()
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
 
-        if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+        global $DB;
 
-            $oldDeadlineEventIds = $charon->deadlines->pluck('event_id');
+        try {
 
-            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
-            $this->updateCharonService->updateGrademaps(
-                $this->request->input('grademaps'),
-                $charon,
-                $deadlinesUpdated,
-                $this->request->input('recalculate_grades')
-            );
+            $sql = "START TRANSACTION";
+            $DB->execute($sql);
 
-            event(new CharonUpdated($charon, $oldDeadlineEventIds));
+            $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
+            Log::info("Update charon ", [$charon]);
 
-            // TODO: Plagiarism
+            if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+
+                $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+                $this->updateCharonService->updateGrademaps(
+                    $this->request->input('grademaps'),
+                    $charon,
+                    $deadlinesUpdated,
+                    $this->request->input('recalculate_grades')
+                );
+
+                // TODO: Plagiarism
+            }
+
+            $sql = "COMMIT";
+            $DB->execute($sql);
+
+            return "1";
+
+        } catch (\Exception $e) {
+
+            $sql = "ROLLBACK";
+            $DB->execute($sql);
+
+            throw $e;
         }
 
-        return "1";
     }
 
     /**
@@ -161,6 +202,7 @@ class InstanceController extends Controller
      */
     public function destroy($charonId)
     {
+        Log::info("Delete charon ", [$charonId]);
         return $this->charonRepository->deleteByInstanceId($charonId);
     }
 
@@ -175,6 +217,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleCreated($charonId)
     {
+        Log::info("postCourseModuleCreated: ", [$charonId]);
         $this->postCourseModuleCreatedOrUpdated($charonId);
 
         $charon = $this->charonRepository->getCharonById($charonId);
@@ -193,6 +236,7 @@ class InstanceController extends Controller
      */
     public function postCourseModuleUpdated($charonId)
     {
+        Log::info("postCourseModuleUpdated: ", [$charonId]);
         $this->postCourseModuleCreatedOrUpdated($charonId);
     }
 
@@ -246,6 +290,9 @@ class InstanceController extends Controller
             'tester_type_code' => $this->request->input('tester_type'),
             'grading_method_code' => $this->request->input('grading_method'),
             'grouping_id' => $this->request->input('grouping_id'),
+            'defense_deadline' => $this->request->input('defense_deadline'),
+            'defense_duration' => $this->request->input('defense_duration'),
+            'choose_teacher' => $this->request->input('choose_teacher'),
             'timemodified' => Carbon::now()->timestamp,
             'course' => $this->request->input('course'),
             'tester_extra' => $testerExtra,

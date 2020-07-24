@@ -17,7 +17,9 @@
 define('CLI_SCRIPT', true);
 
 // Get Database info etc from moodle conf.
-require __DIR__ . '/../../config.php';
+if(file_exists(__DIR__ . '/../../config.php')) {
+    require __DIR__ . '/../../config.php';
+}
 
 require __DIR__ . '/plugin/bootstrap/autoload.php';
 

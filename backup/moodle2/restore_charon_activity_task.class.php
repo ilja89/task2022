@@ -108,7 +108,7 @@ class restore_charon_activity_task extends restore_activity_task
 
         $this->updateCategoryInfo();
 
-        $this->sendAddProjectInfoToTester();
+//        $this->sendAddProjectInfoToTester(); // obsolete
     }
 
     /**
@@ -187,29 +187,29 @@ class restore_charon_activity_task extends restore_activity_task
         ]);
     }
 
-    private function sendAddProjectInfoToTester()
-    {
-        $app = \TTU\Charon\getApp();
-
-        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-        try {
-            // Need to make a request before we can use app->make to get the controller
-            // Cannot use routes because this is not always triggered in a web
-            // environment
-            // TODO: Make this better!
-            $kernel->handle($request = \Illuminate\Http\Request::capture());
-        } catch (Exception $e) { }
-
-        /** @var \TTU\Charon\Services\TesterCommunicationService $testerCommunicationService */
-        $testerCommunicationService = $app->make(\TTU\Charon\Services\TesterCommunicationService::class);
-
-        /** @var \TTU\Charon\Models\Charon $charon */
-        $charon = \TTU\Charon\Models\Charon::find($this->charon->id);
-
-        $testerCommunicationService->sendAddProjectInfo(
-            $charon,
-            $this->charon->unittests_git,
-            $charon->moodleCourse->shortname
-        );
-    }
+//    private function sendAddProjectInfoToTester()
+//    {
+//        $app = \TTU\Charon\getApp();
+//
+//        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+//        try {
+//            // Need to make a request before we can use app->make to get the controller
+//            // Cannot use routes because this is not always triggered in a web
+//            // environment
+//            // TODO: Make this better!
+//            $kernel->handle($request = \Illuminate\Http\Request::capture());
+//        } catch (Exception $e) { }
+//
+//        /** @var \TTU\Charon\Services\TesterCommunicationService $testerCommunicationService */
+//        $testerCommunicationService = $app->make(\TTU\Charon\Services\TesterCommunicationService::class);
+//
+//        /** @var \TTU\Charon\Models\Charon $charon */
+//        $charon = \TTU\Charon\Models\Charon::find($this->charon->id);
+//
+//        $testerCommunicationService->sendAddProjectInfo(
+//            $charon,
+//            $this->charon->unittests_git,
+//            $charon->moodleCourse->shortname
+//        );
+//    }
 }

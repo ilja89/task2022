@@ -1,8 +1,9 @@
 /node_modules
-/plugin/public/storage
-/plugin/storage/*.key
 /vendor
 /.idea
+/plugin/public/css
+/plugin/public/plugin
+/plugin/public/js
 Homestead.json
 Homestead.yaml
 .env
@@ -13,3 +14,7 @@ npm-debug.log
 .phpstorm.meta.php
 _ide_helper.php
 .tern-port
+composer.lock
+package-lock.json
+npm-shrinkwrap.json
+mix-manifest.json

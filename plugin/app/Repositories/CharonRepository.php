@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
@@ -144,6 +145,7 @@ class CharonRepository
             ->delete();
         Grademap::where('charon_id', $id)->delete();
         Deadline::where('charon_id', $id)->delete();
+        CharonDefenseLab::where('charon_id', $id)->delete();
 
         $result = $charon->delete();
 
@@ -173,6 +175,9 @@ class CharonRepository
         $oldCharon->grading_method_code = $newCharon->grading_method_code;
         $oldCharon->grouping_id = $newCharon->grouping_id;
         $oldCharon->timemodified = Carbon::now()->timestamp;
+        $oldCharon->defense_deadline = $newCharon->defense_deadline;
+        $oldCharon->defense_duration = $newCharon->defense_duration;
+        $oldCharon->choose_teacher = $newCharon->choose_teacher;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
             $newCharon->description,
@@ -208,7 +213,10 @@ class CharonRepository
                 'course_modules.id AS course_module_id',
                 'charon.category_id',
                 'charon.grouping_id',
-                'charon.course'
+                'charon.course',
+                'charon.defense_deadline',
+                'charon.defense_duration',
+                'charon.choose_teacher'
             )
             ->orderBy('charon.name')
             ->get();
