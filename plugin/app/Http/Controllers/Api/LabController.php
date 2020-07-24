@@ -56,4 +56,15 @@ class LabController extends Controller
         return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id);
     }
 
+    /**
+     * Delete lab.
+     * @param Course $course
+     * @param Lab $lab
+     *
+     * @return Lab
+     */
+    public function delete(Course $course, Lab $lab) {
+        return $this->labRepository->deleteByInstanceId($lab->id);
+    }
+
 }

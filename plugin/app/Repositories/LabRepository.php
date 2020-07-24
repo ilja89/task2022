@@ -76,7 +76,7 @@ class LabRepository
      *
      * @param  integer $id
      *
-     * @return boolean
+     * @return Lab
      *
      * @throws \Exception
      */
@@ -87,10 +87,9 @@ class LabRepository
 
         CharonDefenseLab::where('lab_id', $id)->delete();
         LabTeacher::where('lab_id', $id)->delete();
-        //CharonDefenseLab::where('lab_id', $id)->delete();
-        //LabTeacher::where('lab_id', $id)->delete();
 
-        return $lab->delete();
+        $lab->delete();
+        return $lab;
     }
 
     /**
