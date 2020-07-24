@@ -13,11 +13,11 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'TTU\Charon\Events\CharonCreated' => [
-            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
+//            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
             'TTU\Charon\Listeners\AddDeadlinesToCalendar',
         ],
         'TTU\Charon\Events\CharonUpdated' => [
-            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
+//            'TTU\Charon\Listeners\SendAddProjectInfoToTester',
             'TTU\Charon\Listeners\UpdateCalendarDeadlines',
         ],
         'TTU\Charon\Events\GitCallbackReceived' => [

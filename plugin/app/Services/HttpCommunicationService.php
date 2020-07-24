@@ -64,7 +64,7 @@ class HttpCommunicationService
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to tester to url '
-                . $serverUrl
+                . $serverUrl . 'with message:', [$e]
             );
         }
     }

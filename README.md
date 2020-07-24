@@ -12,22 +12,16 @@ Moodle assignment module for programming tasks. Integrated with automated tester
 
 ## Set up
 
-```bash
+copy production artifact to moodle/mod folder
 
-# Clone the repository into mod/ folder
-git clone git@gitlab.com:ained/charon.git
-cd charon
+## developement
 
-# Install PHP dependencies
-php composer.phar install
+for frontend
+```js
+npm run watch  //and use Moodle mount
+```
 
-# Configure PHP, Laravel
-cp -p .env.example .env
-php artisan key:generate
-
-# Install JavaScript dependencies if developing
-npm install
-
-# Install module in Moodle (creates database)
-
+for backend
+```
+disable OTP cache and use Moodle mount
 ```

@@ -3,6 +3,8 @@
 
         <page-title :student="student"></page-title>
 
+        <comments-section></comments-section>
+
         <submissions-section></submissions-section>
 
         <student-charon-points-vs-course-average-chart
@@ -12,7 +14,6 @@
                 :average-submissions="averageSubmissions">
         </student-charon-points-vs-course-average-chart>
 
-        <comments-section></comments-section>
 
     </div>
 </template>

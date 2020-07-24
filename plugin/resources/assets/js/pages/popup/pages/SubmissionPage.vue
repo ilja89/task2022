@@ -1,10 +1,14 @@
 <template>
   <div>
+
     <page-title :student="student"></page-title>
 
     <submission-overview-section />
 
+    <comments-section />
+
     <output-section />
+
   </div>
 </template>
 
@@ -12,11 +16,11 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 import { PageTitle } from "../partials";
-import { SubmissionOverviewSection, OutputSection } from "../sections";
+import { SubmissionOverviewSection, OutputSection, CommentsSection } from "../sections";
 import { Submission, Charon } from "../../../api";
 
 export default {
-  components: { PageTitle, SubmissionOverviewSection, OutputSection },
+  components: { PageTitle, SubmissionOverviewSection, OutputSection, CommentsSection },
 
   data() {
     return {

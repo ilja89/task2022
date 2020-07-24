@@ -73,9 +73,13 @@ $string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repo
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
 $string['plagiarism_includes'] = 'Plagiarism includes';
 
-$string['deadline'] = 'Deadline';
+$string['deadline']   = 'Deadline';
 $string['percentage'] = 'Percentage';
-$string['group'] = 'Group';
+$string['group']      = 'Group';
+$string['duration']   = 'Duration';
+$string['labs']       = 'Labs';
+$string['teacher']    = 'Teacher';
+
 
 $string['task_name_helper'] = 'The name for this assignment. A category with this name will be created which will '
                             . 'contain this assignment\'s grades.';
@@ -88,6 +92,10 @@ $string['deadlines_helper'] = 'Deadlines for this task. If a submission is submi
 $string['deadline_helper'] = 'Deadline date and time.';
 $string['percentage_helper'] = 'Max percentage of points after deadline.';
 $string['group_helper'] = 'Group for which this deadline applies. WIP';
+$string['defense_deadline_helper'] = 'Defense deadline.';
+$string['duration_helper'] = 'Defense duration in minutes.';
+$string['labs_helper'] = 'Labs where this Charon can be defended.';
+$string['teacher_helper'] = 'Student can choose a teacher.';
 $string['preset_select_helper'] = 'Any settings can be overridden in the advanced section.';
 $string['tester_extra_helper'] = 'Extra parameters sent to the concrete tester (java, python, etc.). Eg. stylecheck for checking the style.';
 $string['system_extra_helper'] = 'Extra parameters sent to the core system. Eg. send uniid to the tester.';
@@ -113,6 +121,30 @@ $string['add_button_text'] = 'Add';
 
 $string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
 $string['grouping'] = "Grouping";
+
+/*------------------------*\
+   Labs form
+\*------------------------*/
+
+$string['save'] = "Save";
+$string['cancel'] = "Cancel";
+
+$string['lab_info'] = "Lab info";
+$string['multiple_labs'] = "Add multiple lab sessions";
+
+$string['start'] = "Start";
+$string['end'] = "End";
+$string['teachers'] = "Teachers";
+$string['weeks'] = "Weeks";
+
+$string['start_helper'] = "Start date and time.";
+$string['end_helper'] = "End time.";
+$string['teachers_helper'] = "Teachers attending this lab session.";
+$string['weeks_helper'] = "Choose weeks when this lab session takes place.";
+
+$string['teachers_placeholder'] = "Select teachers";
+$string['weeks_placeholder'] = "Select weeks";
+
 /*------------------------*\
    Assignment view
 \*------------------------*/
@@ -121,9 +153,12 @@ $string['submissions']     = 'Submissions';
 $string['commit_message']  = 'Commit message';
 $string['files']           = 'Files';
 $string['deadlines']       = 'Deadlines';
+$string['defense']         = 'Defense';
 $string['after']           = 'After';
 $string['percentage']      = 'Percentage';
 $string['your_points']     = 'Your points';
 $string['total']           = 'Total';
 $string['all_groups']      = 'All groups';
 $string['tester_feedback'] = 'Tester feedback';
+
+

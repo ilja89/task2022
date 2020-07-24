@@ -33,12 +33,16 @@ use Zeizig\Moodle\Services\ModuleService;
  *      checksuite in the Julia plagiarism service.
  * @property string|null plagiarism_latest_check_id - Id of the latest check
  *      for this Charon in the Julia plagiarism service.
+ * @property Carbon defense_deadline
+ * @property int defense_duration
+ * @property bool choose_teacher
  *
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
  * @property TesterType $testerType
  * @property Grademap[] $grademaps
  * @property Deadline[]|Collection $deadlines
+ * @property CharonDefenseLab[]|Collection $charonDefenseLabs
  * @property Course moodleCourse
  * @property Grouping $grouping
  *
@@ -54,6 +58,7 @@ class Charon extends Model
     protected $fillable = [
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
+        'defense_deadline', 'defense_duration', 'choose_teacher'//, 'charon_defense_labs'
     ];
 
     /**
@@ -67,6 +72,11 @@ class Charon extends Model
     public function grademaps()
     {
         return $this->hasMany(Grademap::class);
+    }
+
+    public function defenseLabs()
+    {
+        return $this->hasMany(CharonDefenseLab::class)->orderBy('id');
     }
 
     public function deadlines()

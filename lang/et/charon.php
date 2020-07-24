@@ -75,6 +75,9 @@ $string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
 $string['deadline']   = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
 $string['group']      = 'Grupp';
+$string['duration']   = 'Kestus';
+$string['labs']       = 'Praktikumid';
+$string['teacher']    = 'Õppejõud';
 
 $string['task_name_helper']           = 'Ülesande pealkiri. Selle nimega luuakse kategooria kuhu tekivad ülesande hinded, '
                                         . 'grade itemid.';
@@ -84,6 +87,10 @@ $string['deadlines_helper']           = 'Tähtajad, kui esitus on hiljem kui tä
                                         . 'protsendiga. Nt 0%-ga deadline tähendab, et  pärast seda esitades saab hindeks 0.';
 $string['deadline_helper']            = 'Tähtaja kuupäev ja aeg.';
 $string['percentage_helper']          = 'Protsent, mis võetakse hindeks kui pärast tähtaega töö esitatakse.';
+$string['defense_deadline_helper']    = 'Kaitsmise tähtaeg.';
+$string['duration_helper']            = 'Kaitsmise kestus minutites.';
+$string['labs_helper']                = 'Praktikumid, kus seda Charonit kaitsta saab.';
+$string['teacher_helper']             = 'Tudeng saab kaitsmiseks õppejõu valida.';
 $string['group_helper']               = 'Grupp kellele see hinne kehtib. Praegu ei tööta.';
 $string['preset_select_helper']       = 'Kõiki seadeid saab "advanced" sektsioonis muuta.';
 $string['tester_extra_helper'] = 'Konkreetsele testerile (java, python, jne.) saadetavad ekstra parameetrid.';
@@ -107,6 +114,30 @@ $string['add_button_text'] = 'Lisa';
 
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
+
+/*------------------------*\
+        Labs form
+\*------------------------*/
+
+$string['save'] = "Salvesta";
+$string['cancel'] = "Tühista";
+
+$string['lab_info'] = "Praktikumi info";
+$string['multiple_labs'] = "Lisa mitu praktikumi sessiooni";
+
+$string['start'] = "Algus";
+$string['end'] = "Lõpp";
+$string['teachers'] = "Õppejõud";
+$string['weeks'] = "Nädalad";
+
+$string['start_helper'] = "Alguse kuupäev ja aeg.";
+$string['end_helper'] = "Lõpu aeg.";
+$string['teachers_helper'] = "Õppejõud, kes selles praktikumis kohal on.";
+$string['weeks_helper'] = "Vali nädalad, millal see praktikum aset leiab.";
+
+$string['teachers_placeholder'] = "Vali õppejõud";
+$string['weeks_placeholder'] = "Vali nädalad";
+
 /*------------------------*\
    Assignment view
 \*------------------------*/
@@ -115,6 +146,7 @@ $string['submissions']     = 'Esitused';
 $string['commit_message']  = 'Commiti kommentaar';
 $string['files']           = 'Failid';
 $string['deadlines']       = 'Tähtajad';
+$string['defense']         = 'Kaitsmine';
 $string['after']           = 'Pärast';
 $string['percentage']      = 'Protsent';
 $string['your_points']     = 'Sinu punktid';
