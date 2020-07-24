@@ -85,5 +85,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/labs/{lab}/teachers', 'LabTeacherController@getByLab');
     Route::middleware('auth.charon.managing.require')  // get teachers in a specific charon lab - works. Usage: register for defense
         ->get('charons/{charon}/labs/{charon_defense_lab}/teachers', 'LabTeacherController@getByCharonAndLab');
+    Route::middleware('auth.course.managing.require')  // delete lab
+        ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
 
 });

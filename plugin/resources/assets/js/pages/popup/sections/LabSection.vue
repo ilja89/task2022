@@ -2,7 +2,8 @@
     <div class="lab">
         <div class="section font pb-5" v-for="lab in labs">
             <h2 class="pl-5 font">{{getDayTimeFormat(lab.start.time)}}
-                <button class="btn font" v-on:click="editLabClicked(lab)" style="background-color: #d7dde4">Edit</button></h2>
+                <button class="btn font" v-on:click="editLabClicked(lab)" style="background-color: #d7dde4">Edit</button>
+                <button class="btn font" v-on:click="deleteLabClicked(lab)" style="background-color: #d7dde4">Delete</button></h2>
             <hr>
             <p class="pl-5">Date: {{getNiceDate(lab.start.time)}}</p>
             <p class="pl-5">Time: {{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</p>
@@ -13,12 +14,20 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
+    import Lab from "../../../api/Lab";
 
     export default {
         name: "LabSection.vue",
         props: {
             labs: {required: true}
+        },
+
+        computed: {
+
+            ...mapState([
+                'course'
+            ]),
         },
 
         methods: {
@@ -55,6 +64,12 @@
             editLabClicked(lab) {
                 this.updateLab({lab})
                 window.location = "popup#/labsForm";
+            },
+            deleteLabClicked(lab) {
+                Lab.delete(this.course.id, lab.id, () => {
+                    window.location.reload();
+                    VueEvent.$emit('show-notification', 'Lab deleted!')
+                })
             }
         }
     }

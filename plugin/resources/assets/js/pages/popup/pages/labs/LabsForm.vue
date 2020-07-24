@@ -34,7 +34,8 @@
                     // save lab
                     //console.log('save lab')
                     Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, () => {
-                        //window.location = "popup#/labs";
+                        window.location = "popup#/labs";
+                        window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
                     })
                 }
