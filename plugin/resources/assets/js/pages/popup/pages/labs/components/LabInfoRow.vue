@@ -19,8 +19,8 @@
 
             <p class="input-helper-labs">Teachers attending this lab session.</p>
 
-            <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="name"
-                         :close-on-select="false" placeholder="Select teachers" trackBy="name"
+            <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="full_name"
+                         :close-on-select="false" placeholder="Select teachers" trackBy="id"
                          :clear-on-select="true" style="width: 300px">
             </multiselect>
 
@@ -41,15 +41,10 @@
 
         components: { Datepicker, CharonSelect, Multiselect },
 
-        data() {
-            return {
-                teachers: [{name: 'Ago Luberg'}, {name: 'Keegi Veel'}]  // TODO api to get all teachers for this charon
-            }
-        },
-
         props: {
-            lab_given: {required: true}
-        }
+            lab_given: {required: true},
+            teachers: {required: true}
+        },
     }
 </script>
 

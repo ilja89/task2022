@@ -87,6 +87,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/{charon_defense_lab}/teachers', 'LabTeacherController@getByCharonAndLab');
     Route::middleware('auth.course.managing.require')  // delete lab
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
-    Route::middleware('auth.course.managing.require')  // update lab
-        ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+
+    // TEACHERS
+
+    Route::middleware('auth.course.managing.require')  // get teachers
+        ->get('courses/{course}/teachers', 'LabTeacherController@getTeachersByCourse');
 });
