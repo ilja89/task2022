@@ -7,7 +7,7 @@
         </div>
 
         <div class="btn-container btn-container-right">
-            <button v-on:click="cancelClicked" class="btn-labs btn-cancel-labs">Cancel</button>
+            <router-link to="/labs"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
         </div>
 
     </div>
