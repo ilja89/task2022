@@ -10,18 +10,14 @@ use TTU\Charon\Models\Grademap;
 
 class LabTeacherRepository
 {
-    public function deleteAllLabTeachersForCharon($charonId)
-    {
-
+    public function deleteAllLabTeachersForCharon($charonId) {
         Log::info("Attempting to delete all charon lab-teachers");
         return DB::table('lab_teacher')
             ->where('charon_id', $charonId)
             ->delete();
-
     }
 
     public function getTeachersByLabId($courseId, $labId) {
-
         $labTeachers =  \DB::table('lab_teacher')
             ->join('lab', 'lab.id', 'lab_teacher.lab_id')
             ->where('lab_id', $labId)
@@ -33,7 +29,6 @@ class LabTeacherRepository
                 'lastName'
             )
             ->get();
-        // is the foreach get thing important? Don't know, let's find out
 
         return $labTeachers;
     }
@@ -60,6 +55,12 @@ class LabTeacherRepository
             ->select('user.id', 'user.firstname', 'user.lastname')
             ->get();
         return $teachers;
+    }
+
+    public function deleteByLabId($labId) {
+        return DB::table('lab_teacher')
+            ->where('lab_id', $labId)
+            ->delete();
     }
 
 }

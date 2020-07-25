@@ -53,7 +53,7 @@ class LabController extends Controller
      * @return bool
      */
     public function save(Course $course) {
-        return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id);
+        return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id, $this->request['teachers']);
     }
 
     /**
@@ -75,7 +75,7 @@ class LabController extends Controller
      * @return Lab
      */
     public function update(Course $course, Lab $lab) {
-        return $this->labRepository->update($lab->id, $this->request['start'], $this->request['end']);
+        return $this->labRepository->update($lab->id, $this->request['start'], $this->request['end'], $this->request['teachers']);
     }
 
 }

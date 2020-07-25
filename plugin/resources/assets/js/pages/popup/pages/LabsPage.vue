@@ -11,6 +11,8 @@
         LabSection,
     } from '../sections'
     import {mapState} from "vuex";
+    import Lab from "../../../api/Lab";
+    import User from "../../../api/User";
 
     export default {
         name: "labs-page",
@@ -24,10 +26,10 @@
             PageTitle, LabSection
         },
         mounted() {
-            axios.get('http://localhost:82/mod/charon/api/courses/' + this.course.id + '/labs')
-                .then(response => {
-                    this.labs = response.data;
-                    this.formatLabs()});
+            Lab.all(this.course.id, response => {
+                this.labs = response;
+                this.formatLabs();
+            })
         },
         computed: {
 
@@ -43,7 +45,25 @@
                     this.labs[i].start = {time: new Date(save_start)}
                     let save_end = this.labs[i].end
                     this.labs[i].end = {time: new Date(save_end)}
+                    User.getTeachersInLab(this.course.id, this.labs[i].id, response => {
+                        this.labs[i].teachers = this.getFullNamesForTeachers(response);
+                    })
                 }
+            },
+            getTeachersInThisLab(labId) {
+                let teachers = []
+                User.getTeachersInLab(this.course.id, labId, response => {
+                    teachers = response;
+                    this.getFullNamesForTeachers(teachers)
+                    console.log(teachers)
+                })
+                return teachers;
+            },
+            getFullNamesForTeachers(teachers) {
+                for (let i = 0; i < teachers.length; i++) {
+                    teachers[i].full_name = teachers[i].firstName + ' ' + teachers[i].lastName
+                }
+                return teachers
             }
 
         }
