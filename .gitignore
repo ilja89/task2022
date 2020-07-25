@@ -1,5 +1,6 @@
 /node_modules
 /vendor
+/cache
 /.idea
 /plugin/public/css
 /plugin/public/plugin
