@@ -53,4 +53,15 @@ class LabTeacherController extends Controller
     public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab) {
         return $this->labTeacherRepository->getTeachersByCharonAndLabId($charon->id, $charonDefenseLab->id);
     }
+    
+    /**
+     * Get teachers by course.
+     *
+     * @param  Course $course
+     *
+     * @return \Zeizig\Moodle\Models\User[]
+     **/
+    public function getTeachersByCourse(Course $course) {
+        return $this->labTeacherRepository->getTeachersByCourseId($course->id);
+    }
 }

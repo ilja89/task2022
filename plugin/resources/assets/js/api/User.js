@@ -36,6 +36,15 @@ class User {
                 VueEvent.$emit('show-notification', 'Error retrieving distribution of students.', 'danger')
             })
     }
+
+    static getTeachers(courseId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/teachers')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+        })
+    }
 }
 
 export default User
