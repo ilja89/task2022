@@ -4,9 +4,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
-use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\LabRepository;
 use Zeizig\Moodle\Models\Course;
 
@@ -56,6 +54,28 @@ class LabController extends Controller
      */
     public function save(Course $course) {
         return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id);
+    }
+
+    /**
+     * Delete lab.
+     * @param Course $course
+     * @param Lab $lab
+     *
+     * @return Lab
+     */
+    public function delete(Course $course, Lab $lab) {
+        return $this->labRepository->deleteByInstanceId($lab->id);
+    }
+
+    /**
+     * Update lab.
+     * @param Course $course
+     * @param Lab $lab
+     *
+     * @return Lab
+     */
+    public function update(Course $course, Lab $lab) {
+        return $this->labRepository->update($lab->id, $this->request['start'], $this->request['end']);
     }
 
 }

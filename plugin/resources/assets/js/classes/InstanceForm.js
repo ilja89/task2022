@@ -3,7 +3,6 @@ import moment from 'moment';
 export default class InstanceFormForm {
     constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services, defense_labs) {
         this.initializeFields(instance, courseSettings);
-
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;

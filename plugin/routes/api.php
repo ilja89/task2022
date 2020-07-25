@@ -3,9 +3,9 @@
 Route::group(['namespace' => 'Api'], function () {
 
     Route::post('tester_callback', 'TesterCallbackController@index')
-         ->name('tester_callback');
+        ->name('tester_callback');
     Route::get('git_callback', 'GitCallbackController@index')
-         ->name('git_callback');
+        ->name('git_callback');
     Route::post('git_callback', 'GitCallbackController@indexPost')
         ->name('git_callback_post');
 
@@ -23,9 +23,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('submissions/{submission}/files', 'FilesController@index');
 
     Route::middleware('auth.submission.managing.require')
-         ->get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
+        ->get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
     Route::middleware('auth.charon.managing.require')
-         ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
+        ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/{submission}', 'SubmissionsController@saveSubmission');
     Route::middleware('auth.charon.managing.require')
@@ -45,11 +45,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{userId}', 'StudentsController@getStudentInfo');
     Route::middleware('auth.course.managing.require')
-         ->get('courses/{course}/users/{user}/report-table', 'StudentsController@getStudentReportTable');
+        ->get('courses/{course}/users/{user}/report-table', 'StudentsController@getStudentReportTable');
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/results/{user}', 'StudentsController@getStudentActiveResultForCharon');
     Route::middleware('auth.course.managing.require')
-         ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
+        ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
 
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');
@@ -57,7 +57,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->put('courses/{course}/presets/{preset}', 'PresetsController@update');
 
     Route::middleware('auth.submission.managing.require')
-         ->post('submissions/{submission}/retest', 'RetestController@index');
+        ->post('submissions/{submission}/retest', 'RetestController@index');
 
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
@@ -85,5 +85,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/labs/{lab}/teachers', 'LabTeacherController@getByLab');
     Route::middleware('auth.charon.managing.require')  // get teachers in a specific charon lab - works. Usage: register for defense
         ->get('charons/{charon}/labs/{charon_defense_lab}/teachers', 'LabTeacherController@getByCharonAndLab');
-
+    Route::middleware('auth.course.managing.require')  // delete lab
+        ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
+    Route::middleware('auth.course.managing.require')  // update lab
+        ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
 });

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <lab-info-section :form="form"></lab-info-section>
-        <add-multiple-labs-section :form="form"></add-multiple-labs-section>
+        <lab-info-section :lab_given="lab"></lab-info-section>
+        <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
         <div class="btn-container btn-container-left">
             <button v-on:click="saveClicked" class="btn-labs btn-save-labs">Save</button>
         </div>
 
         <div class="btn-container btn-container-right">
-            <button v-on:click="cancelClicked" class="btn-labs btn-cancel-labs">Cancel</button>
+            <router-link to="/labs"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
         </div>
 
     </div>
@@ -16,30 +16,64 @@
 <script>
     import LabInfoSection from "./sections/LabInfoSection";
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
 
     export default {
 
         components: { LabInfoSection, AddMultipleLabsSection },
 
-        data() {
-            return {
-                form: {start: {time: null}, end: {time: null}, weeks: []}
-            }
-        },
-
         methods: {
             saveClicked() {
                 // send info to backend
-                //window.location = "popup#/labs";
-                console.log(this.form)
-                Lab.save('1', this.form.start.time, this.form.end.time, lab => {  // works
-                    VueEvent.$emit('show-notification', 'Lab saved!')
-                });
+                if (this.lab.id != null) {
+                    // update lab
+                    let giveStart = this.lab.start.time
+                    let giveEnd = this.lab.end.time
+                    if (giveStart.toString().includes('GMT+0300')) {
+                        let num = giveStart.toString().substring(giveStart.toString().indexOf('GMT') + 4,
+                            giveStart.toString().indexOf('GMT') + 6)
+                        if (giveStart.toString().includes('GMT+')) {
+                            giveStart = new Date(giveStart.setHours(giveStart.getHours() + parseInt(num)))
+                        }
+                        if (giveStart.toString().includes('GMT-')) {
+                            giveStart = new Date(giveStart.setHours(giveStart.getHours() - parseInt(num)))
+                        }
+                    }
+                    if (giveEnd.toString().includes('GMT+0300')) {
+                        let num = giveEnd.toString().substring(giveEnd.toString().indexOf('GMT') + 4,
+                            giveEnd.toString().indexOf('GMT') + 6)
+                        if ((giveEnd.toString().includes('GMT+'))) {
+                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() + parseInt(nums)))
+                        }
+                        if (giveEnd.toString().includes('GMT-')) {
+                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() - parseInt(num)))
+                        }
+                    }
+                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, () => {
+                        window.location = "popup#/labs";
+                        window.location.reload();
+                        VueEvent.$emit('show-notification', 'Lab updated!');
+                    })
+                } else {
+                    // save lab
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, () => {
+                        window.location = "popup#/labs";
+                        window.location.reload();
+                        VueEvent.$emit('show-notification', 'Lab saved!');
+                    })
+                }
             },
             cancelClicked() {
                 window.location = "popup#/labs";
             }
+        },
+        computed: {
+
+            ...mapState([
+                'lab',
+                'course'
+            ]),
         }
     }
 </script>

@@ -10,8 +10,12 @@
 
         <div v-if="show_info" class="fcontainer clearfix fitem">
 
+<<<<<<< HEAD
             <lab-info-row :teachers="teachers"
                           :form="form">
+=======
+            <lab-info-row :lab_given="lab_given">
+>>>>>>> dev
             </lab-info-row>
 
         </div>
@@ -32,23 +36,22 @@
         data() {
             return {
                 show_info: true,
-                deadline: {deadline_time: {time: '12-07-2020 23:45'}, teachers: []},
-                teachers: [
-                    {name: 'Ago', id: 1},
-                    {name: 'Kadri', id: 2},
-                    {name: 'Orav', id: 3}
-                ]  // actually form.teachers
             }
         },
 
         props: {
-            form: {required: true}
+            lab_given: {required: true}
         },
 
         computed: {
             isEditing() {
                 return window.isEditing;
+<<<<<<< HEAD
             },
         },
+=======
+            }
+        }
+>>>>>>> dev
     }
 </script>

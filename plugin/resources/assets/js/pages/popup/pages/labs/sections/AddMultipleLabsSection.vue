@@ -14,7 +14,11 @@
 
             <p class="input-helper-labs">Choose weeks when this lab session takes place.</p>
 
+<<<<<<< HEAD
             <multiselect v-model="form.weeks" :options="weeks" :multiple="true"
+=======
+            <multiselect v-model="lab.weeks" :options="weeks" :multiple="true"
+>>>>>>> dev
                          :close-on-select="false" placeholder="Select weeks"
                          :clear-on-select="true" class="multiselect__width" style="width: 350px">
             </multiselect>
@@ -37,12 +41,16 @@
         data() {
             return {
                 show_multiple: true,
+<<<<<<< HEAD
                 weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+=======
+                weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+>>>>>>> dev
             }
         },
 
         props: {
-            form: {required: true}
+            lab: {required: true}
         },
 
         computed: {

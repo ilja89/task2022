@@ -76,7 +76,7 @@ class LabRepository
      *
      * @param  integer $id
      *
-     * @return boolean
+     * @return Lab
      *
      * @throws \Exception
      */
@@ -88,43 +88,32 @@ class LabRepository
         CharonDefenseLab::where('lab_id', $id)->delete();
         LabTeacher::where('lab_id', $id)->delete();
 
-        return $lab->delete();
+        $lab->delete();
+        return $lab;
     }
 
     /**
      * Takes the old instance and override its values with the new Charon values.
      *
-     * @param  Lab  $oldLab
-     * @param  Lab  $newLab
+     * @param  Number  $oldLabId
+     * @param  Carbon $newStart
+     * @param  Carbon $newEnd
      *
-     * @return boolean
+     * @return Lab
      */
-    public function update($oldLab, $newLab)
+    public function update($oldLabId, $newStart, $newEnd)
     {
-        $oldLab->start = $newLab->start;
-        $oldLab->end = $newLab->end;
-        $oldLab->teachers = $newLab->teachers;  // necessary?
-        /*$oldCharon->name = $newCharon->name;
-        $oldCharon->project_folder = $newCharon->project_folder;
-        $oldCharon->tester_extra = $newCharon->tester_extra;
-        $oldCharon->system_extra = $newCharon->system_extra;
-        $oldCharon->tester_type_code = $newCharon->tester_type_code;
-        $oldCharon->grading_method_code = $newCharon->grading_method_code;
-        $oldCharon->grouping_id = $newCharon->grouping_id;
-        $oldCharon->timemodified = Carbon::now()->timestamp;
+        $oldLab = Lab::find($oldLabId);
+        $oldLab->start = Carbon::parse($newStart)->format('Y-m-d H:i:s');
+        $oldLab->end = Carbon::parse($newEnd)->format('Y-m-d H:i:s');
+        //$oldLab->teachers = $newLab->teachers;  // necessary?
 
-        $oldCharon->description = $this->fileUploadService->savePluginFiles(
-            $newCharon->description,
-            'description',
-            $oldCharon->courseModule()->id
-        );*/
-
-        return $oldLab->save();
+        $oldLab->save();
+        return $oldLab;
     }
 
     /**
-     * Find all Charons in course with given id. Also loads deadlines,
-     * grademaps with grade items.
+     * Find all labs in course with given id.
      *
      * @param  integer $courseId
      *
@@ -132,9 +121,9 @@ class LabRepository
      */
     public function findLabsByCourse($courseId)
     {
-        $labs = \DB::table('lab')  // id, start, end
-        //->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
+        $labs = \DB::table('lab')
             ->where('course_id', $courseId)
+        ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
             ->get();
         return $labs;

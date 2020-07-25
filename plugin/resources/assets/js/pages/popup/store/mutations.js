@@ -13,3 +13,11 @@ export const UPDATE_SUBMISSION = (state, { submission }) => {
 export const UPDATE_CHARON = (state, { charon }) => {
     state.charon = charon
 }
+
+export const UPDATE_LAB = (state, { lab }) => {
+    state.lab = lab
+}
+
+export const UPDATE_LAB_TO_EMPTY = (state) => {
+    state.lab = {start: {time: null}, end: {time: null}, teachers: []}
+}
