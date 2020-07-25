@@ -25,7 +25,7 @@ class LabTeacher extends Model
 
     //protected $dates = [ 'created_at' ];
 
-    public function labDummy()
+    public function lab()
     {
         return $this->belongsTo(Lab::class);
     }

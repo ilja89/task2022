@@ -49,4 +49,17 @@ class LabTeacherRepository
         return $teachers;
     }
 
+    public function getTeachersByCourseId($courseId) {
+        $teachers = \DB::table('course')
+            ->join('context', 'context.instanceid', 'course.id')
+            ->join('role_assignments', 'role_assignments.contextid', 'context.id')
+            ->join('user', 'user.id', 'role_assignments.userid')
+            ->join('role', 'role.id', 'role_assignments.roleid')
+            ->where('role.id', 3)
+            ->where('course.id', $courseId)
+            ->select('user.id', 'user.firstname', 'user.lastname')
+            ->get();
+        return $teachers;
+    }
+
 }
