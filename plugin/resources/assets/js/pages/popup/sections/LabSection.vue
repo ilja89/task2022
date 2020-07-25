@@ -7,7 +7,7 @@
             <hr>
             <p class="pl-5">Date: {{getNiceDate(lab.start.time)}}</p>
             <p class="pl-5">Time: {{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</p>
-            <p class="pl-5">Teachers: <b v-for="teacher in getTeachersInThisLab(lab.id)">{{teacher.firstName}} {{teacher.lastName}}, </b></p>
+            <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher.full_name}}, </b></p>
         </div>
         <button v-on:click="clickAddNewLabSession" class="font btn">+ Add a new lab session</button>
     </div>
@@ -16,6 +16,7 @@
 <script>
     import {mapActions, mapState} from "vuex";
     import Lab from "../../../api/Lab";
+    import User from "../../../api/User";
 
     export default {
         name: "LabSection.vue",
@@ -54,12 +55,6 @@
             getDayTimeFormat(date) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
                 return daysDict[date.getDay()] + date.getHours();
-            },
-            getTeachersInThisLab(labId) {
-                let teachers = [];
-                axios.get('http://localhost:82/mod/charon/api/courses/1/labs/' + labId + '/teachers')
-                    .then(response => (teachers = response));
-                return teachers; // teachers.data
             },
             editLabClicked(lab) {
                 this.updateLab({lab})

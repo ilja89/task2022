@@ -89,6 +89,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/{charon_defense_lab}/teachers', 'LabTeacherController@getByCharonAndLab');
     Route::middleware('auth.course.managing.require')  // delete lab
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
+    Route::middleware('auth.course.managing.require')  // update lab
+        ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
 
 //    Route::middleware('auth:api')->get('view.php', 'CharonController@get');
 //    Route::middleware('auth:api')
