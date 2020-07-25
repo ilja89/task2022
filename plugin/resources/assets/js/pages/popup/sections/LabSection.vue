@@ -67,37 +67,11 @@
                 this.updateLab({lab})
                 window.location = "popup#/labsForm";
             },
-<<<<<<< HEAD
-            getNiceTime(time) {
-                let mins = time.getMinutes().toString();
-                if (mins.length == 1) {
-                    mins = "0" + mins;
-                }
-                return time.getHours() + ":" + mins
-            },
-            getNiceDate(date) {
-                let month = (date.getMonth() + 1).toString();
-                if (month.length == 1) {
-                    month = "0" + month
-                }
-                return date.getDate() + '.' + month + '.' + date.getFullYear()
-            },
-            getDayTimeFormat(date) {
-                let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                return daysDict[date.getDay()] + date.getHours();
-            },
-            getTeachersInThisLab(labId) {
-                let teachers;
-                axios.get('http://localhost:82/mod/charon/api/courses/1/labs/' + labId + '/teachers')
-                    .then(response => (teachers = response));
-                return teachers; // teachers.data
-=======
             deleteLabClicked(lab) {
                 Lab.delete(this.course.id, lab.id, () => {
                     window.location.reload();
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
->>>>>>> dev
             }
         }
     }

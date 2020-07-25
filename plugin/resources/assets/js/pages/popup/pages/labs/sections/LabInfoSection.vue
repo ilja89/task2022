@@ -42,12 +42,7 @@
         computed: {
             isEditing() {
                 return window.isEditing;
-<<<<<<< HEAD
-            },
-        },
-=======
             }
         }
->>>>>>> dev
     }
 </script>
