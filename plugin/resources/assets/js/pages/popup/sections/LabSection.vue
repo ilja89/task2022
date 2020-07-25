@@ -24,8 +24,6 @@
         props: {
             labs: {required: true}
         },
-<<<<<<< HEAD
-=======
 
         computed: {
 
@@ -34,7 +32,6 @@
             ]),
         },
 
->>>>>>> dev
         methods: {
             ...mapActions(["updateLab", "updateLabToEmpty"]),
 

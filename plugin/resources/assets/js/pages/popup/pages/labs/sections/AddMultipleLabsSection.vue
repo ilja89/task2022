@@ -14,11 +14,7 @@
 
             <p class="input-helper-labs">Choose weeks when this lab session takes place.</p>
 
-<<<<<<< HEAD
-            <multiselect v-model="form.weeks" :options="weeks" :multiple="true"
-=======
             <multiselect v-model="lab.weeks" :options="weeks" :multiple="true"
->>>>>>> dev
                          :close-on-select="false" placeholder="Select weeks"
                          :clear-on-select="true" class="multiselect__width" style="width: 350px">
             </multiselect>

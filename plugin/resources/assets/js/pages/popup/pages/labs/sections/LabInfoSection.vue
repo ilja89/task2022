@@ -10,12 +10,8 @@
 
         <div v-if="show_info" class="fcontainer clearfix fitem">
 
-<<<<<<< HEAD
-            <lab-info-row :teachers="teachers"
-                          :form="form">
-=======
+
             <lab-info-row :lab_given="lab_given">
->>>>>>> dev
             </lab-info-row>
 
         </div>
