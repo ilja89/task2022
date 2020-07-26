@@ -48,7 +48,7 @@ export const updateSubmission = ({ commit }, { submission }) => {
 /**
  * Update the lab in the store.
  * @param commit {Function}
- * @param submission {Object}
+ * @param lab {Object}
  */
 export const updateLab = ({ commit }, { lab }) => {
     commit('UPDATE_LAB', { lab })

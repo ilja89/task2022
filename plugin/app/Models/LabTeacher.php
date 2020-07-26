@@ -19,9 +19,9 @@ class LabTeacher extends Model
 {
     public $timestamps = false;
     protected $table = 'lab_teacher';
-    //protected $fillable = [
-    //    'lab_id', 'teacher_id'
-    //];
+    protected $fillable = [
+        'lab_id', 'teacher_id'
+    ];
 
     //protected $dates = [ 'created_at' ];
 

@@ -32,6 +32,12 @@
 
         methods: {
             saveClicked() {
+                let chosen_teachers = []
+                if (this.lab.teachers !== undefined) {
+                    for (let i = 0; i < this.lab.teachers.length; i++) {
+                        chosen_teachers.push(this.lab.teachers[i].id)
+                    }
+                }
                 // send info to backend
                 if (this.lab.id != null) {
                     // update lab
@@ -51,20 +57,20 @@
                         let num = giveEnd.toString().substring(giveEnd.toString().indexOf('GMT') + 4,
                             giveEnd.toString().indexOf('GMT') + 6)
                         if ((giveEnd.toString().includes('GMT+'))) {
-                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() + parseInt(nums)))
+                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() + parseInt(num)))
                         }
                         if (giveEnd.toString().includes('GMT-')) {
                             giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() - parseInt(num)))
                         }
                     }
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, () => {
+                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab updated!');
                     })
                 } else {
                     // save lab
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers,() => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
