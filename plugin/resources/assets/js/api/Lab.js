@@ -33,5 +33,4 @@ class Lab {
         })
     }
 }
-
 export default Lab
