@@ -19,6 +19,7 @@
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import User from "../../../../api/User";
+    import Course from "../../../../api/Course";
 
     export default {
 
@@ -70,7 +71,7 @@
                     })
                 } else {
                     // save lab
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers,() => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');

@@ -8,6 +8,7 @@ use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use Zeizig\Moodle\Services\ModuleService;
+use function Sodium\add;
 
 /**
  * Class CharonRepository.
@@ -44,23 +45,56 @@ class LabRepository
      * @param $courseId
      * @param $teachers
      *
+     * @param $weeks
      * @return boolean
      */
-    public function save($start, $end, $courseId, $teachers)
-    {
-        $lab = Lab::create([
-            'start'  => Carbon::parse($start)->format('Y-m-d H:i:s'),
-            'end' => Carbon::parse($end)->format('Y-m-d H:i:s'),
-            'course_id' => $courseId
-        ]);
-        for ($i = 0; $i < count($teachers); $i++) {
-            $labTeacher = LabTeacher::create([
-                'lab_id' => $lab->id,
-                'teacher_id' => $teachers[$i]
-            ]);
-            $labTeacher->save();
+    public function save($start, $end, $courseId, $teachers, $weeks) {
+        $allStartDatesForLabs = array();
+        if ($weeks) {
+            $courseStartTimestamp = \DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
+            $courseStartDate = date('d-m-Y H:i:s', $courseStartTimestamp);
+            $secondsInAnHour = 3600;
+            $secondsInAWeek = 7 * 60 * 60 * 24;
+            $hoursToAddToStart = intval(Carbon::parse($start)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
+            $hoursToAddToEnd = intval(Carbon::parse($end)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
+            foreach ($weeks as $week) {
+                $thisLabStartDate = date('d-m-Y H:i:s', $courseStartTimestamp
+                    + ($week - 1) * $secondsInAWeek + $hoursToAddToStart * $secondsInAnHour);
+                $thisLabEndDate = date('d-m-Y H:i:s', $courseStartTimestamp
+                    + ($week - 1) * $secondsInAWeek + $hoursToAddToEnd * $secondsInAnHour);
+                $lab = Lab::create([
+                    'start' => Carbon::parse($thisLabStartDate)->format('Y-m-d H:i:s'),
+                    'end' => Carbon::parse($thisLabEndDate)->format('Y-m-d H:i:s'),
+                    'course_id' => $courseId
+                ]);
+                $allStartDatesForLabs[] = $thisLabStartDate;
+                for ($i = 0; $i < count($teachers); $i++) {
+                    $labTeacher = LabTeacher::create([
+                        'lab_id' => $lab->id,
+                        'teacher_id' => $teachers[$i]
+                    ]);
+                    $labTeacher->save();
+                }
+                $lab->save();
+            }
         }
-        $lab->save();
+        if (!in_array(Carbon::parse($start)->format('d-m-Y H:i:s'), $allStartDatesForLabs)) {
+            Log::info('contains', [Carbon::parse($start)->format('d-m-Y H:i:s')]);
+            $lab = Lab::create([
+                'start'  => Carbon::parse($start)->format('Y-m-d H:i:s'),
+                'end' => Carbon::parse($end)->format('Y-m-d H:i:s'),
+                'course_id' => $courseId
+            ]);
+            for ($i = 0; $i < count($teachers); $i++) {
+                $labTeacher = LabTeacher::create([
+                    'lab_id' => $lab->id,
+                    'teacher_id' => $teachers[$i]
+                ]);
+                $labTeacher->save();
+            }
+            $lab->save();
+        }
+
         return $lab;
     }
 
@@ -147,10 +181,17 @@ class LabRepository
     {
         $labs = \DB::table('lab')
             ->where('course_id', $courseId)
-        ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
             ->get();
         return $labs;
+    }
+
+    public function getCourse($courseId) {
+        $course = \DB::table('course')
+            ->where('id', $courseId)
+            ->select('*')
+            ->get();
+        return $course;
     }
 
 }
