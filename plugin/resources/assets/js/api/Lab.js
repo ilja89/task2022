@@ -9,11 +9,12 @@ class Lab {
         })
     }
 
-    static save(courseId, start, end, teachers, then) {
+    static save(courseId, start, end, teachers, weeks, then) {
         axios.post('/mod/charon/api/courses/' + courseId + '/labs', {
             start: start,
             end: end,
-            teachers: teachers
+            teachers: teachers,
+            weeks: weeks
         }).then(response => {
             then(response.data)
         }).catch(error => {

@@ -94,4 +94,9 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require')  // get teachers
         ->get('courses/{course}/teachers', 'LabTeacherController@getTeachersByCourse');
+
+    // COURSE
+
+    Route::middleware('auth.course.managing.require') // get a course
+        ->get('courses/{course}', 'LabController@getCourse');
 });
