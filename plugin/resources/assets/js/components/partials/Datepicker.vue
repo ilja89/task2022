@@ -29,7 +29,7 @@
                     type: 'min',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'DD-MM-YYYY HH:mm',
+                    format: 'YYYY-MM-DD HH:mm:ss',
                     placeholder: 'Deadline',
                     buttons: {
                         ok: 'Ok',

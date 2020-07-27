@@ -161,7 +161,7 @@ class InstanceController extends Controller
             $DB->execute($sql);
 
             $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
-            Log::info("Update charon ", [$charon]);
+            Log::info("Update charon", [$charon]);
 
             if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
