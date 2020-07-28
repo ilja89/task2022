@@ -270,6 +270,7 @@ function xmldb_charon_upgrade($oldversion = 0)
             "            ON DELETE CASCADE".
             "            ON UPDATE CASCADE".
             ")";
+
         $DB->execute($sql3);
     }
 
