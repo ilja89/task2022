@@ -41,3 +41,7 @@ Route::middleware('auth.course.managing.require')
 // For handling Moodle requests before sending to controllers from lib.php. Might not need these!
 Route::get('course/modedit.php', function () { return ''; });
 Route::post('course/modedit.php', function () { return ''; });
+
+Route::middleware('auth.course_module.enrolment.require')
+    ->post('view.php', 'SubmissionController@insert');
+
