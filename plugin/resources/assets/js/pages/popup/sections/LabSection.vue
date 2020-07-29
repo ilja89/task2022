@@ -7,16 +7,15 @@
             <hr>
             <p class="pl-5">Date: {{getNiceDate(lab.start.time)}}</p>
             <p class="pl-5">Time: {{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</p>
-            <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher.full_name}}, </b></p>
+            <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b></b></p>
         </div>
-        <button v-on:click="clickAddNewLabSession" class="font btn">+ Add a new lab session</button>
+        <button v-on:click="addNewLabSessionClicked" class="font btn">+ Add a new lab session</button>
     </div>
 </template>
 
 <script>
     import {mapActions, mapState} from "vuex";
     import Lab from "../../../api/Lab";
-    import User from "../../../api/User";
 
     export default {
         name: "LabSection.vue",
@@ -34,7 +33,7 @@
         methods: {
             ...mapActions(["updateLab", "updateLabToEmpty"]),
 
-            clickAddNewLabSession() {
+            addNewLabSessionClicked() {
                 this.updateLabToEmpty()
                 window.location = "popup#/labsForm";
             },
