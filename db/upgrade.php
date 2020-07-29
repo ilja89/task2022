@@ -271,6 +271,33 @@ function xmldb_charon_upgrade($oldversion = 0)
             "            ON UPDATE CASCADE".
             ")";
         $DB->execute($sql3);
+        $sql4 = "CREATE TABLE mdl_defenders(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    student_id BIGINT(10) NOT NULL,".
+            "    student_name VARCHAR(254) NOT NULL,".
+            "    submission_id BIGINT(10) NOT NULL,".
+            "    choosen_time DATETIME NOT NULL,".
+            "    my_teacher TINYINT(1) NOT NULL,".
+            "    defense_lab_id BIGINT(10) NOT NULL,".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_defenders_student_id (student_id),".
+            "    INDEX IXFK_defenders_submission_id (submission_id),".
+            "    INDEX IXFK_defenders_defense_lab_id (defense_lab_id),".
+            "    CONSTRAINT FK_defenders_student_id".
+            "        FOREIGN KEY (student_id)".
+            "            REFERENCES mdl_user(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_defenders_defense_lab_id".
+            "        FOREIGN KEY (defense_lab_id)".
+            "            REFERENCES mdl_charon_defense_lab(id)".
+            "            ON DELETE CASCADE,".
+            "    CONSTRAINT FK_defenders_submission_id".
+            "        FOREIGN KEY (submission_id)".
+            "            REFERENCES mdl_charon_submission(id)".
+            "            ON DELETE CASCADE".
+            ")";
+        $DB->execute($sql4);
     }
 
     if ($oldversion < 2020071803) {
