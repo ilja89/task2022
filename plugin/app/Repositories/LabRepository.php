@@ -53,15 +53,28 @@ class LabRepository
         if ($weeks) {
             $courseStartTimestamp = \DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
             $courseStartDate = date('d-m-Y H:i:s', $courseStartTimestamp);
-            $secondsInAnHour = 3600;
-            $secondsInAWeek = 7 * 60 * 60 * 24;
+            $secondsInAMinute = 60;
+            $secondsInAnHour = $secondsInAMinute * 60;
+            $secondsInADay = $secondsInAnHour * 24;
+            $secondsInAWeek = $secondsInADay * 7;
             $hoursToAddToStart = intval(Carbon::parse($start)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
             $hoursToAddToEnd = intval(Carbon::parse($end)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
+            $minutesToAddToStart = intval(Carbon::parse($start)->format('i')) - intval(Carbon::parse($courseStartDate)->format('i'));
+            $minutesToAddToEnd = intval(Carbon::parse($end)->format('i')) - intval(Carbon::parse($courseStartDate)->format('i'));
+            $daysLabStart = intval(Carbon::parse($start)->format('w'));
+            $daysCourseStart = intval(Carbon::parse($courseStartDate)->format('w'));
+            $daysDiffToAdd = $daysLabStart - $daysCourseStart;
             foreach ($weeks as $week) {
                 $thisLabStartDate = date('d-m-Y H:i:s', $courseStartTimestamp
-                    + ($week - 1) * $secondsInAWeek + $hoursToAddToStart * $secondsInAnHour);
+                    + ($week - 1) * $secondsInAWeek +
+                    $daysDiffToAdd * $secondsInADay +
+                    $hoursToAddToStart * $secondsInAnHour +
+                    $minutesToAddToStart * $secondsInAMinute);
                 $thisLabEndDate = date('d-m-Y H:i:s', $courseStartTimestamp
-                    + ($week - 1) * $secondsInAWeek + $hoursToAddToEnd * $secondsInAnHour);
+                    + ($week - 1) * $secondsInAWeek +
+                    $daysDiffToAdd * $secondsInADay +
+                    $hoursToAddToEnd * $secondsInAnHour +
+                    $minutesToAddToEnd * $secondsInAMinute);
                 $lab = Lab::create([
                     'start' => Carbon::parse($thisLabStartDate)->format('Y-m-d H:i:s'),
                     'end' => Carbon::parse($thisLabEndDate)->format('Y-m-d H:i:s'),
@@ -79,7 +92,6 @@ class LabRepository
             }
         }
         if (!in_array(Carbon::parse($start)->format('d-m-Y H:i:s'), $allStartDatesForLabs)) {
-            Log::info('contains', [Carbon::parse($start)->format('d-m-Y H:i:s')]);
             $lab = Lab::create([
                 'start'  => Carbon::parse($start)->format('Y-m-d H:i:s'),
                 'end' => Carbon::parse($end)->format('Y-m-d H:i:s'),
