@@ -13,7 +13,10 @@
         components: { DatePicker },
 
         props: {
-            datetime: { required: true }
+            datetime: { required: true },
+            placeholder: {required: false},
+            date: {required: false}
+
         },
 
         data () {
@@ -29,8 +32,8 @@
                     type: 'min',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'DD-MM-YYYY HH:mm',
-                    placeholder: 'Deadline',
+                    format: 'YYYY-MM-DD HH:mm',
+                    placeholder: this.placeholder,
                     buttons: {
                         ok: 'Ok',
                         cancel: 'Cancel'

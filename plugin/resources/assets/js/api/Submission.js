@@ -124,8 +124,20 @@ class Submission {
                 VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
             })
     }
+
+    static SendData(student_id, submissionId, time, selected) {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+
+        axios.post(`view.php?id=${id}&studentid=${student_id}`, {
+            submission_id: submissionId,
+            time: time,
+            selected: selected
+        });
+
+    }
 }
 
 Submission.nextUrl = null
-
 export default Submission
