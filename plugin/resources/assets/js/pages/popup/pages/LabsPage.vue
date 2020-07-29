@@ -18,7 +18,8 @@
         name: "labs-page",
         data() {
             return {
-                labs: {}
+                labs: {},
+                labs_countdown: null
             }
         },
 
@@ -27,8 +28,9 @@
         },
         mounted() {
             Lab.all(this.course.id, response => {
-                this.labs = response;
-                this.formatLabs();
+                this.formatLabs(response, (done) => {
+                    this.assignLabs(done)
+                })
             })
         },
         computed: {
@@ -39,31 +41,32 @@
             ]),
         },
         methods: {
-            formatLabs() {
-                for (let i = 0; i < this.labs.length; i++) {
-                    let save_start = this.labs[i].start
-                    this.labs[i].start = {time: new Date(save_start)}
-                    let save_end = this.labs[i].end
-                    this.labs[i].end = {time: new Date(save_end)}
-                    User.getTeachersInLab(this.course.id, this.labs[i].id, response => {
-                        this.labs[i].teachers = this.getFullNamesForTeachers(response);
+            formatLabs(labs, then) {
+                this.labs_countdown = labs.length
+                for (let i = 0; i < labs.length; i++) {
+                    let save_start = labs[i].start
+                    labs[i].start = {time: new Date(save_start)}
+                    let save_end = labs[i].end
+                    labs[i].end = {time: new Date(save_end)}
+                    User.getTeachersInLab(this.course.id, labs[i].id, response => {
+                        this.getFullNamesForTeachers(response, result => {
+                            labs[i].teachers = result
+                            then(labs)
+                        })
                     })
                 }
             },
-            getTeachersInThisLab(labId) {
-                let teachers = []
-                User.getTeachersInLab(this.course.id, labId, response => {
-                    teachers = response;
-                    this.getFullNamesForTeachers(teachers)
-                    console.log(teachers)
-                })
-                return teachers;
-            },
-            getFullNamesForTeachers(teachers) {
+            getFullNamesForTeachers(teachers, then) {
                 for (let i = 0; i < teachers.length; i++) {
                     teachers[i].full_name = teachers[i].firstName + ' ' + teachers[i].lastName
                 }
-                return teachers
+                then(teachers)
+            },
+            assignLabs(futureLabs) {
+                this.labs_countdown--
+                if (!this.labs_countdown) {
+                    this.labs = futureLabs;
+                }
             }
 
         }
