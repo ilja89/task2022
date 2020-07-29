@@ -15,7 +15,7 @@
         </div>
 
         <div class="labs-field is-flex-1">
-            <label class="required">Teachers</label>
+            <label >Teachers</label>
 
             <p class="input-helper-labs">Teachers attending this lab session.</p>
 
@@ -34,7 +34,6 @@
     import { Translate } from '../../../../../mixins';
     import { CharonSelect } from '../../../../../components/form';
     import Multiselect from 'vue-multiselect';
-    import Lab from "../../../../../api/Lab";
 
     export default {
         mixins: [ Translate ],
