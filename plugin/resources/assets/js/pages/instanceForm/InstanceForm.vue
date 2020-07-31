@@ -62,7 +62,6 @@
         </instance-form-fieldset>
 
         <deadline-section :form="form"></deadline-section>
-        <defending-section :form="form"></defending-section>
         <grouping-section :form="form"></grouping-section>
 
         <notification :text="notification.text" :show="notification.show" :type="notification.type">
@@ -74,7 +73,7 @@
     import {
         AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection,
         SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
-        SimplePlagiarismSection, GroupingSection, DefendingSection
+        SimplePlagiarismSection, GroupingSection
     } from './sections'
     import { InstanceFormFieldset } from '../../components/form'
     import { Translate } from '../../mixins'
@@ -88,7 +87,6 @@
         },
 
         components: {
-            DefendingSection,
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
             AdvancedTaskInfoSection, AdvancedGradingSection,
             InstanceFormFieldset, Notification, AdvancedPlagiarismSection,
