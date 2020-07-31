@@ -52,3 +52,10 @@ Route::middleware('auth.course_module.enrolment.require')
 
 
 
+Route::middleware('auth.course_module.enrolment.require')
+    ->get('api/view.php', 'CharonController@get');
+
+
+
+
+
