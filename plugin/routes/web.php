@@ -45,3 +45,10 @@ Route::post('course/modedit.php', function () { return ''; });
 Route::middleware('auth.course_module.enrolment.require')
     ->post('view.php', 'SubmissionController@insert');
 
+Route::middleware('auth.course_module.enrolment.require')
+    ->get('api/view.php', 'CharonController@get');
+
+
+
+
+

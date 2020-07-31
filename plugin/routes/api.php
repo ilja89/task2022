@@ -1,5 +1,7 @@
 <?php
 
+use http\Client\Request;
+
 Route::group(['namespace' => 'Api'], function () {
 
     Route::post('tester_callback', 'TesterCallbackController@index')
@@ -87,5 +89,11 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/{charon_defense_lab}/teachers', 'LabTeacherController@getByCharonAndLab');
     Route::middleware('auth.course.managing.require')  // delete lab
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
+
+//    Route::middleware('auth:api')->get('view.php', 'CharonController@get');
+//    Route::middleware('auth:api')
+//        ->resource('view.php', 'CharonController');
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('api/view.php', 'CharonController@get');
 
 });

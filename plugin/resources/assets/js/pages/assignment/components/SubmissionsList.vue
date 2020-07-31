@@ -15,11 +15,14 @@
                     <h4>Choose a lab session to defend [charon activity name]</h4>
                 </div>
                 <div class="labs-schedule">
-                    <datepicker :datetime="datetime" :placeholder="placeholder"></datepicker>
+                    <div @click="submit">
+                        <datepicker :datetime="datetime" :placeholder="placeholder" :to="to"></datepicker>
+                    </div>
                     <div class="row">
                     </div>
                     <div class="register-lab-headers">
                         <h4>Choose a teacher</h4>
+                        {{this.to}}
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
@@ -129,14 +132,14 @@ SVG Icons - svgicons.sparkk.fr
 }
 </style>
 <script>
-    import { Translate } from '../../../mixins';
-    import { Submission } from '../../../api';
+
+    import {Translate} from '../../../mixins';
+    import {Submission} from '../../../api';
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
-    import moment from "moment";
-
 
     export default {
+
         mixins: [ Translate ],
         components: {
             Modal, Datepicker
@@ -160,6 +163,8 @@ SVG Icons - svgicons.sparkk.fr
                 isActive: false,
                 datetime: {},
                 placeholder: 'Select date',
+                to: '',
+                test: [],
                 project: {}
             };
         },
@@ -175,9 +180,22 @@ SVG Icons - svgicons.sparkk.fr
         },
 
         methods: {
+            submit() {
+                console.log(this.to);
+                console.log(typeof this.to);
+            },
             showModalLabs(submissionId) {
-                this.isActive = true;
                 this.current_submission = submissionId
+                this.isActive = true;
+            },
+
+            getTime() {
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var id = url.searchParams.get("id");
+                axios.get(`api/view.php?id=${id}`).then(result => {
+                    this.to = result.data;
+                })
             },
             closePopUp() {
                 this.isActive = false;
@@ -245,9 +263,11 @@ SVG Icons - svgicons.sparkk.fr
                     this.canLoadMore = false;
                 }
             },
+
         },
 
         mounted() {
+            this.getTime();
             this.refreshSubmissions();
         }
     }

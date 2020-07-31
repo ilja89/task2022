@@ -15,7 +15,8 @@
         props: {
             datetime: { required: true },
             placeholder: {required: false},
-            date: {required: false}
+            date: {required: false},
+            to: {required: false}
 
         },
 
@@ -50,10 +51,11 @@
                     {
                         type: 'fromto',
                         from: moment().subtract(1, 'days').format("YYYY-MM-DD"),
-                        to: '',
+                        to: this.to,
                     }
                 ]
             }
-        }
+        },
+
     }
 </script>
