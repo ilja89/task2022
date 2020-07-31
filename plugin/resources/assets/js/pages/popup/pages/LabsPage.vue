@@ -7,9 +7,7 @@
 
 <script>
     import { PageTitle } from '../partials'
-    import {
-        LabSection,
-    } from '../sections'
+    import { LabSection } from '../sections'
     import {mapState} from "vuex";
     import Lab from "../../../api/Lab";
     import User from "../../../api/User";

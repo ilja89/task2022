@@ -19,7 +19,6 @@
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import User from "../../../../api/User";
-    import Course from "../../../../api/Course";
 
     export default {
 
@@ -48,7 +47,7 @@
                     // update lab
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
-                    if (giveStart.toString().includes('GMT+0300')) {
+                    if (giveStart.toString().includes('GMT')) {
                         let num = giveStart.toString().substring(giveStart.toString().indexOf('GMT') + 4,
                             giveStart.toString().indexOf('GMT') + 6)
                         if (giveStart.toString().includes('GMT+')) {
