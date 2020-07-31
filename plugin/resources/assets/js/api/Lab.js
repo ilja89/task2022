@@ -42,5 +42,23 @@ class Lab {
             VueEvent.$emit('show-notification', 'Error updating lab.', 'danger')
         })
     }
+
+    static getByCharonId(charonId, then) {
+        axios.get('/mod/charon/api/charons/' + charonId + '/labs')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving labs for Charon.', 'danger')
+        })
+    }
+
+    static getByLabId(labId, then) {
+        axios.get('/mod/charon/api/charons/' + labId + '/labs')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving labs.', 'danger')
+        })
+    }
 }
 export default Lab

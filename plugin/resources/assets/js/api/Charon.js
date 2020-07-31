@@ -21,6 +21,19 @@ class Charon {
                 VueEvent.$emit('show-notification', 'Error retrieving results.', 'danger')
             })
     }
+
+    static saveCharonDefenseStuff(charonId, defense_deadline, defense_duration, defense_labs, choose_teacher, then) {
+        axios.post(Charon.getRoot() + '/charons/' + charonId, {
+            defense_deadline: defense_deadline,
+            defense_duration: defense_duration,
+            defense_labs: defense_labs,
+            choose_teacher: choose_teacher
+        }).then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error saving Charon defending stuff.', 'danger')
+        })
+    }
 }
 
 export default Charon

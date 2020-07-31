@@ -3,11 +3,14 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -297,6 +300,35 @@ class CharonRepository
         $charon->plagiarism_checksuite_id = $checksuiteId;
         $charon->save();
 
+        return $charon;
+    }
+
+    /**
+     * Save Charon defending stuff.
+     *
+     * @param Charon $charon
+     *
+     * @param $defenseDeadline
+     * @param $defenseDuration
+     * @param Collection|Lab[] $defenseLabs
+     * @param $chooseTeacher
+     * @return Charon
+     */
+    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher) {
+        $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
+        $charon->defense_duration = $defenseDuration;
+        $charon->choose_teacher = $chooseTeacher;
+        $charon->save();
+        \DB::table('charon_defense_lab')
+            ->where('charon_id', $charon->id)
+            ->delete();
+        for ($i = 0; $i < count($defenseLabs); $i++) {
+            $defenseLab = CharonDefenseLab::create([
+                'lab_id' => $defenseLabs[$i],
+                'charon_id' => $charon->id
+            ]);
+            $defenseLab->save();
+        }
         return $charon;
     }
 }
