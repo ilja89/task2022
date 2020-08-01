@@ -15,9 +15,7 @@
                     <h4>Choose a lab session to defend [charon activity name]</h4>
                 </div>
                 <div class="labs-schedule">
-                    <div @click="submit">
                         <datepicker :datetime="datetime" :placeholder="placeholder" :to="to"></datepicker>
-                    </div>
                     <div class="row">
                     </div>
                     <div class="register-lab-headers">
@@ -164,7 +162,6 @@ SVG Icons - svgicons.sparkk.fr
                 datetime: {},
                 placeholder: 'Select date',
                 to: '',
-                test: [],
                 project: {}
             };
         },
@@ -180,10 +177,6 @@ SVG Icons - svgicons.sparkk.fr
         },
 
         methods: {
-            submit() {
-                console.log(this.to);
-                console.log(typeof this.to);
-            },
             showModalLabs(submissionId) {
                 this.current_submission = submissionId
                 this.isActive = true;

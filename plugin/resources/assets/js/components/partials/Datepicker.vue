@@ -17,7 +17,6 @@
             placeholder: {required: false},
             date: {required: false},
             to: {required: false}
-
         },
 
         data () {
@@ -52,6 +51,7 @@
                         type: 'fromto',
                         from: moment().subtract(1, 'days').format("YYYY-MM-DD"),
                         to: this.to,
+                        charon_data: ''
                     }
                 ]
             }

@@ -137,6 +137,7 @@ class Submission {
         });
 
     }
+
 }
 
 Submission.nextUrl = null
