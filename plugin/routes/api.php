@@ -118,4 +118,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.charon.managing.require') // save Charon defending stuff
         ->post('charons/{charon}', 'CharonsController@saveCharonDefendingStuff');
+
+    Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
+        ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
 });
