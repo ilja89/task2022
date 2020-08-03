@@ -40,12 +40,12 @@
                 </thead>
                 <tbody>
                 <tr v-for="defense in defenseList">
-                    <td>{{ defense.time }}</td>
-                    <td>{{ defense.student }}</td>
-                    <td>{{ defense.duration }}</td>
-                    <td>{{ defense.teacher }}</td>
-                    <td>{{ defense.submission }}</td>
-                    <td>{{ defense.progress }}</td>
+                    <td>{{ defense.choosen_time }}</td>
+                    <td>{{ defense.student_name }}</td>
+                    <td>{{ defense.defense_duration }} min</td>
+                    <td>{{ defense.my_teacher }}</td>
+                    <td>{{ defense.submission_id }}</td>
+                    <td>Waiting</td>
                 </tr>
                 </tbody>
             </table>
@@ -59,12 +59,14 @@
         components: {Datepicker},
         data() {
             return {
-                defenseList: [{time: '05.08.2020 14:00', student: 'Kirill Kotkas', duration: '10 min', teacher: 'any', submission: 'linktosubmission', progress: 'done'},
-                    {time: '05.08.2020 14:10', student: 'Toomas Kana', duration: '10 min', teacher: 'any', submission: 'linktosubmission', progress: 'defending'},
-                    {time: '05.08.2020 14:20', student: 'Priit Tuhk', duration: '10 min', teacher: 'Nikita Ojamäe', submission: 'linktosubmission', progress: 'waiting'}],
-                after: {time: '04.08.2020 12:00'},
-                before: {time: '09.08.2020 12:00'}
+                after: {time: null},
+                before: {time: null}
             }
+        }, props: {
+            defenseList: {required: true}
+        },
+        mounted() {
+            console.log(this.defenseList)
         }
     }
 </script>
