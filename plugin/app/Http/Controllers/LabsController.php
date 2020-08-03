@@ -19,4 +19,25 @@ class LabsController extends Controller {
         $lab->save();
 
     }
+
+    /**
+     * Find all Labs in charon with given id.
+     * grademaps with grade items.
+     *
+     * @param  integer $charonId
+     *
+     * @return Lab[]
+     */
+
+    public function findLabsByCharon(Request $request)
+    {
+        $charonId = $request->input('id');
+        $labs = \DB::table('lab')  // id, start, end
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
+        ->where('charon_id', $charonId)
+            ->select('lab.id', 'start', 'end', 'course_id')
+            ->get();
+        return $labs;
+    }
+
 }

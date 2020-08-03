@@ -49,11 +49,9 @@ Route::middleware('auth.course_module.enrolment.require')
     ->get('api/view.php', 'CharonController@get');
 
 
+Route::get('api/charon_data.php', 'CharonController@getAll');
 
-
-
-Route::middleware('auth.course_module.enrolment.require')
-    ->get('api/view.php', 'CharonController@get');
+Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
 
 
 

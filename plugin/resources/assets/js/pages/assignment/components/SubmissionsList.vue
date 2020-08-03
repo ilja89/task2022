@@ -188,7 +188,15 @@ SVG Icons - svgicons.sparkk.fr
                 var id = url.searchParams.get("id");
                 axios.get(`api/view.php?id=${id}`).then(result => {
                     this.to = result.data;
+                });
+                axios.get(`api/charon_data.php?id=${id}`).then(result => {
+                    console.log(result.data);
                 })
+                axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
+                    console.log('1');
+                    console.log(result.data);
+                    console.log('2');
+                });
             },
             closePopUp() {
                 this.isActive = false;
