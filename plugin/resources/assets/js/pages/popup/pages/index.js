@@ -8,7 +8,8 @@ import ReportStatistics from './ReportStatistics'
 import LabsPage from './LabsPage.vue'
 import DefenseSettingsPage from "./DefenseSettingsPage";
 import DefSettingsEditingPage from "./DefSettingsEditingPage";
+import DefenseRegistrationPage from "./DefenseRegistrationPage";
 export {
-    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage,
+    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage,
     DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, DefenseSettingsPage, DefSettingsEditingPage
 }

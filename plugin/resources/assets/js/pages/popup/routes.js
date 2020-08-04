@@ -10,7 +10,8 @@ import {
     ReportStatistics,
     LabsPage,
     DefenseSettingsPage,
-    DefSettingsEditingPage
+    DefSettingsEditingPage,
+    DefenseRegistrationPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
 
@@ -82,6 +83,12 @@ const routes = [
         title: 'Defense Settings Editing',
         component: DefSettingsEditingPage,
         name: 'def-settings-editing-page'
+    },
+    {
+        path: '/defenseRegistrations',
+        title: 'Defense Registrations',
+        component: DefenseRegistrationPage,
+        name: 'defense-registrations-page'
     }
 ];
 

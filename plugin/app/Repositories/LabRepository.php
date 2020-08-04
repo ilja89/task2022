@@ -205,5 +205,4 @@ class LabRepository
             ->get();
         return $course;
     }
-
 }

@@ -1,0 +1,37 @@
+<?php
+
+namespace TTU\Charon\Models;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Zeizig\Moodle\Models\User;
+
+/**
+ * Class Deadline.
+ *
+ * @property int id
+ * @property Carbon choosen_time
+ * @property string student_name
+ * @property int duration
+ * @property bool my_teacher
+ * @property int submission_id
+ *
+ * @package TTU\Charon\Models
+ */
+class DefenseRegistration extends Model
+{
+    public $timestamps = false;
+    protected $table = 'defenders';
+
+    protected $fillable = [
+        'choosen_time', 'student_id', 'student_name', 'my_teacher', 'submission_id', 'duration'
+    ];
+
+    public function getDeadlineTimeAttribute($deadlineTime)
+    {
+        $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
+        $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
+        return $deadlineTime;
+    }
+}
