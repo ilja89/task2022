@@ -23,7 +23,7 @@ class LabsController extends Controller {
     public function findLabsByCharon(Request $request)
     {
         $charonId = $request->input('id');
-        $charonId = 43;
+//        $charonId = 43;
         $labs = \DB::table('lab')  // id, start, end
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
         ->where('charon_id', $charonId)
