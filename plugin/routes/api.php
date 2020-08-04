@@ -107,4 +107,6 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
         ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
+    Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
+    ->get('courses/{course}/defenseRegistrations/{after}/{before}', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
 });
