@@ -101,5 +101,21 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('api/charon_data.php', 'CharonController@getAll');
 
     Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
+    Route::middleware('auth.course.managing.require')  // update lab
+        ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
 
+    // TEACHERS
+
+    Route::middleware('auth.course.managing.require')  // get teachers
+        ->get('courses/{course}/teachers', 'LabTeacherController@getTeachersByCourse');
+
+    // COURSE
+
+    Route::middleware('auth.course.managing.require') // get a course
+        ->get('courses/{course}', 'LabController@getCourse');
+
+    // CHARON DEFENSE
+
+    Route::middleware('auth.charon.managing.require') // save Charon defending stuff
+        ->post('charons/{charon}', 'CharonsController@saveCharonDefendingStuff');
 });

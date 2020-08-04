@@ -40,7 +40,6 @@
         },
         methods: {
             formatLabs(labs, then) {
-                console.log(labs)
                 this.labs_countdown = labs.length
                 for (let i = 0; i < labs.length; i++) {
                     let save_start = labs[i].start

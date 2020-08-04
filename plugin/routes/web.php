@@ -42,6 +42,11 @@ Route::middleware('auth.course.managing.require')
 Route::get('course/modedit.php', function () { return ''; });
 Route::post('course/modedit.php', function () { return ''; });
 
+
+Route::get('/courses/{course}/popup/labsForm', 'PopupController@insertForm');
+Route::post('/courses/{course}/popup/labs', 'LabsController@insert');
+
+
 Route::middleware('auth.course_module.enrolment.require')
     ->post('view.php', 'SubmissionController@insert');
 

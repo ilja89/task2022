@@ -10,7 +10,7 @@
 
         <div v-if="show_info" class="fcontainer clearfix fitem">
 
-            <lab-info-row :lab_given="lab_given">
+            <lab-info-row :lab_given="lab_given" :teachers="teachers">
             </lab-info-row>
 
         </div>
@@ -35,7 +35,8 @@
         },
 
         props: {
-            lab_given: {required: true}
+            lab_given: {required: true},
+            teachers: {required: true}
         },
 
         computed: {

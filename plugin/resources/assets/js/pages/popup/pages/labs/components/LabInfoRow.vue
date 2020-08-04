@@ -48,3 +48,12 @@
 </script>
 
 <style src="../../../../../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style>
+
+    .datepicker-overlay .cov-date-box .hour-item,
+    .datepicker-overlay .cov-date-box .min-item {
+        padding: 0 10px;
+    }
+
+</style>
