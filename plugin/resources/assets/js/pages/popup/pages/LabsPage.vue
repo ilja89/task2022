@@ -26,7 +26,6 @@
         },
         mounted() {
             Lab.all(this.course.id, response => {
-                console.log(this.course.id);
                 this.formatLabs(response, (done) => {
                     this.assignLabs(done)
                 })
