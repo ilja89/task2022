@@ -12,7 +12,7 @@ class SubmissionController extends Controller {
     public function insert(Request $request) {
         $id = $request->input('studentid');
         $submission_id = $request->input('submission_id');
-        $time = $request->input('time')['time'];
+        $time = $request->input('time');
         $teacher = $request->input('selected');
 
         $firstname = User::where('id', '=', $id)->get()[0]['firstname'];

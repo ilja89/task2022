@@ -12,15 +12,29 @@
             </template>
             <div class="content">
                 <div class="register-lab-headers">
-                    <h4>Choose a lab session to defend [charon activity name]</h4>
+                    <h4>Choose a lab session to defend {{this.charon['name']}}</h4>
                 </div>
                 <div class="labs-schedule">
-                        <datepicker :datetime="datetime" :placeholder="placeholder" :to="to"></datepicker>
-                    <div class="row">
+<!--                        <datepicker :datetime="datetime" :placeholder="placeholder" :to="to"></datepicker>-->
+                    <div class="text-center">
+                        <div class="row">
+                            <div class="col-6">Start</div>
+                            <div class="col-6">End</div>
+                        </div>
+
+                        <template v-for="lab in this.labs">
+                            <div class="row test">
+                                <div class="col-6">
+                                    <input type="radio" v-model="selected_lab" id="lab" :value="lab" name="lab">
+                                    {{lab['start']}}
+                                </div>
+                                <div class="col-6">{{lab['end']}}</div>
+                            </div>
+                            <div class="w-100 d-none d-md-block"></div>
+                        </template>
                     </div>
                     <div class="register-lab-headers">
                         <h4>Choose a teacher</h4>
-                        {{this.to}}
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
@@ -113,6 +127,14 @@ SVG Icons - svgicons.sparkk.fr
   stroke-width: 1;
 }
 
+.test {
+    margin-bottom: 0.5vw;
+}
+
+.text-center {
+    text-align:center;
+}
+
 .rotating
     {
   animation-name: spin;
@@ -136,6 +158,7 @@ SVG Icons - svgicons.sparkk.fr
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
 
+
     export default {
 
         mixins: [ Translate ],
@@ -155,6 +178,7 @@ SVG Icons - svgicons.sparkk.fr
                 submissions: [],
                 current_submission: 0,
                 selected: '',
+                selected_lab: Object,
                 selected_boolean: false,
                 canLoadMore: true,
                 refreshing: false,
@@ -162,7 +186,9 @@ SVG Icons - svgicons.sparkk.fr
                 datetime: {},
                 placeholder: 'Select date',
                 to: '',
-                project: {}
+                project: {},
+                charon: Object,
+                labs: []
             };
         },
 
@@ -191,10 +217,12 @@ SVG Icons - svgicons.sparkk.fr
                 });
                 axios.get(`api/charon_data.php?id=${id}`).then(result => {
                     console.log(result.data);
+                    this.charon = result.data;
                 })
                 axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
                     console.log('1');
                     console.log(result.data);
+                    this.labs = result.data;
                     console.log('2');
                 });
             },
@@ -203,8 +231,10 @@ SVG Icons - svgicons.sparkk.fr
             },
             sendData() {
                 this.selected_boolean = this.selected === "My teacher";
+                console.log(this.selected_lab);
+                this.datetime = this.selected_lab['start'];
 
-                if (Object.keys(this.datetime).length !== 0 && this.selected.length !== 0) {
+                if (this.selected_lab !== 0 && this.selected.length !== 0) {
                     Submission.SendData(this.student_id, this.current_submission, this.datetime, this.selected_boolean)
                 } else {
                     alert("You didnt insert needed parameters!")
