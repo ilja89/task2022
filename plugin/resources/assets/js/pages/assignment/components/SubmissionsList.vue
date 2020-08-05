@@ -234,8 +234,9 @@ SVG Icons - svgicons.sparkk.fr
                 console.log(this.selected_lab);
                 this.datetime = this.selected_lab['start'];
 
+
                 if (this.selected_lab !== 0 && this.selected.length !== 0) {
-                    Submission.SendData(this.student_id, this.current_submission, this.datetime, this.selected_boolean)
+                    Submission.SendData(this.student_id, this.current_submission, this.datetime, this.selected_boolean, this.selected_lab['id'])
                 } else {
                     alert("You didnt insert needed parameters!")
                 }

@@ -27,7 +27,7 @@ class LabsController extends Controller {
         $labs = \DB::table('lab')  // id, start, end
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab.id') // id, lab_id, charon_id
         ->where('charon_id', $charonId)
-            ->select('lab.id', 'start', 'end', 'course_id')
+            ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
             ->get();
         return $labs;
     }

@@ -125,7 +125,7 @@ class Submission {
             })
     }
 
-    static SendData(student_id, submissionId, time, selected) {
+    static SendData(student_id, submissionId, time, selected, defense_lab_id) {
         var url_string = window.location.href;
         var url = new URL(url_string);
         var id = url.searchParams.get("id");
@@ -133,7 +133,8 @@ class Submission {
         axios.post(`view.php?id=${id}&studentid=${student_id}`, {
             submission_id: submissionId,
             time: time,
-            selected: selected
+            selected: selected,
+            defense_lab_id: defense_lab_id
         });
 
     }
