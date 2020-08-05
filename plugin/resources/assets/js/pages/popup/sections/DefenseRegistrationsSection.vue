@@ -47,7 +47,8 @@
                     <td>{{ defense.student_name }}</td>
                     <td>{{ defense.defense_duration }} min</td>
                     <td>{{ defense.my_teacher }}</td>
-                    <td>{{ defense.submission_id }}</td>
+                    <td><router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link></td>
+
                     <td>Waiting</td>
                 </tr>
                 </tbody>
@@ -68,6 +69,11 @@
         }, props: {
             defenseList: {required: true},
             apply: {required: true}
+        },
+        methods: {
+            getSubmissionRouting(submissionId) {
+                return '/submissions/' + submissionId
+            }
         }
     }
 </script>
