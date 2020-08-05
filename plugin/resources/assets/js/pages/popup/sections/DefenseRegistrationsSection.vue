@@ -43,10 +43,10 @@
                 </thead>
                 <tbody>
                 <tr v-for="defense in defenseList">
-                    <td>{{ defense.choosen_time }}</td>
-                    <td>{{ defense.student_name }}</td>
-                    <td>{{ defense.defense_duration }} min</td>
-                    <td>{{ defense.my_teacher }}</td>
+                    <td>{{defense.choosen_time}}</td>
+                    <td>{{defense.student_name}}</td>
+                    <td>{{defense.defense_duration}} min</td>
+                    <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
                     <td><router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link></td>
 
                     <td>Waiting</td>
