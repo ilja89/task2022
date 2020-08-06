@@ -54,7 +54,7 @@
                             }
                         })
                     } else {
-                        defenses[i].teacher = {firstname: 'Any', lastname: ''}
+                        defenses[i].teacher = {firstname: '-', lastname: ''}
                         this.countDown--
                         if (!this.countDown) {
                             then(defenses)
