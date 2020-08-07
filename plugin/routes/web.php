@@ -46,3 +46,19 @@ Route::post('course/modedit.php', function () { return ''; });
 Route::get('/courses/{course}/popup/labsForm', 'PopupController@insertForm');
 Route::post('/courses/{course}/popup/labs', 'LabsController@insert');
 
+
+Route::middleware('auth.course_module.enrolment.require')
+    ->post('view.php', 'SubmissionController@insert');
+
+Route::middleware('auth.course_module.enrolment.require')
+    ->get('api/view.php', 'CharonController@get');
+
+
+Route::get('api/charon_data.php', 'CharonController@getAll');
+
+Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
+
+
+
+
+
