@@ -145,7 +145,43 @@ pre {
       fill: lighten($light-grey, 10%);
     }
   }
+  .kilb-icon {
+    position: absolute;
+    right: -67px;
+    top: 11px;
 
+    img {
+      width: 21px;
+      height: 26px;
+    }
+  }
+
+}
+@media screen and (max-width: 750px){
+  .kilb-icon {
+    height: 18px;
+    margin-right: -54px;
+    width: 82px;
+  }
+
+}
+.register-lab-headers {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  //text-align: center
+}
+.labs-schedule {
+  .row {
+    //text-align: center;
+    .col-6, .col-xs-6 {
+      margin-bottom: 15px;
+      font-size: 19px;
+    }
+  }
+}
+.register-lab-button-dev {
+  text-align: right;
+  margin-bottom: 5px;
 }
 
 .submissions-list {
