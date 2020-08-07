@@ -28,4 +28,8 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourse($course->id);
     }
 
+    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before) {
+        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before);
+    }
+
 }
