@@ -3,7 +3,6 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;

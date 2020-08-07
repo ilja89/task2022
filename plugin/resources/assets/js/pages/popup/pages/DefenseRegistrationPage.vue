@@ -1,7 +1,7 @@
 <template>
     <div>
         <page-title :title="'Defense registrations'"></page-title>
-        <defense-registrations-section :defense-list="defenseList"></defense-registrations-section>
+        <defense-registrations-section :defense-list="defenseList" :apply="apply"></defense-registrations-section>
     </div>
 </template>
 
@@ -30,6 +30,14 @@
             Defense.all(this.course.id, response => {
                 this.defenseList = response
             })
+        },
+        methods: {
+            apply(after, before) {
+                Defense.filtered(this.course.id, after, before, response => {
+                    this.defenseList = response
+                    console.log(response)
+                })
+            }
         }
     }
 </script>
