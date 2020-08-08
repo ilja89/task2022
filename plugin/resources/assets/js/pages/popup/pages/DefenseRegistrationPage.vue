@@ -17,7 +17,8 @@
         components: { PageTitle, DefenseRegistrationsSection },
         data() {
             return {
-                defenseList: []
+                defenseList: [],
+                countDown: 0
             }
         },
         computed: {
@@ -28,15 +29,38 @@
         },
         mounted() {
             Defense.all(this.course.id, response => {
-                this.defenseList = response
+                this.getTeachersForStudents(response, result => {
+                    this.defenseList = response
+                })
             })
         },
         methods: {
             apply(after, before) {
                 Defense.filtered(this.course.id, after, before, response => {
-                    this.defenseList = response
-                    console.log(response)
+                    this.getTeachersForStudents(response, result => {
+                        this.defenseList = result
+                    })
                 })
+            },
+            getTeachersForStudents(defenses, then) {
+                this.countDown = defenses.length;
+                for (let i = 0; i < defenses.length; i++) {
+                    if (defenses[i].my_teacher) {
+                        Defense.getTeacherForStudent(this.course.id, defenses[i].student_id, response => {
+                            defenses[i].teacher = response[0]
+                            this.countDown--
+                            if (!this.countDown) {
+                                then(defenses)
+                            }
+                        })
+                    } else {
+                        defenses[i].teacher = {firstname: '-', lastname: ''}
+                        this.countDown--
+                        if (!this.countDown) {
+                            then(defenses)
+                        }
+                    }
+                }
             }
         }
     }

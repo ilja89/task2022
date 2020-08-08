@@ -4,9 +4,6 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\Deadline;
-use TTU\Charon\Models\Grademap;
 
 class LabTeacherRepository
 {
@@ -63,4 +60,32 @@ class LabTeacherRepository
             ->delete();
     }
 
+    public function getTeacherForStudent($studentId) {
+        $group = \DB::table('user')
+            ->join('groups_members', 'groups_members.userid', 'user.id')
+            ->where('user.id', $studentId)
+            ->select('groups_members.groupid')
+            ->get();
+        $okRoleIds = \DB::table('role_capabilities')
+            ->where('capability', 'moodle/course:manageactivities')
+            ->select('roleid')
+            ->get();
+        $okRoleIdsString = "(";
+        for ($i = 0; $i < count($okRoleIds); $i++) {
+            $okRoleIdsString .= $okRoleIds[$i]->roleid;
+            if ($i != count($okRoleIds) - 1) {
+                $okRoleIdsString .= ', ';
+            } else {
+                $okRoleIdsString .= ')';
+            }
+        }
+        $teacher = \DB::table('groups_members')
+            ->join('role_assignments', 'role_assignments.userid', 'groups_members.userid')
+            ->join('user', 'user.id', 'groups_members.userid')
+            ->where('groups_members.groupid', $group[0]->groupid)
+            ->whereRaw("roleid IN " . $okRoleIdsString)
+            ->select('user.id', 'user.firstname', 'user.lastname', 'groups_members.groupid')
+            ->get();
+        return $teacher;
+    }
 }

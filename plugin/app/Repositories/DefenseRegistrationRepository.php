@@ -30,7 +30,8 @@ class DefenseRegistrationRepository
             ->join('charon_submission', 'charon_submission.id', 'defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
-            ->select('defenders.choosen_time', 'defenders.student_name', 'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
+            ->select('defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
+                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
             ->orderBy('defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
@@ -51,7 +52,8 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
-            ->select('defenders.choosen_time', 'defenders.student_name', 'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
+            ->select('defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
+                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
             ->orderBy('defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
