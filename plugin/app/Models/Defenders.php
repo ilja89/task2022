@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Charon model class.
  *
+ * @property integer $id
  * @property string $student_name
  * @property integer $submission_id
  * @property Carbon $choosen_time
@@ -24,7 +25,7 @@ class Defenders extends Model {
      * @var array
      */
     protected $fillable = [
-        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id'
+        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id', 'progress'
     ];
     protected $table = 'defenders';
     public $timestamps = false;
