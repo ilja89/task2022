@@ -192,6 +192,7 @@ class LabRepository
         $labs = \DB::table('lab')
             ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
+            ->orderBy('start')
             ->get();
         return $labs;
     }
