@@ -78,6 +78,10 @@ class LabController extends Controller
         return $this->labRepository->update($lab->id, $this->request['start'], $this->request['end'], $this->request['teachers']);
     }
 
+    /**
+     * @param Course $course
+     * @return mixed
+     */
     public function getCourse(Course $course) {
         return $this->labRepository->getCourse($course->id);
     }

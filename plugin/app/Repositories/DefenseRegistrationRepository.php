@@ -3,6 +3,8 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use TTU\Charon\Models\Defenders;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -25,18 +27,30 @@ class DefenseRegistrationRepository
         $this->moduleService = $moduleService;
     }
 
+    /**
+     * Get defense registrations by course.
+     * @param $courseId
+     * @return Collection|Defenders[]
+     */
     public function getDefenseRegistrationsByCourse($courseId) {
         $defenseRegistrations = \DB::table('defenders')
             ->join('charon_submission', 'charon_submission.id', 'defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
-            ->select('defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
-                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
+            ->select('defenders.id', 'defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
+                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id', 'defenders.progress')
             ->orderBy('defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
     }
 
+    /**
+     * Get defense registrations by course, filtered by after and before date.
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @return Collection|Defenders[]
+     */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before) {
         if ($after != 'null' && $before != 'null') {
             $filteringWhere = "choosen_time BETWEEN '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "' AND '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
@@ -52,11 +66,24 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
-            ->select('defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
-                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id')
+            ->select('defenders.id', 'defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
+                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id', 'defenders.progress')
             ->orderBy('defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
+    }
+
+    /**
+     * Save defending progress.
+     * @param $defenseId
+     * @param $newProgress
+     * @return Defenders
+     */
+    public function saveProgress($defenseId, $newProgress) {
+        $defense = Defenders::find($defenseId);
+        $defense->progress = $newProgress;
+        $defense->save();
+        return $defense;
     }
 
 }
