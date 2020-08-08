@@ -7,7 +7,6 @@ use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use Zeizig\Moodle\Services\ModuleService;
-use function Sodium\add;
 
 /**
  * Class CharonRepository.
@@ -193,6 +192,7 @@ class LabRepository
         $labs = \DB::table('lab')
             ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
+            ->orderBy('start')
             ->get();
         return $labs;
     }

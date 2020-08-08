@@ -5,7 +5,6 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            console.log(error)
             VueEvent.$emit('show-notification', 'Error retrieving defense registrations.', 'danger')
         })
     }
@@ -15,7 +14,6 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                console.log(error)
                 VueEvent.$emit('show-notification', 'Error retrieving filtered defense registrations.', 'danger')
         })
     }
@@ -29,6 +27,15 @@ class Defense {
         })
     }
 
+    static saveDefenseProgress(courseId, defenseId, progress, then) {
+        axios.post('/mod/charon/api/courses/' + courseId + '/defenders/' + defenseId, {
+            progress: progress
+        }).then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error saving defense progress.', 'danger')
+        })
+    }
 }
 
 export default Defense
