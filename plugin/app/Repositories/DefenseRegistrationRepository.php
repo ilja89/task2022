@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+
 use TTU\Charon\Models\Defenders;
 use Zeizig\Moodle\Services\ModuleService;
 
@@ -84,6 +85,28 @@ class DefenseRegistrationRepository
         $defense->progress = $newProgress;
         $defense->save();
         return $defense;
+    }
+
+    /**
+     * Save defense progress by student id.
+     * @param $charonId
+     * @param $studentId
+     * @param $newProgress
+     * @return Defenders
+     */
+    public function saveProgressByStudentId($charonId, $studentId, $newProgress) {
+        try {
+            $eh = \DB::table('defenders')
+                ->where('student_id', $studentId)
+                ->where('charon_id', $charonId)
+                ->select('*')
+                ->get();
+            $defense = $eh[0];
+            return $this->saveProgress($defense->id, $newProgress);
+        } catch (\Exception $e) {  // try-catch because that means there is no row in defenders table
+                                    // associated with this student and charon
+
+        }
     }
 
 }
