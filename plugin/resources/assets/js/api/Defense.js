@@ -36,6 +36,7 @@ class Defense {
             VueEvent.$emit('show-notification', 'Error saving defense progress.', 'danger')
         })
     }
+
 }
 
 export default Defense
