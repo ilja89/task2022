@@ -218,13 +218,6 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2020061701) {
-        // is_test field for file
-        // {charon_submission_file} ?
-        $sql = "alter table mdl_charon add constraint UC_charon unique (project_folder,course)";
-        $DB->execute($sql);
-    }
-
     if ($oldversion < 2020071801) {
         $sql1 = "CREATE TABLE mdl_lab(".
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
