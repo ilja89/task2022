@@ -9,8 +9,7 @@ stages:
 
 test:
   tags:
-    - develop
-    - master
+    - docker
   image: misterio92/ci-php-node:4.0
   stage: test
   services:
@@ -63,13 +62,15 @@ create_production_artifacts:
     - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
     - php artisan key:generate
     - npm shrinkwrap
     - npm install
-    - npm run production
+    - npm run dev
     - rm -rf node_modules
     - mkdir charon
     - mv * charon || true
