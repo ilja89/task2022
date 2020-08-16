@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vuetify from "vuetify";
+
 import {
     NoStudentSelectedPage,
     SubmissionPage,
@@ -16,6 +18,7 @@ import {
 import LabsForm from "./pages/labs/LabsForm";
 
 Vue.use(VueRouter)
+Vue.use(Vuetify);
 
 const routes = [
     {
