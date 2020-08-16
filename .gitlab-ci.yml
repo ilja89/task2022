@@ -25,7 +25,7 @@ deploy:
     - ained
   stage: deploy
   script:
-    - docker ps
+    - docker stop 50ad3907153e
   #  - docker-compose up -d -f docs/docker-compose.yml
   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
   only:
