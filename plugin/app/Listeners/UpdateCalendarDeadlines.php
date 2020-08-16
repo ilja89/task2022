@@ -3,8 +3,6 @@
 namespace TTU\Charon\Listeners;
 
 use TTU\Charon\Events\CharonUpdated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Models\Event;
 use Zeizig\Moodle\Services\CalendarService;

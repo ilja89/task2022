@@ -3,10 +3,12 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\ModelUser;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
@@ -52,5 +54,20 @@ class LabTeacherController extends Controller
      */
     public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab) {
         return $this->labTeacherRepository->getTeachersByCharonAndLabId($charon->id, $charonDefenseLab->id);
+    }
+    
+    /**
+     * Get teachers by course.
+     *
+     * @param  Course $course
+     *
+     * @return \Zeizig\Moodle\Models\User[]
+     **/
+    public function getTeachersByCourse(Course $course) {
+        return $this->labTeacherRepository->getTeachersByCourseId($course->id);
+    }
+
+    public function getTeacherForStudent(Course $course, ModelUser $user) {
+        return $this->labTeacherRepository->getTeacherForStudent($user->id);
     }
 }

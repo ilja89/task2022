@@ -45,7 +45,8 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property CharonDefenseLab[]|Collection $charonDefenseLabs
  * @property Course moodleCourse
  * @property Grouping $grouping
- *
+
+
  * @package TTU\Charon\Model
  */
 class Charon extends Model

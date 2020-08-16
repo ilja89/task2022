@@ -18,8 +18,8 @@ class CharonDefenseLab extends Model
     public $timestamps = false;
     protected $table = 'charon_defense_lab';
 
-    //protected $fillable = [
-    //   'lab_id', 'charon_id'
-    //];
+    protected $fillable = [
+       'lab_id', 'charon_id'
+    ];
 
 }

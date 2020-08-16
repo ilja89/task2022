@@ -10,6 +10,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -32,6 +33,9 @@ class SubmissionService
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
+    /** @var DefenseRegistrationRepository */
+    private $defenseRegistrationRepository;
+
     /**
      * SubmissionService constructor.
      *
@@ -39,18 +43,21 @@ class SubmissionService
      * @param CharonGradingService $charonGradingService
      * @param RequestHandlingService $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
+     * @param DefenseRegistrationRepository $defenseRegistrationRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
         RequestHandlingService $requestHandlingService,
-        SubmissionsRepository $submissionsRepository
+        SubmissionsRepository $submissionsRepository,
+        DefenseRegistrationRepository $defenseRegistrationRepository
     )
     {
         $this->gradebookService       = $gradebookService;
         $this->charonGradingService   = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
         $this->submissionsRepository  = $submissionsRepository;
+        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
     /**
@@ -134,13 +141,14 @@ class SubmissionService
     /**
      * Updates the given submissions' results with the given new results.
      *
-     * @param  Submission  $submission
-     * @param  array  $newResults
+     * @param Charon $charon
+     * @param Submission $submission
+     * @param array $newResults
      *
      * @return Submission
      * @throws ResultPointsRequiredException
      */
-    public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
+    public function updateSubmissionCalculatedResults(Charon $charon, Submission $submission, $newResults)
     {
         foreach ($newResults as $result) {
             if ($result['calculated_result'] !== '0' && ! $result['calculated_result']) {
@@ -148,6 +156,7 @@ class SubmissionService
                     ->setResultId($result['id']);
             }
         }
+        $this->defenseRegistrationRepository->saveProgressByStudentId($charon->id, $submission->user_id, 'Done');
 
         foreach ($newResults as $result) {
 

@@ -29,6 +29,8 @@
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
                 <FIELD NAME="timemodified" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grouping_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
+
+
             </FIELDS>
             <KEYS>
                 <KEY NAME="FK_charon_course" TYPE="foreign" FIELDS="course"
@@ -241,6 +243,7 @@
 
 
         <!-- Presets -->
+
 
         <TABLE NAME="charon_preset"
                COMMENT="Presets for a course.">

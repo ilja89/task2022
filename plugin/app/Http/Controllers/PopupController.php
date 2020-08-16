@@ -2,6 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Models\Lab;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -31,9 +37,12 @@ class PopupController extends Controller
      *
      * @param  integer  $courseId
      */
+    private $test;
     private function setUrl($courseId)
     {
         global $PAGE;
         $PAGE->set_url('/mod/charon/courses/' . $courseId . '/popup', []);
     }
+
+
 }

@@ -24,13 +24,12 @@ class CharonDefenseLabRepository
 
         $defenseLabs =  \DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
+            ->join('lab', 'lab.id', 'charon_defense_lab.lab_id')
             ->select(
-                'id',
-                'lab_id',
-                'charon_id'
+                'lab.id',
+                'lab.start'
             )
             ->get();
-        // is the foreach get thing important? Don't know, let's find out
 
         return $defenseLabs;
     }

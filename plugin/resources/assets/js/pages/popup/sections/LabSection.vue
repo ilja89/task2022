@@ -2,14 +2,14 @@
     <div class="lab">
         <div class="section font pb-5" v-for="lab in labs">
             <h2 class="pl-5 font">{{getDayTimeFormat(lab.start.time)}}
-                <button class="btn font" v-on:click="editLabClicked(lab)" style="background-color: #d7dde4">Edit</button>
-                <button class="btn font" v-on:click="deleteLabClicked(lab)" style="background-color: #d7dde4">Delete</button></h2>
+                <button class="btn font inBoxButton" v-on:click="editLabClicked(lab)">Edit</button>
+                <button class="btn font inBoxButton" v-on:click="deleteLabClicked(lab)">Delete</button></h2>
             <hr>
             <p class="pl-5">Date: {{getNiceDate(lab.start.time)}}</p>
             <p class="pl-5">Time: {{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</p>
-            <p class="pl-5">Teachers: <b v-for="teacher in getTeachersInThisLab(lab.id)">{{teacher.firstName}} {{teacher.lastName}}, </b></p>
+            <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b></b></p>
         </div>
-        <button v-on:click="clickAddNewLabSession" class="font btn">+ Add a new lab session</button>
+        <button v-on:click="addNewLabSessionClicked" class="font btn newLabButton">+ Add a new lab session</button>
     </div>
 </template>
 
@@ -33,7 +33,7 @@
         methods: {
             ...mapActions(["updateLab", "updateLabToEmpty"]),
 
-            clickAddNewLabSession() {
+            addNewLabSessionClicked() {
                 this.updateLabToEmpty()
                 window.location = "popup#/labsForm";
             },
@@ -54,12 +54,6 @@
             getDayTimeFormat(date) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
                 return daysDict[date.getDay()] + date.getHours();
-            },
-            getTeachersInThisLab(labId) {
-                let teachers = [];
-                axios.get('http://localhost:82/mod/charon/api/courses/1/labs/' + labId + '/teachers')
-                    .then(response => (teachers = response));
-                return teachers; // teachers.data
             },
             editLabClicked(lab) {
                 this.updateLab({lab})
@@ -86,5 +80,14 @@
     .font {font-size: 2vw; font-weight: 600;}
     .section {background-color: #d7dde4; border-style: solid; margin-bottom: 2vw;}
     .btn {float: right; border-style: none;}
+    .inBoxButton {
+        background-color: #d7dde4;
+    }
+    .newLabButton {
+        background: transparent;
+    }
+    .newLabButton:hover {
+        color: blue;
+    }
 
 </style>
