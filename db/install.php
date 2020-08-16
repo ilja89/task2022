@@ -22,6 +22,8 @@ function xmldb_charon_install()
 
     try_cleanup($charon_path);
 
+    # shell_exec("php artisan db:seed")
+
     return true;
 
 }
