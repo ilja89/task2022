@@ -114,5 +114,4 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/defenseRegistrations/student/{user}/teacher', 'LabTeacherController@getTeacherForStudent');
     Route::middleware('auth.course.managing.require')  // save defense progress
         ->post('courses/{course}/defenders/{defenders}', 'DefenseRegistrationController@saveProgress');
-
 });
