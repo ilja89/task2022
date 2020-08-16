@@ -1,19 +1,19 @@
 <template>
     <div>
-            <div class="helper">
-                After
-            </div>
-            <div class="datepick">
-                <datepicker :datetime="after"></datepicker>
-                <input type="hidden" :value="after">
-            </div>
-            <div class="helper">
-                Before
-            </div>
-            <div class="datepick">
-                <datepicker :datetime="before"></datepicker>
-                <input type="hidden" :value="before">
-            </div>
+        <div class="helper">
+            After
+        </div>
+        <div class="datepick">
+            <datepicker :datetime="after"></datepicker>
+            <input type="hidden" :value="after">
+        </div>
+        <div class="helper">
+            Before
+        </div>
+        <div class="datepick">
+            <datepicker :datetime="before"></datepicker>
+            <input type="hidden" :value="before">
+        </div>
         <div class="apply-btn-container">
             <button class="btn-apply" v-on:click="apply(after.time, before.time)">Apply</button>
         </div>
@@ -45,7 +45,7 @@
                 <tr v-for="defense in defenseList">
                     <td>{{defense.choosen_time}}</td>
                     <td>{{defense.student_name}}</td>
-                    <td>{{defense.defense_duration}} min</td>
+                    <td>{{getFormattedDuration(defense.defense_duration)}}</td>
                     <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
                     <td><router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link></td>
                     <td>
@@ -95,6 +95,12 @@
                         }
                     }
                 })
+            },
+            getFormattedDuration(duration) {
+                if (duration === null) {
+                    return '-'
+                }
+                return duration + ' min'
             }
         },
         computed: {
