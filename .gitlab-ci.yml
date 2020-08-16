@@ -3,78 +3,76 @@ variables:
 
 
 stages:
-  - test
-  - staging
+#  - test
+#  - staging
   - deploy
 
-test:
-  tags:
-    - docker
-  image: misterio92/ci-php-node:4.0
-  stage: test
-  services:
-    - name: docker:dind
-  script:
-    - whoami  # run tests somehow
-  only:
-    - dev
-    - master
+# test:
+#   tags:
+#     - docker
+#   image: misterio92/ci-php-node:4.0
+#   stage: test
+#   services:
+#     - name: docker:dind
+#   script:
+#     - whoami  # run tests somehow
+#   only:
+#     - dev
+#     - master
 
 deploy:
   tags:
-    - deploy
+    - ained
   stage: deploy
-  services:
-    - name: docker:dind
   script:
-    - cd ~/moodle/moodle_data/moodle/mod/charon
-    - git pull
+    - docker-compose up -d -f docs/docker-compose.yml
   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
   only:
     - dev
     - master
 
 
-create_dev_artifacts:
-  tags:
-    - docker
-  stage: staging
-  image: misterio92/ci-php-node:4.0
-  services:
-    - name: docker:dind
-  script:
-    - php composer.phar install
-    - cp -p .env.develop .env
-    - php artisan key:generate
-    - npm shrinkwrap --dev
-    - npm install --unsafe-perm=true --allow-root --loglevel silly
-    - npm run dev
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/charon
-
-create_production_artifacts:
-  tags:
-    - docker
-  stage: staging
-  image: misterio92/ci-php-node:4.0
-  services:
-    - name: docker:dind
-  script:
-    - php composer.phar install --no-dev
-    - cp -p .env.production .env
-    - php artisan key:generate
-    - npm shrinkwrap
-    - npm install
-    - npm run dev
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/charon
+# create_dev_artifacts:
+#   tags:
+#     - docker
+#   stage: staging
+#   image: misterio92/ci-php-node:4.0
+#   services:
+#     - name: docker:dind
+#   script:
+#     - php composer.phar install
+#     - cp -p .env.develop .env
+#     - php artisan key:generate
+#     - npm shrinkwrap --dev
+#     - npm install --unsafe-perm=true --allow-root --loglevel silly
+#     - npm run dev
+#     - rm -rf node_modules
+#     - mkdir charon
+#     - mv * charon || true
+#     - mv .* charon || true
+#   artifacts:
+#     paths:
+#       - $CI_PROJECT_DIR/charon
+# 
+# create_production_artifacts:
+#   tags:
+#     - docker
+#   stage: staging
+#   image: misterio92/ci-php-node:4.0
+#   services:
+#     - name: docker:dind
+#   script:
+#     - php composer.phar install --no-dev
+#     - cp -p .env.production .env
+#     - php artisan key:generate
+#     - npm shrinkwrap
+#     - npm install
+#     - npm run dev
+#     - rm -rf node_modules
+#     - mkdir charon
+#     - mv * charon || true
+#     - mv .* charon || true
+#   artifacts:
+#     paths:
+#       - $CI_PROJECT_DIR/charon
+# 

@@ -27,7 +27,7 @@ services:
       - MOODLE_PASSWORD=dev
     ports:
       - '80:80'
-      - '443:443'
+      - '9717:443'
     volumes:
       - './moodle_data:/bitnami'
     depends_on:
