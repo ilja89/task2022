@@ -22,7 +22,7 @@ stages:
 
 deploy:
   tags:
-    - cloud
+    - ained
   stage: deploy
   script:
     -  pwd
