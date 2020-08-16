@@ -338,7 +338,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql3);
     }
 
-    if ($oldVersion < 2020080701) {
+    if ($oldversion < 2020080701) {
         $sql = "ALTER TABLE mdl_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
         $DB->execute($sql);
     }
