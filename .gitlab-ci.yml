@@ -25,7 +25,7 @@ deploy:
     - ained
   stage: deploy
   script:
-    - docker ps
+    - docker container ls -la
     - docker inspect 50ad3907153e
   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
   only:
