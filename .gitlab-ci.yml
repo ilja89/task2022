@@ -8,8 +8,7 @@ stages:
 
 test:
   tags:
-    - develop
-    - master
+    - docker
   image: misterio92/ci-php-node:4.0
   stage: test
   services:
