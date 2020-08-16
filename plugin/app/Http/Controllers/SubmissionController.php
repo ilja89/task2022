@@ -31,4 +31,3 @@ class SubmissionController extends Controller {
         $defenders->save();
     }
 }
-
