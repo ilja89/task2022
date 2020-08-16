@@ -37,7 +37,7 @@ deploy:
 
 create_dev_artifacts:
   tags:
-    - develop
+    - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
   services:
@@ -59,9 +59,11 @@ create_dev_artifacts:
 
 create_production_artifacts:
   tags:
-    - develop
+    - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
