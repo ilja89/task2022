@@ -170,6 +170,7 @@ pre {
   margin-bottom: 30px;
   //text-align: center
 }
+
 .labs-schedule {
   .row {
     //text-align: center;
@@ -278,8 +279,17 @@ pre {
   }
 }
 
+.inspire table{
+  border-collapse:separate;
+  border-spacing: 2vw 0.7em;
+}
+
+
+
 .load-more-button {
   margin-top: 10px;
+  float: left;
+  margin-right: 10px;
 }
 
 .button--copy {
