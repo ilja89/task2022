@@ -5,11 +5,14 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\TestSuite;
+use TTU\Charon\Models\UnitTest;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradebookService;
@@ -74,6 +77,8 @@ class SubmissionService
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
+        //Log::info('submission request', [$submissionRequest]);
+        $this->saveSuitesAndTests($submissionRequest, $submission);
 
         // style
         $styleError = false;
@@ -104,6 +109,45 @@ class SubmissionService
     }
 
     /**
+     * @param $submissionRequest
+     */
+    private function saveSuitesAndTests($submissionRequest, $submission) {
+        foreach($submissionRequest['testSuites'] as $testSuite) {
+            //Log::info('test suite', [$testSuite]);
+            $createdTestSuite = TestSuite::create([
+                'submission_id' => $submission->id,
+                'name' => $testSuite['name'],
+                'file' => $testSuite['file'],
+                'start_date' => Carbon::parse($testSuite['startDate'])->format('Y-m-d H:i:s'),
+                'end_date' => Carbon::parse($testSuite['endDate'])->format('Y-m-d H:i:s'),
+                'weight' => $testSuite['weight'],
+                'passed_count' => $testSuite['passedCount'],
+                'grade' => $testSuite['grade']
+            ]);
+            $createdTestSuite->save();
+            foreach($testSuite['unitTests'] as $unitTest) {
+                $createdUnitTest = UnitTest::create([
+                    'test_suite_id' => $createdTestSuite->id,
+                    'groups_dependedUpon' => $unitTest['groupsDependedUpon'],
+                    'status' => $unitTest['status'],
+                    'weight' => $unitTest['weight'],
+                    'print_exception_message' => $unitTest['printExceptionMessage'],
+                    'print_stack_trace' => $unitTest['printStackTrace'],
+                    'time_elapsed' => $unitTest['timeElapsed'],
+                    'methods_depended_upon' => $unitTest['methodsDependedUpon'],
+                    'stack_trace' => $unitTest['stackTrace'],
+                    'name' => $unitTest['name'],
+                    'stdout' => $unitTest['stdout'],
+                    'exception_class' => $unitTest['exceptionClass'],
+                    'exception_message' => $unitTest['exceptionMessage'],
+                    'stderr' => $unitTest['stderr']
+                ]);
+                $createdUnitTest->save();
+            }
+        }
+    }
+
+    /**
      * Save the results from given results request (arete v2).
      *
      * @param  Submission $submission
@@ -114,7 +158,7 @@ class SubmissionService
     private function saveResults($submission, $resultsRequest)
     {
         $gradeCode = 1;
-        foreach ($resultsRequest as $resultRequest) {
+        foreach ($resultsRequest as $resultRequest) {  // testSuite in testSuites
             $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest, $gradeCode++);
             $result->save();
         }

@@ -345,8 +345,74 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql3);
     }
 
-    if ($oldVersion < 2020080701) {
+    if ($oldversion < 2020080701) {
         $sql = "ALTER TABLE mdl_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2020081401) {
+
+        $sql = "CREATE TABLE mdl_test_suite(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    name VARCHAR(255) NOT NULL,".
+            "    file VARCHAR(255) NOT NULL,".
+            "    start_date DATETIME ,".
+            "    end_date DATETIME ,".
+            "    weight INT,".
+            "    passed_count INT,".
+            "    grade FLOAT,".
+            "    PRIMARY KEY (id)".
+            ")";
+
+        $sql2 = "CREATE TABLE mdl_unit_test(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    test_suite_id BIGINT(10) NOT NULL,".
+            "    groups_dependedUpon VARCHAR(255),".
+            "    status VARCHAR(255) NOT NULL,".
+            "    weight INT NOT NULL,".
+            "    print_exception_message TINYINT(1) NOT NULL,".
+            "    print_stack_trace TINYINT(1),".
+            "    time_elapsed INT NOT NULL,".
+            "    methods_depended_upon VARCHAR(255),".
+            "    stack_trace VARCHAR(255),".
+            "    name VARCHAR(255) NOT NULL,".
+            "    stdout VARCHAR(255),".
+            "    exception_class VARCHAR(255),".
+            "    exception_message VARCHAR(255),".
+            "    stderr VARCHAR(255),".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_unit_test_test_suite (test_suite_id),".
+            "    CONSTRAINT FK_unit_test_test_suite".
+            "        FOREIGN KEY (test_suite_id)".
+            "            REFERENCES mdl_test_suite(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE".
+            ")";
+
+        $sql3 = "CREATE TABLE mdl_charon_submission_test_suite(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    charon_submission_id BIGINT(10) NOT NULL,".
+            "    test_suite_id BIGINT(10) NOT NULL,".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_charon_submission_test_suite_charon_submission (charon_submission_id),".
+            "    INDEX IXFK_charon_submission_test_suite_test_suite (test_suite_id),".
+            "    CONSTRAINT FK_charon_submission_test_suite_charon_submission_id".
+            "        FOREIGN KEY (charon_submission_id)".
+            "            REFERENCES mdl_charon_submission(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_charon_submission_test_suite_test_suite_id".
+            "        FOREIGN KEY (test_suite_id)".
+            "            REFERENCES mdl_test_suite(id)".
+            "            ON DELETE CASCADE".
+            ")";
+        $DB->execute($sql);
+        $DB->execute($sql2);
+        $DB->execute($sql3);
+    }
+
+    if ($oldversion < 2020081601) {
+        $sql = "ALTER TABLE mdl_test_suite ADD COLUMN submission_id BIGINT(10) NOT NULL";
         $DB->execute($sql);
     }
 
