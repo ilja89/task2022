@@ -56,6 +56,8 @@ $weight-semibold: 500;
 .modal {
   z-index: 9996; // Modal is 1985 but Snap nav is 9995!
 }
+.modal-card .modal-card-body {
+}
 
 .block_settings .box.block_tree_box {
   border-radius: 0;
@@ -154,9 +156,14 @@ pre {
       width: 21px;
       height: 26px;
     }
+
+  }
+  .tag.is-info.registered {
+    background-color: #0A30FA;
   }
 
 }
+
 @media screen and (max-width: 750px){
   .kilb-icon {
     height: 18px;
@@ -168,8 +175,9 @@ pre {
 .register-lab-headers {
   margin-top: 30px;
   margin-bottom: 30px;
-  //text-align: center
+  text-align: center
 }
+
 .labs-schedule {
   .row {
     //text-align: center;
@@ -182,6 +190,8 @@ pre {
 .register-lab-button-dev {
   text-align: right;
   margin-bottom: 5px;
+  position: relative;
+
 }
 
 .submissions-list {
@@ -278,8 +288,20 @@ pre {
   }
 }
 
+
+.inspire table{
+  border-collapse:separate;
+  border-spacing: 2vw 0.7em;
+}
+
+.v-data-table-header-mobile__wrapper {
+  display: none;
+}
+
 .load-more-button {
   margin-top: 10px;
+  float: left;
+  margin-right: 10px;
 }
 
 .button--copy {
@@ -304,4 +326,7 @@ pre {
 
 tfoot {
   font-weight: bold;
+}
+.secondMultiselect {
+  display: none;
 }

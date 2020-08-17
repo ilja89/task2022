@@ -25,6 +25,7 @@ window.axiosNoLoading = axios.create();
 const app = new Vue({
     el: '#app',
 
+
     components: { Popup },
 
     mounted() {

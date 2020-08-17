@@ -1,37 +1,38 @@
 class Submission {
 
     static findByUserCharon(userId, charonId, then) {
-        axios.get(`/mod/charon/api/charons/${charonId}/submissions`, { params: { user_id: userId } })
+        axios.get(`/mod/charon/api/charons/${charonId}/submissions`, {params: {user_id: userId}})
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
+        })
     }
 
     static getNext(then) {
         axios.get(Submission.nextUrl)
+
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
+        })
     }
 
     static update(charonId, submission, then) {
-        axios.post(`/mod/charon/api/charons/${charonId}/submissions/${submission.id}`, { submission: submission })
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/${submission.id}`, {submission: submission})
             .then(response => {
                 console.log('answer')
                 console.log(response)
                 then(response.data)
             }).catch(error => {
-                console.log('error')
-                console.log(error)
-                console.log(error.response)
-                VueEvent.$emit('show-notification', 'Error updating submission.', 'danger')
-            })
+            console.log('error')
+            console.log(error)
+            console.log(error.response)
+            VueEvent.$emit('show-notification', 'Error updating submission.', 'danger')
+        })
     }
 
     static findById(submissionId, then) {
@@ -39,17 +40,17 @@ class Submission {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving submission.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving submission.', 'danger')
+        })
     }
 
     static addNewEmpty(charonId, studentId, then) {
-        axios.post(`/mod/charon/api/charons/${charonId}/submissions/add`, { student_id: studentId })
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/add`, {student_id: studentId})
             .then(response => {
                 then(response)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error adding new submission.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error adding new submission.', 'danger')
+        })
     }
 
     static canLoadMore() {
@@ -76,8 +77,8 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving latest submissions.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving latest submissions.', 'danger')
+        })
     }
 
     static findSubmissionCounts(courseId, then) {
@@ -85,8 +86,8 @@ class Submission {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.', 'danger')
+        })
     }
 
     static findByUser(courseId, userId, then) {
@@ -94,8 +95,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger')
+        })
     }
 
     static findBestAverageCourseSubmissions(courseId, then) {
@@ -103,14 +104,14 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger')
+        })
     }
 
     static findAllSubmissionsForReport(courseId, serverParams, columnFilters, then) {
         window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/submissions-report/${serverParams.page}/` +
             `${serverParams.perPage}/` +
-            `${serverParams.sort.field  }/` +
+            `${serverParams.sort.field}/` +
             `${serverParams.sort.type}/` +
             `${serverParams.columnFilters.firstName ? serverParams.columnFilters.firstName : ' '}/` +
             `${serverParams.columnFilters.lastName ? serverParams.columnFilters.lastName : ' '}/` +
@@ -121,21 +122,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
-            })
-    }
-
-    static SendData(student_id, submissionId, time, selected) {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var id = url.searchParams.get("id");
-
-        axios.post(`view.php?id=${id}&studentid=${student_id}`, {
-            submission_id: submissionId,
-            time: time,
-            selected: selected
-        });
-
+            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
+        })
     }
 }
 
