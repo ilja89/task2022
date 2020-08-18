@@ -58,3 +58,4 @@ Route::get('api/charon_data.php', 'CharonController@getAll');
 
 Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
 Route::get('api/student_defense_data.php', 'CharonController@getDefenders');
+Route::get('api/busy_defense_data.php', 'CharonController@getFullTime');

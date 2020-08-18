@@ -17,7 +17,7 @@
                     <div class="text-center">
                         <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"  @select="onSelect"     :max-height="200"
                                      :custom-label="nameWithLang" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start.split(" ")[0] }}</template>
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                         </multiselect>
 
                         <multiselect style="margin-top: 30px" v-model="value_time" :class="{secondMultiselect: secondMultiselect}" :max-height="200"
@@ -91,9 +91,7 @@
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <i @click="editItem(item)" class="fa fa-pencil fa-lg" style="margin-right: 15px"></i>
                             <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
-
                         </template>
                     </v-data-table>
                 </v-app>
@@ -303,11 +301,6 @@ SVG Icons - svgicons.sparkk.fr
             },
         },
 
-        watch: {
-            dialog (val) {
-                val || this.close()
-            },
-        },
 
         methods: {
             arrayDefenseTime(option){
@@ -316,7 +309,7 @@ SVG Icons - svgicons.sparkk.fr
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
 
-                while(startTime < endTime){
+                while(startTime < endTime) {
                     this.time.push(new moment(startTime).format('HH:mm'));
                     startTime.add(defense_duration, 'minutes');
                 }
@@ -329,6 +322,7 @@ SVG Icons - svgicons.sparkk.fr
 
                 return date + " " + time_return[0] + ":" + time_return[1];
             },
+
             listStyle(submissionId) {
                 let test = this.defenseData.find(x => x.submission_id === submissionId);
                 if (test != null) {
@@ -341,7 +335,7 @@ SVG Icons - svgicons.sparkk.fr
             },
             onSelect(option) {
                 if (option != null) {
-                    this.arrayDefenseTime(option)
+                    this.arrayDefenseTime(option);
                     this.secondMultiselect = false;
                     this.modalSize = true;
                 }
@@ -361,6 +355,7 @@ SVG Icons - svgicons.sparkk.fr
                 });
 
             },
+
 
             getDefenseData() {
                 axios.get(`api/student_defense_data.php?id=${id}&studentid=${this.student_id}`).then(result => {
@@ -383,6 +378,7 @@ SVG Icons - svgicons.sparkk.fr
                 if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
                     axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
                         charon_id: id,
+                        course_id: this.charon['course'],
                         submission_id: this.current_submission,
                         lab_start: this.datetime_start,
                         lab_end: this.datetime_end,
@@ -390,14 +386,25 @@ SVG Icons - svgicons.sparkk.fr
                         defense_lab_id: this.value['id'],
                         student_choosen_time: choosen_time,
                     }).then(result => {
-                        if (result.data === 'inserted') {
-                            this.getDefenseData();
-                            this.forceRerender();
-                            alert('You was succesfully registered for defense!');
-                        } else alert('You cannot register twice for this time!\nIf you want to change date or submission then please delete registrations')
-                    })
+                        this.editDataAfterInsert(result.data)})
                 } else {
                     alert("You didnt insert needed parameters!")
+                }
+            },
+            editDataAfterInsert(dataFromDb) {
+                switch (dataFromDb) {
+                    case 'teacher is busy':
+                        alert("Your teacher is busy for this time.\nPlease choose another time or if it possible another teacher.");
+                        break;
+                    case 'user in db':
+                        alert('You cannot register twice for one practise.\n If tou want to choose another time, then you shoul delete your previous time (My defenses button)');
+                        break;
+                    case 'inserted':
+                        alert('You was successfully registered for defense!');
+                        break;
+                    case 'delete':
+                        alert(this.value_time);
+                        break;
                 }
             },
 
@@ -458,12 +465,6 @@ SVG Icons - svgicons.sparkk.fr
                 } else {
                     this.canLoadMore = false;
                 }
-            },
-
-            editItem (item) {
-                this.editedIndex = this.defenseData.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
             },
 
             deleteItem (item) {
