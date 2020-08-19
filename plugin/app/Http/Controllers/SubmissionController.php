@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Defenders;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Models\User;
@@ -54,10 +55,9 @@ class SubmissionController extends Controller
             $defenders->teacher_name = $teacher_fullname;
             $defenders->defense_lab_id = $lab_id;
             $defenders->save();
-            if ($this->getRowCountForCurrentTime($student_time) == $teacher_count) return 'delete';
+            if ($this->getRowCountForCurrentTime($student_time) == $teacher_count) return 'delete, inserted';
             return 'inserted';
-
-        }
+        } else return 'deleted';
     }
 
     public function getUserDefenseDate($student_id, $charon_id, $lab_start, $lab_end)
@@ -96,6 +96,19 @@ class SubmissionController extends Controller
 
     public function getRowCountForCurrentTime($student_time) {
         return \DB::table('defenders')->where('choosen_time', $student_time)->count();
+    }
+
+    public function getRowCountForPractise(Request $request) {
+        $time = $request->input('time');
+        $course = $request->input('course');
+        $teacher_count = $this->getTeacherCount($course);
+
+        return \DB::table('defenders')
+            ->select('choosen_time', DB::raw('count(*) as total'))
+            ->where('choosen_time', 'like', '%' . $time . '%')
+            ->groupBy('choosen_time')
+            ->having('total', '=', $teacher_count)
+            ->get();
     }
 }
 

@@ -216,9 +216,9 @@ SVG Icons - svgicons.sparkk.fr
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
 
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var id = url.searchParams.get("id");
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let id = url.searchParams.get("id");
 
     export default {
 
@@ -259,6 +259,7 @@ SVG Icons - svgicons.sparkk.fr
                 charon: '',
                 time: [],
                 labs: [],
+                notavailable_time: [],
                 headers: [
                     {
                         text: 'Charon',
@@ -309,10 +310,29 @@ SVG Icons - svgicons.sparkk.fr
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
 
-                while(startTime < endTime) {
-                    this.time.push(new moment(startTime).format('HH:mm'));
-                    startTime.add(defense_duration, 'minutes');
-                }
+                let time = option['start'].split(' ')[0];
+                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}`).then(result => {
+                    this.notavailable_time = result.data;
+                }).then (() => {
+                    while (startTime < endTime) {
+                        this.time.push(new moment(startTime).format('HH:mm'));
+                        startTime.add(defense_duration, 'minutes');
+                    }
+                    for (let i = 0; i < this.notavailable_time.length; i++) {
+                        let el = this.notavailable_time[i].choosen_time.split(" ")[1].slice(0, 5);
+                        if (this.time.includes(el)) {
+                            let ind = this.time.indexOf(el);
+                            if (ind > -1) {
+                                this.notavailable_time.push(el);
+                                this.time.splice(ind, 1);
+                            }
+                        }
+                    }
+                })
+
+            },
+            getTimeCountRow(option) {
+
             },
 
             nameWithLang ({ start }) {
@@ -402,10 +422,22 @@ SVG Icons - svgicons.sparkk.fr
                     case 'inserted':
                         alert('You was successfully registered for defense!');
                         break;
-                    case 'delete':
-                        alert(this.value_time);
+                    case 'delete, inserted':
+                        alert('You was successfully registered for defense!');
+                        this.refreshTimeArray(this.value_time);
+                        break;
+                    case 'deleted':
+                        alert('This time is busy. Please chose another one or choose option "Another teacher"');
                         break;
                 }
+            },
+            refreshTimeArray(time_value) {
+                let ind = this.time.indexOf(time_value);
+                if (ind > -1) {
+                    this.notavailable_time.push(time_value);
+                    this.time.splice(ind, 1);
+                }
+                console.log(this.time);
             },
 
             getGrademapByResult(result) {
