@@ -102,10 +102,13 @@ class SubmissionController extends Controller
         $time = $request->input('time');
         $course = $request->input('course');
         $teacher_count = $this->getTeacherCount($course);
+        $start = $request->input('start');
+        $end = $request->input('end');
 
         return array_values(\DB::table('defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
+            ->whereBetween('choosen_time', [date($start), date($end)])
             ->groupBy('choosen_time')
             ->having(DB::raw('count(*)'), '=', $teacher_count)
             ->pluck('choosen_time')

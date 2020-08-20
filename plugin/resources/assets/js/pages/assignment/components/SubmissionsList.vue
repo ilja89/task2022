@@ -310,8 +310,11 @@ SVG Icons - svgicons.sparkk.fr
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
 
+                let start = option['start'];
+                let end = option['end'];
+
                 let time = option['start'].split(' ')[0];
-                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}`).then(result => {
+                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}&start=${start}&end=${end}`).then(result => {
                     this.notavailable_time = result.data;
                 }).then(() => {
                     while (startTime < endTime) {
