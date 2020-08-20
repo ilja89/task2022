@@ -23,7 +23,7 @@ class SubmissionController extends Controller
         $student_time = $request->input('student_choosen_time');
         $course_id = $request->input('course_id');
 
-        $teacher_fullname = 'Another teacher';
+        $teacher_id = -1;
         $defense_count_student = $this->getUserDefenseDate($student_id, $charon_id ,$lab_start, $lab_end);
         $teacher_count = $this->getTeacherCount($course_id);
         $count_for_current_time = $this->getRowCountForCurrentTime($student_time);
@@ -32,10 +32,8 @@ class SubmissionController extends Controller
             if ($teacher == 1) {
                 $student_teacher = $this->getTeacheForStudent($student_id);
                 $result = json_decode($student_teacher, true);
-                $teacher_firstname = $result[0]['firstname'];
-                $teacher_lastname = $result[0]['lastname'];
-                $teacher_fullname = "$teacher_firstname $teacher_lastname";
-                if ($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_fullname) > 0) return 'teacher is busy';
+                $teacher_id = $result[0]['id'];
+                if ($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id) > 0) return 'teacher is busy';
             }
         } else {
             return 'user in db';
@@ -52,10 +50,9 @@ class SubmissionController extends Controller
             $defenders->submission_id = $submission_id;
             $defenders->choosen_time = $student_time;
             $defenders->my_teacher = $teacher;
-            $defenders->teacher_name = $teacher_fullname;
+            $defenders->teacher_id = $teacher_id;
             $defenders->defense_lab_id = $lab_id;
             $defenders->save();
-            if ($this->getRowCountForCurrentTime($student_time) == $teacher_count) return 'delete, inserted';
             return 'inserted';
         } else return 'deleted';
     }
@@ -77,10 +74,10 @@ class SubmissionController extends Controller
         return sizeof($lab_teacher_reposity->getTeachersByCourseId($course_id));
     }
 
-    public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher) {
+    public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id) {
         return \DB::table('defenders')->where('choosen_time', '=', $student_time)
             ->where('my_teacher', 1)
-            ->where('teacher_name', '=', $student_teacher)->count();
+            ->where('teacher_id', '=', $student_teacher_id)->count();
     }
 
     public function getDefenseCountForTimeAnotherTecher($student_time) {

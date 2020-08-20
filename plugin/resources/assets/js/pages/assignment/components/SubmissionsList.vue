@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col-6 col-sm-4"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
                             <div class="w-100 d-none d-md-block"></div>
-                            <div class="col-6 col-sm-4"><label for="another-teacher"></label><input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
+                            <div class="col-6 col-sm-4" :class="{my_teacher: this.charon['choose_teacher'] === 1}"><label for="another-teacher"></label><input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@ SVG Icons - svgicons.sparkk.fr
 
         data() {
             return {
-                modalSize: true,
+                my_teacher: true,
                 value: null,
                 value_time: null,
                 secondMultiselect: true,
@@ -281,7 +281,7 @@ SVG Icons - svgicons.sparkk.fr
                 defaultItem: {
                     name: '',
                     choosen_time: '',
-                    teacher: ''
+                    teacher: 'Another teacher'
                 },
 
             };
@@ -399,6 +399,7 @@ SVG Icons - svgicons.sparkk.fr
                         defense_lab_id: this.value['id'],
                         student_choosen_time: choosen_time,
                     }).then(result => {
+                        this.getDefenseData();
                         this.editDataAfterInsert(result.data)})
                 } else {
                     alert("You didnt insert needed parameters!")
@@ -417,7 +418,6 @@ SVG Icons - svgicons.sparkk.fr
                         break;
                     case 'delete, inserted':
                         alert('You was successfully registered for defense!');
-                        this.refreshTimeArray(this.value_time);
                         break;
                     case 'deleted':
                         alert('This time is busy. Please chose another one or choose option "Another teacher"');
