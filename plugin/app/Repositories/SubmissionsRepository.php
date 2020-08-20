@@ -4,9 +4,12 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\TestSuite;
+use TTU\Charon\Models\UnitTest;
 
 /**
  * Class SubmissionsRepository.
@@ -16,7 +19,7 @@ use TTU\Charon\Models\Submission;
 class SubmissionsRepository
 {
     /**
-     * Find submission by it's ID. Leave out stdout, stderr because it might be too big.
+     * Find submission by its ID. Leave out stdout, stderr because it might be too big.
      *
      * @param  int  $submissionId
      * @param  int[]  $gradeTypeCodes
@@ -120,8 +123,37 @@ class SubmissionsRepository
              ->select($fields)
              ->simplePaginate(5);
         $submissions->appends(['user_id' => $userId])->links();
-
+        foreach($submissions as $submission) {
+            $submission['test_suites'] = $this->getTestSuites($submission->id);
+        }
+        Log::info('important stuff', [$submissions]);
         return $submissions;
+    }
+
+    /**
+     * @param $submissionId
+     * @return TestSuite[]
+     */
+    private function getTestSuites($submissionId) {
+        $testSuites = \DB::table('test_suite')
+            ->where('submission_id', $submissionId)
+            ->select('*')
+            ->get();
+        for($i = 0; $i < count($testSuites); $i++) {
+            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
+        }
+        return $testSuites;
+    }
+
+    /**
+     * @param $testSuiteId
+     * @return UnitTest[]
+     */
+    private function getUnitTestsResults($testSuiteId) {
+        return \DB::table('unit_test')
+            ->where('test_suite_id', $testSuiteId)
+            ->select('*')
+            ->get();
     }
 
     /**

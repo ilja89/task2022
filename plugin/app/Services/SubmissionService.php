@@ -110,16 +110,16 @@ class SubmissionService
 
     /**
      * @param $submissionRequest
+     * @param $submission
      */
     private function saveSuitesAndTests($submissionRequest, $submission) {
         foreach($submissionRequest['testSuites'] as $testSuite) {
-            //Log::info('test suite', [$testSuite]);
             $createdTestSuite = TestSuite::create([
                 'submission_id' => $submission->id,
                 'name' => $testSuite['name'],
                 'file' => $testSuite['file'],
-                'start_date' => Carbon::parse($testSuite['startDate'])->format('Y-m-d H:i:s'),
-                'end_date' => Carbon::parse($testSuite['endDate'])->format('Y-m-d H:i:s'),
+                'start_date' => Carbon::createFromTimestamp($testSuite['startDate'] / 1000)->format('Y-m-d H:i:s'),
+                'end_date' => Carbon::createFromTimestamp($testSuite['endDate'] / 1000)->format('Y-m-d H:i:s'),
                 'weight' => $testSuite['weight'],
                 'passed_count' => $testSuite['passedCount'],
                 'grade' => $testSuite['grade']
@@ -128,19 +128,19 @@ class SubmissionService
             foreach($testSuite['unitTests'] as $unitTest) {
                 $createdUnitTest = UnitTest::create([
                     'test_suite_id' => $createdTestSuite->id,
-                    'groups_dependedUpon' => $unitTest['groupsDependedUpon'],
+                    'groups_dependedUpon' => implode(", ", $unitTest['groupsDependedUpon']),
                     'status' => $unitTest['status'],
                     'weight' => $unitTest['weight'],
                     'print_exception_message' => $unitTest['printExceptionMessage'],
                     'print_stack_trace' => $unitTest['printStackTrace'],
                     'time_elapsed' => $unitTest['timeElapsed'],
-                    'methods_depended_upon' => $unitTest['methodsDependedUpon'],
-                    'stack_trace' => $unitTest['stackTrace'],
+                    'methods_depended_upon' => implode(', ', $unitTest['methodsDependedUpon']),
+                    'stack_trace' => count($unitTest['stackTrace']) >= 255 ? substr($unitTest['stackTrace'], 0, 255) : $unitTest['stackTrace'],
                     'name' => $unitTest['name'],
-                    'stdout' => $unitTest['stdout'],
+                    'stdout' => implode(', ', $unitTest['stdout']),
                     'exception_class' => $unitTest['exceptionClass'],
                     'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => $unitTest['stderr']
+                    'stderr' => implode(', ', $unitTest['stderr'])
                 ]);
                 $createdUnitTest->save();
             }

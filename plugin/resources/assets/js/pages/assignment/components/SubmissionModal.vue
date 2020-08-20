@@ -24,7 +24,7 @@
                 <pre v-html="submission.mail"></pre>
             </div>
             <div v-if="toggle_on">
-                TABEL
+                <submission-table :submission="submission"></submission-table>
             </div>
 
             <h3>{{ translate('filesText') }}</h3>
@@ -38,11 +38,12 @@
 <script>
     import { Modal, FilesComponentWithoutTree } from '../../../components/partials'
     import { Translate } from '../../../mixins'
+    import SubmissionTable from "./SubmissionTable";
 
     export default {
         mixins: [ Translate ],
 
-        components: { Modal, FilesComponentWithoutTree },
+        components: { Modal, FilesComponentWithoutTree, SubmissionTable },
 
         props: {
             submission: { required: true },
