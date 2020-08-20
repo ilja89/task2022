@@ -106,6 +106,19 @@
                 <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
         </TABLE>
+        <TABLE NAME="defenders" COMMENT="Date about student for defense.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="number" NOTNULL="true" LENGTH="20"/>
+                <FIELD NAME="student_id" SEQUENCE="false" TYPE="number" NOTNULL="true" LENGTH="20"/>
+                <FIELD NAME="student_name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="254"/>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="number" NOTNULL="true" LENGTH="20"/>
+                <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="true"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="number" LENGTH="11" NOTNULL="true"/>
+                <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="number" LENGTH="10" NOTNULL="true"/>
+            </FIELDS>
+        </TABLE>
+
 
         <TABLE NAME="lab_teacher" COMMENT="Teacher attending this lab.">
             <FIELDS>
