@@ -135,7 +135,7 @@ class SubmissionService
                     'print_stack_trace' => $unitTest['printStackTrace'],
                     'time_elapsed' => $unitTest['timeElapsed'],
                     'methods_depended_upon' => implode(', ', $unitTest['methodsDependedUpon']),
-                    'stack_trace' => count($unitTest['stackTrace']) >= 255 ? substr($unitTest['stackTrace'], 0, 255) : $unitTest['stackTrace'],
+                    'stack_trace' => strlen($unitTest['stackTrace']) >= 255 ? substr($unitTest['stackTrace'], 0, 255) : $unitTest['stackTrace'],
                     'name' => $unitTest['name'],
                     'stdout' => implode(', ', $unitTest['stdout']),
                     'exception_class' => $unitTest['exceptionClass'],
