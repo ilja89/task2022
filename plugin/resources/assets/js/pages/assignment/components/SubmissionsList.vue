@@ -304,7 +304,7 @@ SVG Icons - svgicons.sparkk.fr
 
 
         methods: {
-            arrayDefenseTime(option){
+            arrayDefenseTime(option) {
                 this.time.length = 0;
                 let defense_duration = this.charon['defense_duration'];
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
@@ -313,26 +313,15 @@ SVG Icons - svgicons.sparkk.fr
                 let time = option['start'].split(' ')[0];
                 axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}`).then(result => {
                     this.notavailable_time = result.data;
-                }).then (() => {
+                }).then(() => {
                     while (startTime < endTime) {
                         this.time.push(new moment(startTime).format('HH:mm'));
                         startTime.add(defense_duration, 'minutes');
                     }
-                    for (let i = 0; i < this.notavailable_time.length; i++) {
-                        let el = this.notavailable_time[i].choosen_time.split(" ")[1].slice(0, 5);
-                        if (this.time.includes(el)) {
-                            let ind = this.time.indexOf(el);
-                            if (ind > -1) {
-                                this.notavailable_time.push(el);
-                                this.time.splice(ind, 1);
-                            }
-                        }
+                    if (this.notavailable_time.length !== 0) {
+                        this.time = this.time.filter(x => !this.notavailable_time.includes(x));
                     }
                 })
-
-            },
-            getTimeCountRow(option) {
-
             },
 
             nameWithLang ({ start }) {
@@ -353,6 +342,7 @@ SVG Icons - svgicons.sparkk.fr
             forceRerender() {
                 this.index += 1;
             },
+
             onSelect(option) {
                 if (option != null) {
                     this.arrayDefenseTime(option);
@@ -431,14 +421,7 @@ SVG Icons - svgicons.sparkk.fr
                         break;
                 }
             },
-            refreshTimeArray(time_value) {
-                let ind = this.time.indexOf(time_value);
-                if (ind > -1) {
-                    this.notavailable_time.push(time_value);
-                    this.time.splice(ind, 1);
-                }
-                console.log(this.time);
-            },
+
 
             getGrademapByResult(result) {
                 let correctGrademap = null;

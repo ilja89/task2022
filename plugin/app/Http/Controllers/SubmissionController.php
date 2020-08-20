@@ -103,12 +103,13 @@ class SubmissionController extends Controller
         $course = $request->input('course');
         $teacher_count = $this->getTeacherCount($course);
 
-        return \DB::table('defenders')
-            ->select('choosen_time', DB::raw('count(*) as total'))
+        return array_values(\DB::table('defenders')
+            ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
             ->groupBy('choosen_time')
-            ->having('total', '=', $teacher_count)
-            ->get();
+            ->having(DB::raw('count(*)'), '=', $teacher_count)
+            ->pluck('choosen_time')
+            ->toArray());
     }
 }
 
