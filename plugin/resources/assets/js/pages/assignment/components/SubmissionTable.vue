@@ -3,7 +3,7 @@
         <div v-for="testSuite in submission['test_suites']">
             <h2>Test results for {{testSuite['name']}}</h2>
             <br>
-            <table id="myTable2">
+            <table>
                 <tr>
                     <th v-on:click="sortTable(testSuite['id'], testSuite['unit_tests'], 'name')" class="sortable">Name</th>
                     <th v-on:click="sortTable(testSuite['id'], testSuite['unit_tests'], 'status')" class="sortable">Status</th>
@@ -41,7 +41,8 @@
                  previous_param: null,
                  current_param: null,
                  previous_table_id: null,
-                 current_table_id: null
+                 current_table_id: null,
+                 show_stack_trace: false
              }
         },
         methods: {
@@ -116,6 +117,9 @@
         color: lightblue;
         font-weight: 300;
         font-size: 16px;
+    }
+    .sortable:active {
+        color: #3e95df;
     }
     th {
         padding: 0 24px;
