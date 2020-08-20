@@ -67,6 +67,14 @@ $weight-semibold: 500;
   padding: 1rem 0 0;
 }
 
+.inspire table{
+  border-collapse:separate;
+  border-spacing: 2vw 1.2em;
+}
+.v-data-table__wrapper {
+  text-align: -webkit-center;
+}
+
 .submissions-list {
   padding: 0;
   width: 92%;
@@ -290,11 +298,6 @@ pre {
   }
 }
 
-
-.inspire table{
-  border-collapse:separate;
-  border-spacing: 2vw 0.7em;
-}
 
 .v-data-table-header-mobile__wrapper {
   display: none;
