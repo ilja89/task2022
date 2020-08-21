@@ -59,3 +59,4 @@ Route::get('api/charon_data.php', 'CharonController@getAll');
 Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
 Route::get('api/student_defense_data.php', 'CharonController@getDefenders');
 Route::get('api/get_time.php', 'SubmissionController@getRowCountForPractise');
+Route::delete('api/delete_defense.php', 'DefenseLabController@deleteReg');

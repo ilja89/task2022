@@ -15,7 +15,7 @@
                 </div>
                 <div class="labs-schedule">
                     <div class="text-center">
-                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"  @select="onSelect"     :max-height="200"
+                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"  @select="onSelect" :max-height="200"
                                      :custom-label="nameWithLang" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                         </multiselect>
@@ -39,63 +39,13 @@
                     <button class="button" type="button">Register</button>
                 </div>
             </div>
-
         </Modal>
 
         <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp">
             <template slot="header">
                 <p class="modal-card-title">All defences</p>
             </template>
-            <div id="app">
-                <v-app id="inspire" class="inspire">
-                    <v-data-table
-                            :headers="headers"
-                            :items="defenseData"
-                            sort-by="calories"
-                            class="elevation-1"
-                            :hide-default-footer="true"
-                            single-line
-                    >
-                        <template v-slot:top>
-                            <v-toolbar flat color="white" height="0 px">
-
-                                <v-dialog v-model="dialog" max-width="500px">
-                                    <template v-slot:activator="{ on, attrs }">
-
-                                    </template>
-                                    <v-card>
-                                        <v-card-title>
-                                            <span class="headline">{{ formTitle }}</span>
-                                        </v-card-title>
-
-                                        <v-card-text>
-                                            <v-container>
-                                                <v-row>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.time" label="Defense time"></v-text-field>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.teacher" label="Teacher for defense"></v-text-field>
-                                                    </v-col>
-                                                </v-row>
-                                            </v-container>
-                                        </v-card-text>
-
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                            </v-toolbar>
-                        </template>
-                        <template v-slot:item.actions="{ item }">
-                            <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
-                        </template>
-                    </v-data-table>
-                </v-app>
-            </div>
+            <StudentDefenses :defenseData="defenseData" :student_id="student_id" :charon="charon"></StudentDefenses>
         </Modal>
 
         <ul class="submissions-list">
@@ -122,7 +72,7 @@
                             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                         </svg>
                     </span>
-                    <span class="kilb-icon" @click.stop="showModalLabs(submission.id)">
+                    <span class="kilb-icon" @click="ValidationForDefReg(submission)" @click.stop="showModalLabs(submission.id)">
                         <img src="shield.png" alt="kilb">
                     </span>
 
@@ -215,6 +165,8 @@ SVG Icons - svgicons.sparkk.fr
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
+    import StudentDefenses from "./StufentDefenses";
+    import RegisterView from "./RegisterView";
 
     let url_string = window.location.href;
     let url = new URL(url_string);
@@ -224,7 +176,7 @@ SVG Icons - svgicons.sparkk.fr
 
         mixins: [ Translate ],
         components: {
-            Modal, Datepicker, Multiselect
+            Modal, Datepicker, Multiselect, StudentDefenses, RegisterView
         },
 
         props: {
@@ -245,45 +197,18 @@ SVG Icons - svgicons.sparkk.fr
                 registered: false,
                 current_submission: 0,
                 selected: '',
-                selected_lab: Object,
                 selected_boolean: false,
                 canLoadMore: true,
                 refreshing: false,
                 isActive: false,
                 isActiveDefenses: false,
-                datetime_start: {},
-                project: {},
-                singleSelect: false,
-                dialog: false,
-                defenses: [],
                 charon: '',
                 time: [],
                 labs: [],
                 notavailable_time: [],
-                headers: [
-                    {
-                        text: 'Charon',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Time', value: 'choosen_time' },
-                    { text: 'Teacher', value: 'teacher' },
-                    { text: 'Actions', value: 'actions', sortable: false },
-                ],
                 defenseData: [],
-                editedIndex: -1,
-                editedItem: {
-                    name: '',
-                    choosen_time: '',
-                    teacher: ''
-                },
-                defaultItem: {
-                    name: '',
-                    choosen_time: '',
-                    teacher: 'Another teacher'
-                },
-
+                renderKey: 0,
+                submission_validation: false,
             };
         },
 
@@ -296,12 +221,6 @@ SVG Icons - svgicons.sparkk.fr
                 return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
         },
-        computed: {
-            formTitle () {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
-        },
-
 
         methods: {
             arrayDefenseTime(option) {
@@ -309,7 +228,6 @@ SVG Icons - svgicons.sparkk.fr
                 let defense_duration = this.charon['defense_duration'];
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
-
                 let start = option['start'];
                 let end = option['end'];
 
@@ -327,11 +245,10 @@ SVG Icons - svgicons.sparkk.fr
                 })
             },
 
-            nameWithLang ({ start }) {
+            nameWithLang({start}) {
                 let date = `${start.split(' ')[0]}`;
                 let time = `${start.split(' ')[1]}`;
                 let time_return = time.split(':');
-
                 return date + " " + time_return[0] + ":" + time_return[1];
             },
 
@@ -342,6 +259,7 @@ SVG Icons - svgicons.sparkk.fr
                     return submissionId === test;
                 }
             },
+
             forceRerender() {
                 this.index += 1;
             },
@@ -353,13 +271,21 @@ SVG Icons - svgicons.sparkk.fr
                     this.modalSize = true;
                 }
             },
+
             showModalLabs(submissionId) {
                 this.current_submission = submissionId
-                this.isActive = true;
+                this.isActive = this.submission_validation;
+                if (this.isActive === false) {
+                    alert("You can't registrate submission with result less then 50%")
+                }
+            },
+            ValidationForDefReg(submission) {
+                var result = submission.results[0].calculated_result;
+                var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
+                this.submission_validation = result / maxResult >= 0.5;
             },
 
-
-            getTime() {
+            getCharonAndLabs() {
                 axios.get(`api/charon_data.php?id=${id}`).then(result => {
                     this.charon = result.data;
                 })
@@ -369,13 +295,11 @@ SVG Icons - svgicons.sparkk.fr
 
             },
 
-
             getDefenseData() {
                 axios.get(`api/student_defense_data.php?id=${id}&studentid=${this.student_id}`).then(result => {
                     this.defenseData = result.data;
                 })
             },
-
 
             closePopUp() {
                 this.isActive = false;
@@ -383,28 +307,28 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             sendData() {
-                this.selected_boolean = this.selected === "My teacher";
-                this.datetime_start = this.value['start'];
-                this.datetime_end = this.value['end'];
-                let choosen_time = this.datetime_start.split(' ')[0] + " " + this.value_time;
+                let selected_boolean = this.selected === "My teacher";
+                let datetime_start = this.value['start'];
+                let datetime_end = this.value['end'];
+                let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
 
                 if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
                     axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
                         charon_id: id,
                         course_id: this.charon['course'],
                         submission_id: this.current_submission,
-                        lab_start: this.datetime_start,
-                        lab_end: this.datetime_end,
-                        selected: this.selected_boolean,
+                        lab_start: datetime_start,
+                        lab_end: datetime_end,
+                        selected: selected_boolean,
                         defense_lab_id: this.value['id'],
                         student_choosen_time: choosen_time,
                     }).then(result => {
                         this.getDefenseData();
-                        this.editDataAfterInsert(result.data)})
-                } else {
-                    alert("You didnt insert needed parameters!")
-                }
+                        this.editDataAfterInsert(result.data)
+                    })
+                } else alert("You didnt insert needed parameters!")
             },
+
             editDataAfterInsert(dataFromDb) {
                 switch (dataFromDb) {
                     case 'teacher is busy':
@@ -414,9 +338,6 @@ SVG Icons - svgicons.sparkk.fr
                         alert('You cannot register twice for one practise.\n If tou want to choose another time, then you shoul delete your previous time (My defenses button)');
                         break;
                     case 'inserted':
-                        alert('You was successfully registered for defense!');
-                        break;
-                    case 'delete, inserted':
                         alert('You was successfully registered for defense!');
                         break;
                     case 'deleted':
@@ -458,7 +379,6 @@ SVG Icons - svgicons.sparkk.fr
                     resultStr += result.calculated_result;
                     prefix = ' | ';
                 });
-
                 return resultStr;
             },
             refreshSubmissions() {
@@ -471,7 +391,6 @@ SVG Icons - svgicons.sparkk.fr
             },
             showStudentDefenses() {
                 this.isActiveDefenses = true;
-
             },
 
             loadMoreSubmissions() {
@@ -485,33 +404,11 @@ SVG Icons - svgicons.sparkk.fr
                 }
             },
 
-            deleteItem (item) {
-
-                const index = this.defenseData.indexOf(item)
-                confirm('Are you sure you want to delete this item?') && this.defenseData.splice(index, 1)
-            },
-
-            close () {
-                this.dialog = false
-                this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
-                })
-            },
-
-            save () {
-                if (this.editedIndex > -1) {
-                    Object.assign(this.defenseData[this.editedIndex], this.editedItem)
-                } else {
-                    this.defenseData.push(this.editedItem)
-                }
-                this.close()
-            },
         },
         mounted() {
             this.getDefenseData();
             this.refreshSubmissions();
-            this.getTime();
+            this.getCharonAndLabs();
         }
 
     }
