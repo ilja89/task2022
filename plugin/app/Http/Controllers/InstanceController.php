@@ -96,7 +96,7 @@ class InstanceController extends Controller
 
         try {
 
-            $sql = "START TRANSACTION";
+            $sql = "BEGIN TRANSACTION STORE_CHARON";
             $DB->execute($sql);
 
             $charon = $this->getCharonFromRequest();
@@ -131,7 +131,7 @@ class InstanceController extends Controller
 
         } catch (\Exception $e) {
             Log::info('CAUGHT AN EXCEPTION 2');
-            $sql = "ROLLBACK";
+            $sql = "ROLLBACK TRANSACTION STORE_CHARON";
             $DB->execute($sql);
 
             throw $e;
