@@ -332,7 +332,7 @@ class SubmissionService
      * @param $date
      * @return string|null
      */
-    private function constructDate($date): string
+    private function constructDate($date)
     {
         if ($date == null) {
             return $date;
