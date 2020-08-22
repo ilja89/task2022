@@ -165,7 +165,7 @@ SVG Icons - svgicons.sparkk.fr
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
-    import StudentDefenses from "./StufentDefenses";
+    import StudentDefenses from "./StudentDefenses";
     import RegisterView from "./RegisterView";
 
     let url_string = window.location.href;
@@ -207,7 +207,6 @@ SVG Icons - svgicons.sparkk.fr
                 labs: [],
                 notavailable_time: [],
                 defenseData: [],
-                renderKey: 0,
                 submission_validation: false,
             };
         },
