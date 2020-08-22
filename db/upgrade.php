@@ -399,7 +399,7 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2020082201) {
-        $sql = "ALTER TABLE mdl_unit_test RENAME COLUMN groups_dependedUpon TO groups_depended_upon";
+        $sql = "ALTER TABLE mdl_unit_test CHANGE COLUMN groups_dependedUpon groups_depended_upon VARCHAR(255)";
         $sql2 = "DROP TABLE mdl_charon_submission_test_suite";
         $DB->execute($sql);
         $DB->execute($sql2);
