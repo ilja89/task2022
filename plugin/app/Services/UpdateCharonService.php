@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
@@ -129,6 +130,7 @@ class UpdateCharonService
      */
     public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
+        Log::info("updateCategoryCalculationAndMaxScore request: ", [$request]);
         // TODO: Notify user when no max score?
         if ($charon->category_id !== null && $request->has('max_score')) {
             $gradeItem              = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
