@@ -96,7 +96,7 @@ class InstanceController extends Controller
 
         try {
 
-            $sql = "BEGIN TRANSACTION STORE_CHARON";
+            $sql = "START TRANSACTION";
             $DB->execute($sql);
 
             $charon = $this->getCharonFromRequest();
@@ -124,14 +124,14 @@ class InstanceController extends Controller
                 );
             }
 
-            $sql = "COMMIT TRANSACTION STORE_CHARON";
+            $sql = "COMMIT";
             $DB->execute($sql);
 
             return $charon->id;
 
         } catch (\Exception $e) {
             Log::info('CAUGHT AN EXCEPTION 2');
-            $sql = "ROLLBACK TRANSACTION STORE_CHARON";
+            $sql = "ROLLBACK";
             $DB->execute($sql);
 
             throw $e;
@@ -157,7 +157,7 @@ class InstanceController extends Controller
 
         try {
 
-            $sql = "BEGIN TRANSACTION UPDATE_CHARON";
+            $sql = "START TRANSACTION";
             $DB->execute($sql);
 
             $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
@@ -176,14 +176,14 @@ class InstanceController extends Controller
                 // TODO: Plagiarism
             }
 
-            $sql = "COMMIT TRANSACTION UPDATE_CHARON";
+            $sql = "COMMIT";
             $DB->execute($sql);
 
             return "1";
 
         } catch (\Exception $e) {
             Log::info('CAUGHT AN EXCEPTION!');
-            $sql = "ROLLBACK TRANSACTION UPDATE_CHARON";
+            $sql = "ROLLBACK";
             $DB->execute($sql);
 
             throw $e;
