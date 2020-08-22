@@ -128,7 +128,7 @@ class SubmissionService
             foreach($testSuite['unitTests'] as $unitTest) {
                 $createdUnitTest = UnitTest::create([
                     'test_suite_id' => $createdTestSuite->id,
-                    'groups_dependedUpon' => implode(", ", $unitTest['groupsDependedUpon']),
+                    'groups_depended_upon' => implode(", ", $unitTest['groupsDependedUpon']),
                     'status' => $unitTest['status'],
                     'weight' => $unitTest['weight'],
                     'print_exception_message' => $unitTest['printExceptionMessage'],

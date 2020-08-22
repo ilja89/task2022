@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int id
  * @property int test_suite_id
- * @property string groups_dependedUpon
+ * @property string groups_depended_upon
  * @property string status
  * @property int weight
  * @property boolean print_exception_message
@@ -31,7 +31,7 @@ class UnitTest extends Model
     protected $table = 'unit_test';
 
     protected $fillable = [
-        'test_suite_id', 'groups_dependedUpon', 'status', 'weight', 'print_exception_message', 'print_stack_trace',
+        'test_suite_id', 'groups_depended_upon', 'status', 'weight', 'print_exception_message', 'print_stack_trace',
         'time_elapsed', 'methods_depended_upon', 'stack_trace', 'name', 'stdout', 'exception_class',
         'exception_message', 'stderr'
     ];
