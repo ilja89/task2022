@@ -137,9 +137,9 @@
                 <FIELD NAME="file" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="start_date" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="end_date" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
-                <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
-                <FIELD NAME="passed_count" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
-                <FIELD NAME="grade" SEQUENCE="false" TYPE="float" NOTNULL="false"/>
+                <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11" DEFAULT="1"/>
+                <FIELD NAME="passed_count" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11"/>
+                <FIELD NAME="grade" SEQUENCE="false" TYPE="float" NOTNULL="true"/>
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
@@ -153,10 +153,10 @@
                 <FIELD NAME="test_suite_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="groups_depended_upon" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="status" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
-                <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11"/>
-                <FIELD NAME="print_exception_message" SEQUENCE="false" TYPE="binary" NOTNULL="true"/>
-                <FIELD NAME="print_stack_trace" SEQUENCE="false" TYPE="binary" NOTNULL="true"/>
-                <FIELD NAME="time_elapsed" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11"/>
+                <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11" DEFAULT="1"/>
+                <FIELD NAME="print_exception_message" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
+                <FIELD NAME="print_stack_trace" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
+                <FIELD NAME="time_elapsed" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
                 <FIELD NAME="methods_depended_upon" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="stack_trace" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>

@@ -358,21 +358,21 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    file VARCHAR(255) NOT NULL,".
             "    start_date DATETIME ,".
             "    end_date DATETIME ,".
-            "    weight INT,".
-            "    passed_count INT,".
-            "    grade FLOAT,".
+            "    weight NOT NULL INT DEFAULT 1,".
+            "    passed_count INT NOT NULL,".
+            "    grade FLOAT NOT NULL,".
             "    PRIMARY KEY (id)".
             ")";
 
         $sql2 = "CREATE TABLE mdl_unit_test(".
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
             "    test_suite_id BIGINT(10) NOT NULL,".
-            "    groups_dependedUpon VARCHAR(255),".
+            "    groups_depended_upon VARCHAR(255),".
             "    status VARCHAR(255) NOT NULL,".
-            "    weight INT NOT NULL,".
-            "    print_exception_message TINYINT(1) NOT NULL,".
+            "    weight INT NOT NULL DEFAULT 1,".
+            "    print_exception_message TINYINT(1),".
             "    print_stack_trace TINYINT(1),".
-            "    time_elapsed INT NOT NULL,".
+            "    time_elapsed INT,".
             "    methods_depended_upon VARCHAR(255),".
             "    stack_trace VARCHAR(255),".
             "    name VARCHAR(255) NOT NULL,".
@@ -389,26 +389,8 @@ function xmldb_charon_upgrade($oldversion = 0)
             "            ON UPDATE CASCADE".
             ")";
 
-        $sql3 = "CREATE TABLE mdl_charon_submission_test_suite(".
-            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
-            "    charon_submission_id BIGINT(10) NOT NULL,".
-            "    test_suite_id BIGINT(10) NOT NULL,".
-            "    PRIMARY KEY (id),".
-            "    INDEX IXFK_charon_submission_test_suite_charon_submission (charon_submission_id),".
-            "    INDEX IXFK_charon_submission_test_suite_test_suite (test_suite_id),".
-            "    CONSTRAINT FK_charon_submission_test_suite_charon_submission_id".
-            "        FOREIGN KEY (charon_submission_id)".
-            "            REFERENCES mdl_charon_submission(id)".
-            "            ON DELETE CASCADE".
-            "            ON UPDATE CASCADE,".
-            "    CONSTRAINT FK_charon_submission_test_suite_test_suite_id".
-            "        FOREIGN KEY (test_suite_id)".
-            "            REFERENCES mdl_test_suite(id)".
-            "            ON DELETE CASCADE".
-            ")";
         $DB->execute($sql);
         $DB->execute($sql2);
-        $DB->execute($sql3);
     }
 
     if ($oldversion < 2020081601) {
