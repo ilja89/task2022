@@ -120,7 +120,7 @@ class SubmissionService
                 'file' => $testSuite['file'],
                 'start_date' => $this->constructDate($testSuite['startDate']),
                 'end_date' => $this->constructDate($testSuite['endDate']),
-                'weight' => $testSuite['weight'],
+                'weight' => $testSuite['weight'] == null ? 1 : $testSuite['weight'],
                 'passed_count' => $testSuite['passedCount'],
                 'grade' => $testSuite['grade']
             ]);
