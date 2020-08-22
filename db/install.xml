@@ -140,6 +140,7 @@
                 <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
                 <FIELD NAME="passed_count" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
                 <FIELD NAME="grade" SEQUENCE="false" TYPE="float" NOTNULL="false"/>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_test_suite" TYPE="primary" FIELDS="id"/>
