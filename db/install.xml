@@ -105,10 +105,16 @@
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_lab_course" TYPE="foreign" FIELDS="course_id"
+                    REFTABLE="mdl_course" REFFIELDS="id"/>
             </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_lab_course" UNIQUE="false" FIELDS="course_id"/>
+            </INDEXES>
         </TABLE>
 
         <TABLE NAME="charon_lab_teacher" COMMENT="Teacher attending this lab.">
