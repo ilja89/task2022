@@ -5,6 +5,8 @@ namespace TTU\Charon\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Zeizig\Moodle\Models\Event;
+use Zeizig\Moodle\Models\Group;
 use Zeizig\Moodle\Models\User;
 
 /**

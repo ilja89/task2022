@@ -44,6 +44,18 @@
                 </router-link>
             </li>
 
+            <li class="nav-item">
+                <router-link to="/defenseSettings">
+                    Defense settings
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/defenseRegistrations">
+                    Defense registrations
+                </router-link>
+            </li>
+
         </ul>
     </aside>
 </template>

@@ -116,30 +116,38 @@
 SVG Icons - svgicons.sparkk.fr
 ----- */
 
-    .svg-icon {
-        width: 1em;
-        height: 1em;
-        vertical-align: text-bottom;
-        cursor: pointer;
-    }
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: text-bottom;
+  cursor: pointer;
+}
 
-    .svg-icon path,
-    .svg-icon polygon,
-    .svg-icon rect {
-        fill: #03a9f4;
-    }
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #03a9f4;
+}
 
-    .svg-icon circle {
-        stroke: #03a9f4;
-        stroke-width: 1;
-    }
+.svg-icon circle {
+  stroke: #03a9f4;
+  stroke-width: 1;
+}
 
-    .test {
-        margin-bottom: 0.5vw;
-    }
+.test {
+    margin-bottom: 0.5vw;
+}
 
-    .text-center {
-        text-align:center;
+.text-center {
+    text-align:center;
+}
+
+.rotating
+    {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
     }
 
     .rotating
@@ -196,6 +204,7 @@ SVG Icons - svgicons.sparkk.fr
                 registered: false,
                 current_submission: 0,
                 selected: '',
+                selected_lab: Object,
                 selected_boolean: false,
                 canLoadMore: true,
                 refreshing: false,
@@ -218,6 +227,21 @@ SVG Icons - svgicons.sparkk.fr
             date(date) {
                 return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
+        },
+        computed: {
+            formTitle () {
+                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            },
+        },
+
+        watch: {
+            dialog (val) {
+                val || this.close()
+            },
+        },
+
+        created () {
+            this.initialize()
         },
 
         methods: {

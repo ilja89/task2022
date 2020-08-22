@@ -125,6 +125,7 @@ class Submission {
             VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
         })
     }
+
 }
 
 Submission.nextUrl = null

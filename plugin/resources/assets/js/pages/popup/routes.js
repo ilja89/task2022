@@ -10,7 +10,10 @@ import {
     DashboardPage,
     PlagiarismPage,
     ReportStatistics,
-    LabsPage
+    LabsPage,
+    DefenseSettingsPage,
+    DefSettingsEditingPage,
+    DefenseRegistrationPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
 
@@ -67,11 +70,29 @@ const routes = [
         name: 'labs'
     },
     {
-        path:'/labsForm',
+        path: '/labsForm',
         title: 'Labs Form',
         component: LabsForm,
         name: 'labs-form',
     },
+    {
+        path: '/defenseSettings',
+        title: 'Defense Settings',
+        component: DefenseSettingsPage,
+        name: 'defense-settings-page'
+    },
+    {
+        path: '/defSettingsEditing',
+        title: 'Defense Settings Editing',
+        component: DefSettingsEditingPage,
+        name: 'def-settings-editing-page'
+    },
+    {
+        path: '/defenseRegistrations',
+        title: 'Defense Registrations',
+        component: DefenseRegistrationPage,
+        name: 'defense-registrations-page'
+    }
 ];
 
 const router = new VueRouter({

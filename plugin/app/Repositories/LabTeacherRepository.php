@@ -71,6 +71,9 @@ class LabTeacherRepository
             ->select('roleid')
             ->get();
         $okRoleIdsString = "(";
+        if (count($okRoleIds) == 0) {
+            $okRoleIdsString = "()";
+        }
         for ($i = 0; $i < count($okRoleIds); $i++) {
             $okRoleIdsString .= $okRoleIds[$i]->roleid;
             if ($i != count($okRoleIds) - 1) {
