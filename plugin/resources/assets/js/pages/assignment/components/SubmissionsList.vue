@@ -157,6 +157,7 @@ SVG Icons - svgicons.sparkk.fr
     import {Submission} from '../../../api';
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
+    import Lab from "../../../api/Lab";
 
 
     export default {
@@ -218,8 +219,11 @@ SVG Icons - svgicons.sparkk.fr
                 axios.get(`api/charon_data.php?id=${id}`).then(result => {
                     this.charon = result.data;
                 })
-                axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
+                /*axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
                     this.labs = result.data;
+                });*/
+                Lab.getByCharonId(id, (response) => {
+                    this.labs = response;
                 });
             },
             closePopUp() {
