@@ -30,7 +30,7 @@ class DeadlineService
             return;
         }
         Log::info("Creating a deadline: ", [$deadlineArray]);
-        $deadlineTime = Carbon::createFromFormat('d-m-Y H:i', $deadlineArray['deadline_time'], \Config::get('app.timezone'));
+        $deadlineTime = Carbon::createFromFormat('Y-m-d H:i', $deadlineArray['deadline_time'], \Config::get('app.timezone'));
         $deadlineTime->setTimezone('UTC');
         $charon->deadlines()->save(new Deadline([
             'deadline_time' => $deadlineTime,
