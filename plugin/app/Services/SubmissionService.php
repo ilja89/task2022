@@ -118,8 +118,8 @@ class SubmissionService
                 'submission_id' => $submission->id,
                 'name' => $testSuite['name'],
                 'file' => $testSuite['file'],
-                'start_date' => Carbon::createFromTimestamp($testSuite['startDate'] / 1000)->format('Y-m-d H:i:s'),
-                'end_date' => Carbon::createFromTimestamp($testSuite['endDate'] / 1000)->format('Y-m-d H:i:s'),
+                'start_date' => $this->constructDate($testSuite['startDate']),
+                'end_date' => $this->constructDate($testSuite['endDate']),
                 'weight' => $testSuite['weight'],
                 'passed_count' => $testSuite['passedCount'],
                 'grade' => $testSuite['grade']
@@ -128,24 +128,25 @@ class SubmissionService
             foreach($testSuite['unitTests'] as $unitTest) {
                 $createdUnitTest = UnitTest::create([
                     'test_suite_id' => $createdTestSuite->id,
-                    'groups_depended_upon' => implode(", ", $unitTest['groupsDependedUpon']),
+                    'groups_depended_upon' => $unitTest['groupsDependedUpon'] != null ? implode(", ", $unitTest['groupsDependedUpon']) : null,
                     'status' => $unitTest['status'],
-                    'weight' => $unitTest['weight'],
+                    'weight' => $unitTest['weight'] == null ? 1 : $unitTest['weight'],
                     'print_exception_message' => $unitTest['printExceptionMessage'],
                     'print_stack_trace' => $unitTest['printStackTrace'],
                     'time_elapsed' => $unitTest['timeElapsed'],
-                    'methods_depended_upon' => implode(', ', $unitTest['methodsDependedUpon']),
-                    'stack_trace' => strlen($unitTest['stackTrace']) >= 255 ? substr($unitTest['stackTrace'], 0, 255) : $unitTest['stackTrace'],
+                    'methods_depended_upon' => $unitTest['methodsDependedUpon'] != null ? implode(', ', $unitTest['methodsDependedUpon']) : null,
+                    'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
                     'name' => $unitTest['name'],
-                    'stdout' => implode(', ', $unitTest['stdout']),
+                    'stdout' => $unitTest['stdout'] != null ? implode(', ', $unitTest['stdout']) : null,
                     'exception_class' => $unitTest['exceptionClass'],
                     'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => implode(', ', $unitTest['stderr'])
+                    'stderr' => $unitTest['stderr'] != null ? implode(', ', $unitTest['stderr']) : null
                 ]);
                 $createdUnitTest->save();
             }
         }
     }
+
 
     /**
      * Save the results from given results request (arete v2).
@@ -313,5 +314,29 @@ class SubmissionService
                 'This result was automatically generated'
             );
         }
+    }
+
+    /**
+     * @param $stackTrace
+     * @return string
+     */
+    private function constructStackTrace($stackTrace)
+    {
+        if ($stackTrace != null) {
+            return strlen($stackTrace) >= 255 ? substr($stackTrace, 0, 255) : $stackTrace;
+        }
+        return '';
+    }
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    private function constructDate($date): string
+    {
+        if ($date == null) {
+            return $date;
+        }
+        return Carbon::createFromTimestamp($date / 1000)->format('Y-m-d H:i:s');
     }
 }
