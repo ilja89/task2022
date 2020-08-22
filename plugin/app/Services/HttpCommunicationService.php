@@ -40,7 +40,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendInfoToTester($uri, $method, $data)
+    public function sendInfoToTester($method, $data)
     {
         $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
@@ -48,23 +48,27 @@ class HttpCommunicationService
             'http://neti.ee'
         );
 
-        $serverUrl = $testerUrl . '/' . $uri;
+        $testerToken = $this->settingsService->getSetting(
+            'mod_charon',
+            'tester_token',
+            'charon'
+        );
 
         Log::info('Sending data to tester.', [
-            'uri' => $serverUrl,
+            'uri' => $testerUrl,
             'data' => $data,
         ]);
 
         $client = new Client();
         try {
             $client->request(
-                $method, $serverUrl,
-                ['json' => $data]
+                $method, $testerUrl,
+                ['headers' => ['Authorization' => 'charon ' . $testerToken], 'json' => $data]
             );
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to tester to url '
-                . $serverUrl . 'with message:', [$e]
+                . $testerUrl . 'with message:', [$e]
             );
         }
     }
@@ -79,9 +83,9 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function postToTester($uri, $data)
+    public function postToTester($data)
     {
-        $this->sendInfoToTester($uri, 'post', $data);
+        $this->sendInfoToTester('post', $data);
     }
 
     /**
