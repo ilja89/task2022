@@ -1,7 +1,6 @@
 import SubmissionModal from './SubmissionModal.vue'
 import SubmissionsList from './SubmissionsList.vue'
-import StufentDefenses from "./StudentDefenses";
-import RegisterView from "./RegisterView";
+import StudentDefenses from "./StudentDefenses";
 export {
-    SubmissionModal, SubmissionsList, StufentDefenses, RegisterView
+    SubmissionModal, SubmissionsList, StudentDefenses
 }

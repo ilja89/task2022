@@ -66,7 +66,7 @@
             student_id: {required: true},
             charon: {required: true},
         },
-        name: "StufentDefenses",
+        name: "StudentDefenses",
         data() {
             return {
                 singleSelect: false,
