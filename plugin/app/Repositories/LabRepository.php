@@ -189,7 +189,7 @@ class LabRepository
      */
     public function findLabsByCourse($courseId)
     {
-        $labs = \DB::table('lab')
+        $labs = \DB::table('charon_lab')
             ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
             ->orderBy('start')

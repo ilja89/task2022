@@ -26,7 +26,7 @@ use Illuminate\Support\Collection;
 class TestSuite extends Model
 {
     public $timestamps = false;
-    protected $table = 'test_suite';
+    protected $table = 'charon_test_suite';
 
     protected $fillable = [
         'submission_id', 'name', 'file', 'start_date', 'end_date', 'weight', 'passed_count', 'grade'

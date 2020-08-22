@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
 class UnitTest extends Model
 {
     public $timestamps = false;
-    protected $table = 'unit_test';
+    protected $table = 'charon_unit_test';
 
     protected $fillable = [
         'test_suite_id', 'groups_depended_upon', 'status', 'weight', 'print_exception_message', 'print_stack_trace',

@@ -135,7 +135,7 @@ class SubmissionsRepository
      * @return TestSuite[]
      */
     private function getTestSuites($submissionId) {
-        $testSuites = \DB::table('test_suite')
+        $testSuites = \DB::table('charon_test_suite')
             ->where('submission_id', $submissionId)
             ->select('*')
             ->get();
@@ -150,7 +150,7 @@ class SubmissionsRepository
      * @return UnitTest[]
      */
     private function getUnitTestsResults($testSuiteId) {
-        return \DB::table('unit_test')
+        return \DB::table('charon_unit_test')
             ->where('test_suite_id', $testSuiteId)
             ->select('*')
             ->get();

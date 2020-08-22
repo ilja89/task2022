@@ -24,7 +24,7 @@ use Zeizig\Moodle\Models\User;
 class Lab extends Model
 {
     public $timestamps = false;
-    protected $table = 'lab';
+    protected $table = 'charon_lab';
 
     protected $fillable = [
         'start', 'end', 'course_id'
