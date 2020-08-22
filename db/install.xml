@@ -217,7 +217,7 @@
             </INDEXES>
         </TABLE>
 
-        <TABLE NAME="charon_defenders">
+        <TABLE NAME="charon_defenders" COMMENT="Student registered for charon defense.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="student_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
