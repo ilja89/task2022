@@ -1,10 +1,9 @@
 <template>
     <div>
-
         <h2 class="title">{{ translate('submissionsText') }}
-<svg @click="refreshSubmissions()" class="svg-icon" v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
-							<path fill="none" d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
-						</svg>
+            <svg @click="refreshSubmissions()" class="svg-icon" v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
+                <path fill="none" d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
+            </svg>
         </h2>
         <Modal v-bind:isActive="isActive" @modal-was-closed="closePopUp">
             <template slot="header">
@@ -15,32 +14,24 @@
                     <h4>Choose a lab session to defend {{this.charon['name']}}</h4>
                 </div>
                 <div class="labs-schedule">
-<!--                        <datepicker :datetime="datetime" :placeholder="placeholder" :to="to"></datepicker>-->
                     <div class="text-center">
-                        <div class="row">
-                            <div class="col-6">Start</div>
-                            <div class="col-6">End</div>
-                        </div>
+                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"  @select="onSelect" :max-height="200"
+                                     :custom-label="nameWithLang" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
+                        </multiselect>
 
-                        <template v-for="lab in this.labs">
-                            <div class="row test">
-                                <div class="col-6">
-                                    <input type="radio" v-model="selected_lab" id="lab" :value="lab" name="lab">
-                                    {{lab['start']}}
-                                </div>
-                                <div class="col-6">{{lab['end']}}</div>
-                            </div>
-                            <div class="w-100 d-none d-md-block"></div>
-                        </template>
+                        <multiselect style="margin-top: 30px" v-model="value_time" :class="{secondMultiselect: secondMultiselect}" :max-height="200"
+                                     :options="this.time" placeholder="Select suitable time for you">
+                        </multiselect>
                     </div>
-                    <div class="register-lab-headers">
+                    <div class="register-lab-headers" style="margin-top: 6vh">
                         <h4>Choose a teacher</h4>
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
                             <div class="col-6 col-sm-4"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
                             <div class="w-100 d-none d-md-block"></div>
-                            <div class="col-6 col-sm-4"><label for="another-teacher"></label><input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
+                            <div class="col-6 col-sm-4" :class="{my_teacher: this.charon['choose_teacher'] === 1}"><label for="another-teacher"></label><input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
                         </div>
                     </div>
                 </div>
@@ -48,78 +39,21 @@
                     <button class="button" type="button">Register</button>
                 </div>
             </div>
-
         </Modal>
 
         <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp">
             <template slot="header">
                 <p class="modal-card-title">All defences</p>
             </template>
-            <div id="app">
-                <v-app id="inspire" class="inspire">
-                    <v-data-table
-                            :headers="headers"
-                            :items="desserts"
-                            sort-by="calories"
-                            class="elevation-1"
-                            :hide-default-footer="true"
-                            single-line
-
-
-                    >
-                        <template v-slot:top>
-                            <v-toolbar flat color="white" height="0 px">
-
-                                <v-dialog v-model="dialog" max-width="500px">
-                                    <template v-slot:activator="{ on, attrs }">
-
-                                    </template>
-                                    <v-card>
-                                        <v-card-title>
-                                            <span class="headline">{{ formTitle }}</span>
-                                        </v-card-title>
-
-                                        <v-card-text>
-                                            <v-container>
-                                                <v-row>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.time" label="Defense time"></v-text-field>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.teacher" label="Teacher for defense"></v-text-field>
-                                                    </v-col>
-                                                </v-row>
-                                            </v-container>
-                                        </v-card-text>
-
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                            </v-toolbar>
-                        </template>
-                        <template v-slot:item.actions="{ item }">
-                            <i @click="editItem(item)" class="fa fa-pencil fa-lg" style="margin-right: 15px"></i>
-                            <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
-
-                        </template>
-                        <template v-slot:no-data>
-                            <v-btn color="primary" @click="initialize">Reset</v-btn>
-                        </template>
-                    </v-data-table>
-                </v-app>
-            </div>
+            <StudentDefenses :defenseData="defenseData" :student_id="student_id" :charon="charon"></StudentDefenses>
         </Modal>
 
         <ul class="submissions-list">
-            <template v-for="submission in submissions">
+            <template v-for="(submission, index) in submissions">
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
-                    @click="toggleAdvanced(submission.id)">
+                    @click="toggleAdvanced(submission.id)" :key="index">
 
-                    <span class="tag is-info">
+                    <span class="tag is-info" :class="{registered: listStyle(submission.id)}">
                         {{ submissionString(submission) }}
                     </span>
 
@@ -138,7 +72,7 @@
                             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                         </svg>
                     </span>
-                    <span class="kilb-icon" @click.stop="showModalLabs(submission.id)">
+                    <span class="kilb-icon" @click="ValidationForDefReg(submission)" @click.stop="showModalLabs(submission.id)">
                         <img src="shield.png" alt="kilb">
                     </span>
 
@@ -175,6 +109,8 @@
 
     </div>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style scoped>
     /* -----
 SVG Icons - svgicons.sparkk.fr
@@ -213,14 +149,22 @@ SVG Icons - svgicons.sparkk.fr
   animation-iteration-count: infinite;
   animation-timing-function: linear;
     }
-@keyframes spin {
-    from {
-        transform:rotate(0deg);
+
+    .rotating
+    {
+        animation-name: spin;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
     }
-    to {
-        transform:rotate(-360deg);
+    @keyframes spin {
+        from {
+            transform:rotate(0deg);
+        }
+        to {
+            transform:rotate(-360deg);
+        }
     }
-}
 </style>
 <script>
 
@@ -228,14 +172,18 @@ SVG Icons - svgicons.sparkk.fr
     import {Submission} from '../../../api';
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
-    import Lab from "../../../api/Lab";
+    import {Multiselect} from "vue-multiselect";
+    import StudentDefenses from "./StudentDefenses";
 
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let id = url.searchParams.get("id");
 
     export default {
 
         mixins: [ Translate ],
         components: {
-            Modal, Datepicker
+            Modal, Datepicker, Multiselect, StudentDefenses
         },
 
         props: {
@@ -246,8 +194,14 @@ SVG Icons - svgicons.sparkk.fr
 
         data() {
             return {
+                my_teacher: true,
+                value: null,
+                value_time: null,
+                secondMultiselect: true,
                 advanced: [],
                 submissions: [],
+                index: 0,
+                registered: false,
                 current_submission: 0,
                 selected: '',
                 selected_lab: Object,
@@ -256,42 +210,12 @@ SVG Icons - svgicons.sparkk.fr
                 refreshing: false,
                 isActive: false,
                 isActiveDefenses: false,
-                datetime: {},
-                placeholder: 'Select date',
-                to: '',
-                limit: [],
-                project: {},
-                singleSelect: false,
-                selected: [],
-                dialog: false,
-                headers: [
-                    {
-                        text: 'Charon',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Time', value: 'time' },
-                    { text: 'Teacher', value: 'teacher' },
-                    { text: 'Actions', value: 'actions', sortable: false },
-                ],
-                desserts: [],
-                editedIndex: -1,
-                editedItem: {
-                    name: '',
-                    calories: 0,
-                    fat: 0,
-                    carbs: 0,
-                    protein: 0,
-                },
-                defaultItem: {
-                    name: '',
-                    calories: 0,
-                    fat: 0,
-                    carbs: 0,
-                    protein: 0,
-                },
-
+                charon: '',
+                time: [],
+                labs: [],
+                notavailable_time: [],
+                defenseData: [],
+                submission_validation: false,
             };
         },
 
@@ -321,34 +245,82 @@ SVG Icons - svgicons.sparkk.fr
         },
 
         methods: {
-            showModalLabs(submissionId) {
-                this.current_submission = submissionId
-                this.isActive = true;
+            arrayDefenseTime(option) {
+                this.time.length = 0;
+                let defense_duration = this.charon['defense_duration'];
+                let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
+                let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
+                let start = option['start'];
+                let end = option['end'];
+
+                let time = option['start'].split(' ')[0];
+                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}&start=${start}&end=${end}`).then(result => {
+                    this.notavailable_time = result.data;
+                }).then(() => {
+                    while (startTime < endTime) {
+                        this.time.push(new moment(startTime).format('HH:mm'));
+                        startTime.add(defense_duration, 'minutes');
+                    }
+                    if (this.notavailable_time.length !== 0) {
+                        this.time = this.time.filter(x => !this.notavailable_time.includes(x));
+                    }
+                })
             },
 
-            getTime() {
-                var url_string = window.location.href;
-                var url = new URL(url_string);
-                var id = url.searchParams.get("id");
-                axios.get(`api/view.php?id=${id}`).then(result => {
-                    this.to = result.data;
-                });
+            nameWithLang({start}) {
+                let date = `${start.split(' ')[0]}`;
+                let time = `${start.split(' ')[1]}`;
+                let time_return = time.split(':');
+                return date + " " + time_return[0] + ":" + time_return[1];
+            },
+
+            listStyle(submissionId) {
+                let test = this.defenseData.find(x => x.submission_id === submissionId);
+                if (test != null) {
+                    test = test['submission_id'];
+                    return submissionId === test;
+                }
+            },
+
+            forceRerender() {
+                this.index += 1;
+            },
+
+            onSelect(option) {
+                if (option != null) {
+                    this.arrayDefenseTime(option);
+                    this.secondMultiselect = false;
+                    this.modalSize = true;
+                }
+            },
+
+            showModalLabs(submissionId) {
+                this.current_submission = submissionId
+                this.isActive = this.submission_validation;
+                if (this.isActive === false) {
+                    alert("You can't registrate submission with result less then 50%")
+                }
+            },
+            ValidationForDefReg(submission) {
+                var result = submission.results[0].calculated_result;
+                var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
+                this.submission_validation = result / maxResult >= 0.5;
+            },
+
+            getCharonAndLabs() {
                 axios.get(`api/charon_data.php?id=${id}`).then(result => {
                     this.charon = result.data;
                 })
-                /*axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
+                axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
                     this.labs = result.data;
-                });*/
-                Lab.getByCharonId(id, (response) => {
-                    this.labs = response;
                 });
+
             },
-            format (date) {
-                date = new Date(date)
-                const day = `${date.getUTCDate()}`.padStart(2, '0')
-                const month = `${date.getUTCMonth() + 1}`.padStart(2, '0')
-                const year = date.getFullYear()
-                return `${month}/${day}/${year}`
+
+            getDefenseData() {
+                axios.get(`api/student_defense_data.php?id=${id}&studentid=${this.student_id}`).then(result => {
+                    this.defenseData = result.data;
+                })
             },
 
             closePopUp() {
@@ -357,16 +329,45 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             sendData() {
-                this.selected_boolean = this.selected === "My teacher";
-                this.datetime = this.selected_lab['start'];
+                let selected_boolean = this.selected === "My teacher";
+                let datetime_start = this.value['start'];
+                let datetime_end = this.value['end'];
+                let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
 
+                if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
+                    axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
+                        charon_id: id,
+                        course_id: this.charon['course'],
+                        submission_id: this.current_submission,
+                        lab_start: datetime_start,
+                        lab_end: datetime_end,
+                        selected: selected_boolean,
+                        defense_lab_id: this.value['id'],
+                        student_choosen_time: choosen_time,
+                    }).then(result => {
+                        this.getDefenseData();
+                        this.editDataAfterInsert(result.data)
+                    })
+                } else alert("You didnt insert needed parameters!")
+            },
 
-                if (this.selected_lab !== 0 && this.selected.length !== 0) {
-                    Submission.SendData(this.student_id, this.current_submission, this.datetime, this.selected_boolean, this.selected_lab['id'])
-                } else {
-                    alert("You didnt insert needed parameters!")
+            editDataAfterInsert(dataFromDb) {
+                switch (dataFromDb) {
+                    case 'teacher is busy':
+                        alert("Your teacher is busy for this time.\nPlease choose another time or if it possible another teacher.");
+                        break;
+                    case 'user in db':
+                        alert('You cannot register twice for one practise.\n If tou want to choose another time, then you shoul delete your previous time (My defenses button)');
+                        break;
+                    case 'inserted':
+                        alert('You was successfully registered for defense!');
+                        break;
+                    case 'deleted':
+                        alert('This time is busy. Please chose another one or choose option "Another teacher"');
+                        break;
                 }
             },
+
 
             getGrademapByResult(result) {
                 let correctGrademap = null;
@@ -400,7 +401,6 @@ SVG Icons - svgicons.sparkk.fr
                     resultStr += result.calculated_result;
                     prefix = ' | ';
                 });
-
                 return resultStr;
             },
             refreshSubmissions() {
@@ -414,6 +414,7 @@ SVG Icons - svgicons.sparkk.fr
             showStudentDefenses() {
                 this.isActiveDefenses = true;
             },
+
             loadMoreSubmissions() {
                 if (Submission.canLoadMore()) {
                     Submission.getNext(submissions => {
@@ -424,53 +425,12 @@ SVG Icons - svgicons.sparkk.fr
                     this.canLoadMore = false;
                 }
             },
-            initialize () {
-                this.desserts = [
-                    {
-                        name: 'XP_02_Conversation',
-                        time: '2020-08-25 15:00',
-                        teacher: 'Aleksander Aleksandrov',
-                    },
-                    {
-                        name: 'XP_03_Fibonacci',
-                        time: '2020-08-25 15:10',
-                        teacher: 'Enrico Vompa',
-                    },
-                ]
-            },
 
-            editItem (item) {
-                this.editedIndex = this.desserts.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
-            },
-
-            deleteItem (item) {
-                const index = this.desserts.indexOf(item)
-                confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-            },
-
-            close () {
-                this.dialog = false
-                this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
-                })
-            },
-
-            save () {
-                if (this.editedIndex > -1) {
-                    Object.assign(this.desserts[this.editedIndex], this.editedItem)
-                } else {
-                    this.desserts.push(this.editedItem)
-                }
-                this.close()
-            },
         },
-
         mounted() {
-            this.getTime();
+            this.getDefenseData();
             this.refreshSubmissions();
+            this.getCharonAndLabs();
         }
 
     }

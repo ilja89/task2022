@@ -51,6 +51,7 @@
 
         data() {
             return {
+
                 testerType: '',
                 toggle_on: false
             }
