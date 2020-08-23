@@ -21,7 +21,9 @@
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
-
+                <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
+                <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="false"/>
+                <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <!-- Moodle requires these tables. -->
@@ -180,6 +182,40 @@
             </INDEXES>
         </TABLE>
 
+        <TABLE NAME="charon_defenders" COMMENT="Student registered for charon defense.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="student_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="student_name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="true"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_defenders" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_defenders_student" TYPE="foreign" FIELDS="student_id"
+                     REFTABLE="mdl_user" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_defenders_charon" TYPE="foreign" FIELDS="charon_id"
+                     REFTABLE="mdl_charon" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_defenders_submission" TYPE="foreign" FIELDS="submission_id"
+                     REFTABLE="mdl_charon_submission" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_defenders_teacher" TYPE="foreign" FIELDS="teacher_id"
+                     REFTABLE="mdl_user" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_defenders_charon_defense_lab" TYPE="foreign" FIELDS="defense_lab_id"
+                     REFTABLE="mdl_charon_defense_lab" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_defenders_student" UNIQUE="false" FIELDS="student_id"/>
+                <INDEX NAME="IXFK_charon_defenders_charon" UNIQUE="false" FIELDS="charon_id"/>
+                <INDEX NAME="IXFK_charon_defenders_submission" UNIQUE="false" FIELDS="submission_id"/>
+                <INDEX NAME="IXFK_charon_defenders_teacher" UNIQUE="false" FIELDS="teacher_id"/>
+                <INDEX NAME="IXFK_charon_defenders_charon_defense_lab" UNIQUE="false" FIELDS="defense_lab_id"/>
+            </INDEXES>
+        </TABLE>
 
         <!-- Submissions -->
 

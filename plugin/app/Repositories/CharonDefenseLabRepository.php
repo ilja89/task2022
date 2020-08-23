@@ -24,10 +24,10 @@ class CharonDefenseLabRepository
 
         $defenseLabs =  \DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
-            ->join('lab', 'lab.id', 'charon_defense_lab.lab_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select(
-                'lab.id',
-                'lab.start'
+                'charon_lab.id',
+                'charon_lab.start'
             )
             ->get();
 

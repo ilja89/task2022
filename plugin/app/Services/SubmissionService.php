@@ -5,11 +5,14 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\TestSuite;
+use TTU\Charon\Models\UnitTest;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradebookService;
@@ -74,6 +77,8 @@ class SubmissionService
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
+        //Log::info('submission request', [$submissionRequest]);
+        $this->saveSuitesAndTests($submissionRequest, $submission);
 
         // style
         $styleError = false;
@@ -104,6 +109,46 @@ class SubmissionService
     }
 
     /**
+     * @param $submissionRequest
+     * @param $submission
+     */
+    private function saveSuitesAndTests($submissionRequest, $submission) {
+        foreach($submissionRequest['testSuites'] as $testSuite) {
+            $createdTestSuite = TestSuite::create([
+                'submission_id' => $submission->id,
+                'name' => $testSuite['name'],
+                'file' => $testSuite['file'],
+                'start_date' => $this->constructDate($testSuite['startDate']),
+                'end_date' => $this->constructDate($testSuite['endDate']),
+                'weight' => $testSuite['weight'] == null ? 1 : $testSuite['weight'],
+                'passed_count' => $testSuite['passedCount'],
+                'grade' => $testSuite['grade']
+            ]);
+            $createdTestSuite->save();
+            foreach($testSuite['unitTests'] as $unitTest) {
+                $createdUnitTest = UnitTest::create([
+                    'test_suite_id' => $createdTestSuite->id,
+                    'groups_depended_upon' => $unitTest['groupsDependedUpon'] != null ? implode(", ", $unitTest['groupsDependedUpon']) : null,
+                    'status' => $unitTest['status'],
+                    'weight' => $unitTest['weight'] == null ? 1 : $unitTest['weight'],
+                    'print_exception_message' => $unitTest['printExceptionMessage'],
+                    'print_stack_trace' => $unitTest['printStackTrace'],
+                    'time_elapsed' => $unitTest['timeElapsed'],
+                    'methods_depended_upon' => $unitTest['methodsDependedUpon'] != null ? implode(', ', $unitTest['methodsDependedUpon']) : null,
+                    'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
+                    'name' => $unitTest['name'],
+                    'stdout' => $unitTest['stdout'] != null ? implode(', ', $unitTest['stdout']) : null,
+                    'exception_class' => $unitTest['exceptionClass'],
+                    'exception_message' => $unitTest['exceptionMessage'],
+                    'stderr' => $unitTest['stderr'] != null ? implode(', ', $unitTest['stderr']) : null
+                ]);
+                $createdUnitTest->save();
+            }
+        }
+    }
+
+
+    /**
      * Save the results from given results request (arete v2).
      *
      * @param  Submission $submission
@@ -114,7 +159,7 @@ class SubmissionService
     private function saveResults($submission, $resultsRequest)
     {
         $gradeCode = 1;
-        foreach ($resultsRequest as $resultRequest) {
+        foreach ($resultsRequest as $resultRequest) {  // testSuite in testSuites
             $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest, $gradeCode++);
             $result->save();
         }
@@ -269,5 +314,29 @@ class SubmissionService
                 'This result was automatically generated'
             );
         }
+    }
+
+    /**
+     * @param $stackTrace
+     * @return string
+     */
+    private function constructStackTrace($stackTrace)
+    {
+        if ($stackTrace != null) {
+            return strlen($stackTrace) >= 255 ? substr($stackTrace, 0, 255) : $stackTrace;
+        }
+        return '';
+    }
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    private function constructDate($date)
+    {
+        if ($date == null) {
+            return $date;
+        }
+        return Carbon::createFromTimestamp($date / 1000)->format('Y-m-d H:i:s');
     }
 }

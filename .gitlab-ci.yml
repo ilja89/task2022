@@ -5,7 +5,7 @@ variables:
 stages:
   - test
   - staging
-  - deploy
+#  - deploy
 
 test:
   tags:
@@ -20,19 +20,16 @@ test:
     - dev
     - master
 
-deploy:
-  tags:
-    - deploy
-  stage: deploy
-  services:
-    - name: docker:dind
-  script:
-    - cd ~/moodle/moodle_data/moodle/mod/charon
-    - git pull
-  #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-  only:
-    - dev
-    - master
+# deploy:
+#   tags:
+#     - ained
+#   stage: deploy
+#   script:
+#     -  pwd
+#   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
+#   only:
+#     - dev
+#     - master
 
 
 create_dev_artifacts:
@@ -78,3 +75,4 @@ create_production_artifacts:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
+
