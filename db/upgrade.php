@@ -272,7 +272,7 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    submission_id BIGINT(10) NOT NULL,".
             "    choosen_time DATETIME NOT NULL,".
             "    my_teacher TINYINT(1) NOT NULL,".
-            "    teacher_id BIGINT(11) NOT NULL,".
+            "    teacher_id BIGINT(10) NOT NULL,".
             "    defense_lab_id BIGINT(10) NOT NULL,".
             "    PRIMARY KEY (id),".
             "    INDEX IXFK_charon_defenders_student_id (student_id),".

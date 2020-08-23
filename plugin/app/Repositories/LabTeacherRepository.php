@@ -31,8 +31,8 @@ class LabTeacherRepository
     }
 
     public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId) {
-        $teachers = \DB::table('lab_teacher')  // id, lab_id, teacher_id
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab_teacher.lab_id') // id, lab_id, charon_id
+        $teachers = \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
         ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
