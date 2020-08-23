@@ -50,6 +50,70 @@
             </div>
 
         </Modal>
+
+        <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp">
+            <template slot="header">
+                <p class="modal-card-title">All defences</p>
+            </template>
+            <div id="app">
+                <v-app id="inspire" class="inspire">
+                    <v-data-table
+                            :headers="headers"
+                            :items="desserts"
+                            sort-by="calories"
+                            class="elevation-1"
+                            :hide-default-footer="true"
+                            single-line
+
+
+                    >
+                        <template v-slot:top>
+                            <v-toolbar flat color="white" height="0 px">
+
+                                <v-dialog v-model="dialog" max-width="500px">
+                                    <template v-slot:activator="{ on, attrs }">
+
+                                    </template>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span class="headline">{{ formTitle }}</span>
+                                        </v-card-title>
+
+                                        <v-card-text>
+                                            <v-container>
+                                                <v-row>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="editedItem.time" label="Defense time"></v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="editedItem.teacher" label="Teacher for defense"></v-text-field>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card-text>
+
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-toolbar>
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                            <i @click="editItem(item)" class="fa fa-pencil fa-lg" style="margin-right: 15px"></i>
+                            <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
+
+                        </template>
+                        <template v-slot:no-data>
+                            <v-btn color="primary" @click="initialize">Reset</v-btn>
+                        </template>
+                    </v-data-table>
+                </v-app>
+            </div>
+        </Modal>
+
         <ul class="submissions-list">
             <template v-for="submission in submissions">
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
@@ -100,6 +164,13 @@
             <button class="button is-primary load-more-button" @click="loadMoreSubmissions()">
                 Load more
             </button>
+        </div>
+        <div class="has-text-centered">
+            <span>
+            <button class="button is-primary load-more-button" @click.stop="showStudentDefenses()">
+                My defenses
+            </button>
+            </span>
         </div>
 
     </div>
@@ -184,12 +255,43 @@ SVG Icons - svgicons.sparkk.fr
                 canLoadMore: true,
                 refreshing: false,
                 isActive: false,
+                isActiveDefenses: false,
                 datetime: {},
                 placeholder: 'Select date',
                 to: '',
+                limit: [],
                 project: {},
-                charon: Object,
-                labs: []
+                singleSelect: false,
+                selected: [],
+                dialog: false,
+                headers: [
+                    {
+                        text: 'Charon',
+                        align: 'start',
+                        sortable: false,
+                        value: 'name',
+                    },
+                    { text: 'Time', value: 'time' },
+                    { text: 'Teacher', value: 'teacher' },
+                    { text: 'Actions', value: 'actions', sortable: false },
+                ],
+                desserts: [],
+                editedIndex: -1,
+                editedItem: {
+                    name: '',
+                    calories: 0,
+                    fat: 0,
+                    carbs: 0,
+                    protein: 0,
+                },
+                defaultItem: {
+                    name: '',
+                    calories: 0,
+                    fat: 0,
+                    carbs: 0,
+                    protein: 0,
+                },
+
             };
         },
 
@@ -201,6 +303,21 @@ SVG Icons - svgicons.sparkk.fr
             date(date) {
                 return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
+        },
+        computed: {
+            formTitle () {
+                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            },
+        },
+
+        watch: {
+            dialog (val) {
+                val || this.close()
+            },
+        },
+
+        created () {
+            this.initialize()
         },
 
         methods: {
@@ -226,9 +343,19 @@ SVG Icons - svgicons.sparkk.fr
                     this.labs = response;
                 });
             },
+            format (date) {
+                date = new Date(date)
+                const day = `${date.getUTCDate()}`.padStart(2, '0')
+                const month = `${date.getUTCMonth() + 1}`.padStart(2, '0')
+                const year = date.getFullYear()
+                return `${month}/${day}/${year}`
+            },
+
             closePopUp() {
                 this.isActive = false;
+                this.isActiveDefenses = false;
             },
+
             sendData() {
                 this.selected_boolean = this.selected === "My teacher";
                 this.datetime = this.selected_lab['start'];
@@ -240,6 +367,7 @@ SVG Icons - svgicons.sparkk.fr
                     alert("You didnt insert needed parameters!")
                 }
             },
+
             getGrademapByResult(result) {
                 let correctGrademap = null;
                 this.grademaps.forEach(grademap => {
@@ -283,7 +411,9 @@ SVG Icons - svgicons.sparkk.fr
                     this.refreshing = false;
                 });
             },
-
+            showStudentDefenses() {
+                this.isActiveDefenses = true;
+            },
             loadMoreSubmissions() {
                 if (Submission.canLoadMore()) {
                     Submission.getNext(submissions => {
@@ -294,12 +424,54 @@ SVG Icons - svgicons.sparkk.fr
                     this.canLoadMore = false;
                 }
             },
+            initialize () {
+                this.desserts = [
+                    {
+                        name: 'XP_02_Conversation',
+                        time: '2020-08-25 15:00',
+                        teacher: 'Aleksander Aleksandrov',
+                    },
+                    {
+                        name: 'XP_03_Fibonacci',
+                        time: '2020-08-25 15:10',
+                        teacher: 'Enrico Vompa',
+                    },
+                ]
+            },
 
+            editItem (item) {
+                this.editedIndex = this.desserts.indexOf(item)
+                this.editedItem = Object.assign({}, item)
+                this.dialog = true
+            },
+
+            deleteItem (item) {
+                const index = this.desserts.indexOf(item)
+                confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+            },
+
+            close () {
+                this.dialog = false
+                this.$nextTick(() => {
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.editedIndex = -1
+                })
+            },
+
+            save () {
+                if (this.editedIndex > -1) {
+                    Object.assign(this.desserts[this.editedIndex], this.editedItem)
+                } else {
+                    this.desserts.push(this.editedItem)
+                }
+                this.close()
+            },
         },
 
         mounted() {
             this.getTime();
             this.refreshSubmissions();
         }
+
     }
 </script>

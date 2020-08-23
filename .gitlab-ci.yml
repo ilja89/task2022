@@ -5,12 +5,11 @@ variables:
 stages:
   - test
   - staging
-  - deploy
+#  - deploy
 
 test:
   tags:
-    - develop
-    - master
+    - docker
   image: misterio92/ci-php-node:4.0
   stage: test
   services:
@@ -21,19 +20,16 @@ test:
     - dev
     - master
 
-deploy:
-  tags:
-    - deploy
-  stage: deploy
-  services:
-    - name: docker:dind
-  script:
-    - cd ~/moodle/moodle_data/moodle/mod/charon
-    - git pull
-  #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-  only:
-    - dev
-    - master
+# deploy:
+#   tags:
+#     - ained
+#   stage: deploy
+#   script:
+#     -  pwd
+#   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
+#   only:
+#     - dev
+#     - master
 
 
 create_dev_artifacts:
@@ -63,13 +59,15 @@ create_production_artifacts:
     - docker
   stage: staging
   image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
   script:
     - php composer.phar install --no-dev
     - cp -p .env.production .env
     - php artisan key:generate
     - npm shrinkwrap
     - npm install
-    - npm run production
+    - npm run dev
     - rm -rf node_modules
     - mkdir charon
     - mv * charon || true
@@ -77,3 +75,4 @@ create_production_artifacts:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
+

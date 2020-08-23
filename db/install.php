@@ -13,21 +13,16 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_charon_install()
 {
     global $CFG;
-    global $DB;
 
     $charon_path = $CFG->dirroot . "/mod/charon/";
-
-    echo "<pre>";
 
     if (!in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
 
-    echo "</pre>";
-    try_seed_database();
-
-    echo "</pre>";
     try_cleanup($charon_path);
+
+    # shell_exec("php artisan db:seed")
 
     return true;
 
@@ -54,90 +49,6 @@ function try_cleanup(string $charon_path)
         echo $e->getMessage();
     }
 }
-
-function try_seed_database()
-{
-    try {
-        echo "Seeding database\n";
-
-        require __DIR__ . '/../plugin/bootstrap/autoload.php';
-        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-
-        $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
-        $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
-        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
-        $kernel->call('config:clear');
-        $kernel->call('cache:clear');
-    } catch (exception $e) {
-        echo $e->getMessage();
-    }
-}
-
-//if (!function_exists("charon_command_exists")) {
-//    /**
-//     * Determines if a command exists on the current environment
-//     *
-//     * @param string $command The command to check
-//     * @return bool True if the command has been found ; otherwise, false.
-//     */
-//    function charon_command_exists($command)
-//    {
-//        $whereIsCommand = (PHP_OS == 'WINNT') ? 'where' : 'which';
-//
-//        $process = proc_open(
-//            "$whereIsCommand $command",
-//            array(
-//                0 => array("pipe", "r"), //STDIN
-//                1 => array("pipe", "w"), //STDOUT
-//                2 => array("pipe", "w"), //STDERR
-//            ),
-//            $pipes
-//        );
-//        if ($process !== false) {
-//            $stdout = stream_get_contents($pipes[1]);
-//            $stderr = stream_get_contents($pipes[2]);
-//            fclose($pipes[1]);
-//            fclose($pipes[2]);
-//            proc_close($process);
-//
-//            return $stdout != '';
-//        }
-//
-//        return false;
-//    }
-//}
-//
-//if (!function_exists("charon_is_function_available")) {
-//    /**
-//     * Checks if function is disabled or available
-//     *
-//     * @param string $command
-//     * @return bool - true if available
-//     */
-//    function charon_is_function_available($command)
-//    {
-//        static $available;
-//
-//        if (!isset($available)) {
-//            $available = true;
-//            if (ini_get('safe_mode')) {
-//                $available = false;
-//            } else {
-//                $d = ini_get('disable_functions');
-//                $s = ini_get('suhosin.executor.func.blacklist');
-//                if ("$d$s") {
-//                    $array = preg_split('/,\s*/', "$d,$s");
-//                    if (in_array($command, $array)) {
-//                        $available = false;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $available;
-//    }
-//}
 
 if (!function_exists("charon_remove_directory")) {
     function charon_remove_directory($dir)
