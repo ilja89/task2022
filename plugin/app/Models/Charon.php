@@ -59,7 +59,7 @@ class Charon extends Model
     protected $fillable = [
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
-        'defense_deadline', 'defense_duration', 'choose_teacher'//, 'charon_defense_labs'
+        'defense_deadline', 'defense_duration', 'choose_teacher'
     ];
 
     /**

@@ -30,6 +30,7 @@ use Zeizig\Moodle\Models\User;
  * @property SubmissionFile[] $files
  * @property GitCallback $gitCallback
  * @property Submission $originalSubmission
+ * @property TestSuite[] $testSuites
  *
  * @package TTU\Charon\Models
  */
@@ -78,6 +79,11 @@ class Submission extends Model
     public function grader()
     {
         return $this->belongsTo(User::class, 'grader_id', 'id');
+    }
+
+    public function testSuites()
+    {
+        return $this->hasMany(TestSuite::class);
     }
 
     public function getGitTimestampAttribute($gitTimestamp)

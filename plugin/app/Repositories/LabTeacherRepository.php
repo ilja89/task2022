@@ -9,14 +9,14 @@ class LabTeacherRepository
 {
     public function deleteAllLabTeachersForCharon($charonId) {
         Log::info("Attempting to delete all charon lab-teachers");
-        return DB::table('lab_teacher')
+        return DB::table('charon_lab_teacher')
             ->where('charon_id', $charonId)
             ->delete();
     }
 
     public function getTeachersByLabId($courseId, $labId) {
-        $labTeachers =  \DB::table('lab_teacher')
-            ->join('lab', 'lab.id', 'lab_teacher.lab_id')
+        $labTeachers =  \DB::table('charon_lab_teacher')
+            ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
             ->where('lab_id', $labId)
             ->where('course_id', $courseId)
             ->join('user', 'user.id', 'teacher_id')
@@ -31,11 +31,11 @@ class LabTeacherRepository
     }
 
     public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId) {
-        $teachers = \DB::table('lab_teacher')  // id, lab_id, teacher_id
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'lab_teacher.lab_id') // id, lab_id, charon_id
+        $teachers = \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
             ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
-            ->join('user', 'user.id', 'lab_teacher.teacher_id')
+            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->select('user.id', 'user.firstName', 'user.lastName')
             ->get();
         return $teachers;
@@ -55,7 +55,7 @@ class LabTeacherRepository
     }
 
     public function deleteByLabId($labId) {
-        return DB::table('lab_teacher')
+        return DB::table('charon_lab_teacher')
             ->where('lab_id', $labId)
             ->delete();
     }

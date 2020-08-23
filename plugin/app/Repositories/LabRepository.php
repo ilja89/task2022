@@ -189,7 +189,7 @@ class LabRepository
      */
     public function findLabsByCourse($courseId)
     {
-        $labs = \DB::table('lab')
+        $labs = \DB::table('charon_lab')
             ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'course_id')
             ->orderBy('start')
@@ -203,5 +203,18 @@ class LabRepository
             ->select('*')
             ->get();
         return $course;
+    }
+
+    /**
+     * @param $charonId
+     * @return Lab[]
+     */
+    public function getLabsByCharonId($charonId) {
+        $labs = \DB::table('charon_lab')  // id, start, end
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
+        ->where('charon_id', $charonId)
+            ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
+            ->get();
+        return $labs;
     }
 }

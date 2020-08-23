@@ -27,6 +27,6 @@ class Defenders extends Model {
     protected $fillable = [
         'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id', 'progress'
     ];
-    protected $table = 'defenders';
+    protected $table = 'charon_defenders';
     public $timestamps = false;
 }
