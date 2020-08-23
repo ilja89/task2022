@@ -4,6 +4,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use Zeizig\Moodle\Models\Course;
@@ -84,6 +85,14 @@ class LabController extends Controller
      */
     public function getCourse(Course $course) {
         return $this->labRepository->getCourse($course->id);
+    }
+
+    /**
+     * @param Charon $charon
+     * @return Lab[]
+     */
+    public function getByCharon(Charon $charon) {
+        return $this->labRepository->getLabsByCharonId($charon->id);
     }
 
 }

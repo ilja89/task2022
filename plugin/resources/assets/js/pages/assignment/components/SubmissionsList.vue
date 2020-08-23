@@ -228,6 +228,7 @@ SVG Icons - svgicons.sparkk.fr
     import {Submission} from '../../../api';
     import Modal from '../../../components/partials/Modal.vue';
     import Datepicker from "../../../components/partials/Datepicker.vue";
+    import Lab from "../../../api/Lab";
 
 
     export default {
@@ -333,14 +334,13 @@ SVG Icons - svgicons.sparkk.fr
                     this.to = result.data;
                 });
                 axios.get(`api/charon_data.php?id=${id}`).then(result => {
-                    console.log(result.data);
                     this.charon = result.data;
                 })
-                axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
-                    console.log('1');
-                    console.log(result.data);
+                /*axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
                     this.labs = result.data;
-                    console.log('2');
+                });*/
+                Lab.getByCharonId(id, (response) => {
+                    this.labs = response;
                 });
             },
             format (date) {
@@ -358,7 +358,6 @@ SVG Icons - svgicons.sparkk.fr
 
             sendData() {
                 this.selected_boolean = this.selected === "My teacher";
-                console.log(this.selected_lab);
                 this.datetime = this.selected_lab['start'];
 
 

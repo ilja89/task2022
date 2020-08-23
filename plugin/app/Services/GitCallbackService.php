@@ -35,7 +35,7 @@ class GitCallbackService
     public function checkGitCallbackForToken($token)
     {
         $gitCallback = $this->gitCallbacksRepository->findByToken($token);
-        $this->checkGitCallback($gitCallback);
+        //$this->checkGitCallback($gitCallback);
 
         return $gitCallback;
     }

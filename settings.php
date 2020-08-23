@@ -11,7 +11,16 @@ if ($ADMIN->fulltree) {
             'The tester url.',
             'neti.ee',
             PARAM_TEXT,
-            50)
+            100)
+    );
+
+    $settings->add(new admin_setting_configtext(
+            'mod_charon/tester_token',
+            'Tester token',
+            'Token used to authenticate against tester',
+            'ask_from_admin',
+            PARAM_TEXT,
+            100)
     );
 
     $settings->add(new admin_setting_configtext(
@@ -20,7 +29,7 @@ if ($ADMIN->fulltree) {
             'The url for the plagiarism service.',
             'neti.ee',
             PARAM_TEXT,
-            50)
+            100)
     );
 
     $settings->add(new admin_setting_configtext(
@@ -29,6 +38,6 @@ if ($ADMIN->fulltree) {
             'The authentication token for the plagiarism service.',
             null,
             PARAM_TEXT,
-            50)
+            100)
     );
 }
