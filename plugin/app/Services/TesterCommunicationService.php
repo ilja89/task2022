@@ -42,6 +42,6 @@ class TesterCommunicationService
 
         $params = array_merge($extraParameters, $params);
 
-        $this->httpCommunicationService->postToTester('test', $params);
+        $this->httpCommunicationService->postToTester($params);
     }
 }

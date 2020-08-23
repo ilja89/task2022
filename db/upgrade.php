@@ -219,29 +219,29 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2020071801) {
-        $sql1 = "CREATE TABLE mdl_lab(".
+        $sql1 = "CREATE TABLE mdl_charon_lab(".
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
             "    start DATETIME NOT NULL,".
             "    end DATETIME NOT NULL,".
             "    PRIMARY KEY (id)".
             ")";
         $DB->execute($sql1);
-        $sql2 = "CREATE TABLE mdl_lab_teacher(".
+        $sql2 = "CREATE TABLE mdl_charon_lab_teacher(".
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
             "    lab_id BIGINT(10) NOT NULL,".
             "    teacher_id BIGINT(10) NOT NULL,".
             "    PRIMARY KEY (id),".
-            "    INDEX IXFK_lab_teacher_lab (lab_id),".
-            "    INDEX IXFK_lab_teacher_teacher (teacher_id),".
-            "    CONSTRAINT FK_lab_teacher_lab".
+            "    INDEX IXFK_charon_lab_teacher_charon_lab (lab_id),".
+            "    INDEX IXFK_charon_lab_teacher_teacher (teacher_id),".
+            "    CONSTRAINT FK_charon_lab_teacher_charon_lab".
             "        FOREIGN KEY (lab_id)".
-            "            REFERENCES mdl_lab(id)".
-            "            ON DELETE CASCADE".
+            "            REFERENCES mdl_charon_lab(id)".
+            "            ON DELETE CASCADE,".
             "            ON UPDATE CASCADE,".
-            "    CONSTRAINT FK_lab_teacher_teacher".
+            "    CONSTRAINT FK_charon_lab_teacher_teacher".
             "        FOREIGN KEY (teacher_id)".
             "            REFERENCES mdl_user(id)".
-            "            ON DELETE CASCADE".
+            "            ON DELETE CASCADE,".
             "            ON UPDATE CASCADE".
             ")";
         $DB->execute($sql2);
@@ -250,46 +250,63 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    lab_id BIGINT(10) NOT NULL,".
             "    charon_id BIGINT(10) NOT NULL,".
             "    PRIMARY KEY (id),".
-            "    INDEX IXFK_charon_defense_lab_lab (lab_id),".
+            "    INDEX IXFK_charon_defense_lab_charon_lab (lab_id),".
             "    INDEX IXFK_charon_defense_lab_charon (charon_id),".
-            "    CONSTRAINT FK_charon_defense_lab_lab".
+            "    CONSTRAINT FK_charon_defense_lab_charon_lab".
             "        FOREIGN KEY (lab_id)".
-            "            REFERENCES mdl_lab(id)".
-            "            ON DELETE CASCADE".
+            "            REFERENCES mdl_charon_lab(id)".
+            "            ON DELETE CASCADE,".
             "            ON UPDATE CASCADE,".
             "    CONSTRAINT FK_charon_defense_lab_charon".
             "        FOREIGN KEY (charon_id)".
             "            REFERENCES mdl_charon(id)".
-            "            ON DELETE CASCADE".
+            "            ON DELETE CASCADE,".
             "            ON UPDATE CASCADE".
             ")";
         $DB->execute($sql3);
-        $sql4 = "CREATE TABLE mdl_defenders(".
+        $sql4 = "CREATE TABLE mdl_charon_defenders(".
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
             "    student_id BIGINT(10) NOT NULL,".
+            "    charon_id BIGINT(10) NOT NULL,".
             "    student_name VARCHAR(254) NOT NULL,".
             "    submission_id BIGINT(10) NOT NULL,".
             "    choosen_time DATETIME NOT NULL,".
             "    my_teacher TINYINT(1) NOT NULL,".
+            "    teacher_id BIGINT(10) NOT NULL,".
             "    defense_lab_id BIGINT(10) NOT NULL,".
             "    PRIMARY KEY (id),".
-            "    INDEX IXFK_defenders_student_id (student_id),".
-            "    INDEX IXFK_defenders_submission_id (submission_id),".
-            "    INDEX IXFK_defenders_defense_lab_id (defense_lab_id),".
-            "    CONSTRAINT FK_defenders_student_id".
+            "    INDEX IXFK_charon_defenders_student_id (student_id),".
+            "    INDEX IXFK_charon_defenders_charon (charon_id)".
+            "    INDEX IXFK_charon_defenders_submission_id (submission_id),".
+            "    INDEX IXFK_charon_defenders_teacher (teacher_id)".
+            "    INDEX IXFK_charon_defenders_charon_defense_lab_id (defense_lab_id),".
+            "    CONSTRAINT FK_charon_defenders_student_id".
             "        FOREIGN KEY (student_id)".
             "            REFERENCES mdl_user(id)".
-            "            ON DELETE CASCADE".
+            "            ON DELETE CASCADE,".
             "            ON UPDATE CASCADE,".
-            "    CONSTRAINT FK_defenders_defense_lab_id".
+            "    CONSTRAINT FK_charon_defenders_charon".
+            "        FOREIGN KEY (charon_id)".
+            "            REFERENCES mdl_charon(id)".
+            "            ON DELETE CASCADE,".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_charon_defenders_submission_id".
+            "        FOREIGN KEY (submission_id)".
+            "            REFERENCES mdl_charon_submission(id)".
+            "            ON DELETE CASCADE,".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_charon_defenders_teacher".
+            "        FOREIGN KEY (teacher_id)".
+            "            REFERENCES mdl_user(id)".
+            "            ON DELETE CASCADE,".
+            "            ON UPDATE CASCADE,".
+            "    CONSTRAINT FK_charon_defenders_charon_defense_lab_id".
             "        FOREIGN KEY (defense_lab_id)".
             "            REFERENCES mdl_charon_defense_lab(id)".
             "            ON DELETE CASCADE,".
-            "    CONSTRAINT FK_defenders_submission_id".
-            "        FOREIGN KEY (submission_id)".
-            "            REFERENCES mdl_charon_submission(id)".
-            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE".
             ")";
+
         $DB->execute($sql4);
     }
 
@@ -326,21 +343,76 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2020072001) {
-        $sql = "ALTER TABLE mdl_lab ADD COLUMN course_id BIGINT(10) NOT NULL";
-        $sql2 = "ALTER TABLE mdl_lab ADD CONSTRAINT FK_lab_course".
+        $sql = "ALTER TABLE mdl_charon_lab ADD COLUMN course_id BIGINT(10) NOT NULL";
+        $sql2 = "ALTER TABLE mdl_charon_lab ADD CONSTRAINT FK_charon_lab_course".
             "   FOREIGN KEY (course_id)".
             "       REFERENCES mdl_course(id)".
             "       ON DELETE CASCADE".
             "       ON UPDATE CASCADE";
-        $sql3 = "ALTER TABLE mdl_lab ADD INDEX IXFK_lab_charon (course_id)";
+        $sql3 = "ALTER TABLE mdl_charon_lab ADD INDEX IXFK_charon_lab_charon (course_id)";
         $DB->execute($sql);
         $DB->execute($sql2);
         $DB->execute($sql3);
     }
 
-    if ($oldVersion < 2020080701) {
-        $sql = "ALTER TABLE mdl_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
+    if ($oldversion < 2020080701) {
+        $sql = "ALTER TABLE mdl_charon_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
         $DB->execute($sql);
+    }
+
+    if ($oldversion < 2020081401) {
+
+        $sql = "CREATE TABLE mdl_charon_test_suite(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    name VARCHAR(255) NOT NULL,".
+            "    file VARCHAR(255) NOT NULL,".
+            "    start_date DATETIME ,".
+            "    end_date DATETIME ,".
+            "    weight NOT NULL INT DEFAULT 1,".
+            "    passed_count INT NOT NULL,".
+            "    grade FLOAT NOT NULL,".
+            "    PRIMARY KEY (id)".
+            ")";
+
+        $sql2 = "CREATE TABLE mdl_charon_unit_test(".
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL,".
+            "    test_suite_id BIGINT(10) NOT NULL,".
+            "    groups_depended_upon VARCHAR(255),".
+            "    status VARCHAR(255) NOT NULL,".
+            "    weight INT NOT NULL DEFAULT 1,".
+            "    print_exception_message TINYINT(1),".
+            "    print_stack_trace TINYINT(1),".
+            "    time_elapsed INT,".
+            "    methods_depended_upon VARCHAR(255),".
+            "    stack_trace VARCHAR(255),".
+            "    name VARCHAR(255) NOT NULL,".
+            "    stdout VARCHAR(255),".
+            "    exception_class VARCHAR(255),".
+            "    exception_message VARCHAR(255),".
+            "    stderr VARCHAR(255),".
+            "    PRIMARY KEY (id),".
+            "    INDEX IXFK_charon_unit_test_charon_test_suite (test_suite_id),".
+            "    CONSTRAINT FK_charon_unit_test_charon_test_suite".
+            "        FOREIGN KEY (test_suite_id)".
+            "            REFERENCES mdl_charon_test_suite(id)".
+            "            ON DELETE CASCADE".
+            "            ON UPDATE CASCADE".
+            ")";
+
+        $DB->execute($sql);
+        $DB->execute($sql2);
+    }
+
+    if ($oldversion < 2020081601) {
+        $sql = "ALTER TABLE mdl_charon_test_suite ADD COLUMN submission_id BIGINT(10) NOT NULL";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2020082201) {
+        $sql = "ALTER TABLE mdl_charon_unit_test CHANGE COLUMN groups_dependedUpon groups_depended_upon VARCHAR(255)";
+        $sql2 = "DROP TABLE mdl_charon_submission_test_suite";
+        $DB->execute($sql);
+        $DB->execute($sql2);
     }
 
     return true;

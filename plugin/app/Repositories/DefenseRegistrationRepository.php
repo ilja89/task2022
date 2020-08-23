@@ -34,13 +34,13 @@ class DefenseRegistrationRepository
      * @return Collection|Defenders[]
      */
     public function getDefenseRegistrationsByCourse($courseId) {
-        $defenseRegistrations = \DB::table('defenders')
-            ->join('charon_submission', 'charon_submission.id', 'defenders.submission_id')
+        $defenseRegistrations = \DB::table('charon_defenders')
+            ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
-            ->select('defenders.id', 'defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
-                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id', 'defenders.progress')
-            ->orderBy('defenders.choosen_time')
+            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
+                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress')
+            ->orderBy('charon_defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
     }
@@ -62,14 +62,14 @@ class DefenseRegistrationRepository
         } else {
             return $this->getDefenseRegistrationsByCourse($courseId);
         }
-        $defenseRegistrations = \DB::table('defenders')
-            ->join('charon_submission', 'charon_submission.id', 'defenders.submission_id')
+        $defenseRegistrations = \DB::table('charon_defenders')
+            ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
-            ->select('defenders.id', 'defenders.choosen_time', 'defenders.student_id', 'defenders.student_name',
-                'charon.defense_duration', 'defenders.my_teacher', 'defenders.submission_id', 'defenders.progress')
-            ->orderBy('defenders.choosen_time')
+            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
+                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress')
+            ->orderBy('charon_defenders.choosen_time')
             ->get();
         return $defenseRegistrations;
     }
@@ -96,7 +96,7 @@ class DefenseRegistrationRepository
      */
     public function saveProgressByStudentId($charonId, $studentId, $newProgress) {
         try {
-            $eh = \DB::table('defenders')
+            $eh = \DB::table('charon_defenders')
                 ->where('student_id', $studentId)
                 ->where('charon_id', $charonId)
                 ->select('*')

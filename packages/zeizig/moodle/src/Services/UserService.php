@@ -35,4 +35,16 @@ class UserService
     {
         return User::where('email', $email)->first();
     }
+
+    /**
+     * Finds a user by its uniid. The uniid should be unique.
+     *
+     * @param  string  $name
+     *
+     * @return User
+     **/
+    public function findUserByUniid($name)
+    {
+        return User::where('username', $name)->first();
+    }
 }

@@ -79,6 +79,8 @@ Route::group(['namespace' => 'Api'], function () {
     ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course - works. Usage: /labs page and new charon adding
     ->get('courses/{course}/labs', 'LabController@getByCourse');
+    Route::middleware('auth.charon.managing.require')
+        ->get('charons/{charon}labs', 'LabController@getByCharon');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon - works - charon_defense_lab. Usage: register for defense
     ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
     Route::middleware('auth.course.managing.require')  // get teachers in a lab - works. Usage: /labs page

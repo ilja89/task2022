@@ -18,7 +18,7 @@ use Zeizig\Moodle\Models\User;
 class LabTeacher extends Model
 {
     public $timestamps = false;
-    protected $table = 'lab_teacher';
+    protected $table = 'charon_lab_teacher';
     protected $fillable = [
         'lab_id', 'teacher_id'
     ];

@@ -42,13 +42,13 @@ class RequestHandlingService
     {
         $now = Carbon::now(config('app.timezone'));
         $now = $now->setTimezone('UTC');
-        $gitTimestamp = $request->has('git_timestamp')
-            ? Carbon::createFromTimestamp($request->input('git_timestamp'), config('app.timezone'))
+        $gitTimestamp = $request->has('timestamp')
+            ? Carbon::createFromTimestamp($request->input('timestamp'), config('app.timezone'))
             : $now;
         $gitTimestamp->setTimezone('UTC');
 
         $uniId = $request->input('uniid');
-        $student = $this->userService->findUserByEmail($uniId . "@ttu.ee");
+        $student = $this->userService->findUserByUniid($uniId);
         $studentId = $student->id;
         $courseIdCode = "";
         $repo = $gitCallback->repo;
