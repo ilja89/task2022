@@ -29,6 +29,14 @@
             Percentage: {{testSuite['grade']}}%<br>
             <br><br><br>
         </div>
+        <div v-if="submission['test_suites'].length > 1">
+            <h1>Overall</h1>
+            Total number of tests: {{getTotalNumberOfTests()}}<br><br>
+            Total passed tests: {{getTotalPassedNumberOfTests()}}<br><br>
+            Total weight: {{getTotalWeight()}}<br><br>
+            Total passed weight: {{getTotalPassedWeight()}}<br><br>
+            Total percentage: {{getTotalPercentage()}}%<br><br>
+        </div>
     </div>
 </template>
 
@@ -93,6 +101,47 @@
                     }
                 }
                 return total
+            },
+            getTotalNumberOfTests() {
+                let count = 0
+                for (let i = 0; i < this.submission['test_suites'].length; i++) {
+                    count += this.submission['test_suites'][i]['unit_tests'].length
+                }
+                return count
+            },
+            getTotalPassedNumberOfTests() {
+                let count = 0
+                for (let i = 0; i < this.submission['test_suites'].length; i++) {
+                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
+                        if (this.submission['test_suites'][i]['unit_tests'][j]['status'] === 'PASSED') {
+                            count++;
+                        }
+                    }
+                }
+                return count
+            },
+            getTotalWeight() {
+                let weight = 0
+                for (let i = 0; i < this.submission['test_suites'].length; i++) {
+                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
+                        weight +=  this.submission['test_suites'][i]['unit_tests'][j]['weight']
+                    }
+                }
+                return weight
+            },
+            getTotalPassedWeight() {
+                let weight = 0
+                for (let i = 0; i < this.submission['test_suites'].length; i++) {
+                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
+                        if (this.submission['test_suites'][i]['unit_tests'][j]['status'] === 'PASSED') {
+                            weight += this.submission['test_suites'][i]['unit_tests'][j]['weight']
+                        }
+                    }
+                }
+                return weight
+            },
+            getTotalPercentage() {
+                return (this.getTotalPassedWeight() * 100 / this.getTotalWeight()).toFixed(2)
             }
         }
     }
