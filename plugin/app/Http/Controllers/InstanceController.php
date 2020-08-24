@@ -130,7 +130,6 @@ class InstanceController extends Controller
             return $charon->id;
 
         } catch (\Exception $e) {
-            Log::info('CAUGHT AN EXCEPTION 2');
             $sql = "ROLLBACK";
             $DB->execute($sql);
 
@@ -182,7 +181,6 @@ class InstanceController extends Controller
             return "1";
 
         } catch (\Exception $e) {
-            Log::info('CAUGHT AN EXCEPTION!');
             $sql = "ROLLBACK";
             $DB->execute($sql);
 

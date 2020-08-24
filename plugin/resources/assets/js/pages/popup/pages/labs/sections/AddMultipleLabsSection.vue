@@ -12,7 +12,7 @@
 
             <label>Weeks</label>
 
-            <p class="input-helper-labs">Choose weeks when this lab session takes place.</p>
+            <p class="input-helper-labs">Choose weeks when this lab session takes place. Course start date is considered the first week.</p>
 
             <multiselect :disabled="this.lab.id !== undefined" v-model="lab.weeks" :options="weeks" :multiple="true"
                          :close-on-select="false" placeholder="Select weeks"
