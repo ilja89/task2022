@@ -1,15 +1,24 @@
 <template>
     <div class="lab">
-        <div class="section font pb-5" v-for="lab in labs">
-            <h2 class="pl-5 font">{{getDayTimeFormat(lab.start.time)}}
-                <button class="btn font inBoxButton" v-on:click="editLabClicked(lab)">Edit</button>
-                <button class="btn font inBoxButton" v-on:click="deleteLabClicked(lab)">Delete</button></h2>
-            <hr>
-            <p class="pl-5">Date: {{getNiceDate(lab.start.time)}}</p>
-            <p class="pl-5">Time: {{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</p>
-            <p class="pl-5">Teachers: <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b></b></p>
-        </div>
-        <button v-on:click="addNewLabSessionClicked" class="font btn newLabButton">+ Add a new lab session</button>
+        <table>
+            <tr>
+                <th v-on:click="sortTable('name')" class="sortable">Name</th>
+                <th v-on:click="sortTable('date')" class="sortable">Date</th>
+                <th v-on:click="sortTable('time')" class="sortable">Time</th>
+                <th v-on:click="sortTable('teachers')" class="sortable">Teachers</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr v-for="lab in labs">
+                <th>{{getDayTimeFormat(lab.start.time)}}</th>
+                <th>{{getNiceDate(lab.start.time)}}</th>
+                <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
+                <th><p class="teachers" v-for="teacher in lab.teachers">{{teacher.full_name}}<b v-if="lab.teachers[lab.teachers.length - 1] !== teacher">,<br></b></p></th>
+                <th><a class="clickable edit_lab" v-on:click="editLabClicked(lab)">Edit</a></th>
+                <th><a class="clickable delete_lab" v-on:click="deleteLabClicked(lab)">Delete</a></th>
+            </tr>
+        </table>
+        <button v-on:click="addNewLabSessionClicked" class="new_lab_button">NEW</button>
     </div>
 </template>
 
@@ -21,6 +30,12 @@
         name: "LabSection.vue",
         props: {
             labs: {required: true}
+        },
+        data() {
+            return {
+                previous_param: null,
+                current_param: null
+            }
         },
 
         computed: {
@@ -64,7 +79,52 @@
                     window.location.reload();
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
-            }
+            },
+            sortTable(param) {
+                this.current_param = param
+                if (this.previous_param === this.current_param) {
+                    this.labs.reverse();
+                } else {
+                    this.labs.sort(this.compare);
+                }
+            },
+            compare(a, b) {
+                let stringA, stringB
+                if (this.current_param === 'date') {
+                    stringA = a.start.time
+                    stringB = b.start.time
+                }
+                if (this.current_param === 'name') {
+                    stringA = a.start.time.getDay().toString() + a.start.time.getHours().toString()
+                    stringB = b.start.time.getDay().toString() + b.start.time.getHours().toString()
+                }
+                if (this.current_param === 'time') {
+                    stringA = a.start.time.getHours()
+                    stringB = b.start.time.getHours()
+                }
+                if (this.current_param === 'teachers') {
+                    stringA = a.teachers.length
+                    stringB = b.teachers.length
+                }
+
+                let comparison = 0;
+                if (stringA > stringB) {
+                    comparison = 1;
+                } else if (stringA < stringB) {
+                    comparison = -1;
+                } else if (this.current_param === 'time') {
+                    stringA = a.end.time.getHours()
+                    stringB = b.end.time.getHours()
+                    if (stringA > stringB) {
+                        comparison = 1;
+                    } else if (stringA < stringB) {
+                        comparison = -1;
+                    }
+                }
+
+                this.previous_param = this.current_param
+                return comparison;
+            },
         }
     }
 
@@ -73,9 +133,6 @@
 
 <style scoped>
 
-    button:hover {
-        color: white;
-    }
     hr {background-color: black; margin: 0}
     .font {font-size: 2vw; font-weight: 600;}
     .section {background-color: #d7dde4; border-style: solid; margin-bottom: 2vw;}
@@ -83,11 +140,80 @@
     .inBoxButton {
         background-color: #d7dde4;
     }
-    .newLabButton {
-        background: transparent;
+    .new_lab_button {
+        margin: 6px;
+        margin-right: 0px;
+        border: none;
+        background-color: #44d244;
+        font-size: 18px;
+        float: right;
+        cursor: pointer;
+        padding: 7px;
+        color: white;
+        padding-left: 14px;
+        padding-right: 14px;
     }
-    .newLabButton:hover {
-        color: blue;
+    .new_lab_button:hover {
+        background-color: #37ab37;
     }
 
+    table {
+        background-color: papayawhip;
+        color: #fff;
+        border-radius: 2px;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 24px;
+        text-align: left!important;
+        border: 2px solid;
+        border-color: black;
+     }
+    .sortable {
+        cursor: pointer;
+        outline: 0;
+        color: brown;
+        font-weight: 580;
+        font-size: 16px;
+    }
+    .sortable:active {
+        color: coral;
+    }
+    th {
+        padding: 0 24px;
+        line-height: 45px;
+    }
+    tr {
+        border: solid;
+        border-width: 1px 0;
+        border-color: #2b666c;
+    }
+    .clickable {
+        cursor: pointer;
+    }
+    .edit_lab {
+        color: #4f5f6f;
+    }
+    .edit_lab:hover {
+        color: #f7e350;
+    }
+    .edit_lab:active {
+        color: #f7e350;
+    }
+    .delete_lab {
+        color: #4f5f6f;
+    }
+    .delete_lab:hover {
+        color: red;
+    }
+    .delete_lab:active {
+        color: red;
+    }
+    a {
+        color: black;
+    }
+    .teachers {
+        line-height: 2;
+    }
 </style>
