@@ -41,9 +41,11 @@ class CharonController extends Controller
             ->select('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id')
             ->get();
 
-        for ($i = 0; $i < sizeof($arary); $i++) {
-            if ($arary[$i]->teacher_id == -1) $arary[$i]->$teacher_field = "Another teacher";
-            else $arary[$i]->$teacher_field = $teacher_fullname;
+        if ($student_teacher != null) {
+            for ($i = 0; $i < sizeof($arary); $i++) {
+                if ($arary[$i]->teacher_id == -1) $arary[$i]->$teacher_field = "Another teacher";
+                else $arary[$i]->$teacher_field = $teacher_fullname;
+            }
         }
         return $arary;
 

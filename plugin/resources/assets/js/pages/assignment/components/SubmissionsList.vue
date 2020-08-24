@@ -176,9 +176,9 @@ SVG Icons - svgicons.sparkk.fr
     import StudentDefenses from "./StudentDefenses";
     import Lab from "../../../api/Lab";
 
-    // let url_string = window.location.href;
-    // let url = new URL(url_string);
-    // let id = url.searchParams.get("id");
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let id = url.searchParams.get("id");
 
     export default {
 
@@ -321,7 +321,7 @@ SVG Icons - svgicons.sparkk.fr
                 let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
 
                 if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
-                    axios.post(`view.php?id=${this.charon_id}&studentid=${this.student_id}`, {
+                    axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
                         charon_id: this.charon_id,
                         course_id: this.charon['course'],
                         submission_id: this.current_submission,
