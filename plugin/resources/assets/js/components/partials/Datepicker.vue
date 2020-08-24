@@ -68,9 +68,7 @@
                         correctForm = (new Date(this.lab.start.time).getUTCFullYear()).toString() + '-'
                             + month + '-' + day
                     } else {
-                        correctForm = this.lab.start.time.toString().substr(6, 4) + '-'
-                            + this.lab.start.time.toString().substr(3, 2)
-                            + '-' + this.lab.start.time.toString().substr(0, 2)
+                        correctForm = this.lab.start.time.toString().substr(0, 10);
                     }
                     let millis_in_a_day = 60*60*24*1000
                     limit.push({
