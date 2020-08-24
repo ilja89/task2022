@@ -59,13 +59,13 @@ class SubmissionController extends Controller
 
     public function getUserDefenseDate($student_id, $charon_id, $lab_start, $lab_end)
     {
-        return \DB::table('defenders')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'defenders.defense_lab_id')
-            ->join('lab', 'charon_defense_lab.lab_id', 'lab.id')
+        return \DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_defense_lab.charon_id', $charon_id)
-            ->where('defenders.student_id', $student_id)
-            ->whereBetween('defenders.choosen_time', [date($lab_start), date($lab_end)])
-            ->select('lab.id', 'lab.start', 'lab.end', 'defenders.choosen_time')
+            ->where('charon_defenders.student_id', $student_id)
+            ->whereBetween('charon_defenders.choosen_time', [date($lab_start), date($lab_end)])
+            ->select('charon_lab.id', 'charon_lab.start', 'charon_lab.end', 'charon_defenders.choosen_time')
             ->count();
     }
 
@@ -75,13 +75,13 @@ class SubmissionController extends Controller
     }
 
     public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id) {
-        return \DB::table('defenders')->where('choosen_time', '=', $student_time)
+        return \DB::table('charon_defenders')->where('choosen_time', '=', $student_time)
             ->where('my_teacher', 1)
             ->where('teacher_id', '=', $student_teacher_id)->count();
     }
 
     public function getDefenseCountForTimeAnotherTecher($student_time) {
-        return \DB::table('defenders')->where('choosen_time', '=', $student_time)
+        return \DB::table('charon_defenders')->where('choosen_time', '=', $student_time)
             ->where('my_teacher', 0)
             ->count();
     }
@@ -92,7 +92,7 @@ class SubmissionController extends Controller
     }
 
     public function getRowCountForCurrentTime($student_time) {
-        return \DB::table('defenders')->where('choosen_time', $student_time)->count();
+        return \DB::table('charon_defenders')->where('choosen_time', $student_time)->count();
     }
 
     public function getRowCountForPractise(Request $request) {
@@ -102,7 +102,7 @@ class SubmissionController extends Controller
         $start = $request->input('start');
         $end = $request->input('end');
 
-        return array_values(\DB::table('defenders')
+        return array_values(\DB::table('charon_defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
             ->whereBetween('choosen_time', [date($start), date($end)])

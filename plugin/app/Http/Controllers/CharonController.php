@@ -35,10 +35,10 @@ class CharonController extends Controller
 
         $teacher_field = "teacher";
 
-        $arary =  DB::table('defenders')
-            ->join('charon', 'charon.id', '=', 'defenders.charon_id')
+        $arary =  DB::table('charon_defenders')
+            ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
             ->where('student_id', '=', $student_id)
-            ->select('charon.name', 'defenders.choosen_time', 'defenders.teacher_id', 'defenders.submission_id', 'defenders.defense_lab_id')
+            ->select('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id')
             ->get();
 
         for ($i = 0; $i < sizeof($arary); $i++) {
