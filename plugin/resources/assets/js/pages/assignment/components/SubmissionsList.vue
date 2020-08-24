@@ -174,6 +174,7 @@ SVG Icons - svgicons.sparkk.fr
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
     import StudentDefenses from "./StudentDefenses";
+    import Lab from "../../../api/Lab";
 
     let url_string = window.location.href;
     let url = new URL(url_string);
@@ -227,21 +228,6 @@ SVG Icons - svgicons.sparkk.fr
             date(date) {
                 return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
-        },
-        computed: {
-            formTitle () {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
-        },
-
-        watch: {
-            dialog (val) {
-                val || this.close()
-            },
-        },
-
-        created () {
-            this.initialize()
         },
 
         methods: {
