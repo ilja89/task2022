@@ -48,5 +48,4 @@ class CharonController extends Controller
         return $arary;
 
     }
-
 }

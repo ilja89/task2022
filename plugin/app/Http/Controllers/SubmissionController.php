@@ -74,6 +74,7 @@ class SubmissionController extends Controller
         return sizeof($lab_teacher_reposity->getTeachersByCourseId($course_id));
     }
 
+
     public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id) {
         return \DB::table('charon_defenders')->where('choosen_time', '=', $student_time)
             ->where('my_teacher', 1)
