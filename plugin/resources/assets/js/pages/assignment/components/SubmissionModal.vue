@@ -1,5 +1,5 @@
 <template>
-    <modal :isActive="isActive" @modal-was-closed="$emit('modal-was-closed')" v-if="submission !== null">
+    <modal :isActive="isActive" @modal-was-closed="$emit('modal-was-closed')" v-if="submission !== null" :wide="true">
         <template slot="header">
             <p class="modal-card-title">{{ translate('submissionText') }} {{ submission.git_hash }}</p>
         </template>
