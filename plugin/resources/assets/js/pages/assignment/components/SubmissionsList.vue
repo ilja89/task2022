@@ -368,7 +368,6 @@ SVG Icons - svgicons.sparkk.fr
                 }
             },
 
-
             getGrademapByResult(result) {
                 let correctGrademap = null;
                 this.grademaps.forEach(grademap => {
