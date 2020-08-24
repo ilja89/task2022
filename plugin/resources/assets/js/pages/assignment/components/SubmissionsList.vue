@@ -174,10 +174,11 @@ SVG Icons - svgicons.sparkk.fr
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
     import StudentDefenses from "./StudentDefenses";
+    import Lab from "../../../api/Lab";
 
-    let url_string = window.location.href;
-    let url = new URL(url_string);
-    let id = url.searchParams.get("id");
+    // let url_string = window.location.href;
+    // let url = new URL(url_string);
+    // let id = url.searchParams.get("id");
 
     export default {
 
@@ -227,21 +228,6 @@ SVG Icons - svgicons.sparkk.fr
             date(date) {
                 return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
             }
-        },
-        computed: {
-            formTitle () {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
-        },
-
-        watch: {
-            dialog (val) {
-                val || this.close()
-            },
-        },
-
-        created () {
-            this.initialize()
         },
 
         methods: {
@@ -308,17 +294,17 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             getCharonAndLabs() {
-                axios.get(`api/charon_data.php?id=${id}`).then(result => {
+                axios.get(`api/charon_data.php?id=${this.charon_id}`).then(result => {
                     this.charon = result.data;
                 })
-                axios.get(`api/labs_by_charon.php?id=${id}`).then(result => {
+                axios.get(`api/labs_by_charon.php?id=${this.charon_id}`).then(result => {
                     this.labs = result.data;
                 });
 
             },
 
             getDefenseData() {
-                axios.get(`api/student_defense_data.php?id=${id}&studentid=${this.student_id}`).then(result => {
+                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
                     this.defenseData = result.data;
                 })
             },
@@ -335,8 +321,8 @@ SVG Icons - svgicons.sparkk.fr
                 let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
 
                 if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
-                    axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
-                        charon_id: id,
+                    axios.post(`view.php?id=${this.charon_id}&studentid=${this.student_id}`, {
+                        charon_id: this.charon_id,
                         course_id: this.charon['course'],
                         submission_id: this.current_submission,
                         lab_start: datetime_start,
@@ -403,6 +389,7 @@ SVG Icons - svgicons.sparkk.fr
                 return resultStr;
             },
             refreshSubmissions() {
+                console.log(this.charon_id)
                 this.refreshing = true;
                 Submission.findByUserCharon(this.student_id, this.charon_id, (submissions) => {
                     this.submissions = submissions;
@@ -410,6 +397,7 @@ SVG Icons - svgicons.sparkk.fr
                     this.refreshing = false;
                 });
             },
+
             showStudentDefenses() {
                 this.isActiveDefenses = true;
             },
