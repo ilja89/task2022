@@ -23,7 +23,20 @@
 
         props: {
             isActive: { required: true },
+            wide: { required: false }
+        },
+        computed: {
+            computedWidth: function() {
+                if (this.wide) {
+                    return '95%';
+                }
+                return ''
+            }
         }
     }
 </script>
-
+<style scoped>
+    .wide_modal {
+        width: 95%;
+    }
+</style>

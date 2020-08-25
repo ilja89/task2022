@@ -126,7 +126,6 @@ class SubmissionsRepository
         foreach($submissions as $submission) {
             $submission['test_suites'] = $this->getTestSuites($submission->id);
         }
-        Log::info('important stuff', [$submissions]);
         return $submissions;
     }
 
