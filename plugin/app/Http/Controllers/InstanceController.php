@@ -132,7 +132,7 @@ class InstanceController extends Controller
         } catch (\Exception $e) {
             $sql = "ROLLBACK";
             $DB->execute($sql);
-
+            Log::error("Exception when creating charon: ", [$e]);
             throw $e;
         }
     }
@@ -183,7 +183,7 @@ class InstanceController extends Controller
         } catch (\Exception $e) {
             $sql = "ROLLBACK";
             $DB->execute($sql);
-
+            Log::error("Exception when updating charon: ", [$e]);
             throw $e;
         }
 
