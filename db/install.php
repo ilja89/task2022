@@ -10,50 +10,103 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_charon_install()
-{
+function xmldb_charon_install() {
     global $CFG;
-
     $charon_path = $CFG->dirroot . "/mod/charon/";
+    echo "<pre>";
 
-    if (!in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
+    if (! in_array($CFG->dbtype, ['mysql', 'mysqli', 'mariadb'])) {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
+    if (! function_exists('apache_get_modules') ){
+        charon_installation_error("This plugin needs apache to redirect requests.");
+    }
+    if (! in_array('mod_rewrite', apache_get_modules())) {
+        charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
+    }
 
-    try_cleanup($charon_path);
+    echo "</pre>";
 
-    # shell_exec("php artisan db:seed")
+    echo "Seeding database\n";
+
+    require __DIR__ . '/../plugin/bootstrap/autoload.php';
+    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+    $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+    $kernel->call('config:clear');
+    $kernel->call('cache:clear');
 
     return true;
-
 }
 
-/**
- * @param string $charon_path
- */
-function try_cleanup(string $charon_path)
-{
-    try {
-        echo "\n\nCleaning up...\n";
-        $filesToRemove = ["composer-installer.php", "keys.dev.pub", "keys.tags.pub"];
-        foreach ($filesToRemove as $filetoRemove) {
-            if (file_exists($charon_path . $filetoRemove)) {
-                if (unlink($charon_path . $filetoRemove)) {
-                    echo "Deleted: " . $filetoRemove . "\n";
+if (!function_exists("charon_command_exists")) {
+    /**
+     * Determines if a command exists on the current environment
+     *
+     * @param string $command The command to check
+     * @return bool True if the command has been found ; otherwise, false.
+     */
+    function charon_command_exists ($command) {
+        $whereIsCommand = (PHP_OS == 'WINNT') ? 'where' : 'which';
+
+        $process = proc_open(
+            "$whereIsCommand $command",
+            array(
+                0 => array("pipe", "r"), //STDIN
+                1 => array("pipe", "w"), //STDOUT
+                2 => array("pipe", "w"), //STDERR
+            ),
+            $pipes
+        );
+        if ($process !== false) {
+            $stdout = stream_get_contents($pipes[1]);
+            $stderr = stream_get_contents($pipes[2]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($process);
+
+            return $stdout != '';
+        }
+
+        return false;
+    }
+}
+if (!function_exists("charon_is_function_available")) {
+    /**
+     * Checks if function is disabled or available
+     *
+     * @param string $command
+     * @return bool - true if available
+     */
+    function charon_is_function_available($command) {
+        static $available;
+
+        if (!isset($available)) {
+            $available = true;
+            if (ini_get('safe_mode')) {
+                $available = false;
+            } else {
+                $d = ini_get('disable_functions');
+                $s = ini_get('suhosin.executor.func.blacklist');
+                if ("$d$s") {
+                    $array = preg_split('/,\s*/', "$d,$s");
+                    if (in_array($command, $array)) {
+                        $available = false;
+                    }
                 }
             }
         }
-        charon_remove_directory("cache");
-        echo "Deleted: cache\n";
-    } catch (exception $e) {
-        echo $e->getMessage();
+
+        return $available;
     }
 }
 
 if (!function_exists("charon_remove_directory")) {
-    function charon_remove_directory($dir)
-    {
-        foreach (scandir($dir) as $file) {
+    function charon_remove_directory($dir) {
+        foreach(scandir($dir) as $file) {
             if ('.' === $file || '..' === $file) continue;
             if (is_dir("$dir/$file")) charon_remove_directory("$dir/$file");
             else unlink("$dir/$file");
@@ -63,8 +116,7 @@ if (!function_exists("charon_remove_directory")) {
 }
 
 if (!function_exists("charon_installation_error")) {
-    function charon_installation_error($error_msg)
-    {
+    function charon_installation_error($error_msg) {
         global $OUTPUT;
 
         $progress = new \progress_trace_buffer(new text_progress_trace(), false);
@@ -76,7 +128,7 @@ if (!function_exists("charon_installation_error")) {
         if (function_exists("purge_all_caches")) {
             purge_all_caches();
         }
-        echo "</pre><div class='alert alert-danger alert-block'>" . $error_msg . "</div>";
+        echo "</pre><div class='alert alert-danger alert-block'>". $error_msg ."</div>";
         echo $OUTPUT->continue_button(new moodle_url('/admin/index.php'));
         echo $OUTPUT->footer();
         exit();
