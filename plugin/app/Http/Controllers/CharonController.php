@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Repositories\LabTeacherRepository;
 
 class CharonController extends Controller
 {
@@ -25,29 +24,13 @@ class CharonController extends Controller
 
     public function getDefenders(Request $request) {
         $student_id = $request->input('studentid');
-        $lab_repository = new LabTeacherRepository();
-
-        $student_teacher = $lab_repository->getTeacherForStudent($student_id);
-        $student_teacher_data = json_decode($student_teacher, true);
-        $firstname = $student_teacher_data[0]['firstname'];
-        $lastname = $student_teacher_data[0]['lastname'];
-        $teacher_fullname = "$firstname $lastname";
-
-        $teacher_field = "teacher";
-
-        $arary =  DB::table('charon_defenders')
+        return \DB::table('charon_defenders')
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
-            ->where('student_id', '=', $student_id)
-            ->select('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id')
+            ->join('user', 'charon_defenders.teacher_id','user.id')
+            ->select(DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
+            ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defenders.student_id', $student_id)
             ->get();
-
-        if ($student_teacher != null) {
-            for ($i = 0; $i < sizeof($arary); $i++) {
-                if ($arary[$i]->teacher_id == -1) $arary[$i]->$teacher_field = "Another teacher";
-                else $arary[$i]->$teacher_field = $teacher_fullname;
-            }
-        }
-        return $arary;
 
     }
 }

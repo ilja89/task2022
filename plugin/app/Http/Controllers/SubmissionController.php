@@ -21,19 +21,19 @@ class SubmissionController extends Controller
         $lab_id = $request->input('defense_lab_id');
         $charon_id = $request->input('charon_id');
         $student_time = $request->input('student_choosen_time');
-        $course_id = $request->input('course_id');
 
-        $teacher_id = -1;
-        $defense_count_student = $this->getUserDefenseDate($student_id, $charon_id ,$lab_start, $lab_end);
-        $teacher_count = $this->getTeacherCount($course_id);
-        $count_for_current_time = $this->getRowCountForCurrentTime($student_time);
+        $defense_count_student = $this->getUserDefenseDataCount($student_id, $charon_id ,$lab_start, $lab_end);
+        $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
+        $count_for_current_time = $this->getRowCountForCurrentTime($student_time, $charon_id);
 
         if ($defense_count_student == 0) {
             if ($teacher == 1) {
                 $student_teacher = $this->getTeacheForStudent($student_id);
                 $result = json_decode($student_teacher, true);
                 $teacher_id = $result[0]['id'];
-                if ($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id) > 0) return 'teacher is busy';
+                if ($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $charon_id) > 0) return 'teacher is busy';
+            } else {
+                $teacher_id = $this->getTeachersByCharonAndLab($charon_id, $lab_id, $student_time);
             }
         } else {
             return 'user in db';
@@ -43,6 +43,7 @@ class SubmissionController extends Controller
             $firstname = User::where('id', '=', $student_id)->get()[0]['firstname'];
             $lastname = User::where('id', '=', $student_id)->get()[0]['lastname'];
             $fullname = "$firstname $lastname";
+
             $defenders = new Defenders;
             $defenders->student_name = $fullname;
             $defenders->charon_id = $charon_id;
@@ -57,7 +58,7 @@ class SubmissionController extends Controller
         } else return 'deleted';
     }
 
-    public function getUserDefenseDate($student_id, $charon_id, $lab_start, $lab_end)
+    public function getUserDefenseDataCount($student_id, $charon_id, $lab_start, $lab_end)
     {
         return \DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -69,21 +70,35 @@ class SubmissionController extends Controller
             ->count();
     }
 
-    public function getTeacherCount($course_id) {
+    public function getTeacherCount($charon_id, $lab_id) {
         $lab_teacher_reposity = new LabTeacherRepository();
-        return sizeof($lab_teacher_reposity->getTeachersByCourseId($course_id));
+        return sizeof($lab_teacher_reposity->getTeachersByCharonAndLabId($charon_id, $lab_id));
+    }
+
+    public function getTeachersByCharonAndLab($charon_id, $lab_id, $student_time) {
+        $lab_teacher_repository = new LabTeacherRepository();
+        $teachers_for_charon = $lab_teacher_repository->getTeachersByCharonAndLabId($charon_id, $lab_id);
+        $array = array_values($teachers_for_charon->pluck('id')->toArray());
+
+        $busy_teachers = array_values(\DB::table('charon_defenders')
+            ->join('user', 'charon_defenders.teacher_id', 'user.id')
+            ->select('user.id','user.firstname', 'user.lastname')
+            ->where('charon_defenders.choosen_time', $student_time)
+            ->where('charon_defenders.charon_id', $charon_id)
+            ->whereIn('charon_defenders.teacher_id', $array)
+            ->pluck('user.id')->toArray());
+
+        $free_teachers = array_diff($array, $busy_teachers);
+        $randrom_teacher_index = array_rand($free_teachers);
+        return $free_teachers[$randrom_teacher_index];
     }
 
 
-    public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id) {
-        return \DB::table('charon_defenders')->where('choosen_time', '=', $student_time)
+    public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id, $charon_id) {
+        return \DB::table('charon_defenders')
+            ->where('choosen_time', '=', $student_time)
             ->where('my_teacher', 1)
-            ->where('teacher_id', '=', $student_teacher_id)->count();
-    }
-
-    public function getDefenseCountForTimeAnotherTecher($student_time) {
-        return \DB::table('charon_defenders')->where('choosen_time', '=', $student_time)
-            ->where('my_teacher', 0)
+            ->where('teacher_id', '=', $student_teacher_id)
             ->count();
     }
 
@@ -92,20 +107,25 @@ class SubmissionController extends Controller
         return $labTeacherRepository->getTeacherForStudent($student_id);
     }
 
-    public function getRowCountForCurrentTime($student_time) {
-        return \DB::table('charon_defenders')->where('choosen_time', $student_time)->count();
+    public function getRowCountForCurrentTime($student_time, $charon_id) {
+        return \DB::table('charon_defenders')
+            ->where('choosen_time', $student_time)
+            ->where('charon_id', $charon_id)
+            ->count();
     }
 
     public function getRowCountForPractise(Request $request) {
         $time = $request->input('time');
-        $course = $request->input('course');
-        $teacher_count = $this->getTeacherCount($course);
+        $lab_id = $request->input('lab_id');
+        $charon_id = $request->input('charon_id');
+        $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
         $start = $request->input('start');
         $end = $request->input('end');
 
         return array_values(\DB::table('charon_defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('charon_id', $charon_id)
             ->whereBetween('choosen_time', [date($start), date($end)])
             ->groupBy('choosen_time')
             ->having(DB::raw('count(*)'), '=', $teacher_count)

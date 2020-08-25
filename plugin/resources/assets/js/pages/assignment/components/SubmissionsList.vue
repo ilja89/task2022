@@ -15,8 +15,8 @@
                 </div>
                 <div class="labs-schedule">
                     <div class="text-center">
-                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"  @select="onSelect" :max-height="200"
-                                     :custom-label="nameWithLang" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
+                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']" @select="onSelect" :max-height="200"
+                                     :custom-label="getLabList" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                         </multiselect>
 
@@ -29,9 +29,11 @@
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
-                            <div class="col-6 col-sm-4"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
+                            <div class="col-6 col-sm-4" v-if="this.student_group !== 0"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
                             <div class="w-100 d-none d-md-block"></div>
-                            <div class="col-6 col-sm-4" :class="{my_teacher: this.charon['choose_teacher'] === 1}"><label for="another-teacher"></label><input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
+                            <div class="col-6 col-sm-4" v-if="(this.charon['choose_teacher'] === 1 || this.student_group === 0)">
+                                <label for="another-teacher"></label>
+                                <input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
                         </div>
                     </div>
                 </div>
@@ -216,6 +218,7 @@ SVG Icons - svgicons.sparkk.fr
                 notavailable_time: [],
                 defenseData: [],
                 submission_validation: false,
+                student_group: 0,
             };
         },
 
@@ -239,7 +242,7 @@ SVG Icons - svgicons.sparkk.fr
                 let end = option['end'];
 
                 let time = option['start'].split(' ')[0];
-                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}&start=${start}&end=${end}`).then(result => {
+                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}&start=${start}&end=${end}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
                     this.notavailable_time = result.data;
                 }).then(() => {
                     while (startTime < endTime) {
@@ -252,7 +255,7 @@ SVG Icons - svgicons.sparkk.fr
                 })
             },
 
-            nameWithLang({start}) {
+            getLabList({start}) {
                 let date = `${start.split(' ')[0]}`;
                 let time = `${start.split(' ')[1]}`;
                 let time_return = time.split(':');
@@ -301,11 +304,12 @@ SVG Icons - svgicons.sparkk.fr
                 });
 
             },
+            getStudentGroup() {
+                axios.get(`api/student_group.php?studentid=${this.student_id}`).then(result => this.student_group = result.data);
+            },
 
             getDefenseData() {
-                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
-                    this.defenseData = result.data;
-                })
+                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}&group=${this.student_group}`).then(result => {this.defenseData = result.data;})
             },
 
             closePopUp() {
@@ -413,6 +417,7 @@ SVG Icons - svgicons.sparkk.fr
 
         },
         mounted() {
+            this.getStudentGroup();
             this.getDefenseData();
             this.refreshSubmissions();
             this.getCharonAndLabs();

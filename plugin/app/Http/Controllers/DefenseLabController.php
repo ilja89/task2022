@@ -22,5 +22,12 @@ class DefenseLabController extends Controller
             ->where('charon_id', $charon_id)
             ->delete();
     }
+
+    public function getStudentGroup(Request $request) {
+        $student_id = $request->input('studentid');
+        return \DB::table('groups_members')
+            ->where('userid', $student_id)
+            ->count();
+    }
 }
 
