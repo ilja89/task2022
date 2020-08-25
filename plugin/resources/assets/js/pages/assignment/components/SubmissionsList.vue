@@ -178,9 +178,9 @@ SVG Icons - svgicons.sparkk.fr
     import StudentDefenses from "./StudentDefenses";
     import Lab from "../../../api/Lab";
 
-    // let url_string = window.location.href;
-    // let url = new URL(url_string);
-    // let id = url.searchParams.get("id");
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let id = url.searchParams.get("id");
 
     export default {
 
@@ -295,7 +295,6 @@ SVG Icons - svgicons.sparkk.fr
                 var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
                 this.submission_validation = result / maxResult >= 0.5;
             },
-
             getCharonAndLabs() {
                 axios.get(`api/charon_data.php?id=${this.charon_id}`).then(result => {
                     this.charon = result.data;
