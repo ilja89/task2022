@@ -302,8 +302,8 @@ SVG Icons - svgicons.sparkk.fr
                 axios.get(`api/labs_by_charon.php?id=${this.charon_id}`).then(result => {
                     this.labs = result.data;
                 });
-
             },
+
             getStudentGroup() {
                 axios.get(`api/student_group.php?studentid=${this.student_id}`).then(result => this.student_group = result.data);
             },

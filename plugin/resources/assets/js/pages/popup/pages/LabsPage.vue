@@ -46,19 +46,14 @@
                     labs[i].start = {time: new Date(save_start)}
                     let save_end = labs[i].end
                     labs[i].end = {time: new Date(save_end)}
-                    User.getTeachersInLab(this.course.id, labs[i].id, response => {
-                        this.getFullNamesForTeachers(response, result => {
-                            labs[i].teachers = result
-                            then(labs)
-                        })
-                    })
+                    this.getFullNamesForTeachers(labs[i].teachers)
+                    then(labs)
                 }
             },
-            getFullNamesForTeachers(teachers, then) {
+            getFullNamesForTeachers(teachers) {
                 for (let i = 0; i < teachers.length; i++) {
                     teachers[i].full_name = teachers[i].firstName + ' ' + teachers[i].lastName
                 }
-                then(teachers)
             },
             assignLabs(futureLabs) {
                 this.labs_countdown--
