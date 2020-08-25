@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $defense_lab_id
  * @property integer $charon_id
  * @property integer $teacher_id
+ * @property string $progress
  *
  * @package TTU\Charon\Model
  */

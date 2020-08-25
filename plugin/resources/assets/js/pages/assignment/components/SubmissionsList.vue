@@ -176,7 +176,6 @@ SVG Icons - svgicons.sparkk.fr
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
     import StudentDefenses from "./StudentDefenses";
-    import Lab from "../../../api/Lab";
 
     let url_string = window.location.href;
     let url = new URL(url_string);

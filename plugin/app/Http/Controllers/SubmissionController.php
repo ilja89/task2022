@@ -53,6 +53,7 @@ class SubmissionController extends Controller
             $defenders->my_teacher = $teacher;
             $defenders->teacher_id = $teacher_id;
             $defenders->defense_lab_id = $lab_id;
+            $defenders->progress = 'Waiting';
             $defenders->save();
             return 'inserted';
         } else return 'deleted';
