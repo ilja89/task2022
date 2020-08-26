@@ -92,57 +92,44 @@ class InstanceController extends Controller
     public function store()
     {
 
-        global $DB;
         global $CHARON_CREATED;
         $CHARON_CREATED = false;
 
-        try {
+        $charon = $this->getCharonFromRequest();
+        $charon->category_id = $this->createCharonService->addCategoryForCharon(
+            $charon,
+            $this->request->input('course')
+        );
 
-            $sql = "START TRANSACTION";
-            $DB->execute($sql);
-
-            $charon = $this->getCharonFromRequest();
-            $charon->category_id = $this->createCharonService->addCategoryForCharon(
-                $charon,
-                $this->request->input('course')
-            );
-
-            if (!$this->charonRepository->save($charon)) {
-                return null;
-            }
-
-            $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
-            $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
-
-            event(new CharonCreated($charon));
-
-            Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
-            if ($this->request->input('plagiarism_enabled')) {
-                $charon = $this->plagiarismService->createChecksuiteForCharon(
-                    $charon,
-                    $this->request->input('plagiarism_services'),
-                    $this->request->input('resource_providers'),
-                    $this->request->input('plagiarism_includes')
-                );
-            }
-
-            sleep(5);
-
-            if ($CHARON_CREATED) {
-                $sql = "COMMIT";
-                $DB->execute($sql);
-                $CHARON_CREATED = false;
-                return $charon->id;
-            } else {
-                throw new Exception('Moodle failed to create something. Check logs.');
-            }
-
-        } catch (\Exception $e) {
-            $sql = "ROLLBACK";
-            $DB->execute($sql);
-            Log::error("Exception when creating charon: ", [$e]);
-            throw $e;
+        if (!$this->charonRepository->save($charon)) {
+            return null;
         }
+
+        $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
+        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+
+        event(new CharonCreated($charon));
+
+        Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
+        if ($this->request->input('plagiarism_enabled')) {
+            $charon = $this->plagiarismService->createChecksuiteForCharon(
+                $charon,
+                $this->request->input('plagiarism_services'),
+                $this->request->input('resource_providers'),
+                $this->request->input('plagiarism_includes')
+            );
+        }
+
+        sleep(5);
+
+        if ($CHARON_CREATED) {
+            $CHARON_CREATED = false;
+            return $charon->id;
+        } else {
+            $this->destroy($charon->id);
+            throw new \Exception('Moodle failed to create something. Check logs.');
+        }
+
     }
 
     /**
@@ -160,47 +147,34 @@ class InstanceController extends Controller
     public function update()
     {
 
-        global $DB;
         global $CHARON_UPDATED;
         $CHARON_UPDATED = false;
-        try {
 
-            $sql = "START TRANSACTION";
-            $DB->execute($sql);
+        $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
+        Log::info("Update charon", [$charon]);
 
-            $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
-            Log::info("Update charon", [$charon]);
+        if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
-            if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+            $this->updateCharonService->updateGrademaps(
+                $this->request->input('grademaps'),
+                $charon,
+                $deadlinesUpdated,
+                $this->request->input('recalculate_grades')
+            );
 
-                $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
-                $this->updateCharonService->updateGrademaps(
-                    $this->request->input('grademaps'),
-                    $charon,
-                    $deadlinesUpdated,
-                    $this->request->input('recalculate_grades')
-                );
-
-                // TODO: Plagiarism
-            }
+            // TODO: Plagiarism
+        }
 
 
-            sleep(5);
+        sleep(5);
 
-            if ($CHARON_UPDATED) {
-                $sql = "COMMIT";
-                $DB->execute($sql);
-                $CHARON_UPDATED = false;
-                return "1";
-            } else {
-                throw new Exception('Moodle failed to update something. Check logs.');
-            }
-
-        } catch (\Exception $e) {
-            $sql = "ROLLBACK";
-            $DB->execute($sql);
-            Log::error("Exception when updating charon: ", [$e]);
-            throw $e;
+        if ($CHARON_UPDATED) {
+            $CHARON_UPDATED = false;
+            return "1";
+        } else {
+            $this->destroy($charon->id);
+            throw new \Exception('Moodle failed to update something. Check logs.');
         }
 
     }
