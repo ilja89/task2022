@@ -36,17 +36,25 @@ class CharonRepository
     private $fileUploadService;
 
     /**
+     * @var CharonDefenseLabRepository
+     */
+    protected $charonDefenseLabRepository;
+
+    /**
      * CharonRepository constructor.
      *
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
+     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
-    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService, GradebookService $gradebookService)
+    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService,
+                                GradebookService $gradebookService, CharonDefenseLabRepository $charonDefenseLabRepository)
     {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
+        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
     }
 
     /**
@@ -226,7 +234,7 @@ class CharonRepository
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-
+            $charon->charonDefenseLabs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(

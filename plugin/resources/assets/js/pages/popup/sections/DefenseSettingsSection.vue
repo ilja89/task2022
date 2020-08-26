@@ -7,7 +7,7 @@
             <hr>
             <p class="pl-5">Deadline: {{getDateFormatted(charon.defense_deadline.time)}}</p>
             <p class="pl-5">Duration: {{getDurationFormatted(charon.defense_duration)}}</p>
-            <p class="pl-5">Labs: <b v-for="lab in charon.defense_labs">{{lab.name}}<b v-if="lab !== charon.defense_labs[charon.defense_labs.length - 1]">, </b></b> </p>
+            <p class="pl-5">Labs: <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b></b> </p>
         </div>
     </div>
 </template>

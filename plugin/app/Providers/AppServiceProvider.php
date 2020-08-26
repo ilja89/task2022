@@ -44,6 +44,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             Log::useFiles('php://stderr');
+        } else {
+            global $CFG;
+            Log::useFiles($CFG->dataroot . "/charon_logs.log");
+            Log::useFiles('php://stderr');
         }
     }
 }

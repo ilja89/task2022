@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $my_teacher
  * @property integer $student_id
  * @property integer $defense_lab_id
+ * @property integer $charon_id
+ * @property integer $teacher_id
+ * @property string $progress
  *
  * @package TTU\Charon\Model
  */
@@ -25,8 +28,9 @@ class Defenders extends Model {
      * @var array
      */
     protected $fillable = [
-        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id', 'progress'
+        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id', 'progress', 'charon_id', 'teacher_id'
     ];
+
     protected $table = 'charon_defenders';
     public $timestamps = false;
 }

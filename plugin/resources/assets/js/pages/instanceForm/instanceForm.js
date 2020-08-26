@@ -2,9 +2,12 @@ import '../../bootstrap';
 
 import InstanceForm from './InstanceForm.vue';
 import { InstanceForm as InstanceFormForm } from '../../classes';
+import Vuetify from "vuetify";
 
 const app = new Vue({
     el: '#app',
+    vuetify: new Vuetify(),
+
     components: { InstanceForm },
     data: {
         form: new InstanceFormForm(

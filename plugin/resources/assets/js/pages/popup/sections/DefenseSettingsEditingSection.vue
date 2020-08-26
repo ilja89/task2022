@@ -41,7 +41,7 @@
                     <label>Teacher</label>
                     <br>
                     <input v-model="charon.choose_teacher" type="checkbox">
-                    <a class="input-helper checkbox-text">Student can choose a teacher.</a>
+                    <a class="input-helper checkbox-text choose_teacher">Student can choose a teacher.</a>
                 </div>
 
             </div>
@@ -123,6 +123,10 @@
         -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    .choose_teacher {
+        cursor: default;
     }
 
 </style>

@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
@@ -194,6 +195,9 @@ class LabRepository
             ->select('id', 'start', 'end', 'course_id')
             ->orderBy('start')
             ->get();
+        for($i = 0; $i < count($labs); $i++) {
+            $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabId($courseId, $labs[$i]->id);
+        }
         return $labs;
     }
 

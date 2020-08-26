@@ -19,13 +19,20 @@ class DefenseRegistrationRepository
     /** @var ModuleService */
     protected $moduleService;
     /**
+     * @var LabTeacherRepository
+     */
+    protected $labTeacherRepository;
+
+    /**
      * LabRepository constructor.
      *
      * @param ModuleService $moduleService
+     * @param LabTeacherRepository $labTeacherRepository
      */
-    public function __construct(ModuleService $moduleService)
+    public function __construct(ModuleService $moduleService, LabTeacherRepository $labTeacherRepository)
     {
         $this->moduleService = $moduleService;
+        $this->labTeacherRepository = $labTeacherRepository;
     }
 
     /**
@@ -39,9 +46,13 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
-                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress')
+                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
+                'charon_defenders.teacher_id')
             ->orderBy('charon_defenders.choosen_time')
             ->get();
+        for ($i = 0; $i < count($defenseRegistrations); $i++) {
+            $defenseRegistrations[$i]->teacher = $this->labTeacherRepository->getTeacherByUserId($defenseRegistrations[$i]->teacher_id)[0];
+        }
         return $defenseRegistrations;
     }
 
@@ -68,9 +79,13 @@ class DefenseRegistrationRepository
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
-                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress')
+                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
+                'charon_defenders.teacher_id')
             ->orderBy('charon_defenders.choosen_time')
             ->get();
+        for ($i = 0; $i < count($defenseRegistrations); $i++) {
+            $defenseRegistrations[$i]->teacher = $this->labTeacherRepository->getTeacherByUserId($defenseRegistrations[$i]->teacher_id)[0];
+        }
         return $defenseRegistrations;
     }
 
