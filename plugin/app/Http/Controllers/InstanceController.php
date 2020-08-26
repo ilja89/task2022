@@ -48,6 +48,8 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
+    private $deadlinesRepository;
+
     /**
      * InstanceController constructor.
      *
@@ -59,6 +61,7 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param $deadlinesRepository
      */
     public function __construct(
         Request $request,
@@ -68,7 +71,7 @@ class InstanceController extends Controller
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
-        PlagiarismService $plagiarismService
+        PlagiarismService $plagiarismService, $deadlinesRepository
     )
     {
         parent::__construct($request);
@@ -79,6 +82,7 @@ class InstanceController extends Controller
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
+        $this->deadlinesRepository = $deadlinesRepository;
     }
 
     /**
@@ -126,7 +130,8 @@ class InstanceController extends Controller
             $CHARON_CREATED = false;
             return $charon->id;
         } else {
-            $this->destroy($charon->id);
+            $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
+            $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
             throw new \Exception('Moodle failed to create something. Check logs.');
         }
 
@@ -173,7 +178,8 @@ class InstanceController extends Controller
             $CHARON_UPDATED = false;
             return "1";
         } else {
-            $this->destroy($charon->id);
+            $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
+            $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
             throw new \Exception('Moodle failed to update something. Check logs.');
         }
 
