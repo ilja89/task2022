@@ -12,7 +12,11 @@ When done, you should be able to access Moodle at http://localhost.
 
 Default user is ```dev``` and password ```dev``` as well.
 
-## Installing charon
+## Best way to install charon
+
+Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
+
+Then run `chmod -R 777 mariadb_data` and run the initial docker-compose commands again
 
 To install charon you can either use 
 ```
@@ -22,8 +26,6 @@ or
 ```
 git clone https://gitlab.cs.ttu.ee/ained/charon
 ```
-
-make sure the `charon` folder ends up at `moodle/mod/` folder
 
 When git clone option is used you need to `docker exec -it <hash> bash` into the container, `cd bitnami/moodle/mod/charon` folder and follow this tutorial on how to install npm: https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/
 and then run next commands as well: 
