@@ -57,7 +57,7 @@
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
                     @click="toggleAdvanced(submission.id)" :key="index">
 
-                    <span class="tag is-info" :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission, index)}">
+                    <span class="tag is-info" :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission)}">
                         {{ submissionString(submission) }}
                     </span>
 
