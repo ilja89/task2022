@@ -31,7 +31,7 @@ class SubmissionController extends Controller
                 $student_teacher = $this->getTeacheForStudent($student_id);
                 $result = json_decode($student_teacher, true);
                 $teacher_id = $result[0]['id'];
-                if ($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $charon_id) > 0) return 'teacher is busy';
+                if (count($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $charon_id, $lab_start, $lab_end)) > 0) return 'teacher is busy';
             } else {
                 $teacher_id = $this->getTeachersByCharonAndLab($charon_id, $lab_id, $student_time);
             }
@@ -95,12 +95,18 @@ class SubmissionController extends Controller
     }
 
 
-    public function getDefensesCountForTimeMyTeacher($student_time, $student_teacher_id, $charon_id) {
-        return \DB::table('charon_defenders')
-            ->where('choosen_time', '=', $student_time)
-            ->where('my_teacher', 1)
-            ->where('teacher_id', '=', $student_teacher_id)
-            ->count();
+    public function getDefensesCountForTimeMyTeacher($time, $student_teacher_id, $charon_id, $start, $end) {
+
+        return array_values(\DB::table('charon_defenders')
+            ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
+            ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('charon_id', $charon_id)
+            ->where('teacher_id', $student_teacher_id)
+            ->whereBetween('choosen_time', [date($start), date($end)])
+            ->groupBy('choosen_time')
+            ->having(DB::raw('count(*)'), '=', 1)
+            ->pluck('choosen_time')
+            ->toArray());
     }
 
     public function getTeacheForStudent($student_id) {
@@ -122,8 +128,19 @@ class SubmissionController extends Controller
         $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
         $start = $request->input('start');
         $end = $request->input('end');
+        $student_id = $request->input('studentid');
+        $lab_teacher_repository = new LabTeacherRepository();
+        $teacher_is_busy = [];
+        $student_group = $request->input('group');
 
-        return array_values(\DB::table('charon_defenders')
+        if ($student_group != 0) {
+            $student_teacher = $lab_teacher_repository->getTeacherForStudent($student_id)->pluck('id')->toArray();
+            if ($student_teacher[0] != 0) {
+                $teacher_is_busy = $this->getDefensesCountForTimeMyTeacher($time, $student_teacher[0], $charon_id, $start, $end);
+            }
+        }
+
+        $notavailable_time = array_values(DB::table('charon_defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
             ->where('charon_id', $charon_id)
@@ -132,5 +149,9 @@ class SubmissionController extends Controller
             ->having(DB::raw('count(*)'), '=', $teacher_count)
             ->pluck('choosen_time')
             ->toArray());
+
+        if (count($teacher_is_busy) != 0 && count($notavailable_time) == 0) return $teacher_is_busy;
+        return array(1, $notavailable_time);
+
     }
 }
