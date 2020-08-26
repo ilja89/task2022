@@ -10,6 +10,7 @@ use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
@@ -48,6 +49,7 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
+    /** @var DeadlinesRepository */
     private $deadlinesRepository;
 
     /**
@@ -61,7 +63,7 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
-     * @param $deadlinesRepository
+     * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
         Request $request,
@@ -71,7 +73,8 @@ class InstanceController extends Controller
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
-        PlagiarismService $plagiarismService, $deadlinesRepository
+        PlagiarismService $plagiarismService,
+        DeadlinesRepository $deadlinesRepository
     )
     {
         parent::__construct($request);
