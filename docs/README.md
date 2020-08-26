@@ -1,51 +1,18 @@
 # Development moodle installation guide
 
-
 Intention of the following document is to make it easier to get up and going with developing Charon in localhost. By default, it's complicated to get Charon to work with fresh Moodle. By following this tutorial, you're 15 minutes apart from perfectly working 1:1 development environment which is running at ained.ttu.ee.
 
-## Disclaimer
-Keep in mind that this tutorial is written by taking MacOS Mojave environment into account. While majority of the commands remain same for Ubuntu for example, you may still need to double-check your environment for possible mismatches.
+## Installing moodle
 
-## Prerequisites
+Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
 
-Not much. Just **Docker CE** and **Git**. I'm not going to cover the installation of Docker since it's pretty platform-specific, but it shouldn't be much of a hassle by following [original docker install tutorial.](https://docs.docker.com/install/)
-
-
-
-## Creating directories
-
-Let's create a structured folder somewhere in your home directory, for example:
-
-``` bash
-$ mkdir -p ~/dev/moodle
-$ mkdir -p ~/dev/moodle/moodle_data
-$ mkdir -p ~/dev/moodle/mariadb_data
-```
-```moodle_data``` and ```mariadb_data``` folders are required in order to have persistent storage of Moodle and it's database- otherwise all changes to plugin will be lost. ```~/dev/moodle``` itself is a location free of choice.
-
-## Firing up containers
-Whole setup is done using docker containers. We need two containers- one for our webserver with Moodle and another one for database. Docker-compose makes it possible to boot them at the same time.
-
-In the docs/ folder, please find **docker-compose.yml** and download it to your moodle conf dir, in our case ```~/dev/moodle/```.
-
-When done, simply run:
-```bash
-$ cd ~/dev/moodle/
-$ docker-compose up -d
-```
-Containers should be up and running now. When initially booted, it takes time until moodle gets installed. Let's take a look how it's going.
-
-Use command ```docker ps``` to get information about running containers. Capture container ID for image ```bitnami/moodle```. Run ```docker logs <containerID> -f``` to follow logs. It should expose how httpd is installed and moodle configured.
+Then run `chmod -R 777 mariadb_data` and run the initial docker-compose commands again
 
 When done, you should be able to access Moodle at http://localhost.
 
 Default user is ```dev``` and password ```dev``` as well.
 
-## Best way to install charon
-
-Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
-
-Then run `chmod -R 777 mariadb_data` and run the initial docker-compose commands again
+## Installing charon
 
 To install charon you can either use 
 ```
@@ -88,7 +55,7 @@ Go to your Moodle installation themes folder by
  ```cd ~/dev/moodle/moodle_data/moodle/theme```
 
 And download TTU theme with 
-```git clone https://gitlab.cs.ttu.ee/ained/theme1.git```
+```git clone https://gitlab.cs.ttu.ee/ained/theme1.git``` or what theme you are trying to install
 
 Afterwards, navigate to your Moodle instance from browser. You should be prompted with new plugin installation page.
 
