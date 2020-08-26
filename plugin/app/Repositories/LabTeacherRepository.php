@@ -3,12 +3,10 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class LabTeacherRepository
 {
     public function deleteAllLabTeachersForCharon($charonId) {
-        Log::info("Attempting to delete all charon lab-teachers");
         return DB::table('charon_lab_teacher')
             ->where('charon_id', $charonId)
             ->delete();
@@ -32,8 +30,8 @@ class LabTeacherRepository
 
     public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId) {
         $teachers = \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
-            ->where('charon_defense_lab.charon_id', $charonId)
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
+        ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->select('user.id', 'user.firstName', 'user.lastName')
@@ -88,6 +86,18 @@ class LabTeacherRepository
             ->where('groups_members.groupid', $group[0]->groupid)
             ->whereRaw("roleid IN " . $okRoleIdsString)
             ->select('user.id', 'user.firstname', 'user.lastname', 'groups_members.groupid')
+            ->get();
+        return $teacher;
+    }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getTeacherByUserId($userId) {
+        $teacher = \DB::table('user')
+            ->where('id', $userId)
+            ->select('id', 'firstname', 'lastname')
             ->get();
         return $teacher;
     }

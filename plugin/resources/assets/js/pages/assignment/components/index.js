@@ -1,7 +1,6 @@
 import SubmissionModal from './SubmissionModal.vue'
 import SubmissionsList from './SubmissionsList.vue'
-import SubmissionTable from "./SubmissionTable";
-
+import StudentDefenses from "./StudentDefenses";
 export {
-    SubmissionModal, SubmissionsList, SubmissionTable
+    SubmissionModal, SubmissionsList, StudentDefenses
 }

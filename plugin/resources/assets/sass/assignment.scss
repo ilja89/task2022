@@ -56,11 +56,23 @@ $weight-semibold: 500;
 .modal {
   z-index: 9996; // Modal is 1985 but Snap nav is 9995!
 }
-
+.modal-card .modal-card-body {
+}
+.col-6.col-sm-4.my_teacher {
+  display: none;
+}
 .block_settings .box.block_tree_box {
   border-radius: 0;
   box-shadow: none;
   padding: 1rem 0 0;
+}
+
+.inspire table{
+  border-collapse:separate;
+  border-spacing: 2vw 1.2em;
+}
+.v-data-table__wrapper {
+  text-align: -webkit-center;
 }
 
 .submissions-list {
@@ -154,9 +166,14 @@ pre {
       width: 21px;
       height: 26px;
     }
+
+  }
+  .tag.is-info.registered {
+    background-color: #0A30FA;
   }
 
 }
+
 @media screen and (max-width: 750px){
   .kilb-icon {
     height: 18px;
@@ -168,7 +185,7 @@ pre {
 .register-lab-headers {
   margin-top: 30px;
   margin-bottom: 30px;
-  //text-align: center
+  text-align: center
 }
 
 .labs-schedule {
@@ -183,6 +200,8 @@ pre {
 .register-lab-button-dev {
   text-align: right;
   margin-bottom: 5px;
+  position: relative;
+
 }
 
 .submissions-list {
@@ -279,9 +298,9 @@ pre {
   }
 }
 
-.inspire table{
-  border-collapse:separate;
-  border-spacing: 2vw 0.7em;
+
+.v-data-table-header-mobile__wrapper {
+  display: none;
 }
 
 
@@ -314,4 +333,7 @@ pre {
 
 tfoot {
   font-weight: bold;
+}
+.secondMultiselect {
+  display: none;
 }

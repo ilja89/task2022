@@ -41,47 +41,51 @@ When done, you should be able to access Moodle at http://localhost.
 
 Default user is ```dev``` and password ```dev``` as well.
 
-## Downloading Charon
+## Best way to install charon
 
-When confirmed that moodle is running well on http://localhost, it's time to move on with Charon installation. 
+Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
 
-Remember we used to make ```~/dev/moodle/``` directory before? Since 1:1 of container content is mounted at that directory, it's where we can install charon, too.
+Then run `chmod -R 777 mariadb_data` and run the initial docker-compose commands again
 
-Go to moodle mod folder by
-```$ cd ~/dev/moodle/moodle_data/moodle/mod``` and clone charon repo with
- ```$ git clone https://gitlab.cs.ttu.ee/ained/charon.git```. You may be prompted for authorization credentials of gitlab credentials.
-
-## Configuring  & Activating Charon
-When Charon is downloaded, it's time to configure it.
-
-Since we're using persistent storage and file paths are different when it comes to container, we have to launch commands below in container itself.
-
-Obtain Moodle container ID from `docker ps` and run
-`docker exec -ti <CONTAINER_ID> bash`. 
-
-Now we're in container's terminal. In that same terminal, navgate to Charon plugin folder by  `$ cd bitnami/moodle/mod/charon` and run the following commands to make Laravel (php framework of charon) work:
- 
-  ```
- php composer.phar install &&
- cp -p .env.example .env &&
-php artisan key:generate
+To install charon you can either use 
 ```
- 
-Charon views are being developed using Vue. Install npm packages with  `npm i`. When done, close container terminal.
- 
- We're done with configuration now. Go to http://localhost and log in with `dev` as user and `dev` as password. You should be welcomed with new plugin install window. Install and Proceed.
+curl -v -X GET --header "PRIVATE-TOKEN: [token]" -o artifacts.zip "https://gitlab.cs.ttu.ee/api/v4/projects/216/jobs/artifacts/master/download?job=create_production_artifacts"
+```
+or 
+```
+git clone https://gitlab.cs.ttu.ee/ained/charon
+```
 
-Verify that Laravel routing of Charon works with navigating to http://localhost/mod/charon/documentation.
+When git clone option is used you need to `docker exec -it <hash> bash` into the container, `cd bitnami/moodle/mod/charon` folder and follow this tutorial on how to install npm: https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/
+and then run next commands as well: 
+```
+php composer.phar install --no-dev
+cp -p .env.production .env
+php artisan key:generate
+npm shrinkwrap
+npm install
+npm run dev
+rm -rf node_modules
+```
 
-Moodle is now installed along with Charon.
+## Post installation
 
+Then `cd moodle_data/moodle/mod/charon` and run 
+```
+sudo chmod -R 777 plugin/storage/
+```
+
+Now you should have a working charon
+
+If you notice, that when creating charons the presets and defaults are not present - then installation goofed and command:
+`php artisan db:seed` should be ran which seeds the database.
 
 ## Installing TTU theme
 
 It may help to develop views for Charon when running the same theme which is used at ained.ttu.ee. 
 
 Go to your Moodle installation themes folder by
- ```$ cd ~/dev/moodle/moodle_data/moodle/theme```
+ ```cd ~/dev/moodle/moodle_data/moodle/theme```
 
 And download TTU theme with 
 ```git clone https://gitlab.cs.ttu.ee/ained/theme1.git```
@@ -92,7 +96,5 @@ Make TTU theme default by navigating to **Site administration > Appearance > The
 
 Select **Theme1** from the list.
 
-
-## Known issues
-
-Linked volumes in Docker CE using macOS could be painfully slow. You might want to try bleeding edge versions of Docker CE when the problem affects you.
+## Why .htacces is used
+.htaccess is needed so `/mod/charon/courses/<id>/settings` doesn't return 404. Purely because how Moodle is done
