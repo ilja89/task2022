@@ -23,6 +23,8 @@ or
 git clone https://gitlab.cs.ttu.ee/ained/charon
 ```
 
+make sure the `charon` folder ends up at `moodle/mod/` folder
+
 When git clone option is used you need to `docker exec -it <hash> bash` into the container, `cd bitnami/moodle/mod/charon` folder and follow this tutorial on how to install npm: https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/
 and then run next commands as well: 
 ```
