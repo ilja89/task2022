@@ -93,6 +93,8 @@ class InstanceController extends Controller
     {
 
         global $DB;
+        global $CHARON_CREATED;
+        $CHARON_CREATED = false;
 
         try {
 
@@ -124,10 +126,16 @@ class InstanceController extends Controller
                 );
             }
 
-            $sql = "COMMIT";
-            $DB->execute($sql);
+            sleep(5);
 
-            return $charon->id;
+            if ($CHARON_CREATED) {
+                $sql = "COMMIT";
+                $DB->execute($sql);
+                $CHARON_CREATED = false;
+                return $charon->id;
+            } else {
+                throw new Exception('Moodle failed to create something. Check logs.');
+            }
 
         } catch (\Exception $e) {
             $sql = "ROLLBACK";
@@ -153,7 +161,8 @@ class InstanceController extends Controller
     {
 
         global $DB;
-
+        global $CHARON_UPDATED;
+        $CHARON_UPDATED = false;
         try {
 
             $sql = "START TRANSACTION";
@@ -175,10 +184,17 @@ class InstanceController extends Controller
                 // TODO: Plagiarism
             }
 
-            $sql = "COMMIT";
-            $DB->execute($sql);
 
-            return "1";
+            sleep(5);
+
+            if ($CHARON_UPDATED) {
+                $sql = "COMMIT";
+                $DB->execute($sql);
+                $CHARON_UPDATED = false;
+                return "1";
+            } else {
+                throw new Exception('Moodle failed to update something. Check logs.');
+            }
 
         } catch (\Exception $e) {
             $sql = "ROLLBACK";

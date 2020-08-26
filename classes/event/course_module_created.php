@@ -13,6 +13,9 @@ class course_module_created
 
             Log::info("Create event:", [$event]);
 
+            global $CHARON_CREATED;
+            $CHARON_CREATED = true;
+
             require_once __DIR__ . '/../../plugin/bootstrap/autoload.php';
             require_once __DIR__ . '/../../plugin/bootstrap/helpers.php';
             $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
