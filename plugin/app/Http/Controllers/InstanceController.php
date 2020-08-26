@@ -99,9 +99,6 @@ class InstanceController extends Controller
     public function store()
     {
 
-        global $CHARON_CREATED;
-        $CHARON_CREATED = false;
-
         $charon = $this->getCharonFromRequest();
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
@@ -127,17 +124,7 @@ class InstanceController extends Controller
             );
         }
 
-        sleep(5);
-
-        if ($CHARON_CREATED) {
-            $CHARON_CREATED = false;
-            return $charon->id;
-        } else {
-            $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
-            $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
-            throw new \Exception('Moodle failed to create something. Check logs.');
-        }
-
+        return $charon->id;
     }
 
     /**
@@ -155,9 +142,6 @@ class InstanceController extends Controller
     public function update()
     {
 
-        global $CHARON_UPDATED;
-        $CHARON_UPDATED = false;
-
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$charon]);
 
@@ -174,17 +158,7 @@ class InstanceController extends Controller
             // TODO: Plagiarism
         }
 
-
-        sleep(5);
-
-        if ($CHARON_UPDATED) {
-            $CHARON_UPDATED = false;
-            return "1";
-        } else {
-            $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
-            $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
-            throw new \Exception('Moodle failed to update something. Check logs.');
-        }
+        return "1";
 
     }
 

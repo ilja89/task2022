@@ -13,9 +13,6 @@ class course_module_updated
 
             Log::info("Update event:", [$event]);
 
-            global $CHARON_UPDATED;
-            $CHARON_UPDATED = true;
-
             require_once __DIR__ . '/../../plugin/bootstrap/autoload.php';
             require_once __DIR__ . '/../../plugin/bootstrap/helpers.php';
             $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
