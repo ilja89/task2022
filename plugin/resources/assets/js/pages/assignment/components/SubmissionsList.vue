@@ -57,7 +57,7 @@
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
                     @click="toggleAdvanced(submission.id)" :key="index">
 
-                    <span class="tag is-info" :class="{registered: listStyle(submission.id)}">
+                    <span class="tag is-info" :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission, index)}">
                         {{ submissionString(submission) }}
                     </span>
 
@@ -205,6 +205,7 @@ SVG Icons - svgicons.sparkk.fr
                 submissions: [],
                 index: 0,
                 registered: false,
+                defended: false,
                 current_submission: 0,
                 selected: '',
                 selected_lab: Object,
@@ -266,6 +267,9 @@ SVG Icons - svgicons.sparkk.fr
                     this.time = this.time.filter(x => !this.notavailable_time.includes(x));
                 }
             },
+            defendedSubmission(submission) {
+                return submission.results[2]['calculated_result'] === '1.00';
+            },
 
             getLabList({start}) {
                 let date = `${start.split(' ')[0]}`;
@@ -289,8 +293,6 @@ SVG Icons - svgicons.sparkk.fr
             onSelect(option) {
                 if (option != null) {
                     this.arrayDefenseTime(option);
-                    this.secondMultiselect = false;
-                    this.modalSize = true;
                 }
             },
 
