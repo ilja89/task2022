@@ -45,6 +45,10 @@ class UserService
      **/
     public function findUserByUniid($name)
     {
-        return User::where('username', 'like', $name . '%')->first();
+        $users = User::where('username', $name . '@ttu.ee')->get();
+        if (count($users) == 0) {
+            return User::where('username', 'like', $name . '%')->first();
+        }
+        return $users[0];
     }
 }
