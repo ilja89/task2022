@@ -61,4 +61,3 @@ Route::get('api/student_defense_data.php', 'CharonController@getDefenders');
 Route::get('api/get_time.php', 'SubmissionController@getRowCountForPractise');
 Route::delete('api/delete_defense.php', 'DefenseLabController@deleteReg');
 Route::get('api/student_group.php', 'DefenseLabController@getStudentGroup');
-Route::get('api/student_group.php', 'DefenseLabController@getStudentGroup');

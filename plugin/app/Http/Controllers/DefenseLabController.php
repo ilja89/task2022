@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
-
 class DefenseLabController extends Controller
 {
     public function deleteReg(Request $request)
