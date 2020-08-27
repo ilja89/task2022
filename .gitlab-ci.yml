@@ -67,7 +67,7 @@ create_production_artifacts:
     - php artisan key:generate
     - npm shrinkwrap
     - npm install
-    - npm run dev
+    - npm run production
     - rm -rf node_modules
     - mkdir charon
     - mv * charon || true
