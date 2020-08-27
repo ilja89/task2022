@@ -4,11 +4,7 @@ namespace TTU\Charon\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Lab;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Zeizig\Moodle\Models\Course;
 
 class LabsController extends Controller {
 

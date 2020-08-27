@@ -20,16 +20,18 @@
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                         </multiselect>
 
-                        <multiselect style="margin-top: 30px" v-model="value_time" :class="{secondMultiselect: secondMultiselect}" :max-height="200"
+                        <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time" :max-height="200"
                                      :options="this.time" placeholder="Select suitable time for you">
                         </multiselect>
                     </div>
+                    <p v-if="(this.array_to_show.length !== 0)" style="margin-bottom: 18px; color: indianred; font-style: italic; font-size: 13px">
+                        Unavailable time if you choose 'my_teacher' {{this.array_to_show}}</p>
                     <div class="register-lab-headers" style="margin-top: 6vh">
                         <h4>Choose a teacher</h4>
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
-                            <div class="col-6 col-sm-4" v-if="this.student_group !== 0"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
+                            <div class="col-6 col-sm-4" v-if="(this.student_group !== 0)"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
                             <div class="w-100 d-none d-md-block"></div>
                             <div class="col-6 col-sm-4" v-if="(this.charon['choose_teacher'] === 1 || this.student_group === 0)">
                                 <label for="another-teacher"></label>
@@ -55,7 +57,7 @@
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
                     @click="toggleAdvanced(submission.id)" :key="index">
 
-                    <span class="tag is-info" :class="{registered: listStyle(submission.id)}">
+                    <span class="tag is-info" :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission)}">
                         {{ submissionString(submission) }}
                     </span>
 
@@ -199,11 +201,11 @@ SVG Icons - svgicons.sparkk.fr
                 my_teacher: true,
                 value: null,
                 value_time: null,
-                secondMultiselect: true,
                 advanced: [],
                 submissions: [],
                 index: 0,
                 registered: false,
+                defended: false,
                 current_submission: 0,
                 selected: '',
                 selected_lab: Object,
@@ -219,6 +221,7 @@ SVG Icons - svgicons.sparkk.fr
                 defenseData: [],
                 submission_validation: false,
                 student_group: 0,
+                array_to_show: []
             };
         },
 
@@ -235,24 +238,37 @@ SVG Icons - svgicons.sparkk.fr
         methods: {
             arrayDefenseTime(option) {
                 this.time.length = 0;
-                let defense_duration = this.charon['defense_duration'];
-                let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii');
-                let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
                 let start = option['start'];
                 let end = option['end'];
-
                 let time = option['start'].split(' ')[0];
-                axios.get(`api/get_time.php?time=${time}&course=${this.charon['course']}&start=${start}&end=${end}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
-                    this.notavailable_time = result.data;
-                }).then(() => {
-                    while (startTime < endTime) {
-                        this.time.push(new moment(startTime).format('HH:mm'));
-                        startTime.add(defense_duration, 'minutes');
-                    }
-                    if (this.notavailable_time.length !== 0) {
-                        this.time = this.time.filter(x => !this.notavailable_time.includes(x));
+                this.timeGenerator(option);
+                axios.get(`api/get_time.php?time=${time}&studentid=${this.student_id}&group=${this.student_group}&start=${start}&end=${end}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
+                    if (this.student_group !== 0) {
+                        if (this.time.includes(result.data[0])) this.array_to_show = result.data[0];
+                        else {
+                            this.notavailable_time = result.data[1];
+                            this.timeGenerator(option);
+                        }
+                    } else {
+                        this.notavailable_time = result.data[1];
+                        this.timeGenerator(option);
                     }
                 })
+            },
+            timeGenerator(option) {
+                let defense_duration = this.charon['defense_duration'];
+                let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii')
+                let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
+                while (startTime < endTime) {
+                    this.time.push(new moment(startTime).format('HH:mm'));
+                    startTime.add(defense_duration, 'minutes');
+                }
+                if (this.notavailable_time.length !== 0) {
+                    this.time = this.time.filter(x => !this.notavailable_time.includes(x));
+                }
+            },
+            defendedSubmission(submission) {
+                return submission.results[2]['calculated_result'] === '1.00';
             },
 
             getLabList({start}) {
@@ -277,8 +293,6 @@ SVG Icons - svgicons.sparkk.fr
             onSelect(option) {
                 if (option != null) {
                     this.arrayDefenseTime(option);
-                    this.secondMultiselect = false;
-                    this.modalSize = true;
                 }
             },
 
@@ -322,7 +336,7 @@ SVG Icons - svgicons.sparkk.fr
                 let datetime_end = this.value['end'];
                 let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
 
-                if (this.value !== 0 && this.value_time.length !== 0 && this.selected.length !== 0) {
+                if (this.value !== 0 && this.value_time !== null && this.selected.length !== 0) {
                     axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
                         charon_id: this.charon_id,
                         course_id: this.charon['course'],
