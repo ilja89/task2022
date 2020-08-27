@@ -7,6 +7,7 @@
             <datepicker :datetime="after"></datepicker>
             <input type="hidden" :value="after">
         </div>
+
         <div class="helper">
             Before
         </div>
@@ -14,8 +15,30 @@
             <datepicker :datetime="before"></datepicker>
             <input type="hidden" :value="before">
         </div>
+
+        <div class="helper">
+            Filter by teacher name
+        </div>
+        <div>
+            <multiselect v-model="filter_teacher" :options="teachers" label="name" placeholder="Select teachers"
+                         trackBy="id" :clear-on-select="true" class="multiselect__width">
+            </multiselect>
+            <br>
+        </div>
+
+        <div class="helper">
+            Filter by progress
+        </div>
+        <div>
+            <multiselect v-model="filter_progress" :options="all_progress_types"
+                         placeholder="Select progress"
+                         :clear-on-select="true" class="multiselect__width">
+            </multiselect>
+            <br>
+        </div>
+
         <div class="apply-btn-container">
-            <button class="btn-apply" v-on:click="apply(after.time, before.time)">Apply</button>
+            <button class="btn-apply" v-on:click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply</button>
         </div>
         <div class="card  has-padding">
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
@@ -70,17 +93,22 @@
     import Datepicker from "../../../components/partials/Datepicker";
     import Defense from "../../../api/Defense";
     import {mapState} from "vuex";
+    import Multiselect from "vue-multiselect";
 
     export default {
-        components: {Datepicker},
+        components: {Datepicker, Multiselect},
         data() {
             return {
                 after: {time: null},
                 before: {time: null},
+                filter_teacher: {id: -1},
+                filter_progress: null,
+                all_progress_types: ['Waiting', 'Defending', 'Done']
             }
         }, props: {
             defenseList: {required: true},
-            apply: {required: true}
+            apply: {required: true},
+            teachers: {required: true}
         },
         methods: {
             getSubmissionRouting(submissionId) {
@@ -198,6 +226,10 @@
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {
         display: block;
+    }
+
+    .multiselect__width {
+        width: 400px !important;
     }
 
 </style>

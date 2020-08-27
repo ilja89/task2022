@@ -40,10 +40,12 @@ class DefenseRegistrationController extends Controller
      * @param Course $course
      * @param $after
      * @param $before
+     * @param $teacher_id
+     * @param $progress
      * @return Collection|Defenders[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before) {
-        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before);
+    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacher_id, $progress) {
+        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacher_id, $progress);
     }
 
     /**
