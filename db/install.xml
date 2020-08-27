@@ -24,7 +24,7 @@
                 <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="false"/>
                 <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
-                <FIELD NAME="defense_treshold" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="50"/>
+                <FIELD NAME="defense_threshold" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="50"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <!-- Moodle requires these tables. -->
