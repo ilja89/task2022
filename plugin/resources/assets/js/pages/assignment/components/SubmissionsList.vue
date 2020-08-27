@@ -286,13 +286,13 @@ SVG Icons - svgicons.sparkk.fr
                 this.current_submission = submissionId
                 this.isActive = this.submission_validation;
                 if (this.isActive === false) {
-                    alert("You can't registrate submission with result less then 50%")
+                    alert("You can't register a submission with result less than " + this.charon['defense_threshold'] + "%")
                 }
             },
             ValidationForDefReg(submission) {
                 var result = submission.results[0].calculated_result;
                 var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
-                this.submission_validation = result / maxResult >= 0.5;
+                this.submission_validation = result / maxResult >= this.charon['defense_threshold'] / 100;
             },
             getCharonAndLabs() {
                 axios.get(`api/charon_data.php?id=${this.charon_id}`).then(result => {
@@ -336,22 +336,22 @@ SVG Icons - svgicons.sparkk.fr
                         this.getDefenseData();
                         this.editDataAfterInsert(result.data)
                     })
-                } else alert("You didnt insert needed parameters!")
+                } else alert("Needed parameters weren't inserted!")
             },
 
             editDataAfterInsert(dataFromDb) {
                 switch (dataFromDb) {
                     case 'teacher is busy':
-                        alert("Your teacher is busy for this time.\nPlease choose another time or if it possible another teacher.");
+                        alert("Your teacher isn't vacant at given time.\nPlease choose another time or if possible, another teacher.");
                         break;
                     case 'user in db':
-                        alert('You cannot register twice for one practise.\n If tou want to choose another time, then you shoul delete your previous time (My defenses button)');
+                        alert('You cannot register twice for one exercise.\n If you want to choose another time, then you should delete your previous time (My defenses button)');
                         break;
                     case 'inserted':
-                        alert('You was successfully registered for defense!');
+                        alert('Registration was successful!');
                         break;
                     case 'deleted':
-                        alert('This time is busy. Please chose another one or choose option "Another teacher"');
+                        alert('Selected teacher was\'nt vacant. Please chose another time or choose option "Another teacher"');
                         break;
                 }
             },
@@ -391,7 +391,6 @@ SVG Icons - svgicons.sparkk.fr
                 return resultStr;
             },
             refreshSubmissions() {
-                console.log(this.charon_id)
                 this.refreshing = true;
                 Submission.findByUserCharon(this.student_id, this.charon_id, (submissions) => {
                     this.submissions = submissions;
