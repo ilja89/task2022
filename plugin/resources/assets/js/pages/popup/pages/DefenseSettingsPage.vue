@@ -18,7 +18,6 @@
         data() {
             return {
                 charons: [],
-                charonCountdown: null
             }
         },
         computed: {
@@ -29,12 +28,8 @@
         },
         methods: {
             formatCharonsDeadlines(ch, then) {
-                this.charonCountdown = ch.length
                 for (let i = 0; i < ch.length; i++){
-                    this.getLabsForCharon(ch[i].id, result => {
-                        ch[i].defense_labs = result
-                        then(ch)
-                    })
+                    this.getNamesForLabs(ch[i].charonDefenseLabs)
                     if (ch[i].defense_deadline === null) {
                         ch[i].defense_deadline = {time: null}
                     } else {
@@ -42,21 +37,13 @@
                         ch[i].defense_deadline = {time: deadline}
                     }
                 }
+                then(ch)
             },
-            getLabsForCharon(charonId, then) {
-                Lab.getByCharonId(charonId, response => {
-                    this.getNamesForLabs(response, result => {
-                        then(response)
-                    })
-
-                })
-            },
-            getNamesForLabs(labs, then) {
+            getNamesForLabs(labs) {
                 for (let i = 0; i < labs.length; i++) {
                     labs[i].name = this.getDayTimeFormat(new Date(labs[i].start))
                         + ' (' + this.getNiceDate(new Date(labs[i].start)) + ')'
                 }
-                then(labs)
             },
             getDayTimeFormat(start) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
@@ -73,10 +60,7 @@
         mounted() {
             Charon.all(this.course.id, response => {
                 this.formatCharonsDeadlines(response, done => {
-                    this.charonCountdown--
-                    if (!this.charonCountdown) {
-                        this.charons = done
-                    }
+                    this.charons = done
                 })
             })
         }

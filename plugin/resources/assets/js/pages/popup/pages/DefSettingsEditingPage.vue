@@ -30,8 +30,9 @@
         methods: {
             saveClicked() {
                 let chosen_labs = []
-                for (let i = 0; i < this.charon.defense_labs.length; i++) {
-                    chosen_labs.push(this.charon.defense_labs[i].id)
+                console.log(this.charon)
+                for (let i = 0; i < this.charon.charonDefenseLabs.length; i++) {
+                    chosen_labs.push(this.charon.charonDefenseLabs[i].id)
                 }
                 let give_deadline = this.charon.defense_deadline.time
                 if (give_deadline.toString().includes('GMT')) {
@@ -44,8 +45,9 @@
                         give_deadline = new Date(give_deadline.setHours(give_deadline.getHours() - parseInt(num)))
                     }
                 }
+                console.log('save', this.charon)
                 Charon.saveCharonDefenseStuff(this.charon.id, give_deadline, this.charon.defense_duration,
-                    chosen_labs, this.charon.choose_teacher, () => {
+                    chosen_labs, this.charon.choose_teacher, this.charon.defense_threshold, () => {
                         window.location = "popup#/defenseSettings";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')

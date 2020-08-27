@@ -10,6 +10,7 @@ use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
@@ -48,6 +49,9 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
+    /** @var DeadlinesRepository */
+    private $deadlinesRepository;
+
     /**
      * InstanceController constructor.
      *
@@ -59,6 +63,7 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
         Request $request,
@@ -68,7 +73,8 @@ class InstanceController extends Controller
         CreateCharonService $createCharonService,
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
-        PlagiarismService $plagiarismService
+        PlagiarismService $plagiarismService,
+        DeadlinesRepository $deadlinesRepository
     )
     {
         parent::__construct($request);
@@ -79,6 +85,7 @@ class InstanceController extends Controller
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
+        $this->deadlinesRepository = $deadlinesRepository;
     }
 
     /**
@@ -92,49 +99,32 @@ class InstanceController extends Controller
     public function store()
     {
 
-        global $DB;
+        $charon = $this->getCharonFromRequest();
+        $charon->category_id = $this->createCharonService->addCategoryForCharon(
+            $charon,
+            $this->request->input('course')
+        );
 
-        try {
-
-            $sql = "START TRANSACTION";
-            $DB->execute($sql);
-
-            $charon = $this->getCharonFromRequest();
-            $charon->category_id = $this->createCharonService->addCategoryForCharon(
-                $charon,
-                $this->request->input('course')
-            );
-
-            if (!$this->charonRepository->save($charon)) {
-                return null;
-            }
-
-            $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
-            $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
-
-            event(new CharonCreated($charon));
-
-            Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
-            if ($this->request->input('plagiarism_enabled')) {
-                $charon = $this->plagiarismService->createChecksuiteForCharon(
-                    $charon,
-                    $this->request->input('plagiarism_services'),
-                    $this->request->input('resource_providers'),
-                    $this->request->input('plagiarism_includes')
-                );
-            }
-
-            $sql = "COMMIT";
-            $DB->execute($sql);
-
-            return $charon->id;
-
-        } catch (\Exception $e) {
-            $sql = "ROLLBACK";
-            $DB->execute($sql);
-            Log::error("Exception when creating charon: ", [$e]);
-            throw $e;
+        if (!$this->charonRepository->save($charon)) {
+            return null;
         }
+
+        $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
+        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+
+        event(new CharonCreated($charon));
+
+        Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
+        if ($this->request->input('plagiarism_enabled')) {
+            $charon = $this->plagiarismService->createChecksuiteForCharon(
+                $charon,
+                $this->request->input('plagiarism_services'),
+                $this->request->input('resource_providers'),
+                $this->request->input('plagiarism_includes')
+            );
+        }
+
+        return $charon->id;
     }
 
     /**
@@ -152,40 +142,23 @@ class InstanceController extends Controller
     public function update()
     {
 
-        global $DB;
+        $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
+        Log::info("Update charon", [$charon]);
 
-        try {
+        if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
 
-            $sql = "START TRANSACTION";
-            $DB->execute($sql);
+            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+            $this->updateCharonService->updateGrademaps(
+                $this->request->input('grademaps'),
+                $charon,
+                $deadlinesUpdated,
+                $this->request->input('recalculate_grades')
+            );
 
-            $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
-            Log::info("Update charon", [$charon]);
-
-            if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
-
-                $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
-                $this->updateCharonService->updateGrademaps(
-                    $this->request->input('grademaps'),
-                    $charon,
-                    $deadlinesUpdated,
-                    $this->request->input('recalculate_grades')
-                );
-
-                // TODO: Plagiarism
-            }
-
-            $sql = "COMMIT";
-            $DB->execute($sql);
-
-            return "1";
-
-        } catch (\Exception $e) {
-            $sql = "ROLLBACK";
-            $DB->execute($sql);
-            Log::error("Exception when updating charon: ", [$e]);
-            throw $e;
+            // TODO: Plagiarism
         }
+
+        return "1";
 
     }
 

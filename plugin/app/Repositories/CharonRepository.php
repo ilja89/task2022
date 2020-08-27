@@ -36,17 +36,25 @@ class CharonRepository
     private $fileUploadService;
 
     /**
+     * @var CharonDefenseLabRepository
+     */
+    protected $charonDefenseLabRepository;
+
+    /**
      * CharonRepository constructor.
      *
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
+     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
-    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService, GradebookService $gradebookService)
+    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService,
+                                GradebookService $gradebookService, CharonDefenseLabRepository $charonDefenseLabRepository)
     {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
+        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
     }
 
     /**
@@ -181,6 +189,7 @@ class CharonRepository
         $oldCharon->defense_deadline = $newCharon->defense_deadline;
         $oldCharon->defense_duration = $newCharon->defense_duration;
         $oldCharon->choose_teacher = $newCharon->choose_teacher;
+        $oldCharon->defense_threshold = $newCharon->defense_threshold;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
             $newCharon->description,
@@ -219,14 +228,15 @@ class CharonRepository
                 'charon.course',
                 'charon.defense_deadline',
                 'charon.defense_duration',
-                'charon.choose_teacher'
+                'charon.choose_teacher',
+                'charon.defense_threshold'
             )
             ->orderBy('charon.name')
             ->get();
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-
+            $charon->charonDefenseLabs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(
@@ -312,12 +322,14 @@ class CharonRepository
      * @param $defenseDuration
      * @param Collection|Lab[] $defenseLabs
      * @param $chooseTeacher
+     * @param $defenseThreshold
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher) {
+    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold) {
         $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
         $charon->defense_duration = $defenseDuration;
         $charon->choose_teacher = $chooseTeacher;
+        $charon->defense_threshold = $defenseThreshold;
         $charon->save();
         \DB::table('charon_defense_lab')
             ->where('charon_id', $charon->id)

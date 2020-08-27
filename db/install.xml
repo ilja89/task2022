@@ -23,7 +23,8 @@
                 <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="false"/>
-                <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
+                <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
+                <FIELD NAME="defense_threshold" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="50"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <!-- Moodle requires these tables. -->
@@ -160,8 +161,8 @@
                 <FIELD NAME="groups_depended_upon" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="status" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="weight" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="11" DEFAULT="1"/>
-                <FIELD NAME="print_exception_message" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
-                <FIELD NAME="print_stack_trace" SEQUENCE="false" TYPE="binary" NOTNULL="false"/>
+                <FIELD NAME="print_exception_message" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
+                <FIELD NAME="print_stack_trace" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
                 <FIELD NAME="time_elapsed" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="11"/>
                 <FIELD NAME="methods_depended_upon" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="stack_trace" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
@@ -231,7 +232,7 @@
                 <FIELD NAME="student_name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="binary" NOTNULL="true"/>
+                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true"/>
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>

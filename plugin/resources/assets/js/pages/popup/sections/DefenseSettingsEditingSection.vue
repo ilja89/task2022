@@ -30,7 +30,7 @@
 
                     <p class="input-helper">Labs where this Charon can be defended.</p>
 
-                    <multiselect v-model="charon.defense_labs" :options="labs" :multiple="true" label="name"
+                    <multiselect v-model="charon.charonDefenseLabs" :options="labs" :multiple="true" label="name"
                                  :close-on-select="false" placeholder="Select labs" trackBy="id"
                                  :clear-on-select="true" class="multiselect__width">
                     </multiselect>
@@ -38,10 +38,19 @@
                 </div>
 
                 <div class="defense-field">
+                    <label>Threshold</label>
+
+                    <p class="input-helper">Minimum percentage to register for defense.</p>
+                    <input type="number"
+                            v-model="charon.defense_threshold"
+                            class="form-control" min="0" max="100">
+                </div>
+
+                <div class="defense-field">
                     <label>Teacher</label>
                     <br>
                     <input v-model="charon.choose_teacher" type="checkbox">
-                    <a class="input-helper checkbox-text">Student can choose a teacher.</a>
+                    <a class="input-helper checkbox-text choose_teacher">Student can choose a teacher.</a>
                 </div>
 
             </div>
@@ -123,6 +132,10 @@
         -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    .choose_teacher {
+        cursor: default;
     }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="modal" :class="{ 'is-active': isActive }">
         <div class="modal-background" @click="$emit('modal-was-closed')"></div>
-        <div class="modal-card">
+        <div class="modal-card" v-bind:style="{width: computedWidth}">
             <header class="modal-card-head">
                 <slot name="header"></slot>
                 <button class="delete" @click="$emit('modal-was-closed')"></button>
