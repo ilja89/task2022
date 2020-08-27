@@ -171,15 +171,18 @@ class StudentsController extends Controller
 
     public function findDistribution(Course $course)
     {
+        global $CFG;
+        $prefix = $CFG->prefix;
+
         $parts = 5;
         $sql = 'select
                 floor((gg.finalgrade * ?) / (max_grades.max_grade + 0.1)) as part,
                 count(gg.userid) as user_count,
                 max_grades.max_grade as max_grade
             from
-                mdl_grade_grades gg
+                '.$prefix.'grade_grades gg
             inner join
-                mdl_grade_items gi
+                '.$prefix.'grade_items gi
                 on
                     gg.itemid = gi.id
             inner join
@@ -188,8 +191,8 @@ class StudentsController extends Controller
                         max(gg_inner.finalgrade) as max_grade,
                         gi_inner.courseid as course_id
                     from
-                      mdl_grade_items as gi_inner
-                      inner join mdl_grade_grades as gg_inner
+                      '.$prefix.'grade_items as gi_inner
+                      inner join '.$prefix.'grade_grades as gg_inner
                           on gi_inner.id = gg_inner.itemid
                     where gi_inner.itemtype = \'course\'
                     and gi_inner.courseid = ?
