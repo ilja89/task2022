@@ -61,9 +61,11 @@ class DefenseRegistrationRepository
      * @param $courseId
      * @param $after
      * @param $before
+     * @param $teacher_id
+     * @param $progress
      * @return Collection|Defenders[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before) {
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress) {
         if ($after != 'null' && $before != 'null') {
             $filteringWhere = "choosen_time BETWEEN '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "' AND '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
         } elseif ($after != 'null') {
@@ -71,13 +73,23 @@ class DefenseRegistrationRepository
         } elseif ($before != 'null') {
             $filteringWhere = "choosen_time <= '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
         } else {
-            return $this->getDefenseRegistrationsByCourse($courseId);
+            $filteringWhere = "student_id > '-1'";
+        }
+        $teacher_filter = "student_id > '-1'";
+        if ($teacher_id != -1) {
+            $teacher_filter = "teacher_id LIKE '" . $teacher_id . "'";
+        }
+        $progress_filter = "student_id > '-1'";
+        if ($progress != 'null') {
+            $progress_filter = "progress LIKE '" . $progress . "'";
         }
         $defenseRegistrations = \DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
+            ->whereRaw($teacher_filter)
+            ->whereRaw($progress_filter)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
                 'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defenders.teacher_id')
