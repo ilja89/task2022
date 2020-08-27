@@ -292,10 +292,6 @@ SVG Icons - svgicons.sparkk.fr
             ValidationForDefReg(submission) {
                 var result = submission.results[0].calculated_result;
                 var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
-                console.log(result)
-                console.log(maxResult)
-                console.log(submission.results[0])
-                console.log(this.getGrademapByResult(submission.results[0]))
                 this.submission_validation = result / maxResult >= this.charon['defense_threshold'] / 100;
             },
             getCharonAndLabs() {
