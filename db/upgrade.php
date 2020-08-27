@@ -416,5 +416,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql2);
     }
 
+    if ($oldversion < 2020082701) {
+        $sql = "ALTER TABLE mdl_charon_unit_test ADD COLUMN defense_threshold BIGINT(10) DEFAULT 50";
+        $DB->execute($sql);
+    }
+
     return true;
 }
