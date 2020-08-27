@@ -171,6 +171,9 @@ pre {
   .tag.is-info.registered {
     background-color: #0A30FA;
   }
+  .tag.is-info.defended {
+    background-color: #23E001;
+  }
 
 }
 
@@ -334,6 +337,4 @@ pre {
 tfoot {
   font-weight: bold;
 }
-.secondMultiselect {
-  display: none;
-}
+
