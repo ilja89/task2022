@@ -3,12 +3,10 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class LabTeacherRepository
 {
     public function deleteAllLabTeachersForCharon($charonId) {
-        Log::info("Attempting to delete all charon lab-teachers");
         return DB::table('charon_lab_teacher')
             ->where('charon_id', $charonId)
             ->delete();
@@ -88,6 +86,18 @@ class LabTeacherRepository
             ->where('groups_members.groupid', $group[0]->groupid)
             ->whereRaw("roleid IN " . $okRoleIdsString)
             ->select('user.id', 'user.firstname', 'user.lastname', 'groups_members.groupid')
+            ->get();
+        return $teacher;
+    }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getTeacherByUserId($userId) {
+        $teacher = \DB::table('user')
+            ->where('id', $userId)
+            ->select('id', 'firstname', 'lastname')
             ->get();
         return $teacher;
     }

@@ -9,8 +9,8 @@ class Defense {
         })
     }
 
-    static filtered(courseId, after, before, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/defenseRegistrations/' + after + '/' + before)
+    static filtered(courseId, after, before, teacher_id, progress, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/defenseRegistrations/' + after + '/' + before + '/' + teacher_id + '/' + progress)
             .then(response => {
                 then(response.data)
             }).catch(error => {
