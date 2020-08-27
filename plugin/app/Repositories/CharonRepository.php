@@ -189,6 +189,7 @@ class CharonRepository
         $oldCharon->defense_deadline = $newCharon->defense_deadline;
         $oldCharon->defense_duration = $newCharon->defense_duration;
         $oldCharon->choose_teacher = $newCharon->choose_teacher;
+        $oldCharon->defense_threshold = $newCharon->defense_threshold;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
             $newCharon->description,
@@ -227,7 +228,8 @@ class CharonRepository
                 'charon.course',
                 'charon.defense_deadline',
                 'charon.defense_duration',
-                'charon.choose_teacher'
+                'charon.choose_teacher',
+                'charon.defense_threshold'
             )
             ->orderBy('charon.name')
             ->get();
@@ -320,12 +322,14 @@ class CharonRepository
      * @param $defenseDuration
      * @param Collection|Lab[] $defenseLabs
      * @param $chooseTeacher
+     * @param $defenseThreshold
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher) {
+    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold) {
         $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
         $charon->defense_duration = $defenseDuration;
         $charon->choose_teacher = $chooseTeacher;
+        $charon->defense_threshold = $defenseThreshold;
         $charon->save();
         \DB::table('charon_defense_lab')
             ->where('charon_id', $charon->id)

@@ -30,11 +30,20 @@
 
                     <p class="input-helper">Labs where this Charon can be defended.</p>
 
-                    <multiselect v-model="charon.defense_labs" :options="labs" :multiple="true" label="name"
+                    <multiselect v-model="charon.charonDefenseLabs" :options="labs" :multiple="true" label="name"
                                  :close-on-select="false" placeholder="Select labs" trackBy="id"
                                  :clear-on-select="true" class="multiselect__width">
                     </multiselect>
 
+                </div>
+
+                <div class="defense-field">
+                    <label>Threshold</label>
+
+                    <p class="input-helper">Minimum percentage to register for defense.</p>
+                    <input type="number"
+                            v-model="charon.defense_threshold"
+                            class="form-control" min="0" max="100">
                 </div>
 
                 <div class="defense-field">

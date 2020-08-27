@@ -48,6 +48,6 @@ class CharonsController extends Controller
     public function saveCharonDefendingStuff(Charon $charon)
     {
         return $this->charonRepository->saveCharonDefendingStuff($charon, $this->request['defense_deadline'],
-            $this->request['defense_duration'], $this->request['defense_labs'], $this->request['choose_teacher']);
+            $this->request['defense_duration'], $this->request['defense_labs'], $this->request['choose_teacher'], $this->request['defense_threshold']);
     }
 }
