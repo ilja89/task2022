@@ -16,7 +16,13 @@ export const formatName = user => {
  * @param date {String}
  * @returns {String}
  */
-export const removeDateSeconds = date => date.replace(/:[0-9]{2}\.[0-9]+/, '')
+export const removeDateSeconds = date => {
+    try {
+        date.replace(/:[0-9]{2}\.[0-9]+/, '')
+    } catch (e) {
+        return date
+    }
+}
 
 /**
  * Format the results of a Submission into a string.

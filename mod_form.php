@@ -50,9 +50,9 @@ class mod_charon_mod_form extends moodleform_mod
             ['rows' => 10],
             [
                 'maxfiles' => EDITOR_UNLIMITED_FILES,
-                'noclean'  => true,
-                'context'  => $this->context,
-                'subdirs'  => true,
+                'noclean' => true,
+                'context' => $this->context,
+                'subdirs' => true,
             ]
         )->setValue([
             'text' => $currentDescription['text'],
@@ -63,8 +63,16 @@ class mod_charon_mod_form extends moodleform_mod
         $mform->addRule('description', null, 'required', null);
 
         $this->standard_coursemodule_elements();
-        $this->_form->removeElement('cmidnumber');
-        $this->_form->removeElement('groupmode');
+
+        try {
+            $this->_form->removeElement('cmidnumber');
+        } catch (\Exception $e) {
+        }
+
+        try {
+            $this->_form->removeElement('groupmode');
+        } catch (\Exception $e) {
+        }
 
         $this->add_action_buttons();
 
