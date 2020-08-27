@@ -22,12 +22,13 @@ class Charon {
             })
     }
 
-    static saveCharonDefenseStuff(charonId, defense_deadline, defense_duration, defense_labs, choose_teacher, then) {
+    static saveCharonDefenseStuff(charonId, defense_deadline, defense_duration, defense_labs, choose_teacher, defense_threshold, then) {
         axios.post(Charon.getRoot() + '/charons/' + charonId, {
             defense_deadline: defense_deadline,
             defense_duration: defense_duration,
             defense_labs: defense_labs,
-            choose_teacher: choose_teacher
+            choose_teacher: choose_teacher,
+            defense_threshold: defense_threshold
         }).then(response => {
             then(response.data)
         }).catch(error => {

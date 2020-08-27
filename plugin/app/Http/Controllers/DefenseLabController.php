@@ -16,7 +16,7 @@ class DefenseLabController extends Controller
         $defense_lab_id = $request->input('defLab_id');
         $charon_id = $request->input('charon_id');
 
-        return DB::table('defenders')
+        return DB::table('charon_defenders')
             ->where('student_id', $student_id)
             ->where('defense_lab_id', $defense_lab_id)
             ->where('charon_id', $charon_id)
