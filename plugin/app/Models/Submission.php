@@ -88,28 +88,28 @@ class Submission extends Model
 
     public function getGitTimestampAttribute($gitTimestamp)
     {
-        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'Europe/Tallinn');
-        if (config('app.timezone')) {
-            $gitTimestamp = $gitTimestamp->setTimezone(config('app.timezone'));
-        }
+//        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'Europe/Tallinn');
+//        if (config('app.timezone')) {
+//            $gitTimestamp = $gitTimestamp->setTimezone(config('app.timezone'));
+//        }
         return $gitTimestamp;
     }
 
     public function getCreatedAtAttribute($createdAt)
     {
-        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'Europe/Tallinn');
-        if (config('app.timezone')) {
-            $createdAt = $createdAt->setTimezone(config('app.timezone'));
-        }
+//        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'Europe/Tallinn');
+//        if (config('app.timezone')) {
+//            $createdAt = $createdAt->setTimezone(config('app.timezone'));
+//        }
         return $createdAt;
     }
 
     public function getUpdatedAtAttribute($updatedAt)
     {
-        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'Europe/Tallinn');
-        if (config('app.timezone')) {
-            $updatedAt = $updatedAt->setTimezone(config('app.timezone'));
-        }
+//        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'Europe/Tallinn');
+//        if (config('app.timezone')) {
+//            $updatedAt = $updatedAt->setTimezone(config('app.timezone'));
+//        }
         return $updatedAt;
     }
 }
