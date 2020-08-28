@@ -14,7 +14,7 @@ class Charon {
     }
 
     static deleteById(charonId, then) {
-        window.axios.get(Charon.getRoot() + '/charons/' + charonId)
+        window.axios.delete(Charon.getRoot() + '/charons/' + charonId)
             .then(response => {
                 then(response.data)
             }).catch(error => {
