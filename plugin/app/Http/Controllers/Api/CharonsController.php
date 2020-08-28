@@ -45,7 +45,8 @@ class CharonsController extends Controller
      */
     public function deleteById(int $charonId)
     {
-        Log::info('delete charon with id', [$charonId]);
+        Log::error('delete charon by id');
+        Log::error([$charonId]);
         $this->charonRepository->deleteByInstanceId($charonId);
     }
 
