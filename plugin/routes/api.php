@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.charon.managing.require')
-        ->delete('charons/{charonId}', 'CharonsController@deleteById');
+        ->delete('charons/{charon}', 'CharonsController@deleteById');
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/{submission}', 'SubmissionsController@saveSubmission');
     Route::middleware('auth.charon.managing.require')
