@@ -42,8 +42,9 @@ class CharonsController extends Controller
     /**
      * @param int $charonId
      */
-    public function deleteById(int $charonId)
+    public function deleteById(Request $request)
     {
+        $charonId = $request->input('charon');
         $this->charonRepository->deleteByInstanceId($charonId);
     }
 
