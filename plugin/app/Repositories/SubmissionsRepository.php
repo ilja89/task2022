@@ -371,6 +371,7 @@ class SubmissionsRepository
         $result = DB::select(
             'select     
 	c.project_folder,     
+	c.id as charon_id,
 	count(distinct cs.user_id) as diff_users,     
 	count(distinct cs.id) as tot_subs,     
 	count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user ,     

@@ -13,6 +13,15 @@ class Charon {
             })
     }
 
+    static deleteById(charonId, then) {
+        window.axios.get(Charon.getRoot() + '/charons/' + charonId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error deleting a Charon.', 'danger')
+        })
+    }
+
     static getResultForStudent(charonId, userId, then) {
         window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/results/' + userId)
             .then(response => {

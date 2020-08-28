@@ -1,7 +1,7 @@
 <template>
     <popup-section
-        title="Submission counts"
-        subtitle="Submission counts and averages for Charons."
+            title="Submission counts"
+            subtitle="Submission counts and averages for Charons."
     >
         <div v-if="submissionCounts.length" class="card  has-padding">
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
@@ -53,7 +53,9 @@
                     <td>{{ charon.subs_per_user ? parseFloat(charon.subs_per_user) : 0 }}</td>
                     <td>{{ charon.avg_grade ? parseFloat(charon.avg_grade) : 0 }}</td>
 
-                    <td v-if="charon.diff_users === 0 && charon.tot_subs === 0"> //TODO BUTTON </td>
+                    <td v-if="charon.diff_users === 0 && charon.tot_subs === 0">
+                        <button v-on:click="deleteCharon(charon.charon_id)">Delete</button>
+                    </td>
                     <td v-else></td>
                 </tr>
                 </tbody>
@@ -67,14 +69,14 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { Submission } from '../../../api/index'
-    import { PopupSection } from '../layouts/index'
+    import {mapGetters} from 'vuex'
+    import {Charon, Submission} from '../../../api/index'
+    import {PopupSection} from '../layouts/index'
 
     export default {
         name: 'submission-counts-section',
 
-        components: { PopupSection },
+        components: {PopupSection},
 
         data() {
             return {
@@ -131,6 +133,12 @@
         },
 
         methods: {
+            deleteCharon(charonId) {
+                Charon.deleteById(charonId, _ => {
+                    this.charons = this.charons.filter(x => x.id !== charonId)
+                })
+            },
+
             fetchSubmissionCounts() {
                 Submission.findSubmissionCounts(this.courseId, counts => {
                     this.submissionCounts = counts
