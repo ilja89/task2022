@@ -48,6 +48,7 @@ class RequireCharonManaging
         Log::error('request');
         Log::error($request);
         Log::error($request->route('charon'));
+        Log::error('wat???');
         Log::error(get_class($request->route('charon')));
         if (is_int($request->route('charon'))) {
             Log::error('int found');
