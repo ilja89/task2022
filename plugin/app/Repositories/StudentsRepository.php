@@ -27,6 +27,7 @@ class StudentsRepository
             ->where('context.instanceid', $courseId)
             ->where(function ($query) use ($keyword) {
                 $query->whereRaw('LOWER(idnumber) like ?', [$keyword])
+                    ->orWhereRaw('LOWER(username) like ?', [$keyword])
                     ->orWhereRaw('LOWER(firstname) like ?', [$keyword])
                     ->orWhereRaw('LOWER(lastname) like ?', [$keyword])
                     ->orWhereRaw("CONCAT(LOWER(firstname), ' ', LOWER(lastname)) like ?", [$keyword]);
