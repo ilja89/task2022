@@ -52,6 +52,6 @@ class Deadline extends Model
         if (config('app.timezone')) {
             $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
         }
-        return $deadlineTime->toDateTimeString();
+        return $deadlineTime;
     }
 }
