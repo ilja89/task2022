@@ -15,7 +15,7 @@
 
             @foreach ($charon->deadlines as $deadline)
                 <tr>
-                    <td>{{ $deadline->deadline_time->format('d/m/Y H:i') }}</td>
+                    <td>{{ $deadline->deadline_time }}</td>
                     <td>{{ $deadline->percentage }}%</td>
                     <td>{{ $deadline->group ? $deadline->group->name : translate('all_groups') }}</td>
                 </tr>
