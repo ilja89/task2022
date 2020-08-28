@@ -41,13 +41,13 @@ class CharonsController extends Controller
     }
 
     /**
-     * @param int $charonId
+     * @param Charon $charonId
      */
-    public function deleteById(int $charonId)
+    public function deleteById(Charon $charonId)
     {
         Log::error('delete charon by id');
         Log::error([$charonId]);
-        $this->charonRepository->deleteByInstanceId($charonId);
+        $this->charonRepository->deleteByInstanceId($charonId->id);
     }
 
     /**
