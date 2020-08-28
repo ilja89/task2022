@@ -134,9 +134,9 @@
 
         methods: {
             deleteCharon(charonId) {
-                console.log('delete charon with id ', charonId)
                 Charon.deleteById(charonId, () => {
                     this.charons = this.charons.filter(x => x.id !== charonId)
+                    window.location.reload();
                 })
             },
 
