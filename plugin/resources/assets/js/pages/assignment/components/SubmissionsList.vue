@@ -77,7 +77,7 @@
                         </svg>
                     </span>
                     <span class="kilb-icon" @click="ValidationForDefReg(submission)" @click.stop="showModalLabs(submission.id)">
-                        <img src="pix/shield.png" alt="kilb">
+                        <img src="../../../../../../../pix/shield.png" alt="kilb">
                     </span>
 
                 </li>
