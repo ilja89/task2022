@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Auth\AuthenticationException;
 use TTU\Charon\Exceptions\CourseManagementPermissionException;
 use Zeizig\Moodle\Globals\User;
@@ -36,6 +37,7 @@ class RequireCharonManaging
      */
     public function handle($request, Closure $next)
     {
+        Log::error("error", [$request]);
         $courseId = $request->route('charon')->course;
 
         require_login($courseId);
