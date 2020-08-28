@@ -393,7 +393,7 @@ left join
 	'.$prefix.'charon_submission cs on c.id = cs.charon_id     
 where c.course = ?
 group by 
-	c.project_folder, c.category_id, c.course
+	c.project_folder, c.id, c.category_id, c.course
 order by subs_per_user desc',
             [$courseId]
         );
