@@ -64,15 +64,9 @@ class mod_charon_mod_form extends moodleform_mod
 
         $this->standard_coursemodule_elements();
 
-        try {
-            $this->_form->removeElement('cmidnumber');
-        } catch (\Exception $e) {
-        }
+        $this->_form->removeElement('cmidnumber');
+        $this->_form->removeElement('groupmode');
 
-        try {
-            $this->_form->removeElement('groupmode');
-        } catch (\Exception $e) {
-        }
 
         $this->add_action_buttons();
 
