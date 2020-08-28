@@ -37,7 +37,6 @@ class RequireCharonManaging
      */
     public function handle($request, Closure $next)
     {
-        Log::error("error", [$request]);
         $courseId = $request->route('charon')->course;
 
         require_login($courseId);
