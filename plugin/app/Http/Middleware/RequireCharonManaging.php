@@ -45,19 +45,13 @@ class RequireCharonManaging
      */
     public function handle($request, Closure $next)
     {
-        Log::error('request');
-        Log::error($request);
         Log::error($request->route('charon'));
-        Log::error('wat???');
-        Log::error(gettype($request->route('charon')));
-        //Log::error(get_class($request->route('charon')));
-        if (is_int($request->route('charon'))) {
-            Log::error('int found');
-            $courseId = $this->charonRepository->getCharonById($request->route('charon'))->course;
-        } else {
-            Log::error('not int');
+        try {
+            $courseId = $this->charonRepository->getCharonById(intval($request->route('charon')))->course;
+        } catch (\Exception $e) {
             $courseId = $request->route('charon')->course;
         }
+
         Log::info($courseId);
 
         require_login($courseId);
