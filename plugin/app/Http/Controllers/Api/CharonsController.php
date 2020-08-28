@@ -40,6 +40,14 @@ class CharonsController extends Controller
     }
 
     /**
+     * @param int $charonId
+     */
+    public function deleteById(int $charonId)
+    {
+        $this->charonRepository->deleteByInstanceId($charonId);
+    }
+
+    /**
      * Save Charon defense stuff.
      *
      * @param Charon $charon

@@ -37,6 +37,12 @@
                             {{ sortingArrow }}
                         </span>
                     </th>
+                    <th @click="toggleSorted('actions', 'asc')">
+                        Actions
+                        <span v-if="sorted[0] === 'actions'">
+                            {{ sortingArrow }}
+                        </span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,6 +52,9 @@
                     <td>{{ charon.tot_subs }}</td>
                     <td>{{ charon.subs_per_user ? parseFloat(charon.subs_per_user) : 0 }}</td>
                     <td>{{ charon.avg_grade ? parseFloat(charon.avg_grade) : 0 }}</td>
+
+                    <td v-if="charon.diff_users === 0 && charon.tot_subs === 0"> //TODO BUTTON </td>
+                    <td v-else></td>
                 </tr>
                 </tbody>
             </table>
