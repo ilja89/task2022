@@ -3,7 +3,6 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
@@ -41,13 +40,11 @@ class CharonsController extends Controller
     }
 
     /**
-     * @param Charon $charonId
+     * @param int $charonId
      */
-    public function deleteById(Charon $charonId)
+    public function deleteById(int $charonId)
     {
-        Log::error('delete charon by id');
-        Log::error([$charonId]);
-        $this->charonRepository->deleteByInstanceId($charonId->id);
+        $this->charonRepository->deleteByInstanceId($charonId);
     }
 
     /**
