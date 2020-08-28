@@ -43,7 +43,7 @@ class RequestHandlingService
         $now = Carbon::now(config('app.timezone'));
         $now = $now->setTimezone('UTC');
         $gitTimestamp = $request->has('timestamp')
-            ? (Carbon::createFromTimestamp($request->input('timestamp')))->setTimezone(config('app.timezone')) : $now;
+            ? (Carbon::createFromTimestamp($request->input('timestamp'))) : $now;
 
         $uniId = $request->input('uniid');
         $student = $this->userService->findUserByUniid($uniId);
