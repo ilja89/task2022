@@ -45,11 +45,11 @@
             },
 
             gitTimestamp() {
-                return removeDateSeconds(this.submission.git_timestamp.date)
+                return removeDateSeconds(this.submission.git_timestamp)
             },
 
             moodleTimestamp() {
-                return removeDateSeconds(this.submission.created_at.date)
+                return removeDateSeconds(this.submission.created_at)
             },
         },
     }

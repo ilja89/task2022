@@ -106,7 +106,7 @@ class Submission extends Model
 
     public function getUpdatedAtAttribute($updatedAt)
     {
-        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'Europe/Tokyo');
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'UTC');
         if (config('app.timezone')) {
             $updatedAt = $updatedAt->setTimezone(config('app.timezone'));
         }
