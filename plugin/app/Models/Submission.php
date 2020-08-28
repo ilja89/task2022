@@ -88,28 +88,28 @@ class Submission extends Model
 
     public function getGitTimestampAttribute($gitTimestamp)
     {
-        $gitTimestamp = Carbon::make($gitTimestamp);
+        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
         if (config('app.timezone')) {
             $gitTimestamp = $gitTimestamp->setTimezone(config('app.timezone'));
         }
-        return $gitTimestamp;
+        return $gitTimestamp->toDateTimeString();
     }
 
     public function getCreatedAtAttribute($createdAt)
     {
-        $createdAt = Carbon::make($createdAt);
+        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'UTC');
         if (config('app.timezone')) {
             $createdAt = $createdAt->setTimezone(config('app.timezone'));
         }
-        return $createdAt;
+        return $createdAt->toDateTimeString();
     }
 
     public function getUpdatedAtAttribute($updatedAt)
     {
-        $updatedAt = Carbon::make($updatedAt);
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'Europe/Tokyo');
         if (config('app.timezone')) {
             $updatedAt = $updatedAt->setTimezone(config('app.timezone'));
         }
-        return $updatedAt;
+        return $updatedAt->toDateTimeString();
     }
 }
