@@ -2,7 +2,7 @@
     <div>
 
         <submission-info-bit title="Git time">
-            {{ removeDateSeconds(submission.git_timestamp.date) }}
+            {{ submission.git_timestamp }}
         </submission-info-bit>
 
         <submission-info-bit
@@ -56,7 +56,7 @@
 <script>
     import { mapState } from 'vuex'
     import SubmissionInfoBit from './SubmissionInfoBit'
-    import { formatName, removeDateSeconds, formatDeadline } from '../helpers/formatting'
+    import { formatName, formatDeadline } from '../helpers/formatting'
 
     export default {
 
@@ -107,8 +107,6 @@
         },
 
         methods: {
-            removeDateSeconds,
-
             formatDeadline,
         },
     }

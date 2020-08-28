@@ -28,9 +28,6 @@ class Submission {
                 console.log(response)
                 then(response.data)
             }).catch(error => {
-            console.log('error')
-            console.log(error)
-            console.log(error.response)
             VueEvent.$emit('show-notification', 'Error updating submission.', 'danger')
         })
     }
