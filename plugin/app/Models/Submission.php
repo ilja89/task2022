@@ -88,7 +88,7 @@ class Submission extends Model
 
     public function getGitTimestampAttribute($gitTimestamp)
     {
-        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
+        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', '2020-01-01 01:01:01', 'UTC');
 //        if (config('app.timezone')) {
 //            $gitTimestamp = $gitTimestamp->setTimezone(config('app.timezone'));
 //        }
