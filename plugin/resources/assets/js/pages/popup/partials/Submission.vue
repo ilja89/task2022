@@ -7,11 +7,11 @@
         <div class="submission-str">{{ submissionString }}</div>
 
         <div class="submission-timestamps">
-            <span class='timestamp-info'>Git: </span>{{ gitTimestamp }}
+            <span class='timestamp-info'>Git: </span>{{ this.submission.git_timestamp }}
             <wbr>
             <span class="timestamp-separator"> | </span>
             <wbr>
-            <span class='timestamp-info'>Moodle: </span>{{ moodleTimestamp }}
+            <span class='timestamp-info'>Moodle: </span>{{ this.submission.created_at }}
         </div>
 
         <span class="confirmed-check">
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import { removeDateSeconds, formatSubmissionResults } from '../helpers/formatting'
+    import { formatSubmissionResults } from '../helpers/formatting'
 
     export default {
         props: {
@@ -42,15 +42,7 @@
         computed: {
             submissionString() {
                 return formatSubmissionResults(this.submission)
-            },
-
-            gitTimestamp() {
-                return removeDateSeconds(this.submission.git_timestamp)
-            },
-
-            moodleTimestamp() {
-                return removeDateSeconds(this.submission.created_at)
-            },
+            }
         },
     }
 </script>

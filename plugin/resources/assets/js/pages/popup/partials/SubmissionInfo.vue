@@ -2,7 +2,7 @@
     <div>
 
         <submission-info-bit title="Git time">
-            {{ removeDateSeconds(submission.git_timestamp.date) }}
+            {{ submission.git_timestamp }}
         </submission-info-bit>
 
         <submission-info-bit
@@ -107,8 +107,6 @@
         },
 
         methods: {
-            removeDateSeconds,
-
             formatDeadline,
         },
     }
