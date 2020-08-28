@@ -43,8 +43,7 @@ class RequestHandlingService
         $now = Carbon::now(config('app.timezone'));
         $now = $now->setTimezone('UTC');
         $gitTimestamp = $request->has('timestamp')
-            ? Carbon::createFromTimestamp($request->input('timestamp'), config('app.timezone'))
-            : $now;
+            ? (Carbon::parse($request->input('timestamp')))->setTimezone(config('app.timezone')) : $now;
         $gitTimestamp->setTimezone('UTC');
 
         $uniId = $request->input('uniid');
