@@ -23,7 +23,7 @@ class Charon {
     }
 
     static fetchLatestLogs(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/charons/' + courseId + '/logs')
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs')
             .then(response => {
                 then(response.data)
             }).catch(error => {

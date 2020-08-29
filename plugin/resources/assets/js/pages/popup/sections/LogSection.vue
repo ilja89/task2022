@@ -3,9 +3,9 @@
             title="Charon logs"
             subtitle="Here are the recent errors charon has had"
     >
-        <h3 class="title  is-3">
-            No Charons for this course!
-        </h3>
+        <pre>
+            {{logs}}
+        </pre>
     </popup-section>
 </template>
 
