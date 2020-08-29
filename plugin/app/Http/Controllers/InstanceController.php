@@ -112,8 +112,6 @@ class InstanceController extends Controller
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
 
-        event(new CharonCreated($charon));
-
         Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
         if ($this->request->input('plagiarism_enabled')) {
             $charon = $this->plagiarismService->createChecksuiteForCharon(
