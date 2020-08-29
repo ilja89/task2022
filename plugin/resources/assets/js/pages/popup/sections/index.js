@@ -3,6 +3,7 @@ import OutputSection from './OutputSection.vue'
 import SubmissionOverviewSection from './SubmissionOverviewSection.vue'
 import SubmissionsSection from './SubmissionsSection.vue'
 import LatestSubmissionsSection from './LatestSubmissionsSection'
+import LogSection from './LogSection'
 import ActiveStudentsSection from './ActiveStudentsSection'
 import SubmissionCountsSection from './SubmissionCountsSection'
 import StudentsDistributionSection from './StudentsDistributionSection'
@@ -16,7 +17,7 @@ export { default as PlagiarismResultsSection } from './PlagiarismResultsSection'
 
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
-    SubmissionsSection, LatestSubmissionsSection, ActiveStudentsSection,
+    SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents,
     LabSection, DefenseSettingsSection, DefenseSettingsEditingSection, DefenseRegistrationsSection
 }

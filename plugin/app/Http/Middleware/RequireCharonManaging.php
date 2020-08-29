@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Auth\AuthenticationException;
 use TTU\Charon\Exceptions\CourseManagementPermissionException;
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\PermissionsService;
 
@@ -17,13 +18,20 @@ class RequireCharonManaging
     private $permissionsService;
 
     /**
+     * @var CharonRepository
+     */
+    private $charonRepository;
+
+    /**
      * RequireCharonManaging constructor.
      *
      * @param PermissionsService $permissionsService
+     * @param CharonRepository $charonRepository
      */
-    public function __construct(PermissionsService $permissionsService)
+    public function __construct(PermissionsService $permissionsService, CharonRepository $charonRepository)
     {
         $this->permissionsService = $permissionsService;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -37,7 +45,11 @@ class RequireCharonManaging
      */
     public function handle($request, Closure $next)
     {
-        $courseId = $request->route('charon')->course;
+        try {
+            $courseId = $this->charonRepository->getCharonById(intval($request->route('charon')))->course;
+        } catch (\Exception $e) {
+            $courseId = $request->route('charon')->course;
+        }
 
         require_login($courseId);
         try {
