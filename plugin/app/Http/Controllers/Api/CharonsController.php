@@ -28,7 +28,7 @@ class CharonsController extends Controller
     /**
      * Get Charons by course.
      *
-     * @param  Course $course
+     * @param Course $course
      *
      * @return \Illuminate\Database\Eloquent\Collection|Charon[]
      */
@@ -45,6 +45,19 @@ class CharonsController extends Controller
     public function deleteById(int $charonId)
     {
         $this->charonRepository->deleteByInstanceId($charonId);
+    }
+
+    /**
+     * @param int $charonId
+     * @return String
+     */
+    public function getLogsById(int $courseId)
+    {
+        ob_start();
+        global $CFG;
+
+        passthru('tail -' . 1000 . ' ' . escapeshellarg($CFG->dataroot . "/charon_logs.log"));
+        return trim(ob_get_clean());
     }
 
     /**
