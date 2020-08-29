@@ -3,9 +3,12 @@
             title="Charon logs"
             subtitle="Here are the recent errors charon has had"
     >
-        <pre>
-            {{logs}}
-        </pre>
+        <div style="height:600px;overflow:auto">
+            <pre>
+                {{logs}}
+            </pre>
+        </div>
+
     </popup-section>
 </template>
 
