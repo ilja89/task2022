@@ -42,7 +42,7 @@ class AddDeadlinesToCalendar
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $deadline->deadline_time->timestamp,
+                $deadline->deadline_time,
                 true,
                 true
             );
