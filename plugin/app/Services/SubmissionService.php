@@ -56,10 +56,10 @@ class SubmissionService
         DefenseRegistrationRepository $defenseRegistrationRepository
     )
     {
-        $this->gradebookService       = $gradebookService;
-        $this->charonGradingService   = $charonGradingService;
+        $this->gradebookService = $gradebookService;
+        $this->charonGradingService = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
-        $this->submissionsRepository  = $submissionsRepository;
+        $this->submissionsRepository = $submissionsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
@@ -67,8 +67,8 @@ class SubmissionService
      * Saves the Submission from the given request.
      * Also saves the Results and Submission Files.
      *
-     * @param  Request $submissionRequest
-     * @param  GitCallback  $gitCallback
+     * @param Request $submissionRequest
+     * @param GitCallback $gitCallback
      *
      * @return Submission
      */
@@ -82,17 +82,16 @@ class SubmissionService
 
         $styleError = $submissionRequest['style'] == 0;
 
-        if (strpos($submission->charon->tester_extra, "stylecheck")) {
-                $result = new Result([
-                'submission_id'     => $submission->id,
-                'grade_type_code'   => 101,
-                'percentage'        => $styleError ? 0 : 1,
-                'calculated_result' => 0,
-                'stdout'            => null,
-                'stderr'            => null,
-            ]);
-            $result->save();
-        }
+        $result = new Result([
+            'submission_id' => $submission->id,
+            'grade_type_code' => 101,
+            'percentage' => $styleError ? 0 : 1,
+            'calculated_result' => 0,
+            'stdout' => null,
+            'stderr' => null,
+        ]);
+        $result->save();
+
         $this->saveResults($submission, $submissionRequest['testSuites']);
 
         $this->saveFiles($submission, $submissionRequest['files']);
@@ -105,8 +104,9 @@ class SubmissionService
      * @param $submissionRequest
      * @param $submission
      */
-    private function saveSuitesAndTests($submissionRequest, $submission) {
-        foreach($submissionRequest['testSuites'] as $testSuite) {
+    private function saveSuitesAndTests($submissionRequest, $submission)
+    {
+        foreach ($submissionRequest['testSuites'] as $testSuite) {
             $createdTestSuite = TestSuite::create([
                 'submission_id' => $submission->id,
                 'name' => $testSuite['name'],
@@ -118,7 +118,7 @@ class SubmissionService
                 'grade' => $testSuite['grade']
             ]);
             $createdTestSuite->save();
-            foreach($testSuite['unitTests'] as $unitTest) {
+            foreach ($testSuite['unitTests'] as $unitTest) {
                 $createdUnitTest = UnitTest::create([
                     'test_suite_id' => $createdTestSuite->id,
                     'groups_depended_upon' => $unitTest['groupsDependedUpon'] != null ? implode(", ", $unitTest['groupsDependedUpon']) : null,
@@ -144,8 +144,8 @@ class SubmissionService
     /**
      * Save the results from given results request (arete v2).
      *
-     * @param  Submission $submission
-     * @param  array $resultsRequest
+     * @param Submission $submission
+     * @param array $resultsRequest
      *
      * @return void
      */
@@ -163,8 +163,8 @@ class SubmissionService
     /**
      * Save the files from given results request (arete v2).
      *
-     * @param  Submission $submission
-     * @param  array $filesRequest
+     * @param Submission $submission
+     * @param array $filesRequest
      *
      * @return void
      */
@@ -189,7 +189,7 @@ class SubmissionService
     public function updateSubmissionCalculatedResults(Charon $charon, Submission $submission, $newResults)
     {
         foreach ($newResults as $result) {
-            if ($result['calculated_result'] !== '0' && ! $result['calculated_result']) {
+            if ($result['calculated_result'] !== '0' && !$result['calculated_result']) {
                 throw (new ResultPointsRequiredException('result_points_are_required'))
                     ->setResultId($result['id']);
             }
@@ -216,7 +216,7 @@ class SubmissionService
      * Adds a new empty submission for the given user.
      *
      * @param Charon $charon
-     * @param  int $studentId
+     * @param int $studentId
      *
      * @return Submission
      */
@@ -246,7 +246,7 @@ class SubmissionService
     /**
      * Calculates the total grade for the given submission.
      *
-     * @param  Submission $submission
+     * @param Submission $submission
      *
      * @return float
      */
@@ -278,7 +278,7 @@ class SubmissionService
      * Include custom grades for the given submission. If custom grademaps exist
      * will create new result for them.
      *
-     * @param  Submission $submission
+     * @param Submission $submission
      *
      * @return void
      */
