@@ -77,10 +77,9 @@ class SubmissionService
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
-        //Log::info('submission request', [$submissionRequest]);
         $this->saveSuitesAndTests($submissionRequest, $submission);
 
-        $style = (int) $submissionRequest['style'] == 100;
+        $style = (int)$submissionRequest['style'] == 100;
 
         $result = new Result([
             'submission_id' => $submission->id,
@@ -90,7 +89,10 @@ class SubmissionService
             'stdout' => null,
             'stderr' => null,
         ]);
-        $result->save();
+
+        if ($result->getGrademap() != null) {
+            $result->save();
+        }
 
         $this->saveResults($submission, $submissionRequest['testSuites']);
 
