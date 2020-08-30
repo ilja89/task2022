@@ -80,12 +80,12 @@ class SubmissionService
         //Log::info('submission request', [$submissionRequest]);
         $this->saveSuitesAndTests($submissionRequest, $submission);
 
-        $styleError = $submissionRequest['style'] == 0;
+        $style = (int) $submissionRequest['style'] == 100;
 
         $result = new Result([
             'submission_id' => $submission->id,
             'grade_type_code' => 101,
-            'percentage' => 1,
+            'percentage' => $style ? 1 : 0,
             'calculated_result' => 0,
             'stdout' => null,
             'stderr' => null,
