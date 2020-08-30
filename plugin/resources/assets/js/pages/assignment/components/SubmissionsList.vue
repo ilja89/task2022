@@ -268,7 +268,8 @@ SVG Icons - svgicons.sparkk.fr
                 }
             },
             defendedSubmission(submission) {
-                return submission.results[2]['calculated_result'] === '1.00';
+                const last = submission.results[submission.results.length - 1];
+                return last['calculated_result'] === '1.00' && last['grade_type_code'] === 1001;
             },
 
             getLabList({start}) {
