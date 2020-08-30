@@ -80,14 +80,7 @@ class SubmissionService
         //Log::info('submission request', [$submissionRequest]);
         $this->saveSuitesAndTests($submissionRequest, $submission);
 
-        // style
-        $styleError = false;
-        foreach ($submissionRequest['errors'] as $error) {
-            if (isset($error['kind']) && $error['kind'] == 'style error') {
-                $styleError = true;
-                break;
-            }
-        }
+        $styleError = $submissionRequest['style'] == 0;
 
         if (strpos($submission->charon->tester_extra, "stylecheck")) {
                 $result = new Result([
