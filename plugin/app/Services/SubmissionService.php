@@ -90,6 +90,8 @@ class SubmissionService
             'stderr' => null,
         ]);
 
+        Log::info('submission grademap', [$result->getGrademap()]);
+
         if ($result->getGrademap() != null) {
             $result->save();
         }
