@@ -85,7 +85,7 @@ class SubmissionService
         $result = new Result([
             'submission_id' => $submission->id,
             'grade_type_code' => 101,
-            'percentage' => $styleError ? 0 : 1,
+            'percentage' => 1,
             'calculated_result' => 0,
             'stdout' => null,
             'stderr' => null,
