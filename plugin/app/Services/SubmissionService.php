@@ -81,6 +81,7 @@ class SubmissionService
         $this->saveSuitesAndTests($submissionRequest, $submission);
 
         $style = (int) $submissionRequest['style'] == 100;
+        Log::info('submission style', [$submissionRequest['style'], $style]);
 
         $result = new Result([
             'submission_id' => $submission->id,
