@@ -45,7 +45,7 @@ class RequestHandlingService
         $gitTimestamp = $request->has('timestamp')
             ? ($request->input('timestamp') < 2147483647 ?
                 Carbon::createFromTimestamp($request->input('timestamp')) :
-                Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000)))
+                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000)))
             : $now;
 
         $uniId = $request->input('uniid');
