@@ -29,7 +29,7 @@ export const formatSubmissionResults = (submission, separator = ' | ') => submis
  * @returns {String}
  */
 export const formatDeadline = deadline => {
-    const date = moment(deadline.deadline_time, "").local().format('YYYY-MM-DD HH:mm')
+    const date = moment(deadline.deadline_time, "").utc().format('YYYY-MM-DD HH:mm')
     const percentage = deadline.percentage
     const groupName = deadline.group
         ? deadline.group.name
