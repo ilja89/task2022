@@ -71,8 +71,8 @@ export default class InstanceFormForm {
             if (deadline.deadline_time !== null) {
                 if (moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
                     time = moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss');
-                } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
-                    time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
+                } else if (moment(deadline.deadline_time.time, 'DD-MM-YYYY HH:mm').isValid()) {
+                    time = moment(deadline.deadline_time.time, 'DD-MM-YYYY HH:mm');
                 }
             }
 
