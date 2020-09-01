@@ -69,8 +69,8 @@ export default class InstanceFormForm {
             let time = null;
 
             if (deadline.deadline_time !== null) {
-                if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
-                    time = moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss');
+                if (moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+                    time = moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss');
                 } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
                     time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
                 }
