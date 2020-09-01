@@ -43,7 +43,9 @@ class RequestHandlingService
         $now = Carbon::now(config('app.timezone'));
         $now = $now->setTimezone('UTC');
         $gitTimestamp = $request->has('timestamp')
-            ? Carbon::createFromTimestamp($request->input('timestamp'), config('app.timezone'))
+            ? ($request->input('timestamp') < 2147483647 ?
+                Carbon::createFromTimestamp($request->input('timestamp'), config('app.timezone')) :
+                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000), config('app.timezone')))
             : $now;
         $gitTimestamp->setTimezone('UTC');
 

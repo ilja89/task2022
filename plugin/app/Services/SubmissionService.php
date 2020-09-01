@@ -332,6 +332,11 @@ class SubmissionService
         if ($date == null) {
             return $date;
         }
-        return Carbon::createFromTimestamp($date)->format('Y-m-d H:i:s');
+
+        if ($date < 2147483647) {
+            return Carbon::createFromTimestamp($date)->format('Y-m-d H:i:s');
+        }
+
+        return Carbon::createFromTimestamp((int) ($date / 1000))->format('Y-m-d H:i:s');
     }
 }
