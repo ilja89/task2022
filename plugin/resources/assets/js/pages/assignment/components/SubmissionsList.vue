@@ -62,7 +62,7 @@
                     </span>
 
                     <span class="submission-time">
-                        {{ submission.git_timestamp | date }}
+                        {{ submission.created_at | date }}
                     </span>
 
                     <span class="dropdown-arrow">
@@ -231,7 +231,7 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             date(date) {
-                return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("DD/MM HH:mm");
+                return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-DD-MM HH:mm");
             }
         },
 

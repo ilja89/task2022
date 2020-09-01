@@ -32,8 +32,7 @@ class DeadlineService
 
         $dateFormat = strlen(explode( '-',explode( ' ',$deadlineArray['deadline_time'])[0])[0]) == 4 ? 'Y-m-d H:i' : 'd-m-Y H:i';
         Log::info("Creating a deadline: ", [$deadlineArray]);
-        $deadlineTime = Carbon::createFromFormat($dateFormat, $deadlineArray['deadline_time'], \Config::get('app.timezone'));
-        $deadlineTime->setTimezone('UTC');
+        $deadlineTime = Carbon::createFromFormat($dateFormat, $deadlineArray['deadline_time']);
         $charon->deadlines()->save(new Deadline([
             'deadline_time' => $deadlineTime,
             'percentage' => $deadlineArray['percentage'],

@@ -67,10 +67,10 @@ export default class InstanceFormForm {
             // Check if previous deadline exists, if it matches format from database, if it matches
             // format from previous request.
             let time = null;
-
+            console.log(deadline.deadline_time)
             if (deadline.deadline_time !== null) {
-                if (moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss').isValid()) {
-                    time = moment(deadline.deadline_time.date, 'YYYY-MM-DD HH:mm:ss');
+                if (moment(deadline.deadline_time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+                    time = moment(deadline.deadline_time, 'YYYY-MM-DD HH:mm:ss');
                 } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
                     time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
                 }
@@ -79,7 +79,7 @@ export default class InstanceFormForm {
             if (time !== null) {
                 let deadline_thing = {
                     deadline_time: {
-                        time: time.format('DD-MM-YYYY HH:mm')
+                        time: time.format('YYYY-MM-DD HH:mm')
                     },
                     percentage: deadline.percentage,
                     group_id: deadline.group_id

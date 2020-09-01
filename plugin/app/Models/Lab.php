@@ -38,8 +38,7 @@ class Lab extends Model
 
     public function getDeadlineTimeAttribute($deadlineTime)
     {
-        $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
-        $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
+        $deadlineTime = Carbon::parse($deadlineTime);
         return $deadlineTime;
     }
 }
