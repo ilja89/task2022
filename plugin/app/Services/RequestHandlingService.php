@@ -40,14 +40,12 @@ class RequestHandlingService
      */
     public function getSubmissionFromRequest($request, $gitCallback)
     {
-        $now = Carbon::now(config('app.timezone'));
-        $now = $now->setTimezone('UTC');
+        $now = Carbon::now();
         $gitTimestamp = $request->has('timestamp')
             ? ($request->input('timestamp') < 2147483647 ?
-                Carbon::createFromTimestamp($request->input('timestamp'), config('app.timezone')) :
-                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000), config('app.timezone')))
+                Carbon::createFromTimestamp($request->input('timestamp')) :
+                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000)))
             : $now;
-        $gitTimestamp->setTimezone('UTC');
 
         $uniId = $request->input('uniid');
         $student = $this->userService->findUserByUniid($uniId);
