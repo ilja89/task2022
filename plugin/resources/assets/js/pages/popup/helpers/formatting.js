@@ -27,7 +27,7 @@ export const formatSubmissionResults = (submission, separator = ' | ') => submis
  * @returns {String}
  */
 export const formatDeadline = deadline => {
-    const date = new Date.parse(deadline.created_at).toLocaleString();
+    const date = Date.parse(deadline.created_at).toLocaleString();
     const percentage = deadline.percentage
     const groupName = deadline.group
         ? deadline.group.name
