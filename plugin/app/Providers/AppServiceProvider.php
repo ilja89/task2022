@@ -5,7 +5,6 @@ namespace TTU\Charon\Providers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Carbon\Carbon;
 
 use TTU\Charon\Foundation\Application;
 
@@ -32,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Carbon::setToStringFormat('Y-m-d H:i:s');
+
     }
 
     /**
