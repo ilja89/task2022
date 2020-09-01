@@ -47,13 +47,12 @@ class Deadline extends Model
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
-    public function getDeadlineTimeAttribute($deadlineTime)
-    {
-        $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
-        if (config('app.timezone')) {
-            $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
-        }
-        Log::info("DEADLINE: ", [$deadlineTime->toString()]);
-        return $deadlineTime;
-    }
+//    public function getDeadlineTimeAttribute($deadlineTime)
+//    {
+//        $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
+//        if (config('app.timezone')) {
+//            $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
+//        }
+//        return $deadlineTime;
+//    }
 }
