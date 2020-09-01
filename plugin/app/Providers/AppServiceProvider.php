@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
 
-        Carbon\Carbon::setToStringFormat('Y-m-d H:i:s');
+//        Carbon\Carbon::setToStringFormat('Y-m-d H:i:s');
 
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
