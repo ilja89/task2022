@@ -5,6 +5,7 @@ namespace TTU\Charon\Providers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
 
 use TTU\Charon\Foundation\Application;
 
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Carbon::setToStringFormat('Y-m-d H:i:s');
     }
 
     /**
@@ -41,8 +42,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-//        Carbon\Carbon::setToStringFormat('Y-m-d H:i:s');
 
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
