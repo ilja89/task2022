@@ -12,13 +12,6 @@ export const formatName = user => {
 }
 
 /**
- * Shorten the date by removing unnecessary seconds and milliseconds from the end.
- * @param date {String}
- * @returns {String}
- */
-export const removeDateSeconds = date => date.replace(/:[0-9]{2}\.[0-9]+/, '')
-
-/**
  * Format the results of a Submission into a string.
  * @param submission {{results: {calculated_result: String}[]}}
  * @param separator {string}
@@ -34,7 +27,7 @@ export const formatSubmissionResults = (submission, separator = ' | ') => submis
  * @returns {String}
  */
 export const formatDeadline = deadline => {
-    const date = removeDateSeconds(deadline.deadline_time.date)
+    const date = deadline.deadline_time // TODO
     const percentage = deadline.percentage
     const groupName = deadline.group
         ? deadline.group.name

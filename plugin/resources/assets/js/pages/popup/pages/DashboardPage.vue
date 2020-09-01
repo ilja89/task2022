@@ -11,13 +11,16 @@
 
         <students-distribution-section></students-distribution-section>
 
+        <log-section></log-section>
+
     </div>
 </template>
 
 <script>
-    import { PageTitle } from '../partials'
+    import {PageTitle} from '../partials'
     import {
         LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection, StudentsDistributionSection,
+        LogSection
     } from '../sections'
 
     export default {
@@ -25,7 +28,7 @@
 
         components: {
             PageTitle, LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection,
-            StudentsDistributionSection,
+            StudentsDistributionSection, LogSection
         },
     }
 </script>

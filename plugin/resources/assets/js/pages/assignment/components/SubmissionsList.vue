@@ -11,17 +11,17 @@
             </template>
             <div class="content">
                 <div class="register-lab-headers">
-                    <h4>Choose a lab session to defend {{this.charon['name']}}</h4>
+                    <h4>Choose a registration for {{this.charon['name']}}</h4>
                 </div>
                 <div class="labs-schedule">
                     <div class="text-center">
                         <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']" @select="onSelect" :max-height="200"
-                                     :custom-label="getLabList" placeholder="Select day of practise" label="start" track-by="start" :allow-empty="false">
+                                     :custom-label="getLabList" placeholder="Select a day" label="start" track-by="start" :allow-empty="false">
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                         </multiselect>
 
                         <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time" :max-height="200"
-                                     :options="this.time" placeholder="Select suitable time for you">
+                                     :options="this.time" placeholder="Be more precise">
                         </multiselect>
                     </div>
                     <p v-if="(this.array_to_show.length !== 0)" style="margin-bottom: 18px; color: indianred; font-style: italic; font-size: 13px">
@@ -47,7 +47,7 @@
 
         <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp">
             <template slot="header">
-                <p class="modal-card-title">All defences</p>
+                <p class="modal-card-title">All registrations</p>
             </template>
             <StudentDefenses :defenseData="defenseData" :student_id="student_id" :charon="charon"></StudentDefenses>
         </Modal>
@@ -62,7 +62,7 @@
                     </span>
 
                     <span class="submission-time">
-                        {{ submission.git_timestamp.date | date }}
+                        {{ submission.git_timestamp | date }}
                     </span>
 
                     <span class="dropdown-arrow">
@@ -77,7 +77,7 @@
                         </svg>
                     </span>
                     <span class="kilb-icon" @click="ValidationForDefReg(submission)" @click.stop="showModalLabs(submission.id)">
-                        <img src="shield.png" alt="kilb">
+                        <img src="pix/shield.png" alt="kilb">
                     </span>
 
                 </li>
@@ -106,7 +106,7 @@
         <div class="has-text-centered">
             <span>
             <button class="button is-primary load-more-button" @click.stop="showStudentDefenses()">
-                My defenses
+                My registrations
             </button>
             </span>
         </div>
@@ -268,7 +268,8 @@ SVG Icons - svgicons.sparkk.fr
                 }
             },
             defendedSubmission(submission) {
-                return submission.results[2]['calculated_result'] === '1.00';
+                const last = submission.results[submission.results.length - 1];
+                return last['calculated_result'] === '1.00' && last['grade_type_code'] === 1001;
             },
 
             getLabList({start}) {

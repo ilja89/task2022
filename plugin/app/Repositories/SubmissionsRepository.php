@@ -371,6 +371,7 @@ class SubmissionsRepository
         $result = DB::select(
             'select     
 	c.project_folder,     
+	c.id as charon_id,
 	count(distinct cs.user_id) as diff_users,     
 	count(distinct cs.id) as tot_subs,     
 	count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user ,     
@@ -392,7 +393,7 @@ left join
 	'.$prefix.'charon_submission cs on c.id = cs.charon_id     
 where c.course = ?
 group by 
-	c.project_folder, c.category_id, c.course
+	c.project_folder, c.id, c.category_id, c.course
 order by subs_per_user desc',
             [$courseId]
         );

@@ -49,7 +49,9 @@ class Deadline extends Model
     public function getDeadlineTimeAttribute($deadlineTime)
     {
         $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
-        $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
+        if (config('app.timezone')) {
+            $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
+        }
         return $deadlineTime;
     }
 }
