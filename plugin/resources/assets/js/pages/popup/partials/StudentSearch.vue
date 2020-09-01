@@ -13,7 +13,7 @@
             label=""
             :on-select="onStudentSelected"
             id="student-search"
-            placeholder="Student name"
+            placeholder="Student name (uniid@ttu.ee)"
             :min="2"
         />
 

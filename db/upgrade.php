@@ -416,5 +416,16 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql2);
     }
 
+    if ($oldversion < 2020082701) {
+        try {
+            $sql = "ALTER TABLE mdl_charon ADD COLUMN defense_threshold BIGINT(10) DEFAULT 50";
+            $DB->execute($sql);
+        } catch (dml_write_exception $e) {
+            // Ignored intentionally
+        }
+    }
+
+    // FROM THIS POINT ON PLEASE USE $CFG->prefix instead of `mdl_` as prefix !!!
+
     return true;
 }

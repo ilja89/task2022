@@ -84,7 +84,7 @@
             },
 
             submissionTime(submission) {
-                const time = moment(submission.created_at.date)
+                const time = moment(submission.created_at)
 
                 return time.format('D MMM HH:mm')
             },
