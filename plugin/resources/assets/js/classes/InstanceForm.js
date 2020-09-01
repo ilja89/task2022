@@ -67,7 +67,7 @@ export default class InstanceFormForm {
             // Check if previous deadline exists, if it matches format from database, if it matches
             // format from previous request.
             let time = null;
-
+            console.log(deadline.deadline_time)
             if (deadline.deadline_time !== null) {
                 if (moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
                     time = moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss');
