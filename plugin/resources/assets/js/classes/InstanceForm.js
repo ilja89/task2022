@@ -69,17 +69,17 @@ export default class InstanceFormForm {
             let time = null;
             console.log(deadline.deadline_time)
             if (deadline.deadline_time !== null) {
-                if (moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
-                    time = moment(deadline.deadline_time.time, 'YYYY-MM-DD HH:mm:ss');
-                } else if (moment(deadline.deadline_time.time, 'DD-MM-YYYY HH:mm').isValid()) {
-                    time = moment(deadline.deadline_time.time, 'DD-MM-YYYY HH:mm');
+                if (moment(deadline.deadline_time, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+                    time = moment(deadline.deadline_time, 'YYYY-MM-DD HH:mm:ss');
+                } else if (moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm').isValid()) {
+                    time = moment(deadline.deadline_time, 'DD-MM-YYYY HH:mm');
                 }
             }
 
             if (time !== null) {
                 let deadline_thing = {
                     deadline_time: {
-                        time: time.format('DD-MM-YYYY HH:mm')
+                        time: time.format('YYYY-MM-DD HH:mm')
                     },
                     percentage: deadline.percentage,
                     group_id: deadline.group_id
