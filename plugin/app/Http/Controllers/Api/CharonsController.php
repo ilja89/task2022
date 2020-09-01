@@ -56,7 +56,7 @@ class CharonsController extends Controller
         ob_start();
         global $CFG;
 
-        passthru('tail -' . 1000 . ' ' . escapeshellarg($CFG->dataroot . "/charon_logs.log"));
+        passthru('tail -' . 5000 . ' ' . escapeshellarg($CFG->dataroot . "/charon_logs.log"));
         return trim(ob_get_clean());
     }
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use mysql_xdevapi\Exception;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
@@ -71,6 +72,7 @@ class SubmissionService
      * @param GitCallback $gitCallback
      *
      * @return Submission
+     * @throws \Exception
      */
     public function saveSubmission($submissionRequest, $gitCallback)
     {
@@ -123,19 +125,19 @@ class SubmissionService
             foreach ($testSuite['unitTests'] as $unitTest) {
                 $createdUnitTest = UnitTest::create([
                     'test_suite_id' => $createdTestSuite->id,
-                    'groups_depended_upon' => $unitTest['groupsDependedUpon'] != null ? implode(", ", $unitTest['groupsDependedUpon']) : null,
+                    'groups_depended_upon' => $this->handleMaybeLists($unitTest['groupsDependedUpon']),
                     'status' => $unitTest['status'],
                     'weight' => $unitTest['weight'] == null ? 1 : $unitTest['weight'],
                     'print_exception_message' => $unitTest['printExceptionMessage'],
                     'print_stack_trace' => $unitTest['printStackTrace'],
                     'time_elapsed' => $unitTest['timeElapsed'],
-                    'methods_depended_upon' => $unitTest['methodsDependedUpon'] != null ? implode(', ', $unitTest['methodsDependedUpon']) : null,
+                    'methods_depended_upon' => $this->handleMaybeLists($unitTest['methodsDependedUpon']),
                     'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
                     'name' => $unitTest['name'],
-                    'stdout' => $unitTest['stdout'] != null ? implode(', ', $unitTest['stdout']) : null,
+                    'stdout' => $this->handleMaybeLists($unitTest['stdout']),
                     'exception_class' => $unitTest['exceptionClass'],
                     'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => $unitTest['stderr'] != null ? implode(', ', $unitTest['stderr']) : null
+                    'stderr' => $this->handleMaybeLists($unitTest['stderr'])
                 ]);
                 $createdUnitTest->save();
             }
@@ -324,6 +326,20 @@ class SubmissionService
     }
 
     /**
+     * @param $list
+     * @return string
+     */
+    private function handleMaybeLists($list)
+    {
+        try {
+            return implode(', ', $list);
+        } catch (\Exception $e) {
+            return "";
+        }
+
+    }
+
+    /**
      * @param $date
      * @return string|null
      */
@@ -337,6 +353,6 @@ class SubmissionService
             return Carbon::createFromTimestamp($date)->format('Y-m-d H:i:s');
         }
 
-        return Carbon::createFromTimestamp((int) ($date / 1000))->format('Y-m-d H:i:s');
+        return Carbon::createFromTimestamp((int)($date / 1000))->format('Y-m-d H:i:s');
     }
 }

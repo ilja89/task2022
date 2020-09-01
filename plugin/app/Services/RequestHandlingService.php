@@ -37,6 +37,7 @@ class RequestHandlingService
      * @param GitCallback $gitCallback
      *
      * @return Submission
+     * @throws \Exception
      */
     public function getSubmissionFromRequest($request, $gitCallback)
     {
@@ -44,7 +45,7 @@ class RequestHandlingService
         $gitTimestamp = $request->has('timestamp')
             ? ($request->input('timestamp') < 2147483647 ?
                 Carbon::createFromTimestamp($request->input('timestamp')) :
-                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000)))
+                Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000)))
             : $now;
 
         $uniId = $request->input('uniid');
@@ -62,10 +63,26 @@ class RequestHandlingService
             }
         }
         Log::info("Course id code:" . $courseIdCode);
-        $course = Course::where('shortname', $courseIdCode)->first();
-        $charon = Charon::where([
-            ['project_folder', $request->input("slug")],
-            ['course', $course->id]])->first();
+
+        try {
+
+            $course = Course::where('shortname', $courseIdCode)->first();
+
+        } catch (\Exception $e) {
+            Log::error("Course with code wasn't found:" . $courseIdCode);
+            throw $e;
+        }
+
+        try {
+
+            $charon = Charon::where([
+                ['project_folder', $request->input("slug")],
+                ['course', $course->id]])->first();
+
+        } catch (\Exception $e) {
+            Log::error("Charon with slug wasn't found:" . $request->input("slug"));
+            throw $e;
+        }
 
         $output = "";
         $stackOutput = "";

@@ -55,7 +55,7 @@ class TesterCallbackController extends Controller
      *
      * @param TesterCallbackRequest $request
      *
-     * @return Submission
+     * @return string|Submission
      */
     public function index(TesterCallbackRequest $request)
     {
@@ -64,7 +64,13 @@ class TesterCallbackController extends Controller
             $request->input('returnExtra')['token']
         );
 
-        $submission = $this->submissionService->saveSubmission($request, $gitCallback);
+        try {
+            $submission = $this->submissionService->saveSubmission($request, $gitCallback);
+        } catch (\Exception $e) {
+            Log::error("Saving submission failed with message:" . $e);
+            return $e->getMessage();
+        }
+
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
         $this->charonGradingService->updateGradeIfApplicable($submission);
 

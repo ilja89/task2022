@@ -35,7 +35,9 @@ function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }
 function charon_grade_item_update($modinstance, $grades = NULL) { }
 
 function charon_extend_navigation_course($navigation, $course, $context) {
+
     if (has_capability('moodle/course:manageactivities', $context)) {
+
         $url = new moodle_url('/mod/charon/courses/' . $course->id . '/settings', []);
         $settingsnode = navigation_node::create('Charon Settings', $url, navigation_node::TYPE_SETTING,
             null, null, new pix_icon('i/settings', ''));
