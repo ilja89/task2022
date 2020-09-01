@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Models;
 
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\Event;
@@ -49,9 +50,6 @@ class Deadline extends Model
     public function getDeadlineTimeAttribute($deadlineTime)
     {
         $deadlineTime = Carbon::parse($deadlineTime, 'UTC');
-        if (config('app.timezone')) {
-            $deadlineTime = $deadlineTime->setTimezone(config('app.timezone'));
-        }
         return $deadlineTime;
     }
 }

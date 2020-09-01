@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 
     /**
@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             Log::useFiles('php://stderr');

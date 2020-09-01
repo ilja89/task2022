@@ -224,7 +224,7 @@ class SubmissionService
      */
     public function addNewEmptySubmission(Charon $charon, $studentId)
     {
-        $now = Carbon::now(config('app.timezone'));
+        $now = Carbon::now();
         $now = $now->setTimezone('UTC');
         /** @var Submission $submission */
         $submission = $charon->submissions()->create([

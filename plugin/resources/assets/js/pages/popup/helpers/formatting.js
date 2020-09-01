@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /**
  * Format the name of a user.
  * @param user {{firstname: String, lastname: String, idnumber: String|null}}
@@ -27,7 +29,7 @@ export const formatSubmissionResults = (submission, separator = ' | ') => submis
  * @returns {String}
  */
 export const formatDeadline = deadline => {
-    const date = deadline.deadline_time // TODO
+    const date = moment(deadline.deadline_time, "").utc().format('YYYY-MM-DD HH:mm')
     const percentage = deadline.percentage
     const groupName = deadline.group
         ? deadline.group.name

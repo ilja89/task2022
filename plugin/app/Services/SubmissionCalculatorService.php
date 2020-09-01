@@ -76,7 +76,6 @@ class SubmissionCalculatorService
         }
 
         foreach ($deadlinesForUser as $deadline) {
-            $deadline->deadline_time->setTimezone(config('app.timezone'));
             if ($deadline->deadline_time->lt($submissionTime)) {
                 $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
                 if ($smallestScore > $score) {
