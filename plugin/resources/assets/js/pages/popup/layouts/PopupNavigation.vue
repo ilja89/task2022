@@ -5,30 +5,22 @@
             expand-on-hover
     >
         <v-list
+                v-for="item in items"
                 nav
                 dense
         >
-            <v-list-item link>
+            <v-list-item nav :to="item.route">
+
                 <v-list-item-icon>
-                    <v-icon>mdi-folder</v-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-icon>
-                <router-link :to="gradingLink">
-                    Grading
-                </router-link>
-            </v-list-item>
-            <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-account-multiple</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>Shared with me</v-list-item-title>
-            </v-list-item>
-            <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-star</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>Starred</v-list-item-title>
+
+                <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
             </v-list-item>
         </v-list>
+
     </v-navigation-drawer>
 
 </template>
@@ -37,6 +29,21 @@
     import {mapState, mapGetters} from 'vuex'
 
     export default {
+        data() {
+            return {
+                items: [
+                    {title: 'Dashboard', icon: 'dashboard', route: '/'},
+                    {title: 'Grading', icon: 'account_box', route: this.gradingLink},
+                    {title: 'Submission', icon: 'gavel', route: this.submissionLink},
+                    {title: 'Student overview', icon: 'dashboard', route: this.studentOverviewLink},
+                    {title: 'Plagiarism', icon: 'dashboard', route: '/plagiarism'},
+                    {title: 'Report & Statistics', icon: 'dashboard', route: '/report-statistics'},
+                    {title: 'Labs', icon: 'dashboard', route: '/labs'},
+                    {title: 'Defense settings', icon: 'dashboard', route: '/defenseSettings'},
+                    {title: 'Defense registrations', icon: 'dashboard', route: '/defenseRegistrations'},
+                ]
+            }
+        },
         computed: {
             ...mapState([
                 'student',
@@ -48,7 +55,7 @@
             ]),
 
             gradingLink() {
-                if (this.student !== null) {
+                if (this.student != null) {
                     return '/grading/' + this.student.id
                 } else {
                     return '/grading'
@@ -56,7 +63,7 @@
             },
 
             studentOverviewLink() {
-                if (this.student !== null) {
+                if (this.student != null) {
                     return '/student-overview/' + this.student.id
                 } else {
                     return '/student-overview'
