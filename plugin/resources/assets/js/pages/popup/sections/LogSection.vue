@@ -7,19 +7,12 @@
         <v-card
                 class="mx-auto"
                 max-height="900"
+                max-width="80vh"
                 outlined
-                hover
-                ripple
+                raised
                 shaped
-        >
-            <v-list-item three-line>
-                <v-list-item-content>
-                        <pre style="width:80%;height:900px;overflow:scroll;">
-                            {{logs}}
-                        </pre>
-                </v-list-item-content>
-            </v-list-item>
-        </v-card>
+                v-card-text="logs"
+        ></v-card>
 
     </popup-section>
 </template>
