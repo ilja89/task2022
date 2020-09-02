@@ -1,9 +1,7 @@
 <template>
 
-    <v-toolbar
+    <v-app-bar
             app
-            fixed
-            flat
             id="core-toolbar">
 
         <v-toolbar-title>
@@ -60,7 +58,7 @@
             </div>
 
         </v-toolbar-items>
-    </v-toolbar>
+    </v-app-bar>
 
 </template>
 
