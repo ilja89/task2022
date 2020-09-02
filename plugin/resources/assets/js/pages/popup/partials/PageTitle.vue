@@ -35,7 +35,7 @@
                                             </v-btn>
                                         </template>
 
-                                        <v-sheet class="text-center" height="200px">
+                                        <v-sheet class="text-center" height="400px" style="overflow-y:auto">
                                             <v-btn
                                                     class="mt-6"
                                                     text
