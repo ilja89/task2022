@@ -42,6 +42,7 @@
     "vue2-daterange-picker": "^0.2.3",
     "vuejs-datepicker": "^1.6.2",
     "vuetify": "^2.3.10",
-    "vuex": "3.4.0"
+    "vuex": "3.4.0",
+    "webpack": "^4.44.1"
   }
 }
