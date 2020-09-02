@@ -5,6 +5,7 @@ import Popup from './Popup.vue'
 import router from './routes'
 import store from './store'
 import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 import VueClipboard from 'vue-clipboard2'
 
 import {HighlightDirective} from './../../directives';
