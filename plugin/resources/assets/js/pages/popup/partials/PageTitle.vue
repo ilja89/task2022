@@ -23,7 +23,7 @@
                                 <div>
                                     <h3>Users in this group</h3>
 
-                                    <v-bottom-sheet v-model="sheets" inset>
+                                    <v-bottom-sheet v-model="sheets.has(group.name)" inset>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
                                                     color="orange"
