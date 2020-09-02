@@ -14,6 +14,12 @@ import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
 import VueJsonToCsv from 'vue-json-to-csv';
 
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+
+Vue.use(VueMaterial)
+
 Vue.use(VueClipboard)
 
 Vue.use(Vuetify)
