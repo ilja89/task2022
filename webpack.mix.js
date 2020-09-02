@@ -22,8 +22,8 @@ mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
   .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
   .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
   .sass('plugin/resources/assets/sass/courseSettings.scss', 'css')
-  .sass('plugin/resources/assets/sass/highlight.scss', 'css');
-
+  .sass('plugin/resources/assets/sass/highlight.scss', 'css')
+  .copy('node_modules/material-icons/css/material-icons.min.css', 'public/css/material-icons.min.css');
 let webpack = require('webpack');
 
 mix.webpackConfig({
