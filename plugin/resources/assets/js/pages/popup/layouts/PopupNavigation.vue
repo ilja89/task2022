@@ -38,7 +38,7 @@
                     {title: 'Submission', icon: 'cached', route: "" + this.submissionLink },
                     {title: 'Student overview', icon: 'dashboard', route: "" + this.studentOverviewLink },
                     {title: 'Plagiarism', icon: 'move_to_inbox', route: '/plagiarism'},
-                    {title: 'Report & Statistics', icon: 'mdi-move_to_inbox', route: '/report-statistics'},
+                    {title: 'Report & Statistics', icon: 'dashboard', route: '/report-statistics'},
                     {title: 'Labs', icon: 'dashboard', route: '/labs'},
                     {title: 'Defense settings', icon: 'dashboard', route: '/defenseSettings'},
                     {title: 'Defense registrations', icon: 'dashboard', route: '/defenseRegistrations'},
