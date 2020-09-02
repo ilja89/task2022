@@ -34,6 +34,7 @@
                                                 Open Inset
                                             </v-btn>
                                         </template>
+
                                         <v-sheet class="text-center" height="200px">
                                             <v-btn
                                                     class="mt-6"
@@ -42,11 +43,22 @@
                                                     @click="sheet = !sheet"
                                             >close
                                             </v-btn>
-                                            <p
-                                                    v-for="member in group.members"
-                                                    v-bind:key="member.username"
-                                            >{{member.firstname}} {{member.lastname}} ({{member.username}})</p>
+                                            <v-list>
+                                                <template v-for="member in group.members">
+                                                    <v-list-item
+                                                            :key="member.username"
+                                                            @click=""
+                                                    >
+                                                        <v-list-item-content>
+                                                            <v-list-item-title>{{member.firstname}} {{member.lastname}}
+                                                                ({{member.username}})
+                                                            </v-list-item-title>
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+                                                </template>
+                                            </v-list>
                                         </v-sheet>
+
                                     </v-bottom-sheet>
 
                                 </div>
