@@ -36,9 +36,8 @@
                                     <v-list>
                                         <template v-for="member in group.members">
                                             <v-list-item
-                                                    v-model="copy_username"
                                                     :key="member.username"
-                                                    @click="() => {this.copy_username = member.username}; doCopy()"
+                                                    @click="doCopy(member.username)"
                                             >
                                                 <v-list-item-content>
                                                     <v-list-item-title>{{member.firstname}} {{member.lastname}}
@@ -55,6 +54,23 @@
 
                 </v-col>
 
+                <v-snackbar
+                        v-model="snackbar"
+                        :timeout="1000"
+                >
+                    {{ "Copied to clipboard" }}
+
+                    <template v-slot:action="{ attrs }">
+                        <v-btn
+                                color="blue"
+                                text
+                                v-bind="attrs"
+                                @click="snackbar = false"
+                        >
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
 
             </div>
         </template>
@@ -68,7 +84,7 @@
     export default {
         components: {TippyComponent},
         data: () => ({
-            copy_username: ""
+            snackbar: false,
         }),
         props: {
             title: {
@@ -110,11 +126,10 @@
                 return "group_badge_" + groupId;
             },
 
-            doCopy: function () {
-                this.$copyText(this.copy_username).then(function (e) {
-                    alert('Copied')
+            doCopy: function (name) {
+                this.$copyText(name).then(function (e) {
+                    this.snackbar = true
                 }, function (e) {
-                    alert('Can not copy')
                 })
             }
         }
