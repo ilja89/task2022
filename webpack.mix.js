@@ -1,4 +1,4 @@
-const {mix} = require('laravel-mix');
+const { mix } = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,24 +14,22 @@ const {mix} = require('laravel-mix');
 mix.setPublicPath('plugin/public');
 
 mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
-    .js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js')
-    .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
-    .js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js')
-    .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js')
-    .sass('plugin/resources/assets/sass/assignment.scss', 'css')
-    .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
-    .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
-    .sass('plugin/resources/assets/sass/courseSettings.scss', 'css')
-    .sass('plugin/resources/assets/sass/highlight.scss', 'css', {
-        includePaths: ['node_modules']
-    });
-
+  .js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js')
+  .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
+  .js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js')
+  .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js')
+  .sass('plugin/resources/assets/sass/assignment.scss', 'css')
+  .sass('plugin/resources/assets/sass/instanceForm.scss', 'css')
+  .sass('plugin/resources/assets/sass/popup/popup.scss', 'css')
+  .sass('plugin/resources/assets/sass/courseSettings.scss', 'css')
+  .sass('plugin/resources/assets/sass/highlight.scss', 'css')
+  .copy('node_modules/material-icons/css/material-icons.min.css', 'public/css/material-icons.min.css');
 let webpack = require('webpack');
 
 mix.webpackConfig({
-    plugins: [
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
-    ]
+  plugins: [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
+  ]
 });
 
 // Full API
