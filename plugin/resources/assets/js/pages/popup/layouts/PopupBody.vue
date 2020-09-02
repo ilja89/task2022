@@ -1,22 +1,23 @@
 <template>
-
-    <v-row>
+    <div class="columns is-gapless popup-body">
 
         <popup-navigation/>
 
-        <div class="page-container">
-            <keep-alive>
-                <router-view/>
-            </keep-alive>
+        <div class="column" id="page-right">
+            <div class="page-container">
+                <keep-alive>
+                    <router-view/>
+                </keep-alive>
+            </div>
         </div>
 
-    </v-row>
+    </div>
 </template>
 
 <script>
     import PopupNavigation from './PopupNavigation.vue';
 
     export default {
-        components: {PopupNavigation},
+        components: { PopupNavigation },
     }
 </script>
