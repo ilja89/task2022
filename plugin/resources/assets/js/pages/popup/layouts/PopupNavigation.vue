@@ -33,7 +33,7 @@
         data() {
             return {
                 items: [
-                    {title: 'Dashboard', icon: 'dashboard', route: '/'},
+                    {title: 'Dashboard', icon: "fas fa-edit", route: '/'},
                     {title: 'Grading', icon: 'account_box', route: "" + this.gradingLink },
                     {title: 'Submission', icon: 'gavel', route: "" + this.submissionLink },
                     {title: 'Student overview', icon: 'dashboard', route: "" + this.studentOverviewLink },

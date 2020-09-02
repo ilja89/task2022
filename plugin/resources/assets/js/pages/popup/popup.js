@@ -5,6 +5,7 @@ import Popup from './Popup.vue'
 import router from './routes'
 import store from './store'
 import Vuetify from 'vuetify'
+import '@fortawesome/fontawesome-free/css/all.css'
 import 'vuetify/dist/vuetify.min.css'
 import VueClipboard from 'vue-clipboard2'
 
@@ -38,6 +39,10 @@ const app = new Vue({
 
     mounted() {
         this.$store.dispatch('initializeCourse', {courseId: window.course_id})
+    },
+
+    icons: {
+        iconfont: 'fa',
     },
 
     router,
