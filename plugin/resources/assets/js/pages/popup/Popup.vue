@@ -8,6 +8,28 @@
 
                 <loader :visible="loaderVisible !== 0"/>
 
+                <v-snackbar
+                        top
+                        right
+                        absolute
+                        shaped
+                        v-model="snackbar"
+                        :timeout="notification.timeout"
+                >
+                    {{ notification.text }}
+
+                    <template v-slot:action="{ attrs }">
+                        <v-btn
+                                color="blue"
+                                text
+                                v-bind="attrs"
+                                @click="notification.show = false"
+                        >
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
+
                 <notification
                         :text="notification.text"
                         :show="notification.show"
@@ -30,12 +52,11 @@
         data() {
             return {
                 loaderVisible: 0,
-                notificationText: '',
-                notificationShow: false,
                 notification: {
                     text: '',
                     show: false,
                     type: 'success',
+                    timeout: 1000,
                 }
             }
         },
@@ -49,9 +70,7 @@
                 this.notification.text = message
                 this.notification.show = true
                 this.notification.type = type
-                setTimeout(() => {
-                    this.notification.show = false
-                }, timeout)
+                this.notification.timeout = timeout
             },
 
             hideLoader() {

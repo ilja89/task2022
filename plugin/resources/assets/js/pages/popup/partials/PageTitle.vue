@@ -54,24 +54,6 @@
 
                 </v-col>
 
-                <v-snackbar
-                        v-model="snackbar"
-                        :timeout="1000"
-                >
-                    {{ "Copied to clipboard" }}
-
-                    <template v-slot:action="{ attrs }">
-                        <v-btn
-                                color="blue"
-                                text
-                                v-bind="attrs"
-                                @click="snackbar = false"
-                        >
-                            Close
-                        </v-btn>
-                    </template>
-                </v-snackbar>
-
             </div>
         </template>
     </h1>
@@ -84,7 +66,6 @@
     export default {
         components: {TippyComponent},
         data: () => ({
-            snackbar: false,
         }),
         props: {
             title: {
@@ -127,9 +108,16 @@
             },
 
             doCopy: function (name) {
-                this.snackbar = true
+                this.showNotification("Copied to clipboard!")
                 this.$copyText(name)
-            }
+            },
+
+            showNotification(message, type = 'success', timeout = 1000) {
+                this.notification.text = message
+                this.notification.show = true
+                this.notification.type = type
+                this.notification.timeout = timeout
+            },
         }
     };
 </script>

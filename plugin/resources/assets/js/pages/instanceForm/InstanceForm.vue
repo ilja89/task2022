@@ -124,12 +124,7 @@
                 this.notification.text = message
                 this.notification.show = true
                 this.notification.type = type
-
-                if (timeout) {
-                    setTimeout(() => {
-                        this.notification.show = false
-                    }, timeout)
-                }
+                this.notification.timeout = timeout
             },
 
             hideNotification() {
