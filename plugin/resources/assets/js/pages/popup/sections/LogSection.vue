@@ -6,7 +6,7 @@
 
         <v-card
                 class="mx-auto"
-                max-width="1200"
+                max-height="900"
                 outlined
                 hover
                 ripple
@@ -14,7 +14,7 @@
         >
             <v-list-item three-line>
                 <v-list-item-content>
-                        <pre style="width:1200px;height:600px;overflow:scroll;">
+                        <pre style="overflow:scroll;">
                             {{logs}}
                         </pre>
                 </v-list-item-content>
