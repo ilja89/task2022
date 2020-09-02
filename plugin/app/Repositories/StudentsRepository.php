@@ -32,7 +32,7 @@ class StudentsRepository
                     ->orWhereRaw('LOWER(lastname) like ?', [$keyword])
                     ->orWhereRaw("CONCAT(LOWER(firstname), ' ', LOWER(lastname)) like ?", [$keyword]);
             })
-            ->select('user.id', 'username', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ',lastname, ' (',username, ')') AS fullname"))
+            ->select('user.id', 'idnumber', 'username', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ',lastname, ' (',username, ')') AS fullname"))
             ->get();
 
         return $users;
