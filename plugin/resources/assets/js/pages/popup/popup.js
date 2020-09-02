@@ -4,13 +4,21 @@ import axios from 'axios'
 import Popup from './Popup.vue'
 import router from './routes'
 import store from './store'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import VueClipboard from 'vue-clipboard2'
 
 import {HighlightDirective} from './../../directives';
 import VueApexCharts from 'vue-apexcharts';
 import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
 import VueJsonToCsv from 'vue-json-to-csv';
-import Vuetify from "vuetify";
+
+Vue.use(VueClipboard)
+
+Vue.use(Vuetify)
+const opts = {}
+export default new Vuetify(opts)
 
 Vue.directive('highlightjs', HighlightDirective);
 

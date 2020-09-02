@@ -36,8 +36,9 @@
                                     <v-list>
                                         <template v-for="member in group.members">
                                             <v-list-item
+                                                    v-model="copy_username"
                                                     :key="member.username"
-                                                    @click=""
+                                                    @click="() => {this.copy_username = member.username}; doCopy()"
                                             >
                                                 <v-list-item-content>
                                                     <v-list-item-title>{{member.firstname}} {{member.lastname}}
@@ -66,7 +67,9 @@
 
     export default {
         components: {TippyComponent},
-        data: () => ({}),
+        data: () => ({
+            copy_username: ""
+        }),
         props: {
             title: {
                 required: false,
@@ -105,6 +108,14 @@
         methods: {
             createBadgeName(groupId) {
                 return "group_badge_" + groupId;
+            },
+
+            doCopy: function () {
+                this.$copyText(this.copy_username).then(function (e) {
+                    alert('Copied')
+                }, function (e) {
+                    alert('Can not copy')
+                })
             }
         }
     };
