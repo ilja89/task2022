@@ -16,34 +16,37 @@
 
                     <v-col justify="center">
 
-                        <div class="is-inline-block" v-if="totalPointsLabel">
+                        <v-row class="is-inline-block" v-if="totalPointsLabel">
                             <div class="chip badge badge--warning">{{totalPointsLabel}}</div>
-                        </div>
+                        </v-row>
 
-                        <v-expansion-panels popout>
-                            <v-expansion-panel
-                                    v-for="group in groupsDirect"
-                                    :key="group.name"
-                            >
-                                <v-expansion-panel-header>{{group.name}}</v-expansion-panel-header>
-                                <v-expansion-panel-content>
-                                    <v-list>
-                                        <template v-for="member in group.members">
-                                            <v-list-item
-                                                    :key="member.username"
-                                                    @click=""
-                                            >
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{member.firstname}} {{member.lastname}}
-                                                        ({{member.username}})
-                                                    </v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </template>
-                                    </v-list>
-                                </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-expansion-panels>
+                        <v-row>
+                            <v-expansion-panels popout>
+                                <v-expansion-panel
+                                        v-for="group in groupsDirect"
+                                        :key="group.name"
+                                >
+                                    <v-expansion-panel-header>{{group.name}}</v-expansion-panel-header>
+                                    <v-expansion-panel-content>
+                                        <v-list>
+                                            <template v-for="member in group.members">
+                                                <v-list-item
+                                                        :key="member.username"
+                                                        @click=""
+                                                >
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{member.firstname}} {{member.lastname}}
+                                                            ({{member.username}})
+                                                        </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </template>
+                                        </v-list>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-row>
+
                     </v-col>
 
                 </div>
