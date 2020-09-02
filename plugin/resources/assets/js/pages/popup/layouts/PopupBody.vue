@@ -2,17 +2,13 @@
 
     <v-row>
 
-        <v-col>
-            <popup-navigation/>
-        </v-col>
+        <popup-navigation/>
 
-        <v-col>
-            <div class="page-container">
-                <keep-alive>
-                    <router-view/>
-                </keep-alive>
-            </div>
-        </v-col>
+        <div class="page-container">
+            <keep-alive>
+                <router-view/>
+            </keep-alive>
+        </div>
 
     </v-row>
 </template>
