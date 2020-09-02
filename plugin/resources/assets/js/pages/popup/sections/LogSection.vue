@@ -3,11 +3,23 @@
             title="Charon logs"
             subtitle="Here are the recent errors charon has had"
     >
-        <div style="height:600px;overflow:auto">
-            <pre>
-                {{logs}}
-            </pre>
-        </div>
+
+        <v-card
+                class="mx-auto"
+                max-width="1200"
+                outlined
+                hover
+                ripple
+                shaped
+        >
+            <v-list-item three-line>
+                <v-list-item-content>
+                        <pre style="width:1200px;height:600px;overflow:scroll;">
+                            {{logs}}
+                        </pre>
+                </v-list-item-content>
+            </v-list-item>
+        </v-card>
 
     </popup-section>
 </template>
