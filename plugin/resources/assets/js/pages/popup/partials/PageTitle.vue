@@ -13,13 +13,14 @@
             <div>
                 {{ currentTitle }}
                 <div v-if="this.student" style="vertical-align: text-bottom;" class="is-inline-block student-groups">
-                </div>
-
-                <v-col justify="center">
 
                     <v-row class="is-inline-block" v-if="totalPointsLabel">
                         <div class="chip badge badge--warning">{{totalPointsLabel}}</div>
                     </v-row>
+
+                </div>
+
+                <v-col justify="center">
 
                     <v-row>
                         <v-expansion-panels popout>
