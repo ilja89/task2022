@@ -33,8 +33,8 @@
         data() {
             return {
                 items: [
-                    {title: 'Dashboard', icon: "cached", route: '/'},
-                    {title: 'Grading', icon: 'cached', route: "" + this.gradingLink },
+                    {title: 'Dashboard', icon: "mdi-cached", route: '/'},
+                    {title: 'Grading', icon: 'mdi_cached', route: "" + this.gradingLink },
                     {title: 'Submission', icon: 'cached', route: "" + this.submissionLink },
                     {title: 'Student overview', icon: 'dashboard', route: "" + this.studentOverviewLink },
                     {title: 'Plagiarism', icon: 'dashboard', route: '/plagiarism'},
