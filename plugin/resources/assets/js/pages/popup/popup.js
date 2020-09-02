@@ -5,9 +5,7 @@ import Popup from './Popup.vue'
 import router from './routes'
 import store from './store'
 import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import 'material-icons/css/material-icons.css'
+import VueMaterial from 'vue-material'
 import VueClipboard from 'vue-clipboard2'
 
 import {HighlightDirective} from './../../directives';
@@ -17,6 +15,8 @@ import 'vue-good-table/dist/vue-good-table.css';
 import VueJsonToCsv from 'vue-json-to-csv';
 
 Vue.use(VueClipboard)
+
+Vue.use(VueMaterial);
 
 Vue.use(Vuetify)
 const opts = {}

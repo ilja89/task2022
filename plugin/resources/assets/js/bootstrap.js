@@ -4,8 +4,6 @@ import axios from 'axios'
 window.Vue = Vue
 window.VueEvent = new Vue()
 
-window._ = require('material-icons')
-
 window.axios = axios
 window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest'
