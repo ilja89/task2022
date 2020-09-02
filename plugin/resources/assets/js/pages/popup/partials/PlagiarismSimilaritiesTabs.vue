@@ -86,7 +86,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../../sass/popup/variables';
 
     .similarity-link a {
         svg {
@@ -94,15 +93,6 @@
             vertical-align: middle;
             width: 1rem;
             height: 1rem;
-            fill: $primary;
-        }
-
-        &:hover {
-            color: $light-blue;
-
-            svg {
-                fill: $light-blue;
-            }
         }
     }
 
