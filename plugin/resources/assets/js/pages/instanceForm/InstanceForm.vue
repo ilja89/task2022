@@ -64,8 +64,27 @@
         <deadline-section :form="form"></deadline-section>
         <grouping-section :form="form"></grouping-section>
 
-        <notification :text="notification.text" :show="notification.show" :type="notification.type">
-        </notification>
+        <v-snackbar
+                top
+                right
+                absolute
+                shaped
+                v-model="snackbar"
+                :timeout="notification.timeout"
+        >
+            {{ notification.text }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        color="blue"
+                        text
+                        v-bind="attrs"
+                        @click="notification.show = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </div>
 </template>
 
@@ -98,12 +117,6 @@
                 advanced_info_section_active: false,
                 advanced_grading_section_active: false,
                 advanced_plagiarism_section_active: false,
-
-                notification: {
-                    text: '',
-                    show: false,
-                    type: 'success',
-                }
             }
         },
 

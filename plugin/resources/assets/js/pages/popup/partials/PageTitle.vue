@@ -54,7 +54,31 @@
 
                 </v-col>
 
+
             </div>
+
+            <v-snackbar
+                    top
+                    right
+                    absolute
+                    shaped
+                    v-model="notification.show"
+                    :timeout="notification.timeout"
+            >
+                {{ notification.text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                            color="blue"
+                            text
+                            v-bind="attrs"
+                            @click="notification.show = false"
+                    >
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
+
         </template>
     </h1>
 </template>

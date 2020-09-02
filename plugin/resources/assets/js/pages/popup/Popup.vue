@@ -13,7 +13,7 @@
                         right
                         absolute
                         shaped
-                        v-model="snackbar"
+                        v-model="notification.show"
                         :timeout="notification.timeout"
                 >
                     {{ notification.text }}
@@ -30,11 +30,6 @@
                     </template>
                 </v-snackbar>
 
-                <notification
-                        :text="notification.text"
-                        :show="notification.show"
-                        :type="notification.type"
-                />
             </div>
         </v-content>
     </v-app>
@@ -47,7 +42,7 @@
 
     export default {
 
-        components: {PopupHeader, PopupBody, Loader, Notification},
+        components: {PopupHeader, PopupBody, Loader},
 
         data() {
             return {
