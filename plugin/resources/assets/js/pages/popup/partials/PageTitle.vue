@@ -23,13 +23,14 @@
                                 <div>
                                     <h3>Users in this group</h3>
 
-                                    <v-bottom-sheet v-model="sheet" inset>
+                                    <v-bottom-sheet v-model="sheets" inset>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
                                                     color="orange"
                                                     dark
                                                     v-bind="attrs"
                                                     v-on="on"
+                                                    @click="sheets.add(group.name)"
                                             >
                                                 Open Inset
                                             </v-btn>
@@ -40,7 +41,7 @@
                                                     class="mt-6"
                                                     text
                                                     color="error"
-                                                    @click="sheet = !sheet"
+                                                    @click="sheets.remove(group.name)"
                                             >close
                                             </v-btn>
                                             <v-list>
@@ -78,7 +79,7 @@
     export default {
         components: {TippyComponent},
         data: () => ({
-            sheet: false,
+            sheets: new Set(),
         }),
         props: {
             title: {
