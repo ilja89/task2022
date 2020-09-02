@@ -23,18 +23,17 @@
                                 <div>
                                     <h3>Users in this group</h3>
 
-                                    <v-bottom-sheet v-model="sheet" inset>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                                    color="orange"
-                                                    dark
-                                                    v-bind="attrs"
-                                                    v-on="on"
-                                                    @click="sheet = group.name"
-                                            >
-                                                Open Inset
-                                            </v-btn>
-                                        </template>
+                                    <v-btn
+                                            color="orange"
+                                            dark
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="sheet = group.name"
+                                    >
+                                        Open Inset
+                                    </v-btn>
+
+                                    <v-bottom-sheet v-if="sheet === group.name" inset>
 
                                         <v-sheet class="text-center" height="400px" style="overflow-y:auto">
                                             <v-btn
