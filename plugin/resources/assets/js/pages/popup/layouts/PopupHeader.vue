@@ -3,8 +3,6 @@
     <v-toolbar
             app
             fixed
-            dark
-            dense
             flat
             id="core-toolbar">
 
