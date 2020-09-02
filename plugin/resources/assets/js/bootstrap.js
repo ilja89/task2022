@@ -1,8 +1,14 @@
 import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 import axios from 'axios'
 
 window.Vue = Vue
 window.VueEvent = new Vue()
+
+Vue.use(Vuetify)
+const opts = {}
+export default new Vuetify(opts)
 
 window.axios = axios
 window.axios.defaults.headers.common = {
