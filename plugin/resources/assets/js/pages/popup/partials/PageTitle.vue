@@ -62,8 +62,8 @@
                     right
                     absolute
                     shaped
-                    v-model="notification.show"
-                    :timeout="notification.timeout"
+                    v-model="this.notification.show"
+                    :timeout="this.notification.timeout"
             >
                 {{ notification.text }}
 
@@ -72,7 +72,7 @@
                             color="blue"
                             text
                             v-bind="attrs"
-                            @click="notification.show = false"
+                            @click="this.notification.show = false"
                     >
                         Close
                     </v-btn>
