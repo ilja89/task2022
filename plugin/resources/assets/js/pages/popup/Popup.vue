@@ -61,7 +61,7 @@
         },
 
         methods: {
-            showNotification(message, type, timeout) {
+            showNotification(message, type, timeout = 2000) {
                 this.notification.text = message
                 this.notification.show = true
                 this.notification.type = type

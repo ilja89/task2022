@@ -132,16 +132,14 @@
             },
 
             doCopy: function (name) {
-                this.showNotification("Copied to clipboard!")
+                this.showNotification("Copied to clipboard!", 'success', 1000)
                 this.$copyText(name)
             },
 
-            showNotification(message, type = 'success', timeout = 1000) {
-                this.notification.text = message
-                this.notification.show = true
-                this.notification.type = type
-                this.notification.timeout = timeout
+            showNotification(message, type, timeout = 5000) {
+                VueEvent.$emit('show-notification', message, type, timeout)
             },
+
         }
     };
 </script>

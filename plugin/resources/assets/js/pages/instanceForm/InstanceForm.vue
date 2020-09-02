@@ -133,14 +133,11 @@
             },
 
             showNotification(message, type, timeout = 5000) {
-                this.notification.text = message
-                this.notification.show = true
-                this.notification.type = type
-                this.notification.timeout = timeout
+                VueEvent.$emit('show-notification', message, type, timeout)
             },
 
             hideNotification() {
-                this.notification.show = false
+                VueEvent.$emit('close-notification')
             },
         },
 
