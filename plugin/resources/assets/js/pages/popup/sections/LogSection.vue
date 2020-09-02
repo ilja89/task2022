@@ -11,8 +11,12 @@
                 outlined
                 raised
                 shaped
-                v-card-text="logs"
-        ></v-card>
+        >
+            <pre>
+                {{logs}}
+            </pre>
+
+        </v-card>
 
     </popup-section>
 </template>
