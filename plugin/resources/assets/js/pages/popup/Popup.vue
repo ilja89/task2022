@@ -1,27 +1,31 @@
 <template>
-    <div class="popup-container">
-        <popup-header/>
+    <v-app>
+        <v-content>
+            <div class="popup-container">
+                <popup-header/>
 
-        <popup-body/>
+                <popup-body/>
 
-        <loader :visible="loaderVisible !== 0"/>
+                <loader :visible="loaderVisible !== 0"/>
 
-        <notification
-            :text="notification.text"
-            :show="notification.show"
-            :type="notification.type"
-        />
-    </div>
+                <notification
+                        :text="notification.text"
+                        :show="notification.show"
+                        :type="notification.type"
+                />
+            </div>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
-    import { PopupHeader, PopupBody } from './layouts'
-    import { Loader } from './partials'
-    import { Notification } from '../../components/partials'
+    import {PopupHeader, PopupBody} from './layouts'
+    import {Loader} from './partials'
+    import {Notification} from '../../components/partials'
 
     export default {
 
-        components: { PopupHeader, PopupBody, Loader, Notification },
+        components: {PopupHeader, PopupBody, Loader, Notification},
 
         data() {
             return {
