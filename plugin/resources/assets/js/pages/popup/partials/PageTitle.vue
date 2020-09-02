@@ -17,53 +17,33 @@
                         <div class="chip badge badge--warning">{{totalPointsLabel}}</div>
                     </div>
                     <template v-if="groupsDirect.length > 0">
-                        <div class="is-inline-block" v-for="group in groupsDirect" v-bind:key="group.name">
-                            <div :name="createBadgeName(group.id)" class="chip">{{group.name}}</div>
-                            <tippy :to="createBadgeName(group.id)" arrow>
-                                <div>
-                                    <h3>Users in this group</h3>
 
-                                    <v-btn
-                                            color="orange"
-                                            dark
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            @click="sheet = group.name"
-                                    >
-                                        Open Inset
-                                    </v-btn>
-
-                                    <v-bottom-sheet v-if="sheet === group.name" inset>
-
-                                        <v-sheet class="text-center" height="400px" style="overflow-y:auto">
-                                            <v-btn
-                                                    class="mt-6"
-                                                    text
-                                                    color="error"
-                                                    @click="sheet = null"
-                                            >close
-                                            </v-btn>
-                                            <v-list>
-                                                <template v-for="member in group.members">
-                                                    <v-list-item
-                                                            :key="member.username"
-                                                            @click=""
-                                                    >
-                                                        <v-list-item-content>
-                                                            <v-list-item-title>{{member.firstname}} {{member.lastname}}
-                                                                ({{member.username}})
-                                                            </v-list-item-title>
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </template>
-                                            </v-list>
-                                        </v-sheet>
-
-                                    </v-bottom-sheet>
-
-                                </div>
-                            </tippy>
-                        </div>
+                        <v-col justify="center">
+                            <v-expansion-panels popout>
+                                <v-expansion-panel
+                                        v-for="group in groupsDirect"
+                                        :key="group.name"
+                                >
+                                    <v-expansion-panel-header>Item</v-expansion-panel-header>
+                                    <v-expansion-panel-content>
+                                        <v-list>
+                                            <template v-for="member in group.members">
+                                                <v-list-item
+                                                        :key="member.username"
+                                                        @click=""
+                                                >
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{member.firstname}} {{member.lastname}}
+                                                            ({{member.username}})
+                                                        </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </template>
+                                        </v-list>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-col>
                     </template>
                 </div>
             </div>
@@ -77,9 +57,7 @@
 
     export default {
         components: {TippyComponent},
-        data: () => ({
-            sheet: false
-        }),
+        data: () => ({}),
         props: {
             title: {
                 required: false,
