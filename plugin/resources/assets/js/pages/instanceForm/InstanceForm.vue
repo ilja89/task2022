@@ -96,7 +96,6 @@
     } from './sections'
     import { InstanceFormFieldset } from '../../components/form'
     import { Translate } from '../../mixins'
-    import { Notification } from '../../components/partials'
 
     export default {
         mixins: [ Translate ],
@@ -108,7 +107,7 @@
         components: {
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
             AdvancedTaskInfoSection, AdvancedGradingSection,
-            InstanceFormFieldset, Notification, AdvancedPlagiarismSection,
+            InstanceFormFieldset, AdvancedPlagiarismSection,
             SimplePlagiarismSection, GroupingSection
         },
 
