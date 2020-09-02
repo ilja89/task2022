@@ -51,33 +51,8 @@
                             </v-expansion-panel>
                         </v-expansion-panels>
                     </v-row>
-
                 </v-col>
-
-
             </div>
-
-            <v-snackbar
-                    top
-                    right
-                    absolute
-                    shaped
-                    v-model="this.notification.show"
-                    :timeout="this.notification.timeout"
-            >
-                {{ notification.text }}
-
-                <template v-slot:action="{ attrs }">
-                    <v-btn
-                            color="blue"
-                            text
-                            v-bind="attrs"
-                            @click="this.notification.show = false"
-                    >
-                        Close
-                    </v-btn>
-                </template>
-            </v-snackbar>
 
         </template>
     </h1>
