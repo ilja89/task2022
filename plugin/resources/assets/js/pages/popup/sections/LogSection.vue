@@ -7,12 +7,12 @@
         <v-card
                 class="mx-auto"
                 max-height="900"
-                max-width="100vh"
+                max-width="90vw"
                 outlined
                 raised
                 shaped
         >
-            <pre style="overflow: auto">
+            <pre style="max-height: 900px;overflow: auto">
                 {{logs}}
             </pre>
 
