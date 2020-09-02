@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-content>
+        <v-main>
             <div class="popup-container">
                 <popup-header/>
 
@@ -32,7 +32,7 @@
                 </v-snackbar>
 
             </div>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
@@ -86,3 +86,7 @@
         },
     }
 </script>
+
+<style>
+    @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+</style>
