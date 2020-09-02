@@ -11,6 +11,7 @@
                 <v-snackbar
                         top
                         right
+                        multi-line
                         absolute
                         shaped
                         v-model="notification.show"

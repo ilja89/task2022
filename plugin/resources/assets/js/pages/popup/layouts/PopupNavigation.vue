@@ -1,67 +1,45 @@
 <template>
-    <aside class="column is-2-desktop is-3-tablet  menu  nav-container">
-        <ul class="menu-list">
 
-            <li class="nav-item">
-                <router-link to="/" exact>
-                    Dashboard
-                </router-link>
-            </li>
 
-            <li class="nav-item">
-                <router-link :to="gradingLink">
-                    Grading
-                </router-link>
-            </li>
+    <div class="ma-12 pa-12">
+        <v-card>
+            <v-navigation-drawer
+                    permanent
+                    expand-on-hover
+            >
+                <v-list
+                        nav
+                        dense
+                >
+                    <v-list-item link>
+                        <v-list-item-icon>
+                            <v-icon>mdi-folder</v-icon>
+                        </v-list-item-icon>
+                        <router-link :to="gradingLink">
+                            Grading
+                        </router-link>
+                    </v-list-item>
+                    <v-list-item link>
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-multiple</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Shared with me</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item link>
+                        <v-list-item-icon>
+                            <v-icon>mdi-star</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Starred</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+        </v-card>
+    </div>
 
-            <li class="nav-item">
-                <router-link :to="submissionLink()">
-                    Submission
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link :to="studentOverviewLink">
-                    Student overview
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/plagiarism">
-                    Plagiarism
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/report-statistics">
-                    Report & Statistics
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/labs">
-                    Labs
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/defenseSettings">
-                    Defense settings
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/defenseRegistrations">
-                    Defense registrations
-                </router-link>
-            </li>
-
-        </ul>
-    </aside>
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
+    import {mapState, mapGetters} from 'vuex'
 
     export default {
         computed: {
