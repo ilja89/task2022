@@ -3,11 +3,12 @@
     <v-navigation-drawer
             permanent
             expand-on-hover
+            app
+            clipped
     >
         <v-list
                 v-for="item in items"
                 nav
-                dense
         >
             <v-list-item nav :to="item.route">
 
