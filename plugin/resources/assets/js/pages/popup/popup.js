@@ -6,6 +6,7 @@ import router from './routes'
 import store from './store'
 import Vuetify from 'vuetify'
 import '@fortawesome/fontawesome-free/css/all.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 import VueClipboard from 'vue-clipboard2'
 

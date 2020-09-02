@@ -33,9 +33,9 @@
         data() {
             return {
                 items: [
-                    {title: 'Dashboard', icon: "fas fa-edit", route: '/'},
-                    {title: 'Grading', icon: 'account_box', route: "" + this.gradingLink },
-                    {title: 'Submission', icon: 'gavel', route: "" + this.submissionLink },
+                    {title: 'Dashboard', icon: "cached", route: '/'},
+                    {title: 'Grading', icon: 'cached', route: "" + this.gradingLink },
+                    {title: 'Submission', icon: 'cached', route: "" + this.submissionLink },
                     {title: 'Student overview', icon: 'dashboard', route: "" + this.studentOverviewLink },
                     {title: 'Plagiarism', icon: 'dashboard', route: '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'dashboard', route: '/report-statistics'},
