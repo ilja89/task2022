@@ -127,10 +127,8 @@
             },
 
             doCopy: function (name) {
-                this.$copyText(name).then(function (e) {
-                    this.snackbar = true
-                }, function (e) {
-                })
+                this.snackbar = true
+                this.$copyText(name)
             }
         }
     };
