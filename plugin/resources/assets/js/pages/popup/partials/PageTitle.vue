@@ -14,7 +14,7 @@
                 {{ currentTitle }}
                 <div v-if="this.student" style="vertical-align: text-bottom;" class="is-inline-block student-groups">
 
-                    <v-row justify="center">
+                    <v-col justify="center">
 
                         <div class="is-inline-block" v-if="totalPointsLabel">
                             <div class="chip badge badge--warning">{{totalPointsLabel}}</div>
@@ -44,7 +44,7 @@
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
                         </v-expansion-panels>
-                    </v-row>
+                    </v-col>
 
                 </div>
             </div>
