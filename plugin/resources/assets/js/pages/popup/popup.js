@@ -25,9 +25,9 @@ Vue.use(VueClipboard)
 Vue.use(Vuetify)
 
 const opts = {
-    // theme: {
-    //     themes: {themes},
-    // },
+    theme: {
+        dark: true,
+    },
 }
 
 export default new Vuetify(opts)
