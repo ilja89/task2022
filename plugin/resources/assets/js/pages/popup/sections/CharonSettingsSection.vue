@@ -18,10 +18,10 @@
                     <md-icon>warning</md-icon>
                 </v-col>
                 <v-col class="shrink">
-                    <v-btn @click="deleteCharon">Yes</v-btn>
+                    <v-btn class="ma-2" small tile outlined color="error" @click="deleteCharon">Yes</v-btn>
                 </v-col>
                 <v-col class="shrink">
-                    <v-btn @click="alert=false">No</v-btn>
+                    <v-btn class="ma-2" small tile outlined color="error" @click="alert=false">No</v-btn>
                 </v-col>
             </v-row>
         </v-alert>
@@ -132,7 +132,7 @@
             },
             promtDeletionAlert(charon) {
                 this.alert = true
-                this.charon_id = charon.charon_id
+                this.charon_id = charon.id
             },
             deleteCharon() {
                 Charon.deleteById(this.charon_id, () => {
