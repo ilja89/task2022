@@ -23,7 +23,7 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <student-search @student-was-changed="onStudentChanged"/>
+            <student-search @student-was-changed="onStudentChanged" />
 
             <v-btn icon color="primary" @click="onRefreshClicked">
                 <md-icon>refresh</md-icon>
@@ -41,7 +41,7 @@
     import {mapState} from "vuex";
 
     export default {
-        components: {StudentSearch, ExtraOptions},
+        components: { StudentSearch, ExtraOptions },
         computed: {
             ...mapState(["student"]),
         },
@@ -50,18 +50,17 @@
                 VueEvent.$emit("refresh-page");
             },
 
-            onStudentChanged(search_student) {
-                this.$store.state.student = search_student
-                this.$router.push("/grading/" + search_student.id);
+            onStudentChanged(student) {
+                this.$router.push("/grading/" + student.id);
             },
 
             onSubmissionAdded() {
                 VueEvent.$emit("refresh-page");
             },
-
             getCourseName() {
                 return window.course_name;
             }
         }
     };
+
 </script>

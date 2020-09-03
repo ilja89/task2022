@@ -22,10 +22,10 @@
 
 <script>
     import autocomplete from 'vue2-autocomplete-js'
-    import {mapGetters} from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
-        components: {autocomplete},
+        components: { autocomplete },
 
         computed: {
             ...mapGetters([
