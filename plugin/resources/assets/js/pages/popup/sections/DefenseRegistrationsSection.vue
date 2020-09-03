@@ -37,55 +37,70 @@
             <br>
         </div>
 
-        <div class="apply-btn-container">
-            <button class="btn-apply" v-on:click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply</button>
-        </div>
-        <div class="card  has-padding">
-            <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                <thead>
-                <tr>
-                    <th>
-                        Date and time
-                    </th>
-                    <th>
-                        Student name
-                    </th>
-                    <th>
-                        Duration
-                    </th>
-                    <th>
-                        Teacher
-                    </th>
-                    <th>
-                        Submission
-                    </th>
-                    <th>
-                        Progress
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="defense in defenseList">
-                    <td>{{defense.choosen_time}}</td>
-                    <td>{{defense.student_name}}</td>
-                    <td>{{getFormattedDuration(defense.defense_duration)}}</td>
-                    <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
-                    <td><router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link></td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="dropbtn">{{defense.progress}}</button>
-                            <div id="dropdown-content" class="dropdown-content">
-                                <a v-on:click="saveProgress(defense.id, 'Waiting')">Waiting</a>
-                                <a v-on:click="saveProgress(defense.id, 'Defending')">Defending</a>
-                                <a v-on:click="saveProgress(defense.id, 'Done')">Done</a>
-                            </div>
-                        </div>
+        <v-btn class="ma-2" tile outlined color="primary"
+               @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
+        </v-btn>
 
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <v-card
+                class="mx-auto"
+                outlined
+                light
+                raised
+                shaped
+        >
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th>
+                            Date and time
+                        </th>
+                        <th>
+                            Student name
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            Teacher
+                        </th>
+                        <th>
+                            Submission
+                        </th>
+                        <th>
+                            Progress
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="defense in defenseList">
+                        <td>{{defense.choosen_time}}</td>
+                        <td>{{defense.student_name}}</td>
+                        <td>{{getFormattedDuration(defense.defense_duration)}}</td>
+                        <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
+                        <td>
+                            <router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission
+                            </router-link>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="dropbtn">{{defense.progress}}</button>
+                                <div id="dropdown-content" class="dropdown-content">
+                                    <a v-on:click="saveProgress(defense.id, 'Waiting')">Waiting</a>
+                                    <a v-on:click="saveProgress(defense.id, 'Defending')">Defending</a>
+                                    <a v-on:click="saveProgress(defense.id, 'Done')">Done</a>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
+        </v-card>
     </div>
 </template>
 
@@ -115,7 +130,7 @@
                 return '/submissions/' + submissionId
             },
             saveProgress(defenseId, state) {
-                Defense.saveDefenseProgress(this.course.id, defenseId, state,() => {
+                Defense.saveDefenseProgress(this.course.id, defenseId, state, () => {
                     for (let i = 0; i < this.defenseList.length; i++) {
                         if (this.defenseList[i].id === defenseId) {
                             this.defenseList[i].progress = state
@@ -175,7 +190,7 @@
         color: #fff;
         background-color: #1177d1;
         border-color: #1177d1;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
 
     .btn-apply:hover {
@@ -204,7 +219,7 @@
         display: none;
         position: absolute;
         min-width: 120px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
 
@@ -221,7 +236,9 @@
     }
 
     /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #f1f1f1}
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
 
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {

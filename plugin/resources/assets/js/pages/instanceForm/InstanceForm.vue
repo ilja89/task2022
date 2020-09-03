@@ -64,8 +64,27 @@
         <deadline-section :form="form"></deadline-section>
         <grouping-section :form="form"></grouping-section>
 
-        <notification :text="notification.text" :show="notification.show" :type="notification.type">
-        </notification>
+        <v-snackbar
+                top
+                right
+                absolute
+                shaped
+                v-model="snackbar"
+                :timeout="notification.timeout"
+        >
+            {{ notification.text }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        color="blue"
+                        text
+                        v-bind="attrs"
+                        @click="notification.show = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </div>
 </template>
 
@@ -77,7 +96,6 @@
     } from './sections'
     import { InstanceFormFieldset } from '../../components/form'
     import { Translate } from '../../mixins'
-    import { Notification } from '../../components/partials'
 
     export default {
         mixins: [ Translate ],
@@ -89,7 +107,7 @@
         components: {
             SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
             AdvancedTaskInfoSection, AdvancedGradingSection,
-            InstanceFormFieldset, Notification, AdvancedPlagiarismSection,
+            InstanceFormFieldset, AdvancedPlagiarismSection,
             SimplePlagiarismSection, GroupingSection
         },
 
@@ -98,12 +116,6 @@
                 advanced_info_section_active: false,
                 advanced_grading_section_active: false,
                 advanced_plagiarism_section_active: false,
-
-                notification: {
-                    text: '',
-                    show: false,
-                    type: 'success',
-                }
             }
         },
 
@@ -121,19 +133,11 @@
             },
 
             showNotification(message, type, timeout = 5000) {
-                this.notification.text = message
-                this.notification.show = true
-                this.notification.type = type
-
-                if (timeout) {
-                    setTimeout(() => {
-                        this.notification.show = false
-                    }, timeout)
-                }
+                VueEvent.$emit('show-notification', message, type, timeout)
             },
 
             hideNotification() {
-                this.notification.show = false
+                VueEvent.$emit('close-notification')
             },
         },
 

@@ -11,8 +11,8 @@ import {
     PlagiarismPage,
     ReportStatistics,
     LabsPage,
-    DefenseSettingsPage,
-    DefSettingsEditingPage,
+    CharonSettingsPage,
+    CharonSettingsEditingPage,
     DefenseRegistrationPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
@@ -76,15 +76,15 @@ const routes = [
         name: 'labs-form',
     },
     {
-        path: '/defenseSettings',
-        title: 'Defense Settings',
-        component: DefenseSettingsPage,
+        path: '/charonSettings',
+        title: 'Charon Settings',
+        component: CharonSettingsPage,
         name: 'defense-settings-page'
     },
     {
         path: '/defSettingsEditing',
-        title: 'Defense Settings Editing',
-        component: DefSettingsEditingPage,
+        title: 'Charon Settings Editing',
+        component: CharonSettingsEditingPage,
         name: 'def-settings-editing-page'
     },
     {

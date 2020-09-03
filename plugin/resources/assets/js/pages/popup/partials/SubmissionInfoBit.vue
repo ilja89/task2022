@@ -21,23 +21,3 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
-    @import '../../../../sass/popup/variables';
-
-    .submission-info:not(:last-of-type) {
-        margin-bottom: .75rem;
-    }
-
-    .submission-info__title {
-        color: $grey;
-        font-weight: $weight-medium;
-        font-size: 1.25rem;
-    }
-
-    .submission-info__content {
-        font-weight: 500;
-        font-size: 1.25rem;
-    }
-
-</style>

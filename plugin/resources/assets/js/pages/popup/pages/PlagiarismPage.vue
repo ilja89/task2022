@@ -2,13 +2,7 @@
     <div>
 
         <page-title title="Plagiarism">
-            <button
-                class="button is-primary"
-                type="button"
-                @click="handleRunPlagiarismClicked"
-            >
-                Run checksuite
-            </button>
+            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run checksuite</v-btn>
         </page-title>
 
         <plagiarism-results-section></plagiarism-results-section>
@@ -17,16 +11,16 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import {mapState} from 'vuex'
 
-    import { PageTitle } from '../partials'
-    import { PlagiarismResultsSection } from '../sections'
-    import { Plagiarism } from '../../../api'
+    import {PageTitle} from '../partials'
+    import {PlagiarismResultsSection} from '../sections'
+    import {Plagiarism} from '../../../api'
 
     export default {
         name: 'plagiarism-page',
 
-        components: { PageTitle, PlagiarismResultsSection },
+        components: {PageTitle, PlagiarismResultsSection},
 
         computed: {
             ...mapState([

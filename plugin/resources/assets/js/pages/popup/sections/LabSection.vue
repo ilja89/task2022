@@ -1,24 +1,50 @@
 <template>
     <div class="lab">
-        <table>
-            <tr>
-                <th v-on:click="sortTable('name')" class="sortable">Name</th>
-                <th v-on:click="sortTable('date')" class="sortable">Date</th>
-                <th v-on:click="sortTable('time')" class="sortable">Time</th>
-                <th v-on:click="sortTable('teachers')" class="sortable">Teachers</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr v-for="lab in labs">
-                <th>{{getDayTimeFormat(lab.start.time)}}</th>
-                <th>{{getNiceDate(lab.start.time)}}</th>
-                <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
-                <th><p class="teachers" v-for="teacher in lab.teachers">{{teacher.full_name}}<b v-if="lab.teachers[lab.teachers.length - 1] !== teacher">,<br></b></p></th>
-                <th><a class="clickable edit_lab" v-on:click="editLabClicked(lab)">Edit</a></th>
-                <th><a class="clickable delete_lab" v-on:click="deleteLabClicked(lab)">Delete</a></th>
-            </tr>
-        </table>
-        <button v-on:click="addNewLabSessionClicked" class="new_lab_button">NEW</button>
+        <v-card
+                class="mx-auto"
+                outlined
+                light
+                raised
+                shaped
+        >
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th v-on:click="sortTable('name')">Name</th>
+                        <th v-on:click="sortTable('date')">Date</th>
+                        <th v-on:click="sortTable('time')">Time</th>
+                        <th v-on:click="sortTable('teachers')">Teachers</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="lab in labs">
+                        <th>{{getDayTimeFormat(lab.start.time)}}</th>
+                        <th>{{getNiceDate(lab.start.time)}}</th>
+                        <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
+                        <th>
+                            <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
+                                    v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b>
+                            </b>
+                        </th>
+                        <th>
+                            <v-btn class="ma-2" small tile outlined color="primary" @click="editLabClicked(lab)">Edit
+                            </v-btn>
+                            <v-btn class="ma-2" small tile outlined color="error" @click="deleteLabClicked(lab)">
+                                Delete
+                            </v-btn>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add</v-btn>
+            </v-container>
+        </v-card>
     </div>
 </template>
 
@@ -130,90 +156,3 @@
 
 
 </script>
-
-<style scoped>
-
-    hr {background-color: black; margin: 0}
-    .font {font-size: 2vw; font-weight: 600;}
-    .section {background-color: #d7dde4; border-style: solid; margin-bottom: 2vw;}
-    .btn {float: right; border-style: none;}
-    .inBoxButton {
-        background-color: #d7dde4;
-    }
-    .new_lab_button {
-        margin: 6px;
-        margin-right: 0px;
-        border: none;
-        background-color: #44d244;
-        font-size: 18px;
-        float: right;
-        cursor: pointer;
-        padding: 7px;
-        color: white;
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-    .new_lab_button:hover {
-        background-color: #37ab37;
-    }
-
-    table {
-        background-color: papayawhip;
-        color: #fff;
-        border-radius: 2px;
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-        max-width: 100%;
-        padding: 0 24px;
-        text-align: left!important;
-        border: 2px solid;
-        border-color: black;
-     }
-    .sortable {
-        cursor: pointer;
-        outline: 0;
-        color: brown;
-        font-weight: 580;
-        font-size: 16px;
-    }
-    .sortable:active {
-        color: coral;
-    }
-    th {
-        padding: 0 24px;
-        line-height: 45px;
-    }
-    tr {
-        border: solid;
-        border-width: 1px 0;
-        border-color: #2b666c;
-    }
-    .clickable {
-        cursor: pointer;
-    }
-    .edit_lab {
-        color: #4f5f6f;
-    }
-    .edit_lab:hover {
-        color: #f7e350;
-    }
-    .edit_lab:active {
-        color: #f7e350;
-    }
-    .delete_lab {
-        color: #4f5f6f;
-    }
-    .delete_lab:hover {
-        color: red;
-    }
-    .delete_lab:active {
-        color: red;
-    }
-    a {
-        color: black;
-    }
-    .teachers {
-        line-height: 2;
-    }
-</style>

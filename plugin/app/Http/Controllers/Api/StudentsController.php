@@ -70,7 +70,7 @@ class StudentsController extends Controller
     public function findById(Course $course, $userId)
     {
         return User::where('id', $userId)
-            ->first(['id', 'firstname', 'lastname', 'idnumber']);
+            ->first(['id', 'firstname', 'lastname', 'idnumber', 'username']);
     }
 
     /**
@@ -115,7 +115,7 @@ class StudentsController extends Controller
 
     public function getStudentGroups(Course $course, int $userId)
     {
-        return $this->findById($course, $userId)->groups()->with('members:idnumber,firstname,lastname')->where('courseid', $course->id)->get();
+        return $this->findById($course, $userId)->groups()->with('members:idnumber,firstname,lastname,username')->where('courseid', $course->id)->get();
     }
 
 

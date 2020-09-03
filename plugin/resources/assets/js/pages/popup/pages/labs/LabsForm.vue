@@ -2,13 +2,14 @@
     <div>
         <lab-info-section :lab_given="lab" :teachers="teachers"></lab-info-section>
         <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
-        <div class="btn-container btn-container-left">
-            <button v-on:click="saveClicked" class="btn-labs btn-save-labs">Save</button>
-        </div>
-
-        <div class="btn-container btn-container-right">
-            <router-link to="/labs"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
-        </div>
+        <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
+            Save
+        </v-btn>
+        <v-btn class="ma-2" tile outlined color="warning" @click="saveClicked">
+            <router-link to="/labs">
+                <button>Cancel</button>
+            </router-link>
+        </v-btn>
 
     </div>
 </template>
@@ -22,7 +23,7 @@
 
     export default {
 
-        components: { LabInfoSection, AddMultipleLabsSection },
+        components: {LabInfoSection, AddMultipleLabsSection},
 
         data() {
             return {

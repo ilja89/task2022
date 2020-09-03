@@ -1,36 +1,48 @@
 <template>
     <popup-section
-        title="Students distribution"
-        subtitle="Distribution of students over their max grade for this course."
+            title="Students distribution"
+            subtitle="Distribution of students over their max grade for this course."
     >
-        <div class="card  has-padding">
-            <table class="table  is-fullwidth  is-striped">
-                <thead>
-                <tr>
-                    <th>Points</th>
-                    <th>Number of students</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="distribution in distributions">
-                    <td>{{ distribution | distributionInterval }}</td>
-                    <td>{{ distribution.user_count }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <v-card
+                class="mx-auto"
+                outlined
+                light
+                raised
+                shaped
+        >
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped">
+                    <thead>
+                    <tr>
+                        <th>Points</th>
+                        <th>Number of students</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="distribution in distributions">
+                        <td>{{ distribution | distributionInterval }}</td>
+                        <td>{{ distribution.user_count }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
+        </v-card>
+
     </popup-section>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { PopupSection } from '../layouts'
-    import { User } from '../../../api'
+    import {mapGetters} from 'vuex'
+    import {PopupSection} from '../layouts'
+    import {User} from '../../../api'
 
     export default {
         name: "students-by-total-points-section",
 
-        components: { PopupSection },
+        components: {PopupSection},
 
         data() {
             return {
@@ -59,7 +71,7 @@
                     .map(distribution => {
                         const minGrade = this.round(distribution.part * partSize)
                         const maxGrade = this.round(distribution.part * partSize + partSize)
-                        return { ...distribution, minGrade, maxGrade }
+                        return {...distribution, minGrade, maxGrade}
                     })
             },
         },

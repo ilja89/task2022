@@ -1,20 +1,20 @@
 <template>
     <div>
-        <page-title :title="'Defense settings'"></page-title>
-        <defense-settings-section :charons="charons"></defense-settings-section>
+        <page-title :title="'Charon settings'"></page-title>
+        <charon-settings-section :charons="charons"></charon-settings-section>
     </div>
 </template>
 
 <script>
     import PageTitle from "../partials/PageTitle";
-    import DefenseSettingsSection from "../sections/DefenseSettingsSection";
+    import CharonSettingsSection from "../sections/CharonSettingsSection";
     import Charon from "../../../api/Charon";
     import {mapState} from "vuex";
     import Lab from "../../../api/Lab";
 
     export default {
         name: "defense-settings-page",
-        components: { PageTitle, DefenseSettingsSection },
+        components: { PageTitle, CharonSettingsSection: CharonSettingsSection },
         data() {
             return {
                 charons: [],
@@ -51,7 +51,7 @@
             },
             getNiceDate(date) {
                 let month = (date.getMonth() + 1).toString();
-                if (month.length == 1) {
+                if (month.length === 1) {
                     month = "0" + month
                 }
                 return date.getDate() + '.' + month + '.' + date.getFullYear()

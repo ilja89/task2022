@@ -1,69 +1,50 @@
 <template>
-    <aside class="column is-2-desktop is-3-tablet  menu  nav-container">
-        <ul class="menu-list">
 
-            <li class="nav-item">
-                <router-link to="/" exact>
-                    Dashboard
-                </router-link>
-            </li>
+    <v-navigation-drawer
+            app
+            permanent
+            expand-on-hover
+            clipped
+            mini-variant
+    >
+        <v-list
+                v-for="item in items"
+                nav
+        >
+            <v-list-item nav :to="item.route()">
 
-            <li class="nav-item">
-                <router-link :to="gradingLink">
-                    Grading
-                </router-link>
-            </li>
+                <v-list-item-icon>
+                    <md-icon>{{ item.icon }}</md-icon>
+                </v-list-item-icon>
 
-            <li class="nav-item">
-                <router-link :to="submissionLink()">
-                    Submission
-                </router-link>
-            </li>
+                <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
 
-            <li class="nav-item">
-                <router-link :to="studentOverviewLink">
-                    Student overview
-                </router-link>
-            </li>
+    </v-navigation-drawer>
 
-            <li class="nav-item">
-                <router-link to="/plagiarism">
-                    Plagiarism
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/report-statistics">
-                    Report & Statistics
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/labs">
-                    Labs
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/defenseSettings">
-                    Defense settings
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/defenseRegistrations">
-                    Defense registrations
-                </router-link>
-            </li>
-
-        </ul>
-    </aside>
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
+    import {mapState, mapGetters} from 'vuex'
 
     export default {
+        data() {
+            return {
+                items: [
+                    {title: 'Dashboard', icon: "dashboard", route: () => '/'},
+                    {title: 'Grading', icon: 'grading', route: this.gradingLink},
+                    {title: 'Student overview', icon: 'face', route: this.studentOverviewLink},
+                    {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
+                    {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
+                    {title: 'Labs', icon: 'event_available', route: () => '/labs'},
+                    {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
+                    {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
+                ]
+            }
+        },
         computed: {
             ...mapState([
                 'student',
@@ -74,8 +55,11 @@
                 'submissionLink',
             ]),
 
+        },
+
+        methods: {
             gradingLink() {
-                if (this.student !== null) {
+                if (this.student != null) {
                     return '/grading/' + this.student.id
                 } else {
                     return '/grading'
@@ -83,7 +67,7 @@
             },
 
             studentOverviewLink() {
-                if (this.student !== null) {
+                if (this.student != null) {
                     return '/student-overview/' + this.student.id
                 } else {
                     return '/student-overview'
