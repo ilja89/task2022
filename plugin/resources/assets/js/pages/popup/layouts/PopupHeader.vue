@@ -26,12 +26,15 @@
 
             <v-autocomplete
                     :url="studentsSearchUrl"
-                    anchor="fullname"
                     label=""
+                    :items="items"
+                    :loading="isLoading"
+                    :search-input.sync="search"
                     :on-select="onStudentSelected"
                     id="student-search"
                     placeholder="Student name (uniid@ttu.ee)"
-                    :min="2"
+                    hide-no-data
+                    hide-selected
             />
 
             <v-btn icon color="primary" @click="clearClicked">
@@ -52,16 +55,46 @@
 <script>
     import {ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
-    import VueTippy, {TippyComponent} from "vue-tippy";
     import autocomplete from "vue2-autocomplete-js";
+    import {studentsSearchUrl} from "../store/getters";
 
     export default {
-        components: {ExtraOptions, TippyComponent, autocomplete},
+        components: {ExtraOptions, autocomplete},
         computed: {
             ...mapGetters([
                 'studentsSearchUrl',
             ]),
             ...mapState(["student"]),
+        },
+        data: () => ({
+            entries: [],
+            isLoading: false,
+            model: null,
+            search: null,
+        }),
+        watch: {
+            search(val) {
+                // Items have already been loaded
+                if (this.items.length > 0) return
+
+                // Items have already been requested
+                if (this.isLoading) return
+
+                this.isLoading = true
+
+                // Lazily load input items
+                fetch(this.studentsSearchUrl)
+                    .then(res => res.json())
+                    .then(res => {
+                        const {count, entries} = res
+                        this.count = count
+                        this.entries = entries
+                    })
+                    .catch(err => {
+                        VueEvent.$emit('show-notification', 'Error retrieving users.', 'danger')
+                    })
+                    .finally(() => (this.isLoading = false))
+            },
         },
         methods: {
             clearClicked() {
