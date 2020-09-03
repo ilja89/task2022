@@ -5,6 +5,7 @@
         <v-alert
                 :value="alert"
                 prominent
+                icon="mdi-warning"
                 type="error"
         >
             <v-row align="center" justify="space-between">
