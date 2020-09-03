@@ -23,6 +23,7 @@ Vue.use(VueMaterial)
 Vue.use(VueClipboard)
 
 Vue.use(Vuetify)
+
 const opts = {
     theme: {
         themes: {light},
