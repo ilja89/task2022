@@ -5,7 +5,7 @@
             <v-tooltip bottom>
                 <template v-slot:activator="{ on: tooltip }">
                     <v-btn
-                            text block
+                            text bottom icon
                             v-bind="attrs"
                             v-on="{ ...tooltip, ...menu }"
                     >
