@@ -79,8 +79,6 @@
             },
 
             onSubmissionSelected(submission) {
-                console.log("Submission page")
-                console.log(this.student)
                 this.$router.push(this.submissionLink(submission.id))
             },
 

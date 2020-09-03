@@ -57,6 +57,8 @@
             ]),
 
             gradingLink() {
+                console.log("studentOverviewLink")
+                console.log(this.student)
                 if (this.student != null) {
                     return '/grading/' + this.student.id
                 } else {
@@ -65,6 +67,8 @@
             },
 
             studentOverviewLink() {
+                console.log("studentOverviewLink")
+                console.log(this.student)
                 if (this.student != null) {
                     return '/student-overview/' + this.student.id
                 } else {
