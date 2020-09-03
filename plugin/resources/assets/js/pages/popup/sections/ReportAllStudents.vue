@@ -6,58 +6,68 @@
                      <br/>
                      <br/> For activating preset period or period selected from calendar click on filter and press enter."
     >
-        <v-container>
-            <vue-good-table ref="reportTable"
-                            :columns="columns"
-                            :rows="rows"
-                            :mode="remote"
-                            :totalRows="totalRecords"
-                            @on-page-change="onPageChange"
-                            @on-sort-change="onSortChange"
-                            @on-column-filter="onColumnFilter"
-                            @on-per-page-change="onPerPageChange"
-                            :isLoading.sync="isLoading"
-                            :fixed-header="false"
-                            :line-numbers="false"
-                            :search-options="{
+
+        <v-card
+                class="mx-auto"
+                outlined
+                hover
+                light
+                raised
+                shaped
+        >
+            <v-container class="spacing-playground pa-3"
+                         fluid>
+                <vue-good-table ref="reportTable"
+                                :columns="columns"
+                                :rows="rows"
+                                :mode="remote"
+                                :totalRows="totalRecords"
+                                @on-page-change="onPageChange"
+                                @on-sort-change="onSortChange"
+                                @on-column-filter="onColumnFilter"
+                                @on-per-page-change="onPerPageChange"
+                                :isLoading.sync="isLoading"
+                                :fixed-header="false"
+                                :line-numbers="false"
+                                :search-options="{
                     enabled: false
                     //trigger: 'enter'
                 }"
-                            :sort-options="{
+                                :sort-options="{
                     enabled: true,
                     initialSortBy:
                         {field: 'gitTimestampForEndDate', type: 'desc'}
                         //{field: 'name', type: 'asc'}
                 }"
-                            :pagination-options="{
+                                :pagination-options="{
                     enabled: true,
                     mode: 'pages',
                     position: 'top',
                     perPageDropdown: [10, 25, 50, 100],
                     dropdownAllowAll: false,
                 }"
-                            max-height="750px"
-            >
-                <div slot="table-actions">
-                    <v-btn class="ma-2" tile outlined color="primary" @click="resetFilters">Reset Filters</v-btn>
+                                max-height="750px"
+                >
+                    <div slot="table-actions">
+                        <v-btn class="ma-2" tile outlined color="primary" @click="resetFilters">Reset Filters</v-btn>
 
-                    <date-range-picker
-                            :startDate="startDate"
-                            :endDate="endDate"
-                            :locale-data="locale"
-                            :opens="opens"
-                            :ranges="ranges"
-                            @update="updatePeriodDates"
-                    >
-                        <button class="button is-primary" slot="input" slot-scope="picker">
-                            Select Period
-                        </button>
-                    </date-range-picker>
+                        <date-range-picker
+                                :startDate="startDate"
+                                :endDate="endDate"
+                                :locale-data="locale"
+                                :opens="opens"
+                                :ranges="ranges"
+                                @update="updatePeriodDates"
+                        >
+                            <button class="button is-primary" slot="input" slot-scope="picker">
+                                Select Period
+                            </button>
+                        </date-range-picker>
 
-                    <vue-json-to-csv
-                            :json-data="jsonData"
-                            :csv-title="'ReportExportToCsvTable'"
-                            :labels="{ firstName: { title: 'First name' },
+                        <vue-json-to-csv
+                                :json-data="jsonData"
+                                :csv-title="'ReportExportToCsvTable'"
+                                :labels="{ firstName: { title: 'First name' },
                                    lastName: { title: 'Last Name' },
                                    exerciseName: { title: 'Exercise Name' },
                                    submissionResult: { title: 'Submission Result' },
@@ -66,18 +76,19 @@
                                    isConfirmed: { title: 'Is Confirmed' },
                                    gitTimestampForStartDate: { title: 'Git Commit' }
                         }"
-                            :separator="';'">
-                        <v-btn class="ma-2" tile outlined color="primary">Export CSV Table</v-btn>
-                    </vue-json-to-csv>
+                                :separator="';'">
+                            <v-btn class="ma-2" tile outlined color="primary">Export CSV Table</v-btn>
+                        </vue-json-to-csv>
 
-                    <vue-json-to-csv
-                            :json-data="jsonData"
-                            :csv-title="'ReportExportToCsvRaw'">
-                        <v-btn class="ma-2" tile outlined color="primary"> Export CSV Raw</v-btn>
-                    </vue-json-to-csv>
-                </div>
-            </vue-good-table>
-        </v-container>
+                        <vue-json-to-csv
+                                :json-data="jsonData"
+                                :csv-title="'ReportExportToCsvRaw'">
+                            <v-btn class="ma-2" tile outlined color="primary"> Export CSV Raw</v-btn>
+                        </vue-json-to-csv>
+                    </div>
+                </vue-good-table>
+            </v-container>
+        </v-card>
 
     </popup-section>
 
