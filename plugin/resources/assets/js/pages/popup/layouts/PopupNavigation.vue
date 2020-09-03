@@ -35,9 +35,9 @@
             return {
                 items: [
                     {title: 'Dashboard', icon: "dashboard", route: '/'},
-                    {title: 'Grading', icon: 'grading', route: "" + this.gradingLink },
-                    {title: 'Submission', icon: 'folder', route: "" + this.submissionLink },
-                    {title: 'Student overview', icon: 'face', route: "" + this.studentOverviewLink },
+                    {title: 'Grading', icon: 'grading', route: this.gradingLink },
+                    {title: 'Submission', icon: 'folder', route:  this.submissionLink },
+                    {title: 'Student overview', icon: 'face', route: this.studentOverviewLink },
                     {title: 'Plagiarism', icon: 'plagiarism', route: '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: '/report-statistics'},
                     {title: 'Labs', icon: 'event_available', route: '/labs'},
