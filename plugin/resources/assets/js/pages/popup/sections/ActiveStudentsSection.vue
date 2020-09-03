@@ -1,23 +1,29 @@
 <template>
     <popup-section
-        title="Active students"
-        subtitle="Choose a time period to see active users"
+            title="Active students"
+            subtitle="Choose a time period to see active users"
     >
         <template slot="header-right">
             <popup-select
-                name="period"
-                :options="periods"
-                placeholder-key="label"
-                size="medium"
-                v-model="period"
+                    name="period"
+                    :options="periods"
+                    placeholder-key="label"
+                    size="medium"
+                    v-model="period"
             />
         </template>
 
-        <div v-if="students.length" class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
+
             <div class="columns">
                 <div
-                    v-for="studentChunk in studentsChunks"
-                    class="column"
+                        v-for="studentChunk in studentsChunks"
+                        class="column"
                 >
                     <ul class="active-students__list">
                         <li v-for="student in studentChunk">
@@ -28,7 +34,8 @@
                     </ul>
                 </div>
             </div>
-        </div>
+
+        </v-card>
 
         <h3 v-if="!students.length" class="title  is-3">
             No active students!
@@ -38,16 +45,16 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { PopupSection } from '../layouts'
-    import { User } from '../../../api'
-    import { formatName } from '../helpers/formatting'
-    import { PopupSelect } from '../partials'
+    import {mapGetters} from 'vuex'
+    import {PopupSection} from '../layouts'
+    import {User} from '../../../api'
+    import {formatName} from '../helpers/formatting'
+    import {PopupSelect} from '../partials'
 
     export default {
         name: "active-students-section",
 
-        components: { PopupSection, PopupSelect },
+        components: {PopupSection, PopupSelect},
 
         data() {
             return {

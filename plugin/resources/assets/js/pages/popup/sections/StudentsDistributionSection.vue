@@ -1,9 +1,15 @@
 <template>
     <popup-section
-        title="Students distribution"
-        subtitle="Distribution of students over their max grade for this course."
+            title="Students distribution"
+            subtitle="Distribution of students over their max grade for this course."
     >
-        <div class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
+
             <table class="table  is-fullwidth  is-striped">
                 <thead>
                 <tr>
@@ -18,19 +24,21 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+
+        </v-card>
+
     </popup-section>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { PopupSection } from '../layouts'
-    import { User } from '../../../api'
+    import {mapGetters} from 'vuex'
+    import {PopupSection} from '../layouts'
+    import {User} from '../../../api'
 
     export default {
         name: "students-by-total-points-section",
 
-        components: { PopupSection },
+        components: {PopupSection},
 
         data() {
             return {
@@ -59,7 +67,7 @@
                     .map(distribution => {
                         const minGrade = this.round(distribution.part * partSize)
                         const maxGrade = this.round(distribution.part * partSize + partSize)
-                        return { ...distribution, minGrade, maxGrade }
+                        return {...distribution, minGrade, maxGrade}
                     })
             },
         },

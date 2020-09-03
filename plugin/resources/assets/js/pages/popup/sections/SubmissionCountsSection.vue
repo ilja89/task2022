@@ -3,7 +3,13 @@
             title="Submission counts"
             subtitle="Submission counts and averages for Charons."
     >
-        <div v-if="submissionCounts.length" class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
+
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
@@ -60,7 +66,8 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+
+        </v-card>
 
         <h3 v-if="!submissionCounts.length" class="title  is-3">
             No Charons for this course!

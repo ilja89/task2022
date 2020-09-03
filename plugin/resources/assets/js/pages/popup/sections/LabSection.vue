@@ -34,9 +34,7 @@
                 </tbody>
             </table>
 
-            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">
-                <md-icon left>add</md-icon> new
-            </v-btn>
+            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked"></v-btn>
         </v-card>
     </div>
 </template>
