@@ -1,10 +1,11 @@
 <template>
 
     <v-navigation-drawer
-            permanent
             expand-on-hover
             app
             clipped
+            floating
+            mini-variant
     >
         <v-list
                 v-for="item in items"
@@ -37,7 +38,7 @@
                     {title: 'Grading', icon: 'grading', route: "" + this.gradingLink },
                     {title: 'Submission', icon: 'folder', route: "" + this.submissionLink },
                     {title: 'Student overview', icon: 'face', route: "" + this.studentOverviewLink },
-                    {title: 'Plagiarism', icon: 'plagarism', route: '/plagiarism'},
+                    {title: 'Plagiarism', icon: 'plagiarism', route: '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: '/report-statistics'},
                     {title: 'Labs', icon: 'event_available', route: '/labs'},
                     {title: 'Defense settings', icon: 'settings', route: '/defenseSettings'},
