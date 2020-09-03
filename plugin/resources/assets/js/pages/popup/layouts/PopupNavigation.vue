@@ -11,7 +11,7 @@
                 v-for="item in items"
                 nav
         >
-            <v-list-item nav :to="item.route">
+            <v-list-item nav :to="item.route()">
 
                 <v-list-item-icon>
                     <md-icon>{{ item.icon }}</md-icon>
@@ -19,7 +19,6 @@
 
                 <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    {{item.route}}
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -35,15 +34,15 @@
         data() {
             return {
                 items: [
-                    {title: 'Dashboard', icon: "dashboard", route: '/'},
-                    {title: 'Grading', icon: 'grading', route: this.computed.gradingLink() },
-                    {title: 'Submission', icon: 'folder', route: '/submissions' },
-                    {title: 'Student overview', icon: 'face', route: this.computed.studentOverviewLink() },
-                    {title: 'Plagiarism', icon: 'plagiarism', route: '/plagiarism'},
-                    {title: 'Report & Statistics', icon: 'calculate', route: '/report-statistics'},
-                    {title: 'Labs', icon: 'event_available', route: '/labs'},
-                    {title: 'Charon settings', icon: 'settings', route: '/charonSettings'},
-                    {title: 'Defense registrations', icon: 'how_to_reg', route: '/defenseRegistrations'},
+                    {title: 'Dashboard', icon: "dashboard", route: () => '/'},
+                    {title: 'Grading', icon: 'grading', route: this.gradingLink},
+                    {title: 'Submission', icon: 'folder', route: () => '/submissions'},
+                    {title: 'Student overview', icon: 'face', route: this.studentOverviewLink},
+                    {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
+                    {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
+                    {title: 'Labs', icon: 'event_available', route: () => '/labs'},
+                    {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
+                    {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
                 ]
             }
         },
@@ -57,6 +56,9 @@
                 'submissionLink',
             ]),
 
+        },
+
+        methods: {
             gradingLink() {
                 console.log("studentOverviewLink")
                 console.log(this.student)
