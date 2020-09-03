@@ -14,32 +14,20 @@
                             v-for="submission in submissionChunk"
                             class="column"
                     >
-
-                        <v-card
-                                class="mx-auto"
-                                outlined
-                                hover
-                                light
-                                raised
-                                shaped
+                        <div
+                                class="card  hover-overlay  submission"
                                 @click="submissionSelected(submission)"
                         >
-                            <v-container
-                                    class="spacing-playground pa-3"
-                                    fluid
-                            >
-                                <v-card-title>
-                                    {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
-                                    <wbr>
-                                    {{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
-                                    <wbr>
-                                    {{ submission.charon.name }} <span class="timestamp-separator">|</span>
-                                    <wbr>
-                                    {{ submission.user | user }}
-                                </v-card-title>
-                            </v-container>
-
-                        </v-card>
+                            <div>
+                                {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
+                                <wbr>
+                                {{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
+                                <wbr>
+                                {{ submission.charon.name }} <span class="timestamp-separator">|</span>
+                                <wbr>
+                                {{ submission.user | user }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </transition-group>

@@ -8,35 +8,40 @@
                 raised
                 shaped
         >
-            <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                <thead>
-                <tr>
-                    <th v-on:click="sortTable('name')">Name</th>
-                    <th v-on:click="sortTable('date')">Date</th>
-                    <th v-on:click="sortTable('time')">Time</th>
-                    <th v-on:click="sortTable('teachers')">Teachers</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="lab in labs">
-                    <th>{{getDayTimeFormat(lab.start.time)}}</th>
-                    <th>{{getNiceDate(lab.start.time)}}</th>
-                    <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
-                    <th>
-                        <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
-                                v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, <br></b>
-                        </b>
-                    </th>
-                    <th>
-                        <button v-on:click="editLabClicked(lab)">Edit</button>
-                        <button v-on:click="deleteLabClicked(lab)">Delete</button>
-                    </th>
-                </tr>
-                </tbody>
-            </table>
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th v-on:click="sortTable('name')">Name</th>
+                        <th v-on:click="sortTable('date')">Date</th>
+                        <th v-on:click="sortTable('time')">Time</th>
+                        <th v-on:click="sortTable('teachers')">Teachers</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="lab in labs">
+                        <th>{{getDayTimeFormat(lab.start.time)}}</th>
+                        <th>{{getNiceDate(lab.start.time)}}</th>
+                        <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
+                        <th>
+                            <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
+                                    v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, <br></b>
+                            </b>
+                        </th>
+                        <th>
+                            <button v-on:click="editLabClicked(lab)">Edit</button>
+                            <button v-on:click="deleteLabClicked(lab)">Delete</button>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">Add</v-btn>
+                <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">Add</v-btn>
+            </v-container>
         </v-card>
     </div>
 </template>
