@@ -38,9 +38,16 @@
         </div>
 
         <div class="apply-btn-container">
-            <button class="btn-apply" v-on:click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply</button>
+            <button class="btn-apply" v-on:click="apply(after.time, before.time, filter_teacher, filter_progress)">
+                Apply
+            </button>
         </div>
-        <div class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
@@ -70,7 +77,9 @@
                     <td>{{defense.student_name}}</td>
                     <td>{{getFormattedDuration(defense.defense_duration)}}</td>
                     <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
-                    <td><router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link></td>
+                    <td>
+                        <router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link>
+                    </td>
                     <td>
                         <div class="dropdown">
                             <button class="dropbtn">{{defense.progress}}</button>
@@ -85,7 +94,7 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+        </v-card>
     </div>
 </template>
 
@@ -115,7 +124,7 @@
                 return '/submissions/' + submissionId
             },
             saveProgress(defenseId, state) {
-                Defense.saveDefenseProgress(this.course.id, defenseId, state,() => {
+                Defense.saveDefenseProgress(this.course.id, defenseId, state, () => {
                     for (let i = 0; i < this.defenseList.length; i++) {
                         if (this.defenseList[i].id === defenseId) {
                             this.defenseList[i].progress = state
@@ -175,7 +184,7 @@
         color: #fff;
         background-color: #1177d1;
         border-color: #1177d1;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
 
     .btn-apply:hover {
@@ -204,7 +213,7 @@
         display: none;
         position: absolute;
         min-width: 120px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
 
@@ -221,7 +230,9 @@
     }
 
     /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #f1f1f1}
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
 
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {

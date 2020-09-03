@@ -1,13 +1,18 @@
 <template>
     <div class="lab">
-        <div class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
-                    <th v-on:click="sortTable('name')" class="sortable">Name</th>
-                    <th v-on:click="sortTable('date')" class="sortable">Date</th>
-                    <th v-on:click="sortTable('time')" class="sortable">Time</th>
-                    <th v-on:click="sortTable('teachers')" class="sortable">Teachers</th>
+                    <th v-on:click="sortTable('name')">Name</th>
+                    <th v-on:click="sortTable('date')">Date</th>
+                    <th v-on:click="sortTable('time')">Time</th>
+                    <th v-on:click="sortTable('teachers')">Teachers</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -17,8 +22,8 @@
                     <th>{{getNiceDate(lab.start.time)}}</th>
                     <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
                     <th>
-                        <b class="teachers" v-for="teacher in lab.teachers">{{teacher.full_name}}<b
-                            v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, <br></b>
+                        <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
+                                v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, <br></b>
                         </b>
                     </th>
                     <th>
@@ -28,8 +33,11 @@
                 </tr>
                 </tbody>
             </table>
-            <button v-on:click="addNewLabSessionClicked" class="new_lab_button">NEW</button>
-        </div>
+
+            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">
+                <md-icon left>add</md-icon> new
+            </v-btn>
+        </v-card>
     </div>
 </template>
 

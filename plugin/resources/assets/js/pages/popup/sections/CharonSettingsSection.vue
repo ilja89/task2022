@@ -1,7 +1,12 @@
 <template>
 
     <div class="lab">
-        <div class="card  has-padding">
+        <v-card
+                class="mx-auto"
+                outlined
+                raised
+                shaped
+        >
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
@@ -30,7 +35,7 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+        </v-card>
 
     </div>
 </template>
