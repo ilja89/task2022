@@ -29,7 +29,7 @@
                         <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
                         <th>
                             <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
-                                    v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, <br></b>
+                                    v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b>
                             </b>
                         </th>
                         <th>
