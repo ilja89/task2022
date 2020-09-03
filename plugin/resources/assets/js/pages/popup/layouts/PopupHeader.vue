@@ -23,7 +23,7 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <student-search @student-was-changed="onStudentChanged" />
+            <student-search @student-was-changed="onStudentChanged"/>
 
             <v-btn icon color="primary" @click="onRefreshClicked">
                 <md-icon>refresh</md-icon>
@@ -38,7 +38,7 @@
 
 <script>
     import {StudentSearch, ExtraOptions} from "../partials";
-    import {mapState, mapGetters} from "vuex";
+    import {mapState} from "vuex";
 
     export default {
         components: {StudentSearch, ExtraOptions},
@@ -51,7 +51,7 @@
             },
 
             onStudentChanged(search_student) {
-                this.student = search_student
+                this.$store.state.student = search_student
                 this.$router.push("/grading/" + search_student.id);
             },
 
