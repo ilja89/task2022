@@ -1,10 +1,11 @@
 <template>
 
     <v-navigation-drawer
+            permanent
             expand-on-hover
             app
             clipped
-            floating
+            temporary
             mini-variant
     >
         <v-list
