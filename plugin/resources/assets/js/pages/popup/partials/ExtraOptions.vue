@@ -1,33 +1,33 @@
 <template>
 
+    <div class="text-center">
+        <v-menu>
+            <template v-slot:activator="{ on: menu, attrs }">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on: tooltip }">
+                        <v-btn
+                                color="primary"
+                                dark
+                                v-bind="attrs"
+                                v-on="{ ...tooltip, ...menu }"
+                        ><md-icon>more_vert</md-icon></v-btn>
+                    </template>
+                    <span>Im A ToolTip</span>
+                </v-tooltip>
+            </template>
+            <v-list>
 
-    <v-menu
-            :open-on-hover="true"
-            :close-on-click="true"
-            :close-on-content-click="true"
-            :offset-x="false"
-            :offset-y="false"
-    >
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-            >
-                <md-icon>more_vert</md-icon>
-            </v-btn>
-        </template>
-        <v-list>
+                <v-list-item :disabled="!canAddSubmission" @click="addManualSubmission">
+                    <v-list-item-title>Add a manual submission</v-list-item-title>
+                </v-list-item>
 
-            <v-list-item :disabled="!canAddSubmission" @click="addManualSubmission">
-                <v-list-item-title>Add a manual submission</v-list-item-title>
-            </v-list-item>
+                <v-list-item :disabled="!canRetestSubmission" @click="retestTask">
+                    <v-list-item-title>Retest this task</v-list-item-title>
+                </v-list-item>
 
-            <v-list-item :disabled="!canRetestSubmission" @click="retestTask">
-                <v-list-item-title>Retest this task</v-list-item-title>
-            </v-list-item>
-
-        </v-list>
-    </v-menu>
+            </v-list>
+        </v-menu>
+    </div>
 </template>
 
 <script>
