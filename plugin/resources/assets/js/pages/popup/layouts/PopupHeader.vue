@@ -35,9 +35,7 @@
                 />
             </div>
 
-            <v-btn icon color="primary" @click="clearClicked">
-                <md-icon>clear</md-icon>
-            </v-btn>
+            <student-search @student-was-changed="onStudentChanged" />
 
             <v-btn icon color="primary" @click="onRefreshClicked">
                 <md-icon>refresh</md-icon>
@@ -51,12 +49,12 @@
 </template>
 
 <script>
-    import {ExtraOptions} from "../partials";
+    import {StudentSearch, ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
     import autocomplete from "vue2-autocomplete-js";
 
     export default {
-        components: {ExtraOptions, autocomplete},
+        components: {StudentSearch, ExtraOptions, autocomplete},
         computed: {
             ...mapGetters([
                 'studentsSearchUrl',
@@ -64,27 +62,18 @@
             ...mapState(["student"]),
         },
         methods: {
-            clearClicked() {
-                this.$children.forEach((child) => {
-                    if (child.$options._componentTag === 'autocomplete') {
-                        child.setValue('')
-                    }
-                })
-                document.getElementById('student-search').focus()
-            },
-
             onRefreshClicked() {
                 VueEvent.$emit("refresh-page");
             },
 
             onStudentChanged(student) {
                 this.$router.push("/grading/" + student.id);
-                VueEvent.$emit('student-was-changed', student)
             },
 
             onSubmissionAdded() {
                 VueEvent.$emit("refresh-page");
             },
+
             getCourseName() {
                 return window.course_name;
             }
