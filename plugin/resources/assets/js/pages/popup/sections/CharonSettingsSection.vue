@@ -4,37 +4,44 @@
         <v-card
                 class="mx-auto"
                 outlined
+                hover
+                light
                 raised
                 shaped
         >
-            <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Deadline</th>
-                    <th>Duration</th>
-                    <th>Threshold</th>
-                    <th>Labs</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="charon in charons">
-                    <td>{{charon.name}}</td>
-                    <td>{{getDateFormatted(charon.defense_deadline.time)}}</td>
-                    <td>{{getDurationFormatted(charon.defense_duration)}}</td>
-                    <td>{{charon.defense_threshold}}%</td>
-                    <td>
-                        <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b
-                                v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b>
-                        </b>
-                    </td>
-                    <td>
-                        <button v-on:click="editClicked(charon)">Edit</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Deadline</th>
+                        <th>Duration</th>
+                        <th>Threshold</th>
+                        <th>Labs</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="charon in charons">
+                        <td>{{charon.name}}</td>
+                        <td>{{getDateFormatted(charon.defense_deadline.time)}}</td>
+                        <td>{{getDurationFormatted(charon.defense_duration)}}</td>
+                        <td>{{charon.defense_threshold}}%</td>
+                        <td>
+                            <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b
+                                    v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b>
+                            </b>
+                        </td>
+                        <td>
+                            <button v-on:click="editClicked(charon)">Edit</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
         </v-card>
 
     </div>

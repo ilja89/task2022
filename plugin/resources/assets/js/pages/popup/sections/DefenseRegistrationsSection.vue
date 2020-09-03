@@ -45,55 +45,63 @@
         <v-card
                 class="mx-auto"
                 outlined
+                hover
+                light
                 raised
                 shaped
         >
-            <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                <thead>
-                <tr>
-                    <th>
-                        Date and time
-                    </th>
-                    <th>
-                        Student name
-                    </th>
-                    <th>
-                        Duration
-                    </th>
-                    <th>
-                        Teacher
-                    </th>
-                    <th>
-                        Submission
-                    </th>
-                    <th>
-                        Progress
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="defense in defenseList">
-                    <td>{{defense.choosen_time}}</td>
-                    <td>{{defense.student_name}}</td>
-                    <td>{{getFormattedDuration(defense.defense_duration)}}</td>
-                    <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
-                    <td>
-                        <router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission</router-link>
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="dropbtn">{{defense.progress}}</button>
-                            <div id="dropdown-content" class="dropdown-content">
-                                <a v-on:click="saveProgress(defense.id, 'Waiting')">Waiting</a>
-                                <a v-on:click="saveProgress(defense.id, 'Defending')">Defending</a>
-                                <a v-on:click="saveProgress(defense.id, 'Done')">Done</a>
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th>
+                            Date and time
+                        </th>
+                        <th>
+                            Student name
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            Teacher
+                        </th>
+                        <th>
+                            Submission
+                        </th>
+                        <th>
+                            Progress
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="defense in defenseList">
+                        <td>{{defense.choosen_time}}</td>
+                        <td>{{defense.student_name}}</td>
+                        <td>{{getFormattedDuration(defense.defense_duration)}}</td>
+                        <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
+                        <td>
+                            <router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission
+                            </router-link>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="dropbtn">{{defense.progress}}</button>
+                                <div id="dropdown-content" class="dropdown-content">
+                                    <a v-on:click="saveProgress(defense.id, 'Waiting')">Waiting</a>
+                                    <a v-on:click="saveProgress(defense.id, 'Defending')">Defending</a>
+                                    <a v-on:click="saveProgress(defense.id, 'Done')">Done</a>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
         </v-card>
     </div>
 </template>

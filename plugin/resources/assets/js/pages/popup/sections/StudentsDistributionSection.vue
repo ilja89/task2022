@@ -11,22 +11,25 @@
                 raised
                 shaped
         >
-
-            <table class="table  is-fullwidth  is-striped">
-                <thead>
-                <tr>
-                    <th>Points</th>
-                    <th>Number of students</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="distribution in distributions">
-                    <td>{{ distribution | distributionInterval }}</td>
-                    <td>{{ distribution.user_count }}</td>
-                </tr>
-                </tbody>
-            </table>
-
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped">
+                    <thead>
+                    <tr>
+                        <th>Points</th>
+                        <th>Number of students</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="distribution in distributions">
+                        <td>{{ distribution | distributionInterval }}</td>
+                        <td>{{ distribution.user_count }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
         </v-card>
 
     </popup-section>

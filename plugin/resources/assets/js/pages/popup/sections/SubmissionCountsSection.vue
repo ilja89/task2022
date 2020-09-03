@@ -11,64 +11,67 @@
                 raised
                 shaped
         >
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                    <thead>
+                    <tr>
+                        <th @click="toggleSorted('project_folder')">
+                            Charon
+                            <span v-if="sorted[0] === 'project_folder'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                        <th @click="toggleSorted('diff_users', 'asc')">
+                            Different users
+                            <span v-if="sorted[0] === 'diff_users'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                        <th @click="toggleSorted('tot_subs', 'asc')">
+                            Total submissions
+                            <span v-if="sorted[0] === 'tot_subs'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                        <th @click="toggleSorted('subs_per_user', 'asc')">
+                            Submissions per user
+                            <span v-if="sorted[0] === 'subs_per_user'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                        <th @click="toggleSorted('avg_grade', 'asc')">
+                            Average grade
+                            <span v-if="sorted[0] === 'avg_grade'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                        <th @click="toggleSorted('actions', 'asc')">
+                            Actions
+                            <span v-if="sorted[0] === 'actions'">
+                            {{ sortingArrow }}
+                        </span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="charon in sortedCounts">
+                        <td>{{ charon.project_folder }}</td>
+                        <td>{{ charon.diff_users }}</td>
+                        <td>{{ charon.tot_subs }}</td>
+                        <td>{{ charon.subs_per_user ? parseFloat(charon.subs_per_user) : 0 }}</td>
+                        <td>{{ charon.avg_grade ? parseFloat(charon.avg_grade) : 0 }}</td>
 
-            <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                <thead>
-                <tr>
-                    <th @click="toggleSorted('project_folder')">
-                        Charon
-                        <span v-if="sorted[0] === 'project_folder'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                    <th @click="toggleSorted('diff_users', 'asc')">
-                        Different users
-                        <span v-if="sorted[0] === 'diff_users'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                    <th @click="toggleSorted('tot_subs', 'asc')">
-                        Total submissions
-                        <span v-if="sorted[0] === 'tot_subs'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                    <th @click="toggleSorted('subs_per_user', 'asc')">
-                        Submissions per user
-                        <span v-if="sorted[0] === 'subs_per_user'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                    <th @click="toggleSorted('avg_grade', 'asc')">
-                        Average grade
-                        <span v-if="sorted[0] === 'avg_grade'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                    <th @click="toggleSorted('actions', 'asc')">
-                        Actions
-                        <span v-if="sorted[0] === 'actions'">
-                            {{ sortingArrow }}
-                        </span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="charon in sortedCounts">
-                    <td>{{ charon.project_folder }}</td>
-                    <td>{{ charon.diff_users }}</td>
-                    <td>{{ charon.tot_subs }}</td>
-                    <td>{{ charon.subs_per_user ? parseFloat(charon.subs_per_user) : 0 }}</td>
-                    <td>{{ charon.avg_grade ? parseFloat(charon.avg_grade) : 0 }}</td>
-
-                    <td v-if="charon.diff_users === 0 && charon.tot_subs === 0">
-                        <button v-on:click="deleteCharon(charon.charon_id)">Delete</button>
-                    </td>
-                    <td v-else></td>
-                </tr>
-                </tbody>
-            </table>
-
+                        <td v-if="charon.diff_users === 0 && charon.tot_subs === 0">
+                            <button v-on:click="deleteCharon(charon.charon_id)">Delete</button>
+                        </td>
+                        <td v-else></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </v-container>
         </v-card>
 
         <h3 v-if="!submissionCounts.length" class="title  is-3">

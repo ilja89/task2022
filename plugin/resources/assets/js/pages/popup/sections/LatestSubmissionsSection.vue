@@ -25,7 +25,7 @@
                                 @click="submissionSelected(submission)"
                         >
                             <v-container
-                                    class="spacing-playground pa-6"
+                                    class="spacing-playground pa-3"
                                     fluid
                             >
                                 <v-card-title>

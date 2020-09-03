@@ -21,22 +21,25 @@
                 raised
                 shaped
         >
-
-            <div class="columns">
-                <div
-                        v-for="studentChunk in studentsChunks"
-                        class="column"
-                >
-                    <ul class="active-students__list">
-                        <li v-for="student in studentChunk">
-                            <router-link :to="'/grading/' + student.id">
-                                {{ formatName(student) }}
-                            </router-link>
-                        </li>
-                    </ul>
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <div class="columns">
+                    <div
+                            v-for="studentChunk in studentsChunks"
+                            class="column"
+                    >
+                        <ul class="active-students__list">
+                            <li v-for="student in studentChunk">
+                                <router-link :to="'/grading/' + student.id">
+                                    {{ formatName(student) }}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-
+            </v-container>
         </v-card>
 
         <h3 v-if="!students.length" class="title  is-3">
