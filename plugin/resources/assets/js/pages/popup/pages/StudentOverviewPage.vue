@@ -3,25 +3,40 @@
         <page-title :student="student"></page-title>
 
         <popup-section
-            title="Grades report"
-            subtitle="Grading report for the current student."
+                title="Grades report"
+                subtitle="Grading report for the current student."
         >
 
-            <div class="card  student-overview-card" v-html="table"></div>
+            <v-card
+                    class="mx-auto"
+                    outlined
+                    light
+                    raised
+                    shaped
+            >
+                <v-container
+                        class="spacing-playground pa-3"
+                        fluid
+                >
+                    <div class="student-overview-card" v-html="table"></div>
+                </v-container>
+            </v-card>
+
+
 
         </popup-section>
     </div>
 </template>
 
 <script>
-    import { mapState, mapGetters, mapActions } from 'vuex'
-    import { PageTitle } from '../partials'
-    import { User } from '../../../api'
-    import { PopupSection } from '../layouts'
+    import {mapState, mapGetters, mapActions} from 'vuex'
+    import {PageTitle} from '../partials'
+    import {User} from '../../../api'
+    import {PopupSection} from '../layouts'
 
     export default {
 
-        components: { PageTitle, PopupSection },
+        components: {PageTitle, PopupSection},
 
         data() {
             return {
@@ -45,7 +60,7 @@
 
         watch: {
             $route() {
-                if (typeof this.routeStudentId !== 'undefined' && this.$route.name == 'student-overview') {
+                if (typeof this.routeStudentId !== 'undefined' && this.$route.name === 'student-overview') {
                     this.getStudent()
                     this.getStudentOverviewTable()
                 }
@@ -64,7 +79,7 @@
             },
 
             getStudent() {
-                this.fetchStudent({ courseId: this.courseId, studentId: this.routeStudentId })
+                this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
             },
         },
 

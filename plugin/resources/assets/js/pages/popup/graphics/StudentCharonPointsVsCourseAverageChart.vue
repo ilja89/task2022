@@ -5,7 +5,7 @@
     >
 
         <template slot="header-right">
-            <button class="button is-primary" @click='toggle()'>{{ buttonText }}</button>
+            <v-btn class="ma-2" tile outlined color="primary" @click="toggle()">{{ buttonText }}</v-btn>
         </template>
 
         <apexcharts height="750" :options="options" :series="series" v-show="isOpen"></apexcharts>

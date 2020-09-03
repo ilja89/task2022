@@ -6,60 +6,67 @@
                      <br/>
                      <br/> For activating preset period or period selected from calendar click on filter and press enter."
     >
-        <div>
-            <vue-good-table ref="reportTable"
-                :columns="columns"
-                :rows="rows"
-                :mode="remote"
-                :totalRows="totalRecords"
-                @on-page-change="onPageChange"
-                @on-sort-change="onSortChange"
-                @on-column-filter="onColumnFilter"
-                @on-per-page-change="onPerPageChange"
-                :isLoading.sync="isLoading"
-                :fixed-header="true"
-                :line-numbers="false"
-                :search-options="{
+
+        <v-card
+                class="mx-auto"
+                outlined
+                light
+                raised
+                shaped
+        >
+            <v-container class="spacing-playground pa-3"
+                         fluid>
+                <vue-good-table ref="reportTable"
+                                :columns="columns"
+                                :rows="rows"
+                                :mode="remote"
+                                :totalRows="totalRecords"
+                                @on-page-change="onPageChange"
+                                @on-sort-change="onSortChange"
+                                @on-column-filter="onColumnFilter"
+                                @on-per-page-change="onPerPageChange"
+                                :isLoading.sync="isLoading"
+                                :fixed-header="false"
+                                :line-numbers="false"
+                                :search-options="{
                     enabled: false
                     //trigger: 'enter'
                 }"
-                :sort-options="{
+                                :sort-options="{
                     enabled: true,
                     initialSortBy:
                         {field: 'gitTimestampForEndDate', type: 'desc'}
                         //{field: 'name', type: 'asc'}
                 }"
-                :pagination-options="{
+                                :pagination-options="{
                     enabled: true,
                     mode: 'pages',
                     position: 'top',
                     perPageDropdown: [10, 25, 50, 100],
                     dropdownAllowAll: false,
                 }"
-                max-height="750px"
-            >
-                <div slot="table-actions">
-                    <button class="button is-primary" @click="resetFilters">
-                        Reset Filters
-                    </button>
+                                max-height="750px"
+                >
+                    <div slot="table-actions">
+                        <v-btn class="ma-2" tile outlined color="primary" @click="resetFilters">Reset Filters</v-btn>
 
-                    <date-range-picker
-                        :startDate="startDate"
-                        :endDate="endDate"
-                        :locale-data="locale"
-                        :opens="opens"
-                        :ranges="ranges"
-                        @update="updatePeriodDates"
-                    >
-                        <button class="button is-primary" slot="input" slot-scope="picker">
-                            Select Period
-                        </button>
-                    </date-range-picker>
+                        <date-range-picker
+                                :startDate="startDate"
+                                :endDate="endDate"
+                                :locale-data="locale"
+                                :opens="opens"
+                                :ranges="ranges"
+                                @update="updatePeriodDates"
+                        >
+                            <button class="button is-primary" slot="input" slot-scope="picker">
+                                Select Period
+                            </button>
+                        </date-range-picker>
 
-                    <vue-json-to-csv
-                        :json-data="jsonData"
-                        :csv-title="'ReportExportToCsvTable'"
-                        :labels="{ firstName: { title: 'First name' },
+                        <vue-json-to-csv
+                                :json-data="jsonData"
+                                :csv-title="'ReportExportToCsvTable'"
+                                :labels="{ firstName: { title: 'First name' },
                                    lastName: { title: 'Last Name' },
                                    exerciseName: { title: 'Exercise Name' },
                                    submissionResult: { title: 'Submission Result' },
@@ -68,22 +75,19 @@
                                    isConfirmed: { title: 'Is Confirmed' },
                                    gitTimestampForStartDate: { title: 'Git Commit' }
                         }"
-                        :separator="';'">
-                        <button class="button is-primary">
-                            Export CSV Table
-                        </button>
-                    </vue-json-to-csv>
+                                :separator="';'">
+                            <v-btn class="ma-2" tile outlined color="primary">Export CSV Table</v-btn>
+                        </vue-json-to-csv>
 
-                    <vue-json-to-csv
-                        :json-data="jsonData"
-                        :csv-title="'ReportExportToCsvRaw'">
-                        <button class="button is-primary">
-                            Export CSV Raw
-                        </button>
-                    </vue-json-to-csv>
-                </div>
-            </vue-good-table>
-        </div>
+                        <vue-json-to-csv
+                                :json-data="jsonData"
+                                :csv-title="'ReportExportToCsvRaw'">
+                            <v-btn class="ma-2" tile outlined color="primary"> Export CSV Raw</v-btn>
+                        </vue-json-to-csv>
+                    </div>
+                </vue-good-table>
+            </v-container>
+        </v-card>
 
     </popup-section>
 
@@ -233,10 +237,10 @@
                 },
                 ranges: { // default value for ranges object (if you set this to false ranges will no be rendered)
                     '30min ago': [moment().subtract(30, 'minutes'), moment()],
-                    '1h ago' : [moment().subtract(1, 'hour'), moment()],
-                    '2h ago' : [moment().subtract(2, 'hour'), moment()],
-                    '5h ago' : [moment().subtract(5, 'hour'), moment()],
-                    '24h ago' : [moment().subtract(1, 'day'), moment()],
+                    '1h ago': [moment().subtract(1, 'hour'), moment()],
+                    '2h ago': [moment().subtract(2, 'hour'), moment()],
+                    '5h ago': [moment().subtract(5, 'hour'), moment()],
+                    '24h ago': [moment().subtract(1, 'day'), moment()],
                     'Today': [moment().startOf('day'), moment()],
                     /*'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                     'Last week': [moment().subtract(1, 'week').startOf('week').add(1, 'days'),

@@ -1,27 +1,27 @@
 <template>
     <div>
-        <page-title :title="'Defense settings editing'"></page-title>
-        <defense-settings-editing-section :charon="charon" :labs="labs"></defense-settings-editing-section>
+        <page-title :title="'Charon settings editing'"></page-title>
+        <charon-settings-editing-section :charon="charon" :labs="labs"></charon-settings-editing-section>
         <div class="btn-container btn-container-left">
             <button v-on:click="saveClicked" class="btn-labs btn-save-labs">Save</button>
         </div>
 
         <div class="btn-container btn-container-right">
-            <router-link to="/defenseSettings"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
+            <router-link to="/charonSettings"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
         </div>
     </div>
 </template>
 
 <script>
     import {mapState} from "vuex";
-    import DefenseSettingsEditingSection from "../sections/DefenseSettingsEditingSection";
+    import CharonSettingsEditingSection from "../sections/CharonSettingsEditingSection";
     import Lab from "../../../api/Lab";
     import Charon from "../../../api/Charon";
     import PageTitle from "../partials/PageTitle";
 
     export default {
-        name: "defense-settings-editing-page",
-        components: { DefenseSettingsEditingSection, PageTitle },
+        name: "charon-settings-editing-page",
+        components: { CharonSettingsEditingSection, PageTitle },
         data() {
             return {
                 labs: []
@@ -45,10 +45,9 @@
                         give_deadline = new Date(give_deadline.setHours(give_deadline.getHours() - parseInt(num)))
                     }
                 }
-                console.log('save', this.charon)
                 Charon.saveCharonDefenseStuff(this.charon.id, give_deadline, this.charon.defense_duration,
                     chosen_labs, this.charon.choose_teacher, this.charon.defense_threshold, () => {
-                        window.location = "popup#/defenseSettings";
+                        window.location = "popup#/charonSettings";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')
                     })
@@ -65,7 +64,7 @@
             },
             getNiceDate(date) {
                 let month = (date.getMonth() + 1).toString();
-                if (month.length == 1) {
+                if (month.length === 1) {
                     month = "0" + month
                 }
                 return date.getDate() + '.' + month + '.' + date.getFullYear()

@@ -50,7 +50,7 @@ class SubmissionsRepository
                 $query->orderBy('grade_type_code');
             },
             'grader' => function ($query) {
-                $query->select(['id', 'firstname', 'lastname', 'email', 'idnumber']);
+                $query->select(['id', 'firstname', 'lastname', 'email', 'idnumber', 'username']);
             },
         ])
             ->where('id', $submissionId)

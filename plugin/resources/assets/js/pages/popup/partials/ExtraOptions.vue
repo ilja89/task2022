@@ -1,43 +1,44 @@
 <template>
-    <div v-on-clickaway="onClickedAway">
 
-        <div class="header-icon-container" @click="onIconClicked">
-            <svg viewBox="0 0 343 343" version="1.1" xmlns="http://www.w3.org/2000/svg"  xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-                <g>
-                    <g transform="matrix(0.823871,0,0,0.823871,0,30.1517)"><path d="M45.225,125.972C20.284,125.972 0,146.256 0,171.191C0,196.131 20.284,216.41 45.225,216.41C70.151,216.41 90.444,196.132 90.444,171.191C90.444,146.256 70.151,125.972 45.225,125.972Z" style="fill-rule:nonzero;"/></g>
-                    <g transform="matrix(0.823871,0,0,0.823871,133.934,30.1517)"><path d="M45.225,125.972C20.284,125.972 0,146.256 0,171.191C0,196.131 20.284,216.41 45.225,216.41C70.151,216.41 90.444,196.132 90.444,171.191C90.444,146.256 70.151,125.972 45.225,125.972Z" style="fill-rule:nonzero;"/></g>
-                    <g transform="matrix(0.823871,0,0,0.823871,267.868,30.1517)"><path d="M45.225,125.972C20.284,125.972 0,146.256 0,171.191C0,196.131 20.284,216.41 45.225,216.41C70.151,216.41 90.444,196.132 90.444,171.191C90.444,146.256 70.151,125.972 45.225,125.972Z" style="fill-rule:nonzero;"/></g>
-                </g>
-            </svg>
-        </div>
+    <v-menu auto>
+        <template v-slot:activator="{ on: menu, attrs }">
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                            text bottom icon
+                            color="primary"
+                            v-bind="attrs"
+                            v-on="{ ...tooltip, ...menu }"
+                    >
+                        <md-icon>more_vert</md-icon>
+                    </v-btn>
+                </template>
+                <span>Manual submissions</span>
+            </v-tooltip>
+        </template>
+        <v-list>
 
-        <div class="options-menu" :class="{ 'is-active': menuIsOpen }">
-            <ul>
-                <li
-                    :class="{ disabled: !canAddSubmission }"
-                    @click="addManualSubmission"
-                >
-                    Add a manual submission
-                </li>
-                <li
-                    :class="{ disabled: !canRetestSubmission }"
-                    @click="retestTask"
-                >
-                    Retest this task
-                </li>
-            </ul>
-        </div>
-    </div>
+            <v-list-item :disabled="!canAddSubmission" @click="addManualSubmission">
+                <v-list-item-title>Add a manual submission</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item :disabled="!canRetestSubmission" @click="retestTask">
+                <v-list-item-title>Retest this task</v-list-item-title>
+            </v-list-item>
+
+        </v-list>
+    </v-menu>
+
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mixin as clickaway } from 'vue-clickaway';
-    import { Submission } from '../../../api';
+    import {mapState} from 'vuex'
+    import {mixin as clickaway} from 'vue-clickaway';
+    import {Submission} from '../../../api';
 
     export default {
 
-        mixins: [ clickaway ],
+        mixins: [clickaway],
 
         data() {
             return {
@@ -53,11 +54,11 @@
             ]),
 
             canAddSubmission() {
-                return this.charon !== null && this.student !== null;
+                return this.charon != null && this.student != null;
             },
 
             canRetestSubmission() {
-                return !! this.submission
+                return !!this.submission
             },
         },
 
@@ -73,8 +74,8 @@
                 }
 
                 Submission.addNewEmpty(this.charon.id, this.student.id, submission => {
-                    this.$emit('submission-was-added');
                     this.menuIsOpen = false;
+                    VueEvent.$emit("refresh-page");
                 });
             },
 

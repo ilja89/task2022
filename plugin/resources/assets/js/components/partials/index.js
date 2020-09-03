@@ -4,8 +4,7 @@ import Datepicker from './Datepicker.vue'
 import FilesComponent from './FilesComponent.vue'
 import FilesComponentWithoutTree from './FilesComponentWithoutTree.vue'
 import Modal from './Modal.vue'
-import Notification from './Notification.vue'
 
 export {
-    CharonTab, CharonTabs, Datepicker, FilesComponent, Modal, Notification, FilesComponentWithoutTree,
+    CharonTab, CharonTabs, Datepicker, FilesComponent, Modal, FilesComponentWithoutTree,
 }

@@ -6,18 +6,18 @@
         </submission-info-bit>
 
         <submission-info-bit
-            v-if="submission.git_hash"
-            title="Commit hash"
+                v-if="submission.git_hash"
+                title="Commit hash"
         >
             <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
             <a v-else href="#">{{ submission.git_hash }}</a>
         </submission-info-bit>
 
         <submission-info-bit
-            v-if="submission.git_commit_message"
-            title="Commit message"
+                v-if="submission.git_commit_message"
+                title="Commit message"
         >
-             {{ submission.git_commit_message }}
+            {{ submission.git_commit_message }}
         </submission-info-bit>
 
         <submission-info-bit title="Project folder">
@@ -25,27 +25,27 @@
         </submission-info-bit>
 
         <submission-info-bit
-            v-if="charonCalculationFormula.length"
-            title="Calculation formula"
+                v-if="charonCalculationFormula.length"
+                title="Calculation formula"
         >
             {{ charonCalculationFormula }}
         </submission-info-bit>
 
         <submission-info-bit
-            v-if="hasDeadlines"
-            title="Deadlines"
+                v-if="hasDeadlines"
+                title="Deadlines"
         >
             <ul>
                 <li
-                    v-for="deadline in charon.deadlines"
-                    v-text="formatDeadline(deadline)"
+                        v-for="deadline in charon.deadlines"
+                        v-text="formatDeadline(deadline)"
                 />
             </ul>
         </submission-info-bit>
 
         <submission-info-bit
-            v-if="submission.grader"
-            :title="graderInfoTitle"
+                v-if="submission.grader"
+                :title="graderInfoTitle"
         >
             {{ graderInfo }}
         </submission-info-bit>
@@ -54,13 +54,13 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import {mapState} from 'vuex'
     import SubmissionInfoBit from './SubmissionInfoBit'
-    import { formatName, formatDeadline } from '../helpers/formatting'
+    import {formatName, formatDeadline} from '../helpers/formatting'
 
     export default {
 
-        components: { SubmissionInfoBit },
+        components: {SubmissionInfoBit},
 
         computed: {
             ...mapState([
@@ -84,7 +84,7 @@
                 var gitUser;
                 var courseShortname;
 
-                if(this.student) {
+                if (this.student) {
                     gitUser = this.student.idnumber.split("@")[0];
                 } else {
                     gitUser = "" // this should never happen

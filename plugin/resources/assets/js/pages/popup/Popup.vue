@@ -1,37 +1,57 @@
 <template>
-    <div class="popup-container">
-        <popup-header/>
+    <v-app>
+        <v-main>
 
-        <popup-body/>
+            <popup-header/>
 
-        <loader :visible="loaderVisible !== 0"/>
+            <popup-navigation/>
 
-        <notification
-            :text="notification.text"
-            :show="notification.show"
-            :type="notification.type"
-        />
-    </div>
+            <popup-body/>
+
+            <loader :visible="loaderVisible !== 0"/>
+
+            <v-snackbar
+                    top
+                    right
+                    multi-line
+                    absolute
+                    shaped
+                    v-model="notification.show"
+                    :timeout="notification.timeout"
+            >
+                {{ notification.text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                            color="blue"
+                            text
+                            v-bind="attrs"
+                            @click="notification.show = false"
+                    >
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
+        </v-main>
+    </v-app>
 </template>
 
 <script>
-    import { PopupHeader, PopupBody } from './layouts'
-    import { Loader } from './partials'
-    import { Notification } from '../../components/partials'
+    import {PopupHeader, PopupBody, PopupNavigation} from './layouts'
+    import {Loader} from './partials'
 
     export default {
 
-        components: { PopupHeader, PopupBody, Loader, Notification },
+        components: {PopupHeader, PopupBody, Loader, PopupNavigation},
 
         data() {
             return {
                 loaderVisible: 0,
-                notificationText: '',
-                notificationShow: false,
                 notification: {
                     text: '',
                     show: false,
                     type: 'success',
+                    timeout: 1000,
                 }
             }
         },
@@ -41,13 +61,11 @@
         },
 
         methods: {
-            showNotification(message, type, timeout) {
+            showNotification(message, type, timeout = 2000) {
                 this.notification.text = message
                 this.notification.show = true
                 this.notification.type = type
-                setTimeout(() => {
-                    this.notification.show = false
-                }, timeout)
+                this.notification.timeout = timeout
             },
 
             hideLoader() {
@@ -67,3 +85,7 @@
         },
     }
 </script>
+
+<style>
+    @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+</style>

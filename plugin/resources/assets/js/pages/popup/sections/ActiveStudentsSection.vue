@@ -1,53 +1,64 @@
 <template>
     <popup-section
-        title="Active students"
-        subtitle="Choose a time period to see active users"
+            title="Active students"
+            subtitle="Choose a time period to see active users"
     >
         <template slot="header-right">
             <popup-select
-                name="period"
-                :options="periods"
-                placeholder-key="label"
-                size="medium"
-                v-model="period"
+                    name="period"
+                    :options="periods"
+                    placeholder-key="label"
+                    size="medium"
+                    v-model="period"
             />
         </template>
 
-        <div v-if="students.length" class="card  has-padding">
-            <div class="columns">
-                <div
-                    v-for="studentChunk in studentsChunks"
-                    class="column"
-                >
-                    <ul class="active-students__list">
-                        <li v-for="student in studentChunk">
-                            <router-link :to="'/grading/' + student.id">
-                                {{ formatName(student) }}
-                            </router-link>
-                        </li>
-                    </ul>
+        <v-card
+                class="mx-auto"
+                outlined
+                light
+                raised
+                shaped
+        >
+            <v-container
+                    class="spacing-playground pa-3"
+                    fluid
+            >
+                <div class="columns">
+                    <div
+                            v-for="studentChunk in studentsChunks"
+                            class="column"
+                    >
+                        <ul class="active-students__list">
+                            <li v-for="student in studentChunk">
+                                <router-link :to="'/grading/' + student.id">
+                                    {{ formatName(student) }}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <h3 v-if="!students.length" class="title  is-3">
-            No active students!
-        </h3>
+                <h3 v-if="!students.length" class="title  is-3">
+                    No active students!
+                </h3>
+            </v-container>
+        </v-card>
 
     </popup-section>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { PopupSection } from '../layouts'
-    import { User } from '../../../api'
-    import { formatName } from '../helpers/formatting'
-    import { PopupSelect } from '../partials'
+    import {mapGetters} from 'vuex'
+    import {PopupSection} from '../layouts'
+    import {User} from '../../../api'
+    import {formatName} from '../helpers/formatting'
+    import {PopupSelect} from '../partials'
 
     export default {
         name: "active-students-section",
 
-        components: { PopupSection, PopupSelect },
+        components: {PopupSection, PopupSelect},
 
         data() {
             return {
