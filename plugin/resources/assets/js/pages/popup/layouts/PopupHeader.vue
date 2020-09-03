@@ -16,7 +16,23 @@
 
         <v-toolbar-items>
 
-            <student-search @student-was-changed="onStudentChanged"/>
+            <v-btn icon color="primary">
+                <md-icon>search</md-icon>
+            </v-btn>
+
+            <autocomplete
+                    :url="studentsSearchUrl"
+                    anchor="fullname"
+                    label=""
+                    :on-select="onStudentSelected"
+                    id="student-search"
+                    placeholder="Student name (uniid@ttu.ee)"
+                    :min="2"
+            />
+
+            <v-btn icon color="primary" @click="clearClicked">
+                <md-icon>clear</md-icon>
+            </v-btn>
 
             <v-btn icon color="primary" @click="onRefreshClicked">
                 <md-icon>refresh</md-icon>
@@ -33,13 +49,29 @@
     import {StudentSearch, ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
     import VueTippy, {TippyComponent} from "vue-tippy";
+    import autocomplete from "vue2-autocomplete-js";
 
     export default {
-        components: {StudentSearch, ExtraOptions, TippyComponent},
+        components: {StudentSearch, ExtraOptions, TippyComponent, autocomplete},
         computed: {
+            ...mapGetters([
+                'studentsSearchUrl',
+            ]),
             ...mapState(["student"]),
         },
         methods: {
+            clearClicked() {
+                this.$children.forEach((child) => {
+                    if (child.$options._componentTag === 'autocomplete') {
+                        child.setValue('')
+                    }
+                })
+                document.getElementById('student-search').focus()
+            },
+
+            onStudentSelected(student) {
+                this.$emit('student-was-changed', student)
+            },
             onRefreshClicked() {
                 VueEvent.$emit("refresh-page");
             },
