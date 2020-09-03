@@ -36,7 +36,6 @@
                 items: [
                     {title: 'Dashboard', icon: "dashboard", route: () => '/'},
                     {title: 'Grading', icon: 'grading', route: this.gradingLink},
-                    {title: 'Submission', icon: 'folder', route: () => '/submissions'},
                     {title: 'Student overview', icon: 'face', route: this.studentOverviewLink},
                     {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
@@ -60,8 +59,6 @@
 
         methods: {
             gradingLink() {
-                console.log("studentOverviewLink")
-                console.log(this.student)
                 if (this.student != null) {
                     return '/grading/' + this.student.id
                 } else {
@@ -70,8 +67,6 @@
             },
 
             studentOverviewLink() {
-                console.log("studentOverviewLink")
-                console.log(this.student)
                 if (this.student != null) {
                     return '/student-overview/' + this.student.id
                 } else {

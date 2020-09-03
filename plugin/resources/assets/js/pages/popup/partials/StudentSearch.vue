@@ -13,11 +13,10 @@
             />
 
         </div>
-
-        <v-btn icon color="primary" @click="clearClicked">
-            <md-icon>clear</md-icon>
-        </v-btn>
     </div>
+    <v-btn icon color="primary" @click="clearClicked">
+        <md-icon>clear</md-icon>
+    </v-btn>
 </template>
 
 <script>
