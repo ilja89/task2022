@@ -1,7 +1,7 @@
 <template>
     <popup-section
-        title="Comments"
-        subtitle="Comments are for every Charon and student."
+            title="Comments"
+            subtitle="Comments are for every Charon and student."
     >
         <div class="card">
             <div class="comments-container">
@@ -16,27 +16,30 @@
             </div>
 
             <div class="comment-input-container">
-                <input
-                    type="text"
-                    placeholder="Write a comment..."
-                    class="comment-input"
-                    v-model="writtenComment"
-                    @keyup.enter="saveComment"
-                >
-                <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
+                <v-row>
+                    <input
+                            type="text"
+                            placeholder="Write a comment..."
+                            class="comment-input"
+                            v-model="writtenComment"
+                            @keyup.enter="saveComment"
+                    >
+                    <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
+                </v-row>
+
             </div>
         </div>
     </popup-section>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { PopupSection } from '../layouts/index'
-    import { Comment } from '../../../api/index'
+    import {mapState} from 'vuex'
+    import {PopupSection} from '../layouts/index'
+    import {Comment} from '../../../api/index'
 
     export default {
 
-        components: { PopupSection },
+        components: {PopupSection},
 
         data() {
             return {
