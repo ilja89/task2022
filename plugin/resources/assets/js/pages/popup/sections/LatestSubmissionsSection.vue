@@ -14,8 +14,14 @@
                             v-for="submission in submissionChunk"
                             class="column"
                     >
-                        <div
-                                class="card  hover-overlay  submission"
+
+                        <v-card
+                                class="mx-auto"
+                                outlined
+                                hover
+                                light
+                                raised
+                                shaped
                                 @click="submissionSelected(submission)"
                         >
                             <div>
@@ -24,7 +30,7 @@
                                 <wbr>{{ submission.charon.name }} <span class="timestamp-separator">|</span>
                                 <wbr>{{ submission.user | user }}
                             </div>
-                        </div>
+                        </v-card>
                     </div>
                 </div>
             </transition-group>

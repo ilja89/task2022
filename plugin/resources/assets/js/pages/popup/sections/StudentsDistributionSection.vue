@@ -6,6 +6,8 @@
         <v-card
                 class="mx-auto"
                 outlined
+                hover
+                light
                 raised
                 shaped
         >
