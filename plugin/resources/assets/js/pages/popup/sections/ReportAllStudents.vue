@@ -17,7 +17,7 @@
                             @on-column-filter="onColumnFilter"
                             @on-per-page-change="onPerPageChange"
                             :isLoading.sync="isLoading"
-                            :fixed-header="true"
+                            :fixed-header="false"
                             :line-numbers="false"
                             :search-options="{
                     enabled: false
