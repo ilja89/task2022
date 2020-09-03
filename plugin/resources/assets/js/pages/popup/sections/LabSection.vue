@@ -3,6 +3,8 @@
         <v-card
                 class="mx-auto"
                 outlined
+                hover
+                light
                 raised
                 shaped
         >
@@ -34,7 +36,7 @@
                 </tbody>
             </table>
 
-            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked"></v-btn>
+            <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">Add</v-btn>
         </v-card>
     </div>
 </template>
