@@ -7,24 +7,12 @@
             <table class="table  is-fullwidth  is-striped  submission-counts__table">
                 <thead>
                 <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Deadline
-                    </th>
-                    <th>
-                        Duration
-                    </th>
-                    <th>
-                        Threshold
-                    </th>
-                    <th>
-                        Labs
-                    </th>
-                    <th>
-                        Actions
-                    </th>
+                    <th class="sortable">Name</th>
+                    <th class="sortable">Deadline</th>
+                    <th class="sortable">Duration</th>
+                    <th class="sortable">Threshold</th>
+                    <th class="sortable">Labs</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
