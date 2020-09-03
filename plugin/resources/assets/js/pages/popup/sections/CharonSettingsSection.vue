@@ -7,9 +7,9 @@
                 prominent
                 type="error"
         >
-            <v-row align="center">
+            <v-row align="center" justify="space-between">
                 <v-col class="grow">Are you sure you want to delete the charon?</v-col>
-                <v-col class="error">
+                <v-col class="shrink">
                     <v-btn @click="deleteCharon(charon_id)">Yes</v-btn>
                 </v-col>
                 <v-col class="shrink">
