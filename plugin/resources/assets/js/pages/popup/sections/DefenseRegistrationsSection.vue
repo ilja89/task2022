@@ -38,9 +38,9 @@
         </div>
 
         <div class="apply-btn-container">
-            <button class="btn-apply" v-on:click="apply(after.time, before.time, filter_teacher, filter_progress)">
-                Apply
-            </button>
+            <v-btn class="ma-2" tile outlined color="primary"
+                   @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
+            </v-btn>
         </div>
         <v-card
                 class="mx-auto"
