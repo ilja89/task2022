@@ -2,6 +2,7 @@
 
     <v-app-bar
             app
+            clipped-left
             id="core-toolbar">
 
         <v-app-bar-nav-icon>
@@ -46,13 +47,13 @@
 </template>
 
 <script>
-    import {StudentSearch, ExtraOptions} from "../partials";
+    import {ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
     import VueTippy, {TippyComponent} from "vue-tippy";
     import autocomplete from "vue2-autocomplete-js";
 
     export default {
-        components: {StudentSearch, ExtraOptions, TippyComponent, autocomplete},
+        components: {ExtraOptions, TippyComponent, autocomplete},
         computed: {
             ...mapGetters([
                 'studentsSearchUrl',
