@@ -19,7 +19,7 @@
                         class="spacing-playground pa-3"
                         fluid
                 >
-                    <div class="card  student-overview-card" v-html="table"></div>
+                    <div class="student-overview-card" v-html="table"></div>
                 </v-container>
             </v-card>
 
