@@ -41,7 +41,7 @@
                     {title: 'Plagiarism', icon: 'plagiarism', route: '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: '/report-statistics'},
                     {title: 'Labs', icon: 'event_available', route: '/labs'},
-                    {title: 'Defense settings', icon: 'settings', route: '/defenseSettings'},
+                    {title: 'Charon settings', icon: 'settings', route: '/charonSettings'},
                     {title: 'Defense registrations', icon: 'how_to_reg', route: '/defenseRegistrations'},
                 ]
             }
