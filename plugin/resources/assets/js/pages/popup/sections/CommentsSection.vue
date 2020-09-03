@@ -3,8 +3,16 @@
             title="Comments"
             subtitle="Comments are for every Charon and student."
     >
-        <div class="card">
-            <div class="comments-container">
+        <v-card
+                class="mx-auto"
+                outlined
+                hover
+                light
+                raised
+                shaped
+        >
+            <v-container class="spacing-playground pa-3"
+                         fluid>
                 <ul>
                     <li v-for="comment in comments" class="comment">
                         <span class="comment-author">
@@ -13,9 +21,10 @@
                         {{ comment.message }}
                     </li>
                 </ul>
-            </div>
+            </v-container>
+            <v-container class="spacing-playground pa-3"
+                         fluid>
 
-            <div class="comment-input-container">
                 <v-row>
                     <input
                             type="text"
@@ -26,9 +35,8 @@
                     >
                     <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
                 </v-row>
-
-            </div>
-        </div>
+            </v-container>
+        </v-card>
     </popup-section>
 </template>
 
