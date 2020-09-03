@@ -33,15 +33,15 @@
         data() {
             return {
                 items: [
-                    {title: 'Dashboard', icon: "mdi-cached", route: '/'},
-                    {title: 'Grading', icon: 'mdi_cached', route: "" + this.gradingLink },
-                    {title: 'Submission', icon: 'cached', route: "" + this.submissionLink },
-                    {title: 'Student overview', icon: 'dashboard', route: "" + this.studentOverviewLink },
-                    {title: 'Plagiarism', icon: 'move_to_inbox', route: '/plagiarism'},
-                    {title: 'Report & Statistics', icon: 'move_to_inbox', route: '/report-statistics'},
-                    {title: 'Labs', icon: 'md-move_to_inbox', route: '/labs'},
-                    {title: 'Defense settings', icon: 'mdi-move_to_inbox', route: '/defenseSettings'},
-                    {title: 'Defense registrations', icon: 'dashboard', route: '/defenseRegistrations'},
+                    {title: 'Dashboard', icon: "dashboard", route: '/'},
+                    {title: 'Grading', icon: 'grading', route: "" + this.gradingLink },
+                    {title: 'Submission', icon: 'folder', route: "" + this.submissionLink },
+                    {title: 'Student overview', icon: 'face', route: "" + this.studentOverviewLink },
+                    {title: 'Plagiarism', icon: 'plagarism', route: '/plagiarism'},
+                    {title: 'Report & Statistics', icon: 'calculate', route: '/report-statistics'},
+                    {title: 'Labs', icon: 'event_available', route: '/labs'},
+                    {title: 'Defense settings', icon: 'settings', route: '/defenseSettings'},
+                    {title: 'Defense registrations', icon: 'how_to_reg', route: '/defenseRegistrations'},
                 ]
             }
         },
