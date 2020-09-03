@@ -19,9 +19,10 @@
                         class="spacing-playground pa-3"
                         fluid
                 >
-                    <div v-html="table"></div>
+                    <div class="card  student-overview-card" v-html="table"></div>
                 </v-container>
             </v-card>
+
 
 
         </popup-section>
@@ -89,3 +90,31 @@
         },
     }
 </script>
+
+<style lang="scss">
+
+    .student-overview-card {
+        padding: 25px;
+    }
+
+    .b1l {
+        padding: 0;
+        width: 24px;
+        min-width: 24px;
+    }
+
+    .student-overview-card {
+        th {
+            padding: 0.75em;
+
+            img {
+                margin-right: 15px;
+            }
+        }
+
+        td {
+            padding: 0.75em;
+        }
+    }
+
+</style>
