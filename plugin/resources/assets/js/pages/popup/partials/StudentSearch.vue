@@ -1,6 +1,12 @@
 <template>
     <v-row>
         <v-col>
+            <v-btn icon color="primary">
+                <md-icon>search</md-icon>
+            </v-btn>
+        </v-col>
+
+        <v-col>
             <div class="search-container">
 
                 <autocomplete
@@ -22,6 +28,11 @@
             </v-btn>
         </v-col>
 
+        <v-col>
+            <v-btn icon color="primary" @click="onRefreshClicked">
+                <md-icon>refresh</md-icon>
+            </v-btn>
+        </v-col>
     </v-row>
 </template>
 
@@ -39,6 +50,10 @@
         },
 
         methods: {
+            onRefreshClicked() {
+                VueEvent.$emit("refresh-page");
+            },
+
             clearClicked() {
                 this.$children.forEach((child) => {
                     if (child.$options._componentTag === 'autocomplete') {
