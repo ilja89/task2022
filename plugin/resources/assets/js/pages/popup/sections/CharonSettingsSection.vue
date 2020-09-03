@@ -37,6 +37,9 @@
                         </td>
                         <td>
                             <button v-on:click="editClicked(charon)">Edit</button>
+                            <button v-if="charon.diff_users === 0 && charon.tot_subs === 0"
+                                    v-on:click="deleteCharon(charon)">Delete
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -49,6 +52,7 @@
 
 <script>
     import {mapActions} from "vuex";
+    import {Charon} from "../../../api";
 
     export default {
 
@@ -94,7 +98,12 @@
                     return '-'
                 }
                 return percentage + '%'
-            }
+            },
+            deleteCharon(charon) {
+                Charon.deleteById(charon.charon_id, () => {
+                    window.location.reload();
+                })
+            },
         },
     }
 </script>
