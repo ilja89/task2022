@@ -6,7 +6,7 @@
                      <br/>
                      <br/> For activating preset period or period selected from calendar click on filter and press enter."
     >
-        <div>
+        <v-container>
             <vue-good-table ref="reportTable"
                             :columns="columns"
                             :rows="rows"
@@ -77,7 +77,7 @@
                     </vue-json-to-csv>
                 </div>
             </vue-good-table>
-        </div>
+        </v-container>
 
     </popup-section>
 
