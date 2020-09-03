@@ -26,8 +26,8 @@ Vue.use(Vuetify)
 const opts = {
     themes: {
         light: {
-            primary: '#3f51b5',
-            secondary: '#b0bec5',
+            primary: '#703fb5',
+            secondary: '#c709de',
             anchor: '#8c9eff',
         },
     },
