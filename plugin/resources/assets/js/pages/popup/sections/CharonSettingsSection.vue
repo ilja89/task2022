@@ -6,6 +6,7 @@
                 :value="alert"
                 border="left"
                 color="error"
+                outlined
         >
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
