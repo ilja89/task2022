@@ -23,18 +23,6 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <div class="search-container">
-                <autocomplete
-                        :url="studentsSearchUrl"
-                        anchor="fullname"
-                        label=""
-                        :on-select="onStudentChanged"
-                        id="student-search"
-                        placeholder="Student name (uniid@ttu.ee)"
-                        :min="2"
-                />
-            </div>
-
             <student-search @student-was-changed="onStudentChanged" />
 
             <v-btn icon color="primary" @click="onRefreshClicked">
@@ -51,14 +39,10 @@
 <script>
     import {StudentSearch, ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
-    import autocomplete from "vue2-autocomplete-js";
 
     export default {
-        components: {StudentSearch, ExtraOptions, autocomplete},
+        components: {StudentSearch, ExtraOptions},
         computed: {
-            ...mapGetters([
-                'studentsSearchUrl',
-            ]),
             ...mapState(["student"]),
         },
         methods: {
