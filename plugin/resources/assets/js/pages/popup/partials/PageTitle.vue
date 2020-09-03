@@ -1,10 +1,10 @@
 <template>
     <h1
-            class="title is-3 page-title bottom-border-separator"
+            class="title is-bold is-3 page-title bottom-border-separator"
             :class="{ 'title--with-right': $slots.default }"
     >
         <template v-if="hasRight">
-            <div>{{ currentTitle }}</div>
+            <h1>{{ currentTitle }}</h1>
             <div>
                 <slot></slot>
             </div>
