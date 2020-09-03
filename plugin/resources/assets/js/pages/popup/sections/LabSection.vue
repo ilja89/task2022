@@ -33,8 +33,11 @@
                             </b>
                         </th>
                         <th>
-                            <button v-on:click="editLabClicked(lab)">Edit</button>
-                            <button v-on:click="deleteLabClicked(lab)">Delete</button>
+                            <v-btn class="ma-2" small tile outlined color="primary" @click="editLabClicked(lab)">Edit
+                            </v-btn>
+                            <v-btn class="ma-2" small tile outlined color="error" @click="deleteLabClicked(lab)">
+                                Delete
+                            </v-btn>
                         </th>
                     </tr>
                     </tbody>
