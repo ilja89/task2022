@@ -3,6 +3,7 @@
     <v-app-bar
             app
             clipped-left
+            dark
             id="core-toolbar">
 
         <v-app-bar-nav-icon>
@@ -23,7 +24,7 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <autocomplete
+            <v-autocomplete
                     :url="studentsSearchUrl"
                     anchor="fullname"
                     label=""
