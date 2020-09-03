@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div>
+    <v-col>
+        <v-row>
             <div class="search-container">
 
                 <autocomplete
@@ -14,11 +14,15 @@
                 />
 
             </div>
-        </div>
-        <v-btn icon color="primary" @click="clearClicked">
-            <md-icon>clear</md-icon>
-        </v-btn>
-    </div>
+        </v-row>
+
+        <v-row>
+            <v-btn icon color="primary" @click="clearClicked">
+                <md-icon>clear</md-icon>
+            </v-btn>
+        </v-row>
+
+    </v-col>
 </template>
 
 <script>
