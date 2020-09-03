@@ -5,11 +5,15 @@
         <v-alert
                 :value="alert"
                 prominent
-                icon="mdi-warning"
+                icon="false"
+                border="left"
                 type="error"
         >
             <v-row align="center" justify="space-between">
-                <v-col class="grow">Are you sure you want to delete the charon?</v-col>
+                <v-col class="grow">
+                    <md-icon>warning</md-icon>
+                    Are you sure you want to delete the charon?
+                </v-col>
                 <v-col class="shrink">
                     <v-btn @click="deleteCharon(charon_id)">Yes</v-btn>
                 </v-col>
