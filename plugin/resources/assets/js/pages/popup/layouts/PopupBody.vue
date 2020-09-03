@@ -1,8 +1,6 @@
 <template>
     <div class="columns is-gapless popup-body">
 
-        <popup-navigation/>
-
         <div class="column" id="page-right">
             <div class="page-container">
                 <keep-alive>
@@ -13,11 +11,3 @@
 
     </div>
 </template>
-
-<script>
-    import PopupNavigation from './PopupNavigation.vue';
-
-    export default {
-        components: { PopupNavigation },
-    }
-</script>

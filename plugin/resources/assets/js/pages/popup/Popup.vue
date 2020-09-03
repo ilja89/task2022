@@ -1,49 +1,48 @@
 <template>
     <v-app>
         <v-main>
-            <div class="popup-container">
-                <popup-header/>
 
-                <popup-body/>
+            <popup-header/>
 
-                <loader :visible="loaderVisible !== 0"/>
+            <popup-navigation/>
 
-                <v-snackbar
-                        top
-                        right
-                        multi-line
-                        absolute
-                        shaped
-                        v-model="notification.show"
-                        :timeout="notification.timeout"
-                >
-                    {{ notification.text }}
+            <popup-body/>
 
-                    <template v-slot:action="{ attrs }">
-                        <v-btn
-                                color="blue"
-                                text
-                                v-bind="attrs"
-                                @click="notification.show = false"
-                        >
-                            Close
-                        </v-btn>
-                    </template>
-                </v-snackbar>
+            <loader :visible="loaderVisible !== 0"/>
 
-            </div>
+            <v-snackbar
+                    top
+                    right
+                    multi-line
+                    absolute
+                    shaped
+                    v-model="notification.show"
+                    :timeout="notification.timeout"
+            >
+                {{ notification.text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                            color="blue"
+                            text
+                            v-bind="attrs"
+                            @click="notification.show = false"
+                    >
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
         </v-main>
     </v-app>
 </template>
 
 <script>
-    import {PopupHeader, PopupBody} from './layouts'
+    import {PopupHeader, PopupBody, PopupNavigation} from './layouts'
     import {Loader} from './partials'
-    import {Notification} from '../../components/partials'
 
     export default {
 
-        components: {PopupHeader, PopupBody, Loader},
+        components: {PopupHeader, PopupBody, Loader, PopupNavigation},
 
         data() {
             return {
