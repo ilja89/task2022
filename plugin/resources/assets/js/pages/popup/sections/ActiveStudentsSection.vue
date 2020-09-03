@@ -39,12 +39,12 @@
                         </ul>
                     </div>
                 </div>
+
+                <h3 v-if="!students.length" class="title  is-3">
+                    No active students!
+                </h3>
             </v-container>
         </v-card>
-
-        <h3 v-if="!students.length" class="title  is-3">
-            No active students!
-        </h3>
 
     </popup-section>
 </template>
