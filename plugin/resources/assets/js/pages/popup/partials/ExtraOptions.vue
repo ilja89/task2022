@@ -1,34 +1,33 @@
 <template>
 
-    <div class="text-center">
-        <v-menu>
-            <template v-slot:activator="{ on: menu, attrs }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on: tooltip }">
-                        <v-btn
-                                text
-                                v-bind="attrs"
-                                v-on="{ ...tooltip, ...menu }"
-                        >
-                            <md-icon>more_vert</md-icon>
-                        </v-btn>
-                    </template>
-                    <span>Manual submissions</span>
-                </v-tooltip>
-            </template>
-            <v-list>
+    <v-menu auto>
+        <template v-slot:activator="{ on: menu, attrs }">
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                            text block
+                            v-bind="attrs"
+                            v-on="{ ...tooltip, ...menu }"
+                    >
+                        <md-icon>more_vert</md-icon>
+                    </v-btn>
+                </template>
+                <span>Manual submissions</span>
+            </v-tooltip>
+        </template>
+        <v-list>
 
-                <v-list-item :disabled="!canAddSubmission" @click="addManualSubmission">
-                    <v-list-item-title>Add a manual submission</v-list-item-title>
-                </v-list-item>
+            <v-list-item :disabled="!canAddSubmission" @click="addManualSubmission">
+                <v-list-item-title>Add a manual submission</v-list-item-title>
+            </v-list-item>
 
-                <v-list-item :disabled="!canRetestSubmission" @click="retestTask">
-                    <v-list-item-title>Retest this task</v-list-item-title>
-                </v-list-item>
+            <v-list-item :disabled="!canRetestSubmission" @click="retestTask">
+                <v-list-item-title>Retest this task</v-list-item-title>
+            </v-list-item>
 
-            </v-list>
-        </v-menu>
-    </div>
+        </v-list>
+    </v-menu>
+
 </template>
 
 <script>
