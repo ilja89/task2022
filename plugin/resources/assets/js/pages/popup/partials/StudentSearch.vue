@@ -27,15 +27,18 @@
             <md-icon>refresh</md-icon>
         </v-btn>
 
+        <extra-options/>
+
     </v-row>
 </template>
 
 <script>
     import autocomplete from 'vue2-autocomplete-js'
     import {mapGetters} from 'vuex'
+    import ExtraOptions from "./ExtraOptions";
 
     export default {
-        components: {autocomplete},
+        components: {autocomplete, ExtraOptions},
 
         computed: {
             ...mapGetters([

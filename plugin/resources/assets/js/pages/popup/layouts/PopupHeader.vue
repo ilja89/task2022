@@ -2,6 +2,7 @@
 
     <v-app-bar
             app
+            dense
             clipped-left
             id="core-toolbar">
 
@@ -21,19 +22,17 @@
 
             <student-search @student-was-changed="onStudentChanged"/>
 
-            <extra-options/>
-
         </v-toolbar-items>
     </v-app-bar>
 
 </template>
 
 <script>
-    import {StudentSearch, ExtraOptions} from "../partials";
+    import {StudentSearch} from "../partials";
     import {mapState} from "vuex";
 
     export default {
-        components: {StudentSearch, ExtraOptions},
+        components: {StudentSearch},
         computed: {
             ...mapState(["student"]),
         },
