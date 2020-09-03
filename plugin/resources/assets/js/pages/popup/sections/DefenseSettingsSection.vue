@@ -1,15 +1,51 @@
 <template>
 
     <div class="lab">
-        <div class="section font pb-5" v-for="charon in charons">
-            <h2 class="pl-5 font">{{charon.name}}
-                <button class="btn font" v-on:click="editClicked(charon)">Edit</button></h2>
-            <hr>
-            <p class="pl-5">Deadline: {{getDateFormatted(charon.defense_deadline.time)}}</p>
-            <p class="pl-5">Duration: {{getDurationFormatted(charon.defense_duration)}}</p>
-            <p class="pl-5">Threshold: {{charon.defense_threshold}}%</p>
-            <p class="pl-5">Labs: <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b></b> </p>
+
+
+        <div class="card  has-padding">
+            <table class="table  is-fullwidth  is-striped  submission-counts__table">
+                <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Deadline
+                    </th>
+                    <th>
+                        Duration
+                    </th>
+                    <th>
+                        Threshold
+                    </th>
+                    <th>
+                        Labs
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="charon in charons">
+                    <td>{{charon.name}}</td>
+                    <td>{{getDateFormatted(charon.defense_deadline.time)}}</td>
+                    <td>{{getDurationFormatted(charon.defense_duration)}}</td>
+                    <td>{{charon.defense_threshold}}%</td>
+                    <td>
+                        <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b
+                                v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b>
+                        </b>
+                    </td>
+                    <td>
+                        <button v-on:click="editClicked(charon)">Edit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </template>
 
@@ -64,13 +100,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-    button:hover {color: white;}
-    hr {background-color: black; margin: 0}
-    .font {font-size: 2vw; font-weight: 600;}
-    .section {background-color: #d7dde4; border-style: solid; margin-bottom: 2vw;}
-    .btn {float: right; border-style: none; background-color: #d7dde4;}
-
-</style>
