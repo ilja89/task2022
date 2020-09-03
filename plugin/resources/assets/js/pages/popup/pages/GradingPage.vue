@@ -62,7 +62,9 @@
 
         watch: {
             $route() {
-                if (typeof this.$route.params.student_id !== 'undefined'
+                console.log("Grading page")
+                console.log(this.student)
+                if (typeof this.$route.params.student_id != 'undefined'
                     && this.student != null
                     && this.student.id != this.$route.params.student_id
                 ) {
