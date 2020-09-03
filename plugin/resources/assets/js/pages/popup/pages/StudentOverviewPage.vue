@@ -3,25 +3,40 @@
         <page-title :student="student"></page-title>
 
         <popup-section
-            title="Grades report"
-            subtitle="Grading report for the current student."
+                title="Grades report"
+                subtitle="Grading report for the current student."
         >
 
-            <div class="card  student-overview-card" v-html="table"></div>
+            <v-card
+                    class="mx-auto"
+                    outlined
+                    hover
+                    light
+                    raised
+                    shaped
+            >
+                <v-container
+                        class="spacing-playground pa-3"
+                        fluid
+                >
+                    <div v-html="table"></div>
+                </v-container>
+            </v-card>
+
 
         </popup-section>
     </div>
 </template>
 
 <script>
-    import { mapState, mapGetters, mapActions } from 'vuex'
-    import { PageTitle } from '../partials'
-    import { User } from '../../../api'
-    import { PopupSection } from '../layouts'
+    import {mapState, mapGetters, mapActions} from 'vuex'
+    import {PageTitle} from '../partials'
+    import {User} from '../../../api'
+    import {PopupSection} from '../layouts'
 
     export default {
 
-        components: { PageTitle, PopupSection },
+        components: {PageTitle, PopupSection},
 
         data() {
             return {
@@ -64,7 +79,7 @@
             },
 
             getStudent() {
-                this.fetchStudent({ courseId: this.courseId, studentId: this.routeStudentId })
+                this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
             },
         },
 
@@ -74,31 +89,3 @@
         },
     }
 </script>
-
-<style lang="scss">
-
-    .student-overview-card {
-        padding: 25px;
-    }
-
-    .b1l {
-        padding: 0;
-        width: 24px;
-        min-width: 24px;
-    }
-
-    .student-overview-card {
-        th {
-            padding: 0.75em;
-
-            img {
-                margin-right: 15px;
-            }
-        }
-
-        td {
-            padding: 0.75em;
-        }
-    }
-
-</style>
