@@ -2,7 +2,6 @@
 
     <v-navigation-drawer
             app
-            dark
             permanent
             expand-on-hover
             clipped
