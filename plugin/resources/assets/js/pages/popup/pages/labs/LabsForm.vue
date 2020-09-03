@@ -2,14 +2,14 @@
     <div>
         <lab-info-section :lab_given="lab" :teachers="teachers"></lab-info-section>
         <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
-        <button class="button  is-primary" @click="saveClicked">
+        <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
             Save
-        </button>
-        <button class="button  is-warning" @click="saveClicked">
+        </v-btn>
+        <v-btn class="ma-2" tile outlined color="warning" @click="saveClicked">
             <router-link to="/labs">
                 <button>Cancel</button>
             </router-link>
-        </button>
+        </v-btn>
 
     </div>
 </template>

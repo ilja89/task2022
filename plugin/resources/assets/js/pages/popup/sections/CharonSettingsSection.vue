@@ -4,13 +4,11 @@
 
         <v-alert
                 :value="alert"
-                prominent
-                icon="false"
                 border="left"
                 color="error"
         >
             <v-row align="center" justify="space-between">
-                <v-col>
+                <v-col class="grow">
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
@@ -63,8 +61,11 @@
                             </b>
                         </td>
                         <td>
-                            <button class="button  is-primary" v-on:click="editClicked(charon)">Edit</button>
-                            <button class="button  is-warning" v-on:click="promtDeletionAlert(charon)">Delete</button>
+                            <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked(charon)">Edit
+                            </v-btn>
+                            <v-btn class="ma-2" small tile outlined color="warning" @click="promtDeletionAlert(charon)">
+                                Delete
+                            </v-btn>
                         </td>
                     </tr>
                     </tbody>
