@@ -23,7 +23,7 @@
                     v-model="writtenComment"
                     @keyup.enter="saveComment"
                 >
-                <button class="button is-primary" @click="saveComment">COMMENT</button>
+                <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
             </div>
         </div>
     </popup-section>

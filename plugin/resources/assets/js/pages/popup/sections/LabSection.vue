@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
 
-                <v-btn class="ma-2" tile outlined color="success" v-on:click="addNewLabSessionClicked">Add</v-btn>
+                <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add</v-btn>
             </v-container>
         </v-card>
     </div>

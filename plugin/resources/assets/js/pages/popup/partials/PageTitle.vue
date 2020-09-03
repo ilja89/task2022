@@ -118,11 +118,3 @@
         }
     };
 </script>
-
-<style lang="scss" scoped>
-    .title--with-right {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-</style>

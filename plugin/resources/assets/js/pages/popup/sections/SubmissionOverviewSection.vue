@@ -6,11 +6,8 @@
         class="extra-info-text"
       >Current points: {{ charon_confirmed_points }}p</span>
 
-      <button
-        :disabled="saveIsDisabled"
-        class="button is-primary save-submission-btn"
-        @click="saveSubmission"
-      >Save</button>
+      <v-btn :disabled="saveIsDisabled" class="ma-2" tile outlined color="primary" @click="saveSubmission">Save</v-btn>
+
     </template>
 
     <div v-if="hasSubmission" class="columns is-gapless is-desktop submission-overview-container">
@@ -47,8 +44,7 @@
                   @keyup="updatePointsState"
                   @keydown="errors[result.id] = false"
                 />
-
-                <a class="button is-primary" @click="setMaxPoints(result)">Max</a>
+                <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max</v-btn>
               </div>
             </div>
           </div>

@@ -21,19 +21,3 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
-    .submission-info:not(:last-of-type) {
-        margin-bottom: .75rem;
-    }
-
-    .submission-info__title {
-        font-size: 1.25rem;
-    }
-
-    .submission-info__content {
-        font-weight: 500;
-        font-size: 1.25rem;
-    }
-
-</style>

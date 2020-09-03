@@ -45,7 +45,6 @@
                         give_deadline = new Date(give_deadline.setHours(give_deadline.getHours() - parseInt(num)))
                     }
                 }
-                console.log('save', this.charon)
                 Charon.saveCharonDefenseStuff(this.charon.id, give_deadline, this.charon.defense_duration,
                     chosen_labs, this.charon.choose_teacher, this.charon.defense_threshold, () => {
                         window.location = "popup#/charonSettings";
