@@ -1,5 +1,5 @@
 <template>
-    <v-app dark>
+    <v-app :dark="true">
         <v-main>
 
             <popup-header/>

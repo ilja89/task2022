@@ -7,7 +7,7 @@ import store from './store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueClipboard from 'vue-clipboard2'
-import light from './theme'
+import themes from './theme'
 import {HighlightDirective} from './../../directives';
 import VueApexCharts from 'vue-apexcharts';
 import VueGoodTablePlugin from 'vue-good-table';
@@ -25,9 +25,9 @@ Vue.use(VueClipboard)
 Vue.use(Vuetify)
 
 const opts = {
-    theme: {
-        themes: {light},
-    },
+    // theme: {
+    //     themes: {themes},
+    // },
 }
 
 export default new Vuetify(opts)
