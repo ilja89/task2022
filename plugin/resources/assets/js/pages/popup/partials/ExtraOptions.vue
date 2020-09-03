@@ -6,6 +6,7 @@
                 <template v-slot:activator="{ on: tooltip }">
                     <v-btn
                             text bottom icon
+                            color="primary"
                             v-bind="attrs"
                             v-on="{ ...tooltip, ...menu }"
                     >
