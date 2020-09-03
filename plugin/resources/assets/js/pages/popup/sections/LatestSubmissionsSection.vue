@@ -24,12 +24,21 @@
                                 shaped
                                 @click="submissionSelected(submission)"
                         >
-                            <div>
-                                {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
-                                <wbr>{{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
-                                <wbr>{{ submission.charon.name }} <span class="timestamp-separator">|</span>
-                                <wbr>{{ submission.user | user }}
-                            </div>
+                            <v-container
+                                    class="spacing-playground pa-6"
+                                    fluid
+                            >
+                                <v-card-title>
+                                    {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
+                                    <wbr>
+                                    {{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
+                                    <wbr>
+                                    {{ submission.charon.name }} <span class="timestamp-separator">|</span>
+                                    <wbr>
+                                    {{ submission.user | user }}
+                                </v-card-title>
+                            </v-container>
+
                         </v-card>
                     </div>
                 </div>
@@ -40,15 +49,15 @@
 
 <script>
     import moment from 'moment'
-    import { mapGetters, mapActions } from 'vuex'
-    import { PopupSection } from '../layouts/index'
-    import { Submission } from '../../../api/index'
-    import { formatName, formatSubmissionResults } from '../helpers/formatting'
+    import {mapGetters, mapActions} from 'vuex'
+    import {PopupSection} from '../layouts/index'
+    import {Submission} from '../../../api/index'
+    import {formatName, formatSubmissionResults} from '../helpers/formatting'
 
     export default {
         name: "latest-submissions-section",
 
-        components: { PopupSection },
+        components: {PopupSection},
 
         data() {
             return {
@@ -136,9 +145,9 @@
     @import '../../../../../../../node_modules/bulma/sass/utilities/all';
 
     .submission {
-        margin-top:    0;
+        margin-top: 0;
         margin-bottom: 0;
-        padding-top:    30px;
+        padding-top: 30px;
         padding-bottom: 30px;
 
         white-space: nowrap;
@@ -151,7 +160,7 @@
     }
 
     .timestamp-separator {
-        padding-left:  4px;
+        padding-left: 4px;
         padding-right: 4px;
     }
 
