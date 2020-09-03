@@ -1,6 +1,23 @@
 <template>
 
     <div class="lab">
+
+        <v-alert
+                :value="alert"
+                prominent
+                type="error"
+        >
+            <v-row align="center">
+                <v-col class="grow">Are you sure you want to delete the charon?</v-col>
+                <v-col class="error">
+                    <v-btn @click="deleteCharon(charon_id)">Yes</v-btn>
+                </v-col>
+                <v-col class="shrink">
+                    <v-btn @click="alert=false">No</v-btn>
+                </v-col>
+            </v-row>
+        </v-alert>
+
         <v-card
                 class="mx-auto"
                 outlined
@@ -37,9 +54,7 @@
                         </td>
                         <td>
                             <button v-on:click="editClicked(charon)">Edit</button>
-                            <button v-if="charon.diff_users === 0 && charon.tot_subs === 0"
-                                    v-on:click="deleteCharon(charon)">Delete
-                            </button>
+                            <button v-on:click="promtDeletionAlert(charon)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -55,7 +70,12 @@
     import {Charon} from "../../../api";
 
     export default {
-
+        data() {
+            return {
+                alert: false,
+                charon_id: 0
+            }
+        },
         props: {
             charons: {required: true}
         },
@@ -99,8 +119,14 @@
                 }
                 return percentage + '%'
             },
-            deleteCharon(charon) {
-                Charon.deleteById(charon.charon_id, () => {
+            promtDeletionAlert(charon) {
+                this.alert = true
+                this.charon_id = charon.charon_id
+            },
+            deleteCharon(charon_id) {
+                Charon.deleteById(charon_id, () => {
+                    this.alert = false
+                    this.charon_id = 0
                     window.location.reload();
                 })
             },
