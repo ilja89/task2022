@@ -53,11 +53,10 @@
 <script>
     import {ExtraOptions} from "../partials";
     import {mapState, mapGetters} from "vuex";
-    import VueTippy, {TippyComponent} from "vue-tippy";
     import autocomplete from "vue2-autocomplete-js";
 
     export default {
-        components: {ExtraOptions, TippyComponent, autocomplete},
+        components: {ExtraOptions, autocomplete},
         computed: {
             ...mapGetters([
                 'studentsSearchUrl',
