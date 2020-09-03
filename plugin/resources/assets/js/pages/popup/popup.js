@@ -23,7 +23,16 @@ Vue.use(VueMaterial)
 Vue.use(VueClipboard)
 
 Vue.use(Vuetify)
-const opts = {}
+const opts = {
+    themes: {
+        light: {
+            primary: '#3f51b5',
+            secondary: '#b0bec5',
+            anchor: '#8c9eff',
+        },
+    },
+}
+
 export default new Vuetify(opts)
 
 Vue.directive('highlightjs', HighlightDirective);
