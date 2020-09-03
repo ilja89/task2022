@@ -2,7 +2,6 @@
 
     <v-navigation-drawer
             app
-            permanent
             expand-on-hover
             clipped
             mini-variant
