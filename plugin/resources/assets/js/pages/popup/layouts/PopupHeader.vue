@@ -23,7 +23,7 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <div class="search-container">
+            <div class="search-container" @student-was-changed="onStudentChanged">
                 <autocomplete
                         :url="studentsSearchUrl"
                         anchor="fullname"
@@ -74,7 +74,7 @@
             },
 
             onStudentSelected(student) {
-                this.$emit('student-was-changed', student)
+                VueEvent.$emit('student-was-changed', student)
             },
             onRefreshClicked() {
                 VueEvent.$emit("refresh-page");
