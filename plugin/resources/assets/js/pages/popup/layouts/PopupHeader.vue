@@ -23,12 +23,12 @@
                 <md-icon>search</md-icon>
             </v-btn>
 
-            <div class="search-container" @student-was-changed="onStudentChanged">
+            <div class="search-container">
                 <autocomplete
                         :url="studentsSearchUrl"
                         anchor="fullname"
                         label=""
-                        :on-select="onStudentSelected"
+                        :on-select="onStudentChanged"
                         id="student-search"
                         placeholder="Student name (uniid@ttu.ee)"
                         :min="2"
@@ -73,15 +73,13 @@
                 document.getElementById('student-search').focus()
             },
 
-            onStudentSelected(student) {
-                VueEvent.$emit('student-was-changed', student)
-            },
             onRefreshClicked() {
                 VueEvent.$emit("refresh-page");
             },
 
             onStudentChanged(student) {
                 this.$router.push("/grading/" + student.id);
+                VueEvent.$emit('student-was-changed', student)
             },
 
             onSubmissionAdded() {
