@@ -1,29 +1,33 @@
 <template>
     <div class="search-container">
 
-        <md-icon @click="clearClicked">search</md-icon>
+        <v-btn icon color="primary" @click="clearClicked">
+            <md-icon>search</md-icon>
+        </v-btn>
 
         <autocomplete
-            :url="studentsSearchUrl"
-            anchor="fullname"
-            label=""
-            :on-select="onStudentSelected"
-            id="student-search"
-            placeholder="Student name (uniid@ttu.ee)"
-            :min="2"
+                :url="studentsSearchUrl"
+                anchor="fullname"
+                label=""
+                :on-select="onStudentSelected"
+                id="student-search"
+                placeholder="Student name (uniid@ttu.ee)"
+                :min="2"
         />
 
-        <md-icon @click="clearClicked">clear</md-icon>
+        <v-btn icon color="primary" @click="clearClicked">
+            <md-icon>clear</md-icon>
+        </v-btn>
 
     </div>
 </template>
 
 <script>
     import autocomplete from 'vue2-autocomplete-js'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
-        components: { autocomplete },
+        components: {autocomplete},
 
         computed: {
             ...mapGetters([

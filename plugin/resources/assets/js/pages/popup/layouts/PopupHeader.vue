@@ -2,10 +2,11 @@
 
     <v-app-bar
             app
-            dark
             id="core-toolbar">
 
-        <v-app-bar-nav-icon/>
+        <v-app-bar-nav-icon>
+            <div class="ttu-logo"></div>
+        </v-app-bar-nav-icon>
 
         <v-toolbar-title>
             {{ getCourseName() }}
@@ -15,11 +16,11 @@
 
         <v-toolbar-items>
 
-            <div class="ttu-logo"></div>
-
             <student-search @student-was-changed="onStudentChanged"/>
 
-            <md-icon @click="onRefreshClicked">refresh</md-icon>
+            <v-btn icon color="primary" @click="onRefreshClicked">
+                <md-icon>refresh</md-icon>
+            </v-btn>
 
             <extra-options @submission-was-added="onSubmissionAdded"/>
 
