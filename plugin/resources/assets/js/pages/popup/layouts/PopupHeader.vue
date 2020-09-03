@@ -50,8 +50,9 @@
                 VueEvent.$emit("refresh-page");
             },
 
-            onStudentChanged(student) {
-                this.$router.push("/grading/" + student.id);
+            onStudentChanged(search_student) {
+                this.student = search_student
+                this.$router.push("/grading/" + search_student.id);
             },
 
             onSubmissionAdded() {
