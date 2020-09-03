@@ -37,11 +37,10 @@
             <br>
         </div>
 
-        <div class="apply-btn-container">
-            <v-btn class="ma-2" tile outlined color="primary"
-                   @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
-            </v-btn>
-        </div>
+        <v-btn class="ma-2" tile outlined color="primary"
+               @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
+        </v-btn>
+
         <v-card
                 class="mx-auto"
                 outlined

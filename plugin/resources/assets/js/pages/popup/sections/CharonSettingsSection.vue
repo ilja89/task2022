@@ -7,12 +7,17 @@
                 prominent
                 icon="false"
                 border="left"
-                type="error"
+                color="error"
         >
             <v-row align="center" justify="space-between">
-                <v-col class="grow">
+                <v-col>
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     Are you sure you want to delete the charon?
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
                 </v-col>
                 <v-col class="shrink">
                     <v-btn @click="deleteCharon(charon_id)">Yes</v-btn>
@@ -58,8 +63,8 @@
                             </b>
                         </td>
                         <td>
-                            <button v-on:click="editClicked(charon)">Edit</button>
-                            <button v-on:click="promtDeletionAlert(charon)">Delete</button>
+                            <button class="button  is-primary" v-on:click="editClicked(charon)">Edit</button>
+                            <button class="button  is-warning" v-on:click="promtDeletionAlert(charon)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
