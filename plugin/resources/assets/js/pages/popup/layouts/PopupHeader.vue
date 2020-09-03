@@ -19,9 +19,9 @@
 
         <v-toolbar-items>
 
-            <student-search @student-was-changed="onStudentChanged" />
+            <student-search @student-was-changed="onStudentChanged"/>
 
-            <extra-options @submission-was-added="onSubmissionAdded"/>
+            <extra-options/>
 
         </v-toolbar-items>
     </v-app-bar>
@@ -33,7 +33,7 @@
     import {mapState} from "vuex";
 
     export default {
-        components: { StudentSearch, ExtraOptions },
+        components: {StudentSearch, ExtraOptions},
         computed: {
             ...mapState(["student"]),
         },
@@ -42,9 +42,6 @@
                 this.$router.push("/grading/" + student.id);
             },
 
-            onSubmissionAdded() {
-                VueEvent.$emit("refresh-page");
-            },
             getCourseName() {
                 return window.course_name;
             }

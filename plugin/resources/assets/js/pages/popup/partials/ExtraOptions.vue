@@ -6,13 +6,14 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on: tooltip }">
                         <v-btn
-                                color="primary"
-                                dark
+                                text
                                 v-bind="attrs"
                                 v-on="{ ...tooltip, ...menu }"
-                        ><md-icon>more_vert</md-icon></v-btn>
+                        >
+                            <md-icon>more_vert</md-icon>
+                        </v-btn>
                     </template>
-                    <span>Im A ToolTip</span>
+                    <span>Manual submissions</span>
                 </v-tooltip>
             </template>
             <v-list>
@@ -53,7 +54,7 @@
             ]),
 
             canAddSubmission() {
-                return this.charon !== null && this.student !== null;
+                return this.charon != null && this.student != null;
             },
 
             canRetestSubmission() {
@@ -73,8 +74,8 @@
                 }
 
                 Submission.addNewEmpty(this.charon.id, this.student.id, submission => {
-                    this.$emit('submission-was-added');
                     this.menuIsOpen = false;
+                    VueEvent.$emit("refresh-page");
                 });
             },
 

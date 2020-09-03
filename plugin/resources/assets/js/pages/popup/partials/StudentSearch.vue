@@ -1,38 +1,32 @@
 <template>
     <v-row>
-        <v-col>
-            <v-btn icon color="primary">
-                <md-icon>search</md-icon>
-            </v-btn>
-        </v-col>
 
-        <v-col>
-            <div class="search-container">
+        <v-btn icon color="primary">
+            <md-icon>search</md-icon>
+        </v-btn>
 
-                <autocomplete
-                        :url="studentsSearchUrl"
-                        anchor="fullname"
-                        label=""
-                        :on-select="onStudentSelected"
-                        id="student-search"
-                        placeholder="Student name (uniid@ttu.ee)"
-                        :min="2"
-                />
+        <div class="search-container">
 
-            </div>
-        </v-col>
+            <autocomplete
+                    :url="studentsSearchUrl"
+                    anchor="fullname"
+                    label=""
+                    :on-select="onStudentSelected"
+                    id="student-search"
+                    placeholder="Student name (uniid@ttu.ee)"
+                    :min="2"
+            />
 
-        <v-col>
-            <v-btn icon color="primary" @click="clearClicked">
-                <md-icon>clear</md-icon>
-            </v-btn>
-        </v-col>
+        </div>
 
-        <v-col>
-            <v-btn icon color="primary" @click="onRefreshClicked">
-                <md-icon>refresh</md-icon>
-            </v-btn>
-        </v-col>
+        <v-btn icon color="primary" @click="clearClicked">
+            <md-icon>clear</md-icon>
+        </v-btn>
+
+        <v-btn icon color="primary" @click="onRefreshClicked">
+            <md-icon>refresh</md-icon>
+        </v-btn>
+
     </v-row>
 </template>
 
