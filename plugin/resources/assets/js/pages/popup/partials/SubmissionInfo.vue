@@ -13,7 +13,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Git time:   </td>
+                        <td class=" pr-3">Git time:</td>
                         <td>{{ submission.git_timestamp }}</td>
                     </v-container>
                 </tr>
@@ -23,7 +23,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Commit hash:   </td>
+                        <td class=" pr-3">Commit hash:</td>
                         <td>
                             <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
                             <a v-else href="#">{{ submission.git_hash }}</a>
@@ -36,7 +36,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Commit message:   </td>
+                        <td class=" pr-3">Commit message:</td>
                         <td>{{ submission.git_commit_message }}</td>
                     </v-container>
                 </tr>
@@ -46,7 +46,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Project folder:   </td>
+                        <td class=" pr-3">Project folder:   </td>
                         <td>{{ charon ? charon.project_folder : '' }}</td>
                     </v-container>
                 </tr>
@@ -56,7 +56,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Calculation formula:   </td>
+                        <td class=" pr-3">Calculation formula:</td>
                         <td>{{ charonCalculationFormula }}</td>
                     </v-container>
                 </tr>
@@ -66,7 +66,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>Deadlines:   </td>
+                        <td class=" pr-3">Deadlines:</td>
                         <td>
                             <ul>
                                 <li
@@ -83,7 +83,7 @@
                             class="spacing-playground pa-3"
                             fluid
                     >
-                        <td>{{graderInfoTitle}}</td>
+                        <td class=" pr-3">{{graderInfoTitle}}</td>
                         <td>{{ graderInfo }}</td>
                     </v-container>
                 </tr>
@@ -136,9 +136,9 @@
             },
             graderInfoTitle() {
                 if (this.submission.confirmed) {
-                    return 'Grader:   '
+                    return 'Grader:'
                 } else {
-                    return 'Previously graded by:   '
+                    return 'Previously graded by:'
                 }
             },
 
