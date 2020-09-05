@@ -219,7 +219,6 @@ class CharonRepository
                 'charon.name',
                 'charon_tester_type.name AS tester_type_name',
                 'charon.project_folder',
-                'course_modules.id AS course_module_id',
                 'charon.category_id',
                 'charon.grouping_id',
                 'charon.course',
