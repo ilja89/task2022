@@ -46,7 +46,7 @@
         plagiarism_includes: "{{ translate('plagiarism_includes') }}",
         grouping: "{{ translate('grouping') }}",
         grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
-        
+
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
         deadlines_helper: "{{ translate('deadlines_helper') }}",
@@ -97,16 +97,22 @@
     if (window.moduleSettingsUrl.length) {
         window.VueEvent.$emit(
             'show-notification',
-            'Tester URL not set in module settings!<br>Ask an administrator to set it <a href="' + window.moduleSettingsUrl + '">here</a>.',
+            'Tester URL not set in module settings! Redirecting.</a>.',
             'danger',
             null
         )
+        setTimeout(function () {
+            window.location.replace(window.moduleSettingsUrl);
+        }, 1000);
     } else if (window.courseSettingsUrl.length) {
         window.VueEvent.$emit(
             'show-notification',
-            'Unittests Git URL not set in course settings! Set it <a href="' + window.courseSettingsUrl + '">here</a>.',
+            'Unittests Git URL not set in course settings! Redirecting.</a>.',
             'danger',
             null
         )
+        setTimeout(function () {
+            window.location.replace(window.courseSettingsUrl);
+        }, 1000);
     }
 </script>

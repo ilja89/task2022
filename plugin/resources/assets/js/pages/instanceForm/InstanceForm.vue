@@ -67,9 +67,8 @@
         <v-snackbar
                 top
                 right
+                bottom
                 multi-line
-                absolute
-                shaped
                 v-model="notification.show"
                 :timeout="notification.timeout"
         >
