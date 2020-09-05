@@ -18,7 +18,7 @@ class ClassificationsController extends Controller
     private $classificationsRepository;
 
     /** @var Request */
-    private $request;
+    protected $request;
 
 
     /**
