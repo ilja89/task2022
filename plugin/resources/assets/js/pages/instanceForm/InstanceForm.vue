@@ -122,7 +122,7 @@
 
                 notification: {
                     text: '',
-                    show: false,
+                    show: true,
                     type: 'success',
                 }
 
@@ -149,7 +149,7 @@
             },
 
             hideNotification() {
-                VueEvent.$emit('close-notification')
+                this.notification.show = false
             },
         },
 
