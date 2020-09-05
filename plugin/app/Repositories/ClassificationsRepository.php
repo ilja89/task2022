@@ -33,17 +33,9 @@ class ClassificationsRepository
      */
     public function saveTesterTypes($name)
     {
-        $testerType = TesterType::create([
+        return TesterType::create([
             'name' => $name
         ]);
-
-        $testerType->load([
-            'teacher' => function ($query) {
-                $query->select(['code', 'name']);
-            },
-        ]);
-
-        return $testerType;
     }
 
     /**
