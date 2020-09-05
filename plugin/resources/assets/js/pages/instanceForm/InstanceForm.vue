@@ -64,9 +64,6 @@
         <deadline-section :form="form"></deadline-section>
         <grouping-section :form="form"></grouping-section>
 
-        <!--        <notification :text="notification.text" :show="notification.show" :type="notification.type">-->
-        <!--        </notification>-->
-
         <v-snackbar
                 top
                 right
