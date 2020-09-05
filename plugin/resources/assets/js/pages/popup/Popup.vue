@@ -14,6 +14,7 @@
                     top
                     right
                     multi-line
+                    absolute
                     shaped
                     v-model="notification.show"
                     :timeout="notification.timeout"

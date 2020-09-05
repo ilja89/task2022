@@ -68,6 +68,7 @@
                 top
                 right
                 bottom
+                absolute
                 multi-line
                 v-model="notification.show"
                 :timeout="notification.timeout"
