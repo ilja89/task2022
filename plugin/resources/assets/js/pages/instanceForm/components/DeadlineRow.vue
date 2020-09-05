@@ -2,14 +2,14 @@
     <div class="deadline-row is-flex">
         <div class="deadline-field">
             <label>{{ translate('deadline_label') }}</label>
-            <p class="input-helper" v-html="translate('deadline_helper')"></p>
+            <p class="input-helper-labs" v-html="translate('deadline_helper')"></p>
             <datepicker :datetime="deadline.deadline_time"></datepicker>
             <input type="hidden" :name="'deadlines[' + id + '][deadline_time]'" :value="deadline.deadline_time.time">
         </div>
 
         <div class="deadline-field">
             <label>{{ translate('percentage_label') }}</label>
-            <p class="input-helper" v-html="translate('percentage_helper')"></p>
+            <p class="input-helper-labs" v-html="translate('percentage_helper')"></p>
             <input type="number"
                    :name="'deadlines[' + id + '][percentage]'"
                    v-model="deadline.percentage"
