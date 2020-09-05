@@ -1,54 +1,60 @@
 <template>
     <div>
 
-        <submission-info-bit title="Git time">
-            {{ submission.git_timestamp }}
-        </submission-info-bit>
 
-        <submission-info-bit
-                v-if="submission.git_hash"
-                title="Commit hash"
-        >
-            <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
-            <a v-else href="#">{{ submission.git_hash }}</a>
-        </submission-info-bit>
+        <v-simple-table>
+            <template v-slot:default>
+                <thead>
+                </thead>
+                <tbody>
 
-        <submission-info-bit
-                v-if="submission.git_commit_message"
-                title="Commit message"
-        >
-            {{ submission.git_commit_message }}
-        </submission-info-bit>
+                <tr>
+                    <td>Git time</td>
+                    <td>{{ submission.git_timestamp }}</td>
+                </tr>
 
-        <submission-info-bit title="Project folder">
-            {{ charon ? charon.project_folder : '' }}
-        </submission-info-bit>
+                <tr v-if="submission.git_hash">
+                    <td>Commit hash</td>
+                    <td>
+                        <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
+                        <a v-else href="#">{{ submission.git_hash }}</a>
+                    </td>
+                </tr>
 
-        <submission-info-bit
-                v-if="charonCalculationFormula.length"
-                title="Calculation formula"
-        >
-            {{ charonCalculationFormula }}
-        </submission-info-bit>
+                <tr v-if="submission.git_commit_message">
+                    <td>Commit message</td>
+                    <td>{{ submission.git_commit_message }}</td>
+                </tr>
 
-        <submission-info-bit
-                v-if="hasDeadlines"
-                title="Deadlines"
-        >
-            <ul>
-                <li
-                        v-for="deadline in charon.deadlines"
-                        v-text="formatDeadline(deadline)"
-                />
-            </ul>
-        </submission-info-bit>
+                <tr>
+                    <td>Project folder</td>
+                    <td>{{ charon ? charon.project_folder : '' }}</td>
+                </tr>
 
-        <submission-info-bit
-                v-if="submission.grader"
-                :title="graderInfoTitle"
-        >
-            {{ graderInfo }}
-        </submission-info-bit>
+                <tr v-if="charonCalculationFormula.length">
+                    <td>Calculation formula</td>
+                    <td>{{ charonCalculationFormula }}</td>
+                </tr>
+
+                <tr v-if="hasDeadlines">
+                    <td>Deadlines</td>
+                    <td>
+                        <ul>
+                            <li
+                                    v-for="deadline in charon.deadlines"
+                                    v-text="formatDeadline(deadline)"
+                            />
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr v-if="submission.grader">
+                    <td>{{graderInfoTitle}}</td>
+                    <td>{{ graderInfo }}</td>
+                </tr>
+                </tbody>
+            </template>
+        </v-simple-table>
 
     </div>
 </template>
