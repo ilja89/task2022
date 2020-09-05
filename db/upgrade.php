@@ -428,8 +428,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     // FROM THIS POINT ON PLEASE USE $CFG->prefix instead of `mdl_` as prefix !!!
     global $CFG;
 
-    if ($oldversion < 2020090501) {
-        $sql = "ALTER TABLE " . $CFG->prefix . "tester_type MODIFY COLUMN code INT auto_increment";
+    if ($oldversion < 2020090502) {
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_tester_type MODIFY COLUMN code INT auto_increment";
         $DB->execute($sql);
     }
 
