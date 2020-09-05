@@ -48,7 +48,7 @@ class ClassificationsController extends Controller
      */
     public function saveTesterType(Request $request)
     {
-        Log::info("Saving tester time", [$request]);
+        Log::error("Saving tester time", [$request]);
         $name = $request->input('name');
         $this->classificationsRepository->saveTesterTypes($name);
 
@@ -67,7 +67,7 @@ class ClassificationsController extends Controller
      */
     public function removeTesterType(Request $request)
     {
-        Log::info("Removing tester time", [$request]);
+        Log::error("Removing tester time", [$request]);
         $name = $request->input('name');
         $this->classificationsRepository->removeTesterType($name);
 
