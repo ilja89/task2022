@@ -5,7 +5,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/testerTypes/all', 'ClassificationsController@getAllTesterTypes');
     Route::middleware('auth.course.managing.require')
-        ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterTypes');
+        ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterType');
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
 
