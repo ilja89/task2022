@@ -15,6 +15,9 @@
                 <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
                     Edit
                 </a>
+                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup">
+                    Charon popup
+                </a>
             </div>
         @endif
     </div>
