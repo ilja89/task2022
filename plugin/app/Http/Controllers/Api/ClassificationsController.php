@@ -49,7 +49,7 @@ class ClassificationsController extends Controller
      *
      * @return array
      */
-    public function saveTesterType($request)
+    public function saveTesterType($course_id, $tester_name)
     {
 //        Log::error("Saving tester time", [$request]);
 //        $name = $request->input('name');
@@ -57,7 +57,7 @@ class ClassificationsController extends Controller
 
         return [
             'status' => 'OK',
-            'testerType' => $request,
+            'testerType' => $tester_name,
             'request' => $this->request,
         ];
     }
