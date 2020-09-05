@@ -23,10 +23,10 @@ class ClassificationsController extends Controller
      * @param Request $request
      * @param ClassificationsRepository $classificationsRepository
      */
-    public function __construct(Request $request, ClassificationsRepository $classificationsRepository)
+    public function __construct(Request $request, ClassificationsRepository $ClassificationsRepository)
     {
         parent::__construct($request);
-        $this->$classificationsRepository = $classificationsRepository;
+        $classificationsRepository = $ClassificationsRepository;
     }
 
     /**
