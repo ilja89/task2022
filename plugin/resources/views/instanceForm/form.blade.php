@@ -97,22 +97,22 @@
     if (window.moduleSettingsUrl.length) {
         window.VueEvent.$emit(
             'show-notification',
-            'Tester URL not set in module settings! Redirecting.</a>.',
+            'Tester URL not set in module settings! Redirecting.',
             'danger',
             null
         )
         setTimeout(function () {
             window.location.replace(window.moduleSettingsUrl);
-        }, 1000);
+        }, 2000);
     } else if (window.courseSettingsUrl.length) {
         window.VueEvent.$emit(
             'show-notification',
-            'Unittests Git URL not set in course settings! Redirecting.</a>.',
+            'Unittests Git URL not set in course settings! Redirecting.',
             'danger',
             null
         )
         setTimeout(function () {
             window.location.replace(window.courseSettingsUrl);
-        }, 1000);
+        }, 2000);
     }
 </script>
