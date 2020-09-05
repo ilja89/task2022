@@ -86,13 +86,13 @@
 
             deleteTesterType(testerName) {
                 Course.removeTesterType(this.courseId, testerName, done => {
-                    window.location.reload();
+                    // window.location.reload();
                 })
             },
 
             addTesterType(testerName) {
                 Course.addTesterType(this.courseId, testerName, done => {
-                    window.location.reload();
+                    // window.location.reload();
                 })
             }
         },
