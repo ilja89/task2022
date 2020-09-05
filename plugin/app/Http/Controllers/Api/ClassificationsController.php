@@ -47,37 +47,36 @@ class ClassificationsController extends Controller
     /**
      * Saves a comment. Comment details are taken from the request.
      *
+     * @param $course_id
+     * @param $tester_name
      * @return array
      */
     public function saveTesterType($course_id, $tester_name)
     {
-//        Log::error("Saving tester time", [$request]);
-//        $name = $request->input('name');
-//        $this->classificationsRepository->saveTesterTypes($name);
+        Log::info("Saving tester with name:", [$tester_name]);
+        $this->classificationsRepository->saveTesterTypes($tester_name);
 
         return [
             'status' => 'OK',
             'testerType' => $tester_name,
-            'request' => $this->request,
         ];
     }
 
     /**
      * Saves a comment. Comment details are taken from the request.
      *
-     * @param String $name
-     *
+     * @param $course_id
+     * @param $tester_name
      * @return array
      */
-    public function removeTesterType(Request $request)
+    public function removeTesterType($course_id, $tester_name)
     {
-        Log::error("Removing tester time", [$request]);
-        $name = $request->input('name');
-        $this->classificationsRepository->removeTesterType($name);
+        Log::info("Removing tester with name:", [$tester_name]);
+        $this->classificationsRepository->removeTesterType($tester_name);
 
         return [
             'status' => 'OK',
-            'testerType' => $name,
+            'testerType' => $tester_name,
         ];
     }
 }
