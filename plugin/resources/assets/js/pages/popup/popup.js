@@ -5,16 +5,16 @@ import Popup from './Popup.vue'
 import router from './routes'
 import store from './store'
 import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
 import VueClipboard from 'vue-clipboard2'
 import light from './theme'
 import {HighlightDirective} from './../../directives';
 import VueApexCharts from 'vue-apexcharts';
 import VueGoodTablePlugin from 'vue-good-table';
-import 'vue-good-table/dist/vue-good-table.css';
 import VueJsonToCsv from 'vue-json-to-csv';
-
 import VueMaterial from 'vue-material'
+
+import 'vuetify/dist/vuetify.min.css'
+import 'vue-good-table/dist/vue-good-table.css';
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
