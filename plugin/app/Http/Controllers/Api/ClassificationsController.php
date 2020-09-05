@@ -17,6 +17,10 @@ class ClassificationsController extends Controller
     /** @var ClassificationsRepository */
     private $classificationsRepository;
 
+    /** @var Request */
+    private $request;
+
+
     /**
      * CommentsController constructor.
      *
@@ -26,6 +30,7 @@ class ClassificationsController extends Controller
     public function __construct(Request $request, ClassificationsRepository $classificationsRepository)
     {
         parent::__construct($request);
+        $this->request = $request;
         $this->classificationsRepository = $classificationsRepository;
     }
 
@@ -42,10 +47,9 @@ class ClassificationsController extends Controller
     /**
      * Saves a comment. Comment details are taken from the request.
      *
-     * @param Request $request
      * @return array
      */
-    public function saveTesterType(Request $request)
+    public function saveTesterType($request)
     {
 //        Log::error("Saving tester time", [$request]);
 //        $name = $request->input('name');
@@ -54,6 +58,7 @@ class ClassificationsController extends Controller
         return [
             'status' => 'OK',
             'testerType' => $request,
+            'request' => $this->request,
         ];
     }
 
