@@ -23,7 +23,7 @@ class Charon {
     }
 
     static addTesterType(courseId, name, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/add/' + name)
+        window.axios.post(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/add/' + name)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -32,7 +32,7 @@ class Charon {
     }
 
     static removeTesterType(courseId, name, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/remove/' + name)
+        window.axios.delete(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/remove/' + name)
             .then(response => {
                 then(response.data)
             }).catch(error => {
