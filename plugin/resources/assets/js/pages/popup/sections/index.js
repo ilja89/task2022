@@ -12,12 +12,13 @@ import LabSection from "./LabSection";
 import CharonSettingsSection from "./CharonSettingsSection";
 import CharonSettingsEditingSection from "./CharonSettingsEditingSection";
 import DefenseRegistrationsSection from "./DefenseRegistrationsSection";
+import TesterTypeSection from "./TesterTypeSection";
 
-export { default as PlagiarismResultsSection } from './PlagiarismResultsSection'
+export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents,
-    LabSection, CharonSettingsSection, CharonSettingsEditingSection, DefenseRegistrationsSection
+    LabSection, CharonSettingsSection, CharonSettingsEditingSection, DefenseRegistrationsSection, TesterTypeSection
 }
