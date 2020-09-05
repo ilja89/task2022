@@ -210,13 +210,10 @@ class CharonRepository
      */
     public function findCharonsByCourse($courseId)
     {
-        $moduleId = $this->moduleService->getModuleId();
-        
+
         $charons =  \DB::table('charon')
-            ->join('course_modules', 'course_modules.instance', 'charon.id')
             ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('course_modules.course', $courseId)
-            ->where('course_modules.module', $moduleId)
             ->select(
                 'charon.id',
                 'charon.name',
