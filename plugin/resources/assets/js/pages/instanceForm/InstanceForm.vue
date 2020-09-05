@@ -65,8 +65,6 @@
         <grouping-section :form="form"></grouping-section>
 
         <v-snackbar
-                top
-                right
                 bottom
                 absolute
                 multi-line
