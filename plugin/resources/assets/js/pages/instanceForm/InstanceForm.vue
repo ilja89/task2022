@@ -67,9 +67,10 @@
         <v-snackbar
                 top
                 right
+                multi-line
                 absolute
                 shaped
-                v-model="notification.text"
+                v-model="notification.show"
                 :timeout="notification.timeout"
         >
             {{ notification.text }}
@@ -85,6 +86,7 @@
                 </v-btn>
             </template>
         </v-snackbar>
+
     </div>
 </template>
 
