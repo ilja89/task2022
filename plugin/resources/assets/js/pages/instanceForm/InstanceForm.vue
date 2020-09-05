@@ -65,9 +65,11 @@
         <grouping-section :form="form"></grouping-section>
 
         <v-snackbar
-                bottom
-                absolute
+                top
+                right
                 multi-line
+                absolute
+                shaped
                 v-model="notification.show"
                 :timeout="notification.timeout"
         >
