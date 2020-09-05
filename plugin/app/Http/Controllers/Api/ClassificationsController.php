@@ -47,13 +47,13 @@ class ClassificationsController extends Controller
      */
     public function saveTesterType(Request $request)
     {
-        Log::error("Saving tester time", [$request]);
-        $name = $request->input('name');
-        $this->classificationsRepository->saveTesterTypes($name);
+//        Log::error("Saving tester time", [$request]);
+//        $name = $request->input('name');
+//        $this->classificationsRepository->saveTesterTypes($name);
 
         return [
             'status' => 'OK',
-            'testerType' => $name,
+            'testerType' => $request,
         ];
     }
 
