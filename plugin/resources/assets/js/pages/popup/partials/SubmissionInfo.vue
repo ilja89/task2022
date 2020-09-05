@@ -9,48 +9,83 @@
                 <tbody>
 
                 <tr>
-                    <td>Git time</td>
-                    <td>{{ submission.git_timestamp }}</td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Git time</td>
+                        <td>{{ submission.git_timestamp }}</td>
+                    </v-container>
                 </tr>
 
                 <tr v-if="submission.git_hash">
-                    <td>Commit hash</td>
-                    <td>
-                        <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
-                        <a v-else href="#">{{ submission.git_hash }}</a>
-                    </td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Commit hash</td>
+                        <td>
+                            <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
+                            <a v-else href="#">{{ submission.git_hash }}</a>
+                        </td>
+                    </v-container>
                 </tr>
 
                 <tr v-if="submission.git_commit_message">
-                    <td>Commit message</td>
-                    <td>{{ submission.git_commit_message }}</td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Commit message</td>
+                        <td>{{ submission.git_commit_message }}</td>
+                    </v-container>
                 </tr>
 
                 <tr>
-                    <td>Project folder</td>
-                    <td>{{ charon ? charon.project_folder : '' }}</td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Project folder</td>
+                        <td>{{ charon ? charon.project_folder : '' }}</td>
+                    </v-container>
                 </tr>
 
                 <tr v-if="charonCalculationFormula.length">
-                    <td>Calculation formula</td>
-                    <td>{{ charonCalculationFormula }}</td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Calculation formula</td>
+                        <td>{{ charonCalculationFormula }}</td>
+                    </v-container>
                 </tr>
 
                 <tr v-if="hasDeadlines">
-                    <td>Deadlines</td>
-                    <td>
-                        <ul>
-                            <li
-                                    v-for="deadline in charon.deadlines"
-                                    v-text="formatDeadline(deadline)"
-                            />
-                        </ul>
-                    </td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>Deadlines</td>
+                        <td>
+                            <ul>
+                                <li
+                                        v-for="deadline in charon.deadlines"
+                                        v-text="formatDeadline(deadline)"
+                                />
+                            </ul>
+                        </td>
+                    </v-container>
                 </tr>
 
                 <tr v-if="submission.grader">
-                    <td>{{graderInfoTitle}}</td>
-                    <td>{{ graderInfo }}</td>
+                    <v-container
+                            class="spacing-playground pa-3"
+                            fluid
+                    >
+                        <td>{{graderInfoTitle}}</td>
+                        <td>{{ graderInfo }}</td>
+                    </v-container>
                 </tr>
                 </tbody>
             </template>
