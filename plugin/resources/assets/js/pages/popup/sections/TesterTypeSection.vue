@@ -45,7 +45,7 @@
                                 label="First name"
                                 required
                         ></v-text-field>
-                        <v-btn class="ma-2" small tile outlined color="primart"
+                        <v-btn class="ma-2" small tile outlined color="primary"
                                @click="addTesterType(firstname)">
                             Add
                         </v-btn>
