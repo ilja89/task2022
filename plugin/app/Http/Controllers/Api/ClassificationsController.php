@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\ClassificationsRepository;
@@ -47,6 +48,7 @@ class ClassificationsController extends Controller
      */
     public function saveTesterType(Request $request)
     {
+        Log::info("Saving tester time", [$request]);
         $name = $request->input('name');
         $this->classificationsRepository->saveTesterTypes($name);
 
@@ -65,6 +67,7 @@ class ClassificationsController extends Controller
      */
     public function removeTesterType(Request $request)
     {
+        Log::info("Removing tester time", [$request]);
         $name = $request->input('name');
         $this->classificationsRepository->removeTesterType($name);
 
