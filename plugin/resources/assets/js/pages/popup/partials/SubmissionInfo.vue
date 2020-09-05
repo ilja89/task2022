@@ -85,7 +85,7 @@
                 var courseShortname;
 
                 if (this.student) {
-                    gitUser = this.student.idnumber.split("@")[0];
+                    gitUser = this.student.username.split("@")[0];
                 } else {
                     gitUser = "" // this should never happen
                 }
