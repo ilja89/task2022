@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TesterType extends Model
 {
+    protected $fillable = ['name', 'code'];
+
     protected $table = 'charon_tester_type';
 
     public $timestamps = false;
