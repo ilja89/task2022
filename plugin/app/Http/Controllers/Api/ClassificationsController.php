@@ -42,13 +42,13 @@ class ClassificationsController extends Controller
     /**
      * Saves a comment. Comment details are taken from the request.
      *
-     * @param String $name
-     *
+     * @param Request $request
      * @return array
      */
-    public function saveTesterType(string $name)
+    public function saveTesterType(Request $request)
     {
-        $testerTypes = $this->classificationsRepository->saveTesterTypes($name);
+        $name = $request->input('name');
+        $this->classificationsRepository->saveTesterTypes($name);
 
         return [
             'status' => 'OK',
@@ -63,9 +63,10 @@ class ClassificationsController extends Controller
      *
      * @return array
      */
-    public function removeTesterType(string $name)
+    public function removeTesterType(Request $request)
     {
-        $testerTypes = $this->classificationsRepository->removeTesterType($name);
+        $name = $request->input('name');
+        $this->classificationsRepository->removeTesterType($name);
 
         return [
             'status' => 'OK',
