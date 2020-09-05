@@ -2,22 +2,27 @@
     <div>
         <page-title :title="'Charon settings'"></page-title>
         <charon-settings-section :charons="charons"></charon-settings-section>
+
+        <page-title :title="'Tester types'"></page-title>
+        <tester-type-section :testerTypes="testerTypes" :course-id="this.course.id"></tester-type-section>
     </div>
 </template>
 
 <script>
     import PageTitle from "../partials/PageTitle";
     import CharonSettingsSection from "../sections/CharonSettingsSection";
+    import TesterTypeSection from "../sections/TesterTypeSection";
     import Charon from "../../../api/Charon";
+    import Course from "../../../api/Course";
     import {mapState} from "vuex";
-    import Lab from "../../../api/Lab";
 
     export default {
         name: "defense-settings-page",
-        components: { PageTitle, CharonSettingsSection: CharonSettingsSection },
+        components: {PageTitle, CharonSettingsSection, TesterTypeSection},
         data() {
             return {
                 charons: [],
+                testerTypes: []
             }
         },
         computed: {
@@ -28,7 +33,7 @@
         },
         methods: {
             formatCharonsDeadlines(ch, then) {
-                for (let i = 0; i < ch.length; i++){
+                for (let i = 0; i < ch.length; i++) {
                     this.getNamesForLabs(ch[i].charonDefenseLabs)
                     if (ch[i].defense_deadline === null) {
                         ch[i].defense_deadline = {time: null}
@@ -62,6 +67,10 @@
                 this.formatCharonsDeadlines(response, done => {
                     this.charons = done
                 })
+            })
+
+            Course.getTesterTypes(this.course.id, response => {
+                this.testerTypes = response
             })
         }
     }

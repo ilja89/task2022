@@ -1,5 +1,6 @@
 import Charon from './Charon'
 import Comment from './Comment'
+import Course from './Course'
 import File from './File'
 import Output from './Output'
 import Preset from './Preset'
@@ -11,5 +12,5 @@ import Defense from "./Defense";
 export { default as Plagiarism } from './Plagiarism'
 
 export {
-    Charon, Comment, File, Output, Preset, Submission, User, Lab, Defense
+    Charon, Comment, Course, File, Output, Preset, Submission, User, Lab, Defense
 }

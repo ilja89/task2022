@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Models\PlagiarismService;
@@ -22,6 +23,32 @@ class ClassificationsRepository
     public function getAllTesterTypes()
     {
         return TesterType::all();
+    }
+
+    /**
+     * Add a tester type.
+     *
+     * @param String $name
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function saveTesterTypes($name)
+    {
+        return TesterType::create([
+            'name' => $name
+        ]);
+    }
+
+    /**
+     * Add a tester type.
+     *
+     * @param String $name
+     * @return int
+     */
+    public function removeTesterType($name)
+    {
+        return DB::table('charon_tester_type')
+            ->where('name', $name)
+            ->delete();
     }
 
     /**
