@@ -1,19 +1,19 @@
 <template>
     <div>
         <instance-form-fieldset
-            toggle_id="tgl1"
-            @advanced-was-toggled="toggleAdvancedInfoSection">
+                toggle_id="tgl1"
+                @advanced-was-toggled="toggleAdvancedInfoSection">
 
             <template slot="title">{{ translate('task_info_title') }}</template>
 
             <slot>
                 <advanced-task-info-section
-                    v-if="advanced_info_section_active"
-                    :form="form">
+                        v-if="advanced_info_section_active"
+                        :form="form">
                 </advanced-task-info-section>
                 <simple-task-info-section
-                    v-else
-                    :form="form">
+                        v-else
+                        :form="form">
                 </simple-task-info-section>
             </slot>
 
@@ -31,12 +31,12 @@
                         :form="form">
                 </advanced-plagiarism-section>
                 <advanced-plagiarism-section
-                    v-else
-                    :form="form">
+                        v-else
+                        :form="form">
                 </advanced-plagiarism-section>
                 <!--<simple-plagiarism-section-->
-                        <!--v-else-->
-                        <!--:form="form">-->
+                <!--v-else-->
+                <!--:form="form">-->
                 <!--</simple-plagiarism-section>-->
             </slot>
 
@@ -64,8 +64,8 @@
         <deadline-section :form="form"></deadline-section>
         <grouping-section :form="form"></grouping-section>
 
-<!--        <notification :text="notification.text" :show="notification.show" :type="notification.type">-->
-<!--        </notification>-->
+        <!--        <notification :text="notification.text" :show="notification.show" :type="notification.type">-->
+        <!--        </notification>-->
 
         <v-snackbar
                 top
@@ -97,14 +97,14 @@
         SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
         SimplePlagiarismSection, GroupingSection
     } from './sections'
-    import { InstanceFormFieldset } from '../../components/form'
-    import { Translate } from '../../mixins'
+    import {InstanceFormFieldset} from '../../components/form'
+    import {Translate} from '../../mixins'
 
     export default {
-        mixins: [ Translate ],
+        mixins: [Translate],
 
         props: {
-            form: { required: true }
+            form: {required: true}
         },
 
         components: {
@@ -143,7 +143,9 @@
             },
 
             showNotification(message, type, timeout = 5000) {
-                VueEvent.$emit('show-notification', message, type, timeout)
+                this.notification.text = message
+                this.notification.show = true
+                this.notification.timeout = timeout
             },
 
             hideNotification() {
