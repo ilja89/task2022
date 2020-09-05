@@ -64,12 +64,15 @@
         <deadline-section :form="form"></deadline-section>
         <grouping-section :form="form"></grouping-section>
 
+<!--        <notification :text="notification.text" :show="notification.show" :type="notification.type">-->
+<!--        </notification>-->
+
         <v-snackbar
                 top
                 right
                 absolute
                 shaped
-                v-model="snackbar"
+                v-model="notification.text"
                 :timeout="notification.timeout"
         >
             {{ notification.text }}
@@ -116,6 +119,13 @@
                 advanced_info_section_active: false,
                 advanced_grading_section_active: false,
                 advanced_plagiarism_section_active: false,
+
+                // notification: {
+                //     text: '',
+                //     show: false,
+                //     type: 'success',
+                // }
+
             }
         },
 
