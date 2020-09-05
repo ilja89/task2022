@@ -2,7 +2,7 @@
     <div>
 
 
-        <v-simple-table>
+        <v-simple-table style="width: auto">
             <template v-slot:default>
                 <thead>
                 </thead>
