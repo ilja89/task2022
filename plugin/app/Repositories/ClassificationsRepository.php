@@ -33,7 +33,11 @@ class ClassificationsRepository
      */
     public function saveTesterTypes($name)
     {
+        $code = DB::table('charon_tester_type')
+                ->max('code') + 1;
+
         return TesterType::create([
+            'code' => $code,
             'name' => $name
         ]);
     }
