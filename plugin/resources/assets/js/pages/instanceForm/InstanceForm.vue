@@ -122,7 +122,7 @@
 
                 notification: {
                     text: '',
-                    show: true,
+                    show: false,
                     type: 'success',
                 }
 
