@@ -120,11 +120,11 @@
                 advanced_grading_section_active: false,
                 advanced_plagiarism_section_active: false,
 
-                // notification: {
-                //     text: '',
-                //     show: false,
-                //     type: 'success',
-                // }
+                notification: {
+                    text: '',
+                    show: false,
+                    type: 'success',
+                }
 
             }
         },
