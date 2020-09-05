@@ -3,11 +3,11 @@
 Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/testerTypes/all', 'ClassificationsRepository@getAllTesterTypes');
+        ->get('courses/{course}/testerTypes/all', 'ClassificationsController@getAllTesterTypes');
     Route::middleware('auth.course.managing.require')
-        ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsRepository@saveTesterTypes');
+        ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterTypes');
     Route::middleware('auth.course.managing.require')
-        ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsRepository@removeTesterType');
+        ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
 
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
