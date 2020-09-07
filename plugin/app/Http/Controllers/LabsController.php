@@ -36,7 +36,7 @@ class LabsController extends Controller
         return \DB::table('charon_lab')  // id, start, end
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
         ->where('charon_id', $charonId)
-            ->whereDate('start', '>=', Carbon::now()->toDateTime())
+            ->whereDate('end', '>=', Carbon::now()->toFormattedDateString())
             ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
             ->get();
     }
