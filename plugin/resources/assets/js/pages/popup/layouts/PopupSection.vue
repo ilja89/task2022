@@ -21,6 +21,8 @@
 <script>
     export default {
         props: {
+            name: "popup-section",
+
             title: { required: true },
             subtitle: {
                 required: false,

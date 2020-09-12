@@ -13,7 +13,8 @@ import {
     LabsPage,
     CharonSettingsPage,
     CharonSettingsEditingPage,
-    DefenseRegistrationPage
+    DefenseRegistrationPage,
+    TeachersPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
 
@@ -68,6 +69,12 @@ const routes = [
         title: 'Labs',
         component: LabsPage,
         name: 'labs'
+    },
+    {
+        path: '/teachers',
+        title: 'Teachers',
+        component: TeachersPage,
+        name: 'teachers'
     },
     {
         path: '/labsForm',

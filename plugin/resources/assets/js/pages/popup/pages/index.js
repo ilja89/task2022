@@ -9,7 +9,8 @@ import LabsPage from './LabsPage.vue'
 import CharonSettingsPage from "./CharonSettingsPage";
 import CharonSettingsEditingPage from "./DefSettingsEditingPage";
 import DefenseRegistrationPage from "./DefenseRegistrationPage";
+import TeachersPage from "./TeachersPage"
 export {
-    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage,
+    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage, TeachersPage,
     DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage
 }

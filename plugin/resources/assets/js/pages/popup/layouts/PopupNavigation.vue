@@ -42,6 +42,7 @@
                     {title: 'Labs', icon: 'event_available', route: () => '/labs'},
                     {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
                     {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
+                    {title: 'Teacher overview', icon: 'school', route: () => '/teachers'},
                 ]
             }
         },

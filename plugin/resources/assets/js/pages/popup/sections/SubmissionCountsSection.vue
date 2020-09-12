@@ -60,18 +60,19 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <h3 v-if="!submissionCounts.length" class="title  is-3">
+                    No Charons for this course!
+                </h3>
             </v-container>
         </v-card>
 
-        <h3 v-if="!submissionCounts.length" class="title  is-3">
-            No Charons for this course!
-        </h3>
     </popup-section>
 </template>
 
 <script>
     import {mapGetters} from 'vuex'
-    import {Charon, Submission} from '../../../api/index'
+    import {Submission} from '../../../api/index'
     import {PopupSection} from '../layouts/index'
 
     export default {

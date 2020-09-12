@@ -13,12 +13,13 @@ import CharonSettingsSection from "./CharonSettingsSection";
 import CharonSettingsEditingSection from "./CharonSettingsEditingSection";
 import DefenseRegistrationsSection from "./DefenseRegistrationsSection";
 import TesterTypeSection from "./TesterTypeSection";
+import TeacherSection from "./TeacherSection";
 
 export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
-    SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents,
+    SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
     LabSection, CharonSettingsSection, CharonSettingsEditingSection, DefenseRegistrationsSection, TesterTypeSection
 }

@@ -1,11 +1,11 @@
-class Charon {
+class Course {
 
     static getRoot() {
         return '/mod/charon/api'
     }
 
     static getCourseObject(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId)
+        window.axios.get(Course.getRoot() + '/courses/' + courseId)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -14,7 +14,7 @@ class Charon {
     }
 
     static getTesterTypes(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/all')
+        window.axios.get(Course.getRoot() + '/courses/' + courseId + '/testerTypes/all')
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -23,7 +23,7 @@ class Charon {
     }
 
     static addTesterType(courseId, name, then) {
-        window.axios.post(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/add/' + name)
+        window.axios.post(Course.getRoot() + '/courses/' + courseId + '/testerTypes/add/' + name)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -32,7 +32,7 @@ class Charon {
     }
 
     static removeTesterType(courseId, name, then) {
-        window.axios.delete(Charon.getRoot() + '/courses/' + courseId + '/testerTypes/remove/' + name)
+        window.axios.delete(Course.getRoot() + '/courses/' + courseId + '/testerTypes/remove/' + name)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -42,4 +42,4 @@ class Charon {
 
 }
 
-export default Charon
+export default Course

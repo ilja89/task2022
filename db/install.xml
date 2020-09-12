@@ -123,6 +123,8 @@
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="teacher_location" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="teacher_comment" SEQUENCE="false" TYPE="text" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab_teacher" TYPE="primary" FIELDS="id"/>

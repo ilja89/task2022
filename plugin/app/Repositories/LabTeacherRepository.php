@@ -6,14 +6,16 @@ use Illuminate\Support\Facades\DB;
 
 class LabTeacherRepository
 {
-    public function deleteAllLabTeachersForCharon($charonId) {
+    public function deleteAllLabTeachersForCharon($charonId)
+    {
         return DB::table('charon_lab_teacher')
             ->where('charon_id', $charonId)
             ->delete();
     }
 
-    public function getTeachersByLabId($courseId, $labId) {
-        $labTeachers =  \DB::table('charon_lab_teacher')
+    public function getTeachersByLabId($courseId, $labId)
+    {
+        $labTeachers = \DB::table('charon_lab_teacher')
             ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
             ->where('lab_id', $labId)
             ->where('course_id', $courseId)
@@ -21,25 +23,28 @@ class LabTeacherRepository
             ->select(
                 'user.id',
                 'firstName',
-                'lastName'
+                'lastName',
+                'charon_lab_teacher.teacher_location'
             )
             ->get();
 
         return $labTeachers;
     }
 
-    public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId) {
+    public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId)
+    {
         $teachers = \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
         ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
-            ->select('user.id', 'user.firstName', 'user.lastName')
+            ->select('user.id', 'user.firstName', 'user.lastName', 'charon_lab_teacher.teacher_location')
             ->get();
         return $teachers;
     }
 
-    public function getTeachersByCourseId($courseId) {
+    public function getTeachersByCourseId($courseId)
+    {
         $teachers = \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')
             ->join('role_assignments', 'role_assignments.contextid', 'context.id')
@@ -52,13 +57,34 @@ class LabTeacherRepository
         return $teachers;
     }
 
-    public function deleteByLabId($labId) {
+    public function getTeacherReportByCourseId($courseId)
+    {
+        global $CFG;
+        $prefix = $CFG->prefix;
+
+        $teachers = \DB::table('course')
+            ->join('context', 'context.instanceid', 'course.id')
+            ->join('role_assignments', 'role_assignments.contextid', 'context.id')
+            ->join('user', 'user.id', 'role_assignments.userid')
+            ->join('role', 'role.id', 'role_assignments.roleid')
+            ->where('role.id', 3)
+            ->where('course.id', $courseId)
+            ->leftJoin('charon_submission', 'user.id', 'charon_submission.grader_id')
+            ->select('user.id as id', 'user.firstname', 'user.lastname', \DB::raw('sum(' . $prefix . 'charon_submission.confirmed) as total_defences'))
+            ->groupBy('id', 'firstname', 'lastname')
+            ->get();
+        return $teachers;
+    }
+
+    public function deleteByLabId($labId)
+    {
         return DB::table('charon_lab_teacher')
             ->where('lab_id', $labId)
             ->delete();
     }
 
-    public function getTeacherForStudent($studentId) {
+    public function getTeacherForStudent($studentId)
+    {
         $group = \DB::table('user')
             ->join('groups_members', 'groups_members.userid', 'user.id')
             ->where('user.id', $studentId)
@@ -94,11 +120,20 @@ class LabTeacherRepository
      * @param $userId
      * @return mixed
      */
-    public function getTeacherByUserId($userId) {
+    public function getTeacherByUserId($userId)
+    {
         $teacher = \DB::table('user')
             ->where('id', $userId)
             ->select('id', 'firstname', 'lastname')
             ->get();
         return $teacher;
+    }
+
+    public function updateTeacher($lab, $teacher, $update)
+    {
+        return \DB::table('charon_lab_teacher')
+            ->where('teacher_id', $teacher)
+            ->where('lab_id', $lab)
+            ->update(['teacher_location' => $update->teacher_location, 'teacher_comment' => $update->teacher_comment]);
     }
 }

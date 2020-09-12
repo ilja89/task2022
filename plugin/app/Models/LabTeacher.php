@@ -12,6 +12,8 @@ use Zeizig\Moodle\Models\User;
  * @property integer id
  * @property integer lab_id
  * @property integer teacher_id
+ * @property string teacher_location
+ * @property string teacher_comment
  *
  * @package TTU\Charon\Models
  */
@@ -20,10 +22,8 @@ class LabTeacher extends Model
     public $timestamps = false;
     protected $table = 'charon_lab_teacher';
     protected $fillable = [
-        'lab_id', 'teacher_id'
+        'lab_id', 'teacher_id', 'teacher_location', 'teacher_comment'
     ];
-
-    //protected $dates = [ 'created_at' ];
 
     public function lab()
     {

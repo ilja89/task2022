@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\ModelUser;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Globals\User;
@@ -40,34 +41,48 @@ class LabTeacherController extends Controller
         $this->user = $user;
     }
 
-    public function getByLab(Course $course, Lab $lab) {
+    public function getByLab(Course $course, Lab $lab)
+    {
         return $this->labTeacherRepository->getTeachersByLabId($course->id, $lab->id);
     }
 
     /**
      * Get teachers by charon and defense lab id.
      *
-     * @param  Charon $charon
+     * @param Charon $charon
      * @param CharonDefenseLab $charonDefenseLab
      *
      * @return array
      */
-    public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab) {
+    public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab)
+    {
         return $this->labTeacherRepository->getTeachersByCharonAndLabId($charon->id, $charonDefenseLab->id);
     }
-    
+
     /**
      * Get teachers by course.
      *
-     * @param  Course $course
+     * @param Course $course
      *
      * @return \Zeizig\Moodle\Models\User[]
      **/
-    public function getTeachersByCourse(Course $course) {
+    public function getTeachersByCourse(Course $course)
+    {
         return $this->labTeacherRepository->getTeachersByCourseId($course->id);
     }
 
-    public function getTeacherForStudent(Course $course, ModelUser $user) {
+    public function getTeacherReportByCourse(Course $course)
+    {
+        return $this->labTeacherRepository->getTeacherReportByCourseId($course->id);
+    }
+
+    public function getTeacherForStudent(Course $course, ModelUser $user)
+    {
         return $this->labTeacherRepository->getTeacherForStudent($user->id);
+    }
+
+    public function updateTeacherForLab($course, $lab, $teacher)
+    {
+        return $this->labTeacherRepository->updateTeacher($lab, $teacher, $this->request);
     }
 }

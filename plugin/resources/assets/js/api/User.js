@@ -37,15 +37,6 @@ class User {
             })
     }
 
-    static getTeachers(courseId, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/teachers')
-            .then(response => {
-                then(response.data)
-            }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
-        })
-    }
-
     static getTeachersInLab(courseId, labId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/teachers')
             .then(response => {

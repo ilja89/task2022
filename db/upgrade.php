@@ -428,6 +428,16 @@ function xmldb_charon_upgrade($oldversion = 0)
     // FROM THIS POINT ON PLEASE USE $CFG->prefix instead of `mdl_` as prefix !!!
     global $CFG;
 
+    if ($oldversion < 2020091201) {
+        try {
+            $sql = "ALTER TABLE " . $CFG->prefix . "charon_lab_teacher ADD COLUMN teacher_location VARCHAR(255)";
+            $DB->execute($sql);
+            $sql = "ALTER TABLE " . $CFG->prefix . "charon_lab_teacher ADD COLUMN teacher_comment VARCHAR(255)";
+            $DB->execute($sql);
+        } catch (dml_write_exception $e) {
+            // Ignored intentionally
+        }
+    }
 
     return true;
 }

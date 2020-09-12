@@ -58,7 +58,6 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
     import {Course} from "../../../api";
 
     export default {
@@ -66,7 +65,7 @@
             return {
                 nameRules: [
                     v => !!v || 'Name is required',
-                    v => v.length <= 20 || 'Name must be less than 10 characters',
+                    v => v.length <= 20 || 'Name must be less than 20 characters',
                 ],
                 tester_name: "",
                 alert: false,

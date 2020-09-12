@@ -11,7 +11,7 @@
     import DefenseRegistrationsSection from "../sections/DefenseRegistrationsSection";
     import {mapState} from "vuex";
     import Defense from "../../../api/Defense";
-    import User from "../../../api/User";
+    import Teacher from "../../../api/Teacher";
 
     export default {
         name: "defense-registrations-page",
@@ -33,7 +33,7 @@
             Defense.all(this.course.id, response => {
                 this.defenseList = response
             })
-            User.getTeachers(this.course.id, response => {
+            Teacher.getAllTeachers(this.course.id, response => {
                 this.getNamesForTeachers(response, result => {
                     this.teachers = result
                 })
