@@ -15,7 +15,7 @@ class LabTeacherRepository
 
     public function getTeachersByLabId($courseId, $labId)
     {
-        $labTeachers = \DB::table('charon_lab_teacher')
+        return \DB::table('charon_lab_teacher')
             ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
             ->where('lab_id', $labId)
             ->where('course_id', $courseId)
@@ -27,25 +27,22 @@ class LabTeacherRepository
                 'charon_lab_teacher.teacher_location'
             )
             ->get();
-
-        return $labTeachers;
     }
 
     public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId)
     {
-        $teachers = \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
+        return \DB::table('charon_lab_teacher')  // id, lab_id, teacher_id
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id') // id, lab_id, charon_id
         ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->select('user.id', 'user.firstName', 'user.lastName', 'charon_lab_teacher.teacher_location')
             ->get();
-        return $teachers;
     }
 
     public function getTeachersByCourseId($courseId)
     {
-        $teachers = \DB::table('course')
+        return \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')
             ->join('role_assignments', 'role_assignments.contextid', 'context.id')
             ->join('user', 'user.id', 'role_assignments.userid')
@@ -54,7 +51,6 @@ class LabTeacherRepository
             ->where('course.id', $courseId)
             ->select('user.id', 'user.firstname', 'user.lastname')
             ->get();
-        return $teachers;
     }
 
     public function getTeacherReportByCourseId($courseId)
@@ -62,7 +58,7 @@ class LabTeacherRepository
         global $CFG;
         $prefix = $CFG->prefix;
 
-        $teachers = \DB::table('course')
+        return \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')
             ->join('role_assignments', 'role_assignments.contextid', 'context.id')
             ->join('user', 'user.id', 'role_assignments.userid')
@@ -73,7 +69,6 @@ class LabTeacherRepository
             ->select('user.id as id', 'user.firstname', 'user.lastname', \DB::raw('sum(' . $prefix . 'charon_submission.confirmed) as total_defences'))
             ->groupBy('id', 'firstname', 'lastname')
             ->get();
-        return $teachers;
     }
 
     public function deleteByLabId($labId)
@@ -106,6 +101,7 @@ class LabTeacherRepository
                 $okRoleIdsString .= ')';
             }
         }
+
         $teacher = \DB::table('groups_members')
             ->join('role_assignments', 'role_assignments.userid', 'groups_members.userid')
             ->join('user', 'user.id', 'groups_members.userid')
@@ -122,11 +118,10 @@ class LabTeacherRepository
      */
     public function getTeacherByUserId($userId)
     {
-        $teacher = \DB::table('user')
+        return \DB::table('user')
             ->where('id', $userId)
             ->select('id', 'firstname', 'lastname')
             ->get();
-        return $teacher;
     }
 
     public function updateTeacher($lab, $teacher, $update)
@@ -135,5 +130,50 @@ class LabTeacherRepository
             ->where('teacher_id', $teacher)
             ->where('lab_id', $lab)
             ->update(['teacher_location' => $update->teacher_location, 'teacher_comment' => $update->teacher_comment]);
+    }
+
+    public function getTeacherSpecifics($courseId, $teacherId)
+    {
+        return \DB::table('charon_lab_teacher')
+            ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
+            ->where('teacher_id', $teacherId)
+            ->where('course_id', $courseId)
+            ->join('user', 'user.id', 'teacher_id')
+            ->select(
+                'charon_lab.id',
+                'firstName',
+                'lastName',
+                'teacher_id',
+                'course_id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.id as lab_id',
+                'charon_lab_teacher.teacher_location',
+                'charon_lab_teacher.teacher_comment'
+            )
+            ->get();
+    }
+
+    public function getTeacherAggregatedData($courseId, $teacherId)
+    {
+        // TODO
+        return \DB::table('charon_lab_teacher')
+            ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
+            ->where('teacher_id', $teacherId)
+            ->where('course_id', $courseId)
+            ->join('user', 'user.id', 'teacher_id')
+            ->select(
+                'charon_lab.id',
+                'firstName',
+                'lastName',
+                'teacher_id',
+                'course_id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.id as lab_id',
+                'charon_lab_teacher.teacher_location',
+                'charon_lab_teacher.teacher_comment'
+            )
+            ->get();
     }
 }

@@ -85,7 +85,6 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LAB STUFF
 
-
     Route::middleware('auth.course.managing.require')  // save lab
     ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
@@ -94,12 +93,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}labs', 'LabController@getByCharon');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
     ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
-    Route::middleware('auth.course.managing.require')  // get teachers in a lab
-    ->get('courses/{course}/labs/{lab}/teachers', 'LabTeacherController@getByLab');
-    Route::middleware('auth.charon.managing.require')  // get teachers in a specific charon lab
-    ->get('charons/{charon}/labs/{lab}/teachers', 'LabTeacherController@getByCharonAndLab');
-    Route::middleware('auth.charon.managing.require') // update teacher data for lab
-        ->put('charons/{charon}/labs/{lab}/teachers/{teacher}', 'LabTeacherController@updateTeacherForLab');
     Route::middleware('auth.course.managing.require')  // delete lab
     ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
@@ -120,6 +113,16 @@ Route::group(['namespace' => 'Api'], function () {
     ->get('courses/{course}/teachers', 'LabTeacherController@getTeachersByCourse');
     Route::middleware('auth.course.managing.require')  // get aggregated teachers
     ->get('courses/{course}/teachers/report', 'LabTeacherController@getTeacherReportByCourse');
+    Route::middleware('auth.course.managing.require')  // get teachers in a lab
+    ->get('courses/{course}/labs/{lab}/teachers', 'LabTeacherController@getByLab');
+    Route::middleware('auth.charon.managing.require')  // get teachers in a specific charon lab
+    ->get('charons/{charon}/labs/{lab}/teachers', 'LabTeacherController@getByCharonAndLab');
+    Route::middleware('auth.course.managing.require')  // get teachers in a specific charon lab
+    ->get('courses/{course}/teacher/{teacher}', 'LabTeacherController@getByTeacher');
+    Route::middleware('auth.course.managing.require')  // get teachers in a specific charon lab
+    ->get('courses/{course}/teacher/{teacher}/aggregated', 'LabTeacherController@getTeacherAggregatedData');
+    Route::middleware('auth.course.managing.require') // update teacher data for lab
+    ->put('course/{course}/labs/{lab}/teachers/{teacher}', 'LabTeacherController@updateTeacherForLab');
 
     // COURSE
 

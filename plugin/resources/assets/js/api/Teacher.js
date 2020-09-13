@@ -33,8 +33,26 @@ class Teacher {
         })
     }
 
-    static update(charonId, labId, teacherId, body, then) {
-        axios.put(Teacher.getRoot() + '/charons/' + charonId + '/labs/' + labId + '/teachers/' + teacherId, body)
+    static getByTeacher(courseId, teacherId, then) {
+        axios.get(Teacher.getRoot() + '/courses/' + courseId + '/teacher/' + teacherId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+        })
+    }
+
+    static getTeacherAggregatedData(courseId, teacherId, then) {
+        axios.get(Teacher.getRoot() + '/courses/' + courseId + '/teacher/' + teacherId + '/aggregated')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+        })
+    }
+
+    static update(courseId, labId, teacherId, body, then) {
+        axios.put(Teacher.getRoot() + '/course/' + courseId + '/labs/' + labId + '/teachers/' + teacherId, body)
             .then(response => {
                 then(response.data)
             }).catch(error => {

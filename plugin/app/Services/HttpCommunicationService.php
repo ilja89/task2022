@@ -63,7 +63,7 @@ class HttpCommunicationService
         try {
             $client->request(
                 $method, $testerUrl,
-                ['headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
+                ['teachers_headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
             );
         } catch (RequestException $e) {
             Log::error(
@@ -122,7 +122,7 @@ class HttpCommunicationService
             return $client->request(
                 $method,
                 "/{$uri}",
-                ['json' => $data, 'headers' => $headers]
+                ['json' => $data, 'teachers_headers' => $headers]
             );
         } catch (RequestException $e) {
             Log::error(

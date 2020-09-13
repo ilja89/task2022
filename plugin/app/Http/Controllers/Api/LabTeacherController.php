@@ -85,4 +85,14 @@ class LabTeacherController extends Controller
     {
         return $this->labTeacherRepository->updateTeacher($lab, $teacher, $this->request);
     }
+
+    public function getByTeacher($courseId, $teacherId)
+    {
+        return $this->labTeacherRepository->getTeacherSpecifics($courseId, $teacherId);
+    }
+
+    public function getTeacherAggregatedData($courseId, $teacherId)
+    {
+        return $this->labTeacherRepository->getTeacherAggregatedData($courseId, $teacherId);
+    }
 }
