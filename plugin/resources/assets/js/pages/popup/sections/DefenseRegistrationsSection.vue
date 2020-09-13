@@ -152,7 +152,7 @@
 
     .datepicker-overlay .cov-date-box .hour-item,
     .datepicker-overlay .cov-date-box .min-item {
-    !important padding: 10 px 10 px;
+        padding: 10px 10px;
     }
 
     .helper {
