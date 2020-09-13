@@ -16,13 +16,14 @@
 </template>
 
 <script>
+    import {PageTitle} from '../partials'
     import {mapState, mapGetters, mapActions} from 'vuex'
     import {User} from '../../../api'
     import {PopupSection} from '../layouts'
 
     export default {
 
-        components: {PopupSection},
+        components: {PopupSection, PageTitle},
 
         data() {
             return {
