@@ -83,20 +83,18 @@
 
             <v-card-text class="grey lighten-4">
                 <v-container class="spacing-playground pa-3" fluid v-if="teacher">
-                    <v-card-title>
-                        <v-data-table
-                                v-if="teacher.length"
-                                :headers="teacher_specifics_headers"
-                                :items="teacher">
+                    <v-data-table
+                            v-if="teacher.length"
+                            :headers="teacher_specifics_headers"
+                            :items="teacher">
 
-                            <template v-slot:item.actions="{ item }">
-                                <v-btn class="ma-2" small tile outlined color="primary"
-                                       @click="editItem(item)">
-                                    Edit
-                                </v-btn>
-                            </template>
-                        </v-data-table>
-                    </v-card-title>
+                        <template v-slot:item.actions="{ item }">
+                            <v-btn class="ma-2" small tile outlined color="primary"
+                                   @click="editItem(item)">
+                                Edit
+                            </v-btn>
+                        </template>
+                    </v-data-table>
                 </v-container>
 
                 <v-container class="spacing-playground pa-3" fluid v-else>
