@@ -1,34 +1,37 @@
 <template>
     <div>
         <div
-            v-if="outputs.length > 0"
-            class="tabs-right  select-container  output-select"
+                v-if="outputs.length > 0"
+                class="tabs-right  select-container  output-select"
         >
             <popup-select
-                size="medium"
-                name="output"
-                :options="outputs"
-                value-key="slug"
-                placeholder-key="title"
-                v-model="activeOutputSlug"
+                    size="medium"
+                    name="output"
+                    :options="outputs"
+                    value-key="slug"
+                    placeholder-key="title"
+                    v-model="activeOutputSlug"
             />
         </div>
 
-        <pre class="output-content" v-if="outputs.length">{{ activeOutput }}</pre>
+        <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="outputs.length">
+            <pre style="max-height: 900px;overflow: auto">{{ activeOutput }}</pre>
+        </v-card>
+
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { Output } from '../../../api'
+    import {mapState} from 'vuex'
+    import {Output} from '../../../api'
     import PopupSelect from './PopupSelect'
 
     export default {
 
-        components: { PopupSelect },
+        components: {PopupSelect},
 
         props: {
-            grademaps: { required: true },
+            grademaps: {required: true},
         },
 
         data() {

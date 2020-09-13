@@ -2,11 +2,8 @@
     <popup-section title="Charon logs"
                    subtitle="Here are the recent errors charon has had">
 
-        <v-card class="mx-auto" max-height="900" max-width="90vw" outlined raised>
-            <pre style="max-height: 900px;overflow: auto">
-                {{logs}}
-            </pre>
-
+        <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised>
+            <pre style="max-height: 900px;overflow: auto">{{logs}}</pre>
         </v-card>
 
     </popup-section>
@@ -49,8 +46,8 @@
 
         methods: {
             fetchLogs() {
-                Charon.fetchLatestLogs(this.courseId, counts => {
-                    this.logs = counts
+                Charon.fetchLatestLogs(this.courseId, logs => {
+                    this.logs = logs
                 })
             },
         },

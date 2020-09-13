@@ -23,7 +23,9 @@
 
             <charon-tab name="Mail">
 
-                <pre class="output-content" v-if="hasMail" v-html="submission.mail"></pre>
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="hasMail">
+                    <pre style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
+                </v-card>
 
             </charon-tab>
 
