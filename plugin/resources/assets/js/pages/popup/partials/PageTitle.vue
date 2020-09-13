@@ -8,7 +8,7 @@
                 </div>
             </template>
             <template v-else>
-                <div>
+                <v-row>
                     <div v-if="this.student" style="vertical-align: text-bottom;"
                          class="is-inline-block student-groups">
 
@@ -40,7 +40,7 @@
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-expansion-panels>
-                </div>
+                </v-row>
             </template>
         </v-row>
 
