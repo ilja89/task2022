@@ -1,38 +1,34 @@
 <template>
 
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-        <div v-if="show_multiple" class="topic-open">
-            <legend v-on:click="show_multiple = !show_multiple" class="ftoggler">Add multiple lab sessions</legend>
-        </div>
-        <div v-else class="topic-closed">
-            <legend v-on:click="show_multiple = !show_multiple" class="ftoggler">Add multiple lab sessions</legend>
-        </div>
+        <v-card class="mx-auto mb-4" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
+                <div class="fcontainer clearfix fitem labs-field">
 
-        <div v-if="show_multiple" class="fcontainer clearfix fitem labs-field" style="margin-bottom: 10px">
+                    <label>Weeks</label>
 
-            <label>Weeks</label>
+                    <p class="input-helper-labs">Choose weeks when this lab session takes place. Course start date is
+                        considered the first week.</p>
 
-            <p class="input-helper-labs">Choose weeks when this lab session takes place. Course start date is considered the first week.</p>
+                    <multiselect :disabled="this.lab.id !== undefined" v-model="lab.weeks" :options="weeks"
+                                 :multiple="true"
+                                 :close-on-select="false" placeholder="Select weeks"
+                                 :clear-on-select="true" class="multiselect__width" style="width: 350px">
+                    </multiselect>
+                </div>
 
-            <multiselect :disabled="this.lab.id !== undefined" v-model="lab.weeks" :options="weeks" :multiple="true"
-                         :close-on-select="false" placeholder="Select weeks"
-                         :clear-on-select="true" class="multiselect__width" style="width: 350px">
-            </multiselect>
-
-        </div>
-
-    </fieldset>
+            </v-container>
+        </v-card>
 
 </template>
 
 <script>
-    import { Translate } from '../../../../../mixins';
+    import {Translate} from '../../../../../mixins';
     import Multiselect from 'vue-multiselect';
 
     export default {
-        mixins: [ Translate ],
+        mixins: [Translate],
 
-        components: { Multiselect },
+        components: {Multiselect},
 
         data() {
             return {

@@ -1,27 +1,40 @@
 <template>
     <div>
-        <page-title :title="'Charon settings editing'"></page-title>
-        <charon-settings-editing-section :charon="charon" :labs="labs"></charon-settings-editing-section>
-        <div class="btn-container btn-container-left">
-            <button v-on:click="saveClicked" class="btn-labs btn-save-labs">Save</button>
-        </div>
+        <v-card class="mb-16 pl-4">
+            <v-card-title>Edit Charon settings</v-card-title>
+        </v-card>
 
-        <div class="btn-container btn-container-right">
-            <router-link to="/charonSettings"><button class="btn-labs btn-cancel-labs">Cancel</button></router-link>
-        </div>
+        <popup-section title="Charon Settings"
+                       subtitle="Here are the general settings for each charon.">
+            <v-card class="mx-auto" outlined light raised>
+                <v-container class="spacing-playground pa-3" fluid>
+                    <charon-settings-editing-section :charon="charon" :labs="labs"></charon-settings-editing-section>
+
+                    <v-btn class="ma-2" small tile outlined color="primary"
+                           @click="saveClicked">
+                        Save
+                    </v-btn>
+
+                    <v-btn class="ma-2" small tile outlined color="error" @click="cancelClicked">
+                        Cancel
+                    </v-btn>
+
+                </v-container>
+            </v-card>
+        </popup-section>
     </div>
 </template>
 
 <script>
+    import {PopupSection} from '../layouts/index'
     import {mapState} from "vuex";
     import CharonSettingsEditingSection from "../sections/CharonSettingsEditingSection";
     import Lab from "../../../api/Lab";
     import Charon from "../../../api/Charon";
-    import PageTitle from "../partials/PageTitle";
 
     export default {
         name: "charon-settings-editing-page",
-        components: { CharonSettingsEditingSection, PageTitle },
+        components: {CharonSettingsEditingSection, PopupSection},
         data() {
             return {
                 labs: []
@@ -68,6 +81,10 @@
                     month = "0" + month
                 }
                 return date.getDate() + '.' + month + '.' + date.getFullYear()
+            },
+
+            cancelClicked() {
+                window.location = "popup#/charonSettings";
             },
         },
         computed: {

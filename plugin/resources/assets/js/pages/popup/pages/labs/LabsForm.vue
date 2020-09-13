@@ -1,29 +1,37 @@
 <template>
     <div>
-        <lab-info-section :lab_given="lab" :teachers="teachers"></lab-info-section>
-        <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
-        <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
-            Save
-        </v-btn>
-        <v-btn class="ma-2" tile outlined color="warning" @click="saveClicked">
-            <router-link to="/labs">
-                <button>Cancel</button>
-            </router-link>
-        </v-btn>
+        <v-card class="mb-16 pl-4">
+            <v-card-title>Lab settings</v-card-title>
+        </v-card>
 
+        <popup-section title="Edit Lab Settings"
+                       subtitle="Here are the specifics for each Charon.">
+            <lab-info-section :lab_given="lab" :teachers="teachers"></lab-info-section>
+
+            <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
+
+            <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
+                Save
+            </v-btn>
+
+            <v-btn class="ma-2" tile outlined color="error" @click="cancelClicked">
+                Cancel
+            </v-btn>
+        </popup-section>
     </div>
 </template>
 
 <script>
+    import {PopupSection} from '../../layouts/index'
     import LabInfoSection from "./sections/LabInfoSection";
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
-    import User from "../../../../api/User";
+    import Teacher from "../../../../api/Teacher";
 
     export default {
 
-        components: {LabInfoSection, AddMultipleLabsSection},
+        components: {LabInfoSection, AddMultipleLabsSection, PopupSection},
 
         data() {
             return {
@@ -99,7 +107,7 @@
             ]),
         },
         mounted() {
-            User.getTeachers(this.course.id, (response) => {
+            Teacher.getAllTeachers(this.course.id, (response) => {
                 this.teachers = response;
                 this.giveTeachersFullNames();
             })

@@ -1,21 +1,20 @@
 <template>
-    <div class="section">
 
-        <div class="section-header bottom-border-separator">
-            <div class="section-header-text">
-                <h4 class="title is-4" v-html="title"></h4>
-                <h6 class="subtitle is-6" v-html="subtitle"></h6>
-            </div>
-            <div class="section-header-right">
-                <slot name="header-right"></slot>
-            </div>
-        </div>
-
-        <div class="section-body">
-            <slot></slot>
-        </div>
-
-    </div>
+    <v-card class="mx-auto mb-16">
+        <v-system-bar color="blue"></v-system-bar>
+        <v-toolbar flat>
+            <v-toolbar-title v-html="title"></v-toolbar-title>
+            <v-spacer></v-spacer>
+            <slot name="header-right"></slot>
+        </v-toolbar>
+        <v-banner class="pa-3" sticky v-html="subtitle">
+        </v-banner>
+        <v-card-text class="grey lighten-4">
+            <v-container class="spacing-playground pa-3" fluid>
+                <slot></slot>
+            </v-container>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>
@@ -23,7 +22,7 @@
         props: {
             name: "popup-section",
 
-            title: { required: true },
+            title: {required: true},
             subtitle: {
                 required: false,
                 default: ''
@@ -32,13 +31,3 @@
     }
 </script>
 
-<style lang="scss">
-
-    .section-title-link {
-
-        &:hover {
-            color: #4f5f6f;
-        }
-    }
-
-</style>

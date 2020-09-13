@@ -1,15 +1,16 @@
 <template>
     <div>
-        <page-title :title="'Charon settings'"></page-title>
+        <v-card class="mb-16 pl-4">
+            <v-card-title>Charon settings</v-card-title>
+        </v-card>
+
         <charon-settings-section :charons="charons"></charon-settings-section>
 
-        <page-title :title="'Tester types'"></page-title>
         <tester-type-section :testerTypes="testerTypes" :course-id="this.course.id"></tester-type-section>
     </div>
 </template>
 
 <script>
-    import PageTitle from "../partials/PageTitle";
     import CharonSettingsSection from "../sections/CharonSettingsSection";
     import TesterTypeSection from "../sections/TesterTypeSection";
     import Charon from "../../../api/Charon";
@@ -18,7 +19,7 @@
 
     export default {
         name: "defense-settings-page",
-        components: {PageTitle, CharonSettingsSection, TesterTypeSection},
+        components: {CharonSettingsSection, TesterTypeSection},
         data() {
             return {
                 charons: [],

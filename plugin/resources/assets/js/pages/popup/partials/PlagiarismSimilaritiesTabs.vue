@@ -1,31 +1,17 @@
 <template>
 
-    <v-card
-            class="mx-auto"
-            outlined
-            light
-            raised
-            shaped
-    >
-        <v-container
-                class="spacing-playground pa-3"
-                fluid
-        >
-            <charon-tabs
-                    class="popup-tabs"
-                    id="tabs"
-            >
+    <v-card class="mx-auto" outlined light raised>
+        <v-container class="spacing-playground pa-3" fluid>
+            <charon-tabs class="popup-tabs" id="tabs">
 
                 <charon-tab
                         v-for="(similarity, index) in similarities"
                         :name="similarity.name"
                         :key="similarity.name"
-                        :selected="index === 0"
-                >
+                        :selected="index === 0">
                     <h4
                             class="title  is-4  has-text-centered  state-message"
-                            v-if="similarity.state === 'PLAGIARISM_SERVICE_FAILED'"
-                    >
+                            v-if="similarity.state === 'PLAGIARISM_SERVICE_FAILED'">
                         Plagiarism service
                         <strong class="has-text-weight-semibold">
                             {{similarity.name}}
@@ -34,23 +20,19 @@
                     </h4>
                     <h4
                             class="title  is-4  has-text-centered  state-message"
-                            v-if="similarity.state === 'PLAGIARISM_SERVICE_PROCESSING'"
-                    >
+                            v-if="similarity.state === 'PLAGIARISM_SERVICE_PROCESSING'">
                         Plagiarism service
                         <strong class="has-text-weight-semibold">
                             {{similarity.name}}
                         </strong>
                         is processing.
                     </h4>
-                    <div
-                            v-if="similarity.state === 'PLAGIARISM_SERVICE_SUCCESS'"
-                    >
+                    <div v-if="similarity.state === 'PLAGIARISM_SERVICE_SUCCESS'">
                         <h5 class="title  is-5  similarity-link">
                             <a
                                     :href="similarity.link"
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                            >
+                                    rel="noopener noreferrer">
                                 Link to service
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M0 0h24v24H0z" fill="none"/>

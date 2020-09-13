@@ -1,71 +1,61 @@
 <template>
-    <h1
-            class="title is-bold is-3 page-title bottom-border-separator"
-            :class="{ 'title--with-right': $slots.default }"
-    >
-        <template v-if="hasRight">
-            <h1>{{ currentTitle }}</h1>
-            <div>
-                <slot></slot>
-            </div>
-        </template>
-        <template v-else>
-            <div>
-                {{ currentTitle }}
-                <div v-if="this.student" style="vertical-align: text-bottom;" class="is-inline-block student-groups">
-
-                    <v-chip v-if="totalPointsLabel"
-                            class="ma-2"
-                            color="primary"
-                    >
-                        {{totalPointsLabel}}
-                    </v-chip>
-
+    <v-card class="mb-16 pl-4">
+        <v-row>
+            <v-card-title>{{ currentTitle }}</v-card-title>
+            <template v-if="hasRight">
+                <div>
+                    <slot></slot>
                 </div>
+            </template>
+            <template v-else>
+                <div>
+                    <div v-if="this.student" style="vertical-align: text-bottom;"
+                         class="is-inline-block student-groups">
 
-                <v-col justify="center">
+                        <v-chip v-if="totalPointsLabel" class="ma-2" color="primary">
+                            {{totalPointsLabel}}
+                        </v-chip>
+                    </div>
+                    <v-expansion-panels popout>
+                        <v-expansion-panel
+                                v-for="group in groupsDirect"
+                                :key="group.name"
+                        >
+                            <v-expansion-panel-header>{{group.name}}</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-list>
+                                    <template v-for="member in group.members">
+                                        <v-list-item
+                                                :key="member.username"
+                                                @click="doCopy(member.username)"
+                                        >
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{member.firstname}} {{member.lastname}}
+                                                    ({{member.username}})
+                                                </v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </template>
+                                </v-list>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </div>
+            </template>
+        </v-row>
 
-                    <v-row>
-                        <v-expansion-panels popout>
-                            <v-expansion-panel
-                                    v-for="group in groupsDirect"
-                                    :key="group.name"
-                            >
-                                <v-expansion-panel-header>{{group.name}}</v-expansion-panel-header>
-                                <v-expansion-panel-content>
-                                    <v-list>
-                                        <template v-for="member in group.members">
-                                            <v-list-item
-                                                    :key="member.username"
-                                                    @click="doCopy(member.username)"
-                                            >
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{member.firstname}} {{member.lastname}}
-                                                        ({{member.username}})
-                                                    </v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </template>
-                                    </v-list>
-                                </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-expansion-panels>
-                    </v-row>
-                </v-col>
-            </div>
+    </v-card>
 
-        </template>
-    </h1>
+
 </template>
 
 <script>
-    import {mapState, mapGetters} from "vuex";
-    import VueTippy, {TippyComponent} from "vue-tippy";
+    import {mapState} from "vuex";
+    import {TippyComponent} from "vue-tippy";
 
     export default {
         components: {TippyComponent},
-        data: () => ({
-        }),
+        data: () => ({}),
         props: {
             title: {
                 required: false,

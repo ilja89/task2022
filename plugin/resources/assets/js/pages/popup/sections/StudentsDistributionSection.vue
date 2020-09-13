@@ -1,19 +1,8 @@
 <template>
-    <popup-section
-            title="Students distribution"
-            subtitle="Distribution of students over their max grade for this course."
-    >
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+    <popup-section title="Students distribution"
+                   subtitle="Distribution of students over their max grade for this course.">
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <table class="table  is-fullwidth  is-striped">
                     <thead>
                     <tr>

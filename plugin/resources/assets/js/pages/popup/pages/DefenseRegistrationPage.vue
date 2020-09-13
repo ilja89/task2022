@@ -1,13 +1,16 @@
 <template>
     <div>
-        <page-title :title="'Defense registrations'"></page-title>
-        <defense-registrations-section :defense-list="defenseList" :apply="apply" :teachers="teachers"></defense-registrations-section>
+        <v-card class="mb-16 pl-4">
+            <v-card-title>Registrations</v-card-title>
+        </v-card>
+
+        <defense-registrations-section :defense-list="defenseList" :apply="apply" :teachers="teachers"/>
     </div>
+
 </template>
 
 <script>
 
-    import PageTitle from "../partials/PageTitle";
     import DefenseRegistrationsSection from "../sections/DefenseRegistrationsSection";
     import {mapState} from "vuex";
     import Defense from "../../../api/Defense";
@@ -15,7 +18,7 @@
 
     export default {
         name: "defense-registrations-page",
-        components: { PageTitle, DefenseRegistrationsSection },
+        components: {DefenseRegistrationsSection},
         data() {
             return {
                 defenseList: [],

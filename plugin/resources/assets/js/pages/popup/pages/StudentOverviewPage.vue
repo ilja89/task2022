@@ -2,27 +2,14 @@
     <div class="student-overview-container">
         <page-title :student="student"></page-title>
 
-        <popup-section
-                title="Grades report"
-                subtitle="Grading report for the current student."
-        >
+        <popup-section title="Grades report"
+                       subtitle="Grading report for the current student.">
 
-            <v-card
-                    class="mx-auto"
-                    outlined
-                    light
-                    raised
-                    shaped
-            >
-                <v-container
-                        class="spacing-playground pa-3"
-                        fluid
-                >
+            <v-card class="mx-auto" outlined light raised>
+                <v-container class="spacing-playground pa-3" fluid>
                     <div class="student-overview-card" v-html="table"></div>
                 </v-container>
             </v-card>
-
-
 
         </popup-section>
     </div>
@@ -30,13 +17,12 @@
 
 <script>
     import {mapState, mapGetters, mapActions} from 'vuex'
-    import {PageTitle} from '../partials'
     import {User} from '../../../api'
     import {PopupSection} from '../layouts'
 
     export default {
 
-        components: {PageTitle, PopupSection},
+        components: {PopupSection},
 
         data() {
             return {

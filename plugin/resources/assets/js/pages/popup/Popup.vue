@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app style="background: lightgray">
         <v-main>
 
             <popup-header/>
@@ -10,28 +10,22 @@
 
             <loader :visible="loaderVisible !== 0"/>
 
-            <v-snackbar
-                    top
-                    right
-                    multi-line
-                    absolute
-                    shaped
-                    v-model="notification.show"
-                    :timeout="notification.timeout"
-            >
+            <v-snackbar top right multi-line absolute shaped v-model="notification.show"
+                        :timeout="notification.timeout">
                 {{ notification.text }}
 
                 <template v-slot:action="{ attrs }">
-                    <v-btn
-                            color="blue"
-                            text
-                            v-bind="attrs"
-                            @click="notification.show = false"
-                    >
+                    <v-btn color="blue" text v-bind="attrs" @click="notification.show = false">
                         Close
                     </v-btn>
                 </template>
             </v-snackbar>
+
+            <v-footer absolute class="font-weight-medium">
+                <v-col class="text-center" cols="12">
+                    {{ new Date().getFullYear() }} — <strong>Charon</strong>
+                </v-col>
+            </v-footer>
         </v-main>
     </v-app>
 </template>

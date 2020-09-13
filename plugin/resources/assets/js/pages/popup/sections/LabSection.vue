@@ -1,16 +1,10 @@
 <template>
-    <div class="lab">
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+    <popup-section
+            title="Labs overview"
+            subtitle="Here are the the labs where students can show their code."
+    >
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <table class="table  is-fullwidth  is-striped  submission-counts__table">
                     <thead>
                     <tr>
@@ -45,18 +39,23 @@
                 <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add</v-btn>
             </v-container>
         </v-card>
-    </div>
+    </popup-section>
 </template>
 
 <script>
+    import {PopupSection} from '../layouts/index'
     import {mapActions, mapState} from "vuex";
     import Lab from "../../../api/Lab";
 
     export default {
-        name: "LabSection.vue",
+        name: "lab-section",
+
+        components: {PopupSection},
+
         props: {
             labs: {required: true}
         },
+
         data() {
             return {
                 previous_param: null,

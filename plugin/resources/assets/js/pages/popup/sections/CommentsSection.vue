@@ -1,17 +1,8 @@
 <template>
-    <popup-section
-            title="Comments"
-            subtitle="Comments are for every Charon and student."
-    >
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container class="spacing-playground pa-3"
-                         fluid>
+    <popup-section title="Comments"
+                   subtitle="Comments are for every Charon and student.">
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <ul>
                     <li v-for="comment in comments" class="comment">
                         <span class="comment-author">
@@ -25,13 +16,8 @@
                          fluid>
 
                 <v-row>
-                    <input
-                            type="text"
-                            placeholder="Write a comment..."
-                            class="comment-input"
-                            v-model="writtenComment"
-                            @keyup.enter="saveComment"
-                    >
+                    <input type="text" placeholder="Write a comment..."
+                           class="comment-input" v-model="writtenComment" @keyup.enter="saveComment">
                     <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
                 </v-row>
             </v-container>

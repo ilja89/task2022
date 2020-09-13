@@ -1,13 +1,8 @@
 <template>
 
-    <div class="lab">
-
-        <v-alert
-                :value="alert"
-                border="left"
-                color="error"
-                outlined
-        >
+    <popup-section title="Charon Settings"
+                   subtitle="Here are the general settings for each charon.">
+        <v-alert :value="alert" border="left" color="error" outlined>
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
                     <md-icon>warning</md-icon>
@@ -27,17 +22,8 @@
             </v-row>
         </v-alert>
 
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <table class="table  is-fullwidth  is-striped  submission-counts__table">
                     <thead>
                     <tr>
@@ -72,11 +58,11 @@
                 </table>
             </v-container>
         </v-card>
-
-    </div>
+    </popup-section>
 </template>
 
 <script>
+    import {PopupSection} from '../layouts/index'
     import {mapActions} from "vuex";
     import {Charon} from "../../../api";
 
@@ -87,9 +73,13 @@
                 charon_id: 0
             }
         },
+
+        components: {PopupSection},
+
         props: {
             charons: {required: true}
         },
+
         methods: {
             ...mapActions(["updateCharon"]),
 

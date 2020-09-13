@@ -1,20 +1,8 @@
 <template>
-    <popup-section
-            title="Submission counts"
-            subtitle="Submission counts and averages for Charons."
-    >
-        <v-card
-                class="mx-auto"
-                outlined
-                hover
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+    <popup-section title="Submission counts"
+                   subtitle="Submission counts and averages for Charons.">
+        <v-card class="mx-auto" outlined hover light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <table class="table  is-fullwidth  is-striped  submission-counts__table">
                     <thead>
                     <tr>

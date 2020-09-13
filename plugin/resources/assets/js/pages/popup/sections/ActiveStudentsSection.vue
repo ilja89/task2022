@@ -1,8 +1,6 @@
 <template>
-    <popup-section
-            title="Active students"
-            subtitle="Choose a time period to see active users"
-    >
+    <popup-section title="Active students"
+                   subtitle="Choose a time period to see active users">
         <template slot="header-right">
             <popup-select
                     name="period"
@@ -13,22 +11,10 @@
             />
         </template>
 
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <div class="columns">
-                    <div
-                            v-for="studentChunk in studentsChunks"
-                            class="column"
-                    >
+                    <div v-for="studentChunk in studentsChunks" class="column">
                         <ul class="active-students__list">
                             <li v-for="student in studentChunk">
                                 <router-link :to="'/grading/' + student.id">

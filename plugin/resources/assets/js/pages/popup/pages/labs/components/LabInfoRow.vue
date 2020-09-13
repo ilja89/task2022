@@ -1,44 +1,49 @@
 <template>
-    <div class="labs-row is-flex">
-        <div class="labs-field">
-            <label class="required">Start</label>
-            <p class="input-helper-labs">Start date and time.</p>
-            <datepicker :datetime="lab_given.start"></datepicker>
-            <input type="hidden" :value="lab_given.start">
-        </div>
+    <v-form>
+        <v-container>
+            <v-row>
 
-        <div class="labs-field">
-            <label class="required">End</label>
-            <p class="input-helper-labs">End time.</p>
-            <datepicker :to_be_checked="true" :datetime="lab_given.end"></datepicker>
-            <input type="hidden" :value="lab_given.end">
-        </div>
+                <v-col cols="12" sm="6" md="6" lg="4">
+                    <div class="labs-field">
+                        <p>Start date and time</p>
+                        <datepicker :datetime="lab_given.start"></datepicker>
+                        <input type="hidden" :value="lab_given.start">
+                    </div>
+                </v-col>
 
-        <div class="labs-field is-flex-1">
-            <label >Teachers</label>
+                <v-col cols="12" sm="6" md="6" lg="4">
+                    <div class="labs-field">
+                        <p>End time</p>
+                        <datepicker :to_be_checked="true" :datetime="lab_given.end"></datepicker>
+                        <input type="hidden" :value="lab_given.end">
+                    </div>
+                </v-col>
 
-            <p class="input-helper-labs">Teachers attending this lab session.</p>
+                <v-col cols="12" sm="12" md="12" lg="4">
+                    <div class="labs-field is-flex-1">
+                        <p>Teachers attending this lab session</p>
+                        <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="full_name"
+                                     :close-on-select="false" placeholder="Select teachers" trackBy="id"
+                                     :clear-on-select="true" style="width: 300px">
+                        </multiselect>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-form>
 
-            <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="full_name"
-                         :close-on-select="false" placeholder="Select teachers" trackBy="id"
-                         :clear-on-select="true" style="width: 300px">
-            </multiselect>
-
-        </div>
-
-    </div>
 </template>
 
 <script>
-    import { Datepicker } from '../../../../../components/partials';
-    import { Translate } from '../../../../../mixins';
-    import { CharonSelect } from '../../../../../components/form';
+    import {Datepicker} from '../../../../../components/partials';
+    import {Translate} from '../../../../../mixins';
+    import {CharonSelect} from '../../../../../components/form';
     import Multiselect from 'vue-multiselect';
 
     export default {
-        mixins: [ Translate ],
+        mixins: [Translate],
 
-        components: { Datepicker, CharonSelect, Multiselect },
+        components: {Datepicker, CharonSelect, Multiselect},
 
         props: {
             lab_given: {required: true},

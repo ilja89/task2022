@@ -1,32 +1,25 @@
 <template>
+    <v-card class="mx-auto mb-16" outlined light raised>
+        <v-container class="spacing-playground pa-3" fluid>
 
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-        <div v-if="show_info" class="topic-open">
-            <legend v-on:click="show_info = !show_info" class="ftoggler">Lab info</legend>
-        </div>
-        <div v-else class="topic-closed">
-            <legend v-on:click="show_info = !show_info" class="ftoggler">Lab info</legend>
-        </div>
+            <div class="fcontainer clearfix fitem">
 
-        <div v-if="show_info" class="fcontainer clearfix fitem">
+                <lab-info-row :lab_given="lab_given" :teachers="teachers">
+                </lab-info-row>
 
-            <lab-info-row :lab_given="lab_given" :teachers="teachers">
-            </lab-info-row>
-
-        </div>
-
-    </fieldset>
-
+            </div>
+        </v-container>
+    </v-card>
 </template>
 
 <script>
-    import { Translate } from '../../../../../mixins';
+    import {Translate} from '../../../../../mixins';
     import LabInfoRow from "../components/LabInfoRow";
 
     export default {
-        mixins: [ Translate ],
+        mixins: [Translate],
 
-        components: { LabInfoRow },
+        components: {LabInfoRow},
 
         data() {
             return {

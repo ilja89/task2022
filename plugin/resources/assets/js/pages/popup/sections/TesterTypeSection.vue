@@ -1,18 +1,12 @@
 <template>
 
-    <div class="lab">
+    <popup-section
+            title="Tester Types"
+            subtitle="Here are all the tester types."
+    >
 
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container
-                    class="spacing-playground pa-3"
-                    fluid
-            >
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <v-row>
                     <v-col>
                         <table class="table  is-fullwidth  is-striped  submission-counts__table">
@@ -39,14 +33,14 @@
                     </v-col>
                     <v-col>
                         <v-text-field
-                                v-model="firstname"
+                                v-model="tester_name"
                                 :rules="nameRules"
                                 :counter="20"
-                                label="First name"
+                                label="Tester type"
                                 required
                         ></v-text-field>
                         <v-btn class="ma-2" small tile outlined color="primary"
-                               @click="addTesterType(firstname)">
+                               @click="addTesterType(tester_name)">
                             Add
                         </v-btn>
                     </v-col>
@@ -54,10 +48,11 @@
             </v-container>
         </v-card>
 
-    </div>
+    </popup-section>
 </template>
 
 <script>
+    import {PopupSection} from '../layouts/index'
     import {Course} from "../../../api";
 
     export default {
@@ -72,10 +67,14 @@
                 charon_id: 0
             }
         },
+
+        components: {PopupSection},
+
         props: {
             testerTypes: {required: true},
             courseId: {required: true}
         },
+
         methods: {
 
             editClicked(charon) {

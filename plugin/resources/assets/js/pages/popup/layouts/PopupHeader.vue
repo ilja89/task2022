@@ -10,8 +10,6 @@
             <md-icon>menu</md-icon>
         </v-app-bar-nav-icon>
 
-        <div class="ttu-logo"></div>
-
         <v-toolbar-title>
             {{ getCourseName() }}
         </v-toolbar-title>

@@ -4,18 +4,10 @@
             title="Students report"
             subtitle="Search in all students submissions in this course.
                      <br/>
-                     <br/> For activating preset period or period selected from calendar click on filter and press enter."
-    >
+                     <br/> For activating preset period or period selected from calendar click on filter and press enter.">
 
-        <v-card
-                class="mx-auto"
-                outlined
-                light
-                raised
-                shaped
-        >
-            <v-container class="spacing-playground pa-3"
-                         fluid>
+        <v-card class="mx-auto" outlined light raised>
+            <v-container class="spacing-playground pa-3" fluid>
                 <vue-good-table ref="reportTable"
                                 :columns="columns"
                                 :rows="rows"

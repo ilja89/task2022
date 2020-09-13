@@ -1,16 +1,18 @@
 <template>
     <div>
-        <page-title title="Labs"></page-title>
-        <LabSection v-bind:labs="labs"/>
+        <v-card class="mb-16 pl-4">
+            <v-card-title>Labs</v-card-title>
+        </v-card>
+
+        <lab-section v-bind:labs="labs"/>
     </div>
+
 </template>
 
 <script>
-    import { PageTitle } from '../partials'
-    import { LabSection } from '../sections'
+    import {LabSection} from '../sections'
     import {mapState} from "vuex";
     import Lab from "../../../api/Lab";
-    import User from "../../../api/User";
 
     export default {
         name: "labs-page",
@@ -21,9 +23,7 @@
             }
         },
 
-        components: {
-            PageTitle, LabSection
-        },
+        components: {LabSection},
         mounted() {
             Lab.all(this.course.id, response => {
                 this.formatLabs(response, (done) => {
