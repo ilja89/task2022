@@ -63,7 +63,7 @@ class HttpCommunicationService
         try {
             $client->request(
                 $method, $testerUrl,
-                ['teachers_headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
+                ['headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
             );
         } catch (RequestException $e) {
             Log::error(
