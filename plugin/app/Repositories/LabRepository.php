@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -50,30 +51,27 @@ class LabRepository
     public function save($start, $end, $courseId, $teachers, $weeks) {
         $allStartDatesForLabs = array();
         if ($weeks) {
+            $labStartCarbon = Carbon::parse($start);
+            $labEndCarbon = Carbon::parse($end);
+
+            // hard limits the lab length to 23h 59 mins
+            $labLength = CarbonInterval::hours($labStartCarbon->diffInHours($labEndCarbon) % 24)
+                ->minutes($labStartCarbon->diffInMinutes($labEndCarbon) % 60);
+
             $courseStartTimestamp = \DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
-            $courseStartDate = date('d-m-Y H:i:s', $courseStartTimestamp);
-            $secondsInAMinute = 60;
-            $secondsInAnHour = $secondsInAMinute * 60;
-            $secondsInADay = $secondsInAnHour * 24;
-            $secondsInAWeek = $secondsInADay * 7;
-            $hoursToAddToStart = intval(Carbon::parse($start)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
-            $hoursToAddToEnd = intval(Carbon::parse($end)->format('H')) - intval(Carbon::parse($courseStartDate)->format('H'));
-            $minutesToAddToStart = intval(Carbon::parse($start)->format('i')) - intval(Carbon::parse($courseStartDate)->format('i'));
-            $minutesToAddToEnd = intval(Carbon::parse($end)->format('i')) - intval(Carbon::parse($courseStartDate)->format('i'));
-            $daysLabStart = intval(Carbon::parse($start)->format('w'));
-            $daysCourseStart = intval(Carbon::parse($courseStartDate)->format('w'));
-            $daysDiffToAdd = $daysLabStart - $daysCourseStart;
+            $courseStartCarbon = Carbon::createFromTimestamp($courseStartTimestamp)->startOfWeek();
+
+            $firstWeekLabStart = $courseStartCarbon->copy()->addDays($courseStartCarbon->diffInDays($labStartCarbon) % 7);
+            $firstWeekLabStart->hour = $labStartCarbon->hour;
+            $firstWeekLabStart->minute = $labStartCarbon->minute;
+
             foreach ($weeks as $week) {
-                $thisLabStartDate = date('d-m-Y H:i:s', $courseStartTimestamp
-                    + ($week - 1) * $secondsInAWeek +
-                    $daysDiffToAdd * $secondsInADay +
-                    $hoursToAddToStart * $secondsInAnHour +
-                    $minutesToAddToStart * $secondsInAMinute);
-                $thisLabEndDate = date('d-m-Y H:i:s', $courseStartTimestamp
-                    + ($week - 1) * $secondsInAWeek +
-                    $daysDiffToAdd * $secondsInADay +
-                    $hoursToAddToEnd * $secondsInAnHour +
-                    $minutesToAddToEnd * $secondsInAMinute);
+                $thisLabCarbonStart = $firstWeekLabStart->copy()->addWeeks($week - 1);
+                $thisLabCarbonEnd = $thisLabCarbonStart->copy()->add($labLength);
+
+                $thisLabStartDate = date('d-m-Y H:i:s', $thisLabCarbonStart->timestamp);
+                $thisLabEndDate = date('d-m-Y H:i:s', $thisLabCarbonEnd->timestamp);
+
                 $lab = Lab::create([
                     'start' => Carbon::parse($thisLabStartDate)->format('Y-m-d H:i:s'),
                     'end' => Carbon::parse($thisLabEndDate)->format('Y-m-d H:i:s'),
