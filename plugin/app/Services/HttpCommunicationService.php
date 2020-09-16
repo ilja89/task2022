@@ -122,7 +122,7 @@ class HttpCommunicationService
             return $client->request(
                 $method,
                 "/{$uri}",
-                ['json' => $data, 'teachers_headers' => $headers]
+                ['json' => $data, 'headers' => $headers]
             );
         } catch (RequestException $e) {
             Log::error(
