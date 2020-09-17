@@ -78,6 +78,13 @@ class LabTeacherRepository
             ->delete();
     }
 
+    public function deleteByLabAndTeacherId($labId, $teacherId) {
+        return DB::table('charon_lab_teacher')
+            ->where('lab_id', $labId)
+            ->where('teacher_id', $teacherId)
+            ->delete();
+    }
+
     public function getTeacherForStudent($studentId)
     {
         $group = \DB::table('user')

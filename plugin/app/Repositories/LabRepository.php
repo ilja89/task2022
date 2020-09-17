@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
@@ -49,15 +50,17 @@ class LabRepository
      * @return boolean
      */
     public function save($start, $end, $courseId, $teachers, $weeks) {
-        $allStartDatesForLabs = array();
+        $allCarbonStartDatesForLabs = array();
+
+        $labStartCarbon = Carbon::parse($start);
+        $labEndCarbon = Carbon::parse($end);
+
+        $this->validateLab($teachers, $courseId, $labStartCarbon, $labEndCarbon);
+
+        $labLength = CarbonInterval::hours($labStartCarbon->diffInHours($labEndCarbon))
+            ->minutes($labStartCarbon->diffInMinutes($labEndCarbon) % 60);
+
         if ($weeks) {
-            $labStartCarbon = Carbon::parse($start);
-            $labEndCarbon = Carbon::parse($end);
-
-            // hard limits the lab length to 23h 59 mins
-            $labLength = CarbonInterval::hours($labStartCarbon->diffInHours($labEndCarbon) % 24)
-                ->minutes($labStartCarbon->diffInMinutes($labEndCarbon) % 60);
-
             $courseStartTimestamp = \DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
             $courseStartCarbon = Carbon::createFromTimestamp($courseStartTimestamp)->startOfWeek();
 
@@ -66,40 +69,25 @@ class LabRepository
             $firstWeekLabStart->minute = $labStartCarbon->minute;
 
             foreach ($weeks as $week) {
-                $thisLabCarbonStart = $firstWeekLabStart->copy()->addWeeks($week - 1);
-                $thisLabCarbonEnd = $thisLabCarbonStart->copy()->add($labLength);
-
-                $thisLabStartDate = date('d-m-Y H:i:s', $thisLabCarbonStart->timestamp);
-                $thisLabEndDate = date('d-m-Y H:i:s', $thisLabCarbonEnd->timestamp);
-
-                $lab = Lab::create([
-                    'start' => Carbon::parse($thisLabStartDate)->format('Y-m-d H:i:s'),
-                    'end' => Carbon::parse($thisLabEndDate)->format('Y-m-d H:i:s'),
-                    'course_id' => $courseId
-                ]);
-                $allStartDatesForLabs[] = $thisLabStartDate;
-                for ($i = 0; $i < count($teachers); $i++) {
-                    $labTeacher = LabTeacher::create([
-                        'lab_id' => $lab->id,
-                        'teacher_id' => $teachers[$i]
-                    ]);
-                    $labTeacher->save();
-                }
-                $lab->save();
+                $allCarbonStartDatesForLabs[] = $firstWeekLabStart->copy()->addWeeks($week - 1);
             }
         }
-        if (!in_array(Carbon::parse($start)->format('d-m-Y H:i:s'), $allStartDatesForLabs)) {
+
+        if (!in_array($labStartCarbon, $allCarbonStartDatesForLabs)) {
+            $allCarbonStartDatesForLabs[] = $labStartCarbon;
+        }
+
+        foreach ($allCarbonStartDatesForLabs as $labStartDate) {
             $lab = Lab::create([
-                'start'  => Carbon::parse($start)->format('Y-m-d H:i:s'),
-                'end' => Carbon::parse($end)->format('Y-m-d H:i:s'),
+                'start' => $labStartDate->format('Y-m-d H:i:s'),
+                'end' => $labStartDate->copy()->add($labLength)->format('Y-m-d H:i:s'),
                 'course_id' => $courseId
             ]);
-            for ($i = 0; $i < count($teachers); $i++) {
-                $labTeacher = LabTeacher::create([
+            foreach ($teachers as $teacher) {
+                LabTeacher::create([
                     'lab_id' => $lab->id,
-                    'teacher_id' => $teachers[$i]
-                ]);
-                $labTeacher->save();
+                    'teacher_id' => $teacher
+                ])->save();
             }
             $lab->save();
         }
@@ -157,24 +145,43 @@ class LabRepository
      * @param Carbon $newStart
      * @param Carbon $newEnd
      *
-     * @param $teachers
+     * @param $newTeachers
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $teachers)
+    public function update($oldLabId, $newStart, $newEnd, $newTeachers)
     {
+        $newStartCarbon = Carbon::parse($newStart);
+        $newEndCarbon = Carbon::parse($newEnd);
         $oldLab = Lab::find($oldLabId);
-        $oldLab->start = Carbon::parse($newStart)->format('Y-m-d H:i:s');
-        $oldLab->end = Carbon::parse($newEnd)->format('Y-m-d H:i:s');
 
-        // delete prev lab teachers
-        $this->labTeacherRepository->deleteByLabId($oldLab->id);
-        for ($i = 0; $i < count($teachers); $i++) {
-            $labTeacher = LabTeacher::create([
-                'lab_id' => $oldLab->id,
-                'teacher_id' => $teachers[$i]
-            ]);
-            $labTeacher->save();
+        $this->validateLab($newTeachers, $oldLab->course_id, $newStartCarbon, $newEndCarbon);
+
+        $oldLab->start = $newStartCarbon->format('Y-m-d H:i:s');
+        $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
+
+        $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabId($oldLab->course_id, $oldLabId);
+
+        foreach ($oldLabTeachers as $oldLabTeacher) {
+            if (!in_array($oldLabTeacher->id, $newTeachers)) {
+                $this->labTeacherRepository->deleteByLabAndTeacherId($oldLabId, $oldLabTeacher->id);
+            }
         }
+
+        $oldLabTeacherIds = array_map(
+            function($a) {
+                return $a->id;
+            },
+            $oldLabTeachers->toArray()
+        );
+        foreach ($newTeachers as $newTeacherId) {
+            if (!in_array($newTeacherId, $oldLabTeacherIds)) {
+                LabTeacher::create([
+                    'lab_id' => $oldLab->id,
+                    'teacher_id' => $newTeacherId
+                ])->save();
+            }
+        }
+
         $oldLab->save();
         return $oldLab;
     }
@@ -219,4 +226,38 @@ class LabRepository
             ->get();
         return $labs;
     }
+
+    /**
+     * Validate lab times and teachers. Throw http exceptions when validation not passed.
+     *
+     * @param $teachers
+     * @param $courseId
+     * @return void
+     */
+    private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd) {
+        $courseTeacherIds = array_map(
+            function ($a) {
+                return $a->id;
+            },
+            $this->labTeacherRepository->getTeachersByCourseId($courseId)->toArray()
+        );
+
+        foreach ($teachers as $teacher) {
+            if (!in_array($teacher, $courseTeacherIds)) {
+                throw new BadRequestHttpException("Lab teachers have to be teachers in the course.");
+            }
+        }
+
+        if ($carbonEnd->lessThanOrEqualTo($carbonStart)) {
+            throw new BadRequestHttpException("Lab end has to be after lab start.");
+        }
+
+        $labLength = CarbonInterval::hours($carbonStart->diffInHours($carbonEnd))
+            ->minutes($carbonStart->diffInMinutes($carbonEnd) % 60);
+
+        if ($labLength->hours >= 24) {
+            throw new BadRequestHttpException("Lab has to be below 24 hours long.");
+        }
+    }
+
 }
