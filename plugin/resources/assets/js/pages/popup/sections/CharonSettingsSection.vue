@@ -22,42 +22,41 @@
             </v-row>
         </v-alert>
 
-        <v-card class="mx-auto" outlined light raised>
-            <v-container class="spacing-playground pa-3" fluid>
-                <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Deadline</th>
-                        <th>Duration</th>
-                        <th>Threshold</th>
-                        <th>Labs</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="charon in charons">
-                        <td>{{charon.name}}</td>
-                        <td>{{getDateFormatted(charon.defense_deadline.time)}}</td>
-                        <td>{{getDurationFormatted(charon.defense_duration)}}</td>
-                        <td>{{charon.defense_threshold}}%</td>
-                        <td>
-                            <b v-for="lab in charon.charonDefenseLabs">{{lab.name}}<b
-                                    v-if="lab !== charon.charonDefenseLabs[charon.charonDefenseLabs.length - 1]">, </b>
-                            </b>
-                        </td>
-                        <td>
-                            <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked(charon)">Edit
-                            </v-btn>
-                            <v-btn class="ma-2" small tile outlined color="error" @click="promtDeletionAlert(charon)">
-                                Delete
-                            </v-btn>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </v-container>
-        </v-card>
+        <v-card-title v-if="charons.length">
+            Charons
+            <v-spacer></v-spacer>
+            <v-text-field
+                    v-if="charons.length"
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details>
+            </v-text-field>
+        </v-card-title>
+        <v-card-title v-else>
+            No Charons for this course!
+        </v-card-title>
+
+        <v-data-table
+                v-if="charons.length"
+                :headers="charons_headers"
+                :items="charons_table"
+                :search="search">
+            <template v-slot:no-results>
+                <v-alert :value="true" color="primary" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </template>
+            <template v-slot:item.actions="{ item }">
+                <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked(item)">Edit
+                </v-btn>
+                <v-btn class="ma-2" small tile outlined color="error" @click="promtDeletionAlert(item)">
+                    Delete
+                </v-btn>
+            </template>
+        </v-data-table>
+
     </popup-section>
 </template>
 
@@ -70,7 +69,31 @@
         data() {
             return {
                 alert: false,
-                charon_id: 0
+                charon_id: 0,
+                search: '',
+                charons_headers: [
+                    {text: 'Charon', value: 'name', align: 'start'},
+                    {text: 'Deadline', value: 'formatted_date'},
+                    {text: 'Duration', value: 'formatted_duration'},
+                    {text: 'Threshold', value: 'nice_defense_threshold'},
+                    {text: 'Labs', value: 'labs_string'},
+                    {text: 'Actions', value: 'actions'}
+                ],
+            }
+        },
+
+        computed: {
+            charons_table() {
+                return this.charons.map(charon => {
+                    const container = {...charon};
+
+                    container['formatted_date'] = this.getDateFormatted(charon.defense_deadline.time);
+                    container['formatted_duration'] = this.getDurationFormatted(charon.defense_duration);
+                    container['labs_string'] = this.getLabsStringForCharon(charon.charonDefenseLabs);
+                    container['nice_defense_threshold'] = `${charon.defense_threshold}%`
+
+                    return container;
+                });
             }
         },
 
@@ -87,11 +110,13 @@
                 this.updateCharon({charon});
                 window.location = 'popup#/defSettingsEditing'
             },
+
             getDurationFormatted(duration) {
                 if (duration !== null) {
                     return duration + ' min'
                 }
             },
+
             getDateFormatted(date) {
                 if (date === null) {
                     return date
@@ -99,10 +124,12 @@
                 return date.getDate() + '.' + ('0' + (date.getMonth() + 1)).substr(-2, 2) + '.' + date.getFullYear() +
                     ' ' + ('0' + date.getHours()).substr(-2, 2) + ':' + ('0' + date.getMinutes()).substr(-2, 2)
             },
+
             getDayTimeFormat(start) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
                 return daysDict[start.getDay()] + start.getHours();
             },
+
             getNiceDate(date) {
                 let month = (date.getMonth() + 1).toString();
                 if (month.length == 1) {
@@ -110,20 +137,28 @@
                 }
                 return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
+
             getNameForLab(labStart) {
                 return this.getDayTimeFormat(new Date(labStart))
                     + ' (' + this.getDateFormatted(new Date(labStart)) + ')'
             },
+
             getThreshold(percentage) {
                 if (percentage === null) {
                     return '-'
                 }
                 return percentage + '%'
             },
+
+            getLabsStringForCharon(labs) {
+                return labs.map(x => x.name).join(', ')
+            },
+
             promtDeletionAlert(charon) {
                 this.alert = true
                 this.charon_id = charon.id
             },
+
             deleteCharon() {
                 Charon.deleteById(this.charon_id, () => {
                     this.alert = false

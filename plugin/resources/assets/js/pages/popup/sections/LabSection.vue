@@ -3,42 +3,40 @@
             title="Labs overview"
             subtitle="Here are the the labs where students can show their code."
     >
-        <v-card class="mx-auto" outlined light raised>
-            <v-container class="spacing-playground pa-3" fluid>
-                <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                    <thead>
-                    <tr>
-                        <th v-on:click="sortTable('name')">Name</th>
-                        <th v-on:click="sortTable('date')">Date</th>
-                        <th v-on:click="sortTable('time')">Time</th>
-                        <th v-on:click="sortTable('teachers')">Teachers</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="lab in labs">
-                        <th>{{getDayTimeFormat(lab.start.time)}}</th>
-                        <th>{{getNiceDate(lab.start.time)}}</th>
-                        <th>{{getNiceTime(lab.start.time)}} - {{getNiceTime(lab.end.time)}}</th>
-                        <th>
-                            <b v-for="teacher in lab.teachers">{{teacher.full_name}}<b
-                                    v-if="lab.teachers[lab.teachers.length - 1] !== teacher">, </b>
-                            </b>
-                        </th>
-                        <th>
-                            <v-btn class="ma-2" small tile outlined color="primary" @click="editLabClicked(lab)">Edit
-                            </v-btn>
-                            <v-btn class="ma-2" small tile outlined color="error" @click="deleteLabClicked(lab)">
-                                Delete
-                            </v-btn>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+        <v-card-title v-if="labs.length">
+            Labs
+            <v-spacer></v-spacer>
+            <v-text-field
+                    v-if="labs.length"
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details>
+            </v-text-field>
+        </v-card-title>
+        <v-card-title v-else>
+            No Labs for this course!
+        </v-card-title>
+        <v-data-table
+                v-if="labs.length"
+                :headers="labs_headers"
+                :items="labs_table"
+                :search="search">
 
-                <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add</v-btn>
-            </v-container>
-        </v-card>
+            <template v-slot:item.actions="{ item }">
+                <v-btn class="ma-2" small tile outlined color="primary" @click="editLabClicked(item)">Edit
+                </v-btn>
+                <v-btn class="ma-2" small tile outlined color="error" @click="deleteLabClicked(item)">
+                    Delete
+                </v-btn>
+            </template>
+            <template v-slot:no-results>
+                <v-alert :value="true" color="primary" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </template>
+        </v-data-table>
     </popup-section>
 </template>
 
@@ -58,6 +56,14 @@
 
         data() {
             return {
+                search: '',
+                labs_headers: [
+                    {text: 'Name', value: 'nice_name', align: 'start'},
+                    {text: 'Date', value: 'nice_date'},
+                    {text: 'Time', value: 'nice_time'},
+                    {text: 'Teachers', value: 'teacher_names'},
+                    {text: 'Actions', value: 'actions'},
+                ],
                 previous_param: null,
                 current_param: null
             }
@@ -68,6 +74,19 @@
             ...mapState([
                 'course'
             ]),
+
+            labs_table() {
+                return this.labs.map(lab => {
+                    const container = {...lab};
+
+                    container['nice_name'] = this.getDayTimeFormat(lab.start.time);
+                    container['nice_date'] = this.getNiceDate(lab.start.time);
+                    container['nice_time'] = `${this.getNiceTime(lab.start.time)} - ${this.getNiceTime(lab.end.time)}`;
+                    container['teacher_names'] = this.getTeachersStringForLab(lab.teachers);
+
+                    return container;
+                });
+            }
         },
 
         methods: {
@@ -77,6 +96,7 @@
                 this.updateLabToEmpty()
                 window.location = "popup#/labsForm";
             },
+
             getNiceTime(time) {
                 let mins = time.getMinutes().toString();
                 if (mins.length == 1) {
@@ -84,6 +104,7 @@
                 }
                 return time.getHours() + ":" + mins
             },
+
             getNiceDate(date) {
                 let month = (date.getMonth() + 1).toString();
                 if (month.length == 1) {
@@ -91,64 +112,26 @@
                 }
                 return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
+
             getDayTimeFormat(date) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
                 return daysDict[date.getDay()] + date.getHours();
             },
+
+            getTeachersStringForLab(teachers) {
+                return teachers.map(x => x.full_name).join(', ')
+            },
+
             editLabClicked(lab) {
                 this.updateLab({lab})
                 window.location = "popup#/labsForm";
             },
+
             deleteLabClicked(lab) {
                 Lab.delete(this.course.id, lab.id, () => {
                     window.location.reload();
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
-            },
-            sortTable(param) {
-                this.current_param = param
-                if (this.previous_param === this.current_param) {
-                    this.labs.reverse();
-                } else {
-                    this.labs.sort(this.compare);
-                }
-            },
-            compare(a, b) {
-                let stringA, stringB
-                if (this.current_param === 'date') {
-                    stringA = a.start.time
-                    stringB = b.start.time
-                }
-                if (this.current_param === 'name') {
-                    stringA = a.start.time.getDay().toString() + a.start.time.getHours().toString()
-                    stringB = b.start.time.getDay().toString() + b.start.time.getHours().toString()
-                }
-                if (this.current_param === 'time') {
-                    stringA = a.start.time.getHours()
-                    stringB = b.start.time.getHours()
-                }
-                if (this.current_param === 'teachers') {
-                    stringA = a.teachers.length
-                    stringB = b.teachers.length
-                }
-
-                let comparison = 0;
-                if (stringA > stringB) {
-                    comparison = 1;
-                } else if (stringA < stringB) {
-                    comparison = -1;
-                } else if (this.current_param === 'time') {
-                    stringA = a.end.time.getHours()
-                    stringB = b.end.time.getHours()
-                    if (stringA > stringB) {
-                        comparison = 1;
-                    } else if (stringA < stringB) {
-                        comparison = -1;
-                    }
-                }
-
-                this.previous_param = this.current_param
-                return comparison;
             },
         }
     }

@@ -17,6 +17,7 @@
                         <v-text-field
                                 v-if="teachers.length"
                                 v-model="search"
+                                append-icon="search"
                                 label="Search"
                                 single-line
                                 hide-details>
@@ -25,7 +26,6 @@
                     <v-card-title v-else>
                         No Teachers for this course!
                     </v-card-title>
-
                     <v-data-table
                             v-if="teachers.length"
                             :headers="teachers_headers"
@@ -37,6 +37,11 @@
                                    @click="viewTeacherSpecifics(item)">
                                 Details
                             </v-btn>
+                        </template>
+                        <template v-slot:no-results>
+                            <v-alert :value="true" color="primary" icon="warning">
+                                Your search for "{{ search }}" found no results.
+                            </v-alert>
                         </template>
                     </v-data-table>
                 </v-container>
@@ -81,7 +86,7 @@
                 </v-card>
             </v-dialog>
 
-            <v-card-text class="grey lighten-4">
+            <v-card-text>
                 <v-container class="spacing-playground pa-3" fluid v-if="teacher">
                     <v-data-table
                             v-if="teacher.length"

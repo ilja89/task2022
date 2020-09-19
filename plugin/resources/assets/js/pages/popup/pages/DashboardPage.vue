@@ -5,7 +5,7 @@
 
         <latest-submissions-section></latest-submissions-section>
 
-        <active-students-section></active-students-section>
+<!--        <active-students-section></active-students-section>-->
 
         <submission-counts-section></submission-counts-section>
 

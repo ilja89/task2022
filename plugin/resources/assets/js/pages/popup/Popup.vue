@@ -81,5 +81,6 @@
 </script>
 
 <style>
+    @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
     @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 </style>

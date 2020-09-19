@@ -34,7 +34,7 @@
                     enabled: true,
                     mode: 'pages',
                     position: 'top',
-                    perPageDropdown: [10, 25, 50, 100],
+                    perPageDropdown: [10, 25, 50, 100, 1000, 10000, 100000],
                     dropdownAllowAll: false,
                 }"
                                 max-height="750px"

@@ -1,24 +1,12 @@
 <template>
     <popup-section title="Students distribution"
                    subtitle="Distribution of students over their max grade for this course.">
-        <v-card class="mx-auto" outlined light raised>
-            <v-container class="spacing-playground pa-3" fluid>
-                <table class="table  is-fullwidth  is-striped">
-                    <thead>
-                    <tr>
-                        <th>Points</th>
-                        <th>Number of students</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="distribution in distributions">
-                        <td>{{ distribution | distributionInterval }}</td>
-                        <td>{{ distribution.user_count }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </v-container>
-        </v-card>
+
+        <v-data-table
+                hide-default-footer
+                :headers="student_distribution_headers"
+                :items="distributions">
+        </v-data-table>
 
     </popup-section>
 </template>
@@ -35,7 +23,11 @@
 
         data() {
             return {
-                studentsDistribution: [],
+                student_distribution: [],
+                student_distribution_headers: [
+                    {text: 'Points', value: 'interval', align: 'start'},
+                    {text: 'Number of students', value: 'user_count'},
+                ]
             }
         },
 
@@ -45,36 +37,32 @@
             ]),
 
             distributions() {
-                if (!this.studentsDistribution.length) {
-                    return this.studentsDistribution
+                if (!this.student_distribution.length) {
+                    return this.student_distribution
                 }
 
-                const maxGrade = this.studentsDistribution[0].max_grade
-                const nrOfParts = this.studentsDistribution.length
+                const maxGrade = this.student_distribution[0].max_grade
+                const nrOfParts = this.student_distribution.length
                 const partSize = maxGrade / nrOfParts
 
-                return this.studentsDistribution
+                return this.student_distribution
                     .sort((a, b) => {
                         return a.part > b.part
                     })
                     .map(distribution => {
                         const minGrade = this.round(distribution.part * partSize)
                         const maxGrade = this.round(distribution.part * partSize + partSize)
-                        return {...distribution, minGrade, maxGrade}
+                        const container = {...distribution, minGrade, maxGrade}
+                        container['interval'] = `${minGrade} - ${maxGrade}`
+                        return container;
                     })
-            },
-        },
-
-        filters: {
-            distributionInterval(distribution) {
-                return `${distribution.minGrade} - ${distribution.maxGrade}`
             },
         },
 
         methods: {
             fetchStudentsDistribution() {
-                User.getStudentsDistribution(this.courseId, studentsDistribution => {
-                    this.studentsDistribution = studentsDistribution
+                User.getStudentsDistribution(this.courseId, student_distribution => {
+                    this.student_distribution = student_distribution
                 })
             },
 

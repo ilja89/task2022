@@ -3,97 +3,83 @@
             title="Code showing registrations"
             subtitle="Here are all the registrations for code showing."
     >
+
         <v-card class="mx-auto" outlined light raised>
             <v-container class="spacing-playground pa-3" fluid>
-                <div class="helper">
-                    After
-                </div>
-                <div class="datepick">
-                    <datepicker :datetime="after"></datepicker>
-                    <input type="hidden" :value="after">
-                </div>
-                <div class="helper">
-                    Before
-                </div>
-                <div class="datepick">
-                    <datepicker :datetime="before"></datepicker>
-                    <input type="hidden" :value="before">
-                </div>
-                <div class="helper">
-                    Filter by teacher name
-                </div>
-                <div>
-                    <multiselect v-model="filter_teacher" :options="teachers" label="name" placeholder="Select teachers"
-                                 trackBy="id" :clear-on-select="true" class="multiselect__width">
-                    </multiselect>
-                    <br>
-                </div>
-                <div class="helper">
-                    Filter by progress
-                </div>
-                <div>
-                    <multiselect v-model="filter_progress" :options="all_progress_types"
-                                 placeholder="Select progress"
-                                 :clear-on-select="true" class="multiselect__width">
-                    </multiselect>
-                    <br>
-                </div>
-                <v-btn class="ma-2" tile outlined color="primary"
-                       @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
-                </v-btn>
-                <v-card class="mx-auto" outlined light raised>
-                    <v-container class="spacing-playground pa-3" fluid>
-                        <table class="table  is-fullwidth  is-striped  submission-counts__table">
-                            <thead>
-                            <tr>
-                                <th>
-                                    Date and time
-                                </th>
-                                <th>
-                                    Student name
-                                </th>
-                                <th>
-                                    Duration
-                                </th>
-                                <th>
-                                    Teacher
-                                </th>
-                                <th>
-                                    Submission
-                                </th>
-                                <th>
-                                    Progress
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="defense in defenseList">
-                                <td>{{defense.choosen_time}}</td>
-                                <td>{{defense.student_name}}</td>
-                                <td>{{getFormattedDuration(defense.defense_duration)}}</td>
-                                <td>{{defense.teacher.firstname}} {{defense.teacher.lastname}}</td>
-                                <td>
-                                    <router-link :to="getSubmissionRouting(defense.submission_id)">Go to submission
-                                    </router-link>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="dropbtn">{{defense.progress}}</button>
-                                        <div id="dropdown-content" class="dropdown-content">
-                                            <a v-on:click="saveProgress(defense.id, 'Waiting')">Waiting</a>
-                                            <a v-on:click="saveProgress(defense.id, 'Defending')">Defending</a>
-                                            <a v-on:click="saveProgress(defense.id, 'Done')">Done</a>
-                                        </div>
-                                    </div>
+                <v-row>
 
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </v-container>
-                </v-card>
+                    <v-col cols="12" xs="12" sm="5" md="5" lg="5">
+                        <div class="helper">
+                            After
+                        </div>
+                        <div class="datepick">
+                            <datepicker :datetime="after"></datepicker>
+                            <input type="hidden" :value="after">
+                        </div>
+                    </v-col>
+
+                    <v-col cols="12" xs="12" sm="5" md="5" lg="5">
+                        <div class="helper">
+                            Before
+                        </div>
+                        <div class="datepick">
+                            <datepicker :datetime="before"></datepicker>
+                            <input type="hidden" :value="before">
+                        </div>
+                    </v-col>
+
+                    <v-col cols="12" xs="12" sm="5" md="2" lg="2">
+                        <v-btn class="ma-2" tile outlined color="primary"
+                               @click="apply(after.time, before.time, filter_teacher, filter_progress)">Apply
+                        </v-btn>
+                    </v-col>
+
+                </v-row>
             </v-container>
         </v-card>
+
+
+        <v-card-title v-if="defenseList.length">
+            Registrations
+            <v-spacer></v-spacer>
+            <v-text-field
+                    v-if="defenseList.length"
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details>
+            </v-text-field>
+        </v-card-title>
+        <v-card-title v-else>
+            No Registrations for this course!
+        </v-card-title>
+
+        <v-data-table
+                v-if="defenseList.length"
+                :headers="defense_list_headers"
+                :items="defense_list_table"
+                :search="search">
+            <template v-slot:no-results>
+                <v-alert :value="true" color="primary" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </template>
+            <template v-slot:item.submission="{ item }">
+                <router-link :to="getSubmissionRouting(item.submission_id)">Go to submission
+                </router-link>
+            </template>
+            <template v-slot:item.progress="{ item }">
+                <v-select
+                        class="mx-auto ml-8"
+                        dense
+                        :items="all_progress_types"
+                        v-model="item.progress"
+                        @change="saveProgress(item.id, item.progress)"
+                ></v-select>
+            </template>
+        </v-data-table>
+
     </popup-section>
 </template>
 
@@ -108,11 +94,21 @@
         components: {Datepicker, Multiselect, PopupSection},
         data() {
             return {
+                search: '',
                 after: {time: null},
                 before: {time: null},
                 filter_teacher: {id: -1},
                 filter_progress: null,
-                all_progress_types: ['Waiting', 'Defending', 'Done']
+                all_progress_types: ['Waiting', 'Defending', 'Done'],
+                defense_list_headers: [
+                    {text: 'Date and time', value: 'choosen_time', align: 'start'},
+                    {text: 'Student name', value: 'student_name'},
+                    {text: 'Duration', value: 'formatted_duration'},
+                    {text: 'Teacher', value: 'teacher_full_name'},
+                    {text: 'Submission', value: 'submission'},
+                    {text: 'Progress', value: 'progress'},
+                ],
+
             }
         }, props: {
             defenseList: {required: true},
@@ -144,6 +140,17 @@
             ...mapState([
                 'course'
             ]),
+
+            defense_list_table() {
+                return this.defenseList.map(registration => {
+                    const container = {...registration};
+
+                    container['formatted_duration'] = this.getFormattedDuration(registration.defense_duration);
+                    container['teacher_full_name'] = `${registration.teacher.firstname} ${registration.teacher.lastname}`;
+
+                    return container;
+                });
+            }
         }
     }
 </script>

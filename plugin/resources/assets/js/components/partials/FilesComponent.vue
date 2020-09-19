@@ -1,33 +1,35 @@
 <template>
-    <div
-        class="columns is-gapless code-container"
-        :class="{ 'is-round': isRound }"
-        v-if="activeFile !== null"
-    >
+    <v-card class="mx-auto" max-width="70vw" outlined raised>
+        <div
+                class="columns is-gapless code-container"
+                :class="{ 'is-round': isRound }"
+                v-if="activeFile !== null">
 
-        <div class="column is-narrow file-tree-container is-one-quarter">
-            <file-tree
-                :data="formattedFiles"
-                @file-clicked="handleFileClicked"
-            >
-            </file-tree>
-        </div>
+            <div class="column is-narrow file-tree-container is-one-quarter">
+                <file-tree
+                        :data="formattedFiles"
+                        @file-clicked="handleFileClicked"
+                >
+                </file-tree>
+            </div>
 
-        <div class="column  is-narrow">
-            <div class="line-number-container">
+            <div class="column  is-narrow">
+                <div class="line-number-container">
                 <span
-                    v-for="n in activeFile.numbers"
-                    class="line-number-position"
+                        v-for="n in activeFile.numbers"
+                        class="line-number-position"
                 >
                     <span class="line-number">{{ n }}</span>
                 </span>
+                </div>
+            </div>
+
+            <div class="column code-column">
+                <pre class="code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
             </div>
         </div>
+    </v-card>
 
-        <div class="column code-column">
-            <pre class="code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
-        </div>
-    </div>
 </template>
 
 <script>

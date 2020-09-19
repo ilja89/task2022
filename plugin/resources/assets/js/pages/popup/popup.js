@@ -53,8 +53,9 @@ const app = new Vue({
     },
 
     icons: {
-        iconfont: 'mdi',
+        iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
     },
+    iconfont: 'mdi',
 
     router,
     store,

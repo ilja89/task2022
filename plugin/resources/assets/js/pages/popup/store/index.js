@@ -8,12 +8,21 @@ import * as getters from './getters'
 
 Vue.use(Vuex)
 Vue.use(Vuetify, {
-    iconfont: 'md'})
+    iconfont: 'md'
+})
 
-const initialCourse = { id: window.course_id }
+const initialCourse = {id: window.course_id}
 
 const store = new Vuex.Store({
     state: {
+        /**
+         * @type Boolean
+         * **/
+        is_mobile: false,
+        /**
+         * @type Boolean
+         * **/
+        drawer: false,
         /**
          * @type {
          *      {id: Number, firstname: String, lastname: String, idnumber: String, groups: Array<Object<Array<Object>>>}

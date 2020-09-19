@@ -2,7 +2,9 @@
 
     <v-navigation-drawer
             app
-            permanent
+            :value="drawer"
+            :permanent="!is_mobile"
+            v-click-outside="closeDrawer"
             expand-on-hover
             clipped
             mini-variant
@@ -28,6 +30,7 @@
 </template>
 
 <script>
+    import store from './../store/index'
     import {mapState, mapGetters} from 'vuex'
 
     export default {
@@ -48,17 +51,29 @@
         },
         computed: {
             ...mapState([
+                'is_mobile',
+                'drawer',
                 'student',
                 'submission',
             ]),
-
             ...mapGetters([
                 'submissionLink',
             ]),
 
         },
 
+        mounted() {
+            store.state.is_mobile = window.innerWidth <= 480;
+            window.addEventListener('resize', function () {
+                store.state.is_mobile = window.innerWidth <= 480;
+            });
+        },
+
         methods: {
+            closeDrawer() {
+                store.state.drawer = false
+            },
+
             gradingLink() {
                 if (this.student != null) {
                     return '/grading/' + this.student.id
