@@ -5,9 +5,9 @@
             :value="drawer"
             :permanent="!is_mobile"
             v-click-outside="closeDrawer"
-            expand-on-hover
+            :expand-on-hover="!is_mobile"
             clipped
-            mini-variant
+            :mini-variant="!is_mobile"
     >
         <v-list
                 v-for="item in items"
