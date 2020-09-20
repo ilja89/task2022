@@ -14,7 +14,8 @@ Default user is ```dev``` and password ```dev``` as well.
 
 ## Best way to install charon
 
-Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
+Either run `docker-compose up -d` or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`.
+Make sure your docker has enough resources (at least 4gb ram would be nice)
 
 Then run `chmod -R 777 mariadb_data` and run the initial docker-compose commands again
 
@@ -33,7 +34,7 @@ and then run next commands as well:
 php composer.phar install --no-dev
 cp -p .env.production .env
 php artisan key:generate
-npm shrinkwrap
+apt install -y build-essential libpng-dev
 npm install
 npm run dev
 rm -rf node_modules
