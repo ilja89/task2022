@@ -3,7 +3,6 @@ import ExtraOptions from './ExtraOptions'
 import Loader from './Loader'
 import OutputComponent from './OutputComponent'
 import SubmissionsList from './SubmissionsList'
-import StudentSearch from './StudentSearch'
 import SubmissionInfoBit from './SubmissionInfoBit'
 import SubmissionInfo from './SubmissionInfo'
 import PageTitle from './PageTitle'
@@ -12,7 +11,7 @@ import PopupSelect from './PopupSelect'
 import TeacherSection from '../sections/TeacherSection'
 
 export {
-    CharonSelect, ExtraOptions, Loader, OutputComponent, SubmissionsList, StudentSearch,
+    CharonSelect, ExtraOptions, Loader, OutputComponent, SubmissionsList,
     SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect, TeacherSection
 }
 

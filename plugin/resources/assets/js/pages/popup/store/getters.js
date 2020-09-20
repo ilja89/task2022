@@ -51,6 +51,6 @@ export const submissionLink = state => (submissionId = null) => {
  * @param state {Object}
  * @returns {string}
  */
-export const charonLink = state => state.charon
-    ? `/mod/charon/view.php?id=${state.charon.course_module_id}`
-    : null
+export const charonLink = state => state.charon ? `/mod/charon/view.php?id=${state.charon.course_module_id}` : null
+
+export const courseLink = state => state.course ? `/course/view.php?id=${state.course.id}` : null

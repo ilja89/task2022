@@ -17,7 +17,6 @@
 </template>
 
 <script>
-    import store from './../store/index'
     import {mapState} from "vuex";
     import {PageTitle} from '../partials'
     import {
@@ -34,11 +33,7 @@
             ]),
 
             page_name() {
-                if (store.state.is_mobile) {
-                    return `Dashboard - ${window.course_name}`
-                } else {
-                    return "Dashboard"
-                }
+                return `Dashboard - ${window.course_name}`
             },
         },
 

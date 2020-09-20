@@ -203,8 +203,10 @@ class GitCallbackController extends Controller
 
             $params = ['uniid' => $username, 'gitStudentRepo' => $repo,
                 'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestSource' => $gitTestSource];
-            // tester reads email from ['extra']['user_email']
-            $params['extra']['user_email'] = $username . "@ttu.ee";
+            $params['email'] = $username . "@ttu.ee";
+            if ($request->input('commits')) {
+                $params['email'] = $request->input('commits.0.author.email');
+            }
 
             event(new GitCallbackReceived(
                 $gitCallback,

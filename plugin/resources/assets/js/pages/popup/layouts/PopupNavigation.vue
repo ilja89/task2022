@@ -7,14 +7,10 @@
             v-click-outside="closeDrawer"
             :expand-on-hover="!is_mobile"
             clipped
-            :mini-variant="!is_mobile"
-    >
-        <v-list
-                v-for="item in items"
-                nav
-        >
-            <v-list-item nav :to="item.route()">
+            :mini-variant="!is_mobile">
+        <v-list v-for="item in items" nav>
 
+            <v-list-item v-if="item.external" nav :href="item.route()">
                 <v-list-item-icon>
                     <md-icon>{{ item.icon }}</md-icon>
                 </v-list-item-icon>
@@ -23,6 +19,17 @@
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+
+            <v-list-item v-else nav :to="item.route()">
+                <v-list-item-icon>
+                    <md-icon>{{ item.icon }}</md-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
         </v-list>
 
     </v-navigation-drawer>
@@ -46,6 +53,7 @@
                     {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
                     {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
                     {title: 'Teacher overview', icon: 'school', route: () => '/teachers'},
+                    {title: window.course_shortname, icon: 'home', route: () => this.courseLink, external: true},
                 ]
             }
         },
@@ -58,6 +66,7 @@
             ]),
             ...mapGetters([
                 'submissionLink',
+                'courseLink'
             ]),
 
         },

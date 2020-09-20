@@ -10,38 +10,92 @@
             <md-icon>menu</md-icon>
         </v-app-bar-nav-icon>
 
-        <v-toolbar-title v-if="!is_mobile">
+        <v-toolbar-title class="title mr-6 mt-6" v-if="!is_mobile">
             {{ getCourseName() }}
         </v-toolbar-title>
 
-        <v-spacer/>
+        <v-autocomplete
+                class="mt-8"
+                v-model="model"
+                :items="items"
+                :loading="isLoading"
+                :search-input.sync="search"
+                color="primary"
+                hide-selected
+                item-text="Description"
+                item-value="API"
+                label="Search student"
+                clearable
+                @change="onStudentSelected"
+                placeholder="Student name (uniid@ttu.ee)"
+                prepend-icon="mdi-database-search"
+                return-object>
+            <template v-slot:no-data>
+                <v-list-item>
+                    <v-list-item-title>
+                        Search by <strong>first name</strong>,
+                        <strong>last name</strong>, <strong>uni-id</strong> or <strong>id-code</strong>
+                    </v-list-item-title>
+                </v-list-item>
+            </template>
+        </v-autocomplete>
 
-        <v-toolbar-items>
+        <v-btn icon color="primary" :disabled="isLoading" @click="onRefreshClicked">
+            <md-icon>refresh</md-icon>
+        </v-btn>
 
-            <student-search @student-was-changed="onStudentChanged"/>
+        <extra-options/>
 
-        </v-toolbar-items>
     </v-app-bar>
 
 </template>
 
 <script>
     import store from './../store/index'
-    import {StudentSearch} from "../partials";
-    import {mapState} from "vuex";
+    import ExtraOptions from "../partials/ExtraOptions";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
-        components: {StudentSearch},
+        components: {ExtraOptions},
+
+        data: () => ({
+            entries: [],
+            isLoading: false,
+            model: null,
+            search: null,
+        }),
+
         computed: {
             ...mapState([
                 'is_mobile',
                 'drawer',
                 'student',
             ]),
+
+            ...mapGetters([
+                'studentsSearchUrl'
+            ]),
+
+            fields() {
+                if (!this.model) return []
+
+                return Object.keys(this.model).map(key => {
+                    return {
+                        key,
+                        value: this.model[key] || 'n/a',
+                    }
+                })
+            },
+
+            items() {
+                return this.entries.map(entry => entry['fullname'])
+            },
         },
         methods: {
             onStudentChanged(student) {
-                this.$router.push("/grading/" + student.id);
+                if (student !== undefined) {
+                    this.$router.push("/grading/" + student.id);
+                }
             },
 
             getCourseName() {
@@ -50,8 +104,40 @@
 
             toggle_drawer() {
                 setTimeout(() => store.state.drawer = !store.state.drawer, 50);
-            }
-        }
+            },
+
+            onRefreshClicked() {
+                VueEvent.$emit("refresh-page");
+            },
+
+            onStudentSelected(student) {
+                this.onStudentChanged(this.entries.find(x => x['fullname'] === student))
+            },
+        },
+
+        watch: {
+            search(val) {
+                // Items have already been requested
+                if (this.isLoading) return
+
+                this.isLoading = true
+
+                // Lazily load input items
+                fetch(`${this.studentsSearchUrl}?q=${val}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        this.count = res.length
+                        this.entries = res
+                    })
+                    .catch(err => {
+                        VueEvent.$emit('show-notification', "Session has expired. Refreshing.", "error", 3000)
+                        setInterval(function () {
+                            location.reload();
+                        }, 3000);
+                    })
+                    .finally(() => (this.isLoading = false))
+            },
+        },
     };
 
 </script>
