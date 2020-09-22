@@ -22,7 +22,8 @@ git clone https://gitlab.cs.ttu.ee/ained/charon
 ```
 
 When git clone option is used you need to `docker exec -it <hash or name> bash` into the container, `cd bitnami/moodle/mod/charon` folder and follow this tutorial on how to install npm: https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/
-and then run next commands as well: 
+and also ```npm config set registry "http://registry.npmjs.org"``` just in case,
+then run next commands as well: 
 ```
 cp -p .env.production .env
 php composer.phar install --no-dev
