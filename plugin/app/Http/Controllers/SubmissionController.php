@@ -182,6 +182,7 @@ class SubmissionController extends Controller
             return $this->getDefensesCountForTimeMyTeacher($time, $student_teacher, $charon_id, $start, $end);
 
         } else {
+            return [];
             return $this->getDefensesCountForAllTeachers($time, $charon_id, $teacher_count, $start, $end);
 
         }
