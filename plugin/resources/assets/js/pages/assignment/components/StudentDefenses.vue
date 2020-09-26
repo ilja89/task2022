@@ -102,7 +102,7 @@
                     if (confirm('Are you sure you want to delete this item?') && this.defenseData.splice(index, 1)) {
                         this.deleteReg(item['defense_lab_id']);
                     }
-                } else alert("You can't delete a registration 24 hours before the start!");
+                } else alert("You can't delete a registration 2 hours before the start!");
             },
 
             dateValidation (item) {
@@ -112,7 +112,7 @@
                 const dateTime = date +' '+ time;
                 let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
                 let day2 = moment.utc(item['choosen_time'], 'YYYY-MM-DD  HH:mm:ss');
-                return day2.diff(day1, 'hours') >= 24;
+                return day2.diff(day1, 'hours') >= 2;
             },
 
             deleteReg(defLab_id) {

@@ -1,45 +1,56 @@
 <template>
     <div>
         <h2 class="title">{{ translate('submissionsText') }}
-            <svg @click="refreshSubmissions()" class="svg-icon" v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
-                <path fill="none" d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
+            <svg @click="refreshSubmissions()" class="svg-icon"
+                 v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
+                <path fill="none"
+                      d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
             </svg>
         </h2>
         <Modal v-bind:isActive="isActive" @modal-was-closed="closePopUp">
             <template slot="header">
-                <p class="modal-card-title">Register for defence</p>
+                <p class="modal-card-title">Registration for {{this.charon['name']}}</p>
             </template>
+
             <div class="content">
-                <div class="register-lab-headers">
-                    <h4>Choose a registration for {{this.charon['name']}}</h4>
+                <div class="register-lab-headers" style="margin-top: 2vh">
+                    <h4>Choose a teacher</h4>
                 </div>
                 <div class="labs-schedule">
-                    <div class="text-center">
-                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']" @select="onSelect" :max-height="200"
-                                     :custom-label="getLabList" placeholder="Select a day" label="start" track-by="start" :allow-empty="false">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
-                        </multiselect>
-
-                        <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time" :max-height="200"
-                                     :options="this.time" placeholder="Be more precise">
-                        </multiselect>
-                    </div>
-                    <p v-if="(this.array_to_show.length !== 0)" style="margin-bottom: 18px; color: indianred; font-style: italic; font-size: 13px">
-                        Unavailable time if you choose 'my_teacher' {{this.array_to_show}}</p>
-                    <div class="register-lab-headers" style="margin-top: 6vh">
-                        <h4>Choose a teacher</h4>
-                    </div>
-                    <div class="labs-schedule">
-                        <div class="row">
-                            <div class="col-6 col-sm-4" v-if="(this.student_group !== 0)"><label for="my-teacher"></label><input type="radio" v-model="selected" id="my-teacher" value="My teacher" name="labs-time">My teacher</div>
-                            <div class="w-100 d-none d-md-block"></div>
-                            <div class="col-6 col-sm-4" v-if="(this.charon['choose_teacher'] === 1 || this.student_group === 0)">
-                                <label for="another-teacher"></label>
-                                <input type="radio" v-model="selected" id="another-teacher" value="Another teacher" name="labs-time">Another teacher</div>
+                    <div class="row">
+                        <div class="col-6 col-sm-4" v-if="(this.student_group_count !== 0)"><label
+                                for="my-teacher"></label>
+                            <input type="radio" v-model="selected" id="my-teacher"
+                                   value="My teacher" name="labs-time" @click="arrayDefenseTime()">My teacher
+                        </div>
+                        <div class="w-100 d-none d-md-block"></div>
+                        <div class="col-6 col-sm-4"
+                             v-if="(this.charon['choose_teacher'] === 1 || this.student_group_count === 0)">
+                            <label for="another-teacher"></label>
+                            <input type="radio" v-model="selected" id="another-teacher" value="Another teacher"
+                                   name="labs-time" @click="arrayDefenseTime()">Any teacher
                         </div>
                     </div>
                 </div>
-                <div class="register-lab-button-dev" @click="sendData()">
+                <div class="register-lab-headers" style="margin-top: 2vh">
+                    <h4>Choose a time</h4>
+                </div>
+                <div class="labs-schedule">
+                    <div class="text-center">
+                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"
+                                     @select="onSelect" :max-height="200"
+                                     :custom-label="getLabList" placeholder="Select a day" label="start"
+                                     track-by="start" :allow-empty="false">
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
+                        </multiselect>
+
+                        <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time"
+                                     :max-height="200"
+                                     :options="this.times" placeholder="Be more precise">
+                        </multiselect>
+                    </div>
+                </div>
+                <div class="register-lab-button-dev" @click="sendData()" style="margin-top: 2vh">
                     <button class="button" type="button">Register</button>
                 </div>
             </div>
@@ -49,7 +60,8 @@
             <template slot="header">
                 <p class="modal-card-title">All registrations</p>
             </template>
-            <StudentDefenses :defenseData="defenseData" :student_id="student_id" :charon="charon"></StudentDefenses>
+            <StudentDefenses :defenseData="defenseData" :student_id="student_id"
+                             :charon="charon"></StudentDefenses>
         </Modal>
 
         <ul class="submissions-list">
@@ -57,7 +69,8 @@
                 <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
                     @click="toggleAdvanced(submission.id)" :key="index">
 
-                    <span class="tag is-info" :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission)}">
+                    <span class="tag is-info"
+                          :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission)}">
                         {{ submissionString(submission) }}
                     </span>
 
@@ -71,11 +84,11 @@
                     </span>
 
                     <span @click.stop="$emit('submission-was-activated', submission)">
-                        <img width="24px" height="24px"  src="pix/eye.png" alt="eye">
+                        <img width="24px" height="24px" src="pix/eye.png" alt="eye">
                     </span>
 
                     <span @click="validateSubmission(submission)" @click.stop="showModalLabs(submission.id)">
-                        <img width="24px" height="24px"  src="pix/shield.png" alt="shield">
+                        <img width="24px" height="24px" src="pix/shield.png" alt="shield">
                     </span>
 
                 </li>
@@ -108,63 +121,40 @@
             </button>
             </span>
         </div>
-
     </div>
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
-    /* -----
-SVG Icons - svgicons.sparkk.fr
------ */
 
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: text-bottom;
-  cursor: pointer;
-}
-
-.svg-icon path,
-.svg-icon polygon,
-.svg-icon rect {
-  fill: #03a9f4;
-}
-
-.svg-icon circle {
-  stroke: #03a9f4;
-  stroke-width: 1;
-}
-
-.test {
-    margin-bottom: 0.5vw;
-}
-
-.text-center {
-    text-align:center;
-}
-
-.rotating
-    {
-  animation-name: spin;
-  animation-duration: 1000ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+    .svg-icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: text-bottom;
+        cursor: pointer;
     }
 
-    .rotating
-    {
-        animation-name: spin;
-        animation-duration: 1000ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
+    .svg-icon path,
+    .svg-icon polygon,
+    .svg-icon rect {
+        fill: #03a9f4;
     }
+
+    .svg-icon circle {
+        stroke: #03a9f4;
+        stroke-width: 1;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
     @keyframes spin {
         from {
-            transform:rotate(0deg);
+            transform: rotate(0deg);
         }
         to {
-            transform:rotate(-360deg);
+            transform: rotate(-360deg);
         }
     }
 </style>
@@ -183,15 +173,15 @@ SVG Icons - svgicons.sparkk.fr
 
     export default {
 
-        mixins: [ Translate ],
+        mixins: [Translate],
         components: {
             Modal, Datepicker, Multiselect, StudentDefenses
         },
 
         props: {
-            grademaps: { required: true },
-            charon_id: { required: true },
-            student_id: { required: true },
+            grademaps: {required: true},
+            charon_id: {required: true},
+            student_id: {required: true},
         },
 
         data() {
@@ -205,7 +195,8 @@ SVG Icons - svgicons.sparkk.fr
                 registered: false,
                 defended: false,
                 current_submission: 0,
-                selected: '',
+                selected: 'Any Teacher',
+                cached_option: null,
                 selected_lab: Object,
                 selected_boolean: false,
                 canLoadMore: true,
@@ -213,12 +204,13 @@ SVG Icons - svgicons.sparkk.fr
                 isActive: false,
                 isActiveDefenses: false,
                 charon: '',
-                time: [],
+                teacher_options: [],
+                times: [],
                 labs: [],
-                notavailable_time: [],
+                not_available_times: [],
                 defenseData: [],
                 submission_validation: false,
-                student_group: 0,
+                student_group_count: 0,
                 array_to_show: []
             };
         },
@@ -234,35 +226,34 @@ SVG Icons - svgicons.sparkk.fr
         },
 
         methods: {
-            arrayDefenseTime(option) {
-                this.time.length = 0;
-                let start = option['start'];
-                let end = option['end'];
-                let time = option['start'].split(' ')[0];
-                this.timeGenerator(option);
-                axios.get(`api/get_time.php?time=${time}&studentid=${this.student_id}&group=${this.student_group}&start=${start}&end=${end}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
-                    if (this.student_group !== 0) {
-                        if (this.time.includes(result.data[0])) this.array_to_show = result.data[0];
-                        else {
-                            this.notavailable_time = result.data[1];
-                            this.timeGenerator(option);
-                        }
-                    } else {
-                        this.notavailable_time = result.data[1];
+            arrayDefenseTime() {
+                if (this.cached_option != null) {
+                    const option = this.cached_option;
+                    this.times.length = 0;
+                    let time = option['start'].split(' ')[0];
+                    this.timeGenerator(option);
+                    axios.get(`api/get_time.php?time=${time}&my_teacher=${this.selected === "My teacher"}&student_id=${this.student_id}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
+                        this.not_available_times = result.data;
                         this.timeGenerator(option);
-                    }
-                })
+                    })
+                }
+
             },
             timeGenerator(option) {
                 let defense_duration = this.charon['defense_duration'];
                 let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii')
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
+                let curTime = moment();
+
                 while (startTime < endTime) {
-                    this.time.push(new moment(startTime).format('HH:mm'));
+                    const time = new moment(startTime).format('HH:mm');
+                    if (!this.not_available_times.includes(time) && curTime.isBefore(startTime)) {
+                        this.times.push(time);
+                    }
                     startTime.add(defense_duration, 'minutes');
                 }
-                if (this.notavailable_time.length !== 0) {
-                    this.time = this.time.filter(x => !this.notavailable_time.includes(x));
+                if (this.not_available_times.length !== 0) {
+                    this.times = this.times.filter(x => !this.not_available_times.includes(x));
                 }
             },
             defendedSubmission(submission) {
@@ -290,16 +281,15 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             onSelect(option) {
-                if (option != null) {
-                    this.arrayDefenseTime(option);
-                }
+                this.cached_option = option;
+                this.arrayDefenseTime();
             },
 
             showModalLabs(submissionId) {
                 this.current_submission = submissionId
                 this.isActive = this.submission_validation;
                 if (this.isActive === false) {
-                    alert("You can't register a submission with result less than " + this.charon['defense_threshold'] + "%")
+                    alert("You can't register a submission with a result less than " + this.charon['defense_threshold'] + "%")
                 }
             },
 
@@ -319,11 +309,13 @@ SVG Icons - svgicons.sparkk.fr
             },
 
             getStudentGroup() {
-                axios.get(`api/student_group.php?studentid=${this.student_id}`).then(result => this.student_group = result.data);
+                axios.get(`api/student_group.php?studentid=${this.student_id}`).then(result => this.student_group_count = result.data);
             },
 
             getDefenseData() {
-                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}&group=${this.student_group}`).then(result => {this.defenseData = result.data;})
+                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
+                    this.defenseData = result.data;
+                })
             },
 
             closePopUp() {
@@ -435,6 +427,12 @@ SVG Icons - svgicons.sparkk.fr
             this.getDefenseData();
             this.refreshSubmissions();
             this.getCharonAndLabs();
+
+            if (this.charon['choose_teacher'] === 1 || this.student_group_count === 0) {
+                this.teacher_options = ["Any teacher"]
+            } else {
+                this.teacher_options = ["My teacher", "Any teacher"]
+            }
         }
 
     }
