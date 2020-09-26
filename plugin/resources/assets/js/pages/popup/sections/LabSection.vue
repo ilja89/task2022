@@ -37,6 +37,8 @@
                 </v-alert>
             </template>
         </v-data-table>
+
+        <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
     </popup-section>
 </template>
 
@@ -129,7 +131,7 @@
 
             deleteLabClicked(lab) {
                 Lab.delete(this.course.id, lab.id, () => {
-                    window.location.reload();
+                    this.labs = this.labs.filter(x => x.id !== lab.id)
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
             },

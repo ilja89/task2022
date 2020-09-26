@@ -14,7 +14,7 @@
                 <v-col cols="12" sm="6" md="6" lg="4">
                     <div class="labs-field">
                         <p>End time</p>
-                        <datepicker :to_be_checked="true" :datetime="lab_given.end"></datepicker>
+                        <datepicker :datetime="lab_given.end"></datepicker>
                         <input type="hidden" :value="lab_given.end">
                     </div>
                 </v-col>
