@@ -18,14 +18,13 @@
                 </div>
                 <div class="labs-schedule">
                     <div class="row">
-                        <div class="col-6 col-sm-4" v-if="(this.student_group_count !== 0)"><label
+                        <div class="col-6 col-sm-4" v-if="this.charon['choose_teacher'] === 1"><label
                                 for="my-teacher"></label>
                             <input type="radio" v-model="selected" id="my-teacher"
                                    value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">My teacher
                         </div>
                         <div class="w-100 d-none d-md-block"></div>
-                        <div class="col-6 col-sm-4"
-                             v-if="(this.charon['choose_teacher'] === 1 || this.student_group_count === 0)">
+                        <div class="col-6 col-sm-4">
                             <label for="another-teacher"></label>
                             <input type="radio" v-model="selected" id="another-teacher" value="Any teacher"
                                    name="labs-time" @click="changeTeacher('Any teacher')">Any teacher
@@ -195,7 +194,7 @@
                 registered: false,
                 defended: false,
                 current_submission: 0,
-                selected: 'Any Teacher',
+                selected: 'Any teacher',
                 cached_option: null,
                 selected_lab: Object,
                 selected_boolean: false,
