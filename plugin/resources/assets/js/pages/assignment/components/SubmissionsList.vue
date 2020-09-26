@@ -21,14 +21,14 @@
                         <div class="col-6 col-sm-4" v-if="(this.student_group_count !== 0)"><label
                                 for="my-teacher"></label>
                             <input type="radio" v-model="selected" id="my-teacher"
-                                   value="My teacher" name="labs-time" @click="arrayDefenseTime()">My teacher
+                                   value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">My teacher
                         </div>
                         <div class="w-100 d-none d-md-block"></div>
                         <div class="col-6 col-sm-4"
                              v-if="(this.charon['choose_teacher'] === 1 || this.student_group_count === 0)">
                             <label for="another-teacher"></label>
-                            <input type="radio" v-model="selected" id="another-teacher" value="Another teacher"
-                                   name="labs-time" @click="arrayDefenseTime()">Any teacher
+                            <input type="radio" v-model="selected" id="another-teacher" value="Any teacher"
+                                   name="labs-time" @click="changeTeacher('Any teacher')">Any teacher
                         </div>
                     </div>
                 </div>
@@ -278,6 +278,11 @@
 
             forceRerender() {
                 this.index += 1;
+            },
+
+            changeTeacher(teacher) {
+                this.selected = teacher;
+                this.arrayDefenseTime();
             },
 
             onSelect(option) {

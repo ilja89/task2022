@@ -170,7 +170,7 @@ class SubmissionController extends Controller
         $charon_id = $request->input('charon_id');
         $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
         $student_id = $request->input('student_id');
-        $choose_my_teacher = $request->input('my_teacher') == 1;
+        $choose_my_teacher = $request->input('my_teacher');
         $course_id = $this->charon_repository->getCharonById($charon_id)->course;
 
         $lab = $this->charon_defense_lab_repository->getDefenseLabById($lab_id);
@@ -178,7 +178,7 @@ class SubmissionController extends Controller
         $end = $lab->end;
 
         if ($choose_my_teacher) {
-            $student_teacher = $this->lab_teacher_repository->getTeacherForStudent($student_id, $course_id)->pluck('id')->toArray()[0];
+            $student_teacher = $this->lab_teacher_repository->getTeacherForStudent($student_id, $course_id)->id;
             return $this->getDefensesCountForTimeMyTeacher($time, $student_teacher, $charon_id, $start, $end);
 
         } else {
