@@ -213,10 +213,11 @@ class CharonRepository
         $moduleId = $this->moduleService->getModuleId();
 
         $charons =  \DB::table('charon')
-            ->join('course_modules', 'course_modules.instance', 'charon.id')
-            ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
+            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
+            ->leftJoin('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('charon.course', $courseId)
-            ->where('course_modules.module', $moduleId)
+            ->whereNull('course_modules.module')
+            ->orWhere('course_modules.module', $moduleId)
             ->select(
                 'charon.id',
                 'charon.name',
