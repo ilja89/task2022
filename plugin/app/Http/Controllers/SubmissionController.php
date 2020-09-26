@@ -177,7 +177,7 @@ class SubmissionController extends Controller
         $start = $lab->start;
         $end = $lab->end;
 
-        if ($choose_my_teacher) {
+        if ($choose_my_teacher == "true") {
             $student_teacher = $this->lab_teacher_repository->getTeacherForStudent($student_id, $course_id)->id;
             return $this->getDefensesCountForTimeMyTeacher($time, $student_teacher, $charon_id, $start, $end);
 
