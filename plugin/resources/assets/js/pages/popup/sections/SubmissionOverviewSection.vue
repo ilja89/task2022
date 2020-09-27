@@ -117,16 +117,6 @@
             }
         },
 
-        watch: {
-            submission() {
-                this.getTotalResult();
-            },
-
-            charon() {
-                this.getTotalResult();
-            }
-        },
-
         filters: {
             withoutTrailingZeroes(number) {
                 return parseFloat(number);
