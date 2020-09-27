@@ -43,7 +43,6 @@
         methods: {
             saveClicked() {
                 let chosen_labs = []
-                console.log(this.charon)
                 for (let i = 0; i < this.charon.charonDefenseLabs.length; i++) {
                     chosen_labs.push(this.charon.charonDefenseLabs[i].id)
                 }
