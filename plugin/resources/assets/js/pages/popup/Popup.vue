@@ -50,7 +50,7 @@
             }
         },
 
-        mounted() {
+        created() {
             this.initializeEventListeners()
         },
 

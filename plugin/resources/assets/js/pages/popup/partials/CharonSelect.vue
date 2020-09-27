@@ -46,7 +46,7 @@
             },
         },
 
-        mounted() {
+        created() {
             this.refreshCharons()
         },
 

@@ -72,7 +72,7 @@
             },
         },
 
-        mounted() {
+        created() {
             this.fetchStudentsDistribution()
         },
     }

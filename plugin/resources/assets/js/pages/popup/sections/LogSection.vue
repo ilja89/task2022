@@ -31,25 +31,8 @@
             ]),
         },
 
-        mounted() {
+        created() {
             this.fetchLogs()
-            VueEvent.$on('refresh-page', this.fetchLogs);
-        },
-
-        activated() {
-            VueEvent.$on('refresh-page', this.fetchLogs);
-        },
-
-        /**
-         * Remove global event listeners for more efficient refreshes on other
-         * pages.
-         */
-        deactivated() {
-            VueEvent.$off('refresh-page', this.fetchLogs)
-        },
-
-        beforeDestroy() {
-            VueEvent.$off('refresh-page', this.fetchLogs)
         },
 
         methods: {

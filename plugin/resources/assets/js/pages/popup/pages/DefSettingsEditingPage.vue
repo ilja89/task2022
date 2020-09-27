@@ -93,7 +93,8 @@
                 'course'
             ]),
         },
-        mounted() {
+
+        created() {
             Lab.all(this.course.id, response => {
                 this.labs = response
                 this.getNamesForLabs()

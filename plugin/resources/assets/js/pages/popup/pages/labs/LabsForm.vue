@@ -106,7 +106,8 @@
                 'course'
             ]),
         },
-        mounted() {
+
+        created() {
             Teacher.getAllTeachers(this.course.id, (response) => {
                 this.teachers = response;
                 this.giveTeachersFullNames();

@@ -51,17 +51,10 @@
             }
         },
 
-        mounted() {
+        created() {
+            Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
             this.getStudent()
             window.VueEvent.$on('refresh-page', this.getStudent)
-        },
-
-        activated() {
-            window.VueEvent.$on('refresh-page', this.getStudent)
-        },
-
-        deactivated() {
-            window.VueEvent.$off('refresh-page', this.getStudent)
         },
 
         beforeDestroy() {
@@ -101,9 +94,6 @@
             setAverageSubmissions(averageSubmissions) {
                 this.averageSubmissions = averageSubmissions;
             },
-        },
-        created() {
-            Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
         },
     }
 </script>

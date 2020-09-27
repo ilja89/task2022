@@ -32,7 +32,8 @@
                 'course'
             ]),
         },
-        mounted() {
+
+        created() {
             Defense.all(this.course.id, response => {
                 this.defenseList = response
             })
@@ -42,6 +43,7 @@
                 })
             })
         },
+
         methods: {
             apply(after, before, filter_teacher, filter_progress) {
                 Defense.filtered(this.course.id, after, before, filter_teacher.id, filter_progress, response => {

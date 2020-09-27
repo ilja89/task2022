@@ -86,18 +86,7 @@
 
         created() {
             this.refreshSubmissions()
-        },
-
-        activated() {
             VueEvent.$on('refresh-page', this.refreshSubmissions)
-        },
-
-        /**
-         * Remove global event listeners for more efficient refreshes on other
-         * pages.
-         */
-        deactivated() {
-            VueEvent.$off('refresh-page', this.refreshSubmissions)
         },
 
         beforeDestroy() {

@@ -103,7 +103,7 @@
             },
         },
 
-        mounted() {
+        created() {
             if (this.value) {
                 this.newValue = this.value
             } else {

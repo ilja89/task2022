@@ -63,7 +63,8 @@
                 return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
         },
-        mounted() {
+
+        created() {
             Charon.all(this.course.id, response => {
                 this.formatCharonsDeadlines(response, done => {
                     this.charons = done

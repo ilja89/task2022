@@ -24,7 +24,7 @@
         },
 
         components: {LabSection},
-        mounted() {
+        created() {
             Lab.all(this.course.id, response => {
                 this.formatLabs(response, (done) => {
                     this.assignLabs(done)

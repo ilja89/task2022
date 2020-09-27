@@ -63,25 +63,8 @@
             ]),
         },
 
-        mounted() {
+        created() {
             this.fetchSubmissionCounts()
-            VueEvent.$on('refresh-page', this.fetchSubmissionCounts);
-        },
-
-        activated() {
-            VueEvent.$on('refresh-page', this.fetchSubmissionCounts);
-        },
-
-        /**
-         * Remove global event listeners for more efficient refreshes on other
-         * pages.
-         */
-        deactivated() {
-            VueEvent.$off('refresh-page', this.fetchSubmissionCounts)
-        },
-
-        beforeDestroy() {
-            VueEvent.$off('refresh-page', this.fetchSubmissionCounts)
         },
 
         methods: {

@@ -69,7 +69,7 @@
             }
         },
 
-        mounted() {
+        created() {
             this.getOutputs()
         },
 

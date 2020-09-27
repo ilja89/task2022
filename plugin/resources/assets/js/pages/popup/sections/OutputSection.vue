@@ -94,7 +94,7 @@
             },
         },
 
-        mounted() {
+        created() {
             this.registerScrollListener()
         },
     }
