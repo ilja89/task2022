@@ -67,6 +67,12 @@
             this.getOutputs()
         },
 
+        watch: {
+            submission() {
+                this.getOutputs()
+            }
+        },
+
         methods: {
             hasOutput(object, kind) {
                 return object !== null && object[kind] !== null && object[kind].length > 0
