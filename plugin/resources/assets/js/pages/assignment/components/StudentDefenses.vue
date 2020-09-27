@@ -1,69 +1,86 @@
 <template>
-    <div id="app">
-        <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-        ></v-text-field>
-
-        <v-data-table
-                :headers="headers"
-                :items="defenseData"
-                :search="search"
-                class="elevation-1"
-                single-line
-                multi-sort
-                :defenseData="defenseData"
-                :student_id="student_id"
-                :charon="charon"
-        >
-            <template slot="no-data">
-                <v-alert :value="true" style="text-align: center">
-                    Sorry, nothing to display here :(
-                </v-alert>
-            </template>
-            <template v-slot:top>
-                <v-toolbar flat color="white" height="0 px">
-
-                    <v-dialog v-model="dialog" max-width="500px">
-                        <template v-slot:activator="{ on, attrs }">
-
-                        </template>
-                        <v-card>
-                            <v-card-title>
-                                <span class="headline">{{ formTitle }}</span>
-                            </v-card-title>
-
-                            <v-card-text>
-                                <v-container>
-                                    <v-row>
-                                        <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.time"
-                                                          label="Defense time"></v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.teacher"
-                                                          label="Teacher for defense"></v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
-
-                            <v-card-actions>
+    <div id="defenses app">
+        <v-app>
+            <v-content>
+                <v-card class="mx-auto mb-16">
+                    <v-card-text class="grey lighten-4">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <v-card-title v-if="defenseData.length">
+                                My Registrations
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                </v-toolbar>
-            </template>
-            <template v-slot:item.actions="{ item }">
-                <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
-            </template>
-        </v-data-table>
+                                <v-text-field
+                                        v-if="defenseData.length"
+                                        v-model="search"
+                                        append-icon="search"
+                                        label="Search"
+                                        single-line
+                                        hide-details>
+                                </v-text-field>
+                            </v-card-title>
+                            <v-card-title v-else>
+                                No Registrations! Press the shield icon to get started.
+                            </v-card-title>
+                            <v-data-table
+                                    :headers="headers"
+                                    :items="defenseData"
+                                    :search="search"
+                                    class="elevation-1"
+                                    single-line
+                                    multi-sort
+                                    :defenseData="defenseData"
+                                    :student_id="student_id"
+                                    :charon="charon"
+                            >
+                                <template slot="no-data">
+                                    <v-alert :value="true" style="text-align: center">
+                                        Sorry, nothing to display here :(
+                                    </v-alert>
+                                </template>
+                                <template v-slot:top>
+                                    <v-toolbar flat color="white" height="0 px">
+
+                                        <v-dialog v-model="dialog" max-width="500px">
+                                            <template v-slot:activator="{ on, attrs }">
+
+                                            </template>
+                                            <v-card>
+                                                <v-card-title>
+                                                    <span class="headline">{{ formTitle }}</span>
+                                                </v-card-title>
+
+                                                <v-card-text>
+                                                    <v-container>
+                                                        <v-row>
+                                                            <v-col cols="12" sm="6" md="4">
+                                                                <v-text-field v-model="editedItem.time"
+                                                                              label="Defense time"></v-text-field>
+                                                            </v-col>
+                                                            <v-col cols="12" sm="6" md="4">
+                                                                <v-text-field v-model="editedItem.teacher"
+                                                                              label="Teacher for defense"></v-text-field>
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-container>
+                                                </v-card-text>
+
+                                                <v-card-actions>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                                                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
+                                    </v-toolbar>
+                                </template>
+                                <template v-slot:item.actions="{ item }">
+                                    <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </template>
+                            </v-data-table>
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-content>
+        </v-app>
     </div>
 </template>
 
@@ -151,3 +168,12 @@
 
     }
 </script>
+
+<style>
+
+    .v-application--wrap {
+        min-height: 1vh !important;
+    }
+
+
+</style>
