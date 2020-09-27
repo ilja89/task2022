@@ -1,9 +1,7 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText"
-                   :key="'popup_' + submission == null ? 1 : submission.id">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText">
         <template slot="header-right">
-            <span v-if="charon_confirmed_points !== null" class="extra-info-text"
-                  :key="'points_' + submission == null ? 1 :  submission.id">
+            <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p
             </span>
             <v-btn :disabled="saveIsDisabled" class="ma-2" tile outlined color="primary" @click="saveSubmission">
@@ -14,7 +12,7 @@
         <div v-if="hasSubmission" class="columns is-gapless is-desktop submission-overview-container">
             <div class="column is-one-third">
                 <div class="card">
-                    <submission-info :key="'info_' + submission == null ? 1 : submission.id"/>
+                    <submission-info/>
                 </div>
             </div>
 
@@ -22,7 +20,7 @@
                 <div class="card">
                     <div v-for="(result, index) in submission.results"
                          v-if="getGrademapByResult(result)"
-                         :key="'result_' + submission == null ? 1 : submission.id + '_' + result.id">
+                         :key="'result_' + index + '_' + submission.id">
 
                         <hr v-if="index !== 0" class="hr-result"/>
 

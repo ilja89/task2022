@@ -36,7 +36,6 @@
 
         mounted() {
             this.getSubmission();
-            console.log(this.charon)
 
             window.VueEvent.$on("submission-was-saved", _ => {
                 this.getSubmission;
@@ -85,18 +84,16 @@
             getSubmission() {
                 Submission.findById(this.$route.params.submission_id, submission => {
                         this.updateSubmission({submission});
+                        const charonId = submission.charon_id;
 
-                        if (this.charon === null) {
-                            const charonId = submission.charon_id;
-
-                            Charon.all(this.courseId, charons => {
-                                charons.forEach(charon => {
-                                    if (charon.id === charonId) {
-                                        this.updateCharon({charon});
-                                    }
-                                });
+                        Charon.all(this.courseId, charons => {
+                            charons.forEach(charon => {
+                                if (charon.id === charonId) {
+                                    this.updateCharon({charon});
+                                }
                             });
-                        }
+                        });
+
 
                         const studentId = submission.user_id;
                         const courseId = this.courseId;
