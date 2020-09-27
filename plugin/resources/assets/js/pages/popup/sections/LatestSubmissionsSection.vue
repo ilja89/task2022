@@ -103,10 +103,10 @@
 
         mounted() {
             this.fetchLatestSubmissions()
+            VueEvent.$on('refresh-page', this.fetchLatestSubmissions)
         },
 
         activated() {
-            this.fetchLatestSubmissions()
             VueEvent.$on('refresh-page', this.fetchLatestSubmissions)
         },
 

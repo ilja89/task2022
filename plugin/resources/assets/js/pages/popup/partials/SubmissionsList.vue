@@ -84,12 +84,11 @@
             },
         },
 
-        mounted() {
+        created() {
             this.refreshSubmissions()
         },
 
         activated() {
-            this.refreshSubmissions()
             VueEvent.$on('refresh-page', this.refreshSubmissions)
         },
 

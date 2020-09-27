@@ -57,7 +57,6 @@
         },
 
         activated() {
-            this.getStudent()
             window.VueEvent.$on('refresh-page', this.getStudent)
         },
 

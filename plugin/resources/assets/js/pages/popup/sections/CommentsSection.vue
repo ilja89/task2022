@@ -50,10 +50,10 @@
 
         mounted() {
             this.refreshComments()
+            VueEvent.$on('refresh-page', this.refreshComments)
         },
 
         activated() {
-            this.refreshComments()
             VueEvent.$on('refresh-page', this.refreshComments)
         },
 
