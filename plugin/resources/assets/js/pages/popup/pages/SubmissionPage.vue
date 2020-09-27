@@ -19,9 +19,6 @@
     import {SubmissionOverviewSection, OutputSection, CommentsSection} from "../sections";
     import {Submission, Charon} from "../../../api";
 
-    import Vue from 'vue';
-    Vue.forceUpdate();
-
     export default {
         components: {PageTitle, SubmissionOverviewSection, OutputSection, CommentsSection},
 
@@ -39,6 +36,7 @@
 
         mounted() {
             this.getSubmission();
+            console.log(this.charon)
 
             window.VueEvent.$on("submission-was-saved", _ => {
                 this.getSubmission;
