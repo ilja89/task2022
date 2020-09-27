@@ -22,7 +22,7 @@ class CharonController extends Controller
         return Charon::where('id', '=', $id)->get()[0];
     }
 
-    public function getDefenders(Request $request) {
+    public function getStudentRegistrations(Request $request) {
         $student_id = $request->input('studentid');
         return \DB::table('charon_defenders')
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')

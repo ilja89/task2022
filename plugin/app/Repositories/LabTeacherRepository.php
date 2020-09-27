@@ -78,45 +78,48 @@ class LabTeacherRepository
             ->delete();
     }
 
-    public function deleteByLabAndTeacherId($labId, $teacherId) {
+    public function deleteByLabAndTeacherId($labId, $teacherId)
+    {
         return DB::table('charon_lab_teacher')
             ->where('lab_id', $labId)
             ->where('teacher_id', $teacherId)
             ->delete();
     }
 
-    public function getTeacherForStudent($studentId)
+    public function getTeacherRoleIds()
     {
-        $group = \DB::table('user')
-            ->join('groups_members', 'groups_members.userid', 'user.id')
-            ->where('user.id', $studentId)
-            ->select('groups_members.groupid')
-            ->get();
-        $okRoleIds = \DB::table('role_capabilities')
+        return array_values(\DB::table('role_capabilities')
             ->where('capability', 'moodle/course:manageactivities')
             ->select('roleid')
-            ->get();
-        $okRoleIdsString = "(";
-        if (count($okRoleIds) == 0) {
-            $okRoleIdsString = "()";
-        }
-        for ($i = 0; $i < count($okRoleIds); $i++) {
-            $okRoleIdsString .= $okRoleIds[$i]->roleid;
-            if ($i != count($okRoleIds) - 1) {
-                $okRoleIdsString .= ', ';
-            } else {
-                $okRoleIdsString .= ')';
-            }
-        }
+            ->pluck('roleid')
+            ->toArray());
+    }
 
-        $teacher = \DB::table('groups_members')
-            ->join('role_assignments', 'role_assignments.userid', 'groups_members.userid')
+    public function getGroupsForStudent($studentId, $course_id)
+    {
+        return array_values(\DB::table('groupings')
+            ->where('groupings.idnumber', 'help_group')
+            ->where('groupings.courseid', $course_id)
+            ->join('groupings_groups', 'groupings.id', 'groupings_groups.groupingid')
+            ->join('groups', 'groupings_groups.groupid', 'groups.id')
+            ->join('groups_members', 'groupings_groups.groupid', 'groups_members.groupid')
+            ->where('groups_members.userid', $studentId)
+            ->pluck('groups.id')
+            ->toArray());
+    }
+
+    public function getTeacherForStudent($studentId, $course_id)
+    {
+
+        return \DB::table('groups')
+            ->whereIn('groups.id', $this->getGroupsForStudent($studentId, $course_id))
+            ->join('groups_members', 'groups.id', 'groups_members.groupid')
             ->join('user', 'user.id', 'groups_members.userid')
-            ->where('groups_members.groupid', $group[0]->groupid)
-            ->whereRaw("roleid IN " . $okRoleIdsString)
+            ->join('role_assignments', 'user.id', 'role_assignments.userid')
+            ->whereIn("role_assignments.roleid", $this->getTeacherRoleIds())
             ->select('user.id', 'user.firstname', 'user.lastname', 'groups_members.groupid')
-            ->get();
-        return $teacher;
+            ->distinct()
+            ->first();
     }
 
     /**

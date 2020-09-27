@@ -57,7 +57,7 @@ Route::middleware('auth.course_module.enrolment.require')
 Route::get('api/charon_data.php', 'CharonController@getAll');
 
 Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharonLaterEqualToday');
-Route::get('api/student_defense_data.php', 'CharonController@getDefenders');
+Route::get('api/student_defense_data.php', 'CharonController@getStudentRegistrations');
 Route::get('api/get_time.php', 'SubmissionController@getRowCountForPractise');
 Route::delete('api/delete_defense.php', 'DefenseLabController@deleteReg');
 Route::get('api/student_group.php', 'DefenseLabController@getStudentGroup');

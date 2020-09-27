@@ -78,7 +78,7 @@ class LabTeacherController extends Controller
 
     public function getTeacherForStudent(Course $course, ModelUser $user)
     {
-        return $this->labTeacherRepository->getTeacherForStudent($user->id);
+        return $this->labTeacherRepository->getTeacherForStudent($user->id, $course->id);
     }
 
     public function updateTeacherForLab($course, $lab, $teacher)

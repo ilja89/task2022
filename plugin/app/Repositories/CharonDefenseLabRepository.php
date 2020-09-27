@@ -12,7 +12,6 @@ class CharonDefenseLabRepository
 {
     public function deleteAllDefenseLabsForCharon($charonId)
     {
-
         Log::info("Attempting to delete all charon defense-labs");
         return DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
@@ -20,18 +19,32 @@ class CharonDefenseLabRepository
 
     }
 
-    public function getDefenseLabsByCharonId($charonId) {
-
-        $defenseLabs =  \DB::table('charon_defense_lab')
+    public function getDefenseLabsByCharonId($charonId)
+    {
+        return \DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select(
                 'charon_lab.id',
-                'charon_lab.start'
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.course_id'
             )
             ->get();
+    }
 
-        return $defenseLabs;
+    public function getDefenseLabById($labId)
+    {
+        return \DB::table('charon_defense_lab')
+            ->where('charon_defense_lab.id', $labId)
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+            ->select(
+                'charon_lab.id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.course_id'
+            )
+            ->first();
     }
 
 }
