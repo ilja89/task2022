@@ -329,17 +329,12 @@
 
             sendData() {
                 let selected_boolean = this.selected === "My teacher";
-                let datetime_start = this.value['start'];
-                let datetime_end = this.value['end'];
-                let choosen_time = datetime_start.split(' ')[0] + " " + this.value_time;
+                let choosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
 
                 if (this.value !== 0 && this.value_time !== null && this.selected.length !== 0) {
                     axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
                         charon_id: this.charon_id,
-                        course_id: this.charon['course'],
                         submission_id: this.current_submission,
-                        lab_start: datetime_start,
-                        lab_end: datetime_end,
                         selected: selected_boolean,
                         defense_lab_id: this.value['id'],
                         student_choosen_time: choosen_time,
@@ -363,6 +358,12 @@
                         break;
                     case 'deleted':
                         alert('Selected teacher was\'nt vacant. Please chose another time or choose option "Another teacher"');
+                        break;
+                    case 'invalid setup':
+                        alert('Alert teachers that lab configuration was invalid');
+                        break;
+                    case 'invalid chosen time':
+                        alert('Invalid chosen time');
                         break;
                 }
             },

@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -40,12 +41,24 @@ class SubmissionController extends Controller
     {
         $student_id = $request->input('studentid');
         $submission_id = $request->input('submission_id');
-        $lab_start = $request->input('lab_start');
-        $lab_end = $request->input('lab_end');
         $teacher = $request->input('selected');
         $lab_id = $request->input('defense_lab_id');
         $charon_id = $request->input('charon_id');
         $student_time = $request->input('student_choosen_time');
+
+        $lab = $this->charon_defense_lab_repository->getDefenseLabById($lab_id);
+        $lab_start = $lab->start;
+        $lab_end = $lab->end;
+
+        $duration = $this->charon_repository->getCharonById($charon_id)->defense_duration;
+        if ($duration == null || $duration <= 0) {
+            return "invalid setup";
+        }
+
+        $delta = Carbon::createFromFormat('Y-m-d H:i:s', $student_time)->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s', $lab_start)) / 60;
+        if ($delta % $duration != 0) {
+            return "invalid chosen time";
+        }
 
         $defense_count_student = $this->getUserPendingRegistrationsCount($student_id, $charon_id, $lab_start, $lab_end);
         $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
@@ -56,7 +69,7 @@ class SubmissionController extends Controller
                 $course_id = $this->charon_repository->getCharonById($charon_id)->course;
                 $student_teacher = $this->getTeacherForStudent($student_id, $course_id);
                 $teacher_id = $student_teacher->id;
-                if (count($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $charon_id, $lab_start, $lab_end)) > 0) return 'teacher is busy';
+                if (count($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $lab_start, $lab_end)) > 0) return 'teacher is busy';
             } else {
                 $teacher_id = $this->getTeachersByCharonAndLab($charon_id, $lab_id, $student_time);
             }
@@ -121,13 +134,12 @@ class SubmissionController extends Controller
     }
 
 
-    public function getDefensesCountForTimeMyTeacher($time, $student_teacher_id, $charon_id, $start, $end)
+    public function getDefensesCountForTimeMyTeacher($time, $student_teacher_id, $start, $end)
     {
 
         return array_values(\DB::table('charon_defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('charon_id', $charon_id)
             ->where('teacher_id', $student_teacher_id)
             ->whereBetween('choosen_time', [date($start), date($end)])
             ->groupBy('choosen_time')
@@ -136,13 +148,12 @@ class SubmissionController extends Controller
             ->toArray());
     }
 
-    public function getDefensesCountForAllTeachers($time, $charon_id, $teacher_count, $start, $end)
+    public function getDefensesCountForAllTeachers($time, $teacher_count, $start, $end)
     {
 
         return array_values(DB::table('charon_defenders')
             ->select(DB::raw('SUBSTRING(choosen_time, 12, 5) as choosen_time'))
             ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('charon_id', $charon_id)
             ->whereBetween('choosen_time', [date($start), date($end)])
             ->groupBy('choosen_time')
             ->having(DB::raw('count(*)'), '=', $teacher_count)
@@ -180,10 +191,10 @@ class SubmissionController extends Controller
         if ($choose_my_teacher == "true") {
 
             $student_teacher = $this->lab_teacher_repository->getTeacherForStudent($student_id, $course_id)->id;
-            return $this->getDefensesCountForTimeMyTeacher($time, $student_teacher, $charon_id, $start, $end);
+            return $this->getDefensesCountForTimeMyTeacher($time, $student_teacher, $start, $end);
         } else {
 
-            return $this->getDefensesCountForAllTeachers($time, $charon_id, $teacher_count, $start, $end);
+            return $this->getDefensesCountForAllTeachers($time, $teacher_count, $start, $end);
         }
     }
 }
