@@ -36,6 +36,10 @@
             VueEvent.$on('refresh-page', this.fetchLogs);
         },
 
+        activated() {
+            VueEvent.$on('refresh-page', this.fetchLogs);
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.

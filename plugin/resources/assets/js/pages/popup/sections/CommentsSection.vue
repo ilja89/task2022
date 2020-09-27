@@ -63,6 +63,11 @@
             VueEvent.$on('refresh-page', this.refreshComments)
         },
 
+        activated() {
+            this.refreshComments()
+            VueEvent.$on('refresh-page', this.refreshComments)
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.

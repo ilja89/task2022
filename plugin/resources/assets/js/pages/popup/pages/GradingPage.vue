@@ -51,6 +51,11 @@
             }
         },
 
+        mounted() {
+            this.getStudent()
+            window.VueEvent.$on('refresh-page', this.getStudent)
+        },
+
         activated() {
             this.getStudent()
             window.VueEvent.$on('refresh-page', this.getStudent)

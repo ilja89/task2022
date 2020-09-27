@@ -47,6 +47,10 @@
             window.VueEvent.$on("refresh-page", this.getSubmission);
         },
 
+        activated() {
+            window.VueEvent.$on("refresh-page", this.getSubmission);
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.

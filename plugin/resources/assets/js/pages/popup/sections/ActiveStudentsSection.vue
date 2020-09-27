@@ -119,6 +119,10 @@
             VueEvent.$on('refresh-page', this.fetchActiveStudents);
         },
 
+        activated() {
+            VueEvent.$on('refresh-page', this.fetchActiveStudents);
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.

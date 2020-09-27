@@ -51,6 +51,10 @@
             VueEvent.$on('refresh-page', this.refreshCharons)
         },
 
+        activated() {
+            VueEvent.$on('refresh-page', this.refreshCharons)
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.

@@ -106,6 +106,10 @@
             VueEvent.$on('refresh-page', this.fetchLatestSubmissions)
         },
 
+        activated() {
+            VueEvent.$on('refresh-page', this.fetchLatestSubmissions)
+        },
+
         /**
          * Remove global event listeners for more efficient refreshes on other
          * pages.
