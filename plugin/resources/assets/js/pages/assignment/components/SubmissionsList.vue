@@ -244,6 +244,7 @@
                 let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
                 let curTime = moment();
 
+                this.times = [];
                 while (startTime < endTime) {
                     const time = new moment(startTime).format('HH:mm');
                     if (!this.not_available_times.includes(time) && curTime.isBefore(startTime)) {
