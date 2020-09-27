@@ -7,10 +7,10 @@
 
         <transition-group name="list">
             <submission-partial
-                v-for="submission in orderedSubmissions"
-                :key="submission.id"
-                :submission="submission"
-                @submission-was-selected="onSubmissionSelected(submission)"
+                    v-for="submission in orderedSubmissions"
+                    :key="submission.id"
+                    :submission="submission"
+                    @submission-was-selected="onSubmissionSelected(submission)"
             >
             </submission-partial>
         </transition-group>
@@ -25,14 +25,14 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
+    import {mapState, mapGetters} from 'vuex'
     import _ from 'lodash';
     import SubmissionPartial from './Submission'
-    import { Submission } from '../../../api'
+    import {Submission} from '../../../api'
 
     export default {
 
-        components: { SubmissionPartial },
+        components: {SubmissionPartial},
 
         data() {
             return {
@@ -81,6 +81,16 @@
                 } else {
                     this.canLoadMore = false
                 }
+            },
+        },
+
+        watch: {
+            charon() {
+                this.refreshSubmissions()
+            },
+
+            student() {
+                this.refreshSubmissions()
             },
         },
 
