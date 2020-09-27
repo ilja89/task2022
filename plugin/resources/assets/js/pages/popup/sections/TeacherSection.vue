@@ -161,7 +161,6 @@
 
         mounted() {
             this.fetchTeachers()
-            VueEvent.$on('refresh-page', this.fetchTeachers);
         },
 
         activated() {

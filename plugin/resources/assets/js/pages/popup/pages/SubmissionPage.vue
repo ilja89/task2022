@@ -44,7 +44,6 @@
             window.VueEvent.$on("submission-being-edited", _ =>
                 this.guardFromNavigation(true)
             );
-            window.VueEvent.$on("refresh-page", this.getSubmission);
         },
 
         activated() {

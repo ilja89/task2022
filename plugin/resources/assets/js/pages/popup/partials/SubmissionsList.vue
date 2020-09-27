@@ -96,7 +96,6 @@
 
         mounted() {
             this.refreshSubmissions()
-            VueEvent.$on('refresh-page', this.refreshSubmissions)
         },
 
         activated() {

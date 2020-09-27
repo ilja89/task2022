@@ -33,7 +33,6 @@
 
         mounted() {
             this.fetchLogs()
-            VueEvent.$on('refresh-page', this.fetchLogs);
         },
 
         activated() {

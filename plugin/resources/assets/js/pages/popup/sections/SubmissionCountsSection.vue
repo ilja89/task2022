@@ -65,7 +65,6 @@
 
         mounted() {
             this.fetchSubmissionCounts()
-            VueEvent.$on('refresh-page', this.fetchSubmissionCounts);
         },
 
         activated() {

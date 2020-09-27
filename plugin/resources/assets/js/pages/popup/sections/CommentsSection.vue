@@ -60,7 +60,6 @@
 
         mounted() {
             this.refreshComments()
-            VueEvent.$on('refresh-page', this.refreshComments)
         },
 
         activated() {

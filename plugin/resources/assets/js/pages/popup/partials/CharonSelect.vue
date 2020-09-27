@@ -48,7 +48,6 @@
 
         mounted() {
             this.refreshCharons()
-            VueEvent.$on('refresh-page', this.refreshCharons)
         },
 
         activated() {
