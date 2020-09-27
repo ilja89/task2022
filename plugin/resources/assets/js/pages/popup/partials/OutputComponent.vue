@@ -14,7 +14,7 @@
             />
         </div>
 
-        <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="outputs.length">
+        <v-card :key="submission.id" class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="outputs.length">
             <pre style="max-height: 900px;overflow: auto">{{ activeOutput }}</pre>
         </v-card>
 
