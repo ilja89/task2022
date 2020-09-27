@@ -64,6 +64,10 @@
             window.VueEvent.$off('refresh-page', this.getStudent)
         },
 
+        beforeDestroy() {
+            window.VueEvent.$off('refresh-page', this.getStudent)
+        },
+
         watch: {
             $route() {
                 if (typeof this.$route.params.student_id != 'undefined'

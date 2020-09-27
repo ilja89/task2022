@@ -99,5 +99,9 @@
         deactivated() {
             VueEvent.$off('refresh-page', this.refreshSubmissions)
         },
+
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.refreshSubmissions)
+        },
     }
 </script>

@@ -65,6 +65,10 @@
             VueEvent.$off('refresh-page', this.refreshComments)
         },
 
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.refreshComments)
+        },
+
         methods: {
             saveComment() {
                 if (this.writtenComment.length === 0) {

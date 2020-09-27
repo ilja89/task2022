@@ -48,6 +48,10 @@
             VueEvent.$off('refresh-page', this.fetchLogs)
         },
 
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.fetchLogs)
+        },
+
         methods: {
             fetchLogs() {
                 Charon.fetchLatestLogs(this.courseId, logs => {

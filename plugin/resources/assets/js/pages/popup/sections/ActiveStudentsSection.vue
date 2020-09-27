@@ -129,6 +129,10 @@
         deactivated() {
             VueEvent.$off('refresh-page', this.fetchActiveStudents)
         },
+
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.fetchActiveStudents)
+        },
     }
 </script>
 

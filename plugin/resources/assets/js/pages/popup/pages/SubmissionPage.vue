@@ -58,6 +58,10 @@
             VueEvent.$off("refresh-page", this.getSubmission);
         },
 
+        beforeDestroy() {
+            VueEvent.$off("refresh-page", this.getSubmission);
+        },
+
         beforeRouteLeave(to, from, next) {
             if (this.guard_navigation === true) {
                 const answer = window.confirm(

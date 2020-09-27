@@ -117,6 +117,10 @@
         deactivated() {
             VueEvent.$off('refresh-page', this.fetchLatestSubmissions)
         },
+
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.fetchLatestSubmissions)
+        },
     }
 </script>
 

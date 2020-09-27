@@ -80,6 +80,10 @@
             VueEvent.$off('refresh-page', this.fetchSubmissionCounts)
         },
 
+        beforeDestroy() {
+            VueEvent.$off('refresh-page', this.fetchSubmissionCounts)
+        },
+
         methods: {
 
             fetchSubmissionCounts() {
