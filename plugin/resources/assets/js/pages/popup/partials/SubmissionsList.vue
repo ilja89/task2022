@@ -55,20 +55,10 @@
             },
         },
 
-        watch: {
-            charon() {
-                this.refreshSubmissions()
-            },
-
-            student() {
-                this.refreshSubmissions()
-            },
-        },
-
         methods: {
 
             refreshSubmissions() {
-                if (this.student === null || this.charon === null) {
+                if (this.student == null || this.charon == null) {
                     return
                 }
 
