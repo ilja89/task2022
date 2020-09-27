@@ -48,22 +48,11 @@
             ]),
         },
 
-        watch: {
-            charon() {
-                this.refreshComments()
-            },
-
-            student() {
-                this.refreshComments()
-            },
-        },
-
         mounted() {
             this.refreshComments()
         },
 
         activated() {
-            this.refreshComments()
             VueEvent.$on('refresh-page', this.refreshComments)
         },
 
