@@ -55,7 +55,7 @@ class SubmissionController extends Controller
             return "invalid setup";
         }
 
-        $delta = Carbon::createFromFormat('Y-m-d H:i:s', $student_time)->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s', $lab_start)) / 60;
+        $delta = Carbon::createFromFormat('Y-m-d H:i', $student_time)->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s', $lab_start)) / 60;
         if ($delta % $duration != 0) {
             return "invalid chosen time";
         }
