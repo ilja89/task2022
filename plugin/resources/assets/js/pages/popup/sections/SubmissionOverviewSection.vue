@@ -1,8 +1,8 @@
 <template>
-    {{submission}}
     <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission.id">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text">
+                {{submission}}
                 Current points: {{ charon_confirmed_points }}p
             </span>
             <v-btn :disabled="saveIsDisabled" class="ma-2" tile outlined color="primary" @click="saveSubmission">
