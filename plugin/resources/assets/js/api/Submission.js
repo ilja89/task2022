@@ -12,7 +12,6 @@ class Submission {
 
     static getNext(then) {
         axios.get(Submission.nextUrl)
-
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
