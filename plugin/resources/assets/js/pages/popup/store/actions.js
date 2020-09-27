@@ -1,4 +1,4 @@
-import { User } from '../../../api'
+import {User} from '../../../api'
 
 /**
  * Fetch the student by their id and the course id.
@@ -6,10 +6,14 @@ import { User } from '../../../api'
  * @param studentId {Number}
  * @param courseId {Number}
  */
-export const fetchStudent = ({ commit }, { studentId, courseId }) => {
+export const fetchStudent = ({commit}, {studentId, courseId}) => {
     return new Promise((resolve, reject) => {
+        if (studentId == null || courseId == null) {
+            reject(null)
+        }
+
         User.getStudentInfo(courseId, studentId, user => {
-            commit('UPDATE_STUDENT', { student: user });
+            commit('UPDATE_STUDENT', {student: user});
             resolve(user);
         })
 
@@ -21,10 +25,10 @@ export const fetchStudent = ({ commit }, { studentId, courseId }) => {
  * @param commit {Function}
  * @param courseId {Number}
  */
-export const initializeCourse = ({ commit }, { courseId }) => {
-    const course = { id: courseId }
+export const initializeCourse = ({commit}, {courseId}) => {
+    const course = {id: courseId}
 
-    commit('UPDATE_COURSE', { course })
+    commit('UPDATE_COURSE', {course})
 }
 
 /**
@@ -32,8 +36,8 @@ export const initializeCourse = ({ commit }, { courseId }) => {
  * @param commit {Function}
  * @param charon {Object}
  */
-export const updateCharon = ({ commit }, { charon }) => {
-    commit('UPDATE_CHARON', { charon })
+export const updateCharon = ({commit}, {charon}) => {
+    commit('UPDATE_CHARON', {charon})
 }
 
 /**
@@ -41,8 +45,8 @@ export const updateCharon = ({ commit }, { charon }) => {
  * @param commit {Function}
  * @param submission {Object}
  */
-export const updateSubmission = ({ commit }, { submission }) => {
-    commit('UPDATE_SUBMISSION', { submission })
+export const updateSubmission = ({commit}, {submission}) => {
+    commit('UPDATE_SUBMISSION', {submission})
 }
 
 /**
@@ -50,8 +54,8 @@ export const updateSubmission = ({ commit }, { submission }) => {
  * @param commit {Function}
  * @param lab {Object}
  */
-export const updateLab = ({ commit }, { lab }) => {
-    commit('UPDATE_LAB', { lab })
+export const updateLab = ({commit}, {lab}) => {
+    commit('UPDATE_LAB', {lab})
 }
 
 /**
@@ -59,6 +63,6 @@ export const updateLab = ({ commit }, { lab }) => {
  * @param commit {Function}
  * @param submission {Object}
  */
-export const updateLabToEmpty = ({ commit }) => {
+export const updateLabToEmpty = ({commit}) => {
     commit('UPDATE_LAB_TO_EMPTY')
 }
