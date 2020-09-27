@@ -1,5 +1,6 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="'popup_' + submission.id">
+    <popup-section v-if="renderComponent" :title="activeCharonName" :subtitle="submissionOrderNrText"
+                   :key="'popup_' + submission.id">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text" :key="'points_' + submission.id">
                 Current points: {{ charon_confirmed_points }}p
@@ -83,6 +84,7 @@
         data() {
             return {
                 charon_confirmed_points: null,
+                renderComponent: true,
                 errors: {},
                 points_changed: false
             };
@@ -133,7 +135,21 @@
             }
         },
 
+        mounted() {
+            this.forceRerender()
+        },
+
         methods: {
+            forceRerender() {
+                // Remove my-component from the DOM
+                this.renderComponent = false;
+
+                this.$nextTick(() => {
+                    // Add the component back in
+                    this.renderComponent = true;
+                });
+            },
+
             getGrademapByResult(result) {
                 if (!this.charon) return null;
 
@@ -206,7 +222,7 @@
             },
 
             getTotalResult() {
-                if (this.submission === null || this.charon === null) return;
+                if (this.submission == null || this.charon == null) return;
 
                 Charon.getResultForStudent(
                     this.charon.id,
@@ -217,7 +233,7 @@
                 );
             },
             updatePointsState() {
-                if (this.points_changed != true) {
+                if (this.points_changed !== true) {
                     this.points_changed = true;
                     window.VueEvent.$emit("submission-being-edited", {});
                 }
