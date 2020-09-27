@@ -68,6 +68,7 @@
         },
 
         activated() {
+            this.fetchSubmissionCounts()
             VueEvent.$on('refresh-page', this.fetchSubmissionCounts);
         },
 

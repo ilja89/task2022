@@ -119,6 +119,7 @@
         },
 
         activated() {
+            this.fetchActiveStudents()
             VueEvent.$on('refresh-page', this.fetchActiveStudents);
         },
 

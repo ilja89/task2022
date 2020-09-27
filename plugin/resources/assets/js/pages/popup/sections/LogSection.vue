@@ -36,6 +36,7 @@
         },
 
         activated() {
+            this.fetchLogs()
             VueEvent.$on('refresh-page', this.fetchLogs);
         },
 

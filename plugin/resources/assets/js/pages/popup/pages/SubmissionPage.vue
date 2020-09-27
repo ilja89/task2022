@@ -47,6 +47,7 @@
         },
 
         activated() {
+            this.getSubmission();
             window.VueEvent.$on("refresh-page", this.getSubmission);
         },
 
