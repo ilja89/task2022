@@ -1,8 +1,9 @@
 <template>
-    <popup-section v-if="renderComponent" :title="activeCharonName" :subtitle="submissionOrderNrText"
-                   :key="'popup_' + submission.id">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText"
+                   :key="'popup_' + submission == null ? 1 : submission.id">
         <template slot="header-right">
-            <span v-if="charon_confirmed_points !== null" class="extra-info-text" :key="'points_' + submission.id">
+            <span v-if="charon_confirmed_points !== null" class="extra-info-text"
+                  :key="'points_' + submission == null ? 1 :  submission.id">
                 Current points: {{ charon_confirmed_points }}p
             </span>
             <v-btn :disabled="saveIsDisabled" class="ma-2" tile outlined color="primary" @click="saveSubmission">
@@ -13,7 +14,7 @@
         <div v-if="hasSubmission" class="columns is-gapless is-desktop submission-overview-container">
             <div class="column is-one-third">
                 <div class="card">
-                    <submission-info :key="'info_' + submission.id"/>
+                    <submission-info :key="'info_' + submission == null ? 1 : submission.id"/>
                 </div>
             </div>
 
@@ -21,7 +22,7 @@
                 <div class="card">
                     <div v-for="(result, index) in submission.results"
                          v-if="getGrademapByResult(result)"
-                         :key="'result_' + submission.id + '_' + result.id">
+                         :key="'result_' + submission == null ? 1 : submission.id + '_' + result.id">
 
                         <hr v-if="index !== 0" class="hr-result"/>
 
@@ -84,7 +85,6 @@
         data() {
             return {
                 charon_confirmed_points: null,
-                renderComponent: true,
                 errors: {},
                 points_changed: false
             };
@@ -100,6 +100,7 @@
             },
 
             activeCharonName() {
+                console.log(this.charon)
                 return this.charon != null
                     ? `<a
                         href="${this.charonLink}"
@@ -122,12 +123,10 @@
         watch: {
             submission() {
                 this.getTotalResult();
-                this.forceRerender();
             },
 
             charon() {
                 this.getTotalResult();
-                this.forceRerender();
             }
         },
 
@@ -139,16 +138,6 @@
 
 
         methods: {
-            forceRerender() {
-                // Remove my-component from the DOM
-                this.renderComponent = false;
-
-                this.$nextTick(() => {
-                    // Add the component back in
-                    this.renderComponent = true;
-                });
-            },
-
             getGrademapByResult(result) {
                 if (!this.charon) return null;
 
