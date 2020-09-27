@@ -100,7 +100,6 @@
             },
 
             activeCharonName() {
-                console.log(this.charon)
                 return this.charon != null
                     ? `<a
                         href="${this.charonLink}"

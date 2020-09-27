@@ -19,6 +19,9 @@
     import {SubmissionOverviewSection, OutputSection, CommentsSection} from "../sections";
     import {Submission, Charon} from "../../../api";
 
+    import Vue from 'vue';
+    Vue.forceUpdate();
+
     export default {
         components: {PageTitle, SubmissionOverviewSection, OutputSection, CommentsSection},
 
