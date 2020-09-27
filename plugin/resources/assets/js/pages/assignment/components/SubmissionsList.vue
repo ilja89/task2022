@@ -55,7 +55,7 @@
             </div>
         </Modal>
 
-        <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp">
+        <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp" :wide="true">
             <template slot="header">
                 <p class="modal-card-title">All registrations</p>
             </template>
@@ -83,11 +83,11 @@
                     </span>
 
                     <span @click.stop="$emit('submission-was-activated', submission)">
-                        <img width="24px" height="24px" src="pix/eye.png" alt="eye">
+                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/eye.png" alt="eye">
                     </span>
 
                     <span @click="validateSubmission(submission)" @click.stop="showModalLabs(submission.id)">
-                        <img width="24px" height="24px" src="pix/shield.png" alt="shield">
+                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/shield.png" alt="shield">
                     </span>
 
                 </li>
@@ -122,6 +122,7 @@
         </div>
     </div>
 </template>
+
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
@@ -443,3 +444,8 @@
 
     }
 </script>
+
+<style>
+    @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
+    @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+</style>

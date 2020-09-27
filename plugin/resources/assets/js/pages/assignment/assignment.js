@@ -4,11 +4,26 @@ import moment from 'moment'
 import { HighlightDirective } from '../../directives'
 import { SubmissionsList, SubmissionModal } from './components'
 import Vuetify from "vuetify";
+import VueMaterial from 'vue-material'
+import light from "../popup/theme";
+
+import 'vuetify/dist/vuetify.min.css'
+import 'vue-good-table/dist/vue-good-table.css'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 
 window.moment = moment;
+Vue.directive('highlightjs', HighlightDirective);
+Vue.use(VueMaterial)
 Vue.use(Vuetify)
 
-Vue.directive('highlightjs', HighlightDirective);
+const opts = {
+    theme: {
+        themes: {light},
+    },
+}
+
+export default new Vuetify(opts)
 
 const app = new Vue({
 
@@ -16,6 +31,11 @@ const app = new Vue({
     vuetify: new Vuetify(),
 
     components: { SubmissionsList, SubmissionModal },
+
+    icons: {
+        iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
+    },
+    iconfont: 'mdi',
 
     data: {
         grademaps: grademaps,
