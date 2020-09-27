@@ -39,12 +39,6 @@
             ]),
         },
 
-        watch: {
-            charon() {
-                this.fetchSimilarities()
-            },
-        },
-
         methods: {
             fetchSimilarities() {
                 if (!this.charon) return

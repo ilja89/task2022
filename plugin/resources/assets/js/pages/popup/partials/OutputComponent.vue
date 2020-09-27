@@ -63,12 +63,6 @@
             }
         },
 
-        watch: {
-            submission() {
-                this.getOutputs()
-            }
-        },
-
         created() {
             this.getOutputs()
         },
