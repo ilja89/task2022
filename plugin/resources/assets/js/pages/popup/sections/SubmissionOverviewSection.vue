@@ -96,11 +96,11 @@
             ...mapGetters(["charonLink"]),
 
             hasSubmission() {
-                return this.submission !== null;
+                return this.submission != null;
             },
 
             activeCharonName() {
-                return this.charon !== null
+                return this.charon != null
                     ? `<a
                         href="${this.charonLink}"
                         class="section-title-link"
@@ -122,10 +122,12 @@
         watch: {
             submission() {
                 this.getTotalResult();
+                this.forceRerender();
             },
 
             charon() {
                 this.getTotalResult();
+                this.forceRerender();
             }
         },
 
@@ -135,9 +137,6 @@
             }
         },
 
-        mounted() {
-            this.forceRerender()
-        },
 
         methods: {
             forceRerender() {
@@ -167,10 +166,7 @@
                 for (let res in this.submission.results) {
                     if (
                         this.submission.results[res].calculated_result >
-                        parseFloat(
-                            this.getGrademapByResult(this.submission.results[res]).grade_item
-                                .grademax
-                        )
+                        parseFloat(this.getGrademapByResult(this.submission.results[res]).grade_item.grademax)
                     ) {
                         window.VueEvent.$emit(
                             "show-notification",
