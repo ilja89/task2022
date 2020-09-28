@@ -60,7 +60,7 @@ class CharonRepository
     /**
      * Save the Charon instance.
      *
-     * @param  Charon  $charon
+     * @param Charon $charon
      *
      * @return boolean
      */
@@ -82,7 +82,7 @@ class CharonRepository
     /**
      * Get an instance of Charon by its id.
      *
-     * @param  integer  $id
+     * @param integer $id
      *
      * @return Charon
      */
@@ -95,7 +95,7 @@ class CharonRepository
      * Gets a Charon instance by course module id.
      * Returns null if no course module is found or if the given course module is not a Charon.
      *
-     * @param  integer $id
+     * @param integer $id
      *
      * @return Charon
      * @throws CharonNotFoundException
@@ -105,19 +105,19 @@ class CharonRepository
         /** @var CourseModule $courseModule */
         $courseModule = CourseModule::find($id);
 
-        if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
+        if ($courseModule === null || !$courseModule->isInstanceOfPlugin()) {
             throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
 
         return Charon::where('id', $courseModule->instance)
-                     ->first();
+            ->first();
     }
 
     /**
      * Gets a charon instance with eagerly loaded fields like tester type and grading method by
      * course module id.
      *
-     * @param  integer $id
+     * @param integer $id
      *
      * @return Charon
      * @throws CharonNotFoundException
@@ -127,19 +127,19 @@ class CharonRepository
         /** @var CourseModule $courseModule */
         $courseModule = CourseModule::find($id);
 
-        if ($courseModule === null || ! $courseModule->isInstanceOfPlugin()) {
+        if ($courseModule === null || !$courseModule->isInstanceOfPlugin()) {
             throw new CharonNotFoundException('charon_course_module_not_found', $id);
         }
         $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
-                     ->where('id', $courseModule->instance)
-                     ->first();
+            ->where('id', $courseModule->instance)
+            ->first();
         return $charon;
     }
 
     /**
      * Deletes the instance with given id.
      *
-     * @param  integer $id
+     * @param integer $id
      *
      * @return boolean
      *
@@ -171,8 +171,8 @@ class CharonRepository
     /**
      * Takes the old instance and override its values with the new Charon values.
      *
-     * @param  Charon  $oldCharon
-     * @param  Charon  $newCharon
+     * @param Charon $oldCharon
+     * @param Charon $newCharon
      *
      * @return boolean
      */
@@ -204,36 +204,35 @@ class CharonRepository
      * Find all Charons in course with given id. Also loads deadlines,
      * grademaps with grade items.
      *
-     * @param  integer $courseId
-     * 
+     * @param integer $courseId
+     *
      * @return Charon[]
      */
     public function findCharonsByCourse($courseId)
     {
         $moduleId = $this->moduleService->getModuleId();
 
-        $charons =  \DB::table('charon')
-            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
-            ->leftJoin('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
-            ->where('charon.course', $courseId)
-            ->whereNull('course_modules.module')
-            ->orWhere('course_modules.module', $moduleId)
-            ->select(
-                'charon.id',
-                'charon.name',
-                'charon_tester_type.name AS tester_type_name',
-                'charon.project_folder',
-                'course_modules.id AS course_module_id',
-                'charon.category_id',
-                'charon.grouping_id',
-                'charon.course',
-                'charon.defense_deadline',
-                'charon.defense_duration',
-                'charon.choose_teacher',
-                'charon.defense_threshold'
-            )
-            ->orderBy('charon.name')
-            ->get();
+        $charons = \DB::table('charon')
+                ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
+                ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
+                ->where('charon.course', $courseId)
+                ->where('course_modules.module', $moduleId)
+                ->orWhereNull('course_modules.module')
+                ->select(
+                    'charon.id',
+                    'charon.name',
+                    'charon_tester_type.name AS tester_type_name',
+                    'charon.project_folder',
+                    'course_modules.id AS course_module_id',
+                    'charon.category_id',
+                    'charon.grouping_id',
+                    'charon.course',
+                    'charon.defense_deadline',
+                    'charon.defense_duration',
+                    'charon.choose_teacher',
+                    'charon.defense_threshold')
+                ->orderBy('charon.name')
+                ->get();
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
@@ -251,15 +250,15 @@ class CharonRepository
                     $query->select(['id', 'grademax']);
                 },
             ])
-                 ->where('charon_id', $charon->id)
-                 ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
+                ->where('charon_id', $charon->id)
+                ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
             $charon->deadlines = Deadline::with([
                 'group' => function ($query) {
                     $query->select(['id', 'name']);
                 }
             ])
-                 ->where('charon_id', $charon->id)
-                 ->get();
+                ->where('charon_id', $charon->id)
+                ->get();
         }
 
         return $charons;
@@ -268,8 +267,8 @@ class CharonRepository
     /**
      * Gets Charons by Charon and user.
      *
-     * @param  integer  $charonId
-     * @param  integer  $userId
+     * @param integer $charonId
+     * @param integer $userId
      *
      * @return Submission[]
      */
@@ -286,7 +285,7 @@ class CharonRepository
     /**
      * Find a Charon instance by a submission id for that Submission.
      *
-     * @param  int  $submissionId
+     * @param int $submissionId
      *
      * @return Charon
      */
@@ -326,7 +325,8 @@ class CharonRepository
      * @param $defenseThreshold
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold) {
+    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold)
+    {
         $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
         $charon->defense_duration = $defenseDuration;
         $charon->choose_teacher = $chooseTeacher;

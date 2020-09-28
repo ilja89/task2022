@@ -2,6 +2,10 @@
     <popup-section title="Charon logs"
                    subtitle="Here are the recent errors charon has had">
 
+        <template slot="header-right">
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
+        </template>
+
         <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised>
             <pre style="max-height: 900px;overflow: auto">{{logs}}</pre>
         </v-card>
@@ -21,7 +25,7 @@
 
         data() {
             return {
-                logs: "",
+                logs: "Press get logs to get started",
             }
         },
 
@@ -29,10 +33,6 @@
             ...mapGetters([
                 'courseId',
             ]),
-        },
-
-        created() {
-            this.fetchLogs()
         },
 
         methods: {
