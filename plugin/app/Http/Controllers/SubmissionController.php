@@ -60,13 +60,14 @@ class SubmissionController extends Controller
             return "invalid chosen time";
         }
 
+        $course_id = $this->charon_repository->getCharonById($charon_id)->course;
+
         $defense_count_student = $this->getUserPendingRegistrationsCount($student_id, $charon_id, $lab_start, $lab_end);
         $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
-        $count_for_current_time = $this->getRowCountForCurrentTime($student_time, $charon_id);
+        $count_for_current_time = $this->getRowCountForGivenLab($student_time, $lab->id);
 
         if ($defense_count_student == 0) {
             if ($teacher == 1) {
-                $course_id = $this->charon_repository->getCharonById($charon_id)->course;
                 $student_teacher = $this->getTeacherForStudent($student_id, $course_id);
                 $teacher_id = $student_teacher->id;
                 if (count($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id, $lab_start, $lab_end)) > 0) return 'teacher is busy';
@@ -166,11 +167,11 @@ class SubmissionController extends Controller
         return $this->lab_teacher_repository->getTeacherForStudent($student_id, $course_id);
     }
 
-    public function getRowCountForCurrentTime($student_time, $charon_id)
+    public function getRowCountForGivenLab($student_time, $lab_id)
     {
         return \DB::table('charon_defenders')
             ->where('choosen_time', $student_time)
-            ->where('charon_id', $charon_id)
+            ->where('charon_defenders.defense_lab_id', $lab_id)
             ->count();
     }
 
