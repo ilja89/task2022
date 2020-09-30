@@ -64,7 +64,7 @@ class SubmissionController extends Controller
 
         $defense_count_student = $this->getUserPendingRegistrationsCount($student_id, $charon_id, $lab_start, $lab_end);
         $teacher_count = $this->getTeacherCount($charon_id, $lab_id);
-        $count_for_current_time = $this->getRowCountForGivenLab($student_time, $lab);
+        $count_for_current_time = $this->getRowCountForGivenLab($student_time, $lab->id);
 
         if ($defense_count_student == 0) {
             if ($teacher == 1) {
