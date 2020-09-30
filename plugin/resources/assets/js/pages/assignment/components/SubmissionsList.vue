@@ -241,13 +241,13 @@
             },
             timeGenerator(option) {
                 let defense_duration = this.charon['defense_duration'];
-                let startTime = moment(option['start'].split(" ")[1], 'HH:mm:ii')
-                let endTime = moment(option['end'].split(" ")[1], 'HH:mm:ii');
+                let startTime = moment(option['start'], 'YYYY-MM-DD HH:mm:ii')
+                let endTime = moment(option['end'], 'YYYY-MM-DD HH:mm:ii');
                 let curTime = moment();
 
                 this.times = [];
                 while (startTime < endTime) {
-                    const time = new moment(startTime).format('HH:mm');
+                    const time = startTime.format('HH:mm');
                     if (!this.not_available_times.includes(time) && curTime.isBefore(startTime)) {
                         this.times.push(time);
                     }
