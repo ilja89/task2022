@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use TTU\Charon\Models\Defenders;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\LabRepository;
@@ -39,12 +39,12 @@ class SubmissionController extends Controller
 
     public function insert(Request $request)
     {
-        $student_id = $request->input('studentid');
+        $student_id = $request->input('student_id');
         $submission_id = $request->input('submission_id');
         $teacher = $request->input('selected');
         $lab_id = $request->input('defense_lab_id');
         $charon_id = $request->input('charon_id');
-        $student_time = $request->input('student_choosen_time');
+        $student_time = $request->input('student_chosen_time');
 
         $lab = $this->charon_defense_lab_repository->getDefenseLabById($lab_id);
         $lab_start = $lab->start;
@@ -83,7 +83,7 @@ class SubmissionController extends Controller
             $lastname = User::where('id', '=', $student_id)->get()[0]['lastname'];
             $fullname = "$firstname $lastname";
 
-            $defenders = new Defenders;
+            $defenders = new Registration;
             $defenders->student_name = $fullname;
             $defenders->charon_id = $charon_id;
             $defenders->student_id = $student_id;
@@ -95,7 +95,7 @@ class SubmissionController extends Controller
             $defenders->progress = 'Waiting';
             $defenders->save();
             return 'inserted';
-        } else return 'deleted';
+        } else return 'invalid chosen time';
     }
 
     public function getUserPendingRegistrationsCount($student_id, $charon_id, $lab_start, $lab_end)
@@ -175,7 +175,7 @@ class SubmissionController extends Controller
             ->count();
     }
 
-    public function getRowCountForPractise(Request $request)
+    public function getUnavailableTimes(Request $request)
     {
         $time = $request->input('time');
         $lab_id = $request->input('lab_id');

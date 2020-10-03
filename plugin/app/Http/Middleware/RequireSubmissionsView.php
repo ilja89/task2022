@@ -4,6 +4,7 @@ namespace TTU\Charon\Http\Middleware;
 
 use Closure;
 use TTU\Charon\Exceptions\CourseManagementPermissionException;
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\PermissionsService;
 
@@ -11,15 +12,18 @@ class RequireSubmissionsView
 {
     /** @var PermissionsService */
     private $permissionsService;
+    private $charonRepository;
 
     /**
      * RequireSubmissionsView constructor.
      *
      * @param PermissionsService $permissionsService
+     * @param CharonRepository $charonRepository
      */
-    public function __construct(PermissionsService $permissionsService)
+    public function __construct(PermissionsService $permissionsService, CharonRepository $charonRepository)
     {
         $this->permissionsService = $permissionsService;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -33,7 +37,11 @@ class RequireSubmissionsView
      */
     public function handle($request, Closure $next)
     {
-        $courseId = $request->route('charon')->course;
+        try {
+            $courseId = $this->charonRepository->getCharonById(intval($request->route('charon')))->course;
+        } catch (\Exception $e) {
+            $courseId = $request->route('charon')->course;
+        }
 
         require_login($courseId);
         if ($request->input('user_id') === app(User::class)->currentUserId()) {

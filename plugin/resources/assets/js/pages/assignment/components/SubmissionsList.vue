@@ -1,131 +1,186 @@
 <template>
-    <div>
-        <h2 class="title">{{ translate('submissionsText') }}
-            <svg @click="refreshSubmissions()" class="svg-icon"
-                 v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
-                <path fill="none"
-                      d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
-            </svg>
-        </h2>
-        <Modal v-bind:isActive="isActive" @modal-was-closed="closePopUp">
-            <template slot="header">
-                <p class="modal-card-title">Registration for {{this.charon['name']}}</p>
-            </template>
+    <v-app>
+        <v-main>
+            <v-snackbar multi-line v-model="notification.show"
+                        :timeout="notification.timeout">
+                {{ notification.text }}
 
-            <div class="content">
-                <div class="register-lab-headers" style="margin-top: 2vh">
-                    <h4>Choose a teacher</h4>
-                </div>
-                <div class="labs-schedule">
-                    <div class="row">
-                        <div class="col-6 col-sm-4" v-if="this.charon['choose_teacher'] === 1"><label
-                                for="my-teacher"></label>
-                            <input type="radio" v-model="selected" id="my-teacher"
-                                   value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">My teacher
-                        </div>
-                        <div class="w-100 d-none d-md-block"></div>
-                        <div class="col-6 col-sm-4">
-                            <label for="another-teacher"></label>
-                            <input type="radio" v-model="selected" id="another-teacher" value="Any teacher"
-                                   name="labs-time" @click="changeTeacher('Any teacher')">Any teacher
+                <template v-slot:action="{ attrs }">
+                    <v-btn color="blue" text v-bind="attrs" @click="notification.show = false">
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
+
+
+            <h2 class="title">{{ translate('submissionsText') }}
+                <svg @click="refreshSubmissions()" class="svg-icon"
+                     v-bind:class="this.refreshing? 'svg-icon rotating' : 'svg-icon'" viewBox="0 0 20 20">
+                    <path fill="none"
+                          d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
+                </svg>
+            </h2>
+
+            <v-bottom-sheet v-model="isActive" persistent inset>
+                <v-sheet height="80vh" class="px-4">
+
+                    <v-card-text class="my-4 text-center title">
+                        Registration for {{this.charon['name']}}
+                    </v-card-text>
+
+                    <div class="register-lab-headers" style="margin-top: 2vh">
+                        <h4>Choose a teacher</h4>
+                    </div>
+                    <div class="labs-schedule">
+                        <div class="row">
+                            <div class="col-6 col-sm-4" v-if="this.charon['choose_teacher'] === 1"><label
+                                    for="my-teacher"></label>
+                                <input type="radio" v-model="selected" id="my-teacher"
+                                       value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">My
+                                teacher
+                            </div>
+                            <div class="w-100 d-none d-md-block"></div>
+                            <div class="col-6 col-sm-4">
+                                <label for="another-teacher"></label>
+                                <input type="radio" v-model="selected" id="another-teacher" value="Any teacher"
+                                       name="labs-time" @click="changeTeacher('Any teacher')">Any teacher
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="register-lab-headers" style="margin-top: 2vh">
-                    <h4>Choose a time</h4>
-                </div>
-                <div class="labs-schedule">
-                    <div class="text-center">
-                        <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"
-                                     @select="onSelect" :max-height="200"
-                                     :custom-label="getLabList" placeholder="Select a day" label="start"
-                                     track-by="start" :allow-empty="false">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
-                        </multiselect>
-
-                        <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time"
-                                     :max-height="200"
-                                     :options="this.times" placeholder="Be more precise">
-                        </multiselect>
+                    <div class="register-lab-headers" style="margin-top: 2vh">
+                        <h4>Choose a time</h4>
                     </div>
-                </div>
-                <div class="register-lab-button-dev" @click="sendData()" style="margin-top: 2vh">
-                    <button class="button" type="button">Register</button>
-                </div>
-            </div>
-        </Modal>
+                    <div class="labs-schedule">
+                        <div class="text-center">
+                            <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"
+                                         @select="onSelect" :max-height="200"
+                                         :custom-label="getLabList" placeholder="Select a day" label="start"
+                                         track-by="start" :allow-empty="false">
+                                <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
+                            </multiselect>
 
-        <Modal v-bind:is-active="isActiveDefenses" @modal-was-closed="closePopUp" :wide="true">
-            <template slot="header">
-                <p class="modal-card-title">All registrations</p>
-            </template>
-            <StudentDefenses :defenseData="defenseData" :student_id="student_id"
-                             :charon="charon"></StudentDefenses>
-        </Modal>
+                            <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time"
+                                         :max-height="200"
+                                         :options="this.times" placeholder="Be more precise">
+                            </multiselect>
+                        </div>
+                    </div>
 
-        <ul class="submissions-list">
-            <template v-for="(submission, index) in submissions">
-                <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
-                    @click="toggleAdvanced(submission.id)" :key="index">
+                    <v-row class="my-4">
+                        <v-btn
+                                class="mt-6" text color="primary"
+                                @click="sendData()">
+                            Register
+                        </v-btn>
+
+                        <v-btn
+                                class="mt-6" text color="error"
+                                @click="isActive = false">
+                            close
+                        </v-btn>
+                    </v-row>
+
+                </v-sheet>
+            </v-bottom-sheet>
+
+            <v-bottom-sheet v-model="isActiveDefenses" inset>
+                <v-sheet height="80vh" class="px-4">
+
+                    <v-card-text class="my-4 text-center title">
+                        All registrations
+                    </v-card-text>
+
+                    <StudentDefenses
+                            :defenseData="defenseData"
+                            :student_id="student_id"
+                            :charon="charon">
+                    </StudentDefenses>
+
+                    <v-row class="my-4">
+                        <v-btn
+                                class="mt-6" text color="error"
+                                @click="isActiveDefenses = false">
+                            close
+                        </v-btn>
+                    </v-row>
+
+                </v-sheet>
+            </v-bottom-sheet>
+
+            <ul class="submissions-list">
+                <template v-for="(submission, index) in submissions">
+                    <li class="submission-row" :class="{ active: showingAdvanced(submission.id) }"
+                        @click="toggleAdvanced(submission.id)" :key="index">
 
                     <span class="tag is-info"
                           :class="{registered: listStyle(submission.id), defended: defendedSubmission(submission)}">
                         {{ submissionString(submission) }}
                     </span>
 
-                    <span class="submission-time">
+                        <span class="submission-time">
                         {{ submission.created_at | date }}
                     </span>
 
-                    <span class="dropdown-arrow">
+                        <span class="dropdown-arrow">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path
                                 d="M0 0h24v24H0z" fill="none"/></svg>
                     </span>
 
-                    <span @click.stop="$emit('submission-was-activated', submission)">
-                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/eye.png" alt="eye">
+                        <span @click.stop="$emit('submission-was-activated', submission)">
+                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/eye.png"
+                             alt="eye">
                     </span>
 
-                    <span @click="validateSubmission(submission)" @click.stop="showModalLabs(submission.id)">
-                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/shield.png" alt="shield">
+                        <span @click="validateSubmission(submission)" @click.stop="showModalLabs(submission.id)">
+                        <img style="min-width: 24px; min-height: 24px" width="24px" height="24px" src="pix/shield.png"
+                             alt="shield">
                     </span>
 
-                </li>
+                    </li>
 
-                <div v-if="showingAdvanced(submission.id)" class="results-list-container">
-                    <ul class="results-list">
-                        <li v-for="result in submission.results" class="result-row">
+                    <div v-if="showingAdvanced(submission.id)" class="results-list-container">
+                        <ul class="results-list">
+                            <li v-for="result in submission.results" class="result-row">
                         <span>
                             {{ getGrademapByResult(result).name }}
                         </span>
-                            <span>
+                                <span>
                             {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}
                         </span>
-                        </li>
-                    </ul>
-                </div>
+                            </li>
+                        </ul>
+                    </div>
 
-            </template>
-        </ul>
+                </template>
+            </ul>
 
-        <div v-if="canLoadMore" class="has-text-centered">
-            <button class="button is-primary load-more-button" @click="loadMoreSubmissions()">
-                Load more
-            </button>
-        </div>
-        <div class="has-text-centered">
+            <div v-if="canLoadMore" class="has-text-centered">
+                <button class="button is-primary load-more-button" @click="loadMoreSubmissions()">
+                    Load more
+                </button>
+            </div>
+            <div class="has-text-centered">
             <span>
             <button class="button is-primary load-more-button" @click.stop="showStudentDefenses()">
                 My registrations
             </button>
             </span>
-        </div>
-    </div>
+            </div>
+        </v-main>
+    </v-app>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
+
+    .tag.is-info.registered {
+        background-color: #faee0a;
+    }
+
+    .tag.is-info.defended {
+        background-color: #66fa0a;
+    }
 
     .svg-icon {
         width: 1em;
@@ -167,10 +222,6 @@
     import {Multiselect} from "vue-multiselect";
     import StudentDefenses from "./StudentDefenses";
 
-    let url_string = window.location.href;
-    let url = new URL(url_string);
-    let id = url.searchParams.get("id");
-
     export default {
 
         mixins: [Translate],
@@ -186,6 +237,14 @@
 
         data() {
             return {
+                loaderVisible: 0,
+                notification: {
+                    text: '',
+                    show: false,
+                    type: 'success',
+                    timeout: 1000,
+                },
+
                 my_teacher: true,
                 value: null,
                 value_time: null,
@@ -198,7 +257,6 @@
                 selected: 'Any teacher',
                 cached_option: null,
                 selected_lab: Object,
-                selected_boolean: false,
                 canLoadMore: true,
                 refreshing: false,
                 isActive: false,
@@ -210,7 +268,6 @@
                 not_available_times: [],
                 defenseData: [],
                 submission_validation: false,
-                student_group_count: 0,
                 array_to_show: []
             };
         },
@@ -225,20 +282,52 @@
             }
         },
 
+        created() {
+            this.initializeEventListeners()
+        },
+
         methods: {
+            initializeEventListeners() {
+                VueEvent.$on('show-notification', (message, type = 'success', timeout = 2000) => {
+                    this.showNotification(message, type, timeout)
+                });
+                VueEvent.$on('close-notification', _ => this.notification.show = false)
+                VueEvent.$on('show-loader', _ => this.loaderVisible += 1)
+                VueEvent.$on('hide-loader', _ => this.hideLoader())
+            },
+
+            showNotification(message, type, timeout = 2000) {
+                this.notification.text = message
+                this.notification.show = true
+                this.notification.type = type
+                this.notification.timeout = timeout
+            },
+
+            hideLoader() {
+                if (this.loaderVisible !== 0) {
+                    this.loaderVisible--
+                }
+            },
+
             arrayDefenseTime() {
                 if (this.cached_option != null) {
                     const option = this.cached_option;
                     this.times.length = 0;
                     let time = option['start'].split(' ')[0];
                     this.timeGenerator(option);
-                    axios.get(`api/get_time.php?time=${time}&my_teacher=${this.selected === "My teacher"}&student_id=${this.student_id}&lab_id=${option['id']}&charon_id=${this.charon_id}`).then(result => {
+                    axios.get(`api/charons/${this.charon_id}/labs/unavailable?time=${time
+                        }&my_teacher=${this.selected === "My teacher"
+                        }&student_id=${this.student_id
+                        }&lab_id=${option['id']
+                        }&charon_id=${this.charon_id}`
+                    ).then(result => {
                         this.not_available_times = result.data;
                         this.timeGenerator(option);
                     })
                 }
 
             },
+
             timeGenerator(option) {
                 let defense_duration = this.charon['defense_duration'];
                 let startTime = moment(option['start'], 'YYYY-MM-DD HH:mm:ii')
@@ -257,9 +346,14 @@
                     this.times = this.times.filter(x => !this.not_available_times.includes(x));
                 }
             },
+
             defendedSubmission(submission) {
-                const last = submission.results[submission.results.length - 1];
-                return last['calculated_result'] === '1.00' && last['grade_type_code'] === 1001;
+                try {
+                    const last = submission.results[submission.results.length - 1];
+                    return parseFloat(last['calculated_result']) !== 0.0 && last['grade_type_code'] === 1001;
+                } catch (e) {
+                    return false
+                }
             },
 
             getLabList({start}) {
@@ -295,7 +389,7 @@
                 this.current_submission = submissionId
                 this.isActive = this.submission_validation;
                 if (this.isActive === false) {
-                    alert("You can't register a submission with a result less than " + this.charon['defense_threshold'] + "%")
+                    VueEvent.$emit('show-notification', `You can't register a submission with a result less than ${this.charon['defense_threshold']}%`, 'danger')
                 }
             },
 
@@ -305,21 +399,20 @@
                 this.submission_validation = result / maxResult >= this.charon['defense_threshold'] / 100;
             },
 
-            getCharonAndLabs() {
-                axios.get(`api/charon_data.php?id=${this.charon_id}`).then(result => {
+            getCharon() {
+                axios.get(`api/charons/${this.charon_id}/all?id=${this.charon_id}`).then(result => {
                     this.charon = result.data;
                 })
-                axios.get(`api/labs_by_charon.php?id=${this.charon_id}`).then(result => {
+            },
+
+            getLabs() {
+                axios.get(`api/charons/${this.charon_id}/labs?id=${this.charon_id}`).then(result => {
                     this.labs = result.data;
                 });
             },
 
-            getStudentGroup() {
-                axios.get(`api/student_group.php?studentid=${this.student_id}`).then(result => this.student_group_count = result.data);
-            },
-
             getDefenseData() {
-                axios.get(`api/student_defense_data.php?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
+                axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
                     this.defenseData = result.data;
                 })
             },
@@ -330,42 +423,43 @@
             },
 
             sendData() {
-                let selected_boolean = this.selected === "My teacher";
-                let choosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
+                if (this.value !== null && this.value['start'] !== null && this.value_time !== null && this.selected.length !== 0) {
+                    let choosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
+                    let selected_boolean = this.selected === "My teacher";
 
-                if (this.value !== 0 && this.value_time !== null && this.selected.length !== 0) {
-                    axios.post(`view.php?id=${id}&studentid=${this.student_id}`, {
+                    axios.post(`api/charons/${this.charon_id}/submission`, {
+                        student_id: this.student_id,
                         charon_id: this.charon_id,
                         submission_id: this.current_submission,
                         selected: selected_boolean,
                         defense_lab_id: this.value['id'],
-                        student_choosen_time: choosen_time,
+                        student_chosen_time: choosen_time,
                     }).then(result => {
                         this.getDefenseData();
                         this.editDataAfterInsert(result.data)
                     })
-                } else alert("Needed parameters weren't inserted!")
+                } else {
+                    VueEvent.$emit('show-notification', "Needed parameters weren't inserted!", 'danger')
+                }
             },
 
             editDataAfterInsert(dataFromDb) {
                 switch (dataFromDb) {
                     case 'teacher is busy':
-                        alert("Your teacher isn't vacant at given time.\nPlease choose another time or if possible, another teacher.");
+                        VueEvent.$emit('show-notification', "Your teacher isn't vacant at given time.\nPlease choose another time or if possible, another teacher.", 'danger')
                         break;
                     case 'user in db':
-                        alert('You cannot register twice for one exercise.\n If you want to choose another time, then you should delete your previous time (My defenses button)');
+                        VueEvent.$emit('show-notification', "You cannot register twice for one exercise.\n If you want to choose another time, then you should delete your previous time (My registrations button)", 'danger')
                         break;
                     case 'inserted':
-                        alert('Registration was successful!');
-                        break;
-                    case 'deleted':
-                        alert('Selected teacher was\'nt vacant. Please chose another time or choose option "Another teacher"');
+                        VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
+                        this.isActive = false
                         break;
                     case 'invalid setup':
-                        alert('Alert teachers that lab configuration was invalid');
+                        VueEvent.$emit('show-notification', "Alert teachers that lab configuration was invalid", 'danger')
                         break;
                     case 'invalid chosen time':
-                        alert('Invalid chosen time');
+                        VueEvent.$emit('show-notification', "Invalid chosen time", 'danger')
                         break;
                 }
             },
@@ -430,12 +524,12 @@
 
         },
         mounted() {
-            this.getStudentGroup();
             this.getDefenseData();
             this.refreshSubmissions();
-            this.getCharonAndLabs();
+            this.getCharon();
+            this.getLabs();
 
-            if (this.charon['choose_teacher'] === 1 || this.student_group_count === 0) {
+            if (this.charon['choose_teacher'] === 1) {
                 this.teacher_options = ["Any teacher"]
             } else {
                 this.teacher_options = ["My teacher", "Any teacher"]

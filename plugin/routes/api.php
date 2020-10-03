@@ -134,13 +134,22 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require') // save Charon defending stuff
     ->post('charons/{charon}', 'CharonsController@saveCharonDefendingStuff');
 
+    Route::middleware('auth.charon.submissions.view.require') // get all registrations for student
+    ->get('charons/{charon}/registrations', 'DefenseRegistrationController@getStudentRegistrations');
+
+    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration
+    ->delete('charons/{charon}/registration', 'DefenseRegistrationController@deleteReg');
+
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
+
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations/{after}/{before}/{teacher_id}/{progress}', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
 
     Route::middleware('auth.course.managing.require')  // get teacher for student
     ->get('courses/{course}/defenseRegistrations/student/{user}/teacher', 'LabTeacherController@getTeacherForStudent');
+
     Route::middleware('auth.course.managing.require')  // save defense progress
-    ->post('courses/{course}/defenders/{defenders}', 'DefenseRegistrationController@saveProgress');
+    ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@saveProgress');
+
 });

@@ -22,11 +22,11 @@ class LabTeacherRepository
             ->join('user', 'user.id', 'teacher_id')
             ->select(
                 'user.id',
-                'firstName',
-                'lastName',
-                'charon_lab_teacher.teacher_location'
-            )
-            ->get();
+                'firstname',
+                'lastname',
+                'charon_lab_teacher.teacher_location',
+                DB::raw("CONCAT(firstname, ' ',lastname) AS fullname")
+            )->get();
     }
 
     public function getTeachersByCharonAndLabId($charonId, $charonDefenseLabId)
@@ -36,8 +36,13 @@ class LabTeacherRepository
         ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defense_lab.id', $charonDefenseLabId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
-            ->select('user.id', 'user.firstName', 'user.lastName', 'charon_lab_teacher.teacher_location')
-            ->get();
+            ->select(
+                'user.id',
+                'user.firstname',
+                'user.lastname',
+                'charon_lab_teacher.teacher_location',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
+            )->get();
     }
 
     public function getTeachersByCourseId($courseId)
@@ -49,8 +54,12 @@ class LabTeacherRepository
             ->join('role', 'role.id', 'role_assignments.roleid')
             ->where('role.id', 3)
             ->where('course.id', $courseId)
-            ->select('user.id', 'user.firstname', 'user.lastname')
-            ->get();
+            ->select(
+                'user.id',
+                'user.firstname',
+                'user.lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
+            )->get();
     }
 
     public function getTeacherReportByCourseId($courseId)
@@ -66,8 +75,13 @@ class LabTeacherRepository
             ->where('role.id', 3)
             ->where('course.id', $courseId)
             ->leftJoin('charon_submission', 'user.id', 'charon_submission.grader_id')
-            ->select('user.id as id', 'user.firstname', 'user.lastname', \DB::raw('sum(' . $prefix . 'charon_submission.confirmed) as total_defences'))
-            ->groupBy('id', 'firstname', 'lastname')
+            ->select(
+                'user.id as id',
+                'user.firstname',
+                'user.lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"),
+                \DB::raw('sum(' . $prefix . 'charon_submission.confirmed) as total_defences')
+            )->groupBy('id', 'firstname', 'lastname')
             ->get();
     }
 
@@ -117,8 +131,13 @@ class LabTeacherRepository
             ->join('user', 'user.id', 'groups_members.userid')
             ->join('role_assignments', 'user.id', 'role_assignments.userid')
             ->whereIn("role_assignments.roleid", $this->getTeacherRoleIds())
-            ->select('user.id', 'user.firstname', 'user.lastname', 'groups_members.groupid')
-            ->distinct()
+            ->select(
+                'user.id',
+                'user.firstname',
+                'user.lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"),
+                'groups_members.groupid'
+            )->distinct()
             ->first();
     }
 
@@ -130,7 +149,7 @@ class LabTeacherRepository
     {
         return \DB::table('user')
             ->where('id', $userId)
-            ->select('id', 'firstname', 'lastname')
+            ->select('id', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"))
             ->get();
     }
 
@@ -151,8 +170,9 @@ class LabTeacherRepository
             ->join('user', 'user.id', 'teacher_id')
             ->select(
                 'charon_lab.id',
-                'firstName',
-                'lastName',
+                'firstname',
+                'lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"),
                 'teacher_id',
                 'course_id',
                 'charon_lab.start',
@@ -174,8 +194,9 @@ class LabTeacherRepository
             ->join('user', 'user.id', 'teacher_id')
             ->select(
                 'charon_lab.id',
-                'firstName',
-                'lastName',
+                'firstname',
+                'lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"),
                 'teacher_id',
                 'course_id',
                 'charon_lab.start',

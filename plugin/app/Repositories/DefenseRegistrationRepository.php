@@ -5,7 +5,7 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-use TTU\Charon\Models\Defenders;
+use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -38,22 +38,27 @@ class DefenseRegistrationRepository
     /**
      * Get defense registrations by course.
      * @param $courseId
-     * @return Collection|Defenders[]
+     * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourse($courseId) {
+    public function getDefenseRegistrationsByCourse($courseId)
+    {
         $defenseRegistrations = \DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('user', 'charon_defenders.teacher_id', 'user.id')
+//            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // not needed yet
             ->where('charon.course', $courseId)
-            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
-                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
-                'charon_defenders.teacher_id')
-            ->orderBy('charon_defenders.choosen_time')
+            ->select(
+                'charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
+                'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
+                'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
+                'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
+                'user.firstname', 'user.lastname'
+            )->orderBy('charon_defenders.choosen_time')
             ->get();
-        for ($i = 0; $i < count($defenseRegistrations); $i++) {
-            $defenseRegistrations[$i]->teacher = $this->labTeacherRepository->getTeacherByUserId($defenseRegistrations[$i]->teacher_id)[0];
-        }
-        return $defenseRegistrations;
+
+        return $this->moveTeacher($defenseRegistrations);
     }
 
     /**
@@ -63,14 +68,17 @@ class DefenseRegistrationRepository
      * @param $before
      * @param $teacher_id
      * @param $progress
-     * @return Collection|Defenders[]
+     * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress) {
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    {
         if ($after != 'null' && $before != 'null') {
-            $filteringWhere = "choosen_time BETWEEN '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "' AND '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
-        } elseif ($after != 'null') {
+            $filteringWhere = sprintf("choosen_time BETWEEN '%s' AND '%s'",
+                Carbon::parse($after)->format('Y-m-d H:i:s'),
+                Carbon::parse($before)->format('Y-m-d H:i:s'));
+        } else if ($after != 'null') {
             $filteringWhere = "choosen_time >= '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "'";
-        } elseif ($before != 'null') {
+        } else if ($before != 'null') {
             $filteringWhere = "choosen_time <= '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
         } else {
             $filteringWhere = "student_id > '-1'";
@@ -83,21 +91,45 @@ class DefenseRegistrationRepository
         if ($progress != 'null') {
             $progress_filter = "progress LIKE '" . $progress . "'";
         }
+
         $defenseRegistrations = \DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
             ->whereRaw($teacher_filter)
             ->whereRaw($progress_filter)
-            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id', 'charon_defenders.student_name',
-                'charon.defense_duration', 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
-                'charon_defenders.teacher_id')
-            ->orderBy('charon_defenders.choosen_time')
+            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
+                'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
+                'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
+                'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
+                'user.firstname', 'user.lastname'
+            )->orderBy('charon_defenders.choosen_time')
             ->get();
+
+        return $this->moveTeacher($defenseRegistrations);
+    }
+
+    /**
+     * @param $defenseRegistrations
+     * @return mixed
+     */
+    private function moveTeacher($defenseRegistrations)
+    {
         for ($i = 0; $i < count($defenseRegistrations); $i++) {
-            $defenseRegistrations[$i]->teacher = $this->labTeacherRepository->getTeacherByUserId($defenseRegistrations[$i]->teacher_id)[0];
+            $teacher = [];
+            $teacher['id'] = $defenseRegistrations[$i]->teacher_id;
+            $teacher['firstname'] = $defenseRegistrations[$i]->firstname;
+            $teacher['lastname'] = $defenseRegistrations[$i]->lastname;
+            $teacher['fullname'] = $defenseRegistrations[$i]->firstname . " " . $defenseRegistrations[$i]->lastname;
+            unset($defenseRegistrations[$i]->teacher_id);
+            unset($defenseRegistrations[$i]->firstname);
+            unset($defenseRegistrations[$i]->lastname);
+            $defenseRegistrations[$i]->teacher = $teacher;
         }
+
         return $defenseRegistrations;
     }
 
@@ -105,11 +137,14 @@ class DefenseRegistrationRepository
      * Save defending progress.
      * @param $defenseId
      * @param $newProgress
-     * @return Defenders
+     * @param $newTeacherId
+     * @return Registration
      */
-    public function saveProgress($defenseId, $newProgress) {
-        $defense = Defenders::find($defenseId);
+    public function saveProgress($defenseId, $newProgress, $newTeacherId)
+    {
+        $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
+        $defense->teacher_id = $newTeacherId;
         $defense->save();
         return $defense;
     }
@@ -119,9 +154,10 @@ class DefenseRegistrationRepository
      * @param $charonId
      * @param $studentId
      * @param $newProgress
-     * @return Defenders
+     * @return Registration|array
      */
-    public function saveProgressByStudentId($charonId, $studentId, $newProgress) {
+    public function saveProgressByStudentId($charonId, $studentId, $newProgress)
+    {
         try {
             $eh = \DB::table('charon_defenders')
                 ->where('student_id', $studentId)
@@ -131,9 +167,34 @@ class DefenseRegistrationRepository
             $defense = $eh[0];
             return $this->saveProgress($defense->id, $newProgress);
         } catch (\Exception $e) {  // try-catch because that means there is no row in defenders table
-                                    // associated with this student and charon
-
+            // associated with this student and charon
+            return [];
         }
+    }
+
+    public function deleteRegistration($student_id, $defense_lab_id, $submission_id)
+    {
+        return \DB::table('charon_defenders')
+            ->where('student_id', $student_id)
+            ->where('defense_lab_id', $defense_lab_id)
+            ->where('submission_id', $submission_id)
+            ->delete();
+    }
+
+    public function getStudentRegistrations($student_id)
+    {
+        return \DB::table('charon_defenders')
+            ->where('charon_defenders.student_id', $student_id)
+            ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
+            ->join('user', 'charon_defenders.teacher_id', 'user.id')
+            ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
+            ->join('charon_lab_teacher', 'charon_lab_teacher.teacher_id', 'charon_defenders.teacher_id')
+            ->select(\DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
+            ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id',
+                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
+                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment')
+            ->distinct()
+            ->get();
     }
 
 }

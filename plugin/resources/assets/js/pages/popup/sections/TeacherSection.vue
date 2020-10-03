@@ -127,8 +127,7 @@
             return {
                 search: '',
                 teachers_headers: [
-                    {text: 'First name', value: 'firstname', align: 'start'},
-                    {text: 'Last name', value: 'lastname'},
+                    {text: 'Name', value: 'fullname', align: 'start'},
                     {text: 'Defences', value: 'total_defences'},
                     {text: 'Actions', value: 'actions'},
                 ],

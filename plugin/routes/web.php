@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('clear_opcache', function () {
     // Helper to make deployment easier
     opcache_reset();
@@ -39,25 +40,21 @@ Route::middleware('auth.course.managing.require')
     ->get('courses/{course}/popup', 'PopupController@index');
 
 // For handling Moodle requests before sending to controllers from lib.php. Might not need these!
-Route::get('course/modedit.php', function () { return ''; });
-Route::post('course/modedit.php', function () { return ''; });
+Route::get('course/modedit.php', function () {
+    return '';
+});
+Route::post('course/modedit.php', function () {
+    return '';
+});
 
+Route::middleware('auth.charon.submissions.view.require')
+    ->post('api/charons/{charon}/submission', 'SubmissionController@insert');
 
-Route::get('/courses/{course}/popup/labsForm', 'PopupController@insertForm');
-Route::post('/courses/{course}/popup/labs', 'LabsController@insert');
+Route::middleware('auth.charon.submissions.view.require')
+    ->get('api/charons/{charon}/all', 'CharonController@getAll');
 
+Route::middleware('auth.charon.submissions.view.require')
+    ->get('api/charons/{charon}/labs', 'LabsController@findLabsByCharonLaterEqualToday');
 
-Route::middleware('auth.course_module.enrolment.require')
-    ->post('view.php', 'SubmissionController@insert');
-
-Route::middleware('auth.course_module.enrolment.require')
-    ->get('api/view.php', 'CharonController@get');
-
-
-Route::get('api/charon_data.php', 'CharonController@getAll');
-
-Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharonLaterEqualToday');
-Route::get('api/student_defense_data.php', 'CharonController@getStudentRegistrations');
-Route::get('api/get_time.php', 'SubmissionController@getRowCountForPractise');
-Route::delete('api/delete_defense.php', 'DefenseLabController@deleteReg');
-Route::get('api/student_group.php', 'DefenseLabController@getStudentGroup');
+Route::middleware('auth.charon.submissions.view.require')
+    ->get('api/charons/{charon}/labs/unavailable', 'SubmissionController@getUnavailableTimes');

@@ -121,7 +121,7 @@
             },
 
             getTeachersStringForLab(teachers) {
-                return teachers.map(x => x.full_name).join(', ')
+                return teachers.map(x => x.fullname).join(', ')
             },
 
             editLabClicked(lab) {
@@ -137,6 +137,5 @@
             },
         }
     }
-
 
 </script>

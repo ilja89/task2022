@@ -34,27 +34,36 @@
         },
 
         created() {
-            Defense.all(this.course.id, response => {
-                this.defenseList = response
-            })
+            this.fetchRegistrations()
             Teacher.getAllTeachers(this.course.id, response => {
-                this.getNamesForTeachers(response, result => {
-                    this.teachers = result
-                })
+                this.teachers = response
             })
+        },
+
+        activated() {
+            // TODO: when session is active - this.fetchRegistrations
+            VueEvent.$on('refresh-page', this.fetchRegistrations)
+        },
+
+        /**
+         * Remove global event listeners for more efficient refreshes on other
+         * pages.
+         */
+        deactivated() {
+            VueEvent.$off('refresh-page', this.fetchRegistrations)
         },
 
         methods: {
             apply(after, before, filter_teacher, filter_progress) {
-                Defense.filtered(this.course.id, after, before, filter_teacher.id, filter_progress, response => {
+                Defense.filtered(this.course.id, after, before, filter_teacher, filter_progress, response => {
                     this.defenseList = response
                 })
             },
-            getNamesForTeachers(teachers, then) {
-                for (let i = 0; i < teachers.length; i++) {
-                    teachers[i].name = teachers[i].firstname + ' ' + teachers[i].lastname
-                }
-                then(teachers)
+
+            fetchRegistrations() {
+                Defense.all(this.course.id, response => {
+                    this.defenseList = response
+                })
             }
         }
     }

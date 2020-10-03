@@ -439,5 +439,14 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2020100301) {
+        try {
+            $sql = "ALTER TABLE " . $CFG->prefix . "charon_defenders ADD UNIQUE (choosen_time, teacher_id)";
+            $DB->execute($sql);
+        } catch (dml_write_exception $e) {
+            // Ignored intentionally
+        }
+    }
+
     return true;
 }
