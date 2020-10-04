@@ -85,7 +85,7 @@
                     })
                 } else {
                     // save lab
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, this.charons, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');

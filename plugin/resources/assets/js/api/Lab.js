@@ -9,10 +9,11 @@ class Lab {
         })
     }
 
-    static save(courseId, start, end, teachers, weeks, then) {
+    static save(courseId, start, end, teachers, charons, weeks, then) {
         axios.post('/mod/charon/api/courses/' + courseId + '/labs', {
             start: start,
             end: end,
+            charons: charons,
             teachers: teachers,
             weeks: weeks
         }).then(response => {
@@ -27,7 +28,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error deleting lab.', 'danger')
+            VueEvent.$emit('show-notification', 'Error deleting lab.', 'danger')
         })
     }
 
@@ -61,4 +62,5 @@ class Lab {
         })
     }
 }
+
 export default Lab
