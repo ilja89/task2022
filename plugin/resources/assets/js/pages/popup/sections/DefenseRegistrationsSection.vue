@@ -44,9 +44,9 @@
             </template>
 
             <template v-slot:item.submission="{ item }">
-                <router-link @click="routerClicked(item)" :to="getSubmissionRouting(item.submission_id)">
+                <v-btn class="ma-2" small tile outlined color="primary" @click="submissionClicked(item)">
                     Go to submission
-                </router-link>
+                </v-btn>
             </template>
 
             <template v-slot:item.progress="{ item }">
@@ -106,12 +106,13 @@
                 })
             },
 
-            routerClicked(submission) {
+            submissionClicked(submission) {
                 if (submission.progress === 'Waiting' && this.isSessionActive) {
                     Defense.updateRegistration(this.course.id, submission.id, 'Defending', submission.teacher.id, () => {
-                        VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
                     })
                 }
+
+                window.location = this.getSubmissionRouting(submission.submission_id)
             },
 
             deleteRegistration(item) {
