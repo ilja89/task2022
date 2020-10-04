@@ -56,7 +56,7 @@ class LabRepository
      * @param $weeks
      * @return boolean
      */
-    public function save($start, $end, $courseId, $teachers, $weeks)
+    public function save($start, $end, $courseId, $teachers, $charons, $weeks)
     {
         $allCarbonStartDatesForLabs = array();
 
@@ -91,12 +91,21 @@ class LabRepository
                 'end' => $labStartDate->copy()->add($labLength)->format('Y-m-d H:i:s'),
                 'course_id' => $courseId
             ]);
+
             foreach ($teachers as $teacher) {
                 LabTeacher::create([
                     'lab_id' => $lab->id,
                     'teacher_id' => $teacher
                 ])->save();
             }
+
+            foreach ($charons as $charon) {
+                CharonDefenseLab::create([
+                    'lab_id' => $lab->id,
+                    'charon_id' => $charon
+                ])->save();
+            }
+
             $lab->save();
         }
 

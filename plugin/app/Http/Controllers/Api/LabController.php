@@ -56,7 +56,14 @@ class LabController extends Controller
      */
     public function save(Course $course)
     {
-        return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id, $this->request['teachers'], $this->request['weeks']);
+        return $this->labRepository->save(
+            $this->request['start'],
+            $this->request['end'],
+            $course->id,
+            $this->request['teachers'],
+            $this->request['charons'],
+            $this->request['weeks']
+        );
     }
 
     /**
