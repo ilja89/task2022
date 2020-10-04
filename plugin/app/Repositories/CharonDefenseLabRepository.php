@@ -10,11 +10,12 @@ use TTU\Charon\Models\Grademap;
 
 class CharonDefenseLabRepository
 {
-    public function deleteAllDefenseLabsForCharon($charonId)
+    public function deleteDefenseLabByLabAndCharon($lab_id, $charonId)
     {
-        Log::info("Attempting to delete all charon defense-labs");
+        Log::info("Attempting to delete defense lab by lab_id" . $lab_id . " and charon_id " . $charonId);
         return DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
+            ->where('lab_id', $lab_id)
             ->delete();
 
     }

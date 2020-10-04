@@ -15,9 +15,11 @@
                     hide-details>
             </v-text-field>
         </v-card-title>
+
         <v-card-title v-else>
             No Labs for this course!
         </v-card-title>
+
         <v-data-table
                 v-if="labs.length"
                 :headers="labs_headers"
@@ -64,6 +66,7 @@
                     {text: 'Date', value: 'nice_date'},
                     {text: 'Time', value: 'nice_time'},
                     {text: 'Teachers', value: 'teacher_names'},
+                    {text: 'Charons', value: 'charon_names'},
                     {text: 'Actions', value: 'actions'},
                 ],
                 previous_param: null,
@@ -84,7 +87,8 @@
                     container['nice_name'] = this.getDayTimeFormat(lab.start.time);
                     container['nice_date'] = this.getNiceDate(lab.start.time);
                     container['nice_time'] = `${this.getNiceTime(lab.start.time)} - ${this.getNiceTime(lab.end.time)}`;
-                    container['teacher_names'] = this.getTeachersStringForLab(lab.teachers);
+                    container['teacher_names'] = lab.teachers.map(x => x.fullname).join(', ')
+                    container['charon_names'] = lab.charons.map(x => x.project_folder).join(', ')
 
                     return container;
                 });
@@ -118,10 +122,6 @@
             getDayTimeFormat(date) {
                 let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
                 return daysDict[date.getDay()] + date.getHours();
-            },
-
-            getTeachersStringForLab(teachers) {
-                return teachers.map(x => x.fullname).join(', ')
             },
 
             editLabClicked(lab) {

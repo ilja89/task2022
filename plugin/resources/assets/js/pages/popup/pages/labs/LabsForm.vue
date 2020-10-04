@@ -6,7 +6,7 @@
 
         <popup-section title="Edit Lab Settings"
                        subtitle="Here are the specifics for each Charon.">
-            <lab-info-section :lab_given="lab" :teachers="teachers"></lab-info-section>
+            <lab-info-section :lab_given="lab" :charons="charons" :teachers="teachers"></lab-info-section>
 
             <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
 
@@ -28,6 +28,7 @@
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import Teacher from "../../../../api/Teacher";
+    import Charon from "../../../../api/Charon";
 
     export default {
 
@@ -35,6 +36,7 @@
 
         data() {
             return {
+                charons: [],
                 teachers: []
             }
         },
@@ -93,11 +95,6 @@
             cancelClicked() {
                 window.location = "popup#/labs";
             },
-            giveTeachersFullNames() {
-                for (let i = 0; i < this.teachers.length; i++) {
-                    this.teachers[i].full_name = this.teachers[i].firstname + ' ' + this.teachers[i].lastname
-                }
-            }
         },
         computed: {
 
@@ -110,7 +107,10 @@
         created() {
             Teacher.getAllTeachers(this.course.id, (response) => {
                 this.teachers = response;
-                this.giveTeachersFullNames();
+            })
+
+            Charon.all(this.course.id, (response) => {
+                this.charons = response;
             })
         }
     }

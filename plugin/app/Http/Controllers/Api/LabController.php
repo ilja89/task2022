@@ -29,7 +29,7 @@ class LabController extends Controller
     /**
      * Get Labs by course.
      *
-     * @param  Course $course
+     * @param Course $course
      *
      * @return \Illuminate\Database\Eloquent\Collection|Lab[]
      */
@@ -43,7 +43,8 @@ class LabController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection|Lab[]
      */
-    public function all() {
+    public function all()
+    {
         return $this->labRepository->getAllLabs();
     }
 
@@ -53,7 +54,8 @@ class LabController extends Controller
      *
      * @return bool
      */
-    public function save(Course $course) {
+    public function save(Course $course)
+    {
         return $this->labRepository->save($this->request['start'], $this->request['end'], $course->id, $this->request['teachers'], $this->request['weeks']);
     }
 
@@ -64,7 +66,8 @@ class LabController extends Controller
      *
      * @return Lab
      */
-    public function delete(Course $course, Lab $lab) {
+    public function delete(Course $course, Lab $lab)
+    {
         return $this->labRepository->deleteByInstanceId($lab->id);
     }
 
@@ -75,15 +78,23 @@ class LabController extends Controller
      *
      * @return Lab
      */
-    public function update(Course $course, Lab $lab) {
-        return $this->labRepository->update($lab->id, $this->request['start'], $this->request['end'], $this->request['teachers']);
+    public function update(Course $course, Lab $lab)
+    {
+        return $this->labRepository->update(
+            $lab->id,
+            $this->request['start'],
+            $this->request['end'],
+            $this->request['teachers'],
+            $this->request['charons']
+        );
     }
 
     /**
      * @param Course $course
      * @return mixed
      */
-    public function getCourse(Course $course) {
+    public function getCourse(Course $course)
+    {
         return $this->labRepository->getCourse($course->id);
     }
 
@@ -91,7 +102,8 @@ class LabController extends Controller
      * @param Charon $charon
      * @return Lab[]
      */
-    public function getByCharon(Charon $charon) {
+    public function getByCharon(Charon $charon)
+    {
         return $this->labRepository->getLabsByCharonId($charon->id);
     }
 

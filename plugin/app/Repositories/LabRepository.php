@@ -21,21 +21,28 @@ class LabRepository
 {
     /** @var ModuleService */
     protected $moduleService;
-    /**
-     * @var LabTeacherRepository
-     */
+    /** @var LabTeacherRepository */
     protected $labTeacherRepository;
+    /** @var CharonDefenseLabRepository */
+    protected $charonDefenseLabRepository;
+
 
     /**
      * LabRepository constructor.
      *
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
+     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
-    public function __construct(ModuleService $moduleService, LabTeacherRepository $labTeacherRepository)
+    public function __construct(
+        ModuleService $moduleService,
+        LabTeacherRepository $labTeacherRepository,
+        CharonDefenseLabRepository $charonDefenseLabRepository
+    )
     {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
+        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
     }
 
     /**
@@ -49,7 +56,8 @@ class LabRepository
      * @param $weeks
      * @return boolean
      */
-    public function save($start, $end, $courseId, $teachers, $weeks) {
+    public function save($start, $end, $courseId, $teachers, $weeks)
+    {
         $allCarbonStartDatesForLabs = array();
 
         $labStartCarbon = Carbon::parse($start);
@@ -108,7 +116,7 @@ class LabRepository
     /**
      * Get an instance of Charon by its id.
      *
-     * @param  integer  $id
+     * @param integer $id
      *
      * @return Lab
      */
@@ -120,7 +128,7 @@ class LabRepository
     /**
      * Deletes the instance with given id.
      *
-     * @param  integer $id
+     * @param integer $id
      *
      * @return Lab
      *
@@ -148,7 +156,7 @@ class LabRepository
      * @param $newTeachers
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $newTeachers)
+    public function update($oldLabId, $newStart, $newEnd, $newTeachers, $newCharons)
     {
         $newStartCarbon = Carbon::parse($newStart);
         $newEndCarbon = Carbon::parse($newEnd);
@@ -160,6 +168,7 @@ class LabRepository
         $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
 
         $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabId($oldLab->course_id, $oldLabId);
+        $oldLabCharons = $this->getCharonsForLab($oldLab->course_id, $oldLabId);
 
         foreach ($oldLabTeachers as $oldLabTeacher) {
             if (!in_array($oldLabTeacher->id, $newTeachers)) {
@@ -168,16 +177,39 @@ class LabRepository
         }
 
         $oldLabTeacherIds = array_map(
-            function($a) {
+            function ($a) {
                 return $a->id;
             },
             $oldLabTeachers->toArray()
         );
+
         foreach ($newTeachers as $newTeacherId) {
             if (!in_array($newTeacherId, $oldLabTeacherIds)) {
                 LabTeacher::create([
                     'lab_id' => $oldLab->id,
                     'teacher_id' => $newTeacherId
+                ])->save();
+            }
+        }
+
+        foreach ($oldLabCharons as $oldLabCharon) {
+            if (!in_array($oldLabCharon->id, $newCharons)) {
+                $this->charonDefenseLabRepository->deleteDefenseLabByLabAndCharon($oldLabId, $oldLabCharon->id);
+            }
+        }
+
+        $oldLabCharonIds = array_map(
+            function ($a) {
+                return $a->id;
+            },
+            $oldLabCharons->toArray()
+        );
+
+        foreach ($newCharons as $newCharonId) {
+            if (!in_array($newCharonId, $oldLabCharonIds)) {
+                CharonDefenseLab::create([
+                    'lab_id' => $oldLab->id,
+                    'charon_id' => $newCharonId
                 ])->save();
             }
         }
@@ -189,7 +221,7 @@ class LabRepository
     /**
      * Find all labs in course with given id.
      *
-     * @param  integer $courseId
+     * @param integer $courseId
      *
      * @return Lab[]
      */
@@ -200,13 +232,20 @@ class LabRepository
             ->select('id', 'start', 'end', 'course_id')
             ->orderBy('start')
             ->get();
-        for($i = 0; $i < count($labs); $i++) {
+
+        for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabId($courseId, $labs[$i]->id);
         }
+
+        for ($i = 0; $i < count($labs); $i++) {
+            $labs[$i]->charons = $this->getCharonsForLab($courseId, $labs[$i]->id);
+        }
+
         return $labs;
     }
 
-    public function getCourse($courseId) {
+    public function getCourse($courseId)
+    {
         $course = \DB::table('course')
             ->where('id', $courseId)
             ->select('*')
@@ -215,16 +254,32 @@ class LabRepository
     }
 
     /**
+     * @param $courseId
+     * @param $labId
+     * @return Object[]
+     */
+    public function getCharonsForLab($courseId, $labId)
+    {
+        return \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('course_id', $courseId)
+            ->where('lab_id', $labId)
+            ->join('charon', 'charon_defense_lab.charon_id', 'charon.id')
+            ->select('charon.id', 'charon.project_folder')
+            ->get();
+    }
+
+    /**
      * @param $charonId
      * @return Lab[]
      */
-    public function getLabsByCharonId($charonId) {
-        $labs = \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
+    public function getLabsByCharonId($charonId)
+    {
+        return \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_id', $charonId)
             ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
             ->get();
-        return $labs;
     }
 
     /**
@@ -234,7 +289,8 @@ class LabRepository
      * @param $courseId
      * @return void
      */
-    private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd) {
+    private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd)
+    {
         $courseTeacherIds = array_map(
             function ($a) {
                 return $a->id;
