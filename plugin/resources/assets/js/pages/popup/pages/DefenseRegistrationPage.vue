@@ -152,6 +152,7 @@
                 if (teacher_id > -1) {
                     const teacher = this.teachers[teacher_id]
                     this.updateTeacher({teacher})
+                    apply()
                     VueEvent.$emit('show-notification', "Session started", 'danger')
                 } else {
                     VueEvent.$emit('show-notification', "Please select a teacher", 'danger')
