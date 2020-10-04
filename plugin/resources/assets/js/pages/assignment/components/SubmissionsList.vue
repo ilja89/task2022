@@ -21,7 +21,7 @@
                 </svg>
             </h2>
 
-            <v-bottom-sheet v-model="isActive" persistent inset>
+            <v-bottom-sheet v-model="isActive" persistent inset style="position: relative; z-index: 3">
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
@@ -85,7 +85,7 @@
                 </v-sheet>
             </v-bottom-sheet>
 
-            <v-bottom-sheet v-model="isActiveDefenses" inset>
+            <v-bottom-sheet v-model="isActiveDefenses" inset style="position: relative; z-index: 3">
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
