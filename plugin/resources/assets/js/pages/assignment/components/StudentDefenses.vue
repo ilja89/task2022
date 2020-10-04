@@ -4,8 +4,9 @@
             <v-card-text class="grey lighten-4">
                 <v-container class="spacing-playground pa-3" fluid>
                     <v-card-title v-if="defenseData.length">
-                        My Registrations
+                        {{translate('myRegistrationsText')}}
                         <v-spacer></v-spacer>
+
                         <v-text-field
                                 v-if="defenseData.length"
                                 v-model="search"
@@ -15,9 +16,11 @@
                                 hide-details>
                         </v-text-field>
                     </v-card-title>
+
                     <v-card-title v-else>
-                        No Registrations! Press the shield icon to get started.
+                        {{translate('noRegistrationsText')}}
                     </v-card-title>
+
                     <v-data-table
                             :headers="headers"
                             :items="defenseData"
@@ -31,46 +34,10 @@
                     >
                         <template slot="no-data">
                             <v-alert :value="true" style="text-align: center">
-                                Sorry, nothing to display here :(
+                                {{translate('tableNoRegistrationsText')}}
                             </v-alert>
                         </template>
 
-                        <template v-slot:top>
-                            <v-toolbar flat color="white" height="0 px">
-
-                                <v-dialog v-model="dialog" max-width="500px">
-                                    <template v-slot:activator="{ on, attrs }">
-
-                                    </template>
-                                    <v-card>
-                                        <v-card-title>
-                                            <span class="headline">{{ formTitle }}</span>
-                                        </v-card-title>
-
-                                        <v-card-text>
-                                            <v-container>
-                                                <v-row>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.time"
-                                                                      label="Defense time"></v-text-field>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="editedItem.teacher"
-                                                                      label="Teacher for defense"></v-text-field>
-                                                    </v-col>
-                                                </v-row>
-                                            </v-container>
-                                        </v-card-text>
-
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                            </v-toolbar>
-                        </template>
                         <template v-slot:item.actions="{ item }">
                             <i @click="deleteItem(item)" class="fa fa-trash fa-lg" aria-hidden="true"></i>
                         </template>
@@ -82,6 +49,8 @@
 </template>
 
 <script>
+
+    import {Translate} from '../../../mixins';
     import Defense from "../../../api/Defense";
 
     export default {
@@ -90,41 +59,34 @@
             student_id: {required: true},
             charon: {required: true},
         },
+        mixins: [Translate],
+
         name: "StudentDefenses",
+
         data() {
             return {
                 search: '',
                 singleSelect: false,
                 dialog: false,
                 headers: [
-                    {text: 'Charon', align: 'start', value: 'name'},
-                    {text: 'Time', value: 'choosen_time'},
-                    {text: 'Teacher', value: 'teacher'},
-                    {text: 'Location', value: 'teacher_location'},
-                    {text: 'Comment', value: 'teacher_comment'},
-                    {text: 'Actions', value: 'actions', sortable: false},
-                ],
-                editedIndex: -1,
-                editedItem: {
-                    name: '',
-                    choosen_time: '',
-                    teacher: ''
-                },
-                defaultItem: {
-                    name: '',
-                    choosen_time: '',
-                    teacher: 'Another teacher'
-                },
+                    {text: this.translate("charonText"), align: 'start', value: 'name'},
+                    {text: this.translate("timeText"), value: 'choosen_time'},
+                    {text: this.translate("teacherText"), value: 'teacher'},
+                    {text: this.translate("locationText"), value: 'teacher_location'},
+                    {text: this.translate("commentText"), value: 'teacher_comment'},
+                    {text: this.translate("actionsText"), value: 'actions', sortable: false},
+                ]
             }
         },
+
         methods: {
             deleteItem(item) {
                 if (this.dateValidation(item)) {
-                    if (confirm('Are you sure you want to delete this item?')) {
+                    if (confirm(this.translate("registrationDeletionConfirmationText"))) {
                         this.deleteReg(item);
                     }
                 } else {
-                    VueEvent.$emit('show-notification', "You can't delete a registration 2 hours before the start!", 'danger')
+                    VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
                 }
             },
 
@@ -148,30 +110,9 @@
                     this.dialog = false
                 })
             },
-
-            close() {
-                this.dialog = false
-                this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
-                })
-            },
-
-            save() {
-                if (this.editedIndex > -1) {
-                    Object.assign(this.defenseData[this.editedIndex], this.editedItem)
-                } else {
-                    this.defenseData.push(this.editedItem)
-                }
-                this.close()
-            },
         },
 
-        computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-            },
-        },
+        computed: {},
 
     }
 </script>

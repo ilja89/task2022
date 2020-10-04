@@ -7,7 +7,7 @@
 
                 <template v-slot:action="{ attrs }">
                     <v-btn color="blue" text v-bind="attrs" @click="notification.show = false">
-                        Close
+                        {{translate('closeText')}}
                     </v-btn>
                 </template>
             </v-snackbar>
@@ -25,43 +25,44 @@
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
-                        Registration for {{this.charon['name']}}
+                        {{translate('registrationForText')}} {{this.charon['name']}}
                     </v-card-text>
 
                     <div class="register-lab-headers" style="margin-top: 2vh">
-                        <h4>Choose a teacher</h4>
+                        <h4>{{translate('chooseTeacherText')}}</h4>
                     </div>
                     <div class="labs-schedule">
                         <div class="row">
                             <div class="col-6 col-sm-4" v-if="this.charon['choose_teacher'] === 1"><label
                                     for="my-teacher"></label>
                                 <input type="radio" v-model="selected" id="my-teacher"
-                                       value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">My
-                                teacher
+                                       value="My teacher" name="labs-time" @click="changeTeacher('My teacher')">
+                                {{translate('myTeacherText')}}
                             </div>
                             <div class="w-100 d-none d-md-block"></div>
                             <div class="col-6 col-sm-4">
                                 <label for="another-teacher"></label>
                                 <input type="radio" v-model="selected" id="another-teacher" value="Any teacher"
-                                       name="labs-time" @click="changeTeacher('Any teacher')">Any teacher
+                                       name="labs-time" @click="changeTeacher('Any teacher')">
+                                {{translate('anyTeacherText')}}
                             </div>
                         </div>
                     </div>
                     <div class="register-lab-headers" style="margin-top: 2vh">
-                        <h4>Choose a time</h4>
+                        <h4>{{translate('chooseTimeText')}}</h4>
                     </div>
                     <div class="labs-schedule">
                         <div class="text-center">
                             <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"
                                          @select="onSelect" :max-height="200"
-                                         :custom-label="getLabList" placeholder="Select a day" label="start"
+                                         :custom-label="getLabList" :placeholder="translate('selectDayText')" label="start"
                                          track-by="start" :allow-empty="false">
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                             </multiselect>
 
                             <multiselect style="margin-top: 30px" v-if="this.value != null" v-model="value_time"
                                          :max-height="200"
-                                         :options="this.times" placeholder="Be more precise">
+                                         :options="this.times" :placeholder="translate('selectTimeText')">
                             </multiselect>
                         </div>
                     </div>
@@ -70,13 +71,13 @@
                         <v-btn
                                 class="mt-6" text color="primary"
                                 @click="sendData()">
-                            Register
+                            {{translate('registerText')}}
                         </v-btn>
 
                         <v-btn
                                 class="mt-6" text color="error"
                                 @click="isActive = false">
-                            close
+                            {{translate('closeText')}}
                         </v-btn>
                     </v-row>
 
@@ -87,7 +88,7 @@
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
-                        All registrations
+                        {{translate('allRegistrationsText')}}
                     </v-card-text>
 
                     <StudentDefenses
@@ -100,7 +101,7 @@
                         <v-btn
                                 class="mt-6" text color="error"
                                 @click="isActiveDefenses = false">
-                            close
+                            {{translate('closeText')}}
                         </v-btn>
                     </v-row>
 
@@ -156,13 +157,13 @@
 
             <div v-if="canLoadMore" class="has-text-centered">
                 <button class="button is-primary load-more-button" @click="loadMoreSubmissions()">
-                    Load more
+                    {{translate('loadMoreText')}}
                 </button>
             </div>
             <div class="has-text-centered">
             <span>
             <button class="button is-primary load-more-button" @click.stop="showStudentDefenses()">
-                My registrations
+                {{translate('myRegistrationsText')}}
             </button>
             </span>
             </div>
@@ -389,7 +390,7 @@
                 this.current_submission = submissionId
                 this.isActive = this.submission_validation;
                 if (this.isActive === false) {
-                    VueEvent.$emit('show-notification', `You can't register a submission with a result less than ${this.charon['defense_threshold']}%`, 'danger')
+                    VueEvent.$emit('show-notification', `You can't register a submission with result less than ${this.charon['defense_threshold']}%`, 'danger')
                 }
             },
 
@@ -467,7 +468,7 @@
             getGrademapByResult(result) {
                 let correctGrademap = null;
                 this.grademaps.forEach(grademap => {
-                    if (grademap.grade_type_code == result.grade_type_code) {
+                    if (grademap.grade_type_code === result.grade_type_code) {
                         correctGrademap = grademap;
                     }
                 });
@@ -488,15 +489,25 @@
             },
 
             submissionString(submission) {
-                let resultStr = '';
-                let prefix = '';
+                let size = submission.results.length
 
-                submission.results.forEach((result) => {
-                    resultStr += prefix;
-                    resultStr += result.calculated_result;
-                    prefix = ' | ';
-                });
-                return resultStr;
+                if (size > 3) {
+                    return "" +
+                        submission.results[0].calculated_result + " | ... | " +
+                        submission.results[size - 2].calculated_result + " | " +
+                        submission.results[size - 1].calculated_result + " | "
+
+                } else {
+                    let resultStr = '';
+                    let prefix = '';
+
+                    submission.results.forEach((result) => {
+                        resultStr += prefix;
+                        resultStr += result.calculated_result;
+                        prefix = ' | ';
+                    });
+                    return resultStr;
+                }
             },
             refreshSubmissions() {
                 this.refreshing = true;
