@@ -7,6 +7,10 @@
             <v-btn :disabled="saveIsDisabled" class="ma-2" tile outlined color="primary" @click="saveSubmission">
                 Save
             </v-btn>
+            <v-btn v-if="isSessionActive" :disabled="goBackIsDisabled" class="ma-2" tile outlined color="primary"
+                   @click="goBack()">
+                Go Back
+            </v-btn>
         </template>
 
         <div v-if="hasSubmission" class="columns is-gapless is-desktop submission-overview-container">
@@ -84,7 +88,8 @@
             return {
                 charon_confirmed_points: null,
                 errors: {},
-                points_changed: false
+                points_changed: false,
+                goBackIsDisabled: true
             };
         },
 
@@ -116,7 +121,12 @@
             submissionOrderNrText() {
                 return this.submission ? this.submission.order_nr + ". submission" : null;
             },
-            saveIsDisabled: function () {
+
+            saveIsDisabled() {
+                return !this.points_changed;
+            },
+
+            goBackIsDisabled() {
                 return !this.points_changed;
             }
         },
@@ -140,6 +150,11 @@
                 });
 
                 return correctGrademap;
+            },
+
+            goBack() {
+                this.goBackIsDisabled = true;
+                this.$router.back();
             },
 
             saveSubmission() {
@@ -185,6 +200,7 @@
                 }
 
                 Submission.update(this.charon.id, this.submission, responseHandler);
+                this.goBackIsDisabled = false;
 
             },
 
