@@ -97,7 +97,7 @@
         },
         methods: {
             getSubmissionRouting(submissionId) {
-                return '/submissions/' + submissionId
+                return 'submissions/' + submissionId
             },
 
             updateRegistration(defense_id, state, teacher_id) {
