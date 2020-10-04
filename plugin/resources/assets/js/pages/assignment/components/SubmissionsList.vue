@@ -3,7 +3,7 @@
         <v-main>
             <v-snackbar multi-line v-model="notification.show"
                         :timeout="notification.timeout"
-                        style="position: relative; z-index: 1001">
+                        style="z-index: 2000">
                 {{ notification.text }}
 
                 <template v-slot:action="{ attrs }">
