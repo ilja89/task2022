@@ -73,7 +73,6 @@
     import Defense from "../../../api/Defense";
     import {mapState} from "vuex";
     import Multiselect from "vue-multiselect";
-    import router from "vue-router";
 
     export default {
         components: {Multiselect},
@@ -113,7 +112,7 @@
                     })
                 }
 
-                router.push(this.getSubmissionRouting(submission.submission_id))
+                this.$router.push(this.getSubmissionRouting(submission.submission_id))
             },
 
             deleteRegistration(item) {
