@@ -55,7 +55,8 @@
                         <div class="text-center">
                             <multiselect v-model="value" :options="this.labs" :block-keys="['Tab', 'Enter']"
                                          @select="onSelect" :max-height="200"
-                                         :custom-label="getLabList" :placeholder="translate('selectDayText')" label="start"
+                                         :custom-label="getLabList" :placeholder="translate('selectDayText')"
+                                         label="start"
                                          track-by="start" :allow-empty="false">
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
                             </multiselect>
@@ -205,6 +206,14 @@
         text-align: center;
     }
 
+
+    .rotating {
+        animation-name: spin;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
     @keyframes spin {
         from {
             transform: rotate(0deg);
@@ -213,6 +222,7 @@
             transform: rotate(-360deg);
         }
     }
+
 </style>
 <script>
 
