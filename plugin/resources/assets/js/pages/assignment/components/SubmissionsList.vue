@@ -524,10 +524,7 @@
                 Submission.findByUserCharon(this.student_id, this.charon_id, (submissions) => {
                     this.submissions = submissions;
                     this.canLoadMore = Submission.canLoadMore();
-
-                    setTimeout(function () {
-                        this.refreshing = false;
-                    }, 1000)
+                    this.refreshing = false;
                 });
             },
 
