@@ -53,6 +53,14 @@
                         chosen_teachers.push(this.lab.teachers[i].id)
                     }
                 }
+
+                let chosen_charons = []
+                if (this.lab.charons !== undefined) {
+                    for (let i = 0; i < this.lab.charons.length; i++) {
+                        chosen_teachers.push(this.lab.charons[i].id)
+                    }
+                }
+
                 // send info to backend
                 if (this.lab.id != null) {
                     // update lab
@@ -78,14 +86,14 @@
                             giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() - parseInt(num)))
                         }
                     }
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, this.charons, () => {
+                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, chosen_charons, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab updated!');
                     })
                 } else {
                     // save lab
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, this.charons, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, chosen_charons, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
