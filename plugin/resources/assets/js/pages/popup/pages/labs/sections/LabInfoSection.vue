@@ -5,7 +5,7 @@
             <v-form>
                 <v-container>
                     <v-row>
-                        <v-col cols="12" sm="6" md="6" lg="4">
+                        <v-col cols="12" sm="6" md="6" lg="6">
                             <div class="labs-field">
                                 <p>Start date and time</p>
                                 <datepicker :datetime="lab_given.start"></datepicker>
@@ -13,7 +13,7 @@
                             </div>
                         </v-col>
 
-                        <v-col cols="12" sm="6" md="6" lg="4">
+                        <v-col cols="12" sm="6" md="6" lg="6">
                             <div class="labs-field">
                                 <p>End time</p>
                                 <datepicker :datetime="lab_given.end"></datepicker>
@@ -21,7 +21,7 @@
                             </div>
                         </v-col>
 
-                        <v-col cols="12" sm="6" md="6" lg="4">
+                        <v-col cols="12" sm="6" md="6" lg="6">
                             <div class="labs-field is-flex-1">
                                 <p>Teachers attending this lab session</p>
                                 <multiselect v-model="lab_given.teachers" :options="teachers" :multiple="true" label="fullname"
@@ -31,7 +31,7 @@
                             </div>
                         </v-col>
 
-                        <v-col cols="12" sm="6" md="6" lg="4">
+                        <v-col cols="12" sm="6" md="6" lg="6">
                             <div class="labs-field is-flex-1">
                                 <p>Defendable Charons during this lab</p>
                                 <multiselect v-model="lab_given.charons" :options="charons" :multiple="true" label="project_folder"
