@@ -47,6 +47,7 @@
                     VueEvent.$emit('show-notification', 'Please fill all the required fields.', 'danger');
                     return
                 }
+
                 let chosen_teachers = []
                 if (this.lab.teachers !== undefined) {
                     for (let i = 0; i < this.lab.teachers.length; i++) {
@@ -57,7 +58,7 @@
                 let chosen_charons = []
                 if (this.lab.charons !== undefined) {
                     for (let i = 0; i < this.lab.charons.length; i++) {
-                        chosen_teachers.push(this.lab.charons[i].id)
+                        chosen_charons.push(this.lab.charons[i].id)
                     }
                 }
 
