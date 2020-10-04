@@ -87,8 +87,8 @@
                     container['nice_name'] = this.getDayTimeFormat(lab.start.time);
                     container['nice_date'] = this.getNiceDate(lab.start.time);
                     container['nice_time'] = `${this.getNiceTime(lab.start.time)} - ${this.getNiceTime(lab.end.time)}`;
-                    container['teacher_names'] = lab.teachers.map(x => x.fullname).join(', ')
-                    container['charon_names'] = lab.charons.map(x => x.project_folder).join(', ')
+                    container['teacher_names'] = lab.teachers.map(x => x.fullname).sort().join(', ')
+                    container['charon_names'] = lab.charons.map(x => x.project_folder).sort().join(', ')
 
                     return container;
                 });
