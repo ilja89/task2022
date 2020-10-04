@@ -73,6 +73,7 @@
     import Defense from "../../../api/Defense";
     import {mapState} from "vuex";
     import Multiselect from "vue-multiselect";
+    import router from "vue-router";
 
     export default {
         components: {Multiselect},
@@ -97,7 +98,7 @@
         },
         methods: {
             getSubmissionRouting(submissionId) {
-                return 'submissions/' + submissionId
+                return '/submissions/' + submissionId
             },
 
             updateRegistration(defense_id, state, teacher_id) {
@@ -112,7 +113,7 @@
                     })
                 }
 
-                window.location = this.getSubmissionRouting(submission.submission_id)
+                router.push(this.getSubmissionRouting(submission.submission_id))
             },
 
             deleteRegistration(item) {
