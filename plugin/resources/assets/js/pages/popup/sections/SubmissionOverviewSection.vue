@@ -125,10 +125,6 @@
             saveIsDisabled() {
                 return !this.points_changed;
             },
-
-            goBackIsDisabled() {
-                return !this.points_changed;
-            }
         },
 
         filters: {
