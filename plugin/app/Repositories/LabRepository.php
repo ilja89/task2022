@@ -154,6 +154,7 @@ class LabRepository
      * @param Carbon $newEnd
      *
      * @param $newTeachers
+     * @param $newCharons
      * @return Lab
      */
     public function update($oldLabId, $newStart, $newEnd, $newTeachers, $newCharons)
