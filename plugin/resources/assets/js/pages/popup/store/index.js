@@ -63,6 +63,12 @@ const store = new Vuex.Store({
          * |null}
          */
         course: initialCourse,
+        /**
+         * @type {
+         *      {id: Number, firstname: String, lastname: String, fullname: String}
+         * |null}
+         */
+        teacher: null,
     },
     getters,
     mutations,

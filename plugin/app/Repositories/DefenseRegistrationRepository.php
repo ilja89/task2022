@@ -140,36 +140,13 @@ class DefenseRegistrationRepository
      * @param $newTeacherId
      * @return Registration
      */
-    public function saveProgress($defenseId, $newProgress, $newTeacherId)
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
         $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
-        $defense->save();
+        $defense->update();
         return $defense;
-    }
-
-    /**
-     * Save defense progress by student id.
-     * @param $charonId
-     * @param $studentId
-     * @param $newProgress
-     * @return Registration|array
-     */
-    public function saveProgressByStudentId($charonId, $studentId, $newProgress)
-    {
-        try {
-            $eh = \DB::table('charon_defenders')
-                ->where('student_id', $studentId)
-                ->where('charon_id', $charonId)
-                ->select('*')
-                ->get();
-            $defense = $eh[0];
-            return $this->saveProgress($defense->id, $newProgress);
-        } catch (\Exception $e) {  // try-catch because that means there is no row in defenders table
-            // associated with this student and charon
-            return [];
-        }
     }
 
     public function deleteRegistration($student_id, $defense_lab_id, $submission_id)

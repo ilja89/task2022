@@ -198,7 +198,6 @@ class SubmissionService
                     ->setResultId($result['id']);
             }
         }
-        $this->defenseRegistrationRepository->saveProgressByStudentId($charon->id, $submission->user_id, 'Done');
 
         foreach ($newResults as $result) {
 
@@ -212,6 +211,7 @@ class SubmissionService
 
         $this->charonGradingService->updateGradeIfApplicable($submission, true);
         $this->charonGradingService->confirmSubmission($submission);
+        $this->charonGradingService->updateProgressByStudentId($submission->charon_id, $submission->id, $submission->user_id, 'Done');
 
         return $submission;
     }

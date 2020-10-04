@@ -3,9 +3,11 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\GradingService;
@@ -28,18 +30,21 @@ class CharonGradingService
     private $submissionsRepository;
     /** @var SubmissionCalculatorService */
     private $submissionCalculatorService;
+    /** @var DefenseRegistrationRepository */
+    private $defenseRegistrationRepository;
     /** @var User */
     private $user;
 
     /**
      * CharonGradingService constructor.
      *
-     * @param  GradingService $gradingService
-     * @param  GrademapService $grademapService
-     * @param  CharonRepository $charonRepository
-     * @param  SubmissionsRepository $submissionsRepository
-     * @param  SubmissionCalculatorService $submissionCalculatorService
-     * @param  User $user
+     * @param GradingService $gradingService
+     * @param GrademapService $grademapService
+     * @param CharonRepository $charonRepository
+     * @param SubmissionsRepository $submissionsRepository
+     * @param DefenseRegistrationRepository $defenseRegistrationRepository
+     * @param SubmissionCalculatorService $submissionCalculatorService
+     * @param User $user
      */
     public function __construct(
         GradingService $gradingService,
@@ -47,27 +52,30 @@ class CharonGradingService
         CharonRepository $charonRepository,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculatorService $submissionCalculatorService,
+        DefenseRegistrationRepository $defenseRegistrationRepository,
         User $user
-    ) {
-        $this->gradingService              = $gradingService;
-        $this->grademapService             = $grademapService;
-        $this->charonRepository            = $charonRepository;
-        $this->submissionsRepository       = $submissionsRepository;
+    )
+    {
+        $this->gradingService = $gradingService;
+        $this->grademapService = $grademapService;
+        $this->charonRepository = $charonRepository;
+        $this->submissionsRepository = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
+        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->user = $user;
     }
 
     /**
      * Update the grade for the user if it should be updated.
      *
-     * @param  Submission  $submission
-     * @param  bool  $force
+     * @param Submission $submission
+     * @param bool $force
      *
      * @return void
      */
     public function updateGradeIfApplicable($submission, $force = false)
     {
-        if ( ! $this->gradesShouldBeUpdated($submission, $force)) {
+        if (!$this->gradesShouldBeUpdated($submission, $force)) {
             return;
         }
 
@@ -77,7 +85,7 @@ class CharonGradingService
 
         $gradeTypeCodes = $charon->getGradeTypeCodes();
         foreach ($submission->results as $result) {
-            if ( ! $gradeTypeCodes->contains($result->grade_type_code)) {
+            if (!$gradeTypeCodes->contains($result->grade_type_code)) {
                 continue;
             }
 
@@ -94,13 +102,13 @@ class CharonGradingService
     /**
      * Confirms the given submission and unconfirms the rest for the user.
      *
-     * @param  Submission  $submission
+     * @param Submission $submission
      *
      * @return void
      */
     public function confirmSubmission($submission)
     {
-        $userId      = $submission->user_id;
+        $userId = $submission->user_id;
         $submissions = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon(
             $userId,
             $submission->charon_id
@@ -121,8 +129,8 @@ class CharonGradingService
     /**
      * Check if the given submission should update grades.
      *
-     * @param  Submission  $submission
-     * @param  bool  $force
+     * @param Submission $submission
+     * @param bool $force
      *
      * @return bool
      */
@@ -143,7 +151,7 @@ class CharonGradingService
      * Calculates the calculated results for given new submission and
      * saves them.
      *
-     * @param  Submission  $submission
+     * @param Submission $submission
      *
      * @return void
      */
@@ -162,8 +170,8 @@ class CharonGradingService
     /**
      * Check if the submission has a previously confirmed submission.
      *
-     * @param  int  $charonId
-     * @param  int  $userId
+     * @param int $charonId
+     * @param int $userId
      *
      * @return bool
      */
@@ -178,7 +186,7 @@ class CharonGradingService
      * Check if the submission should be updated based on the grading
      * method of the charon.
      *
-     * @param  Submission  $submission
+     * @param Submission $submission
      *
      * @return bool
      */
@@ -195,7 +203,7 @@ class CharonGradingService
     /**
      * Recalculate grades for the given grademap.
      *
-     * @param  Grademap  $grademap
+     * @param Grademap $grademap
      *
      * @return void
      */
@@ -208,7 +216,7 @@ class CharonGradingService
 
         $results->each(function ($result) use ($grademap) {
             /** @var Result $result */
-            if ( ! $this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
+            if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->submission->user_id)) {
                 $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                     $result, $grademap->charon->deadlines
                 );
@@ -227,5 +235,32 @@ class CharonGradingService
                 $result->calculated_result
             );
         });
+    }
+
+    /**
+     * Save defense progress by student id.
+     * @param $charon_id
+     * @param $submission_id
+     * @param $student_id
+     * @param $newProgress
+     * @return Registration|array
+     */
+    public function updateProgressByStudentId($charon_id, $submission_id, $student_id, $newProgress)
+    {
+        try {
+            $teacher_id = $this->user->currentUserId();
+            $student_registration = \DB::table('charon_defenders')
+                ->where('student_id', $student_id)
+                ->where('submission_id', $submission_id)
+                ->where('charon_id', $charon_id)
+                ->select('id')
+                ->orderBy('choosen_time', 'desc')
+                ->first();
+            return $this->defenseRegistrationRepository->updateRegistration($student_registration->id, $newProgress, $teacher_id);
+
+        } catch (\Exception $e) {  // try-catch because that means there is no row in defenders table
+            // associated with this student and charon
+            return [];
+        }
     }
 }

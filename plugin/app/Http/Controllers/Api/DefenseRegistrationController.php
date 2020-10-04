@@ -58,7 +58,7 @@ class DefenseRegistrationController extends Controller
      */
     public function saveProgress(Course $course, Registration $registration)
     {
-        return $this->defenseRegistrationRepository->saveProgress($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->defenseRegistrationRepository->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
     public function deleteReg(Request $request)

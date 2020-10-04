@@ -89,9 +89,13 @@
         },
 
         computed: {
-            ...mapState(["charon", "submission"]),
+            ...mapState(["charon", "submission", "teacher"]),
 
             ...mapGetters(["charonLink"]),
+
+            isSessionActive() {
+                return this.teacher != null
+            },
 
             hasSubmission() {
                 return this.submission != null;
@@ -140,8 +144,7 @@
 
             saveSubmission() {
                 for (let res in this.submission.results) {
-                    if (
-                        this.submission.results[res].calculated_result >
+                    if (this.submission.results[res].calculated_result >
                         parseFloat(this.getGrademapByResult(this.submission.results[res]).grade_item.grademax)
                     ) {
                         window.VueEvent.$emit(
@@ -154,7 +157,8 @@
                         return;
                     }
                 }
-                Submission.update(this.charon.id, this.submission, response => {
+
+                const responseHandler = response => {
                     if (response.status !== 200) {
                         window.VueEvent.$emit(
                             "show-notification",
@@ -178,7 +182,10 @@
 
                         this.getTotalResult();
                     }
-                });
+                }
+
+                Submission.update(this.charon.id, this.submission, responseHandler);
+
             },
 
             setMaxPoints(result) {

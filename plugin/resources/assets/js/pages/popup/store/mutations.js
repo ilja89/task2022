@@ -2,6 +2,10 @@ export const UPDATE_STUDENT = (state, { student }) => {
     state.student = student
 }
 
+export const UPDATE_TEACHER = (state, { teacher }) => {
+    state.teacher = teacher
+}
+
 export const UPDATE_COURSE = (state, { course }) => {
     state.course = course
 }

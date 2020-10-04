@@ -1,74 +1,6 @@
 <template>
-    <popup-section
-            title="Code showing registrations"
-            subtitle="Here are all the registrations for code showing."
-    >
 
-        <v-card class="mx-auto" outlined light raised>
-            <v-container class="spacing-playground pa-3" fluid>
-                <v-row>
-
-                    <v-col cols="12" xs="12" sm="12" md="3" lg="3">
-                        <div class="helper">
-                            After
-                        </div>
-                        <div class="datepick">
-                            <datepicker :datetime="after"></datepicker>
-                            <input type="hidden" :value="after">
-                        </div>
-                    </v-col>
-
-                    <v-col cols="12" xs="12" sm="12" md="3" lg="3">
-                        <div class="helper">
-                            Before
-                        </div>
-                        <div class="datepick">
-                            <datepicker :datetime="before"></datepicker>
-                            <input type="hidden" :value="before">
-                        </div>
-                    </v-col>
-
-                    <v-col cols="12" xs="12" sm="4" md="2" lg="2">
-                        <div class="helper">
-                            Teacher name
-                        </div>
-
-                        <v-select
-                                class="mx-auto"
-                                dense
-                                single-line
-                                item-text="fullname"
-                                item-value="id"
-                                :items="teachers"
-                                v-model="filter_teacher"
-                        ></v-select>
-                    </v-col>
-
-                    <v-col cols="12" xs="12" sm="4" md="2" lg="2">
-                        <div class="helper">
-                            Progress
-                        </div>
-
-                        <v-select
-                                class="mx-auto"
-                                dense
-                                :items="all_progress_types"
-                                v-model="filter_progress"
-                        ></v-select>
-                    </v-col>
-
-                    <v-col cols="12" xs="12" sm="4" md="2" lg="2">
-                        <v-btn class="ma-2" tile outlined color="primary"
-                               @click="apply(after.time, before.time, filter_teacher, filter_progress)">
-                            Apply
-                        </v-btn>
-                    </v-col>
-
-                </v-row>
-            </v-container>
-        </v-card>
-
-
+    <div>
         <v-card-title v-if="defenseList.length">
             Registrations
             <v-spacer></v-spacer>
@@ -112,7 +44,8 @@
             </template>
 
             <template v-slot:item.submission="{ item }">
-                <router-link :to="getSubmissionRouting(item.submission_id)">Go to submission
+                <router-link @click="routerClicked(item)" :to="getSubmissionRouting(item.submission_id)">
+                    Go to submission
                 </router-link>
             </template>
 
@@ -132,27 +65,20 @@
                 </v-btn>
             </template>
         </v-data-table>
+    </div>
 
-    </popup-section>
 </template>
 
 <script>
-    import moment from 'moment';
-    import {PopupSection} from '../layouts/index'
-    import Datepicker from "../../../components/partials/Datepicker";
     import Defense from "../../../api/Defense";
     import {mapState} from "vuex";
     import Multiselect from "vue-multiselect";
 
     export default {
-        components: {Datepicker, Multiselect, PopupSection},
+        components: {Multiselect},
         data() {
             return {
                 search: '',
-                after: {time: `${moment().format("YYYY-MM-DD")} 00:00`},
-                before: {time: null},
-                filter_teacher: -1,
-                filter_progress: null,
                 all_progress_types: ['Waiting', 'Defending', 'Done'],
                 defense_list_headers: [
                     {text: 'Date and time', value: 'choosen_time', align: 'start'},
@@ -167,17 +93,25 @@
             }
         }, props: {
             defenseList: {required: true},
-            apply: {required: true},
             teachers: {required: true}
         },
         methods: {
             getSubmissionRouting(submissionId) {
                 return '/submissions/' + submissionId
             },
+
             updateRegistration(defense_id, state, teacher_id) {
                 Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
                     VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
                 })
+            },
+
+            routerClicked(submission) {
+                if (submission.progress === 'Waiting' && this.isSessionActive) {
+                    Defense.updateRegistration(this.course.id, submission.id, 'Defending', submission.teacher.id, () => {
+                        VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
+                    })
+                }
             },
 
             deleteRegistration(item) {
@@ -208,8 +142,12 @@
         },
         computed: {
             ...mapState([
-                'course'
+                'teacher', 'course'
             ]),
+
+            isSessionActive() {
+                return this.teacher != null
+            },
 
             defense_list_table() {
                 return this.defenseList.map(registration => {
@@ -223,11 +161,5 @@
 </script>
 
 <style>
-
-    .datepicker-overlay .cov-date-box .hour-item,
-    .datepicker-overlay .cov-date-box .min-item {
-        padding: 10px 10px !important;
-    }
-
 
 </style>

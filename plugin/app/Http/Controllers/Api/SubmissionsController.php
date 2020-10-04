@@ -105,16 +105,17 @@ class SubmissionsController extends Controller
     /**
      * Saves the Submission results.
      *
-     * @param  Charon $charon
-     * @param  Submission $submission
+     * @param Charon $charon
+     * @param Submission $submission
      *
      * @return array
+     * @throws \TTU\Charon\Exceptions\ResultPointsRequiredException
      */
     public function saveSubmission(Charon $charon, Submission $submission)
     {
         $newResults = $this->request['submission']['results'];
 
-        $this->submissionService->updateSubmissionCalculatedResults($charon, $submission, $newResults);
+        $newSubmission = $this->submissionService->updateSubmissionCalculatedResults($charon, $submission, $newResults);
 
         return response()->json([
             'status' => 200,

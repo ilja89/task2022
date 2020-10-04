@@ -18,14 +18,14 @@
 </template>
 
 <script>
-    import { mapState, mapGetters, mapActions } from 'vuex'
-    import { PageTitle } from '../partials'
-    import { SubmissionsSection, CommentsSection } from '../sections'
-    import { Charon, Submission } from '../../../api'
-    import { StudentCharonPointsVsCourseAverageChart } from '../graphics';
+    import {mapState, mapGetters, mapActions} from 'vuex'
+    import {PageTitle} from '../partials'
+    import {SubmissionsSection, CommentsSection} from '../sections'
+    import {Charon, Submission} from '../../../api'
+    import {StudentCharonPointsVsCourseAverageChart} from '../graphics';
 
     export default {
-        components: { PageTitle, SubmissionsSection, CommentsSection, StudentCharonPointsVsCourseAverageChart, },
+        components: {PageTitle, SubmissionsSection, CommentsSection, StudentCharonPointsVsCourseAverageChart,},
 
         computed: {
             ...mapState([
@@ -81,9 +81,9 @@
                 const courseId = this.courseId;
                 const studentId = this.$route.params.student_id;
 
-                this.fetchStudent({ courseId, studentId });
+                this.fetchStudent({courseId, studentId});
                 Charon.all(courseId, this.setCharons);
-                this.updateSubmission({ submission: null })
+                this.updateSubmission({submission: null})
             },
 
             setCharons(charons) {

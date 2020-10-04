@@ -41,6 +41,15 @@ export const updateCharon = ({commit}, {charon}) => {
 }
 
 /**
+ * Update the teacher in the store.
+ * @param commit {Function}
+ * @param teacher {Object|null}
+ */
+export const updateTeacher = ({commit}, {teacher}) => {
+    commit('UPDATE_TEACHER', {teacher})
+}
+
+/**
  * Update the submission in the store.
  * @param commit {Function}
  * @param submission {Object}
