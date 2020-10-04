@@ -21,7 +21,8 @@
                 </svg>
             </h2>
 
-            <v-bottom-sheet v-model="isActive" persistent inset style="position: relative; z-index: 3">
+            <!--Moodle drawer has z-index under 1000-->
+            <v-bottom-sheet v-model="isActive" persistent inset style="position: relative; z-index: 1000">
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
@@ -85,7 +86,7 @@
                 </v-sheet>
             </v-bottom-sheet>
 
-            <v-bottom-sheet v-model="isActiveDefenses" inset style="position: relative; z-index: 3">
+            <v-bottom-sheet v-model="isActiveDefenses" inset style="position: relative; z-index: 1000">
                 <v-sheet height="80vh" class="px-4">
 
                     <v-card-text class="my-4 text-center title">
