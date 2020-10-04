@@ -495,7 +495,7 @@
                     return "" +
                         submission.results[0].calculated_result + " | ... | " +
                         submission.results[size - 2].calculated_result + " | " +
-                        submission.results[size - 1].calculated_result + " | "
+                        submission.results[size - 1].calculated_result
 
                 } else {
                     let resultStr = '';
