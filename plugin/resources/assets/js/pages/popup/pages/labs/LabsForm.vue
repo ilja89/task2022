@@ -78,7 +78,7 @@
                             giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() - parseInt(num)))
                         }
                     }
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, () => {
+                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, this.charons, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab updated!');

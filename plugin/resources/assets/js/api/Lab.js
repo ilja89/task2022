@@ -32,10 +32,11 @@ class Lab {
         })
     }
 
-    static update(courseId, labId, start, end, teachers, then) {
+    static update(courseId, labId, start, end, teachers, charons, then) {
         axios.post('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/update', {
             start: start,
             end: end,
+            charons: charons,
             teachers: teachers
         }).then(response => {
             then(response)
