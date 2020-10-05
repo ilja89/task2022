@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -112,6 +113,18 @@ class LabController extends Controller
     public function getByCharon(Charon $charon)
     {
         return $this->labRepository->getLabsByCharonId($charon->id);
+    }
+
+    public function findLabsByCharonLaterEqualToday(Request $request)
+    {
+        $charonId = $request->input('id');
+
+        return \DB::table('charon_lab')  // id, start, end
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
+        ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
+            ->get();
     }
 
 }
