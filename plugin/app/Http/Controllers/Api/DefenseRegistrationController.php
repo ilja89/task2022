@@ -63,7 +63,7 @@ class DefenseRegistrationController extends Controller
 
     public function deleteReg(Request $request)
     {
-        $student_id = $request->input('student_id');
+        $student_id = $request->input('user_id');
         $defense_lab_id = $request->input('defLab_id');
         $submission_id = $request->input('submission_id');
 
@@ -72,7 +72,7 @@ class DefenseRegistrationController extends Controller
 
     public function getStudentRegistrations(Request $request)
     {
-        $student_id = $request->input('studentid');
+        $student_id = $request->input('user_id');
 
         return $this->defenseRegistrationRepository->getStudentRegistrations($student_id);
 

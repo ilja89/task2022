@@ -330,7 +330,7 @@
                     this.timeGenerator(option);
                     axios.get(`api/charons/${this.charon_id}/labs/unavailable?time=${time
                         }&my_teacher=${this.selected === "My teacher"
-                        }&student_id=${this.student_id
+                        }&user_id=${this.student_id
                         }&lab_id=${option['id']
                         }&charon_id=${this.charon_id}`
                     ).then(result => {
@@ -384,10 +384,6 @@
                 }
             },
 
-            forceRerender() {
-                this.index += 1;
-            },
-
             changeTeacher(teacher) {
                 this.selected = teacher;
                 this.arrayDefenseTime();
@@ -425,7 +421,7 @@
             },
 
             getDefenseData() {
-                axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&studentid=${this.student_id}`).then(result => {
+                axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&user_id=${this.student_id}`).then(result => {
                     this.defenseData = result.data;
                 })
             },
@@ -440,8 +436,7 @@
                     let choosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
                     let selected_boolean = this.selected === "My teacher";
 
-                    axios.post(`api/charons/${this.charon_id}/submission`, {
-                        student_id: this.student_id,
+                    axios.post(`api/charons/${this.charon_id}/submission?user_id=${this.student_id}`, {
                         charon_id: this.charon_id,
                         submission_id: this.current_submission,
                         selected: selected_boolean,

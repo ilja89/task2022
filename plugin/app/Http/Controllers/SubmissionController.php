@@ -39,7 +39,7 @@ class SubmissionController extends Controller
 
     public function insert(Request $request)
     {
-        $student_id = $request->input('student_id');
+        $student_id = $request->input('user_id');
         $submission_id = $request->input('submission_id');
         $teacher = $request->input('selected');
         $lab_id = $request->input('defense_lab_id');
