@@ -450,7 +450,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2020100602) {
+    if ($oldversion < 2020100603) {
 
         $sql2 = "DROP TABLE IF EXISTS " . $CFG->prefix . "charon_defenders";
         $DB->execute($sql2);
@@ -467,9 +467,10 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    defense_lab_id BIGINT(10) NOT NULL," .
             "    teacher_location VARCHAR(255) NULL," .
             "    teacher_comment VARCHAR(255) NULL," .
+            "    progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'," .
             "    PRIMARY KEY (id)," .
-            "    CONSTRAINT UC_student_id_choosen_time UNIQUE (student_id, choosen_time)," .
-            "    CONSTRAINT UC_teacher_id_choosen_time UNIQUE (teacher_id, choosen_time)," .
+            "    CONSTRAINT IXUNIQUE_choosen_time_and_student_id UNIQUE (student_id, choosen_time)," .
+            "    CONSTRAINT IXUNIQUE_choosen_time_and_teacher_id UNIQUE (teacher_id, choosen_time)," .
             "    INDEX IXFK_charon_defenders_student_id (student_id)," .
             "    INDEX IXFK_charon_defenders_charon (charon_id)," .
             "    INDEX IXFK_charon_defenders_submission_id (submission_id)," .
