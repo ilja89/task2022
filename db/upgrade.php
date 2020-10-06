@@ -471,34 +471,34 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    CONSTRAINT UC_student_id_choosen_time UNIQUE (student_id, choosen_time)," .
             "    CONSTRAINT UC_teacher_id_choosen_time UNIQUE (teacher_id, choosen_time)," .
             "    INDEX IXFK_charon_defenders_student_id (student_id)," .
-            "    INDEX IXFK_charon_defenders_charon (charon_id)" .
+            "    INDEX IXFK_charon_defenders_charon (charon_id)," .
             "    INDEX IXFK_charon_defenders_submission_id (submission_id)," .
-            "    INDEX IXFK_charon_defenders_teacher (teacher_id)" .
+            "    INDEX IXFK_charon_defenders_teacher (teacher_id)," .
             "    INDEX IXFK_charon_defenders_charon_defense_lab_id (defense_lab_id)," .
             "    CONSTRAINT FK_charon_defenders_student_id" .
             "        FOREIGN KEY (student_id)" .
             "            REFERENCES " . $CFG->prefix . "user(id)" .
-            "            ON DELETE CASCADE," .
+            "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_charon" .
             "        FOREIGN KEY (charon_id)" .
             "            REFERENCES " . $CFG->prefix . "charon(id)" .
-            "            ON DELETE CASCADE," .
+            "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_submission_id" .
             "        FOREIGN KEY (submission_id)" .
             "            REFERENCES " . $CFG->prefix . "charon_submission(id)" .
-            "            ON DELETE CASCADE," .
+            "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_teacher" .
             "        FOREIGN KEY (teacher_id)" .
             "            REFERENCES " . $CFG->prefix . "user(id)" .
-            "            ON DELETE CASCADE," .
+            "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_charon_defense_lab_id" .
             "        FOREIGN KEY (defense_lab_id)" .
             "            REFERENCES " . $CFG->prefix . "charon_defense_lab(id)" .
-            "            ON DELETE CASCADE," .
+            "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE" .
             ")";
 
