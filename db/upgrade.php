@@ -452,7 +452,7 @@ function xmldb_charon_upgrade($oldversion = 0)
 
     if ($oldversion < 2020100602) {
 
-        $sql2 = "DROP TABLE IF EXISTS" . $CFG->prefix . "charon_defenders";
+        $sql2 = "DROP TABLE IF EXISTS " . $CFG->prefix . "charon_defenders";
         $DB->execute($sql2);
 
         $sql4 = "CREATE TABLE " . $CFG->prefix . "charon_defenders(" .
