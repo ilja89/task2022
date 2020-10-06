@@ -139,7 +139,7 @@ class SubmissionController extends Controller
     {
 
         return array_values(\DB::table('charon_defenders')
-            ->where('choosen_time', $time)
+            ->where('choosen_time', 'like', '%' . $time . '%')
             ->where('teacher_id', $teacher_id)
             ->pluck('choosen_time')
             ->toArray());
@@ -149,7 +149,7 @@ class SubmissionController extends Controller
     {
 
         return array_values(DB::table('charon_defenders')
-            ->where('choosen_time', $time)
+            ->where('choosen_time', 'like', '%' . $time . '%')
             ->groupBy('choosen_time')
             ->having(DB::raw('count(*)'), '=', $teacher_count)
             ->pluck('choosen_time')
