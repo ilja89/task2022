@@ -188,8 +188,8 @@ class SubmissionController extends Controller
         $new_labs = [];
         foreach ($labs as $lab) {
             $parts = explode(' ', $lab);
-            $hour_minute = str_replace(":00", "", $parts[1]);
-            array_push($new_labs, $hour_minute);
+            $day_parts = explode(':', $parts);
+            array_push($new_labs, $day_parts[0] . ":" . $day_parts[1]);
         }
 
         return $new_labs;
