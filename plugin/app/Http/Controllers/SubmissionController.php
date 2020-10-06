@@ -188,7 +188,7 @@ class SubmissionController extends Controller
         $new_labs = [];
         foreach ($labs as $lab) {
             $parts = explode(' ', $lab);
-            $day_parts = explode(':', $parts);
+            $day_parts = explode(':', $parts[0]);
             array_push($new_labs, $day_parts[0] . ":" . $day_parts[1]);
         }
 
