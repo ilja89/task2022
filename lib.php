@@ -1,13 +1,13 @@
 <?php
 
 function charon_add_instance($test, $mform) {
-    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+//    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
 
     return TTU\Charon\handleMoodleRequest('charons', 'post');
 }
 
 function charon_update_instance($test, $mform) {
-    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+//    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
 
     return TTU\Charon\handleMoodleRequest('charons/update', 'post');
 }
