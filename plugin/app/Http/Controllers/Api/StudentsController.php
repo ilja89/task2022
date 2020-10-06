@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -122,7 +123,11 @@ class StudentsController extends Controller
     public function getStudentInfo(Course $course, int $userId)
     {
         $student = $this->findById($course, $userId);
-        $student['groups'] = $this->getStudentGroups($course, $userId);
+        try {
+            $student['groups'] = $this->getStudentGroups($course, $userId);
+        } catch (\Exception $e) {
+            $student['groups'] = [];
+        }
         $student['totalPoints'] = $this->getStudentTotalGrade($course, $userId);
         return $student;
     }
