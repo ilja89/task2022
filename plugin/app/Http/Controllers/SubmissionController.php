@@ -72,7 +72,11 @@ class SubmissionController extends Controller
                 $teacher_id = $student_teacher->id;
                 if (count($this->getDefensesCountForTimeMyTeacher($student_time, $teacher_id)) > 0) return 'teacher is busy';
             } else {
-                $teacher_id = $this->getTeachersByCharonAndLab($charon_id, $lab_id, $student_time);
+                try {
+                    $teacher_id = $this->getTeachersByCharonAndLab($charon_id, $lab_id, $student_time);
+                } catch (\Exception $e) {
+                    return 'no teacher available';
+                }
             }
         } else {
             return 'user in db';
@@ -122,16 +126,14 @@ class SubmissionController extends Controller
         $array = array_values($teachers_for_charon->pluck('id')->toArray());
 
         $busy_teachers = array_values(\DB::table('charon_defenders')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id')
-            ->select('user.id', 'user.firstname', 'user.lastname')
+            ->select('charon_defenders.teacher_id')
             ->where('charon_defenders.choosen_time', $student_time)
-            ->where('charon_defenders.charon_id', $charon_id)
             ->whereIn('charon_defenders.teacher_id', $array)
-            ->pluck('user.id')->toArray());
+            ->pluck('charon_defenders.teacher_id')->toArray());
 
         $free_teachers = array_diff($array, $busy_teachers);
-        $randrom_teacher_index = array_rand($free_teachers);
-        return $free_teachers[$randrom_teacher_index];
+        $random_teacher_index = array_rand($free_teachers);
+        return $free_teachers[$random_teacher_index];
     }
 
 

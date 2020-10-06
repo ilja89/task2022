@@ -464,10 +464,13 @@
                         this.isActive = false
                         break;
                     case 'invalid setup':
-                        VueEvent.$emit('show-notification', "Alert teachers that lab configuration was invalid", 'danger')
+                        VueEvent.$emit('show-notification', "Alert teachers that lab configuration was invalid!", 'danger')
                         break;
                     case 'invalid chosen time':
-                        VueEvent.$emit('show-notification', "Invalid chosen time", 'danger')
+                        VueEvent.$emit('show-notification', "Invalid chosen time!", 'danger')
+                        break;
+                    case 'no teacher available':
+                        VueEvent.$emit('show-notification', "No available teachers were found!", 'danger')
                         break;
                 }
             },
