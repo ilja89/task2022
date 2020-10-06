@@ -4,8 +4,8 @@ namespace TTU\Charon;
 
 use Illuminate\Http\Request;
 
-if (!function_exists('getMoodleRequest')) {
-    function getMoodleRequest($route = null, $method = null)
+if (!function_exists('TTU\\Charon\\get_moodle_request')) {
+    function get_moodle_request($route = null, $method = null)
     {
 
         $currentRequest = Request::capture();
@@ -27,8 +27,8 @@ if (!function_exists('getMoodleRequest')) {
     }
 }
 
-if (!function_exists('getApp')) {
-    function getApp()
+if (!function_exists('TTU\\Charon\\get_app')) {
+    function get_app()
     {
         require_once __DIR__ . '/../../../../config.php';
         require_once __DIR__ . '/autoload.php';
@@ -36,12 +36,12 @@ if (!function_exists('getApp')) {
     }
 }
 
-if (!function_exists('handleMoodleRequest')) {
-    function handleMoodleRequest($route, $method)
+if (!function_exists('TTU\\Charon\\handle_moodle_request')) {
+    function handle_moodle_request($route, $method)
     {
 
-        $app = getApp();
-        $request = getMoodleRequest($route, $method);
+        $app = get_app();
+        $request = get_moodle_request($route, $method);
         $response = $app->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request);
 
         return $response->getOriginalContent();

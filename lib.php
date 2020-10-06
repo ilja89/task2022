@@ -1,21 +1,22 @@
 <?php
 
-function charon_add_instance($test, $mform) {
-//    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
-
-    return TTU\Charon\handleMoodleRequest('charons', 'post');
+function charon_add_instance($test, $mform)
+{
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+    return TTU\Charon\handle_moodle_request('charons', 'post');
 }
 
-function charon_update_instance($test, $mform) {
-//    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
-
-    return TTU\Charon\handleMoodleRequest('charons/update', 'post');
+function charon_update_instance($test, $mform)
+{
+    require_once __DIR__ . '/plugin/bootstrap/helpers.php';
+    return TTU\Charon\handle_moodle_request('charons/update', 'post');
 }
 
-function charon_delete_instance($id) {
+function charon_delete_instance($id)
+{
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
 
-    $app = TTU\Charon\getApp();
+    $app = TTU\Charon\get_app();
 
     $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
     try {
@@ -23,18 +24,24 @@ function charon_delete_instance($id) {
         // Cannot use routes because this deleting is initiated by the cron job (No server, url parameters etc)
         // TODO: Make this better!
         $kernel->handle($request = \Illuminate\Http\Request::capture());
-    } catch (Exception $e) { }
+    } catch (Exception $e) {
+    }
 
     $controller = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
 
     return $controller->destroy($id);
 }
 
-function charon_update_grades($modinstance, $userid = 0, $nullifnone = true) { }
+function charon_update_grades($modinstance, $userid = 0, $nullifnone = true)
+{
+}
 
-function charon_grade_item_update($modinstance, $grades = NULL) { }
+function charon_grade_item_update($modinstance, $grades = NULL)
+{
+}
 
-function charon_extend_navigation_course($navigation, $course, $context) {
+function charon_extend_navigation_course($navigation, $course, $context)
+{
 
     if (has_capability('moodle/course:manageactivities', $context)) {
 
@@ -71,16 +78,17 @@ function charon_extend_navigation_course($navigation, $course, $context) {
  * @param  $course - course object
  * @param  $cm - course module object
  * @param  $context - context object
- * @param  string  $fileArea
+ * @param string $fileArea
  * @param  $args
- * @param  bool  $forceDownload
- * @param  array  $options
+ * @param bool $forceDownload
+ * @param array $options
  *
  * @return bool
  */
 function charon_pluginfile(
     $course, $cm, $context, $fileArea, $args, $forceDownload, $options = []
-) {
+)
+{
     if ($context->contextlevel !== CONTEXT_MODULE) {
         // The files are saved under the CONTEXT_MODULE context, so if a request
         // comes in to get a file which isn't attached to a module instance,
@@ -95,7 +103,7 @@ function charon_pluginfile(
         return false;
     }
 
-    $itemId = (int) array_shift($args);
+    $itemId = (int)array_shift($args);
 
     $filename = array_pop($args);
     if (empty($args)) {
@@ -117,7 +125,8 @@ function charon_pluginfile(
     send_stored_file($file, 0, 0, true, $options);
 }
 
-function charon_supports($feature) {
+function charon_supports($feature)
+{
 
     switch ($feature) {
         case FEATURE_GRADE_HAS_GRADE:
