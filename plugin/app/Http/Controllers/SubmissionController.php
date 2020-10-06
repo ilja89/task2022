@@ -97,7 +97,11 @@ class SubmissionController extends Controller
             $defenders->teacher_id = $teacher_id;
             $defenders->defense_lab_id = $lab_id;
             $defenders->progress = 'Waiting';
-            $defenders->save();
+            try {
+                $defenders->save();
+            } catch (\Exception $e) {
+                return 'duplicate';
+            }
             return 'inserted';
         } else return 'invalid chosen time';
     }

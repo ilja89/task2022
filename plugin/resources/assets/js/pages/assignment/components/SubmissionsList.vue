@@ -472,6 +472,9 @@
                     case 'no teacher available':
                         VueEvent.$emit('show-notification', "No available teachers were found!", 'danger')
                         break;
+                    case 'duplicate':
+                        VueEvent.$emit('show-notification', "You already have an registration for this time!", 'danger')
+                        break;
                 }
             },
 
