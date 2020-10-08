@@ -3,6 +3,25 @@
             title="Labs overview"
             subtitle="Here are the the labs where students can show their code."
     >
+        <v-alert :value="alert" border="left" color="error" outlined>
+            <v-row align="center" justify="space-between">
+                <v-col class="grow">
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
+                    Are you sure you want to delete the lab?
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
+                    <md-icon>warning</md-icon>
+                </v-col>
+                <v-col class="shrink">
+                    <v-btn class="ma-2" small tile outlined color="error" @click="deleteLab">Yes</v-btn>
+                </v-col>
+                <v-col class="shrink">
+                    <v-btn class="ma-2" small tile outlined color="error" @click="alert=false">No</v-btn>
+                </v-col>
+            </v-row>
+        </v-alert>
         <v-card-title v-if="labs.length">
             Labs
             <v-spacer></v-spacer>
@@ -29,7 +48,7 @@
             <template v-slot:item.actions="{ item }">
                 <v-btn class="ma-2" small tile outlined color="primary" @click="editLabClicked(item)">Edit
                 </v-btn>
-                <v-btn class="ma-2" small tile outlined color="error" @click="deleteLabClicked(item)">
+                <v-btn class="ma-2" small tile outlined color="error" @click="promptDeletionAlert(item)">
                     Delete
                 </v-btn>
             </template>
@@ -60,6 +79,8 @@
 
         data() {
             return {
+                alert: false,
+                lab_id: 0,
                 search: '',
                 labs_headers: [
                     {text: 'Name', value: 'nice_name', align: 'start'},
@@ -129,9 +150,15 @@
                 window.location = "popup#/labsForm";
             },
 
-            deleteLabClicked(lab) {
-                Lab.delete(this.course.id, lab.id, () => {
-                    this.labs = this.labs.filter(x => x.id !== lab.id)
+            promptDeletionAlert(lab) {
+                this.alert = true
+                this.lab_id = lab.id
+            },
+
+            deleteLab() {
+                this.alert = false
+                Lab.delete(this.course.id, this.lab_id, () => {
+                    this.labs = this.labs.filter(x => x.id !== this.lab_id)
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
             },
