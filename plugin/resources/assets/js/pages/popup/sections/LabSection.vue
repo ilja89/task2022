@@ -1,9 +1,13 @@
 <template>
     <popup-section
             title="Labs overview"
-            subtitle="Here are the the labs where students can show their code."
-    >
-        <v-alert :value="alert" border="left" color="error" outlined>
+            subtitle="Here are the the labs where students can show their code.">
+      <template slot="header-right">
+        <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
+      </template>
+
+
+      <v-alert :value="alert" border="left" color="error" outlined>
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
                     <md-icon>warning</md-icon>
@@ -59,7 +63,6 @@
             </template>
         </v-data-table>
 
-        <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
     </popup-section>
 </template>
 
