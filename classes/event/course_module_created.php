@@ -2,7 +2,7 @@
 
 namespace mod_charon;
 
-use function TTU\Charon\getMoodleRequest;
+use function TTU\Charon\get_moodle_request;
 
 class course_module_created
 {
@@ -15,7 +15,7 @@ class course_module_created
             $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
             $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
 
-            $request = getMoodleRequest('post_create/' . $event->other['instanceid'], 'post');
+            $request = get_moodle_request('post_create/' . $event->other['instanceid'], 'post');
 
             $kernel->handle($request = $request);
         }
