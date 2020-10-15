@@ -62,10 +62,7 @@
 
         watch: {
             $route() {
-                if (typeof this.$route.params.student_id != 'undefined'
-                    && this.student != null
-                    && this.student.id != this.$route.params.student_id
-                ) {
+                if (this.student != null) {
                     this.getStudent()
                 }
             },
@@ -79,7 +76,7 @@
 
             getStudent() {
                 const courseId = this.courseId;
-                const studentId = this.$route.params.student_id;
+                const studentId = this.student.id;
 
                 this.fetchStudent({courseId, studentId});
                 Charon.all(courseId, this.setCharons);

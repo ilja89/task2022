@@ -8,10 +8,6 @@ import {User} from '../../../api'
  */
 export const fetchStudent = ({commit}, {studentId, courseId}) => {
     return new Promise((resolve, reject) => {
-        if (studentId === undefined || courseId === undefined) {
-            reject(null)
-        }
-
         User.getStudentInfo(courseId, studentId, user => {
             commit('UPDATE_STUDENT', {student: user});
             resolve(user);
