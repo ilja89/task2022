@@ -2,9 +2,9 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -21,8 +21,8 @@ class SubmissionsRepository
     /**
      * Find submission by its ID. Leave out stdout, stderr because it might be too big.
      *
-     * @param  int  $submissionId
-     * @param  int[]  $gradeTypeCodes
+     * @param int $submissionId
+     * @param int[] $gradeTypeCodes
      *
      * @return Submission
      */
@@ -65,13 +65,13 @@ class SubmissionsRepository
      *        'results' => [ 1 => ['stdout' => '...', 'stderr' => '...' ],
      *                       2 => ['stdout' => '...', 'stderr' => '...' ] ] ]
      *
-     * @param  Submission $submission
+     * @param Submission $submission
      *
      * @return array
      */
     public function findSubmissionOutputs(Submission $submission)
     {
-        $outputs                         = [];
+        $outputs = [];
         $outputs['submission']['stdout'] = $submission->stdout;
         $outputs['submission']['stderr'] = $submission->stderr;
         foreach ($submission->results as $result) {
@@ -90,10 +90,10 @@ class SubmissionsRepository
     /**
      * Find submissions by charon and user. Also paginates this info by 5.
      *
-     * @param  Charon  $charon
-     * @param  int  $userId
+     * @param Charon $charon
+     * @param int $userId
      *
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return Paginator
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, $userId)
     {
@@ -116,14 +116,14 @@ class SubmissionsRepository
                 $query->orderBy('grade_type_code');
             },
         ])
-             ->where('charon_id', $charon->id)
-             ->where('user_id', $userId)
-             ->orderBy('created_at', 'desc')
-             ->orderBy('git_timestamp', 'desc')
-             ->select($fields)
-             ->simplePaginate(5);
+            ->where('charon_id', $charon->id)
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('git_timestamp', 'desc')
+            ->select($fields)
+            ->simplePaginate(5);
         $submissions->appends(['user_id' => $userId])->links();
-        foreach($submissions as $submission) {
+        foreach ($submissions as $submission) {
             $submission['test_suites'] = $this->getTestSuites($submission->id);
         }
         return $submissions;
@@ -133,12 +133,13 @@ class SubmissionsRepository
      * @param $submissionId
      * @return TestSuite[]
      */
-    private function getTestSuites($submissionId) {
+    private function getTestSuites($submissionId)
+    {
         $testSuites = \DB::table('charon_test_suite')
             ->where('submission_id', $submissionId)
             ->select('*')
             ->get();
-        for($i = 0; $i < count($testSuites); $i++) {
+        for ($i = 0; $i < count($testSuites); $i++) {
             $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
         }
         return $testSuites;
@@ -148,7 +149,8 @@ class SubmissionsRepository
      * @param $testSuiteId
      * @return UnitTest[]
      */
-    private function getUnitTestsResults($testSuiteId) {
+    private function getUnitTestsResults($testSuiteId)
+    {
         return \DB::table('charon_unit_test')
             ->where('test_suite_id', $testSuiteId)
             ->select('*')
@@ -158,8 +160,8 @@ class SubmissionsRepository
     /**
      * Finds all submissions which are confirmed for given user and Charon.
      *
-     * @param  int  $userId
-     * @param  int  $charonId
+     * @param int $userId
+     * @param int $charonId
      *
      * @return Submission[]
      */
@@ -174,19 +176,23 @@ class SubmissionsRepository
     /**
      * Finds all confirmed submissions for given user.
      *
-     * @param  int  $userId
+     * @param $courseId
+     * @param int $userId
      *
      * @return array
      */
     public function findConfirmedSubmissionsForUser($courseId, $userId)
     {
+        global $CFG;
+        $prefix = $CFG->prefix;
 
-        return DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
-	                            FROM {charon} ch
-	                            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	                            LEFT JOIN {grade_grades} gr_gr ON gr_gr.itemid = gr_it.id
+        $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
+	                            FROM ' . $prefix . 'charon ch
+	                            LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	                            LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
 	                        WHERE ch.course = ? AND gr_gr.userid = ?', [$courseId, $userId]
         );
+        return $result;
     }
 
     /**
@@ -198,11 +204,14 @@ class SubmissionsRepository
      */
     public function findBestAverageCourseSubmissions($courseId)
     {
+        global $CFG;
+        $prefix = $CFG->prefix;
+
         $result = DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
-	            FROM {charon} ch
-	            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	            LEFT JOIN {grade_grades} gr_gr ON gr_gr.itemid = gr_it.id
+	            FROM ' . $prefix . 'charon ch
+	            LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	            LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
 	            WHERE ch.course = ?
 	        GROUP BY ch.id, ch.name, gr_it.grademax', [$courseId]
         );
@@ -213,8 +222,8 @@ class SubmissionsRepository
     /**
      * Confirms the given submission.
      *
-     * @param  Submission $submission
-     * @param  int|null $graderId
+     * @param Submission $submission
+     * @param int|null $graderId
      *
      * @return void
      */
@@ -228,7 +237,7 @@ class SubmissionsRepository
     /**
      * Unconfirms the given submission.
      *
-     * @param  Submission  $submission
+     * @param Submission $submission
      *
      * @return void
      */
@@ -242,8 +251,8 @@ class SubmissionsRepository
      * Check if the given user has any confirmed submissions for the given
      * Charon.
      *
-     * @param  int  $charonId
-     * @param  int  $userId
+     * @param int $charonId
+     * @param int $userId
      *
      * @return bool
      */
@@ -251,17 +260,17 @@ class SubmissionsRepository
     {
         /** @var Submission $submission */
         $submission = Submission::where('charon_id', $charonId)
-                                ->where('confirmed', 1)
-                                ->where('user_id', $userId)
-                                ->get();
+            ->where('confirmed', 1)
+            ->where('user_id', $userId)
+            ->get();
 
-        return ! $submission->isEmpty();
+        return !$submission->isEmpty();
     }
 
     /**
      * Saves the given result.
      *
-     * @param  Result  $result
+     * @param Result $result
      *
      * @return Result
      */
@@ -274,9 +283,9 @@ class SubmissionsRepository
     /**
      * Saves a new empty result with the given parameters.
      *
-     * @param  int  $submissionId
-     * @param  int  $gradeTypeCode
-     * @param  string  $stdout
+     * @param int $submissionId
+     * @param int $gradeTypeCode
+     * @param string $stdout
      *
      * @return void
      */
@@ -287,11 +296,11 @@ class SubmissionsRepository
         }
 
         $result = new Result([
-            'submission_id'     => $submissionId,
-            'grade_type_code'   => $gradeTypeCode,
-            'percentage'        => 0,
+            'submission_id' => $submissionId,
+            'grade_type_code' => $gradeTypeCode,
+            'percentage' => 0,
             'calculated_result' => 0,
-            'stdout'            => $stdout,
+            'stdout' => $stdout,
         ]);
         $result->save();
     }
@@ -307,9 +316,9 @@ class SubmissionsRepository
     public function getSubmissionOrderNumber(Submission $submission)
     {
         return \DB::table('charon_submission')
-                 ->where('user_id', $submission->user_id)
-                 ->where('git_timestamp', '<', $submission->git_timestamp)
-                 ->count();
+            ->where('user_id', $submission->user_id)
+            ->where('git_timestamp', '<', $submission->git_timestamp)
+            ->count();
     }
 
     public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
@@ -317,8 +326,8 @@ class SubmissionsRepository
         return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
             $query->where('charon_id', $charonId);
         })
-                         ->where('grade_type_code', $gradeTypeCode)
-                         ->get();
+            ->where('grade_type_code', $gradeTypeCode)
+            ->get();
     }
 
     /**
@@ -358,35 +367,34 @@ class SubmissionsRepository
     public function findSubmissionCounts($courseId)
     {
 
-        return DB::select(
-            'select     
-	c.project_folder,     
-	c.id as charon_id,
-	count(distinct cs.user_id) as diff_users,     
-	count(distinct cs.id) as tot_subs,     
-	count(distinct cs.id) / count(distinct cs.user_id) as subs_per_user ,     
-	(
-	select          
-		avg(gg.finalgrade)     
-	from        
-		{grade_grades} gg        
-	inner join 
-		{grade_items} gi 
-	on 
-		gg.itemid = gi.id        
-	where gi.courseid = c.course        
-	and gi.itemtype = \'category\'        
-	and gi.iteminstance = c.category_id
-	) as avg_grade
-from {charon} c     
-left join 
-	{charon_submission} cs on c.id = cs.charon_id     
-where c.course = ?
-group by 
-	c.project_folder, c.id, c.category_id, c.course
-order by subs_per_user desc',
-            [$courseId]
-        );
+        global $CFG;
+        $prefix = $CFG->prefix;
+
+        return DB::select("
+        SELECT    
+          c.project_folder, 
+          c.id                                               AS charon_id, 
+          Count(DISTINCT cs.user_id)                         AS diff_users, 
+          Count(DISTINCT cs.id)                              AS tot_subs, 
+          Count(DISTINCT cs.id) / Count(DISTINCT cs.user_id) AS subs_per_user , 
+          ( 
+                     SELECT     Avg(gg.finalgrade) 
+                     FROM       '.$prefix.'grade_grades gg 
+                     INNER JOIN '.$prefix.'grade_items gi 
+                     ON         gg.itemid = gi.id 
+                     WHERE      gi.courseid = c.course 
+                     AND        gi.itemtype = 'category' 
+                     AND        gi.iteminstance = c.category_id ) AS avg_grade 
+        FROM      '.$prefix.'charon c 
+        LEFT JOIN '.$prefix.'charon_submission cs 
+        ON        c.id = cs.charon_id 
+        WHERE     c.course = ? 
+        GROUP BY  c.project_folder, 
+                  c.id, 
+                  c.category_id, 
+                  c.course 
+        ORDER BY  subs_per_user DESC
+        ", [$courseId]);
     }
 
     /**
@@ -403,8 +411,9 @@ order by subs_per_user desc',
         function escapeDoubleQuotes($string)
         {
             $return = DB::getPdo()->quote($string);
-            return $return && strlen($return) >= 2 ? substr($return, 1, strlen($return)-2) : $return;
+            return $return && strlen($return) >= 2 ? substr($return, 1, strlen($return) - 2) : $return;
         }
+
         $firstName = escapeDoubleQuotes($firstName);
         $lastName = escapeDoubleQuotes($lastName);
         $exerciseName = escapeDoubleQuotes($exerciseName);
@@ -432,26 +441,29 @@ order by subs_per_user desc',
         if ($gitTimestampForEndDate != ' ')
             $where .= " AND ch_su.git_timestamp <= '$gitTimestampForEndDate'";
 
-        if($sortField == 'exerciseName')
+        if ($sortField == 'exerciseName')
             $sortField = 'name';
-        if($sortField == 'isConfirmed')
+        if ($sortField == 'isConfirmed')
             $sortField = 'confirmed';
-        if($sortField == 'gitTimestampForStartDate')
+        if ($sortField == 'gitTimestampForStartDate')
             $sortField = 'git_timestamp';
-        if($sortField == 'gitTimestampForEndDate')
+        if ($sortField == 'gitTimestampForEndDate')
             $sortField = 'git_timestamp';
-        
+
+        global $CFG;
+        $prefix = $CFG->prefix;
+
         $result = DB::select(DB::raw(
             "SELECT SQL_CALC_FOUND_ROWS ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result
             ORDER BY ch_re.grade_type_code SEPARATOR ' | ') AS submission_result, SUM(CASE WHEN ch_re.grade_type_code <= 100
             THEN ch_re.calculated_result ELSE 0 END) AS submission_tests_sum, ROUND(gr_gr.finalgrade, 2) AS finalgrade,
             ch_su.confirmed, ch_su.git_timestamp
-	            FROM {charon_submission} ch_su
-		            INNER JOIN {user} us ON us.id = ch_su.user_id
-		            INNER JOIN {charon} ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
-		            INNER JOIN {charon_result} ch_re ON ch_re.submission_id = ch_su.id
-		            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
-		            LEFT JOIN {grade_grades} gr_gr ON gr_gr.userid = ch_su.user_id
+	            FROM " . $prefix . "charon_submission ch_su
+		            INNER JOIN " . $prefix . "user us ON us.id = ch_su.user_id
+		            INNER JOIN " . $prefix . "charon ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
+		            INNER JOIN " . $prefix . "charon_result ch_re ON ch_re.submission_id = ch_su.id
+		            LEFT JOIN " . $prefix . "grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
+		            LEFT JOIN " . $prefix . "grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
 		        WHERE gr_gr.itemid = gr_it.id $where
 	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
 	        ORDER BY $sortField $sortType
@@ -462,6 +474,6 @@ order by subs_per_user desc',
             "SELECT FOUND_ROWS() AS totalRecords"
         ));
 
-        return array("rows"=>$result, "totalRecords"=>$resultRows[0]->totalRecords);
+        return array("rows" => $result, "totalRecords" => $resultRows[0]->totalRecords);
     }
 }
