@@ -10,7 +10,7 @@
 
             <loader :visible="loaderVisible !== 0"/>
 
-            <v-snackbar top right multi-line absolute shaped v-model="notification.show"
+            <v-snackbar top right multi-line shaped v-model="notification.show"
                         :timeout="notification.timeout">
                 {{ notification.text }}
 
