@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-
 function charon_add_instance($test, $mform)
 {
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
@@ -45,7 +43,7 @@ function charon_grade_item_update($modinstance, $grades = NULL)
 function charon_extend_navigation_course($navigation, $course, $context)
 {
 
-    $do_show = \DB::table('tag_instance')
+    $do_show = \Illuminate\Support\Facades\DB::table('tag_instance')
             ->where('contextid', $context->id)
             ->join('tag', 'tag_instance.tagid', 'tag.id')
             ->where('rawname', 'programming')
