@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 function charon_add_instance($test, $mform)
 {
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
@@ -43,7 +45,14 @@ function charon_grade_item_update($modinstance, $grades = NULL)
 function charon_extend_navigation_course($navigation, $course, $context)
 {
 
-    if (has_capability('moodle/course:manageactivities', $context)) {
+    $do_show = \DB::table('tag_instance')
+            ->where('contextid', $context->id)
+            ->join('tag', 'tag_instance.tagid', 'tag.id')
+            ->where('rawname', 'programming')
+            ->get()
+            ->count() != 0;
+
+    if ($do_show && has_capability('moodle/course:manageactivities', $context)) {
 
         $url = new moodle_url('/mod/charon/courses/' . $course->id . '/settings', []);
         $settingsnode = navigation_node::create('Charon Settings', $url, navigation_node::TYPE_SETTING,
