@@ -45,12 +45,13 @@ function charon_extend_navigation_course($navigation, $course, $context)
 
     defined('MOODLE_INTERNAL') || die();
     global $DB;
-    $do_show = $DB::table('tag_instance')
-            ->where('contextid', $context->id)
-            ->join('tag', 'tag_instance.tagid', 'tag.id')
-            ->where('rawname', 'programming')
-            ->get()
-            ->count() != 0;
+    global $CFG;
+
+    $sql2 = "SELECT COUNT(*) FROM " . $CFG->prefix . "tag_instance
+             JOIN " . $CFG->prefix . "tag ON " . $CFG->prefix . "tag_instance.tagid = tag.id
+             WHERE rawname = 'programming' AND contextid = " . $context->id;
+
+    $do_show = $DB->execute($sql2);
 
     if ($do_show && has_capability('moodle/course:manageactivities', $context)) {
 
