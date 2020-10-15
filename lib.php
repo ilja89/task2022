@@ -43,7 +43,8 @@ function charon_grade_item_update($modinstance, $grades = NULL)
 function charon_extend_navigation_course($navigation, $course, $context)
 {
 
-    $do_show = \Illuminate\Support\Facades\DB::table('tag_instance')
+    defined('MOODLE_INTERNAL') || die();
+    $do_show = $DB::table('tag_instance')
             ->where('contextid', $context->id)
             ->join('tag', 'tag_instance.tagid', 'tag.id')
             ->where('rawname', 'programming')
