@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Services\LogParseService;
 use Zeizig\Moodle\Models\Course;
 
 class CharonsController extends Controller
@@ -13,16 +14,22 @@ class CharonsController extends Controller
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var LogParseService */
+    private $logParser;
+
     /**
      * CharonsController constructor.
      *
      * @param Request $request
      * @param CharonRepository $charonRepository
+     * @param LogParseService $logParser
      */
-    public function __construct(Request $request, CharonRepository $charonRepository)
+    public function __construct(Request $request, CharonRepository $charonRepository, LogParseService $logParser)
     {
         parent::__construct($request);
+
         $this->charonRepository = $charonRepository;
+        $this->logParser = $logParser;
     }
 
     /**
@@ -48,16 +55,12 @@ class CharonsController extends Controller
     }
 
     /**
-     * @param int $charonId
+     * @param int $courseId
      * @return String
      */
     public function getLogsById(int $courseId)
     {
-        ob_start();
-        global $CFG;
-
-        passthru('tail -' . 5000 . ' ' . escapeshellarg($CFG->dataroot . "/charon_logs.log"));
-        return trim(ob_get_clean());
+        return $this->logParser->readLogs();
     }
 
     /**
