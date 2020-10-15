@@ -180,16 +180,13 @@ class SubmissionsRepository
      */
     public function findConfirmedSubmissionsForUser($courseId, $userId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
 
-        $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
-	                            FROM '.$prefix.'charon ch
-	                            LEFT JOIN '.$prefix.'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	                            LEFT JOIN '.$prefix.'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
+        return DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
+	                            FROM {charon} ch
+	                            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	                            LEFT JOIN {grade_grades} gr_gr ON gr_gr.itemid = gr_it.id
 	                        WHERE ch.course = ? AND gr_gr.userid = ?', [$courseId, $userId]
         );
-        return $result;
     }
 
     /**
@@ -201,14 +198,11 @@ class SubmissionsRepository
      */
     public function findBestAverageCourseSubmissions($courseId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
-
         $result = DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
-	            FROM '.$prefix.'charon ch
-	            LEFT JOIN '.$prefix.'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	            LEFT JOIN '.$prefix.'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
+	            FROM {charon} ch
+	            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
+	            LEFT JOIN {grade_grades} gr_gr ON gr_gr.itemid = gr_it.id
 	            WHERE ch.course = ?
 	        GROUP BY ch.id, ch.name, gr_it.grademax', [$courseId]
         );
@@ -364,11 +358,7 @@ class SubmissionsRepository
     public function findSubmissionCounts($courseId)
     {
 
-        global $CFG;
-        $prefix = $CFG->prefix;
-
-        // TODO: Convert to query builder?
-        $result = DB::select(
+        return DB::select(
             'select     
 	c.project_folder,     
 	c.id as charon_id,
@@ -379,26 +369,24 @@ class SubmissionsRepository
 	select          
 		avg(gg.finalgrade)     
 	from        
-		'.$prefix.'grade_grades gg        
+		{grade_grades} gg        
 	inner join 
-		'.$prefix.'grade_items gi 
+		{grade_items} gi 
 	on 
 		gg.itemid = gi.id        
 	where gi.courseid = c.course        
 	and gi.itemtype = \'category\'        
 	and gi.iteminstance = c.category_id
 	) as avg_grade
-from '.$prefix.'charon c     
+from {charon} c     
 left join 
-	'.$prefix.'charon_submission cs on c.id = cs.charon_id     
+	{charon_submission} cs on c.id = cs.charon_id     
 where c.course = ?
 group by 
 	c.project_folder, c.id, c.category_id, c.course
 order by subs_per_user desc',
             [$courseId]
         );
-
-        return $result;
     }
 
     /**
@@ -452,21 +440,18 @@ order by subs_per_user desc',
             $sortField = 'git_timestamp';
         if($sortField == 'gitTimestampForEndDate')
             $sortField = 'git_timestamp';
-
-        global $CFG;
-        $prefix = $CFG->prefix;
         
         $result = DB::select(DB::raw(
             "SELECT SQL_CALC_FOUND_ROWS ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result
             ORDER BY ch_re.grade_type_code SEPARATOR ' | ') AS submission_result, SUM(CASE WHEN ch_re.grade_type_code <= 100
             THEN ch_re.calculated_result ELSE 0 END) AS submission_tests_sum, ROUND(gr_gr.finalgrade, 2) AS finalgrade,
             ch_su.confirmed, ch_su.git_timestamp
-	            FROM ".$prefix."charon_submission ch_su
-		            INNER JOIN ".$prefix."user us ON us.id = ch_su.user_id
-		            INNER JOIN ".$prefix."charon ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
-		            INNER JOIN ".$prefix."charon_result ch_re ON ch_re.submission_id = ch_su.id
-		            LEFT JOIN ".$prefix."grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
-		            LEFT JOIN ".$prefix."grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
+	            FROM {charon_submission} ch_su
+		            INNER JOIN {user} us ON us.id = ch_su.user_id
+		            INNER JOIN {charon} ch ON ch.id = ch_su.charon_id AND ch.course = '$courseId'
+		            INNER JOIN {charon_result} ch_re ON ch_re.submission_id = ch_su.id
+		            LEFT JOIN {grade_items} gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
+		            LEFT JOIN {grade_grades} gr_gr ON gr_gr.userid = ch_su.user_id
 		        WHERE gr_gr.itemid = gr_it.id $where
 	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
 	        ORDER BY $sortField $sortType
