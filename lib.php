@@ -44,6 +44,7 @@ function charon_extend_navigation_course($navigation, $course, $context)
 {
 
     defined('MOODLE_INTERNAL') || die();
+    global $DB;
     $do_show = $DB::table('tag_instance')
             ->where('contextid', $context->id)
             ->join('tag', 'tag_instance.tagid', 'tag.id')
