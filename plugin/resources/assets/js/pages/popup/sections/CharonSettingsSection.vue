@@ -51,7 +51,7 @@
             <template v-slot:item.actions="{ item }">
                 <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked(item)">Edit
                 </v-btn>
-                <v-btn class="ma-2" small tile outlined color="error" @click="promtDeletionAlert(item)">
+                <v-btn class="ma-2" small tile outlined color="error" @click="promptDeletionAlert(item)">
                     Delete
                 </v-btn>
             </template>
@@ -154,7 +154,7 @@
                 return labs.map(x => x.name).join(', ')
             },
 
-            promtDeletionAlert(charon) {
+            promptDeletionAlert(charon) {
                 this.alert = true
                 this.charon_id = charon.id
             },

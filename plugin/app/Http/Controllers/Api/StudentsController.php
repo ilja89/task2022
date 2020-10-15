@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -119,10 +120,15 @@ class StudentsController extends Controller
     }
 
 
-    public function getStudentInfo(Course $course, int $userId)
+    public function getStudentInfo(Course $course, $userId)
     {
+        $userId = (int)$userId;
         $student = $this->findById($course, $userId);
-        $student['groups'] = $this->getStudentGroups($course, $userId);
+        try {
+            $student['groups'] = $this->getStudentGroups($course, $userId);
+        } catch (\Exception $e) {
+            $student['groups'] = [];
+        }
         $student['totalPoints'] = $this->getStudentTotalGrade($course, $userId);
         return $student;
     }
@@ -180,9 +186,9 @@ class StudentsController extends Controller
                 count(gg.userid) as user_count,
                 max_grades.max_grade as max_grade
             from
-                '.$prefix.'grade_grades gg
+                ' . $prefix . 'grade_grades gg
             inner join
-                '.$prefix.'grade_items gi
+                ' . $prefix . 'grade_items gi
                 on
                     gg.itemid = gi.id
             inner join
@@ -191,8 +197,8 @@ class StudentsController extends Controller
                         max(gg_inner.finalgrade) as max_grade,
                         gi_inner.courseid as course_id
                     from
-                      '.$prefix.'grade_items as gi_inner
-                      inner join '.$prefix.'grade_grades as gg_inner
+                      ' . $prefix . 'grade_items as gi_inner
+                      inner join ' . $prefix . 'grade_grades as gg_inner
                           on gi_inner.id = gg_inner.itemid
                     where gi_inner.itemtype = \'course\'
                     and gi_inner.courseid = ?

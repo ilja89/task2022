@@ -2,7 +2,7 @@
 
 namespace mod_charon;
 
-use function TTU\Charon\getMoodleRequest;
+use function TTU\Charon\get_moodle_request;
 
 class course_module_updated
 {
@@ -15,7 +15,7 @@ class course_module_updated
             $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
             $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
 
-            $request = getMoodleRequest('post_update/' . $event->other['instanceid'], 'post');
+            $request = get_moodle_request('post_update/' . $event->other['instanceid'], 'post');
 
             $kernel->handle($request = $request);
         }

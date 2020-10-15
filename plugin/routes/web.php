@@ -50,6 +50,6 @@ Route::post('course/modedit.php', function () {
 Route::middleware('auth.charon.submissions.view.require') // add registration
 ->post('api/charons/{charon}/submission', 'SubmissionController@insert');
 
-Route::middleware('auth.charon.submissions.view.require')
-    ->get('api/charons/{charon}/labs/unavailable', 'SubmissionController@getUnavailableTimes');
+Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
+->get('api/charons/{charon}/labs/unavailable', 'SubmissionController@getUnavailableTimes');
 

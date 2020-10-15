@@ -22,7 +22,7 @@ class mod_charon_mod_form extends moodleform_mod
 
         // Get new request with route since the original one can't be used for routing.
         /** @var \Illuminate\Http\Request $request */
-        $request = TTU\Charon\getMoodleRequest('instance_form');
+        $request = TTU\Charon\get_moodle_request('instance_form');
         $response = $kernel->handle($request);
 
         $mform->addElement("html", $response->getContent());
