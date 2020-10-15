@@ -27,6 +27,7 @@
 
 <script>
 export default {
+    name: 'LogEntry',
     props: {
         log: Array
     },
