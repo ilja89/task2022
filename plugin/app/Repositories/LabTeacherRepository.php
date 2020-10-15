@@ -64,6 +64,8 @@ class LabTeacherRepository
 
     public function getTeacherReportByCourseId($courseId)
     {
+        global $CFG;
+        $prefix = $CFG->prefix;
 
         return \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')
@@ -78,7 +80,7 @@ class LabTeacherRepository
                 'user.firstname',
                 'user.lastname',
                 DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"),
-                \DB::raw('sum({charon_submission}.confirmed) as total_defences')
+                \DB::raw('sum(' . $prefix . 'charon_submission.confirmed) as total_defences')
             )->groupBy('id', 'firstname', 'lastname')
             ->get();
     }
