@@ -425,14 +425,13 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    // FROM THIS POINT ON PLEASE USE $CFG->prefix instead of `mdl_` as prefix !!!
-    global $CFG;
+    // FROM THIS POINT ON PLEASE USE {table_name} instead of `mdl_table_name` !!!
 
     if ($oldversion < 2020091201) {
         try {
-            $sql = "ALTER TABLE " . $CFG->prefix . "charon_lab_teacher ADD COLUMN teacher_location VARCHAR(255)";
+            $sql = "ALTER TABLE {charon_lab_teacher} ADD COLUMN teacher_location VARCHAR(255)";
             $DB->execute($sql);
-            $sql = "ALTER TABLE " . $CFG->prefix . "charon_lab_teacher ADD COLUMN teacher_comment VARCHAR(255)";
+            $sql = "ALTER TABLE {charon_lab_teacher} ADD COLUMN teacher_comment VARCHAR(255)";
             $DB->execute($sql);
         } catch (dml_write_exception $e) {
             // Ignored intentionally
@@ -441,9 +440,9 @@ function xmldb_charon_upgrade($oldversion = 0)
 
     if ($oldversion < 2020100601) {
         try {
-            $sql2 = "ALTER TABLE " . $CFG->prefix . "charon_defenders ADD UNIQUE (choosen_time, student_id)";
+            $sql2 = "ALTER TABLE {charon_defenders} ADD UNIQUE (choosen_time, student_id)";
             $DB->execute($sql2);
-            $sql = "ALTER TABLE " . $CFG->prefix . "charon_defenders ADD UNIQUE (choosen_time, teacher_id)";
+            $sql = "ALTER TABLE {charon_defenders} ADD UNIQUE (choosen_time, teacher_id)";
             $DB->execute($sql);
         } catch (dml_write_exception $e) {
             // Ignored intentionally
@@ -452,10 +451,10 @@ function xmldb_charon_upgrade($oldversion = 0)
 
     if ($oldversion < 2020100603) {
 
-        $sql2 = "DROP TABLE IF EXISTS " . $CFG->prefix . "charon_defenders";
+        $sql2 = "DROP TABLE IF EXISTS {charon_defenders}";
         $DB->execute($sql2);
 
-        $sql4 = "CREATE TABLE " . $CFG->prefix . "charon_defenders(" .
+        $sql4 = "CREATE TABLE {charon_defenders}(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    student_id BIGINT(10) NOT NULL," .
             "    charon_id BIGINT(10) NOT NULL," .
@@ -478,27 +477,27 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    INDEX IXFK_charon_defenders_charon_defense_lab_id (defense_lab_id)," .
             "    CONSTRAINT FK_charon_defenders_student_id" .
             "        FOREIGN KEY (student_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            REFERENCES {user}(id)" .
             "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_charon" .
             "        FOREIGN KEY (charon_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon(id)" .
+            "            REFERENCES {charon}(id)" .
             "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_submission_id" .
             "        FOREIGN KEY (submission_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon_submission(id)" .
+            "            REFERENCES {charon_submission}(id)" .
             "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_teacher" .
             "        FOREIGN KEY (teacher_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            REFERENCES {user}(id)" .
             "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_defenders_charon_defense_lab_id" .
             "        FOREIGN KEY (defense_lab_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon_defense_lab(id)" .
+            "            REFERENCES {charon_defense_lab}(id)" .
             "            ON DELETE CASCADE" .
             "            ON UPDATE CASCADE" .
             ")";
