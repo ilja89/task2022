@@ -379,14 +379,14 @@ class SubmissionsRepository
           Count(DISTINCT cs.id) / Count(DISTINCT cs.user_id) AS subs_per_user , 
           ( 
                      SELECT     Avg(gg.finalgrade) 
-                     FROM       '.$prefix.'grade_grades gg 
-                     INNER JOIN '.$prefix.'grade_items gi 
+                     FROM       " . $prefix . "grade_grades gg 
+                     INNER JOIN " . $prefix . "grade_items gi 
                      ON         gg.itemid = gi.id 
                      WHERE      gi.courseid = c.course 
                      AND        gi.itemtype = 'category' 
                      AND        gi.iteminstance = c.category_id ) AS avg_grade 
-        FROM      '.$prefix.'charon c 
-        LEFT JOIN '.$prefix.'charon_submission cs 
+        FROM      " . $prefix . "charon c 
+        LEFT JOIN " . $prefix . "charon_submission cs 
         ON        c.id = cs.charon_id 
         WHERE     c.course = ? 
         GROUP BY  c.project_folder, 
