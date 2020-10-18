@@ -417,6 +417,11 @@
             getLabs() {
                 axios.get(`api/charons/${this.charon_id}/labs?id=${this.charon_id}`).then(result => {
                     this.labs = result.data;
+                    this.labs.sort((a,b) => {
+                      let ta = new Date(a.start),
+                          tb = new Date(b.start);
+                      return ta - tb;
+                    });
                 });
             },
 
