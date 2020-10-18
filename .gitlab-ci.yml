@@ -37,6 +37,7 @@ create_dev_artifacts:
   services:
     - name: docker:dind
   script:
+    - touch .env
     - php composer.phar install
     - cp -p .env.develop .env
     - php artisan key:generate
@@ -59,6 +60,7 @@ create_production_artifacts:
   services:
     - name: docker:dind
   script:
+    - touch .env
     - php composer.phar install --no-dev
     - cp -p .env.production .env
     - php artisan key:generate
