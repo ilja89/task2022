@@ -43,7 +43,16 @@ function charon_grade_item_update($modinstance, $grades = NULL)
 function charon_extend_navigation_course($navigation, $course, $context)
 {
 
-    if (has_capability('moodle/course:manageactivities', $context)) {
+    defined('MOODLE_INTERNAL') || die();
+    global $DB;
+
+    $sql = "SELECT COUNT(*) as cnt FROM {tag_instance}
+             JOIN {tag} ON {tag_instance}.tagid = tag.id
+             WHERE rawname = 'programming' AND contextid = ?";
+
+    $do_show = $DB->get_record_sql($sql, [$context->id])->cnt != 0;
+
+    if ($do_show && has_capability('moodle/course:manageactivities', $context)) {
 
         $url = new moodle_url('/mod/charon/courses/' . $course->id . '/settings', []);
         $settingsnode = navigation_node::create('Charon Settings', $url, navigation_node::TYPE_SETTING,

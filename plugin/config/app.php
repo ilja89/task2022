@@ -1,5 +1,7 @@
 <?php
 
+global $CFG;
+
 return [
 
     /*
@@ -109,6 +111,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Moodle configuration
+    |--------------------------------------------------------------------------
+    |
+    | Reference to the moodle global configuration variable.
+    */
+
+    'moodle' => $CFG,
+
+    /*
+    |--------------------------------------------------------------------------
     | Logging Configuration
     |--------------------------------------------------------------------------
     |
@@ -120,9 +132,10 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
-
+    'log' => env('APP_LOG', 'daily'),
+    'log_max_files' => env('APP_LOG_MAX_FILES', 30),
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_display_lines' => env('APP_LOG_DISPLAY_LINES', 5000),
 
     /*
     |--------------------------------------------------------------------------

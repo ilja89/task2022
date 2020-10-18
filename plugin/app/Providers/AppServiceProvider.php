@@ -3,7 +3,6 @@
 namespace TTU\Charon\Providers;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 use TTU\Charon\Foundation\Application;
@@ -22,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app = $app;
     }
-
 
     /**
      * Bootstrap any application services.
@@ -46,8 +44,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             Log::useFiles('php://stderr');
         } else {
-            global $CFG;
-            Log::useFiles($CFG->dataroot . "/charon_logs.log");
             Log::useFiles('php://stderr');
         }
     }
