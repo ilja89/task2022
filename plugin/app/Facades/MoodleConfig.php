@@ -27,7 +27,7 @@ class MoodleConfig extends Facade
     public function __construct()
     {
         if (file_exists(__DIR__ . '/../../../../../config.php')) {
-            require __DIR__ . '/../../../../../config.php';
+            require_once __DIR__ . '/../../../../../config.php';
             global $CFG;
 
             foreach($CFG as $key => $value) {

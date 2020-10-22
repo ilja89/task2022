@@ -41,8 +41,12 @@ class StudentsController extends Controller
      * @param GradebookService $gradebookService
      * @param MoodleConfig $moodleConfig
      */
-    public function __construct(Request $request, StudentsRepository $studentsRepository, GradebookService $gradebookService, MoodleConfig $moodleConfig)
-    {
+    public function __construct(
+        Request $request,
+        StudentsRepository $studentsRepository,
+        GradebookService $gradebookService,
+        MoodleConfig $moodleConfig
+    ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->gradebookService = $gradebookService;
@@ -181,7 +185,7 @@ class StudentsController extends Controller
 
     public function findDistribution(Course $course)
     {
-        $prefix = config('database.prefix');
+        $prefix = $this->moodleConfig->prefix;
 
         $parts = 5;
         $sql = "select
