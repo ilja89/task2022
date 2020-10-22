@@ -14,12 +14,11 @@ class MoodleConfig extends Facade
     public $dbuser    = '';
     public $dbpass    = '';
     public $prefix    = '';
-    public $dboptions = [];
+    public $dboptions = ['dbport' => 3306];
     public $wwwroot   = '';
     public $dataroot  = '';
     public $dirroot   = '';
     public $admin     = '';
-    public $directorypermissions = 0777;
 
     /**
      * MoodleConfig constructor.
