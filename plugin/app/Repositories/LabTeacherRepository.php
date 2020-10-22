@@ -64,8 +64,7 @@ class LabTeacherRepository
 
     public function getTeacherReportByCourseId($courseId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = config('database.prefix');
 
         return \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')

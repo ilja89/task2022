@@ -22,9 +22,10 @@
 	},
 	"require-dev": {
 		"fzaninotto/faker": "~1.4",
-		"mockery/mockery": "0.9.*",
+		"mockery/mockery": "1.4.2",
 		"phpunit/phpunit": "~6.0",
-		"filp/whoops": "~2.0"
+		"filp/whoops": "~2.0",
+		"ext-sqlite3": "^2"
 	},
 	"autoload": {
 		"classmap": [

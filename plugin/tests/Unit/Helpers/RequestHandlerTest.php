@@ -6,6 +6,7 @@ use Mockery as m;
 use Tests\TestCase;
 use TTU\Charon\Services\RequestHandlingService;
 use Zeizig\Moodle\Services\UserService;
+use TTU\Charon\Models\GitCallback;
 
 class RequestHandlerTest extends TestCase
 {
@@ -15,7 +16,7 @@ class RequestHandlerTest extends TestCase
 
         $requestHandler = new RequestHandlingService(m::mock(UserService::class));
 
-        $file = $requestHandler->getFileFromRequest(1, $request);
+        $file = $requestHandler->getFileFromRequest(1, $request, true);
 
         $this->assertEquals(1, $file->submission_id);
         $this->assertEquals($request['path'], $file->path);
@@ -37,11 +38,14 @@ class RequestHandlerTest extends TestCase
         $user = m::mock('user');
         $user->id = 2;
 
+        $gitCallback = m::mock(GitCallback::class);
+        $gitCallback->repo = 'uni.id/1';
+
         $requestHandler = new RequestHandlingService(
             m::mock(UserService::class)->shouldReceive('findUserByIdNumber')->andReturn($user)->getMock()
         );
 
-        $submission = $requestHandler->getSubmissionFromRequest($request);
+        $submission = $requestHandler->getSubmissionFromRequest($request, $gitCallback);
 
         $this->assertEquals(1, $submission->charon_id);
         $this->assertEquals($request['mail'], $submission->mail);
@@ -59,7 +63,7 @@ class RequestHandlerTest extends TestCase
         ];
 
         $requestHandler = new RequestHandlingService(m::mock(UserService::class));
-        $result = $requestHandler->getResultFromRequest(1, $request);
+        $result = $requestHandler->getResultFromRequest(1, $request, 1);
 
         $this->assertEquals(1, $result->submission_id);
         $this->assertEquals(0, $result->calculated_result);

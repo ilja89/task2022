@@ -10,6 +10,7 @@ services:
 
   mariadb:
     image: 'bitnami/mariadb:10.3'
+    container_name: charon-db
     environment:
       - MARIADB_DATABASE=bitnami_moodle
       - MARIADB_ROOT_USER=root
@@ -22,7 +23,9 @@ services:
       - "3306:3306"
 
   moodle:
-    image: 'bitnami/moodle:3.9.0'
+    build:
+      context: .
+    container_name: charon-moodle
     environment:
       - MOODLE_DATABASE_HOST=mariadb
       - MOODLE_DATABASE_PORT_NUMBER=3306

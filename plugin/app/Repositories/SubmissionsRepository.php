@@ -183,8 +183,7 @@ class SubmissionsRepository
      */
     public function findConfirmedSubmissionsForUser($courseId, $userId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = config('database.prefix');
 
         $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
 	                            FROM ' . $prefix . 'charon ch
@@ -204,8 +203,7 @@ class SubmissionsRepository
      */
     public function findBestAverageCourseSubmissions($courseId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = config('database.prefix');
 
         $result = DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
@@ -366,9 +364,7 @@ class SubmissionsRepository
 
     public function findSubmissionCounts($courseId)
     {
-
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = config('database.prefix');
 
         return DB::select("
         SELECT    
@@ -450,8 +446,7 @@ class SubmissionsRepository
         if ($sortField == 'gitTimestampForEndDate')
             $sortField = 'git_timestamp';
 
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = config('database.prefix');
 
         $result = DB::select(DB::raw(
             "SELECT SQL_CALC_FOUND_ROWS ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result

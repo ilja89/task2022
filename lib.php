@@ -47,7 +47,7 @@ function charon_extend_navigation_course($navigation, $course, $context)
     global $DB;
 
     $sql = "SELECT COUNT(*) as cnt FROM {tag_instance}
-             JOIN {tag} ON {tag_instance}.tagid = tag.id
+             JOIN {tag} ON {tag_instance}.tagid = {tag}.id
              WHERE rawname = 'programming' AND contextid = ?";
 
     $do_show = $DB->get_record_sql($sql, [$context->id])->cnt != 0;
