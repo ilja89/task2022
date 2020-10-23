@@ -29,7 +29,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving lab teachers.', 'danger')
         })
     }
 
@@ -38,7 +38,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teacher.', 'danger')
         })
     }
 
@@ -47,7 +47,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teacher aggregated data.', 'danger')
         })
     }
 

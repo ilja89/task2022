@@ -2,12 +2,12 @@
     <popup-section
             title="Labs overview"
             subtitle="Here are the the labs where students can show their code.">
-      <template slot="header-right">
-        <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
-      </template>
+        <template slot="header-right">
+            <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
+        </template>
 
 
-      <v-alert :value="alert" border="left" color="error" outlined>
+        <v-alert :value="alert" border="left" color="error" outlined>
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
                     <md-icon>warning</md-icon>
@@ -128,24 +128,37 @@
             },
 
             getNiceTime(time) {
-                let mins = time.getMinutes().toString();
-                if (mins.length == 1) {
-                    mins = "0" + mins;
+                try {
+                    let mins = time.getMinutes().toString();
+                    if (mins.length == 1) {
+                        mins = "0" + mins;
+                    }
+                    return time.getHours() + ":" + mins
+                } catch (e) {
+                    return ""
                 }
-                return time.getHours() + ":" + mins
+
             },
 
             getNiceDate(date) {
-                let month = (date.getMonth() + 1).toString();
-                if (month.length == 1) {
-                    month = "0" + month
+                try {
+                    let month = (date.getMonth() + 1).toString();
+                    if (month.length == 1) {
+                        month = "0" + month
+                    }
+                    return date.getDate() + '.' + month + '.' + date.getFullYear()
+                } catch (e) {
+                    return "";
                 }
-                return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
 
             getDayTimeFormat(date) {
-                let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                return daysDict[date.getDay()] + date.getHours();
+                try {
+                    let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
+                    return daysDict[date.getDay()] + date.getHours();
+                } catch (e) {
+                    return ""
+                }
             },
 
             editLabClicked(lab) {

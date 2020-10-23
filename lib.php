@@ -45,9 +45,10 @@ function charon_extend_navigation_course($navigation, $course, $context)
 
     defined('MOODLE_INTERNAL') || die();
     global $DB;
+    global $CFG;
 
-    $sql = "SELECT COUNT(*) as cnt FROM {tag_instance}
-             JOIN {tag} ON {tag_instance}.tagid = tag.id
+    $sql = "SELECT COUNT(*) as cnt FROM " . $CFG->prefix . "tag_instance
+             JOIN " . $CFG->prefix . "tag ON " . $CFG->prefix . "tag_instance.tagid = tag.id
              WHERE rawname = 'programming' AND contextid = ?";
 
     $do_show = $DB->get_record_sql($sql, [$context->id])->cnt != 0;
