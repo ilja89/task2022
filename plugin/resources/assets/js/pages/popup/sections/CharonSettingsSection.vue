@@ -73,7 +73,8 @@
                 search: '',
                 charons_headers: [
                     {text: 'Charon', value: 'name', align: 'start'},
-                    {text: 'Deadline', value: 'formatted_date'},
+                    {text: 'Start time', value: 'formatted_start_time'},
+                    {text: 'Deadline', value: 'formatted_deadline'},
                     {text: 'Duration', value: 'formatted_duration'},
                     {text: 'Threshold', value: 'nice_defense_threshold'},
                     {text: 'Labs', value: 'labs_string'},
@@ -87,7 +88,8 @@
                 return this.charons.map(charon => {
                     const container = {...charon};
 
-                    container['formatted_date'] = this.getDateFormatted(charon.defense_deadline.time);
+                    container['formatted_deadline'] = this.getDateFormatted(charon.defense_deadline.time);
+                    container['formatted_start_time'] = this.getDateFormatted(charon.defense_start_time.time);
                     container['formatted_duration'] = this.getDurationFormatted(charon.defense_duration);
                     container['labs_string'] = this.getLabsStringForCharon(charon.charonDefenseLabs);
                     container['nice_defense_threshold'] = `${charon.defense_threshold}%`
@@ -118,11 +120,12 @@
             },
 
             getDateFormatted(date) {
-                if (date === null) {
-                    return date
+                try {
+                    return date.getDate() + '.' + ('0' + (date.getMonth() + 1)).substr(-2, 2) + '.' + date.getFullYear() +
+                        ' ' + ('0' + date.getHours()).substr(-2, 2) + ':' + ('0' + date.getMinutes()).substr(-2, 2)
+                } catch (e) {
+                    return date;
                 }
-                return date.getDate() + '.' + ('0' + (date.getMonth() + 1)).substr(-2, 2) + '.' + date.getFullYear() +
-                    ' ' + ('0' + date.getHours()).substr(-2, 2) + ':' + ('0' + date.getMinutes()).substr(-2, 2)
             },
 
             getDayTimeFormat(start) {

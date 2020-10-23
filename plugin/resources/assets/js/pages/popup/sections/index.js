@@ -10,7 +10,6 @@ import StudentsDistributionSection from './StudentsDistributionSection'
 import ReportAllStudents from './ReportAllStudents'
 import LabSection from "./LabSection";
 import CharonSettingsSection from "./CharonSettingsSection";
-import CharonSettingsEditingSection from "./CharonSettingsEditingSection";
 import DefenseRegistrationsSection from "./DefenseRegistrationsSection";
 import TesterTypeSection from "./TesterTypeSection";
 import TeacherSection from "./TeacherSection";
@@ -21,5 +20,5 @@ export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
-    LabSection, CharonSettingsSection, CharonSettingsEditingSection, DefenseRegistrationsSection, TesterTypeSection
+    LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection
 }

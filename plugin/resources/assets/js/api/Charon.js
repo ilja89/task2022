@@ -9,8 +9,9 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Charons.', 'danger')
-            })
+                console.log(error)
+            VueEvent.$emit('show-notification', 'Error retrieving Charons.', 'danger')
+        })
     }
 
     static deleteById(charonId, then) {
@@ -36,13 +37,14 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving results.', 'danger')
-            })
+            VueEvent.$emit('show-notification', 'Error retrieving results.', 'danger')
+        })
     }
 
-    static saveCharonDefenseStuff(charonId, defense_deadline, defense_duration, defense_labs, choose_teacher, defense_threshold, then) {
+    static saveCharonDefenseStuff(charonId, defense_start_time, defense_deadline, defense_duration, defense_labs, choose_teacher, defense_threshold, then) {
         axios.post(Charon.getRoot() + '/charons/' + charonId, {
             defense_deadline: defense_deadline,
+            defense_start_time: defense_start_time,
             defense_duration: defense_duration,
             defense_labs: defense_labs,
             choose_teacher: choose_teacher,
