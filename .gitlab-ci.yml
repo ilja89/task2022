@@ -15,7 +15,14 @@ test:
   services:
     - name: docker:dind
   script:
-    - whoami  # run tests somehow
+    - touch .env
+    - php composer.phar install --dev
+    - cp -p .env.develop .env
+    - php artisan key:generate
+    - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml
+  artifacts:
+    paths:
+      - /coverage
 
 # deploy:
 #   tags:
@@ -76,5 +83,3 @@ create_production_artifacts:
       - $CI_PROJECT_DIR/charon
   only:
   - master
-
-
