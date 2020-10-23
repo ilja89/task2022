@@ -187,6 +187,7 @@ class CharonRepository
         $oldCharon->grouping_id = $newCharon->grouping_id;
         $oldCharon->timemodified = Carbon::now()->timestamp;
         $oldCharon->defense_deadline = $newCharon->defense_deadline;
+        $oldCharon->defense_start_time = $newCharon->defense_start_time;
         $oldCharon->defense_duration = $newCharon->defense_duration;
         $oldCharon->choose_teacher = $newCharon->choose_teacher;
         $oldCharon->defense_threshold = $newCharon->defense_threshold;
@@ -213,26 +214,27 @@ class CharonRepository
         $moduleId = $this->moduleService->getModuleId();
 
         $charons = \DB::table('charon')
-                ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
-                ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
-                ->where('charon.course', $courseId)
-                ->where('course_modules.module', $moduleId)
-                ->orWhereNull('course_modules.module')
-                ->select(
-                    'charon.id',
-                    'charon.name',
-                    'charon_tester_type.name AS tester_type_name',
-                    'charon.project_folder',
-                    'course_modules.id AS course_module_id',
-                    'charon.category_id',
-                    'charon.grouping_id',
-                    'charon.course',
-                    'charon.defense_deadline',
-                    'charon.defense_duration',
-                    'charon.choose_teacher',
-                    'charon.defense_threshold')
-                ->orderBy('charon.name')
-                ->get();
+            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
+            ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
+            ->where('charon.course', $courseId)
+            ->where('course_modules.module', $moduleId)
+            ->orWhereNull('course_modules.module')
+            ->select(
+                'charon.id',
+                'charon.name',
+                'charon_tester_type.name AS tester_type_name',
+                'charon.project_folder',
+                'course_modules.id AS course_module_id',
+                'charon.category_id',
+                'charon.grouping_id',
+                'charon.course',
+                'charon.defense_deadline',
+                'charon.defense_start_time',
+                'charon.defense_duration',
+                'charon.choose_teacher',
+                'charon.defense_threshold')
+            ->orderBy('charon.name')
+            ->get();
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
@@ -325,13 +327,15 @@ class CharonRepository
      * @param $defenseThreshold
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold)
+    public function saveCharonDefendingStuff(Charon $charon, $defenseStartTime, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold)
     {
+        $charon->defense_start_time = Carbon::parse($defenseStartTime)->format('Y-m-d H:i:s');
         $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
         $charon->defense_duration = $defenseDuration;
         $charon->choose_teacher = $chooseTeacher;
         $charon->defense_threshold = $defenseThreshold;
         $charon->save();
+
         \DB::table('charon_defense_lab')
             ->where('charon_id', $charon->id)
             ->delete();

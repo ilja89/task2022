@@ -27,13 +27,12 @@
             }
         },
         computed: {
-
             ...mapState([
                 'course'
             ]),
         },
         methods: {
-            formatCharonsDeadlines(ch, then) {
+            formatCharonsDateTimes(ch, then) {
                 for (let i = 0; i < ch.length; i++) {
                     this.getNamesForLabs(ch[i].charonDefenseLabs)
                     if (ch[i].defense_deadline === null) {
@@ -41,6 +40,13 @@
                     } else {
                         let deadline = new Date(ch[i].defense_deadline)
                         ch[i].defense_deadline = {time: deadline}
+                    }
+
+                    if (ch[i].defense_start_time === null) {
+                        ch[i].defense_start_time = {time: null}
+                    } else {
+                        let startTime = new Date(ch[i].defense_start_time)
+                        ch[i].defense_start_time = {time: startTime}
                     }
                 }
                 then(ch)
@@ -52,21 +58,29 @@
                 }
             },
             getDayTimeFormat(start) {
-                let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                return daysDict[start.getDay()] + start.getHours();
+                try {
+                    let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
+                    return daysDict[start.getDay()] + start.getHours();
+                } catch (e) {
+                    return ""
+                }
             },
             getNiceDate(date) {
-                let month = (date.getMonth() + 1).toString();
-                if (month.length === 1) {
-                    month = "0" + month
+                try {
+                    let month = (date.getMonth() + 1).toString();
+                    if (month.length === 1) {
+                        month = "0" + month
+                    }
+                    return date.getDate() + '.' + month + '.' + date.getFullYear()
+                } catch (e) {
+                    return ""
                 }
-                return date.getDate() + '.' + month + '.' + date.getFullYear()
             },
         },
 
         created() {
             Charon.all(this.course.id, response => {
-                this.formatCharonsDeadlines(response, done => {
+                this.formatCharonsDateTimes(response, done => {
                     this.charons = done
                 })
             })

@@ -22,6 +22,7 @@
                 <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
+                <FIELD NAME="defense_start_time" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="false"/>
                 <FIELD NAME="choose_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
                 <FIELD NAME="defense_threshold" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="50"/>

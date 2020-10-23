@@ -5,6 +5,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
+            console.log(error)
             VueEvent.$emit('show-notification', 'Error retrieving labs.', 'danger')
         })
     }

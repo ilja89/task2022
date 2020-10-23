@@ -11,14 +11,14 @@
 
     export default {
 
-        components: { DatePicker },
+        components: {DatePicker},
 
         props: {
-            datetime: { required: true },
-            to_be_checked: { required: false },
+            datetime: {required: true},
+            to_be_checked: {required: false}
         },
 
-        data () {
+        data() {
             return {
                 startTime: {
                     time: this.datetime
@@ -70,11 +70,12 @@
                     } else {
                         correctForm = this.lab.start.time.toString().substr(0, 10);
                     }
-                    let millis_in_a_day = 60*60*24*1000
+                    let millis_in_a_day = 60 * 60 * 24 * 1000
                     limit.push({
                         type: 'fromto',
                         from: new Date(new Date(correctForm) - millis_in_a_day),
-                        to: new Date(new Date(correctForm) + millis_in_a_day)})
+                        to: new Date(new Date(correctForm) + millis_in_a_day)
+                    })
                 }
                 if (this.to_be_checked && !this.lab.start.time) {
                     limit.push({
