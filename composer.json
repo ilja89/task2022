@@ -25,7 +25,7 @@
 		"mockery/mockery": "0.9.*",
 		"phpunit/phpunit": "~6.0",
 		"filp/whoops": "~2.0",
-		"ext-sqlite3": "^2"
+		"ext-sqlite3": "*"
 	},
 	"autoload": {
 		"classmap": [
