@@ -20,9 +20,10 @@ test:
     - cp -p .env.develop .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml
+    - ls -la
   artifacts:
     paths:
-      - /coverage
+      - $CI_PROJECT_DIR/coverage
 
 # deploy:
 #   tags:
@@ -34,7 +35,6 @@ test:
 #   only:
 #     - dev
 #     - master
-
 
 create_dev_artifacts:
   tags:
