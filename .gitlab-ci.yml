@@ -10,7 +10,7 @@ stages:
 test:
   tags:
     - docker
-  image: misterio92/ci-php-node:4.0
+  image: misterio92/ci-php-node:3.0
   stage: test
   services:
     - name: docker:dind
