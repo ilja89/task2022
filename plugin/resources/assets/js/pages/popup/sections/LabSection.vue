@@ -6,7 +6,6 @@
             <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
         </template>
 
-
         <v-alert :value="alert" border="left" color="error" outlined>
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
@@ -44,6 +43,7 @@
         </v-card-title>
 
         <v-data-table
+                id="lab-overview-headers"
                 v-if="labs.length"
                 :headers="labs_headers"
                 :items="labs_table"
@@ -65,6 +65,15 @@
 
     </popup-section>
 </template>
+
+<style lang="scss">
+    #lab-overview-headers {
+        .v-data-table__mobile-row {
+            min-height: 48px;
+            height: auto;
+        }
+    }
+</style>
 
 <script>
     import {PopupSection} from '../layouts/index'
