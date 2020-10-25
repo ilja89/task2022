@@ -6,7 +6,72 @@
 
         <popup-section title="Edit Lab Settings"
                        subtitle="Here are the specifics for each Charon.">
-            <lab-info-section :lab_given="lab" :charons="charons" :teachers="teachers"></lab-info-section>
+
+            <v-card class="mx-auto mb-16" outlined light raised>
+                <v-container class="spacing-playground pa-3" fluid>
+                    <v-form>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12" sm="12" md="6" lg="6">
+                                    <div class="labs-field">
+                                        <p>Start date and time</p>
+                                        <datepicker :datetime="lab.start"></datepicker>
+                                        <input type="hidden" :value="lab.start">
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="6" lg="6">
+                                    <div class="labs-field">
+                                        <p>End time</p>
+                                        <datepicker :datetime="lab.end"></datepicker>
+                                        <input type="hidden" :value="lab.end">
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="12" lg="12">
+                                    <div class="labs-field is-flex-1">
+                                        <p>Teachers attending this lab session</p>
+                                        <multiselect v-model="lab.teachers" :options="teachers" :multiple="true"
+                                                     label="fullname"
+                                                     :close-on-select="false" placeholder="Select teachers" trackBy="id"
+                                                     :clear-on-select="true">
+                                        </multiselect>
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="12" lg="8">
+                                    <div class="labs-field is-flex-1">
+                                        <p>Defendable Charons during this lab</p>
+                                        <multiselect v-model="lab.charons" :options="filtered_charons" :multiple="true"
+                                                     label="project_folder"
+                                                     :close-on-select="false" placeholder="Select charons" trackBy="id"
+                                                     :clear-on-select="true">
+                                        </multiselect>
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="6" lg="2">
+                                    <p>Recalculate labs</p>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="filterCharons">
+                                        Recalculate
+                                    </v-btn>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="6" lg="2">
+                                    <div class="labs-field">
+                                        <p>Add all possible charons</p>
+                                        <v-btn class="ma-2" tile outlined color="primary" @click="addAllCharons">
+                                            Add all
+                                        </v-btn>
+                                    </div>
+                                </v-col>
+
+                            </v-row>
+                        </v-container>
+                    </v-form>
+
+                </v-container>
+            </v-card>
 
             <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
 
@@ -23,25 +88,45 @@
 
 <script>
     import {PopupSection} from '../../layouts/index'
-    import LabInfoSection from "./sections/LabInfoSection";
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import Teacher from "../../../../api/Teacher";
     import Charon from "../../../../api/Charon";
+    import {Datepicker} from "../../../../components/partials";
+    import {CharonSelect} from "../../../../components/form";
+    import Multiselect from "vue-multiselect";
 
     export default {
 
-        components: {LabInfoSection, AddMultipleLabsSection, PopupSection},
+        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, PopupSection},
 
         data() {
             return {
                 charons: [],
-                teachers: []
+                teachers: [],
+                show_info: true,
+                filtered_charons: []
             }
         },
 
         methods: {
+            filterCharons() {
+                var filtered_charons = []
+                for (let i = 0; i < this.charons.length; i++) {
+                    if (this.charons[i].defense_deadline == null || (new Date(this.charons[i].defense_deadline) >= new Date(this.lab.end.time))) { // .time is because vue-datepicker made it so.
+                        if (this.charons[i].defense_start_time == null || (new Date(this.charons[i].defense_start_time) <= new Date(this.lab.start.time))) {
+                            filtered_charons.push(this.charons[i])
+                        }
+                    }
+                }
+                this.filtered_charons = filtered_charons
+            },
+
+            addAllCharons() {
+                this.lab.charons = this.filtered_charons.slice()
+            },
+
             saveClicked() {
                 if (!this.lab.start.time || !this.lab.end.time) {
                     VueEvent.$emit('show-notification', 'Please fill all the required fields.', 'danger');
@@ -106,11 +191,14 @@
             },
         },
         computed: {
-
             ...mapState([
                 'lab',
                 'course'
             ]),
+
+            isEditing() {
+                return window.isEditing;
+            }
         },
 
         created() {
@@ -118,9 +206,21 @@
                 this.teachers = response;
             })
 
-            Charon.all(this.course.id, (response) => {
-                this.charons = response;
+            Charon.all(this.course.id, (charons) => {
+                this.charons = charons
+                this.filterCharons()
             })
         }
     }
 </script>
+
+<style src="../../../../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style>
+
+    .datepicker-overlay .cov-date-box .hour-item,
+    .datepicker-overlay .cov-date-box .min-item {
+        padding: 0 10px;
+    }
+
+</style>

@@ -5,8 +5,6 @@ define('LARAVEL_START', microtime(true));
 // Required by Moodle when executing CLI scripts
 define('CLI_SCRIPT', true);
 
-require __DIR__ . '/../../../../config.php';
-
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

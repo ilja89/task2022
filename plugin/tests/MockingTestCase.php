@@ -4,7 +4,7 @@ namespace Tests;
 
 use \Mockery as m;
 
-class MockingTest extends TestCase
+class MockingTestCase extends TestCase
 {
     protected function getNewMock($class, $originalArgs = [], $constructorArgs = [], $methodReturns = [])
     {

@@ -14,7 +14,13 @@
 $app = new TTU\Charon\Foundation\Application(
     realpath(__DIR__ . '/../../')
 );
+
 $app->loadEnvironmentFrom('.env');
+
+$app->singleton(TTU\Charon\Facades\MoodleConfig::class, function () {
+    return new TTU\Charon\Facades\MoodleConfig;
+});
+
 $app->bind('path.config', function() {
     return __DIR__ . '/../config';
 });
@@ -44,7 +50,6 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     TTU\Charon\Exceptions\Handler::class
 );
-
 
 /*
 |--------------------------------------------------------------------------

@@ -202,7 +202,7 @@ class GitCallbackController extends Controller
             );
 
             $params = ['uniid' => $username, 'gitStudentRepo' => $repo,
-                'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestSource' => $gitTestSource];
+                'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestRepo' => $gitTestSource];
             $params['email'] = $username . "@ttu.ee";
             if ($request->input('commits')) {
                 $params['email'] = $request->input('commits.0.author.email');

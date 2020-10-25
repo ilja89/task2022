@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 
 /**

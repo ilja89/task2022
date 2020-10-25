@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use League\Flysystem\Exception;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -30,18 +30,27 @@ class StudentsController extends Controller
     /** @var GradebookService */
     private $gradebookService;
 
+    /** @var MoodleConfig */
+    private $moodleConfig;
+
     /**
      * StudentsController constructor.
      *
      * @param Request $request
      * @param StudentsRepository $studentsRepository
      * @param GradebookService $gradebookService
+     * @param MoodleConfig $moodleConfig
      */
-    public function __construct(Request $request, StudentsRepository $studentsRepository, GradebookService $gradebookService)
-    {
+    public function __construct(
+        Request $request,
+        StudentsRepository $studentsRepository,
+        GradebookService $gradebookService,
+        MoodleConfig $moodleConfig
+    ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->gradebookService = $gradebookService;
+        $this->moodleConfig = $moodleConfig;
     }
 
     /**
@@ -97,9 +106,8 @@ class StudentsController extends Controller
 
     public function getStudentReportTable(Course $course, User $user)
     {
-        global $CFG;
-        require_once $CFG->dirroot . '/grade/lib.php';
-        require_once $CFG->dirroot . '/grade/report/user/lib.php';
+        require_once $this->moodleConfig->dirroot . '/grade/lib.php';
+        require_once $this->moodleConfig->dirroot . '/grade/report/user/lib.php';
 
         /// return tracking object
         $gpr = new \grade_plugin_return(array('type' => 'report', 'plugin' => 'user', 'courseid' => $course->id, 'userid' => $user->id));
@@ -177,8 +185,7 @@ class StudentsController extends Controller
 
     public function findDistribution(Course $course)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         $parts = 5;
         $sql = "select

@@ -29,7 +29,8 @@ class DeadlineServiceTest extends TestCase
         );
         $deadlineArray = [
             'deadline_time' => Carbon::now()->addHour()->format('d-m-Y H:i'),
-            'percentage' => 50
+            'percentage' => 50,
+            'group_id' => 2
         ];
 
         $this->deadlineService->createDeadline($charon, $deadlineArray);
