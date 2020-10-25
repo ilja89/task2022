@@ -1,6 +1,6 @@
 <?php
 
-global $CFG;
+$moodle = app()->make(TTU\Charon\Facades\MoodleConfig::class);
 
 return [
 
@@ -43,14 +43,14 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', $CFG->dbhost),
-            'port' => env('DB_PORT', $CFG->dboptions["dbport"]),
-            'database' => env('DB_DATABASE', $CFG->dbname),
-            'username' => env('DB_USERNAME', $CFG->dbuser),
-            'password' => env('DB_PASSWORD', $CFG->dbpass),
+            'host' => env('DB_HOST', $moodle->dbhost),
+            'port' => env('DB_PORT', $moodle->dboptions["dbport"]),
+            'database' => env('DB_DATABASE', $moodle->dbname),
+            'username' => env('DB_USERNAME', $moodle->dbuser),
+            'password' => env('DB_PASSWORD', $moodle->dbpass),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => env('DB_TABLE_PREFIX', $CFG->prefix),
+            'prefix' => env('DB_TABLE_PREFIX', $moodle->prefix),
             'strict' => true,
             'engine' => null,
         ],

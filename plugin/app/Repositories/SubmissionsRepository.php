@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
@@ -18,6 +19,18 @@ use TTU\Charon\Models\UnitTest;
  */
 class SubmissionsRepository
 {
+
+    /** @var MoodleConfig */
+    private $moodleConfig;
+
+    /**
+     * @param MoodleConfig $moodleConfig
+     */
+    public function __construct(MoodleConfig $moodleConfig)
+    {
+        $this->moodleConfig = $moodleConfig;
+    }
+
     /**
      * Find submission by its ID. Leave out stdout, stderr because it might be too big.
      *
@@ -183,8 +196,7 @@ class SubmissionsRepository
      */
     public function findConfirmedSubmissionsForUser($courseId, $userId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
 	                            FROM ' . $prefix . 'charon ch
@@ -204,8 +216,7 @@ class SubmissionsRepository
      */
     public function findBestAverageCourseSubmissions($courseId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         $result = DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
@@ -366,9 +377,7 @@ class SubmissionsRepository
 
     public function findSubmissionCounts($courseId)
     {
-
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         return DB::select("
         SELECT    
@@ -450,8 +459,7 @@ class SubmissionsRepository
         if ($sortField == 'gitTimestampForEndDate')
             $sortField = 'git_timestamp';
 
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         $result = DB::select(DB::raw(
             "SELECT SQL_CALC_FOUND_ROWS ch_su.id, us.firstname, us.lastname, ch.name, GROUP_CONCAT(ch_re.calculated_result

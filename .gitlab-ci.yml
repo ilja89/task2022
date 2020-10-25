@@ -10,12 +10,16 @@ stages:
 test:
   tags:
     - docker
-  image: misterio92/ci-php-node:4.0
+  image: misterio92/ci-php-node:3.0
   stage: test
   services:
     - name: docker:dind
   script:
-    - whoami  # run tests somehow
+    - touch .env
+    - php composer.phar install --dev
+    - cp -p .env.develop .env
+    - php artisan key:generate
+    - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml
 
 # deploy:
 #   tags:
@@ -27,7 +31,6 @@ test:
 #   only:
 #     - dev
 #     - master
-
 
 create_dev_artifacts:
   tags:
@@ -76,5 +79,3 @@ create_production_artifacts:
       - $CI_PROJECT_DIR/charon
   only:
   - master
-
-

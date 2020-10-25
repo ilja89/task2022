@@ -1,0 +1,5 @@
+[2020-10-20 21:04:01] develop.ERROR: Oldest single line
+[2020-10-20 21:04:02] develop.ERROR: Error over multiple lines
+Stack trace:
+#0 trace line 0
+#1 trace line 1

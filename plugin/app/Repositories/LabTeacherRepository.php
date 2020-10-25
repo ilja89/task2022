@@ -3,9 +3,22 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Facades\MoodleConfig;
 
 class LabTeacherRepository
 {
+
+    /** @var MoodleConfig */
+    private $moodleConfig;
+
+    /**
+     * @param MoodleConfig $moodleConfig
+     */
+    public function __construct(MoodleConfig $moodleConfig)
+    {
+        $this->moodleConfig = $moodleConfig;
+    }
+
     public function deleteAllLabTeachersForCharon($charonId)
     {
         return DB::table('charon_lab_teacher')
@@ -64,8 +77,7 @@ class LabTeacherRepository
 
     public function getTeacherReportByCourseId($courseId)
     {
-        global $CFG;
-        $prefix = $CFG->prefix;
+        $prefix = $this->moodleConfig->prefix;
 
         return \DB::table('course')
             ->join('context', 'context.instanceid', 'course.id')
