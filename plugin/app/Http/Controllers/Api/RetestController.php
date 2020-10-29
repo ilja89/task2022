@@ -3,9 +3,11 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\TesterCommunicationService;
 
@@ -15,6 +17,8 @@ class RetestController extends Controller
     protected $testerCommunicationService;
     /** @var GitCallbacksRepository */
     protected $gitCallbacksRepository;
+    /** @var CourseSettingsRepository */
+    protected $courseSettingsRepository;
 
     /**
      * RetestController constructor.
@@ -22,17 +26,20 @@ class RetestController extends Controller
      * @param TesterCommunicationService $testerCommunicationService
      * @param Request $request
      * @param GitCallbacksRepository $gitCallbacksRepository
+     * @param CourseSettingsRepository $courseSettingsRepository
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
-        GitCallbacksRepository $gitCallbacksRepository
+        GitCallbacksRepository $gitCallbacksRepository,
+        CourseSettingsRepository $courseSettingsRepository
     )
     {
         parent::__construct($request);
 
         $this->testerCommunicationService = $testerCommunicationService;
         $this->gitCallbacksRepository = $gitCallbacksRepository;
+        $this->courseSettingsRepository = $courseSettingsRepository;
     }
 
     /**
@@ -60,20 +67,25 @@ class RetestController extends Controller
             $gitCallback->repo,
             $gitCallback->user
         );
-        $params = [
-            'repo' => $newGitCallback->repo,
-            'user' => $newGitCallback->user,
-            'retest' => 1,
-            'original_submission_id' => $submission->id,
-            'commit_hash' => $submission->git_hash,
-            'project' => $submission->charon->project_folder,
-            'course' => $submission->charon->moodleCourse->shortname,
-        ];
+
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($submission->charon->course);
+
+        $request = (new AreteRequestDto())
+            ->setDockerContentRoot($submission->charon->docker_content_root)
+            ->setDockerTestRoot($submission->charon->docker_test_root)
+            ->setDockerExtra($submission->charon->tester_extra)
+            ->setDockerTimeout($submission->charon->docker_timeout)
+            ->setGitStudentRepo($newGitCallback->repo)
+            ->setGitTestRepo($courseSettings->unittests_git)
+            ->setHash($submission->git_hash)
+            ->setProject($submission->charon->project_folder)
+            ->setTestingPlatform($submission->charon->testerType->name)
+            ->setSystemExtra($submission->charon->system_extra);
 
         $this->testerCommunicationService->sendGitCallback(
             $newGitCallback,
             $this->request->getUriForPath('/api/tester_callback'),
-            $params
+            $request->toArray()
         );
 
         return response()->json([

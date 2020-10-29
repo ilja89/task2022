@@ -4,7 +4,6 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
@@ -223,6 +222,7 @@ class CharonRepository
                 'charon.id',
                 'charon.name',
                 'charon_tester_type.name AS tester_type_name',
+                'charon_tester_type.code AS tester_type_code',
                 'charon.project_folder',
                 'course_modules.id AS course_module_id',
                 'charon.category_id',
@@ -232,7 +232,14 @@ class CharonRepository
                 'charon.defense_start_time',
                 'charon.defense_duration',
                 'charon.choose_teacher',
-                'charon.defense_threshold')
+                'charon.defense_threshold',
+                'charon.docker_timeout',
+                'charon.docker_content_root',
+                'charon.docker_test_root',
+                'charon.group_size',
+                'charon.tester_extra',
+                'charon.system_extra'
+            )
             ->orderBy('charon.name')
             ->get();
 
