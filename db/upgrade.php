@@ -520,10 +520,9 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql1);
     }
 
-    if ($oldversion < 2020102903) {
+    if ($oldversion < 2020102904) {
         $table = new xmldb_table("charon");
 
-        $dbManager->add_field($table, new xmldb_field("testing_platform", XMLDB_TYPE_INTEGER, "10"));
         $dbManager->add_field($table, new xmldb_field("docker_timeout", XMLDB_TYPE_INTEGER, "6"));
         $dbManager->add_field($table, new xmldb_field("docker_content_root", XMLDB_TYPE_TEXT));
         $dbManager->add_field($table, new xmldb_field("docker_test_root", XMLDB_TYPE_TEXT));
@@ -531,9 +530,8 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         $DB->execute("SET FOREIGN_KEY_CHECKS=0");
         $DB->execute(
-            "ALTER TABLE {charon} ADD CONSTRAINT fk_tester_type FOREIGN KEY (testing_platform) " .
-            "REFERENCES {charon_tester_type}(code) " .
-            "ON DELETE SET NULL ON UPDATE CASCADE"
+            "ALTER TABLE {charon} ADD CONSTRAINT fk_tester_type_code FOREIGN KEY (tester_type_code) " .
+            "REFERENCES {charon_tester_type} (code)"
         );
         $DB->execute("SET FOREIGN_KEY_CHECKS=1");
     }
