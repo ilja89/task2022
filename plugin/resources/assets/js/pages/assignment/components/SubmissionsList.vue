@@ -148,8 +148,8 @@
                         <span>
                             {{ getGrademapByResult(result).name }}
                         </span>
-                                <span>
-                            {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}
+                        <span>
+                            {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }} | {{ getCompletionPercentage(result) }}%
                         </span>
                             </li>
                         </ul>
@@ -491,6 +491,10 @@
                     }
                 });
                 return correctGrademap;
+            },
+
+            getCompletionPercentage(result) {
+                return (result.calculated_result / this.getGrademapByResult(result).grade_item.grademax).toFixed(2);
             },
 
             toggleAdvanced(submissionId) {
