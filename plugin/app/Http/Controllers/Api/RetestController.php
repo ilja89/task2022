@@ -78,7 +78,6 @@ class RetestController extends Controller
             ->setGitStudentRepo($newGitCallback->repo)
             ->setGitTestRepo($courseSettings->unittests_git)
             ->setHash($submission->git_hash)
-            ->setProject($submission->charon->project_folder)
             ->setTestingPlatform($submission->charon->testerType->name)
             ->setSystemExtra($submission->charon->system_extra);
 

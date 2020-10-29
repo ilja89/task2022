@@ -29,9 +29,6 @@ class AreteRequestDto
 	/** @var string */
 	private $hash;
 
-	/** @var string */
-	private $project;
-
 	/** @var array */
 	private $systemExtra;
 
@@ -105,16 +102,6 @@ class AreteRequestDto
     public function setHash(string $hash): AreteRequestDto
     {
         $this->hash = $hash;
-        return $this;
-    }
-
-    /**
-     * @param string $project
-     * @return AreteRequestDto
-     */
-    public function setProject(string $project): AreteRequestDto
-    {
-        $this->project = $project;
         return $this;
     }
 
