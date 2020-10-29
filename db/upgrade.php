@@ -2,9 +2,18 @@
 
 require __DIR__ . '/../plugin/bootstrap/autoload.php';
 
+/**
+ * Exclusively used by the installation and upgrade processes.
+ *
+ * @link https://docs.moodle.org/dev/Data_definition_API
+ * @link https://github.com/moodle/moodle/blob/master/lib/db/upgrade.php
+ * @param int $oldversion
+ * @return bool
+ */
 function xmldb_charon_upgrade($oldversion = 0)
 {
     global $DB;
+    $dbManager = $DB->get_manager();
 
     if ($oldversion < 2017020102) {
         // We run artisan migrate so we can have all updates as migrations.
@@ -509,6 +518,24 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2020102301) {
         $sql1 = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN defense_start_time DATETIME";
         $DB->execute($sql1);
+    }
+
+    if ($oldversion < 2020102903) {
+        $table = new xmldb_table("charon");
+
+        $dbManager->add_field($table, new xmldb_field("testing_platform", XMLDB_TYPE_INTEGER, "10"));
+        $dbManager->add_field($table, new xmldb_field("docker_timeout", XMLDB_TYPE_INTEGER, "6"));
+        $dbManager->add_field($table, new xmldb_field("docker_content_root", XMLDB_TYPE_TEXT));
+        $dbManager->add_field($table, new xmldb_field("docker_test_root", XMLDB_TYPE_TEXT));
+        $dbManager->add_field($table, new xmldb_field("group_size", XMLDB_TYPE_INTEGER, "4"));
+
+        $DB->execute("SET FOREIGN_KEY_CHECKS=0");
+        $DB->execute(
+            "ALTER TABLE {charon} ADD CONSTRAINT fk_tester_type FOREIGN KEY (testing_platform) " .
+            "REFERENCES {charon_tester_type}(code) " .
+            "ON DELETE SET NULL ON UPDATE CASCADE"
+        );
+        $DB->execute("SET FOREIGN_KEY_CHECKS=1");
     }
 
     return true;
