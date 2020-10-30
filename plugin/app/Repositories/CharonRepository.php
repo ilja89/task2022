@@ -190,6 +190,10 @@ class CharonRepository
         $oldCharon->defense_duration = $newCharon->defense_duration;
         $oldCharon->choose_teacher = $newCharon->choose_teacher;
         $oldCharon->defense_threshold = $newCharon->defense_threshold;
+        $oldCharon->docker_timeout = $newCharon->docker_timeout;
+        $oldCharon->docker_content_root = $newCharon->docker_content_root;
+        $oldCharon->docker_test_root = $newCharon->docker_test_root;
+        $oldCharon->group_size = $newCharon->group_size;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
             $newCharon->description,
