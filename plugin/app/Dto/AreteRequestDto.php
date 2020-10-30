@@ -1,6 +1,5 @@
 <?php
 
-
 namespace TTU\Charon\Dto;
 
 /**

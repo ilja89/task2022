@@ -3,13 +3,13 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\Lab;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -327,32 +327,43 @@ class CharonRepository
      *
      * @param Charon $charon
      *
-     * @param $defenseDeadline
-     * @param $defenseDuration
-     * @param Collection|Lab[] $defenseLabs
-     * @param $chooseTeacher
-     * @param $defenseThreshold
+     * @param array $updated
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseStartTime, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold)
+    public function saveCharonDefendingStuff(Charon $charon, array $updated)
     {
-        $charon->defense_start_time = Carbon::parse($defenseStartTime)->format('Y-m-d H:i:s');
-        $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
-        $charon->defense_duration = $defenseDuration;
-        $charon->choose_teacher = $chooseTeacher;
-        $charon->defense_threshold = $defenseThreshold;
+        if (isset($updated['defense_start_time'])) {
+            $charon->defense_start_time = Carbon::parse($updated['defense_start_time'])->format('Y-m-d H:i:s');
+        }
+        if (isset($updated['defense_deadline'])) {
+            $charon->defense_deadline = Carbon::parse($updated['defense_deadline'])->format('Y-m-d H:i:s');
+        }
+
+        $fields = [
+            'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
+            'group_size', 'tester_extra', 'system_extra', 'tester_type_code'
+        ];
+
+        foreach ($fields as $key => $value) {
+            if (array_key_exists($key, $updated)) {
+                $charon->{$key} = $updated[$key];
+            }
+        }
+
         $charon->save();
 
-        \DB::table('charon_defense_lab')
+        DB::table('charon_defense_lab')
             ->where('charon_id', $charon->id)
             ->delete();
-        for ($i = 0; $i < count($defenseLabs); $i++) {
-            $defenseLab = CharonDefenseLab::create([
-                'lab_id' => $defenseLabs[$i],
+
+        for ($i = 0; $i < count($updated['defense_labs']); $i++) {
+            $defenseLab = App::makeWith(CharonDefenseLab::class, [
+                'lab_id' => $updated['defense_labs'][$i],
                 'charon_id' => $charon->id
             ]);
             $defenseLab->save();
         }
+
         return $charon;
     }
 }
