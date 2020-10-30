@@ -520,20 +520,35 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql1);
     }
 
-    if ($oldversion < 2020102904) {
+    if ($oldversion < 2020102905) {
         $table = new xmldb_table("charon");
 
-        $dbManager->add_field($table, new xmldb_field("docker_timeout", XMLDB_TYPE_INTEGER, "6"));
-        $dbManager->add_field($table, new xmldb_field("docker_content_root", XMLDB_TYPE_TEXT));
-        $dbManager->add_field($table, new xmldb_field("docker_test_root", XMLDB_TYPE_TEXT));
-        $dbManager->add_field($table, new xmldb_field("group_size", XMLDB_TYPE_INTEGER, "4"));
+        $fields = [
+            new xmldb_field("docker_timeout", XMLDB_TYPE_INTEGER, "6"),
+            new xmldb_field("docker_content_root", XMLDB_TYPE_TEXT),
+            new xmldb_field("docker_test_root", XMLDB_TYPE_TEXT),
+            new xmldb_field("group_size", XMLDB_TYPE_INTEGER, "4")
+        ];
 
-        $DB->execute("SET FOREIGN_KEY_CHECKS=0");
-        $DB->execute(
-            "ALTER TABLE {charon} ADD CONSTRAINT fk_tester_type_code FOREIGN KEY (tester_type_code) " .
-            "REFERENCES {charon_tester_type} (code)"
-        );
-        $DB->execute("SET FOREIGN_KEY_CHECKS=1");
+        foreach ($fields as $field) {
+            if (!$dbManager->field_exists($table, $field)) {
+                $dbManager->add_field($table, $field);
+            }
+        }
+
+        try {
+            // There is no key_exists, so test the equivalent index.
+            $oldIndex = new xmldb_index('fk_tester_type_code', XMLDB_KEY_FOREIGN, ['tester_type_code'], 'charon_tester_type', ['code']);
+            if (!$dbManager->index_exists($table, $oldIndex)) {
+                $DB->execute("SET FOREIGN_KEY_CHECKS=0");
+                $DB->execute(
+                    "ALTER TABLE {charon} ADD CONSTRAINT fk_tester_type_code FOREIGN KEY (tester_type_code) " .
+                    "REFERENCES {charon_tester_type} (code)"
+                );
+            }
+        } finally {
+            $DB->execute("SET FOREIGN_KEY_CHECKS=1");
+        }
     }
 
     return true;
