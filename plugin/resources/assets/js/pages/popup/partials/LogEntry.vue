@@ -7,7 +7,7 @@
     >
         <template v-slot:activator>
             <v-list-item-content>
-                <v-alert dense :outlined="outline" :type="level">{{ title }}</v-alert>
+                <v-alert class="multi-line" dense :outlined="outline" :type="level">{{ title }}</v-alert>
             </v-list-item-content>
         </template>
 
@@ -72,6 +72,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .multi-line {
+        white-space: pre-line;
+    }
+
     .v-list-item {
         line-height: 1.3;
     }
