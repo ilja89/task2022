@@ -361,10 +361,9 @@ class CharonRepository
             ->delete();
 
         for ($i = 0; $i < count($updated['defense_labs']); $i++) {
-            $defenseLab = App::makeWith(CharonDefenseLab::class, [
-                'lab_id' => $updated['defense_labs'][$i],
-                'charon_id' => $charon->id
-            ]);
+            $defenseLab = App::make(CharonDefenseLab::class);
+            $defenseLab->lab_id = $updated['defense_labs'][$i];
+            $defenseLab->charon_id = $charon->i;
             $defenseLab->save();
         }
 
