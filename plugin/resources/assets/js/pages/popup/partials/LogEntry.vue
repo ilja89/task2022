@@ -20,7 +20,7 @@
 
     <v-list-item v-else :key="title">
         <v-list-item-title >
-            <v-alert dense :outlined="outline" :type="level">{{ title }}</v-alert>
+            <v-alert class="multi-line" dense :outlined="outline" :type="level">{{ title }}</v-alert>
         </v-list-item-title>
     </v-list-item>
 
