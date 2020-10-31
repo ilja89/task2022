@@ -13,6 +13,18 @@
                             <v-row>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-select
+                                            v-model="charon.tester_type_code"
+                                            :items="testerTypes"
+                                            item-text="name"
+                                            item-value="code"
+                                            hint="Tester type code"
+                                            persistent-hint
+                                            single-line
+                                    ></v-select>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-text-field
                                             v-model="charon.system_extra"
                                             :counter="255"
@@ -29,26 +41,18 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-select
-                                            v-model="charon.tester_type_code"
-                                            :items="testerTypes"
-                                            item-text="name"
-                                            item-value="code"
-                                            hint="Tester type code"
-                                            persistent-hint
-                                            single-line
-                                    ></v-select>
-                                </v-col>
-
-                                <v-col cols="12" sm="6" md="3" lg="3">
-                                    <v-text-field
+                                    <p>Docker timeout</p>
+                                    <v-slider
                                             v-model="charon.docker_timeout"
-                                            :counter="255"
-                                            label="Docker timeout"
-                                    ></v-text-field>
+                                            color="purple"
+                                            label="Group size"
+                                            min="0"
+                                            max="3000"
+                                            thumb-label
+                                    ></v-slider>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" lg="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-text-field
                                             v-model="charon.docker_content_root"
                                             :counter="255"
@@ -56,7 +60,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" lg="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-text-field
                                             v-model="charon.docker_test_root"
                                             :counter="255"
@@ -93,7 +97,7 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Minimum percentage to register for defense</p>
+                                    <p>Minutes defence takes place</p>
                                     <v-slider
                                             v-model="charon.defense_duration"
                                             color="purple"
@@ -229,11 +233,11 @@
                     let give_start_time = this.formatTime(this.charon.defense_start_time.time);
                     let give_deadline = this.formatTime(this.charon.defense_deadline.time);
 
-                    Charon.saveCharon(this.charon, give_start_time, give_deadline, chosen_labs,() => {
-                            window.location = "popup#/charonSettings";
-                            window.location.reload();
-                            VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')
-                        })
+                    Charon.saveCharon(this.charon, give_start_time, give_deadline, chosen_labs, () => {
+                        window.location = "popup#/charonSettings";
+                        window.location.reload();
+                        VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')
+                    })
                 } catch (e) {
                     VueEvent.$emit('show-notification', 'Make sure all fields are filled!')
                 }

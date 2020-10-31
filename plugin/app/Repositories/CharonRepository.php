@@ -345,8 +345,7 @@ class CharonRepository
 
         $fields = [
             'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
-            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher',
-            'defense_deadline', 'defense_start_time'
+            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
         ];
 
         foreach ($fields as $key => $value) {
