@@ -1,9 +1,9 @@
 <template>
 
     <v-list-group
-      v-if="Array.isArray(children)"
-      :key="title"
-      no-action
+            v-if="Array.isArray(children)"
+            :key="title"
+            no-action
     >
         <template v-slot:activator>
             <v-list-item-content>
@@ -19,7 +19,7 @@
     </v-list-group>
 
     <v-list-item v-else :key="title">
-        <v-list-item-title >
+        <v-list-item-title>
             <v-alert class="multi-line" dense :outlined="outline" :type="level">{{ title }}</v-alert>
         </v-list-item-title>
     </v-list-item>
@@ -74,6 +74,8 @@
 <style lang="scss" scoped>
     .multi-line {
         white-space: pre-line;
+        display: inline-block;
+        word-break: break-word;
     }
 
     .v-list-item {
