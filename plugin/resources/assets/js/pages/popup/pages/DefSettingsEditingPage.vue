@@ -41,13 +41,14 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Docker timeout</p>
+                                    <p>Docker timeout (seconds)</p>
                                     <v-slider
                                             v-model="charon.docker_timeout"
                                             color="purple"
                                             label="Group size"
                                             min="0"
                                             max="3000"
+                                            step="30"
                                             thumb-label
                                     ></v-slider>
                                 </v-col>
@@ -68,7 +69,7 @@
                                     ></v-text-field>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" lg="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <div>
                                         <p class="input-helper">Defense start time</p>
                                         <datepicker :datetime="charon.defense_start_time"></datepicker>
@@ -76,7 +77,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" lg="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <div>
                                         <p class="input-helper">Defense deadline</p>
                                         <datepicker :datetime="charon.defense_deadline"></datepicker>
@@ -120,7 +121,7 @@
                                     ></v-slider>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3" lg="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-container class="px-0" fluid>
                                         <v-switch
                                                 v-model="charon.choose_teacher"
