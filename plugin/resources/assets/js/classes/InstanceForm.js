@@ -16,7 +16,7 @@ export default class InstanceFormForm {
     activateGrademap(grade_type_code) {
         let grademap = {
             max_points: 0,
-            name: `${this.fields.name} - ${this.getGradeTypeName(grade_type_code)}`,
+            name: `${this.fields.project_folder} - ${this.getGradeTypeName(grade_type_code)}`,
             grade_type_code: grade_type_code,
             id_number: `${this.fields.project_folder}_${this.getGradeTypeName(grade_type_code)}`
         };
