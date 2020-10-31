@@ -348,9 +348,9 @@ class CharonRepository
             'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
         ];
 
-        foreach ($fields as $key => $value) {
-            if (array_key_exists($key, $updated)) {
-                $charon->{$key} = $updated[$key];
+        foreach ($fields as $key) {
+            if (isset($updated[$key])) {
+                $charon[$key] = $updated[$key];
             }
         }
 

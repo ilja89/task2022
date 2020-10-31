@@ -45,7 +45,7 @@
                                     <v-slider
                                             v-model="charon.docker_timeout"
                                             color="purple"
-                                            label="Group size"
+                                            label="Docker timeout"
                                             min="0"
                                             max="3000"
                                             step="30"
