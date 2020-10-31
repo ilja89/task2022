@@ -12,7 +12,59 @@
                         <v-container>
                             <v-row>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-text-field
+                                            v-model="charon.system_extra"
+                                            :counter="255"
+                                            label="System Extra (comma separated)"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-text-field
+                                            v-model="charon.tester_extra"
+                                            :counter="255"
+                                            label="Docker extra"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-select
+                                            v-model="charon.tester_type_code"
+                                            :items="testerTypes"
+                                            item-text="name"
+                                            item-value="code"
+                                            hint="Tester type code"
+                                            persistent-hint
+                                            single-line
+                                    ></v-select>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="3" lg="3">
+                                    <v-text-field
+                                            v-model="charon.docker_timeout"
+                                            :counter="255"
+                                            label="Docker timeout"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="3" lg="3">
+                                    <v-text-field
+                                            v-model="charon.docker_content_root"
+                                            :counter="255"
+                                            label="Docker content root (set this if you know what you're doing)"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="3" lg="3">
+                                    <v-text-field
+                                            v-model="charon.docker_test_root"
+                                            :counter="255"
+                                            label="Docker test root (set this if you know what you're doing)"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="3" lg="3">
                                     <div>
                                         <p class="input-helper">Defense start time</p>
                                         <datepicker :datetime="charon.defense_start_time"></datepicker>
@@ -20,7 +72,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="3" lg="3">
                                     <div>
                                         <p class="input-helper">Defense deadline</p>
                                         <datepicker :datetime="charon.defense_deadline"></datepicker>
@@ -28,19 +80,31 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <p>Group size (1 is individual, more is group project)</p>
+                                    <v-slider
+                                            v-model="charon.group_size"
+                                            color="purple"
+                                            label="Group size"
+                                            min="1"
+                                            max="10"
+                                            thumb-label
+                                    ></v-slider>
+                                </v-col>
+
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <p>Minimum percentage to register for defense</p>
                                     <v-slider
                                             v-model="charon.defense_duration"
                                             color="purple"
                                             label="Duration"
-                                            min="0"
+                                            min="1"
                                             max="30"
                                             thumb-label
                                     ></v-slider>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="6" lg="6">
                                     <p>Minimum percentage to register for defense</p>
                                     <v-slider
                                             v-model="charon.defense_threshold"
@@ -52,7 +116,7 @@
                                     ></v-slider>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="3">
+                                <v-col cols="12" sm="6" md="3" lg="3">
                                     <v-container class="px-0" fluid>
                                         <v-switch
                                                 v-model="charon.choose_teacher"
@@ -61,7 +125,7 @@
                                     </v-container>
                                 </v-col>
 
-                                <v-col cols="12" sm="12" md="8">
+                                <v-col cols="12" sm="12" md="8" lg="8">
                                     <label>Labs</label>
                                     <p>Labs where this Charon can be defended</p>
                                     <multiselect v-model="charon.charonDefenseLabs" :options="filtered_labs"
@@ -72,14 +136,14 @@
                                     </multiselect>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="2">
+                                <v-col cols="12" sm="6" md="2" lg="2">
                                     <p>Recalculate labs</p>
                                     <v-btn class="ma-2" tile outlined color="primary" @click="filterLabs">
                                         Recalculate
                                     </v-btn>
                                 </v-col>
 
-                                <v-col cols="12" sm="6" md="2">
+                                <v-col cols="12" sm="6" md="2" lg="2">
                                     <p>Add all possible labs</p>
                                     <v-btn class="ma-2" tile outlined color="primary" @click="addAllLabs">
                                         Add all
@@ -111,6 +175,7 @@
     import Charon from "../../../api/Charon";
     import {Datepicker} from "../../../components/partials";
     import Multiselect from "vue-multiselect";
+    import Course from "../../../api/Course";
 
     export default {
         name: "charon-settings-editing-page",
@@ -119,7 +184,8 @@
             return {
                 labs: [],
                 show_info: true,
-                filtered_labs: []
+                filtered_labs: [],
+                testerTypes: []
             }
         },
         methods: {
@@ -163,8 +229,7 @@
                     let give_start_time = this.formatTime(this.charon.defense_start_time.time);
                     let give_deadline = this.formatTime(this.charon.defense_deadline.time);
 
-                    Charon.saveCharonDefenseStuff(this.charon.id, give_start_time, give_deadline, this.charon.defense_duration,
-                        chosen_labs, this.charon.choose_teacher, this.charon.defense_threshold, () => {
+                    Charon.saveCharon(this.charon, give_start_time, give_deadline, chosen_labs,() => {
                             window.location = "popup#/charonSettings";
                             window.location.reload();
                             VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')
@@ -211,6 +276,10 @@
                 this.labs = labs
                 this.getNamesForLabs()
                 this.filterLabs()
+            })
+
+            Course.getTesterTypes(this.course.id, response => {
+                this.testerTypes = response
             })
         }
     }

@@ -55,7 +55,7 @@ class CharonRepositoryTest extends TestCase
             Mockery::mock(CharonDefenseLabRepository::class),
         );
 
-        $actual = $repository->saveCharonDefendingStuff($charon, $updated);
+        $actual = $repository->saveCharon($charon, $updated);
 
         $this->assertSame($charon, $actual);
     }

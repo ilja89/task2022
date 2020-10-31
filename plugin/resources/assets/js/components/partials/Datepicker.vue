@@ -21,7 +21,7 @@
         data() {
             return {
                 startTime: {
-                    time: this.datetime
+                    time: ''
                 },
                 endtime: {
                     time: ''

@@ -334,7 +334,7 @@ class CharonRepository
      * @param array $updated
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, array $updated)
+    public function saveCharon(Charon $charon, array $updated)
     {
         if (isset($updated['defense_start_time'])) {
             $charon->defense_start_time = Carbon::parse($updated['defense_start_time'])->format('Y-m-d H:i:s');
@@ -345,7 +345,8 @@ class CharonRepository
 
         $fields = [
             'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
-            'group_size', 'tester_extra', 'system_extra', 'tester_type_code'
+            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher',
+            'defense_deadline', 'defense_start_time'
         ];
 
         foreach ($fields as $key => $value) {
