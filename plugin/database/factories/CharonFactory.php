@@ -1,10 +1,16 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $faker) {
+use Carbon\Carbon;
+use Faker\Generator;
+use Illuminate\Database\Eloquent\Factory;
+use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CourseSettings;
+use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\GradeCategory;
+use Zeizig\Moodle\Models\GradeItem;
 
-    $courseGradeItem = factory(\Zeizig\Moodle\Models\GradeItem::class, 'course_grade_item')->create();
-
+/** @var Factory $factory */
+$factory->define(Charon::class, function (Generator $faker) {
     return [
         'name' => $faker->name,
         'description' => $faker->paragraph,
@@ -14,25 +20,31 @@ $factory->define(TTU\Charon\Models\Charon::class, function (Faker\Generator $fak
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
         'grading_method_code' => $faker->randomElement([1, 2]),
         'grouping_id' => $faker->randomElement([1, 2]),
-        'defense_deadline' => $faker->unixTime,
+        'defense_deadline' => Carbon::parse($faker->unixTime)->format('Y-m-d H:i:s'),
         'defense_duration' => $faker->numberBetween(0, 10),
         'choose_teacher' => $faker->boolean,
-        'course' => $courseGradeItem->courseid,
         'timemodified' => $faker->unixTime,
-        'category_id' => function () use ($courseGradeItem) {
-            $gradeItem = factory(\Zeizig\Moodle\Models\GradeItem::class, 'grade_item_with_category')->create([
-                'courseid' => $courseGradeItem->courseid,
-            ]);
-            return \Zeizig\Moodle\Models\GradeCategory::find($gradeItem->iteminstance)->id;
-        },
     ];
 });
 
-$factory->define(TTU\Charon\Models\CourseSettings::class, function (Faker\Generator $faker) {
+$factory->state(Charon::class, 'with_new_course', function (Generator $faker) {
+    $courseGradeItem = factory(GradeItem::class, 'course_grade_item')->create();
 
     return [
+        'course' => $courseGradeItem->courseid,
+        'category_id' => function () use ($courseGradeItem) {
+            $gradeItem = factory(GradeItem::class, 'grade_item_with_category')->create([
+                'courseid' => $courseGradeItem->courseid,
+            ]);
+            return GradeCategory::find($gradeItem->iteminstance)->id;
+        }
+    ];
+});
+
+$factory->define(CourseSettings::class, function (Generator $faker) {
+    return [
         'course_id' => function () {
-            return factory(\Zeizig\Moodle\Models\Course::class)->create()->id;
+            return factory(Course::class)->create()->id;
         },
         'unittests_git' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3, 4]),

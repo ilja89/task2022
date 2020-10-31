@@ -1,83 +1,92 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Zeizig\Moodle\Models\CourseModule::class, function (Faker\Generator $faker) {
+use Carbon\Carbon;
+use Faker\Generator;
+use Illuminate\Database\Eloquent\Factory;
+use TTU\Charon\Models\Charon;
+use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\GradeCategory;
+use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\Module;
+use Zeizig\Moodle\Services\ModuleService;
 
+/** @var Factory $factory */
+$factory->define(CourseModule::class, function (Generator $faker) {
     return [
         'instance' => function () {
-            return factory(\TTU\Charon\Models\Charon::class)->create();
+            return factory(Charon::class)->states('with_new_course')->create();
         },
-        'module'   => app('Zeizig\Moodle\Services\ModuleService')->getModuleId(),
-        'course'   => function (array $courseModule) {
-            return \TTU\Charon\Models\Charon::find($courseModule['instance'])->course;
+        'module' => app(ModuleService::class)->getModuleId(),
+        'course' => function (array $courseModule) {
+            return Charon::find($courseModule['instance'])->course;
         },
         'section' => 1,
-        'added' => \Carbon\Carbon::now()->timestamp,
+        'added' => Carbon::now()->timestamp,
     ];
 });
 
-$factory->define(Zeizig\Moodle\Models\Module::class, function (Faker\Generator $faker) {
+$factory->define(Module::class, function (Generator $faker) {
     return [
         'name' => config('moodle.plugin_slug'),
     ];
 });
 
-$factory->define(Zeizig\Moodle\Models\Course::class, function (Faker\Generator $faker) {
+$factory->define(Course::class, function (Generator $faker) {
     return [
-        'fullname'  => $faker->sentence,
+        'fullname' => $faker->sentence,
         'shortname' => $faker->word,
         'category' => 1,
         'sortorder' => 10001,
         'summary' => $faker->paragraph,
         'summaryformat' => 1,
-        'timecreated' => \Carbon\Carbon::now()->timestamp,
-        'timemodified' => \Carbon\Carbon::now()->timestamp,
-        'startdate' => \Carbon\Carbon::now()->timestamp,
-        'enddate' => \Carbon\Carbon::now()->addDays(2)->timestamp,
+        'timecreated' => Carbon::now()->timestamp,
+        'timemodified' => Carbon::now()->timestamp,
+        'startdate' => Carbon::now()->timestamp,
+        'enddate' => Carbon::now()->addDays(2)->timestamp,
     ];
 });
 
-$factory->define(\Zeizig\Moodle\Models\GradeCategory::class, function (Faker\Generator $faker) {
+$factory->define(GradeCategory::class, function (Generator $faker) {
     return [
-        'courseid'            => function () {
-            return factory(\Zeizig\Moodle\Models\Course::class)->create()->id;
+        'courseid' => function () {
+            return factory(Course::class)->create()->id;
         },
-        'path'                => '',
-        'parent'              => function (array $gradeCategory) {
-            $parentCat = factory(\Zeizig\Moodle\Models\GradeCategory::class)->create([
+        'path' => '',
+        'parent' => function (array $gradeCategory) {
+            return factory(GradeCategory::class)->create([
                 'courseid' => $gradeCategory['courseid'],
                 'parent'   => null,
-            ]);
-            return $parentCat->id;
+            ])->id;
         },
-        'depth'               => function (array $gradeCategory) {
-            return $gradeCategory['parent'] === null ? 1 : (\Zeizig\Moodle\Models\GradeCategory::find($gradeCategory['parent'])->depth + 1);
+        'depth' => function (array $gradeCategory) {
+            return $gradeCategory['parent'] === null ? 1 : (GradeCategory::find($gradeCategory['parent'])->depth + 1);
         },
-        'fullname'            => $faker->sentence,
-        'aggregation'         => 13,
-        'keephigh'            => 0,
-        'droplow'             => 0,
+        'fullname' => $faker->sentence,
+        'aggregation' => 13,
+        'keephigh' => 0,
+        'droplow' => 0,
         'aggregateonlygraded' => function (array $gradeCategory) {
             return $gradeCategory['parent'] === null ? 1 : 0;
         },
-        'aggregateoutcomes'   => 0,
-        'timecreated' => \Carbon\Carbon::now()->timestamp,
-        'timemodified' => \Carbon\Carbon::now()->timestamp,
-        'hidden'              => 0,
+        'aggregateoutcomes' => 0,
+        'timecreated' => Carbon::now()->timestamp,
+        'timemodified' => Carbon::now()->timestamp,
+        'hidden' => 0,
     ];
 });
 
-$factory->define(\Zeizig\Moodle\Models\GradeItem::class, function (Faker\Generator $faker) {
+$factory->define(GradeItem::class, function (Generator $faker) {
     return [
         'courseid' => function () {
-            return factory(\Zeizig\Moodle\Models\Course::class)->create()->id;
+            return factory(Course::class)->create()->id;
         },
         'categoryid' => null,
         'itemname' => null,
         'itemtype' => 'course',
         'itemmodule' => null,
         'iteminstance' => function (array $gradeItem) {
-            return factory(\Zeizig\Moodle\Models\GradeCategory::class)->create([
+            return factory(GradeCategory::class)->create([
                 'courseid' => $gradeItem['courseid'],
                 'parent' => null,
                 'fullname' => '?',
@@ -87,18 +96,17 @@ $factory->define(\Zeizig\Moodle\Models\GradeItem::class, function (Faker\Generat
     ];
 }, 'course_grade_item');
 
-$factory->define(\Zeizig\Moodle\Models\GradeItem::class, function (Faker\Generator $faker) {
-
+$factory->define(GradeItem::class, function (Generator $faker) {
     return [
         'courseid' => function () {
-            return factory(\Zeizig\Moodle\Models\Course::class)->create()->id;
+            return factory(Course::class)->create()->id;
         },
         'categoryid' => null,
         'itemname' => null,
         'itemtype' => 'category',
         'itemmodule' => null,
         'iteminstance' => function (array $gradeItem) {
-            return factory(\Zeizig\Moodle\Models\GradeCategory::class)->create([
+            return factory(GradeCategory::class)->create([
                 'courseid' => $gradeItem['courseid'],
             ])->id;
         },
