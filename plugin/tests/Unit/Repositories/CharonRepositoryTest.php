@@ -38,10 +38,6 @@ class CharonRepositoryTest extends TestCase
         $defenseLab = Mockery::mock(CharonDefenseLab::class);
         $defenseLab->shouldReceive('save');
 
-        App::shouldReceive('makeWith')
-            ->with(CharonDefenseLab::class, ['lab_id' => 7, 'charon_id' => 3])
-            ->andReturn($defenseLab);
-
         $updated = [
             'docker_test_root' => '/test/root',
             'group_size' => 5,
