@@ -237,10 +237,10 @@
                     Charon.saveCharon(this.charon, give_start_time, give_deadline, chosen_labs, () => {
                         window.location = "popup#/charonSettings";
                         window.location.reload();
-                        VueEvent.$emit('show-notification', 'Charon defending stuff successfully saved!')
+                        VueEvent.$emit('show-notification', 'Charon settings successfully updated!')
                     })
                 } catch (e) {
-                    VueEvent.$emit('show-notification', 'Make sure all fields are filled!')
+                    VueEvent.$emit('show-notification', 'Make sure start time and deadline are filled!')
                 }
             },
 
