@@ -46,8 +46,11 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property CharonDefenseLab[]|Collection $charonDefenseLabs
  * @property Course moodleCourse
  * @property Grouping $grouping
-
-
+ * @property int|null $docker_timeout
+ * @property string|null $docker_content_root
+ * @property string|null $docker_test_root
+ * @property int|null $group_size
+ *
  * @package TTU\Charon\Model
  */
 class Charon extends Model
@@ -60,7 +63,8 @@ class Charon extends Model
     protected $fillable = [
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
-        'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold'
+        'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold',
+        'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size'
     ];
 
     /**
