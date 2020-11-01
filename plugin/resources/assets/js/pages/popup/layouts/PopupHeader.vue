@@ -98,13 +98,13 @@
         },
         methods: {
             onStudentChanged(student) {
-                console.log(student)
                 if (student !== null) {
                     const courseId = parseInt(this.courseId);
                     const studentId = parseInt(this.student.id);
 
                     this.fetchStudent(() => {
-                        this.$router.push("/grading/" + student.id);
+                        console.log(this.student)
+                        this.$router.push("/grading/" + studentId);
                     }, {courseId, studentId});
                 }
             },
