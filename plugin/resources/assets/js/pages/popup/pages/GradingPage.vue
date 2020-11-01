@@ -52,37 +52,9 @@
 
         created() {
             Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
-            this.getStudent()
-            window.VueEvent.$on('refresh-page', this.getStudent)
-        },
-
-        beforeDestroy() {
-            window.VueEvent.$off('refresh-page', this.getStudent)
-        },
-
-        watch: {
-            $route() {
-                if (this.student != null) {
-                    this.getStudent()
-                }
-            },
         },
 
         methods: {
-            ...mapActions([
-                'fetchStudent',
-                'updateSubmission'
-            ]),
-
-            getStudent() {
-                const courseId = this.courseId;
-                const studentId = this.student.id;
-
-                this.fetchStudent({courseId, studentId});
-                Charon.all(courseId, this.setCharons);
-                this.updateSubmission({submission: null})
-            },
-
             setCharons(charons) {
                 this.charons = charons;
             },

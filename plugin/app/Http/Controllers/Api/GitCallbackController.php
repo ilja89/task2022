@@ -4,17 +4,14 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Http\Controllers\CourseSettingsController;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Models\Group;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Models\Grouping;
 use TTU\Charon\Models\Charon;
@@ -122,8 +119,8 @@ class GitCallbackController extends Controller
 
         $gitTestSource = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->unittests_git;
         $testingPlatform = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
-        $dockerExtra = array();
         $usernames = array();
+        $charon = null;
 
         if (isset($project_folder)) {
             Log::info('Discovered course name: "' . $course_name . '" and project folder: "' . $project_folder . '"');
@@ -150,9 +147,6 @@ class GitCallbackController extends Controller
                     ['course', $course->id]])->first();
 
                 Log::info("Found charon with id: " . $charon->id);
-
-                $testingPlatform = $charon->testerType->name; // Override default
-                $dockerExtra = explode(',', $charon->tester_extra);
 
                 // TODO: Trim model requests to select only required fields
                 if ($charon->grouping_id !== null) {
@@ -201,11 +195,37 @@ class GitCallbackController extends Controller
                 $username
             );
 
-            $params = ['uniid' => $username, 'gitStudentRepo' => $repo,
-                'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestRepo' => $gitTestSource];
-            $params['email'] = $username . "@ttu.ee";
+            $params = [
+                'uniid' => $username,
+                'gitStudentRepo' => $repo,
+                'testingPlatform' => $testingPlatform,
+                'gitTestRepo' => $gitTestSource,
+                'email' => $username . "@ttu.ee"
+            ];
+
             if ($request->input('commits')) {
                 $params['email'] = $request->input('commits.0.author.email');
+            }
+
+            if ($charon != null) {
+                if ($charon['tester_extra'] != null) {
+                    $params['dockerExtra'] = $charon['tester_extra'];
+                }
+                if ($charon['docker_test_root'] != null) {
+                    $params['dockerTestRoot'] = $charon['docker_test_root'];
+                }
+                if ($charon['docker_content_root'] != null) {
+                    $params['dockerContentRoot'] = $charon['docker_content_root'];
+                }
+                if ($charon['docker_timeout'] != null) {
+                    $params['dockerTimeout'] = $charon['docker_timeout'];
+                }
+                if ($charon['tester_type_code'] != null) {
+                    $params['testingPlatform'] = $charon->testerType->name;
+                }
+                if ($charon['system_extra'] != null) {
+                    $params['systemExtra'] = explode(',', $charon['system_extra']);
+                }
             }
 
             event(new GitCallbackReceived(

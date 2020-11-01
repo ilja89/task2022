@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <date-picker :limit="limit" :date="datetime" :option="option"></date-picker>
+        <date-picker :date="datetime" :option="option"></date-picker>
     </div>
 </template>
 
@@ -21,7 +21,7 @@
         data() {
             return {
                 startTime: {
-                    time: this.datetime
+                    time: ''
                 },
                 endtime: {
                     time: ''

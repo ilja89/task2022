@@ -18,7 +18,7 @@ use Zeizig\Moodle\Services\ModuleService;
 class CharonRepositoryTest extends TestCase
 {
 
-    public function testSaveCharonDefendingStuff()
+    public function testSaveCharon()
     {
         Event::fake();
 
@@ -35,11 +35,13 @@ class CharonRepositoryTest extends TestCase
         $charon->shouldReceive('save');
 
         App::spy();
+
         $defenseLab = Mockery::mock(CharonDefenseLab::class);
         $defenseLab->shouldReceive('save');
-        App::shouldReceive('makeWith')
-            ->with(CharonDefenseLab::class, ['lab_id' => 7, 'charon_id' => 3])
-            ->andReturn($defenseLab);
+        $defenseLab->shouldReceive('setAttribute')->with('lab_id', 7);
+        $defenseLab->shouldReceive('setAttribute')->with('charon_id', 3);
+
+        App::shouldReceive('make')->with(CharonDefenseLab::class)->andReturn($defenseLab);
 
         $updated = [
             'docker_test_root' => '/test/root',
@@ -52,10 +54,10 @@ class CharonRepositoryTest extends TestCase
             Mockery::mock(ModuleService::class),
             Mockery::mock(FileUploadService::class),
             Mockery::mock(GradebookService::class),
-            Mockery::mock(CharonDefenseLabRepository::class),
+            Mockery::mock(CharonDefenseLabRepository::class)
         );
 
-        $actual = $repository->saveCharonDefendingStuff($charon, $updated);
+        $actual = $repository->saveCharon($charon, $updated);
 
         $this->assertSame($charon, $actual);
     }
