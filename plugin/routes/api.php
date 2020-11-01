@@ -70,6 +70,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.submission.managing.require')
         ->post('submissions/{submission}/retest', 'RetestController@index');
 
+
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
     Route::middleware('auth.course.managing.require')
@@ -83,27 +84,19 @@ Route::group(['namespace' => 'Api'], function () {
             '{lastName?}/{exerciseName?}/{isConfirmed?}/{gitTimestampForStartDate?}/{gitTimestampForEndDate?}',
             'SubmissionsController@findAllSubmissionsForReport');
 
-    // LAB STUFF
+    // LABS
 
+    Route::get('charons/{charon}/labs', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
     Route::middleware('auth.course.managing.require')  // save lab
     ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
     ->get('courses/{course}/labs', 'LabController@getByCourse');
-    Route::middleware('auth.charon.managing.require')
-        ->get('charons/{charon}labs', 'LabController@getByCharon');
+    Route::middleware('auth.charon.managing.require') // get all labs by charon
+    ->get('charons/{charon}labs', 'LabController@getByCharon');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
     ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
     Route::middleware('auth.course.managing.require')  // delete lab
     ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
-    Route::middleware('auth.course.managing.require')  // update lab
-    ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
-
-    Route::middleware('auth.course_module.enrolment.require')
-        ->get('api/view.php', 'CharonController@get');
-
-    Route::get('api/charon_data.php', 'CharonController@getAll');
-
-    Route::get('api/labs_by_charon.php', 'LabsController@findLabsByCharon');
     Route::middleware('auth.course.managing.require')  // update lab
     ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
 
@@ -133,30 +126,22 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.charon.managing.require') // save Charon
     ->post('charons/{charon}', 'CharonsController@saveCharon');
+    Route::get('charons/{charon}/all', 'CharonsController@getAll'); // get all Charons
 
     // CHARON DEFENSE
 
     Route::middleware('auth.charon.submissions.view.require') // get all registrations for student
     ->get('charons/{charon}/registrations', 'DefenseRegistrationController@getStudentRegistrations');
-
     Route::middleware('auth.charon.submissions.view.require')  // delete defense registration
     ->delete('charons/{charon}/registration', 'DefenseRegistrationController@deleteReg');
-
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
-
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations/{after}/{before}/{teacher_id}/{progress}', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
-
     Route::middleware('auth.course.managing.require')  // get teacher for student
     ->get('courses/{course}/defenseRegistrations/student/{user}/teacher', 'LabTeacherController@getTeacherForStudent');
-
     Route::middleware('auth.course.managing.require')  // save defense progress
     ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@saveProgress');
-
-    Route::get('charons/{charon}/all', 'CharonsController@getAll');
-
-    Route::get('charons/{charon}/labs', 'LabController@findLabsByCharonLaterEqualToday');
 
 
 });

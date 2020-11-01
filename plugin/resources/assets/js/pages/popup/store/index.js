@@ -58,6 +58,10 @@ const store = new Vuex.Store({
          */
         charon: null,
         /**
+         * @type == [@Charon]
+         * */
+        charons: [],
+        /**
          * @type {
          *      {id: Number}
          * |null}

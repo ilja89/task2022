@@ -18,9 +18,6 @@
         components: { PopupSelect },
 
         data() {
-            return {
-                charons: [],
-            }
         },
 
         computed: {
@@ -30,6 +27,7 @@
 
             ...mapState([
                 'charon',
+                'charons'
             ]),
 
             activeCharonId: {
@@ -46,36 +44,11 @@
             },
         },
 
-        created() {
-            this.refreshCharons()
-        },
-
-        activated() {
-            VueEvent.$on('refresh-page', this.refreshCharons)
-        },
-
-        /**
-         * Remove global event listeners for more efficient refreshes on other
-         * pages.
-         */
-        deactivated() {
-            VueEvent.$off('refresh-page', this.refreshCharons)
-        },
-
         methods: {
             ...mapActions([
                 'updateCharon',
                 'updateSubmission',
-            ]),
-
-            refreshCharons() {
-                Charon.all(this.courseId, charons => {
-                    this.charons = charons
-                    // if (this.activeCharonId === null && charons.length > 0) {
-                    //     this.activeCharonId = charons[0].id
-                    // }
-                })
-            },
+            ])
         },
     }
 </script>

@@ -53,7 +53,7 @@
 <script>
     import store from './../store/index'
     import ExtraOptions from "../partials/ExtraOptions";
-    import {mapGetters, mapState} from "vuex";
+    import {mapActions, mapGetters, mapState} from "vuex";
 
     export default {
         components: {ExtraOptions},
@@ -73,7 +73,12 @@
             ]),
 
             ...mapGetters([
+                'courseId',
                 'studentsSearchUrl'
+            ]),
+
+            ...mapActions([
+                'fetchStudent'
             ]),
 
             fields() {
@@ -94,7 +99,12 @@
         methods: {
             onStudentChanged(student) {
                 if (student !== undefined) {
-                    this.$router.push("/grading/" + student.id);
+                    const courseId = parseInt(this.courseId);
+                    const studentId = parseInt(this.student.id);
+
+                    this.fetchStudent(() => {
+                        this.$router.push("/grading/" + student.id);
+                    }, {courseId, studentId});
                 }
             },
 

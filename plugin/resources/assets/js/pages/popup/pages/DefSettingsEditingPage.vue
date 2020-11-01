@@ -86,7 +86,7 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Group size (1 is individual, more is group project)</p>
+                                    <p>Group size</p>
                                     <v-slider
                                             v-model="charon.group_size"
                                             color="purple"
