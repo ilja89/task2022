@@ -122,8 +122,9 @@ class GitCallbackController extends Controller
 
         $gitTestSource = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->unittests_git;
         $testingPlatform = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
-        $dockerExtra = array();
+        $systemExtra = array();
         $usernames = array();
+        $charon = null;
 
         if (isset($project_folder)) {
             Log::info('Discovered course name: "' . $course_name . '" and project folder: "' . $project_folder . '"');
@@ -152,7 +153,7 @@ class GitCallbackController extends Controller
                 Log::info("Found charon with id: " . $charon->id);
 
                 $testingPlatform = $charon->testerType->name; // Override default
-                $dockerExtra = explode(',', $charon->tester_extra);
+                $systemExtra = explode(',', $charon->system_extra);
 
                 // TODO: Trim model requests to select only required fields
                 if ($charon->grouping_id !== null) {
@@ -201,11 +202,32 @@ class GitCallbackController extends Controller
                 $username
             );
 
-            $params = ['uniid' => $username, 'gitStudentRepo' => $repo,
-                'testingPlatform' => $testingPlatform, 'dockerExtra' => $dockerExtra, 'gitTestRepo' => $gitTestSource];
-            $params['email'] = $username . "@ttu.ee";
+            $params = [
+                'uniid' => $username,
+                'gitStudentRepo' => $repo,
+                'testingPlatform' => $testingPlatform,
+                'systemExtra' => $systemExtra,
+                'gitTestRepo' => $gitTestSource,
+                'email' => $username . "@ttu.ee"
+            ];
+
             if ($request->input('commits')) {
                 $params['email'] = $request->input('commits.0.author.email');
+            }
+
+            if ($charon != null) {
+                if (isset($charon['tester_extra'])) {
+                    $params['dockerExtra'] = $charon['tester_extra'];
+                }
+                if (isset($charon['docker_test_root'])) {
+                    $params['dockerTestRoot'] = $charon['docker_test_root'];
+                }
+                if (isset($charon['docker_content_root'])) {
+                    $params['dockerContentRoot'] = $charon['docker_content_root'];
+                }
+                if (isset($charon['docker_timeout'])) {
+                    $params['dockerTimeout'] = $charon['docker_timeout'];
+                }
             }
 
             event(new GitCallbackReceived(
