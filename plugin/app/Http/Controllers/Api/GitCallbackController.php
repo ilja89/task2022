@@ -4,17 +4,14 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Http\Controllers\CourseSettingsController;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Models\Group;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Models\Grouping;
 use TTU\Charon\Models\Charon;
@@ -122,7 +119,6 @@ class GitCallbackController extends Controller
 
         $gitTestSource = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->unittests_git;
         $testingPlatform = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
-        $systemExtra = array();
         $usernames = array();
         $charon = null;
 
@@ -151,9 +147,6 @@ class GitCallbackController extends Controller
                     ['course', $course->id]])->first();
 
                 Log::info("Found charon with id: " . $charon->id);
-
-                $testingPlatform = $charon->testerType->name; // Override default
-                $systemExtra = explode(',', $charon->system_extra);
 
                 // TODO: Trim model requests to select only required fields
                 if ($charon->grouping_id !== null) {
@@ -206,7 +199,6 @@ class GitCallbackController extends Controller
                 'uniid' => $username,
                 'gitStudentRepo' => $repo,
                 'testingPlatform' => $testingPlatform,
-                'systemExtra' => $systemExtra,
                 'gitTestRepo' => $gitTestSource,
                 'email' => $username . "@ttu.ee"
             ];
@@ -227,6 +219,12 @@ class GitCallbackController extends Controller
                 }
                 if (isset($charon['docker_timeout'])) {
                     $params['dockerTimeout'] = $charon['docker_timeout'];
+                }
+                if (isset($charon['tester_type_code'])) {
+                    $params['testingPlatform'] = $charon->testerType->name;
+                }
+                if (isset($charon['system_extra'])) {
+                    $params['systemExtra'] = explode(',', $charon['system_extra']);
                 }
             }
 
