@@ -4,7 +4,7 @@
             <v-card-title>Charon settings</v-card-title>
         </v-card>
 
-        <charon-settings-section :charons="charons"></charon-settings-section>
+        <charon-settings-section></charon-settings-section>
 
         <tester-type-section :testerTypes="testerTypes" :course-id="this.course.id"></tester-type-section>
     </div>
@@ -22,7 +22,6 @@
         components: {CharonSettingsSection, TesterTypeSection},
         data() {
             return {
-                charons: [],
                 testerTypes: []
             }
         },
@@ -31,60 +30,8 @@
                 'course'
             ]),
         },
-        methods: {
-            formatCharonsDateTimes(ch, then) {
-                for (let i = 0; i < ch.length; i++) {
-                    this.getNamesForLabs(ch[i].charonDefenseLabs)
-                    if (ch[i].defense_deadline === null) {
-                        ch[i].defense_deadline = {time: null}
-                    } else {
-                        let deadline = new Date(ch[i].defense_deadline)
-                        ch[i].defense_deadline = {time: deadline}
-                    }
-
-                    if (ch[i].defense_start_time === null) {
-                        ch[i].defense_start_time = {time: null}
-                    } else {
-                        let startTime = new Date(ch[i].defense_start_time)
-                        ch[i].defense_start_time = {time: startTime}
-                    }
-                }
-                then(ch)
-            },
-            getNamesForLabs(labs) {
-                for (let i = 0; i < labs.length; i++) {
-                    labs[i].name = this.getDayTimeFormat(new Date(labs[i].start))
-                        + ' (' + this.getNiceDate(new Date(labs[i].start)) + ')'
-                }
-            },
-            getDayTimeFormat(start) {
-                try {
-                    let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                    return daysDict[start.getDay()] + start.getHours();
-                } catch (e) {
-                    return ""
-                }
-            },
-            getNiceDate(date) {
-                try {
-                    let month = (date.getMonth() + 1).toString();
-                    if (month.length === 1) {
-                        month = "0" + month
-                    }
-                    return date.getDate() + '.' + month + '.' + date.getFullYear()
-                } catch (e) {
-                    return ""
-                }
-            },
-        },
 
         created() {
-            Charon.all(this.course.id, response => {
-                this.formatCharonsDateTimes(response, done => {
-                    this.charons = done
-                })
-            })
-
             Course.getTesterTypes(this.course.id, response => {
                 this.testerTypes = response
             })

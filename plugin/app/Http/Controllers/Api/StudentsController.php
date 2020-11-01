@@ -106,6 +106,7 @@ class StudentsController extends Controller
 
     public function getStudentReportTable(Course $course, User $user)
     {
+        global $CFG; // grade/lib.php needs it
         require_once $this->moodleConfig->dirroot . '/grade/lib.php';
         require_once $this->moodleConfig->dirroot . '/grade/report/user/lib.php';
 

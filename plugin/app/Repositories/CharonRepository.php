@@ -334,7 +334,7 @@ class CharonRepository
      * @param array $updated
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, array $updated)
+    public function saveCharon(Charon $charon, array $updated)
     {
         if (isset($updated['defense_start_time'])) {
             $charon->defense_start_time = Carbon::parse($updated['defense_start_time'])->format('Y-m-d H:i:s');
@@ -343,14 +343,16 @@ class CharonRepository
             $charon->defense_deadline = Carbon::parse($updated['defense_deadline'])->format('Y-m-d H:i:s');
         }
 
-        $fields = [
+        $nullable_fields = [
             'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
-            'group_size', 'tester_extra', 'system_extra', 'tester_type_code'
+            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
         ];
 
-        foreach ($fields as $key => $value) {
-            if (array_key_exists($key, $updated)) {
-                $charon->{$key} = $updated[$key];
+        foreach ($nullable_fields as $key) {
+            if (isset($updated[$key])) {
+                $charon[$key] = $updated[$key];
+            } else {
+                $charon[$key] = null;
             }
         }
 
@@ -361,10 +363,9 @@ class CharonRepository
             ->delete();
 
         for ($i = 0; $i < count($updated['defense_labs']); $i++) {
-            $defenseLab = App::makeWith(CharonDefenseLab::class, [
-                'lab_id' => $updated['defense_labs'][$i],
-                'charon_id' => $charon->id
-            ]);
+            $defenseLab = App::make(CharonDefenseLab::class);
+            $defenseLab->lab_id = $updated['defense_labs'][$i];
+            $defenseLab->charon_id = $charon->id;
             $defenseLab->save();
         }
 
