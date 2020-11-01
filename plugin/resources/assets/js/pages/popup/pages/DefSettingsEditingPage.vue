@@ -196,14 +196,10 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-container class="px-0" fluid>
-                                        <v-switch
-                                                v-model="charon.choose_teacher"
-                                                label="Student can choose a teacher"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                        ></v-switch>
-                                    </v-container>
+                                    <v-switch
+                                            v-model="charon.choose_teacher"
+                                            label="Student can choose a teacher"
+                                    ></v-switch>
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="8" lg="8">
