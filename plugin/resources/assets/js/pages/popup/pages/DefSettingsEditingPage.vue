@@ -23,6 +23,8 @@
                                                     hint="Tester type code"
                                                     persistent-hint
                                                     single-line
+                                                    v-bind="attrs"
+                                                    v-on="on"
                                             ></v-select>
                                         </template>
                                         <span>Top tooltip</span>
