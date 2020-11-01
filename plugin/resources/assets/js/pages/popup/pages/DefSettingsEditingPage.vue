@@ -13,15 +13,20 @@
                             <v-row>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-select
-                                            v-model="charon.tester_type_code"
-                                            :items="testerTypes"
-                                            item-text="name"
-                                            item-value="code"
-                                            hint="Tester type code"
-                                            persistent-hint
-                                            single-line
-                                    ></v-select>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-select
+                                                    v-model="charon.tester_type_code"
+                                                    :items="testerTypes"
+                                                    item-text="name"
+                                                    item-value="code"
+                                                    hint="Tester type code"
+                                                    persistent-hint
+                                                    single-line
+                                            ></v-select>
+                                        </template>
+                                        <span>Top tooltip</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
@@ -57,7 +62,7 @@
                                     <v-text-field
                                             v-model="charon.docker_content_root"
                                             :counter="255"
-                                            label="Docker content root (set this if you know what you're doing)"
+                                            label="Docker content root"
                                     ></v-text-field>
                                 </v-col>
 
@@ -65,7 +70,7 @@
                                     <v-text-field
                                             v-model="charon.docker_test_root"
                                             :counter="255"
-                                            label="Docker test root (set this if you know what you're doing)"
+                                            label="Docker test root"
                                     ></v-text-field>
                                 </v-col>
 
