@@ -11,14 +11,10 @@
 
 <script>
     import { mapGetters, mapState, mapActions } from 'vuex'
-    import { Charon } from '../../../api'
     import PopupSelect from './PopupSelect'
 
     export default {
         components: { PopupSelect },
-
-        data() {
-        },
 
         computed: {
             ...mapGetters([

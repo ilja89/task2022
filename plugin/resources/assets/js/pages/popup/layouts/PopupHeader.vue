@@ -98,7 +98,7 @@
             ]),
 
             onStudentChanged(student) {
-                if (student !== null) {
+                if (student !== null && student !== undefined) {
                     const courseId = parseInt(this.courseId);
                     const studentId = parseInt(student.id);
 
