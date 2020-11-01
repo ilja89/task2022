@@ -122,6 +122,7 @@
 
             onStudentSelected(student) {
                 console.log(student)
+                console.log(this.entries)
                 this.onStudentChanged(this.entries.find(x => x['fullname'] === student))
             },
         },
