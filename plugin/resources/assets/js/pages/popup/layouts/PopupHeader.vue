@@ -100,7 +100,7 @@
             onStudentChanged(student) {
                 if (student !== null) {
                     const courseId = parseInt(this.courseId);
-                    const studentId = parseInt(this.student.id);
+                    const studentId = parseInt(student.id);
 
                     this.fetchStudent(() => {
                         console.log(this.student)
