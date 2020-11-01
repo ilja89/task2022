@@ -27,7 +27,7 @@
                                                     v-on="on"
                                             ></v-select>
                                         </template>
-                                        <span onclick="window.open('https://hub.docker.com/search?q=automatedtestingservice&type=image')">Image used for testing. Currently available are visible here</span>
+                                        <span>Image used for testing</span>
                                     </v-tooltip>
                                 </v-col>
 
@@ -42,7 +42,7 @@
                                                     v-on="on"
                                             ></v-text-field>
                                         </template>
-                                        <span onclick="window.open('https://github.com/envomp/Arete-runbook/blob/master/docs/SUB_TESTER_FOR_TEACHER.md')">Additional parameters used for testing. See here for list of available options. Can be left empty.</span>
+                                        <span>Additional parameters used for testing. See here for list of available options. Can be left empty.</span>
                                     </v-tooltip>
                                 </v-col>
 
@@ -57,7 +57,7 @@
                                                     v-on="on"
                                             ></v-text-field>
                                         </template>
-                                        <span onclick="window.open('https://github.com/envomp/Arete-runbook/blob/master/docs/SUB_TESTER_FOR_TEACHER.md')">Additional parameters used for testing. Value is sent to docker runner. Can be left empty.</span>
+                                        <span>Additional parameters used for testing. Value is sent to docker runner. Can be left empty.</span>
                                     </v-tooltip>
                                 </v-col>
 
@@ -130,15 +130,11 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <div>
-                                                <p class="input-helper">Defense start time</p>
-                                                <div>
-                                                    <p class="input-helper">Defense deadline</p>
-                                                    <datepicker :datetime="charon.defense_deadline"
-                                                                v-bind="attrs"
-                                                                v-on="on"/>
-                                                    <input type="hidden" :value="charon.defense_deadline">
-                                                </div>
-                                                <input type="hidden" :value="charon.defense_start_time">
+                                                <p class="input-helper">Defense deadline</p>
+                                                <datepicker :datetime="charon.defense_deadline"
+                                                            v-bind="attrs"
+                                                            v-on="on"/>
+                                                <input type="hidden" :value="charon.defense_deadline">
                                             </div>
                                         </template>
                                         <span>Deadline when given Charon will no longer be available for student to register to</span>
@@ -159,7 +155,7 @@
                                                     v-on="on"
                                             ></v-slider>
                                         </template>
-                                        <span>Max size for grouo projects. Everyone gets the same grade</span>
+                                        <span>Max size for group projects. Everyone gets the same grade</span>
                                     </v-tooltip>
                                 </v-col>
 
@@ -200,19 +196,14 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-container class="px-0" fluid>
-                                                <v-switch
-                                                        v-model="charon.choose_teacher"
-                                                        label="Student can choose a teacher"
-                                                        v-bind="attrs"
-                                                        v-on="on"
-                                                ></v-switch>
-                                            </v-container>
-                                        </template>
-                                        <span>Opens a possibility for student to choose a teacher</span>
-                                    </v-tooltip>
+                                    <v-container class="px-0" fluid>
+                                        <v-switch
+                                                v-model="charon.choose_teacher"
+                                                label="Student can choose a teacher"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                        ></v-switch>
+                                    </v-container>
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="8" lg="8">
