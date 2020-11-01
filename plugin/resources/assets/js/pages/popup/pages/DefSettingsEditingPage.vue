@@ -27,125 +27,209 @@
                                                     v-on="on"
                                             ></v-select>
                                         </template>
-                                        <span>Top tooltip</span>
+                                        <span onclick="window.open('https://hub.docker.com/search?q=automatedtestingservice&type=image')">Image used for testing. Currently available are visible here</span>
                                     </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-text-field
-                                            v-model="charon.system_extra"
-                                            :counter="255"
-                                            label="System Extra (comma separated)"
-                                    ></v-text-field>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                    v-model="charon.system_extra"
+                                                    :counter="255"
+                                                    label="System Extra (comma separated)"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <span onclick="window.open('https://github.com/envomp/Arete-runbook/blob/master/docs/SUB_TESTER_FOR_TEACHER.md')">Additional parameters used for testing. See here for list of available options. Can be left empty.</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-text-field
-                                            v-model="charon.tester_extra"
-                                            :counter="255"
-                                            label="Docker extra"
-                                    ></v-text-field>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                    v-model="charon.tester_extra"
+                                                    :counter="255"
+                                                    label="Docker extra"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <span onclick="window.open('https://github.com/envomp/Arete-runbook/blob/master/docs/SUB_TESTER_FOR_TEACHER.md')">Additional parameters used for testing. Value is sent to docker runner. Can be left empty.</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <p>Docker timeout (seconds)</p>
-                                    <v-slider
-                                            v-model="charon.docker_timeout"
-                                            color="purple"
-                                            label="Docker timeout"
-                                            min="0"
-                                            max="3000"
-                                            step="30"
-                                            thumb-label
-                                    ></v-slider>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-slider
+                                                    v-model="charon.docker_timeout"
+                                                    color="purple"
+                                                    label="Docker timeout"
+                                                    min="0"
+                                                    max="3000"
+                                                    step="30"
+                                                    thumb-label
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-slider>
+                                        </template>
+                                        <span>Time after which docker gets killed. Default is 120 seconds.</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-text-field
-                                            v-model="charon.docker_content_root"
-                                            :counter="255"
-                                            label="Docker content root"
-                                    ></v-text-field>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                    v-model="charon.docker_content_root"
+                                                    :counter="255"
+                                                    label="Docker content root"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <span>Where tester knows to look for exercise. Can be left empty.</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-text-field
-                                            v-model="charon.docker_test_root"
-                                            :counter="255"
-                                            label="Docker test root"
-                                    ></v-text-field>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                    v-model="charon.docker_test_root"
+                                                    :counter="255"
+                                                    label="Docker test root"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <span>Where tester knows to look for student. Can be left empty.</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <div>
-                                        <p class="input-helper">Defense start time</p>
-                                        <datepicker :datetime="charon.defense_start_time"></datepicker>
-                                        <input type="hidden" :value="charon.defense_start_time">
-                                    </div>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <div>
+                                                <p class="input-helper">Defense start time</p>
+                                                <datepicker :datetime="charon.defense_start_time"
+                                                            v-bind="attrs"
+                                                            v-on="on"/>
+                                                <input type="hidden" :value="charon.defense_start_time">
+                                            </div>
+                                        </template>
+                                        <span>Start time when given Charon will be available for student to register to</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <div>
-                                        <p class="input-helper">Defense deadline</p>
-                                        <datepicker :datetime="charon.defense_deadline"></datepicker>
-                                        <input type="hidden" :value="charon.defense_deadline">
-                                    </div>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <div>
+                                                <p class="input-helper">Defense start time</p>
+                                                <div>
+                                                    <p class="input-helper">Defense deadline</p>
+                                                    <datepicker :datetime="charon.defense_deadline"
+                                                                v-bind="attrs"
+                                                                v-on="on"/>
+                                                    <input type="hidden" :value="charon.defense_deadline">
+                                                </div>
+                                                <input type="hidden" :value="charon.defense_start_time">
+                                            </div>
+                                        </template>
+                                        <span>Deadline when given Charon will no longer be available for student to register to</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Group size</p>
-                                    <v-slider
-                                            v-model="charon.group_size"
-                                            color="purple"
-                                            label="Group size"
-                                            min="1"
-                                            max="10"
-                                            thumb-label
-                                    ></v-slider>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-slider
+                                                    v-model="charon.group_size"
+                                                    color="purple"
+                                                    label="Group size"
+                                                    min="1"
+                                                    max="10"
+                                                    thumb-label
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-slider>
+                                        </template>
+                                        <span>Max size for grouo projects. Everyone gets the same grade</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Minutes defence takes place</p>
-                                    <v-slider
-                                            v-model="charon.defense_duration"
-                                            color="purple"
-                                            label="Duration"
-                                            min="1"
-                                            max="30"
-                                            thumb-label
-                                    ></v-slider>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-slider
+                                                    v-model="charon.defense_duration"
+                                                    color="purple"
+                                                    label="Duration"
+                                                    min="1"
+                                                    max="30"
+                                                    thumb-label
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-slider>
+                                        </template>
+                                        <span>Number of minutes that the defence will take place</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <p>Minimum percentage to register for defense</p>
-                                    <v-slider
-                                            v-model="charon.defense_threshold"
-                                            color="purple"
-                                            label="Threshold"
-                                            min="0"
-                                            max="100"
-                                            thumb-label
-                                    ></v-slider>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-slider
+                                                    v-model="charon.defense_threshold"
+                                                    color="purple"
+                                                    label="Threshold"
+                                                    min="0"
+                                                    max="100"
+                                                    thumb-label
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                            ></v-slider>
+                                        </template>
+                                        <span>Minimum percentage that a student can register for defense with</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
-                                    <v-container class="px-0" fluid>
-                                        <v-switch
-                                                v-model="charon.choose_teacher"
-                                                label="Student can choose a teacher"
-                                        ></v-switch>
-                                    </v-container>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-container class="px-0" fluid>
+                                                <v-switch
+                                                        v-model="charon.choose_teacher"
+                                                        label="Student can choose a teacher"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                ></v-switch>
+                                            </v-container>
+                                        </template>
+                                        <span>Opens a possibility for student to choose a teacher</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="8" lg="8">
                                     <label>Labs</label>
-                                    <p>Labs where this Charon can be defended</p>
-                                    <multiselect v-model="charon.charonDefenseLabs" :options="filtered_labs"
-                                                 :multiple="true"
-                                                 label="name"
-                                                 :close-on-select="false" placeholder="Select labs" trackBy="id"
-                                                 :clear-on-select="true" class="multiselect__width">
-                                    </multiselect>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <multiselect v-model="charon.charonDefenseLabs" :options="filtered_labs"
+                                                         :multiple="true"
+                                                         label="name"
+                                                         v-bind="attrs"
+                                                         v-on="on"
+                                                         :close-on-select="false" placeholder="Select labs" trackBy="id"
+                                                         :clear-on-select="true" class="multiselect__width">
+                                            </multiselect>
+                                        </template>
+                                        <span>Labs where this Charon can be defended</span>
+                                    </v-tooltip>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="2" lg="2">
