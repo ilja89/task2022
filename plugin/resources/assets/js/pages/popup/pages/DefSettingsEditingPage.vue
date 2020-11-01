@@ -206,6 +206,7 @@
 
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-switch
+                                            dense
                                             v-model="charon.choose_teacher"
                                             label="Student can choose a teacher"
                                     ></v-switch>
