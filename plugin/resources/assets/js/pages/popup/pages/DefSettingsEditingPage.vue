@@ -11,7 +11,6 @@
                     <v-form>
                         <v-container>
                             <v-row>
-
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -45,7 +44,9 @@
                                         <span>Additional parameters used for testing. See here for list of available options. Can be left empty.</span>
                                     </v-tooltip>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -80,7 +81,9 @@
                                         <span>Time after which docker gets killed. Default is 120 seconds.</span>
                                     </v-tooltip>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -110,7 +113,9 @@
                                         <span>Where tester knows to look for student. Can be left empty.</span>
                                     </v-tooltip>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -140,7 +145,9 @@
                                         <span>Deadline when given Charon will no longer be available for student to register to</span>
                                     </v-tooltip>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -176,7 +183,9 @@
                                         <span>Number of minutes that the defence will take place</span>
                                     </v-tooltip>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="6" md="6" lg="6">
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
@@ -201,7 +210,9 @@
                                             label="Student can choose a teacher"
                                     ></v-switch>
                                 </v-col>
+                            </v-row>
 
+                            <v-row>
                                 <v-col cols="12" sm="12" md="8" lg="8">
                                     <label>Labs</label>
                                     <v-tooltip top>
