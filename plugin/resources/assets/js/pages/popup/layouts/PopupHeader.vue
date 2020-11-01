@@ -98,6 +98,7 @@
         },
         methods: {
             onStudentChanged(student) {
+                console.log(student)
                 if (student !== null) {
                     const courseId = parseInt(this.courseId);
                     const studentId = parseInt(this.student.id);
@@ -121,8 +122,6 @@
             },
 
             onStudentSelected(student) {
-                console.log(student)
-                console.log(this.entries)
                 this.onStudentChanged(this.entries.find(x => x['fullname'] === student))
             },
         },
