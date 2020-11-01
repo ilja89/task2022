@@ -64,7 +64,7 @@
 
             Charon.all(this.course.id, response => {
                 this.formatCharonDateTimes(response, done => {
-                    this.charons = done
+                    this.$store.state.charons = done
                 })
             })
         },
