@@ -208,22 +208,22 @@ class GitCallbackController extends Controller
             }
 
             if ($charon != null) {
-                if (isset($charon['tester_extra'])) {
+                if ($charon['tester_extra'] != null) {
                     $params['dockerExtra'] = $charon['tester_extra'];
                 }
-                if (isset($charon['docker_test_root'])) {
+                if ($charon['docker_test_root'] != null) {
                     $params['dockerTestRoot'] = $charon['docker_test_root'];
                 }
-                if (isset($charon['docker_content_root'])) {
+                if ($charon['docker_content_root'] != null) {
                     $params['dockerContentRoot'] = $charon['docker_content_root'];
                 }
-                if (isset($charon['docker_timeout'])) {
+                if ($charon['docker_timeout'] != null) {
                     $params['dockerTimeout'] = $charon['docker_timeout'];
                 }
-                if (isset($charon['tester_type_code'])) {
+                if ($charon['tester_type_code'] != null) {
                     $params['testingPlatform'] = $charon->testerType->name;
                 }
-                if (isset($charon['system_extra'])) {
+                if ($charon['system_extra'] != null) {
                     $params['systemExtra'] = explode(',', $charon['system_extra']);
                 }
             }
