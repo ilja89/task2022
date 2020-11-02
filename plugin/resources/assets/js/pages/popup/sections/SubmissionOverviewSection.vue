@@ -33,10 +33,14 @@
                                 {{ getGrademapByResult(result).name }}
                                 <span
                                         class="grademax"
-                                >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
+                                >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p </span>
                             </div>
 
+
+
                             <div class="result-input-container">
+
+
                                 <input
                                         class="input has-text-centered"
                                         :class="{ 'is-danger': resultHasError(result) | result.calculated_result > getGrademapByResult(result).grade_item.grademax }"
@@ -49,7 +53,12 @@
                                 />
                                 <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
                                 </v-btn>
+                                <div class="resultpercent">
+                                    {{ getResultPercent(result) | withoutTrailingZeroes }}%
+                                </div>
                             </div>
+
+
                         </div>
                     </div>
 
@@ -206,6 +215,10 @@
                 result.calculated_result = parseFloat(
                     this.getGrademapByResult(result).grade_item.grademax
                 );
+            },
+
+            getResultPercent(result) {
+                return (100 * result.calculated_result / this.getGrademapByResult(result).grade_item.grademax).toFixed(2);
             },
 
             resultHasError(result) {
