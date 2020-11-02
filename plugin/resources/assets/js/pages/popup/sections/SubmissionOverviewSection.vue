@@ -35,12 +35,7 @@
                                         class="grademax"
                                 >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p </span>
                             </div>
-
-
-
                             <div class="result-input-container">
-
-
                                 <input
                                         class="input has-text-centered"
                                         :class="{ 'is-danger': resultHasError(result) | result.calculated_result > getGrademapByResult(result).grade_item.grademax }"
@@ -57,8 +52,6 @@
                                     {{ getResultPercent(result) | withoutTrailingZeroes }}%
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
