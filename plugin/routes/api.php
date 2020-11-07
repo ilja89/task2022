@@ -29,8 +29,6 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}/files', 'FilesController@index');
-    Route::middleware('auth.submission.managing.require')
-        ->get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.charon.managing.require')

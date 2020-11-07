@@ -55,20 +55,6 @@ class SubmissionsController extends Controller
     }
 
     /**
-     * Get all outputs for given submission. Also includes outputs for
-     * results.
-     *
-     * @param Submission $submission
-     *
-     * @return array
-     */
-    public function getOutputs(Submission $submission)
-    {
-        $outputs = $this->submissionsRepository->findSubmissionOutputs($submission);
-        return $outputs;
-    }
-
-    /**
      * Find a submission by its id.
      *
      * @param Submission $submission
@@ -87,7 +73,7 @@ class SubmissionsController extends Controller
         $submission->max_result = $charon->category->getGradeItem()->grademax;
         $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
         $submission->files = $this->filesController->index($submission);
-        $submission->outputs = $this->getOutputs($submission);
+        $submission->outputs = $this->submissionsRepository->findSubmissionOutputs($submission);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }
