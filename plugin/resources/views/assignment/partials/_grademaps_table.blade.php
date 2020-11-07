@@ -20,7 +20,7 @@
                     /
                     {{ floatval($charon->maxGrade) }}p
                     |
-                    {{ $charon->userGrade ? floatval($charon->userGrade->finalgrade / $charon->maxGrade * 100) : '0' }}%
+                    {{ $charon->userGrade && $charon->maxGrade != 0 ? floatval($charon->userGrade->finalgrade / $charon->maxGrade * 100) : '0' }}%
                 </td>
             </tr>
             </tfoot>
@@ -34,7 +34,7 @@
                         /
                         {{ floatval($grademap->gradeItem->grademax) }}p
                         |
-                        {{ $charon->userGrade ? floatval($grademap->userGrade->finalgrade / $grademap->gradeItem->grademax * 100) : '0' }}%
+                        {{ $charon->userGrade && $grademap->gradeItem->grademax != 0 ? floatval($grademap->userGrade->finalgrade / $grademap->gradeItem->grademax * 100) : '0' }}%
                     </td>
                 </tr>
             @endforeach
