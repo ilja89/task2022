@@ -27,34 +27,38 @@ class SubmissionsController extends Controller
     private $submissionsRepository;
     /** @var CharonRepository */
     private $charonRepository;
+    /** @var FilesController */
+    private $filesController;
 
     /**
      * SubmissionsController constructor.
      *
-     * @param  GradebookService $gradebookService
      * @param Request $request
      * @param SubmissionService $submissionService
      * @param SubmissionsRepository $submissionsRepository
      * @param CharonRepository $charonRepository
+     * @param FilesController $filesController
      */
     public function __construct(
-        GradebookService $gradebookService,
         Request $request,
         SubmissionService $submissionService,
         SubmissionsRepository $submissionsRepository,
-        CharonRepository $charonRepository
-    ) {
+        CharonRepository $charonRepository,
+        FilesController $filesController
+    )
+    {
         parent::__construct($request);
-        $this->submissionService     = $submissionService;
+        $this->submissionService = $submissionService;
         $this->submissionsRepository = $submissionsRepository;
         $this->charonRepository = $charonRepository;
+        $this->filesController = $filesController;
     }
 
     /**
      * Get all outputs for given submission. Also includes outputs for
      * results.
      *
-     * @param  Submission $submission
+     * @param Submission $submission
      *
      * @return array
      */
@@ -80,8 +84,10 @@ class SubmissionsController extends Controller
         );
 
         $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
-        $submission->max_result   = $charon->category->getGradeItem()->grademax;
+        $submission->max_result = $charon->category->getGradeItem()->grademax;
         $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
+        $submission->files = $this->filesController->index($submission);
+        $submission->outputs = $this->getOutputs($submission);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }
