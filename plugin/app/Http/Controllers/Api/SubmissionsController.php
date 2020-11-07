@@ -64,7 +64,7 @@ class SubmissionsController extends Controller
     public function findById(Submission $submission)
     {
         $charon = $this->charonRepository->findBySubmission($submission->id);
-        $submission = $this->submissionsRepository->findByIdWithoutOutputs(
+        $submission = $this->submissionsRepository->findById(
             $submission->id,
             $charon->getGradeTypeCodes()
         );
@@ -73,7 +73,6 @@ class SubmissionsController extends Controller
         $submission->max_result = $charon->category->getGradeItem()->grademax;
         $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
         $submission->files = $this->filesController->index($submission);
-        $submission->outputs = $this->submissionsRepository->findSubmissionOutputs($submission);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }
