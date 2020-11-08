@@ -141,6 +141,7 @@ class GitCallbackController extends Controller
             if ($charon->grouping_id == null) {
                 Log::info('This charon is not a group work or is broken. Forwarding to tester.');
                 $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
+                continue;
             }
 
             Log::debug('Charon has grouping id ' . $charon->grouping_id);
@@ -149,6 +150,7 @@ class GitCallbackController extends Controller
             if (empty($usernames)) {
                 Log::warning('Unable to find users in group. Forwarding to tester.');
                 $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
+                continue;
             }
 
             foreach ($usernames as $username) {
