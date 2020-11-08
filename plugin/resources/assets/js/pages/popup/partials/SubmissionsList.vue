@@ -34,16 +34,6 @@
 
         components: {SubmissionPartial},
 
-        props: {
-            active: {required: true}
-        },
-
-        watch: {
-            active() {
-                this.refreshSubmissions();
-            }
-        },
-
         data() {
             return {
                 canLoadMore: true,
@@ -91,6 +81,16 @@
                 } else {
                     this.canLoadMore = false
                 }
+            },
+        },
+
+        watch: {
+            charon() {
+                this.refreshSubmissions()
+            },
+
+            student() {
+                this.refreshSubmissions()
             },
         },
 
