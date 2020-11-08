@@ -343,16 +343,14 @@ class CharonRepository
             $charon->defense_deadline = Carbon::parse($updated['defense_deadline'])->format('Y-m-d H:i:s');
         }
 
-        $nullable_fields = [
+        $fields = [
             'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
             'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
         ];
 
-        foreach ($nullable_fields as $key) {
+        foreach ($fields as $key) {
             if (isset($updated[$key])) {
                 $charon[$key] = $updated[$key];
-            } else {
-                $charon[$key] = null;
             }
         }
 
