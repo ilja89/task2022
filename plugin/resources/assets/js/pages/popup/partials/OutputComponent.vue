@@ -39,9 +39,6 @@
         },
 
         computed: {
-            ...mapState([
-                'submission',
-            ]),
 
             activeOutput() {
                 if (this.activeOutputSlug === null) {
