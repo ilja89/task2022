@@ -111,7 +111,7 @@ class GitCallbackService
             foreach ($modifiedFiles as $file) {
                 $file = str_replace('\\', '/', $file);
                 $folder = str_replace('\\', '/', $charon->project_folder);
-                if (substr($file, 0, strlen($folder)) === $folder && in_array($charon, $charons)) {
+                if (substr($file, 0, strlen($folder)) === $folder && !in_array($charon, $charons)) {
                     array_push($charons, $charon);
                     break;
                 }
