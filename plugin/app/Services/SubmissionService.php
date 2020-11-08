@@ -265,16 +265,16 @@ class SubmissionService
                 $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
             }
 
-            return $this->gradebookService->calculateResultFromFormula(
+            return round($this->gradebookService->calculateResultFromFormula(
                 $calculation, $params, $charon->course
-            );
+            ), 3);
         } else {
             $sum = 0;
             foreach ($submission->results as $result) {
                 $sum += $result->calculated_result;
             }
 
-            return $sum;
+            return round($sum, 3);
         }
     }
 

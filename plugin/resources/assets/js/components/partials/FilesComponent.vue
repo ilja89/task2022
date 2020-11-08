@@ -34,16 +34,15 @@
 
 <script>
 
-    import { File } from '../../api'
     import FileTree from './FileTree'
 
     export default {
 
-        components: { FileTree },
+        components: {FileTree},
 
         props: {
-            submission: { required: true },
-            testerType: { required: true },
+            submission: {required: true},
+            testerType: {required: true},
             isRound: {
                 type: Boolean,
                 default: true,
@@ -89,21 +88,21 @@
 
         methods: {
             getFiles() {
-                File.findBySubmission(this.submission.id, files => {
 
-                    this.files = files
-                    this.formattedFiles = []
 
-                    this.files.forEach(file => {
-                        this.addFormattedFile(file)
-                    })
+                this.files = this.submission.files
+                this.formattedFiles = []
 
-                    if (files.length > 0) {
-                        this.activeFileId = files[0].id
-
-                        this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
-                    }
+                this.files.forEach(file => {
+                    this.addFormattedFile(file)
                 })
+
+                if (this.files.length > 0) {
+                    this.activeFileId = this.files[0].id
+
+                    this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
+                }
+
             },
 
             handleFileClicked(file) {
@@ -153,7 +152,7 @@
 
                 if (typeof file.contents === 'string') {
                     // Is file
-                    return { ...file }
+                    return {...file}
                 }
 
                 if (file.contents.length === 1) {
@@ -170,7 +169,7 @@
                             contents: child.contents,
                         }
                     } else {
-                        newFile = { ...file }
+                        newFile = {...file}
                     }
 
                     return newFile
@@ -206,7 +205,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding-top:    1.25rem;
+            padding-top: 1.25rem;
             padding-bottom: 1.25rem;
 
             background: darken(#fafafa, 5%);

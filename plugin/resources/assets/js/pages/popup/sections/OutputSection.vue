@@ -5,10 +5,10 @@
             class="output-section"
     >
         <charon-tabs
-            v-if="submission"
-            class="card popup-tabs"
-            id="tabs"
-            :sticky="stickyTabs"
+                v-if="submission"
+                class="card popup-tabs"
+                id="tabs"
+                :sticky="stickyTabs"
         >
 
             <charon-tab name="Code" :selected="true">
@@ -31,7 +31,7 @@
 
             <charon-tab name="Outputs">
 
-                <output-component :grademaps="charon ? charon.grademaps : []"/>
+                <output-component :submission="submission"/>
 
             </charon-tab>
 
@@ -41,14 +41,14 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { CharonTabs, CharonTab, FilesComponent } from '../../../components/partials/index';
-    import { PopupSection } from '../layouts/index';
-    import { OutputComponent } from '../partials/index';
+    import {mapState} from 'vuex'
+    import {CharonTabs, CharonTab, FilesComponent} from '../../../components/partials/index';
+    import {PopupSection} from '../layouts/index';
+    import {OutputComponent} from '../partials/index';
 
     export default {
 
-        components: { PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent },
+        components: {PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent},
 
         data() {
             return {
