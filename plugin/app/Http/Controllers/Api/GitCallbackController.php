@@ -121,7 +121,7 @@ class GitCallbackController extends Controller
         $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
 
         if (empty($charons)) {
-            Log::warning('This charon is not a group work. Forwarding to tester.');
+            Log::warning('No matching Charons were found. Forwarding to tester.');
 
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
 
@@ -131,24 +131,24 @@ class GitCallbackController extends Controller
         foreach ($charons as $charon) {
             Log::debug("Found charon with id: " . $charon->id);
 
-            if ($charon['tester_extra'] != null) {
-                $params['dockerExtra'] = $charon['tester_extra'];
-            }
-            if ($charon['docker_test_root'] != null) {
-                $params['dockerTestRoot'] = $charon['docker_test_root'];
-            }
-            if ($charon['docker_content_root'] != null) {
-                $params['dockerContentRoot'] = $charon['docker_content_root'];
-            }
-            if ($charon['docker_timeout'] != null) {
-                $params['dockerTimeout'] = $charon['docker_timeout'];
-            }
-            if ($charon['tester_type_code'] != null) {
-                $params['testingPlatform'] = $charon->testerType->name;
-            }
-            if ($charon['system_extra'] != null) {
-                $params['systemExtra'] = explode(',', $charon['system_extra']);
-            }
+//            if ($charon['tester_extra'] != null) {
+            $params['dockerExtra'] = $charon['tester_extra'];
+//            }
+//            if ($charon['docker_test_root'] != null) {
+            $params['dockerTestRoot'] = $charon['docker_test_root'];
+//            }
+//            if ($charon['docker_content_root'] != null) {
+            $params['dockerContentRoot'] = $charon['docker_content_root'];
+//            }
+//            if ($charon['docker_timeout'] != null) {
+            $params['dockerTimeout'] = $charon['docker_timeout'];
+//            }
+//            if ($charon['tester_type_code'] != null) {
+            $params['testingPlatform'] = $charon->testerType->name;
+//            }
+//            if ($charon['system_extra'] != null) {
+            $params['systemExtra'] = explode(',', $charon['system_extra']);
+//            }
 
             if ($charon->grouping_id == null) {
                 Log::info('This charon is not a group work or is broken. Forwarding to tester.');
