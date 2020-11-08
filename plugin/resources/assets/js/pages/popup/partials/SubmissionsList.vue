@@ -84,6 +84,12 @@
             },
         },
 
+        watch: {
+            student() {
+                this.refreshSubmissions()
+            },
+        },
+
         created() {
             this.refreshSubmissions()
             VueEvent.$on('refresh-page', this.refreshSubmissions)
