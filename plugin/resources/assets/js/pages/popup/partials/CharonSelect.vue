@@ -36,7 +36,9 @@
                 },
 
                 set(value) {
-                    this.active = value;
+                    if (this.active != null) {
+                        this.active["updated"] = value;
+                    }
                     this.charons
                         .filter(charon => charon.id === value)
                         .forEach(charon => this.updateCharon({charon}))
