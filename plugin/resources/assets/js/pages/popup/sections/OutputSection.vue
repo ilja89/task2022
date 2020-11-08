@@ -65,37 +65,6 @@
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             },
-        },
-
-        watch: {
-            submission() {
-                this.registerScrollListener()
-            },
-        },
-
-        methods: {
-            registerScrollListener() {
-                document.getElementById('page-right').removeEventListener('scroll', this.scrollHandler)
-                document.getElementById('page-right').addEventListener('scroll', this.scrollHandler)
-            },
-
-            scrollHandler(e) {
-                if (!document.getElementById('page-right') || !document.getElementById('tabs')) return
-
-                if (this.stickyTabs) {
-                    if (e.target.scrollTop + document.getElementById('page-right').offsetTop < document.getElementById('tabs').offsetTop) {
-                        this.stickyTabs = false
-                    }
-                } else {
-                    if (e.target.scrollTop + document.getElementById('page-right').offsetTop > document.getElementById('tabs').offsetTop) {
-                        this.stickyTabs = true
-                    }
-                }
-            },
-        },
-
-        created() {
-            this.registerScrollListener()
-        },
+        }
     }
 </script>
