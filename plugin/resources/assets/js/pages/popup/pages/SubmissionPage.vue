@@ -85,9 +85,11 @@
                         const courseId = this.courseId;
 
                         this.fetchStudent({studentId, courseId});
+                        this.$forceUpdate();
                     }
                 );
             },
+
             guardFromNavigation(state) {
                 this.guard_navigation = state;
             }

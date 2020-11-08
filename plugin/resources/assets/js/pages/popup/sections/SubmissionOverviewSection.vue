@@ -229,6 +229,7 @@
                     }
                 );
             },
+
             updatePointsState() {
                 if (this.points_changed !== true) {
                     this.points_changed = true;
