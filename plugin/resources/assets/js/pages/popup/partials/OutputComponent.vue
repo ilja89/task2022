@@ -76,25 +76,19 @@
             },
 
             getOutputs() {
-
                 this.outputs = []
 
-                if (this.hasOutput(submission, 'stdout')) {
-                    this.outputs.push({
-                        slug: 'submission__stdout',
-                        title: 'Submission stdout',
-                        content: this.submission['stdout']
-                    })
-                }
+                this.outputs.push({
+                    slug: 'submission__stdout',
+                    title: 'Submission stdout',
+                    content: this.submission['stdout']
+                })
 
-                if (this.hasOutput(submission, 'stderr')) {
-                    this.outputs.push({
-                        slug: 'submission__stderr',
-                        title: 'Submission stderr',
-                        content: this.submission['stderr']
-                    })
-                }
-
+                this.outputs.push({
+                    slug: 'submission__stderr',
+                    title: 'Submission stderr',
+                    content: this.submission['stderr']
+                })
             },
         },
     }
