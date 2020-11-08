@@ -118,6 +118,8 @@ class GitCallbackController extends Controller
         $params['testingPlatform'] = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
 
         $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->get('commits'));
+        Log::debug("Found modified files: ", [$modifiedFiles]);
+
         $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
 
         if (empty($charons)) {
