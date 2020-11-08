@@ -106,17 +106,18 @@ class GitCallbackService
             return [];
         }
 
-        return Charon::where([['course', $courseId]])
-            ->filter(function ($charon) use ($modifiedFiles) {
-                foreach ($modifiedFiles as $file) {
-                    $file = str_replace('\\', '/', $file);
-                    $folder = str_replace('\\', '/', $charon->project_folder);
-                    if (substr($file, 0, strlen($folder)) === $folder) {
-                        return true;
-                    }
+        $charons = [];
+        foreach (Charon::where([['course', $courseId]])->get() as $charon) {
+            foreach ($modifiedFiles as $file) {
+                $file = str_replace('\\', '/', $file);
+                $folder = str_replace('\\', '/', $charon->project_folder);
+                if (substr($file, 0, strlen($folder)) === $folder && in_array($charon, $charons)) {
+                    array_push($charons, $charon);
+                    break;
                 }
-                return false;
-            })->all();
+            }
+        }
+        return $charons;
     }
 
     /**
