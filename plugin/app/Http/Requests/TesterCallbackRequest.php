@@ -41,7 +41,8 @@ class TesterCallbackRequest extends FormRequest
     {
         if ($validator->fails()) {
             Log::notice('Tester NEW callback with incorrect parameters.', [
-                'url' => $this->fullUrl()
+                'url' => $this->fullUrl(),
+                'body' => $this->json()
             ]);
         }
     }
