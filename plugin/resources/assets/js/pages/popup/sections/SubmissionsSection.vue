@@ -1,23 +1,29 @@
 <template>
     <popup-section
-        title="Pick a task"
-        subtitle="Here are the submissions from one student for the given task."
+            title="Pick a task"
+            subtitle="Here are the submissions from one student for the given task."
     >
 
         <template slot="header-right">
-            <charon-select/>
+            <charon-select :active="active"/>
         </template>
 
-        <submissions-list/>
+        <submissions-list :active="active"/>
 
     </popup-section>
 </template>
 
 <script>
-    import { PopupSection } from '../layouts';
-    import { CharonSelect, SubmissionsList } from '../partials';
+    import {PopupSection} from '../layouts';
+    import {CharonSelect, SubmissionsList} from '../partials';
 
     export default {
-        components: { PopupSection, CharonSelect, SubmissionsList },
+        components: {PopupSection, CharonSelect, SubmissionsList},
+
+        data() {
+            return {
+                active: Object
+            }
+        }
     }
 </script>

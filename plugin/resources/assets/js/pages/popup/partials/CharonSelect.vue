@@ -1,20 +1,24 @@
 <template>
     <popup-select
-        name="charon"
-        :options="charons"
-        value-key="id"
-        placeholder-key="name"
-        size="medium"
-        v-model="activeCharonId"
+            name="charon"
+            :options="charons"
+            value-key="id"
+            placeholder-key="name"
+            size="medium"
+            v-model="activeCharonId"
     />
 </template>
 
 <script>
-    import { mapGetters, mapState, mapActions } from 'vuex'
+    import {mapGetters, mapState, mapActions} from 'vuex'
     import PopupSelect from './PopupSelect'
 
     export default {
-        components: { PopupSelect },
+        components: {PopupSelect},
+
+        props: {
+            active: {required: false}
+        },
 
         computed: {
             ...mapGetters([
@@ -30,12 +34,14 @@
                 get() {
                     return this.charon ? this.charon.id : null
                 },
+
                 set(value) {
+                    this.active = value;
                     this.charons
                         .filter(charon => charon.id === value)
-                        .forEach(charon => this.updateCharon({ charon }))
+                        .forEach(charon => this.updateCharon({charon}))
 
-                    this.updateSubmission({ submission: null })
+                    this.updateSubmission({submission: null})
                 },
             },
         },
