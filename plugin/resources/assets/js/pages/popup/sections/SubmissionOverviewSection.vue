@@ -1,5 +1,5 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p
@@ -33,9 +33,8 @@
                                 {{ getGrademapByResult(result).name }}
                                 <span
                                         class="grademax"
-                                >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p</span>
+                                >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p </span>
                             </div>
-
                             <div class="result-input-container">
                                 <input
                                         class="input has-text-centered"
@@ -49,6 +48,9 @@
                                 />
                                 <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
                                 </v-btn>
+                                <div class="resultpercent">
+                                    {{ getResultPercent(result) | withoutTrailingZeroes }}%
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -208,6 +210,10 @@
                 );
             },
 
+            getResultPercent(result) {
+                return (100 * result.calculated_result / this.getGrademapByResult(result).grade_item.grademax).toFixed(2);
+            },
+
             resultHasError(result) {
                 return !!this.errors[result.id];
             },
@@ -223,6 +229,7 @@
                     }
                 );
             },
+
             updatePointsState() {
                 if (this.points_changed !== true) {
                     this.points_changed = true;

@@ -109,7 +109,7 @@ class GitCallbackController extends Controller
 
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
 
-            return "SUCCESS";
+            return "NO COURSE";
         }
 
         Log::debug('Found course: "' . $course->shortname . '" with ID ' . $course->id);
@@ -118,61 +118,44 @@ class GitCallbackController extends Controller
         $params['testingPlatform'] = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
 
         $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->get('commits'));
+        Log::debug("Found modified files: ", [$modifiedFiles]);
+
         $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
 
         if (empty($charons)) {
-            Log::warning('This charon is not a group work. Forwarding to tester.');
-
+            Log::warning('No matching Charons were found. Forwarding to tester.');
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-
-            return "SUCCESS";
+            return "NO MATCHING CHARONS";
         }
 
         foreach ($charons as $charon) {
             Log::debug("Found charon with id: " . $charon->id);
 
-            if ($charon['tester_extra'] != null) {
-                $params['dockerExtra'] = $charon['tester_extra'];
-            }
-            if ($charon['docker_test_root'] != null) {
-                $params['dockerTestRoot'] = $charon['docker_test_root'];
-            }
-            if ($charon['docker_content_root'] != null) {
-                $params['dockerContentRoot'] = $charon['docker_content_root'];
-            }
-            if ($charon['docker_timeout'] != null) {
-                $params['dockerTimeout'] = $charon['docker_timeout'];
-            }
-            if ($charon['tester_type_code'] != null) {
-                $params['testingPlatform'] = $charon->testerType->name;
-            }
-            if ($charon['system_extra'] != null) {
-                $params['systemExtra'] = explode(',', $charon['system_extra']);
-            }
+            $params['slugs'] = [$charon->project_folder];
+            $params['testingPlatform'] = $charon->testerType->name;
+            $params['systemExtra'] = explode(',', $charon['system_extra']);
+            $params['dockerExtra'] = $charon['tester_extra'];
+            $params['dockerTestRoot'] = $charon['docker_test_root'];
+            $params['dockerContentRoot'] = $charon['docker_content_root'];
+            $params['dockerTimeout'] = $charon['docker_timeout'];
 
             if ($charon->grouping_id == null) {
                 Log::info('This charon is not a group work or is broken. Forwarding to tester.');
-
                 $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-
-                return "SUCCESS";
+                continue;
             }
 
             Log::debug('Charon has grouping id ' . $charon->grouping_id);
-
             $usernames = $this->gitCallbackService->getGroupUsers($charon->grouping_id, $initialUser);
 
             if (empty($usernames)) {
                 Log::warning('Unable to find users in group. Forwarding to tester.');
-
                 $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-
-                return "SUCCESS";
+                continue;
             }
 
-            foreach ($usernames as $username) {
-                $this->gitCallbackService->saveCallbackForUser($username, $fullUrl, $repo, $callbackUrl, $params);
-            }
+            $params['returnExtra'] = ['usernames' => $usernames];
+            $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
         }
 
         return "SUCCESS";

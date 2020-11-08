@@ -27,41 +27,31 @@ class SubmissionsController extends Controller
     private $submissionsRepository;
     /** @var CharonRepository */
     private $charonRepository;
+    /** @var FilesController */
+    private $filesController;
 
     /**
      * SubmissionsController constructor.
      *
-     * @param  GradebookService $gradebookService
      * @param Request $request
      * @param SubmissionService $submissionService
      * @param SubmissionsRepository $submissionsRepository
      * @param CharonRepository $charonRepository
+     * @param FilesController $filesController
      */
     public function __construct(
-        GradebookService $gradebookService,
         Request $request,
         SubmissionService $submissionService,
         SubmissionsRepository $submissionsRepository,
-        CharonRepository $charonRepository
-    ) {
+        CharonRepository $charonRepository,
+        FilesController $filesController
+    )
+    {
         parent::__construct($request);
-        $this->submissionService     = $submissionService;
+        $this->submissionService = $submissionService;
         $this->submissionsRepository = $submissionsRepository;
         $this->charonRepository = $charonRepository;
-    }
-
-    /**
-     * Get all outputs for given submission. Also includes outputs for
-     * results.
-     *
-     * @param  Submission $submission
-     *
-     * @return array
-     */
-    public function getOutputs(Submission $submission)
-    {
-        $outputs = $this->submissionsRepository->findSubmissionOutputs($submission);
-        return $outputs;
+        $this->filesController = $filesController;
     }
 
     /**
@@ -74,14 +64,15 @@ class SubmissionsController extends Controller
     public function findById(Submission $submission)
     {
         $charon = $this->charonRepository->findBySubmission($submission->id);
-        $submission = $this->submissionsRepository->findByIdWithoutOutputs(
+        $submission = $this->submissionsRepository->findById(
             $submission->id,
             $charon->getGradeTypeCodes()
         );
 
         $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
-        $submission->max_result   = $charon->category->getGradeItem()->grademax;
+        $submission->max_result = $charon->category->getGradeItem()->grademax;
         $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
+        $submission->files = $this->filesController->index($submission);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }

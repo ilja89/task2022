@@ -1,14 +1,12 @@
 <template>
     <div>
-
         <page-title :student="student"></page-title>
 
         <submission-overview-section/>
 
-        <comments-section/>
-
         <output-section/>
 
+        <comments-section/>
     </div>
 </template>
 
@@ -29,14 +27,13 @@
         },
 
         computed: {
-            ...mapState(["student", "charon"]),
+            ...mapState(["student", "charon", "charons"]),
 
             ...mapGetters(["courseId"])
         },
 
         created() {
             this.getSubmission();
-            window.VueEvent.$on("refresh-page", this.getSubmission);
 
             window.VueEvent.$on("submission-was-saved", _ => {
                 this.getSubmission;
@@ -45,10 +42,6 @@
             window.VueEvent.$on("submission-being-edited", _ =>
                 this.guardFromNavigation(true)
             );
-        },
-
-        beforeDestroy() {
-            VueEvent.$off("refresh-page", this.getSubmission);
         },
 
         beforeRouteLeave(to, from, next) {
@@ -82,22 +75,21 @@
                         this.updateSubmission({submission});
                         const charonId = submission.charon_id;
 
-                        Charon.all(this.courseId, charons => {
-                            charons.forEach(charon => {
-                                if (charon.id === charonId) {
-                                    this.updateCharon({charon});
-                                }
-                            });
+                        this.charons.forEach(charon => {
+                            if (charon.id === charonId) {
+                                this.updateCharon({charon});
+                            }
                         });
-
 
                         const studentId = submission.user_id;
                         const courseId = this.courseId;
 
                         this.fetchStudent({studentId, courseId});
+                        this.$forceUpdate();
                     }
                 );
             },
+
             guardFromNavigation(state) {
                 this.guard_navigation = state;
             }

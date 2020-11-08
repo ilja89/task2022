@@ -73,14 +73,17 @@ class GitCallbackService
      * @param array $commits
      * @return array
      */
-    public function getModifiedFiles(array $commits) {
+    public function getModifiedFiles(array $commits)
+    {
         if (empty($commits)) {
             return [];
         }
-
         return array_reduce($commits, function ($result, $commit) {
             foreach (self::COMMIT_ACTION_TYPES as $type) {
                 if (isset($commit[$type]) && is_array($commit[$type])) {
+                    if ($result == null) {
+                        $result = [];
+                    }
                     $result = array_merge($result, $commit[$type]);
                 }
             }
@@ -97,22 +100,24 @@ class GitCallbackService
      * @param int $courseId
      * @return Charon[]
      */
-    public function findCharons(array $modifiedFiles, int $courseId) {
+    public function findCharons(array $modifiedFiles, int $courseId)
+    {
         if (empty($modifiedFiles)) {
             return [];
         }
 
-        return Charon::where([['course', $courseId]])
-            ->filter(function ($charon) use ($modifiedFiles) {
-                foreach ($modifiedFiles as $file) {
-                    $file = str_replace('\\', '/', $file);
-                    $folder = str_replace('\\', '/', $charon->project_folder);
-                    if (substr($file, 0, strlen($folder)) === $folder) {
-                        return true;
-                    }
+        $charons = [];
+        foreach (Charon::where([['course', $courseId]])->get() as $charon) {
+            foreach ($modifiedFiles as $file) {
+                $file = str_replace('\\', '/', $file);
+                $folder = str_replace('\\', '/', $charon->project_folder);
+                if (substr($file, 0, strlen($folder)) === $folder && !in_array($charon, $charons)) {
+                    array_push($charons, $charon);
+                    break;
                 }
-                return false;
-            })->all();
+            }
+        }
+        return $charons;
     }
 
     /**
@@ -122,7 +127,8 @@ class GitCallbackService
      * @param string $initialUser
      * @return array
      */
-    public function getGroupUsers(int $groupId, string $initialUser) {
+    public function getGroupUsers(int $groupId, string $initialUser)
+    {
         $grouping = Grouping::where('id', $groupId)->first();
         if (!$grouping) {
             Log::error('Unable to find group by ID ' . $groupId);
@@ -180,7 +186,8 @@ class GitCallbackService
         string $repositoryUrl,
         string $callbackUrl,
         array $params
-    ) {
+    )
+    {
         $username = str_replace(self::DEFAULT_EMAIL_SUFFIX, '', $username);
 
         Log::info('Submitting work as user "' . $username . '"');
@@ -225,7 +232,7 @@ class GitCallbackService
      * Check the given Git callback. If the secret token isn't correct
      * throw an exception. Also set the response received flag to true.
      *
-     * @param  GitCallback $gitCallback
+     * @param GitCallback $gitCallback
      *
      * @throws IncorrectSecretTokenException
      */
