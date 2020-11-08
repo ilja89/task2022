@@ -22,7 +22,7 @@ class HttpCommunicationService
     /**
      * HttpCommunicator constructor.
      *
-     * @param  SettingsService  $settingsService
+     * @param SettingsService $settingsService
      */
     public function __construct(SettingsService $settingsService)
     {
@@ -68,7 +68,7 @@ class HttpCommunicationService
         } catch (RequestException $e) {
             Log::error(
                 'Could not send info to tester to url '
-                . $testerUrl . 'with message:', [$e->getMessage()]
+                . $testerUrl . 'with body:', [$e->getResponse()->getBody()]
             );
         }
     }
