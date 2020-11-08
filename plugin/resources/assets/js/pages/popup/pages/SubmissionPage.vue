@@ -34,7 +34,6 @@
 
         created() {
             this.getSubmission();
-            window.VueEvent.$on("refresh-page", this.getSubmission);
 
             window.VueEvent.$on("submission-was-saved", _ => {
                 this.getSubmission;
@@ -43,10 +42,6 @@
             window.VueEvent.$on("submission-being-edited", _ =>
                 this.guardFromNavigation(true)
             );
-        },
-
-        beforeDestroy() {
-            VueEvent.$off("refresh-page", this.getSubmission);
         },
 
         beforeRouteLeave(to, from, next) {
