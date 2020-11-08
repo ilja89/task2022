@@ -146,7 +146,7 @@
         methods: {
             toggle() {
                 this.isOpen = !this.isOpen;
-                if (this.isOpen && this.submissionNames.size === 0) {
+                if (this.isOpen) {
                     Submission.findByUser(this.courseId, this.student.id, this.getStudentConfirmedSubmissions);
                 }
             },
