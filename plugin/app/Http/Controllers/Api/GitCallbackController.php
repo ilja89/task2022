@@ -131,12 +131,13 @@ class GitCallbackController extends Controller
         foreach ($charons as $charon) {
             Log::debug("Found charon with id: " . $charon->id);
 
+            $params['slugs'] = [$charon->project_folder];
+            $params['testingPlatform'] = $charon->testerType->name;
+            $params['systemExtra'] = explode(',', $charon['system_extra']);
             $params['dockerExtra'] = $charon['tester_extra'];
             $params['dockerTestRoot'] = $charon['docker_test_root'];
             $params['dockerContentRoot'] = $charon['docker_content_root'];
             $params['dockerTimeout'] = $charon['docker_timeout'];
-            $params['testingPlatform'] = $charon->testerType->name;
-            $params['systemExtra'] = explode(',', $charon['system_extra']);
 
             if ($charon->grouping_id == null) {
                 Log::info('This charon is not a group work or is broken. Forwarding to tester.');
