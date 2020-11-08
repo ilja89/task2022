@@ -27,12 +27,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
-    // No middleware - used in assignment view too! Should probably use require login tho
-    // TODO: Add middleware to check if user sees their own files or is teacher
-    Route::get('submissions/{submission}/files', 'FilesController@index');
-
     Route::middleware('auth.submission.managing.require')
-        ->get('submissions/{submission}/outputs', 'SubmissionsController@getOutputs');
+        ->get('submissions/{submission}/files', 'FilesController@index');
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
     Route::middleware('auth.charon.managing.require')

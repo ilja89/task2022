@@ -290,10 +290,12 @@
             },
 
             updatePeriodDates(value) {
-                this.$refs.reportTable.columnFilters.gitTimestampForStartDate = moment(value.startDate).format("YYYY-MM-DD HH:mm:ss");
-                this.$refs.reportTable.columnFilters.gitTimestampForEndDate = moment(value.endDate).format("YYYY-MM-DD HH:mm:ss");
+                if (value != null) {
+                    this.$refs.reportTable.columnFilters.gitTimestampForStartDate = moment(value.startDate).format("YYYY-MM-DD HH:mm:ss");
+                    this.$refs.reportTable.columnFilters.gitTimestampForEndDate = moment(value.endDate).format("YYYY-MM-DD HH:mm:ss");
 
-                this.loadItems();
+                    this.loadItems();
+                }
             },
 
             updateParams(newProps) {

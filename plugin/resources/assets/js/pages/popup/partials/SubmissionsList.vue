@@ -58,7 +58,7 @@
         methods: {
 
             refreshSubmissions() {
-                if (this.student == null || this.charon == null) {
+                if (this.student == null || this.charon == null || this._inactive) {
                     return
                 }
 

@@ -4,9 +4,7 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use mysql_xdevapi\Exception;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
@@ -98,8 +96,10 @@ class SubmissionService
 
         $this->saveResults($submission, $submissionRequest['testSuites']);
 
-        $this->saveFiles($submission, $submissionRequest['files']);
-
+        if ($submissionRequest['files'] != null) {
+            Log::debug("Saving files: ", [sizeof($submissionRequest['files'])]);
+            $this->saveFiles($submission, $submissionRequest['files']);
+        }
 
         return $submission;
     }
@@ -265,16 +265,16 @@ class SubmissionService
                 $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
             }
 
-            return $this->gradebookService->calculateResultFromFormula(
+            return round($this->gradebookService->calculateResultFromFormula(
                 $calculation, $params, $charon->course
-            );
+            ), 3);
         } else {
             $sum = 0;
             foreach ($submission->results as $result) {
                 $sum += $result->calculated_result;
             }
 
-            return $sum;
+            return round($sum, 3);
         }
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p
@@ -229,6 +229,7 @@
                     }
                 );
             },
+
             updatePointsState() {
                 if (this.points_changed !== true) {
                     this.points_changed = true;
