@@ -29,17 +29,18 @@ class TesterCommunicationService
      *
      * @param GitCallback $gitCallback
      * @param $testerCallbackUrl
-     * @param $extraParameters
+     * @param $params
      */
-    public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $extraParameters)
+    public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $params)
     {
         $secret_token = $gitCallback->secret_token;
-        $params = [
-            'returnUrl' => $testerCallbackUrl,
-            'returnExtra' => ['token' => $secret_token]
-        ];
 
-        $params = array_merge($extraParameters, $params);
+        $params['returnUrl'] = $testerCallbackUrl;
+        if (isset($params['returnExtra'])) {
+            $params['returnExtra'] = array_merge($params['returnExtra'], ['token' => $secret_token]);
+        } else {
+            $params['returnExtra'] = ['token' => $secret_token];
+        }
 
         $this->httpCommunicationService->postToTester($params);
     }
