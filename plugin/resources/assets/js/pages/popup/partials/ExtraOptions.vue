@@ -73,7 +73,7 @@
                     return;
                 }
 
-                Submission.addNewEmpty(this.charon.id, this.student.id, submission => {
+                Submission.addNewEmpty(this.charon.id, this.student.id, () => {
                     this.menuIsOpen = false;
                     VueEvent.$emit("refresh-page");
                 });

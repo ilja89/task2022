@@ -39,7 +39,7 @@ class SubmissionsRepository
      *
      * @return Submission
      */
-    public function findByIdWithoutOutputs($submissionId, $gradeTypeCodes)
+    public function findById($submissionId, $gradeTypeCodes)
     {
         $fields = [
             'id',
@@ -52,6 +52,8 @@ class SubmissionsRepository
             'user_id',
             'mail',
             'grader_id',
+            'stdout',
+            'stderr'
         ];
 
         /** @var Submission $submission */
@@ -70,34 +72,6 @@ class SubmissionsRepository
             ->first($fields);
 
         return $submission;
-    }
-
-    /**
-     * Find the submission's outputs. Returns them in an array like so:
-     *      [ 'submission' => [ 'stdout' => '...', 'stderr' => '...' ],
-     *        'results' => [ 1 => ['stdout' => '...', 'stderr' => '...' ],
-     *                       2 => ['stdout' => '...', 'stderr' => '...' ] ] ]
-     *
-     * @param Submission $submission
-     *
-     * @return array
-     */
-    public function findSubmissionOutputs(Submission $submission)
-    {
-        $outputs = [];
-        $outputs['submission']['stdout'] = $submission->stdout;
-        $outputs['submission']['stderr'] = $submission->stderr;
-        foreach ($submission->results as $result) {
-            if ($result->getGrademap() === null) {
-                // If has no grademap - result exists but no grademap
-                continue;
-            }
-
-            $outputs['results'][$result->id]['stdout'] = $result->stdout;
-            $outputs['results'][$result->id]['stderr'] = $result->stderr;
-        }
-
-        return $outputs;
     }
 
     /**

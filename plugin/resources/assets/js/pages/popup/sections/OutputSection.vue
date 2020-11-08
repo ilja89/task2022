@@ -5,10 +5,10 @@
             class="output-section"
     >
         <charon-tabs
-            v-if="submission"
-            class="card popup-tabs"
-            id="tabs"
-            :sticky="stickyTabs"
+                v-if="submission"
+                class="card popup-tabs"
+                id="tabs"
+                :sticky="stickyTabs"
         >
 
             <charon-tab name="Code" :selected="true">
@@ -31,7 +31,7 @@
 
             <charon-tab name="Outputs">
 
-                <output-component :grademaps="charon ? charon.grademaps : []"/>
+                <output-component :submission="submission"/>
 
             </charon-tab>
 
@@ -41,14 +41,14 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { CharonTabs, CharonTab, FilesComponent } from '../../../components/partials/index';
-    import { PopupSection } from '../layouts/index';
-    import { OutputComponent } from '../partials/index';
+    import {mapState} from 'vuex'
+    import {CharonTabs, CharonTab, FilesComponent} from '../../../components/partials/index';
+    import {PopupSection} from '../layouts/index';
+    import {OutputComponent} from '../partials/index';
 
     export default {
 
-        components: { PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent },
+        components: {PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent},
 
         data() {
             return {
@@ -65,37 +65,6 @@
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             },
-        },
-
-        watch: {
-            submission() {
-                this.registerScrollListener()
-            },
-        },
-
-        methods: {
-            registerScrollListener() {
-                document.getElementById('page-right').removeEventListener('scroll', this.scrollHandler)
-                document.getElementById('page-right').addEventListener('scroll', this.scrollHandler)
-            },
-
-            scrollHandler(e) {
-                if (!document.getElementById('page-right') || !document.getElementById('tabs')) return
-
-                if (this.stickyTabs) {
-                    if (e.target.scrollTop + document.getElementById('page-right').offsetTop < document.getElementById('tabs').offsetTop) {
-                        this.stickyTabs = false
-                    }
-                } else {
-                    if (e.target.scrollTop + document.getElementById('page-right').offsetTop > document.getElementById('tabs').offsetTop) {
-                        this.stickyTabs = true
-                    }
-                }
-            },
-        },
-
-        created() {
-            this.registerScrollListener()
-        },
+        }
     }
 </script>

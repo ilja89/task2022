@@ -146,22 +146,17 @@
         methods: {
             toggle() {
                 this.isOpen = !this.isOpen;
+                if (this.isOpen) {
+                    Submission.findByUser(this.courseId, this.student.id, this.getStudentConfirmedSubmissions);
+                }
             },
+
             getStudentConfirmedSubmissions(data) {
                 this.submissionNames = data.map(submission => submission.name);
                 this.finalGrades = data.map(submission => Number(submission.finalgrade));
                 this.courseAverageGrades = this.averageSubmissions.map(averageSubmissions => Number(averageSubmissions.course_average_finalgrade));
                 this.courseMaximumGrades = this.averageSubmissions.map(averageSubmissions => Number(averageSubmissions.grademax));
             },
-        },
-
-        watch: {
-            student: {
-                immediate: true,
-                handler() {
-                    Submission.findByUser(this.courseId, this.student.id, this.getStudentConfirmedSubmissions);
-                },
-            },
-        },
+        }
     };
 </script>

@@ -62,7 +62,7 @@
 
 <script>
     import {PopupSection} from '../layouts/index'
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
     import {Charon} from "../../../api";
 
     export default {
@@ -84,6 +84,10 @@
         },
 
         computed: {
+            ...mapState([
+                'charons'
+            ]),
+
             charons_table() {
                 return this.charons.map(charon => {
                     const container = {...charon};
@@ -100,10 +104,6 @@
         },
 
         components: {PopupSection},
-
-        props: {
-            charons: {required: true}
-        },
 
         methods: {
             ...mapActions(["updateCharon"]),
@@ -166,7 +166,7 @@
                 Charon.deleteById(this.charon_id, () => {
                     this.alert = false
                     this.charon_id = 0
-                    window.location.reload();
+                    this.charons = this.charons.filter(x => x.id !== this.charon_id)
                 })
             },
         },

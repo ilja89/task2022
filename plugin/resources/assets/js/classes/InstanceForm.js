@@ -9,16 +9,16 @@ export default class InstanceFormForm {
         this.groups = groups;
         this.groupings = groupings;
         this.plagiarism_services = plagiarism_services;
-        this.groups.unshift({ id: null, name: 'All groups' });
+        this.groups.unshift({id: null, name: 'All groups'});
         this.recalculate_grades = false;
     }
 
     activateGrademap(grade_type_code) {
         let grademap = {
             max_points: 0,
-            name: '',
+            name: `${this.fields.project_folder} - ${this.getGradeTypeName(grade_type_code)}`,
             grade_type_code: grade_type_code,
-            id_number: ''
+            id_number: `${this.fields.project_folder}_${this.getGradeTypeName(grade_type_code)}`
         };
         this.fields.grademaps.push(grademap);
 
@@ -27,6 +27,19 @@ export default class InstanceFormForm {
         });
 
         return grademap;
+    }
+
+    getGradeTypeName(grade_type_code) {
+        let gradeTypeName = '';
+        if (grade_type_code <= 100) {
+            gradeTypeName = 'Tests_' + grade_type_code;
+        } else if (grade_type_code <= 1000) {
+            gradeTypeName = 'Style_' + grade_type_code % 100;
+        } else {
+            gradeTypeName = 'Custom_' + grade_type_code % 1000;
+        }
+
+        return gradeTypeName;
     }
 
     deactivateGrademap(grade_type_code) {
@@ -106,8 +119,8 @@ export default class InstanceFormForm {
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
             grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
 
-            grademaps: [ ],
-            deadlines: [ ],
+            grademaps: [],
+            deadlines: [],
 
             plagiarism_enabled: false,
             plagiarism_services: [null],
@@ -122,7 +135,7 @@ export default class InstanceFormForm {
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
         } else {
-            instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '' ;
+            instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '';
         }
         instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();
     }
@@ -211,18 +224,5 @@ export default class InstanceFormForm {
 
     removePlagiarismService(index) {
         this.fields.plagiarism_services.splice(index, 1);
-    }
-
-    getGradeTypeName(grade_type_code) {
-        let gradeTypeName = '';
-        if (grade_type_code <= 100) {
-            gradeTypeName = 'Tests_' + grade_type_code;
-        } else if (grade_type_code <= 1000) {
-            gradeTypeName = 'Style_' + grade_type_code % 100;
-        } else {
-            gradeTypeName = 'Custom_' + grade_type_code % 1000;
-        }
-
-        return gradeTypeName;
     }
 }

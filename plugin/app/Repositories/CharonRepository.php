@@ -3,14 +3,13 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\Lab;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -191,6 +190,10 @@ class CharonRepository
         $oldCharon->defense_duration = $newCharon->defense_duration;
         $oldCharon->choose_teacher = $newCharon->choose_teacher;
         $oldCharon->defense_threshold = $newCharon->defense_threshold;
+        $oldCharon->docker_timeout = $newCharon->docker_timeout;
+        $oldCharon->docker_content_root = $newCharon->docker_content_root;
+        $oldCharon->docker_test_root = $newCharon->docker_test_root;
+        $oldCharon->group_size = $newCharon->group_size;
 
         $oldCharon->description = $this->fileUploadService->savePluginFiles(
             $newCharon->description,
@@ -223,6 +226,7 @@ class CharonRepository
                 'charon.id',
                 'charon.name',
                 'charon_tester_type.name AS tester_type_name',
+                'charon_tester_type.code AS tester_type_code',
                 'charon.project_folder',
                 'course_modules.id AS course_module_id',
                 'charon.category_id',
@@ -232,7 +236,14 @@ class CharonRepository
                 'charon.defense_start_time',
                 'charon.defense_duration',
                 'charon.choose_teacher',
-                'charon.defense_threshold')
+                'charon.defense_threshold',
+                'charon.docker_timeout',
+                'charon.docker_content_root',
+                'charon.docker_test_root',
+                'charon.group_size',
+                'charon.tester_extra',
+                'charon.system_extra'
+            )
             ->orderBy('charon.name')
             ->get();
 
@@ -320,32 +331,44 @@ class CharonRepository
      *
      * @param Charon $charon
      *
-     * @param $defenseDeadline
-     * @param $defenseDuration
-     * @param Collection|Lab[] $defenseLabs
-     * @param $chooseTeacher
-     * @param $defenseThreshold
+     * @param array $updated
      * @return Charon
      */
-    public function saveCharonDefendingStuff(Charon $charon, $defenseStartTime, $defenseDeadline, $defenseDuration, $defenseLabs, $chooseTeacher, $defenseThreshold)
+    public function saveCharon(Charon $charon, array $updated)
     {
-        $charon->defense_start_time = Carbon::parse($defenseStartTime)->format('Y-m-d H:i:s');
-        $charon->defense_deadline = Carbon::parse($defenseDeadline)->format('Y-m-d H:i:s');
-        $charon->defense_duration = $defenseDuration;
-        $charon->choose_teacher = $chooseTeacher;
-        $charon->defense_threshold = $defenseThreshold;
+        if (isset($updated['defense_start_time'])) {
+            $charon->defense_start_time = Carbon::parse($updated['defense_start_time'])->format('Y-m-d H:i:s');
+        }
+        if (isset($updated['defense_deadline'])) {
+            $charon->defense_deadline = Carbon::parse($updated['defense_deadline'])->format('Y-m-d H:i:s');
+        }
+
+        $nullable_fields = [
+            'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
+            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
+        ];
+
+        foreach ($nullable_fields as $key) {
+            if (isset($updated[$key])) {
+                $charon[$key] = $updated[$key];
+            } else {
+                $charon[$key] = null;
+            }
+        }
+
         $charon->save();
 
-        \DB::table('charon_defense_lab')
+        DB::table('charon_defense_lab')
             ->where('charon_id', $charon->id)
             ->delete();
-        for ($i = 0; $i < count($defenseLabs); $i++) {
-            $defenseLab = CharonDefenseLab::create([
-                'lab_id' => $defenseLabs[$i],
-                'charon_id' => $charon->id
-            ]);
+
+        for ($i = 0; $i < count($updated['defense_labs']); $i++) {
+            $defenseLab = App::make(CharonDefenseLab::class);
+            $defenseLab->lab_id = $updated['defense_labs'][$i];
+            $defenseLab->charon_id = $charon->id;
             $defenseLab->save();
         }
+
         return $charon;
     }
 }
