@@ -8,7 +8,10 @@ use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\Group;
+use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Module;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\ModuleService;
 
 /** @var Factory $factory */
@@ -113,3 +116,33 @@ $factory->define(GradeItem::class, function (Generator $faker) {
         'grademax' => $faker->randomFloat(2, 0, 10)
     ];
 }, 'grade_item_with_category');
+
+$factory->define(Grouping::class, function (Generator $faker) {
+    return [
+        'courseid' => 0,
+        'name' => $faker->word,
+        'idnumber' => $faker->randomDigitNotNull,
+        'description' => $faker->sentence,
+        'timecreated' => Carbon::now()->timestamp,
+        'timemodified' => Carbon::now()->timestamp
+    ];
+});
+
+$factory->define(User::class, function (Generator $faker) {
+    return [
+        'auth' => $faker->word,
+        'username' => $faker->word,
+        'firstname' => $faker->word,
+        'lastname' => $faker->word,
+        'confirmed' => 1,
+        'email' => $faker->email
+    ];
+});
+
+$factory->define(Group::class, function (Generator $faker) {
+    return [
+        'courseid' => $faker->randomDigitNotNull,
+        'name' => $faker->word,
+        'description' => $faker->sentence,
+    ];
+});

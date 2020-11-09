@@ -8,6 +8,7 @@ use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
+use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Services\GitCallbackService;
@@ -106,26 +107,27 @@ class GitCallbackController extends Controller
 
         if (!$course) {
             Log::warning('No course discovered, maybe git repo address is not in valid format.');
-
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-
-            return "NO COURSE";
+            return 'NO COURSE';
         }
 
         Log::debug('Found course: "' . $course->shortname . '" with ID ' . $course->id);
 
-        $params['gitTestRepo'] = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->unittests_git;
-        $params['testingPlatform'] = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id)->testerType->name;
+        /** @var CourseSettings $settings */
+        $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
-        $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->get('commits'));
-        Log::debug("Found modified files: ", [$modifiedFiles]);
+        $params['gitTestRepo'] = $settings->unittests_git;
+        $params['testingPlatform'] = $settings->testerType->name;
+
+        $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->input('commits', []));
+        Log::debug('Found modified files: ', $modifiedFiles);
 
         $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
 
         if (empty($charons)) {
             Log::warning('No matching Charons were found. Forwarding to tester.');
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-            return "NO MATCHING CHARONS";
+            return 'NO MATCHING CHARONS';
         }
 
         foreach ($charons as $charon) {
@@ -133,11 +135,11 @@ class GitCallbackController extends Controller
 
             $params['slugs'] = [$charon->project_folder];
             $params['testingPlatform'] = $charon->testerType->name;
-            $params['systemExtra'] = explode(',', $charon['system_extra']);
-            $params['dockerExtra'] = $charon['tester_extra'];
-            $params['dockerTestRoot'] = $charon['docker_test_root'];
-            $params['dockerContentRoot'] = $charon['docker_content_root'];
-            $params['dockerTimeout'] = $charon['docker_timeout'];
+            $params['systemExtra'] = explode(',', $charon->system_extra);
+            $params['dockerExtra'] = $charon->tester_extra;
+            $params['dockerTestRoot'] = $charon->docker_test_root;
+            $params['dockerContentRoot'] = $charon->docker_content_root;
+            $params['dockerTimeout'] = $charon->docker_timeout;
             $params['returnExtra'] = [];
 
             if ($charon->grouping_id == null) {
@@ -159,6 +161,6 @@ class GitCallbackController extends Controller
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
         }
 
-        return "SUCCESS";
+        return 'SUCCESS';
     }
 }

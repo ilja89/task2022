@@ -14,7 +14,7 @@ class CourseSettingsTest extends TestCase
     /** @test */
     public function it_saves_new_course_settings()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var Course $course */
         $course = factory(Course::class)->create();
@@ -31,7 +31,7 @@ class CourseSettingsTest extends TestCase
     /** @test */
     public function it_updates_existing_course_settings()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var CourseSettings $courseSettings */
         $courseSettings = factory(CourseSettings::class)->create();

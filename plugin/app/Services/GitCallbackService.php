@@ -78,17 +78,18 @@ class GitCallbackService
         if (empty($commits)) {
             return [];
         }
-        return array_reduce($commits, function ($result, $commit) {
-            foreach (self::COMMIT_ACTION_TYPES as $type) {
-                if (isset($commit[$type]) && is_array($commit[$type])) {
-                    if ($result == null) {
-                        $result = [];
+
+        return collect($commits)
+            ->flatMap(function ($commit) {
+                $result = [];
+                foreach (self::COMMIT_ACTION_TYPES as $type) {
+                    if (isset($commit[$type]) && is_array($commit[$type])) {
+                        $result = array_merge($result, $commit[$type]);
                     }
-                    $result = array_merge($result, $commit[$type]);
                 }
-            }
-            return $result;
-        });
+                return $result;
+            })->unique()
+            ->all();
     }
 
     /**
@@ -106,18 +107,18 @@ class GitCallbackService
             return [];
         }
 
-        $charons = [];
-        foreach (Charon::where([['course', $courseId]])->get() as $charon) {
-            foreach ($modifiedFiles as $file) {
-                $file = str_replace('\\', '/', $file);
-                $folder = str_replace('\\', '/', $charon->project_folder);
-                if (substr($file, 0, strlen($folder)) === $folder && !in_array($charon, $charons)) {
-                    array_push($charons, $charon);
-                    break;
+        return Charon::where([['course', $courseId]])
+            ->get()
+            ->filter(function ($charon) use ($modifiedFiles) {
+                foreach ($modifiedFiles as $file) {
+                    $file = str_replace('\\', '/', $file);
+                    $folder = str_replace('\\', '/', $charon->project_folder);
+                    if (substr($file, 0, strlen($folder)) === $folder) {
+                        return true;
+                    }
                 }
-            }
-        }
-        return $charons;
+                return false;
+            })->all();
     }
 
     /**
@@ -139,36 +140,37 @@ class GitCallbackService
 
         $initiator = User::where('username', $initialUser . self::DEFAULT_EMAIL_SUFFIX)->first();
         if (!$initiator) {
-            Log::warning('Trying to find user "' . $initialUser . '"');
+            Log::warning('Unable to find user "' . $initialUser . '"');
             return [];
         }
 
         Log::debug('Initiator ID is: ' . $initiator->id);
 
-        $initiator_groups = DB::table('groups_members')
+        $initiatorGroups = DB::table('groups_members')
             ->select('groupid')
             ->where('userid', $initiator->id)
-            ->get();
+            ->get()
+            ->map(function ($group) use ($grouping) {
+                return $grouping->groups()->where('groups.id', $group->groupid)->get();
+            })
+            ->filter(function ($group) { return !empty($group); });
 
-        $usernames = [];
-
-        foreach ($initiator_groups as $group) {
-            $grouping_group = $grouping->groups()->where('groups.id', $group->groupid)->first();
-            if (!$grouping_group) {
-                continue;
-            }
-
-            Log::debug('Grouping group ' . $grouping_group->name);
-            $members = $grouping_group->members()->get();
-            foreach ($members as $member) {
-                if (!in_array($member->username, $usernames)) {
-                    array_push($usernames, $member->username);
-                }
-            }
-            break;
+        if ($initiatorGroups->isEmpty()) {
+            return [];
         }
 
-        return $usernames;
+        if (sizeof($initiatorGroups) > 1 || sizeof($initiatorGroups->first()) > 1) {
+            Log::warning('Found more than one group, submitting as individual work of user "' . $initialUser . '"');
+            return [$initialUser];
+        }
+
+        return $initiatorGroups->first()
+            ->first()
+            ->members()
+            ->get()
+            ->pluck('username')
+            ->map(function ($username) { return str_replace(self::DEFAULT_EMAIL_SUFFIX, '', $username); })
+            ->all();
     }
 
     /**
