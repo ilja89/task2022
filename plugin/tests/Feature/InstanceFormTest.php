@@ -15,7 +15,7 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function update_form_uses_correct_charon()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var CourseModule $courseModule */
         /** @var Charon $charon */
@@ -34,7 +34,7 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function create_form_shows_the_form()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         $course = factory(Course::class)->create();
 
@@ -45,7 +45,7 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function create_form_shows_previous_values_after_error()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         $course = factory(Course::class)->create();
 
