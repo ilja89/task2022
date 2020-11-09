@@ -102,7 +102,7 @@ class GitCallbackControllerTest extends TestCase
     {
         $request = $this->createCommonRequest();
         $request->shouldReceive('input')->with('commits')->andReturn(false);
-        $request->shouldReceive('get')->with('commits', [])->andReturn(['commit files']);
+        $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
 
         $course = factory(Course::class)->make(['id' => 1, 'shortname' => 'course name']);
 
@@ -135,7 +135,7 @@ class GitCallbackControllerTest extends TestCase
     {
         $request = $this->createCommonRequest();
         $request->shouldReceive('input')->with('commits')->andReturn(false);
-        $request->shouldReceive('get')->with('commits', [])->andReturn(['commit files']);
+        $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
 
         $course = factory(Course::class)->make(['id' => 1, 'shortname' => 'course name']);
 
@@ -180,6 +180,7 @@ class GitCallbackControllerTest extends TestCase
             'dockerTestRoot' => 'test root',
             'dockerContentRoot' => 'content root',
             'dockerTimeout' => 180,
+            'returnExtra' => []
         ];
 
         $this->service->shouldReceive('getGroupUsers')->with(11, 'username')->andReturn([]);
@@ -194,12 +195,14 @@ class GitCallbackControllerTest extends TestCase
 
         $this->service->shouldReceive('getGroupUsers')->with(13, 'username')->andReturn(['some', 'other', 'names']);
 
+        $expectedParams['returnExtra']['usernames'] = ['some', 'other', 'names'];
+
         $this->service->shouldReceive('saveCallbackForUser')->with(
             'username',
             'full url',
             'repository url',
             'callback url',
-            $expectedParams + ['returnExtra' => ['usernames' => ['some', 'other', 'names']]]
+            $expectedParams
         );
 
         $response = $this->controller->indexPost($request);
