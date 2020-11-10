@@ -53,7 +53,7 @@ class RequireCharonManaging
 
         require_login($courseId);
         try {
-            $this->permissionsService->requireCourseManagementCapability($courseId);
+            $this->permissionsService->requireCourseManagementCapability();
         } catch (\required_capability_exception $e) {
             throw new CourseManagementPermissionException(
                 'course_management_permission_denied',

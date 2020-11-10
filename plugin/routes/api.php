@@ -22,8 +22,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
-    Route::middleware('auth.charon.submissions.view.require')
-        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+    Route::middleware('auth.charon.submissions.view.require')  // query param user_id
+    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -126,9 +126,9 @@ Route::group(['namespace' => 'Api'], function () {
 
     // CHARON DEFENSE
 
-    Route::middleware('auth.charon.submissions.view.require') // get all registrations for student
+    Route::middleware('auth.charon.submissions.view.require') // get all registrations for student. query param user_id
     ->get('charons/{charon}/registrations', 'DefenseRegistrationController@getStudentRegistrations');
-    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration
+    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration. query param user_id
     ->delete('charons/{charon}/registration', 'DefenseRegistrationController@deleteReg');
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
