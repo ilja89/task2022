@@ -5,6 +5,7 @@ use Faker\Generator;
 use Illuminate\Database\Eloquent\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
+use TTU\Charon\Models\TesterType;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeItem;
@@ -48,5 +49,12 @@ $factory->define(CourseSettings::class, function (Generator $faker) {
         },
         'unittests_git' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3, 4]),
+    ];
+});
+
+$factory->define(TesterType::class, function (Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'code' => $faker->word,
     ];
 });
