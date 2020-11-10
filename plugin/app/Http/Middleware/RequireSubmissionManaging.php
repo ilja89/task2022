@@ -43,6 +43,7 @@ class RequireSubmissionManaging
 
         $courseId = $submission->charon->course;
         require_login($courseId);
+
         if ($submission->user_id === app(User::class)->currentUserId()) {
             return $next($request);
         }
@@ -53,7 +54,7 @@ class RequireSubmissionManaging
             throw new CourseManagementPermissionException(
                 'course_management_permission_denied',
                 app(User::class)->currentUserId(),
-                $request->getClientIp(),
+                $request->getClientIp() . app(User::class)->currentUserId() . $submission->user_id,
                 $submission->charon->course
             );
         }

@@ -45,7 +45,7 @@ class FilesController extends Controller
         $courseId = $this->charonRepository->getCharonById($submission->charon_id)->course;
         $maxIsTest = 0;
         try {
-            $this->permissionsService->requireCourseManagementCapability();
+            $this->permissionsService->requireCourseManagementCapability($courseId);
             $maxIsTest = 1;
         } catch (\required_capability_exception $e) {
         }
