@@ -179,29 +179,41 @@ class GitCallbackControllerTest extends TestCase
             'dockerExtra' => 'tester extra',
             'dockerTestRoot' => 'test root',
             'dockerContentRoot' => 'content root',
-            'dockerTimeout' => 180
+            'dockerTimeout' => 180,
+            'returnExtra' => ['charon' => 3]
         ];
 
         $this->service->shouldReceive('getGroupUsers')->with(11, 'username')->andReturn([]);
-
-        $this->service->shouldReceive('saveCallbackForUser')->twice()->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            array_merge($expectedParams, ['returnExtra' => ['charon' => 3]])
-        );
-
-        $this->service->shouldReceive('getGroupUsers')->with(13, 'username')->andReturn(['some', 'other', 'names']);
-
-        $expectedParams['returnExtra']['usernames'] = ['some', 'other', 'names'];
 
         $this->service->shouldReceive('saveCallbackForUser')->with(
             'username',
             'full url',
             'repository url',
             'callback url',
-            array_merge($expectedParams, ['returnExtra' => ['charon' => 5]])
+            $expectedParams
+        );
+
+        $expectedParams['returnExtra']['charon'] = 5;
+
+        $this->service->shouldReceive('saveCallbackForUser')->with(
+            'username',
+            'full url',
+            'repository url',
+            'callback url',
+            $expectedParams
+        );
+
+        $this->service->shouldReceive('getGroupUsers')->with(13, 'username')->andReturn(['some', 'other', 'names']);
+
+        $expectedParams['returnExtra']['usernames'] = ['some', 'other', 'names'];
+        $expectedParams['returnExtra']['charon'] = 7;
+
+        $this->service->shouldReceive('saveCallbackForUser')->with(
+            'username',
+            'full url',
+            'repository url',
+            'callback url',
+            $expectedParams
         );
 
         $response = $this->controller->indexPost($request);

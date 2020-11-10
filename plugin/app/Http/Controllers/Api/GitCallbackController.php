@@ -157,7 +157,7 @@ class GitCallbackController extends Controller
                 continue;
             }
 
-            $params['returnExtra'] = array_merge($params['returnExtra'], ['usernames' => $usernames]);
+            $params['returnExtra']['usernames'] = $usernames;
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
         }
 
