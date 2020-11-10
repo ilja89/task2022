@@ -120,7 +120,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.charon.managing.require') // save Charon
     ->post('charons/{charon}', 'CharonsController@saveCharon');
-    Route::get('charons/{charon}/all', 'CharonsController@getAll'); // get all Charons
+    Route::get('charons/{charon}', 'CharonsController@getFull'); // get a whole charon
 
     // CHARON DEFENSE
 

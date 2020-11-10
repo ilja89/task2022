@@ -409,7 +409,7 @@
             },
 
             getCharon() {
-                axios.get(`api/charons/${this.charon_id}/all?id=${this.charon_id}`).then(result => {
+                axios.get(`api/charons/${this.charon_id}`).then(result => {
                     this.charon = result.data;
                 })
             },
