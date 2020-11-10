@@ -138,7 +138,7 @@ class GitCallbackController extends Controller
             $params['dockerTestRoot'] = $charon['docker_test_root'];
             $params['dockerContentRoot'] = $charon['docker_content_root'];
             $params['dockerTimeout'] = $charon['docker_timeout'];
-            $params['returnExtra'] = [];
+            $params['returnExtra'] = ['charon' => $charon->id];
 
             if ($charon->grouping_id == null) {
                 Log::info('This charon is not a group work or is broken. Forwarding to tester.');
@@ -155,7 +155,7 @@ class GitCallbackController extends Controller
                 continue;
             }
 
-            $params['returnExtra'] = ['usernames' => $usernames];
+            $params['returnExtra'] = array_merge($params['returnExtra'], ['usernames' => $usernames]);
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
         }
 

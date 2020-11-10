@@ -45,7 +45,7 @@ class RequestHandlingService
         $gitTimestamp = $request->has('timestamp')
             ? ($request->input('timestamp') < 2147483647 ?
                 Carbon::createFromTimestamp($request->input('timestamp')) :
-                Carbon::createFromTimestamp((int) ($request->input('timestamp') / 1000)))
+                Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000)))
             : $now;
 
         $uniId = $request->input('uniid');
@@ -75,9 +75,15 @@ class RequestHandlingService
 
         try {
 
-            $charon = Charon::where([
-                ['project_folder', $request->input("slug")],
-                ['course', $course->id]])->first();
+            if ($request->input("returnExtra.charon")) {
+                $charon = Charon::where([
+                    ['id', $request->input("returnExtra.charon")]
+                ])->first();
+            } else {
+                $charon = Charon::where([
+                    ['project_folder', $request->input("slug")],
+                    ['course', $course->id]])->first();
+            }
 
         } catch (\Exception $e) {
             Log::error("Charon with slug wasn't found:" . $request->input("slug"));
