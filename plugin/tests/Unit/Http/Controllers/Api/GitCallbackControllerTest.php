@@ -179,8 +179,7 @@ class GitCallbackControllerTest extends TestCase
             'dockerExtra' => 'tester extra',
             'dockerTestRoot' => 'test root',
             'dockerContentRoot' => 'content root',
-            'dockerTimeout' => 180,
-            'returnExtra' => []
+            'dockerTimeout' => 180
         ];
 
         $this->service->shouldReceive('getGroupUsers')->with(11, 'username')->andReturn([]);
@@ -190,7 +189,7 @@ class GitCallbackControllerTest extends TestCase
             'full url',
             'repository url',
             'callback url',
-            $expectedParams
+            array_merge($expectedParams, ['returnExtra' => ['charon' => 3]])
         );
 
         $this->service->shouldReceive('getGroupUsers')->with(13, 'username')->andReturn(['some', 'other', 'names']);
@@ -202,7 +201,7 @@ class GitCallbackControllerTest extends TestCase
             'full url',
             'repository url',
             'callback url',
-            $expectedParams
+            array_merge($expectedParams, ['returnExtra' => ['charon' => 5]])
         );
 
         $response = $this->controller->indexPost($request);
@@ -213,7 +212,8 @@ class GitCallbackControllerTest extends TestCase
     /**
      * @return MockInterface|GitCallbackPostRequest
      */
-    private function createCommonRequest() {
+    private function createCommonRequest()
+    {
         $request = Mockery::mock(GitCallbackPostRequest::class);
         $request->shouldReceive('input')->with('repository')->andReturn(['git_ssh_url' => 'repository url']);
         $request->shouldReceive('input')->with('user_username')->andReturn('username');
