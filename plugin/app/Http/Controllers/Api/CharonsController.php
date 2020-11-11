@@ -74,9 +74,9 @@ class CharonsController extends Controller
         return $this->charonRepository->saveCharon($charon, $this->request->toArray());
     }
 
-    public function getAll(Request $request)
+    public function getFull(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->route('charon');
         return Charon::where('id', '=', $id)->get()[0];
     }
 }

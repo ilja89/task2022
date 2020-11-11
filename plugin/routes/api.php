@@ -22,8 +22,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
-    Route::middleware('auth.charon.submissions.view.require')
-        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+    Route::middleware('auth.charon.submissions.view.require')  // query param user_id
+    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -82,13 +82,11 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LABS
 
-    Route::get('charons/{charon}/labs', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
+    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
     Route::middleware('auth.course.managing.require')  // save lab
     ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
     ->get('courses/{course}/labs', 'LabController@getByCourse');
-    Route::middleware('auth.charon.managing.require') // get all labs by charon
-    ->get('charons/{charon}labs', 'LabController@getByCharon');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
     ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
     Route::middleware('auth.course.managing.require')  // delete lab
@@ -122,13 +120,13 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.charon.managing.require') // save Charon
     ->post('charons/{charon}', 'CharonsController@saveCharon');
-    Route::get('charons/{charon}/all', 'CharonsController@getAll'); // get all Charons
+    Route::get('charons/{charon}', 'CharonsController@getFull'); // get a whole charon
 
     // CHARON DEFENSE
 
-    Route::middleware('auth.charon.submissions.view.require') // get all registrations for student
+    Route::middleware('auth.charon.submissions.view.require') // get all registrations for student. query param user_id
     ->get('charons/{charon}/registrations', 'DefenseRegistrationController@getStudentRegistrations');
-    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration
+    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration. query param user_id
     ->delete('charons/{charon}/registration', 'DefenseRegistrationController@deleteReg');
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
     ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');

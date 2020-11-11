@@ -115,8 +115,6 @@ class SubmissionService
                 'submission_id' => $submission->id,
                 'name' => $testSuite['name'],
                 'file' => $testSuite['file'],
-                'start_date' => $this->constructDate($testSuite['startDate']),
-                'end_date' => $this->constructDate($testSuite['endDate']),
                 'weight' => $testSuite['weight'] == null ? 1 : $testSuite['weight'],
                 'passed_count' => $testSuite['passedCount'],
                 'grade' => $testSuite['grade']
@@ -337,22 +335,5 @@ class SubmissionService
             return "";
         }
 
-    }
-
-    /**
-     * @param $date
-     * @return string|null
-     */
-    private function constructDate($date)
-    {
-        if ($date == null) {
-            return $date;
-        }
-
-        if ($date < 2147483647) {
-            return Carbon::createFromTimestamp($date)->format('Y-m-d H:i:s');
-        }
-
-        return Carbon::createFromTimestamp((int)($date / 1000))->format('Y-m-d H:i:s');
     }
 }

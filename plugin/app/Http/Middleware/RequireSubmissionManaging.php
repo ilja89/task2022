@@ -26,8 +26,8 @@ class RequireSubmissionManaging
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      *
      * @return mixed
      * @throws CourseManagementPermissionException
@@ -40,9 +40,16 @@ class RequireSubmissionManaging
 
         /** @var Submission $submission */
         $submission = $request->route('submission');
-        require_login($submission->charon->course);
+
+        $courseId = $submission->charon->course;
+        require_login($courseId);
+
+        if ($submission->user_id == app(User::class)->currentUserId()) {
+            return $next($request);
+        }
+
         try {
-            $this->permissionsService->requireCourseManagementCapability($submission->charon->course);
+            $this->permissionsService->requireCourseManagementCapability($courseId);
         } catch (\required_capability_exception $e) {
             throw new CourseManagementPermissionException(
                 'course_management_permission_denied',
