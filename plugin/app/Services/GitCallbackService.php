@@ -153,14 +153,16 @@ class GitCallbackService
             ->map(function ($group) use ($grouping) {
                 return $grouping->groups()->where('groups.id', $group->groupid)->get();
             })
-            ->filter(function ($group) { return !empty($group); });
+            ->filter(function ($group) {
+                return sizeof($group) > 0;
+            });
 
         if ($initiatorGroups->isEmpty()) {
             return [];
         }
 
         if (sizeof($initiatorGroups) > 1 || sizeof($initiatorGroups->first()) > 1) {
-            Log::warning('Found more than one group, submitting as individual work of user "' . $initialUser . '"');
+            Log::warning('Found more than one group ' . $initiatorGroups . ', submitting as individual work of user "' . $initialUser . '"');
             return [$initialUser];
         }
 
