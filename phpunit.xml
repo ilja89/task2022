@@ -19,7 +19,9 @@
         <testsuite name="FeatureTests">
             <directory suffix="Test.php">./plugin/tests/Feature</directory>
         </testsuite>
-
+        <testsuite name="IntegrationTests">
+            <directory suffix="Test.php">./plugin/tests/Integration</directory>
+        </testsuite>
         <testsuite name="UnitTests">
             <directory suffix="Test.php">./plugin/tests/Unit</directory>
         </testsuite>
@@ -36,7 +38,5 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
     </php>
 </phpunit>

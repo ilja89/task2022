@@ -18,7 +18,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function it_saves_new_charon()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var CourseSettings $courseSettings */
         $courseSettings = factory(CourseSettings::class)->create();
@@ -41,7 +41,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function creating_a_charon_notifies_tester_of_the_new_charon()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var CourseSettings $courseSettings */
         /** @var Charon $charon */
@@ -83,7 +83,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function charon_can_be_deleted()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         $charon = factory(Charon::class)->create();
 

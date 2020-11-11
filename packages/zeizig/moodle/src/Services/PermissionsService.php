@@ -22,9 +22,9 @@ class PermissionsService extends MoodleService
     /**
      * PermissionsService constructor.
      *
-     * @param  Application  $app
-     * @param  User  $user
-     * @param  Page  $page
+     * @param Application $app
+     * @param User $user
+     * @param Page $page
      */
     public function __construct(Application $app, User $user, Page $page)
     {
@@ -36,7 +36,7 @@ class PermissionsService extends MoodleService
     /**
      * Requires login and enrollment to the given course.
      *
-     * @param  integer  $courseId
+     * @param integer $courseId
      *
      * @return void
      */
@@ -48,7 +48,7 @@ class PermissionsService extends MoodleService
     /**
      * Require the capability for the current user to manage the given course.
      *
-     * @param  integer  $courseId
+     * @param integer $courseId
      *
      * @return void
      */

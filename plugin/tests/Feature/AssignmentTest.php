@@ -17,7 +17,7 @@ class AssignmentTest extends TestCase
     /** @test */
     public function it_uses_correct_charon_instance()
     {
-        $this->markTestSkipped('Requires moodle database setup');
+        $this->markTestSkipped('Out of date, needs attention');
 
         /** @var Charon $charon */
         $charon = factory(Charon::class)->create();
