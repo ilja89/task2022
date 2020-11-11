@@ -3,7 +3,6 @@
 namespace Zeizig\Moodle\Services;
 
 use Illuminate\Contracts\Foundation\Application;
-use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Globals\Page;
 use Zeizig\Moodle\Globals\User;
 

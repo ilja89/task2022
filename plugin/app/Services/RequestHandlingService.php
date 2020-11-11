@@ -65,28 +65,21 @@ class RequestHandlingService
         Log::info("Course id code:" . $courseIdCode);
 
         try {
-
             $course = Course::where('shortname', $courseIdCode)->first();
-
         } catch (\Exception $e) {
             Log::error("Course with code wasn't found:" . $courseIdCode);
             throw $e;
         }
 
+        if ($request->input("returnExtra.charon")) {
+            $query = [['id', $request->input('returnExtra.charon')]];
+        } else {
+            $query = [['project_folder', $request->input('slug')], ['course', $course->id]];
+        }
         try {
-
-            if ($request->input("returnExtra.charon")) {
-                $charon = Charon::where([
-                    ['id', $request->input("returnExtra.charon")]
-                ])->first();
-            } else {
-                $charon = Charon::where([
-                    ['project_folder', $request->input("slug")],
-                    ['course', $course->id]])->first();
-            }
-
+            $charon = Charon::where($query)->first();
         } catch (\Exception $e) {
-            Log::error("Charon with slug wasn't found:" . $request->input("slug"));
+            Log::error('Charon was not found by fields:', $query);
             throw $e;
         }
 
