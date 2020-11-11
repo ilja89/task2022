@@ -281,7 +281,7 @@
                 not_available_times: [],
                 defenseData: [],
                 submissionWeightedScore: 0.0,
-                submissionStyleOK: false,
+                submissionStyleOK: true,
                 array_to_show: []
             };
         },
@@ -424,7 +424,6 @@
                     if (code > 100 && code <= 1000) {
                         var result = parseFloat(submission.results[j].calculated_result)
                         if (result < 0.999) {
-                            console.log(result)
                             this.submissionStyleOK = false
                         }
                     }
