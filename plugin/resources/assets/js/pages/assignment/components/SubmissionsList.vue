@@ -164,7 +164,7 @@
                                 </span>
 
                                 <span>
-                                    {{this.getSubmissionWeightedScore(submission)}}%
+                                    {{getSubmissionWeightedScore(submission)}}%
                                 </span>
                             </li>
                         </ul>
