@@ -148,7 +148,7 @@
                         <span>
                             {{ getGrademapByResult(result).name }}
                         </span>
-                        <span>
+                                <span>
                             {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }} | {{ getCompletionPercentage(result) }}%
                         </span>
                             </li>
@@ -280,7 +280,8 @@
                 labs: [],
                 not_available_times: [],
                 defenseData: [],
-                submission_validation: false,
+                submissionWeightedScore: 0.0,
+                submissionStyleOK: false,
                 array_to_show: []
             };
         },
@@ -396,16 +397,40 @@
 
             showModalLabs(submissionId) {
                 this.current_submission = submissionId
-                this.isActive = this.submission_validation;
-                if (this.isActive === false) {
-                    VueEvent.$emit('show-notification', `You can't register a submission with result less than ${this.charon['defense_threshold']}%`, 'danger')
+                var hasPoints = this.submissionWeightedScore >= this.charon['defense_threshold'] / 100
+                this.isActive = hasPoints && this.submissionStyleOK;
+
+                if (!hasPoints) {
+                    VueEvent.$emit('show-notification', `You can't register a submission with a result ${this.submissionWeightedScore}, as it's less than ${this.charon['defense_threshold']}%`, 'danger')
+                }
+
+                if (!this.submissionStyleOK) {
+                    VueEvent.$emit('show-notification', `Please fix your style before registering to submission`, 'danger')
                 }
             },
 
             validateSubmission(submission) {
-                var result = submission.results[0].calculated_result;
-                var maxResult = this.getGrademapByResult(submission.results[0]).grade_item.grademax;
-                this.submission_validation = result / maxResult >= this.charon['defense_threshold'] / 100;
+                var totalWeight = 0
+                var totalWeightedScore = 0
+
+                for (var i = 0; i < submission.test_suites.length; i++) {
+                    var suite = submission.test_suites[i]
+                    totalWeight += suite.weight
+                    totalWeightedScore += suite.weight * suite.grade
+                }
+
+                for (var j = 0; j < submission.results.length; j++) {
+                    var code = parseInt(submission.results[j].grade_type_code)
+                    if (code > 100 && code <= 1000) {
+                        var result = parseFloat(submission.results[j].calculated_result)
+                        if (result < 0.999) {
+                            this.submissionStyleOK = false
+                        }
+                    }
+
+                }
+
+                this.submissionWeightedScore = totalWeightedScore / Math.max(totalWeight, 1);
             },
 
             getCharon() {
@@ -417,10 +442,10 @@
             getLabs() {
                 axios.get(`api/charons/${this.charon_id}/labs/view`).then(result => {
                     this.labs = result.data;
-                    this.labs.sort((a,b) => {
-                      let ta = new Date(a.start),
-                          tb = new Date(b.start);
-                      return ta - tb;
+                    this.labs.sort((a, b) => {
+                        let ta = new Date(a.start),
+                            tb = new Date(b.start);
+                        return ta - tb;
                     });
                 });
             },
