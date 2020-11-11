@@ -158,7 +158,7 @@
 
                     <div v-if="showingAdvanced(submission.id)" class="results-list-container">
                         <ul class="results-list">
-                            <li>
+                            <li class="result-row">
                                 <span>
                                     Points without reduction
                                 </span>
