@@ -430,7 +430,7 @@
 
                 }
 
-                this.submissionWeightedScore = totalWeightedScore / Math.max(totalWeight, 1);
+                this.submissionWeightedScore = (totalWeightedScore / Math.max(totalWeight, 1)).toFixed(2);
             },
 
             getCharon() {
