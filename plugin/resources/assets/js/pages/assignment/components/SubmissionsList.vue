@@ -145,12 +145,27 @@
                     <div v-if="showingAdvanced(submission.id)" class="results-list-container">
                         <ul class="results-list">
                             <li v-for="result in submission.results" class="result-row">
-                        <span>
-                            {{ getGrademapByResult(result).name }}
-                        </span>
                                 <span>
-                            {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }} | {{ getCompletionPercentage(result) }}%
-                        </span>
+                                    {{ getGrademapByResult(result).name }}
+                                </span>
+
+                                <span>
+                                    {{ result.calculated_result }} | {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }} | {{ getCompletionPercentage(result) }}%
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div v-if="showingAdvanced(submission.id)" class="results-list-container">
+                        <ul class="results-list">
+                            <li>
+                                <span>
+                                    Points without reduction
+                                </span>
+
+                                <span>
+                                    {{this.getSubmissionWeightedScore(submission)}}%
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -410,15 +425,6 @@
             },
 
             validateSubmission(submission) {
-                var totalWeight = 0
-                var totalWeightedScore = 0
-
-                for (var i = 0; i < submission.test_suites.length; i++) {
-                    var suite = submission.test_suites[i]
-                    totalWeight += suite.weight
-                    totalWeightedScore += suite.weight * suite.grade
-                }
-
                 for (var j = 0; j < submission.results.length; j++) {
                     var code = parseInt(submission.results[j].grade_type_code)
                     if (code > 100 && code <= 1000) {
@@ -430,7 +436,20 @@
 
                 }
 
-                this.submissionWeightedScore = (totalWeightedScore / Math.max(totalWeight, 1)).toFixed(2);
+                this.submissionWeightedScore = this.getSubmissionWeightedScore(submission);
+            },
+
+            getSubmissionWeightedScore(submission) {
+                var totalWeight = 0
+                var totalWeightedScore = 0
+
+                for (var i = 0; i < submission.test_suites.length; i++) {
+                    var suite = submission.test_suites[i]
+                    totalWeight += suite.weight
+                    totalWeightedScore += suite.weight * suite.grade
+                }
+
+                return (totalWeightedScore / Math.max(totalWeight, 1)).toFixed(2);
             },
 
             getCharon() {
