@@ -397,11 +397,11 @@
 
             showModalLabs(submissionId) {
                 this.current_submission = submissionId
-                var hasPoints = this.submissionWeightedScore >= this.charon['defense_threshold'] / 100
+                var hasPoints = this.submissionWeightedScore >= this.charon['defense_threshold']
                 this.isActive = hasPoints && this.submissionStyleOK;
 
                 if (!hasPoints) {
-                    VueEvent.$emit('show-notification', `You can't register a submission with a result ${this.submissionWeightedScore}, as it's less than ${this.charon['defense_threshold']}%`, 'danger')
+                    VueEvent.$emit('show-notification', `You can't register a submission with a result ${this.submissionWeightedScore}%, as it's less than ${this.charon['defense_threshold']}%`, 'danger')
                 }
 
                 if (!this.submissionStyleOK) {
