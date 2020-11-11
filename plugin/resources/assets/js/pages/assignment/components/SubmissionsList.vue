@@ -424,6 +424,7 @@
                     if (code > 100 && code <= 1000) {
                         var result = parseFloat(submission.results[j].calculated_result)
                         if (result < 0.999) {
+                            console.log(result)
                             this.submissionStyleOK = false
                         }
                     }
