@@ -291,18 +291,35 @@ class SubmissionsRepository
     }
 
     /**
-     * Gets the order number of the given submission. So if this is the 3rd submission
+     * Gets the order number of the given submission in course for student. So if this is the 3rd submission
      * this will return 3.
      *
      * @param Submission $submission
      *
      * @return int
      */
-    public function getSubmissionOrderNumber(Submission $submission)
+    public function getSubmissionCourseOrderNumber(Submission $submission)
     {
         return \DB::table('charon_submission')
             ->where('user_id', $submission->user_id)
             ->where('git_timestamp', '<', $submission->git_timestamp)
+            ->count();
+    }
+
+    /**
+     * Gets the order number of the given submission in charon for stuedent. So if this is the 3rd submission
+     * this will return 3.
+     *
+     * @param Submission $submission
+     *
+     * @return int
+     */
+    public function getSubmissionCharonOrderNumber(Submission $submission)
+    {
+        return \DB::table('charon_submission')
+            ->where('user_id', $submission->user_id)
+            ->where('git_timestamp', '<', $submission->git_timestamp)
+            ->where('charon_id', $submission->charon_id)
             ->count();
     }
 
