@@ -27,3 +27,6 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error)
 })
 
+window.appVersion = {}
+window.appVersion.commit = 'hash';
+window.appVersion.date = new Date().valueOf();
