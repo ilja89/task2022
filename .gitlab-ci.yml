@@ -33,7 +33,7 @@ test:
 #     - dev
 #     - master
 
-create_dev_artifacts:
+try_create_production_artifacts:
   tags:
     - docker
   stage: staging
@@ -41,22 +41,7 @@ create_dev_artifacts:
   services:
     - name: docker:dind
   script:
-    - touch .env
-    - php composer.phar install
-    - cp -p .env.develop .env
-    - php artisan key:generate
-    - echo "window.appVersion.date = '$(git log -1 --format=%ct)000';" >> ${BOOTSTRAP_JS}
-    - echo "window.appVersion.commit = '$(git rev-parse --verify HEAD)';" >> ${BOOTSTRAP_JS}
-    - npm shrinkwrap --dev
-    - npm install --unsafe-perm=true --allow-root --loglevel silly
-    - npm run dev
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/charon
+    - ./create_prod_artifact.sh
 
 create_production_artifacts:
   tags:
@@ -66,19 +51,7 @@ create_production_artifacts:
   services:
     - name: docker:dind
   script:
-    - touch .env
-    - php composer.phar install --no-dev
-    - cp -p .env.production .env
-    - php artisan key:generate
-    - echo "window.appVersion.date = '$(git log -1 --format=%ct)000';" >> ${BOOTSTRAP_JS}
-    - echo "window.appVersion.commit = '$(git rev-parse --verify HEAD)';" >> ${BOOTSTRAP_JS}
-    - npm shrinkwrap
-    - npm install
-    - npm run production
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
+    - ./create_prod_artifact.sh
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
