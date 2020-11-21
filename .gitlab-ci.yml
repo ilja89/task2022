@@ -8,6 +8,7 @@ stages:
   - staging
 #  - deploy
 
+
 test:
   tags:
     - docker
@@ -22,6 +23,7 @@ test:
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml plugin/tests/Unit
 
+
 # deploy:
 #   tags:
 #     - ained
@@ -33,17 +35,8 @@ test:
 #     - dev
 #     - master
 
-try_create_production_artifacts:
-  tags:
-    - docker
-  stage: staging
-  image: misterio92/ci-php-node:4.0
-  services:
-    - name: docker:dind
-  script:
-    - ./create_prod_artifact.sh
 
-create_production_artifacts:
+test_build:
   tags:
     - docker
   stage: staging
@@ -51,7 +44,20 @@ create_production_artifacts:
   services:
     - name: docker:dind
   script:
-    - ./create_prod_artifact.sh
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
+  except:
+    - master
+
+
+build:
+  tags:
+    - docker
+  stage: staging
+  image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
+  script:
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
