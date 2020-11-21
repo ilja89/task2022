@@ -384,10 +384,42 @@ class SubmissionsRepository
                      ON         gg.itemid = gi.id 
                      WHERE      gi.courseid = c.course 
                      AND        gi.itemtype = 'category' 
-                     AND        gi.iteminstance = c.category_id ) AS avg_grade 
+                     AND        gi.iteminstance = c.category_id
+          ) AS avg_defended_grade,
+          ( 
+                     SELECT     Count(DISTINCT gg.userid) 
+                     FROM       " . $prefix . "grade_grades gg 
+                     INNER JOIN " . $prefix . "grade_items gi 
+                     ON         gg.itemid = gi.id 
+                     WHERE      gi.courseid = c.course 
+                     AND        gi.itemtype = 'category' 
+                     AND        gi.iteminstance = c.category_id
+                     AND        gg.finalgrade > 0
+          ) AS defended_amount,
+          (
+                     SELECT     Sum(gg.finalgrade) / Count(DISTINCT gg.userid)
+                     FROM       " . $prefix . "charon_grademap gm
+                     INNER JOIN " . $prefix . "grade_grades gg
+                     ON         gg.itemid = gm.grade_item_id
+                     WHERE      c.id = gm.charon_id
+                     AND        gg.finalgrade IS NOT NULL
+                     AND        gm.grade_type_code < 100
+          ) AS avg_raw_grade,
+          Count(DISTINCT helper.userid) as successful_tests_amount
         FROM      " . $prefix . "charon c 
         LEFT JOIN " . $prefix . "charon_submission cs 
         ON        c.id = cs.charon_id 
+        LEFT JOIN (
+                     SELECT    gm.charon_id, gg.userid
+                     FROM      " . $prefix . "charon_grademap gm
+                     LEFT JOIN " . $prefix . "grade_grades gg
+                     ON        gg.itemid = gm.grade_item_id
+                     WHERE     gg.finalgrade IS NOT NULL
+                     AND       gm.grade_type_code < 100
+                     GROUP BY  gm.charon_id, gg.userid
+                     HAVING    Sum(gg.finalgrade) > Sum(gg.rawgrademax) / 2
+                  ) AS helper
+        ON        c.id = helper.charon_id  
         WHERE     c.course = ? 
         GROUP BY  c.project_folder, 
                   c.id, 

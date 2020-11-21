@@ -52,7 +52,9 @@
                     {text: 'Different users', value: 'diff_users'},
                     {text: 'Total submissions', value: 'tot_subs'},
                     {text: 'Submissions per user', value: 'subs_per_user'},
-                    {text: 'Average grade', value: 'avg_grade'}
+                    {text: 'Average defended grade', value: 'avg_defended_grade'},
+                    {text: 'Average test grade', value: 'avg_raw_grade'},
+                    {text: 'Undefended amount', value: 'undefended'}
                 ],
             }
         },
@@ -77,8 +79,10 @@
                         container['project_folder'] = item.project_folder;
                         container['diff_users'] = item.diff_users;
                         container['tot_subs'] = item.tot_subs;
-                        container['subs_per_user'] = parseFloat(item.subs_per_user);
-                        container['avg_grade'] = parseFloat(item.avg_grade);
+                        container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
+                        container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
+                        container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
+                        container['undefended'] = parseInt(item.successful_tests_amount) - parseInt(item.defended_amount);
 
                         return container;
                     });
