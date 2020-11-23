@@ -12,8 +12,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\StudentsRepository;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Models\GradeGrade;
-use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -46,7 +44,8 @@ class StudentsController extends Controller
         StudentsRepository $studentsRepository,
         GradebookService $gradebookService,
         MoodleConfig $moodleConfig
-    ) {
+    )
+    {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->gradebookService = $gradebookService;
@@ -67,20 +66,6 @@ class StudentsController extends Controller
         $users = $this->studentsRepository->searchStudentsByCourseAndKeyword($course->id, $keyword);
 
         return $users;
-    }
-
-    /**
-     * Find the user by the given ID.
-     *
-     * @param Course $course
-     * @param int $userId
-     *
-     * @return User
-     */
-    public function findById(Course $course, $userId)
-    {
-        return User::where('id', $userId)
-            ->first(['id', 'firstname', 'lastname', 'idnumber', 'username']);
     }
 
     /**
@@ -123,36 +108,19 @@ class StudentsController extends Controller
         return '';
     }
 
-    public function getStudentGroups(Course $course, int $userId)
-    {
-        return $this->findById($course, $userId)->groups()->with('members:idnumber,firstname,lastname,username')->where('courseid', $course->id)->get();
-    }
-
 
     public function getStudentInfo(Course $course, $userId)
     {
         $userId = (int)$userId;
-        $student = $this->findById($course, $userId);
+        $student = $this->studentsRepository->findById($userId);
         try {
-            $student['groups'] = $this->getStudentGroups($course, $userId);
+            $student['groups'] = $this->studentsRepository->getStudentGroups($course, $userId);
         } catch (\Exception $e) {
             $student['groups'] = [];
         }
-        $student['totalPoints'] = $this->getStudentTotalGrade($course, $userId);
+        $student['totalPoints'] = $this->studentsRepository->getStudentTotalGrade($course, $userId);
         return $student;
     }
-
-    public function getStudentTotalGrade(Course $course, int $userId)
-    {
-        $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course'))->first();
-        $grade = GradeGrade::where(array('itemid' => $gradeItem->id, 'userid' => $userId))->first();
-        if (isset($grade->finalgrade)) {
-            return floatval($grade->finalgrade);
-        } else {
-            return 0;
-        }
-    }
-
 
     public function findActive(Course $course)
     {
