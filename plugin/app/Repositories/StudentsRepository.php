@@ -3,6 +3,10 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\GradeGrade;
+use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Models\User;
 
 /**
  * Class StudentsRepository.
@@ -12,8 +16,8 @@ use Illuminate\Support\Facades\DB;
 class StudentsRepository
 {
     /**
-     * @param  integer  $courseId
-     * @param  string  $keyword
+     * @param integer $courseId
+     * @param string $keyword
      */
     public function searchStudentsByCourseAndKeyword($courseId, $keyword)
     {
@@ -36,5 +40,34 @@ class StudentsRepository
             ->get();
 
         return $users;
+    }
+
+    /**
+     * Find the user by the given ID.
+     *
+     * @param int $userId
+     *
+     * @return User
+     */
+    public function findById($userId)
+    {
+        return User::where('id', $userId)
+            ->first(['id', 'firstname', 'lastname', 'idnumber', 'username']);
+    }
+
+    public function getStudentGroups(Course $course, int $userId)
+    {
+        return $this->findById($userId)->groups()->with('members:idnumber,firstname,lastname,username')->where('courseid', $course->id)->get();
+    }
+
+    public function getStudentTotalGrade(Course $course, int $userId)
+    {
+        $gradeItem = GradeItem::where(array('courseid' => $course->id, 'itemtype' => 'course'))->first();
+        $grade = GradeGrade::where(array('itemid' => $gradeItem->id, 'userid' => $userId))->first();
+        if (isset($grade->finalgrade)) {
+            return floatval($grade->finalgrade);
+        } else {
+            return 0;
+        }
     }
 }

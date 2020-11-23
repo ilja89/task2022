@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\StudentsRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class DefenseRegistrationController extends Controller
@@ -14,15 +17,22 @@ class DefenseRegistrationController extends Controller
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
+    /** @var StudentsRepository */
+    protected $studentsRepository;
+
     /**
      * LabDummyController constructor.
      *
      * @param Request $request
+     * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      */
-    public function __construct(Request $request, DefenseRegistrationRepository $defenseRegistrationRepository)
+    public function __construct(Request $request,
+                                StudentsRepository $studentsRepository,
+                                DefenseRegistrationRepository $defenseRegistrationRepository)
     {
         parent::__construct($request);
+        $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
@@ -66,6 +76,14 @@ class DefenseRegistrationController extends Controller
         $student_id = $request->input('user_id');
         $defense_lab_id = $request->input('defLab_id');
         $submission_id = $request->input('submission_id');
+
+        Log::warning(json_encode([
+            'event' => 'registration_deletion',
+            'by_user_id' => app(User::class)->currentUserId(),
+            'for_user_id' => $student_id,
+            'defense_lab_id' => $defense_lab_id,
+            'submission_id' => $submission_id
+        ]));
 
         return $this->defenseRegistrationRepository->deleteRegistration($student_id, $defense_lab_id, $submission_id);
     }

@@ -1,11 +1,13 @@
 variables:
   DOCKER_DRIVER: overlay
+  BOOTSTRAP_JS: "plugin/resources/assets/js/bootstrap.js"
 
 
 stages:
   - test
   - staging
 #  - deploy
+
 
 test:
   tags:
@@ -21,6 +23,7 @@ test:
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml plugin/tests/Unit
 
+
 # deploy:
 #   tags:
 #     - ained
@@ -32,30 +35,8 @@ test:
 #     - dev
 #     - master
 
-create_dev_artifacts:
-  tags:
-    - docker
-  stage: staging
-  image: misterio92/ci-php-node:4.0
-  services:
-    - name: docker:dind
-  script:
-    - touch .env
-    - php composer.phar install
-    - cp -p .env.develop .env
-    - php artisan key:generate
-    - npm shrinkwrap --dev
-    - npm install --unsafe-perm=true --allow-root --loglevel silly
-    - npm run dev
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/charon
 
-create_production_artifacts:
+test_build:
   tags:
     - docker
   stage: staging
@@ -63,17 +44,20 @@ create_production_artifacts:
   services:
     - name: docker:dind
   script:
-    - touch .env
-    - php composer.phar install --no-dev
-    - cp -p .env.production .env
-    - php artisan key:generate
-    - npm shrinkwrap
-    - npm install
-    - npm run production
-    - rm -rf node_modules
-    - mkdir charon
-    - mv * charon || true
-    - mv .* charon || true
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
+  except:
+    - master
+
+
+build:
+  tags:
+    - docker
+  stage: staging
+  image: misterio92/ci-php-node:4.0
+  services:
+    - name: docker:dind
+  script:
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon

@@ -23,7 +23,8 @@
 
             <v-footer absolute class="font-weight-medium">
                 <v-col class="text-center" cols="12">
-                    {{ new Date().getFullYear() }} — <strong>Charon</strong>
+                    <span :title="new Date(version.date).toLocaleString()">{{ new Date(version.date).getFullYear() }}</span> — <strong>Charon</strong>
+                    <span class="version"> — Version: {{ version.commit }} </span>
                 </v-col>
             </v-footer>
         </v-main>
@@ -57,6 +58,7 @@
                 'course',
                 'charons'
             ]),
+            version: function () { return window.appVersion; }
         },
 
         created() {
@@ -143,4 +145,10 @@
 <style>
     @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
     @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+</style>
+
+<style lang="scss" scoped>
+    span.version {
+        color: #cccccc;
+    }
 </style>
