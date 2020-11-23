@@ -65,8 +65,8 @@
             </template>
 
             <template v-slot:item.submission="{ item }">
-                <v-btn class="ma-2" small tile outlined color="primary" @click="submissionClicked(item)">
-                    Go to submission
+                <v-btn class="ma-2" small tile outlined color="primary" @click="submissionClicked(item)" block>
+                    {{ getSubmissionName(item) }}
                 </v-btn>
             </template>
 
@@ -94,6 +94,7 @@
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
 import Multiselect from "vue-multiselect";
+import Submission from "../../../api/Submission";
 
 export default {
     components: {Multiselect},
@@ -169,11 +170,20 @@ export default {
                 return '-'
             }
             return duration + ' min'
+        },
+        getSubmissionName(submission) {
+            let name = "-";
+            this.charons.forEach(charon => {
+                if (charon.id === submission.charon_id) {
+                    name = charon.name
+                }
+            });
+            return name;
         }
     },
     computed: {
         ...mapState([
-            'teacher', 'course'
+            'teacher', 'course', 'charons'
         ]),
 
         isSessionActive() {
