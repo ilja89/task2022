@@ -19,19 +19,31 @@
 </template>
 
 <script>
-    export default {
+export default {
 
-        props: {
-            isActive: { required: true },
-            wide: { required: false }
-        },
-        computed: {
-            computedWidth: function() {
-                if (this.wide) {
-                    return '75%';
-                }
-                return ''
+    props: {
+        isActive: {required: true},
+        wide: {required: false}
+    },
+    computed: {
+        computedWidth: function () {
+            if (this.wide) {
+                return '75%';
             }
+            return ''
         }
-    }
+    },
+    created() {
+        const escapeHandler = (e) => {
+            if (e.key === 'Escape' && this.isActive) {
+                this.$emit('modal-was-closed');
+            }
+        };
+
+        document.addEventListener('keydown', escapeHandler);
+        this.$once('hook:destroyed', () => {
+            document.removeEventListener('keydown', escapeHandler);
+        });
+    },
+}
 </script>
