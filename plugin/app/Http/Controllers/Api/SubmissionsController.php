@@ -71,7 +71,8 @@ class SubmissionsController extends Controller
 
         $submission->total_result = $this->submissionService->calculateSubmissionTotalGrade($submission);
         $submission->max_result = $charon->category->getGradeItem()->grademax;
-        $submission->order_nr = $this->submissionsRepository->getSubmissionOrderNumber($submission);
+        $submission->course_order_nr = $this->submissionsRepository->getSubmissionCourseOrderNumber($submission);
+        $submission->charon_order_nr = $this->submissionsRepository->getSubmissionCharonOrderNumber($submission);
         $submission->files = $this->filesController->index($submission);
 
         return $submission->makeHidden(['charon', 'grader_id']);

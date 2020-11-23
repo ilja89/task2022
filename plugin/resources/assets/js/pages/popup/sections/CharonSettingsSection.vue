@@ -8,7 +8,7 @@
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
-                    Are you sure you want to delete the charon?
+                    Are you sure you want to delete this charon?
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
@@ -164,6 +164,7 @@
 
             deleteCharon() {
                 Charon.deleteById(this.charon_id, () => {
+                    VueEvent.$emit('show-notification', "Charon successfully deleted", 'danger')
                     this.alert = false
                     this.charon_id = 0
                     this.charons = this.charons.filter(x => x.id !== this.charon_id)

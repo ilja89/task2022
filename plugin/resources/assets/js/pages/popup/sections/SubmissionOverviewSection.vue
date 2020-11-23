@@ -121,7 +121,11 @@
             },
 
             submissionOrderNrText() {
-                return this.submission ? this.submission.order_nr + ". submission" : null;
+                if (this.submission) {
+                    return "Charon: <b>" + this.submission.charon_order_nr + "</b>. submission" +
+                        " — Course: <b>" + this.submission.course_order_nr + "</b>. submission"
+                }
+                return "no submission present";
             },
 
             saveIsDisabled() {

@@ -140,7 +140,6 @@ class SubmissionController extends Controller
         return $free_teachers[$random_teacher_index];
     }
 
-
     public function getDefensesCountForTimeMyTeacher($time, $teacher_id)
     {
 
