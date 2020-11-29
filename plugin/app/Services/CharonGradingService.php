@@ -3,7 +3,6 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
@@ -22,16 +21,22 @@ class CharonGradingService
 {
     /** @var GradingService */
     private $gradingService;
+
     /** @var GrademapService */
     private $grademapService;
+
     /** @var CharonRepository */
     private $charonRepository;
+
     /** @var SubmissionsRepository */
     private $submissionsRepository;
+
     /** @var SubmissionCalculatorService */
     private $submissionCalculatorService;
+
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
+
     /** @var User */
     private $user;
 
@@ -66,24 +71,21 @@ class CharonGradingService
     }
 
     /**
-     * Update the grade for the user if it should be updated.
+     * Update the grade for the user.
+     *
+     * TODO: Send commit hash info to tester! Grade will now be updated!
      *
      * @param Submission $submission
      * @param bool $force
      *
      * @return void
      */
-    public function updateGradeIfApplicable($submission, $force = false)
+    public function updateGrade(Submission $submission)
     {
-        if (!$this->gradesShouldBeUpdated($submission, $force)) {
-            return;
-        }
-
         $charon = $submission->charon;
-        // TODO: Send commit hash info to tester! Grade will now be updated!
         $courseId = $charon->courseModule()->course;
-
         $gradeTypeCodes = $charon->getGradeTypeCodes();
+
         foreach ($submission->results as $result) {
             if (!$gradeTypeCodes->contains($result->grade_type_code)) {
                 continue;
@@ -106,11 +108,10 @@ class CharonGradingService
      *
      * @return void
      */
-    public function confirmSubmission($submission)
+    public function confirmSubmission(Submission $submission)
     {
-        $userId = $submission->user_id;
         $submissions = $this->submissionsRepository->findConfirmedSubmissionsForUserAndCharon(
-            $userId,
+            $submission->user_id,
             $submission->charon_id
         );
 
@@ -130,16 +131,11 @@ class CharonGradingService
      * Check if the given submission should update grades.
      *
      * @param Submission $submission
-     * @param bool $force
      *
      * @return bool
      */
-    public function gradesShouldBeUpdated(Submission $submission, $force)
+    public function gradesShouldBeUpdated(Submission $submission)
     {
-        if ($force) {
-            return true;
-        }
-
         if ($this->hasConfirmedSubmission($submission->charon_id, $submission->user_id)) {
             return false;
         }
@@ -243,24 +239,24 @@ class CharonGradingService
      * @param $submission_id
      * @param $student_id
      * @param $newProgress
-     * @return Registration|array
      */
     public function updateProgressByStudentId($charon_id, $submission_id, $student_id, $newProgress)
     {
-        try {
-            $teacher_id = $this->user->currentUserId();
-            $student_registration = \DB::table('charon_defenders')
-                ->where('student_id', $student_id)
-                ->where('submission_id', $submission_id)
-                ->where('charon_id', $charon_id)
-                ->select('id')
-                ->orderBy('choosen_time', 'desc')
-                ->first();
-            return $this->defenseRegistrationRepository->updateRegistration($student_registration->id, $newProgress, $teacher_id);
+        $studentRegistration = $this->defenseRegistrationRepository
+            ->query()
+            ->where('student_id', $student_id)
+            ->where('submission_id', $submission_id)
+            ->where('charon_id', $charon_id)
+            ->select('id')
+            ->orderBy('choosen_time', 'desc')
+            ->first();
 
-        } catch (\Exception $e) {  // try-catch because that means there is no row in defenders table
-            // associated with this student and charon
-            return [];
+        if (is_null($studentRegistration)) {
+            return;
         }
+
+        $teacher_id = $this->user->currentUserId();
+
+        $this->defenseRegistrationRepository->updateRegistration($studentRegistration->id, $newProgress, $teacher_id);
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\Services;
 
-use Mockery as m;
+use Mockery;
+use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Models\GitCallback;
@@ -10,20 +11,46 @@ use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterCommunicationServiceTest extends TestCase
 {
+    /** @var GitCallback */
+    private $gitCallback;
 
-    public function testSendsGitCallback()
+    /** @var Mock|HttpCommunicationService  */
+    private $communicator;
+
+    /** @var TesterCommunicationService  */
+    private $service;
+
+    protected function setUp()
     {
-        $gitCallback = m::mock(GitCallback::class)->makePartial();
-        $gitCallback->secret_token = 'Very secret token';
+        parent::setUp();
+        $this->gitCallback = new GitCallback(['secret_token' => 'Very secret token']);
+        $this->communicator = Mockery::mock(HttpCommunicationService::class);
+        $this->service = new TesterCommunicationService($this->communicator);
+    }
 
-        $httpCommunicator = m::mock(HttpCommunicationService::class)
-            ->shouldReceive('postToTester')->with([
-                'returnUrl' => 'tester callback url',
-                'returnExtra' => ['token' => 'Very secret token'],
-                'extra' => 'param'
-            ])->getMock();
-        $testerCommunicationService = new TesterCommunicationService($httpCommunicator);
+    public function testSendsGitCallbackWithoutExtra()
+    {
+        $this->communicator->shouldReceive('postToTester')->with([
+            'returnUrl' => 'tester callback url',
+            'returnExtra' => ['token' => 'Very secret token'],
+            'regular' => 'param'
+        ]);
 
-        $testerCommunicationService->sendGitCallback($gitCallback, 'tester callback url', ['extra' => 'param']);
+        $this->service->sendGitCallback($this->gitCallback, 'tester callback url', ['regular' => 'param']);
+    }
+
+    public function testSendsGitCallbackWithExtra()
+    {
+        $this->communicator->shouldReceive('postToTester')->with([
+            'returnUrl' => 'tester callback url',
+            'returnExtra' => ['extra' => 'param', 'token' => 'Very secret token'],
+            'regular' => 'param'
+        ]);
+
+        $this->service->sendGitCallback(
+            $this->gitCallback,
+            'tester callback url',
+            ['regular' => 'param', 'returnExtra' => ['extra' => 'param']]
+        );
     }
 }

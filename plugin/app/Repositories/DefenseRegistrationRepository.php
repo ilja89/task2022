@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 use TTU\Charon\Models\Registration;
@@ -33,6 +34,14 @@ class DefenseRegistrationRepository
     {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
+    }
+
+    /**
+     * @return Builder|Registration
+     */
+    public function query()
+    {
+        return Registration::query();
     }
 
     /**

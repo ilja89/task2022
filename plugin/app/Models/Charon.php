@@ -147,7 +147,7 @@ class Charon extends Model
      * Get the grade types for this Charon instance.
      * Returns grade type codes for all grademaps.
      *
-     * @return int[]
+     * @return Collection|int[]
      */
     public function getGradeTypeCodes()
     {

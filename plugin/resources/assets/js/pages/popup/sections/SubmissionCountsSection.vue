@@ -2,6 +2,10 @@
     <popup-section title="Submission counts"
                    subtitle="Submission counts and averages for Charons.">
 
+        <template slot="header-right">
+          <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissionCounts">Load counts</v-btn>
+        </template>
+
         <v-card-title v-if="submission_counts.length">
             Charons
             <v-spacer></v-spacer>
@@ -15,7 +19,7 @@
             </v-text-field>
         </v-card-title>
         <v-card-title v-else>
-            No Charons for this course!
+            {{ empty }}
         </v-card-title>
 
         <v-data-table
@@ -46,6 +50,7 @@
         data() {
             return {
                 search: '',
+                empty: 'Press load counts to get started',
                 submission_counts: [],
                 submission_count_headers: [
                     {text: 'Charon', value: 'project_folder', align: 'start'},
@@ -65,14 +70,10 @@
             ]),
         },
 
-        created() {
-            this.fetchSubmissionCounts()
-        },
-
         methods: {
-
             fetchSubmissionCounts() {
                 Submission.findSubmissionCounts(this.courseId, counts => {
+                    this.empty = 'No Charons for this course!';
                     this.submission_counts = counts.map(item => {
                         const container = {};
 

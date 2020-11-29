@@ -9,12 +9,10 @@ class DeadlinesRepository
 {
     public function deleteAllDeadlinesForCharon($charonId)
     {
-
         Log::info("Attempting to delete all charon deadlines");
         return DB::table('charon_deadline')
             ->where('charon_id', $charonId)
             ->delete();
-
     }
 
     public function deleteAllCalendarEventsForCharon($charonId)
@@ -23,6 +21,5 @@ class DeadlinesRepository
         return DB::table('event')
             ->where('instance', $charonId)
             ->delete();
-
     }
 }

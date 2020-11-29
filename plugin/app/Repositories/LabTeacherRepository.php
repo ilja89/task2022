@@ -7,7 +7,6 @@ use TTU\Charon\Facades\MoodleConfig;
 
 class LabTeacherRepository
 {
-
     /** @var MoodleConfig */
     private $moodleConfig;
 

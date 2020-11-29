@@ -29,10 +29,8 @@ class PresetsRepository
 
     public function getPresetsOnlyForCourse($courseId)
     {
-        $presets = Preset::with('presetGrades')
-                     ->where('course_id', $courseId)
-                     ->get();
-
-        return $presets;
+        return Preset::with('presetGrades')
+            ->where('course_id', $courseId)
+            ->get();
     }
 }

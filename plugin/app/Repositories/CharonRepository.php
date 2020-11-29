@@ -3,6 +3,8 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
@@ -47,13 +49,24 @@ class CharonRepository
      * @param GradebookService $gradebookService
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
-    public function __construct(ModuleService $moduleService, FileUploadService $fileUploadService,
-                                GradebookService $gradebookService, CharonDefenseLabRepository $charonDefenseLabRepository)
-    {
+    public function __construct(
+        ModuleService $moduleService,
+        FileUploadService $fileUploadService,
+        GradebookService $gradebookService,
+        CharonDefenseLabRepository $charonDefenseLabRepository
+    ) {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+    }
+
+    /**
+     * @return Builder|Charon
+     */
+    public function query()
+    {
+        return Charon::query();
     }
 
     /**
@@ -71,7 +84,7 @@ class CharonRepository
     /**
      * Get all Charons.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function getAllCharons()
     {

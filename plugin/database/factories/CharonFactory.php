@@ -5,6 +5,8 @@ use Faker\Generator;
 use Illuminate\Database\Eloquent\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
+use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\TesterType;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeCategory;
@@ -56,5 +58,30 @@ $factory->define(TesterType::class, function (Generator $faker) {
     return [
         'name' => $faker->word,
         'code' => $faker->word,
+    ];
+});
+
+$factory->define(Submission::class, function (Generator $faker) {
+    return [
+        'charon_id' => 0,
+        'user_id' => 0,
+        'git_hash' => $faker->word,
+        'git_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
+        'mail' => $faker->email,
+        'stdout' => $faker->sentence,
+        'stderr' => $faker->sentence,
+        'git_commit_message' => $faker->sentence,
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+    ];
+});
+
+$factory->define(GitCallback::class, function (Generator $faker) {
+    return [
+        'url' => $faker->url,
+        'secret_token' => $faker->word,
+        'repo' => $faker->word,
+        'user' => $faker->firstName,
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s')
     ];
 });

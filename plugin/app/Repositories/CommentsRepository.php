@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use TTU\Charon\Models\Comment;
 
 /**
@@ -48,19 +49,17 @@ class CommentsRepository
      * @param  int  $charonId
      * @param  int  $studentId
      *
-     * @return \Illuminate\Database\Eloquent\Collection|Comment[]
+     * @return Collection|Comment[]
      */
     public function findCommentsByCharonAndStudent($charonId, $studentId)
     {
-        $comments  = Comment::with([
-            'teacher' => function ($query) {
-                $query->select(['id', 'firstname', 'lastname']);
-            },
-        ])
-                            ->where('student_id', $studentId)
-                            ->where('charon_id', $charonId)
-                            ->get();
-
-        return $comments;
+        return Comment::with([
+                'teacher' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
+            ])
+            ->where('student_id', $studentId)
+            ->where('charon_id', $charonId)
+            ->get();
     }
 }
