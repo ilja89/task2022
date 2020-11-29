@@ -8,8 +8,6 @@ use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\GradeGrade;
-use Zeizig\Moodle\Models\GradeItem;
-use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -47,10 +45,10 @@ class SubmissionCalculatorService
             return 0;
         }
 
-        $maxPoints     = $grademap->gradeItem->grademax;
+        $maxPoints = $grademap->gradeItem->grademax;
         $smallestScore = $result->percentage * $maxPoints;
 
-        if ( ! $result->isTestsGrade() || empty($deadlines)) {
+        if (!$result->isTestsGrade() || empty($deadlines)) {
             return $smallestScore;
         }
 
@@ -104,14 +102,15 @@ class SubmissionCalculatorService
     /**
      * Check if the current submission is better than the last active one.
      *
-     * @param  Submission $submission
+     * @param Submission $submission
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast($submission)
+    public function submissionIsBetterThanLast(Submission $submission)
     {
-        $submissionSum       = 0;
+        $submissionSum = 0;
         $activeSubmissionSum = 0;
+
         foreach ($submission->results as $result) {
             $grademap = $result->getGrademap();
             if ($grademap === null) {

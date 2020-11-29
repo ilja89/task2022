@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
@@ -10,9 +11,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Models\TestSuite;
-use TTU\Charon\Models\UnitTest;
-use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -35,8 +34,11 @@ class SubmissionService
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
-    /** @var DefenseRegistrationRepository */
-    private $defenseRegistrationRepository;
+    /** @var ResultRepository */
+    private $resultRepository;
+
+    /** @var TestSuiteService */
+    private $testSuiteService;
 
     /**
      * SubmissionService constructor.
@@ -45,21 +47,23 @@ class SubmissionService
      * @param CharonGradingService $charonGradingService
      * @param RequestHandlingService $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
-     * @param DefenseRegistrationRepository $defenseRegistrationRepository
+     * @param TestSuiteService $testSuiteService
+     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
         RequestHandlingService $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
-        DefenseRegistrationRepository $defenseRegistrationRepository
-    )
-    {
+        TestSuiteService $testSuiteService,
+        ResultRepository $resultRepository
+    ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
         $this->submissionsRepository = $submissionsRepository;
-        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
+        $this->testSuiteService = $testSuiteService;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
@@ -70,18 +74,17 @@ class SubmissionService
      * @param GitCallback $gitCallback
      *
      * @return Submission
-     * @throws \Exception
+     * @throws Exception
      */
-    public function saveSubmission($submissionRequest, $gitCallback)
+    public function saveSubmission(Request $submissionRequest, GitCallback $gitCallback)
     {
         $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
-        $this->saveSuitesAndTests($submissionRequest, $submission);
 
-        $style = (int)$submissionRequest['style'] == 100;
+        $style = (int) $submissionRequest['style'] == 100;
 
-        $result = new Result([
+        $this->resultRepository->saveIfGrademapPresent([
             'submission_id' => $submission->id,
             'grade_type_code' => 101,
             'percentage' => $style ? 1 : 0,
@@ -90,11 +93,8 @@ class SubmissionService
             'stderr' => null,
         ]);
 
-        if ($result->getGrademap() != null) {
-            $result->save();
-        }
-
-        $this->saveResults($submission, $submissionRequest['testSuites']);
+        $this->testSuiteService->saveSuites($submissionRequest['testSuites'], $submission->id);
+        $this->includeUnsentGrades($submission);
 
         if ($submissionRequest['files'] != null) {
             Log::debug("Saving files: ", [sizeof($submissionRequest['files'])]);
@@ -105,100 +105,23 @@ class SubmissionService
     }
 
     /**
-     * @param $submissionRequest
-     * @param $submission
-     */
-    private function saveSuitesAndTests($submissionRequest, $submission)
-    {
-        foreach ($submissionRequest['testSuites'] as $testSuite) {
-            $createdTestSuite = TestSuite::create([
-                'submission_id' => $submission->id,
-                'name' => $testSuite['name'],
-                'file' => $testSuite['file'],
-                'weight' => $testSuite['weight'] == null ? 1 : $testSuite['weight'],
-                'passed_count' => $testSuite['passedCount'],
-                'grade' => $testSuite['grade']
-            ]);
-            $createdTestSuite->save();
-            foreach ($testSuite['unitTests'] as $unitTest) {
-                $createdUnitTest = UnitTest::create([
-                    'test_suite_id' => $createdTestSuite->id,
-                    'groups_depended_upon' => $this->handleMaybeLists($unitTest['groupsDependedUpon']),
-                    'status' => $unitTest['status'],
-                    'weight' => $unitTest['weight'] == null ? 1 : $unitTest['weight'],
-                    'print_exception_message' => $unitTest['printExceptionMessage'],
-                    'print_stack_trace' => $unitTest['printStackTrace'],
-                    'time_elapsed' => $unitTest['timeElapsed'],
-                    'methods_depended_upon' => $this->handleMaybeLists($unitTest['methodsDependedUpon']),
-                    'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
-                    'name' => $unitTest['name'],
-                    'stdout' => $this->handleMaybeLists($unitTest['stdout']),
-                    'exception_class' => $unitTest['exceptionClass'],
-                    'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => $this->handleMaybeLists($unitTest['stderr'])
-                ]);
-                $createdUnitTest->save();
-            }
-        }
-    }
-
-
-    /**
-     * Save the results from given results request (arete v2).
-     *
-     * @param Submission $submission
-     * @param array $resultsRequest
-     *
-     * @return void
-     */
-    private function saveResults($submission, $resultsRequest)
-    {
-        $gradeCode = 1;
-        foreach ($resultsRequest as $resultRequest) {  // testSuite in testSuites
-            $result = $this->requestHandlingService->getResultFromRequest($submission->id, $resultRequest, $gradeCode++);
-            $result->save();
-        }
-
-        $this->includeUnsentGrades($submission);
-    }
-
-    /**
-     * Save the files from given results request (arete v2).
-     *
-     * @param Submission $submission
-     * @param array $filesRequest
-     *
-     * @return void
-     */
-    private function saveFiles($submission, $filesRequest)
-    {
-        foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
-            $submissionFile->save();
-        }
-    }
-
-    /**
      * Updates the given submissions' results with the given new results.
      *
-     * @param Charon $charon
      * @param Submission $submission
      * @param array $newResults
      *
      * @return Submission
      * @throws ResultPointsRequiredException
      */
-    public function updateSubmissionCalculatedResults(Charon $charon, Submission $submission, $newResults)
+    public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
     {
         foreach ($newResults as $result) {
             if ($result['calculated_result'] !== '0' && !$result['calculated_result']) {
-                throw (new ResultPointsRequiredException('result_points_are_required'))
-                    ->setResultId($result['id']);
+                throw (new ResultPointsRequiredException('result_points_are_required'))->setResultId($result['id']);
             }
         }
 
         foreach ($newResults as $result) {
-
             $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
                 return $resultLoop->id == $result['id'];
             });
@@ -207,7 +130,7 @@ class SubmissionService
             $existingResult->save();
         }
 
-        $this->charonGradingService->updateGradeIfApplicable($submission, true);
+        $this->charonGradingService->updateGrade($submission);
         $this->charonGradingService->confirmSubmission($submission);
         $this->charonGradingService->updateProgressByStudentId($submission->charon_id, $submission->id, $submission->user_id, 'Done');
 
@@ -224,8 +147,8 @@ class SubmissionService
      */
     public function addNewEmptySubmission(Charon $charon, $studentId)
     {
-        $now = Carbon::now();
-        $now = $now->setTimezone('UTC');
+        $now = Carbon::now()->setTimezone('UTC');
+
         /** @var Submission $submission */
         $submission = $charon->submissions()->create([
             'user_id' => $studentId,
@@ -240,7 +163,9 @@ class SubmissionService
             $this->submissionsRepository->saveNewEmptyResult($submission->id, $grademap->grade_type_code, '');
         }
 
-        $this->charonGradingService->updateGradeIfApplicable($submission);
+        if ($this->charonGradingService->gradesShouldBeUpdated($submission)) {
+            $this->charonGradingService->updateGrade($submission);
+        }
 
         return $submission;
     }
@@ -277,6 +202,22 @@ class SubmissionService
     }
 
     /**
+     * Save the files from given results request (arete v2).
+     *
+     * @param Submission $submission
+     * @param array $filesRequest
+     *
+     * @return void
+     */
+    private function saveFiles($submission, $filesRequest)
+    {
+        foreach ($filesRequest as $fileRequest) {
+            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
+            $submissionFile->save();
+        }
+    }
+
+    /**
      * Include custom grades for the given submission. If custom grademaps exist
      * will create new result for them.
      *
@@ -309,31 +250,5 @@ class SubmissionService
                 'This result was automatically generated'
             );
         }
-    }
-
-    /**
-     * @param $stackTrace
-     * @return string
-     */
-    private function constructStackTrace($stackTrace)
-    {
-        if ($stackTrace != null) {
-            return strlen($stackTrace) >= 255 ? substr($stackTrace, 0, 255) : $stackTrace;
-        }
-        return '';
-    }
-
-    /**
-     * @param $list
-     * @return string
-     */
-    private function handleMaybeLists($list)
-    {
-        try {
-            return implode(', ', $list);
-        } catch (\Exception $e) {
-            return "";
-        }
-
     }
 }

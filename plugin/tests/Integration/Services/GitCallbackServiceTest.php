@@ -139,6 +139,27 @@ class GitCallbackServiceTest extends TestCase
         $this->assertContains('username', $actual);
     }
 
+    public function testGetGroupUsersFiltersOutGroupsNotBelongingToGrouping()
+    {
+        /** @var Grouping|Model $grouping */
+        $grouping = factory(Grouping::class)->create();
+
+        $user = factory(User::class)->create(['username' => 'username@ttu.ee']);
+
+        /** @var Group|Model $empty1 */
+        $empty1 = factory(Group::class)->create();
+
+        /** @var Group|Model $empty2 */
+        $empty2 = factory(Group::class)->create();
+
+        $empty1->members()->save($user);
+        $empty2->members()->save($user);
+
+        $actual = $this->service->getGroupUsers($grouping->id, 'username');
+
+        $this->assertEmpty($actual);
+    }
+
     public function testGetGroupUsersReturnsUsernamesWhenOneGroupIsFound()
     {
         /** @var Grouping|Model $grouping */

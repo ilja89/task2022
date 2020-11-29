@@ -107,7 +107,7 @@ class SubmissionsController extends Controller
     {
         $newResults = $this->request['submission']['results'];
 
-        $newSubmission = $this->submissionService->updateSubmissionCalculatedResults($charon, $submission, $newResults);
+        $newSubmission = $this->submissionService->updateSubmissionCalculatedResults($submission, $newResults);
 
         return response()->json([
             'status' => 200,

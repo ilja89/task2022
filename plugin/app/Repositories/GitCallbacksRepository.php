@@ -54,8 +54,7 @@ class GitCallbacksRepository
             throw new IncorrectSecretTokenException('no_secret_token_found');
         }
 
-        $gitCallback = GitCallback::where('secret_token', $secretToken)
-                                  ->get();
+        $gitCallback = GitCallback::where('secret_token', $secretToken)->get();
 
         if ($gitCallback->isEmpty()) {
             throw new IncorrectSecretTokenException('incorrect_secret_token', $secretToken);

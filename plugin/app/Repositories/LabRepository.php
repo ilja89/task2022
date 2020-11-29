@@ -4,7 +4,6 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -26,7 +25,6 @@ class LabRepository
     /** @var CharonDefenseLabRepository */
     protected $charonDefenseLabRepository;
 
-
     /**
      * LabRepository constructor.
      *
@@ -38,8 +36,7 @@ class LabRepository
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository,
         CharonDefenseLabRepository $charonDefenseLabRepository
-    )
-    {
+    ) {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
