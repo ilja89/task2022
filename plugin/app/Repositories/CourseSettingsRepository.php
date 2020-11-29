@@ -20,8 +20,7 @@ class CourseSettingsRepository
      */
     public function getCourseSettingsByCourseId($courseId)
     {
-        $courseSettings = CourseSettings::where('course_id', $courseId)
-            ->get();
+        $courseSettings = CourseSettings::where('course_id', $courseId)->get();
 
         if ($courseSettings->isEmpty()) {
             return null;

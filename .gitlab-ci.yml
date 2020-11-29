@@ -2,17 +2,16 @@ variables:
   DOCKER_DRIVER: overlay
   BOOTSTRAP_JS: "plugin/resources/assets/js/bootstrap.js"
 
-
 stages:
   - test
-  - staging
-#  - deploy
+  - build
+  - deploy
+#  - integration test
 
-
-test:
+unit_test:
   tags:
     - docker
-  image: misterio92/ci-php-node:3.0
+  image: jaakkytt/ci-php-node:3.0
   stage: test
   services:
     - name: docker:dind
@@ -21,38 +20,32 @@ test:
     - php composer.phar install --dev
     - cp -p .env.develop .env
     - php artisan key:generate
-    - php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml plugin/tests/Unit
+    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml plugin/tests/Unit
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/coverage
+    expire_in: 1 week
 
-
-# deploy:
-#   tags:
-#     - ained
-#   stage: deploy
-#   script:
-#     -  pwd
-#   #    git clone https://charon:1sg6MQyfXDEyKckZKphs@gitlab.cs.ttu.ee/ained/charon.git
-#   only:
-#     - dev
-#     - master
-
-
-test_build:
+build_dev:
   tags:
     - docker
-  stage: staging
+  stage: build
   image: misterio92/ci-php-node:4.0
   services:
     - name: docker:dind
   script:
     - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
-  except:
-    - master
-
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/charon
+    expire_in: 1 week
+  only:
+    - develop
 
 build:
   tags:
     - docker
-  stage: staging
+  stage: build
   image: misterio92/ci-php-node:4.0
   services:
     - name: docker:dind
@@ -63,3 +56,51 @@ build:
       - $CI_PROJECT_DIR/charon
   only:
   - master
+
+deploy_dev:
+  stage: deploy
+  image: misterio92/ci-php-node:4.0
+  environment:
+    name: development
+    url: http://$ENV_IP/moodle
+  before_script:
+    - eval $(ssh-agent -s)
+    - chmod 600 $SSH_PRIVATE_KEY
+    - ssh-add $SSH_PRIVATE_KEY
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H $ENV_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - scp -r ./charon $SSH_USER@$ENV_IP:$MOD_PATH
+    - ssh $SSH_USER@$ENV_IP "find \"$MOD_PATH/charon\" -type f -exec chmod 0644 {} \;"
+    - ssh $SSH_USER@$ENV_IP "chown -R $MOODLE_USER_GROUP $MOD_PATH/charon"
+    - ssh $SSH_USER@$ENV_IP "chmod -R 775 $MOD_PATH/charon/plugin/storage"
+    - ssh $SSH_USER@$ENV_IP "find $MOD_PATH/charon/plugin/storage -type f -exec chmod 0664 {} \;"
+    - ssh $SSH_USER@$ENV_IP "echo \"y\" | php $MOODLE_PATH/admin/cli/upgrade.php"
+    - ssh $SSH_USER@$ENV_IP "php $MOODLE_PATH/admin/cli/purge_caches.php"
+  only:
+    - develop
+
+#integration_test_dev:
+#  tags:
+#    - docker
+#  image: jaakkytt/ci-php-node:3.0
+#  stage: integration test
+#  services:
+#    - name: docker:dind
+#  before_script:
+#    - service mysql start
+#  script:
+#    - touch .env
+#    - php composer.phar install --dev
+#    - cp -p .env.develop .env
+#    - cat $INTEGRATION_DB_VARIABLES >> .env
+#    - php artisan key:generate
+#    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
+#  only:
+#    - develop
+#  artifacts:
+#    paths:
+#      - $CI_PROJECT_DIR/coverage
+#    expire_in: 1 week

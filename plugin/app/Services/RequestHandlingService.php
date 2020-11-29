@@ -3,6 +3,10 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
+use DateTime;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
@@ -10,22 +14,43 @@ use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
+use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\CourseRepository;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 
+/**
+ * This handles only the response requests from Arete
+ */
 class RequestHandlingService
 {
+    const MAX_32_BIT_DATETIME = 2147483647;
+
     /** @var UserService */
     private $userService;
+
+    /** @var CharonRepository */
+    private $charonRepository;
+
+    /** @var CourseRepository */
+    private $courseRepository;
 
     /**
      * RequestHandler constructor.
      *
      * @param UserService $userService
+     * @param CharonRepository $charonRepository
+     * @param CourseRepository $courseRepository
      */
-    public function __construct(UserService $userService)
-    {
+    public function __construct(
+        UserService $userService,
+        CharonRepository $charonRepository,
+        CourseRepository $courseRepository
+    ) {
         $this->userService = $userService;
+        $this->charonRepository = $charonRepository;
+        $this->courseRepository = $courseRepository;
     }
 
     /**
@@ -37,86 +62,31 @@ class RequestHandlingService
      * @param GitCallback $gitCallback
      *
      * @return Submission
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getSubmissionFromRequest($request, $gitCallback)
+    public function getSubmissionFromRequest(Request $request, GitCallback $gitCallback)
     {
-        $now = Carbon::now();
-        $gitTimestamp = $request->has('timestamp')
-            ? ($request->input('timestamp') < 2147483647 ?
-                Carbon::createFromTimestamp($request->input('timestamp')) :
-                Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000)))
-            : $now;
+        $course = $this->getCourse($gitCallback->repo);
+        $charon = $this->getCharon($request, $course->id);
+        $studentId = $this->getUserId($request->input('uniid'));
 
-        $uniId = $request->input('uniid');
-        $student = $this->userService->findUserByUniid($uniId);
-        $studentId = $student->id;
-        $courseIdCode = "";
-        $repo = $gitCallback->repo;
-        if (strpos($repo, "exams")) {
-            if (preg_match('/([a-zA-Z0-9_.-]+)\/exams/', $repo, $matches)) {
-                $courseIdCode = $matches[1];
-            }
-        } else {
-            if (preg_match('/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\.git/', $repo, $matches)) {
-                $courseIdCode = $matches[2];
-            }
-        }
-        Log::info("Course id code:" . $courseIdCode);
+        $originalId = $request->has('retest') && !!$request->input('retest')
+            ? $request->input('original_submission_id')
+            : null;
 
-        try {
-            $course = Course::where('shortname', $courseIdCode)->first();
-        } catch (\Exception $e) {
-            Log::error("Course with code wasn't found:" . $courseIdCode);
-            throw $e;
-        }
-
-        if ($request->input("returnExtra.charon")) {
-            $query = [['id', $request->input('returnExtra.charon')]];
-        } else {
-            $query = [['project_folder', $request->input('slug')], ['course', $course->id]];
-        }
-        try {
-            $charon = Charon::where($query)->first();
-        } catch (\Exception $e) {
-            Log::error('Charon was not found by fields:', $query);
-            throw $e;
-        }
-
-        $output = "";
-        $stackOutput = "";
-        if ($request->has("testSuites")) {
-            foreach ($request['testSuites'] as $suite) {
-                foreach ($suite['unitTests'] as $test) {
-                    if ($test['stackTrace']) {
-                        $stackOutput .= "\n\n" . $test['stackTrace'];
-                    }
-                }
-            }
-        }
-        if ($stackOutput) {
-            $output = $stackOutput;
-        }
-        // add original output
-        $output .= "\n" . $request['consoleOutputs'][0]['content'];
-
-        $submission = new Submission([
+        return new Submission([
             'charon_id' => $charon->id,
             'user_id' => $studentId,
             'git_hash' => $request->input('hash'),
-            'git_timestamp' => $gitTimestamp,
+            'git_timestamp' => $this->getGitTimestamp($request),
             'mail' => $request->input('output'),
-            'stdout' => $output,
+            'stdout' => $this->getStdOut($request),
             'stderr' => 'stderr',
             'git_commit_message' => $request->input('message'),
-            'created_at' => $now,
-            'updated_at' => $now,
-            'original_submission_id' => $request->has('retest') && !!$request->input('retest')
-                ? $request->input('original_submission_id')
-                : null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            'original_submission_id' => $originalId,
         ]);
-
-        return $submission;
     }
 
     /**
@@ -167,4 +137,109 @@ class RequestHandlingService
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return DateTime
+     */
+    private function getGitTimestamp(Request $request)
+    {
+        if (!$request->has('timestamp')) {
+            return Carbon::now();
+        }
+        return $request->input('timestamp') < self::MAX_32_BIT_DATETIME
+            ? Carbon::createFromTimestamp($request->input('timestamp'))
+            : Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000));
+    }
+
+    /**
+     * @param string $uniId
+     * @return int
+     * @throws ModelNotFoundException
+     */
+    private function getUserId(string $uniId) {
+        $user = $this->userService->findUserByUniid($uniId);
+        if ($user) {
+            return $user->id;
+        }
+        Log::error("User was not found by Uni-ID:" . $uniId);
+        throw (new ModelNotFoundException)->setModel(User::class);
+    }
+
+    /**
+     * @param string $repository
+     * @return Course|Model
+     * @throws ModelNotFoundException
+     */
+    private function getCourse(string $repository)
+    {
+        $courseIdCode = '';
+        if (strpos($repository, 'exams')) {
+            if (preg_match('/([a-zA-Z0-9_.-]+)\/exams/', $repository, $matches)) {
+                $courseIdCode = $matches[1];
+            }
+        } else {
+            if (preg_match('/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\.git/', $repository, $matches)) {
+                $courseIdCode = $matches[2];
+            }
+        }
+
+        Log::info('Course id code:' . $courseIdCode);
+
+        try {
+            return $this->courseRepository
+                ->query()
+                ->where('shortname', $courseIdCode)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $exception) {
+            Log::error("Course with code wasn't found:" . $courseIdCode);
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param int $courseId
+     * @return Charon|Model
+     * @throws ModelNotFoundException
+     */
+    private function getCharon(Request $request, int $courseId)
+    {
+        if ($request->input('returnExtra.charon')) {
+            $query = [['id', $request->input('returnExtra.charon')]];
+        } else {
+            $query = [['project_folder', $request->input('slug')], ['course', $courseId]];
+        }
+
+        try {
+            return $this->charonRepository
+                ->query()
+                ->where($query)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $exception) {
+            Log::error('Charon was not found by fields:', $query);
+            throw $exception;
+        }
+    }
+
+    /**
+     * Stitch together test stack traces and original console output
+     *
+     * @param Request $request
+     * @return string
+     */
+    private function getStdOut(Request $request)
+    {
+        if (!$request->has('testSuites')) {
+            return $request['consoleOutputs'][0]['content'];
+        }
+
+        $output = collect($request->input('testSuites'))
+            ->filter(function ($suite) { return isset($suite['unitTests']); })
+            ->flatMap(function ($suite) { return $suite['unitTests']; })
+            ->filter(function ($test) { return isset($test['stackTrace']); })
+            ->map(function ($test){ return $test['stackTrace']; })
+            ->implode('\n\n');
+
+        return $output . '\n' . $request['consoleOutputs'][0]['content'];
+    }
 }

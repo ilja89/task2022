@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
@@ -18,7 +19,7 @@ class ClassificationsRepository
     /**
      * Get all tester types.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function getAllTesterTypes()
     {
@@ -29,7 +30,7 @@ class ClassificationsRepository
      * Add a tester type.
      *
      * @param String $name
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function saveTesterTypes($name)
     {
@@ -58,7 +59,7 @@ class ClassificationsRepository
     /**
      * Get all grading methods.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function getAllGradingMethods()
     {
@@ -68,7 +69,7 @@ class ClassificationsRepository
     /**
      * Get all grade name prefixes for presets.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function getAllGradeNamePrefixes()
     {
@@ -79,7 +80,7 @@ class ClassificationsRepository
      * Get all the plagiarism checking services that the plagiarism service
      * (julia) supports.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|PlagiarismService[]
+     * @return Collection|PlagiarismService[]
      */
     public function getAllPlagiarismServices()
     {
