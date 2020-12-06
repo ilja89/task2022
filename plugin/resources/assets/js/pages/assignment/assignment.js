@@ -1,12 +1,10 @@
 import '../../bootstrap'
 import Vue from 'vue'
-import { HighlightDirective } from '../../directives'
 import { SubmissionsList, SubmissionModal } from './components'
 import Vuetify from "vuetify";
 import VueMaterial from 'vue-material'
 import light from "../popup/theme";
 
-Vue.directive('highlightjs', HighlightDirective);
 Vue.use(VueMaterial)
 Vue.use(Vuetify)
 
