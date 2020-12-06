@@ -16,7 +16,6 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
-use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 
@@ -36,21 +35,27 @@ class RequestHandlingService
     /** @var CourseRepository */
     private $courseRepository;
 
+    /** @var GitCallbackService */
+    private $gitCallbackService;
+
     /**
      * RequestHandler constructor.
      *
      * @param UserService $userService
      * @param CharonRepository $charonRepository
      * @param CourseRepository $courseRepository
+     * @param GitCallbackService $gitCallbackService
      */
     public function __construct(
         UserService $userService,
         CharonRepository $charonRepository,
-        CourseRepository $courseRepository
+        CourseRepository $courseRepository,
+        GitCallbackService $gitCallbackService
     ) {
         $this->userService = $userService;
         $this->charonRepository = $charonRepository;
         $this->courseRepository = $courseRepository;
+        $this->gitCallbackService = $gitCallbackService;
     }
 
     /**
@@ -66,7 +71,7 @@ class RequestHandlingService
      */
     public function getSubmissionFromRequest(Request $request, GitCallback $gitCallback)
     {
-        $course = $this->getCourse($gitCallback->repo);
+        $course = $this->gitCallbackService->getCourse($gitCallback->repo);
         $charon = $this->getCharon($request, $course->id);
         $studentId = $this->getUserId($request->input('uniid'));
 
@@ -156,44 +161,14 @@ class RequestHandlingService
      * @return int
      * @throws ModelNotFoundException
      */
-    private function getUserId(string $uniId) {
+    private function getUserId(string $uniId)
+    {
         $user = $this->userService->findUserByUniid($uniId);
         if ($user) {
             return $user->id;
         }
         Log::error("User was not found by Uni-ID:" . $uniId);
         throw (new ModelNotFoundException)->setModel(User::class);
-    }
-
-    /**
-     * @param string $repository
-     * @return Course|Model
-     * @throws ModelNotFoundException
-     */
-    private function getCourse(string $repository)
-    {
-        $courseIdCode = '';
-        if (strpos($repository, 'exams')) {
-            if (preg_match('/([a-zA-Z0-9_.-]+)\/exams/', $repository, $matches)) {
-                $courseIdCode = $matches[1];
-            }
-        } else {
-            if (preg_match('/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\.git/', $repository, $matches)) {
-                $courseIdCode = $matches[2];
-            }
-        }
-
-        Log::info('Course id code:' . $courseIdCode);
-
-        try {
-            return $this->courseRepository
-                ->query()
-                ->where('shortname', $courseIdCode)
-                ->firstOrFail();
-        } catch (ModelNotFoundException $exception) {
-            Log::error("Course with code wasn't found:" . $courseIdCode);
-            throw $exception;
-        }
     }
 
     /**
@@ -234,10 +209,18 @@ class RequestHandlingService
         }
 
         $output = collect($request->input('testSuites'))
-            ->filter(function ($suite) { return isset($suite['unitTests']); })
-            ->flatMap(function ($suite) { return $suite['unitTests']; })
-            ->filter(function ($test) { return isset($test['stackTrace']); })
-            ->map(function ($test){ return $test['stackTrace']; })
+            ->filter(function ($suite) {
+                return isset($suite['unitTests']);
+            })
+            ->flatMap(function ($suite) {
+                return $suite['unitTests'];
+            })
+            ->filter(function ($test) {
+                return isset($test['stackTrace']);
+            })
+            ->map(function ($test) {
+                return $test['stackTrace'];
+            })
             ->implode('\n\n');
 
         return $output . '\n' . $request['consoleOutputs'][0]['content'];

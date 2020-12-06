@@ -58,11 +58,11 @@ class TesterCallbackControllerTest extends TestCase
         /** @var GitCallback $callback */
         $callback = factory(GitCallback::class)->create([
             'secret_token' => 'test token',
-            'repo' => 'iti0999/exams',
+            'repo' => 'iti0999-2222/exams',
             'user' => 'mindy'
         ]);
 
-        $course = Course::create(['shortname' => 'iti0999']);
+        $course = Course::create(['shortname' => 'iti0999-2222']);
 
         /** @var Charon $charon */
         $charon = factory(Charon::class)->create([

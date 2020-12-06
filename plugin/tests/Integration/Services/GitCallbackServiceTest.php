@@ -40,13 +40,103 @@ class GitCallbackServiceTest extends TestCase
         $this->assertEquals('direct-match', $course->shortname);
     }
 
-    public function testGetCourseReturnsCourseFromSplitName()
+    public function testGetCourseReturnsCourseFromExamName()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2019']);
+
+        $course = $this->service->getCourse('git@gitlab.cs.ttu.ee:iti0102-2019/exams/exam1-envomp.git');
+
+        $this->assertEquals('iti0102-2019', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromSubdomain()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2019']);
+
+        $course = $this->service->getCourse('git@gitlab.cs.ttu.ee:exams/iti0102-2019/exam1-envomp.git');
+
+        $this->assertEquals('iti0102-2019', $course->shortname);
+    }
+
+    public function testGetCourseDoesntReturnsCourseFromInvalidCourseName()
     {
         factory(Course::class)->create(['shortname' => 'longer']);
 
         $course = $this->service->getCourse('git@gitlab.cs.ttu.ee:username/longer-project-name.git');
 
-        $this->assertEquals('longer', $course->shortname);
+        $this->assertNull($course);
+    }
+
+    public function testGetCourseReturnsCourseFromLongSplitName()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('git@gitlab.cs.ttu.ee:envomp/iti0102-2020-11450.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromName()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('git@gitlab.cs.ttu.ee:envomp/iti0102-2020.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromCustomGitName()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('envomp@github.com:iti0102-2020.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromCustomGitHttpsName()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('https://github.com:iti0102-2020.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromHttps()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('https://gitlab.cs.ttu.ee/envomp/iti0102-2020-11450.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromCustomHttps()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020']);
+
+        $course = $this->service->getCourse('https://github.com/envomp/iti0102-2020-11450.git');
+
+        $this->assertEquals('iti0102-2020', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromCustomCourse()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020K']);
+
+        $course = $this->service->getCourse('https://github.com/envomp/iti0102-2020K.git');
+
+        $this->assertEquals('iti0102-2020K', $course->shortname);
+    }
+
+    public function testGetCourseReturnsCourseFromCustomCourseLong()
+    {
+        factory(Course::class)->create(['shortname' => 'iti0102-2020-kevad']);
+
+        $course = $this->service->getCourse('https://github.com/envomp/iti0102/iti0102-2020-kevad.git');
+
+        $this->assertEquals('iti0102-2020-kevad', $course->shortname);
     }
 
     public function testGetCourseReturnsNullIfNoMatch()

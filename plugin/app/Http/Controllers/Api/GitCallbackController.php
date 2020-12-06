@@ -105,7 +105,7 @@ class GitCallbackController extends Controller
 
         $course = $this->gitCallbackService->getCourse($repo);
 
-        if (!$course) {
+        if (is_null($course)) {
             Log::warning('No course discovered, maybe git repo address is not in valid format.');
             $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
             return 'NO COURSE';

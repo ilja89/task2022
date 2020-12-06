@@ -40,28 +40,39 @@ class GitCallbackService
      */
     public function getCourse(string $repository)
     {
-        // Fetch Course name and Project folder from Git repo address
-        $meta = str_replace('.git', '', substr($repository, strrpos($repository, '/') + 1));
 
-        // Try course with full name (no grouping)
-        $course = Course::where('shortname', $meta)->first();
-        if ($course) {
-            return $course;
-        }
+        $url = str_replace('.git', '', $repository);
+        $url = str_replace('https://', '', $url);
+        $url = preg_replace('/\w+@/m', '', $url);
+        $url = preg_replace('/^[\w+.]+[\/|:]/m', '', $url);
+        $sub_domains = preg_split('/[\/|\\\\]/m', $url);
+        $course_regex = '/[\w\d]+-.+/m';
 
-        // Try to split COURSE-PROJECT
-        $pos = strrpos($meta, "-");
-        while ($pos !== false) {
-            $course_name = substr($meta, 0, $pos);
-            $project_folder = substr($meta, $pos + 1);
-            Log::debug('Looking for course "' . $course_name . '" and project "' . $project_folder . '"');
-            $course = Course::where('shortname', $course_name)->first();
-            if ($course) {
-                Log::debug("Course found!");
-                return $course;
+        foreach ($sub_domains as $meta) {
+            // Try finding COURSE
+            if (preg_match($course_regex, $meta)) {
+                Log::debug('Looking for course "' . $meta . '"');
+                $course = Course::where('shortname', $meta)->first();
+                if ($course) {
+                    Log::debug("Course found!");
+                    return $course;
+                }
             }
-            // Find the next place to split the rest of the name
-            $pos = strrpos($course_name, "-");
+            // Try to split COURSE-PROJECT
+            $pos = strrpos($meta, "-");
+            while ($pos !== false) {
+                $course_name = substr($meta, 0, $pos);
+                if (preg_match($course_regex, $course_name)) {
+                    Log::debug('Looking for course "' . $course_name . '"');
+                    $course = Course::where('shortname', $course_name)->first();
+                    if ($course) {
+                        Log::debug("Course found!");
+                        return $course;
+                    }
+                }
+                // Find the next place to split the rest of the name
+                $pos = strrpos($course_name, "-");
+            }
         }
 
         return null;
@@ -171,7 +182,9 @@ class GitCallbackService
             ->members()
             ->get()
             ->pluck('username')
-            ->map(function ($username) { return str_replace(self::DEFAULT_EMAIL_SUFFIX, '', $username); })
+            ->map(function ($username) {
+                return str_replace(self::DEFAULT_EMAIL_SUFFIX, '', $username);
+            })
             ->all();
     }
 
