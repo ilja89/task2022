@@ -1,5 +1,5 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p
@@ -23,8 +23,7 @@
             <div class="column is-7">
                 <div class="card">
                     <div v-for="(result, index) in submission.results"
-                         v-if="getGrademapByResult(result)"
-                         :key="'result_' + index + '_' + submission.id">
+						 v-if="getGrademapByResult(result)" :key="'result_' + index">
 
                         <hr v-if="index !== 0" class="hr-result"/>
 
@@ -44,8 +43,7 @@
                                         max="getGrademapByResult(result).grade_item.grademax"
                                         v-model="result.calculated_result"
                                         @keyup="updatePointsState"
-                                        @keydown="errors[result.id] = false"
-                                />
+                                        @keydown="errors[result.id] = false"/>
                                 <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
                                 </v-btn>
                                 <div class="resultpercent">
@@ -59,9 +57,7 @@
                     <div class="result">
                         <div>
                             Total {{ submission.total_result | withoutTrailingZeroes }}
-                            <span
-                                    class="grademax"
-                            >/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
+                            <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
                         </div>
                     </div>
 

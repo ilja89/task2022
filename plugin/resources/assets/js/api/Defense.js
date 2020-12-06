@@ -5,7 +5,7 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving defense registrations.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving defense registrations.\n' + error, 'danger')
         })
     }
 
@@ -14,7 +14,7 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving filtered defense registrations.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving filtered defense registrations.\n' + error, 'danger')
         })
     }
 
@@ -23,7 +23,7 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving student teacher.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
         })
     }
 
@@ -34,7 +34,7 @@ class Defense {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving defense progress.', 'danger')
+            VueEvent.$emit('show-notification', 'Error saving defense progress.\n' + error, 'danger')
         })
     }
 
@@ -43,7 +43,7 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting student registration.', 'danger')
+            VueEvent.$emit('show-notification', 'Error deleting student registration.\n' + error, 'danger')
         })
     }
 

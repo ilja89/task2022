@@ -61,10 +61,11 @@
 </template>
 
 <script>
-    import {PopupSection} from '../layouts/index'
-    import {mapActions, mapState} from "vuex";
-    import {Charon} from "../../../api";
-    import router from "../routes";
+	import router from "../routes";
+	import {PopupSection} from '../layouts/index'
+	import {mapActions, mapState} from "vuex";
+	import CharonFormat from "../../../helpers/CharonFormat";
+	import Charon from "../../../api/Charon";
 
     export default {
         data() {

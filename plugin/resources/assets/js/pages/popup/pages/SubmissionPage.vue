@@ -15,7 +15,7 @@
 
     import {PageTitle} from "../partials";
     import {SubmissionOverviewSection, OutputSection, CommentsSection} from "../sections";
-    import {Submission, Charon} from "../../../api";
+    import {Submission} from "../../../api";
 
     export default {
         components: {PageTitle, SubmissionOverviewSection, OutputSection, CommentsSection},
