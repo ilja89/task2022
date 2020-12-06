@@ -8,12 +8,12 @@ use TTU\Charon\Traits\HasGradeType;
 /**
  * Class Result.
  *
- * @property integer $id
- * @property integer $submission_id
- * @property float $percentage
- * @property float $calculated_result
- * @property string $stdout
- * @property string $stderr
+ * @property integer id
+ * @property integer submission_id
+ * @property float percentage
+ * @property float calculated_result
+ * @property string stdout
+ * @property string stderr
  *
  * @property Submission $submission
  *

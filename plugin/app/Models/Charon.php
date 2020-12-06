@@ -15,18 +15,18 @@ use Zeizig\Moodle\Services\ModuleService;
 /**
  * Charon model class.
  *
- * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $project_folder
- * @property string $tester_extra
- * @property string $system_extra
- * @property integer $tester_type_code
- * @property integer $grading_method_code
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property integer id
+ * @property string name
+ * @property string description
+ * @property string project_folder
+ * @property string tester_extra
+ * @property string system_extra
+ * @property integer tester_type_code
+ * @property integer grading_method_code
+ * @property Carbon created_at
+ * @property Carbon updated_at
  * @property int category_id
- * @property int $grouping_id
+ * @property int grouping_id
  * @property int course
  * @property int timemodified
  * @property string|null plagiarism_checksuite_id - Id of the associated
@@ -34,22 +34,23 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string|null plagiarism_latest_check_id - Id of the latest check
  *      for this Charon in the Julia plagiarism service.
  * @property Carbon defense_deadline
+ * @property Carbon defense_start_time
  * @property int defense_duration
  * @property bool choose_teacher
  * @property int defense_threshold
- *
+ * @property string calculation_formula
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
- * @property TesterType $testerType
- * @property Grademap[] $grademaps
- * @property Deadline[]|Collection $deadlines
- * @property CharonDefenseLab[]|Collection $charonDefenseLabs
+ * @property TesterType testerType
+ * @property Grademap[] grademaps
+ * @property Deadline[]|Collection deadlines
+ * @property CharonDefenseLab[]|Collection defense_labs
  * @property Course moodleCourse
- * @property Grouping $grouping
- * @property int|null $docker_timeout
- * @property string|null $docker_content_root
- * @property string|null $docker_test_root
- * @property int|null $group_size
+ * @property Grouping grouping
+ * @property int|null docker_timeout
+ * @property string|null docker_content_root
+ * @property string|null docker_test_root
+ * @property int|null group_size
  *
  * @package TTU\Charon\Model
  */
@@ -126,8 +127,8 @@ class Charon extends Model
         $moduleService = app(ModuleService::class);
 
         return CourseModule::where('instance', $this->id)
-                           ->where('module', $moduleService->getModuleId())
-                           ->first();
+            ->where('module', $moduleService->getModuleId())
+            ->first();
     }
 
     /**

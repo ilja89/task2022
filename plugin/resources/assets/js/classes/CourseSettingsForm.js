@@ -2,7 +2,7 @@ export default class CourseSettingsForm {
     constructor(courseId, settings, testerTypes, presets, gradingMethods, gradeNamePrefixes) {
         this.fields = {
             unittests_git: settings['unittests_git'] ? settings['unittests_git'] : '',
-            tester_type: settings['tester_type_code'] ? settings['tester_type_code'] : '',
+            tester_type_code: settings['tester_type_code'] ? settings['tester_type_code'] : '',
         };
 
         this.course_id = courseId;

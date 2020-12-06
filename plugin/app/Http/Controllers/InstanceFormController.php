@@ -4,7 +4,9 @@ namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use stdClass;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
@@ -43,9 +45,9 @@ class InstanceFormController extends Controller
     /**
      * InstanceFormController constructor.
      *
-     * @param  Request $request
-     * @param  CharonRepository $charonRepository
-     * @param  ClassificationsRepository $classificationsRepository
+     * @param Request $request
+     * @param CharonRepository $charonRepository
+     * @param ClassificationsRepository $classificationsRepository
      * @param GradebookService $gradebookService
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param PresetsRepository $presetsRepository
@@ -61,7 +63,7 @@ class InstanceFormController extends Controller
         SettingsService $settingsService
     ) {
         parent::__construct($request);
-        $this->charonRepository          = $charonRepository;
+        $this->charonRepository = $charonRepository;
         $this->classificationsRepository = $classificationsRepository;
         $this->gradebookService = $gradebookService;
         $this->courseSettingsRepository = $courseSettingsRepository;
@@ -76,13 +78,16 @@ class InstanceFormController extends Controller
      */
     public function index()
     {
+        Log::debug("Moodle indexed instance from");
+
         if ($this->isUpdate()) {
-            return $this->edit($this->getCharon());
+            return $this->edit($this->getCharon($this->request['update']));
         }
 
         $course = Course::with(['groups', 'groupings'])
-                        ->where('id', $this->request['course'])
-                        ->first();
+            ->where('id', $this->request['course'])
+            ->first();
+
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
         $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
             ? '' : "/mod/charon/courses/{$course->id}/settings";
@@ -102,64 +107,16 @@ class InstanceFormController extends Controller
     }
 
     /**
-     * Triggered by a post request to the form. This takes old values from the request and
-     * sends them to the form.
-     */
-    public function postIndex()
-    {
-        $charon = new Charon([
-            'name'                => $this->request['name'],
-            'description'         => $this->request['description']['text'],
-            'project_folder'      => $this->request['project_folder'],
-            'tester_extra'        => $this->request['tester_extra'],
-            'system_extra'        => $this->request['system_extra'],
-            'tester_type_code'    => $this->request['tester_type'],
-            'grading_method_code' => $this->request['grading_method'],
-            'grouping_id'         => $this->request['grouping_id'],
-            'defense_deadline'    => $this->request['defense_deadline'],
-            'defense_duration'    => $this->request['defense_duration'],
-            'choose_teacher'      => $this->request['choose_teacher'],
-        ]);
-
-        $charon->grademaps = $this->request['grademaps'];
-        $charon->deadlines = $this->request['deadlines'];
-        $charon->max_score = $this->request['max_score'];
-        $charon->calculation_formula = $this->request['calculation_formula'];
-
-        $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
-        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
-        $presets = $this->presetsRepository->getPresetsByCourse($this->request['course']);
-        $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
-
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($this->request['course']);
-        $courseSettingsUrl = $courseSettings && $courseSettings->unittests_git
-            ? '' : "/mod/charon/courses/{$this->request['course']}/settings";
-        $moduleSettingsUrl = $this->getModuleSettingsUrl();
-
-        $update = true;
-        $course = Course::with(['groups', 'groupings'])
-                        ->where('id', $this->request['course'])
-                        ->first();
-        $groups = $course->groups;
-        $groupings = $course->groupings;
-
-        return view('instanceForm.form', compact(
-            'charon', 'gradingMethods', 'testerTypes', 'update', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'groupings','plagiarismServices'
-        ));
-    }
-
-    /**
      * Show the edit form for a given Charon.
      *
      * @param Charon $charon
      *
      * @return Factory|View
      */
-    public function edit(Charon $charon)
+    public function edit($charon)
     {
         $gradingMethods = $this->classificationsRepository->getAllGradingMethods();
-        $testerTypes    = $this->classificationsRepository->getAllTesterTypes();
+        $testerTypes = $this->classificationsRepository->getAllTesterTypes();
 
         $moduleSettingsUrl = $this->getModuleSettingsUrl();
 
@@ -192,9 +149,9 @@ class InstanceFormController extends Controller
      *
      * @return Charon
      */
-    private function getCharon()
+    private function getCharon($courseModuleId)
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request['update']);
+        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($courseModuleId);
 
         if ($charon === null) {
             return null;

@@ -36,7 +36,7 @@
             this.getSubmission();
 
             window.VueEvent.$on("submission-was-saved", _ => {
-                this.getSubmission;
+                this.getSubmission();
                 this.guardFromNavigation(false)
             });
             window.VueEvent.$on("submission-being-edited", _ =>

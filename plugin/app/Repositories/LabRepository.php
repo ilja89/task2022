@@ -290,6 +290,41 @@ class LabRepository
     }
 
     /**
+     * @param $charonId
+     * @return int[]
+     */
+    public function getLabsIdsByCharonId($charonId)
+    {
+        return \DB::table('charon_defense_lab')
+            ->where('charon_id', $charonId)
+            ->pluck('lab_id')
+            ->toArray();
+    }
+
+    /**
+     * @param $charonId
+     */
+    public function deleteLab($charonId, $labId)
+    {
+        return \DB::table('charon_defense_lab')
+            ->where('charon_id', $charonId)
+            ->where('lab_id', $labId)
+            ->delete();
+    }
+
+    /**
+     * @param $charonId
+     * @param $labId
+     */
+    public function makeLab($charonId, $labId)
+    {
+        CharonDefenseLab::create([
+            'lab_id' => $labId,
+            'charon_id' => $charonId
+        ]);
+    }
+
+    /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.
      *
      * @param $teachers

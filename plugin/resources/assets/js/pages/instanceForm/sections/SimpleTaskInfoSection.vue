@@ -32,7 +32,7 @@
 
         <input type="hidden" name="tester_extra" :value="form.fields.tester_extra">
         <input type="hidden" name="system_extra" :value="form.fields.system_extra">
-        <input type="hidden" name="tester_type" :value="form.fields.tester_type">
+        <input type="hidden" name="tester_type_code" :value="form.fields.tester_type_code">
 
     </div>
 </template>

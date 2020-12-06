@@ -12,11 +12,16 @@
 
         @if ($can_edit)
             <div class="edit-container">
-                <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
-                    Edit
-                </a>
                 <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup">
                     Charon popup
+                </a>
+
+                <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
+                    Grade settings
+                </a>
+
+                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup#/charonSettings/{{$charon->id}}">
+                    Registration settings
                 </a>
             </div>
         @endif

@@ -7,7 +7,7 @@ import PlagiarismPage from './PlagiarismPage'
 import ReportStatistics from './ReportStatistics'
 import LabsPage from './LabsPage.vue'
 import CharonSettingsPage from "./CharonSettingsPage";
-import CharonSettingsEditingPage from "./DefSettingsEditingPage";
+import CharonSettingsEditingPage from "./CharonSettingsEditingPage";
 import DefenseRegistrationPage from "./DefenseRegistrationPage";
 import TeachersPage from "./TeachersPage"
 export {

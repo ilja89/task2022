@@ -19,7 +19,7 @@ use Illuminate\Support\Collection;
  * @property int passed_count
  * @property float grade
  *
- * @property UnitTest[]|Collection $unitTests
+ * @property UnitTest[]|Collection unitTests
  *
  * @package TTU\Charon\Models
  */

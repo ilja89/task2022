@@ -102,6 +102,7 @@ class InstanceController extends Controller
         $charon = $this->getCharonFromRequest();
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
+
             $this->request->input('course')
         );
 
@@ -141,11 +142,12 @@ class InstanceController extends Controller
     {
 
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
-        Log::info("Update charon", [$charon]);
+        Log::info("Update charon", [$this->request->toArray()]);
 
-        if ($this->charonRepository->update($charon, $this->getCharonFromRequest())) {
+        if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
@@ -242,30 +244,26 @@ class InstanceController extends Controller
      */
     private function getCharonFromRequest()
     {
-        $testerExtra = $this->request->input('tester_extra', '');
-        if ($testerExtra === null) {
-            $testerExtra = '';
-        }
-
-        $systemExtra = $this->request->input('system_extra', '');
-        if ($systemExtra === null) {
-            $systemExtra = '';
-        }
-
         return new Charon([
             'name' => $this->request->input('name'),
             'description' => $this->request->input('description')['text'],
             'project_folder' => $this->request->input('project_folder'),
-            'tester_type_code' => $this->request->input('tester_type'),
-            'grading_method_code' => $this->request->input('grading_method'),
+            'tester_type_code' => $this->request->input('tester_type_code', 1),
+            'grading_method_code' => $this->request->input('grading_method', 1),
             'grouping_id' => $this->request->input('grouping_id'),
-            'defense_deadline' => $this->request->input('defense_deadline'),
-            'defense_duration' => $this->request->input('defense_duration'),
-            'choose_teacher' => $this->request->input('choose_teacher'),
+            'defense_start_time' => $this->request->input('defense_start_time', Carbon::now()->format("Y-m-d")),
+            'defense_deadline' => $this->request->input('defense_deadline', Carbon::now()->addDays(90)->format("Y-m-d")),
+            'defense_duration' => $this->request->input('defense_duration', 5),
+            'defense_threshold' => $this->request->input('defense_threshold', 50),
+            'choose_teacher' => $this->request->input('choose_teacher', false),
+            'group_size' => $this->request->input('group_size', 3),
             'timemodified' => Carbon::now()->timestamp,
             'course' => $this->request->input('course'),
-            'tester_extra' => $testerExtra,
-            'system_extra' => $systemExtra,
+            'docker_content_root' => $this->request->input('docker_content_root', null),
+            'docker_test_root' => $this->request->input('docker_test_root', null),
+            'tester_extra' => $this->request->input('tester_extra', null),
+            'system_extra' => $this->request->input('system_extra', null),
+            'docker_timeout' => $this->request->input('docker_timeout', 120),
         ]);
     }
 

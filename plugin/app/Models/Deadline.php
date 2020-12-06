@@ -18,8 +18,8 @@ use Zeizig\Moodle\Models\Group;
  * @property int group_id
  * @property int event_id
  *
- * @property Charon $charon
- * @property Group $group
+ * @property Charon charon
+ * @property Group group
  *
  * @package TTU\Charon\Models
  */

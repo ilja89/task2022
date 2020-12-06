@@ -1,21 +1,19 @@
 import '../../bootstrap'
 import Vue from 'vue'
-import moment from 'moment'
 import { HighlightDirective } from '../../directives'
 import { SubmissionsList, SubmissionModal } from './components'
 import Vuetify from "vuetify";
 import VueMaterial from 'vue-material'
 import light from "../popup/theme";
 
+Vue.directive('highlightjs', HighlightDirective);
+Vue.use(VueMaterial)
+Vue.use(Vuetify)
+
 import 'vuetify/dist/vuetify.min.css'
 import 'vue-good-table/dist/vue-good-table.css'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-
-window.moment = moment;
-Vue.directive('highlightjs', HighlightDirective);
-Vue.use(VueMaterial)
-Vue.use(Vuetify)
 
 const opts = {
     theme: {

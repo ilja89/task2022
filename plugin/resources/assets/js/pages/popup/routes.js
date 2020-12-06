@@ -89,10 +89,10 @@ const routes = [
         name: 'defense-settings-page'
     },
     {
-        path: '/defSettingsEditing',
+        path: '/charonSettings/:charon_id',
         title: 'Charon Settings Editing',
         component: CharonSettingsEditingPage,
-        name: 'def-settings-editing-page'
+        name: 'charon-settings-editing-page'
     },
     {
         path: '/defenseRegistrations',

@@ -105,7 +105,7 @@
                     const index = this.defenseData.indexOf(defense_lab_item);
                     if (index > -1) {
                         this.defenseData.splice(index, 1)
-                        VueEvent.$emit('show-notification', 'Deleted ' + xs + 'items successfully!', 'primary')
+                        VueEvent.$emit('show-notification', 'Deleted ' + xs + ' items successfully!', 'primary')
                     }
                     this.dialog = false
                 })
