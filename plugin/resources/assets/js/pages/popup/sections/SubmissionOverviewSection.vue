@@ -1,5 +1,5 @@
 <template>
-    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission">
+    <popup-section :title="activeCharonName" :subtitle="submissionOrderNrText" :key="submission.id">
         <template slot="header-right">
             <span v-if="charon_confirmed_points !== null" class="extra-info-text">
                 Current points: {{ charon_confirmed_points }}p

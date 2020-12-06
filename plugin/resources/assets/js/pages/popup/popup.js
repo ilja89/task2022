@@ -7,6 +7,7 @@ import store from './store'
 import Vuetify from 'vuetify'
 import VueClipboard from 'vue-clipboard2'
 import light from './theme'
+import {HighlightDirective} from './../../directives';
 import VueApexCharts from 'vue-apexcharts';
 import VueGoodTablePlugin from 'vue-good-table';
 import VueJsonToCsv from 'vue-json-to-csv';
@@ -29,6 +30,7 @@ const opts = {
 
 export default new Vuetify(opts)
 
+Vue.directive('highlightjs', HighlightDirective);
 Vue.component('apexcharts', VueApexCharts);
 Vue.use(VueGoodTablePlugin);
 Vue.component('vue-json-to-csv', VueJsonToCsv);
