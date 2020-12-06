@@ -300,11 +300,11 @@
 
 <script>
 
-import Lab from "../../../api/Lab";
-import Course from "../../../api/Course";
-import {CharonFormat} from "../../../helpers";
 import Multiselect from "vue-multiselect";
 import {Datepicker} from "../../../components/partials";
+import Lab from "../../../api/Lab";
+import Course from "../../../api/Course";
+import CharonFormat from "../../../helpers/CharonFormat";
 
 export default {
 	name: "charon-settings-form",
