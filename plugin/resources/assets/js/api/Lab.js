@@ -1,9 +1,13 @@
+import CharonFormat from "../helpers/CharonFormat";
+
 class Lab {
 
     static all(courseId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/labs')
             .then(response => {
-                then(response.data)
+                let labs = response.data
+                CharonFormat.getNamesForLabs(labs)
+                then(labs)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
         })

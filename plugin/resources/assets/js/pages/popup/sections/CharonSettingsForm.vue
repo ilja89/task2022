@@ -347,7 +347,6 @@ export default {
 	
 	watch: {
 		charon() {
-			console.log(this.charon)
 			this.filterLabs()
 		},
 		
@@ -364,7 +363,6 @@ export default {
 	created() {
 		Lab.all(this.course_id, labs => {
 			this.labs = labs
-			CharonFormat.getNamesForLabs()
 		})
 		
 		Course.getTesterTypes(this.course_id, response => {

@@ -5,7 +5,6 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                console.log(error)
                 VueEvent.$emit('show-notification', 'Error retrieving user.\n' + error, 'danger')
             })
     }
