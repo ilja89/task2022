@@ -49,3 +49,5 @@ class CharonFormat {
     }
 
 }
+
+export default CharonFormat
