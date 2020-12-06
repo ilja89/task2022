@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class SubmissionFile.
  *
- * @property integer $id
- * @property integer $submission_id
- * @property integer $is_test
- * @property string $path
- * @property string $contents
- *
- * @property Submission $submission
+ * @property integer id
+ * @property integer submission_id
+ * @property integer is_test
+ * @property string path
+ * @property string contents
+ * @property Submission submission
  *
  * @package TTU\Charon\Models
  */

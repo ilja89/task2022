@@ -13,16 +13,14 @@ import VueGoodTablePlugin from 'vue-good-table';
 import VueJsonToCsv from 'vue-json-to-csv';
 import VueMaterial from 'vue-material'
 
+Vue.use(VueMaterial)
+Vue.use(VueClipboard)
+Vue.use(Vuetify)
+
 import 'vuetify/dist/vuetify.min.css'
 import 'vue-good-table/dist/vue-good-table.css';
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-
-Vue.use(VueMaterial)
-
-Vue.use(VueClipboard)
-
-Vue.use(Vuetify)
 
 const opts = {
     theme: {
@@ -33,11 +31,8 @@ const opts = {
 export default new Vuetify(opts)
 
 Vue.directive('highlightjs', HighlightDirective);
-
 Vue.component('apexcharts', VueApexCharts);
-
 Vue.use(VueGoodTablePlugin);
-
 Vue.component('vue-json-to-csv', VueJsonToCsv);
 
 window.axiosNoLoading = axios.create();

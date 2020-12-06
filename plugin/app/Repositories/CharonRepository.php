@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
@@ -28,18 +29,19 @@ use Zeizig\Moodle\Services\ModuleService;
 class CharonRepository
 {
     /** @var ModuleService */
-    protected $moduleService;
+    private $moduleService;
 
     /** @var GradebookService */
-    protected $gradebookService;
+    private $gradebookService;
 
     /** @var FileUploadService */
     private $fileUploadService;
 
-    /**
-     * @var CharonDefenseLabRepository
-     */
-    protected $charonDefenseLabRepository;
+    /** @var CharonDefenseLabRepository */
+    private $charonDefenseLabRepository;
+
+    /** @var LabRepository */
+    private $labRepository;
 
     /**
      * CharonRepository constructor.
@@ -48,17 +50,21 @@ class CharonRepository
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
+     * @param LabRepository $labRepository
      */
     public function __construct(
         ModuleService $moduleService,
         FileUploadService $fileUploadService,
         GradebookService $gradebookService,
-        CharonDefenseLabRepository $charonDefenseLabRepository
-    ) {
+        CharonDefenseLabRepository $charonDefenseLabRepository,
+        LabRepository $labRepository
+    )
+    {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+        $this->labRepository = $labRepository;
     }
 
     /**
@@ -107,18 +113,18 @@ class CharonRepository
      * Gets a Charon instance by course module id.
      * Returns null if no course module is found or if the given course module is not a Charon.
      *
-     * @param integer $id
+     * @param integer $courseModuleId
      *
      * @return Charon
      * @throws CharonNotFoundException
      */
-    public function getCharonByCourseModuleId($id)
+    public function getCharonByCourseModuleId(int $courseModuleId)
     {
         /** @var CourseModule $courseModule */
-        $courseModule = CourseModule::find($id);
+        $courseModule = CourseModule::find($courseModuleId);
 
         if ($courseModule === null || !$courseModule->isInstanceOfPlugin()) {
-            throw new CharonNotFoundException('charon_course_module_not_found', $id);
+            throw new CharonNotFoundException('charon_course_module_not_found', $courseModuleId);
         }
 
         return Charon::where('id', $courseModule->instance)
@@ -129,23 +135,22 @@ class CharonRepository
      * Gets a charon instance with eagerly loaded fields like tester type and grading method by
      * course module id.
      *
-     * @param integer $id
+     * @param integer $courseModuleId
      *
      * @return Charon
      * @throws CharonNotFoundException
      */
-    public function getCharonByCourseModuleIdEager($id)
+    public function getCharonByCourseModuleIdEager(int $courseModuleId)
     {
-        /** @var CourseModule $courseModule */
-        $courseModule = CourseModule::find($id);
+        $courseModule = CourseModule::find($courseModuleId);
 
         if ($courseModule === null || !$courseModule->isInstanceOfPlugin()) {
-            throw new CharonNotFoundException('charon_course_module_not_found', $id);
+            throw new CharonNotFoundException('charon_course_module_not_found', $courseModuleId);
         }
-        $charon = Charon::with('testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
+
+        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
             ->where('id', $courseModule->instance)
             ->first();
-        return $charon;
     }
 
     /**
@@ -184,32 +189,18 @@ class CharonRepository
      * Takes the old instance and override its values with the new Charon values.
      *
      * @param Charon $oldCharon
-     * @param Charon $newCharon
+     * @param array $newCharon
      *
      * @return boolean
      */
     public function update($oldCharon, $newCharon)
     {
-        $oldCharon->name = $newCharon->name;
-        $oldCharon->project_folder = $newCharon->project_folder;
-        $oldCharon->tester_extra = $newCharon->tester_extra;
-        $oldCharon->system_extra = $newCharon->system_extra;
-        $oldCharon->tester_type_code = $newCharon->tester_type_code;
-        $oldCharon->grading_method_code = $newCharon->grading_method_code;
-        $oldCharon->grouping_id = $newCharon->grouping_id;
-        $oldCharon->timemodified = Carbon::now()->timestamp;
-//        $oldCharon->defense_deadline = $newCharon->defense_deadline;
-//        $oldCharon->defense_start_time = $newCharon->defense_start_time;
-//        $oldCharon->defense_duration = $newCharon->defense_duration;
-//        $oldCharon->choose_teacher = $newCharon->choose_teacher;
-//        $oldCharon->defense_threshold = $newCharon->defense_threshold;
-//        $oldCharon->docker_timeout = $newCharon->docker_timeout;
-//        $oldCharon->docker_content_root = $newCharon->docker_content_root;
-//        $oldCharon->docker_test_root = $newCharon->docker_test_root;
-//        $oldCharon->group_size = $newCharon->group_size;
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code'];
 
-        $oldCharon->description = $this->fileUploadService->savePluginFiles(
-            $newCharon->description,
+        $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
+
+        $charon->description = $this->fileUploadService->savePluginFiles(
+            $newCharon['description']['text'],
             'description',
             $oldCharon->courseModule()->id
         );
@@ -262,7 +253,7 @@ class CharonRepository
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-            $charon->charonDefenseLabs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
+            $charon->defense_labs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(
@@ -340,46 +331,72 @@ class CharonRepository
     }
 
     /**
-     * Save Charon defending stuff.
+     * Save Charon with updated labs.
      *
      * @param Charon $charon
      *
      * @param array $updated
+     * @param array $modifiableFields
      * @return Charon
      */
-    public function saveCharon(Charon $charon, array $updated)
+    public function saveCharon(Charon $charon, array $updated, array $modifiableFields)
     {
-        if (isset($updated['defense_start_time'])) {
-            $charon->defense_start_time = Carbon::parse($updated['defense_start_time'])->format('Y-m-d H:i:s');
-        }
-        if (isset($updated['defense_deadline'])) {
-            $charon->defense_deadline = Carbon::parse($updated['defense_deadline'])->format('Y-m-d H:i:s');
-        }
-
-        $nullable_fields = [
-            'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root', 'docker_test_root',
-            'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
-        ];
+        $nullable_fields = ['docker_test_root', 'docker_content_root', 'system_extra', 'tester_extra'];
 
         foreach ($nullable_fields as $key) {
-            if (isset($updated[$key])) {
-                $charon[$key] = $updated[$key];
-            } else {
-                $charon[$key] = null;
+            if (array_has($modifiableFields, $key)) {
+                if (isset($updated[$key]) && $updated[$key] != '') {
+                    $charon[$key] = $updated[$key];
+                } else {
+                    $charon[$key] = null;
+                }
+            }
+        }
+
+        foreach ($modifiableFields as $key) {
+            if (!array_has($nullable_fields, $key)) {
+                if (isset($updated[$key])) {
+                    $charon[$key] = $updated[$key];
+                } else {
+                    $charon[$key] = null;
+                }
             }
         }
 
         $charon->save();
 
-        DB::table('charon_defense_lab')
-            ->where('charon_id', $charon->id)
-            ->delete();
+        return $this->saveCharonLabs($charon, $updated);
+    }
 
-        for ($i = 0; $i < count($updated['defense_labs']); $i++) {
-            $defenseLab = App::make(CharonDefenseLab::class);
-            $defenseLab->lab_id = $updated['defense_labs'][$i];
-            $defenseLab->charon_id = $charon->id;
-            $defenseLab->save();
+    /**
+     * @param Charon $charon
+     * @param array $updated
+     * @return Charon
+     */
+    public function saveCharonLabs(Charon $charon, array $updated): Charon
+    {
+        $labs = $this->labRepository->getLabsIdsByCharonId($charon->id);
+
+        $new_labs = [];
+        if (isset($updated['defense_labs'])) {
+            $new_labs = [];
+            for ($i = 0; $i < count($updated['defense_labs']); $i++) {
+                array_push($new_labs, $updated['defense_labs'][$i]["id"]);
+            }
+        }
+
+        Log::info("Update charon labs:", [$new_labs]);
+
+        foreach ($labs as $lab) {
+            if (!in_array($lab, $new_labs)) {
+                $this->labRepository->deleteLab($charon->id, $lab);
+            }
+        }
+
+        foreach ($new_labs as $new_lab) {
+            if (!in_array($new_lab, $labs)) {
+                $this->labRepository->makeLab($charon->id, $new_lab);
+            }
         }
 
         return $charon;

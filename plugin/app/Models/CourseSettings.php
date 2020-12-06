@@ -8,12 +8,12 @@ use Zeizig\Moodle\Models\Course;
 /**
  * Class CourseSettings.
  *
- * @property integer $id
- * @property integer $course_id
- * @property string $unittests_git
- * @property integer $tester_type_code
- * @property Course $course
- * @property TesterType $testerType
+ * @property integer id
+ * @property integer course_id
+ * @property string unittests_git
+ * @property integer tester_type_code
+ * @property Course course
+ * @property TesterType testerType
  *
  * @package TTU\Charon\Models
  */

@@ -9,28 +9,27 @@ use Zeizig\Moodle\Models\User;
 /**
  * Class Submission.
  *
- * @property integer $id
- * @property integer $charon_id
- * @property integer $user_id
- * @property string $git_hash
- * @property integer $confirmed
- * @property Carbon $git_timestamp
- * @property string $mail
- * @property string $stdout
- * @property string $stderr
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property int $git_callback_id
- * @property int $original_submission_id
- * @property int $grader_id
- *
- * @property Charon $charon
- * @property User $user
- * @property Result[] $results
- * @property SubmissionFile[] $files
- * @property GitCallback $gitCallback
- * @property Submission $originalSubmission
- * @property TestSuite[] $testSuites
+ * @property integer id
+ * @property integer charon_id
+ * @property integer user_id
+ * @property string git_hash
+ * @property integer confirmed
+ * @property Carbon git_timestamp
+ * @property string mail
+ * @property string stdout
+ * @property string stderr
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ * @property int git_callback_id
+ * @property int original_submission_id
+ * @property int grader_id
+ * @property Charon charon
+ * @property User user
+ * @property Result[] results
+ * @property SubmissionFile[] files
+ * @property GitCallback gitCallback
+ * @property Submission originalSubmission
+ * @property TestSuite[] testSuites
  *
  * @package TTU\Charon\Models
  */

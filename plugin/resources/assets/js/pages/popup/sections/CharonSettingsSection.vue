@@ -64,6 +64,7 @@
     import {PopupSection} from '../layouts/index'
     import {mapActions, mapState} from "vuex";
     import {Charon} from "../../../api";
+    import router from "../routes";
 
     export default {
         data() {
@@ -73,8 +74,8 @@
                 search: '',
                 charons_headers: [
                     {text: 'Charon', value: 'name', align: 'start'},
-                    {text: 'Start time', value: 'formatted_start_time'},
-                    {text: 'Deadline', value: 'formatted_deadline'},
+                    {text: 'Start time', value: 'defense_start_time'},
+                    {text: 'Deadline', value: 'defense_deadline'},
                     {text: 'Duration', value: 'formatted_duration'},
                     {text: 'Threshold', value: 'nice_defense_threshold'},
                     {text: 'Labs', value: 'labs_string'},
@@ -92,10 +93,8 @@
                 return this.charons.map(charon => {
                     const container = {...charon};
 
-                    container['formatted_deadline'] = this.getDateFormatted(charon.defense_deadline.time);
-                    container['formatted_start_time'] = this.getDateFormatted(charon.defense_start_time.time);
                     container['formatted_duration'] = this.getDurationFormatted(charon.defense_duration);
-                    container['labs_string'] = this.getLabsStringForCharon(charon.charonDefenseLabs);
+                    container['labs_string'] = this.getLabsStringForCharon(charon.defense_labs);
                     container['nice_defense_threshold'] = `${charon.defense_threshold}%`
 
                     return container;
@@ -110,7 +109,7 @@
 
             editClicked(charon) {
                 this.updateCharon({charon});
-                window.location = 'popup#/defSettingsEditing'
+                router.push(`charonSettings/${charon.id}`)
             },
 
             getDurationFormatted(duration) {
@@ -119,31 +118,9 @@
                 }
             },
 
-            getDateFormatted(date) {
-                try {
-                    return date.getDate() + '.' + ('0' + (date.getMonth() + 1)).substr(-2, 2) + '.' + date.getFullYear() +
-                        ' ' + ('0' + date.getHours()).substr(-2, 2) + ':' + ('0' + date.getMinutes()).substr(-2, 2)
-                } catch (e) {
-                    return date;
-                }
-            },
-
-            getDayTimeFormat(start) {
-                let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                return daysDict[start.getDay()] + start.getHours();
-            },
-
-            getNiceDate(date) {
-                let month = (date.getMonth() + 1).toString();
-                if (month.length == 1) {
-                    month = "0" + month
-                }
-                return date.getDate() + '.' + month + '.' + date.getFullYear()
-            },
-
             getNameForLab(labStart) {
-                return this.getDayTimeFormat(new Date(labStart))
-                    + ' (' + this.getDateFormatted(new Date(labStart)) + ')'
+                return CharonFormat.getDayTimeFormat(new Date(labStart))
+                    + ' (' + CharonFormat.getDateFormatted(new Date(labStart)) + ')'
             },
 
             getThreshold(percentage) {

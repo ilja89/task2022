@@ -1,7 +1,7 @@
 <template>
     <div class="submissions">
 
-        <h3 v-show="submissions.length === 0" class="title  is-3">
+        <h3 v-show="submissions.length === 0" class="title is-3">
             No submissions found!
         </h3>
 
@@ -16,7 +16,7 @@
         </transition-group>
 
         <div v-if="canLoadMore && submissions.length > 0" class="has-text-centered">
-            <button class="button  is-primary" @click="loadMoreSubmissions()">
+            <button class="button is-primary" @click="loadMoreSubmissions()">
                 Load more
             </button>
         </div>

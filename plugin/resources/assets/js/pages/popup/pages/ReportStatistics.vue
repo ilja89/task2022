@@ -1,10 +1,8 @@
 <template>
     <div>
-
         <page-title title="Report & Statistics"></page-title>
 
         <report-all-students></report-all-students>
-
     </div>
 </template>
 

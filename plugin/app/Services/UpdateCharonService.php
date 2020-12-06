@@ -116,10 +116,6 @@ class UpdateCharonService
         return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }
 
-    public function updateDefense($request, $charon) {
-        $oldDefense = $charon->defense;
-    }
-
     /**
      * Updates the Category calculation formula and max score for the given Charon.
      *
@@ -130,8 +126,6 @@ class UpdateCharonService
      */
     public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
-        Log::info("updateCategoryCalculationAndMaxScore request: ", [$request]);
-        // TODO: Notify user when no max score?
         if ($charon->category_id !== null && $request->has('max_score')) {
             $gradeItem              = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $gradeItem->calculation = $request['calculation_formula'];

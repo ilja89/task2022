@@ -106,22 +106,36 @@ export default class InstanceFormForm {
 
     initializeFields(instance, courseSettings) {
         this.fields = {
+            // MODULE INFO
             name: instance['name'] ? instance['name'] : '',
+
+            // TESTER INFO
+            tester_type_code: instance['tester_type'] ? instance['tester_type']['code']
+                : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
             tester_extra: instance['tester_extra'] ? instance['tester_extra'] : '',
             system_extra: instance['system_extra'] ? instance['system_extra'] : '',
+            docker_timeout: instance['docker_timeout'] ? instance['docker_timeout'] : 120,
+            docker_content_root: instance['docker_content_root'] ? instance['docker_content_root'] : '',
+            docker_test_root: instance['docker_test_root'] ? instance['docker_test_root'] : '',
+
+            // GRADING INFO
             calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
             max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
-
-            tester_type: instance['tester_type_code']
-                ? instance['tester_type_code']
-                : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
-            grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
-
             grademaps: [],
             deadlines: [],
+            grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
 
+            // DEFENCE INFO
+            defense_deadline: instance['defense_deadline'] ? instance['defense_deadline'] : '',
+            defense_start_time: instance['defense_start_time'] ? instance['defense_start_time'] : '',
+            defense_duration: instance['defense_duration'] ? instance['defense_duration'] : 5,
+            choose_teacher: instance['choose_teacher'] ? instance['choose_teacher'] : false,
+            defense_threshold: instance['defense_threshold'] ? instance['defense_threshold'] : 50,
+            group_size: instance['group_size'] ? instance['group_size'] : 3,
+
+            // PLAGIARISM INFO
             plagiarism_enabled: false,
             plagiarism_services: [null],
             plagiarism_resource_providers: [
