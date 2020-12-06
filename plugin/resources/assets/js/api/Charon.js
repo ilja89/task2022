@@ -1,3 +1,5 @@
+import CharonFormat from "../helpers/CharonFormat";
+
 class Charon {
 
     static getRoot() {
