@@ -76,6 +76,7 @@
 </style>
 
 <script>
+	import {CharonFormat} from "../../../helpers";
     import {PopupSection} from '../layouts/index'
     import {mapActions, mapState} from "vuex";
     import Lab from "../../../api/Lab";

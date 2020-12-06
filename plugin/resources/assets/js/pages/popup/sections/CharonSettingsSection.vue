@@ -64,6 +64,7 @@
     import {PopupSection} from '../layouts/index'
     import {mapActions, mapState} from "vuex";
     import {Charon} from "../../../api";
+	import {CharonFormat} from "../../../helpers";
     import router from "../routes";
 
     export default {
