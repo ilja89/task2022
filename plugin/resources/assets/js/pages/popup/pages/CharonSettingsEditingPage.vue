@@ -44,7 +44,6 @@ export default {
                     VueEvent.$emit('show-notification', 'Charon settings successfully updated!')
                 })
             } catch (e) {
-                console.log(e)
                 VueEvent.$emit('show-notification', 'Make sure start time and deadline are filled!')
             }
         },

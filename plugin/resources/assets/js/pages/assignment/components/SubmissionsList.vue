@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-content>
+        <v-main>
             <v-snackbar multi-line v-model="notification.show"
                         :timeout="notification.timeout"
                         style="z-index: 2000">
@@ -185,7 +185,7 @@
             </button>
             </span>
             </div>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 

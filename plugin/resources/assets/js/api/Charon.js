@@ -1,3 +1,5 @@
+import CharonFormat from "../helpers/CharonFormat";
+
 class Charon {
 
     static getRoot() {
@@ -9,8 +11,7 @@ class Charon {
             .then(response => {
                 then(CharonFormat.formatCharons(response.data))
             }).catch(error => {
-            console.log(error)
-            VueEvent.$emit('show-notification', 'Error retrieving Charons.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
         })
     }
 
@@ -19,7 +20,7 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting a Charon.', 'danger')
+            VueEvent.$emit('show-notification', 'Error deleting a Charon.\n' + error, 'danger')
         })
     }
 
@@ -28,7 +29,7 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error fetching logs.', 'danger')
+            VueEvent.$emit('show-notification', 'Error fetching logs.\n' + error, 'danger')
         })
     }
 
@@ -37,7 +38,7 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving results.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
         })
     }
 
@@ -45,7 +46,7 @@ class Charon {
         axios.post(Charon.getRoot() + '/charons/' + charon.id, charon).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving Charon.', 'danger')
+            VueEvent.$emit('show-notification', 'Error saving Charon.\n' + error, 'danger')
         })
     }
 }
