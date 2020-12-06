@@ -5,7 +5,7 @@ class Comment {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving comments.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving comments.\n' + error, 'danger')
             })
     }
 
@@ -16,7 +16,7 @@ class Comment {
         }).then(response => {
             then(response.data.comment)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving comment.', 'danger')
+            VueEvent.$emit('show-notification', 'Error saving comment.\n' + error, 'danger')
         })
     }
 }

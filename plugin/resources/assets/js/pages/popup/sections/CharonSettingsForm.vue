@@ -291,7 +291,6 @@
 		
 		<v-container v-else>
 			<v-skeleton-loader
-				v-bind="attrs"
 				type="list-item-three-line, divider, list-item-three-line, divider, list-item-three-line, divider, list-item-three-line"
 			></v-skeleton-loader>
 		</v-container>
@@ -300,10 +299,10 @@
 
 <script>
 
-import Lab from "../../../api/Lab";
-import Course from "../../../api/Course";
 import Multiselect from "vue-multiselect";
 import {Datepicker} from "../../../components/partials";
+import Lab from "../../../api/Lab";
+import Course from "../../../api/Course";
 
 export default {
 	name: "charon-settings-form",
@@ -346,7 +345,6 @@ export default {
 	
 	watch: {
 		charon() {
-			console.log(this.charon)
 			this.filterLabs()
 		},
 		
@@ -363,7 +361,6 @@ export default {
 	created() {
 		Lab.all(this.course_id, labs => {
 			this.labs = labs
-			CharonFormat.getNamesForLabs()
 		})
 		
 		Course.getTesterTypes(this.course_id, response => {

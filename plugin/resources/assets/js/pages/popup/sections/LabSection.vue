@@ -77,8 +77,9 @@
 
 <script>
     import {PopupSection} from '../layouts/index'
-    import {mapActions, mapState} from "vuex";
-    import Lab from "../../../api/Lab";
+	import {mapActions, mapState} from "vuex";
+	import Lab from "../../../api/Lab";
+	import CharonFormat from "../../../helpers/CharonFormat";
 
     export default {
         name: "lab-section",

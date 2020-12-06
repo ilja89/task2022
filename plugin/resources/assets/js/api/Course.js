@@ -9,7 +9,7 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving course.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving course.\n' + error, 'danger')
         })
     }
 
@@ -18,7 +18,7 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving tester types.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving tester types.\n' + error, 'danger')
         })
     }
 
@@ -27,7 +27,7 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error adding a tester type.', 'danger')
+            VueEvent.$emit('show-notification', 'Error adding a tester type.\n' + error, 'danger')
         })
     }
 
@@ -36,7 +36,7 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error removing a tester type.', 'danger')
+            VueEvent.$emit('show-notification', 'Error removing a tester type.\n' + error, 'danger')
         })
     }
 
