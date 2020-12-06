@@ -6,7 +6,7 @@ class User {
                 then(data)
             }).catch(error => {
                 console.log(error)
-                VueEvent.$emit('show-notification', 'Error retrieving user.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving user.\n' + error, 'danger')
             })
     }
 
@@ -15,7 +15,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving report table.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving report table.\n' + error, 'danger')
             })
     }
 
@@ -25,7 +25,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving active students.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving active students.\n' + error, 'danger')
             })
     }
 
@@ -34,7 +34,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving distribution of students.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving distribution of students.\n' + error, 'danger')
             })
     }
 
@@ -43,7 +43,7 @@ class User {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
         })
     }
 }

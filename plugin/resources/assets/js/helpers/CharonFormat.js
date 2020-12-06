@@ -2,7 +2,7 @@ class CharonFormat {
 
     static formatCharons(ch) {
         for (let i = 0; i < ch.length; i++) {
-            this.getNamesForLabs(ch[i].defense_labs)
+            CharonFormat.getNamesForLabs(ch[i].defense_labs)
         }
         return ch
     }

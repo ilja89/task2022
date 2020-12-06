@@ -11,7 +11,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
         })
     }
 
@@ -20,7 +20,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher report.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teacher report.\n' + error, 'danger')
         })
     }
 
@@ -29,7 +29,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving lab teachers.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving lab teachers.\n' + error, 'danger')
         })
     }
 
@@ -38,7 +38,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teacher.\n' + error, 'danger')
         })
     }
 
@@ -47,7 +47,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher aggregated data.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving teacher aggregated data.\n' + error, 'danger')
         })
     }
 
@@ -56,7 +56,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating teacher.', 'danger')
+            VueEvent.$emit('show-notification', 'Error updating teacher.\n' + error, 'danger')
         })
     }
 

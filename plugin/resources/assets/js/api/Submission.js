@@ -6,7 +6,7 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
         })
     }
 
@@ -16,7 +16,7 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
         })
     }
 
@@ -25,7 +25,7 @@ class Submission {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating submission.', 'danger')
+            VueEvent.$emit('show-notification', 'Error updating submission.\n' + error, 'danger')
         })
     }
 
@@ -34,7 +34,7 @@ class Submission {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submission.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving submission.\n' + error, 'danger')
         })
     }
 
@@ -43,7 +43,7 @@ class Submission {
             .then(response => {
                 then(response)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error adding new submission.', 'danger')
+            VueEvent.$emit('show-notification', 'Error adding new submission.\n' + error, 'danger')
         })
     }
 
@@ -61,7 +61,7 @@ class Submission {
                 }
             })
             .catch(error => {
-                window.VueEvent.$emit('show-notification', 'Error retesting.', 'danger')
+                window.VueEvent.$emit('show-notification', 'Error retesting.\n' + error, 'danger')
             })
     }
 
@@ -71,7 +71,7 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving latest submissions.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving latest submissions.\n' + error, 'danger')
         })
     }
 
@@ -80,7 +80,7 @@ class Submission {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.\n' + error, 'danger')
         })
     }
 
@@ -89,7 +89,7 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions by user.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving submissions by user.\n' + error, 'danger')
         })
     }
 
@@ -98,7 +98,7 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving course average submissions.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving course average submissions.\n' + error, 'danger')
         })
     }
 
@@ -116,7 +116,7 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.\n' + error, 'danger')
         })
     }
 

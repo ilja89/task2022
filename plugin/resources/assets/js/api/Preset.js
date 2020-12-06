@@ -6,7 +6,7 @@ class Preset {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving preset.', 'danger')
+            VueEvent.$emit('show-notification', 'Error saving preset.\n' + error, 'danger')
         })
     }
 
@@ -16,7 +16,7 @@ class Preset {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating preset.', 'danger')
+            VueEvent.$emit('show-notification', 'Error updating preset.\n' + error, 'danger')
         })
     }
 }

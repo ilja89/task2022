@@ -5,8 +5,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            console.log(error)
-            VueEvent.$emit('show-notification', 'Error retrieving labs.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
         })
     }
 
@@ -20,7 +19,7 @@ class Lab {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving lab.', 'danger')
+            VueEvent.$emit('show-notification', 'Error saving lab.\n' + error, 'danger')
         })
     }
 
@@ -29,7 +28,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting lab.', 'danger')
+            VueEvent.$emit('show-notification', 'Error deleting lab.\n' + error, 'danger')
         })
     }
 
@@ -42,7 +41,7 @@ class Lab {
         }).then(response => {
             then(response)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating lab.', 'danger')
+            VueEvent.$emit('show-notification', 'Error updating lab.\n' + error, 'danger')
         })
     }
 
@@ -51,7 +50,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs for Charon.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving labs for Charon.\n' + error, 'danger')
         })
     }
 
@@ -60,7 +59,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs.', 'danger')
+            VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
         })
     }
 }

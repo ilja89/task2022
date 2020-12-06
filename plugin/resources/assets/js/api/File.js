@@ -5,7 +5,7 @@ class File {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving files.', 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving files.\n' + error, 'danger')
             })
     }
 }
