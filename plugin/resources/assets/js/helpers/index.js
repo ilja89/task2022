@@ -1,4 +1,4 @@
-import CharonFormat from './charonFormat'
+import CharonFormat from './CharonFormat'
 
 export {
     CharonFormat
