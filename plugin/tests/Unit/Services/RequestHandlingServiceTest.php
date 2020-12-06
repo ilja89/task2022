@@ -14,6 +14,8 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
+use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\RequestHandlingService;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
@@ -33,16 +35,21 @@ class RequestHandlingServiceTest extends TestCase
     /** @var CourseRepository|Mock */
     private $courseRepository;
 
+    /** @var GitCallbackService|Mock */
+    private $gitCallbackService;
+
     protected function setUp()
     {
         parent::setUp();
         Course::unguard();
         Charon::unguard();
         User::unguard();
+
         $this->service = new RequestHandlingService(
             $this->userService = Mockery::mock(UserService::class),
             $this->charonRepository = Mockery::mock(CharonRepository::class),
-            $this->courseRepository = Mockery::mock(CourseRepository::class)
+            $this->courseRepository = Mockery::mock(CourseRepository::class),
+            $this->gitCallbackService = Mockery::mock(GitCallbackService::class)
         );
     }
 
@@ -57,26 +64,6 @@ class RequestHandlingServiceTest extends TestCase
         $this->assertEquals($request['contents'], $file->contents);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testGetSubmissionFromRequestThrowsWhenNoExamCourse()
-    {
-        $this->expectException(ModelNotFoundException::class);
-
-        $callback = new GitCallback(['repo' => 'iti0200-2020/exams']);
-
-        $courseBuilder = Mockery::mock(Builder::class);
-
-        $this->courseRepository
-            ->shouldReceive('query->where')
-            ->with('shortname', 'iti0200-2020')
-            ->andReturn($courseBuilder);
-
-        $courseBuilder->shouldReceive('firstOrFail')->andThrow(new ModelNotFoundException());
-
-        $this->service->getSubmissionFromRequest(new Request(), $callback);
-    }
 
     /**
      * @throws Exception
@@ -87,14 +74,9 @@ class RequestHandlingServiceTest extends TestCase
 
         $callback = new GitCallback(['repo' => 'iti0200-2020/task-folder.git']);
 
-        $courseBuilder = Mockery::mock(Builder::class);
-
-        $this->courseRepository
-            ->shouldReceive('query->where')
-            ->with('shortname', 'task-folder')
-            ->andReturn($courseBuilder);
-
-        $courseBuilder->shouldReceive('firstOrFail')->andThrow(new ModelNotFoundException());
+        $this->gitCallbackService
+            ->shouldReceive('getCourse')
+            ->andThrow(new ModelNotFoundException());
 
         $this->service->getSubmissionFromRequest(new Request(), $callback);
     }
@@ -108,8 +90,8 @@ class RequestHandlingServiceTest extends TestCase
 
         $charonBuilder = Mockery::mock(Builder::class);
 
-        $this->courseRepository
-            ->shouldReceive('query->where->firstOrFail')
+        $this->gitCallbackService
+            ->shouldReceive('getCourse')
             ->andReturn(new Course(['id' => 3]));
 
         $this->charonRepository
@@ -134,8 +116,8 @@ class RequestHandlingServiceTest extends TestCase
 
         $charonBuilder = Mockery::mock(Builder::class);
 
-        $this->courseRepository
-            ->shouldReceive('query->where->firstOrFail')
+        $this->gitCallbackService
+            ->shouldReceive('getCourse')
             ->andReturn(new Course(['id' => 3]));
 
         $this->charonRepository
@@ -158,8 +140,8 @@ class RequestHandlingServiceTest extends TestCase
     {
         $this->expectException(ModelNotFoundException::class);
 
-        $this->courseRepository
-            ->shouldReceive('query->where->firstOrFail')
+        $this->gitCallbackService
+            ->shouldReceive('getCourse')
             ->andReturn(new Course(['id' => 3]));
 
         $this->charonRepository
@@ -179,8 +161,8 @@ class RequestHandlingServiceTest extends TestCase
      */
     public function testGetSubmissionFromRequestReturnsSubmission()
     {
-        $this->courseRepository
-            ->shouldReceive('query->where->firstOrFail')
+        $this->gitCallbackService
+            ->shouldReceive('getCourse')
             ->andReturn(new Course(['id' => 3]));
 
         $this->charonRepository
