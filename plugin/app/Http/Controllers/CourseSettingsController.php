@@ -21,8 +21,8 @@ class CourseSettingsController extends Controller
     /**
      * CourseSettingsController constructor.
      *
-     * @param  Request  $request
-     * @param  CourseSettingsRepository  $courseSettingsRepository
+     * @param Request $request
+     * @param CourseSettingsRepository $courseSettingsRepository
      */
     public function __construct(Request $request, CourseSettingsRepository $courseSettingsRepository)
     {
@@ -33,7 +33,7 @@ class CourseSettingsController extends Controller
     /**
      * Stores the course settings from the request.
      *
-     * @param  Course  $course
+     * @param Course $course
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -42,7 +42,7 @@ class CourseSettingsController extends Controller
         $courseSettings = $this->getCourseSettings($course);
 
         $courseSettings->unittests_git = $this->request['unittests_git'];
-        $courseSettings->tester_type_code = $this->request['tester_type'];
+        $courseSettings->tester_type_code = $this->request['tester_type_code'];
         $courseSettings->save();
 
         return app('redirect')->action('CourseSettingsFormController@index', ['course' => $course->id]);
@@ -51,7 +51,7 @@ class CourseSettingsController extends Controller
     /**
      * Get the course settings if exists or create new settings if doesn't.
      *
-     * @param  Course $course
+     * @param Course $course
      *
      * @return CourseSettings
      */
@@ -60,7 +60,7 @@ class CourseSettingsController extends Controller
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
         if ($courseSettings === null) {
-            $courseSettings            = new CourseSettings();
+            $courseSettings = new CourseSettings();
             $courseSettings->course_id = $course->id;
         }
 

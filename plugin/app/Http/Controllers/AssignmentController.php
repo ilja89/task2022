@@ -86,7 +86,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $charon = $this->getCharon();
+        $charon = $this->getCharon($this->request->input('id'));
 
         $this->initializePage($charon);
 
@@ -104,12 +104,13 @@ class AssignmentController extends Controller
      * Gets the Charon by the course module id. Wrapper for Charon repository
      * simpler to use.
      *
+     * @param $courseModuleId
      * @return Charon
      * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      */
-    private function getCharon()
+    private function getCharon($courseModuleId)
     {
-        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($this->request['id']);
+        $charon = $this->charonRepository->getCharonByCourseModuleIdEager($courseModuleId);
         $charon->maxGrade = $charon->category->getGradeItem()->grademax;
         $charon->userGrade = $this->submissionCalculatorService->getUserActiveGradeForCharon(
             $charon, $this->user->currentUserId()

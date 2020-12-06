@@ -39,6 +39,7 @@
 <script>
     import {PopupSection} from '../layouts/index'
     import {Course} from "../../../api";
+    import {mapState} from "vuex";
 
     export default {
         data() {
@@ -54,24 +55,17 @@
                 ],
                 tester_name: "",
                 alert: false,
-                charon_id: 0
+                charon_id: 0,
+                testerTypes: []
             }
         },
-
         components: {PopupSection},
 
         props: {
-            testerTypes: {required: true},
             courseId: {required: true}
         },
 
         methods: {
-
-            editClicked(charon) {
-                this.updateCharon({charon});
-                window.location = 'popup#/defSettingsEditing'
-            },
-
             deleteTesterType(testerName) {
                 Course.removeTesterType(this.courseId, testerName, done => {
                     window.location.reload();
@@ -84,5 +78,17 @@
                 })
             }
         },
+
+        computed: {
+            ...mapState([
+                'course'
+            ]),
+        },
+
+        created() {
+            Course.getTesterTypes(this.course.id, response => {
+                this.testerTypes = response
+            })
+        }
     }
 </script>

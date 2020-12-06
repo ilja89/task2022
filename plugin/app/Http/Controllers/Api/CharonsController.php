@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
@@ -64,14 +65,19 @@ class CharonsController extends Controller
     }
 
     /**
-     * Save Charon defense stuff.
-     *
      * @param Charon $charon
      * @return Charon
      */
     public function saveCharon(Charon $charon)
     {
-        return $this->charonRepository->saveCharon($charon, $this->request->toArray());
+        $modifiableFields = [
+            'name', 'project_folder',
+            'defense_duration', 'defense_threshold', 'defense_start_time', 'defense_deadline', 'group_size', 'choose_teacher',
+            'docker_timeout', 'docker_content_root', 'docker_test_root', 'tester_extra', 'system_extra', 'tester_type_code'
+        ];
+
+        Log::info('Updating Charon:', [$this->request->toArray()]);
+        return $this->charonRepository->saveCharon($charon, $this->request->toArray(), $modifiableFields);
     }
 
     public function getFull(Request $request)

@@ -14,8 +14,8 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property integer grade_item_id
  * @property int charon_id
  *
- * @property Charon $charon
- * @property GradeItem $gradeItem
+ * @property Charon charon
+ * @property GradeItem gradeItem
  *
  * @package TTU\Charon\Models
  */

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-main>
+        <v-content>
             <v-snackbar multi-line v-model="notification.show"
                         :timeout="notification.timeout"
                         style="z-index: 2000">
@@ -185,7 +185,7 @@
             </button>
             </span>
             </div>
-        </v-main>
+        </v-content>
     </v-app>
 </template>
 
@@ -243,6 +243,7 @@
 </style>
 <script>
 
+	import moment from 'moment'
     import {Translate} from '../../../mixins';
     import {Submission} from '../../../api';
     import Modal from '../../../components/partials/Modal.vue';
@@ -307,7 +308,7 @@
             },
 
             date(date) {
-                return window.moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
+                return moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
             }
         },
 

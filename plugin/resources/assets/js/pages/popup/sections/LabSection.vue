@@ -117,9 +117,9 @@
                 return this.labs.map(lab => {
                     const container = {...lab};
 
-                    container['nice_name'] = this.getDayTimeFormat(lab.start.time);
-                    container['nice_date'] = this.getNiceDate(lab.start.time);
-                    container['nice_time'] = `${this.getNiceTime(lab.start.time)} - ${this.getNiceTime(lab.end.time)}`;
+                    container['nice_name'] = CharonFormat.getDayTimeFormat(lab.start.time);
+                    container['nice_date'] = CharonFormat.getNiceDate(lab.start.time);
+                    container['nice_time'] = `${CharonFormat.getNiceTime(lab.start.time)} - ${CharonFormat.getNiceTime(lab.end.time)}`;
                     container['teacher_names'] = lab.teachers.map(x => x.fullname).sort().join(', ')
                     container['charon_names'] = lab.charons.map(x => x.project_folder).sort().join(', ')
 
@@ -134,40 +134,6 @@
             addNewLabSessionClicked() {
                 this.updateLabToEmpty()
                 window.location = "popup#/labsForm";
-            },
-
-            getNiceTime(time) {
-                try {
-                    let mins = time.getMinutes().toString();
-                    if (mins.length == 1) {
-                        mins = "0" + mins;
-                    }
-                    return time.getHours() + ":" + mins
-                } catch (e) {
-                    return ""
-                }
-
-            },
-
-            getNiceDate(date) {
-                try {
-                    let month = (date.getMonth() + 1).toString();
-                    if (month.length == 1) {
-                        month = "0" + month
-                    }
-                    return date.getDate() + '.' + month + '.' + date.getFullYear()
-                } catch (e) {
-                    return "";
-                }
-            },
-
-            getDayTimeFormat(date) {
-                try {
-                    let daysDict = {0: 'P', 1: 'E', 2: 'T', 3: 'K', 4: 'N', 5: 'R', 6: 'L'};
-                    return daysDict[date.getDay()] + date.getHours();
-                } catch (e) {
-                    return ""
-                }
             },
 
             editLabClicked(lab) {

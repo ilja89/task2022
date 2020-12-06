@@ -28,10 +28,15 @@ Route::post('charons/update', 'InstanceController@update');
 Route::post('post_create/{charonId}', 'InstanceController@postCourseModuleCreated');
 Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdated');
 
+// CHARON
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@postIndex');
+
+// STUDENT VIEW
 Route::middleware('auth.course_module.enrolment.require')
     ->get('view.php', 'AssignmentController@index');
+
+// COURSE SETTINGS
 Route::middleware('auth.course.managing.require')
     ->get('courses/{course}/settings', 'CourseSettingsFormController@index');
 Route::middleware('auth.course.managing.require')

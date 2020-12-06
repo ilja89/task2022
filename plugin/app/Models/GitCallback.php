@@ -9,15 +9,15 @@ use Illuminate\Support\Collection;
 /**
  * Class GitCallback.
  *
- * @property integer $id
- * @property string $url
- * @property string $repo
- * @property string $user
- * @property string $secret_token
- * @property Carbon $created_at
+ * @property integer id
+ * @property string url
+ * @property string repo
+ * @property string user
+ * @property string secret_token
+ * @property Carbon created_at
  * @property Carbon first_response_time
  *
- * @property Submission[]|Collection $submissions
+ * @property Submission[]|Collection submissions
  *
  * @package TTU\Charon\Models
  */

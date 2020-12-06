@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class GradingMethod.
  *
- * @property integer $code
- * @property string $name
+ * @property integer code
+ * @property string name
  *
  * @package TTU\Models\Charon
  */

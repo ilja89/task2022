@@ -12,7 +12,7 @@
                 key_field="id"
                 :value="form.fields.grouping_id"
                 :helper_text="translate('grouping_selection_helper')"
-                @input-was-changed="onGroupingChanged" >
+                @input-was-changed="onGroupingChanged"  label="">
         </charon-select>
 
         <br />

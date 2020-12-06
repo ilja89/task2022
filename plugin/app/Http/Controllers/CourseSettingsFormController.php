@@ -37,7 +37,7 @@ class CourseSettingsFormController extends Controller
      * CourseSettingsFormController constructor.
      *
      * @param Request $request
-     * @param  Output $output
+     * @param Output $output
      * @param Page $page
      * @param CourseSettingsRepository $courseSettingsRepository
      *
@@ -56,8 +56,8 @@ class CourseSettingsFormController extends Controller
         PresetsRepository $presetsRepository
     ) {
         parent::__construct($request);
-        $this->output                   = $output;
-        $this->page                     = $page;
+        $this->output = $output;
+        $this->page = $page;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->classificationsRepository = $classificationsRepository;
         $this->presetsRepository = $presetsRepository;
@@ -66,7 +66,7 @@ class CourseSettingsFormController extends Controller
     /**
      * Renders the course settings form.
      *
-     * @param  Course $course
+     * @param Course $course
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -75,9 +75,9 @@ class CourseSettingsFormController extends Controller
         $this->setUrl($course->id);
 
         return view('course_settings_form.form', [
-            'header'    => $this->output->header(),
-            'footer'    => $this->output->footer(),
-            'settings'  => $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id),
+            'header' => $this->output->header(),
+            'footer' => $this->output->footer(),
+            'settings' => $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id),
             'course' => $course,
             'tester_types' => $this->classificationsRepository->getAllTesterTypes(),
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
@@ -89,7 +89,7 @@ class CourseSettingsFormController extends Controller
     /**
      * Sets the URL. Needed by Moodle.
      *
-     * @param  integer  $courseId
+     * @param integer $courseId
      */
     private function setUrl($courseId)
     {

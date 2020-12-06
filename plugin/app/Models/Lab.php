@@ -15,7 +15,7 @@ use Zeizig\Moodle\Models\User;
  * @property Carbon end
  * @property int course_id
  *
- * @property User[]|Collection $teachers
+ * @property User[]|Collection teachers
  *
  * @package TTU\Charon\Models
  */

@@ -1,10 +1,9 @@
 <template>
     <div>
-
         <form :action="'/mod/charon/courses/' + form.course_id + '/settings'" method="post">
 
             <input type="hidden" name="_token" :value="csrf_token">
-
+			
             <tester-settings-section
                     :form="form">
             </tester-settings-section>
@@ -21,7 +20,6 @@
         </form>
 
         <loader :visible="loaderVisible !== 0"></loader>
-
     </div>
 </template>
 
