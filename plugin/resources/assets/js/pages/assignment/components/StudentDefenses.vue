@@ -50,6 +50,7 @@
 
 <script>
 
+    import moment from 'moment'
     import {Translate} from '../../../mixins';
     import Defense from "../../../api/Defense";
 
@@ -122,6 +123,5 @@
     .v-application--wrap {
         min-height: 1vh !important;
     }
-
 
 </style>
