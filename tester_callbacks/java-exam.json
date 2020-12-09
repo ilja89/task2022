@@ -84,10 +84,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testEvenOdd1",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -99,10 +99,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testEvenOdd3",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -114,10 +114,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testEvenOdd2",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -129,10 +129,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [0] but found [8]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertEqualsImpl(Assert.java:137)\n\tat org.testng.Assert.assertEquals(Assert.java:118)\n\tat org.testng.Assert.assertEquals(Assert.java:652)\n\tat org.testng.Assert.assertEquals(Assert.java:662)\n\tat ee.taltech.iti0202.tk1.Test01EvenOdd.randomTest(Test01EvenOdd.java:57)\n\tat ee.taltech.iti0202.tk1.Test01EvenOdd.testEvenOdd4(Test01EvenOdd.java:63)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testEvenOdd4",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [0] but found [8]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -144,10 +144,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [0] but found [143]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertEqualsImpl(Assert.java:137)\n\tat org.testng.Assert.assertEquals(Assert.java:118)\n\tat org.testng.Assert.assertEquals(Assert.java:652)\n\tat org.testng.Assert.assertEquals(Assert.java:662)\n\tat ee.taltech.iti0202.tk1.Test01EvenOdd.randomTest(Test01EvenOdd.java:57)\n\tat ee.taltech.iti0202.tk1.Test01EvenOdd.testEvenOdd5(Test01EvenOdd.java:68)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testEvenOdd5",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [0] but found [143]",
-          "stderr": []
+          "stderr": ""
         }
       ],
       "name": "ee.taltech.iti0202.tk1.Test01EvenOdd (TestNG)",
@@ -170,10 +170,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testLoneSum2",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -185,10 +185,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testLoneSum3",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -200,10 +200,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testLoneSum4",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -215,10 +215,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testLoneSum1",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -230,10 +230,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testLoneSum5",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         }
       ],
       "name": "ee.taltech.iti0202.tk1.Test02LoneSum (TestNG)",
@@ -256,10 +256,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testGetSandwich5",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -271,10 +271,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testGetSandwich3",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -286,10 +286,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testGetSandwich2",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -301,10 +301,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testGetSandwich4",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -316,10 +316,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testGetSandwich1",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         }
       ],
       "name": "ee.taltech.iti0202.tk1.Test03GetSandwich (TestNG)",
@@ -342,10 +342,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testTopping3",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -357,10 +357,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testTopping1",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -372,10 +372,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testTopping5",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -387,10 +387,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testTopping2",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -402,10 +402,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testTopping4",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         }
       ],
       "name": "ee.taltech.iti0202.tk1.Test04Topping (TestNG)",
@@ -428,10 +428,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testPersonSellWrongCat",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -443,10 +443,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testPersonPrivateField",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -458,10 +458,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testCatGetterSetter",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -473,10 +473,10 @@
           "methodsDependedUpon": [],
           "stackTrace": null,
           "name": "testCatConstructorsAndPrivate",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": null,
           "exceptionMessage": null,
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -488,10 +488,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [true] but found [false]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertTrue(Assert.java:44)\n\tat org.testng.Assert.assertTrue(Assert.java:54)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testPersonAddSameCat(Test05Cats.java:81)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testPersonAddSameCat",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [true] but found [false]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -503,10 +503,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [true] but found [false]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertTrue(Assert.java:44)\n\tat org.testng.Assert.assertTrue(Assert.java:54)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testPersonSellCatToMyself(Test05Cats.java:116)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testPersonSellCatToMyself",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [true] but found [false]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -518,10 +518,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [true] but found [false]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertTrue(Assert.java:44)\n\tat org.testng.Assert.assertTrue(Assert.java:54)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testPeronSellCat(Test05Cats.java:93)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testPeronSellCat",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [true] but found [false]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -533,10 +533,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [true] but found [false]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertTrue(Assert.java:44)\n\tat org.testng.Assert.assertTrue(Assert.java:54)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testPersonCatList(Test05Cats.java:70)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testPersonCatList",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [true] but found [false]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -548,10 +548,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [white Joosep (10)] but found [ee.taltech.iti0202.tk1.cat.Cat@5079ae92]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertEqualsImpl(Assert.java:137)\n\tat org.testng.Assert.assertEquals(Assert.java:118)\n\tat org.testng.Assert.assertEquals(Assert.java:453)\n\tat org.testng.Assert.assertEquals(Assert.java:463)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testCatToString(Test05Cats.java:45)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testCatToString",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [white Joosep (10)] but found [ee.taltech.iti0202.tk1.cat.Cat@5079ae92]",
-          "stderr": []
+          "stderr": ""
         },
         {
           "groupsDependedUpon": [],
@@ -563,10 +563,10 @@
           "methodsDependedUpon": [],
           "stackTrace": "java.lang.AssertionError: expected [true] but found [false]\n\tat org.testng.Assert.fail(Assert.java:96)\n\tat org.testng.Assert.failNotEquals(Assert.java:776)\n\tat org.testng.Assert.assertTrue(Assert.java:44)\n\tat org.testng.Assert.assertTrue(Assert.java:54)\n\tat ee.taltech.iti0202.tk1.Test05Cats.testPersonSellCatTwice(Test05Cats.java:129)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)\n\tat org.testng.internal.InvokeMethodRunnable.runOne(InvokeMethodRunnable.java:54)\n\tat org.testng.internal.InvokeMethodRunnable.run(InvokeMethodRunnable.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n",
           "name": "testPersonSellCatTwice",
-          "stdout": [],
+          "stdout": "",
           "exceptionClass": "java.lang.AssertionError",
           "exceptionMessage": "expected [true] but found [false]",
-          "stderr": []
+          "stderr": ""
         }
       ],
       "name": "ee.taltech.iti0202.tk1.Test05Cats (TestNG)",
@@ -578,11 +578,7 @@
       "grade": 40
     }
   ],
-  "consoleOutputs": [
-    {
-      "content": "Everything went ok. Here are some LOGS LOGS LOGS LOGS LOGS ..."
-    }
-  ],
+  "consoleOutputs": "Everything went ok. Here are some LOGS LOGS LOGS LOGS LOGS ...",
   "output": "<h2>Testing results for envomp</h2><p>Submission hash: 12dacy372642hc3642c3v423xd34v5yb534bn7354</p><br><p>Quote by Jesus: \"Ask and it will be given to you; search, and you will find; knock and the door will be opened for you.\"</p><br><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;' id='errors'><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>File</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Line</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Column</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Error</th></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Exam.java</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>9</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>31</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>'9999999' is a magic number.</td></tr></table><br>Style percentage: 0%<br><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>ee.taltech.iti0202.tk1.Test01EvenOdd</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Result</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Time (ms)</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Weight</th><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testEvenOdd1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>38</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testEvenOdd3</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>5</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testEvenOdd2</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>2</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testEvenOdd4</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>48</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testEvenOdd5</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>20</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr></table><p>Number of tests: 5</p><p>Passed tests: 3</p><p>Total weight: 5</p><p>Passed weight: 3</p><p>Percentage: 60.0%</p><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>ee.taltech.iti0202.tk1.Test02LoneSum</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Result</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Time (ms)</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Weight</th><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testLoneSum2</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>13</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testLoneSum3</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>26</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testLoneSum4</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>11</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testLoneSum1</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>25</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testLoneSum5</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>60</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr></table><p>Number of tests: 5</p><p>Passed tests: 5</p><p>Total weight: 5</p><p>Passed weight: 5</p><p>Percentage: 100.0%</p><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>ee.taltech.iti0202.tk1.Test03GetSandwich</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Result</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Time (ms)</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Weight</th><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testGetSandwich5</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>4</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testGetSandwich3</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>26</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testGetSandwich2</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>36</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testGetSandwich4</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>2</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testGetSandwich1</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>10</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr></table><p>Number of tests: 5</p><p>Passed tests: 5</p><p>Total weight: 5</p><p>Passed weight: 5</p><p>Percentage: 100.0%</p><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>ee.taltech.iti0202.tk1.Test04Topping</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Result</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Time (ms)</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Weight</th><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testTopping3</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>8</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testTopping1</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>15</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testTopping5</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>554</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testTopping2</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>11</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>testTopping4</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>113</p></td><td style='color:#D5DDE5;background:#8FBC8F;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:black;'>1</p></td></tr></table><p>Number of tests: 5</p><p>Passed tests: 5</p><p>Total weight: 5</p><p>Passed weight: 5</p><p>Percentage: 100.0%</p><br><br><table style='width:100%;border: 1px solid black;border-collapse: collapse;'><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>ee.taltech.iti0202.tk1.Test05Cats</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Result</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Time (ms)</th><th style='color:#D5DDE5;background:#1b1e24;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>Weight</th><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonSellWrongCat</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonPrivateField</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>3</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testCatGetterSetter</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>2</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testCatConstructorsAndPrivate</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:greenyellow;'>PASSED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>4</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonAddSameCat</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>5</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonSellCatToMyself</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPeronSellCat</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonCatList</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>2</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testCatToString</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr><tr style='border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>testPersonSellCatTwice</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'><p style='color:red;'>FAILED</p></td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td><td style='color:#D5DDE5;background:#393939;border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;'>1</td></tr></table><p>Number of tests: 10</p><p>Passed tests: 4</p><p>Total weight: 10</p><p>Passed weight: 4</p><p>Percentage: 40.0%</p><br><br><h2>Overall</h2><p>Total number of tests: 30</p><p>Total passed tests: 22</p><p>Total weight: 30</p><p>Total Passed weight: 22</p><p>Total Percentage: 73.33%</p><br><br><p>Timestamp: 28/05/2020 21:46:29</p>",
   "totalCount": 30,
   "totalGrade": "73.33",
