@@ -205,7 +205,7 @@ class RequestHandlingService
     private function getStdOut(Request $request)
     {
         if (!$request->has('testSuites')) {
-            return $request['consoleOutputs'][0]['content'];
+            return $request['consoleOutputs'];
         }
 
         $output = collect($request->input('testSuites'))
@@ -223,6 +223,6 @@ class RequestHandlingService
             })
             ->implode('\n\n');
 
-        return $output . '\n' . $request['consoleOutputs'][0]['content'];
+        return $output . '\n' . $request['consoleOutputs'];
     }
 }

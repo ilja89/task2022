@@ -191,7 +191,7 @@ class RequestHandlingServiceTest extends TestCase
                 ['unitTests' => [['stackTrace' => 's2t1'], ['stackTrace' => 's2t2']]],
                 ['unitTests' => [['stackTrace' => 's3t1'], ['stackTrace' => 's3t2']]],
             ],
-            'consoleOutputs' => [0 => ['content' => 'console']],
+            'consoleOutputs' => 'console',
             'message' => 'commit message'
         ]);
 
