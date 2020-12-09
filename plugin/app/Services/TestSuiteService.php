@@ -61,19 +61,19 @@ class TestSuiteService
             foreach ($testSuite['unitTests'] as $unitTest) {
                 $this->unitTestRepository->create([
                     'test_suite_id' => $createdTestSuite->id,
-                    'groups_depended_upon' => $this->handleMaybeLists($unitTest['groupsDependedUpon']),
+                    'groups_depended_upon' => $this->toString($unitTest['groupsDependedUpon']),
                     'status' => $unitTest['status'],
                     'weight' => $unitTest['weight'] == null ? 1 : $unitTest['weight'],
                     'print_exception_message' => $unitTest['printExceptionMessage'],
                     'print_stack_trace' => $unitTest['printStackTrace'],
                     'time_elapsed' => $unitTest['timeElapsed'],
-                    'methods_depended_upon' => $this->handleMaybeLists($unitTest['methodsDependedUpon']),
+                    'methods_depended_upon' => $this->toString($unitTest['methodsDependedUpon']),
                     'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
                     'name' => $unitTest['name'],
-                    'stdout' => $this->handleMaybeLists($unitTest['stdout']),
+                    'stdout' => $this->toString($unitTest['stdout']),
                     'exception_class' => $unitTest['exceptionClass'],
                     'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => $this->handleMaybeLists($unitTest['stderr'])
+                    'stderr' => $this->toString($unitTest['stderr'])
                 ]);
             }
         }
@@ -92,14 +92,30 @@ class TestSuiteService
     }
 
     /**
-     * @param $list
+     * @param $content
      * @return string
      */
-    private function handleMaybeLists($list)
+    private function toString($content)
     {
-        if (is_array($list)) {
-            return implode(', ', $list);
+        if (is_string($content)) {
+            return $content;
         }
-        return '';
+        if (!is_array($content)) {
+            return '';
+        }
+
+        $result = '';
+        foreach ($content as $entry) {
+            $entry = $this->toString($entry);
+            if (!empty($entry)) {
+                $result .= $entry . ', ';
+            }
+        }
+
+        if (empty($result)) {
+            return $result;
+        }
+
+        return mb_substr($result, 0, -2);
     }
 }
