@@ -131,7 +131,7 @@ $factory->define(Grouping::class, function (Generator $faker) {
 $factory->define(User::class, function (Generator $faker) {
     return [
         'auth' => $faker->word,
-        'username' => $faker->word,
+        'username' => $faker->firstName . $faker->randomAscii,
         'firstname' => $faker->word,
         'lastname' => $faker->word,
         'confirmed' => 1,

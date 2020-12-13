@@ -4,11 +4,14 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
+use TTU\Charon\Services\DefenceRegistrationService;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -20,20 +23,95 @@ class DefenseRegistrationController extends Controller
     /** @var StudentsRepository */
     protected $studentsRepository;
 
+    /** @var DefenceRegistrationService */
+    protected $registrationService;
+
+    /** @var CharonDefenseLabRepository */
+    protected $defenseLabRepository;
+
     /**
-     * LabDummyController constructor.
+     * DefenseRegistrationController constructor.
      *
      * @param Request $request
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
+     * @param DefenceRegistrationService $registrationService
+     * @param CharonDefenseLabRepository $defenseLabRepository
      */
-    public function __construct(Request $request,
-                                StudentsRepository $studentsRepository,
-                                DefenseRegistrationRepository $defenseRegistrationRepository)
-    {
+    public function __construct(
+        Request $request,
+        StudentsRepository $studentsRepository,
+        DefenseRegistrationRepository $defenseRegistrationRepository,
+        DefenceRegistrationService $registrationService,
+        CharonDefenseLabRepository $defenseLabRepository
+    ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
+        $this->registrationService = $registrationService;
+        $this->defenseLabRepository = $defenseLabRepository;
+    }
+
+    /**
+     * Student registers for a defence time slot
+     *
+     * @param Request $request
+     *
+     * @return string
+     * @throws RegistrationException
+     */
+    public function studentRegisterDefence(Request $request)
+    {
+        $studentId = $request->input('user_id');
+        $submissionId = $request->input('submission_id');
+        $ownTeacher = $request->input('selected') == 1;
+        $charonId = $request->input('charon_id');
+        $chosenTime = $request->input('student_chosen_time');
+        $defenseLabId = $request->input('defense_lab_id');
+
+        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
+
+        $this->registrationService->validateDefence($studentId, $charonId, $chosenTime, $lab);
+
+        $teacherId = $this->registrationService->getTeacherId(
+            $studentId,
+            $ownTeacher,
+            $defenseLabId,
+            $charonId,
+            $chosenTime
+        );
+
+        $this->registrationService->registerDefenceTime(
+            $studentId,
+            $submissionId,
+            $ownTeacher,
+            $charonId,
+            $chosenTime,
+            $teacherId,
+            $defenseLabId
+        );
+
+        return 'inserted';
+    }
+
+    /**
+     * Currently the whole lab starts off as available, this endpoint reveals which slots have already been taken
+     * 
+     * lab_id refers to CharonDefenseLab->id
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getUsedDefenceTimes(Request $request)
+    {
+        return $this->registrationService->getUsedDefenceTimes(
+            $request->input('time'),
+            $request->input('charon_id'),
+            $request->input('lab_id'),
+            $request->input('user_id'),
+            $request->input('my_teacher') == 'true'
+        );
     }
 
     /**
@@ -51,13 +129,13 @@ class DefenseRegistrationController extends Controller
      * @param Course $course
      * @param $after
      * @param $before
-     * @param $teacher_id
+     * @param $teacherId
      * @param $progress
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacher_id, $progress);
+        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
     }
 
     /**
@@ -71,29 +149,27 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
-    public function deleteReg(Request $request)
+    public function delete(Request $request)
     {
-        $student_id = $request->input('user_id');
-        $defense_lab_id = $request->input('defLab_id');
-        $submission_id = $request->input('submission_id');
+        $studentId = $request->input('user_id');
+        $defenseLabId = $request->input('defLab_id');
+        $submissionId = $request->input('submission_id');
 
         Log::warning(json_encode([
             'event' => 'registration_deletion',
             'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $student_id,
-            'defense_lab_id' => $defense_lab_id,
-            'submission_id' => $submission_id
+            'for_user_id' => $studentId,
+            'defense_lab_id' => $defenseLabId,
+            'submission_id' => $submissionId
         ]));
 
-        return $this->defenseRegistrationRepository->deleteRegistration($student_id, $defense_lab_id, $submission_id);
+        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
     }
 
     public function getStudentRegistrations(Request $request)
     {
-        $student_id = $request->input('user_id');
+        $studentId = $request->input('user_id');
 
-        return $this->defenseRegistrationRepository->getStudentRegistrations($student_id);
-
+        return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
-
 }

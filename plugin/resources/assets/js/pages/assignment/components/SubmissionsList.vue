@@ -355,7 +355,6 @@
                         this.timeGenerator(option);
                     })
                 }
-
             },
 
             timeGenerator(option) {
@@ -483,7 +482,7 @@
 
             sendData() {
                 if (this.value !== null && this.value['start'] !== null && this.value_time !== null && this.selected.length !== 0) {
-                    let choosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
+                    let chosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
                     let selected_boolean = this.selected === "My teacher";
 
                     axios.post(`api/charons/${this.charon_id}/submission?user_id=${this.student_id}`, {
@@ -491,43 +490,24 @@
                         submission_id: this.current_submission,
                         selected: selected_boolean,
                         defense_lab_id: this.value['id'],
-                        student_chosen_time: choosen_time,
-                    }).then(result => {
+                        student_chosen_time: chosen_time,
+                    }).then(() => {
+                        VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
+                        this.isActive = false
+                    }).catch(error => {
+                        if (error.response && error.response.data && error.response.data.title) {
+                            VueEvent.$emit('show-notification', error.response.data.title + ' ' + error.response.data.detail, 'danger')
+                        } else {
+                            console.error(error);
+                            VueEvent.$emit('show-notification', 'Unexpected error, please try again', 'danger')
+                        }
+                    }).finally(() => {
                         this.getDefenseData();
-                        this.editDataAfterInsert(result.data)
                     })
                 } else {
                     VueEvent.$emit('show-notification', "Needed parameters weren't inserted!", 'danger')
                 }
             },
-
-            editDataAfterInsert(dataFromDb) {
-                switch (dataFromDb) {
-                    case 'teacher is busy':
-                        VueEvent.$emit('show-notification', "Your teacher isn't vacant at given time.\nPlease choose another time or if possible, another teacher.", 'danger')
-                        break;
-                    case 'user in db':
-                        VueEvent.$emit('show-notification', "You cannot register twice for one exercise.\n If you want to choose another time, then you should delete your previous time (My registrations button)", 'danger')
-                        break;
-                    case 'inserted':
-                        VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
-                        this.isActive = false
-                        break;
-                    case 'invalid setup':
-                        VueEvent.$emit('show-notification', "Alert teachers that lab configuration was invalid!", 'danger')
-                        break;
-                    case 'invalid chosen time':
-                        VueEvent.$emit('show-notification', "Invalid chosen time!", 'danger')
-                        break;
-                    case 'no teacher available':
-                        VueEvent.$emit('show-notification', "No available teachers were found!", 'danger')
-                        break;
-                    case 'duplicate':
-                        VueEvent.$emit('show-notification', "You already have an registration for this time!", 'danger')
-                        break;
-                }
-            },
-
             getGrademapByResult(result) {
                 let correctGrademap = null;
                 this.grademaps.forEach(grademap => {
