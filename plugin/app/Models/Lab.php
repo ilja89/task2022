@@ -22,21 +22,18 @@ use Zeizig\Moodle\Models\User;
 class Lab extends Model
 {
     public $timestamps = false;
-    protected $table = 'charon_lab';
 
-    protected $fillable = [
-        'start', 'end', 'course_id'
-    ];
+    protected $table = 'charon_lab';
+    protected $fillable = ['start', 'end', 'course_id'];
+    protected $dates = ['start', 'end',];
 
     public function teachers()
     {
-        return $this->hasMany(User::class)->orderBy('id');  // has no fillables?
+        return $this->hasMany(User::class)->orderBy('id');
     }
-
 
     public function getDeadlineTimeAttribute($deadlineTime)
     {
-        $deadlineTime = Carbon::parse($deadlineTime);
-        return $deadlineTime;
+        return Carbon::parse($deadlineTime);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace TTU\Charon\Services;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
-use TTU\Charon\Models\Deadline;
 
 /**
  * Class DeadlineService.

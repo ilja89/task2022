@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Charon model class.
+ * Registration model class.
  *
  * @property integer $id
  * @property string $student_name
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $defense_lab_id
  * @property integer $charon_id
  * @property integer $teacher_id
- * @property string $progress
+ * @property string $progress values 'Waiting', 'Defending', 'Done'
  *
  * @package TTU\Charon\Model
  */

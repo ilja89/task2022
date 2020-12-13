@@ -57,4 +57,41 @@ return [
         'title' => 'Submission is not linked to a Git callback.',
         'detail' => 'Submission requires a Git callback so it can be retested.',
     ],
+    /*
+    |--------------------------------------------------------------------------
+    | Defense registration errors
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'teacher_is_busy' => [
+        'title' => 'Your teacher isn\'t vacant at given time.',
+        'detail' => 'Please choose another time or if possible, another teacher.',
+    ],
+
+    'no_teacher_available' => [
+        'title' => 'No available teachers were found!',
+        'detail' => '',
+    ],
+
+    'user_in_db' => [
+        'title' => 'You cannot register twice for one exercise.',
+        'detail' => 'If you want to choose another time, then you should delete your previous time (My registrations button)',
+    ],
+
+    'invalid_setup' => [
+        'title' => 'Alert teachers that lab configuration was invalid!',
+        'detail' => '',
+    ],
+
+    'invalid_chosen_time' => [
+        'title' => 'Invalid chosen time!',
+        'detail' => '',
+    ],
+
+    'duplicate' => [
+        'title' => 'You already have an registration for this time!',
+        'detail' => '',
+    ],
+
 ];

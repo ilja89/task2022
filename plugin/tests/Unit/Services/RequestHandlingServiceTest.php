@@ -14,7 +14,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
-use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\RequestHandlingService;
 use Zeizig\Moodle\Models\Course;

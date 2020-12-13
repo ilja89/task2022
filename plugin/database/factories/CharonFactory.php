@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\TesterType;
 use Zeizig\Moodle\Models\Course;
@@ -83,5 +85,27 @@ $factory->define(GitCallback::class, function (Generator $faker) {
         'repo' => $faker->word,
         'user' => $faker->firstName,
         'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+    ];
+});
+
+$factory->define(Lab::class, function (Generator $faker) {
+    return [
+        'start' => Carbon::now(),
+        'end' => Carbon::now()->addHours(5),
+        'course_id' => 0
+    ];
+});
+
+$factory->define(Registration::class, function (Generator $faker) {
+    return [
+        'student_id' => 0,
+        'charon_id' => 0,
+        'submission_id' => 0,
+        'my_teacher' => 0,
+        'teacher_id' => 0,
+        'defense_lab_id' => 0,
+        'student_name' => $faker->firstName,
+        'choosen_time' => Carbon::now(),
+        'progress' => $faker->randomElement(['Waiting', 'Defending', 'Done'])
     ];
 });
