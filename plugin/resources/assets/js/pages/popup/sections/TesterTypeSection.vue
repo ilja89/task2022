@@ -8,6 +8,7 @@
             <v-col cols="12" sm="12" md="8" lg="8">
                 <v-data-table
                         hide-default-footer
+                        disable-pagination
                         :headers="tester_type_headers"
                         :items="testerTypes">
                     <template v-slot:item.actions="{ item }">
