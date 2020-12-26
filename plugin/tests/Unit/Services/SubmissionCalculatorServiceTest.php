@@ -48,7 +48,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             $this->makeResult(0, 1, 1001)
         ]);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission);
+        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
         $this->assertFalse($actual);
     }
@@ -62,7 +62,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             $this->makeResult(1, 1, 101)
         ]);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission);
+        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
         $this->assertTrue($actual);
     }
@@ -81,7 +81,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             $withoutGrademap
         ]);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission);
+        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
         $this->assertFalse($actual);
     }
@@ -92,7 +92,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $result = Mockery::mock(Result::class, ['getGrademap' => null])->makePartial();
         $result->percentage = 1;
 
-        $actual = $this->service->calculateResultFromDeadlines($result, []);
+        $actual = $this->service->calculateResultFromDeadlines($result, collect([]));
 
         $this->assertEquals(0, $actual);
     }

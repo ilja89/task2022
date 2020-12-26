@@ -4,15 +4,14 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
+use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -28,111 +27,58 @@ class SubmissionService
     /** @var CharonGradingService */
     private $charonGradingService;
 
-    /** @var RequestHandlingService */
+    /** @var AreteResponseParser */
     private $requestHandlingService;
 
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
-    /** @var ResultRepository */
-    private $resultRepository;
-
-    /** @var TestSuiteService */
-    private $testSuiteService;
+    /** @var UserRepository */
+    private $userRepository;
 
     /**
      * SubmissionService constructor.
      *
      * @param GradebookService $gradebookService
      * @param CharonGradingService $charonGradingService
-     * @param RequestHandlingService $requestHandlingService
+     * @param AreteResponseParser $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
-     * @param TestSuiteService $testSuiteService
-     * @param ResultRepository $resultRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
-        RequestHandlingService $requestHandlingService,
+        AreteResponseParser $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
-        TestSuiteService $testSuiteService,
-        ResultRepository $resultRepository
+        UserRepository $userRepository
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
         $this->submissionsRepository = $submissionsRepository;
-        $this->testSuiteService = $testSuiteService;
-        $this->resultRepository = $resultRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Saves the Submission from the given request.
-     * Also saves the Results and Submission Files.
      *
      * @param Request $submissionRequest
      * @param GitCallback $gitCallback
+     * @param int $authorId
      *
      * @return Submission
      * @throws Exception
      */
-    public function saveSubmission(Request $submissionRequest, GitCallback $gitCallback)
+    public function saveSubmission(Request $submissionRequest, GitCallback $gitCallback, int $authorId)
     {
-        $submission = $this->requestHandlingService->getSubmissionFromRequest($submissionRequest, $gitCallback);
+        $submission = $this->requestHandlingService->getSubmissionFromRequest(
+            $submissionRequest,
+            $gitCallback->repo,
+            $authorId
+        );
+
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
-
-        $style = (int) $submissionRequest['style'] == 100;
-
-        $this->resultRepository->saveIfGrademapPresent([
-            'submission_id' => $submission->id,
-            'grade_type_code' => 101,
-            'percentage' => $style ? 1 : 0,
-            'calculated_result' => 0,
-            'stdout' => null,
-            'stderr' => null,
-        ]);
-
-        $this->testSuiteService->saveSuites($submissionRequest['testSuites'], $submission->id);
-        $this->includeUnsentGrades($submission);
-
-        if ($submissionRequest['files'] != null) {
-            Log::debug("Saving files: ", [sizeof($submissionRequest['files'])]);
-            $this->saveFiles($submission, $submissionRequest['files']);
-        }
-
-        return $submission;
-    }
-
-    /**
-     * Updates the given submissions' results with the given new results.
-     *
-     * @param Submission $submission
-     * @param array $newResults
-     *
-     * @return Submission
-     * @throws ResultPointsRequiredException
-     */
-    public function updateSubmissionCalculatedResults(Submission $submission, $newResults)
-    {
-        foreach ($newResults as $result) {
-            if ($result['calculated_result'] !== '0' && !$result['calculated_result']) {
-                throw (new ResultPointsRequiredException('result_points_are_required'))->setResultId($result['id']);
-            }
-        }
-
-        foreach ($newResults as $result) {
-            $existingResult = $submission->results->first(function ($resultLoop) use ($result) {
-                return $resultLoop->id == $result['id'];
-            });
-
-            $existingResult->calculated_result = $result['calculated_result'];
-            $existingResult->save();
-        }
-
-        $this->charonGradingService->updateGrade($submission);
-        $this->charonGradingService->confirmSubmission($submission);
-        $this->charonGradingService->updateProgressByStudentId($submission->charon_id, $submission->id, $submission->user_id, 'Done');
 
         return $submission;
     }
@@ -144,10 +90,13 @@ class SubmissionService
      * @param int $studentId
      *
      * @return Submission
+     * @throws ModelNotFoundException
      */
-    public function addNewEmptySubmission(Charon $charon, $studentId)
+    public function addNewEmptySubmission(Charon $charon, int $studentId)
     {
         $now = Carbon::now()->setTimezone('UTC');
+
+        $student = $this->userRepository->findOrFail($studentId);
 
         /** @var Submission $submission */
         $submission = $charon->submissions()->create([
@@ -159,12 +108,14 @@ class SubmissionService
             'stdout' => 'Manually created by teacher',
         ]);
 
+        $submission->users()->save($student);
+
         foreach ($charon->grademaps as $grademap) {
             $this->submissionsRepository->saveNewEmptyResult($submission->id, $grademap->grade_type_code, '');
         }
 
-        if ($this->charonGradingService->gradesShouldBeUpdated($submission)) {
-            $this->charonGradingService->updateGrade($submission);
+        if ($this->charonGradingService->gradesShouldBeUpdated($submission, $studentId)) {
+            $this->charonGradingService->updateGrade($submission, $studentId);
         }
 
         return $submission;
@@ -209,7 +160,7 @@ class SubmissionService
      *
      * @return void
      */
-    private function saveFiles($submission, $filesRequest)
+    public function saveFiles(Submission $submission, $filesRequest)
     {
         foreach ($filesRequest as $fileRequest) {
             $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
@@ -225,7 +176,7 @@ class SubmissionService
      *
      * @return void
      */
-    private function includeUnsentGrades(Submission $submission)
+    public function includeUnsentGrades(Submission $submission)
     {
         $charon = $submission->charon;
 

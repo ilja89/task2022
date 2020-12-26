@@ -12,7 +12,7 @@ use TTU\Charon\Repositories\UnitTestRepository;
  */
 class TestSuiteService
 {
-    /** @var RequestHandlingService */
+    /** @var AreteResponseParser */
     private $requestHandlingService;
 
     /** @var TestSuiteRepository */
@@ -22,12 +22,12 @@ class TestSuiteService
     private $unitTestRepository;
 
     /**
-     * @param RequestHandlingService $requestHandlingService
+     * @param AreteResponseParser $requestHandlingService
      * @param TestSuiteRepository $testSuiteRepository
      * @param UnitTestRepository $unitTestRepository
      */
     public function __construct(
-        RequestHandlingService $requestHandlingService,
+        AreteResponseParser $requestHandlingService,
         TestSuiteRepository $testSuiteRepository,
         UnitTestRepository $unitTestRepository
     ) {

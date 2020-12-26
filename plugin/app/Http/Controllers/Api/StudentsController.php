@@ -122,6 +122,13 @@ class StudentsController extends Controller
         return $student;
     }
 
+    /**
+     * Currently this counts only students pushing the submissions but omits participants in group works.
+     *
+     * @param Course $course
+     *
+     * @return Collection
+     */
     public function findActive(Course $course)
     {
         $period = $this->request->query('period');
@@ -135,7 +142,7 @@ class StudentsController extends Controller
             $startTime = $startTime->subMonth();
         }
 
-        $users = Submission::with([
+        return Submission::with([
             'user' => function ($query) {
                 $query->select(['id', 'firstname', 'lastname']);
             },
@@ -148,8 +155,6 @@ class StudentsController extends Controller
             ->pluck('user')
             ->unique()
             ->values();
-
-        return $users;
     }
 
     public function findDistribution(Course $course)

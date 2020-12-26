@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Submission;
@@ -17,6 +18,8 @@ use Zeizig\Moodle\Models\GradeItem;
 /** @var Factory $factory */
 $factory->define(Charon::class, function (Generator $faker) {
     return [
+        'course' => 0,
+        'category_id' => 0,
         'name' => $faker->name,
         'description' => $faker->paragraph,
         'project_folder' => $faker->word,
@@ -107,5 +110,14 @@ $factory->define(Registration::class, function (Generator $faker) {
         'student_name' => $faker->firstName,
         'choosen_time' => Carbon::now(),
         'progress' => $faker->randomElement(['Waiting', 'Defending', 'Done'])
+    ];
+});
+
+$factory->define(Grademap::class, function (Generator $faker) {
+    return [
+        'charon_id' => 0,
+        'grade_type_code' => 1,
+        'name' => $faker->firstName,
+        'grade_item_id' => 0,
     ];
 });
