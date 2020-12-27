@@ -58,6 +58,8 @@ build:
   - master
 
 deploy_dev:
+  tags:
+    - docker
   stage: deploy
   image: misterio92/ci-php-node:4.0
   environment:
