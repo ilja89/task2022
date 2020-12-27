@@ -502,5 +502,19 @@
             </KEYS>
         </TABLE>
 
+        <TABLE NAME="charon_submission_user" COMMENT="Connecting students to their submissions.">
+            <FIELDS>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="user_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="FK_submission_to_user_submission_id" TYPE="foreign" FIELDS="submission_id" REFTABLE="charon_submission" REFFIELDS="id"/>
+                <KEY NAME="FK_submission_to_user_user_id" TYPE="foreign" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXUNIQUE_submission_and_user" UNIQUE="true" FIELDS="submission_id,user_id"/>
+            </INDEXES>
+        </TABLE>
+
     </TABLES>
 </XMLDB>

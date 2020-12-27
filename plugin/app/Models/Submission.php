@@ -36,6 +36,7 @@ use Zeizig\Moodle\Models\User;
 class Submission extends Model
 {
     public $table = 'charon_submission';
+
     protected $fillable = [
         'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message',
         'created_at', 'updated_at', 'original_submission_id',
@@ -53,6 +54,11 @@ class Submission extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'charon_submission_user');
     }
 
     public function results()
