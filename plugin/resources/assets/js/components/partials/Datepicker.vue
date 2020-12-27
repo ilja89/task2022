@@ -60,16 +60,7 @@
                     to: ''
                 }]
                 if (this.to_be_checked && this.lab.start.time) {
-
-                    let correctForm
-                    if (this.lab.start.time.toString().includes('GMT')) {
-                        let month = ("0" + (new Date(this.lab.start.time).getMonth() + 1).toString()).substr(-2, 2)
-                        let day = ("0" + new Date(this.lab.start.time).getDate().toString()).substr(-2, 2)
-                        correctForm = (new Date(this.lab.start.time).getUTCFullYear()).toString() + '-'
-                            + month + '-' + day
-                    } else {
-                        correctForm = this.lab.start.time.toString().substr(0, 10);
-                    }
+                    let correctForm = this.lab.start.time.toString().substr(0, 10);
                     let millis_in_a_day = 60 * 60 * 24 * 1000
                     limit.push({
                         type: 'fromto',

@@ -250,6 +250,7 @@
     import Datepicker from "../../../components/partials/Datepicker.vue";
     import {Multiselect} from "vue-multiselect";
     import StudentDefenses from "./StudentDefenses";
+    import CharonFormat from "../../../helpers/CharonFormat";
 
     export default {
 
@@ -460,7 +461,7 @@
 
             getLabs() {
                 axios.get(`api/charons/${this.charon_id}/labs/view`).then(result => {
-                    this.labs = result.data;
+                    this.labs = result.data.map(CharonFormat.labTimezone);
                     this.labs.sort((a, b) => {
                         let ta = new Date(a.start),
                             tb = new Date(b.start);

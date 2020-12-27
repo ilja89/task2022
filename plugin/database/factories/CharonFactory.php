@@ -81,7 +81,7 @@ $factory->define(Submission::class, function (Generator $faker) {
 $factory->define(GitCallback::class, function (Generator $faker) {
     return [
         'url' => $faker->url,
-        'secret_token' => $faker->word,
+        'secret_token' => md5($faker->sentence),
         'repo' => $faker->word,
         'user' => $faker->firstName,
         'created_at' => Carbon::now()->format('Y-m-d H:i:s')

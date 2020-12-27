@@ -1,5 +1,11 @@
 class CharonFormat {
 
+    static labTimezone(lab) {
+        lab.start += "+00";
+        lab.end += "+00";
+        return lab;
+    }
+
     static formatCharons(ch) {
         for (let i = 0; i < ch.length; i++) {
             CharonFormat.getNamesForLabs(ch[i].defense_labs)

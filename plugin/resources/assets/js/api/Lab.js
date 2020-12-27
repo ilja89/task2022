@@ -5,7 +5,7 @@ class Lab {
     static all(courseId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/labs')
             .then(response => {
-                let labs = response.data
+                let labs = response.data.map(CharonFormat.labTimezone)
                 CharonFormat.getNamesForLabs(labs)
                 then(labs)
             }).catch(error => {
@@ -21,7 +21,7 @@ class Lab {
             teachers: teachers,
             weeks: weeks
         }).then(response => {
-            then(response.data)
+            then(CharonFormat.labTimezone(response.data))
         }).catch(error => {
             VueEvent.$emit('show-notification', 'Error saving lab.\n' + error, 'danger')
         })
@@ -30,10 +30,10 @@ class Lab {
     static delete(courseId, labId, then) {
         axios.delete('/mod/charon/api/courses/' + courseId + '/labs/' + labId)
             .then(response => {
-                then(response.data)
+                then(CharonFormat.labTimezone(response.data))
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting lab.\n' + error, 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error deleting lab.\n' + error, 'danger')
+            })
     }
 
     static update(courseId, labId, start, end, teachers, charons, then) {
@@ -52,7 +52,7 @@ class Lab {
     static getByCharonId(charonId, then) {
         axios.get('/mod/charon/api/charons/' + charonId + '/labs')
             .then(response => {
-                then(response.data)
+                then(CharonFormat.labTimezone(response.data))
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving labs for Charon.\n' + error, 'danger')
         })
@@ -61,7 +61,7 @@ class Lab {
     static getByLabId(labId, then) {
         axios.get('/mod/charon/api/charons/' + labId + '/labs')
             .then(response => {
-                then(response.data)
+                then(CharonFormat.labTimezone(response.data))
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
         })

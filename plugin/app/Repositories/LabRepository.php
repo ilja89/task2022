@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -57,8 +58,8 @@ class LabRepository
     {
         $allCarbonStartDatesForLabs = array();
 
-        $labStartCarbon = Carbon::parse($start);
-        $labEndCarbon = Carbon::parse($end);
+        $labStartCarbon = Carbon::parse($start, 'UTC');
+        $labEndCarbon = Carbon::parse($end, 'UTC');
 
         $this->validateLab($teachers, $courseId, $labStartCarbon, $labEndCarbon);
 
@@ -158,15 +159,16 @@ class LabRepository
      * @param Number $oldLabId
      * @param Carbon $newStart
      * @param Carbon $newEnd
-     *
      * @param $newTeachers
      * @param $newCharons
+     *
      * @return Lab
      */
     public function update($oldLabId, $newStart, $newEnd, $newTeachers, $newCharons)
     {
-        $newStartCarbon = Carbon::parse($newStart);
-        $newEndCarbon = Carbon::parse($newEnd);
+        $newStartCarbon = Carbon::parse($newStart, 'UTC');
+        $newEndCarbon = Carbon::parse($newEnd, 'UTC');
+
         $oldLab = Lab::find($oldLabId);
 
         $this->validateLab($newTeachers, $oldLab->course_id, $newStartCarbon, $newEndCarbon);
