@@ -30,7 +30,7 @@ Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdate
 
 // CHARON
 Route::get('instance_form', 'InstanceFormController@index');
-Route::post('instance_form', 'InstanceFormController@postIndex');
+Route::post('instance_form', 'InstanceFormController@index');
 
 // STUDENT VIEW
 Route::middleware('auth.course_module.enrolment.require')
