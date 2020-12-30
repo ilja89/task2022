@@ -53,7 +53,7 @@
 									 :custom-label="getLabList" :max-height="200"
 									 :options="this.labs" :placeholder="translate('selectDayText')"
 									 label="start"
-									 track-by="start" @select="onSelect">
+									 track-by="id" @select="onSelect">
 							<template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
 						</multiselect>
 						
@@ -193,7 +193,7 @@ export default {
 			this.selected = teacher;
 			this.arrayDefenseTime();
 		},
-		
+
 		arrayDefenseTime() {
 			if (this.cached_option != null) {
 				const option = this.cached_option;
@@ -211,14 +211,19 @@ export default {
 				})
 			}
 		},
-		
+
 		timeGenerator(option) {
 			let defense_duration = this.charon['defense_duration'];
 			let startTime = moment(option['start'], 'YYYY-MM-DD HH:mm:ii')
 			let endTime = moment(option['end'], 'YYYY-MM-DD HH:mm:ii');
 			let curTime = moment();
-			
+
 			this.times = [];
+			if (!defense_duration) {
+				console.error("Charon is missing defense_duration");
+				return;
+			}
+
 			while (startTime < endTime) {
 				const time = startTime.format('HH:mm');
 				if (!this.not_available_times.includes(time) && curTime.isBefore(startTime)) {
