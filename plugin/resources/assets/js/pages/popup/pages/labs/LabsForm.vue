@@ -147,38 +147,24 @@
                     }
                 }
 
-                // send info to backend
                 if (this.lab.id != null) {
-                    // update lab
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
-                    if (giveStart.toString().includes('GMT')) {
-                        let num = giveStart.toString().substring(giveStart.toString().indexOf('GMT') + 4,
-                            giveStart.toString().indexOf('GMT') + 6)
-                        if (giveStart.toString().includes('GMT+')) {
-                            giveStart = new Date(giveStart.setHours(giveStart.getHours() + parseInt(num)))
-                        }
-                        if (giveStart.toString().includes('GMT-')) {
-                            giveStart = new Date(giveStart.setHours(giveStart.getHours() - parseInt(num)))
-                        }
+
+                    if (giveStart instanceof Date) {
+                        giveStart = giveStart.toString().slice(0, 24)
                     }
-                    if (giveEnd.toString().includes('GMT+0300')) {
-                        let num = giveEnd.toString().substring(giveEnd.toString().indexOf('GMT') + 4,
-                            giveEnd.toString().indexOf('GMT') + 6)
-                        if ((giveEnd.toString().includes('GMT+'))) {
-                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() + parseInt(num)))
-                        }
-                        if (giveEnd.toString().includes('GMT-')) {
-                            giveEnd = new Date(giveEnd.setHours(giveEnd.getHours() - parseInt(num)))
-                        }
+
+                    if (giveEnd instanceof Date) {
+                        giveEnd = giveEnd.toString().slice(0, 24)
                     }
+
                     Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, chosen_charons, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab updated!');
                     })
                 } else {
-                    // save lab
                     Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, chosen_charons, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
