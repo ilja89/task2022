@@ -137,45 +137,65 @@ class DefenseRegistrationRepositoryTest extends TestCase
     /**
      * Cases:
      * + 1st & 2nd match time and teacher count
-     * - 3rd matches time but not count
-     * - 4th & 5th match count but not time
+     * - 3rd does not match defense lab id
+     * - 4th matches time but not count
+     * - 5th & 6th match count but not time
      */
     public function testGetChosenTimesForAllTeachers()
     {
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+
+        /** @var Lab $lab */
+        $lab = factory(Lab::class)->create();
+
+        $defenseLab = CharonDefenseLab::create(['charon_id' => $charon->id, 'lab_id' => $lab->id]);
+
         /** @var Carbon $time */
         $time = Carbon::parse('2020-12-15 22:10:00');
 
         factory(Registration::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(10),
-            'student_id' => factory(User::class)->create()->id
+            'student_id' => factory(User::class)->create()->id,
+            'defense_lab_id' => $defenseLab->id
         ]);
 
         factory(Registration::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(10),
-            'student_id' => factory(User::class)->create()->id
+            'student_id' => factory(User::class)->create()->id,
+            'defense_lab_id' => $defenseLab->id
+        ]);
+
+        factory(Registration::class)->create([
+            'teacher_id' => factory(User::class)->create()->id,
+            'choosen_time' => $time->clone()->addMinutes(10),
+            'student_id' => factory(User::class)->create()->id,
         ]);
 
         factory(Registration::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(20),
-            'student_id' => factory(User::class)->create()->id
+            'student_id' => factory(User::class)->create()->id,
+            'defense_lab_id' => $defenseLab->id
         ]);
 
         factory(Registration::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addDays(2),
-            'student_id' => factory(User::class)->create()->id
+            'student_id' => factory(User::class)->create()->id,
+            'defense_lab_id' => $defenseLab->id
         ]);
 
         factory(Registration::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addDays(2),
-            'student_id' => factory(User::class)->create()->id
+            'student_id' => factory(User::class)->create()->id,
+            'defense_lab_id' => $defenseLab->id
         ]);
 
-        $actual = $this->repository->getChosenTimesForAllTeachers($time->format('Y-m-d H'), 2);
+        $actual = $this->repository->getChosenTimesForAllTeachers($time->format('Y-m-d H'), 2, $defenseLab->id);
 
         $this->assertEquals(['2020-12-15 22:20:00'], $actual);
     }

@@ -75,6 +75,7 @@ class DefenceRegistrationServiceTest extends TestCase
             ->andReturn($query);
 
         $query->shouldReceive('where')->with('choosen_time', '2020-12-15 22:20:00')->once()->andReturn($query);
+        $query->shouldReceive('where')->with('defense_lab_id', 13)->once()->andReturn($query);
         $query->shouldReceive('count')->once()->andReturn(2);
 
         $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 13);
@@ -103,6 +104,7 @@ class DefenceRegistrationServiceTest extends TestCase
             ->andReturn($query);
 
         $query->shouldReceive('where')->with('choosen_time', '2020-12-15 22:20:00')->once()->andReturn($query);
+        $query->shouldReceive('where')->with('defense_lab_id', 13)->once()->andReturn($query);
         $query->shouldReceive('count')->once()->andReturn(1);
 
         $this->userRepository
@@ -134,6 +136,9 @@ class DefenceRegistrationServiceTest extends TestCase
         $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 13);
     }
 
+    /**
+     * @throws RegistrationException
+     */
     public function testGetUsedDefenceTimesReturnsHoursMinutes()
     {
         $this->teacherRepository
@@ -144,7 +149,7 @@ class DefenceRegistrationServiceTest extends TestCase
 
         $this->defenseRegistrationRepository
             ->shouldReceive('getChosenTimesForAllTeachers')
-            ->with('2020-12-15 22:20:00', 2)
+            ->with('2020-12-15 22:20:00', 2, 5)
             ->once()
             ->andReturn(['2020-12-15 22:20:03', '2020-12-15 22:30:06', '2020-12-15 22:40:09']);
 
