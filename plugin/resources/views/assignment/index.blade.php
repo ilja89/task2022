@@ -32,14 +32,11 @@
         @include('assignment.partials._grademaps_table')
         @include('assignment.partials._deadlines_table')
 
-        <submissions-list :grademaps="grademaps" :charon_id="charonId" :student_id="studentId"
-                          v-on:submission-was-activated="showModal">
-        </submissions-list>
+        <h2 class="title">{{ translate('submissions') }}</h2>
+
+        <assignment-view/>
 
     </div>
-
-    <submission-modal :submission="activeSubmission" v-on:modal-was-closed="hideModal">
-    </submission-modal>
 </div>
 
 <script>

@@ -28,6 +28,11 @@
                 <FIELD NAME="defense_threshold" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="50"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grading_method_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="docker_timeout" SEQUENCE="false" TYPE="int" LENGTH="6" NOTNULL="false"/>
+                <FIELD NAME="docker_content_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="docker_test_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="group_size" SEQUENCE="false" TYPE="int" LENGTH="4" NOTNULL="false"/>
+
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
                 <FIELD NAME="introformat" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT=""/>
@@ -495,6 +500,20 @@
             <KEYS>
                 <KEY NAME="PK_plagiarism_service" TYPE="primary" FIELDS="code"/>
             </KEYS>
+        </TABLE>
+
+        <TABLE NAME="charon_submission_user" COMMENT="Connecting students to their submissions.">
+            <FIELDS>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="user_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="FK_submission_to_user_submission_id" TYPE="foreign" FIELDS="submission_id" REFTABLE="charon_submission" REFFIELDS="id"/>
+                <KEY NAME="FK_submission_to_user_user_id" TYPE="foreign" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXUNIQUE_submission_and_user" UNIQUE="true" FIELDS="submission_id,user_id"/>
+            </INDEXES>
         </TABLE>
 
     </TABLES>

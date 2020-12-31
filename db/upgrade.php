@@ -551,5 +551,21 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2020122001) {
+        $table = new xmldb_table("charon_submission_user");
+
+        $table->add_field('submission_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, null);
+        $table->add_field('user_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'user_id');
+
+        $table->add_key('FK_submission_to_user_submission_id', XMLDB_KEY_FOREIGN, ['submission_id'], 'charon_submission', ['id']);
+        $table->add_key('FK_submission_to_user_user_id', XMLDB_KEY_FOREIGN, ['user_id'], 'user', ['id']);
+
+        $table->add_index('IXUNIQUE_submission_and_user', XMLDB_INDEX_UNIQUE, ['submission_id', 'user_id']);
+
+        if (!$dbManager->table_exists($table)) {
+            $dbManager->create_table($table);
+        }
+    }
+
     return true;
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int id
  * @property int lab_id
  * @property int charon_id
+ * @property Lab lab
  *
  * @package TTU\Charon\Models
  */
@@ -22,4 +23,8 @@ class CharonDefenseLab extends Model
        'lab_id', 'charon_id'
     ];
 
+    public function lab()
+    {
+        return $this->belongsTo(Lab::class);
+    }
 }

@@ -13,7 +13,6 @@ use TTU\Charon\Services\GitCallbackService;
 
 class GitCallbackServiceTest extends TestCase
 {
-
     /** @var GitCallbackService */
     private $service;
 

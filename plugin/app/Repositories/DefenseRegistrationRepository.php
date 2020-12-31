@@ -6,11 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
- * Class CharonRepository.
+ * Class DefenseRegistrationRepository.
  * Used to handle database actions.
  *
  * @package TTU\Charon\Repositories
@@ -45,13 +46,77 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @param array $fields
+     *
+     * @return Registration
+     */
+    public function create($fields = [])
+    {
+        return Registration::create($fields);
+    }
+
+    /**
+     * @param $teacherId
+     * @param $time
+     *
+     * @return array
+     */
+    public function getChosenTimesForTeacherAt($teacherId, $time)
+    {
+        return DB::table('charon_defenders')
+            ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('teacher_id', $teacherId)
+            ->pluck('choosen_time')
+            ->all();
+    }
+
+    /**
+     * @param string $time
+     * @param int $teacherCount
+     * @param int $defenseLabId
+     *
+     * @return array
+     */
+    public function getChosenTimesForAllTeachers(string $time, int $teacherCount, int $defenseLabId)
+    {
+        return DB::table('charon_defenders')
+            ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('defense_lab_id', $defenseLabId)
+            ->groupBy('choosen_time')
+            ->having(DB::raw('count(*)'), '=', $teacherCount)
+            ->pluck('choosen_time')
+            ->all();
+    }
+
+    /**
+     * @param int $studentId
+     * @param int $charonId
+     * @param Carbon $labStart
+     * @param Carbon $labEnd
+     *
+     * @return int
+     */
+    public function getUserPendingRegistrationsCount(int $studentId, int $charonId, Carbon $labStart, Carbon $labEnd)
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_defense_lab.charon_id', $charonId)
+            ->where('charon_defenders.student_id', $studentId)
+            ->where('charon_defenders.progress', '!=', 'Done')
+            ->whereBetween('charon_defenders.choosen_time', [date($labStart), date($labEnd)])
+            ->select('charon_lab.id')
+            ->count();
+    }
+
+    /**
      * Get defense registrations by course.
      * @param $courseId
      * @return Collection|Registration[]
      */
     public function getDefenseRegistrationsByCourse($courseId)
     {
-        $defenseRegistrations = \DB::table('charon_defenders')
+        $defenseRegistrations = DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -82,9 +147,11 @@ class DefenseRegistrationRepository
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
         if ($after != 'null' && $before != 'null') {
-            $filteringWhere = sprintf("choosen_time BETWEEN '%s' AND '%s'",
+            $filteringWhere = sprintf(
+                "choosen_time BETWEEN '%s' AND '%s'",
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
-                Carbon::parse($before)->format('Y-m-d H:i:s'));
+                Carbon::parse($before)->format('Y-m-d H:i:s')
+            );
         } else if ($after != 'null') {
             $filteringWhere = "choosen_time >= '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "'";
         } else if ($before != 'null') {
@@ -101,7 +168,7 @@ class DefenseRegistrationRepository
             $progress_filter = "progress LIKE '" . $progress . "'";
         }
 
-        $defenseRegistrations = \DB::table('charon_defenders')
+        $defenseRegistrations = DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -158,24 +225,24 @@ class DefenseRegistrationRepository
         return $defense;
     }
 
-    public function deleteRegistration($student_id, $defense_lab_id, $submission_id)
+    public function deleteRegistration($studentId, $defenseLabId, $submissionId)
     {
-        return \DB::table('charon_defenders')
-            ->where('student_id', $student_id)
-            ->where('defense_lab_id', $defense_lab_id)
-            ->where('submission_id', $submission_id)
+        return DB::table('charon_defenders')
+            ->where('student_id', $studentId)
+            ->where('defense_lab_id', $defenseLabId)
+            ->where('submission_id', $submissionId)
             ->delete();
     }
 
-    public function getStudentRegistrations($student_id)
+    public function getStudentRegistrations($studentId)
     {
-        return \DB::table('charon_defenders')
-            ->where('charon_defenders.student_id', $student_id)
+        return DB::table('charon_defenders')
+            ->where('charon_defenders.student_id', $studentId)
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab_teacher', 'charon_lab_teacher.teacher_id', 'charon_defenders.teacher_id')
-            ->select(\DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
+            ->select(DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
             ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id',
                 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
                 'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment')

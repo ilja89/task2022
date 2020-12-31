@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -50,11 +51,11 @@ class LabTeacherController extends Controller
      * @param Charon $charon
      * @param CharonDefenseLab $charonDefenseLab
      *
-     * @return array
+     * @return array|Collection
      */
     public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab)
     {
-        return $this->labTeacherRepository->getTeachersByCharonAndLabId($charon->id, $charonDefenseLab->id);
+        return $this->labTeacherRepository->getTeachersByCharonAndDefenseLabId($charon->id, $charonDefenseLab->id);
     }
 
     /**

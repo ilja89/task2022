@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Facade;
 
 class MoodleConfig extends Facade
 {
-
     public $dbtype    = '';
     public $dblibrary = '';
     public $dbhost    = '';
@@ -40,6 +39,6 @@ class MoodleConfig extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'moodle';
+        return 'MoodleConfig';
     }
 }

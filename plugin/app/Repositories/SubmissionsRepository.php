@@ -75,6 +75,23 @@ class SubmissionsRepository
     }
 
     /**
+     * @param int $userId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findUserSubmissions(int $userId) {
+        $submissions = DB::table('charon_submission')
+            ->join('charon_submission_user', function ($join) use ($userId) {
+                $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
+                    ->where('charon_submission_user.user_id', '=', $userId);
+            })
+            ->select('charon_submission.*')
+            ->get();
+
+        return Submission::hydrate($submissions->toArray());
+    }
+
+    /**
      * Find submissions by charon and user. Also paginates this info by 5.
      *
      * @param Charon $charon

@@ -44,6 +44,7 @@
 
     export default {
         props: {submission: {required: true}},
+
         data() {
              return {
                  previous_param: null,
@@ -53,6 +54,7 @@
                  show_stack_trace: false
              }
         },
+
         methods: {
             sortTable(table_id, list, param) {
                 this.current_param = param

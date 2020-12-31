@@ -89,9 +89,7 @@ class SubmissionsController extends Controller
      */
     public function addNewEmpty(Request $request, Charon $charon)
     {
-        $submission = $this->submissionService->addNewEmptySubmission($charon, $request['student_id']);
-
-        return $submission;
+        return $this->submissionService->addNewEmptySubmission($charon, $request['student_id']);
     }
 
     /**
