@@ -86,7 +86,7 @@ class DefenceRegistrationService
         int $defenseLabId
     ) {
         $teacherCount = $this->getTeacherCount($charonId, $defenseLabId);
-        $registeredSlotsAtTime = $this->getRowCountForGivenLab($chosenTime);
+        $registeredSlotsAtTime = $this->getRowCountForGivenLab($chosenTime, $defenseLabId);
 
         if ($registeredSlotsAtTime >= $teacherCount) {
             throw new RegistrationException('invalid_chosen_time');
@@ -132,16 +132,20 @@ class DefenceRegistrationService
      * @param bool $ownTeacher
      *
      * @return array
+     * @throws RegistrationException
      */
     public function getUsedDefenceTimes(string $time, int $charonId, int $defenseLabId, int $studentId, bool $ownTeacher)
     {
         if ($ownTeacher) {
             $courseId = $this->charonRepository->getCharonById($charonId)->course;
-            $teacherId = $this->teacherRepository->getTeacherForStudent($studentId, $courseId)->id;
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacherId, $time);
+            $teacher = $this->teacherRepository->getTeacherForStudent($studentId, $courseId);
+            if ($teacher == null) {
+                throw new RegistrationException('invalid_setup');
+            }
+            $labs = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacher->id, $time);
         } else {
             $teacherCount = $this->getTeacherCount($charonId, $defenseLabId);
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForAllTeachers($time, $teacherCount);
+            $labs = $this->defenseRegistrationRepository->getChosenTimesForAllTeachers($time, $teacherCount, $defenseLabId);
         }
 
         $newLabs = [];
@@ -259,16 +263,17 @@ class DefenceRegistrationService
     }
 
     /**
-     * TODO: method name hints this ought to be filtered by lab
+     * @param string $time
+     * @param int $defenseLabId
      *
-     * @param $time
      * @return int
      */
-    private function getRowCountForGivenLab($time)
+    private function getRowCountForGivenLab(string $time, int $defenseLabId)
     {
         return $this->defenseRegistrationRepository
             ->query()
             ->where('choosen_time', $time)
+            ->where('defense_lab_id', $defenseLabId)
             ->count();
     }
 }

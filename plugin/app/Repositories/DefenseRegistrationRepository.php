@@ -71,15 +71,17 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @param $time
-     * @param $teacherCount
+     * @param string $time
+     * @param int $teacherCount
+     * @param int $defenseLabId
      *
      * @return array
      */
-    public function getChosenTimesForAllTeachers($time, $teacherCount)
+    public function getChosenTimesForAllTeachers(string $time, int $teacherCount, int $defenseLabId)
     {
         return DB::table('charon_defenders')
             ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('defense_lab_id', $defenseLabId)
             ->groupBy('choosen_time')
             ->having(DB::raw('count(*)'), '=', $teacherCount)
             ->pluck('choosen_time')
