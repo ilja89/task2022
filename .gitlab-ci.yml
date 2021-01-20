@@ -41,7 +41,6 @@ build_dev:
     expire_in: 1 week
   only:
     - develop
-    - feature/369-bind-submission-to-multiple-users
 
 build:
   tags:
@@ -84,7 +83,6 @@ deploy_dev:
     - ssh $SSH_USER@$ENV_IP "php $MOODLE_PATH/admin/cli/purge_caches.php"
   only:
     - develop
-    - feature/369-bind-submission-to-multiple-users
 
 #integration_test_dev:
 #  tags:
