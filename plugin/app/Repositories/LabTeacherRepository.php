@@ -118,6 +118,24 @@ class LabTeacherRepository
             ->get();
     }
 
+    public function getTeacherSummaryByCourseId($courseId)
+    {
+        return DB::table('charon_submission')
+            ->join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->join('user as u_s', 'u_s.id', '=', 'charon_submission.user_id')
+            ->join('user as u_t', 'u_t.id', '=', 'charon_submission.grader_id')
+            ->where('charon.course', $courseId)
+            ->whereNotNull('charon_submission.grader_id')
+            ->select(
+                'charon.id',
+                'charon.name',
+                'u_s.username as student',
+                'u_t.username as teacher',
+                'charon_submission.updated_at'
+            )
+            ->get();
+    }
+
     public function deleteByLabId($labId)
     {
         return DB::table('charon_lab_teacher')
