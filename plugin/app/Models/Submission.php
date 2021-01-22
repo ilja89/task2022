@@ -4,6 +4,7 @@ namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Zeizig\Moodle\Models\User;
 
 /**
@@ -25,8 +26,9 @@ use Zeizig\Moodle\Models\User;
  * @property int grader_id
  * @property Charon charon
  * @property User user
- * @property Result[] results
- * @property SubmissionFile[] files
+ * @property User[]|Collection users
+ * @property Result[]|Collection results
+ * @property SubmissionFile[]|Collection files
  * @property GitCallback gitCallback
  * @property Submission originalSubmission
  * @property TestSuite[] testSuites

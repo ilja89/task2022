@@ -25,6 +25,8 @@ class SubmissionSeeder extends Seeder
     /**
      * Create a Submission under a specific Charon.
      *
+     * php artisan db:seed --class=SubmissionSeeder
+     *
      * @return void
      * @throws IncorrectSecretTokenException
      */
@@ -35,6 +37,15 @@ class SubmissionSeeder extends Seeder
 
         /** @var Charon $charon */
         $charon = Charon::findOrFail((int) $this->command->ask('Enter Charon ID'));
+
+        $usernames = '';
+
+        if ($this->command->confirm('Is this a group submission?')) {
+            $usernames = $this->command->ask('Provide usernames for students, separated by comma');
+            if (!empty($usernames)) {
+                $usernames = array_map('trim', explode(',', $usernames));
+            }
+        }
 
         $testSuites = [];
         $style = 0;
@@ -69,7 +80,7 @@ class SubmissionSeeder extends Seeder
         /** @var Submission $submission */
         $submission = factory(Submission::class)->make();
 
-        $request = new TesterCallbackRequest([
+        $payload = [
             'uniid' => $user->username,
             'style' => $style,
             'hash' => $submission->git_hash,
@@ -81,8 +92,12 @@ class SubmissionSeeder extends Seeder
                 'token' => $callback->secret_token,
                 'charon' => $charon->id
             ]
-        ]);
+        ];
 
-        $this->controller->index($request);
+        if (!empty($usernames)) {
+            $payload['returnExtra']['usernames'] = $usernames;
+        }
+
+        $this->controller->index(new TesterCallbackRequest($payload));
     }
 }

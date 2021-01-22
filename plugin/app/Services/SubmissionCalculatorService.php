@@ -33,6 +33,9 @@ class SubmissionCalculatorService
     /**
      * Calculate results for the given Result taking into account the given deadlines.
      *
+     * Currently this assumes that other students connected to this submission share the same
+     * group deadlines as the author of the submission.
+     *
      * @param  Result $result
      * @param  Deadline[]|Collection $deadlines
      *
@@ -48,7 +51,7 @@ class SubmissionCalculatorService
         $maxPoints = $grademap->gradeItem->grademax;
         $smallestScore = $result->percentage * $maxPoints;
 
-        if (!$result->isTestsGrade() || empty($deadlines)) {
+        if (!$result->isTestsGrade() || $deadlines->isEmpty()) {
             return $smallestScore;
         }
 
@@ -103,10 +106,11 @@ class SubmissionCalculatorService
      * Check if the current submission is better than the last active one.
      *
      * @param Submission $submission
+     * @param int $studentId
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast(Submission $submission)
+    public function submissionIsBetterThanLast(Submission $submission, int $studentId)
     {
         $submissionSum = 0;
         $activeSubmissionSum = 0;
@@ -117,7 +121,7 @@ class SubmissionCalculatorService
                 continue;
             }
 
-            $gradeGrade = $grademap->gradeItem->gradesForUser($submission->user_id);
+            $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
 
             if ($gradeGrade !== null) {
                 $activeSubmissionSum += $gradeGrade->finalgrade;

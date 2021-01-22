@@ -71,7 +71,8 @@
             ...mapActions(["fetchStudent", "updateCharon", "updateSubmission"]),
 
             getSubmission() {
-                Submission.findById(this.$route.params.submission_id, submission => {
+                const userId = this.student ? this.student.id : null;
+                Submission.findById(this.$route.params.submission_id, userId, submission => {
                         this.updateSubmission({submission});
                         const charonId = submission.charon_id;
 
