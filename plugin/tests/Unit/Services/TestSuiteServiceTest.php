@@ -8,7 +8,7 @@ use Tests\TestCase;
 use TTU\Charon\Models\TestSuite;
 use TTU\Charon\Repositories\TestSuiteRepository;
 use TTU\Charon\Repositories\UnitTestRepository;
-use TTU\Charon\Services\RequestHandlingService;
+use TTU\Charon\Services\AreteResponseParser;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Services\TestSuiteService;
 
@@ -96,8 +96,8 @@ class TestSuiteServiceTest extends TestCase
         $result = Mockery::mock(Result::class);
         $result->shouldReceive('save')->twice();
 
-        /** @var Mock|RequestHandlingService $requestHandlingService */
-        $requestHandlingService = Mockery::mock(RequestHandlingService::class);
+        /** @var Mock|AreteResponseParser $requestHandlingService */
+        $requestHandlingService = Mockery::mock(AreteResponseParser::class);
 
         $requestHandlingService->shouldReceive('getResultFromRequest')
             ->with(3, $suites[0], 1)

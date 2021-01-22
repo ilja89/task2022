@@ -2,12 +2,9 @@
 
 namespace TTU\Charon\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Models\Lab;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -22,8 +19,8 @@ class PopupController extends Controller
      *
      * @param Course $course
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Exception
+     * @return Factory|View
+     * @throws Exception
      */
     public function index(Course $course)
     {
