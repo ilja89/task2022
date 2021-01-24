@@ -192,7 +192,7 @@ class CharonRepository
      */
     public function update($oldCharon, $newCharon)
     {
-        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code'];
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id'];
 
         $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
 
