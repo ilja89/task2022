@@ -63,7 +63,7 @@
             isLoading: false,
             model: null,
             search: null,
-F        }),
+        }),
 
         computed: {
             ...mapState([
