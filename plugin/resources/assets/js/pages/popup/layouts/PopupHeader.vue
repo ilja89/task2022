@@ -102,7 +102,9 @@
                     const courseId = parseInt(this.courseId);
                     const studentId = parseInt(student.id);
 
-                    this.fetchStudent({courseId: courseId, studentId: studentId});
+                    this.fetchStudent({courseId: courseId, studentId: studentId}).then(() => {
+                        VueEvent.$emit('student-loaded', studentId);
+                    });
                     this.$router.push("/grading/" + studentId);
                 }
             },
