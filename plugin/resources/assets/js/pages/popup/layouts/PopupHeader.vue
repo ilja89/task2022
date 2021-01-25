@@ -63,7 +63,7 @@
             isLoading: false,
             model: null,
             search: null,
-        }),
+F        }),
 
         computed: {
             ...mapState([
@@ -91,6 +91,10 @@
             items() {
                 return this.entries.map(entry => entry['fullname'])
             },
+        },
+
+        created() {
+            this.fetchStudentFromRoute(this.$route.params.student_id);
         },
 
         methods: {
@@ -125,6 +129,16 @@
             onStudentSelected(student) {
                 this.onStudentChanged(this.entries.find(x => x['fullname'] === student))
             },
+
+            fetchStudentFromRoute(studentId) {
+                if (studentId && !isNaN(studentId)) {
+                    this.fetchStudent({courseId: parseInt(this.courseId), studentId: studentId}).then(() => {
+                        VueEvent.$emit('student-loaded', studentId);
+                    }).catch(() => {
+                        VueEvent.$emit('show-notification', "User not found.", "error", 3000)
+                    });
+                }
+            },
         },
 
         watch: {
@@ -154,15 +168,7 @@
 
             // React to any route changes and act accordingly
             $route(to) {
-                const studentId = to.params.student_id;
-                if (studentId !== null && studentId.length > 0 && !isNaN(studentId)) {
-                    // Probably needs to be brought into common function...
-                    this.fetchStudent({courseId: parseInt(this.courseId), studentId: studentId}).then(() => {
-                        VueEvent.$emit('student-loaded', studentId);
-                    }).catch(() => {
-                        VueEvent.$emit('show-notification', "User not found.", "error", 3000)
-                    });
-                }
+                this.fetchStudentFromRoute(to.params.student_id)
             }
         },
     };
