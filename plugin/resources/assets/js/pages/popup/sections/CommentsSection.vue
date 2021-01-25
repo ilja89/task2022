@@ -48,8 +48,10 @@
             ]),
         },
 
-        created() {
-            this.initializeEventListeners();
+        watch: {
+            student() {
+                this.refreshComments();
+            }
         },
 
         methods: {
@@ -75,11 +77,6 @@
                     this.comments = comments
                 })
             },
-
-            initializeEventListeners() {
-                // Refresh when student is loaded.
-                VueEvent.$on('student-loaded', () => { this.refreshComments() });
-            }
         },
     }
 </script>
