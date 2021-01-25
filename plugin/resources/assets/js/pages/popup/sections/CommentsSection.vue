@@ -78,7 +78,7 @@
 
             initializeEventListeners() {
                 // Refresh when student is loaded.
-                VueEvent.$on('student-loaded', this.refreshComments());
+                VueEvent.$on('student-loaded', () => { this.refreshComments() });
             }
         },
     }
