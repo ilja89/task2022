@@ -49,12 +49,12 @@
         },
 
         created() {
-            this.refreshComments()
+            this.initializeEventListeners();
         },
 
         methods: {
             saveComment() {
-                if (this.writtenComment.length === 0) {
+                if (this.writtenComment === null || this.writtenComment.length === 0) {
                     return
                 }
 
@@ -75,6 +75,11 @@
                     this.comments = comments
                 })
             },
+
+            initializeEventListeners() {
+                // Refresh when student is loaded.
+                VueEvent.$on('student-loaded', this.refreshComments());
+            }
         },
     }
 </script>
