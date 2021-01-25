@@ -2,17 +2,14 @@
 
 namespace TTU\Charon\Repositories;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
-use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Submission;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeItem;
@@ -195,7 +192,7 @@ class CharonRepository
      */
     public function update($oldCharon, $newCharon)
     {
-        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code'];
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id'];
 
         $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
 
@@ -279,24 +276,6 @@ class CharonRepository
         }
 
         return $charons;
-    }
-
-    /**
-     * Gets Charons by Charon and user.
-     *
-     * @param integer $charonId
-     * @param integer $userId
-     *
-     * @return Submission[]
-     */
-    public function findSubmissionsByCharonAndUser($charonId, $userId)
-    {
-        return Submission::with('results', 'files')
-            ->where('charon_id', $charonId)
-            ->where('user_id', $userId)
-            ->orderBy('git_timestamp', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
     }
 
     /**

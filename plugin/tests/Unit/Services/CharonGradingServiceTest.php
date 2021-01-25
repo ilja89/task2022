@@ -12,27 +12,19 @@ use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use Tests\TestCase;
-use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionCalculatorService;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\GradingService;
 
 class CharonGradingServiceTest extends TestCase
 {
     /** @var Mock|GradingService */
     private $gradingService;
-
-    /** @var Mock|GrademapService */
-    private $grademapService;
-
-    /** @var Mock|CharonRepository */
-    private $charonRepository;
 
     /** @var Mock|SubmissionsRepository */
     private $submissionsRepository;
@@ -43,9 +35,6 @@ class CharonGradingServiceTest extends TestCase
     /** @var Mock|DefenseRegistrationRepository */
     private $registrationRepository;
 
-    /** @var Mock|User */
-    private $user;
-
     /** @var CharonGradingService */
     private $service;
 
@@ -55,12 +44,9 @@ class CharonGradingServiceTest extends TestCase
 
         $this->service = new CharonGradingService(
             $this->gradingService = Mockery::mock(GradingService::class),
-            $this->grademapService = Mockery::mock(GrademapService::class),
-            $this->charonRepository = Mockery::mock(CharonRepository::class),
             $this->submissionsRepository = Mockery::mock(SubmissionsRepository::class),
             $this->calculatorService = Mockery::mock(SubmissionCalculatorService::class),
-            $this->registrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
-            $this->user = Mockery::mock(User::class)
+            $this->registrationRepository = Mockery::mock(DefenseRegistrationRepository::class)
         );
     }
 
@@ -108,11 +94,11 @@ class CharonGradingServiceTest extends TestCase
         /** @var Mock|Charon $charon */
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 3;
+        $charon->course = 5;
 
-        $charon->shouldReceive('courseModule')->once()->andReturn(new CourseModule(['course' => 5]));
         $charon->shouldReceive('getGradeTypeCodes')->once()->andReturn(collect([7, 11]));
 
-        $submission = new Submission(['user_id' => 17]);
+        $submission = new Submission();
         $submission->charon = $charon;
         $submission->results = collect([
             new Result(['grade_type_code' => 7, 'calculated_result' => 107]),
@@ -124,54 +110,12 @@ class CharonGradingServiceTest extends TestCase
         $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 11, 17, 111)->once();
         $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 13, 17, 113)->never();
 
-        $this->service->updateGrade($submission);
-    }
-
-    public function testConfirmSubmissionUnconfirmsOldSubmissions()
-    {
-        Submission::unguard();
-
-        $newSubmission = new Submission(['id' => 3, 'user_id' => 5, 'charon_id' => 7]);
-        $oldSubmission1 = new Submission(['id' => 11]);
-        $oldSubmission2 = new Submission(['id' => 13]);
-
-        $this->submissionsRepository
-            ->shouldReceive('findConfirmedSubmissionsForUserAndCharon')
-            ->with(5, 7)
-            ->once()
-            ->andReturn(collect([$newSubmission, $oldSubmission1, $oldSubmission2]));
-
-        $this->submissionsRepository
-            ->shouldReceive('unconfirmSubmission')
-            ->with($oldSubmission1)
-            ->once();
-
-        $this->submissionsRepository
-            ->shouldReceive('unconfirmSubmission')
-            ->with($oldSubmission2)
-            ->once();
-
-        $this->submissionsRepository
-            ->shouldReceive('unconfirmSubmission')
-            ->with($newSubmission)
-            ->never();
-
-        $this->user
-            ->shouldReceive('currentUserId')
-            ->once()
-            ->andReturn(17);
-
-        $this->submissionsRepository
-            ->shouldReceive('confirmSubmission')
-            ->with($newSubmission, 17)
-            ->once();
-
-        $this->service->confirmSubmission($newSubmission);
+        $this->service->updateGrade($submission, 17);
     }
 
     public function testGradesShouldBeUpdatedReturnsFalseIfAlreadyConfirmed()
     {
-        $submission = new Submission(['user_id' => 3, 'charon_id' => 5]);
+        $submission = new Submission(['charon_id' => 5]);
 
         $this->submissionsRepository
             ->shouldReceive('charonHasConfirmedSubmissions')
@@ -179,7 +123,7 @@ class CharonGradingServiceTest extends TestCase
             ->once()
             ->andReturn(true);
 
-        $actual = $this->service->gradesShouldBeUpdated($submission);
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
 
         $this->assertFalse($actual);
     }
@@ -192,7 +136,7 @@ class CharonGradingServiceTest extends TestCase
         $charon = new Charon();
         $charon->gradingMethod = $gradingMethod;
 
-        $submission = new Submission(['user_id' => 3, 'charon_id' => 5]);
+        $submission = new Submission(['charon_id' => 5]);
         $submission->charon = $charon;
 
         $this->submissionsRepository
@@ -206,7 +150,7 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService->shouldNotReceive('submissionIsBetterThanLast');
 
-        $actual = $this->service->gradesShouldBeUpdated($submission);
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
 
         $this->assertTrue($actual);
     }
@@ -219,7 +163,7 @@ class CharonGradingServiceTest extends TestCase
         $charon = new Charon();
         $charon->gradingMethod = $gradingMethod;
 
-        $submission = new Submission(['user_id' => 3, 'charon_id' => 5]);
+        $submission = new Submission(['charon_id' => 5]);
         $submission->charon = $charon;
 
         $this->submissionsRepository
@@ -233,10 +177,10 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService
             ->shouldReceive('submissionIsBetterThanLast')
-            ->with($submission)
+            ->with($submission, 3)
             ->andReturn(true);
 
-        $actual = $this->service->gradesShouldBeUpdated($submission);
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
 
         $this->assertTrue($actual);
     }
@@ -249,7 +193,7 @@ class CharonGradingServiceTest extends TestCase
         $charon = new Charon();
         $charon->gradingMethod = $gradingMethod;
 
-        $submission = new Submission(['user_id' => 3, 'charon_id' => 5]);
+        $submission = new Submission(['charon_id' => 5]);
         $submission->charon = $charon;
 
         $this->submissionsRepository
@@ -263,16 +207,18 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService
             ->shouldReceive('submissionIsBetterThanLast')
-            ->with($submission)
+            ->with($submission, 3)
             ->andReturn(false);
 
-        $actual = $this->service->gradesShouldBeUpdated($submission);
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
 
         $this->assertFalse($actual);
     }
 
     public function testRecalculateGradesUpdatesGradeWithDeadlineResult()
     {
+        User::unguard();
+
         $deadlines = collect([new Deadline()]);
 
         $charon = new Charon(['course' => 7]);
@@ -281,16 +227,19 @@ class CharonGradingServiceTest extends TestCase
         $grademap = new Grademap(['charon_id' => 3, 'grade_type_code' => 5]);
         $grademap->charon = $charon;
 
+        $submission = new Submission();
+        $submission->users = [new User(['id' => 11])];
+
         /** @var Mock|Result $result1 */
         $result1 = Mockery::mock(Result::class)->makePartial();
         $result1->grade_type_code = 19;
-        $result1->submission = new Submission(['user_id' => 11]);
+        $result1->submission = $submission;
         $result1->shouldReceive('save')->once();
 
         /** @var Mock|Result $result2 */
         $result2 = Mockery::mock(Result::class)->makePartial();
         $result2->grade_type_code = 23;
-        $result2->submission = new Submission(['user_id' => 11]);
+        $result2->submission = $submission;
         $result2->shouldReceive('save')->once();
 
         $this->submissionsRepository
@@ -335,16 +284,19 @@ class CharonGradingServiceTest extends TestCase
         $grademap = new Grademap(['charon_id' => 3, 'grade_type_code' => 5]);
         $grademap->charon = new Charon(['course' => 7]);
 
+        $submission = new Submission();
+        $submission->users = [new User(['id' => 11])];
+
         /** @var Mock|Result $result1 */
         $result1 = Mockery::mock(Result::class)->makePartial();
         $result1->grade_type_code = 19;
-        $result1->submission = new Submission(['user_id' => 11]);
+        $result1->submission = $submission;
         $result1->calculated_result = 13;
 
         /** @var Mock|Result $result2 */
         $result2 = Mockery::mock(Result::class)->makePartial();
         $result2->grade_type_code = 23;
-        $result2->submission = new Submission(['user_id' => 11]);
+        $result2->submission = $submission;
         $result2->calculated_result = 17;
 
         $this->submissionsRepository
@@ -398,9 +350,8 @@ class CharonGradingServiceTest extends TestCase
         $builder->shouldReceive('orderBy')->with('choosen_time', 'desc')->once()->andReturn($builder);
         $builder->shouldReceive('first')->once()->andReturn(null);
 
-        $this->service->updateProgressByStudentId(3, 5, 7, 'Done');
+        $this->service->updateProgressByStudentId(3, 5, 7, 11, 'Done');
 
-        $this->user->shouldNotHaveReceived('currentUserId');
         $this->registrationRepository->shouldNotHaveReceived('updateRegistration');
     }
 
@@ -420,9 +371,8 @@ class CharonGradingServiceTest extends TestCase
         $builder->shouldReceive('orderBy')->with('choosen_time', 'desc')->once()->andReturn($builder);
         $builder->shouldReceive('first')->once()->andReturn(new Registration(['id' => 11]));
 
-        $this->user->shouldReceive('currentUserId')->once()->andReturn(13);
         $this->registrationRepository->shouldReceive('updateRegistration')->with(11, 'Done', 13)->once();
 
-        $this->service->updateProgressByStudentId(3, 5, 7, 'Done');
+        $this->service->updateProgressByStudentId(3, 5, 7, 13, 'Done');
     }
 }

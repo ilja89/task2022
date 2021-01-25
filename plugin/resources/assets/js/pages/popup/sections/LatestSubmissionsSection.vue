@@ -13,7 +13,7 @@
                                 <wbr>
                                 {{ submission.charon.name }} <span class="timestamp-separator">|</span>
                                 <wbr>
-                                {{ submission.user | user }}
+                                {{ submission.users | users }}
                             </div>
                         </div>
                     </div>
@@ -70,14 +70,12 @@
         },
 
         filters: {
-            user(user) {
-                return formatName(user)
+            users(users) {
+                return users.map(formatName).join(', ');
             },
 
             submissionTime(submission) {
-                const time = moment(submission.created_at)
-
-                return time.format('D MMM HH:mm')
+                return moment(submission.created_at).format('D MMM HH:mm')
             },
         },
 

@@ -100,6 +100,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/teachers', 'LabTeacherController@getTeachersByCourse');
     Route::middleware('auth.course.managing.require')  // get aggregated teachers
         ->get('courses/{course}/teachers/report', 'LabTeacherController@getTeacherReportByCourse');
+    Route::middleware('auth.course.managing.require')  // get aggregated teachers
+        ->get('courses/{course}/teachers/summary', 'LabTeacherController@getTeacherSummaryByCourse');
     Route::middleware('auth.course.managing.require')  // get teachers in a lab
         ->get('courses/{course}/labs/{lab}/teachers', 'LabTeacherController@getByLab');
     Route::middleware('auth.charon.managing.require')  // get teachers in a specific charon lab

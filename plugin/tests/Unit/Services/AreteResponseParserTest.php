@@ -13,29 +13,21 @@ use Tests\TestCase;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\CourseRepository;
 use TTU\Charon\Services\GitCallbackService;
-use TTU\Charon\Services\RequestHandlingService;
+use TTU\Charon\Services\AreteResponseParser;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
-use Zeizig\Moodle\Services\UserService;
 
-class RequestHandlingServiceTest extends TestCase
+class AreteResponseParserTest extends TestCase
 {
-    /** @var RequestHandlingService */
-    private $service;
-
-    /** @var UserService|Mock */
-    private $userService;
-
     /** @var CharonRepository|Mock */
     private $charonRepository;
 
-    /** @var CourseRepository|Mock */
-    private $courseRepository;
-
     /** @var GitCallbackService|Mock */
     private $gitCallbackService;
+
+    /** @var AreteResponseParser */
+    private $service;
 
     protected function setUp()
     {
@@ -44,10 +36,8 @@ class RequestHandlingServiceTest extends TestCase
         Charon::unguard();
         User::unguard();
 
-        $this->service = new RequestHandlingService(
-            $this->userService = Mockery::mock(UserService::class),
+        $this->service = new AreteResponseParser(
             $this->charonRepository = Mockery::mock(CharonRepository::class),
-            $this->courseRepository = Mockery::mock(CourseRepository::class),
             $this->gitCallbackService = Mockery::mock(GitCallbackService::class)
         );
     }
@@ -63,7 +53,6 @@ class RequestHandlingServiceTest extends TestCase
         $this->assertEquals($request['contents'], $file->contents);
     }
 
-
     /**
      * @throws Exception
      */
@@ -77,7 +66,7 @@ class RequestHandlingServiceTest extends TestCase
             ->shouldReceive('getCourse')
             ->andThrow(new ModelNotFoundException());
 
-        $this->service->getSubmissionFromRequest(new Request(), $callback);
+        $this->service->getSubmissionFromRequest(new Request(), $callback, 3);
     }
 
     /**
@@ -103,7 +92,7 @@ class RequestHandlingServiceTest extends TestCase
         $callback = new GitCallback(['repo' => '']);
         $request = new Request(['returnExtra' => ['charon' => 5]]);
 
-        $this->service->getSubmissionFromRequest($request, $callback);
+        $this->service->getSubmissionFromRequest($request, $callback, 7);
     }
 
     /**
@@ -129,30 +118,7 @@ class RequestHandlingServiceTest extends TestCase
         $callback = new GitCallback(['repo' => '']);
         $request = new Request(['slug' => 'folder']);
 
-        $this->service->getSubmissionFromRequest($request, $callback);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testGetSubmissionFromRequestThrowsWhenNoUserByUniId()
-    {
-        $this->expectException(ModelNotFoundException::class);
-
-        $this->gitCallbackService
-            ->shouldReceive('getCourse')
-            ->andReturn(new Course(['id' => 3]));
-
-        $this->charonRepository
-            ->shouldReceive('query->where->firstOrFail')
-            ->andReturn(new Charon(['id' => 5]));
-
-        $this->userService->shouldReceive('findUserByUniid')->with(7)->andReturnNull();
-
-        $callback = new GitCallback(['repo' => '']);
-        $request = new Request(['slug' => 'folder', 'uniid' => 7]);
-
-        $this->service->getSubmissionFromRequest($request, $callback);
+        $this->service->getSubmissionFromRequest($request, $callback, 7);
     }
 
     /**
@@ -167,11 +133,6 @@ class RequestHandlingServiceTest extends TestCase
         $this->charonRepository
             ->shouldReceive('query->where->firstOrFail')
             ->andReturn(new Charon(['id' => 5]));
-
-        $this->userService
-            ->shouldReceive('findUserByUniid')
-            ->with(7)
-            ->andReturn(new User(['id' => 7]));
 
         $callback = new GitCallback(['repo' => '']);
 
@@ -197,7 +158,7 @@ class RequestHandlingServiceTest extends TestCase
         $now = Carbon::create(2020, 11, 16, 12);
         Carbon::setTestNow($now);
 
-        $submission = $this->service->getSubmissionFromRequest($request, $callback);
+        $submission = $this->service->getSubmissionFromRequest($request, $callback, 7);
 
         $this->assertEquals(5, $submission->charon_id);
         $this->assertEquals(7, $submission->user_id);

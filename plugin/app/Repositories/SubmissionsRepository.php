@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -80,56 +81,56 @@ class SubmissionsRepository
      * @return Collection|Submission[]
      */
     public function findUserSubmissions(int $userId) {
-        $submissions = DB::table('charon_submission')
-            ->join('charon_submission_user', function ($join) use ($userId) {
-                $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
-                    ->where('charon_submission_user.user_id', '=', $userId);
-            })
+        $submissions = $this->buildForUser($userId)
             ->select('charon_submission.*')
-            ->get();
+            ->get()
+            ->toArray();
 
-        return Submission::hydrate($submissions->toArray());
+        return Submission::hydrate($submissions);
     }
 
     /**
      * Find submissions by charon and user. Also paginates this info by 5.
+     *
+     * Only select results which have a corresponding grademap.
      *
      * @param Charon $charon
      * @param int $userId
      *
      * @return Paginator
      */
-    public function paginateSubmissionsByCharonUser(Charon $charon, $userId)
+    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
         $fields = [
-            'id',
-            'charon_id',
-            'confirmed',
-            'created_at',
-            'git_hash',
-            'git_timestamp',
-            'git_commit_message',
-            'user_id',
-            'mail',
+            'charon_submission.id',
+            'charon_submission.charon_id',
+            'charon_submission.confirmed',
+            'charon_submission.created_at',
+            'charon_submission.git_hash',
+            'charon_submission.git_timestamp',
+            'charon_submission.git_commit_message',
+            'charon_submission.user_id',
+            'charon_submission.mail',
         ];
-        $submissions = Submission::with([
-            // Only select results which have a corresponding grademap
-            'results' => function ($query) use ($charon) {
-                $query->whereIn('grade_type_code', $charon->getGradeTypeCodes());
-                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
-                $query->orderBy('grade_type_code');
-            },
-        ])
-            ->where('charon_id', $charon->id)
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->orderBy('git_timestamp', 'desc')
+
+        $submissions = $this->buildForUser($userId)
+            ->where('charon_submission.charon_id', $charon->id)
+            ->orderBy('charon_submission.created_at', 'desc')
+            ->orderBy('charon_submission.git_timestamp', 'desc')
             ->select($fields)
             ->simplePaginate(5);
+
         $submissions->appends(['user_id' => $userId])->links();
+
         foreach ($submissions as $submission) {
-            $submission['test_suites'] = $this->getTestSuites($submission->id);
+            $submission->results = Result::where('submission_id', $submission->id)
+                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+                ->select(['id', 'submission_id', 'calculated_result', 'grade_type_code'])
+                ->orderBy('grade_type_code')
+                ->get();
+            $submission->test_suites = $this->getTestSuites($submission->id);
         }
+
         return $submissions;
     }
 
@@ -169,56 +170,62 @@ class SubmissionsRepository
      *
      * @return Submission[]
      */
-    public function findConfirmedSubmissionsForUserAndCharon($userId, $charonId)
+    public function findConfirmedSubmissionsForUserAndCharon(int $userId, int $charonId)
     {
-        return Submission::where('charon_id', $charonId)
-            ->where('user_id', $userId)
+        $submissions = $this->buildForUser($userId)
+            ->where('charon_id', $charonId)
             ->where('confirmed', 1)
-            ->get();
+            ->select('charon_submission.*')
+            ->get()
+            ->toArray();
+
+        return Submission::hydrate($submissions);
     }
 
     /**
      * Finds all confirmed submissions for given user.
      *
-     * @param $courseId
+     * @param int $courseId
      * @param int $userId
      *
      * @return array
      */
-    public function findConfirmedSubmissionsForUser($courseId, $userId)
+    public function findGradedCharonsByUser(int $courseId, int $userId)
     {
         $prefix = $this->moodleConfig->prefix;
 
-        $result = DB::select('SELECT ch.id, ch.name, gr_gr.finalgrade
-	                            FROM ' . $prefix . 'charon ch
-	                            LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	                            LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
-	                        WHERE ch.course = ? AND gr_gr.userid = ?', [$courseId, $userId]
+        return DB::select(
+            'SELECT ch.id, ch.name, gr_gr.finalgrade'
+                . ' FROM ' . $prefix . 'charon ch'
+                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+                . ' WHERE ch.course = ? AND gr_gr.userid = ?',
+            [$courseId, $userId]
         );
-        return $result;
     }
 
     /**
      * Finds all course submissions and calculates each Charon average.
      *
-     * @param $courseId
+     * TODO: rename to findCourseCharonAverageGrades?
+     *
+     * @param int $courseId
      *
      * @return array
      */
-    public function findBestAverageCourseSubmissions($courseId)
+    public function findBestAverageCourseSubmissions(int $courseId)
     {
         $prefix = $this->moodleConfig->prefix;
 
-        $result = DB::select(
-            'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade
-	            FROM ' . $prefix . 'charon ch
-	            LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"
-	            LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id
-	            WHERE ch.course = ?
-	        GROUP BY ch.id, ch.name, gr_it.grademax', [$courseId]
+        return DB::select(
+            'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade'
+                . ' FROM ' . $prefix . 'charon ch'
+                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+                . ' WHERE ch.course = ?'
+                . ' GROUP BY ch.id, ch.name, gr_it.grademax',
+            [$courseId]
         );
-
-        return $result;
     }
 
     /**
@@ -250,23 +257,23 @@ class SubmissionsRepository
     }
 
     /**
-     * Check if the given user has any confirmed submissions for the given
-     * Charon.
+     * Check if the given user has any confirmed submissions for the given Charon.
      *
      * @param int $charonId
      * @param int $userId
      *
      * @return bool
      */
-    public function charonHasConfirmedSubmissions($charonId, $userId)
+    public function charonHasConfirmedSubmissions(int $charonId, int $userId)
     {
-        /** @var Submission $submission */
-        $submission = Submission::where('charon_id', $charonId)
-            ->where('confirmed', 1)
-            ->where('user_id', $userId)
+        /** @var Collection $submissions */
+        $submissions = $this->buildForUser($userId)
+            ->where('charon_submission.charon_id', $charonId)
+            ->where('charon_submission.confirmed', 1)
+            ->select('charon_submission.id')
             ->get();
 
-        return !$submission->isEmpty();
+        return $submissions->isNotEmpty();
     }
 
     /**
@@ -312,34 +319,40 @@ class SubmissionsRepository
      * this will return 3.
      *
      * @param Submission $submission
+     * @param int $studentId
      *
      * @return int
      */
-    public function getSubmissionCourseOrderNumber(Submission $submission)
+    public function getSubmissionCourseOrderNumber(Submission $submission, int $studentId)
     {
-        return \DB::table('charon_submission')
-            ->where('user_id', $submission->user_id)
-            ->where('git_timestamp', '<', $submission->git_timestamp)
+        return $this->buildForUser($studentId)
+            ->where('charon_submission.git_timestamp', '<', $submission->git_timestamp)
             ->count();
     }
 
     /**
-     * Gets the order number of the given submission in charon for stuedent. So if this is the 3rd submission
+     * Gets the order number of the given submission in charon for student. So if this is the 3rd submission
      * this will return 3.
      *
      * @param Submission $submission
+     * @param int $studentId
      *
      * @return int
      */
-    public function getSubmissionCharonOrderNumber(Submission $submission)
+    public function getSubmissionCharonOrderNumber(Submission $submission, int $studentId)
     {
-        return \DB::table('charon_submission')
-            ->where('user_id', $submission->user_id)
-            ->where('git_timestamp', '<', $submission->git_timestamp)
-            ->where('charon_id', $submission->charon_id)
+        return $this->buildForUser($studentId)
+            ->where('charon_submission.git_timestamp', '<', $submission->git_timestamp)
+            ->where('charon_submission.charon_id', $submission->charon_id)
             ->count();
     }
 
+    /**
+     * @param $charonId
+     * @param $gradeTypeCode
+     *
+     * @return Result[]|Collection
+     */
     public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
     {
         return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
@@ -356,16 +369,19 @@ class SubmissionsRepository
      *
      * @return Collection|Charon[]
      */
-    public function findLatestSubmissions($courseId)
+    public function findLatestSubmissions(int $courseId)
     {
         /** @var Collection|Charon[] $charons */
         $charons = Charon::where('course', $courseId)->get();
 
         $charonIds = $charons->pluck('id');
 
-        $submissions = Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
+        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
             ->whereIn('charon_id', $charonIds)
             ->with([
+                'users' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
                 'user' => function ($query) {
                     $query->select(['id', 'firstname', 'lastname']);
                 },
@@ -379,11 +395,17 @@ class SubmissionsRepository
             ])
             ->latest()
             ->simplePaginate(10);
-
-        return $submissions;
     }
 
-    public function findSubmissionCounts($courseId)
+    /**
+     * Provides overview stats for popup dashboard.
+     *
+     * Currently only submission authors are taken into account.
+     *
+     * @param $courseId
+     * @return mixed
+     */
+    public function findSubmissionCounts(int $courseId)
     {
         $prefix = $this->moodleConfig->prefix;
 
@@ -523,5 +545,19 @@ class SubmissionsRepository
         ));
 
         return array("rows" => $result, "totalRecords" => $resultRows[0]->totalRecords);
+    }
+
+    /**
+     * Build a query for submissions by user in many-to-many table
+     *
+     * @param int $userId
+     *
+     * @return Builder
+     */
+    private function buildForUser(int $userId) {
+        return DB::table('charon_submission')->join('charon_submission_user', function ($join) use ($userId) {
+            $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
+                ->where('charon_submission_user.user_id', '=', $userId);
+        });
     }
 }

@@ -75,6 +75,11 @@ class LabTeacherController extends Controller
         return $this->labTeacherRepository->getTeacherReportByCourseId($course->id);
     }
 
+    public function getTeacherSummaryByCourse(Course $course)
+    {
+        return $this->labTeacherRepository->getTeacherSummaryByCourseId($course->id);
+    }
+
     public function getTeacherForStudent(Course $course, ModelUser $user)
     {
         return $this->labTeacherRepository->getTeacherForStudent($user->id, $course->id);

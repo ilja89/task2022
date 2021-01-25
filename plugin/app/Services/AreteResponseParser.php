@@ -4,36 +4,25 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use DateTime;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\CourseRepository;
-use Zeizig\Moodle\Models\User;
-use Zeizig\Moodle\Services\UserService;
 
 /**
  * This handles only the response requests from Arete
  */
-class RequestHandlingService
+class AreteResponseParser
 {
     const MAX_32_BIT_DATETIME = 2147483647;
 
-    /** @var UserService */
-    private $userService;
-
     /** @var CharonRepository */
     private $charonRepository;
-
-    /** @var CourseRepository */
-    private $courseRepository;
 
     /** @var GitCallbackService */
     private $gitCallbackService;
@@ -41,20 +30,11 @@ class RequestHandlingService
     /**
      * RequestHandler constructor.
      *
-     * @param UserService $userService
      * @param CharonRepository $charonRepository
-     * @param CourseRepository $courseRepository
      * @param GitCallbackService $gitCallbackService
      */
-    public function __construct(
-        UserService $userService,
-        CharonRepository $charonRepository,
-        CourseRepository $courseRepository,
-        GitCallbackService $gitCallbackService
-    ) {
-        $this->userService = $userService;
+    public function __construct(CharonRepository $charonRepository, GitCallbackService $gitCallbackService) {
         $this->charonRepository = $charonRepository;
-        $this->courseRepository = $courseRepository;
         $this->gitCallbackService = $gitCallbackService;
     }
 
@@ -64,16 +44,15 @@ class RequestHandlingService
      * Mail, stdout, stderr are optional.
      *
      * @param Request $request
-     * @param GitCallback $gitCallback
+     * @param string $repository
+     * @param int $authorId
      *
      * @return Submission
-     * @throws Exception
      */
-    public function getSubmissionFromRequest(Request $request, GitCallback $gitCallback)
+    public function getSubmissionFromRequest(Request $request, string $repository, int $authorId)
     {
-        $course = $this->gitCallbackService->getCourse($gitCallback->repo);
+        $course = $this->gitCallbackService->getCourse($repository);
         $charon = $this->getCharon($request, $course->id);
-        $studentId = $this->getUserId($request->input('uniid'));
 
         $originalId = $request->has('retest') && !!$request->input('retest')
             ? $request->input('original_submission_id')
@@ -81,7 +60,7 @@ class RequestHandlingService
 
         return new Submission([
             'charon_id' => $charon->id,
-            'user_id' => $studentId,
+            'user_id' => $authorId,
             'git_hash' => $request->input('hash'),
             'git_timestamp' => $this->getGitTimestamp($request),
             'mail' => $request->input('output'),
@@ -154,21 +133,6 @@ class RequestHandlingService
         return $request->input('timestamp') < self::MAX_32_BIT_DATETIME
             ? Carbon::createFromTimestamp($request->input('timestamp'))
             : Carbon::createFromTimestamp((int)($request->input('timestamp') / 1000));
-    }
-
-    /**
-     * @param string $uniId
-     * @return int
-     * @throws ModelNotFoundException
-     */
-    private function getUserId(string $uniId)
-    {
-        $user = $this->userService->findUserByUniid($uniId);
-        if ($user) {
-            return $user->id;
-        }
-        Log::error("User was not found by Uni-ID:" . $uniId);
-        throw (new ModelNotFoundException)->setModel(User::class);
     }
 
     /**
