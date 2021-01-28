@@ -48,13 +48,15 @@
             ]),
         },
 
-        created() {
-            this.refreshComments()
+        watch: {
+            student() {
+                this.refreshComments();
+            }
         },
 
         methods: {
             saveComment() {
-                if (this.writtenComment.length === 0) {
+                if (this.writtenComment === null || this.writtenComment.length === 0) {
                     return
                 }
 
