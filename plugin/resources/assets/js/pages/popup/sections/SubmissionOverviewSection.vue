@@ -47,7 +47,7 @@
                                 <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
                                 </v-btn>
                                 <div class="resultpercent">
-                                    {{ getResultPercent(result) | withoutTrailingZeroes }}%
+                                    {{ getRawResultPercent(result) | withoutTrailingZeroes }}%
                                 </div>
                             </div>
                         </div>
@@ -212,6 +212,11 @@
 
             getResultPercent(result) {
                 return (100 * result.calculated_result / this.getGrademapByResult(result).grade_item.grademax).toFixed(2);
+            },
+
+            getRawResultPercent(result) {
+                const fixed = parseFloat(result.percentage) * 100;
+                return fixed.toFixed(2);
             },
 
             resultHasError(result) {
