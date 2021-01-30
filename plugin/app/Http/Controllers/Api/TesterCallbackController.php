@@ -59,9 +59,9 @@ class TesterCallbackController extends Controller
             $request->input('returnExtra.token')
         );
 
-        # strtolower in both cases to ensure
-        $usernames = collect([strtolower($request->input('uniid'))])
-            ->merge(array_map('strtolower', $request->input('returnExtra.usernames')))
+        $usernames = collect([$request->input('uniid')])
+            ->merge($request->input('returnExtra.usernames'))
+            ->map(function ($name) { return strtolower($name); })
             ->unique()
             ->values()
             ->all();
