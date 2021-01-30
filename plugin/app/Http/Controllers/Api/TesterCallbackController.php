@@ -61,6 +61,7 @@ class TesterCallbackController extends Controller
 
         $usernames = collect([$request->input('uniid')])
             ->merge($request->input('returnExtra.usernames'))
+            ->map(function ($name) { return strtolower($name); })
             ->unique()
             ->values()
             ->all();
