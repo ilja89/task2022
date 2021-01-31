@@ -587,8 +587,8 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    teacher_id BIGINT(10) NOT NULL," .
             "    lab_id BIGINT(10) NOT NULL," .
             "    time DATETIME NOT NULL," .
-            "    created_at DATETIME NOT NULL," .
-            "    modified_at DATETIME NOT NULL," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    modified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    progress VARCHAR(24) NOT NULL DEFAULT 'New'," .
             "    PRIMARY KEY (id)," .
             "    CONSTRAINT IXUNIQUE_teacher_and_time UNIQUE (teacher_id, time)," .

@@ -375,8 +375,8 @@
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="modified_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
+                <FIELD NAME="modified_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="24" DEFAULT="New"/>
             </FIELDS>
             <KEYS>
