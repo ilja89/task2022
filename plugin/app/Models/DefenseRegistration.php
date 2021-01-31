@@ -16,6 +16,8 @@ use Zeizig\Moodle\Models\User;
  * @property integer $teacher_id // user
  * @property integer $lab_id // charon_lab
  * @property Carbon time
+ * @property Carbon created_at
+ * @property Carbon modified_at
  * @property string $progress values 'New', 'Pending', 'Waiting', 'Defending', 'Done'
  *
  * @package TTU\Charon\Model
