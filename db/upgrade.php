@@ -29,8 +29,6 @@ function xmldb_charon_upgrade($oldversion = 0)
                 $charon->course = $courseModule->course;
                 $charon->save();
             }
-            *
-            -
         }
     }
 
