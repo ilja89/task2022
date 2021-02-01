@@ -62,7 +62,7 @@ class SubmissionsRepository
             'results' => function ($query) use ($gradeTypeCodes) {
                 // Only select results which have a corresponding grademap
                 $query->whereIn('grade_type_code', $gradeTypeCodes);
-                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                 $query->orderBy('grade_type_code');
             },
             'grader' => function ($query) {
@@ -125,7 +125,7 @@ class SubmissionsRepository
         foreach ($submissions as $submission) {
             $submission->results = Result::where('submission_id', $submission->id)
                 ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'calculated_result', 'grade_type_code'])
+                ->select(['id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage'])
                 ->orderBy('grade_type_code')
                 ->get();
             $submission->test_suites = $this->getTestSuites($submission->id);
