@@ -365,7 +365,7 @@
             </KEYS>
         </TABLE>
 
-        <!-- Defenses -->
+
         <TABLE NAME="charon_defense_registration" COMMENT="Defense registrations.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
@@ -376,7 +376,7 @@
                 <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
-                <FIELD NAME="modified_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
+                <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="24" DEFAULT="New"/>
             </FIELDS>
             <KEYS>
@@ -391,7 +391,7 @@
                 <KEY NAME="FK_defense_registration_lab" TYPE="foreign" FIELDS="lab_id" REFTABLE="charon_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
-                <INDEX NAME="IXUNIQUE_time_and_teacher" UNIQUE="true" FIELDS="time, teacher_id"/>
+                <INDEX NAME="UQ_defense_registration_teacher_and_time" UNIQUE="true" FIELDS="time, teacher_id"/>
             </INDEXES>
 
         </TABLE>
