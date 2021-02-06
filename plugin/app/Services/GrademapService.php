@@ -70,8 +70,8 @@ class GrademapService
      */
     public function createGrademapWithGradeItem($charon, $gradeTypeCode, $courseId, $requestGradeMap)
     {
-
         Log::info("Creating a grade map: ", [$requestGradeMap]);
+
         $this->gradebookService->addGradeItem(
             $courseId,
             $charon->id,
@@ -86,7 +86,8 @@ class GrademapService
         $charon->grademaps()->save(new Grademap([
             'grade_type_code' => $gradeTypeCode,
             'name' => $requestGradeMap['grademap_name'],
-            'grade_item_id' => 0
+            'grade_item_id' => 0,
+            'persistent' => $gradeTypeCode > 1000 &&  isset($requestGradeMap['persistent']) && (bool) $requestGradeMap['persistent']
         ]));
     }
 }

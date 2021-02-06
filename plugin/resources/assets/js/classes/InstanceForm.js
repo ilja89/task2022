@@ -18,7 +18,8 @@ export default class InstanceFormForm {
             max_points: 0,
             name: `${this.fields.project_folder} - ${this.getGradeTypeName(grade_type_code)}`,
             grade_type_code: grade_type_code,
-            id_number: `${this.fields.project_folder}_${this.getGradeTypeName(grade_type_code)}`
+            id_number: `${this.fields.project_folder}_${this.getGradeTypeName(grade_type_code)}`,
+            persistent: 0
         };
         this.fields.grademaps.push(grademap);
 
@@ -70,7 +71,8 @@ export default class InstanceFormForm {
                 max_points: parseFloat(grademap.grade_item.grademax).toFixed(2),
                 name: grademap.name,
                 grade_type_code: grademap.grade_type_code,
-                id_number: grademap.grade_item.idnumber
+                id_number: grademap.grade_item.idnumber,
+                persistent: grademap.persistent
             });
         });
     }
@@ -166,7 +168,8 @@ export default class InstanceFormForm {
                     max_points: parseFloat(grademap.max_points),
                     name: grademap.grademap_name,
                     grade_type_code: parseInt(grade_type_code),
-                    id_number: grademap.id_number
+                    id_number: grademap.id_number,
+                    persistent: grademap.persistent
                 });
             }
         }
