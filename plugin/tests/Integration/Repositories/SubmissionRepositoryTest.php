@@ -70,6 +70,7 @@ class SubmissionRepositoryTest extends TestCase
         $withoutResult = factory(Submission::class)->create([
             'charon_id' => $charon->id,
             'grader_id' => $student->id,
+            'confirmed' => 1,
             'updated_at' => $now
         ]);
         $withoutResult->users()->save($student);
@@ -78,6 +79,7 @@ class SubmissionRepositoryTest extends TestCase
         $matchingLatest = factory(Submission::class)->create([
             'charon_id' => $charon->id,
             'grader_id' => $student->id,
+            'confirmed' => 1,
             'updated_at' => $now
         ]);
         $matchingLatest->users()->save($student);
@@ -100,6 +102,7 @@ class SubmissionRepositoryTest extends TestCase
         $matchingOld = factory(Submission::class)->create([
             'charon_id' => $charon->id,
             'grader_id' => $student->id,
+            'confirmed' => 1,
             'updated_at' => Carbon::now()->subDay()->format('Y-m-d H:i:s')
         ]);
         $matchingOld->users()->save($student);
@@ -111,9 +114,26 @@ class SubmissionRepositoryTest extends TestCase
             'calculated_result' => 0.99
         ]);
 
+        /** @var Submission $unconfirmed */
+        $unconfirmed = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'grader_id' => $student->id,
+            'confirmed' => 0,
+            'updated_at' => Carbon::now()->addDay()->format('Y-m-d H:i:s')
+        ]);
+        $unconfirmed->users()->save($student);
+
+        Result::create([
+            'submission_id' => $unconfirmed->id,
+            'grade_type_code' => 1001,
+            'percentage' => 0.55,
+            'calculated_result' => 0.55
+        ]);
+
         /** @var Submission $notGraded */
         $notGraded = factory(Submission::class)->create([
             'charon_id' => $charon->id,
+            'confirmed' => 1,
             'updated_at' => Carbon::now()->addDay()->format('Y-m-d H:i:s')
         ]);
         $notGraded->users()->save($student);

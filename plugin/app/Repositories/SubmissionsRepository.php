@@ -331,6 +331,7 @@ class SubmissionsRepository
             ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
             ->select('charon_result.*')
             ->where('charon_submission.charon_id', $charonId)
+            ->where('charon_submission.confirmed', 1)
             ->whereNotNull('charon_submission.grader_id')
             ->where('charon_result.grade_type_code', $gradeTypeCode)
             ->orderBy('charon_submission.updated_at', 'desc')
