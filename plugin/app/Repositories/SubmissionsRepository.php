@@ -305,14 +305,13 @@ class SubmissionsRepository
             $stdout = 'An empty result';
         }
 
-        $result = new Result([
+        Result::create([
             'submission_id' => $submissionId,
             'grade_type_code' => $gradeTypeCode,
             'percentage' => 0,
             'calculated_result' => 0,
             'stdout' => $stdout,
         ]);
-        $result->save();
     }
 
     /**
@@ -342,14 +341,13 @@ class SubmissionsRepository
             return;
         }
 
-        $result = new Result([
+        Result::create([
             'submission_id' => $submissionId,
             'grade_type_code' => $gradeTypeCode,
             'percentage' => $previous->percentage,
             'calculated_result' => $previous->calculated_result,
             'stdout' => 'Carried over from Result ' . $previous->id,
         ]);
-        $result->save();
     }
 
     /**

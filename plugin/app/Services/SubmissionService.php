@@ -195,18 +195,18 @@ class SubmissionService
                 continue;
             }
 
-            if (!$grademap->persistent) {
-                $this->submissionsRepository->saveNewEmptyResult(
-                    $submission->id,
-                    $grademap->grade_type_code,
-                    'This result was automatically generated'
-                );
-            } else {
+            if ($grademap->persistent) {
                 $this->submissionsRepository->carryPersistentResult(
                     $submission->id,
                     $submission->user_id,
                     $submission->charon_id,
                     $grademap->grade_type_code
+                );
+            } else {
+                $this->submissionsRepository->saveNewEmptyResult(
+                    $submission->id,
+                    $grademap->grade_type_code,
+                    'This result was automatically generated'
                 );
             }
         }

@@ -2,10 +2,12 @@
 
 namespace Tests\Integration\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Models\User;
@@ -54,4 +56,86 @@ class SubmissionRepositoryTest extends TestCase
         $this->assertEquals(3, $submissions->count());
         $this->assertContainsOnlyInstancesOf(Submission::class, $submissions);
     }
+
+    public function testCarryPersistentResult() {
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+
+        /** @var User $student */
+        $student = factory(User::class)->create();
+
+        /** @var Submission $withoutResult */
+        $withoutResult = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'grader_id' => $student->id,
+            'updated_at' => $now
+        ]);
+        $withoutResult->users()->save($student);
+
+        /** @var Submission $matchingLatest */
+        $matchingLatest = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'grader_id' => $student->id,
+            'updated_at' => $now
+        ]);
+        $matchingLatest->users()->save($student);
+
+        Result::create([
+            'submission_id' => $matchingLatest->id,
+            'grade_type_code' => 101,
+            'percentage' => 0.75,
+            'calculated_result' => 0.75
+        ]);
+
+        $previous = Result::create([
+            'submission_id' => $matchingLatest->id,
+            'grade_type_code' => 1001,
+            'percentage' => 0.50,
+            'calculated_result' => 0.50
+        ]);
+
+        /** @var Submission $matchingOld */
+        $matchingOld = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'grader_id' => $student->id,
+            'updated_at' => Carbon::now()->subDay()->format('Y-m-d H:i:s')
+        ]);
+        $matchingOld->users()->save($student);
+
+        Result::create([
+            'submission_id' => $matchingOld->id,
+            'grade_type_code' => 1001,
+            'percentage' => 0.99,
+            'calculated_result' => 0.99
+        ]);
+
+        /** @var Submission $notGraded */
+        $notGraded = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'updated_at' => Carbon::now()->addDay()->format('Y-m-d H:i:s')
+        ]);
+        $notGraded->users()->save($student);
+
+        Result::create([
+            'submission_id' => $notGraded->id,
+            'grade_type_code' => 1001,
+            'percentage' => 0.99,
+            'calculated_result' => 0.99
+        ]);
+
+        /** @var Submission $current */
+        $current = factory(Submission::class)->create(['charon_id' => $charon->id]);
+        $current->users()->save($student);
+
+        $this->repository->carryPersistentResult($current->id, $student->id, $charon->id, 1001);
+
+        $result = Result::where('submission_id', $current->id)->where('grade_type_code', 1001)->first();
+
+        $this->assertEquals(0.50, $result->percentage);
+        $this->assertEquals(0.50, $result->calculated_result);
+        $this->assertEquals('Carried over from Result ' . $previous->id, $result->stdout);
+    }
+
 }
