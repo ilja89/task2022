@@ -195,11 +195,20 @@ class SubmissionService
                 continue;
             }
 
-            $this->submissionsRepository->saveNewEmptyResult(
-                $submission->id,
-                $grademap->grade_type_code,
-                'This result was automatically generated'
-            );
+            if (!$grademap->persistent) {
+                $this->submissionsRepository->saveNewEmptyResult(
+                    $submission->id,
+                    $grademap->grade_type_code,
+                    'This result was automatically generated'
+                );
+            } else {
+                $this->submissionsRepository->carryPersistentResult(
+                    $submission->id,
+                    $submission->user_id,
+                    $submission->charon_id,
+                    $grademap->grade_type_code
+                );
+            }
         }
     }
 }

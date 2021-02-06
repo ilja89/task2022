@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -310,6 +311,43 @@ class SubmissionsRepository
             'percentage' => 0,
             'calculated_result' => 0,
             'stdout' => $stdout,
+        ]);
+        $result->save();
+    }
+
+    /**
+     * @param int $submissionId
+     * @param int $studentId
+     * @param int $charonId
+     * @param int $gradeTypeCode
+     */
+    public function carryPersistentResult(
+        int $submissionId,
+        int $studentId,
+        int $charonId,
+        int $gradeTypeCode
+    ) {
+        /** @var Result $previous */
+        $previous = $this->buildForUser($studentId)
+            ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
+            ->select('charon_result.*')
+            ->where('charon_submission.charon_id', $charonId)
+            ->whereNotNull('charon_submission.grader_id')
+            ->where('charon_result.grade_type_code', $gradeTypeCode)
+            ->orderBy('charon_submission.updated_at', 'desc')
+            ->first();
+
+        if (!$previous) {
+            $this->saveNewEmptyResult($submissionId, $gradeTypeCode);
+            return;
+        }
+
+        $result = new Result([
+            'submission_id' => $submissionId,
+            'grade_type_code' => $gradeTypeCode,
+            'percentage' => $previous->percentage,
+            'calculated_result' => $previous->calculated_result,
+            'stdout' => 'Carried over from Result ' . $previous->id,
         ]);
         $result->save();
     }
