@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -62,7 +63,7 @@ class SubmissionsRepository
             'results' => function ($query) use ($gradeTypeCodes) {
                 // Only select results which have a corresponding grademap
                 $query->whereIn('grade_type_code', $gradeTypeCodes);
-                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                 $query->orderBy('grade_type_code');
             },
             'grader' => function ($query) {
@@ -125,7 +126,7 @@ class SubmissionsRepository
         foreach ($submissions as $submission) {
             $submission->results = Result::where('submission_id', $submission->id)
                 ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'calculated_result', 'grade_type_code'])
+                ->select(['id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage'])
                 ->orderBy('grade_type_code')
                 ->get();
             $submission->test_suites = $this->getTestSuites($submission->id);
@@ -304,14 +305,50 @@ class SubmissionsRepository
             $stdout = 'An empty result';
         }
 
-        $result = new Result([
+        Result::create([
             'submission_id' => $submissionId,
             'grade_type_code' => $gradeTypeCode,
             'percentage' => 0,
             'calculated_result' => 0,
             'stdout' => $stdout,
         ]);
-        $result->save();
+    }
+
+    /**
+     * @param int $submissionId
+     * @param int $studentId
+     * @param int $charonId
+     * @param int $gradeTypeCode
+     */
+    public function carryPersistentResult(
+        int $submissionId,
+        int $studentId,
+        int $charonId,
+        int $gradeTypeCode
+    ) {
+        /** @var Result $previous */
+        $previous = $this->buildForUser($studentId)
+            ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
+            ->select('charon_result.*')
+            ->where('charon_submission.charon_id', $charonId)
+            ->where('charon_submission.confirmed', 1)
+            ->whereNotNull('charon_submission.grader_id')
+            ->where('charon_result.grade_type_code', $gradeTypeCode)
+            ->orderBy('charon_submission.updated_at', 'desc')
+            ->first();
+
+        if (!$previous) {
+            $this->saveNewEmptyResult($submissionId, $gradeTypeCode);
+            return;
+        }
+
+        Result::create([
+            'submission_id' => $submissionId,
+            'grade_type_code' => $gradeTypeCode,
+            'percentage' => $previous->percentage,
+            'calculated_result' => $previous->calculated_result,
+            'stdout' => 'Carried over from Result ' . $previous->id,
+        ]);
     }
 
     /**

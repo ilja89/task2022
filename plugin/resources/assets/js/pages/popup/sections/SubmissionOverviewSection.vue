@@ -211,7 +211,8 @@
             },
 
             getResultPercent(result) {
-                return (100 * result.calculated_result / this.getGrademapByResult(result).grade_item.grademax).toFixed(2);
+                const fixed = parseFloat(result.percentage) * 100;
+                return fixed.toFixed(2);
             },
 
             resultHasError(result) {

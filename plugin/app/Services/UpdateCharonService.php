@@ -68,8 +68,7 @@ class UpdateCharonService
         Charon $charon,
         $deadlinesWereUpdated = false,
         $recalculateGrades = true
-    )
-    {
+    ) {
         $grademaps = $charon->grademaps;
 
         // Check previous Grademaps.
@@ -157,7 +156,9 @@ class UpdateCharonService
         }
 
         $grademap->name = $newGrademap['grademap_name'];
+        $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && (bool) $newGrademap['persistent'];
         $grademap->save();
+
         $oldMax = $grademap->gradeItem->grademax;
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],

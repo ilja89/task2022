@@ -183,6 +183,34 @@ class SubmissionServiceTest extends TestCase
         $this->assertEquals(1.505, $result);
     }
 
+    public function testIncludeUnsentGradesDifferentiatesPersistentGrades()
+    {
+        /** @var Charon $charon */
+        $charon = Mockery::mock(Charon::class)->makePartial();
+        $charon->grademaps = [
+            new Grademap(['grade_type_code' => 101]),
+            new Grademap(['grade_type_code' => 1001, 'persistent' => 1])
+        ];
+
+        $this->submission->results = collect();
+        $this->submission->charon = $charon;
+        $this->submission->id = 3;
+        $this->submission->user_id = 5;
+        $this->submission->charon_id = 7;
+
+        $this->submissionsRepository
+            ->shouldReceive('carryPersistentResult')
+            ->with(3, 5, 7, 1001)
+            ->once();
+
+        $this->submissionsRepository
+            ->shouldReceive('saveNewEmptyResult')
+            ->with(3, 101, 'This result was automatically generated')
+            ->once();
+
+        $this->service->includeUnsentGrades($this->submission);
+    }
+
     private function makeResult($identifier, $calculatedResult)
     {
         $gradeItem = new GradeItem(['idnumber' => $identifier]);
