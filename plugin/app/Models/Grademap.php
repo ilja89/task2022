@@ -13,6 +13,7 @@ use Zeizig\Moodle\Models\GradeItem;
  * @property string name
  * @property integer grade_item_id
  * @property int charon_id
+ * @property bool persistent
  *
  * @property Charon charon
  * @property GradeItem gradeItem
@@ -27,7 +28,7 @@ class Grademap extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'charon_id', 'grade_type_code', 'name', 'grade_item_id'
+        'charon_id', 'grade_type_code', 'name', 'grade_item_id', 'persistent'
     ];
 
     public function charon()
