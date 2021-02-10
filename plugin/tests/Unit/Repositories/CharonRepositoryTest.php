@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Repositories;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Mockery\Mock;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use Tests\TestCase;
@@ -18,8 +17,26 @@ use Zeizig\Moodle\Services\ModuleService;
 
 class CharonRepositoryTest extends TestCase
 {
+    /** @var Mock|LabRepository */
+    private $labRepository;
 
-    public function testSaveCharon()
+    /** @var CharonRepository */
+    private $repository;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->repository = new CharonRepository(
+            Mockery::mock(ModuleService::class),
+            Mockery::mock(FileUploadService::class),
+            Mockery::mock(GradebookService::class),
+            Mockery::mock(CharonDefenseLabRepository::class),
+            $this->labRepository = Mockery::mock(LabRepository::class)
+        );
+    }
+
+    public function testSaveCharonUpdatesLabs()
     {
         Event::fake();
 
@@ -35,8 +52,6 @@ class CharonRepositoryTest extends TestCase
         $charon->shouldReceive('getAttribute')->with('id')->andReturn(3);
         $charon->shouldReceive('save');
 
-        $labRepository = Mockery::mock(LabRepository::class);
-
         $updated = [
             'docker_test_root' => '/test/root',
             'group_size' => 5,
@@ -44,32 +59,49 @@ class CharonRepositoryTest extends TestCase
             'system_extra' => null,
         ];
 
-        $labRepository->shouldReceive('getLabsIdsByCharonId')
+        $this->labRepository->shouldReceive('getLabsIdsByCharonId')
             ->with(3)
             ->once()
             ->andReturn([1, 3]);
 
-        $labRepository->shouldReceive('deleteLab')
+        $this->labRepository->shouldReceive('deleteLab')
             ->with(3, 3)
             ->once();
 
-        $labRepository->shouldReceive('makeLab')
+        $this->labRepository->shouldReceive('makeLab')
             ->with(3, 2)
             ->once();
-
-        $repository = new CharonRepository(
-            Mockery::mock(ModuleService::class),
-            Mockery::mock(FileUploadService::class),
-            Mockery::mock(GradebookService::class),
-            Mockery::mock(CharonDefenseLabRepository::class),
-            $labRepository
-        );
 
         $modifiableFields = [
             'name', 'project_folder', 'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root',
             'docker_test_root', 'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
         ];
 
-        $repository->saveCharon($charon, $updated, $modifiableFields);
+        $this->repository->saveCharon($charon, $updated, $modifiableFields);
+    }
+
+    public function testSaveCharonSkipsLabsWhenNoKey()
+    {
+        Event::fake();
+
+        $charon = Mockery::spy(Charon::class);
+        $charon->shouldReceive('setAttribute')->with('group_size', '5');
+        $charon->shouldReceive('getAttribute')->with('id')->andReturn(3);
+        $charon->shouldReceive('save');
+
+        $updated = ['group_size' => 5];
+
+        $this->labRepository->shouldReceive('getLabsIdsByCharonId')->never();
+
+        $this->labRepository->shouldReceive('deleteLab')->never();
+
+        $this->labRepository->shouldReceive('makeLab')->never();
+
+        $modifiableFields = [
+            'name', 'project_folder', 'defense_duration', 'defense_threshold', 'docker_timeout', 'docker_content_root',
+            'docker_test_root', 'group_size', 'tester_extra', 'system_extra', 'tester_type_code', 'choose_teacher'
+        ];
+
+        $this->repository->saveCharon($charon, $updated, $modifiableFields);
     }
 }
