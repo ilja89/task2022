@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -313,9 +314,9 @@ class CharonRepository
      * Save Charon with updated labs.
      *
      * @param Charon $charon
-     *
      * @param array $updated
      * @param array $modifiableFields
+     *
      * @return Charon
      */
     public function saveCharon(Charon $charon, array $updated, array $modifiableFields)
@@ -344,7 +345,11 @@ class CharonRepository
 
         $charon->save();
 
-        return $this->saveCharonLabs($charon, $updated);
+        if (isset($updated['defense_labs'])) {
+            return $this->saveCharonLabs($charon, $updated);
+        }
+
+        return $charon;
     }
 
     /**
