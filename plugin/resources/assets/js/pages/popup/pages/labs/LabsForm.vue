@@ -155,6 +155,10 @@
                     }
                 }
 
+                if (!this.lab.name) {
+                    this.lab.name = this.namePlaceholder;
+                }
+
                 if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
@@ -195,7 +199,7 @@
             },
             namePlaceholder() {
                 const date = this.lab && this.lab.start && this.lab.start.time ? new Date(this.lab.start.time) : new Date();
-                return CharonFormat.getDayTimeFormat(date);
+                return CharonFormat.getDayTimeFormat(date) + ' (' + CharonFormat.getNiceDate(date) + ')'
             }
         },
 

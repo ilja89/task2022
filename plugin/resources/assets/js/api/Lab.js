@@ -6,7 +6,6 @@ class Lab {
         axios.get('/mod/charon/api/courses/' + courseId + '/labs')
             .then(response => {
                 let labs = response.data
-                console.log(labs);
                 CharonFormat.getNamesForLabs(labs)
                 then(labs)
             }).catch(error => {
@@ -15,7 +14,6 @@ class Lab {
     }
 
     static save(courseId, start, end, name, teachers, charons, weeks, then) {
-        console.log("Name on save: ", name);
         axios.post('/mod/charon/api/courses/' + courseId + '/labs', {
             start: start,
             end: end,
