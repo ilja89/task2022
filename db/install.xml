@@ -114,6 +114,7 @@
                 <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab" TYPE="primary" FIELDS="id"/>

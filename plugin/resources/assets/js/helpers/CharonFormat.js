@@ -9,8 +9,10 @@ class CharonFormat {
 
     static getNamesForLabs(labs) {
         for (let i = 0; i < labs.length; i++) {
-            labs[i].name = CharonFormat.getDayTimeFormat(new Date(labs[i].start))
-                + ' (' + CharonFormat.getNiceDate(new Date(labs[i].start)) + ')'
+            if (!labs[i].name) {
+                labs[i].name = CharonFormat.getDayTimeFormat(new Date(labs[i].start))
+                    + ' (' + CharonFormat.getNiceDate(new Date(labs[i].start)) + ')'
+            }
         }
     }
 

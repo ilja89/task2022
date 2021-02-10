@@ -31,7 +31,7 @@ const store = new Vuex.Store({
         student: null,
         /**
          * @type {
-         *      {id: Number, start: Date, end: Date, teachers: Array<Object>}
+         *      {id: Number, start: Date, end: Date, name: String, teachers: Array<Object>}
          * |null}
          */
         lab: null,
