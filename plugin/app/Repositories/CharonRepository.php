@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Repositories;
 
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
