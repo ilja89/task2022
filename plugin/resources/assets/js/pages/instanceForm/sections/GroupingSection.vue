@@ -10,6 +10,7 @@
                 name="grouping_id"
                 :options="form.groupings"
                 key_field="id"
+                :include_empty="true"
                 :value="form.fields.grouping_id"
                 :helper_text="translate('grouping_selection_helper')"
                 @input-was-changed="onGroupingChanged"  label="">
