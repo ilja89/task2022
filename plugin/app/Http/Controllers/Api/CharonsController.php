@@ -42,9 +42,7 @@ class CharonsController extends Controller
      */
     public function getByCourse(Course $course)
     {
-        $charons = $this->charonRepository->findCharonsByCourse($course->id);
-
-        return $charons;
+        return $this->charonRepository->findCharonsByCourse($course->id);
     }
 
     /**

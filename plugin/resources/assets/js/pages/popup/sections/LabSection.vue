@@ -77,9 +77,9 @@
 
 <script>
     import {PopupSection} from '../layouts/index'
-	import {mapActions, mapState} from "vuex";
-	import Lab from "../../../api/Lab";
-	import CharonFormat from "../../../helpers/CharonFormat";
+    import {mapActions, mapState} from "vuex";
+    import Lab from "../../../api/Lab";
+    import CharonFormat from "../../../helpers/CharonFormat";
 
     export default {
         name: "lab-section",
@@ -118,7 +118,7 @@
                 return this.labs.map(lab => {
                     const container = {...lab};
 
-                    container['nice_name'] = CharonFormat.getDayTimeFormat(lab.start.time);
+                    container['nice_name'] = lab.name ? lab.name : CharonFormat.getDayTimeFormat(lab.start.time);
                     container['nice_date'] = CharonFormat.getNiceDate(lab.start.time);
                     container['nice_time'] = `${CharonFormat.getNiceTime(lab.start.time)} - ${CharonFormat.getNiceTime(lab.end.time)}`;
                     container['teacher_names'] = lab.teachers.map(x => x.fullname).sort().join(', ')

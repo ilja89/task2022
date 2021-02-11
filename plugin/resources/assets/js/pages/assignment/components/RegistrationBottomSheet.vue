@@ -54,7 +54,7 @@
 									 :options="this.labs" :placeholder="translate('selectDayText')"
 									 label="start"
 									 track-by="id" @select="onSelect">
-							<template slot="singleLabel" slot-scope="{ option }">{{ option.start }}</template>
+							<template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}</template>
 						</multiselect>
 						
 						<multiselect v-if="this.value != null" v-model="value_time" :max-height="200"
@@ -177,13 +177,13 @@ export default {
 			}
 		},
 		
-		getLabList({start}) {
+		getLabList({start, name}) {
 			let date = `${start.split(' ')[0]}`;
 			let time = `${start.split(' ')[1]}`;
 			let time_return = time.split(':');
-			return date + " " + time_return[0] + ":" + time_return[1];
+			return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "");
 		},
-		
+
 		onSelect(option) {
 			this.cached_option = option;
 			this.arrayDefenseTime();

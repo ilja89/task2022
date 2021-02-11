@@ -64,7 +64,6 @@
 	import router from "../routes";
 	import {PopupSection} from '../layouts/index'
 	import {mapActions, mapState} from "vuex";
-	import CharonFormat from "../../../helpers/CharonFormat";
 	import Charon from "../../../api/Charon";
 
     export default {
@@ -117,11 +116,6 @@
                 if (duration !== null) {
                     return duration + ' min'
                 }
-            },
-
-            getNameForLab(labStart) {
-                return CharonFormat.getDayTimeFormat(new Date(labStart))
-                    + ' (' + CharonFormat.getDateFormatted(new Date(labStart)) + ')'
             },
 
             getThreshold(percentage) {

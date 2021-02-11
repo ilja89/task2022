@@ -106,6 +106,7 @@ export default {
             all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
                 {text: 'Date and time', value: 'choosen_time', align: 'start'},
+                {text: 'Lab', value: 'lab_name'},
                 {text: 'Student name', value: 'student_name'},
                 {text: 'Duration', value: 'formatted_duration'},
                 {text: 'Teacher', value: 'teacher'},
@@ -113,7 +114,6 @@ export default {
                 {text: 'Progress', value: 'progress'},
                 {text: 'Actions', value: 'actions'},
             ],
-
         }
     }, props: {
         defenseList: {required: true},
