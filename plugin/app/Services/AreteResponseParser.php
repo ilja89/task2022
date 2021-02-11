@@ -116,7 +116,7 @@ class AreteResponseParser
         return new SubmissionFile([
             'submission_id' => $submissionId,
             'path' => $request['path'],
-            'contents' => $request['contents'],
+            'contents' => isset($request['contents']) ? $request['contents'] : '',
             'is_test' => $isTest,
         ]);
     }
