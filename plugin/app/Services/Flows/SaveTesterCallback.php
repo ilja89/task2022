@@ -74,7 +74,7 @@ class SaveTesterCallback
 
         $this->saveResults($request, $submission);
 
-        $this->saveSubmissionFiles($submission, $request['files']);
+        $this->submissionService->saveFiles($submission->id, $request['files']);
 
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
 
@@ -147,20 +147,6 @@ class SaveTesterCallback
         $this->testSuiteService->saveSuites($request['testSuites'], $submission->id);
 
         $this->submissionService->includeUnsentGrades($submission);
-    }
-
-    /**
-     * If the submission included files, save them.
-     *
-     * @param Submission $submission
-     * @param $files
-     */
-    private function saveSubmissionFiles(Submission $submission, $files)
-    {
-        if ($files != null) {
-            Log::debug("Saving files: ", [sizeof($files)]);
-            $this->submissionService->saveFiles($submission, $files);
-        }
     }
 
     /**

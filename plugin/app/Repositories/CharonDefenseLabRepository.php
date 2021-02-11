@@ -29,6 +29,7 @@ class CharonDefenseLabRepository
                 'charon_lab.id',
                 'charon_lab.start',
                 'charon_lab.end',
+                'charon_lab.name',
                 'charon_lab.course_id'
             )
             ->get();

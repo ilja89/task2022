@@ -49,8 +49,19 @@ class AreteResponseParserTest extends TestCase
         $file = $this->service->getFileFromRequest(1, $request, true);
 
         $this->assertEquals(1, $file->submission_id);
-        $this->assertEquals($request['path'], $file->path);
-        $this->assertEquals($request['contents'], $file->contents);
+        $this->assertEquals('EX01/directory/structure/file.java', $file->path);
+        $this->assertEquals('hello world', $file->contents);
+    }
+
+    public function testGetEmptyFileFromRequest()
+    {
+        $request = ['path' => 'EX01/directory/structure/file.java'];
+
+        $file = $this->service->getFileFromRequest(1, $request, true);
+
+        $this->assertEquals(1, $file->submission_id);
+        $this->assertEquals('EX01/directory/structure/file.java', $file->path);
+        $this->assertEquals('', $file->contents);
     }
 
     /**

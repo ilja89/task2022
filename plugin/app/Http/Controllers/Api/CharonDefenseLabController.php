@@ -8,9 +8,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\LabDummy;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
-use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\LabDummyRepository;
-use Zeizig\Moodle\Models\Course;
 
 class CharonDefenseLabController extends Controller
 {
