@@ -168,6 +168,7 @@ $string['registration_deletion_confirmation'] = 'Oled sa kindel, et tahad regist
 $string['registration_before_error'] = 'Registreerimist ei saa tühistada 2 tundi enne algust!';
 $string['charon'] = 'Ülesanne';
 $string['time'] = 'Aeg';
+$string['lab_name'] = 'Praktikum';
 $string['teacher'] = 'Õpetaja';
 $string['location'] = 'Asukoht';
 $string['comment'] = 'Kommentaar';
