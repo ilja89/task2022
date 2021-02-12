@@ -63,6 +63,7 @@
         registrationDeletionConfirmationText: "{{ translate('registration_deletion_confirmation') }}",
         registrationBeforeErrorText: "{{ translate('registration_before_error') }}",
         charonText: "{{ translate('charon') }}",
+        labNameText: "{{ translate('lab_name') }}",
         timeText: "{{ translate('time') }}",
         teacherText: "{{ translate('teacher') }}",
         locationText: "{{ translate('location') }}",

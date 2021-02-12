@@ -243,10 +243,11 @@ class DefenseRegistrationRepository
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab_teacher', 'charon_lab_teacher.teacher_id', 'charon_defenders.teacher_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select(DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
             ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id',
                 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
-                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment')
+                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment', 'charon_lab.name as lab_name')
             ->distinct()
             ->get();
     }

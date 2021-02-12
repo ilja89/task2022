@@ -67,6 +67,7 @@ export default {
 			dialog: false,
 			headers: [
 				{text: this.translate("charonText"), align: 'start', value: 'name'},
+				{text: this.translate("labNameText"), value: 'lab_name'},
 				{text: this.translate("timeText"), value: 'choosen_time'},
 				{text: this.translate("teacherText"), value: 'teacher'},
 				{text: this.translate("locationText"), value: 'teacher_location'},
