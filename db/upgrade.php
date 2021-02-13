@@ -575,5 +575,23 @@ function xmldb_charon_upgrade($oldversion = 0)
         );
     }
 
+    if ($oldversion < 2021020601) {
+        $table = new xmldb_table('charon_grademap');
+        $field = new xmldb_field('persistent', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021021001) {
+        $table = new xmldb_table('charon_lab');
+        $field = new xmldb_field('name', XMLDB_TYPE_CHAR, '255', null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

@@ -21,6 +21,12 @@
             <input class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][id_number]'" type="text"
                    v-model="grademap.id_number">
         </div>
+      <div v-if="grademap.grade_type_code > 1000" class="grademap-field">
+        <label :for="'grademaps[' + grademap.grade_type_code + '][persistent]'">{{ translate('grade_persistent_label') }}</label><br>
+        <p class="input-helper" v-html="translate('grade_persistent_helper')"></p>
+        <input class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][persistent]'" value="1" type="checkbox"
+               v-model="grademap.persistent">
+      </div>
     </div>
 </template>
 

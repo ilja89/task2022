@@ -12,7 +12,7 @@
                     <v-form>
                         <v-container>
                             <v-row>
-                                <v-col cols="12" sm="12" md="6" lg="6">
+                                <v-col cols="12" sm="12" md="4" lg="4">
                                     <div class="labs-field">
                                         <p>Start date and time</p>
                                         <datepicker :datetime="lab.start"></datepicker>
@@ -20,11 +20,18 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="12" md="6" lg="6">
+                                <v-col cols="12" sm="12" md="4" lg="4">
                                     <div class="labs-field">
                                         <p>End time</p>
                                         <datepicker :datetime="lab.end"></datepicker>
                                         <input type="hidden" :value="lab.end">
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" md="4" lg="4">
+                                    <div class="labs-field">
+                                        <p>Name</p>
+                                        <input v-model="lab.name" type="text" class="input" :placeholder="namePlaceholder">
                                     </div>
                                 </v-col>
 
@@ -96,6 +103,7 @@
     import {Datepicker} from "../../../../components/partials";
     import {CharonSelect} from "../../../../components/form";
     import Multiselect from "vue-multiselect";
+    import CharonFormat from "../../../../helpers/CharonFormat";
 
     export default {
 
@@ -147,6 +155,10 @@
                     }
                 }
 
+                if (!this.lab.name) {
+                    this.lab.name = this.namePlaceholder;
+                }
+
                 if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
@@ -159,13 +171,13 @@
                         giveEnd = giveEnd.toString().slice(0, 24)
                     }
 
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, chosen_teachers, chosen_charons, () => {
+                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab updated!');
                     })
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, chosen_teachers, chosen_charons, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
@@ -184,6 +196,10 @@
 
             isEditing() {
                 return window.isEditing;
+            },
+            namePlaceholder() {
+                const date = this.lab && this.lab.start && this.lab.start.time ? new Date(this.lab.start.time) : new Date();
+                return CharonFormat.getDayTimeFormat(date) + ' (' + CharonFormat.getNiceDate(date) + ')'
             }
         },
 

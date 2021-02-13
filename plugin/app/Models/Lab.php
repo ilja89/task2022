@@ -11,6 +11,7 @@ use Zeizig\Moodle\Models\User;
  * Class Lab.
  *
  * @property int id
+ * @property string name
  * @property Carbon start
  * @property Carbon end
  * @property int course_id
@@ -24,7 +25,7 @@ class Lab extends Model
     public $timestamps = false;
 
     protected $table = 'charon_lab';
-    protected $fillable = ['start', 'end', 'course_id'];
+    protected $fillable = ['name', 'start', 'end', 'course_id'];
     protected $dates = ['start', 'end',];
 
     public function teachers()

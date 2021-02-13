@@ -12,6 +12,7 @@
                         :id="'id_' + name"
                         v-model="input_value"
                         @change="onInputChanged">
+                    <option v-if="include_empty"></option>
                     <option
                             v-for="option in options"
                             :value="option[key_field]">
@@ -35,6 +36,7 @@
             options: { required: true },
             key_field: { required: false, default: 'code' },
             helper_text: { required: false, default: null },
+            include_empty: { required: false, default: false },
         },
 
         data() {
