@@ -32,7 +32,7 @@
 										{{ getCompletionPercentage(result) }}%
 									</td>
 								</tr>
-								
+
 								<tr>
 									<td>Points without reduction</td>
 									<td>{{ pointsWithoutReduction(item) }}</td>
@@ -63,7 +63,7 @@
 
 <script>
 import moment from "moment";
-import {getSubmissionWeightedScore, getSubmissionAverageResult} from "../helpers/submission"
+import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
 import {Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
