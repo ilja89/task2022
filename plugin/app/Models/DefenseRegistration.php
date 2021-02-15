@@ -35,7 +35,7 @@ class DefenseRegistration extends Model {
 
     protected $table = 'charon_defense_registration';
     protected $dates = ['time'];
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function user()
     {

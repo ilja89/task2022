@@ -391,7 +391,7 @@
                 <KEY NAME="FK_defense_registration_lab" TYPE="foreign" FIELDS="lab_id" REFTABLE="charon_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
-                <INDEX NAME="UQ_defense_registration_teacher_and_time" UNIQUE="true" FIELDS="time, teacher_id"/>
+                <INDEX NAME="UQ_defense_registration_teacher_and_time" UNIQUE="true" FIELDS="teacher_id, time"/>
             </INDEXES>
 
         </TABLE>
