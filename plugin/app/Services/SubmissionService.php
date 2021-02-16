@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
@@ -155,15 +156,21 @@ class SubmissionService
     /**
      * Save the files from given results request (arete v2).
      *
-     * @param Submission $submission
+     * @param int $submissionId
      * @param array $filesRequest
      *
      * @return void
      */
-    public function saveFiles(Submission $submission, $filesRequest)
+    public function saveFiles(int $submissionId, $filesRequest)
     {
+        if ($filesRequest == null) {
+            return;
+        }
+
+        Log::debug("Saving files: ", [sizeof($filesRequest)]);
+
         foreach ($filesRequest as $fileRequest) {
-            $submissionFile = $this->requestHandlingService->getFileFromRequest($submission->id, $fileRequest, false);
+            $submissionFile = $this->requestHandlingService->getFileFromRequest($submissionId, $fileRequest, false);
             $submissionFile->save();
         }
     }
@@ -195,11 +202,20 @@ class SubmissionService
                 continue;
             }
 
-            $this->submissionsRepository->saveNewEmptyResult(
-                $submission->id,
-                $grademap->grade_type_code,
-                'This result was automatically generated'
-            );
+            if ($grademap->persistent) {
+                $this->submissionsRepository->carryPersistentResult(
+                    $submission->id,
+                    $submission->user_id,
+                    $submission->charon_id,
+                    $grademap->grade_type_code
+                );
+            } else {
+                $this->submissionsRepository->saveNewEmptyResult(
+                    $submission->id,
+                    $grademap->grade_type_code,
+                    'This result was automatically generated'
+                );
+            }
         }
     }
 }

@@ -92,6 +92,11 @@
                 return this.entries.map(entry => entry['fullname'])
             },
         },
+
+        created() {
+            this.fetchStudentFromRoute(this.$route.params.student_id);
+        },
+
         methods: {
             ...mapActions([
                 'fetchStudent'
@@ -122,6 +127,16 @@
             onStudentSelected(student) {
                 this.onStudentChanged(this.entries.find(x => x['fullname'] === student))
             },
+
+            fetchStudentFromRoute(studentId) {
+                if (studentId && !isNaN(studentId)) {
+                    this.fetchStudent({courseId: parseInt(this.courseId), studentId: studentId}).then(() => {
+                        VueEvent.$emit('student-loaded', studentId);
+                    }).catch(() => {
+                        VueEvent.$emit('show-notification', "User not found.", "error", 3000)
+                    });
+                }
+            },
         },
 
         watch: {
@@ -148,6 +163,11 @@
                     })
                     .finally(() => (this.isLoading = false))
             },
+
+            // React to any route changes and act accordingly
+            $route(to) {
+                this.fetchStudentFromRoute(to.params.student_id)
+            }
         },
     };
 

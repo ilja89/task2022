@@ -60,23 +60,12 @@ class LabController extends Controller
         return $this->labRepository->save(
             $this->request['start'],
             $this->request['end'],
+            $this->request['name'],
             $course->id,
             $this->request['teachers'],
             $this->request['charons'],
             $this->request['weeks']
         );
-    }
-
-    /**
-     * Delete lab.
-     * @param Course $course
-     * @param Lab $lab
-     *
-     * @return Lab
-     */
-    public function delete(Course $course, Lab $lab)
-    {
-        return $this->labRepository->deleteByInstanceId($lab->id);
     }
 
     /**
@@ -92,9 +81,22 @@ class LabController extends Controller
             $lab->id,
             $this->request['start'],
             $this->request['end'],
+            $this->request['name'],
             $this->request['teachers'],
             $this->request['charons']
         );
+    }
+
+    /**
+     * Delete lab.
+     * @param Course $course
+     * @param Lab $lab
+     *
+     * @return Lab
+     */
+    public function delete(Course $course, Lab $lab)
+    {
+        return $this->labRepository->deleteByInstanceId($lab->id);
     }
 
     /**
@@ -122,7 +124,7 @@ class LabController extends Controller
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
         ->where('charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
+            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
 

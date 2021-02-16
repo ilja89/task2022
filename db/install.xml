@@ -68,6 +68,7 @@
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="grade_type_code" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="grade_item_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="persistent" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_grademap" TYPE="primary" FIELDS="id"/>
@@ -113,6 +114,7 @@
                 <FIELD NAME="start" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="end" SEQUENCE="false" TYPE="datetime" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab" TYPE="primary" FIELDS="id"/>

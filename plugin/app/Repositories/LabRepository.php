@@ -47,13 +47,15 @@ class LabRepository
      *
      * @param $start
      * @param $end
+     * @param $name
      * @param $courseId
      * @param $teachers
-     *
+     * @param $charons
      * @param $weeks
+     *
      * @return boolean
      */
-    public function save($start, $end, $courseId, $teachers, $charons, $weeks)
+    public function save($start, $end, $name, $courseId, $teachers, $charons, $weeks)
     {
         $allCarbonStartDatesForLabs = array();
 
@@ -86,6 +88,7 @@ class LabRepository
             $lab = Lab::create([
                 'start' => $labStartDate->format('Y-m-d H:i:s'),
                 'end' => $labStartDate->copy()->add($labLength)->format('Y-m-d H:i:s'),
+                'name' => $name,
                 'course_id' => $courseId
             ]);
 
@@ -158,12 +161,12 @@ class LabRepository
      * @param Number $oldLabId
      * @param Carbon $newStart
      * @param Carbon $newEnd
-     *
      * @param $newTeachers
      * @param $newCharons
+     *
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $newTeachers, $newCharons)
+    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons)
     {
         $newStartCarbon = Carbon::parse($newStart);
         $newEndCarbon = Carbon::parse($newEnd);
@@ -171,6 +174,7 @@ class LabRepository
 
         $this->validateLab($newTeachers, $oldLab->course_id, $newStartCarbon, $newEndCarbon);
 
+        $oldLab->name = $name;
         $oldLab->start = $newStartCarbon->format('Y-m-d H:i:s');
         $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
 
@@ -236,7 +240,7 @@ class LabRepository
     {
         $labs = \DB::table('charon_lab')
             ->where('course_id', $courseId)
-            ->select('id', 'start', 'end', 'course_id')
+            ->select('id', 'start', 'end', 'name', 'course_id')
             ->orderBy('start')
             ->get();
 
@@ -285,7 +289,7 @@ class LabRepository
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_id', $charonId)
-            ->select('charon_defense_lab.id', 'start', 'end', 'course_id')
+            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
 

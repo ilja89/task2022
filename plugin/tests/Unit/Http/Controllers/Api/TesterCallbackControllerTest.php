@@ -45,7 +45,7 @@ class TesterCallbackControllerTest extends TestCase
         $callback = new GitCallback();
 
         $request = new TesterCallbackRequest([
-            'uniid' => 'original user',
+            'uniid' => 'Original user',
             'returnExtra' => [
                 'usernames' => ['uuid1', 'original user', 'uuid2'],
                 'token' => 'token hash'

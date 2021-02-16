@@ -121,14 +121,14 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
-//            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // not needed yet
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select(
                 'charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
-                'user.firstname', 'user.lastname'
+                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
             )->orderBy('charon_defenders.choosen_time')
             ->get();
 
@@ -173,6 +173,7 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->whereRaw($filteringWhere)
             ->whereRaw($teacher_filter)
@@ -181,7 +182,7 @@ class DefenseRegistrationRepository
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
-                'user.firstname', 'user.lastname'
+                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
             )->orderBy('charon_defenders.choosen_time')
             ->get();
 
@@ -242,10 +243,11 @@ class DefenseRegistrationRepository
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab_teacher', 'charon_lab_teacher.teacher_id', 'charon_defenders.teacher_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select(DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
             ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id',
                 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
-                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment')
+                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment', 'charon_lab.name as lab_name')
             ->distinct()
             ->get();
     }
