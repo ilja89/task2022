@@ -32,7 +32,7 @@
 										{{ getCompletionPercentage(result) }}%
 									</td>
 								</tr>
-								
+
 								<tr>
 									<td>Points without reduction</td>
 									<td>{{ pointsWithoutReduction(item) }}</td>
@@ -121,9 +121,13 @@ export default {
 	methods: {
 		getColor(submission) {
 			if (this.defendedSubmission(submission)) return 'success'
-			else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red darken-' + Math.floor((Math.random() * 3) + 1);
-			else if (this.registeredSubmission(submission.id)) return 'teal darken-' + Math.floor((Math.random() * 3) + 1);
-			else return 'light-blue darken-' + Math.floor((Math.random() * 3) + 1);
+			else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
+			else if (this.registeredSubmission(submission.id)) return 'teal';
+			else return `light-blue darken-${this.getColorDarknessByPercentage(getSubmissionWeightedScore(submission) / 100)}`;
+		},
+
+		getColorDarknessByPercentage(percentage, maxDarkness = 3) {
+			return maxDarkness - Math.floor(maxDarkness * percentage);
 		},
 		
 		pointsWithoutReduction(submission) {
