@@ -119,16 +119,16 @@ export default {
 	},
 	
 	methods: {
-    getColor(submission) {
-      if (this.defendedSubmission(submission)) return 'success'
-      else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
-      else if (this.registeredSubmission(submission.id)) return 'teal';
-      else return `light-blue darken-${this.getColorDarknessByPercentage(getSubmissionWeightedScore(submission) / 100)}`;
-    },
+			getColor(submission) {
+					if (this.defendedSubmission(submission)) return 'success'
+					else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
+					else if (this.registeredSubmission(submission.id)) return 'teal';
+					else return `light-blue darken-${this.getColorDarknessByPercentage(getSubmissionWeightedScore(submission) / 100)}`;
+			},
 
-    getColorDarknessByPercentage(percentage, maxDarkness = 3) {
-      return maxDarkness - Math.floor(maxDarkness * percentage);
-    },
+			getColorDarknessByPercentage(percentage, maxDarkness = 3) {
+					return maxDarkness - Math.floor(maxDarkness * percentage);
+			},
 		
 		pointsWithoutReduction(submission) {
 			return getSubmissionWeightedScore(submission) + "%"
