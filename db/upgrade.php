@@ -609,16 +609,16 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    CONSTRAINT UQ_defense_registration_teacher_and_time UNIQUE (teacher_id, time)," .
             "    CONSTRAINT FK_defense_registration_student" .
             "        FOREIGN KEY (student_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)," .
             "    CONSTRAINT FK_defense_registration_charon" .
             "        FOREIGN KEY (charon_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon(id)" .
+            "            REFERENCES " . $CFG->prefix . "charon(id)," .
             "    CONSTRAINT FK_defense_registration_submission" .
             "        FOREIGN KEY (submission_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon_submission(id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_submission(id)," .
             "    CONSTRAINT FK_defense_registration_teacher" .
             "        FOREIGN KEY (teacher_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)," .
             "    CONSTRAINT FK_defense_registration_lab" .
             "        FOREIGN KEY (lab_id)" .
             "            REFERENCES " . $CFG->prefix . "charon_lab(id))";
