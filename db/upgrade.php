@@ -570,8 +570,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2021011801) {
         $DB->execute(
             "INSERT IGNORE INTO " . $CFG->prefix . "charon_submission_user (submission_id, user_id)"
-            . " SELECT submission.id, submission.user_id"
-            . " FROM " . $CFG->prefix . "charon_submission AS submission"
+                . " SELECT submission.id, submission.user_id"
+                . " FROM " . $CFG->prefix . "charon_submission AS submission"
         );
     }
 

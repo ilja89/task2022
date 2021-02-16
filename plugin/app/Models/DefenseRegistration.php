@@ -22,8 +22,8 @@ use Zeizig\Moodle\Models\User;
  *
  * @package TTU\Charon\Model
  */
-class DefenseRegistration extends Model {
-
+class DefenseRegistration extends Model
+{
     /**
      * Fillable fields.
      *
@@ -35,6 +35,7 @@ class DefenseRegistration extends Model {
 
     protected $table = 'charon_defense_registration';
     protected $dates = ['time'];
+
     public $timestamps = true;
 
     public function user()
@@ -61,6 +62,4 @@ class DefenseRegistration extends Model {
     {
         return $this->belongsTo(Lab::class, 'lab_id');
     }
-
-
 }
