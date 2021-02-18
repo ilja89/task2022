@@ -126,9 +126,9 @@ class UpdateCharonService
     public function updateCategoryCalculationAndMaxScore(Charon $charon, $request)
     {
         if ($charon->category_id !== null && $request->has('max_score')) {
-            $gradeItem              = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-            $gradeItem->calculation = $request['calculation_formula'];
-            $gradeItem->grademax    = $request['max_score'];
+            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
+            $gradeItem->calculation = $this->gradebookService->normalizeCalculationFormula($request['calculation_formula'], $charon->course);
+            $gradeItem->grademax = $request['max_score'];
             $gradeItem->save();
         }
     }

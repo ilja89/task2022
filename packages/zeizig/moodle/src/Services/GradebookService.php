@@ -158,6 +158,26 @@ class GradebookService extends MoodleService
     }
 
     /**
+     * Normalizes the given calculation formula. The given formula
+     * is in the format with [[id_number]]. The result will
+     * have the format with ##grade item id##.
+     *
+     * @param string $formula
+     * @param int $courseId
+     *
+     * @return string
+     */
+    public function normalizeCalculationFormula($formula, $courseId)
+    {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/grade/constants.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_item.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_category.php';
+
+        return \grade_item::normalize_formula($formula, $courseId);
+    }
+
+    /**
      * Calculates the result for the given formula with given parameters.
      * Parameters array:
      *      [ Grade item id number => points, ... ]
