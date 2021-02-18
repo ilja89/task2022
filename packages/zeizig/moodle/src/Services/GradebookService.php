@@ -162,6 +162,8 @@ class GradebookService extends MoodleService
      * Parameters array:
      *      [ Grade item id number => points, ... ]
      *
+     * @deprecated
+     *
      * @param string $formula normalized formula
      * @param array $params
      * @param int $courseId
@@ -184,6 +186,28 @@ class GradebookService extends MoodleService
         $result = $calcFormula->evaluate();
 
         return $result;
+    }
+
+    /**
+     * Calculates the result for the given formula with given parameters.
+     *
+     * @param string $formula normalized formula
+     * @param array $params [ gi## => points, ... ]
+     *
+     * @return double
+     */
+    public function calculateResultWithFormulaParams($formula, $params)
+    {
+        global $CFG;
+        require_once $CFG->dirroot . '/lib/mathslib.php';
+        require_once $CFG->dirroot . '/lib/grade/grade_item.php';
+        require_once $CFG->dirroot . '/lib/grade/constants.php';
+
+        $formula = str_replace('##', '', $formula);
+
+        $calcFormula = new \calc_formula($formula, $params);
+
+        return $calcFormula->evaluate();
     }
 
     /**

@@ -141,10 +141,9 @@
 
         watch: {
             search(val) {
-                // Items have already been requested
-                if (this.isLoading) return
-
-                if (val.length < 2) return
+                if (this.isLoading || !val || val.length < 2) {
+                   return
+                }
 
                 this.isLoading = true
 

@@ -137,11 +137,11 @@ class SubmissionService
         if ($calculation !== null) {
             $params = [];
             foreach ($submission->results as $result) {
-                $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
+                $params["gi" . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
             }
 
-            return round($this->gradebookService->calculateResultFromFormula(
-                $calculation, $params, $charon->course
+            return round($this->gradebookService->calculateResultWithFormulaParams(
+                $calculation, $params
             ), 3);
         } else {
             $sum = 0;
