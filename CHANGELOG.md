@@ -1,0 +1,20 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- \#378 External Grades can now be used in Charon calculation formula
+- \#391 Labs can now be named
+
+### Changed
+- \#394 Submission result colors in Student view are less random and reflect score % 
+
+### Fixed
+- \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber
+
+
+[Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
