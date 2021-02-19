@@ -142,7 +142,7 @@
         watch: {
             search(val) {
                 if (this.isLoading || !val || val.length < 2) {
-                   return
+                    return
                 }
 
                 this.isLoading = true
