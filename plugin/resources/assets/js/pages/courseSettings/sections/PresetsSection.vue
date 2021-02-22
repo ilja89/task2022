@@ -15,9 +15,9 @@
                         @input-was-changed="onActivePresetChanged">
                 </charon-select>
 
-                <button @click="createPreset" style="margin-top: 1rem" class="btn btn-default add-preset-btn">
+                <a @click="createPreset" style="margin-top: 1rem" class="btn btn-default add-preset-btn">
                     Add new preset
-                </button>
+                </a>
             </div>
 
             <div v-if="activePreset !== null">
