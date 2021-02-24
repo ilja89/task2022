@@ -175,6 +175,7 @@ $string['registration_deletion_confirmation'] = 'Are you sure you want to delete
 $string['registration_before_error'] = 'You can\'t delete a registration 2 hours before the start!';
 $string['charon'] = 'Exercise';
 $string['time'] = 'Time';
+$string['lab_name'] = 'Lab';
 $string['teacher'] = 'Teacher';
 $string['location'] = 'Location';
 $string['comment'] = 'Comment';

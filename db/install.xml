@@ -368,6 +368,35 @@
         </TABLE>
 
 
+        <TABLE NAME="charon_defense_registration" COMMENT="Defense registrations.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="student_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
+                <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
+                <FIELD NAME="progress" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="24" DEFAULT="New"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_defense_registration" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_defense_registration_student" TYPE="foreign" FIELDS="student_id"
+                     REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="FK_defense_registration_charon" TYPE="foreign" FIELDS="charon_id"
+                     REFTABLE="charon" REFFIELDS="id"/>
+                <KEY NAME="FK_defense_registration_submission" TYPE="foreign" FIELDS="submission_id"
+                     REFTABLE="charon_submission" REFFIELDS="id"/>
+                <KEY NAME="FK_defense_registration_teacher" TYPE="foreign" FIELDS="teacher_id" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="FK_defense_registration_lab" TYPE="foreign" FIELDS="lab_id" REFTABLE="charon_lab" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="UQ_defense_registration_teacher_and_time" UNIQUE="true" FIELDS="teacher_id, time"/>
+            </INDEXES>
+        </TABLE>
+
         <!-- Course Settings -->
 
         <TABLE NAME="charon_course_settings" COMMENT="Course settings.">

@@ -2,9 +2,13 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Models\Result;
+use TTU\Charon\Repositories\GradeItemRepository;
+use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -16,14 +20,19 @@ class GrademapService
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var GradeItemRepository */
+    private $gradeItemRepository;
+
     /**
      * GrademapService constructor.
      *
      * @param GradebookService $gradebookService
+     * @param GradeItemRepository $gradeItemRepository
      */
-    public function __construct(GradebookService $gradebookService)
+    public function __construct(GradebookService $gradebookService, GradeItemRepository $gradeItemRepository)
     {
         $this->gradebookService = $gradebookService;
+        $this->gradeItemRepository = $gradeItemRepository;
     }
 
     /**
@@ -89,5 +98,48 @@ class GrademapService
             'grade_item_id' => 0,
             'persistent' => $gradeTypeCode > 1000 && isset($requestGradeMap['persistent']) && (bool) $requestGradeMap['persistent']
         ]));
+    }
+
+    /**
+     * @param string $calculationFormula
+     * @param Result[]|Collection $results
+     * @param int $studentId
+     *
+     * @return array
+     */
+    public function findFormulaParams(string $calculationFormula, $results, int $studentId): array
+    {
+        $params = [];
+        foreach ($results as $result) {
+            $params['gi' . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
+        }
+
+        $gradeIds = [];
+        preg_match_all('/##gi(\d+)##/', $calculationFormula, $gradeIds);
+
+        if (!isset($gradeIds[1]) || count($gradeIds[1]) <= count($params)) {
+            return $params;
+        }
+
+        foreach ($gradeIds[1] as $id) {
+            if (isset($params["gi" . $id])) {
+                continue;
+            }
+
+            $gradeItem = $this->gradeItemRepository->find(intval($id));
+            if ($gradeItem == null) {
+                continue;
+            }
+
+            /** @var GradeGrade $grade */
+            $grade = $gradeItem->gradesForUser($studentId);
+            if ($grade == null) {
+                continue;
+            }
+
+            $params['gi' . $gradeItem->id] = intval(isset($grade->finalgrade) ? $grade->finalgrade : $grade->rawgrade);
+        }
+
+        return $params;
     }
 }
