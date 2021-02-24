@@ -37,6 +37,9 @@ class SubmissionService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var GrademapService */
+    private $grademapService;
+
     /**
      * SubmissionService constructor.
      *
@@ -45,19 +48,22 @@ class SubmissionService
      * @param AreteResponseParser $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
      * @param UserRepository $userRepository
+     * @param GrademapService $grademapService
      */
     public function __construct(
         GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
         AreteResponseParser $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        GrademapService $grademapService
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->userRepository = $userRepository;
+        $this->grademapService = $grademapService;
     }
 
     /**
@@ -134,16 +140,7 @@ class SubmissionService
         $charon = $submission->charon;
         $calculation = $charon->category->getGradeItem()->calculation;
 
-        if ($calculation !== null) {
-            $params = [];
-            foreach ($submission->results as $result) {
-                $params[strtolower($result->getGrademap()->gradeItem->idnumber)] = $result->calculated_result;
-            }
-
-            return round($this->gradebookService->calculateResultFromFormula(
-                $calculation, $params, $charon->course
-            ), 3);
-        } else {
+        if ($calculation == null) {
             $sum = 0;
             foreach ($submission->results as $result) {
                 $sum += $result->calculated_result;
@@ -151,6 +148,14 @@ class SubmissionService
 
             return round($sum, 3);
         }
+
+        $params = $this->grademapService->findFormulaParams(
+            $calculation,
+            $submission->results,
+            $submission->user_id
+        );
+
+        return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
     }
 
     /**
