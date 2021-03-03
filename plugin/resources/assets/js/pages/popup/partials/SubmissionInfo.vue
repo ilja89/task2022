@@ -57,8 +57,18 @@
                             fluid
                     >
                         <td class=" pr-3">Calculation formula:</td>
-                        <td>{{ charonCalculationFormula }}</td>
+                        <td>{{ charonCalculationFormula }}</td>sc
                     </v-container>
+                </tr>
+
+                <tr>
+                  <v-container
+                      class="spacing-playground pa-3"
+                      fluid
+                  >
+                    <td class=" pr-3">Hello sharon:</td>
+                    <td>{{ charonCalculationFormula }}</td>
+                  </v-container>
                 </tr>
 
                 <tr v-if="hasDeadlines">
