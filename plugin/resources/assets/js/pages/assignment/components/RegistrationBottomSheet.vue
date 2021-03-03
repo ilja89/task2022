@@ -22,7 +22,7 @@
 				</v-btn>
 			</v-toolbar>
 			
-			<v-sheet class="px-4 pt-4" height="80vh">
+			<v-sheet style="position:relative;" class="px-4 pt-4" height="80vh">
 				<div class="register-lab-headers">
 					<h4>{{ translate('chooseTeacherText') }}</h4>
 				</div>
@@ -73,10 +73,11 @@
 						{{ translate('closeText') }}
 					</v-btn>
 				</v-row>
-			
-			</v-sheet>
+
+        <loading-container :render="true"></loading-container>
+
+      </v-sheet>
 		</div>
-	
 	</v-bottom-sheet>
 
 </template>
@@ -87,12 +88,14 @@ import {Translate} from "../../../mixins";
 import moment from "moment";
 import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
+import LoadingContainer from "../graphics/LoadingContainer";
 
 export default {
 	
 	mixins: [Translate],
 	
 	components: {
+    LoadingContainer,
 		Multiselect
 	},
 	
@@ -115,6 +118,7 @@ export default {
 			selected: 'Any teacher',
 			value: null,
 			teacher_options: [],
+      busy: false
 		}
 	},
 	
