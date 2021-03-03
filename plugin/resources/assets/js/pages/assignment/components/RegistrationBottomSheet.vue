@@ -74,7 +74,7 @@
 					</v-btn>
 				</v-row>
 
-        <loading-container :render="true"></loading-container>
+ФВв        <loading-container :render="this.busy"></loading-container>
 
       </v-sheet>
 		</div>
@@ -204,6 +204,7 @@ export default {
 				this.times.length = 0;
 				let time = option['start'].split(' ')[0];
 				this.timeGenerator(option);
+				this.busy = true;
 				axios.get(`api/charons/${this.charon.id}/labs/unavailable?time=${time
 					}&my_teacher=${this.selected === "My teacher"
 					}&user_id=${this.student_id
@@ -211,7 +212,8 @@ export default {
 					}&charon_id=${this.charon.id}`
 				).then(result => {
 					this.not_available_times = result.data;
-					this.timeGenerator(option);
+					this.busy = false;
+          this.timeGenerator(option);
 				})
 			}
 		},
