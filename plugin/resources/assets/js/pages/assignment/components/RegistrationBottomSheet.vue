@@ -74,7 +74,7 @@
 					</v-btn>
 				</v-row>
 
-ФВв        <loading-container :render="this.busy"></loading-container>
+        <loading-container :render="this.busy"></loading-container>
 
       </v-sheet>
 		</div>
@@ -156,7 +156,8 @@ export default {
 			if (this.value !== null && this.value['start'] !== null && this.value_time !== null && this.selected.length !== 0) {
 				let chosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
 				let selected_boolean = this.selected === "My teacher";
-				
+				this.busy = true;
+
 				axios.post(`api/charons/${this.charon.id}/submission?user_id=${this.student_id}`, {
 					charon_id: this.charon.id,
 					submission_id: this.submission.id,
@@ -175,6 +176,7 @@ export default {
 					}
 				}).finally(() => {
 					this.getDefenseData();
+					this.busy = false;
 				})
 			} else {
 				VueEvent.$emit('show-notification', "Needed parameters weren't inserted!", 'danger')
@@ -212,9 +214,12 @@ export default {
 					}&charon_id=${this.charon.id}`
 				).then(result => {
 					this.not_available_times = result.data;
-					this.busy = false;
           this.timeGenerator(option);
-				})
+				}).catch(() => {
+          VueEvent.$emit('show-notification', 'Unexpected error occurred. Try to refresh the page or notify a teacher if error persists.', 'danger')
+        }).finally(() => {
+          this.busy = false;
+        });
 			}
 		},
 
