@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- \#401 TODO: specify scope
+### Changed
+- \#401 Students participating in a Group Submission can now be graded separately in Submission grading view
+
+### Fixed
+- \#401 "Save" button in Submission grading view will now become active regardless of how the points were changed
 
 ## [1.0.0] - 2021-02-24
 
