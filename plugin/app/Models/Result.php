@@ -4,12 +4,14 @@ namespace TTU\Charon\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use TTU\Charon\Traits\HasGradeType;
+use Zeizig\Moodle\Models\User;
 
 /**
  * Class Result.
  *
  * @property integer id
  * @property integer submission_id
+ * @property integer user_id
  * @property float percentage
  * @property float calculated_result
  * @property string stdout
@@ -26,12 +28,17 @@ class Result extends Model
     public $timestamps = false;
     protected $table = 'charon_result';
     protected $fillable = [
-        'submission_id', 'grade_type_code', 'percentage', 'calculated_result', 'stdout', 'stderr'
+        'submission_id', 'user_id', 'grade_type_code', 'percentage', 'calculated_result', 'stdout', 'stderr'
     ];
 
     public function submission()
     {
         return $this->belongsTo(Submission::class, 'submission_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**

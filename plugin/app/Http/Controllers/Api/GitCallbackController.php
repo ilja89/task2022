@@ -43,8 +43,7 @@ class GitCallbackController extends Controller
         GitCallbacksRepository $gitCallbacksRepository,
         CourseSettingsRepository $courseSettingsRepository,
         GitCallbackService $gitCallbackService
-    )
-    {
+    ) {
         parent::__construct($request);
         $this->gitCallbacksRepository = $gitCallbacksRepository;
         $this->courseSettingsRepository = $courseSettingsRepository;

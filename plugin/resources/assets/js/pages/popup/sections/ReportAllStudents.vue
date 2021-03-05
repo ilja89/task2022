@@ -4,7 +4,7 @@
             title="Students report"
             subtitle="Search in all students submissions in this course.
                      <br/>
-                     <br/> For activating preset period or period selected from calendar click on filter and press enter.">
+                     <br/> For activating preset period or period selected from calendar click on filter and press enter. May not present correct data for group submissions.">
 
         <v-card class="mx-auto" outlined light raised>
             <v-container class="spacing-playground pa-3" fluid>
