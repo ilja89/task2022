@@ -92,9 +92,8 @@ class TestSuiteServiceTest extends TestCase
             ],
         ];
 
-        /** @var Mock $result */
-        $result = Mockery::mock(Result::class);
-        $result->shouldReceive('save')->twice();
+        $result1 = Mockery::mock(Result::class);
+        $result2 = Mockery::mock(Result::class);
 
         /** @var Mock|AreteResponseParser $requestHandlingService */
         $requestHandlingService = Mockery::mock(AreteResponseParser::class);
@@ -102,12 +101,12 @@ class TestSuiteServiceTest extends TestCase
         $requestHandlingService->shouldReceive('getResultFromRequest')
             ->with(3, $suites[0], 1)
             ->once()
-            ->andReturn($result);
+            ->andReturn($result1);
 
         $requestHandlingService->shouldReceive('getResultFromRequest')
             ->with(3, $suites[1], 2)
             ->once()
-            ->andReturn($result);
+            ->andReturn($result2);
 
         /** @var Mock|TestSuiteRepository $testSuiteRepository */
         $testSuiteRepository = Mockery::mock(TestSuiteRepository::class);
@@ -198,6 +197,8 @@ class TestSuiteServiceTest extends TestCase
 
         $service = new TestSuiteService($requestHandlingService, $testSuiteRepository, $unitTestRepository);
 
-        $service->saveSuites($suites, 3);
+        $actual = $service->saveSuites($suites, 3);
+
+        $this->assertEquals([$result1, $result2], $actual);
     }
 }
