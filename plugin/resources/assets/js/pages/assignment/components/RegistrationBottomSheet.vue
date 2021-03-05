@@ -74,9 +74,9 @@
 					</v-btn>
 				</v-row>
 
-        <loading-container :render="this.busy"></loading-container>
+				<loading-container :render="this.busy"></loading-container>
 
-      </v-sheet>
+			</v-sheet>
 		</div>
 	</v-bottom-sheet>
 
