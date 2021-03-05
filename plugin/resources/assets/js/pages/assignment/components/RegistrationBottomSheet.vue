@@ -95,7 +95,7 @@ export default {
 	mixins: [Translate],
 	
 	components: {
-    LoadingContainer,
+    	LoadingContainer,
 		Multiselect
 	},
 	
@@ -214,12 +214,12 @@ export default {
 					}&charon_id=${this.charon.id}`
 				).then(result => {
 					this.not_available_times = result.data;
-          this.timeGenerator(option);
+          			this.timeGenerator(option);
 				}).catch(() => {
-          VueEvent.$emit('show-notification', 'Unexpected error occurred. Try to refresh the page or notify a teacher if error persists.', 'danger')
-        }).finally(() => {
-          this.busy = false;
-        });
+					VueEvent.$emit('show-notification', 'Unexpected error occurred. Try to refresh the page or notify a teacher if error persists.', 'danger')
+				}).finally(() => {
+					this.busy = false;
+				});
 			}
 		},
 
