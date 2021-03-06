@@ -57,7 +57,7 @@
                             fluid
                     >
                         <td class=" pr-3">Calculation formula:</td>
-                        <td>{{ charonCalculationFormula }}</td>sc
+                        <td>{{ charonCalculationFormula }}</td>
                     </v-container>
                 </tr>
 
@@ -66,8 +66,8 @@
                       class="spacing-playground pa-3"
                       fluid
                   >
-                    <td class=" pr-3">Hello sharon:</td>
-                    <td>{{ charonCalculationFormula }}</td>
+                    <td class=" pr-3">Group members:</td>
+                    <td>{{ studentNames }}</td>
                   </v-container>
                 </tr>
 
@@ -108,6 +108,7 @@
     import {mapState} from 'vuex'
     import SubmissionInfoBit from './SubmissionInfoBit'
     import {formatName, formatDeadline} from '../helpers/formatting'
+    import {User} from "../../../api";
 
     export default {
 
@@ -130,6 +131,17 @@
             hasDeadlines() {
                 return this.charon && this.charon.deadlines.length !== 0
             },
+
+            studentNames(){
+
+              let users = this.submission.users
+              let names = ''
+              for (let i = 0; i < users.length; i++) {
+                names += (users[i].firstname + ' ' + users[i].lastname + ', ')
+              }
+              return names.substr(0, names.length - 2)
+            },
+
             getCommitLink() {
                 var gitlabUrl = "https://gitlab.cs.ttu.ee/";
                 var gitUser;
@@ -144,6 +156,7 @@
 
                 return gitlabUrl + gitUser + "/" + courseShortname + "/commit/" + this.submission.git_hash
             },
+
             graderInfoTitle() {
                 if (this.submission.confirmed) {
                     return 'Grader:'

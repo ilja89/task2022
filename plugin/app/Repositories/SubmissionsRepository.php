@@ -58,22 +58,19 @@ class SubmissionsRepository
             'stderr'
         ];
 
-        /** @var Submission $submission */
-        $submission = Submission::with([
+        return Submission::with([
             'results' => function ($query) use ($gradeTypeCodes) {
                 // Only select results which have a corresponding grademap
                 $query->whereIn('grade_type_code', $gradeTypeCodes);
-                $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                 $query->orderBy('grade_type_code');
             },
             'grader' => function ($query) {
                 $query->select(['id', 'firstname', 'lastname', 'email', 'idnumber', 'username']);
             },
-        ])
-            ->where('id', $submissionId)
-            ->first($fields);
-
-        return $submission;
+            'users' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname', 'username']);
+            }
+        ])->where('id', $submissionId)->first($fields);
     }
 
     /**
