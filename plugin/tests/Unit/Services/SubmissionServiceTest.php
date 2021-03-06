@@ -126,8 +126,8 @@ class SubmissionServiceTest extends TestCase
             ->once()
             ->with($student);
 
-        $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 1, '');
-        $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 101, '');
+        $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 7, 1, '');
+        $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 7, 101, '');
         $this->charonGradingService->shouldReceive('gradesShouldBeUpdated')->with($this->submission, 7)->andReturn(true);
         $this->charonGradingService->shouldReceive('updateGrade')->with($this->submission, 7);
 
@@ -168,7 +168,7 @@ class SubmissionServiceTest extends TestCase
             ->with('=##gi3## * ##gi5##', ['gi3' => 0.5, 'gi5' => 1])
             ->andReturn(0.5009);
 
-        $result = $this->service->calculateSubmissionTotalGrade($this->submission);
+        $result = $this->service->calculateSubmissionTotalGrade($this->submission, 7);
 
         $this->assertEquals(0.501, $result);
     }
@@ -185,11 +185,12 @@ class SubmissionServiceTest extends TestCase
 
         $this->submission->charon = $charon;
         $this->submission->results = [
-            $this->makeResult('Tests', 0.5009),
-            $this->makeResult('Style', 1.004),
+            $this->makeResult('Tests', 0.5009, 0, 7),
+            $this->makeResult('Tests', 0.9, 0, 0),
+            $this->makeResult('Style', 1.004, 0, 7),
         ];
 
-        $result = $this->service->calculateSubmissionTotalGrade($this->submission);
+        $result = $this->service->calculateSubmissionTotalGrade($this->submission, 7);
 
         $this->assertEquals(1.505, $result);
     }
@@ -203,11 +204,15 @@ class SubmissionServiceTest extends TestCase
             new Grademap(['grade_type_code' => 1001, 'persistent' => 1])
         ];
 
-        $this->submission->results = collect();
         $this->submission->charon = $charon;
         $this->submission->id = 3;
         $this->submission->user_id = 5;
         $this->submission->charon_id = 7;
+
+        $this->submission
+            ->shouldReceive('results->where->where->count')
+            ->twice()
+            ->andReturn(0);
 
         $this->submissionsRepository
             ->shouldReceive('carryPersistentResult')
@@ -216,21 +221,22 @@ class SubmissionServiceTest extends TestCase
 
         $this->submissionsRepository
             ->shouldReceive('saveNewEmptyResult')
-            ->with(3, 101, 'This result was automatically generated')
+            ->with(3, 5, 101, 'This result was automatically generated')
             ->once();
 
-        $this->service->includeUnsentGrades($this->submission);
+        $this->service->includeUnsentGrades($this->submission, 5);
     }
 
-    private function makeResult($identifier, $calculatedResult, $gradeItemId = 1)
+    private function makeResult($identifier, $calculatedResult, $gradeItemId = 1, $userId = 0)
     {
         $gradeItem = new GradeItem(['idnumber' => $identifier]);
         $gradeItem->id = $gradeItemId;
         $grademap = new Grademap(['gradeItem' => $gradeItem]);
 
-        /** @var Result $result */
+        /** @var Mock|Result $result */
         $result = Mockery::mock('Result', ['getGrademap' => $grademap]);
         $result->calculated_result = $calculatedResult;
+        $result->user_id = $userId;
 
         return $result;
     }

@@ -203,8 +203,7 @@ class GitCallbackService
         string $repositoryUrl,
         string $callbackUrl,
         array $params
-    )
-    {
+    ) {
         $username = str_replace(self::DEFAULT_EMAIL_SUFFIX, '', $username);
 
         Log::info('Submitting work as user "' . $username . '"');

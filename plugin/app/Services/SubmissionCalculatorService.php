@@ -110,12 +110,13 @@ class SubmissionCalculatorService
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast(Submission $submission, int $studentId)
+    public function submissionIsBetterThanLast(Submission $submission, int $studentId): bool
     {
         $submissionSum = 0;
         $activeSubmissionSum = 0;
+        $results = $submission->results()->where('user_id', $studentId)->get();
 
-        foreach ($submission->results as $result) {
+        foreach ($results as $result) {
             $grademap = $result->getGrademap();
             if ($grademap === null) {
                 continue;

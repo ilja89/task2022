@@ -86,10 +86,16 @@ class CharonGradingServiceTest extends TestCase
         $this->service->calculateCalculatedResultsForNewSubmission($submission);
     }
 
-    public function testUpdateGradeUpdatesResultsMatchingCharonGradeTypes()
+    public function testUpdateGradeUpdatesResultsFromSubmission()
     {
         CourseModule::unguard();
         Charon::unguard();
+
+        $results = collect([
+            new Result(['grade_type_code' => 7, 'calculated_result' => 107]),
+            new Result(['grade_type_code' => 11, 'calculated_result' => 111]),
+            new Result(['grade_type_code' => 13, 'calculated_result' => 113]),
+        ]);
 
         /** @var Mock|Charon $charon */
         $charon = Mockery::mock(Charon::class)->makePartial();
@@ -98,17 +104,17 @@ class CharonGradingServiceTest extends TestCase
 
         $charon->shouldReceive('getGradeTypeCodes')->once()->andReturn(collect([7, 11]));
 
-        $submission = new Submission();
+        /** @var Mock|Submission $submission */
+        $submission = Mockery::mock(Submission::class)->makePartial();
         $submission->charon = $charon;
-        $submission->results = collect([
-            new Result(['grade_type_code' => 7, 'calculated_result' => 107]),
-            new Result(['grade_type_code' => 11, 'calculated_result' => 111]),
-            new Result(['grade_type_code' => 13, 'calculated_result' => 113]),
-        ]);
+
+        $submission->shouldReceive('results->where->whereIn->get')
+            ->once()
+            ->andReturn($results);
 
         $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 7, 17, 107)->once();
         $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 11, 17, 111)->once();
-        $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 13, 17, 113)->never();
+        $this->gradingService->shouldReceive('updateGrade')->with(5, 3, 13, 17, 113)->once();
 
         $this->service->updateGrade($submission, 17);
     }
@@ -232,12 +238,14 @@ class CharonGradingServiceTest extends TestCase
 
         /** @var Mock|Result $result1 */
         $result1 = Mockery::mock(Result::class)->makePartial();
+        $result1->user_id = 11;
         $result1->grade_type_code = 19;
         $result1->submission = $submission;
         $result1->shouldReceive('save')->once();
 
         /** @var Mock|Result $result2 */
         $result2 = Mockery::mock(Result::class)->makePartial();
+        $result2->user_id = 11;
         $result2->grade_type_code = 23;
         $result2->submission = $submission;
         $result2->shouldReceive('save')->once();
@@ -289,12 +297,14 @@ class CharonGradingServiceTest extends TestCase
 
         /** @var Mock|Result $result1 */
         $result1 = Mockery::mock(Result::class)->makePartial();
+        $result1->user_id = 11;
         $result1->grade_type_code = 19;
         $result1->submission = $submission;
         $result1->calculated_result = 13;
 
         /** @var Mock|Result $result2 */
         $result2 = Mockery::mock(Result::class)->makePartial();
+        $result2->user_id = 11;
         $result2->grade_type_code = 23;
         $result2->submission = $submission;
         $result2->calculated_result = 17;

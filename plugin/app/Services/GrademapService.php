@@ -111,7 +111,9 @@ class GrademapService
     {
         $params = [];
         foreach ($results as $result) {
-            $params['gi' . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
+            if ($result->user_id == $studentId) {
+                $params['gi' . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
+            }
         }
 
         $gradeIds = [];

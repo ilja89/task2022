@@ -2,9 +2,11 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Comment;
 use TTU\Charon\Repositories\CommentsRepository;
 use Zeizig\Moodle\Globals\User;
 
@@ -40,16 +42,14 @@ class CommentsController extends Controller
      *
      * @param Charon $charon
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\TTU\Charon\Models\Comment[]
+     * @return Collection|Comment[]
      */
     public function getByCharonAndStudent(Charon $charon)
     {
-        $comments = $this->commentsRepository->findCommentsByCharonAndStudent(
+        return $this->commentsRepository->findCommentsByCharonAndStudent(
             $charon->id,
             $this->request['student_id']
         );
-
-        return $comments;
     }
 
     /**

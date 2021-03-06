@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
-use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
@@ -118,7 +117,7 @@ class SubmissionService
         $submission->users()->save($student);
 
         foreach ($charon->grademaps as $grademap) {
-            $this->submissionsRepository->saveNewEmptyResult($submission->id, $grademap->grade_type_code, '');
+            $this->submissionsRepository->saveNewEmptyResult($submission->id, $studentId, $grademap->grade_type_code, '');
         }
 
         if ($this->charonGradingService->gradesShouldBeUpdated($submission, $studentId)) {
@@ -129,13 +128,32 @@ class SubmissionService
     }
 
     /**
-     * Calculates the total grade for the given submission.
+     * Calculates the total grade for all Submission students
      *
      * @param Submission $submission
      *
+     * @return array
+     */
+    public function calculateSubmissionTotalGrades(Submission $submission): array
+    {
+        $grades = [];
+
+        foreach ($submission->users as $user) {
+            $grades[$user->id] = $this->calculateSubmissionTotalGrade($submission, $user->id);
+        }
+
+        return $grades;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param Submission $submission
+     * @param int $user_id
+     *
      * @return float
      */
-    public function calculateSubmissionTotalGrade(Submission $submission)
+    public function calculateSubmissionTotalGrade(Submission $submission, int $user_id): float
     {
         $charon = $submission->charon;
         $calculation = $charon->category->getGradeItem()->calculation;
@@ -143,7 +161,9 @@ class SubmissionService
         if ($calculation == null) {
             $sum = 0;
             foreach ($submission->results as $result) {
-                $sum += $result->calculated_result;
+                if ($result->user_id == $user_id) {
+                    $sum += $result->calculated_result;
+                }
             }
 
             return round($sum, 3);
@@ -152,7 +172,7 @@ class SubmissionService
         $params = $this->grademapService->findFormulaParams(
             $calculation,
             $submission->results,
-            $submission->user_id
+            $user_id
         );
 
         return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
@@ -185,10 +205,11 @@ class SubmissionService
      * will create new result for them.
      *
      * @param Submission $submission
+     * @param int $user_id
      *
      * @return void
      */
-    public function includeUnsentGrades(Submission $submission)
+    public function includeUnsentGrades(Submission $submission, int $user_id)
     {
         $charon = $submission->charon;
 
@@ -197,26 +218,26 @@ class SubmissionService
         }
 
         foreach ($charon->grademaps as $grademap) {
+            $existing = $submission->results()
+                ->where('grade_type_code', $grademap->grade_type_code)
+                ->where('user_id', $user_id)
+                ->count();
 
-            $result = $submission->results->first(function ($result) use ($grademap) {
-                /** @var Result $result */
-                return $result->grade_type_code === $grademap->grade_type_code;
-            });
-
-            if ($result !== null) {
+            if ($existing > 0) {
                 continue;
             }
 
             if ($grademap->persistent) {
                 $this->submissionsRepository->carryPersistentResult(
                     $submission->id,
-                    $submission->user_id,
+                    $user_id,
                     $submission->charon_id,
                     $grademap->grade_type_code
                 );
             } else {
                 $this->submissionsRepository->saveNewEmptyResult(
                     $submission->id,
+                    $user_id,
                     $grademap->grade_type_code,
                     'This result was automatically generated'
                 );

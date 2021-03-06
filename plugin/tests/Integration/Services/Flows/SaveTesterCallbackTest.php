@@ -65,8 +65,10 @@ class SaveTesterCallbackTest extends TestCase
 
         $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 1, $mainStudent->id, 0.5);
         $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 101, $mainStudent->id, 1.0);
+        $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 1001, $mainStudent->id, 0);
         $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 1, $coStudent->id, 0.5);
         $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 101, $coStudent->id, 1.0);
+        $this->gradingService->shouldReceive('updateGrade')->once()->with($course->id, $charon->id, 1001, $coStudent->id, 0);
 
         $request = new TesterCallbackRequest([
             'slug' => 'folder',
@@ -122,9 +124,16 @@ class SaveTesterCallbackTest extends TestCase
             collect($submission->users)->pluck('id')->values()->all()
         );
 
+        $this->assertEquals(6, $submission->results->count());
+
         $this->assertEquals(
             [1 => 0.5, 101 => 1, 1001 => 0],
             $submission->results->pluck('percentage', 'grade_type_code')->all()
+        );
+
+        $this->assertEquals(
+            [$mainStudent->id, $coStudent->id],
+            $submission->results->pluck('user_id')->unique()->values()->all()
         );
 
         $this->assertEquals(

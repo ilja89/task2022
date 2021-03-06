@@ -90,7 +90,7 @@ class AreteResponseParser
      *
      * @return Result
      */
-    public function getResultFromRequest($submissionId, $request, $gradeCode)
+    public function getResultFromRequest(int $submissionId, array $request, int $gradeCode)
     {
         return new Result([
             'submission_id' => $submissionId,
