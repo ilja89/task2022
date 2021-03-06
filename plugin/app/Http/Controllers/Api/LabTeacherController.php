@@ -42,11 +42,11 @@ class LabTeacherController extends Controller
 
     public function getByLab(Course $course, Lab $lab)
     {
-        return $this->labTeacherRepository->getTeachersByLabId($course->id, $lab->id);
+        return $this->labTeacherRepository->getTeachersByLabAndCourse($course->id, $lab->id);
     }
 
     /**
-     * Get teachers by charon and defense lab id.
+     * Get teachers by charon and lab id.
      *
      * @param Charon $charon
      * @param CharonDefenseLab $charonDefenseLab
@@ -55,7 +55,7 @@ class LabTeacherController extends Controller
      */
     public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab)
     {
-        return $this->labTeacherRepository->getTeachersByCharonAndDefenseLabId($charon->id, $charonDefenseLab->id);
+        return $this->labTeacherRepository->getTeachersByCharonAndLab($charon->id, $charonDefenseLab->lab_id);
     }
 
     /**
