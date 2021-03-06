@@ -195,7 +195,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'defense_lab_id' => $defenseLab->id
         ]);
 
-        $actual = $this->repository->getChosenTimesForAllTeachers($time->format('Y-m-d H'), 2, $defenseLab->id);
+        $actual = $this->repository->getChosenTimesForLabTeachers($time->format('Y-m-d H'), 2, $lab->id);
 
         $this->assertEquals(['2020-12-15 22:20:00'], $actual);
     }

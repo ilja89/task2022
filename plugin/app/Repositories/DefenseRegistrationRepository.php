@@ -56,6 +56,21 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @param int $labId
+     * @param string $time
+     *
+     * @return int
+     */
+    public function countLabRegistrationsAt(int $labId, string $time): int
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('choosen_time', 'like', '%' . $time . '%')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->count();
+    }
+
+    /**
      * @param $teacherId
      * @param $time
      *
@@ -73,17 +88,18 @@ class DefenseRegistrationRepository
     /**
      * @param string $time
      * @param int $teacherCount
-     * @param int $defenseLabId
+     * @param int $labId
      *
      * @return array
      */
-    public function getChosenTimesForAllTeachers(string $time, int $teacherCount, int $defenseLabId)
+    public function getChosenTimesForLabTeachers(string $time, int $teacherCount, int $labId): array
     {
         return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('defense_lab_id', $defenseLabId)
+            ->where('charon_defense_lab.lab_id', $labId)
             ->groupBy('choosen_time')
-            ->having(DB::raw('count(*)'), '=', $teacherCount)
+            ->having(DB::raw('count(*)'), '>=', $teacherCount)
             ->pluck('choosen_time')
             ->all();
     }

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Services;
 
-use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Mockery;
 use Mockery\Mock;
@@ -19,20 +18,11 @@ use Zeizig\Moodle\Models\User;
 
 class DefenceRegistrationServiceTest extends TestCase
 {
-    /** @var CharonRepository|Mock */
-    private $charonRepository;
-
     /** @var LabTeacherRepository|Mock */
     private $teacherRepository;
 
-    /** @var LabRepository|Mock */
-    private $labRepository;
-
     /** @var DefenseRegistrationRepository|Mock */
     private $defenseRegistrationRepository;
-
-    /** @var MoodleUser|Mock */
-    private $loggedInUser;
 
     /** @var UserRepository|Mock */
     private $userRepository;
@@ -44,11 +34,11 @@ class DefenceRegistrationServiceTest extends TestCase
     {
         parent::setUp();
         $this->service = new DefenceRegistrationService(
-            $this->charonRepository = Mockery::mock(CharonRepository::class),
+            Mockery::mock(CharonRepository::class),
             $this->teacherRepository = Mockery::mock(LabTeacherRepository::class),
-            $this->labRepository = Mockery::mock(LabRepository::class),
+            Mockery::mock(LabRepository::class),
             $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
-            $this->loggedInUser = Mockery::mock(MoodleUser::class),
+            Mockery::mock(MoodleUser::class),
             $this->userRepository = Mockery::mock(UserRepository::class)
         );
     }
@@ -61,24 +51,18 @@ class DefenceRegistrationServiceTest extends TestCase
         $this->expectException(RegistrationException::class);
 
         $this->teacherRepository
-            ->shouldReceive('getTeachersByCharonAndDefenseLabId')
-            ->with(7, 13)
+            ->shouldReceive('countLabTeachers')
+            ->with(17)
             ->once()
-            ->andReturn(['22:10', '22:20']);
-
-        /** @var Builder|Mock $query */
-        $query = Mockery::mock(Builder::class);
+            ->andReturn(2);
 
         $this->defenseRegistrationRepository
-            ->shouldReceive('query')
+            ->shouldReceive('countLabRegistrationsAt')
+            ->with(17, '2020-12-15 22:20:00')
             ->once()
-            ->andReturn($query);
+            ->andReturn(2);
 
-        $query->shouldReceive('where')->with('choosen_time', '2020-12-15 22:20:00')->once()->andReturn($query);
-        $query->shouldReceive('where')->with('defense_lab_id', 13)->once()->andReturn($query);
-        $query->shouldReceive('count')->once()->andReturn(2);
-
-        $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 13);
+        $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 17, 13);
     }
 
     /**
@@ -90,22 +74,16 @@ class DefenceRegistrationServiceTest extends TestCase
         $this->expectException(RegistrationException::class);
 
         $this->teacherRepository
-            ->shouldReceive('getTeachersByCharonAndDefenseLabId')
-            ->with(7, 13)
+            ->shouldReceive('countLabTeachers')
+            ->with(17)
             ->once()
-            ->andReturn(['22:10', '22:20']);
-
-        /** @var Builder|Mock $query */
-        $query = Mockery::mock(Builder::class);
+            ->andReturn(2);
 
         $this->defenseRegistrationRepository
-            ->shouldReceive('query')
+            ->shouldReceive('countLabRegistrationsAt')
+            ->with(17, '2020-12-15 22:20:00')
             ->once()
-            ->andReturn($query);
-
-        $query->shouldReceive('where')->with('choosen_time', '2020-12-15 22:20:00')->once()->andReturn($query);
-        $query->shouldReceive('where')->with('defense_lab_id', 13)->once()->andReturn($query);
-        $query->shouldReceive('count')->once()->andReturn(1);
+            ->andReturn(1);
 
         $this->userRepository
             ->shouldReceive('find')
@@ -133,7 +111,7 @@ class DefenceRegistrationServiceTest extends TestCase
             ->once()
             ->andThrowExceptions([$exception]);
 
-        $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 13);
+        $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 17, 13);
     }
 
     /**
@@ -142,13 +120,13 @@ class DefenceRegistrationServiceTest extends TestCase
     public function testGetUsedDefenceTimesReturnsHoursMinutes()
     {
         $this->teacherRepository
-            ->shouldReceive('getTeachersByCharonAndDefenseLabId')
-            ->with(3, 5)
+            ->shouldReceive('countLabTeachers')
+            ->with(5)
             ->once()
-            ->andReturn(['any', 'value']);
+            ->andReturn(2);
 
         $this->defenseRegistrationRepository
-            ->shouldReceive('getChosenTimesForAllTeachers')
+            ->shouldReceive('getChosenTimesForLabTeachers')
             ->with('2020-12-15 22:20:00', 2, 5)
             ->once()
             ->andReturn(['2020-12-15 22:20:03', '2020-12-15 22:30:06', '2020-12-15 22:40:09']);

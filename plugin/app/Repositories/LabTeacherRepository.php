@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
+use TTU\Charon\Models\LabTeacher;
 
 class LabTeacherRepository
 {
@@ -26,7 +27,7 @@ class LabTeacherRepository
             ->delete();
     }
 
-    public function getTeachersByLabId($courseId, $labId)
+    public function getTeachersByLabAndCourse($courseId, $labId)
     {
         return DB::table('charon_lab_teacher')
             ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
@@ -43,16 +44,27 @@ class LabTeacherRepository
     }
 
     /**
+     * @param $labId
+     *
+     * @return int
+     */
+    public function countLabTeachers($labId): int
+    {
+        return LabTeacher::where('lab_id', $labId)->count();
+    }
+
+    /**
      * @param $charonId
-     * @param $defenseLabId
+     * @param $labId
+     *
      * @return Collection
      */
-    public function getTeachersByCharonAndDefenseLabId($charonId, $defenseLabId)
+    public function getTeachersByCharonAndLab($charonId, $labId)
     {
         return DB::table('charon_lab_teacher')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id')
             ->where('charon_defense_lab.charon_id', $charonId)
-            ->where('charon_defense_lab.id', $defenseLabId)
+            ->where('charon_defense_lab.lab_id', $labId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->select(
                 'user.id',
@@ -69,7 +81,7 @@ class LabTeacherRepository
      *
      * @return array
      */
-    public function checkWhichTeachersBusyAt(array $teacherIds, $studentTime)
+    public function checkWhichTeachersBusyAt(array $teacherIds, $studentTime): array
     {
         return DB::table('charon_defenders')
             ->select('charon_defenders.teacher_id')
