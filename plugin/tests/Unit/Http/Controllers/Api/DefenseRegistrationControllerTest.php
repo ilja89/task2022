@@ -52,6 +52,7 @@ class DefenseRegistrationControllerTest extends TestCase
         ]);
 
         $lab = new Lab();
+        $lab->id = 19;
 
         $this->defenseLabRepository
             ->shouldReceive('getLabByDefenseLabId')
@@ -67,13 +68,13 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('getTeacherId')
             ->once()
-            ->with(3, false, 13, 7, 11)
+            ->with(3, false, 19, 7, 11)
             ->andReturn(17);
 
         $this->registrationService
             ->shouldReceive('registerDefenceTime')
             ->once()
-            ->with(3, 5, false, 7, 11, 17, 13);
+            ->with(3, 5, false, 7, 11, 17, 19, 13);
 
         $response = $this->controller->studentRegisterDefence($request);
 
@@ -90,10 +91,19 @@ class DefenseRegistrationControllerTest extends TestCase
             'my_teacher' => 'false'
         ]);
 
+        $lab = new Lab();
+        $lab->id = 13;
+
+        $this->defenseLabRepository
+            ->shouldReceive('getLabByDefenseLabId')
+            ->with(7)
+            ->once()
+            ->andReturn($lab);
+
         $this->registrationService
             ->shouldReceive('getUsedDefenceTimes')
             ->once()
-            ->with(3, 5, 7, 11, false)
+            ->with(3, 5, 13, 11, false)
             ->andReturn(['12:00']);
 
         $response = $this->controller->getUsedDefenceTimes($request);

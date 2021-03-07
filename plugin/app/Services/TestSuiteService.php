@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Models\Result;
 use TTU\Charon\Repositories\TestSuiteRepository;
 use TTU\Charon\Repositories\UnitTestRepository;
 
@@ -37,13 +38,17 @@ class TestSuiteService
     }
 
     /**
-     * Save submissions and results from given results request (arete v2).
+     * Save submissions and retrieve results from given results request (arete v2).
      *
      * @param array $testSuites
      * @param int $submissionId
+     *
+     * @return Result[]
      */
-    public function saveSuites(array $testSuites, int $submissionId) {
+    public function saveSuites(array $testSuites, int $submissionId): array
+    {
         $gradeCode = 1;
+        $results = [];
 
         foreach ($testSuites as $testSuite) {
             $createdTestSuite = $this->testSuiteRepository->create([
@@ -55,8 +60,7 @@ class TestSuiteService
                 'grade' => $testSuite['grade']
             ]);
 
-            $result = $this->requestHandlingService->getResultFromRequest($submissionId, $testSuite, $gradeCode++);
-            $result->save();
+            $results[] = $this->requestHandlingService->getResultFromRequest($submissionId, $testSuite, $gradeCode++);
 
             foreach ($testSuite['unitTests'] as $unitTest) {
                 $this->unitTestRepository->create([
@@ -77,6 +81,8 @@ class TestSuiteService
                 ]);
             }
         }
+
+        return $results;
     }
 
     /**

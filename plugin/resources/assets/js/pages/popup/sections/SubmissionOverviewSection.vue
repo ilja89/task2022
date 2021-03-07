@@ -21,50 +21,55 @@
             </div>
 
             <div class="column is-7">
-                <div class="card">
-                    <div v-for="(result, index) in submission.results"
-						 v-if="getGrademapByResult(result)" :key="'result_' + index">
 
-                        <hr v-if="index !== 0" class="hr-result"/>
+                <div v-for="user in studentResults" :key="user.id">
 
-                        <div class="result">
-                            <div>
-                                {{ getGrademapByResult(result).name }}
-                                <span
-                                        class="grademax"
-                                >/ {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p </span>
-                            </div>
-                            <div class="result-input-container">
-                                <input
-                                        class="input has-text-centered"
-                                        :class="{ 'is-danger': resultHasError(result) | result.calculated_result > getGrademapByResult(result).grade_item.grademax }"
-                                        type="number"
-                                        step="0.01"
-                                        max="getGrademapByResult(result).grade_item.grademax"
-                                        v-model="result.calculated_result"
-                                        @keyup="updatePointsState"
-                                        @keydown="errors[result.id] = false"/>
-                                <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
-                                </v-btn>
-                                <div class="resultpercent">
-                                    {{ getResultPercent(result) | withoutTrailingZeroes }}%
+                    <header v-if="isGroupSubmission" class="v-sheet theme--light v-toolbar v-toolbar--flat" style="height: 64px;">
+                        <div class="card v-toolbar__content" style="height: 64px;">
+                            <div class="v-toolbar__title" style="margin-left: auto; margin-right: auto">{{ user.firstname }} {{ user.lastname }}</div>
+                        </div>
+                    </header>
+
+                    <div class="card">
+
+                        <div v-for="(result, index) in user.results"
+                             v-if="getGrademapByResult(result)" :key="'result_' + index">
+
+                            <hr v-if="index !== 0" class="hr-result"/>
+
+                            <div class="result">
+                                <div>
+                                    {{ getGrademapByResult(result).name }}
+                                    <span class="grademax">
+                                        / {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p
+                                    </span>
+                                </div>
+                                <div class="result-input-container">
+                                    <input
+                                            class="input has-text-centered"
+                                            :class="{ 'is-danger': resultHasError(result) | result.calculated_result > getGrademapByResult(result).grade_item.grademax }"
+                                            type="number"
+                                            step="0.01"
+                                            max="getGrademapByResult(result).grade_item.grademax"
+                                            v-model="result.calculated_result"
+                                            @change="updatePointsState"
+                                            @keydown="errors[result.id] = false"/>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="setMaxPoints(result)">Max
+                                    </v-btn>
+                                    <div class="resultpercent">
+                                        {{ getResultPercent(result) | withoutTrailingZeroes }}%
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <hr class="hr-result"/>
-                    <div class="result">
-                        <div>
-                            Total {{ submission.total_result | withoutTrailingZeroes }}
-                            <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
-                        </div>
-                    </div>
+                        <hr class="hr-result"/>
 
-                    <div class="submission-confirmed" v-if="submission.confirmed == 1">
-                        <hr/>
-                        <div class="confirmed-message">
-                            <strong>Confirmed</strong>
+                        <div class="result">
+                            <div>
+                                Total {{ user.total_result | withoutTrailingZeroes }}
+                                <span class="grademax">/ {{ submission.max_result | withoutTrailingZeroes }}p</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +109,23 @@
                 return this.submission != null;
             },
 
+            isGroupSubmission() {
+                return this.submission.users.length > 1;
+            },
+
+            studentResults() {
+                let users = this.submission.users;
+
+                users.forEach(user => {
+                    user.total_result = this.submission.total_results[user.id];
+                    user.results = this.submission.results
+                        .filter(result => result.user_id === user.id)
+                        .sort((a, b) => a.grade_type_code - b.grade_type_code);
+                });
+
+                return users;
+            },
+
             activeCharonName() {
                 return this.charon != null
                     ? `<a
@@ -135,7 +157,6 @@
             }
         },
 
-
         methods: {
             getGrademapByResult(result) {
                 if (!this.charon) return null;
@@ -148,6 +169,12 @@
                 });
 
                 return correctGrademap;
+            },
+
+            getResultKey(result) {
+                let key = 'result_' + result.user_id + '_' + result.grade_type_code + '_' + result.id;
+                console.log(key);
+                return key;
             },
 
             goBack() {

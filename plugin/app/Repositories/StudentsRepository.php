@@ -21,10 +21,9 @@ class StudentsRepository
      */
     public function searchStudentsByCourseAndKeyword($courseId, $keyword)
     {
-
         $keyword = '%' . strtolower($keyword) . '%';
 
-        $users = DB::table('role_assignments')
+        return DB::table('role_assignments')
             ->join('user', 'role_assignments.userid', '=', 'user.id')
             ->join('context', 'role_assignments.contextid', '=', 'context.id')
             ->where('context.contextlevel', CONTEXT_COURSE)
@@ -38,8 +37,6 @@ class StudentsRepository
             })
             ->select('user.id', 'idnumber', 'username', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ',lastname, ' (',username, ')') AS fullname"))
             ->get();
-
-        return $users;
     }
 
     /**

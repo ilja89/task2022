@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;

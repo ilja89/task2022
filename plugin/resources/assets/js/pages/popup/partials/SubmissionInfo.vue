@@ -1,96 +1,73 @@
 <template>
     <div>
-
-
         <v-simple-table style="width: auto">
             <template v-slot:default>
-                <thead>
-                </thead>
+                <thead></thead>
                 <tbody>
+                    <tr>
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Git time:</td>
+                            <td>{{ submission.git_timestamp }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr>
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Git time:</td>
-                        <td>{{ submission.git_timestamp }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.git_hash">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Commit hash:</td>
+                            <td>
+                                <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
+                                <a v-else href="#">{{ submission.git_hash }}</a>
+                            </td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="submission.git_hash">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Commit hash:</td>
-                        <td>
-                            <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
-                            <a v-else href="#">{{ submission.git_hash }}</a>
-                        </td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.git_commit_message">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Commit message:</td>
+                            <td>{{ submission.git_commit_message }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="submission.git_commit_message">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Commit message:</td>
-                        <td>{{ submission.git_commit_message }}</td>
-                    </v-container>
-                </tr>
+                    <tr>
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Project folder:   </td>
+                            <td>{{ charon ? charon.project_folder : '' }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr>
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Project folder:   </td>
-                        <td>{{ charon ? charon.project_folder : '' }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="charonCalculationFormula.length">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Calculation formula:</td>
+                            <td>{{ charonCalculationFormula }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="charonCalculationFormula.length">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Calculation formula:</td>
-                        <td>{{ charonCalculationFormula }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="hasDeadlines">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Deadlines:</td>
+                            <td>
+                                <ul>
+                                    <li v-for="deadline in charon.deadlines" v-text="formatDeadline(deadline)"/>
+                                </ul>
+                            </td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="hasDeadlines">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Deadlines:</td>
-                        <td>
-                            <ul>
-                                <li
-                                        v-for="deadline in charon.deadlines"
-                                        v-text="formatDeadline(deadline)"
-                                />
-                            </ul>
-                        </td>
-                    </v-container>
-                </tr>
-
-                <tr v-if="submission.grader">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">{{graderInfoTitle}}</td>
-                        <td>{{ graderInfo }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.grader">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">{{graderInfoTitle}}</td>
+                            <td>{{ graderInfo }}</td>
+                        </v-container>
+                    </tr>
                 </tbody>
             </template>
         </v-simple-table>
 
+        <div v-if="submission.confirmed === 1">
+            <span class="ma-3 v-chip theme--light v-size--default success">
+                <span>Confirmed</span>
+            </span>
+        </div>
     </div>
 </template>
 

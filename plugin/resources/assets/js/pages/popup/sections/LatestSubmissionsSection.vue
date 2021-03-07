@@ -9,11 +9,9 @@
                             <div>
                                 {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
                                 <wbr>
-                                {{ formatSubmissionResults(submission) }} <span class="timestamp-separator">|</span>
-                                <wbr>
                                 {{ submission.charon.name }} <span class="timestamp-separator">|</span>
                                 <wbr>
-                                {{ submission.users | users }}
+                                {{ formatStudentResults(submission) }}
                             </div>
                         </div>
                     </div>
@@ -28,7 +26,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import {PopupSection} from '../layouts/index'
     import {Submission} from '../../../api/index'
-    import {formatName, formatSubmissionResults} from '../helpers/formatting'
+    import {formatName} from '../helpers/formatting'
 
     export default {
         name: "latest-submissions-section",
@@ -70,10 +68,6 @@
         },
 
         filters: {
-            users(users) {
-                return users.map(formatName).join(', ');
-            },
-
             submissionTime(submission) {
                 return moment(submission.created_at).format('D MMM HH:mm')
             },
@@ -94,8 +88,16 @@
                 this.$router.push(this.submissionLink(submission.id))
             },
 
-            formatSubmissionResults(submission) {
-                return formatSubmissionResults(submission, ', ');
+            formatStudentResults(submission) {
+                return submission.users.map(user => {
+                    let results = submission.results
+                        .filter(result => result.user_id === user.id)
+                        .sort((a, b) => a.grade_type_code - b.grade_type_code)
+                        .map(result => result.calculated_result)
+                        .join(', ');
+
+                    return formatName(user) + ' ('  + results + ')';
+                }).join(' | ');
             },
         },
 
