@@ -41,6 +41,7 @@ build_dev:
     expire_in: 1 week
   only:
     - develop
+    - /^release.*/
 
 build:
   tags:
