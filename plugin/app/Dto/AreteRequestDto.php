@@ -38,7 +38,7 @@ class AreteRequestDto
      * @param string $dockerContentRoot
      * @return AreteRequestDto
      */
-    public function setDockerContentRoot(string $dockerContentRoot): AreteRequestDto
+    public function setDockerContentRoot(string $dockerContentRoot = null): AreteRequestDto
     {
         $this->dockerContentRoot = $dockerContentRoot;
         return $this;
@@ -48,7 +48,7 @@ class AreteRequestDto
      * @param string $dockerExtra
      * @return AreteRequestDto
      */
-    public function setDockerExtra(string $dockerExtra): AreteRequestDto
+    public function setDockerExtra(string $dockerExtra = null): AreteRequestDto
     {
         $this->dockerExtra = $dockerExtra;
         return $this;
@@ -58,7 +58,7 @@ class AreteRequestDto
      * @param string $dockerTestRoot
      * @return AreteRequestDto
      */
-    public function setDockerTestRoot(string $dockerTestRoot): AreteRequestDto
+    public function setDockerTestRoot(string $dockerTestRoot = null): AreteRequestDto
     {
         $this->dockerTestRoot = $dockerTestRoot;
         return $this;
@@ -68,7 +68,7 @@ class AreteRequestDto
      * @param int $dockerTimeout
      * @return AreteRequestDto
      */
-    public function setDockerTimeout(int $dockerTimeout): AreteRequestDto
+    public function setDockerTimeout(int $dockerTimeout = null): AreteRequestDto
     {
         $this->dockerTimeout = $dockerTimeout;
         return $this;
@@ -78,7 +78,7 @@ class AreteRequestDto
      * @param string $gitStudentRepo
      * @return AreteRequestDto
      */
-    public function setGitStudentRepo(string $gitStudentRepo): AreteRequestDto
+    public function setGitStudentRepo(string $gitStudentRepo = null): AreteRequestDto
     {
         $this->gitStudentRepo = $gitStudentRepo;
         return $this;
@@ -88,7 +88,7 @@ class AreteRequestDto
      * @param string $gitTestRepo
      * @return AreteRequestDto
      */
-    public function setGitTestRepo(string $gitTestRepo): AreteRequestDto
+    public function setGitTestRepo(string $gitTestRepo = null): AreteRequestDto
     {
         $this->gitTestRepo = $gitTestRepo;
         return $this;
@@ -98,7 +98,7 @@ class AreteRequestDto
      * @param string $hash
      * @return AreteRequestDto
      */
-    public function setHash(string $hash): AreteRequestDto
+    public function setHash(string $hash = null): AreteRequestDto
     {
         $this->hash = $hash;
         return $this;
@@ -108,7 +108,7 @@ class AreteRequestDto
      * @param string $systemExtra
      * @return AreteRequestDto
      */
-    public function setSystemExtra(string $systemExtra): AreteRequestDto
+    public function setSystemExtra(string $systemExtra = null): AreteRequestDto
     {
         if (!empty($systemExtra)) {
             $this->systemExtra = explode(',', $systemExtra);
@@ -120,7 +120,7 @@ class AreteRequestDto
      * @param string $testingPlatform
      * @return AreteRequestDto
      */
-    public function setTestingPlatform(string $testingPlatform): AreteRequestDto
+    public function setTestingPlatform(string $testingPlatform = null): AreteRequestDto
     {
         $this->testingPlatform = $testingPlatform;
         return $this;
