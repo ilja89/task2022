@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#412 Commit hash link was broken if the repository name was longer than `Course.short_name` in Submission grading view
+
 ## [1.1.0] - 2021-03-07
 
 ### Changed
