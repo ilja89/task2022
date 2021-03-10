@@ -15,7 +15,7 @@
                         <v-container class="spacing-playground pa-3" fluid>
                             <td class=" pr-3">Commit hash:</td>
                             <td>
-                                <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
+                                <a v-if="submission.git_callback" :href="getCommitLink">{{ submission.git_hash }}</a>
                                 <a v-else href="#">{{ submission.git_hash }}</a>
                             </td>
                         </v-container>
@@ -97,20 +97,14 @@
             hasDeadlines() {
                 return this.charon && this.charon.deadlines.length !== 0
             },
+
             getCommitLink() {
-                var gitlabUrl = "https://gitlab.cs.ttu.ee/";
-                var gitUser;
-                var courseShortname;
-
-                if (this.student) {
-                    gitUser = this.student.username.split("@")[0];
-                } else {
-                    gitUser = "" // this should never happen
-                }
-                courseShortname = window.course_shortname;
-
-                return gitlabUrl + gitUser + "/" + courseShortname + "/commit/" + this.submission.git_hash
+                const hash = this.submission.git_hash;
+                let repo = this.submission.git_callback.repo;
+                repo = repo.substring(21, repo.length - 4)
+                return `https://gitlab.cs.ttu.ee/${repo}/-/commit/${hash}`
             },
+
             graderInfoTitle() {
                 if (this.submission.confirmed) {
                     return 'Grader:'

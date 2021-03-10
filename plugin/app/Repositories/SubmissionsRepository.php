@@ -50,6 +50,7 @@ class SubmissionsRepository
             'git_hash',
             'git_commit_message',
             'git_timestamp',
+            'git_callback_id',
             'user_id',
             'mail',
             'grader_id',
@@ -69,7 +70,10 @@ class SubmissionsRepository
             },
             'users' => function ($query) {
                 $query->select(['id', 'firstname', 'lastname', 'username']);
-            }
+            },
+            'gitCallback' => function ($query) {
+                $query->select(['id', 'repo']);
+            },
         ])->where('id', $submissionId)->first($fields);
     }
 
