@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
@@ -33,8 +34,7 @@ class RetestController extends Controller
         Request $request,
         GitCallbacksRepository $gitCallbacksRepository,
         CourseSettingsRepository $courseSettingsRepository
-    )
-    {
+    ) {
         parent::__construct($request);
 
         $this->testerCommunicationService = $testerCommunicationService;
@@ -47,7 +47,7 @@ class RetestController extends Controller
      *
      * @param Submission $submission
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      * @throws SubmissionNoGitCallbackException
      */
