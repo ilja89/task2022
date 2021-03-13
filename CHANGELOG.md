@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#399 Submission retesting works on group submissions and uses original submission timestamp
+
 ## [1.1.1] - 2021-03-12
 
 ### Fixed
