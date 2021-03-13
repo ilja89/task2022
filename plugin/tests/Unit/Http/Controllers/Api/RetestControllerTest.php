@@ -57,6 +57,7 @@ class RetestControllerTest extends TestCase
 
         $submission = new Submission();
         $submission->id = 3;
+        $submission->gitCallback = null;
 
         $this->controller->index($submission);
 
