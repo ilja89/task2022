@@ -78,11 +78,42 @@ class SubmissionsRepository
     }
 
     /**
+     * Latest laravel has joinSub, currently using raw
+     *
+     * @param int $charonId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestByCharon(int $charonId)
+    {
+        $prefix = $this->moodleConfig->prefix;
+
+        $submissions = DB::select(
+            'SELECT cs1.* '
+                . 'FROM ' . $prefix . 'charon_submission AS cs1 '
+                . 'JOIN ( '
+                . '    SELECT '
+                . '        user_id, '
+                . '        MAX(created_at) AS created_at '
+                . '    FROM ' . $prefix . 'charon_submission '
+                . '    WHERE charon_id = ?'
+                . '    GROUP BY user_id'
+                . ' ) AS cs2'
+                . ' ON cs1.user_id = cs2.user_id AND cs1.created_at = cs2.created_at'
+                . ' WHERE charon_id = ?',
+            [$charonId, $charonId]
+        );
+
+        return Submission::hydrate($submissions);
+    }
+
+    /**
      * @param int $userId
      *
      * @return Collection|Submission[]
      */
-    public function findUserSubmissions(int $userId) {
+    public function findUserSubmissions(int $userId)
+    {
         $submissions = $this->buildForUser($userId)
             ->select('charon_submission.*')
             ->get()

@@ -252,24 +252,31 @@ class GitCallbackServiceTest extends TestCase
 
     public function testGetGroupUsersReturnsUsernamesWhenOneGroupIsFound()
     {
-        /** @var Grouping|Model $grouping */
-        $grouping = factory(Grouping::class)->create();
-
         $user1 = factory(User::class)->create(['username' => 'username@ttu.ee']);
         $user2 = factory(User::class)->create(['username' => 'second@ttu.ee']);
         $user3 = factory(User::class)->create(['username' => 'third@ttu.ee']);
 
-        /** @var Group|Model $group */
-        $group = factory(Group::class)->create();
+        /** @var Grouping|Model $grouping1 */
+        $grouping1 = factory(Grouping::class)->create();
 
-        $group->members()->saveMany([$user1, $user2, $user3]);
+        /** @var Group|Model $group1 */
+        $group1 = factory(Group::class)->create();
 
-        $grouping->groups()->save($group);
+        $group1->members()->saveMany([$user1, $user2]);
+        $grouping1->groups()->save($group1);
 
-        $actual = $this->service->getGroupUsers($grouping->id, 'username');
+        /** @var Grouping|Model $grouping2 */
+        $grouping2 = factory(Grouping::class)->create();
+
+        /** @var Group|Model $group2 */
+        $group2 = factory(Group::class)->create();
+
+        $group2->members()->saveMany([$user1, $user3]);
+        $grouping2->groups()->save($group2);
+
+        $actual = $this->service->getGroupUsers($grouping2->id, 'username');
 
         $this->assertContains('username', $actual);
-        $this->assertContains('second', $actual);
         $this->assertContains('third', $actual);
     }
 }

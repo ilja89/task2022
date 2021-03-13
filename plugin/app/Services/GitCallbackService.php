@@ -135,15 +135,15 @@ class GitCallbackService
     /**
      * Select groups that are in chosen Charon's grouping
      *
-     * @param int $groupId
+     * @param int $groupingId
      * @param string $initialUser
      * @return array
      */
-    public function getGroupUsers(int $groupId, string $initialUser)
+    public function getGroupUsers(int $groupingId, string $initialUser)
     {
-        $grouping = Grouping::where('id', $groupId)->first();
+        $grouping = Grouping::where('id', $groupingId)->first();
         if (!$grouping) {
-            Log::error('Unable to find group by ID ' . $groupId);
+            Log::error('Unable to find group by ID ' . $groupingId);
             return [];
         }
 

@@ -11,13 +11,16 @@
 
                     <charon-settings-form :charon="charon" :course_id="course.id"/>
 
-                    <v-btn class="ma-2" small tile outlined color="primary"
-                           @click="saveClicked">
+                    <v-btn class="ma-2" small tile outlined color="primary" @click="saveClicked">
                         Save
                     </v-btn>
 
                     <v-btn class="ma-2" small tile outlined color="error" @click="cancelClicked">
                         Cancel
+                    </v-btn>
+
+                    <v-btn class="ma-2 float-right" small tile outlined color="warning" @click="retest">
+                        Retest all submissions
                     </v-btn>
 
                 </v-container>
@@ -50,6 +53,13 @@ export default {
 
         cancelClicked() {
             window.location = "popup#/charonSettings";
+        },
+
+        retest() {
+            // TODO: add confirmation for this button
+            Charon.retestSubmissions(this.charon.id, (response) => {
+                window.VueEvent.$emit('show-notification', response.message)
+            });
         },
     },
 

@@ -49,6 +49,14 @@ class Charon {
             VueEvent.$emit('show-notification', 'Error saving Charon.\n' + error, 'danger')
         })
     }
+
+    static retestSubmissions(charonId, then) {
+        window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/retest').then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
+        });
+    }
 }
 
 export default Charon
