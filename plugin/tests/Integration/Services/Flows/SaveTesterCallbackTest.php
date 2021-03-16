@@ -112,7 +112,7 @@ class SaveTesterCallbackTest extends TestCase
             ],
         ]);
 
-        $submission = $this->flow->run($request, $gitCallback, ['main@ttu.ee', 'co@ttu.ee']);
+        $submission = $this->flow->run($request, $gitCallback, ['main', 'main@ttu.ee', 'co@ttu.ee']);
 
         $submission->refresh();
 
