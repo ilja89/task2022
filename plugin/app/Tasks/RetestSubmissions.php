@@ -1,16 +1,11 @@
 <?php
 
-namespace TTU\Charon\Services;
+namespace TTU\Charon\Tasks;
 
 use Illuminate\Contracts\Logging\Log;
 use TTU\Charon\Repositories\UserRepository;
 
-/**
- * Class DeadlineService.
- *
- * @package TTU\Charon\Services
- */
-class AdHockTaskService
+class RetestSubmissions implements AdhocTask
 {
     /** @var UserRepository */
     private $userRepository;
@@ -28,9 +23,17 @@ class AdHockTaskService
         $this->logger = $logger;
     }
 
-    public function execute(array $payload)
+    public function execute($payload)
     {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+        var_dump("test1");
+
+        $this->userRepository->find(2);
+        var_dump("test2");
+
         // TODO: this logger works differently than the logger via interface. but it still works!
-        $this->logger->debug('in executed task', [/*$this->userRepository->find(2)->username, */$payload]);
+        $this->logger->debug('in executed task', [$this->userRepository->find(2)->username, $payload]);
     }
 }

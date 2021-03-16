@@ -119,6 +119,7 @@ class RetestController extends Controller
      */
     public function retestByCharon(Charon $charon): JsonResponse
     {
+        // TODO: don't fetch duplicate submissions here
         $submissions = $this->submissionRepository->findLatestByCharon($charon->id);
 
         $submissionCount = sizeof($submissions);
@@ -134,10 +135,11 @@ class RetestController extends Controller
             }
         }
 
-//        require_once __DIR__ . '/../../../../../classes/task/adhock.php';
-
-        $task = new \mod_charon\task\adhock();
-        $task->set_custom_data(['some payload']);
+        $task = new \mod_charon\task\adhoc();
+        $task->set_custom_data([
+            'task' => '\TTU\Charon\Tasks\RetestSubmissions',
+            'data' => 'some payload'
+        ]);
         $task->set_component('mod_charon');
         // TODO: pass in class name via "task_name" keyword, wrap this thing into a service.
 
