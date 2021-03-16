@@ -89,14 +89,14 @@ class SaveTesterCallback
      * @return array|User[]
      * @throws InvalidArgumentException
      */
-    private function getStudentsInvolved(array $usernames)
+    private function getStudentsInvolved(array $usernames): array
     {
         $users = [];
 
         foreach ($usernames as $uniId) {
             $user = $this->userService->findUserByUniid($uniId);
             if ($user) {
-                $users[] = $user;
+                $users[$user->id] = $user;
             } else {
                 Log::error("User was not found by Uni-ID:" . $uniId);
             }
@@ -107,7 +107,7 @@ class SaveTesterCallback
             throw new InvalidArgumentException("Unable to find students for submission");
         }
 
-        return $users;
+        return array_values($users);
     }
 
     /**

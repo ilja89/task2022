@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#399 Tester callback failed with duplicate exception for group submissions when the main author's username was
+  submitted along the group usernames as `uniid@ttu.ee` while having the uniid field of the submission as `uniid`.
+
 ## [1.1.2] - 2021-03-13
 
 ### Fixed
