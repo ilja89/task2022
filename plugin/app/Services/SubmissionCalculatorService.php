@@ -48,6 +48,10 @@ class SubmissionCalculatorService
             return 0;
         }
 
+        if ($grademap->persistent) {
+            return $result->calculated_result;
+        }
+
         $maxPoints = $grademap->gradeItem->grademax;
         $smallestScore = $result->percentage * $maxPoints;
 
