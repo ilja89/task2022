@@ -100,7 +100,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testCalculateResultFromDeadlinesReturnsZeroWhenNoNoGrademap()
+    public function testCalculateResultFromDeadlinesReturnsZeroWhenNoGrademap()
     {
         /** @var Result $result */
         $result = Mockery::mock(Result::class, ['getGrademap' => null])->makePartial();
@@ -109,6 +109,19 @@ class SubmissionCalculatorServiceTest extends TestCase
         $actual = $this->service->calculateResultFromDeadlines($result, collect([]));
 
         $this->assertEquals(0, $actual);
+    }
+
+    public function testCalculateResultFromDeadlinesReturnsUnchangedWhenPersistent()
+    {
+        /** @var Result $result */
+        $result = Mockery::mock(Result::class, ['getGrademap' => new Grademap(['persistent' => true])])->makePartial();
+        $result->percentage = 0;
+        $result->calculated_result = 0.31;
+        $result->grade_type_code = 1002;
+
+        $actual = $this->service->calculateResultFromDeadlines($result, collect([]));
+
+        $this->assertEquals(0.31, $actual);
     }
 
     /**

@@ -6,11 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.4] - 2021-03-16
+
+### Fixed
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+
 ## [1.1.3] - 2021-03-16
 
 ### Fixed
 - \#399 Tester callback failed with duplicate exception for group submissions when the main author's username was
-  submitted along the group usernames as `uniid@ttu.ee` while having the uniid field of the submission as `uniid`.
+  submitted along the group usernames as `uniid@ttu.ee` while having the uniid field of the submission as `uniid`
 
 ## [1.1.2] - 2021-03-13
 
@@ -47,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.1.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.3...1.1.4
 [1.1.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.2...1.1.3
 [1.1.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.1...1.1.2
 [1.1.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.0...1.1.1
