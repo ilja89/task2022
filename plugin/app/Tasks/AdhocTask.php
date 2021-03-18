@@ -8,7 +8,7 @@ namespace TTU\Charon\Tasks;
 interface AdhocTask
 {
     /**
-     * @param $payload mixed Deserialized from database, suggest checking type before usage.
+     * @param $arguments mixed Deserialized from database, suggest checking type before usage.
      */
-    public function execute($payload);
+    public function execute($arguments);
 }

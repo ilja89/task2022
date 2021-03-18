@@ -2,12 +2,12 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Exception;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
+use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
@@ -15,6 +15,7 @@ use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\TesterCommunicationService;
+use TTU\Charon\Tasks\RetestSubmissions;
 
 class RetestController extends Controller
 {
@@ -30,6 +31,9 @@ class RetestController extends Controller
     /** @var SubmissionsRepository */
     protected $submissionRepository;
 
+    /** @var MoodleCron */
+    protected $cron;
+
     /**
      * RetestController constructor.
      *
@@ -38,13 +42,15 @@ class RetestController extends Controller
      * @param GitCallbacksRepository $gitCallbacksRepository
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param SubmissionsRepository $submissionRepository
+     * @param MoodleCron $cron
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
         GitCallbacksRepository $gitCallbacksRepository,
         CourseSettingsRepository $courseSettingsRepository,
-        SubmissionsRepository $submissionRepository
+        SubmissionsRepository $submissionRepository,
+        MoodleCron $cron
     ) {
         parent::__construct($request);
 
@@ -52,6 +58,7 @@ class RetestController extends Controller
         $this->gitCallbacksRepository = $gitCallbacksRepository;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->submissionRepository = $submissionRepository;
+        $this->cron = $cron;
     }
 
     /**
@@ -108,10 +115,7 @@ class RetestController extends Controller
     }
 
     /**
-     * Retest the latest Submissions for every user for the given Charon
-     *
-     * TODO: HttpCommunicationService::sendInfoToTester is failing silently
-     * TODO: Look into using a queue for firing off these requests
+     * Retest the latest Submissions for every user for the given Charon.
      *
      * @param Charon $charon
      *
@@ -119,41 +123,22 @@ class RetestController extends Controller
      */
     public function retestByCharon(Charon $charon): JsonResponse
     {
-        // TODO: don't fetch duplicate submissions here
         $submissions = $this->submissionRepository->findLatestByCharon($charon->id);
 
-        $submissionCount = sizeof($submissions);
-        $successCount = 0;
+        $count = sizeof($submissions);
+        $delay = Config::get('queue.moodle.retest_delay');
 
-        foreach ($submissions as $submission) {
-            $submission->setRelation('charon', $charon);
-            try {
-                $this->index($submission);
-                $successCount++;
-            } catch (Exception $exception) {
-               Log::error('Retest for submission ' . $submission->id . ' failed', [$exception]);
-            }
+        foreach ($submissions as $key => $submission) {
+            $this->cron->enqueue(
+                RetestSubmissions::class,
+                ['id' => $submission, 'charon' => $charon->id, 'total' => $count],
+                $delay * $key
+            );
         }
 
-        $task = new \mod_charon\task\adhoc();
-        $task->set_custom_data([
-            'task' => '\TTU\Charon\Tasks\RetestSubmissions',
-            'data' => 'some payload'
-        ]);
-        $task->set_component('mod_charon');
-        // TODO: pass in class name via "task_name" keyword, wrap this thing into a service.
-
-        \core\task\manager::queue_adhoc_task($task);
-
-
-//        $this->taskService->setCallback(function(array $arg) {
-//            Log::debug('In callback', $arg);
-//        })->setCustomData(['some payload'])->queue();
-
         return response()->json([
-            'message' => 'Retesting has been triggered for ' . $successCount . ' Submissions',
-            'all' => $submissionCount,
-            'sent' => $successCount
+            'message' => 'Retesting has been triggered for ' . $count . ' Submissions',
+            'total' => $count,
         ]);
     }
 }

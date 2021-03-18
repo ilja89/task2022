@@ -33,6 +33,16 @@ class SubmissionsRepository
     }
 
     /**
+     * @param $id
+     *
+     * @return Submission
+     */
+    public function find($id): Submission
+    {
+        return Submission::find($id);
+    }
+
+    /**
      * Find submission by its ID. Leave out stdout, stderr because it might be too big.
      *
      * @param int $submissionId
@@ -89,7 +99,7 @@ class SubmissionsRepository
         $prefix = $this->moodleConfig->prefix;
 
         $submissions = DB::select(
-            'SELECT cs1.* '
+            'SELECT DISTINCT cs1.id '
                 . 'FROM ' . $prefix . 'charon_submission AS cs1 '
                 . 'JOIN ( '
                 . '    SELECT '
@@ -104,7 +114,7 @@ class SubmissionsRepository
             [$charonId, $charonId]
         );
 
-        return Submission::hydrate($submissions);
+        return collect($submissions)->pluck('id')->all();
     }
 
     /**

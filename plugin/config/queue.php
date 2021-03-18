@@ -4,6 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Configurations for Adhoc tasks running on Moodle Cron
+    |--------------------------------------------------------------------------
+    |
+    | retest_delay - seconds between each submission in a retest batch before sent to tester
+    |
+    */
+
+    'moodle'  => [
+        'retest_delay' => env('CRON_RETEST_DELAY', 20),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Queue Driver
     |--------------------------------------------------------------------------
     |

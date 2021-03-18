@@ -2,38 +2,50 @@
 
 namespace TTU\Charon\Tasks;
 
-use Illuminate\Contracts\Logging\Log;
-use TTU\Charon\Repositories\UserRepository;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
+use TTU\Charon\Http\Controllers\Api\RetestController;
+use TTU\Charon\Repositories\SubmissionsRepository;
 
 class RetestSubmissions implements AdhocTask
 {
-    /** @var UserRepository */
-    private $userRepository;
+    /** @var SubmissionsRepository */
+    private $submissionRepository;
 
-    /** @var Log */
-    private $logger;
+    /** @var RetestController */
+    private $retestController;
 
     /**
-     * @param UserRepository $userRepository
-     * @param Log $logger
+     * @param SubmissionsRepository $submissionRepository
+     * @param RetestController $retestController
      */
-    public function __construct(UserRepository $userRepository, Log $logger)
-    {
-        $this->userRepository = $userRepository;
-        $this->logger = $logger;
+    public function __construct(SubmissionsRepository $submissionRepository, RetestController $retestController) {
+        $this->submissionRepository = $submissionRepository;
+        $this->retestController = $retestController;
     }
 
-    public function execute($payload)
+    /**
+     * Expecting argument in the following form:
+     * stdClass(int $id, int $charon, int $total)
+     *
+     * @param mixed $arguments
+     * @throws SubmissionNoGitCallbackException
+     */
+    public function execute($arguments)
     {
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-        var_dump("test1");
+        $submission = $this->submissionRepository->find($arguments->id);
 
-        $this->userRepository->find(2);
-        var_dump("test2");
-
-        // TODO: this logger works differently than the logger via interface. but it still works!
-        $this->logger->debug('in executed task', [$this->userRepository->find(2)->username, $payload]);
+        try {
+            $this->retestController->index($submission);
+        } catch (SubmissionNoGitCallbackException $exception) {
+            Log::warning('Submission ' . $arguments->id . ' is missing git callback, unable to re-test');
+        } catch (Exception $exception) {
+            Log::error(
+                'Failed to send submission ' . $arguments->id . ' to the tester, error: ' . $exception->getMessage(),
+                $exception->getTrace()
+            );
+            throw $exception;
+        }
     }
 }

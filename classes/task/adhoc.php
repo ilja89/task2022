@@ -3,13 +3,17 @@
 namespace mod_charon\task;
 
 use Exception;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Config;
 use TTU\Charon\Tasks\AdhocTask;
 
 /**
- * For manual testing run scheduled ad-hock tasks via moodle cli:
- * php /bitnami/moodle/admin/cli/adhoc_task.php -e -i
+ * Proxy to schedule Moodle adhoc cron tasks
+ *
+ * @See https://docs.moodle.org/dev/Task_API
+ *
+ * For manual testing run scheduled adhoc tasks via moodle cli:
+ * `php /bitnami/moodle/admin/cli/adhoc_task.php -e -i`
+ *
+ * Using the -i flag may produce `Undefined variable: adhoclock` error, which you can safely ignore.
  */
 class adhoc extends \core\task\adhoc_task
 {
@@ -23,31 +27,39 @@ class adhoc extends \core\task\adhoc_task
 
         $name = $payload->task;
 
-        require_once __DIR__ . '/../../plugin/bootstrap/autoload.php';
-        $app = require __DIR__ . '/../../plugin/bootstrap/app.php';
-        $app->boot();
+        $task = $this->getTask($name);
 
-        // TODO: Unable to get the laravel app working from this directory. Try calling a command?
-
-        /** @var Log $logger */
-        $logger = $app->make(Log::class);
-
-        $logger->debug('Starting task ' . $name);
-
-        try {
-            /** @var AdhocTask $service */
-            $task = $app->make($name);
-
-            if (!($task instanceof AdhocTask)) {
-                $logger->debug('Task should implement AdhocTask, skipping');
-                return;
-            }
-
-            $task->execute($payload->data);
-
-            $logger->debug('Finished task ' . $name);
-        } catch (Exception $exception) {
-            $logger->debug('Task ' . $name . ' failed with:' . $exception->getMessage(), $exception->getTrace());
+        if (!($task instanceof AdhocTask)) {
+            mtrace('Task should implement AdhocTask, skipping');
+            return;
         }
+
+        mtrace('Starting task ' . $name);
+
+        $task->execute($payload->arguments);
+
+        mtrace('Finished task ' . $name);
+    }
+
+    /**
+     * App requires an existing request to function properly.
+     * Since this is executed via cron, creating an empty one.
+     *
+     * @see /lib.php
+     * @param string $name
+     * @return mixed
+     */
+    private function getTask(string $name) {
+        require_once __DIR__ . '/../../plugin/bootstrap/helpers.php';
+        $app = \TTU\Charon\get_app();
+
+        $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
+        try {
+            $kernel->handle($request = \Illuminate\Http\Request::capture());
+        } catch (Exception $e) {
+
+        }
+
+        return $app->make($name);
     }
 }
