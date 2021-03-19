@@ -143,7 +143,7 @@ class GitCallbackService
     {
         $grouping = Grouping::where('id', $groupingId)->first();
         if (!$grouping) {
-            Log::error('Unable to find group by ID ' . $groupingId);
+            Log::error('Unable to find grouping by ID ' . $groupingId);
             return [];
         }
 
