@@ -36,6 +36,8 @@ class RetestSubmissions implements AdhocTask
     {
         $submission = $this->submissionRepository->find($arguments->id);
 
+        Log::debug('Re-testing Submission ' . $arguments->id . ' for Charon ' . $arguments->charon);
+
         try {
             $this->retestController->index($submission);
         } catch (SubmissionNoGitCallbackException $exception) {
