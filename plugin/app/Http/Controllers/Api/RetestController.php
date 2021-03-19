@@ -73,7 +73,7 @@ class RetestController extends Controller
     public function index(Submission $submission)
     {
         $gitCallback = $submission->gitCallback;
-        if (! $gitCallback) {
+        if (!$gitCallback) {
             $exception = new SubmissionNoGitCallbackException('submission_git_callback_is_required');
             $exception->setSubmissionId($submission->id);
 
@@ -89,6 +89,10 @@ class RetestController extends Controller
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($submission->charon->course);
 
+        $groupUsernames = $submission->users->map(function ($user) {
+            return $user->username;
+        })->all();
+
         $request = (new AreteRequestDto())
             ->setDockerContentRoot($submission->charon->docker_content_root)
             ->setDockerTestRoot($submission->charon->docker_test_root)
@@ -98,7 +102,9 @@ class RetestController extends Controller
             ->setGitTestRepo($courseSettings->unittests_git)
             ->setHash($submission->git_hash)
             ->setTestingPlatform($submission->charon->testerType->name)
-            ->setSystemExtra($submission->charon->system_extra);
+            ->setSystemExtra($submission->charon->system_extra)
+            ->setReturnExtra(['usernames' => $groupUsernames])
+            ->setTimestamp($submission->git_timestamp);
 
         $this->testerCommunicationService->sendGitCallback(
             $newGitCallback,
