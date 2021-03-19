@@ -4,6 +4,7 @@ namespace Tests\Integration\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
@@ -22,7 +23,10 @@ class SubmissionRepositoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->repository = new SubmissionsRepository(new MoodleConfig());
+        /** @var Mock|MoodleConfig $config */
+        $config = $this->app->make(MoodleConfig::class);
+        $config->prefix = 'mdl_';
+        $this->repository = new SubmissionsRepository($config);
     }
 
     public function testFindUserSubmissions()
@@ -158,4 +162,49 @@ class SubmissionRepositoryTest extends TestCase
         $this->assertEquals('Carried over from Result ' . $previous->id, $result->stdout);
     }
 
+    public function testFindLatestByCharonReturnsForEveryStudent()
+    {
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+
+        /** @var User $student1 */
+        $student1 = factory(User::class)->create();
+
+        /** @var User $student2 */
+        $student2 = factory(User::class)->create();
+
+        /** @var User $student3 */
+        $student3 = factory(User::class)->create();
+
+        /** @var Submission $newSubmission */
+        $newSubmission = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'user_id' => $student2->id,
+            'created_at' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
+        ]);
+
+        /** @var Submission $oldSubmission */
+        $oldSubmission = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'user_id' => $student2->id,
+            'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
+        ]);
+
+        /** @var Submission $oldestSubmission */
+        $oldestSubmission = factory(Submission::class)->create([
+            'charon_id' => $charon->id,
+            'user_id' => $student2->id,
+            'created_at' => Carbon::now()->subDays(7)->format('Y-m-d H:i:s')
+        ]);
+
+        $newSubmission->users()->saveMany([$student1, $student2]);
+
+        $oldSubmission->users()->saveMany([$student1, $student2, $student3]);
+
+        $oldestSubmission->users()->saveMany([$student2, $student3]);
+
+        $actual = $this->repository->findLatestByCharon($charon->id);
+
+        $this->assertEquals([$newSubmission->id, $oldSubmission->id], $actual);
+    }
 }
