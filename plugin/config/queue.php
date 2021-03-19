@@ -12,7 +12,7 @@ return [
     */
 
     'moodle'  => [
-        'retest_delay' => env('CRON_RETEST_DELAY', 20),
+        'retest_delay' => env('CHARON_CRON_RETEST_DELAY', 20),
     ],
 
     /*
