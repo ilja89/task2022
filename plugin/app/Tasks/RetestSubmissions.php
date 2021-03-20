@@ -39,7 +39,7 @@ class RetestSubmissions implements AdhocTask
         Log::debug('Re-testing Submission ' . $arguments->id . ' for Charon ' . $arguments->charon);
 
         try {
-            $this->retestController->index($submission);
+            $this->retestController->index($submission, $arguments->requestUrl, $arguments->callbackUrl);
         } catch (SubmissionNoGitCallbackException $exception) {
             Log::warning('Submission ' . $arguments->id . ' is missing git callback, unable to re-test');
         } catch (Exception $exception) {

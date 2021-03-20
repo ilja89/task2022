@@ -65,12 +65,13 @@ class RetestController extends Controller
      * Trigger retesting the student's submission.
      *
      * @param Submission $submission
+     * @param string|null $requestUrl
+     * @param string|null $callbackUrl
      *
      * @return JsonResponse
-     *
      * @throws SubmissionNoGitCallbackException
      */
-    public function index(Submission $submission)
+    public function index(Submission $submission, string $requestUrl = null, string $callbackUrl = null)
     {
         $gitCallback = $submission->gitCallback;
         if (!$gitCallback) {
@@ -82,7 +83,7 @@ class RetestController extends Controller
 
         // TODO: Make this work
         $newGitCallback = $this->gitCallbacksRepository->save(
-            $this->request->fullUrl(),
+            $requestUrl ? $requestUrl : $this->request->fullUrl(),
             $gitCallback->repo,
             $gitCallback->user
         );
@@ -108,7 +109,7 @@ class RetestController extends Controller
 
         $this->testerCommunicationService->sendGitCallback(
             $newGitCallback,
-            $this->request->getUriForPath('/api/tester_callback'),
+            $callbackUrl ? $callbackUrl : $this->request->getUriForPath('/api/tester_callback'),
             $request->toArray()
         );
 
@@ -133,11 +134,19 @@ class RetestController extends Controller
 
         $count = sizeof($submissions);
         $delay = Config::get('queue.moodle.retest_delay');
+        $requestUrl = $this->request->fullUrl();
+        $callbackUrl = $this->request->getUriForPath('/api/tester_callback');
 
         foreach ($submissions as $key => $submission) {
             $this->cron->enqueue(
                 RetestSubmissions::class,
-                ['id' => $submission, 'charon' => $charon->id, 'total' => $count],
+                [
+                    'id' => $submission,
+                    'charon' => $charon->id,
+                    'total' => $count,
+                    'requestUrl' => $requestUrl,
+                    'callbackUrl' => $callbackUrl,
+                ],
                 $delay * $key
             );
         }

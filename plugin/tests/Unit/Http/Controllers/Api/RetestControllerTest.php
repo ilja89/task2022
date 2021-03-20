@@ -152,13 +152,24 @@ class RetestControllerTest extends TestCase
 
         Config::set('queue.moodle.retest_delay', '31');
 
-        $this->cron
-            ->shouldReceive('enqueue')
-            ->with(RetestSubmissions::class, ['id' => 5, 'charon' => 3, 'total' => 2], 0);
+        $this->request->shouldReceive('fullUrl')->once()->andReturn('repo/url');
+        $this->request->shouldReceive('getUriForPath')->with('/api/tester_callback')->once()->andReturn('callback/url');
 
         $this->cron
             ->shouldReceive('enqueue')
-            ->with(RetestSubmissions::class, ['id' => 7, 'charon' => 3, 'total' => 2], 31);
+            ->with(
+                RetestSubmissions::class,
+                ['id' => 5, 'charon' => 3, 'total' => 2, 'requestUrl' => 'repo/url', 'callbackUrl' => 'callback/url'],
+                0
+            );
+
+        $this->cron
+            ->shouldReceive('enqueue')
+            ->with(
+                RetestSubmissions::class,
+                ['id' => 7, 'charon' => 3, 'total' => 2, 'requestUrl' => 'repo/url', 'callbackUrl' => 'callback/url'],
+                31
+            );
 
         $actual = $this->controller->retestByCharon($charon);
 
