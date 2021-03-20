@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2021-03-20
+
 ### Added
 - \#400 Latest Submissions for every student for a given Charon can now be submitted to a re-test under individual
   Charon settings view. Submissions are queued and sent to tester with a delay interval specified
@@ -57,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.4...1.2.0
 [1.1.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.3...1.1.4
 [1.1.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.2...1.1.3
 [1.1.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.1...1.1.2
