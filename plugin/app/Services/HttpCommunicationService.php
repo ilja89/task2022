@@ -65,11 +65,9 @@ class HttpCommunicationService
                 $method, $testerUrl,
                 ['headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
             );
-        } catch (RequestException $e) {
-            Log::error(
-                'Could not send info to tester to url '
-                . $testerUrl . 'with body:', [$e->getResponse()->getBody()]
-            );
+        } catch (RequestException $exception) {
+            $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
+            Log::error('Could not send info to tester to url ' . $testerUrl . ' with body:', [$body]);
         }
     }
 

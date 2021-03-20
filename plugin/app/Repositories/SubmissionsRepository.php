@@ -33,6 +33,16 @@ class SubmissionsRepository
     }
 
     /**
+     * @param $id
+     *
+     * @return Submission
+     */
+    public function find($id): Submission
+    {
+        return Submission::find($id);
+    }
+
+    /**
      * Find submission by its ID. Leave out stdout, stderr because it might be too big.
      *
      * @param int $submissionId
@@ -78,11 +88,43 @@ class SubmissionsRepository
     }
 
     /**
+     * Latest laravel has joinSub, currently using raw query
+     *
+     * @param int $charonId
+     *
+     * @return int[]
+     */
+    public function findLatestByCharon(int $charonId): array
+    {
+        $prefix = $this->moodleConfig->prefix;
+
+        $submissions = DB::select(
+            'SELECT DISTINCT cs1.id '
+                . 'FROM ' . $prefix . 'charon_submission AS cs1 '
+                . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
+                . 'JOIN ( '
+                . '    SELECT '
+                . '        csu2.user_id, '
+                . '        max(cs2.created_at) AS created_at '
+                . '    FROM ' . $prefix . 'charon_submission AS cs2 '
+                . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
+                . '    WHERE cs2.charon_id = ? '
+                . '    GROUP BY csu2.user_id '
+                . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
+                . 'WHERE cs1.charon_id = ?',
+            [$charonId, $charonId]
+        );
+
+        return collect($submissions)->pluck('id')->all();
+    }
+
+    /**
      * @param int $userId
      *
      * @return Collection|Submission[]
      */
-    public function findUserSubmissions(int $userId) {
+    public function findUserSubmissions(int $userId)
+    {
         $submissions = $this->buildForUser($userId)
             ->select('charon_submission.*')
             ->get()
