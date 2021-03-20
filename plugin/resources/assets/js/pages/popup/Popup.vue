@@ -62,7 +62,8 @@
         },
 
         created() {
-            this.initializeEventListeners()
+            this.initializeEventListeners();
+            document.title = window.course_name;
 
             Charon.all(this.course.id, response => {
                 this.$store.state.charons = response

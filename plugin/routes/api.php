@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
 
+
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');
     Route::middleware('auth.charon.managing.require')
@@ -65,7 +66,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.submission.managing.require')
         ->post('submissions/{submission}/retest', 'RetestController@index');
-
+    Route::middleware('auth.charon.managing.require')
+        ->get('charons/{charon}/retest', 'RetestController@retestByCharon');
 
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');

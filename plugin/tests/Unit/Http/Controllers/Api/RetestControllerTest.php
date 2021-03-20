@@ -4,10 +4,12 @@ namespace Tests\Unit\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
+use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Http\Controllers\Api\RetestController;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
@@ -16,7 +18,9 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\TesterType;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\TesterCommunicationService;
+use TTU\Charon\Tasks\RetestSubmissions;
 use Zeizig\Moodle\Models\User;
 
 class RetestControllerTest extends TestCase
@@ -33,6 +37,12 @@ class RetestControllerTest extends TestCase
     /** @var Mock|CourseSettingsRepository */
     private $request;
 
+    /** @var Mock|SubmissionsRepository */
+    protected $submissionRepository;
+
+    /** @var Mock|MoodleCron */
+    private $cron;
+
     /** @var RetestController */
     private $controller;
 
@@ -44,7 +54,9 @@ class RetestControllerTest extends TestCase
             $this->testerCommunicationService = Mockery::mock(TesterCommunicationService::class),
             $this->request = Mockery::mock(Request::class),
             $this->gitCallbacksRepository = Mockery::mock(GitCallbacksRepository::class),
-            $this->courseSettingsRepository = Mockery::mock(CourseSettingsRepository::class)
+            $this->courseSettingsRepository = Mockery::mock(CourseSettingsRepository::class),
+            $this->submissionRepository = Mockery::mock(SubmissionsRepository::class),
+            $this->cron = Mockery::mock(MoodleCron::class)
         );
     }
 
@@ -125,5 +137,42 @@ class RetestControllerTest extends TestCase
         $actual = $this->controller->index($submission);
 
         $this->assertEquals(200, $actual->getData()->status);
+    }
+
+    public function testRetestByCharonEnqueuesTasks()
+    {
+        $charon = new Charon();
+        $charon->id = 3;
+
+        $this->submissionRepository
+            ->shouldReceive('findLatestByCharon')
+            ->once()
+            ->with(3)
+            ->andReturn([5, 7]);
+
+        Config::set('queue.moodle.retest_delay', '31');
+
+        $this->request->shouldReceive('fullUrl')->once()->andReturn('repo/url');
+        $this->request->shouldReceive('getUriForPath')->with('/api/tester_callback')->once()->andReturn('callback/url');
+
+        $this->cron
+            ->shouldReceive('enqueue')
+            ->with(
+                RetestSubmissions::class,
+                ['id' => 5, 'charon' => 3, 'total' => 2, 'requestUrl' => 'repo/url', 'callbackUrl' => 'callback/url'],
+                0
+            );
+
+        $this->cron
+            ->shouldReceive('enqueue')
+            ->with(
+                RetestSubmissions::class,
+                ['id' => 7, 'charon' => 3, 'total' => 2, 'requestUrl' => 'repo/url', 'callbackUrl' => 'callback/url'],
+                31
+            );
+
+        $actual = $this->controller->retestByCharon($charon);
+
+        $this->assertEquals('Retesting has been triggered for 2 Submissions', $actual->getData()->message);
     }
 }
