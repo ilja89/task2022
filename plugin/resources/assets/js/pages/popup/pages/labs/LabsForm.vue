@@ -35,6 +35,43 @@
                                     </div>
                                 </v-col>
 
+                                <v-col cols="12" sm="12" md="4" lg="4">
+                                    <div class="labs-field">
+                                        <p>
+                                            <span style="margin-right: 1rem">Lab duration:</span>
+                                            <span class="headline" style="font-weight: lighter" v-text="labDuration"></span>
+                                            <span style="margin-left: 0.2rem">minutes</span>
+                                            <span class="subtitle-2" style="margin-left: 0.5rem">or</span>
+                                            <span class="headline" style="margin-left: 0.5rem; font-weight: lighter" v-text="stylizedLabDuration()"></span>
+                                        </p>
+                                        <v-slider
+                                            v-model="labDuration"
+                                            track-color="grey"
+                                            thumb-label
+                                            always-dirty
+                                            min="5"
+                                            max="180"
+                                            step="5"
+                                            @change="() => {this.assignDates(this.labDuration)}"
+                                        >
+                                        </v-slider>
+                                    </div>
+                                  </v-col>
+                                  <v-col cols="12" sm="12" md="4" lg="4">
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(30)}">
+                                        30 mins
+                                    </v-btn>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(60)}">
+                                        1 hour
+                                    </v-btn>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(120)}">
+                                        2 hours
+                                    </v-btn>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(180)}">
+                                        3 hours
+                                    </v-btn>
+                                </v-col>
+
                                 <v-col cols="12" sm="12" md="12" lg="12">
                                     <div class="labs-field is-flex-1">
                                         <p>Teachers attending this lab session</p>
@@ -114,7 +151,8 @@
                 charons: [],
                 teachers: [],
                 show_info: true,
-                filtered_charons: []
+                filtered_charons: [],
+                labDuration: 0
             }
         },
 
@@ -187,6 +225,29 @@
             cancelClicked() {
                 window.location = "popup#/labs";
             },
+            stylizedLabDuration() {
+                const mins = this.labDuration % 60;
+                const hours = Math.floor(this.labDuration / 60)
+                return `${hours}h${mins}min`;
+            },
+            assignDates(offset) {
+              const currentDate = new Date();
+              const endDate = new Date(currentDate.getTime() + offset * 60000);
+
+              this.lab.start = {time: this.assembleLabDate(currentDate)};
+              this.lab.end   = {time: this.assembleLabDate(endDate)};
+            },
+            timeButtonClicked(time) {
+                this.labDuration = time;
+                this.assignDates(time)
+            },
+            assembleLabDate(dateObj) {
+                return dateObj.getFullYear() + '-' +
+                    ('0' + (dateObj.getMonth()+1)).slice(-2) + '-' +
+                    ('0' + dateObj.getDate()).slice(-2) + ' ' +
+                    ('0' + dateObj.getHours()).slice(-2) + ':' +
+                    ('0' + dateObj.getMinutes()).slice(-2)
+            }
         },
         computed: {
             ...mapState([
