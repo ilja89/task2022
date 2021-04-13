@@ -237,11 +237,14 @@
                 return `${hours}h${mins}min`;
             },
             assignDates(offset) {
-              const currentDate = new Date();
+              if (this.lab.start.time === null) {
+                VueEvent.$emit('show-notification', 'You need to pick a start time first.');
+                return
+              }
+              const currentDate = new Date(this.lab.start.time)
               const endDate = new Date(currentDate.getTime() + offset * 60000);
 
-              this.lab.start = {time: this.assembleLabDate(currentDate)};
-              this.lab.end   = {time: this.assembleLabDate(endDate)};
+              this.lab.end = {time: this.assembleLabDate(endDate)};
             },
             timeButtonClicked(time) {
                 this.labDuration = time;
