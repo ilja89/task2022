@@ -70,6 +70,9 @@
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(120)}">
                                         2 hours
                                     </v-btn>
+                                    <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(150)}">
+                                      2.5 hour
+                                    </v-btn>
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(180)}">
                                         3 hours
                                     </v-btn>
