@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -19,5 +20,16 @@ class CourseRepository
     public function query()
     {
         return Course::query();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Course
+     * @throws ModelNotFoundException
+     */
+    public function find(int $id): Course
+    {
+        return Course::findOrFail($id);
     }
 }

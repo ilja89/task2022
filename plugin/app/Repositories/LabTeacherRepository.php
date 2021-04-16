@@ -4,8 +4,10 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\LabTeacher;
+use Zeizig\Moodle\Models\User;
 
 class LabTeacherRepository
 {
@@ -18,6 +20,16 @@ class LabTeacherRepository
     public function __construct(MoodleConfig $moodleConfig)
     {
         $this->moodleConfig = $moodleConfig;
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param array $collection
+     */
+    public function createMany(array $collection)
+    {
+        LabTeacher::insert($collection);
     }
 
     public function deleteAllLabTeachersForCharon($charonId)
@@ -91,6 +103,9 @@ class LabTeacherRepository
             ->all();
     }
 
+    /**
+     * @version Registration 1.*
+     */
     public function getTeachersByCourseId($courseId)
     {
         return DB::table('course')
@@ -106,6 +121,29 @@ class LabTeacherRepository
                 'user.lastname',
                 DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
             )->get();
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param int $courseId
+     *
+     * @return Collection|User[]
+     */
+    public function getTeachersByCourse(int $courseId)
+    {
+        $teachers = DB::table('course')
+            ->join('context', 'context.instanceid', 'course.id')
+            ->join('role_assignments', 'role_assignments.contextid', 'context.id')
+            ->join('user', 'user.id', 'role_assignments.userid')
+            ->join('role', 'role.id', 'role_assignments.roleid')
+            ->where('role.id', 3)
+            ->where('course.id', $courseId)
+            ->select('user.*')
+            ->get()
+            ->all();
+
+        return User::hydrate($teachers);
     }
 
     public function getTeacherReportByCourseId($courseId)

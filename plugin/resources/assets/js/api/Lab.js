@@ -14,7 +14,7 @@ class Lab {
     }
 
     static save(courseId, start, end, name, teachers, charons, weeks, then) {
-        axios.post('/mod/charon/api/courses/' + courseId + '/labs', {
+        axios.post('/mod/charon/api/courses/' + courseId + '/labs/save', {
             start: start,
             end: end,
             name: name,

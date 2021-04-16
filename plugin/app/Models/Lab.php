@@ -28,7 +28,7 @@ class Lab extends Model
 
     protected $table = 'charon_lab';
     protected $fillable = ['name', 'start', 'end', 'course_id', 'chunk_size', 'own_teacher'];
-    protected $dates = ['start', 'end',];
+    protected $dates = ['start', 'end'];
 
     public function teachers()
     {

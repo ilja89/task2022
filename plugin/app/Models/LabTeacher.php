@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\User;
 

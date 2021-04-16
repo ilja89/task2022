@@ -86,7 +86,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
     Route::middleware('auth.course.managing.require')  // save lab
-        ->post('courses/{course}/labs', 'LabController@save');
+        ->post('courses/{course}/labs/save', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
         ->get('courses/{course}/labs', 'LabController@getByCourse');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
@@ -95,6 +95,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+
+    Route::middleware('auth.course.managing.require')->post('courses/{course}/labs', 'LabController@create');
 
     // TEACHERS
 
