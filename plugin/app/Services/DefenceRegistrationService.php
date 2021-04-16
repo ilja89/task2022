@@ -88,7 +88,7 @@ class DefenceRegistrationService
         int $defenseLabId
     ) {
         $teacherCount = $this->teacherRepository->countLabTeachers($labId);
-        $registeredSlotsAtTime = $this->defenseRegistrationRepository->countLabRegistrationsAt($labId, $chosenTime);
+        $registeredSlotsAtTime = $this->defenseRegistrationRepository->countLabRegistrationsAt($labId, Carbon::parse($chosenTime));
 
         if ($registeredSlotsAtTime >= $teacherCount) {
             throw new RegistrationException('invalid_chosen_time');
@@ -127,40 +127,78 @@ class DefenceRegistrationService
     }
 
     /**
-     * @param string $time
+     * @param string $date
      * @param int $charonId
-     * @param int $labId
+     * @param Lab $lab
      * @param int $studentId
      * @param bool $ownTeacher
      *
      * @return array
      * @throws RegistrationException
      */
-    public function getUsedDefenceTimes(string $time, int $charonId, int $labId, int $studentId, bool $ownTeacher): array
+    public function getUsedDefenceTimes(string $date, int $charonId, Lab $lab, int $studentId, bool $ownTeacher): array
     {
+        $charon = $this->charonRepository->getCharonById($charonId);
+        $duration = $charon->defense_duration;
+        $time = $lab->start->copy();
+        $labTimeslots = [];
+        $teacherCount = 1;
+
+        while ($time->isBefore($lab->end)) {
+            $labTimeslots[$time->format('H:i')] = $teacherCount;
+            $time = $time->copy()->addMinutes($duration);
+        }
+
         if ($ownTeacher) {
-            $courseId = $this->charonRepository->getCharonById($charonId)->course;
+            $courseId = $charon->course;
             $teacher = $this->teacherRepository->getTeacherForStudent($studentId, $courseId);
             if ($teacher == null) {
                 throw new RegistrationException('invalid_setup');
             }
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacher->id, $time);
+            $labs = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacher->id, $date);
         } else {
-            $teacherCount = $this->teacherRepository->countLabTeachers($labId);
+            $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
             if ($teacherCount == 0) {
                 throw new RegistrationException('invalid_setup');
             }
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForLabTeachers($time, $teacherCount, $labId);
+            $labs = $this->defenseRegistrationRepository->getChosenTimesForLabTeachers($date, $lab->id);
         }
 
-        $usedTimes = [];
-        foreach ($labs as $lab) {
-            $parts = explode(' ', $lab);
-            $day_parts = explode(':', $parts[1]);
-            array_push($usedTimes, $day_parts[0] . ":" . $day_parts[1]);
+        foreach ($labs as $taken) {
+            $time = Carbon::parse($taken->choosen_time);
+
+            if ($duration == $taken->defense_duration) {
+                if (isset($labTimeslots[$time->format('H:i')])) {
+                    $labTimeslots[$time->format('H:i')]--;
+                }
+            } else if ($duration < $taken->defense_duration) {
+                $end = $time->copy()->addMinutes($taken->defense_duration);
+                while ($time->isBefore($end)) {
+                    if (isset($labTimeslots[$time->format('H:i')])) {
+                        $labTimeslots[$time->format('H:i')]--;
+                    }
+                    $time->addMinutes($duration);
+                }
+            } else {
+                $diff = $time->diffInMinutes($lab->start);
+
+                $busy = $lab->start->copy()->addMinutes(intdiv($diff, $duration) * $duration);
+                if (isset($labTimeslots[$busy->format('H:i')])) {
+                    $labTimeslots[$busy->format('H:i')]--;
+                }
+
+                $end = $time->addMinutes($taken->defense_duration);
+                if ($busy->addMinutes($duration)->isBefore($end)) {
+                    if (isset($labTimeslots[$busy->format('H:i')])) {
+                        $labTimeslots[$busy->format('H:i')]--;
+                    }
+                }
+            }
         }
 
-        return $usedTimes;
+        return array_keys(array_filter($labTimeslots, function($teachersRemaining) {
+            return $teachersRemaining < 1;
+        }));
     }
 
     /**
@@ -207,7 +245,7 @@ class DefenceRegistrationService
      * @param bool $ownTeacher
      * @param int $labId
      * @param int $charonId
-     * @param string $chosenTime
+     * @param Carbon $chosenTime
      *
      * @return int
      * @throws RegistrationException
@@ -217,7 +255,7 @@ class DefenceRegistrationService
         bool $ownTeacher,
         int $labId,
         int $charonId,
-        string $chosenTime
+        Carbon $chosenTime
     ): int {
         if (!$ownTeacher) {
             return $this->getTeachersByCharonAndLab($charonId, $labId, $chosenTime);
@@ -225,24 +263,24 @@ class DefenceRegistrationService
 
         $courseId = $this->charonRepository->getCharonById($charonId)->course;
         $teacherId = $this->teacherRepository->getTeacherForStudent($studentId, $courseId)->id;
+        $busy = $this->defenseRegistrationRepository->isTeacherBusyAt($teacherId, $chosenTime);
 
-        $times = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacherId, $chosenTime);
-
-        if (count($times) > 0) {
+        if ($busy) {
             throw new RegistrationException('teacher_is_busy');
         }
+
         return $teacherId;
     }
 
     /**
      * @param $charonId
      * @param $labId
-     * @param $studentTime
+     * @param Carbon $studentTime
      *
      * @return int
      * @throws RegistrationException
      */
-    private function getTeachersByCharonAndLab($charonId, $labId, $studentTime): int
+    private function getTeachersByCharonAndLab($charonId, $labId, Carbon $studentTime): int
     {
         $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($charonId, $labId);
         if ($labTeachers->isEmpty()) {
