@@ -6,12 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- \#371 Lab creation view has an optional set of predefined lab durations to pick from
+
+### Fixed
+- \#420 Lab defense registration checks now take different Charon defense durations into account
+
 ## [1.2.0] - 2021-03-20
 
 ### Added
 - \#400 Latest Submissions for every student for a given Charon can now be submitted to a re-test under individual
   Charon settings view. Submissions are queued and sent to tester with a delay interval specified
-  by CHARON_CRON_RETEST_DELAY env variable (defaults to 20 seconds if not set).
+  by CHARON_CRON_RETEST_DELAY env variable (defaults to 20 seconds if not set)
 
 ### Changed
 - \#387 Browser window title displays Course name
