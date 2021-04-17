@@ -178,7 +178,7 @@ class LabRepository
         $oldLab->start = $newStartCarbon->format('Y-m-d H:i:s');
         $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
 
-        $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabId($oldLab->course_id, $oldLabId);
+        $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabAndCourse($oldLab->course_id, $oldLabId);
         $oldLabCharons = $this->getCharonsForLab($oldLab->course_id, $oldLabId);
 
         foreach ($oldLabTeachers as $oldLabTeacher) {
@@ -245,7 +245,7 @@ class LabRepository
             ->get();
 
         for ($i = 0; $i < count($labs); $i++) {
-            $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabId($courseId, $labs[$i]->id);
+            $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($courseId, $labs[$i]->id);
         }
 
         for ($i = 0; $i < count($labs); $i++) {

@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Dto;
 
+use Carbon\Carbon;
+
 /**
  * @see https://github.com/envomp/arete-java/blob/master/src/main/java/ee/taltech/arete/java/request/AreteRequestDTO.java
  */
@@ -11,104 +13,110 @@ class AreteRequestDto
     private $dockerContentRoot;
 
     /** @var string */
-	private $dockerExtra;
+    private $dockerExtra;
 
     /** @var string */
-	private $dockerTestRoot;
+    private $dockerTestRoot;
 
     /** @var int */
-	private $dockerTimeout;
+    private $dockerTimeout;
 
     /** @var string */
-	private $gitStudentRepo;
+    private $gitStudentRepo;
 
     /** @var string */
-	private $gitTestRepo;
+    private $gitTestRepo;
 
-	/** @var string */
-	private $hash;
+    /** @var string */
+    private $hash;
 
-	/** @var array */
-	private $systemExtra;
+    /** @var array */
+    private $systemExtra;
 
-	/** @var string */
-	private $testingPlatform;
+    /** @var array */
+    private $returnExtra;
+
+    /** @var string */
+    private $testingPlatform;
+
+    /** @var int */
+    private $timestamp;
 
     /**
-     * @param string $dockerContentRoot
+     * @param string|null $dockerContentRoot
      * @return AreteRequestDto
      */
-    public function setDockerContentRoot(string $dockerContentRoot): AreteRequestDto
+    public function setDockerContentRoot(string $dockerContentRoot = null): AreteRequestDto
     {
         $this->dockerContentRoot = $dockerContentRoot;
         return $this;
     }
 
     /**
-     * @param string $dockerExtra
+     * @param string|null $dockerExtra
      * @return AreteRequestDto
      */
-    public function setDockerExtra(string $dockerExtra): AreteRequestDto
+    public function setDockerExtra(string $dockerExtra = null): AreteRequestDto
     {
         $this->dockerExtra = $dockerExtra;
         return $this;
     }
 
     /**
-     * @param string $dockerTestRoot
+     * @param string|null $dockerTestRoot
      * @return AreteRequestDto
      */
-    public function setDockerTestRoot(string $dockerTestRoot): AreteRequestDto
+    public function setDockerTestRoot(string $dockerTestRoot = null): AreteRequestDto
     {
         $this->dockerTestRoot = $dockerTestRoot;
         return $this;
     }
 
     /**
-     * @param int $dockerTimeout
+     * @param int|null $dockerTimeout
      * @return AreteRequestDto
      */
-    public function setDockerTimeout(int $dockerTimeout): AreteRequestDto
+    public function setDockerTimeout(int $dockerTimeout = null): AreteRequestDto
     {
         $this->dockerTimeout = $dockerTimeout;
         return $this;
     }
 
     /**
-     * @param string $gitStudentRepo
+     * @param string|null $gitStudentRepo
      * @return AreteRequestDto
      */
-    public function setGitStudentRepo(string $gitStudentRepo): AreteRequestDto
+    public function setGitStudentRepo(string $gitStudentRepo = null): AreteRequestDto
     {
         $this->gitStudentRepo = $gitStudentRepo;
         return $this;
     }
 
     /**
-     * @param string $gitTestRepo
+     * @param string|null $gitTestRepo
      * @return AreteRequestDto
      */
-    public function setGitTestRepo(string $gitTestRepo): AreteRequestDto
+    public function setGitTestRepo(string $gitTestRepo = null): AreteRequestDto
     {
         $this->gitTestRepo = $gitTestRepo;
         return $this;
     }
 
     /**
-     * @param string $hash
+     * @param string|null $hash
      * @return AreteRequestDto
      */
-    public function setHash(string $hash): AreteRequestDto
+    public function setHash(string $hash = null): AreteRequestDto
     {
         $this->hash = $hash;
         return $this;
     }
 
     /**
-     * @param string $systemExtra
+     * @param string|null $systemExtra
      * @return AreteRequestDto
      */
-    public function setSystemExtra(string $systemExtra): AreteRequestDto
+    public function setSystemExtra(string $systemExtra = null): AreteRequestDto
     {
         if (!empty($systemExtra)) {
             $this->systemExtra = explode(',', $systemExtra);
@@ -117,12 +125,45 @@ class AreteRequestDto
     }
 
     /**
-     * @param string $testingPlatform
+     * @param array $returnExtra
      * @return AreteRequestDto
      */
-    public function setTestingPlatform(string $testingPlatform): AreteRequestDto
+    public function setReturnExtra(array $returnExtra = []): AreteRequestDto
+    {
+        if (!empty($returnExtra)) {
+            $this->returnExtra = $returnExtra;
+        }
+        return $this;
+    }
+
+    /**
+     * @param string|null $testingPlatform
+     * @return AreteRequestDto
+     */
+    public function setTestingPlatform(string $testingPlatform = null): AreteRequestDto
     {
         $this->testingPlatform = $testingPlatform;
+        return $this;
+    }
+
+    /**
+     * @param Carbon|string|int|null $timestamp
+     * @return AreteRequestDto
+     */
+    public function setTimestamp($timestamp = null): AreteRequestDto
+    {
+        if (empty($timestamp)) {
+            return $this;
+        }
+        if ($timestamp instanceof Carbon) {
+            $this->timestamp = $timestamp->getTimestamp();
+        }
+        if (is_string($timestamp)) {
+            $this->timestamp = Carbon::parse($timestamp, date_default_timezone_get())->getTimestamp();
+        }
+        if (is_int($timestamp)) {
+            $this->timestamp = $timestamp;
+        }
         return $this;
     }
 

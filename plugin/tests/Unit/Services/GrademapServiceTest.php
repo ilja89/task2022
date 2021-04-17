@@ -115,6 +115,7 @@ class GrademapServiceTest extends TestCase
         /** @var Result $result */
         $result = Mockery::mock(Result::class, ['getGrademap' => $grademap])->makePartial();
         $result->calculated_result = 7;
+        $result->user_id = 11;
 
         $params = $this->service->findFormulaParams('=##gi3##', collect([$result]), 11);
 
@@ -129,6 +130,7 @@ class GrademapServiceTest extends TestCase
         /** @var Result $result */
         $result = Mockery::mock(Result::class, ['getGrademap' => $grademap])->makePartial();
         $result->calculated_result = 7;
+        $result->user_id = 11;
 
         $this->gradeItemRepository
             ->shouldReceive('find')

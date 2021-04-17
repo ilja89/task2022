@@ -316,6 +316,7 @@
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="user_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10" DEFAULT="0"/>
                 <FIELD NAME="grade_type_code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="percentage" SEQUENCE="false" TYPE="number" NOTNULL="true" LENGTH="3" DECIMALS="2"/>
                 <FIELD NAME="calculated_result" SEQUENCE="false" TYPE="number" NOTNULL="true" LENGTH="10" DECIMALS="2"/>
@@ -326,9 +327,15 @@
                 <KEY NAME="PK_charon_result" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_result_submission" TYPE="foreign" FIELDS="submission_id"
                      REFTABLE="charon_submission" REFFIELDS="id"/>
+                <KEY NAME="FK_result_user" TYPE="foreign" FIELDS="user_id"
+                     REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="UK_charon_result_submission_user_grade_type_code" TYPE="unique"
+                     FIELDS="submission_id,user_id,grade_type_code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_result_submission" UNIQUE="false" FIELDS="submission_id"/>
+                <INDEX NAME="IXFK_result_user" UNIQUE="false" FIELDS="user_id"/>
+                <INDEX NAME="IXFK_result_user_submission" UNIQUE="false" FIELDS="user_id,submission_id"/>
             </INDEXES>
         </TABLE>
 

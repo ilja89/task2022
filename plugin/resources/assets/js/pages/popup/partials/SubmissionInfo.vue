@@ -1,106 +1,80 @@
 <template>
     <div>
-
-
         <v-simple-table style="width: auto">
             <template v-slot:default>
-                <thead>
-                </thead>
+                <thead></thead>
                 <tbody>
+                    <tr>
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Git time:</td>
+                            <td>{{ submission.git_timestamp }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr>
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Git time:</td>
-                        <td>{{ submission.git_timestamp }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.git_hash">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Commit hash:</td>
+                            <td>
+                                <a v-if="submission.git_callback" :href="getCommitLink">{{ submission.git_hash }}</a>
+                                <a v-else href="#">{{ submission.git_hash }}</a>
+                            </td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="submission.git_hash">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Commit hash:</td>
-                        <td>
-                            <a v-if="student" v-bind:href="getCommitLink">{{ submission.git_hash }}</a>
-                            <a v-else href="#">{{ submission.git_hash }}</a>
-                        </td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.git_commit_message">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Commit message:</td>
+                            <td>{{ submission.git_commit_message }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="submission.git_commit_message">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Commit message:</td>
-                        <td>{{ submission.git_commit_message }}</td>
-                    </v-container>
-                </tr>
+                    <tr>
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Project folder:   </td>
+                            <td>{{ charon ? charon.project_folder : '' }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr>
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Project folder:   </td>
-                        <td>{{ charon ? charon.project_folder : '' }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="charonCalculationFormula.length">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Calculation formula:</td>
+                            <td>{{ charonCalculationFormula }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="charonCalculationFormula.length">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Calculation formula:</td>
-                        <td>{{ charonCalculationFormula }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="isGroupSubmission">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Group members:</td>
+                            <td>{{ studentNames }}</td>
+                        </v-container>
+                    </tr>
 
-                <tr>
-                  <v-container
-                      class="spacing-playground pa-3"
-                      fluid
-                  >
-                    <td class=" pr-3">Group members:</td>
-                    <td>{{ studentNames }}</td>
-                  </v-container>
-                </tr>
+                    <tr v-if="hasDeadlines">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Deadlines:</td>
+                            <td>
+                                <ul>
+                                    <li v-for="deadline in charon.deadlines" v-text="formatDeadline(deadline)"/>
+                                </ul>
+                            </td>
+                        </v-container>
+                    </tr>
 
-                <tr v-if="hasDeadlines">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">Deadlines:</td>
-                        <td>
-                            <ul>
-                                <li
-                                        v-for="deadline in charon.deadlines"
-                                        v-text="formatDeadline(deadline)"
-                                />
-                            </ul>
-                        </td>
-                    </v-container>
-                </tr>
-
-                <tr v-if="submission.grader">
-                    <v-container
-                            class="spacing-playground pa-3"
-                            fluid
-                    >
-                        <td class=" pr-3">{{graderInfoTitle}}</td>
-                        <td>{{ graderInfo }}</td>
-                    </v-container>
-                </tr>
+                    <tr v-if="submission.grader">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">{{graderInfoTitle}}</td>
+                            <td>{{ graderInfo }}</td>
+                        </v-container>
+                    </tr>
                 </tbody>
             </template>
         </v-simple-table>
 
+        <div v-if="submission.confirmed === 1">
+            <span class="ma-3 v-chip theme--light v-size--default success">
+                <span>Confirmed</span>
+            </span>
+        </div>
     </div>
 </template>
 
@@ -108,7 +82,6 @@
     import {mapState} from 'vuex'
     import SubmissionInfoBit from './SubmissionInfoBit'
     import {formatName, formatDeadline} from '../helpers/formatting'
-    import {User} from "../../../api";
 
     export default {
 
@@ -132,29 +105,19 @@
                 return this.charon && this.charon.deadlines.length !== 0
             },
 
-            studentNames(){
+            isGroupSubmission() {
+                return this.submission.users.length > 1;
+            },
 
-              let users = this.submission.users
-              let names = ''
-              for (let i = 0; i < users.length; i++) {
-                names += (users[i].firstname + ' ' + users[i].lastname + ', ')
-              }
-              return names.substr(0, names.length - 2)
+            studentNames() {
+                return this.submission.users.map(formatName).join(', ');
             },
 
             getCommitLink() {
-                var gitlabUrl = "https://gitlab.cs.ttu.ee/";
-                var gitUser;
-                var courseShortname;
-
-                if (this.student) {
-                    gitUser = this.student.username.split("@")[0];
-                } else {
-                    gitUser = "" // this should never happen
-                }
-                courseShortname = window.course_shortname;
-
-                return gitlabUrl + gitUser + "/" + courseShortname + "/commit/" + this.submission.git_hash
+                const hash = this.submission.git_hash;
+                let repo = this.submission.git_callback.repo;
+                repo = repo.substring(21, repo.length - 4)
+                return `https://gitlab.cs.ttu.ee/${repo}/-/commit/${hash}`
             },
 
             graderInfoTitle() {

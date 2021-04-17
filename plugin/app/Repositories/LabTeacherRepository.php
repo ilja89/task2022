@@ -2,9 +2,11 @@
 
 namespace TTU\Charon\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
+use TTU\Charon\Models\LabTeacher;
 
 class LabTeacherRepository
 {
@@ -26,7 +28,7 @@ class LabTeacherRepository
             ->delete();
     }
 
-    public function getTeachersByLabId($courseId, $labId)
+    public function getTeachersByLabAndCourse($courseId, $labId)
     {
         return DB::table('charon_lab_teacher')
             ->join('charon_lab', 'charon_lab.id', 'charon_lab_teacher.lab_id')
@@ -43,16 +45,27 @@ class LabTeacherRepository
     }
 
     /**
+     * @param $labId
+     *
+     * @return int
+     */
+    public function countLabTeachers($labId): int
+    {
+        return LabTeacher::where('lab_id', $labId)->count();
+    }
+
+    /**
      * @param $charonId
-     * @param $defenseLabId
+     * @param $labId
+     *
      * @return Collection
      */
-    public function getTeachersByCharonAndDefenseLabId($charonId, $defenseLabId)
+    public function getTeachersByCharonAndLab($charonId, $labId)
     {
         return DB::table('charon_lab_teacher')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id')
             ->where('charon_defense_lab.charon_id', $charonId)
-            ->where('charon_defense_lab.id', $defenseLabId)
+            ->where('charon_defense_lab.lab_id', $labId)
             ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->select(
                 'user.id',
@@ -65,15 +78,18 @@ class LabTeacherRepository
 
     /**
      * @param array $teacherIds
-     * @param $studentTime
+     * @param Carbon $time
      *
      * @return array
      */
-    public function checkWhichTeachersBusyAt(array $teacherIds, $studentTime)
+    public function checkWhichTeachersBusyAt(array $teacherIds, Carbon $time): array
     {
         return DB::table('charon_defenders')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
             ->select('charon_defenders.teacher_id')
-            ->where('charon_defenders.choosen_time', $studentTime)
+            ->whereDate('charon_defenders.choosen_time', '=', $time->format('Y-m-d'))
+            ->whereTime('charon_defenders.choosen_time', '<=', $time->toTimeString())
+            ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
             ->whereIn('charon_defenders.teacher_id', $teacherIds)
             ->pluck('teacher_id')
             ->all();

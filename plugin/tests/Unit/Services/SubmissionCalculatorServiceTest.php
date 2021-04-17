@@ -4,7 +4,6 @@ namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -40,13 +39,18 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     public function testSubmissionIsBetterThanLastDetectsWorse()
     {
-        $submission = new Submission();
-
-        $submission->results = collect([
+        $results = collect([
             $this->makeResult(0.5, 1, 1),
             $this->makeResult(0, 1, 101),
             $this->makeResult(0, 1, 1001)
         ]);
+
+        /** @var Mock|Submission $submission */
+        $submission = Mockery::mock(Submission::class);
+
+        $submission->shouldReceive('results->where->get')
+            ->once()
+            ->andReturn($results);
 
         $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
@@ -55,12 +59,17 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     public function testSubmissionIsBetterThanLastDetectsBetter()
     {
-        $submission = new Submission();
-
-        $submission->results = Collection::make([
+        $results = collect([
             $this->makeResult(1, 0.5, 1),
             $this->makeResult(1, 1, 101)
         ]);
+
+        /** @var Mock|Submission $submission */
+        $submission = Mockery::mock(Submission::class);
+
+        $submission->shouldReceive('results->where->get')
+            ->once()
+            ->andReturn($results);
 
         $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
@@ -73,20 +82,25 @@ class SubmissionCalculatorServiceTest extends TestCase
         $withoutGrademap = $this->makeResult(2, 1, 5);
         $withoutGrademap->shouldReceive('getGrademap')->andReturnNull();
 
-        $submission = new Submission();
-
-        $submission->results = Collection::make([
+        $results = collect([
             $this->makeResult(1, 2),
             $this->makeResult(1, 1),
             $withoutGrademap
         ]);
+
+        /** @var Mock|Submission $submission */
+        $submission = Mockery::mock(Submission::class);
+
+        $submission->shouldReceive('results->where->get')
+            ->once()
+            ->andReturn($results);
 
         $actual = $this->service->submissionIsBetterThanLast($submission, 3);
 
         $this->assertFalse($actual);
     }
 
-    public function testCalculateResultFromDeadlinesReturnsZeroWhenNoNoGrademap()
+    public function testCalculateResultFromDeadlinesReturnsZeroWhenNoGrademap()
     {
         /** @var Result $result */
         $result = Mockery::mock(Result::class, ['getGrademap' => null])->makePartial();
@@ -95,6 +109,19 @@ class SubmissionCalculatorServiceTest extends TestCase
         $actual = $this->service->calculateResultFromDeadlines($result, collect([]));
 
         $this->assertEquals(0, $actual);
+    }
+
+    public function testCalculateResultFromDeadlinesReturnsUnchangedWhenPersistent()
+    {
+        /** @var Result $result */
+        $result = Mockery::mock(Result::class, ['getGrademap' => new Grademap(['persistent' => true])])->makePartial();
+        $result->percentage = 0;
+        $result->calculated_result = 0.31;
+        $result->grade_type_code = 1002;
+
+        $actual = $this->service->calculateResultFromDeadlines($result, collect([]));
+
+        $this->assertEquals(0.31, $actual);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mockery;
 use Mockery\Mock;
@@ -47,11 +48,12 @@ class DefenseRegistrationControllerTest extends TestCase
             'submission_id' => 5,
             'selected' => 0,
             'charon_id' => 7,
-            'student_chosen_time' => 11,
+            'student_chosen_time' => '2020-12-15 22:20:00',
             'defense_lab_id' => 13
         ]);
 
         $lab = new Lab();
+        $lab->id = 19;
 
         $this->defenseLabRepository
             ->shouldReceive('getLabByDefenseLabId')
@@ -62,18 +64,18 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('validateDefence')
             ->once()
-            ->with(3, 7, 11, $lab);
+            ->with(3, 7, '2020-12-15 22:20:00', $lab);
 
         $this->registrationService
             ->shouldReceive('getTeacherId')
             ->once()
-            ->with(3, false, 13, 7, 11)
+            ->with(3, false, 19, 7, equalTo(Carbon::parse('2020-12-15 22:20:00')))
             ->andReturn(17);
 
         $this->registrationService
             ->shouldReceive('registerDefenceTime')
             ->once()
-            ->with(3, 5, false, 7, 11, 17, 13);
+            ->with(3, 5, false, 7, '2020-12-15 22:20:00', 17, 19, 13);
 
         $response = $this->controller->studentRegisterDefence($request);
 
@@ -90,10 +92,19 @@ class DefenseRegistrationControllerTest extends TestCase
             'my_teacher' => 'false'
         ]);
 
+        $lab = new Lab();
+        $lab->id = 13;
+
+        $this->defenseLabRepository
+            ->shouldReceive('getLabByDefenseLabId')
+            ->with(7)
+            ->once()
+            ->andReturn($lab);
+
         $this->registrationService
             ->shouldReceive('getUsedDefenceTimes')
             ->once()
-            ->with(3, 5, 7, 11, false)
+            ->with(3, 5, $lab, 11, false)
             ->andReturn(['12:00']);
 
         $response = $this->controller->getUsedDefenceTimes($request);

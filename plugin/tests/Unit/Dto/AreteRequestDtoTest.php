@@ -8,11 +8,12 @@ use PHPUnit\Framework\TestCase;
 class AreteRequestDtoTest extends TestCase
 {
 
-    public function testToArray()
+    public function testToArrayRemovesEmpty()
     {
         $dto = (new AreteRequestDto())
             ->setSystemExtra('first,second')
             ->setTestingPlatform('')
+            ->setDockerContentRoot(null)
             ->setHash('value');
 
         $this->assertEquals(

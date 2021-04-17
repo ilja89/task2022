@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -60,7 +61,7 @@ class DefenseRegistrationController extends Controller
      * @return string
      * @throws RegistrationException
      */
-    public function studentRegisterDefence(Request $request)
+    public function studentRegisterDefence(Request $request): string
     {
         $studentId = $request->input('user_id');
         $submissionId = $request->input('submission_id');
@@ -76,9 +77,9 @@ class DefenseRegistrationController extends Controller
         $teacherId = $this->registrationService->getTeacherId(
             $studentId,
             $ownTeacher,
-            $defenseLabId,
+            $lab->id,
             $charonId,
-            $chosenTime
+            Carbon::parse($chosenTime)
         );
 
         $this->registrationService->registerDefenceTime(
@@ -88,6 +89,7 @@ class DefenseRegistrationController extends Controller
             $charonId,
             $chosenTime,
             $teacherId,
+            $lab->id,
             $defenseLabId
         );
 
@@ -96,19 +98,22 @@ class DefenseRegistrationController extends Controller
 
     /**
      * Currently the whole lab starts off as available, this endpoint reveals which slots have already been taken
-     * 
+     *
      * lab_id refers to CharonDefenseLab->id
      *
      * @param Request $request
      *
      * @return array
+     * @throws RegistrationException
      */
-    public function getUsedDefenceTimes(Request $request)
+    public function getUsedDefenceTimes(Request $request): array
     {
+        $lab = $this->defenseLabRepository->getLabByDefenseLabId($request->input('lab_id'));
+
         return $this->registrationService->getUsedDefenceTimes(
             $request->input('time'),
             $request->input('charon_id'),
-            $request->input('lab_id'),
+            $lab,
             $request->input('user_id'),
             $request->input('my_teacher') == 'true'
         );

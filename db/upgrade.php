@@ -630,5 +630,67 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021022403) {
+        // Add new user_id field
+        $table = new xmldb_table('charon_result');
+        $field = new xmldb_field('user_id', XMLDB_TYPE_INTEGER, '10', null, null, null, 0, 'submission_id');
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+
+        // Update existing data to match new structure
+        $records = $DB->get_records_select('charon_result', "user_id = 0");
+        if (count($records) > 0) {
+            $transaction = $DB->start_delegated_transaction();
+
+            try {
+                // Add submission main authors as users in results table
+                $DB->execute(
+                    "UPDATE {charon_result} AS cr "
+                        . "INNER JOIN {charon_submission} AS cs ON cr.submission_id = cs.id "
+                        . "SET cr.user_id = cs.user_id"
+                );
+                // Add additional rows for every co-author
+                $DB->execute(
+                    "INSERT INTO {charon_result}(submission_id, user_id, grade_type_code, percentage, calculated_result, stdout, stderr) "
+                        . "SELECT "
+                        . "cmu.submission_id, "
+                        . "cmu.user_id, "
+                        . "cr.grade_type_code, "
+                        . "cr.percentage, "
+                        . "cr.calculated_result, "
+                        . "cr.stdout, "
+                        . "cr.stderr "
+                        . "FROM {charon_submission_user} AS cmu "
+                        . "INNER JOIN {charon_submission} AS cs ON cmu.submission_id = cs.id "
+                        . "RIGHT JOIN {charon_result} AS cr ON cmu.submission_id = cr.submission_id "
+                        . "WHERE cmu.user_id != cs.user_id"
+                );
+
+                $transaction->allow_commit();
+            } catch(Exception $exception) {
+                $transaction->rollback($exception);
+                throw $exception;
+            }
+        }
+
+        // Set user_id not null
+        $field = new xmldb_field('user_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $dbManager->change_field_notnull($table, $field);
+
+        // Add constraints and indexes
+        $DB->execute("ALTER TABLE {charon_result} ADD INDEX IXFK_result_user (user_id)");
+        $DB->execute("ALTER TABLE {charon_result} ADD INDEX IXFK_result_user_submission (user_id,submission_id)");
+        $DB->execute(
+            "ALTER TABLE {charon_result} ADD CONSTRAINT UK_charon_result_submission_user_grade_type_code "
+                . "UNIQUE (submission_id,user_id,grade_type_code)"
+        );
+        $DB->execute(
+            "ALTER TABLE {charon_result} ADD CONSTRAINT FK_result_user FOREIGN KEY (user_id) "
+                . "REFERENCES {user} (id)"
+        );
+    }
+
     return true;
 }

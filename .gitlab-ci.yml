@@ -6,7 +6,7 @@ stages:
   - test
   - build
   - deploy
-#  - integration test
+  - integration test
 
 unit_test:
   tags:
@@ -26,7 +26,7 @@ unit_test:
       - $CI_PROJECT_DIR/coverage
     expire_in: 1 week
 
-build_dev:
+.builds:
   tags:
     - docker
   stage: build
@@ -38,26 +38,30 @@ build_dev:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
+
+build_dev:
+  extends: .builds
+  artifacts:
     expire_in: 1 week
   only:
     - develop
+    - /^release.*/
+
+build_any:
+  extends: .builds
+  artifacts:
+    expire_in: 1 day
+  when: manual
+  only:
+    - /^bugfix*/
+    - /^feature.*/
 
 build:
-  tags:
-    - docker
-  stage: build
-  image: misterio92/ci-php-node:4.0
-  services:
-    - name: docker:dind
-  script:
-    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/charon
+  extends: .builds
   only:
   - master
 
-deploy_dev:
+.deploys:
   tags:
     - docker
   stage: deploy
@@ -81,28 +85,40 @@ deploy_dev:
     - ssh $SSH_USER@$ENV_IP "find $MOD_PATH/charon/plugin/storage -type f -exec chmod 0664 {} \;"
     - ssh $SSH_USER@$ENV_IP "echo \"y\" | php $MOODLE_PATH/admin/cli/upgrade.php"
     - ssh $SSH_USER@$ENV_IP "php $MOODLE_PATH/admin/cli/purge_caches.php"
+
+deploy_dev:
+  extends: .deploys
   only:
     - develop
 
-#integration_test_dev:
-#  tags:
-#    - docker
-#  image: jaakkytt/ci-php-node:3.0
-#  stage: integration test
-#  services:
-#    - name: docker:dind
-#  before_script:
-#    - service mysql start
-#  script:
-#    - touch .env
-#    - php composer.phar install --dev
-#    - cp -p .env.develop .env
-#    - cat $INTEGRATION_DB_VARIABLES >> .env
-#    - php artisan key:generate
-#    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
-#  only:
-#    - develop
-#  artifacts:
-#    paths:
-#      - $CI_PROJECT_DIR/coverage
-#    expire_in: 1 week
+deploy_any:
+  extends: .deploys
+  when: manual
+  only:
+    - /^bugfix*/
+    - /^feature.*/
+    - /^release.*/
+
+# Currently not in use
+integration_test_dev:
+  tags:
+    - docker
+  image: jaakkytt/ci-php-node:3.0
+  stage: integration test
+  services:
+    - name: docker:dind
+  before_script:
+    - service mysql start
+  script:
+    - touch .env
+    - php composer.phar install --dev
+    - cp -p .env.develop .env
+    - cat $INTEGRATION_DB_VARIABLES >> .env
+    - php artisan key:generate
+    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
+  only:
+    - disabled
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/coverage
+    expire_in: 1 week

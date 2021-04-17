@@ -70,11 +70,11 @@ class SaveTesterCallback
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
 
+        $this->submissionService->saveFiles($submission->id, $request['files']);
+
         $submission->users()->saveMany($users);
 
-        $this->saveResults($request, $submission);
-
-        $this->submissionService->saveFiles($submission->id, $request['files']);
+        $this->saveResults($request, $submission, $users);
 
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
 
@@ -89,14 +89,14 @@ class SaveTesterCallback
      * @return array|User[]
      * @throws InvalidArgumentException
      */
-    private function getStudentsInvolved(array $usernames)
+    private function getStudentsInvolved(array $usernames): array
     {
         $users = [];
 
         foreach ($usernames as $uniId) {
             $user = $this->userService->findUserByUniid($uniId);
             if ($user) {
-                $users[] = $user;
+                $users[$user->id] = $user;
             } else {
                 Log::error("User was not found by Uni-ID:" . $uniId);
             }
@@ -107,7 +107,7 @@ class SaveTesterCallback
             throw new InvalidArgumentException("Unable to find students for submission");
         }
 
-        return $users;
+        return array_values($users);
     }
 
     /**
@@ -132,21 +132,31 @@ class SaveTesterCallback
      *
      * @param TesterCallbackRequest $request
      * @param Submission $submission
+     * @param array|User[] $users
      */
-    private function saveResults(TesterCallbackRequest $request, Submission $submission)
+    private function saveResults(TesterCallbackRequest $request, Submission $submission, array $users)
     {
-        $this->resultRepository->saveIfGrademapPresent([
-            'submission_id' => $submission->id,
-            'grade_type_code' => 101,
-            'percentage' => (int) $request['style'] == 100 ? 1 : 0,
-            'calculated_result' => 0,
-            'stdout' => null,
-            'stderr' => null,
-        ]);
+        $results = $this->testSuiteService->saveSuites($request['testSuites'], $submission->id);
 
-        $this->testSuiteService->saveSuites($request['testSuites'], $submission->id);
+        foreach ($users as $user) {
+            foreach ($results as $result) {
+                $result->replicate()
+                    ->fill(['user_id' => $user->id])
+                    ->save();
+            }
 
-        $this->submissionService->includeUnsentGrades($submission);
+            $this->resultRepository->saveIfGrademapPresent([
+                'submission_id' => $submission->id,
+                'user_id' => $user->id,
+                'grade_type_code' => 101,
+                'percentage' => (int) $request['style'] == 100 ? 1 : 0,
+                'calculated_result' => 0,
+                'stdout' => null,
+                'stderr' => null,
+            ]);
+
+            $this->submissionService->includeUnsentGrades($submission, $user->id);
+        }
     }
 
     /**

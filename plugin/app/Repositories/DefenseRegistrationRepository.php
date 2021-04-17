@@ -56,35 +56,73 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @param int $labId
+     * @param Carbon $time
+     *
+     * @return int
+     */
+    public function countLabRegistrationsAt(int $labId, Carbon $time): int
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->whereDate('charon_defenders.choosen_time', '=', $time->format('Y-m-d'))
+            ->whereTime('charon_defenders.choosen_time', '<=', $time->toTimeString())
+            ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->count();
+    }
+
+    /**
+     * @param int $teacherId
+     * @param Carbon $time
+     *
+     * @return bool
+     */
+    public function isTeacherBusyAt(int $teacherId, Carbon $time): bool
+    {
+        return DB::table('charon_defenders')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->whereDate('charon_defenders.choosen_time', '=', $time->format('Y-m-d'))
+            ->whereTime('charon_defenders.choosen_time', '<=', $time->toTimeString())
+            ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
+            ->where('teacher_id', $teacherId)
+            ->count() > 0;
+    }
+
+    /**
      * @param $teacherId
      * @param $time
      *
      * @return array
      */
-    public function getChosenTimesForTeacherAt($teacherId, $time)
+    public function getChosenTimesForTeacherAt($teacherId, $time): array
     {
         return DB::table('charon_defenders')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
             ->where('choosen_time', 'like', '%' . $time . '%')
             ->where('teacher_id', $teacherId)
-            ->pluck('choosen_time')
+            ->select('choosen_time', 'defense_duration')
+            ->get()
             ->all();
     }
 
     /**
      * @param string $time
      * @param int $teacherCount
-     * @param int $defenseLabId
+     * @param int $labId
      *
      * @return array
      */
-    public function getChosenTimesForAllTeachers(string $time, int $teacherCount, int $defenseLabId)
+    public function getChosenTimesForLabTeachers(string $time, int $labId): array
     {
         return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
             ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('defense_lab_id', $defenseLabId)
-            ->groupBy('choosen_time')
-            ->having(DB::raw('count(*)'), '=', $teacherCount)
-            ->pluck('choosen_time')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->select('choosen_time', 'defense_duration')
+            ->get()
             ->all();
     }
 

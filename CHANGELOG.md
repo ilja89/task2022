@@ -6,6 +6,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- \#371 Lab creation view has an optional set of predefined lab durations to pick from
+
+### Fixed
+- \#420 Lab defense registration checks now take different Charon defense durations into account
+
+## [1.2.0] - 2021-03-20
+
+### Added
+- \#400 Latest Submissions for every student for a given Charon can now be submitted to a re-test under individual
+  Charon settings view. Submissions are queued and sent to tester with a delay interval specified
+  by CHARON_CRON_RETEST_DELAY env variable (defaults to 20 seconds if not set)
+
+### Changed
+- \#387 Browser window title displays Course name
+
+## [1.1.4] - 2021-03-16
+
+### Fixed
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+
+## [1.1.3] - 2021-03-16
+
+### Fixed
+- \#399 Tester callback failed with duplicate exception for group submissions when the main author's username was
+  submitted along the group usernames as `uniid@ttu.ee` while having the uniid field of the submission as `uniid`
+
+## [1.1.2] - 2021-03-13
+
+### Fixed
+- \#399 Submission retesting works on group submissions and uses original submission timestamp
+
+## [1.1.1] - 2021-03-12
+
+### Fixed
+- \#412 Commit hash link was broken if the repository name was longer than `Course.short_name` in Submission grading view
+- \#399 Submission retesting won't fail on absent optional fields
+
+## [1.1.0] - 2021-03-07
+
+### Changed
+- \#401 Students participating in a Group Submission can now be graded separately in Submission grading view
+
+### Fixed
+- \#401 "Save" button in Submission grading view will now become active regardless of how the points were changed
+- \#395 Remove (most) non-existing registration times previously shown to students
+
 ## [1.0.0] - 2021-02-24
 
 ### Added
@@ -21,4 +68,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.4...1.2.0
+[1.1.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.3...1.1.4
+[1.1.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.2...1.1.3
+[1.1.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.1...1.1.2
+[1.1.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.0...1.1.1
+[1.1.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.0.0...1.1.0
 [1.0.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/889d5abbbc38491f5b2370f0d62f212a8ce52bd6...1.0.0
