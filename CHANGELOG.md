@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2021-04-17
+
 ### Added
 - \#371 Lab creation view has an optional set of predefined lab durations to pick from
 - \#381 Show group Submission members as a list under Submission info in Submission grading view
@@ -69,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.0...1.2.1
 [1.2.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.4...1.2.0
 [1.1.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.3...1.1.4
 [1.1.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.2...1.1.3
