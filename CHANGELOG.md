@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - \#371 Lab creation view has an optional set of predefined lab durations to pick from
+- \#381 Show group Submission members as a list under Submission info in Submission grading view
 
 ### Fixed
 - \#420 Lab defense registration checks now take different Charon defense durations into account
