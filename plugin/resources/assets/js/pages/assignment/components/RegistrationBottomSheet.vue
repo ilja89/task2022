@@ -203,7 +203,6 @@ export default {
         arrayDefenseTime() {
             if (this.cached_option != null) {
                 const option = this.cached_option;
-                console.log('lab option', option);
                 this.times.length = 0;
                 let time = option['start'].split(' ')[0];
                 this.busy = true;

@@ -75,7 +75,7 @@ class LabTeacherRepositoryTest extends TestCase
 
         $actual = $this->repository->checkWhichTeachersBusyAt(
             [$teacher1->id, $teacher2->id, $teacher3->id],
-            $chosenTime->format('Y-m-d H:i:s')
+            $chosenTime
         );
 
         $this->assertEquals([$teacher2->id], $actual);

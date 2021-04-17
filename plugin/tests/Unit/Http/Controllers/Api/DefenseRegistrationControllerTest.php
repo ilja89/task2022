@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mockery;
 use Mockery\Mock;
@@ -47,7 +48,7 @@ class DefenseRegistrationControllerTest extends TestCase
             'submission_id' => 5,
             'selected' => 0,
             'charon_id' => 7,
-            'student_chosen_time' => 11,
+            'student_chosen_time' => '2020-12-15 22:20:00',
             'defense_lab_id' => 13
         ]);
 
@@ -63,18 +64,18 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('validateDefence')
             ->once()
-            ->with(3, 7, 11, $lab);
+            ->with(3, 7, '2020-12-15 22:20:00', $lab);
 
         $this->registrationService
             ->shouldReceive('getTeacherId')
             ->once()
-            ->with(3, false, 19, 7, 11)
+            ->with(3, false, 19, 7, equalTo(Carbon::parse('2020-12-15 22:20:00')))
             ->andReturn(17);
 
         $this->registrationService
             ->shouldReceive('registerDefenceTime')
             ->once()
-            ->with(3, 5, false, 7, 11, 17, 19, 13);
+            ->with(3, 5, false, 7, '2020-12-15 22:20:00', 17, 19, 13);
 
         $response = $this->controller->studentRegisterDefence($request);
 
@@ -103,7 +104,7 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('getUsedDefenceTimes')
             ->once()
-            ->with(3, 5, 13, 11, false)
+            ->with(3, 5, $lab, 11, false)
             ->andReturn(['12:00']);
 
         $response = $this->controller->getUsedDefenceTimes($request);

@@ -6,12 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2021-04-17
+
+### Added
+- \#371 Lab creation view has an optional set of predefined lab durations to pick from
+- \#381 Show group Submission members as a list under Submission info in Submission grading view
+
+### Fixed
+- \#420 Lab defense registration checks now take different Charon defense durations into account
+
 ## [1.2.0] - 2021-03-20
 
 ### Added
 - \#400 Latest Submissions for every student for a given Charon can now be submitted to a re-test under individual
   Charon settings view. Submissions are queued and sent to tester with a delay interval specified
-  by CHARON_CRON_RETEST_DELAY env variable (defaults to 20 seconds if not set).
+  by CHARON_CRON_RETEST_DELAY env variable (defaults to 20 seconds if not set)
 
 ### Changed
 - \#387 Browser window title displays Course name
@@ -62,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.0...1.2.1
 [1.2.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.4...1.2.0
 [1.1.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.3...1.1.4
 [1.1.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.2...1.1.3

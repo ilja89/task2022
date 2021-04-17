@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Mockery;
 use Mockery\Mock;
@@ -58,7 +59,7 @@ class DefenceRegistrationServiceTest extends TestCase
 
         $this->defenseRegistrationRepository
             ->shouldReceive('countLabRegistrationsAt')
-            ->with(17, '2020-12-15 22:20:00')
+            ->with(17, equalTo(Carbon::parse('2020-12-15 22:20:00')))
             ->once()
             ->andReturn(2);
 
@@ -81,7 +82,7 @@ class DefenceRegistrationServiceTest extends TestCase
 
         $this->defenseRegistrationRepository
             ->shouldReceive('countLabRegistrationsAt')
-            ->with(17, '2020-12-15 22:20:00')
+            ->with(17, equalTo(Carbon::parse('2020-12-15 22:20:00')))
             ->once()
             ->andReturn(1);
 
@@ -112,27 +113,5 @@ class DefenceRegistrationServiceTest extends TestCase
             ->andThrowExceptions([$exception]);
 
         $this->service->registerDefenceTime(3, 5, false, 7, '2020-12-15 22:20:00', 11, 17, 13);
-    }
-
-    /**
-     * @throws RegistrationException
-     */
-    public function testGetUsedDefenceTimesReturnsHoursMinutes()
-    {
-        $this->teacherRepository
-            ->shouldReceive('countLabTeachers')
-            ->with(5)
-            ->once()
-            ->andReturn(2);
-
-        $this->defenseRegistrationRepository
-            ->shouldReceive('getChosenTimesForLabTeachers')
-            ->with('2020-12-15 22:20:00', 2, 5)
-            ->once()
-            ->andReturn(['2020-12-15 22:20:03', '2020-12-15 22:30:06', '2020-12-15 22:40:09']);
-
-        $actual = $this->service->getUsedDefenceTimes('2020-12-15 22:20:00', 3, 5, 7, false);
-
-        $this->assertEquals(['22:20', '22:30', '22:40'], $actual);
     }
 }
