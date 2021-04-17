@@ -32,6 +32,13 @@ class LabTeacherRepository
         LabTeacher::insert($collection);
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param $charonId
+     *
+     * @return mixed
+     */
     public function deleteAllLabTeachersForCharon($charonId)
     {
         return DB::table('charon_lab_teacher')
@@ -39,6 +46,12 @@ class LabTeacherRepository
             ->delete();
     }
 
+    /**
+     * @param $courseId
+     * @param $labId
+     *
+     * @return mixed
+     */
     public function getTeachersByLabAndCourse($courseId, $labId)
     {
         return DB::table('charon_lab_teacher')
@@ -88,6 +101,8 @@ class LabTeacherRepository
     }
 
     /**
+     * @version Registration 1.*
+     *
      * @param array $teacherIds
      * @param Carbon $time
      *
@@ -108,6 +123,10 @@ class LabTeacherRepository
 
     /**
      * @version Registration 1.*
+     *
+     * @param $courseId
+     *
+     * @return mixed
      */
     public function getTeachersByCourseId($courseId)
     {
@@ -149,6 +168,13 @@ class LabTeacherRepository
         return User::hydrate($teachers);
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param $courseId
+     *
+     * @return mixed
+     */
     public function getTeacherReportByCourseId($courseId)
     {
         $prefix = $this->moodleConfig->prefix;
@@ -171,6 +197,13 @@ class LabTeacherRepository
             ->get();
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param $courseId
+     *
+     * @return mixed
+     */
     public function getTeacherSummaryByCourseId($courseId)
     {
         return DB::table('charon_submission')
@@ -189,6 +222,13 @@ class LabTeacherRepository
             ->get();
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param $labId
+     *
+     * @return mixed
+     */
     public function deleteByLabId($labId)
     {
         return DB::table('charon_lab_teacher')
@@ -196,6 +236,14 @@ class LabTeacherRepository
             ->delete();
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param $labId
+     * @param $teacherId
+     *
+     * @return mixed
+     */
     public function deleteByLabAndTeacherId($labId, $teacherId)
     {
         return DB::table('charon_lab_teacher')
@@ -204,7 +252,7 @@ class LabTeacherRepository
             ->delete();
     }
 
-    public function getTeacherRoleIds()
+    public function getTeacherRoleIds(): array
     {
         return array_values(DB::table('role_capabilities')
             ->where('capability', 'moodle/course:manageactivities')
@@ -213,7 +261,7 @@ class LabTeacherRepository
             ->toArray());
     }
 
-    public function getGroupsForStudent($studentId, $courseId)
+    public function getGroupsForStudent($studentId, $courseId): array
     {
         return array_values(DB::table('groupings')
             ->where('groupings.idnumber', 'help_group')

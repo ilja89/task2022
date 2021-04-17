@@ -224,6 +224,10 @@ class LabService
         $this->labRepository->createManyLabCharons($labCharons);
     }
 
+    /**
+     * @param Lab $lab
+     * @param Collection|User[] $teachers
+     */
     private function createRegistrationTimes(Lab $lab, Collection $teachers)
     {
         $registrations = [];

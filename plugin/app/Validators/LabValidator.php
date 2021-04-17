@@ -12,7 +12,6 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
 
-
 /**
  * @version Registration 2.*
  */
@@ -176,8 +175,6 @@ class LabValidator extends Validator
                 }
             }
         });
-
-        // TODO: check if busy at previous 1.* Registration flow lab?
 
         // TODO: check if busy at Moodle calendar event?
 

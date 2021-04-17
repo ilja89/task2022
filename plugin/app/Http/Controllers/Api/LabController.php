@@ -161,6 +161,7 @@ class LabController extends Controller
 
     /**
      * TODO: This should not be in CourseController
+     * @version Registration 1.*
      *
      * @param Course $course
      *
@@ -200,5 +201,4 @@ class LabController extends Controller
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
-
 }

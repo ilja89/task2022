@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -401,5 +400,4 @@ class LabRepository
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
     }
-
 }
