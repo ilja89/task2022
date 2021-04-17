@@ -120,7 +120,7 @@ Route::group(['namespace' => 'Api'], function () {
     // COURSE
 
     Route::middleware('auth.course.managing.require') // get a course
-        ->get('courses/{course}', 'LabController@getCourse');
+        ->get('courses/{course}', 'CourseController@index');
 
     // CHARON
 

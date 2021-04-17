@@ -23,8 +23,6 @@ class LabController extends Controller
     private $labService;
 
     /**
-     * LabDummyController constructor.
-     *
      * @param Request $request
      * @param LabRepository $labRepository
      * @param LabService $labService
@@ -157,19 +155,6 @@ class LabController extends Controller
     public function delete(Course $course, Lab $lab)
     {
         return $this->labRepository->deleteByInstanceId($lab->id);
-    }
-
-    /**
-     * TODO: This should not be in CourseController
-     * @version Registration 1.*
-     *
-     * @param Course $course
-     *
-     * @return mixed
-     */
-    public function getCourse(Course $course)
-    {
-        return $this->labRepository->getCourse($course->id);
     }
 
     /**

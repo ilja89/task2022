@@ -275,18 +275,6 @@ class LabRepository
     }
 
     /**
-     * TODO: This should be in CourseRepository
-     */
-    public function getCourse($courseId)
-    {
-        $course = \DB::table('course')
-            ->where('id', $courseId)
-            ->select('*')
-            ->get();
-        return $course;
-    }
-
-    /**
      * @version Registration 1.*
      *
      * @param $courseId
