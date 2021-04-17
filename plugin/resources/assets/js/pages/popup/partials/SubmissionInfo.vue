@@ -42,6 +42,13 @@
                         </v-container>
                     </tr>
 
+                    <tr v-if="isGroupSubmission">
+                        <v-container class="spacing-playground pa-3" fluid>
+                            <td class=" pr-3">Group members:</td>
+                            <td>{{ studentNames }}</td>
+                        </v-container>
+                    </tr>
+
                     <tr v-if="hasDeadlines">
                         <v-container class="spacing-playground pa-3" fluid>
                             <td class=" pr-3">Deadlines:</td>
@@ -96,6 +103,14 @@
 
             hasDeadlines() {
                 return this.charon && this.charon.deadlines.length !== 0
+            },
+
+            isGroupSubmission() {
+                return this.submission.users.length > 1;
+            },
+
+            studentNames() {
+                return this.submission.users.map(formatName).join(', ');
             },
 
             getCommitLink() {
