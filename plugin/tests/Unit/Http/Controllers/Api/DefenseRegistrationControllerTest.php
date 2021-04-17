@@ -104,7 +104,7 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('getUsedDefenceTimes')
             ->once()
-            ->with(3, 5, 13, 11, false)
+            ->with(3, 5, $lab, 11, false)
             ->andReturn(['12:00']);
 
         $response = $this->controller->getUsedDefenceTimes($request);
