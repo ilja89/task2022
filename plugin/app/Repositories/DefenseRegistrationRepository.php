@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 

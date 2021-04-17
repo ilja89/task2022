@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Mockery;
 use Mockery\Mock;
 use TTU\Charon\Exceptions\RegistrationException;
-use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;

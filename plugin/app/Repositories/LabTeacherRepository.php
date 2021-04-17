@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\LabTeacher;
 
