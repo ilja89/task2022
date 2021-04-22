@@ -33,6 +33,14 @@ class SubmissionsRepository
     }
 
     /**
+     * @return Builder|Submission
+     */
+    public function query(): Builder
+    {
+        return Submission::query();
+    }
+
+    /**
      * @param $id
      *
      * @return Submission

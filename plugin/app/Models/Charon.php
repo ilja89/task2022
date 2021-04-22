@@ -42,7 +42,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property GradeCategory $category
  * @property GradingMethod $gradingMethod
  * @property TesterType testerType
- * @property Grademap[] grademaps
+ * @property Grademap[]|Collection grademaps
  * @property Deadline[]|Collection deadlines
  * @property CharonDefenseLab[]|Collection defense_labs
  * @property Course moodleCourse

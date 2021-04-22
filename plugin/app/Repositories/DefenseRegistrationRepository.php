@@ -63,6 +63,25 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @version Registration 2.*
+     *
+     * @param int $studentId
+     * @param array|int[] $charons
+     *
+     * @return Collection
+     */
+    public function filterCharonsWithActiveStudentRegistrations(int $studentId, array $charons): \Illuminate\Support\Collection
+    {
+        return DefenseRegistration::query()
+            ->select('charon_id')
+            ->where('student_id', $studentId)
+            ->where('progress', '<>', 'Done')
+            ->whereIn('charon_id', $charons)
+            ->get()
+            ->pluck('charon_id');
+    }
+
+    /**
      * @version Registration 1.*
      *
      * @return Builder|Registration
