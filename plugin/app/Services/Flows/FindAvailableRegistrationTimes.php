@@ -11,10 +11,11 @@ use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Validators\RegistrationValidator;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Models\User;
 
 /**
  * @version Registration 2.*
@@ -27,16 +28,28 @@ class FindAvailableRegistrationTimes
     /** @var DefenseRegistrationRepository */
     private $registrationRepository;
 
+    /** @var LabRepository */
+    private $labRepository;
+
+    /** @var LabTeacherRepository */
+    private $teacherRepository;
+
     /**
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
+     * @param LabRepository $labRepository
+     * @param LabTeacherRepository $teacherRepository
      */
     public function __construct(
         SubmissionsRepository $submissionsRepository,
-        DefenseRegistrationRepository $registrationRepository
+        DefenseRegistrationRepository $registrationRepository,
+        LabRepository $labRepository,
+        LabTeacherRepository $teacherRepository
     ) {
         $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
+        $this->labRepository = $labRepository;
+        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -73,7 +86,7 @@ class FindAvailableRegistrationTimes
             return [];
         }
 
-        $ownTeachers = $this->findOwnTeachers($studentId);
+        $ownTeachers = $this->findOwnTeachers($studentId, $course->id);
 
         $times = $this->findAvailableTimes($labs, $start, $end, $ownTeachers);
 
@@ -181,40 +194,41 @@ class FindAvailableRegistrationTimes
      */
     private function findLabs(Collection $charons, Carbon $start, Carbon $end): Collection
     {
-        return Lab::all();
+        $this->labRepository->findLabsForCharons($charons->pluck('id')->all(), $start, $end);
     }
 
     /**
      * @param int $studentId
-     *
-     * @return Collection|User[]
+     * @param int $courseId
+     * @return int[]
      */
-    private function findOwnTeachers(int $studentId)
+    private function findOwnTeachers(int $studentId, int $courseId): array
     {
-        return User::all();
+        return $this->teacherRepository->getOwnTeachersIdsForStudent($studentId, $courseId);
     }
 
     /**
      * @param Collection|Lab[] $labs
      * @param Carbon $start
      * @param Carbon $end
-     * @param Collection|User[] $ownTeachers
+     * @param int[] $ownTeachers
      *
      * @return Collection|DefenseRegistration[]
      */
-    private function findAvailableTimes(Collection $labs, Carbon $start, Carbon $end, Collection $ownTeachers): Collection
+    private function findAvailableTimes(Collection $labs, Carbon $start, Carbon $end, array $ownTeachers): Collection
     {
+
         return DefenseRegistration::all();
     }
 
     /**
      * @param Collection|DefenseRegistration[] $times
      * @param Collection|Charon[] $charons
-     * @param Collection|User[] $ownTeachers
+     * @param int[] $ownTeachers
      *
      * @return array
      */
-    private function attachCharons(Collection $times, Collection $charons, Collection $ownTeachers): array
+    private function attachCharons(Collection $times, Collection $charons, array $ownTeachers): array
     {
         return [];
     }
