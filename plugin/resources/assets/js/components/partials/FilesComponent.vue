@@ -223,11 +223,11 @@
         overflow-x: scroll;
         background-color: #fafafa;
         height: 100%;
-        min-height: calc( 2.5rem + $code-line-height);
         padding: 0;
 
         code {
             padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+            min-height: 4rem;
             line-height: $code-line-height;
             font-size: $code-font-size;
             font-family: monospace;
