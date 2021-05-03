@@ -71,7 +71,7 @@
                     id: file.id,
                     path: file.path,
                     contents: file.contents.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;'),
-                    numbers: file.contents.trim().split(/\r\n|\r|\n/).length,
+                    numbers: file.contents ? file.contents.trim().split(/\r\n|\r|\n/).length : 0,
                 }
             },
         },
@@ -227,6 +227,7 @@
 
         code {
             padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+            min-height: 4rem;
             line-height: $code-line-height;
             font-size: $code-font-size;
             font-family: monospace;

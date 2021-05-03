@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#423 File with empty content is now shown correctly in submission view
+
 ## [1.2.1] - 2021-04-17
 
 ### Added
