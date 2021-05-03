@@ -28,6 +28,13 @@
         <v-card-title v-if="labs.length">
             Labs
             <v-spacer></v-spacer>
+            <div class="subtitle-1">
+                Start date &nbsp;&nbsp;
+            </div>
+            <div class="subtitle-1">
+                <datepicker :datetime="start_date" :date_only=true></datepicker>
+            </div>
+            <v-spacer></v-spacer>
             <v-text-field
                     v-if="labs.length"
                     v-model="search"
@@ -80,11 +87,13 @@
     import {mapActions, mapState} from "vuex";
     import Lab from "../../../api/Lab";
     import CharonFormat from "../../../helpers/CharonFormat";
+    import moment from "moment";
+    import Datepicker from "../../../components/partials/Datepicker";
 
     export default {
         name: "lab-section",
 
-        components: {PopupSection},
+        components: {PopupSection, Datepicker},
 
         props: {
             labs: {required: true}
@@ -95,6 +104,7 @@
                 alert: false,
                 lab_id: 0,
                 search: '',
+                start_date: {time: `${moment().format("YYYY-MM-DD")}`},
                 labs_headers: [
                     {text: 'Name', value: 'nice_name', align: 'start'},
                     {text: 'Date', value: 'nice_date'},
@@ -115,17 +125,20 @@
             ]),
 
             labs_table() {
-                return this.labs.map(lab => {
-                    const container = {...lab};
+                let startDate = moment(this.start_date.time).valueOf();
+                return this.labs.reduce((r, lab) => {
+                    if(+moment(lab.start.time) < startDate) return r;
 
+                    const container = {...lab};
                     container['nice_name'] = lab.name ? lab.name : CharonFormat.getDayTimeFormat(lab.start.time);
                     container['nice_date'] = CharonFormat.getNiceDate(lab.start.time);
                     container['nice_time'] = `${CharonFormat.getNiceTime(lab.start.time)} - ${CharonFormat.getNiceTime(lab.end.time)}`;
                     container['teacher_names'] = lab.teachers.map(x => x.fullname).sort().join(', ')
                     container['charon_names'] = lab.charons.map(x => x.project_folder).sort().join(', ')
 
-                    return container;
-                });
+                    r.push(container);
+                    return r;
+                }, []);
             }
         },
 
