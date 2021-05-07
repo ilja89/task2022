@@ -4,10 +4,14 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,20 +19,64 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
-     * LabDummyController constructor.
-     *
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
+    }
+
+    /**
+     * Create a lab, optionally repeating.
+     *
+     * @version Registration 2.*
+     *
+     * @param Course $course
+     *
+     * @return int[]
+     * @throws ValidationException
+     */
+    public function create(Course $course): array
+    {
+        $validator = Validator::make($this->request->all(), [
+            'teachers' => 'required|filled',
+            'charons' => 'required|filled',
+            'start' => 'required|date|after:' . Carbon::now(),
+            'end' => 'required|date|after:start',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return $this->labService->create(
+            new Lab([
+                'course_id' => $course->id,
+                'name' => $this->request['name'],
+                'start' => Carbon::parse($this->request['start']),
+                'end' => Carbon::parse($this->request['end']),
+                'chunk_size' => $this->request['chunk_size'],
+                'own_teacher' => $this->request['own_teacher']
+            ]),
+            $course,
+            $this->request['charons'],
+            $this->request['teachers'],
+            $this->request['weeks'] ? $this->request['weeks'] : []
+        );
     }
 
     /**
      * Get Labs by course.
+     *
+     * @version Registration 1.*
      *
      * @param Course $course
      *
@@ -42,6 +90,8 @@ class LabController extends Controller
     /**
      * Get all Labs.
      *
+     * @version Registration 1.*
+     *
      * @return \Illuminate\Database\Eloquent\Collection|Lab[]
      */
     public function all()
@@ -51,6 +101,9 @@ class LabController extends Controller
 
     /**
      * Save lab.
+     *
+     * @version Registration 1.*
+     *
      * @param Course $course
      *
      * @return bool
@@ -70,6 +123,9 @@ class LabController extends Controller
 
     /**
      * Update lab.
+     *
+     * @version Registration 1.*
+     *
      * @param Course $course
      * @param Lab $lab
      *
@@ -89,6 +145,8 @@ class LabController extends Controller
 
     /**
      * Delete lab.
+     * @version Registration 1.*
+     *
      * @param Course $course
      * @param Lab $lab
      *
@@ -100,23 +158,24 @@ class LabController extends Controller
     }
 
     /**
-     * @param Course $course
-     * @return mixed
-     */
-    public function getCourse(Course $course)
-    {
-        return $this->labRepository->getCourse($course->id);
-    }
-
-    /**
+     * @version Registration 1.*
+     *
      * @param Charon $charon
-     * @return Lab[]
+     *
+     * @return Lab[]|Collection
      */
     public function getByCharon(Charon $charon)
     {
         return $this->labRepository->getLabsByCharonId($charon->id);
     }
 
+    /**
+     * @version Registration 1.*
+     *
+     * @param Request $request
+     *
+     * @return Lab[]|Collection
+     */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
         $charonId = $request->route('charon');
@@ -127,5 +186,4 @@ class LabController extends Controller
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
-
 }

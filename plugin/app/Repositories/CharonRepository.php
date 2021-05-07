@@ -55,8 +55,7 @@ class CharonRepository
         GradebookService $gradebookService,
         CharonDefenseLabRepository $charonDefenseLabRepository,
         LabRepository $labRepository
-    )
-    {
+    ) {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;

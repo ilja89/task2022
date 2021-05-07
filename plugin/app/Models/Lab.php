@@ -15,6 +15,8 @@ use Zeizig\Moodle\Models\User;
  * @property Carbon start
  * @property Carbon end
  * @property int course_id
+ * @property int chunk_size
+ * @property int own_teacher
  *
  * @property User[]|Collection teachers
  *
@@ -25,8 +27,8 @@ class Lab extends Model
     public $timestamps = false;
 
     protected $table = 'charon_lab';
-    protected $fillable = ['name', 'start', 'end', 'course_id'];
-    protected $dates = ['start', 'end',];
+    protected $fillable = ['name', 'start', 'end', 'course_id', 'chunk_size', 'own_teacher'];
+    protected $dates = ['start', 'end'];
 
     public function teachers()
     {

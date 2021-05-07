@@ -76,6 +76,8 @@ class Charon extends Model
      */
     protected $table = 'charon';
 
+    protected $dates = ['defense_deadline', 'defense_start_time'];
+
     public function grademaps()
     {
         return $this->hasMany(Grademap::class);

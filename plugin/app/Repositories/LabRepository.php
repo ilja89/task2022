@@ -4,6 +4,8 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -43,7 +45,19 @@ class LabRepository
     }
 
     /**
+     * @version Registration 2.*
+     *
+     * @param array $collection
+     */
+    public function createManyLabCharons(array $collection)
+    {
+        CharonDefenseLab::insert($collection);
+    }
+
+    /**
      * Save the lab instance.
+     *
+     * @version Registration 1.*
      *
      * @param $start
      * @param $end
@@ -115,7 +129,7 @@ class LabRepository
     /**
      * Get all labs.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection|static[]
      */
     public function getAllLabs()
     {
@@ -137,13 +151,14 @@ class LabRepository
     /**
      * Deletes the instance with given id.
      *
+     * @version Registration 1.*
+     *
      * @param integer $id
      *
      * @return Lab
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function deleteByInstanceId($id)
+    public function deleteByInstanceId($id): Lab
     {
         /** @var Lab $lab */
         $lab = Lab::find($id);
@@ -157,6 +172,8 @@ class LabRepository
 
     /**
      * Takes the old instance and override its values with the new Charon values.
+     *
+     * @version Registration 1.*
      *
      * @param Number $oldLabId
      * @param Carbon $newStart
@@ -232,6 +249,8 @@ class LabRepository
     /**
      * Find all labs in course with given id.
      *
+     * @version Registration 1.*
+     *
      * @param integer $courseId
      *
      * @return Lab[]
@@ -255,18 +274,12 @@ class LabRepository
         return $labs;
     }
 
-    public function getCourse($courseId)
-    {
-        $course = \DB::table('course')
-            ->where('id', $courseId)
-            ->select('*')
-            ->get();
-        return $course;
-    }
-
     /**
+     * @version Registration 1.*
+     *
      * @param $courseId
      * @param $labId
+     *
      * @return Object[]
      */
     public function getCharonsForLab($courseId, $labId)
@@ -281,7 +294,10 @@ class LabRepository
     }
 
     /**
+     * @version Registration 1.*
+     *
      * @param $charonId
+     *
      * @return Lab[]
      */
     public function getLabsByCharonId($charonId)
@@ -294,7 +310,10 @@ class LabRepository
     }
 
     /**
+     * @version Registration 1.*
+     *
      * @param $charonId
+     *
      * @return int[]
      */
     public function getLabsIdsByCharonId($charonId)
@@ -306,7 +325,12 @@ class LabRepository
     }
 
     /**
+     * @version Registration 1.*
+     *
      * @param $charonId
+     * @param $labId
+     *
+     * @return mixed
      */
     public function deleteLab($charonId, $labId)
     {
@@ -317,6 +341,8 @@ class LabRepository
     }
 
     /**
+     * @version Registration 1.*
+     *
      * @param $charonId
      * @param $labId
      */
@@ -331,9 +357,10 @@ class LabRepository
     /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.
      *
+     * @version Registration 1.*
+     *
      * @param $teachers
      * @param $courseId
-     * @return void
      */
     private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd)
     {
@@ -361,5 +388,4 @@ class LabRepository
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
     }
-
 }
