@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#416 Teacher overview now counts only defenses for the given course
+
 ## [1.2.2] - 2021-05-03
 
 ### Changed

@@ -121,9 +121,13 @@ class LabTeacherRepository
             ->join('role_assignments', 'role_assignments.contextid', 'context.id')
             ->join('user', 'user.id', 'role_assignments.userid')
             ->join('role', 'role.id', 'role_assignments.roleid')
+            ->join('charon', 'charon.course', 'course.id')
             ->where('role.id', 3)
             ->where('course.id', $courseId)
-            ->leftJoin('charon_submission', 'user.id', 'charon_submission.grader_id')
+            ->leftJoin('charon_submission', function($join) {
+                $join->on('user.id', '=', 'charon_submission.grader_id');
+                $join->on('charon.id', '=', 'charon_submission.charon_id');
+            })
             ->select(
                 'user.id as id',
                 'user.firstname',
