@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Charon phpmd ruleset"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                     http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="
+                     http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <exclude-pattern>./bin/</exclude-pattern>
+    <exclude-pattern>./bootstrap/</exclude-pattern>
+    <exclude-pattern>./config/</exclude-pattern>
+    <exclude-pattern>./public/</exclude-pattern>
+    <exclude-pattern>./resources/</exclude-pattern>
+    <exclude-pattern>./storage/</exclude-pattern>
+    <exclude-pattern>./vendor/</exclude-pattern>
+
+    <rule name="RawQueryBindings" class="RawQueryBindingsRule">
+        <priority>3</priority>
+    </rule>
+</ruleset>
