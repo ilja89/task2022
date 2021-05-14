@@ -2,9 +2,9 @@
 
 namespace TTU\Charon\Validators;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Collection;
 use TTU\Charon\Models\Submission;
-use Zeizig\Moodle\Models\Course;
 
 /**
  * @version Registration 2.*
@@ -12,13 +12,20 @@ use Zeizig\Moodle\Models\Course;
 class RegistrationValidator extends WithErrors
 {
     /**
-     * @param Course $course
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator) {
+        parent::__construct($translator, [], []);
+    }
+
+    /**
+     * @param int $courseId
      * @param int $studentId
      * @return $this
      */
-    public function studentBelongsToCourse(Course $course, int $studentId): RegistrationValidator
+    public function studentBelongsToCourse(int $courseId, int $studentId): RegistrationValidator
     {
-        $this->after(function () use ($course, $studentId) {
+        $this->after(function () use ($courseId, $studentId) {
             // TODO:
         });
 
@@ -26,19 +33,19 @@ class RegistrationValidator extends WithErrors
     }
 
     /**
-     * @param Course $course
-     * @param Collection|Submission[] $submissions
+     * @param int $courseId
+     * @param \Illuminate\Support\Collection|Submission[] $submissions
      * @return $this
      */
-    public function submissionsBelongToCourse(Course $course, Collection $submissions): RegistrationValidator
+    public function submissionsBelongToCourse(int $courseId, \Illuminate\Support\Collection $submissions): RegistrationValidator
     {
-        $this->after(function () use ($course, $submissions) {
+        $this->after(function () use ($courseId, $submissions) {
             foreach ($submissions as $submission) {
-                if ($submission->charon->course != $course->id) {
+                if ($submission->charon->course != $courseId) {
                     $this->addError(
                         'submissions',
                         'Submission %d does not belong to course %d',
-                        $submission->id, $course->id
+                        $submission->id, $courseId
                     );
                 }
             }
@@ -49,10 +56,10 @@ class RegistrationValidator extends WithErrors
 
     /**
      * @param int $studentId
-     * @param Collection|Submission[] $submissions
+     * @param \Illuminate\Support\Collection|Submission[] $submissions
      * @return $this
      */
-    public function submissionsBelongToStudent(int $studentId, Collection $submissions): RegistrationValidator
+    public function submissionsBelongToStudent(int $studentId, \Illuminate\Support\Collection $submissions): RegistrationValidator
     {
         $this->after(function () use ($studentId, $submissions) {
             foreach ($submissions as $submission) {

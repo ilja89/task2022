@@ -3,7 +3,8 @@
 namespace TTU\Charon\Services\Flows;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\DefenseRegistration;
@@ -15,7 +16,6 @@ use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Validators\RegistrationValidator;
-use Zeizig\Moodle\Models\Course;
 
 /**
  * @version Registration 2.*
@@ -57,7 +57,7 @@ class FindAvailableRegistrationTimes
      *
      * TODO: make or update a ticket which creates bookings, free expired bookings should be scheduled there as a cron job
      *
-     * @param Course $course
+     * @param int $courseId
      * @param int $studentId
      * @param array $submissions [charon_id => submission_id]
      * @param Carbon $start
@@ -66,7 +66,7 @@ class FindAvailableRegistrationTimes
      * @return array
      * @throws ValidationException
      */
-    public function run(Course $course, int $studentId, array $submissions, Carbon $start, Carbon $end): array
+    public function run(int $courseId, int $studentId, array $submissions, Carbon $start, Carbon $end): array
     {
         $submissions = $this->filter($studentId, $submissions, $start, $end);
 
@@ -74,10 +74,10 @@ class FindAvailableRegistrationTimes
             return [];
         }
 
-        $this->validate($course, $studentId, $submissions);
+        $this->validate($courseId, $studentId, $submissions);
 
-        $charons = $submissions->map(function ($submission) {
-            return $submission->charon();
+        $charons = $submissions->mapWithKeys(function ($submission) {
+            return [$submission->charon->id => $submission->charon];
         });
 
         $labs = $this->findLabs($charons, $start, $end);
@@ -86,31 +86,29 @@ class FindAvailableRegistrationTimes
             return [];
         }
 
-        $ownTeachers = $this->findOwnTeachers($studentId, $course->id);
+        $ownTeachers = $this->findOwnTeachers($studentId, $courseId);
 
-        $times = $this->findAvailableTimes($labs, $start, $end, $ownTeachers);
+        $timeslots = $this->findAvailableTimes($labs, $ownTeachers);
 
-        if ($times->isEmpty()) {
+        if ($timeslots->isEmpty()) {
             return [];
         }
 
-        $times = $this->attachCharons($times, $charons, $ownTeachers);
-
-        return $this->group($times);
+        return $this->group($labs, $timeslots, $charons, $ownTeachers);
     }
 
     /**
-     * @param Course $course
+     * @param int $courseId
      * @param int $studentId
      * @param Collection $submissions
      *
      * @throws ValidationException
      */
-    private function validate(Course $course, int $studentId, Collection $submissions)
+    private function validate(int $courseId, int $studentId, Collection $submissions)
     {
         app()->make(RegistrationValidator::class)
-            ->studentBelongsToCourse($course, $studentId)
-            ->submissionsBelongToCourse($course, $submissions)
+            ->studentBelongsToCourse($courseId, $studentId)
+            ->submissionsBelongToCourse($courseId, $submissions)
             ->submissionsBelongToStudent($studentId, $submissions)
             ->validate();
     }
@@ -145,7 +143,7 @@ class FindAvailableRegistrationTimes
             ->filter(function (Submission $submission) use ($studentId, $start, $end, $registeredCharons) {
                 $charon = $submission->charon;
 
-                if ($registeredCharons->contains($charon->id)) {
+                if (in_array($charon->id, $registeredCharons)) {
                     return false;
                 }
 
@@ -194,7 +192,7 @@ class FindAvailableRegistrationTimes
      */
     private function findLabs(Collection $charons, Carbon $start, Carbon $end): Collection
     {
-        $this->labRepository->findLabsForCharons($charons->pluck('id')->all(), $start, $end);
+        return $this->labRepository->findLabsForCharons($charons->pluck('id')->all(), $start, $end);
     }
 
     /**
@@ -209,37 +207,90 @@ class FindAvailableRegistrationTimes
 
     /**
      * @param Collection|Lab[] $labs
-     * @param Carbon $start
-     * @param Carbon $end
      * @param int[] $ownTeachers
      *
      * @return Collection|DefenseRegistration[]
      */
-    private function findAvailableTimes(Collection $labs, Carbon $start, Carbon $end, array $ownTeachers): Collection
+    private function findAvailableTimes(Collection $labs, array $ownTeachers): Collection
     {
-
-        return DefenseRegistration::all();
+        return $this->registrationRepository->findAvailableTimesForStudent(
+            $labs->pluck('id')->all(),
+            $ownTeachers
+        );
     }
 
     /**
-     * @param Collection|DefenseRegistration[] $times
+     * TODO: when a charon is registered for a defense it will take up x amount of registration times depending
+     * on the length of the defense time specified for the charon and divided by the timeslot length
+     *
+     * @param Collection|Lab[] $labs
+     * @param Collection|DefenseRegistration[] $timeslots
      * @param Collection|Charon[] $charons
      * @param int[] $ownTeachers
      *
      * @return array
      */
-    private function attachCharons(Collection $times, Collection $charons, array $ownTeachers): array
+    private function group(Collection $labs, Collection $timeslots, Collection $charons, array $ownTeachers): array
     {
-        return [];
-    }
+        $labTimeslots = $timeslots->mapToGroups(function ($timeslot) {
+            return [$timeslot->lab_id => $timeslot];
+        });
 
-    /**
-     * @param array $times
-     *
-     * @return array
-     */
-    private function group(array $times): array
-    {
-        return [];
+        $result = [];
+
+        foreach ($labs as $lab) {
+            if (!$labTimeslots->has($lab->id)) {
+                continue;
+            }
+
+            $labCharons = collect($lab->charons)
+                ->mapToGroups(function ($id) use ($charons) {
+                    $charon = $charons->get($id);
+
+                    // TODO: currently it is not clearly defined how to check "if a charon can be defended only to own teacher", using temp
+                    $key = $charon->choose_teacher == 1 ? 'any' : 'own';
+                    return ['any' => $charon->id];
+                });
+
+            $chunks = [];
+
+            foreach ($labTimeslots->get($lab->id) as $timeslot) {
+                /** @var DefenseRegistration $timeslot */
+
+                if (empty($labCharons->get('any')) && !in_array($timeslot->teacher_id, $ownTeachers)) {
+                    continue;
+                }
+
+                $diffInMinutes = floor(($timeslot->time->timestamp - $lab->start->timestamp) / 60);
+                $closestChunkStart = floor($diffInMinutes / $lab->chunk_size) * $lab->chunk_size;
+                $start = $lab->start->copy()->addMinutes($closestChunkStart);
+                $key = $start->toString();
+
+                if (!isset($chunks[$key])) {
+                    $end = $start->copy()->addMinutes($lab->chunk_size);
+                    $chunks[$key] = [
+                        'lab' => $lab->id,
+                        'start' => $start,
+                        'end' => $end->isBefore($lab->end) ? $end : $lab->end,
+                        'charons' => [],
+                        'times' => 0
+                    ];
+                }
+
+                $chunks[$key]['times'] += 1;
+
+                if ($labCharons->has('any')) {
+                    $chunks[$key]['charons'] += $labCharons->get('any')->all();
+                }
+
+                if ($labCharons->has('own')) {
+                    $chunks[$key]['charons'] += $labCharons->get('own')->all();
+                }
+            }
+
+            $result = array_merge($result, array_values($chunks));
+        }
+
+        return $result;
     }
 }

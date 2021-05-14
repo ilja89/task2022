@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
+use TTU\Charon\Repositories\CourseRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -68,13 +70,14 @@ class DefenseRegistrationController extends Controller
     /**
      * @version Registration 2.*
      *
-     * @param Course $course
-     *
      * @return array
      * @throws ValidationException
      */
-    public function findAvailableTimes(Course $course): array
+    public function findAvailableTimes(): array
     {
+        // TODO: fetch via repository
+        $courseId = Charon::find($this->request->input('charon_id'))->course;
+
         $validator = Validator::make($this->request->all(), [
             'submissions' => 'required|filled',
             'student' => 'required|integer|filled',
@@ -87,7 +90,7 @@ class DefenseRegistrationController extends Controller
         }
 
         return $this->findTimes->run(
-            $course,
+            $courseId,
             $this->request->input('student'),
             $this->request->input('submissions'),
             Carbon::parse($this->request->input('start')),

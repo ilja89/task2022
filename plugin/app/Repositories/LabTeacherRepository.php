@@ -277,8 +277,6 @@ class LabTeacherRepository
     /**
      * @version Registration 2.*
      *
-     * TODO: select only ID-s?
-     *
      * @param int $studentId
      * @param int $courseId
      * @return int[]

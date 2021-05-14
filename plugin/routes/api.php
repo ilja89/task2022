@@ -157,6 +157,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')->post('courses/{course}/labs', 'LabController@create');
 
     Route::middleware('auth.charon.submissions.view.require')
-        ->get('course/{course}/labs/available', 'DefenseRegistrationController@findAvailableTimes');
-
+        ->get('charons/{charon}/labs/available', 'DefenseRegistrationController@findAvailableTimes');
 });

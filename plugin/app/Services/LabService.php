@@ -241,7 +241,6 @@ class LabService
                     'lab_id' => $lab->id,
                     'time' => $start->copy()
                 ];
-
                 $start->addMinutes(self::TIMESLOT_INTERVAL_MINUTES);
             }
         }
