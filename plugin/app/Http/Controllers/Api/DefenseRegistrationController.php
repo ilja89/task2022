@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -78,7 +79,7 @@ class DefenseRegistrationController extends Controller
             $ownTeacher,
             $lab->id,
             $charonId,
-            $chosenTime
+            Carbon::parse($chosenTime)
         );
 
         $this->registrationService->registerDefenceTime(
@@ -112,7 +113,7 @@ class DefenseRegistrationController extends Controller
         return $this->registrationService->getUsedDefenceTimes(
             $request->input('time'),
             $request->input('charon_id'),
-            $lab->id,
+            $lab,
             $request->input('user_id'),
             $request->input('my_teacher') == 'true'
         );
