@@ -112,7 +112,7 @@ class LabTeacherRepository
             )->get();
     }
 
-    public function getTeacherReportByCourseId($courseId)
+    public function getTeacherReportByCourseId(int $courseId)
     {
         $prefix = $this->moodleConfig->prefix;
 
