@@ -40,7 +40,7 @@ Go to charon folder `cd bitnami/moodle/mod/charon`
 ### actually install charon
 `Working directory: /bitnami/moodle/mod/charon` 
 ```
-cp -p .env.production .env
+cp -p .env.develop.env
 php composer.phar install --dev
 apt install -y build-essential libpng-dev
 npm install
