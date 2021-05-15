@@ -82,7 +82,7 @@ Navigate to [http://localhost](http://localhost) and login with user `dev` and p
 
 ### Installing TalTech theme
 
-Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our Discord chat.  
+Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.  
 
 Copy the theme inside the Moodle container
 ```
@@ -102,6 +102,17 @@ Select **Taltech Boost** from the list.
 
 You can actually get much more logs from your moodle than now. Go to **Site administration > Development > Debugging**  
 and set **Debug messages** to `DEVELOPER`
+
+### Updating frontend source in Moodle container
+
+In order to update the frontend components run any of the following commands in the Charon directory inside the Moodle
+container (see [Webpack CLI docs](https://webpack.js.org/api/cli/) for additional information).
+
+```bash
+npm run dev
+npm run watch
+npm run hot
+```
 
 ### Creating users in Moodle
 
