@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.3] - 2021-05-15
+
+### Added
+- \#419 Scroll bar appears in the "My registrations" popup when registrations don't fit on the screen
+
 ### Fixed
 - \#416 Teacher overview now counts only defenses for the given course
 
@@ -82,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.2...1.2.3
 [1.2.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.1...1.2.2
 [1.2.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.0...1.2.1
 [1.2.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.1.4...1.2.0

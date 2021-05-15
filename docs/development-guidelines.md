@@ -68,4 +68,24 @@ We're currently using [Laravel 5.5](https://laravel.com/docs/5.5/)
 
 ## Tags and releases
 
-- TODO
+In order to create a release for live deployment
+- Look up what's the next release number ought to be (see [CHANGELOG](/CHANGELOG.md))
+- Create a new branch from `develop` following the pattern `release/x.y.z`
+- Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description
+- Review the changes and try to identify anything which should be kept in mind during the deployment, things like
+  - are there non-trivial database structure changes or data modification migration which may prompt a need for a backup before deploying?
+  - does the new version require any manual modifications to the live environment? (e.g. env variable, filesystem, PHP extension changes)
+  - talk to the project manager if such things are found
+- Update [CHANGELOG](/CHANGELOG.md)
+  - below the `[Unreleased]` section add the version number and date
+  - add a link to the version diff to previous version at the bottom of the file following previous examples
+  - add any missing descriptions of things _added/changed/fixed_ in the version currently being released
+- Ask project manager to deploy the release branch to pre-live environment for testing
+  - fix any issues found on the release branch
+
+Once the release is tested and deployed to live
+- Create a new tag and release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
+- Pick your release branch for the _Create from_ field
+- Use your release number as the _Tag name_ and _Release title_
+- Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
+- Merge your release branch to master (and master also back to develop to get any changes there too)
