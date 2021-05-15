@@ -1,51 +1,56 @@
 <template>
-	<v-card class="mx-auto mb-4">
-		<v-card-text class="grey lighten-4">
-			<v-container class="spacing-playground pa-3" fluid>
-				<v-card-title v-if="registrations.length">
-					{{ translate('myRegistrationsText') }}
-					<v-spacer></v-spacer>
+  <v-card class="mx-auto mb-4">
+    <v-card-text class="grey lighten-4">
+      <v-container class="spacing-playground pa-3" fluid>
+        <v-card-title v-if="registrations.length">
+          {{ translate('myRegistrationsText') }}
+          <v-spacer></v-spacer>
 
-					<v-text-field
-						v-if="registrations.length"
-						v-model="search"
-						append-icon="search"
-						hide-details
-						label="Search"
-						single-line>
-					</v-text-field>
-				</v-card-title>
+          <v-text-field
+              v-if="registrations.length"
+              v-model="search"
+              append-icon="search"
+              hide-details
+              label="Search"
+              single-line>
+          </v-text-field>
+        </v-card-title>
 
-				<v-card-title v-else>
-					{{ translate('noRegistrationsText') }}
-				</v-card-title>
+        <v-card-title v-else>
+          {{ translate('noRegistrationsText') }}
+        </v-card-title>
 
-				<v-data-table
-					:charon="charon"
-					:headers="headers"
-					:items="registrations"
-					:registrations="registrations"
-					:search="search"
-					:student_id="student_id"
-					class="elevation-1"
-					multi-sort
-					single-line>
+        <v-layout column style="height: 125vh">
+          <v-flex md6 style="overflow: auto">
+            <v-data-table
+                :charon="charon"
+                :headers="headers"
+                :items="registrations"
+                :registrations="registrations"
+                :search="search"
+                :student_id="student_id"
+                class="elevation-1"
+                multi-sort
+                single-line>
 
-					<template slot="no-data">
-						<v-alert :value="true" style="text-align: center">
-							{{ translate('tableNoRegistrationsText') }}
-						</v-alert>
-					</template>
+              <template slot="no-data">
+                <v-alert :value="true" style="text-align: center">
+                  {{ translate('tableNoRegistrationsText') }}
+                </v-alert>
+              </template>
 
-					<template v-slot:item.actions="{ item }">
-						<v-btn icon @click="deleteItem(item)">
-							<img alt="eye" height="24px" src="pix/bin.png" width="24px">
-						</v-btn>
-					</template>
-				</v-data-table>
-			</v-container>
-		</v-card-text>
-	</v-card>
+              <template v-slot:item.actions="{ item }">
+                <v-btn icon @click="deleteItem(item)">
+                  <img alt="eye" height="24px" src="pix/bin.png" width="24px">
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-flex>
+        </v-layout>
+
+      </v-container>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
