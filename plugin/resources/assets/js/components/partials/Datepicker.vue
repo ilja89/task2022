@@ -15,7 +15,8 @@
 
         props: {
             datetime: {required: true},
-            to_be_checked: {required: false}
+            to_be_checked: {required: false},
+            date_only: {required: false}
         },
 
         data() {
@@ -28,10 +29,10 @@
                 },
 
                 option: {
-                    type: 'min',
+                    type: this.date_only ? 'day' : 'min',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'YYYY-MM-DD HH:mm',
+                    format: this.date_only ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm',
                     placeholder: this.placeholder,
                     buttons: {
                         ok: 'Ok',

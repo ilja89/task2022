@@ -40,7 +40,7 @@ export default {
         let targets = el.querySelectorAll('code')
 
         targets.forEach(target => {
-            if (binding.value) {
+            if (typeof binding.value === 'string') {
                 target.innerHTML = binding.value
             }
 
@@ -57,7 +57,7 @@ export default {
         let targets = el.querySelectorAll('code')
 
         targets.forEach(target => {
-            if (binding.value) {
+            if (typeof binding.value === 'string') {
                 target.innerHTML = binding.value
             }
 
