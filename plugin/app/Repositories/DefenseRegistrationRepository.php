@@ -68,7 +68,7 @@ class DefenseRegistrationRepository
      * @param int $studentId
      * @param array|int[] $charons
      *
-     * @return array
+     * @return int[]
      */
     public function filterCharonsWithActiveStudentRegistrations(int $studentId, array $charons): array
     {

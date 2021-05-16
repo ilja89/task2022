@@ -26,7 +26,13 @@ class RegistrationValidator extends WithErrors
     public function studentBelongsToCourse(int $courseId, int $studentId): RegistrationValidator
     {
         $this->after(function () use ($courseId, $studentId) {
-            // TODO:
+            /**
+             * TODO:
+             * check exists from role_assignments
+             * join role_assignments.contextid on context.id
+             * where role_assignments.userid = $studentId
+             * and context.instanceid = $courseId
+             */
         });
 
         return $this;

@@ -75,7 +75,7 @@ class DefenseRegistrationController extends Controller
      */
     public function findAvailableTimes(): array
     {
-        // TODO: fetch via repository
+        // TODO: fetch via repository, would be easier to mock it out for tests
         $courseId = Charon::find($this->request->input('charon_id'))->course;
 
         $validator = Validator::make($this->request->all(), [

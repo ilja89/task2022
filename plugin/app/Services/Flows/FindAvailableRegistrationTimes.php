@@ -4,7 +4,6 @@ namespace TTU\Charon\Services\Flows;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\DefenseRegistration;
@@ -173,7 +172,7 @@ class FindAvailableRegistrationTimes
                 if ($gradeTypes->contains(1) && $charon->defense_threshold) {
                     $threshold = $charon->defense_threshold / 100;
                     foreach ($results as $result) {
-                        if ($result->grade_type_code <=100 && $result->calculated_result < $threshold) {
+                        if ($result->grade_type_code <= 100 && $result->calculated_result < $threshold) {
                             return false;
                         }
                     }
@@ -220,8 +219,9 @@ class FindAvailableRegistrationTimes
     }
 
     /**
-     * TODO: when a charon is registered for a defense it will take up x amount of registration times depending
-     * on the length of the defense time specified for the charon and divided by the timeslot length
+     * TODO: when a charon is booked/registered for a defense it will take up x amount of registration times depending
+     * on the length of the defense time specified for the charon and divided by the timeslot length.
+     * Frontend booking ought to allow booking a Charon where there are enough timeslots to cover the x.
      *
      * @param Collection|Lab[] $labs
      * @param Collection|DefenseRegistration[] $timeslots
@@ -247,8 +247,10 @@ class FindAvailableRegistrationTimes
                 ->mapToGroups(function ($id) use ($charons) {
                     $charon = $charons->get($id);
 
-                    // TODO: currently it is not clearly defined how to check "if a charon can be defended only to own teacher", using temp
-                    $key = $charon->choose_teacher == 1 ? 'any' : 'own';
+                    // TODO: currently it is not clearly defined how to check "if a charon can be defended only to own teacher"
+                    // would propose to replace "choose_teacher" with "own_teacher" field
+                    // $key = $charon->choose_teacher == 1 ? 'any' : 'own';
+
                     return ['any' => $charon->id];
                 });
 

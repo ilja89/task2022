@@ -283,6 +283,7 @@ class LabTeacherRepository
      *
      * @param int $studentId
      * @param int $courseId
+     *
      * @return int[]
      */
     public function getOwnTeachersIdsForStudent(int $studentId, int $courseId): array

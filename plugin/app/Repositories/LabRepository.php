@@ -72,7 +72,7 @@ class LabRepository
      * @param Carbon $start
      * @param Carbon $end
      *
-     * @return Collection|Lab[] Returned labs have an extra field charons for keeping their ID-s
+     * @return Collection|Lab[] Returned labs have an extra field `charons` for holding their ID-s
      */
     public function findLabsForCharons(array $charonIds, Carbon $start, Carbon $end): Collection
     {
