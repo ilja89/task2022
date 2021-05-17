@@ -1,70 +1,162 @@
-# Development moodle installation guide
+# Charon and Moodle local setup and development
 
-Intention of the following document is to make it easier to get up and going with developing Charon in localhost. By default, it's complicated to get Charon to work with fresh Moodle. By following this tutorial, you're 15 minutes apart from perfectly working 1:1 development environment which is running at ained.ttu.ee.
+Intention of the following document is to make it easier to get up and going with developing Charon in localhost.
+By default, it's complicated to get Charon to work with fresh Moodle. By following this tutorial, you're 15 minutes
+apart from perfectly working 1:1 development environment which is running at https://moodle.taltech.ee/.
 
-## Installing moodle
+## Prerequisites
 
-Either run `docker-compose up -d` (has mount for charon) or `docker-compose -f docker-compose-cloud.yml up -d` and `docker-compose -f docker-compose-moodle-use-cloud.yml up -d`
+This guide assumes that you have installed [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/),
+are familiar with command line and have read access to [Charon repository](https://gitlab.cs.ttu.ee/ained/charon).
 
-When done, you should be able to access Moodle at http://localhost and login with user ```dev```, password ```dev```, configurable in docker-compose.
+## First time setup
 
-## Best way to install charon
+### Get Charon
 
-Before proceeding with charon install to moodle, make sure your docker has enough resources for npm install. 
-
-To install charon you can either use 
-```
-curl -v -X GET --header "PRIVATE-TOKEN: [token]" -o artifacts.zip "https://gitlab.cs.ttu.ee/api/v4/projects/216/jobs/artifacts/master/download?job=create_production_artifacts"
-```
-or 
-```
-git clone https://gitlab.cs.ttu.ee/ained/charon
+```bash
+git clone https://gitlab.cs.ttu.ee/ained/charon && cd charon
 ```
 
-When git clone option is used you need to `docker exec -it <hash or name> bash` into the container, `cd bitnami/moodle/mod/charon` folder and follow this tutorial on how to install npm: https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/
-and also ```npm config set registry "http://registry.npmjs.org"``` just in case,
-then run next commands as well: 
+### Install moodle
+
+Moodle instance will run inside a docker container, your local Charon folder will be mounted into that container
+at `bitnami/moodle/mod/charon` - hence your (PHP code) changes will have immediate effect.
+
+Navigate to `/docs` and start the Moodle and its database container with 
+
+```bash
+docker-compose up -d
 ```
-cp -p .env.production .env
-php composer.phar install --no-dev
+
+Moodle container may take a few minutes to start up initially, you can follow its progress and verify its working shorty
+once the logs have passed `Starting Apache...` with
+
+```bash
+docker logs -f charon-moodle
+```
+
+### Install Charon
+
+During the first installation of Charon you need a few extra steps to get the plugin running. Connect to the container
+with your command line:
+
+```bash
+docker exec -it charon-moodle bash
+```
+
+Navigate to Charon directory and execute the following commands
+
+```bash
+cd bitnami/moodle/mod/charon
+cp -p .env.develop .env
+php composer.phar install
 apt install -y build-essential libpng-dev
 npm install
 npm run dev
-rm -rf node_modules
-```
-
-## Post installation
-
-Then `cd moodle_data/moodle/mod/charon` and run 
-```
 sudo chmod -R 777 plugin/storage/
 ```
 
-Now you should have a working charon. Also enable developer settings by going **Site administration > Development > Debugging** and setting **Debug messages** to ```DEVELOPER```.
+### Verify that the database installation has been successful
 
-If you notice that when creating charons the presets and defaults are not present - then installation goofed and command:
-`php artisan db:seed` should be ran which seeds the database.
+Initial data creation may sometimes fail during the installation. To verify if it succeeded logon to the local database
+(see **Using Adminer** section below) and see if the `mdl_charon_preset` table has more than zero entries.
 
-## Installing TTU theme
+If the table is empty, run the following command in the Charon directory _inside the Moodle container_ (see **Install Charon** above)
 
-It may help to develop views for Charon when running the same theme which is used at ained.ttu.ee, ```git clone https://gitlab.cs.ttu.ee/ained/theme1.git``` 
+```bash
+php artisan db:seed
+```
 
-There are 2 options:
-    * You can download the folder and copy it from host machine into the container: ```docker cp <theme_folder> <container hash/name>:bitnami/moodle/theme/<theme_folder>```
-    * In case of moodle being mounted to a folder, you can just drop or clone the folder into the ```theme``` folder on your host machine.
+### Revert possible changes to .htaccess   
+
+Moodle container sometimes may want to overwrite your local `.htaccess` which came with the project. 
+In your project root, check `git status` and if the `.htaccess` file appears to be modified then discard the changes
+
+```bash
+git checkout -- .htaccess
+```
+
+### Login to Moodle
+
+Navigate to [http://localhost](http://localhost) and login with user `dev` and password `dev`.
+
+### Installing TalTech theme
+
+Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.  
+
+Copy the theme inside the Moodle container
+```
+docker cp <theme_folder> charon-moodle:bitnami/moodle/theme/<theme_folder>
+```
 
 Afterwards, navigate to your Moodle instance from browser. You should be prompted with new plugin installation page.
 
-Make TTU theme default by navigating to **Site administration > Appearance > Theme > Theme selector > Default > Change theme**.
+Make TalTech theme default by navigating to **Site administration > Appearance > Theme > Theme selector > Default > Change theme**.
 
-Select **Theme1** from the list.
+Select **Taltech Boost** from the list.
 
 
-## Using Adminer
+## Working with Charon locally
 
-Docker-composes also have an Adminer container for easy access to database. To use it, navigate to localhost or server IP, to the port where Adminer container is (check from docker-compose or in case of cloud install, ask whoever knows about that). 
+### Debug mode
 
-Server field is in context of docker, for local install it would be ```mariadb:3306```, user and pass both ```root```, database ```bitnami_moodle```.
+You can actually get much more logs from your moodle than now. Go to **Site administration > Development > Debugging**  
+and set **Debug messages** to `DEVELOPER`
 
-## Why .htacces is used
+### Updating frontend source in Moodle container
+
+In order to update the frontend components run any of the following commands in the Charon directory inside the Moodle
+container (see [Webpack CLI docs](https://webpack.js.org/api/cli/) for additional information).
+
+```bash
+npm run dev
+npm run watch
+npm run hot
+```
+
+### Creating users in Moodle
+
+To add users go to **Site administration > Users > Accounts > Add a new user**.
+
+### Creating a course
+
+Go to **Site home > \*cog\* > Turn editing on >** add a new course button appears.  
+
+Course info is up to you, but the shortname should follow a similar pattern `python-2021`.
+
+In **Tags** section, add the tag `Programming`
+
+### Create Charons and Submissions
+
+To create new Charons or Submissions run either of the following commands in
+the Charon directory _inside the Moodle container_ (see **Install Charon** above).
+
+The seeders will prompt you for input for which you can find values in the database.
+
+```bash
+php artisan db:seed --class=CharonSeeder
+php artisan db:seed --class=SubmissionSeeder
+```
+
+### Using Adminer
+
+Docker-composes also have an Adminer container for easy access to database. 
+
+To use it, navigate to [http://localhost:8190/](http://localhost:8190/) and login with the following parameters:
+- System: `MySQL`
+- Server: `mariadb:3306`
+- Username: `root`
+- Password: `root`
+- Database: `bitnami_moodle`
+
+## Misc
+
+### Why .htacces is used
+
 .htaccess is needed so `/mod/charon/courses/<id>/settings` doesn't return 404. Purely because how Moodle is done
+
+### File permissions
+
+By default, git picks up changes in [file permissions](https://linuxhandbook.com/linux-file-permissions/).      
+During the development process, Moodle might change the file permissions on your machine.  
+Run `git config core.filemode false` to disable tracking of filemode changes for this project.
