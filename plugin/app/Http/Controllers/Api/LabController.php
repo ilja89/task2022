@@ -128,9 +128,15 @@ class LabController extends Controller
             ->get();
     }
 
-    public function registrations(Course $course, Lab $lab)
+    /**
+     * @param Course $course (not used)
+     * @param Lab $lab
+     * 
+     * @return int
+     */
+    public function countRegistrations(Course $course, Lab $lab)
     {
-        return $this->labRepository->getRegistrations($lab, $this->request);
+        return $this->labRepository->countRegistrations($lab, $this->request);
     }
 
 }

@@ -329,9 +329,17 @@ class LabRepository
     }
 
     /**
+     * Count affected registrations for lab
+     * request body may contain additional filters
+     * 
      * @version Registration 1.*
+     * 
+     * @param Lab $lab
+     * @param Request request
+     * @return int
+     * 
      */
-    public function getRegistrations($lab, $request)
+    public function countRegistrations($lab, $request)
     {
 
         return \DB::table('charon_defenders')
