@@ -95,6 +95,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+    Route::middleware('auth.course.managing.require')  // update lab
+        ->post('courses/{course}/labs/{lab}/registrations', 'LabController@registrations');
 
     // TEACHERS
 

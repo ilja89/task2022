@@ -24,6 +24,17 @@
                     <v-btn class="ma-2" small tile outlined color="error" @click="alert=false">No</v-btn>
                 </v-col>
             </v-row>
+            <v-row class="lab-overview-message">
+                <div v-if="registrations === -1">
+                    Checking if the Lab has registrations ...
+                </div>
+                <div v-else-if="registrations === 0" class="green-text">
+                    Lab has no registrations
+                </div>
+                <div v-else>
+                    Lab has {{registrations}} registrations
+                </div>
+            </v-row>
         </v-alert>
         <v-card-title v-if="labs.length">
             Labs
@@ -80,6 +91,12 @@
             height: auto;
         }
     }
+    .lab-overview-message div {
+        margin-left: 16px;
+        &.green-text {
+            color: green;
+        }
+    }
 </style>
 
 <script>
@@ -89,6 +106,7 @@
     import CharonFormat from "../../../helpers/CharonFormat";
     import moment from "moment";
     import Datepicker from "../../../components/partials/Datepicker";
+    import _ from "lodash";
 
     export default {
         name: "lab-section",
@@ -103,6 +121,7 @@
             return {
                 alert: false,
                 lab_id: 0,
+                registrations: -1,
                 search: '',
                 start_date: {time: `${moment().format("YYYY-MM-DD")}`},
                 labs_headers: [
@@ -151,13 +170,17 @@
             },
 
             editLabClicked(lab) {
-                this.updateLab({lab})
+                this.updateLab({lab: _.cloneDeep(lab)})
                 window.location = "popup#/labsForm";
             },
 
             promptDeletionAlert(lab) {
                 this.alert = true
                 this.lab_id = lab.id
+                this.registrations = -1;
+                Lab.checkRegistrations(this.course.id, this.lab_id, {}, (result) => {
+                    this.registrations = result;
+                });
             },
 
             deleteLab() {

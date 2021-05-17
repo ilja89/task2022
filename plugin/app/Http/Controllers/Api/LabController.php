@@ -128,4 +128,9 @@ class LabController extends Controller
             ->get();
     }
 
+    public function registrations(Course $course, Lab $lab)
+    {
+        return $this->labRepository->getRegistrations($lab, $this->request);
+    }
+
 }

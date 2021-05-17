@@ -329,6 +329,34 @@ class LabRepository
     }
 
     /**
+     * @version Registration 1.*
+     */
+    public function getRegistrations($lab, $request)
+    {
+
+        return \DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $lab->id)
+            ->where('charon_defenders.progress', '<>', 'Done')
+            ->where(function($q) use($request) {
+                if ($request["start"]) {
+                    $time = Carbon::parse($request["start"])->format('Y-m-d H:i:s');
+                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $time);
+                }
+                if ($request["end"]) {
+                    $time = Carbon::parse($request["end"])->format('Y-m-d H:i:s');
+                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $time);
+                }
+                if ($request["charons"]) {
+                    $q = $q->orWhereIn('charon_defenders.charon_id', $request["charons"]);
+                }
+                if ($request["teachers"]) {
+                    $q = $q->orWhereIn('charon_defenders.teacher_id', $request["teachers"]);
+                }
+            })->count();
+    }
+
+    /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.
      *
      * @param $teachers
