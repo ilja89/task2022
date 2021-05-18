@@ -96,7 +96,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
     Route::middleware('auth.course.managing.require')  // update lab
-        ->post('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); // get number of affected registrations when lab is being to deleted or modified
+        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); // get number of affected registrations when lab is being to deleted or modified
 
     // TEACHERS
 

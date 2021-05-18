@@ -70,7 +70,7 @@ class Lab {
     }
 
     static checkRegistrations(courseId, labId, filters, then) {
-        axios.post('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/registrations', filters)
+        axios.get('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/registrations', {params: filters})
             .then(response => {
                 then(response.data)
             }).catch(error => {
