@@ -334,73 +334,36 @@ class LabRepository
      * 
      * @version Registration 1.*
      * 
-     * @param Lab $lab
-     * @param Request request
+     * @param int $labId
+     * @param string $start
+     * @param string $end
+     * @param int[] $charons
+     * @param int[] $teachers
      * @return int
      * 
      */
-    public function countRegistrations($lab, $request)
+    public function countRegistrations($labId, $start, $end, $charons, $teachers)
     {
 
         return \DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->where('charon_defense_lab.lab_id', $lab->id)
+            ->where('charon_defense_lab.lab_id', $labId)
             ->where('charon_defenders.progress', '<>', 'Done')
-            ->where(function($q) use($request) {
-                if ($request["start"]) {
-                    $time = Carbon::parse($request["start"])->format('Y-m-d H:i:s');
-                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $time);
+            ->where(function($q) use($start, $end, $charons, $teachers) {
+                if ($start) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $start);
                 }
-                if ($request["end"]) {
-                    $time = Carbon::parse($request["end"])->format('Y-m-d H:i:s');
-                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $time);
+                if ($end) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $end);
                 }
-                if ($request["charons"]) {
-                    $q = $q->orWhereIn('charon_defenders.charon_id', $request["charons"]);
+                if ($charons) {
+                    $q = $q->orWhereIn('charon_defenders.charon_id', $charons);
                 }
-                if ($request["teachers"]) {
-                    $q = $q->orWhereIn('charon_defenders.teacher_id', $request["teachers"]);
+                if ($teachers) {
+                    $q = $q->orWhereIn('charon_defenders.teacher_id', $teachers);
                 }
             })->count();
     }
-
-/**
-     * Count affected registrations for lab
-     * request body may contain additional filters
-     * 
-     * @version Registration 2.*
-     * 
-     * @param Lab $lab
-     * @param Request request
-     * @return int
-     * 
-     */
-// NOT TESTED AT ALL
-/*    public function countRegistrations($lab, $request)
-    {
-
-        return \DB::table('charon_defense_registration')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defense_registration.lab_id')
-            ->where('charon_defense_lab.lab_id', $lab->id)
-            ->where('charon_defense_registration.progress', '<>', 'Done')
-            ->where(function($q) use($request) {
-                if ($request["start"]) {
-                    $time = Carbon::parse($request["start"])->format('Y-m-d H:i:s');
-                    $q = $q->orWhere('charon_defense_registration.time', '<', $time);
-                }
-                if ($request["end"]) {
-                    $time = Carbon::parse($request["end"])->format('Y-m-d H:i:s');
-                    $q = $q->orWhere('charon_defense_registration.time', '>', $time);
-                }
-                if ($request["charons"]) {
-                    $q = $q->orWhereIn('charon_defense_registration.charon_id', $request["charons"]);
-                }
-                if ($request["teachers"]) {
-                    $q = $q->orWhereIn('charon_defense_registration.teacher_id', $request["teachers"]);
-                }
-            })->count();
-    }
-*/
 
     /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.

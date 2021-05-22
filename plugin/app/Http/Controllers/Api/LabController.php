@@ -136,7 +136,11 @@ class LabController extends Controller
      */
     public function countRegistrations(Course $course, Lab $lab)
     {
-        return $this->labRepository->countRegistrations($lab, $this->request);
+        $start = $this->request['start'] ? Carbon::parse($this->request['start'])->format('Y-m-d H:i:s') : null;
+        $end = $this->request['end'] ? Carbon::parse($this->request['end'])->format('Y-m-d H:i:s') : null;
+        $charons = $this->request['charons'] ?? null;
+        $teachers = $this->request['teachers'] ?? null;
+        return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
 }

@@ -233,21 +233,21 @@
                     // (registrations > 0) means that lost registrations 
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
-                    if(_.isEmpty(filter) || (this.registrations > 0)) {
+                    if (_.isEmpty(filter) || (this.registrations > 0)) {
                         Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
                             window.location = "popup#/labs";
                             window.location.reload();
                             VueEvent.$emit('show-notification', 'Lab updated!');
-                        })
+                        });
                     } else {
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
-                            if(result == 0) {
+                            if (result == 0) {
                                 Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
                                     window.location = "popup#/labs";
                                     window.location.reload();
                                     VueEvent.$emit('show-notification', 'Lab updated!');
-                                })
+                                });
                             } else {
                                 this.registrations = result;
                             }
@@ -294,31 +294,31 @@
             detectChanges(old, current, charons, teachers) {
                 let filter = {};
 
-                if(moment(current.start.time).isAfter(old.start.time)) {
+                if (moment(current.start.time).isAfter(old.start.time)) {
                     filter.start = moment(current.start.time).format();
                 }
 
-                if(moment(current.end.time).isBefore(old.end.time)) {
+                if (moment(current.end.time).isBefore(old.end.time)) {
                     filter.end = moment(current.end.time).format();
                 }
 
                 let missing = [];
-                for(let ch of old.charons) {
-                    if(!charons.includes(ch.id)) {
+                for (let ch of old.charons) {
+                    if (!charons.includes(ch.id)) {
                         missing.push(ch.id);
                     }
                 }
-                if(missing.length) {
+                if (missing.length) {
                     filter.charons = [...missing];
                 }
 
                 missing = [];
-                for(let tc of old.teachers) {
-                    if(!teachers.includes(tc.id)) {
+                for (let tc of old.teachers) {
+                    if (!teachers.includes(tc.id)) {
                         missing.push(tc.id);
                     }
                 }
-                if(missing.length) {
+                if (missing.length) {
                     filter.teachers = [...missing];
                 }
 
