@@ -15,7 +15,7 @@
     <exclude-pattern>./storage/</exclude-pattern>
     <exclude-pattern>./vendor/</exclude-pattern>
 
-    <rule name="RawQueryBindings" class="RawQueryBindingsRule">
+    <rule name="RawQueryBindings" class="TTU\Charon\PHPMD\RawQueryBindingsRule">
         <priority>3</priority>
     </rule>
 </ruleset>

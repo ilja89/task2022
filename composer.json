@@ -34,6 +34,7 @@
 		],
 		"psr-4": {
 			"TTU\\Charon\\": "plugin/app/",
+			"TTU\\Charon\\PHPMD\\": "PHPMD/",
 			"Zeizig\\Moodle\\": "packages/zeizig/moodle/src/"
 		}
 	},
