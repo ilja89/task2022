@@ -123,6 +123,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require') // get a course
         ->get('courses/{course}', 'LabController@getCourse');
 
+    // GROUPS
+
+    Route::middleware('auth.course.managing.require') // get groups for course
+        ->get('courses/{course}/groups', 'LabController@getGroups');
+
     // CHARON
 
     Route::middleware('auth.charon.managing.require') // save Charon
