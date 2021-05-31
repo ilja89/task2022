@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- \#434 Current points in submission view show selected submission's points now
+
 ## [1.2.3] - 2021-05-15
 
 ### Added
