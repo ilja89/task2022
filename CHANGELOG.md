@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
+- \#397 Ask confirmation if a Lab change would result in loss of active registrations
+
 ### Fixed
 - \#434 Current points in submission view show selected submission's points now
 
