@@ -39,7 +39,7 @@
 
                             <div class="result">
                                 <div>
-                                  <span v-if="getGrademapByResult(result).persistent === 1">*</span>{{ getGrademapByResult(result).name }}
+                                  <span v-if="getGrademapByResult(result).persistent === 1">* </span>{{ getGrademapByResult(result).name }}
                                     <span class="grademax">
                                         / {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p
                                     </span>
@@ -103,7 +103,7 @@
         },
 
         computed: {
-            ...mapState(["charon", "submission", "teacher"]),
+            ...mapState(["charon", "submission", "teacher", ""]),
 
             ...mapGetters(["charonLink"]),
 
@@ -173,7 +173,6 @@
                         correctGrademap = grademap;
                     }
                 });
-
                 return correctGrademap;
             },
 

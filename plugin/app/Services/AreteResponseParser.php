@@ -52,6 +52,9 @@ class AreteResponseParser
     public function getSubmissionFromRequest(Request $request, string $repository, int $authorId)
     {
         $course = $this->gitCallbackService->getCourse($repository);
+
+        // TODO: ERROR: Trying to get property 'id' of non-object (line 55)
+        // error appears when insert: php artisan db:seed --class=SubmissionSeeder
         $charon = $this->getCharon($request, $course->id);
 
         $originalId = $request->has('retest') && !!$request->input('retest')
