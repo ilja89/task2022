@@ -2,7 +2,9 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
@@ -99,13 +101,24 @@ class UpdateCharonService
     public function updateDeadlines($request, $charon)
     {
         $oldDeadlines = $charon->deadlines;
-        $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
-        $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
+        $charonId = $charon->id;
+
+        $this->deadlinesRepository->deleteAllDeadlinesForCharon($charonId);
+        $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charonId);
 
         // Create new deadlines
         if ($request->deadlines !== null) {
+            $courseId = $charon->course;
+            $charonName = $charon->name;
             foreach ($request->deadlines as $deadline) {
+                $percentage = $deadline['percentage'];
+                $name = $charonName . ' ' . $percentage .'%' ;
+                $time = $deadline['deadline_time'];
+                $deadlineTime = strtotime($time);
+                $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ' . $time;
+                $data=array('name'=>$name, 'description'=>$description, 'courseid'=>$courseId, 'instance'=>$charonId, 'eventtype'=>'course','timestart'=>$deadlineTime);
                 $this->deadlineService->createDeadline($charon, $deadline);
+                $this->deadlinesRepository->addCharonDeadlinesToCalendarEvents($data);
             }
         }
 
