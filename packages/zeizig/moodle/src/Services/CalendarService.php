@@ -64,4 +64,23 @@ class CalendarService
 
         return \calendar_event::create($event);
     }
+
+    public function createCharonDeadlineEvent(
+        $name,
+        $description,
+        $courseId,
+        $instanceId,
+        $timeOpen
+    ) {
+        global $CFG;
+        require_once($CFG->dirroot . '/calendar/lib.php');
+        $event = new \stdClass();
+        $event->eventtype = 'course';
+        $event->name = $name;
+        $event->description = $description;
+        $event->courseid = $courseId;
+        $event->instance = $instanceId;
+        $event->timestart = $timeOpen;
+        return \calendar_event::create($event);
+    }
 }

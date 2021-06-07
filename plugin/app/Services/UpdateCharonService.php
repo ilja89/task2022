@@ -5,10 +5,14 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use stdClass;
+use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Listeners\AddDeadlinesToCalendar;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -28,6 +32,7 @@ class UpdateCharonService
     protected $charonGradingService;
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
+    private $calendarService;
 
     /**
      * UpdateCharonService constructor.
@@ -43,13 +48,15 @@ class UpdateCharonService
         GradebookService $gradebookService,
         DeadlineService $deadlineService,
         DeadlinesRepository $deadlinesRepository,
-        CharonGradingService $charonGradingService
+        CharonGradingService $charonGradingService,
+        CalendarService $calendarService
     ) {
         $this->grademapService     = $grademapService;
         $this->gradebookService    = $gradebookService;
         $this->deadlineService     = $deadlineService;
         $this->deadlinesRepository = $deadlinesRepository;
         $this->charonGradingService = $charonGradingService;
+        $this->calendarService = $calendarService;
     }
 
     /**
@@ -116,10 +123,17 @@ class UpdateCharonService
                 $time = $deadline['deadline_time'];
                 $deadlineTime = strtotime($time);
                 $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ' . $time;
-                $data=array('name'=>$name, 'description'=>$description, 'courseid'=>$courseId, 'instance'=>$charonId, 'eventtype'=>'course','timestart'=>$deadlineTime);
                 $this->deadlineService->createDeadline($charon, $deadline);
-                $this->deadlinesRepository->addCharonDeadlinesToCalendarEvents($data);
+
+                // deadline adding new version (both working)
+                $event = new CalendarService();
+                $event->createCharonDeadlineEvent($name, $description, $courseId, $charonId, $deadlineTime);
             }
+
+            // deadline adding old version (both working)
+//            $event = new CharonCreated($charon);
+//            $eventAdder = new AddDeadlinesToCalendar($this->calendarService);
+//            $eventAdder->handle($event);
         }
 
         $charon->load('deadlines');
