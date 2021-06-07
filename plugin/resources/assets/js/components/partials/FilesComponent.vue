@@ -100,7 +100,9 @@
                 if (this.files.length > 0) {
                     this.activeFileId = this.files[0].id
 
-                    this.formattedFiles[0] = this.compressFiles(this.formattedFiles[0])
+                    this.formattedFiles.forEach((file, idx) => {
+                        this.formattedFiles[idx] = this.compressFiles(file);
+                    });
                 }
 
             },
