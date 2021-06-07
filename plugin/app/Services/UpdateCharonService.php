@@ -117,6 +117,7 @@ class UpdateCharonService
         if ($request->deadlines !== null) {
             $courseId = $charon->course;
             $charonName = $charon->name;
+            $event = new CalendarService();
             foreach ($request->deadlines as $deadline) {
                 $percentage = $deadline['percentage'];
                 $name = $charonName . ' ' . $percentage .'%' ;
@@ -126,7 +127,6 @@ class UpdateCharonService
                 $this->deadlineService->createDeadline($charon, $deadline);
 
                 // deadline adding new version (both working)
-                $event = new CalendarService();
                 $event->createCharonDeadlineEvent($name, $description, $courseId, $charonId, $deadlineTime);
             }
 

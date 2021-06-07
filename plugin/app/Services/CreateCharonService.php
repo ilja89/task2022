@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
+use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -99,8 +100,20 @@ class CreateCharonService
             return;
         }
 
+        $charonId = $charon->id;
+        $courseId = $charon->course;
+        $charonName = $charon->name;
+        $event = new CalendarService();
         foreach ($request->deadlines as $deadline) {
             $this->deadlineService->createDeadline($charon, $deadline);
+
+            $percentage = $deadline['percentage'];
+            $name = $charonName . ' ' . $percentage .'%' ;
+            $time = $deadline['deadline_time'];
+            $deadlineTime = strtotime($time);
+            $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ' . $time;
+
+            $event->createCharonDeadlineEvent($name, $description, $courseId, $charonId, $deadlineTime);
         }
     }
 
