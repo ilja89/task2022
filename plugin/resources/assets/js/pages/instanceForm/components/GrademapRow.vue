@@ -25,7 +25,7 @@
         <label :for="'grademaps[' + grademap.grade_type_code + '][persistent]'">{{ translate('grade_persistent_label') }}</label><br>
         <p class="input-helper" v-html="translate('grade_persistent_helper')"></p>
         <input type="checkbox" class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][persistent]'"
-               value="1" v-model="grademap.persistent" v-clck="log()">
+               value="1" v-model="grademap.persistent">
       </div>
     </div>
 </template>
@@ -37,8 +37,6 @@
         mixins: [ Translate ],
 
         props: {
-          // TODO: persistent
-            persistent: { required: true },
             grademap: { required: true },
             formula: { required: false, default: '' },
         },
@@ -48,11 +46,6 @@
                 if (this.formula.length === 0) {
                     this.grademap.id_number = this.grademap.name.replace(/-/g, '').replace(/ /g, '_').replace(/__/g, '_');
                 }
-            },
-
-            log() {
-              console.log(this.grademap);
-              console.log('pers: ' + this.persistent);
             }
         }
     }

@@ -178,7 +178,6 @@
 
             getResultKey(result) {
                 let key = 'result_' + result.user_id + '_' + result.grade_type_code + '_' + result.id;
-                console.log(key);
                 return key;
             },
 

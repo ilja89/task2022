@@ -22,7 +22,6 @@ export default class InstanceFormForm {
             persistent: 0
         };
         this.fields.grademaps.push(grademap);
-        console.log('ACTIVATE ' + grademap);
 
         this.fields.grademaps = this.fields.grademaps.sort((a, b) => {
             return a.grade_type_code > b.grade_type_code ? 1 : -1;
@@ -75,7 +74,6 @@ export default class InstanceFormForm {
                 id_number: grademap.grade_item.idnumber,
                 persistent: grademap.persistent
             });
-            console.log('name: ' + grademap.name + ' persistent: ' + grademap.persistent);
         });
     }
 
@@ -173,7 +171,6 @@ export default class InstanceFormForm {
                     id_number: grademap.id_number,
                     persistent: grademap.persistent
                 });
-                console.log('2id: ' + grademap.id_number + ' 2persistent: ' + grademap.persistent);
             }
         }
     }
