@@ -48,6 +48,9 @@
             <input type="hidden"
                    :name="'grademaps[' + grademap.grade_type_code + '][id_number]'"
                    :value="grademap.id_number">
+            <input type="hidden"
+                   :name="'grademaps[' + grademap.grade_type_code + '][persistent]'"
+                   :value="grademap.persistent">
         </div>
 
     </div>
