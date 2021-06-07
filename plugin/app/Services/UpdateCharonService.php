@@ -32,7 +32,6 @@ class UpdateCharonService
     protected $charonGradingService;
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
-    private $calendarService;
 
     /**
      * UpdateCharonService constructor.
@@ -49,14 +48,12 @@ class UpdateCharonService
         DeadlineService $deadlineService,
         DeadlinesRepository $deadlinesRepository,
         CharonGradingService $charonGradingService,
-        CalendarService $calendarService
     ) {
         $this->grademapService     = $grademapService;
         $this->gradebookService    = $gradebookService;
         $this->deadlineService     = $deadlineService;
         $this->deadlinesRepository = $deadlinesRepository;
         $this->charonGradingService = $charonGradingService;
-        $this->calendarService = $calendarService;
     }
 
     /**
