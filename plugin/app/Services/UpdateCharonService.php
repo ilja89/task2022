@@ -47,7 +47,7 @@ class UpdateCharonService
         GradebookService $gradebookService,
         DeadlineService $deadlineService,
         DeadlinesRepository $deadlinesRepository,
-        CharonGradingService $charonGradingService,
+        CharonGradingService $charonGradingService
     ) {
         $this->grademapService     = $grademapService;
         $this->gradebookService    = $gradebookService;
