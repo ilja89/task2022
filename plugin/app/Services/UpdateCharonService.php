@@ -162,7 +162,7 @@ class UpdateCharonService
         }
 
         $grademap->name = $newGrademap['grademap_name'];
-        $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && ($newGrademap['persistent'] === 'true' || $newGrademap['persistent'] === '1');
+        $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && $newGrademap['persistent'] === '1';
         $grademap->save();
 
         $oldMax = $grademap->gradeItem->grademax;

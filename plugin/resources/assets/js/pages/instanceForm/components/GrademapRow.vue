@@ -25,7 +25,7 @@
         <label :for="'grademaps[' + grademap.grade_type_code + '][persistent]'">{{ translate('grade_persistent_label') }}</label><br>
         <p class="input-helper" v-html="translate('grade_persistent_helper')"></p>
         <input type="checkbox" class="form-control" :name="'grademaps[' + grademap.grade_type_code + '][persistent]'"
-               value="1" v-model="grademap.persistent">
+               v-model="grademap.persistent" value="1">
       </div>
     </div>
 </template>

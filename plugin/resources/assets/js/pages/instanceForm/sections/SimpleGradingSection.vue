@@ -50,7 +50,7 @@
                    :value="grademap.id_number">
             <input type="hidden"
                    :name="'grademaps[' + grademap.grade_type_code + '][persistent]'"
-                   :value="grademap.persistent">
+                   :value="grademap.persistent > 0 ? 1 : 0">
         </div>
 
     </div>
