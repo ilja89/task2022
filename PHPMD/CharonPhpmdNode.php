@@ -10,7 +10,6 @@ use PDepend\Source\AST\ASTNode;
  */
 class CharonPhpmdNode
 {
-
     protected $image;
     protected $node;
     protected $parent;

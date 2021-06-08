@@ -17,7 +17,6 @@ use PDepend\Source\AST\ASTFormalParameters;
 use PDepend\Source\AST\ASTFormalParameter;
 use PDepend\Source\AST\ASTVariableDeclarator;
 use Illuminate\Database\Query\Builder;
-use TTU\Charon\PHPMD\CharonPhpmdNode;
 
 /*
  * This rule does NOT detect using variables injected into double-quoted strings (eg. "select * from $myVariable")
@@ -25,7 +24,6 @@ use TTU\Charon\PHPMD\CharonPhpmdNode;
  */
 class RawQueryBindingsRule extends AbstractRule implements MethodAware
 {
-
     const MESSAGE = "\nA method {0} uses a variant of DB raw() without bindings: \n{1}\n";
 
     protected $variableNodeObjectsInSql = [];
@@ -119,7 +117,7 @@ class RawQueryBindingsRule extends AbstractRule implements MethodAware
         $currentPointerNode = $currentPointerNode ?? $methodNode;
         $childNodes = $currentPointerNode->getChildren();
 
-        if ($currentPointerNode instanceof \PDepend\Source\AST\ASTVariableDeclarator) {
+        if ($currentPointerNode instanceof ASTVariableDeclarator) {
             if ($currentPointerNode->getImage() === $searchableVariableNode->getImage()) {
                 $searchableVariableNode->setIsMethodArgument(true);
                 return;
@@ -153,7 +151,6 @@ class RawQueryBindingsRule extends AbstractRule implements MethodAware
         foreach ($childNodes as $childNode) {
             $this->getNonLiteralNode($methodNode, $methodParams, $searchableVariableNode, $childNode);
         }
-         return;
     }
 
     protected function stringIsQueryBuilderRawMethod($inputString): bool

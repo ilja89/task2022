@@ -184,8 +184,8 @@ class DefenseRegistrationRepository
      */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
-        /** @var \Illuminate\Database\Query\Builder $defenseRegistrationsQuery */
-        $defenseRegistrationsQuery = DB::table('charon_defenders')
+        /** @var \Illuminate\Database\Query\Builder $query */
+        $query = DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -200,27 +200,27 @@ class DefenseRegistrationRepository
             )->orderBy('charon_defenders.choosen_time');
 
         if ($after != 'null' && $before != 'null') {
-            $defenseRegistrationsQuery->whereRaw('choosen_time BETWEEN ? AND ?', [
+            $query->whereRaw('choosen_time BETWEEN ? AND ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         } elseif ($after != 'null') {
-            $defenseRegistrationsQuery->whereRaw('choosen_time >= ?', [
+            $query->whereRaw('choosen_time >= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
             ]);
         } elseif ($before != 'null') {
-            $defenseRegistrationsQuery->whereRaw('choosen_time <= ?', [
+            $query->whereRaw('choosen_time <= ?', [
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
         if ($teacher_id != -1) {
-            $defenseRegistrationsQuery->whereRaw('teacher_id LIKE ?', [$teacher_id]);
+            $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
         }
         if ($progress != 'null') {
-            $defenseRegistrationsQuery->whereRaw('progress LIKE ?', [$progress]);
+            $query->whereRaw('progress LIKE ?', [$progress]);
         }
 
-        $defenseRegistrations = $defenseRegistrationsQuery->get();
+        $defenseRegistrations = $query->get();
 
         return $this->moveTeacher($defenseRegistrations);
     }

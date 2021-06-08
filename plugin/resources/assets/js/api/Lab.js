@@ -68,6 +68,16 @@ class Lab {
             VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
         })
     }
+
+    static checkRegistrations(courseId, labId, filters, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/registrations', {params: filters})
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error getting registrations.\n' + error, 'danger')
+        })
+    }
+
 }
 
 export default Lab

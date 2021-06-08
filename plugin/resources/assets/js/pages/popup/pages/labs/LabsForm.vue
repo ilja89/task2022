@@ -125,8 +125,18 @@
 
             <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
 
+            <div class="lab-details-message">
+                <div v-if="registrations === -1">
+                    Checking for active registrations ...
+                </div>
+                <div v-else-if="registrations > 0">
+                    {{registrations}} active registrations would be lost with this change
+                </div>
+            </div>
+
             <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
-                Save
+                <span v-if="registrations <= 0">Save</span>
+                <span v-else>Confirm</span>
             </v-btn>
 
             <v-btn class="ma-2" tile outlined color="error" @click="cancelClicked">
@@ -147,6 +157,8 @@
     import {CharonSelect} from "../../../../components/form";
     import Multiselect from "vue-multiselect";
     import CharonFormat from "../../../../helpers/CharonFormat";
+    import _ from "lodash";
+    import moment from "moment";
 
     export default {
 
@@ -158,7 +170,8 @@
                 teachers: [],
                 show_info: true,
                 filtered_charons: [],
-                labDuration: 0
+                labDuration: 0,
+                registrations: 0,
             }
         },
 
@@ -215,11 +228,31 @@
                         giveEnd = giveEnd.toString().slice(0, 24)
                     }
 
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
-                        window.location = "popup#/labs";
-                        window.location.reload();
-                        VueEvent.$emit('show-notification', 'Lab updated!');
-                    })
+                    let filter = this.detectChanges(this.labInitial, this.lab, chosen_charons, chosen_teachers);
+
+                    // (registrations > 0) means that lost registrations 
+                    // are already fetched for current lab and shown to user.
+                    // Second click to Save confirms update on this case.
+                    if (_.isEmpty(filter) || (this.registrations > 0)) {
+                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
+                            window.location = "popup#/labs";
+                            window.location.reload();
+                            VueEvent.$emit('show-notification', 'Lab updated!');
+                        });
+                    } else {
+                        this.registrations = -1;
+                        Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
+                            if (result == 0) {
+                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
+                                    window.location = "popup#/labs";
+                                    window.location.reload();
+                                    VueEvent.$emit('show-notification', 'Lab updated!');
+                                });
+                            } else {
+                                this.registrations = result;
+                            }
+                        });
+                    }
                 } else {
                     Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, this.lab.weeks, () => {
                         window.location = "popup#/labs";
@@ -256,6 +289,40 @@
                     ('0' + dateObj.getDate()).slice(-2) + ' ' +
                     ('0' + dateObj.getHours()).slice(-2) + ':' +
                     ('0' + dateObj.getMinutes()).slice(-2)
+            },
+
+            detectChanges(old, current, charons, teachers) {
+                let filter = {};
+
+                if (moment(current.start.time).isAfter(old.start.time)) {
+                    filter.start = moment(current.start.time).format();
+                }
+
+                if (moment(current.end.time).isBefore(old.end.time)) {
+                    filter.end = moment(current.end.time).format();
+                }
+
+                let missing = [];
+                for (let ch of old.charons) {
+                    if (!charons.includes(ch.id)) {
+                        missing.push(ch.id);
+                    }
+                }
+                if (missing.length) {
+                    filter.charons = [...missing];
+                }
+
+                missing = [];
+                for (let tc of old.teachers) {
+                    if (!teachers.includes(tc.id)) {
+                        missing.push(tc.id);
+                    }
+                }
+                if (missing.length) {
+                    filter.teachers = [...missing];
+                }
+
+                return filter;
             }
         },
         computed: {
@@ -282,7 +349,22 @@
                 this.charons = charons
                 this.filterCharons()
             })
+
+            this.labInitial = _.cloneDeep(this.lab);
+        },
+
+        watch: {
+            lab: function() {
+                this.labInitial = _.cloneDeep(this.lab);
+            },
+            lab: {
+                deep: true,
+                handler() {
+                    this.registrations = 0;
+                }
+            }
         }
+
     }
 </script>
 
@@ -293,6 +375,11 @@
     .datepicker-overlay .cov-date-box .hour-item,
     .datepicker-overlay .cov-date-box .min-item {
         padding: 0 10px;
+    }
+
+    .lab-details-message div {
+        margin-left: 10px;
+        color: red;
     }
 
 </style>
