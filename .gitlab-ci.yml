@@ -30,6 +30,7 @@ security-advisories-vulnerabilities:
   stage: test
   image: umutphp/php-docker-images-for-ci:7.4
   script:
+    - which composer # Try to identify which composer the php-docker-images-for-ci is looking at
     - local-php-security-checker
 
 .builds:
