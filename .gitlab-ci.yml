@@ -30,8 +30,6 @@ security-advisories-vulnerabilities:
   stage: test
   image: umutphp/php-docker-images-for-ci:7.4
   script:
-    - ls -la
-    - cp composer.phar $(which composer)
     - local-php-security-checker
 
 .builds:
