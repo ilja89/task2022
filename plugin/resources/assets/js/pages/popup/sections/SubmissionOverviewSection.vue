@@ -96,6 +96,12 @@
             };
         },
 
+        watch: {
+            submission() {
+                this.getTotalResult();
+            },
+        },
+
         computed: {
             ...mapState(["charon", "submission", "teacher"]),
 
@@ -219,8 +225,6 @@
                         window.VueEvent.$emit("refresh-page");
 
                         this.errors = {};
-
-                        this.getTotalResult();
                     }
                 }
 
@@ -247,6 +251,7 @@
             },
 
             getTotalResult() {
+                this.charon_confirmed_points = null;
                 if (this.submission == null || this.charon == null) return;
 
                 Charon.getResultForStudent(

@@ -329,6 +329,43 @@ class LabRepository
     }
 
     /**
+     * Count affected registrations for lab
+     * request body may contain additional filters
+     * 
+     * @version Registration 1.*
+     * 
+     * @param int $labId
+     * @param string $start
+     * @param string $end
+     * @param int[] $charons
+     * @param int[] $teachers
+     * @return int
+     * 
+     */
+    public function countRegistrations($labId, $start, $end, $charons, $teachers)
+    {
+
+        return \DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('charon_defenders.progress', '<>', 'Done')
+            ->where(function($q) use($start, $end, $charons, $teachers) {
+                if ($start) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $start);
+                }
+                if ($end) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $end);
+                }
+                if ($charons) {
+                    $q = $q->orWhereIn('charon_defenders.charon_id', $charons);
+                }
+                if ($teachers) {
+                    $q = $q->orWhereIn('charon_defenders.teacher_id', $teachers);
+                }
+            })->count();
+    }
+
+    /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.
      *
      * @param $teachers
