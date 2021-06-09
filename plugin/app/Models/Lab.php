@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Zeizig\Moodle\Models\User;
+use Zeizig\Moodle\Models\Group;
 
 /**
  * Class Lab.
@@ -31,6 +32,11 @@ class Lab extends Model
     public function teachers()
     {
         return $this->hasMany(User::class)->orderBy('id');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class)->orderBy('id');
     }
 
     public function getDeadlineTimeAttribute($deadlineTime)
