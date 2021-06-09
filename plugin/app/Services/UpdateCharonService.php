@@ -2,12 +2,9 @@
 
 namespace TTU\Charon\Services;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use stdClass;
-use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Listeners\AddDeadlinesToCalendar;
+use TTU\Charon\Events\CharonUpdated;
+use TTU\Charon\Listeners\UpdateCalendarDeadlines;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
@@ -122,8 +119,8 @@ class UpdateCharonService
             }
         }
         $charon->load('deadlines');
-        $event = new CharonCreated($charon);
-        $eventAdder = new AddDeadlinesToCalendar($this->calendarService);
+        $event = new CharonUpdated($charon);
+        $eventAdder = new UpdateCalendarDeadlines($this->calendarService);
         $eventAdder->handle($event);
         return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }

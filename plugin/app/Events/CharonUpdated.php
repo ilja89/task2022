@@ -18,18 +18,14 @@ class CharonUpdated
 
     /** @var Charon */
     public $charon;
-    /** @var int[]|Collection */
-    public $oldDeadlineEventIds;
 
     /**
      * Create a new event instance.
      *
      * @param Charon $charon
-     * @param int[]|Collection $oldDeadlineEventIds
      */
-    public function __construct(Charon $charon, $oldDeadlineEventIds)
+    public function __construct(Charon $charon)
     {
         $this->charon = $charon;
-        $this->oldDeadlineEventIds = $oldDeadlineEventIds;
     }
 }
