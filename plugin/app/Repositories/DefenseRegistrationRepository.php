@@ -290,45 +290,43 @@ class DefenseRegistrationRepository
      */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
-        if ($after != 'null' && $before != 'null') {
-            $filteringWhere = sprintf(
-                "choosen_time BETWEEN '%s' AND '%s'",
-                Carbon::parse($after)->format('Y-m-d H:i:s'),
-                Carbon::parse($before)->format('Y-m-d H:i:s')
-            );
-        } else if ($after != 'null') {
-            $filteringWhere = "choosen_time >= '" . Carbon::parse($after)->format('Y-m-d H:i:s') . "'";
-        } else if ($before != 'null') {
-            $filteringWhere = "choosen_time <= '" . Carbon::parse($before)->format('Y-m-d H:i:s') . "'";
-        } else {
-            $filteringWhere = "student_id > '-1'";
-        }
-        $teacher_filter = "student_id > '-1'";
-        if ($teacher_id != -1) {
-            $teacher_filter = "teacher_id LIKE '" . $teacher_id . "'";
-        }
-        $progress_filter = "student_id > '-1'";
-        if ($progress != 'null') {
-            $progress_filter = "progress LIKE '" . $progress . "'";
-        }
-
-        $defenseRegistrations = DB::table('charon_defenders')
+        /** @var \Illuminate\Database\Query\Builder $query */
+        $query = DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
-            ->whereRaw($filteringWhere)
-            ->whereRaw($teacher_filter)
-            ->whereRaw($progress_filter)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
                 'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
-            )->orderBy('charon_defenders.choosen_time')
-            ->get();
+            )->orderBy('charon_defenders.choosen_time');
+
+        if ($after != 'null' && $before != 'null') {
+            $query->whereRaw('choosen_time BETWEEN ? AND ?', [
+                Carbon::parse($after)->format('Y-m-d H:i:s'),
+                Carbon::parse($before)->format('Y-m-d H:i:s')
+            ]);
+        } elseif ($after != 'null') {
+            $query->whereRaw('choosen_time >= ?', [
+                Carbon::parse($after)->format('Y-m-d H:i:s'),
+            ]);
+        } elseif ($before != 'null') {
+            $query->whereRaw('choosen_time <= ?', [
+                Carbon::parse($before)->format('Y-m-d H:i:s')
+            ]);
+        }
+        if ($teacher_id != -1) {
+            $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
+        }
+        if ($progress != 'null') {
+            $query->whereRaw('progress LIKE ?', [$progress]);
+        }
+
+        $defenseRegistrations = $query->get();
 
         return $this->moveTeacher($defenseRegistrations);
     }

@@ -13,7 +13,10 @@ use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
+use TTU\Charon\Models\LabGroup;
 use Zeizig\Moodle\Services\ModuleService;
+use Zeizig\Moodle\Models\Grouping;
+use Zeizig\Moodle\Models\Group;
 
 /**
  * Class CharonRepository.
@@ -106,11 +109,12 @@ class LabRepository
      * @param $courseId
      * @param $teachers
      * @param $charons
+     * @param $groups
      * @param $weeks
      *
      * @return boolean
      */
-    public function save($start, $end, $name, $courseId, $teachers, $charons, $weeks)
+    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $weeks)
     {
         $allCarbonStartDatesForLabs = array();
 
@@ -158,6 +162,13 @@ class LabRepository
                 CharonDefenseLab::create([
                     'lab_id' => $lab->id,
                     'charon_id' => $charon
+                ])->save();
+            }
+
+            foreach ($groups as $group) {
+                LabGroup::create([
+                    'lab_id' => $lab->id,
+                    'group_id' => $group
                 ])->save();
             }
 
@@ -221,10 +232,11 @@ class LabRepository
      * @param Carbon $newEnd
      * @param $newTeachers
      * @param $newCharons
+     * @param $newGroups
      *
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons)
+    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups)
     {
         $newStartCarbon = Carbon::parse($newStart);
         $newEndCarbon = Carbon::parse($newEnd);
@@ -283,6 +295,21 @@ class LabRepository
             }
         }
 
+        $oldGroups = $this->getGroupsForLab($oldLab->course_id, $oldLabId)->pluck('id')->toArray();
+        $toBeRemoved = array_diff($oldGroups, $newGroups);
+        $toBeAdded = array_diff($newGroups, $oldGroups);
+
+        foreach ($toBeRemoved as $id) {
+            $this->deleteGroupForLab($oldLabId, $id);
+        }
+
+        foreach ($toBeAdded as $id) {
+            LabGroup::create([
+                'lab_id' => $oldLabId,
+                'group_id' => $id
+            ])->save();
+        }
+
         $oldLab->save();
         return $oldLab;
     }
@@ -310,6 +337,10 @@ class LabRepository
 
         for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->charons = $this->getCharonsForLab($courseId, $labs[$i]->id);
+        }
+
+        for ($i = 0; $i < count($labs); $i++) {
+            $labs[$i]->groups = $this->getGroupsForLab($courseId, $labs[$i]->id);
         }
 
         return $labs;
@@ -393,6 +424,100 @@ class LabRepository
             'lab_id' => $labId,
             'charon_id' => $charonId
         ]);
+    }
+
+    /**
+     * Count affected registrations for lab
+     * request body may contain additional filters
+     * 
+     * @version Registration 1.*
+     * 
+     * @param int $labId
+     * @param string $start
+     * @param string $end
+     * @param int[] $charons
+     * @param int[] $teachers
+     * @return int
+     * 
+     */
+    public function countRegistrations($labId, $start, $end, $charons, $teachers)
+    {
+
+        return \DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('charon_defenders.progress', '<>', 'Done')
+            ->where(function($q) use($start, $end, $charons, $teachers) {
+                if ($start) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $start);
+                }
+                if ($end) {
+                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $end);
+                }
+                if ($charons) {
+                    $q = $q->orWhereIn('charon_defenders.charon_id', $charons);
+                }
+                if ($teachers) {
+                    $q = $q->orWhereIn('charon_defenders.teacher_id', $teachers);
+                }
+            })->count();
+    }
+
+    /**
+     * Gets the groups array for lab.
+     *
+     * @param int $courseId     The course identifier
+     * @param int $labId        The lab identifier
+     * @return []               Groups for lab.
+     */
+    public function getGroupsForLab($courseId, $labId)
+    {
+        return LabGroup::where('lab_id', $labId)
+            ->join('groups', 'groups.id', 'charon_lab_group.group_id')
+            ->select('groups.id', 'groups.name')
+            ->get();
+    }
+
+    /**
+     * Deletes group from lab
+     *
+     * @param int $labId        The lab identifier
+     * @param int groupId       The group identifier
+     */
+    public function deleteGroupForLab($labId, $groupId)
+    {
+        LabGroup::where('lab_id', $labId)
+            ->where('group_id', $groupId)
+            ->delete();
+    }
+
+    /**
+     * Gets all groups for given course
+     *
+     * @param int $courseId     The course identifier
+     * @return []               Groups.
+     */
+    public function getAllGroups($courseId)
+    {
+        return Group::where('courseid', $courseId)
+            ->select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
+    /**
+     * Gets all groupings for given course
+     *
+     * @param int $courseId     The course identifier
+     * @return []               Groupings.
+     */
+    public function getAllGroupings($courseId)
+    {
+        return Grouping::where('courseid', $courseId)
+            ->join('groupings_groups', 'groupingid', 'groupings.id')
+            ->select('groupings.id', 'groupings.name', 'groupings_groups.groupid')
+            ->orderBy('groupings.name', 'asc')
+            ->get();
     }
 
     /**

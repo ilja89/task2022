@@ -95,6 +95,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); 
+        // get number of affected registrations when lab is being to deleted or modified
 
     // TEACHERS
 
@@ -119,6 +122,11 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require') // get a course
         ->get('courses/{course}', 'CourseController@index');
+
+    // GROUPS
+
+    Route::middleware('auth.course.managing.require') // get groups for course
+        ->get('courses/{course}/groups', 'LabController@getGroups');
 
     // CHARON
 

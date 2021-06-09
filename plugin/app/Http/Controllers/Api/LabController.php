@@ -117,6 +117,7 @@ class LabController extends Controller
             $course->id,
             $this->request['teachers'],
             $this->request['charons'],
+            $this->request['groups'],
             $this->request['weeks']
         );
     }
@@ -139,7 +140,8 @@ class LabController extends Controller
             $this->request['end'],
             $this->request['name'],
             $this->request['teachers'],
-            $this->request['charons']
+            $this->request['charons'],
+            $this->request['groups'],
         );
     }
 
@@ -170,6 +172,41 @@ class LabController extends Controller
     }
 
     /**
+     * Gets all groups and groupings for course
+     *
+     * @param int $courseId The course identifier
+     *
+     * @return array Array containing arrays of groups and groupings
+     */
+    public function getGroups(int $courseId): array
+    {
+        $groups = $this->labRepository->getAllGroups($courseId);
+        $groupings = $this->labRepository->getAllGroupings($courseId);
+
+        // collect info about groups together, into single grouping object
+        $groupObjects = array_column($groups->toArray(), null, "id");
+        $result = [];
+        foreach ($groupings as $g)
+        {
+            $id = $g['id'];
+            $groupid = $g['groupid'];
+            $group = $groupObjects[$groupid];
+            if (array_key_exists($id, $result)) {
+                array_push($result[$id]['groups'], $group);
+            } else {
+                $result[$id] = array(
+                    'id' => $id,
+                    'name' => $g['name'],
+                    'groups' => array($group)
+                );
+            }
+        }
+
+        $result = array_column($result, null);
+        return ['groups' => $groups, 'groupings' => $result];
+    }
+
+    /**
      * @version Registration 1.*
      *
      * @param Request $request
@@ -185,5 +222,20 @@ class LabController extends Controller
             ->where('end', '>=', Carbon::now())
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
+    }
+
+    /**
+     * @param Course $course (not used)
+     * @param Lab $lab
+     *
+     * @return int
+     */
+    public function countRegistrations(Course $course, Lab $lab): int
+    {
+        $start = $this->request['start'] ? Carbon::parse($this->request['start'])->format('Y-m-d H:i:s') : null;
+        $end = $this->request['end'] ? Carbon::parse($this->request['end'])->format('Y-m-d H:i:s') : null;
+        $charons = $this->request['charons'] ?? null;
+        $teachers = $this->request['teachers'] ?? null;
+        return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 }
