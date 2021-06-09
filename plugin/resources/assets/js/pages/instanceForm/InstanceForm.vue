@@ -45,9 +45,9 @@
 		<instance-form-fieldset
 			toggle_id="tgl3"
 			@advanced-was-toggled="toggleAdvancedGradingSection">
-			
+
 			<template slot="title">{{ translate('grading_title') }}</template>
-			
+
 			<slot>
 				<advanced-grading-section
 					v-if="advanced_grading_section_active"
@@ -58,7 +58,7 @@
 					:form="form">
 				</simple-grading-section>
 			</slot>
-		
+
 		</instance-form-fieldset>
 		
 		<deadline-section :form="form"></deadline-section>

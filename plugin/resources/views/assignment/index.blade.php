@@ -34,7 +34,7 @@
 
         <h2 class="title">{{ translate('submissions') }}</h2>
 
-        <assignment-view/>
+        <assignment-view></assignment-view>
 
     </div>
 </div>
