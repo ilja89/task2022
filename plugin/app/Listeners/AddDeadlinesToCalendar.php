@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Listeners;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Services\CalendarService;
@@ -37,7 +36,10 @@ class AddDeadlinesToCalendar
             $charonName = $charon->name;
             $percentage = $deadline['percentage'];
             $name = "{$charonName} - {$percentage}%";
-            $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ';
+
+            $description = __('descriptions.descriptionStart') . ' ' . $charonName
+                . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
+                . '% ' . __('descriptions.descriptionEnd');
 
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
