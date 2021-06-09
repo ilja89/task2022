@@ -706,5 +706,32 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021052601) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_lab_group(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    lab_id BIGINT(10) NOT NULL," .
+            "    group_id BIGINT(10) NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_charon_lab_group_charon_lab (lab_id)," .
+            "    CONSTRAINT UQ_charon_lab_lab_and_group UNIQUE (lab_id, group_id)," .
+            "    CONSTRAINT FK_charon_lab_group_charon_lab" .
+            "        FOREIGN KEY (lab_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_lab(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
+            "    CONSTRAINT FK_charon_lab_group_groups" .
+            "        FOREIGN KEY (group_id)" .
+            "            REFERENCES " . $CFG->prefix . "groups(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_lab_group");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
     return true;
 }

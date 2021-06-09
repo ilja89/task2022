@@ -149,6 +149,25 @@
             </INDEXES>
         </TABLE>
 
+        <TABLE NAME="charon_lab_group" COMMENT="Groups connected to lab.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="group_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_lab_group" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_lab_group_charon_lab" TYPE="foreign" FIELDS="lab_id"
+                     REFTABLE="charon_lab" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_lab_group_groups" TYPE="foreign" FIELDS="group_id"
+                     REFTABLE="groups" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_lab_group_charon_lab" UNIQUE="false" FIELDS="lab_id"/>
+                <INDEX NAME="UQ_charon_lab_lab_and_group" UNIQUE="true" FIELDS="lab_id,group_id"/>
+            </INDEXES>
+        </TABLE>
+
         <TABLE NAME="charon_test_suite" COMMENT="Test suite.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>

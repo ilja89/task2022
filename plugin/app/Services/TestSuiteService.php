@@ -54,7 +54,7 @@ class TestSuiteService
             $createdTestSuite = $this->testSuiteRepository->create([
                 'submission_id' => $submissionId,
                 'name' => $testSuite['name'],
-                'file' => $testSuite['file'],
+                'file' => $testSuite['file'] ?? '',
                 'weight' => $testSuite['weight'] == null ? 1 : $testSuite['weight'],
                 'passed_count' => $testSuite['passedCount'],
                 'grade' => $testSuite['grade']
@@ -74,10 +74,10 @@ class TestSuiteService
                     'methods_depended_upon' => $this->toString($unitTest['methodsDependedUpon']),
                     'stack_trace' => $this->constructStackTrace($unitTest['stackTrace']),
                     'name' => $unitTest['name'],
-                    'stdout' => $this->toString($unitTest['stdout']),
+                    'stdout' => $this->toString($unitTest['stdout'] ?? null),
                     'exception_class' => $unitTest['exceptionClass'],
                     'exception_message' => $unitTest['exceptionMessage'],
-                    'stderr' => $this->toString($unitTest['stderr'])
+                    'stderr' => $this->toString($unitTest['stderr'] ?? null)
                 ]);
             }
         }
