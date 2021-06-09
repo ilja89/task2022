@@ -32,13 +32,17 @@ class AddDeadlinesToCalendar
     {
         $charon = $event->charon;
 
-        $previousPercentage = 100;
-        $charon->deadlines->each(function ($deadline) use ($charon, &$previousPercentage) {
+        $charon->deadlines->each(function ($deadline) use ($charon) {
             /** @var Deadline $deadline */
+            $charonName = $charon->name;
+            $percentage = $deadline['percentage'];
+            $name = "{$charonName} - {$percentage}%";
+            $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ';
+
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
-                "{$charon->name} - {$previousPercentage}%",
-                $charon->description,
+                $name,
+                $description,
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
@@ -49,8 +53,6 @@ class AddDeadlinesToCalendar
 
             $deadline->event_id = $event->id;
             $deadline->save();
-
-            $previousPercentage = $deadline->percentage;
         });
     }
 }

@@ -4,6 +4,8 @@ namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Listeners\AddDeadlinesToCalendar;
 use TTU\Charon\Models\Charon;
 use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -27,6 +29,9 @@ class CreateCharonService
     /** @var CharonDefenseLabService */
     protected $charonDefenseLabService;
 
+    /** @var CalendarService */
+    protected $calendarService;
+
     /**
      * CreateCharonService constructor.
      *
@@ -34,17 +39,20 @@ class CreateCharonService
      * @param  GrademapService $grademapService
      * @param  DeadlineService $deadlineService
      * @param  CharonDefenseLabService $charonDefenseLabService
+     * @param  CalendarService $calendarService
      */
     public function __construct(
         GradebookService $gradebookService,
         GrademapService $grademapService,
         DeadlineService $deadlineService,
-        CharonDefenseLabService $charonDefenseLabService
+        CharonDefenseLabService $charonDefenseLabService,
+        CalendarService $calendarService
     ) {
         $this->gradebookService = $gradebookService;
         $this->grademapService  = $grademapService;
         $this->deadlineService  = $deadlineService;
         $this->charonDefenseLabService = $charonDefenseLabService;
+        $this->calendarService = $calendarService;
     }
 
     /**
@@ -96,25 +104,17 @@ class CreateCharonService
      */
     public function saveDeadlinesFromRequest(Request $request, $charon)
     {
-        if ($request->deadlines === null) {
-            return;
+        if ($request->deadlines !== null) {
+            foreach ($request->deadlines as $deadline) {
+                $this->deadlineService->createDeadline($charon, $deadline);
+            }
+
         }
+        $charon->load('deadlines');
 
-        $charonId = $charon->id;
-        $courseId = $charon->course;
-        $charonName = $charon->name;
-        $event = new CalendarService();
-        foreach ($request->deadlines as $deadline) {
-            $this->deadlineService->createDeadline($charon, $deadline);
-
-            $percentage = $deadline['percentage'];
-            $name = $charonName . ' ' . $percentage .'%' ;
-            $time = $deadline['deadline_time'];
-            $deadlineTime = strtotime($time);
-            $description = 'deadline for ' . $charonName . ': ' . $percentage . '% after ' . $time;
-
-            $event->createCharonDeadlineEvent($name, $description, $courseId, $charonId, $deadlineTime);
-        }
+        $event = new CharonCreated($charon);
+        $eventAdder = new AddDeadlinesToCalendar($this->calendarService);
+        $eventAdder->handle($event);
     }
 
     /**
