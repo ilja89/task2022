@@ -78,6 +78,10 @@
                                     </v-btn>
                                 </v-col>
 
+                                <v-col cols="12" sm="12" md="4" lg="4">
+                                    <add-groups-selector :lab="lab" :course="course"></add-groups-selector>
+                                </v-col>
+
                                 <v-col cols="12" sm="12" md="12" lg="12">
                                     <div class="labs-field is-flex-1">
                                         <p>Teachers attending this lab session</p>
@@ -149,6 +153,7 @@
 <script>
     import {PopupSection} from '../../layouts/index'
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import AddGroupsSelector from "./sections/AddGroupsSelector";
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import Teacher from "../../../../api/Teacher";
@@ -162,7 +167,7 @@
 
     export default {
 
-        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, PopupSection},
+        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, AddGroupsSelector, PopupSection},
 
         data() {
             return {
@@ -216,6 +221,8 @@
                     this.lab.name = this.namePlaceholder;
                 }
 
+                let groups = _.map(this.lab.groups, "id");
+
                 if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
@@ -234,7 +241,7 @@
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
-                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
+                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
                             window.location = "popup#/labs";
                             window.location.reload();
                             VueEvent.$emit('show-notification', 'Lab updated!');
@@ -243,7 +250,7 @@
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
                             if (result == 0) {
-                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
+                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
                                     window.location = "popup#/labs";
                                     window.location.reload();
                                     VueEvent.$emit('show-notification', 'Lab updated!');
@@ -254,7 +261,7 @@
                         });
                     }
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
