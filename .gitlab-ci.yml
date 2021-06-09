@@ -26,6 +26,13 @@ unit_test:
       - $CI_PROJECT_DIR/coverage
     expire_in: 1 week
 
+security-advisories-vulnerabilities:
+  stage: test
+  when: manual # TODO: resolve at #438
+  image: umutphp/php-docker-images-for-ci:7.4
+  script:
+    - local-php-security-checker
+
 .builds:
   tags:
     - docker
