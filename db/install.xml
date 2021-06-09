@@ -162,6 +162,7 @@
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_lab_group_charon_lab" UNIQUE="false" FIELDS="lab_id"/>
+                <INDEX NAME="UQ_charon_lab_lab_and_group" UNIQUE="true" FIELDS="lab_id,group_id"/>
             </INDEXES>
         </TABLE>
 
