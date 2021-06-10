@@ -5,7 +5,6 @@ namespace TTU\Charon\Services\Flows;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\DefenseRegistration;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Result;
@@ -14,6 +13,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
+use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Validators\RegistrationValidator;
 
 /**
@@ -33,28 +33,32 @@ class FindAvailableRegistrationTimes
     /** @var LabTeacherRepository */
     private $teacherRepository;
 
+    /** @var UserRepository */
+    private $userRepository;
+
     /**
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
      * @param LabRepository $labRepository
      * @param LabTeacherRepository $teacherRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
         SubmissionsRepository $submissionsRepository,
         DefenseRegistrationRepository $registrationRepository,
         LabRepository $labRepository,
-        LabTeacherRepository $teacherRepository
+        LabTeacherRepository $teacherRepository,
+        UserRepository $userRepository
     ) {
         $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
         $this->labRepository = $labRepository;
         $this->teacherRepository = $teacherRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Find which registration times are available for the student
-     *
-     * TODO: make or update a ticket which creates bookings, free expired bookings should be scheduled there as a cron job
      *
      * @param int $courseId
      * @param int $studentId
@@ -75,25 +79,23 @@ class FindAvailableRegistrationTimes
 
         $this->validate($courseId, $studentId, $submissions);
 
-        $charons = $submissions->mapWithKeys(function ($submission) {
-            return [$submission->charon->id => $submission->charon];
-        });
+        $charons = $submissions->map(function ($submission) {
+            return $submission->charon->id;
+        })->unique()->all();
 
-        $labs = $this->findLabs($charons, $start, $end);
+        $labs = $this->findLabs($charons, $start, $end, $studentId);
 
         if ($labs->isEmpty()) {
             return [];
         }
 
-        $ownTeachers = $this->findOwnTeachers($studentId, $courseId);
-
-        $timeslots = $this->findAvailableTimes($labs, $ownTeachers);
+        $timeslots = $this->findAvailableTimes($labs);
 
         if ($timeslots->isEmpty()) {
             return [];
         }
 
-        return $this->group($labs, $timeslots, $charons, $ownTeachers);
+        return $this->makeChunks($labs, $timeslots);
     }
 
     /**
@@ -146,11 +148,11 @@ class FindAvailableRegistrationTimes
                     return false;
                 }
 
-                if ($charon->defense_start_time && $start->isBefore($charon->defense_start_time)) {
+                if ($charon->defense_start_time && $charon->defense_start_time->isAfter($start)) {
                     return false;
                 }
 
-                if ($charon->defense_deadline && $end->isAfter($charon->defense_deadline)) {
+                if ($charon->defense_deadline && $charon->defense_deadline->isBefore($end)) {
                     return false;
                 }
 
@@ -183,39 +185,46 @@ class FindAvailableRegistrationTimes
     }
 
     /**
-     * @param Collection $charons
+     * @param array $charons
      * @param Carbon $start
      * @param Carbon $end
+     * @param int $studentId
      *
      * @return Collection|Lab[]
      */
-    private function findLabs(Collection $charons, Carbon $start, Carbon $end): Collection
+    private function findLabs(array $charons, Carbon $start, Carbon $end, int $studentId): Collection
     {
-        return $this->labRepository->findLabsForCharons($charons->pluck('id')->all(), $start, $end);
-    }
+        $labs = $this->labRepository->findLabsForCharons($charons, $start, $end);
+        $labs->load('groups');
 
-    /**
-     * @param int $studentId
-     * @param int $courseId
-     * @return int[]
-     */
-    private function findOwnTeachers(int $studentId, int $courseId): array
-    {
-        return $this->teacherRepository->getOwnTeachersIdsForStudent($studentId, $courseId);
+        $containsGroupRestriction = $labs->contains(function ($lab) {
+            return $lab->groups->count() > 0;
+        });
+
+        if (!$containsGroupRestriction) {
+            return $labs;
+        }
+
+        $studentGroups = $this->userRepository->userGroups($studentId);
+
+        return $labs->filter(function ($lab) use ($studentGroups) {
+            $labGroups = $lab->groups->pluck('id')->all();
+            if (empty($labGroups)) {
+                return true;
+            }
+
+            return !empty(array_intersect($studentGroups, $labGroups));
+        });
     }
 
     /**
      * @param Collection|Lab[] $labs
-     * @param int[] $ownTeachers
      *
      * @return Collection|DefenseRegistration[]
      */
-    private function findAvailableTimes(Collection $labs, array $ownTeachers): Collection
+    private function findAvailableTimes(Collection $labs): Collection
     {
-        return $this->registrationRepository->findAvailableTimesForStudent(
-            $labs->pluck('id')->all(),
-            $ownTeachers
-        );
+        return $this->registrationRepository->findAvailableTimes($labs->pluck('id')->all());
     }
 
     /**
@@ -225,12 +234,10 @@ class FindAvailableRegistrationTimes
      *
      * @param Collection|Lab[] $labs
      * @param Collection|DefenseRegistration[] $timeslots
-     * @param Collection|Charon[] $charons
-     * @param int[] $ownTeachers
      *
      * @return array
      */
-    private function group(Collection $labs, Collection $timeslots, Collection $charons, array $ownTeachers): array
+    private function makeChunks(Collection $labs, Collection $timeslots): array
     {
         $labTimeslots = $timeslots->mapToGroups(function ($timeslot) {
             return [$timeslot->lab_id => $timeslot];
@@ -243,23 +250,12 @@ class FindAvailableRegistrationTimes
                 continue;
             }
 
-            $labCharons = collect($lab->charons)
-                ->mapToGroups(function ($id) use ($charons) {
-                    $charon = $charons->get($id);
-
-                    // TODO: currently it is not clearly defined how to check "if a charon can be defended only to own teacher"
-                    // would propose to replace "choose_teacher" with "own_teacher" field
-                    // $key = $charon->choose_teacher == 1 ? 'any' : 'own';
-
-                    return ['any' => $charon->id];
-                });
-
             $chunks = [];
 
             foreach ($labTimeslots->get($lab->id) as $timeslot) {
                 /** @var DefenseRegistration $timeslot */
 
-                if (empty($labCharons->get('any')) && !in_array($timeslot->teacher_id, $ownTeachers)) {
+                if (empty($lab->charons)) {
                     continue;
                 }
 
@@ -274,20 +270,12 @@ class FindAvailableRegistrationTimes
                         'lab' => $lab->id,
                         'start' => $start,
                         'end' => $end->isBefore($lab->end) ? $end : $lab->end,
-                        'charons' => [],
+                        'charons' => $lab->charons,
                         'times' => 0
                     ];
                 }
 
                 $chunks[$key]['times'] += 1;
-
-                if ($labCharons->has('any')) {
-                    $chunks[$key]['charons'] += $labCharons->get('any')->all();
-                }
-
-                if ($labCharons->has('own')) {
-                    $chunks[$key]['charons'] += $labCharons->get('own')->all();
-                }
             }
 
             $result = array_merge($result, array_values($chunks));

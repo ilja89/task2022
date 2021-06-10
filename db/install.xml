@@ -116,7 +116,6 @@
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="chunk_size" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="4" DEFAULT="0"/>
-                <FIELD NAME="own_teacher" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="1" DEFAULT="0"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab" TYPE="primary" FIELDS="id"/>

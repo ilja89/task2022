@@ -86,20 +86,15 @@ class DefenseRegistrationRepository
      * @version Registration 2.*
      *
      * @param array $labs
-     * @param array $ownTeachers
      *
-     * @return mixed
+     * @return mixed|Collection|DefenseRegistration[]
      */
-    public function findAvailableTimesForStudent(array $labs, array $ownTeachers)
+    public function findAvailableTimes(array $labs)
     {
         $timeslots = DB::table('charon_defense_registration')
             ->join('charon_lab', 'charon_defense_registration.lab_id', 'charon_lab.id')
             ->where('charon_defense_registration.progress', 'New')
             ->whereIn('charon_lab.id', $labs)
-            ->where(function ($query) use($ownTeachers) {
-                $query->whereIn('charon_defense_registration.teacher_id', $ownTeachers)
-                    ->orWhere('charon_lab.own_teacher', 'false');
-            })
             ->select('charon_defense_registration.*')
             ->get()
             ->all();

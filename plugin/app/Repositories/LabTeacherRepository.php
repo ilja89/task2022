@@ -278,29 +278,6 @@ class LabTeacherRepository
             ->toArray());
     }
 
-    /**
-     * @version Registration 2.*
-     *
-     * @param int $studentId
-     * @param int $courseId
-     *
-     * @return int[]
-     */
-    public function getOwnTeachersIdsForStudent(int $studentId, int $courseId): array
-    {
-        return DB::table('groups')
-            ->whereIn('groups.id', $this->getGroupsForStudent($studentId, $courseId))
-            ->join('groups_members', 'groups.id', 'groups_members.groupid')
-            ->join('user', 'user.id', 'groups_members.userid')
-            ->join('role_assignments', 'user.id', 'role_assignments.userid')
-            ->whereIn('role_assignments.roleid', $this->getTeacherRoleIds())
-            ->select('user.id')
-            ->distinct()
-            ->get()
-            ->pluck('user.id')
-            ->all();
-    }
-
     public function getTeacherForStudent($studentId, $courseId)
     {
         return DB::table('groups')

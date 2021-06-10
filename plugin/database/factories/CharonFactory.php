@@ -22,7 +22,7 @@ $factory->define(Charon::class, function (Generator $faker) {
         'category_id' => 0,
         'name' => $faker->name,
         'description' => $faker->paragraph,
-        'project_folder' => $faker->word,
+        'project_folder' => $faker->sha256,
         'tester_extra' => $faker->word,
         'system_extra' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
@@ -95,7 +95,8 @@ $factory->define(Lab::class, function (Generator $faker) {
     return [
         'start' => Carbon::now(),
         'end' => Carbon::now()->addHours(5),
-        'course_id' => 0
+        'name' => $faker->word,
+        'course_id' => 0,
     ];
 });
 

@@ -699,11 +699,6 @@ function xmldb_charon_upgrade($oldversion = 0)
         if (!$dbManager->field_exists($table, $chunkSize)) {
             $dbManager->add_field($table, $chunkSize);
         }
-
-        $ownTeacher = new xmldb_field('own_teacher', XMLDB_TYPE_INTEGER, '1', null, null, null, 0);
-        if (!$dbManager->field_exists($table, $ownTeacher)) {
-            $dbManager->add_field($table, $ownTeacher);
-        }
     }
 
     if ($oldversion < 2021052601) {

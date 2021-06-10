@@ -27,8 +27,6 @@ class Course extends Model
 
     public $timestamps = false;
 
-    protected $dates = ['startdate', 'enddate'];
-
     /**
      * Declare the one to many relationship with the course module table.
      *
@@ -80,5 +78,15 @@ class Course extends Model
     {
         $course = Course::select('id')->where('shortname', $courseName)->first();
         return $course->id;
+    }
+
+    public function getStartdateAttribute($value): Carbon
+    {
+        return $this->asDateTime($value);
+    }
+
+    public function getEnddateAttribute($value): Carbon
+    {
+        return $this->asDateTime($value);
     }
 }

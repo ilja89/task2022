@@ -86,7 +86,7 @@ class LabRepository
             ->whereRaw('IF(date(start) = ?, time(start)>=time(?), true)', [$start->format('Y-m-d'), $start->toTimeString()])
             ->whereRaw('IF(date(end) = ?, time(end)>=time(?), true)', [$end->format('Y-m-d'), $end->toTimeString()])
             ->whereIn('charon_defense_lab.charon_id', $charonIds)
-            ->groupBy('charon_lab.id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.course_id', 'charon_lab.name', 'charon_lab.chunk_size', 'charon_lab.own_teacher')
+            ->groupBy('charon_lab.id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.course_id', 'charon_lab.name', 'charon_lab.chunk_size')
             ->select(DB::raw($this->prefix . 'charon_lab.*, GROUP_CONCAT(' . $this->prefix . 'charon_defense_lab.charon_id) AS charons'))
             ->get()
             ->map(function ($lab) {

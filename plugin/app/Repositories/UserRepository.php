@@ -12,7 +12,7 @@ class UserRepository
      *
      * @return User
      */
-    public function find(int $id)
+    public function find(int $id): User
     {
         return User::find($id);
     }
@@ -23,8 +23,18 @@ class UserRepository
      * @return User
      * @throws ModelNotFoundException
      */
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): User
     {
         return User::findOrFail($id);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function userGroups(int $id): array
+    {
+        return User::with('groups')->find($id)->groups->pluck('id')->all();
     }
 }

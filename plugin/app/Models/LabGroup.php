@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\Group;
 
@@ -18,6 +17,7 @@ use Zeizig\Moodle\Models\Group;
 class LabGroup extends Model
 {
     public $timestamps = false;
+
     protected $table = 'charon_lab_group';
     protected $fillable = [
         'lab_id', 'group_id'
