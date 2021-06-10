@@ -9,11 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
-use TTU\Charon\Repositories\CourseRepository;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -21,13 +20,13 @@ use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
-/**
- * @version Registration 1.*
- */
 class DefenseRegistrationController extends Controller
 {
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
+
+    /** @var CharonRepository */
+    protected $charonRepository;
 
     /** @var StudentsRepository */
     protected $studentsRepository;
@@ -45,6 +44,7 @@ class DefenseRegistrationController extends Controller
      * DefenseRegistrationController constructor.
      *
      * @param Request $request
+     * @param CharonRepository $charonRepository
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
@@ -53,6 +53,7 @@ class DefenseRegistrationController extends Controller
      */
     public function __construct(
         Request $request,
+        CharonRepository $charonRepository,
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
@@ -60,6 +61,7 @@ class DefenseRegistrationController extends Controller
         FindAvailableRegistrationTimes $findTimes
     ) {
         parent::__construct($request);
+        $this->charonRepository = $charonRepository;
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
@@ -75,8 +77,7 @@ class DefenseRegistrationController extends Controller
      */
     public function findAvailableTimes(): array
     {
-        // TODO: fetch via repository, would be easier to mock it out for tests
-        $courseId = Charon::find($this->request->input('charon_id'))->course;
+        $courseId = $this->charonRepository->getCharonById($this->request->input('charon_id'))->course;
 
         $validator = Validator::make($this->request->all(), [
             'submissions' => 'required|filled',

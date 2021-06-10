@@ -18,6 +18,9 @@ use TTU\Charon\Validators\RegistrationValidator;
 
 /**
  * @version Registration 2.*
+ *
+ * TODO: magic numbers like grade type code borders and test result "passed" value of 1 should be
+ * defined and used as constants over the whole system.
  */
 class FindAvailableRegistrationTimes
 {
@@ -161,7 +164,7 @@ class FindAvailableRegistrationTimes
                     return $result->user_id = $studentId;
                 });
 
-                // TODO: verify if and how we can have multiple style grades?
+                // TODO: verify if and how can we have multiple style grades?
                 if ($gradeTypes->contains(101)) {
                     foreach ($results as $result) {
                         if ($result->grade_type_code > 100 && $result->grade_type_code <= 1000 && $result->calculated_result < 1) {
@@ -170,7 +173,7 @@ class FindAvailableRegistrationTimes
                     }
                 }
 
-                // TODO: verify if and how we can have multiple test grades?
+                // TODO: verify if and how can we have multiple test grades?
                 if ($gradeTypes->contains(1) && $charon->defense_threshold) {
                     $threshold = $charon->defense_threshold / 100;
                     foreach ($results as $result) {
