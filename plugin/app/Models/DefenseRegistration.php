@@ -9,6 +9,14 @@ use Zeizig\Moodle\Models\User;
 /**
  * Defense registration model class.
  *
+ * Possible values for progress:
+ * New - no connected registrations
+ * Booked - student has booked for defense
+ * Pending - student has registered for defense
+ * Defending - defense actively in progress
+ * Done - defense is done
+ * Expired - past lab time without a defense
+ *
  * @property integer $id
  * @property integer $student_id
  * @property integer $charon_id
@@ -18,7 +26,7 @@ use Zeizig\Moodle\Models\User;
  * @property Carbon $time
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property string $progress values 'New', 'Pending', 'Waiting', 'Defending', 'Done'
+ * @property string $progress
  *
  * @package TTU\Charon\Model
  */

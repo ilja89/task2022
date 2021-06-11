@@ -5,6 +5,7 @@ namespace Tests\Integration\Repositories;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
@@ -26,6 +27,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
     {
         parent::setUp();
         $this->repository = new DefenseRegistrationRepository(
+            Mockery::mock(MoodleConfig::class),
             Mockery::mock(ModuleService::class),
             Mockery::mock(LabTeacherRepository::class)
         );

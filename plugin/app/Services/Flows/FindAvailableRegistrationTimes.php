@@ -11,7 +11,6 @@ use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Validators\RegistrationValidator;
@@ -33,9 +32,6 @@ class FindAvailableRegistrationTimes
     /** @var LabRepository */
     private $labRepository;
 
-    /** @var LabTeacherRepository */
-    private $teacherRepository;
-
     /** @var UserRepository */
     private $userRepository;
 
@@ -43,20 +39,17 @@ class FindAvailableRegistrationTimes
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
      * @param LabRepository $labRepository
-     * @param LabTeacherRepository $teacherRepository
      * @param UserRepository $userRepository
      */
     public function __construct(
         SubmissionsRepository $submissionsRepository,
         DefenseRegistrationRepository $registrationRepository,
         LabRepository $labRepository,
-        LabTeacherRepository $teacherRepository,
         UserRepository $userRepository
     ) {
         $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
         $this->labRepository = $labRepository;
-        $this->teacherRepository = $teacherRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -74,7 +67,7 @@ class FindAvailableRegistrationTimes
      */
     public function run(int $courseId, int $studentId, array $submissions, Carbon $start, Carbon $end): array
     {
-        $submissions = $this->filter($studentId, $submissions, $start, $end);
+        $submissions = $this->filterValidSubmissions($studentId, $submissions, $start, $end);
 
         if ($submissions->isEmpty()) {
             return [];
@@ -108,7 +101,7 @@ class FindAvailableRegistrationTimes
      *
      * @throws ValidationException
      */
-    private function validate(int $courseId, int $studentId, Collection $submissions)
+    public function validate(int $courseId, int $studentId, Collection $submissions)
     {
         app()->make(RegistrationValidator::class)
             ->studentBelongsToCourse($courseId, $studentId)
@@ -131,7 +124,7 @@ class FindAvailableRegistrationTimes
      *
      * @return Collection|Submission[]
      */
-    private function filter(int $studentId, array $submissions, Carbon $start, Carbon $end): Collection
+    public function filterValidSubmissions(int $studentId, array $submissions, Carbon $start, Carbon $end): Collection
     {
         $registeredCharons = $this->registrationRepository->filterCharonsWithActiveStudentRegistrations(
             $studentId,

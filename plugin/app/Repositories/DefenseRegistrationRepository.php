@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\DefenseRegistration;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
@@ -18,6 +19,9 @@ use Zeizig\Moodle\Services\ModuleService;
  */
 class DefenseRegistrationRepository
 {
+    /** @var string */
+    private $prefix;
+
     /** @var ModuleService */
     protected $moduleService;
     /**
@@ -28,13 +32,30 @@ class DefenseRegistrationRepository
     /**
      * LabRepository constructor.
      *
+     * @param MoodleConfig $moodleConfig
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      */
-    public function __construct(ModuleService $moduleService, LabTeacherRepository $labTeacherRepository)
-    {
+    public function __construct(
+        MoodleConfig $moodleConfig,
+        ModuleService $moduleService,
+        LabTeacherRepository $labTeacherRepository
+    ) {
+        $this->prefix = $moodleConfig->prefix;
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
+    }
+
+    /**
+     * @param bool $write if true, will lock for write, otherwise for read
+     */
+    public function lock(bool $write = false)
+    {
+        DB::statement(DB::raw(sprintf(
+            'LOCK TABLES %s %s',
+            $this->prefix . 'charon_defense_registration',
+            $write ? 'WRITE' : 'READ'
+        )));
     }
 
     /**
@@ -65,6 +86,9 @@ class DefenseRegistrationRepository
     /**
      * @version Registration 2.*
      *
+     * TODO: At what moment should we mark registrations as expired? Upon lab creation and update schedule a cron job
+     * to update expired times? Or should we just delete the unused times to clean up space?
+     *
      * @param int $studentId
      * @param array|int[] $charons
      *
@@ -75,8 +99,8 @@ class DefenseRegistrationRepository
         return DefenseRegistration::query()
             ->select('charon_id')
             ->where('student_id', $studentId)
-            ->where('progress', '<>', 'Done')
             ->whereIn('charon_id', $charons)
+            ->whereNotIn('progress', ['Done', 'Expired'])
             ->get()
             ->pluck('charon_id')
             ->all();
@@ -91,15 +115,7 @@ class DefenseRegistrationRepository
      */
     public function findAvailableTimes(array $labs)
     {
-        $timeslots = DB::table('charon_defense_registration')
-            ->join('charon_lab', 'charon_defense_registration.lab_id', 'charon_lab.id')
-            ->where('charon_defense_registration.progress', 'New')
-            ->whereIn('charon_lab.id', $labs)
-            ->select('charon_defense_registration.*')
-            ->get()
-            ->all();
-
-        return DefenseRegistration::hydrate($timeslots);
+        return DefenseRegistration::where('progress', 'New')->whereIn('lab_id', $labs)->get();
     }
 
     /**
