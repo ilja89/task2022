@@ -95,7 +95,7 @@
 								min="0"
 								max="3000"
 								step="30"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -205,7 +205,7 @@
 								label="Group size"
 								min="1"
 								max="10"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -224,7 +224,7 @@
 								min="5"
 								max="30"
 								step="5"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -244,7 +244,7 @@
 								label="Threshold"
 								min="0"
 								max="100"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -307,7 +307,7 @@ import Course from "../../../api/Course";
 export default {
 	name: "charon-settings-form",
 	components: {Multiselect, Datepicker},
-	
+
 	props: {
 		charon: {required: true},
 		course_id: {required: true}
