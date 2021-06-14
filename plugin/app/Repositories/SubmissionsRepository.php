@@ -100,18 +100,18 @@ class SubmissionsRepository
 
         $submissions = DB::select(
             'SELECT DISTINCT cs1.id '
-                . 'FROM ' . $prefix . 'charon_submission AS cs1 '
-                . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
-                . 'JOIN ( '
-                . '    SELECT '
-                . '        csu2.user_id, '
-                . '        max(cs2.created_at) AS created_at '
-                . '    FROM ' . $prefix . 'charon_submission AS cs2 '
-                . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
-                . '    WHERE cs2.charon_id = ? '
-                . '    GROUP BY csu2.user_id '
-                . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
-                . 'WHERE cs1.charon_id = ?',
+            . 'FROM ' . $prefix . 'charon_submission AS cs1 '
+            . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
+            . 'JOIN ( '
+            . '    SELECT '
+            . '        csu2.user_id, '
+            . '        max(cs2.created_at) AS created_at '
+            . '    FROM ' . $prefix . 'charon_submission AS cs2 '
+            . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
+            . '    WHERE cs2.charon_id = ? '
+            . '    GROUP BY csu2.user_id '
+            . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
+            . 'WHERE cs1.charon_id = ?',
             [$charonId, $charonId]
         );
 
@@ -155,28 +155,153 @@ class SubmissionsRepository
             'charon_submission.git_commit_message',
             'charon_submission.user_id',
             'charon_submission.mail',
+
+
+            'charon_result.id AS cr_id',
+            'charon_result.submission_id',
+            'charon_result.user_id',
+            'charon_result.calculated_result',
+            'charon_result.grade_type_code',
+            'charon_result.percentage',
+
+            'charon_test_suite.id AS cts_id',
+            'charon_test_suite.name AS cts_name',
+            'charon_test_suite.file',
+            'charon_test_suite.start_date',
+            'charon_test_suite.end_date',
+            'charon_test_suite.weight AS cts_weight',
+            'charon_test_suite.passed_count',
+            'charon_test_suite.grade',
+            'charon_test_suite.submission_id AS cts_submission_id',
+
+            'charon_unit_test.id AS cut_id',
+            'charon_unit_test.test_suite_id',
+            'charon_unit_test.groups_depended_upon',
+            'charon_unit_test.status',
+            'charon_unit_test.weight AS cut_weight',
+            'charon_unit_test.print_exception_message',
+            'charon_unit_test.print_stack_trace',
+            'charon_unit_test.time_elapsed',
+            'charon_unit_test.methods_depended_upon',
+            'charon_unit_test.stack_trace',
+            'charon_unit_test.name AS cut_name',
+            'charon_unit_test.stdout',
+            'charon_unit_test.exception_class',
+            'charon_unit_test.exception_message',
+//            'charon_unit_test.stderr',
         ];
 
-        $submissions = $this->buildForUser($userId)
+        $submissions = DB::table('charon_submission')
+            ->join('charon_submission_user', 'charon_submission.id', '=', 'charon_submission_user.submission_id')
+            ->leftJoin('charon_result', 'charon_result.submission_id', 'charon_submission.id')
+            ->leftJoin('charon_test_suite', 'charon_submission.id', '=', 'charon_test_suite.submission_id')
+            ->leftJoin('charon_unit_test', 'charon_test_suite.id', '=', 'charon_unit_test.test_suite_id')
             ->where('charon_submission.charon_id', $charon->id)
+            ->where('charon_submission_user.user_id', '=', $userId)
+            ->where('charon_result.user_id', $userId)
+            ->whereIn('charon_result.grade_type_code', $charon->getGradeTypeCodes())
             ->orderBy('charon_submission.created_at', 'desc')
             ->orderBy('charon_submission.git_timestamp', 'desc')
+            ->orderBy('charon_result.grade_type_code')
+            ->select("charon_submission.id, charon_submission.charon_id")
             ->select($fields)
             ->simplePaginate(5);
 
-        $submissions->appends(['user_id' => $userId])->links();
-
         foreach ($submissions as $submission) {
-            $submission->results = Result::where('submission_id', $submission->id)
-                ->where('user_id', $userId)
-                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
-                ->orderBy('grade_type_code')
-                ->get();
-            $submission->test_suites = $this->getTestSuites($submission->id);
+
+            $submission->results = array(
+                'id' => $submission->cr_id,
+                'submission_id' => $submission->submission_id,
+                'user_id' => $submission->user_id,
+                'calculated_result' => $submission->calculated_result,
+                'grade_type_code' => $submission->grade_type_code,
+                'percentage' => $submission->percentage
+            );
+            $submission->test_suites = array(
+                'id' => $submission->cts_id,
+                'name' => $submission->cts_name,
+                'start_date' => $submission->start_date,
+                'end_date' => $submission->end_date,
+                'weight' => $submission->cts_weight,
+                'passed_count' => $submission->passed_count,
+                'file' => $submission->file,
+                'grade' => $submission->grade,
+                'submission_id' => $submission->cts_submission_id,
+                'unit_tests' => array(
+                    'id' => $submission->cut_id,
+                    'test_suite_id' => $submission->test_suite_id,
+                    'groups_depended_upon' => $submission->groups_depended_upon,
+                    'status' => $submission->status,
+                    'weight' => $submission->cut_weight,
+                    'print_exception_message' => $submission->print_exception_message,
+                    'print_stack_trace' => $submission->print_stack_trace,
+                    'time_elapsed' => $submission->time_elapsed,
+                    'methods_depended_upon' => $submission->methods_depended_upon,
+                    'stack_trace' => $submission->stack_trace,
+                    'name' => $submission->cut_name,
+                    'stdout' => $submission->stdout,
+                    'exception_class' => $submission->exception_class,
+                    'exception_message' => $submission->exception_message,
+//                    'stderr' => $submissions->stderr
+                )
+            );
+//
+            unset(
+                $submission->cr_id,
+                $submission->submission_id,
+                $submission->user_id,
+                $submission->calculated_result,
+                $submission->grade_type_code,
+                $submission->percentage,
+//
+                $submission->cts_id,
+                $submission->cts_name,
+                $submission->start_date,
+                $submission->end_date,
+                $submission->cts_weight,
+                $submission->passed_count,
+                $submission->file,
+                $submission->grade,
+                $submission->cts_submission_id,
+
+                $submission->cut_id,
+                $submission->test_suite_id,
+                $submission->groups_depended_upon,
+                $submission->status,
+                $submission->cut_weight,
+                $submission->print_exception_message,
+                $submission->print_stack_trace,
+                $submission->time_elapsed,
+                $submission->methods_depended_upon,
+                $submission->stack_trace,
+                $submission->cut_name,
+                $submission->stdout,
+                $submission->exception_class,
+                $submission->exception_message,
+//                $submission->stderr
+            );
+//
+////            $submission->results = Result::where('submission_id', $submission->id)
+////                ->where('user_id', $userId)
+////                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+////                ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
+////                ->orderBy('grade_type_code')
+////                ->get();
+////            $submission->test_suites = $this->getTestSuites($submission->id);
         }
 
-        return $submissions;
+//        $submissions->groupBy('charon_result.id AS cr_id');
+
+        $submissions->appends(['user_id' => $userId])->links();
+        return ($submissions);
+    }
+
+    private function getResults($submissionId)
+    {
+        return \DB::table('charon_result')
+            ->where('charon_result.submission_id', $submissionId)
+            ->select('charon_result.id', 'charon_result.submission_id', 'charon_result.user_id', 'charon_result.calculated_result', 'charon_result.grade_type_code', 'charon_result.percentage')
+            ->get();
     }
 
     /**
@@ -241,10 +366,10 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_gr.finalgrade'
-                . ' FROM ' . $prefix . 'charon ch'
-                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-                . ' WHERE ch.course = ? AND gr_gr.userid = ?',
+            . ' FROM ' . $prefix . 'charon ch'
+            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+            . ' WHERE ch.course = ? AND gr_gr.userid = ?',
             [$courseId, $userId]
         );
     }
@@ -264,11 +389,11 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade'
-                . ' FROM ' . $prefix . 'charon ch'
-                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-                . ' WHERE ch.course = ?'
-                . ' GROUP BY ch.id, ch.name, gr_it.grademax',
+            . ' FROM ' . $prefix . 'charon ch'
+            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+            . ' WHERE ch.course = ?'
+            . ' GROUP BY ch.id, ch.name, gr_it.grademax',
             [$courseId]
         );
     }
@@ -366,7 +491,8 @@ class SubmissionsRepository
         int $userId,
         int $charonId,
         int $gradeTypeCode
-    ) {
+    )
+    {
         /** @var Result $previous */
         $previous = $this->buildForUser($userId)
             ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
