@@ -16,6 +16,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
+use TTU\Charon\Services\Flows\BookStudentRegistration;
 use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
@@ -40,6 +41,9 @@ class DefenseRegistrationController extends Controller
     /** @var FindAvailableRegistrationTimes */
     protected $findTimes;
 
+    /** @var BookStudentRegistration */
+    protected $bookRegistration;
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -50,6 +54,7 @@ class DefenseRegistrationController extends Controller
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
      * @param FindAvailableRegistrationTimes $findTimes
+     * @param BookStudentRegistration $bookRegistration
      */
     public function __construct(
         Request $request,
@@ -58,7 +63,8 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         CharonDefenseLabRepository $defenseLabRepository,
-        FindAvailableRegistrationTimes $findTimes
+        FindAvailableRegistrationTimes $findTimes,
+        BookStudentRegistration $bookRegistration
     ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
@@ -67,6 +73,7 @@ class DefenseRegistrationController extends Controller
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
         $this->findTimes = $findTimes;
+        $this->bookRegistration = $bookRegistration;
     }
 
     /**
@@ -94,6 +101,39 @@ class DefenseRegistrationController extends Controller
             $courseId,
             $this->request->input('student'),
             $this->request->input('submissions'),
+            Carbon::parse($this->request->input('start')),
+            Carbon::parse($this->request->input('end'))
+        );
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @return bool
+     * @throws ValidationException
+     */
+    public function bookRegistrationTime(): bool
+    {
+        $validator = Validator::make($this->request->all(), [
+            'course' => 'required|integer|filled',
+            'lab' => 'required|integer|filled',
+            'student' => 'required|integer|filled',
+            'charon' => 'required|integer|filled',
+            'submission' => 'required|integer|filled',
+            'start' => 'required|date|after:' . Carbon::now(),
+            'end' => 'required|date|after:start',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return $this->bookRegistration->run(
+            $this->request->input('course'),
+            $this->request->input('lab'),
+            $this->request->input('student'),
+            $this->request->input('charon'),
+            $this->request->input('submission'),
             Carbon::parse($this->request->input('start')),
             Carbon::parse($this->request->input('end'))
         );

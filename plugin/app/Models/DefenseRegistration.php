@@ -15,7 +15,6 @@ use Zeizig\Moodle\Models\User;
  * Pending - student has registered for defense
  * Defending - defense actively in progress
  * Done - defense is done
- * Expired - past lab time without a defense
  *
  * @property integer $id
  * @property integer $student_id

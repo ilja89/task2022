@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services\Flows;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -90,6 +91,8 @@ class BookStudentRegistration
 
         $this->findRegistrationTimes->validate($courseId, $studentId, $submissions);
 
+        // TODO: verify that the start-end time is a valid chunk for given lab and not manually modified time range
+
         try {
             DB::beginTransaction();
             $this->registrationRepository->lock(true);
@@ -117,6 +120,14 @@ class BookStudentRegistration
     }
 
     /**
+     * Attempt to schedule a defense at the earliest time for a Teacher with the most available times in the range.
+     * If the Charon defense takes up more than one timeslot, attempt to find subsequent timeslots at the same Teacher.
+     *
+     * TODO: fill in gaps in a timeslot caused by cancellations or expired bookings (at a separate ticket)
+     *
+     * TODO: identify other bookings/registrations by the student in the same time range and try to match x slots next
+     * to those instead of the start of the range
+     *
      * @param int $labId
      * @param Charon $charon
      * @param Carbon $start
@@ -126,22 +137,45 @@ class BookStudentRegistration
      */
     private function findAvailableTimes(int $labId, Charon $charon, Carbon $start, Carbon $end): array
     {
-        /**
-         * Easy solution:
-         * - find only where lab_id is $labId and time between $start and $end
-         * - find first x subsequent timeslots for the same teacher where x is how many 5min slots it is required to fit charon defense duration
-         */
+        $timeslotDuration = Config::get('app.defense_timeslot_minutes');
+        $requiredSlots = intval(ceil($charon->defense_duration / $timeslotDuration));
 
-        /**
-         * Moderate solution:
-         * - identify other bookings/registrations by the student in the same time range and try to match x slots next to those
-         */
+        $times = $this->registrationRepository->findAvailableTimesBetween($labId, $start, $end);
 
-        /**
-         * Difficult solution:
-         * - move existing registrations around to either fill in gaps causes by cancellations or widen gaps to fit x if possible within the range
-         * - alternatively filling gaps ought to be scheduled as a cron job after cancellations happen to reduce time spent during this booking request
-         */
+        $byTeacher = $times->mapToGroups(function ($time) {
+            return [$time->teacher_id => $time];
+        })->sortByDesc(function ($product) {
+            return count($product);
+        });
+
+        if ($requiredSlots == 1) {
+            return [$byTeacher->first()->first()->id];
+        }
+
+        foreach ($byTeacher as $times) {
+            $found = [];
+            $foundCount = 0;
+
+            $times = $times->all();
+            foreach ($times as $key => $time) {
+                $found[] = $time->id;
+                $foundCount++;
+
+                if ($foundCount == $requiredSlots) {
+                    return $found;
+                }
+
+                if (!isset($times[$key + 1])) {
+                    break;
+                }
+
+                $nextTime = $times[$key + 1];
+                if ($time->id + 1 != $nextTime->id) {
+                    $found = [];
+                    $foundCount = 0;
+                }
+            }
+        }
 
         return [];
     }
@@ -167,8 +201,7 @@ class BookStudentRegistration
      */
     private function scheduleBookingRelease(array $registrationIds)
     {
-        // TODO: Create a configuration to store how many minutes (default to 15m) a booking can be active before it is cancelled,
-        // TODO: schedule a cron job +15min to the future to clear up registrations which are in booking state and
-        // updated_at more than 15min ago.
+        // TODO: schedule a cron job +Config::get('app.defense_booking_minutes') to the future to clear up registrations
+        // which are in booking state and updated_at more than Config::get('app.defense_booking_minutes') ago.
     }
 }

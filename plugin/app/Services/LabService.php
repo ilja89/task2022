@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -22,9 +23,6 @@ use Zeizig\Moodle\Models\User;
  */
 class LabService
 {
-    const TIMESLOT_INTERVAL_MINUTES = 5;
-    const DEFAULT_CHUNK_SIZE_MINUTES = 30;
-
     /** @var CharonRepository */
     private $charonRepository;
 
@@ -112,8 +110,8 @@ class LabService
     {
         $this->validateLab($lab, $course, $charons, $teachers);
 
-        if ($lab->chunk_size == 0) {
-            $lab->chunk_size = self::DEFAULT_CHUNK_SIZE_MINUTES;
+        if ($lab->chunk_size < 1) {
+            $lab->chunk_size = Config::get('app.defense_chunk_minutes');
         }
 
         $lab->save();
@@ -230,6 +228,7 @@ class LabService
      */
     private function createRegistrationTimes(Lab $lab, Collection $teachers)
     {
+        $timeslotDuration = Config::get('app.defense_timeslot_minutes');
         $registrations = [];
 
         foreach ($teachers as $teacher) {
@@ -241,7 +240,7 @@ class LabService
                     'lab_id' => $lab->id,
                     'time' => $start->copy()
                 ];
-                $start->addMinutes(self::TIMESLOT_INTERVAL_MINUTES);
+                $start->addMinutes($timeslotDuration);
             }
         }
 

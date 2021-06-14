@@ -71,10 +71,8 @@ class DefenseRegistrationRepository
     {
         $query = DefenseRegistration::query()
             ->select('teacher_id')
-            ->whereDate('time', '>=', $from->format('Y-m-d'))
-            ->whereDate('time', '<=', $to->format('Y-m-d'))
-            ->whereTime('time', '>=', $from->toTimeString())
-            ->whereTime('time', '<=', $to->toTimeString());
+            ->where('time', '>=', $from)
+            ->where('time', '<=', $to);
 
         if ($excludingLab) {
             $query = $query->where('lab_id', '<>', $excludingLab);
@@ -85,9 +83,6 @@ class DefenseRegistrationRepository
 
     /**
      * @version Registration 2.*
-     *
-     * TODO: At what moment should we mark registrations as expired? Upon lab creation and update schedule a cron job
-     * to update expired times? Or should we just delete the unused times to clean up space?
      *
      * @param int $studentId
      * @param array|int[] $charons
@@ -100,10 +95,29 @@ class DefenseRegistrationRepository
             ->select('charon_id')
             ->where('student_id', $studentId)
             ->whereIn('charon_id', $charons)
-            ->whereNotIn('progress', ['Done', 'Expired'])
+            ->where('progress', '<>', 'Done')
             ->get()
             ->pluck('charon_id')
             ->all();
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param int $labId
+     * @param Carbon $from
+     * @param Carbon $to
+     *
+     * @return Collection|DefenseRegistration[]
+     */
+    public function findAvailableTimesBetween(int $labId, Carbon $from, Carbon $to)
+    {
+        return DefenseRegistration::where('lab_id', $labId)
+            ->where('progress', 'New')
+            ->where('time', '>=', $from)
+            ->where('time', '<', $to)
+            ->orderBy('time')
+            ->get();
     }
 
     /**

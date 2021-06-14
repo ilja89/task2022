@@ -8,6 +8,7 @@ use Mockery;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
+use TTU\Charon\Models\DefenseRegistration;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -27,7 +28,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
     {
         parent::setUp();
         $this->repository = new DefenseRegistrationRepository(
-            Mockery::mock(MoodleConfig::class),
+            new MoodleConfig(),
             Mockery::mock(ModuleService::class),
             Mockery::mock(LabTeacherRepository::class)
         );
@@ -208,5 +209,51 @@ class DefenseRegistrationRepositoryTest extends TestCase
         $this->assertEquals(2, sizeof($actual));
         $this->assertEquals('2020-12-15 22:20:00', $actual[0]->choosen_time);
         $this->assertEquals('2020-12-15 22:20:00', $actual[1]->choosen_time);
+    }
+
+    public function testFindAvailableTimesBetweenHandlesTimeRange()
+    {
+        // Given
+        /** @var User $teacher */
+        $teacher = factory(User::class)->create();
+
+        /** @var Lab $lab */
+        $lab = factory(Lab::class)->create();
+
+        $factory = function ($time) use ($lab, $teacher) {
+            return DefenseRegistration::create([
+                'teacher_id' => $teacher->id,
+                'lab_id' => $lab->id,
+                'time' => $time
+            ]);
+        };
+
+        $start = Carbon::now();
+        $end = $start->clone()->addHours(2);
+
+        // In range
+        $atStart = $factory($start->copy());
+        $duringTime = $factory($start->copy()->addMinutes(5));
+
+        // Out of range
+        $factory($start->copy()->addMinutes(-5));
+        $factory($end->copy());
+        $factory($end->copy()->addMinutes(5));
+
+        // Wrong lab
+        DefenseRegistration::create([
+            'teacher_id' => $teacher->id,
+            'lab_id' => factory(Lab::class)->create()->id,
+            'time' => $start->copy()->addMinutes(10)
+        ]);
+
+        // When
+        $actual = $this->repository->findAvailableTimesBetween($lab->id, $start, $end);
+
+        // Then
+        $this->assertEquals(
+            [$atStart->id, $duringTime->id],
+            $actual->pluck('id')->all()
+        );
     }
 }
