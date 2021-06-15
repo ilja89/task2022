@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Traits;
 
+use TTU\Charon\Constants\GradeType;
+
 /**
  * Class HasGradeType.
  *
@@ -9,31 +11,28 @@ namespace TTU\Charon\Traits;
  */
 trait HasGradeType
 {
-    public function getGradeTypeName()
+    public function getGradeTypeName(): string
     {
-        if ($this->grade_type_code <= 100) {
-            $gradeTypeName = 'Tests_' . $this->grade_type_code;
-        } else if ($this->grade_type_code <= 1000) {
-            $gradeTypeName = 'Style_' . $this->grade_type_code % 100;
-        } else {
-            $gradeTypeName = 'Custom_' . $this->grade_type_code % 1000;
+        if ($this->grade_type_code < GradeType::STYLE_TYPE_MINIMUM) {
+            return 'Tests_' . $this->grade_type_code;
+        } else if ($this->grade_type_code < GradeType::CUSTOM_TYPE_MINIMUM) {
+            return 'Style_' . $this->grade_type_code % (GradeType::STYLE_TYPE_MINIMUM - 1);
         }
-
-        return $gradeTypeName;
+        return 'Custom_' . $this->grade_type_code % (GradeType::CUSTOM_TYPE_MINIMUM - 1);
     }
 
-    public function isTestsGrade()
+    public function isTestsGrade(): bool
     {
-        return $this->grade_type_code <= 100;
+        return $this->grade_type_code < GradeType::STYLE_TYPE_MINIMUM;
     }
 
-    public function isStyleGrade()
+    public function isStyleGrade(): bool
     {
-        return $this->grade_type_code <= 1000 && $this->grade_type_code > 100;
+        return $this->grade_type_code < GradeType::CUSTOM_TYPE_MINIMUM && $this->grade_type_code >= GradeType::STYLE_TYPE_MINIMUM;
     }
 
-    public function isCustomGrade()
+    public function isCustomGrade(): bool
     {
-        return $this->grade_type_code > 1000;
+        return $this->grade_type_code >= GradeType::CUSTOM_TYPE_MINIMUM;
     }
 }

@@ -17,9 +17,6 @@ use TTU\Charon\Validators\RegistrationValidator;
 
 /**
  * @version Registration 2.*
- *
- * TODO: magic numbers like grade type code borders and test result "passed" value of 1 should be
- * defined and used as constants over the whole system.
  */
 class FindAvailableRegistrationTimes
 {
@@ -135,7 +132,7 @@ class FindAvailableRegistrationTimes
             ->query()
             ->where('confirmed', 0)
             ->whereIn('id', array_values($submissions))
-            ->with(['charon.grademaps', 'users', 'results'])
+            ->with(['charon', 'users', 'results'])
             ->get()
             ->filter(function (Submission $submission) use ($studentId, $start, $end, $registeredCharons) {
                 $charon = $submission->charon;
@@ -152,25 +149,19 @@ class FindAvailableRegistrationTimes
                     return false;
                 }
 
-                $gradeTypes = $charon->grademaps->pluck('grade_type_code');
                 $results = $submission->results->filter(function (Result $result) use ($studentId) {
                     return $result->user_id = $studentId;
                 });
 
-                // TODO: verify if and how can we have multiple style grades?
-                if ($gradeTypes->contains(101)) {
-                    foreach ($results as $result) {
-                        if ($result->grade_type_code > 100 && $result->grade_type_code <= 1000 && $result->calculated_result < 1) {
+                $testThreshold = $charon->defense_threshold / 100;
+
+                foreach ($results as $result) {
+                    if ($result->isStyleGrade()) {
+                        if ($result->calculated_result < 1) {
                             return false;
                         }
-                    }
-                }
-
-                // TODO: verify if and how can we have multiple test grades?
-                if ($gradeTypes->contains(1) && $charon->defense_threshold) {
-                    $threshold = $charon->defense_threshold / 100;
-                    foreach ($results as $result) {
-                        if ($result->grade_type_code <= 100 && $result->calculated_result < $threshold) {
+                    } else if ($result->isTestsGrade()) {
+                        if ($result->calculated_result < $testThreshold) {
                             return false;
                         }
                     }
