@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Tasks\ExpireBookedRegistrations;
 
 /**
  * @version Registration 2.*
@@ -33,25 +35,31 @@ class BookStudentRegistration
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var MoodleCron */
+    private $cron;
+
     /**
      * @param FindAvailableRegistrationTimes $findRegistrationTimes
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
      * @param LabRepository $labRepository
      * @param UserRepository $userRepository
+     * @param MoodleCron $cron
      */
     public function __construct(
         FindAvailableRegistrationTimes $findRegistrationTimes,
         SubmissionsRepository $submissionsRepository,
         DefenseRegistrationRepository $registrationRepository,
         LabRepository $labRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MoodleCron $cron
     ) {
         $this->findRegistrationTimes = $findRegistrationTimes;
         $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
         $this->labRepository = $labRepository;
         $this->userRepository = $userRepository;
+        $this->cron = $cron;
     }
 
     /**
@@ -105,7 +113,7 @@ class BookStudentRegistration
 
             $this->bookTimes($registrationIds, $studentId, $charonId, $submissionId);
 
-            $this->scheduleBookingRelease($registrationIds);
+            $this->scheduleBookingRelease();
 
             DB::commit();
         } catch (Exception $exception) {
@@ -196,12 +204,9 @@ class BookStudentRegistration
         ]);
     }
 
-    /**
-     * @param array $registrationIds
-     */
-    private function scheduleBookingRelease(array $registrationIds)
+    private function scheduleBookingRelease()
     {
-        // TODO: schedule a cron job +Config::get('app.defense_booking_minutes') to the future to clear up registrations
-        // which are in booking state and updated_at more than Config::get('app.defense_booking_minutes') ago.
+        $expirationTime = Config::get('app.defense_booking_minutes') * 60 + 5;
+        $this->cron->enqueue(ExpireBookedRegistrations::class, [], $expirationTime);
     }
 }

@@ -133,11 +133,21 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @version Registration 1.*
+     * @version Registration 2.*
      *
      * @return Builder|Registration
      */
     public function query()
+    {
+        return DefenseRegistration::query();
+    }
+
+    /**
+     * @version Registration 1.*
+     *
+     * @return Builder|Registration
+     */
+    public function queryOld()
     {
         return Registration::query();
     }

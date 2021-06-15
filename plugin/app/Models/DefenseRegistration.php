@@ -10,7 +10,7 @@ use Zeizig\Moodle\Models\User;
  * Defense registration model class.
  *
  * Possible values for progress:
- * New - no connected registrations
+ * New - not registered
  * Booked - student has booked for defense
  * Pending - student has registered for defense
  * Defending - defense actively in progress
@@ -41,7 +41,7 @@ class DefenseRegistration extends Model
     ];
 
     protected $table = 'charon_defense_registration';
-    protected $dates = ['time'];
+    protected $dates = ['time', 'created_at', 'updated_at'];
 
     public $timestamps = true;
 

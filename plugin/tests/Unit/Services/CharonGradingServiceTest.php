@@ -351,7 +351,7 @@ class CharonGradingServiceTest extends TestCase
         /** @var Mock|Builder $builder */
         $builder = Mockery::mock(Builder::class);
 
-        $this->registrationRepository->shouldReceive('query')->once()->andReturn($builder);
+        $this->registrationRepository->shouldReceive('queryOld')->once()->andReturn($builder);
 
         $builder->shouldReceive('where')->with('student_id', 7)->once()->andReturn($builder);
         $builder->shouldReceive('where')->with('submission_id', 5)->once()->andReturn($builder);
@@ -372,7 +372,7 @@ class CharonGradingServiceTest extends TestCase
         /** @var Mock|Builder $builder */
         $builder = Mockery::mock(Builder::class);
 
-        $this->registrationRepository->shouldReceive('query')->once()->andReturn($builder);
+        $this->registrationRepository->shouldReceive('queryOld')->once()->andReturn($builder);
 
         $builder->shouldReceive('where')->with('student_id', 7)->once()->andReturn($builder);
         $builder->shouldReceive('where')->with('submission_id', 5)->once()->andReturn($builder);
