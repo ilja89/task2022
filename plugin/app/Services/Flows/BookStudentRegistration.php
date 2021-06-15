@@ -10,9 +10,6 @@ use Illuminate\Validation\ValidationException;
 use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
-use TTU\Charon\Repositories\SubmissionsRepository;
-use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Tasks\ExpireBookedRegistrations;
 
 /**
@@ -23,42 +20,24 @@ class BookStudentRegistration
     /** @var FindAvailableRegistrationTimes */
     private $findRegistrationTimes;
 
-    /** @var SubmissionsRepository */
-    private $submissionsRepository;
-
     /** @var DefenseRegistrationRepository */
     private $registrationRepository;
-
-    /** @var LabRepository */
-    private $labRepository;
-
-    /** @var UserRepository */
-    private $userRepository;
 
     /** @var MoodleCron */
     private $cron;
 
     /**
      * @param FindAvailableRegistrationTimes $findRegistrationTimes
-     * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
-     * @param LabRepository $labRepository
-     * @param UserRepository $userRepository
      * @param MoodleCron $cron
      */
     public function __construct(
         FindAvailableRegistrationTimes $findRegistrationTimes,
-        SubmissionsRepository $submissionsRepository,
         DefenseRegistrationRepository $registrationRepository,
-        LabRepository $labRepository,
-        UserRepository $userRepository,
         MoodleCron $cron
     ) {
         $this->findRegistrationTimes = $findRegistrationTimes;
-        $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
-        $this->labRepository = $labRepository;
-        $this->userRepository = $userRepository;
         $this->cron = $cron;
     }
 

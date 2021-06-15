@@ -162,7 +162,6 @@ class DefenseRegistrationRepositoryTest extends TestCase
 
         $defenseLab = CharonDefenseLab::create(['charon_id' => $charon->id, 'lab_id' => $lab->id]);
 
-        /** @var Carbon $time */
         $time = Carbon::parse('2020-12-15 22:10:00');
 
         factory(Registration::class)->create([
