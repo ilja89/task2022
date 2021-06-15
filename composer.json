@@ -11,10 +11,10 @@
 	"require": {
 		"php": ">=7.0.0",
 		"barryvdh/laravel-ide-helper": "^2.3",
-		"laravel/framework": "^7.0",
+		"laravel/framework": "^8.0",
 		"kylekatarnls/laravel-carbon-2": "^1.0.0",
 		"nesbot/carbon": "2.49.0",
-		"guzzlehttp/guzzle": "^6.0",
+		"guzzlehttp/guzzle": "^7.0.1",
 		"composer/composer": "^2.1",
 		"laravel/tinker": "^2.0",
 		"ext-curl": "*",
@@ -25,7 +25,7 @@
 		"fzaninotto/faker": "~1.4",
 		"mockery/mockery": "0.9.*",
 		"phpmd/phpmd": "^2.10",
-		"phpunit/phpunit": "^8.5",
+		"phpunit/phpunit": "^9.0",
 		"squizlabs/php_codesniffer": "^3.6"
 	},
 	"autoload": {
