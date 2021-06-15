@@ -99,8 +99,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); 
         // get number of affected registrations when lab is being to deleted or modified
 
-    Route::middleware('auth.course.managing.require')->post('courses/{course}/labs', 'LabController@create');
-
     // TEACHERS
 
     Route::middleware('auth.course.managing.require')  // get teachers
@@ -162,4 +160,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
+    // Used only by Registration version 2
+
+    Route::middleware('auth.course.managing.require')->post('courses/{course}/labs', 'LabController@create');
+
+    Route::middleware('auth.charon.submissions.view.require')
+        ->get('charons/{charon}/labs/available', 'DefenseRegistrationController@findAvailableTimes');
 });

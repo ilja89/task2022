@@ -6,7 +6,10 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
@@ -23,25 +26,33 @@ use Zeizig\Moodle\Models\Group;
  */
 class LabRepository
 {
+    /** @var string */
+    private $prefix;
+
     /** @var ModuleService */
-    protected $moduleService;
+    private $moduleService;
+
     /** @var LabTeacherRepository */
-    protected $labTeacherRepository;
+    private $labTeacherRepository;
+
     /** @var CharonDefenseLabRepository */
-    protected $charonDefenseLabRepository;
+    private $charonDefenseLabRepository;
 
     /**
      * LabRepository constructor.
      *
+     * @param MoodleConfig $moodleConfig
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
     public function __construct(
+        MoodleConfig $moodleConfig,
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository,
         CharonDefenseLabRepository $charonDefenseLabRepository
     ) {
+        $this->prefix = $moodleConfig->prefix;
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
@@ -55,6 +66,36 @@ class LabRepository
     public function createManyLabCharons(array $collection)
     {
         CharonDefenseLab::insert($collection);
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param array $charonIds
+     * @param Carbon $start
+     * @param Carbon $end
+     *
+     * @return Collection|Lab[] Returned labs have an extra field `charons` for holding their ID-s
+     */
+    public function findLabsForCharons(array $charonIds, Carbon $start, Carbon $end): Collection
+    {
+        $labs = DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->whereDate('charon_lab.start', '>=', $start->format('Y-m-d'))
+            ->whereDate('charon_lab.end', '<=', $end->format('Y-m-d'))
+            ->whereRaw('IF(date(start) = ?, time(start)>=time(?), true)', [$start->format('Y-m-d'), $start->toTimeString()])
+            ->whereRaw('IF(date(end) = ?, time(end)>=time(?), true)', [$end->format('Y-m-d'), $end->toTimeString()])
+            ->whereIn('charon_defense_lab.charon_id', $charonIds)
+            ->groupBy('charon_lab.id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.course_id', 'charon_lab.name', 'charon_lab.chunk_size')
+            ->select(DB::raw($this->prefix . 'charon_lab.*, GROUP_CONCAT(' . $this->prefix . 'charon_defense_lab.charon_id) AS charons'))
+            ->get()
+            ->map(function ($lab) {
+                $lab->charons = array_map('intval', explode(',', $lab->charons));
+                return $lab;
+            })
+            ->toArray();
+
+        return Lab::hydrate($labs);
     }
 
     /**
@@ -86,7 +127,7 @@ class LabRepository
             ->minutes($labStartCarbon->diffInMinutes($labEndCarbon) % 60);
 
         if ($weeks) {
-            $courseStartTimestamp = \DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
+            $courseStartTimestamp = DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
             $courseStartCarbon = Carbon::createFromTimestamp($courseStartTimestamp)->startOfWeek();
 
             $firstWeekLabStart = $courseStartCarbon->copy()->addDays($courseStartCarbon->diffInDays($labStartCarbon) % 7);
@@ -284,7 +325,7 @@ class LabRepository
      */
     public function findLabsByCourse($courseId)
     {
-        $labs = \DB::table('charon_lab')
+        $labs = DB::table('charon_lab')
             ->where('course_id', $courseId)
             ->select('id', 'start', 'end', 'name', 'course_id')
             ->orderBy('start')
@@ -315,7 +356,7 @@ class LabRepository
      */
     public function getCharonsForLab($courseId, $labId)
     {
-        return \DB::table('charon_lab')
+        return DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('course_id', $courseId)
             ->where('lab_id', $labId)
@@ -333,7 +374,7 @@ class LabRepository
      */
     public function getLabsByCharonId($charonId)
     {
-        return \DB::table('charon_lab')
+        return DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_id', $charonId)
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
@@ -349,7 +390,7 @@ class LabRepository
      */
     public function getLabsIdsByCharonId($charonId)
     {
-        return \DB::table('charon_defense_lab')
+        return DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
             ->pluck('lab_id')
             ->toArray();
@@ -365,7 +406,7 @@ class LabRepository
      */
     public function deleteLab($charonId, $labId)
     {
-        return \DB::table('charon_defense_lab')
+        return DB::table('charon_defense_lab')
             ->where('charon_id', $charonId)
             ->where('lab_id', $labId)
             ->delete();

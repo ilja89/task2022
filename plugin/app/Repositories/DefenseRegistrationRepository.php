@@ -63,6 +63,46 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @version Registration 2.*
+     *
+     * @param int $studentId
+     * @param array|int[] $charons
+     *
+     * @return int[]
+     */
+    public function filterCharonsWithActiveStudentRegistrations(int $studentId, array $charons): array
+    {
+        return DefenseRegistration::query()
+            ->select('charon_id')
+            ->where('student_id', $studentId)
+            ->where('progress', '<>', 'Done')
+            ->whereIn('charon_id', $charons)
+            ->get()
+            ->pluck('charon_id')
+            ->all();
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param array $labs
+     *
+     * @return mixed|Collection|DefenseRegistration[]
+     */
+    public function findAvailableTimes(array $labs)
+    {
+        $timeslots = DB::table('charon_defense_registration')
+            ->join('charon_lab', 'charon_defense_registration.lab_id', 'charon_lab.id')
+            ->where('charon_defense_registration.progress', 'New')
+            ->whereIn('charon_lab.id', $labs)
+            ->select('charon_defense_registration.*')
+            ->get()
+            ->all();
+
+        return DefenseRegistration::hydrate($timeslots);
+    }
+
+    /**
      * @version Registration 1.*
      *
      * @return Builder|Registration

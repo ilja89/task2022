@@ -17,9 +17,9 @@ use Zeizig\Moodle\Models\Group;
  * @property Carbon end
  * @property int course_id
  * @property int chunk_size
- * @property int own_teacher
  *
  * @property User[]|Collection teachers
+ * @property Group[]|Collection groups
  *
  * @package TTU\Charon\Models
  */
@@ -28,7 +28,7 @@ class Lab extends Model
     public $timestamps = false;
 
     protected $table = 'charon_lab';
-    protected $fillable = ['name', 'start', 'end', 'course_id', 'chunk_size', 'own_teacher'];
+    protected $fillable = ['name', 'start', 'end', 'course_id', 'chunk_size'];
     protected $dates = ['start', 'end'];
 
     public function teachers()
@@ -38,7 +38,7 @@ class Lab extends Model
 
     public function groups()
     {
-        return $this->hasMany(Group::class)->orderBy('id');
+        return $this->hasManyThrough(Group::class, LabGroup::class, 'lab_id', 'id', 'id', 'group_id')->orderBy('id');
     }
 
     public function getDeadlineTimeAttribute($deadlineTime)

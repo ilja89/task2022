@@ -63,8 +63,7 @@ class LabController extends Controller
                 'name' => $this->request['name'],
                 'start' => Carbon::parse($this->request['start']),
                 'end' => Carbon::parse($this->request['end']),
-                'chunk_size' => $this->request['chunk_size'],
-                'own_teacher' => $this->request['own_teacher']
+                'chunk_size' => $this->request['chunk_size']
             ]),
             $course,
             $this->request['charons'],

@@ -4,7 +4,6 @@ namespace TTU\Charon\Validators;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\Validator;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
@@ -15,7 +14,7 @@ use Zeizig\Moodle\Models\User;
 /**
  * @version Registration 2.*
  */
-class LabValidator extends Validator
+class LabValidator extends WithErrors
 {
     const MAX_LAB_DURATION_HOURS = 24;
 
@@ -179,15 +178,5 @@ class LabValidator extends Validator
         // TODO: check if busy at Moodle calendar event?
 
         return $this;
-    }
-
-    /**
-     * @param string $field
-     * @param string $message
-     * @param mixed ...$params
-     */
-    private function addError(string $field, string $message, ...$params)
-    {
-        $this->errors()->add($field, sprintf($message, ...$params));
     }
 }

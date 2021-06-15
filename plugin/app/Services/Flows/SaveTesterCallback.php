@@ -64,7 +64,7 @@ class SaveTesterCallback
      * @throws Exception
      * @return Submission
      */
-    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
+    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames): Submission
     {
         $users = $this->getStudentsInvolved($usernames);
 
