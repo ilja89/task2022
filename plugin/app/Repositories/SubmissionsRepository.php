@@ -614,7 +614,7 @@ class SubmissionsRepository
             WHERE gr_gr.itemid = gr_it.id $where
 	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
 	        ORDER BY $sortField $sortType
-	        LIMIT $rows, $perPage"
+	        LIMIT $rows"
         ));
 
         $resultRows = DB::select(DB::raw(
