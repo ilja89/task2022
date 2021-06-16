@@ -46,7 +46,7 @@ class RetestControllerTest extends TestCase
     /** @var RetestController */
     private $controller;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

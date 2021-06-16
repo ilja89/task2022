@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
      * @return void
      * @throws Exception
      */
-    public function report(\Throwable $exception)
+    public function report(Exception $exception)
     {
         if (\App::environment('testing')) {
             throw $exception;
@@ -71,7 +71,6 @@ class Handler extends ExceptionHandler
             // Don't try to email exceptions when in local environment.
             //app('sneaker')->captureException($exception);
         }
-
         parent::report($exception);
     }
 
@@ -83,7 +82,7 @@ class Handler extends ExceptionHandler
      *
      * @return Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, \Throwable $exception)
+    public function render($request, Exception $exception)
     {
         if ($request->expectsJson()) {
             if ($exception instanceof RegistrationException) {

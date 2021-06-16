@@ -29,7 +29,7 @@ class SubmissionControllerTest extends TestCase
     /** @var SubmissionsController */
     private $controller;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
