@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
@@ -175,9 +176,21 @@ class SubmissionsRepository
                 ->get();
             $submission->test_suites = $this->getTestSuites($submission->id);
         }
+        Log::info('This is some useful information.');
 
+        Log::warning('Something could be going wrong.');
+
+        Log::error('Something is really going wrong.');Log::info('This is some useful information.');
+
+        Log::warning('Something could be going wrong.');
+
+        Log::error('Something is really going wrong.');
+        Log::info('sex is ok');
         return $submissions;
     }
+
+
+
 
     /**
      * @param $submissionId
@@ -613,8 +626,7 @@ class SubmissionsRepository
                 LEFT JOIN " . $prefix . "grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
             WHERE gr_gr.itemid = gr_it.id $where
 	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
-	        ORDER BY $sortField $sortType
-	        LIMIT $rows"
+	        ORDER BY $sortField $sortType"
         ));
 
         $resultRows = DB::select(DB::raw(
