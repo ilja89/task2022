@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
+- \#417 "Charon popup:" added to popup window title
+- \#352 Submissions in students report view are now clickable
+- \#359 Popup settings sliders' thumbs are always visible
 
 ## [1.2.3] - 2021-05-15
 
