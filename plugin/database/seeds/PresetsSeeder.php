@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Constants\GradeType;
 
 class PresetsSeeder extends Seeder
 {
@@ -17,14 +18,14 @@ class PresetsSeeder extends Seeder
             'preset_grades' => [
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 1,
+                    'grade_type_code' => GradeType::TEST_TYPE_MINIMUM,
                     'grade_name' => ' - Tests',
                     'max_result' => 1,
                     'id_number_postfix' => '_Tests'
                 ],
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 101,
+                    'grade_type_code' => GradeType::STYLE_TYPE_MINIMUM,
                     'grade_name' => ' - Style',
                     'max_result' => 1,
                     'id_number_postfix' => '_Style'
@@ -43,14 +44,14 @@ class PresetsSeeder extends Seeder
             'preset_grades' => [
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 1,
+                    'grade_type_code' => GradeType::TEST_TYPE_MINIMUM,
                     'grade_name' => ' - Tests',
                     'max_result' => 1,
                     'id_number_postfix' => '_Tests'
                 ],
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 1001,
+                    'grade_type_code' => GradeType::CUSTOM_TYPE_MINIMUM,
                     'grade_name' => ' - Defense',
                     'max_result' => 1,
                     'id_number_postfix' => '_Defense'
@@ -69,21 +70,21 @@ class PresetsSeeder extends Seeder
             'preset_grades' => [
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 1,
+                    'grade_type_code' => GradeType::TEST_TYPE_MINIMUM,
                     'grade_name' => ' - Tests',
                     'max_result' => 1,
                     'id_number_postfix' => '_Tests'
                 ],
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 101,
+                    'grade_type_code' => GradeType::STYLE_TYPE_MINIMUM,
                     'grade_name' => ' - Style',
                     'max_result' => 1,
                     'id_number_postfix' => '_Style'
                 ],
                 [
                     'grade_name_prefix_code' => 1,
-                    'grade_type_code' => 1001,
+                    'grade_type_code' => GradeType::CUSTOM_TYPE_MINIMUM,
                     'grade_name' => ' - Defense',
                     'max_result' => 1,
                     'id_number_postfix' => '_Defense'

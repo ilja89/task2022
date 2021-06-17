@@ -11,16 +11,12 @@ use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Validators\RegistrationValidator;
 
 /**
  * @version Registration 2.*
- *
- * TODO: magic numbers like grade type code borders and test result "passed" value of 1 should be
- * defined and used as constants over the whole system.
  */
 class FindAvailableRegistrationTimes
 {
@@ -33,9 +29,6 @@ class FindAvailableRegistrationTimes
     /** @var LabRepository */
     private $labRepository;
 
-    /** @var LabTeacherRepository */
-    private $teacherRepository;
-
     /** @var UserRepository */
     private $userRepository;
 
@@ -43,20 +36,17 @@ class FindAvailableRegistrationTimes
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $registrationRepository
      * @param LabRepository $labRepository
-     * @param LabTeacherRepository $teacherRepository
      * @param UserRepository $userRepository
      */
     public function __construct(
         SubmissionsRepository $submissionsRepository,
         DefenseRegistrationRepository $registrationRepository,
         LabRepository $labRepository,
-        LabTeacherRepository $teacherRepository,
         UserRepository $userRepository
     ) {
         $this->submissionsRepository = $submissionsRepository;
         $this->registrationRepository = $registrationRepository;
         $this->labRepository = $labRepository;
-        $this->teacherRepository = $teacherRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -74,7 +64,7 @@ class FindAvailableRegistrationTimes
      */
     public function run(int $courseId, int $studentId, array $submissions, Carbon $start, Carbon $end): array
     {
-        $submissions = $this->filter($studentId, $submissions, $start, $end);
+        $submissions = $this->filterValidSubmissions($studentId, $submissions, $start, $end);
 
         if ($submissions->isEmpty()) {
             return [];
@@ -108,7 +98,7 @@ class FindAvailableRegistrationTimes
      *
      * @throws ValidationException
      */
-    private function validate(int $courseId, int $studentId, Collection $submissions)
+    public function validate(int $courseId, int $studentId, Collection $submissions)
     {
         app()->make(RegistrationValidator::class)
             ->studentBelongsToCourse($courseId, $studentId)
@@ -131,7 +121,7 @@ class FindAvailableRegistrationTimes
      *
      * @return Collection|Submission[]
      */
-    private function filter(int $studentId, array $submissions, Carbon $start, Carbon $end): Collection
+    public function filterValidSubmissions(int $studentId, array $submissions, Carbon $start, Carbon $end): Collection
     {
         $registeredCharons = $this->registrationRepository->filterCharonsWithActiveStudentRegistrations(
             $studentId,
@@ -142,7 +132,7 @@ class FindAvailableRegistrationTimes
             ->query()
             ->where('confirmed', 0)
             ->whereIn('id', array_values($submissions))
-            ->with(['charon.grademaps', 'users', 'results'])
+            ->with(['charon', 'users', 'results'])
             ->get()
             ->filter(function (Submission $submission) use ($studentId, $start, $end, $registeredCharons) {
                 $charon = $submission->charon;
@@ -159,25 +149,19 @@ class FindAvailableRegistrationTimes
                     return false;
                 }
 
-                $gradeTypes = $charon->grademaps->pluck('grade_type_code');
                 $results = $submission->results->filter(function (Result $result) use ($studentId) {
                     return $result->user_id = $studentId;
                 });
 
-                // TODO: verify if and how can we have multiple style grades?
-                if ($gradeTypes->contains(101)) {
-                    foreach ($results as $result) {
-                        if ($result->grade_type_code > 100 && $result->grade_type_code <= 1000 && $result->calculated_result < 1) {
+                $testThreshold = $charon->defense_threshold / 100;
+
+                foreach ($results as $result) {
+                    if ($result->isStyleGrade()) {
+                        if ($result->calculated_result < 1) {
                             return false;
                         }
-                    }
-                }
-
-                // TODO: verify if and how can we have multiple test grades?
-                if ($gradeTypes->contains(1) && $charon->defense_threshold) {
-                    $threshold = $charon->defense_threshold / 100;
-                    foreach ($results as $result) {
-                        if ($result->grade_type_code <= 100 && $result->calculated_result < $threshold) {
+                    } else if ($result->isTestsGrade()) {
+                        if ($result->calculated_result < $testThreshold) {
                             return false;
                         }
                     }

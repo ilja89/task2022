@@ -7,7 +7,6 @@ use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\CharonDefenseLab;

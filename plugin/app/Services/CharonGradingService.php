@@ -205,7 +205,7 @@ class CharonGradingService
     public function updateProgressByStudentId($charonId, $submissionId, $studentId, $teacherId, $newProgress)
     {
         $studentRegistration = $this->defenseRegistrationRepository
-            ->query()
+            ->queryOld()
             ->where('student_id', $studentId)
             ->where('submission_id', $submissionId)
             ->where('charon_id', $charonId)

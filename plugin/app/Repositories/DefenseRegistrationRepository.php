@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\DefenseRegistration;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
@@ -18,6 +19,9 @@ use Zeizig\Moodle\Services\ModuleService;
  */
 class DefenseRegistrationRepository
 {
+    /** @var string */
+    private $prefix;
+
     /** @var ModuleService */
     protected $moduleService;
     /**
@@ -28,13 +32,30 @@ class DefenseRegistrationRepository
     /**
      * LabRepository constructor.
      *
+     * @param MoodleConfig $moodleConfig
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      */
-    public function __construct(ModuleService $moduleService, LabTeacherRepository $labTeacherRepository)
-    {
+    public function __construct(
+        MoodleConfig $moodleConfig,
+        ModuleService $moduleService,
+        LabTeacherRepository $labTeacherRepository
+    ) {
+        $this->prefix = $moodleConfig->prefix;
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
+    }
+
+    /**
+     * @param bool $write if true, will lock for write, otherwise for read
+     */
+    public function lock(bool $write = false)
+    {
+        DB::statement(DB::raw(sprintf(
+            'LOCK TABLES %s %s',
+            $this->prefix . 'charon_defense_registration',
+            $write ? 'WRITE' : 'READ'
+        )));
     }
 
     /**
@@ -50,10 +71,8 @@ class DefenseRegistrationRepository
     {
         $query = DefenseRegistration::query()
             ->select('teacher_id')
-            ->whereDate('time', '>=', $from->format('Y-m-d'))
-            ->whereDate('time', '<=', $to->format('Y-m-d'))
-            ->whereTime('time', '>=', $from->toTimeString())
-            ->whereTime('time', '<=', $to->toTimeString());
+            ->where('time', '>=', $from)
+            ->where('time', '<=', $to);
 
         if ($excludingLab) {
             $query = $query->where('lab_id', '<>', $excludingLab);
@@ -75,11 +94,30 @@ class DefenseRegistrationRepository
         return DefenseRegistration::query()
             ->select('charon_id')
             ->where('student_id', $studentId)
-            ->where('progress', '<>', 'Done')
             ->whereIn('charon_id', $charons)
+            ->where('progress', '<>', 'Done')
             ->get()
             ->pluck('charon_id')
             ->all();
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param int $labId
+     * @param Carbon $from
+     * @param Carbon $to
+     *
+     * @return Collection|DefenseRegistration[]
+     */
+    public function findAvailableTimesBetween(int $labId, Carbon $from, Carbon $to)
+    {
+        return DefenseRegistration::where('lab_id', $labId)
+            ->where('progress', 'New')
+            ->where('time', '>=', $from)
+            ->where('time', '<', $to)
+            ->orderBy('time')
+            ->get();
     }
 
     /**
@@ -91,15 +129,17 @@ class DefenseRegistrationRepository
      */
     public function findAvailableTimes(array $labs)
     {
-        $timeslots = DB::table('charon_defense_registration')
-            ->join('charon_lab', 'charon_defense_registration.lab_id', 'charon_lab.id')
-            ->where('charon_defense_registration.progress', 'New')
-            ->whereIn('charon_lab.id', $labs)
-            ->select('charon_defense_registration.*')
-            ->get()
-            ->all();
+        return DefenseRegistration::where('progress', 'New')->whereIn('lab_id', $labs)->get();
+    }
 
-        return DefenseRegistration::hydrate($timeslots);
+    /**
+     * @version Registration 2.*
+     *
+     * @return Builder|Registration
+     */
+    public function query()
+    {
+        return DefenseRegistration::query();
     }
 
     /**
@@ -107,7 +147,7 @@ class DefenseRegistrationRepository
      *
      * @return Builder|Registration
      */
-    public function query()
+    public function queryOld()
     {
         return Registration::query();
     }
