@@ -39,7 +39,7 @@
 
                             <div class="result">
                                 <div>
-                                  <span v-if="getGrademapByResult(result).persistent > 0">* </span>{{ getGrademapByResult(result).name }}
+                                  <span v-if="getGrademapByResult(result).persistent > 0" title="This grade is persistent.">* </span>{{ getGrademapByResult(result).name }}
                                     <span class="grademax">
                                         / {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p
                                     </span>

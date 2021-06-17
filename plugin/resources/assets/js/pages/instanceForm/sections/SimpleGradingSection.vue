@@ -23,7 +23,7 @@
 
             <ul>
                 <li v-for="grademap in form.fields.grademaps">
-                  <span v-if="grademap.persistent > 0">* </span>{{ getGradeTypeName(grademap.grade_type_code) }}:
+                  <span v-if="grademap.persistent > 0" title="This grade is persistent."> * </span>{{ getGradeTypeName(grademap.grade_type_code) }}:
                     {{ grademap.name.length > 0 ? grademap.name : '(No name!)' }},
                     {{ grademap.max_points }}p
                 </li>
