@@ -39,7 +39,7 @@
 
                             <div class="result">
                                 <div>
-                                    {{ getGrademapByResult(result).name }}
+                                  <span v-if="getGrademapByResult(result).persistent > 0" title="This grade is persistent.">* </span>{{ getGrademapByResult(result).name }}
                                     <span class="grademax">
                                         / {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p
                                     </span>
@@ -173,13 +173,11 @@
                         correctGrademap = grademap;
                     }
                 });
-
                 return correctGrademap;
             },
 
             getResultKey(result) {
                 let key = 'result_' + result.user_id + '_' + result.grade_type_code + '_' + result.id;
-                console.log(key);
                 return key;
             },
 
