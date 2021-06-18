@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="charon">
+    <!-- Exclude directories -->
+    <exclude-pattern>/public/bootstrap/</exclude-pattern>
+    <exclude-pattern>/public/config/</exclude-pattern>
+    <exclude-pattern>/public/public/</exclude-pattern>
+    <exclude-pattern>/plugin/resources/</exclude-pattern>
+    <exclude-pattern>/plugin/storage/</exclude-pattern>
+    <exclude-pattern>./vendor/</exclude-pattern>
+
+    <rule ref="PSR12"/>
+
+</ruleset>
