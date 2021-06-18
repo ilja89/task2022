@@ -103,7 +103,7 @@
         },
 
         computed: {
-            ...mapState(["charon", "submission", "teacher", ""]),
+            ...mapState(["charon", "submission", "teacher"]),
 
             ...mapGetters(["charonLink"]),
 
