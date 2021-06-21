@@ -39,7 +39,6 @@
 
 <script>
     import Lab from "../../../../../api/Lab";
-    import _ from "lodash";
 
     export default {
 
@@ -64,8 +63,8 @@
             },
 
             groupSelected() {
-                var self = this;
-                var addGroup = function(group) {
+                let self = this;
+                let addGroup = function(group) {
                     if (!self.lab.groups.find( (g) => { return g.id == group.id; } )) {
                         self.lab.groups.push(group);
                     }
@@ -80,8 +79,8 @@
             },
 
             removeGroup(g) {
-                let indx = this.lab.groups.indexOf(g);
-                this.lab.groups.splice(indx, 1);
+                let index = this.lab.groups.indexOf(g);
+                this.lab.groups.splice(index, 1);
             },
         },
 
@@ -96,6 +95,9 @@
                 this.allGroups = response["groups"] || [];
                 this.allGroupings = response["groupings"] || [];
             });
+            if (!this.lab.groups) {
+                this.lab.groups = [];
+            }
         },
     }
 </script>

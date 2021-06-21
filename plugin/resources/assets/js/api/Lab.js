@@ -1,5 +1,15 @@
 import CharonFormat from "../helpers/CharonFormat";
 
+const onError = function (error) {
+    if (error.response.status === 422 && error.response.data.errors) {
+        Object.values(error.response.data.errors).forEach(val => {
+            VueEvent.$emit('show-notification', val.join(', '), 'danger')
+        });
+    } else {
+        VueEvent.$emit('show-notification', 'Error saving lab.\n' + error, 'danger')
+    }
+};
+
 class Lab {
 
     static all(courseId, then) {
@@ -13,20 +23,19 @@ class Lab {
         })
     }
 
-    static save(courseId, start, end, name, teachers, charons, groups, weeks, then) {
-        axios.post('/mod/charon/api/courses/' + courseId + '/labs/save', {
+    static save(courseId, start, end, name, chunk_size, teachers, charons, groups, weeks, then) {
+        axios.post('/mod/charon/api/courses/' + courseId + '/labs', {
             start: start,
             end: end,
             name: name,
+            chunk_size: chunk_size,
             charons: charons,
             teachers: teachers,
             groups: groups,
             weeks: weeks
         }).then(response => {
             then(response.data)
-        }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving lab.\n' + error, 'danger')
-        })
+        }).catch(onError)
     }
 
     static delete(courseId, labId, then) {
@@ -38,11 +47,12 @@ class Lab {
         })
     }
 
-    static update(courseId, labId, start, end, name, teachers, charons, groups, then) {
+    static update(courseId, labId, start, end, name, chunk_size, teachers, charons, groups, then) {
         axios.post('/mod/charon/api/courses/' + courseId + '/labs/' + labId + '/update', {
             start: start,
             end: end,
             name: name,
+            chunk_size: chunk_size,
             charons: charons,
             groups: groups,
             teachers: teachers

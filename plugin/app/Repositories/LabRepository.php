@@ -326,7 +326,7 @@ class LabRepository
     {
         $labs = DB::table('charon_lab')
             ->where('course_id', $courseId)
-            ->select('id', 'start', 'end', 'name', 'course_id')
+            ->select('id', 'start', 'end', 'name', 'course_id', 'chunk_size')
             ->orderBy('start')
             ->get();
 

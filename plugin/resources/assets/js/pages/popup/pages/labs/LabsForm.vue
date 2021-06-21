@@ -12,7 +12,7 @@
                     <v-form>
                         <v-container>
                             <v-row>
-                                <v-col cols="12" sm="12" md="4" lg="4">
+                                <v-col cols="12" sm="12" md="6" lg="3">
                                     <div class="labs-field">
                                         <p>Start date and time</p>
                                         <datepicker :datetime="lab.start"></datepicker>
@@ -20,7 +20,7 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="12" md="4" lg="4">
+                                <v-col cols="12" sm="12" md="6" lg="3">
                                     <div class="labs-field">
                                         <p>End time</p>
                                         <datepicker :datetime="lab.end"></datepicker>
@@ -28,13 +28,21 @@
                                     </div>
                                 </v-col>
 
-                                <v-col cols="12" sm="12" md="4" lg="4">
+                                <v-col cols="12" sm="12" md="6" lg="3">
                                     <div class="labs-field">
                                         <p>Name</p>
                                         <input v-model="lab.name" type="text" class="input" :placeholder="namePlaceholder">
                                     </div>
                                 </v-col>
 
+                                <v-col cols="12" sm="12" md="6" lg="3">
+                                    <div class="labs-field">
+                                        <p>Chunk size</p>
+                                        <input v-model="lab.chunk_size" type="text" class="input" :placeholder="30">
+                                    </div>
+                                </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-col cols="12" sm="12" md="4" lg="4">
                                     <div class="labs-field">
                                         <p>
@@ -56,8 +64,8 @@
                                         >
                                         </v-slider>
                                     </div>
-                                  </v-col>
-                                  <v-col cols="12" sm="12" md="4" lg="4">
+                                </v-col>
+                                <v-col cols="12" sm="12" md="4" lg="4">
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(30)}">
                                         30 mins
                                     </v-btn>
@@ -71,7 +79,7 @@
                                         2 hours
                                     </v-btn>
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(150)}">
-                                      2.5 hour
+                                        2.5 hour
                                     </v-btn>
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(180)}">
                                         3 hours
@@ -81,7 +89,8 @@
                                 <v-col cols="12" sm="12" md="4" lg="4">
                                     <add-groups-selector :lab="lab" :course="course"></add-groups-selector>
                                 </v-col>
-
+                            </v-row>
+                            <v-row>
                                 <v-col cols="12" sm="12" md="12" lg="12">
                                     <div class="labs-field is-flex-1">
                                         <p>Teachers attending this lab session</p>
@@ -119,7 +128,6 @@
                                         </v-btn>
                                     </div>
                                 </v-col>
-
                             </v-row>
                         </v-container>
                     </v-form>
@@ -241,7 +249,7 @@
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
-                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
+                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, this.lab.chunk_size, chosen_teachers, chosen_charons, groups, () => {
                             window.location = "popup#/labs";
                             window.location.reload();
                             VueEvent.$emit('show-notification', 'Lab updated!');
@@ -250,7 +258,7 @@
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
                             if (result == 0) {
-                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
+                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, this.lab.chunk_size, chosen_teachers, chosen_charons, groups, () => {
                                     window.location = "popup#/labs";
                                     window.location.reload();
                                     VueEvent.$emit('show-notification', 'Lab updated!');
@@ -261,7 +269,7 @@
                         });
                     }
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, this.lab.chunk_size, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
