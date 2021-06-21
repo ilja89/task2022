@@ -263,21 +263,31 @@ class DefenseRegistrationController extends Controller
      *
      * @return mixed
      */
-    public function delete(Request $request)
+
+
+    public function cancel(Request $request)
     {
+        
+        $registrationId = $request->input('registration_id');
+        $studentId = $request->input('user_id');
+        $labId = $request->input('lab_id');
+        $submissionId = $request->input('submission_id');
+        /**
         $studentId = $request->input('user_id');
         $defenseLabId = $request->input('defLab_id');
         $submissionId = $request->input('submission_id');
+        */
 
         Log::warning(json_encode([
-            'event' => 'registration_deletion',
+            'event' => 'registration_cancel',
             'by_user_id' => app(User::class)->currentUserId(),
             'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
+            'lab_id' => $labId,
             'submission_id' => $submissionId
+            'registration_id' => $registrationId
         ]));
 
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+        return $this->defenseRegistrationRepository->cancel($studentId, $labId, $submissionId, $registrationId);
     }
 
     /**
