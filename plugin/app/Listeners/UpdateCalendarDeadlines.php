@@ -30,8 +30,7 @@ class UpdateCalendarDeadlines
     public function handle(CharonUpdated $event)
     {
         $charon = $event->charon;
-
-        $charon->deadlines->each(function ($deadline) use ($charon, &$previousPercentage) {
+        $charon->deadlines->each(function ($deadline) use ($charon) {
             /** @var Deadline $deadline */
             $charonName = $charon->name;
             $percentage = $deadline['percentage'];
@@ -39,7 +38,7 @@ class UpdateCalendarDeadlines
             $description = __('descriptions.descriptionStart') . ' ' . $charonName
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
-
+            $rightTime = $deadline->deadline_time->subHour();
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
@@ -47,7 +46,7 @@ class UpdateCalendarDeadlines
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $deadline->deadline_time->getTimestamp(),
+                $rightTime->getTimestamp(),
                 true,
                 true
             );

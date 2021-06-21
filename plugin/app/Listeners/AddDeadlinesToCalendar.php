@@ -41,6 +41,7 @@ class AddDeadlinesToCalendar
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
 
+            $rightTime = $deadline->deadline_time->subHour();
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
@@ -48,7 +49,7 @@ class AddDeadlinesToCalendar
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $deadline->deadline_time->getTimestamp(),
+                $rightTime->getTimestamp(),
                 true,
                 true
             );
