@@ -210,4 +210,75 @@ class SubmissionRepositoryTest extends TestCase
 
         $this->assertEquals([$newSubmission->id, $oldSubmission->id], $actual);
     }
+
+    public function testFindLatestForDefenseRestrictsByCourseAndUser()
+    {
+        /** @var Charon $math */
+        $math = factory(Charon::class)->create(['course' => 2, 'category_id' => 0]);
+
+        /** @var Charon $bio */
+        $bio = factory(Charon::class)->create(['course' => 3, 'category_id' => 0]);
+
+        /** @var User $kath */
+        $kath = factory(User::class)->create();
+
+        /** @var User $jane */
+        $jane = factory(User::class)->create();
+
+        /** @var Submission $oldSubmission */
+        $oldSubmission = factory(Submission::class)->create([
+            'charon_id' => $math->id,
+            'user_id' => $kath->id,
+            'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
+        ]);
+
+        /** @var Submission $newSubmission */
+        $newSubmission = factory(Submission::class)->create([
+            'charon_id' => $math->id,
+            'user_id' => $kath->id,
+            'created_at' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
+        ]);
+
+        /** @var Submission $oldestSubmission */
+        $oldestSubmission = factory(Submission::class)->create([
+            'charon_id' => $bio->id,
+            'user_id' => $jane->id,
+            'created_at' => Carbon::now()->subDays(7)->format('Y-m-d H:i:s')
+        ]);
+
+        $oldSubmission->users()->saveMany([$kath]);
+
+        $newSubmission->users()->saveMany([$kath, $jane]);
+
+        $oldestSubmission->users()->saveMany([$kath, $jane]);
+
+        factory(Result::class)->create([
+            'submission_id' => $oldSubmission->id,
+            'user_id' => $kath->id,
+            'calculated_result' => 0.2
+        ]);
+
+        factory(Result::class)->create([
+            'submission_id' => $newSubmission->id,
+            'user_id' => $jane->id,
+            'calculated_result' => 0.5
+        ]);
+
+        factory(Result::class)->create([
+            'submission_id' => $newSubmission->id,
+            'user_id' => $kath->id,
+            'calculated_result' => 0.4
+        ]);
+
+        factory(Result::class)->create([
+            'submission_id' => $oldestSubmission->id,
+            'user_id' => $jane->id
+        ]);
+
+        $actual = $this->repository->findLatestForDefense(2, $kath->id);
+
+        $this->assertEquals([$newSubmission->id, $oldSubmission->id], $actual->pluck('id')->all());
+
+        $this->assertEquals(0.4, $actual->first()->results()->first()->calculated_result);
+    }
 }

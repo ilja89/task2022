@@ -3,8 +3,11 @@
 namespace TTU\Charon\Http\Middleware;
 
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use TTU\Charon\Exceptions\CharonNotFoundException;
-use TTU\Charon\Exceptions\ForbiddenException;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\PermissionsService;
@@ -39,15 +42,15 @@ class RequireEnrolment
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param Request $request
+     * @param Closure $next
      *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         try {
-            $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
+            $charon = $this->getCharon($request);
         } catch (CharonNotFoundException $e) {
             return redirect('/', 'The requested Charon could not be found.');
         }
@@ -66,5 +69,20 @@ class RequireEnrolment
         }
 
         return $next($request);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder|Model|object|Charon|null
+     * @throws CharonNotFoundException
+     */
+    private function getCharon(Request $request)
+    {
+        $course = intval($request->route('course'));
+        if ($course > 0) {
+            return $this->charonRepository->query()->where('course', $course)->first();
+        }
+        return $this->charonRepository->getCharonByCourseModuleId($request['id']);
     }
 }
