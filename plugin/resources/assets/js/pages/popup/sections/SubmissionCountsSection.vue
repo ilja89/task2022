@@ -83,7 +83,7 @@
                         container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
                         container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
                         container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
-                        container['undefended'] = parseInt(item.tot_subs) - parseInt(item.defended_amount);
+                        container['undefended'] = parseInt(item.diff_users) - parseInt(item.defended_amount);
 
                         return container;
                     });
