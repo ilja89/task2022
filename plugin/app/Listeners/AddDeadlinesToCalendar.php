@@ -51,7 +51,8 @@ class AddDeadlinesToCalendar
                 $charon->id,
                 $rightTime->getTimestamp(),
                 true,
-                true
+                true,
+                $deadline->group_id
             );
 
             $deadline->event_id = $event->id;

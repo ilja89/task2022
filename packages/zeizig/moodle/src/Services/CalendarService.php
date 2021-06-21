@@ -48,6 +48,9 @@ class CalendarService
         global $CFG;
         require_once($CFG->dirroot . '/calendar/lib.php');
 
+        if ($groupId == null){
+            $groupId = 0;
+        }
         $event = new \stdClass();
         $event->eventtype = $eventType;
         $event->type = $isAction ? \CALENDAR_EVENT_TYPE_ACTION : \CALENDAR_EVENT_TYPE_STANDARD;
