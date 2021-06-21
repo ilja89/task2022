@@ -428,6 +428,23 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    public function cancel($studentId, $labId, $submissionId, $registrationId)
+    {
+        return DB::table('charon_defenders')
+            ->where('id', $registrationId)
+            ->where('student_id', $studentId)
+            ->where('lab_id', $labId)
+            ->where('submission_id', $submissionId)
+            ->whereIn('progress', ['Booked', 'Pending'])
+            ->update([
+                'student_id' => null,
+                'charon_id' => null,
+                'submission_id' => null,
+                'progress' => 'New'
+            ]);
+
+    }
+
     /**
      * @version Registration 1.*
      *
