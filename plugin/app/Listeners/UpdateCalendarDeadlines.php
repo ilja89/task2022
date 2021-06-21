@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Listeners;
 
+use Carbon\Carbon;
 use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Services\CalendarService;
@@ -38,7 +39,10 @@ class UpdateCalendarDeadlines
             $description = __('descriptions.descriptionStart') . ' ' . $charonName
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
-            $rightTime = $deadline->deadline_time->subHour();
+            $rightTime = $deadline->deadline_time;
+            if (Carbon::createFromTimestamp($rightTime->getTimestamp())->isDST()){
+                $rightTime = $deadline->deadline_time->subHour();
+            }
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
