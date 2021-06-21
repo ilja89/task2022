@@ -1,6 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" fullscreen hide-overlay style="position: relative; z-index: 2000"
 	          transition="dialog-bottom-transition">
+    <!-- Button below submissions -->
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn v-bind="attrs" v-on="on" class="mt-4 ml-4" color="primary" dense outlined @click="dialog=true">
 				<!-- TODO: translate -->
@@ -9,7 +10,10 @@
 		</template>
 
 		<v-card>
-			<v-card class="mx-auto">
+      <!---------------------------->
+      <!-- Main content -->
+      <!---------------------------->
+      <v-card class="mx-auto">
 				<v-sheet class="pa-4 primary lighten-2">
 					<v-text-field v-model="search" clear-icon="mdi-close-circle-outline" clearable dark flat
 					              hide-details label="Search Company Directory" solo-inverted/>
@@ -18,6 +22,9 @@
 				<v-card-text>
 					<v-row>
 						<v-col>
+              <!---------------------------->
+              <!-- Charons treeview -->
+              <!---------------------------->
 							<v-treeview v-model="submissionSelection" :active.sync="active" :items="items"
 							            :search="search" activatable color="indigo"
 							            dense expand-icon="mdi-chevron-down"
@@ -35,6 +42,9 @@
 
 						{{ active }}
 
+            <!---------------------------->
+            <!-- Selected nodes info -->
+            <!---------------------------->
 						<v-col class="pa-6" cols="6">
 							<template v-if="!submissionSelection.length">
 								No nodes selected.
@@ -53,6 +63,9 @@
 
           <v-row class="ma-5 d-flex align-center">
 
+            <!---------------------------->
+            <!-- Selected charons list -->
+            <!---------------------------->
             <v-card class="pa-md-4 d-flex flex-column" style="width: fit-content">
               <p class="text-sm-h5 text-center">Selected charons</p>
               <v-divider style="margin-bottom: 1rem"></v-divider>
@@ -151,6 +164,9 @@
               <i class="arrow right"/>
             </div>
 
+            <!---------------------------->
+            <!-- Booked charons list -->
+            <!---------------------------->
             <v-card class="pa-md-4 d-flex flex-column" style="width: fit-content">
               <p class="text-sm-h5 text-center">Booked charons</p>
               <v-divider style="margin-bottom: 1rem"></v-divider>
@@ -192,6 +208,9 @@
 
 					<v-row class="fill-height">
 						<v-col>
+              <!---------------------------->
+              <!-- Calendar container -->
+              <!---------------------------->
 							<v-sheet height="64">
 								<v-toolbar flat>
 									<v-btn class="mr-4" color="grey darken-2" outlined @click="setToday">
@@ -248,6 +267,9 @@
 								</v-toolbar>
 							</v-sheet>
 
+              <!---------------------------->
+              <!-- Calendar -->
+              <!---------------------------->
 							<v-sheet height="600">
                 <v-calendar
                     ref="calendar"
@@ -279,6 +301,10 @@
                     </div>
                   </template>
                 </v-calendar>
+
+                <!---------------------------->
+                <!-- Calendar floating menu -->
+                <!---------------------------->
                 <v-menu v-model="selectedOpen" :activator="selectedElement"
                         :close-on-content-click="false" offset-x>
                   <v-card color="grey lighten-4" flat min-width="350px">
@@ -358,6 +384,7 @@ export default {
 			active: [],
 			submissionSelection: [],
 			search: null,
+      // Items in node list (tree-view)
 			items: [
         {
           id: 2,
@@ -704,14 +731,19 @@ export default {
           ],
         },
 			],
-
+      // Modal which pops up when pressing "Book all"
       bookingModal: null,
+      // Currently selected charons
       selectedCharons: [],
+      // Booked charons
       bookedCharons: [],
+      // Model for checkbox
       dontShowModalBox: false,
+      // Determines whether if bookingModal should appear.
+      // Is taken from localStorage.
       dontShowModal: false,
 
-			// calendar
+			// Calendar stuff
 			focus: '',
 			type: 'month',
 			typeToLabel: {
@@ -767,19 +799,22 @@ export default {
   },
 
   methods: {
-
+    // Return true if charon is currently selected
     isCharonSelected(charon) {
       return this.selectedCharons.find(obj => obj.name === charon.name) !== undefined;
     },
 
+    // Return true if charon is booked
     isCharonBooked(charon) {
       return this.bookedCharons.find(obj => obj.charons.find((chObj) => chObj.name === charon.name) !== undefined) !== undefined;
     },
 
+    // Deselect a charon which is in selectedCharons list
     deselectCharon(charon) {
       this.selectedCharons = this.selectedCharons.filter(obj => obj.name !== charon.name && obj.event !== charon.event);
     },
 
+    // Return a charons list which are connected to specific event
     getEventSelectedCharons(event) {
       const result = []
       for(let charon of event.charons) {
@@ -790,6 +825,7 @@ export default {
       return result;
     },
 
+    // Add all currently selected (in calendar) charons
     addAllCurrentCharons() {
       //@ts-ignore
       for (let evtCharon of this.selectedEvent.charons) {
@@ -801,6 +837,7 @@ export default {
       }
     },
 
+    // Get CSS classes for event
     getCharonEventClasses(charon) {
       if (this.isCharonSelected(charon)) {
         return 'green-outlined'
@@ -811,6 +848,7 @@ export default {
       }
     },
 
+    // Book all selected charons
     addBookings() {
       for (let charon of this.selectedCharons) {
         this.bookCharon(charon);
@@ -820,6 +858,7 @@ export default {
       this.dontShowModal = this.dontShowModalBox;
     },
 
+    // Book specific charon
     bookCharon(charon) {
       const bookedCharonEventPair = this.bookedCharons.find((obj) => obj.event === charon.event)
       if (bookedCharonEventPair) {
