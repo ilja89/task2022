@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
@@ -161,7 +162,7 @@ class UpdateCharonService
         }
 
         $grademap->name = $newGrademap['grademap_name'];
-        $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && (bool) $newGrademap['persistent'];
+        $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && $newGrademap['persistent'] === '1';
         $grademap->save();
 
         $oldMax = $grademap->gradeItem->grademax;
