@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 use Mockery\MockInterface;
+use mysql_xdevapi\Exception;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Api\GitCallbackController;
 use Tests\TestCase;
@@ -109,7 +110,7 @@ class GitCallbackControllerTest extends TestCase
         $this->service->shouldReceive('getCourse')->with('repository url')->andReturn($course);
 
         /** @var CourseSettings $settings */
-        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git']);
+        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git', ]);
         $settings->testerType = factory(TesterType::class)->make(['name' => 'tester name']);
 
         $this->settingsRepository->shouldReceive('getCourseSettingsByCourseId')->with(1)->andReturn($settings);
@@ -123,7 +124,7 @@ class GitCallbackControllerTest extends TestCase
             'full url',
             'repository url',
             'callback url',
-            ['gitTestRepo' => 'unittest git', 'testingPlatform' => 'tester name']
+            ['gitTestRepo' => 'unittest git', 'testingPlatform' => 'tester name', 'testerUrl' => NULL, 'testerToken' => NULL]
         );
 
         $response = $this->controller->indexPost($request);
@@ -174,6 +175,8 @@ class GitCallbackControllerTest extends TestCase
         $expectedParams = [
             'gitTestRepo' => 'unittest git',
             'testingPlatform' => 'other name',
+            'testerUrl' => NULL,
+            'testerToken' => NULL,
             'slugs' => ['folder'],
             'systemExtra' => ['some', 'extras'],
             'dockerExtra' => 'tester extra',
