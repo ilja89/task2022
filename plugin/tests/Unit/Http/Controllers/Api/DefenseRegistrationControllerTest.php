@@ -11,9 +11,12 @@ use TTU\Charon\Http\Controllers\Api\DefenseRegistrationController;
 use Tests\TestCase;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
+use TTU\Charon\Services\Flows\BookStudentRegistration;
+use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 
 class DefenseRegistrationControllerTest extends TestCase
 {
@@ -31,10 +34,13 @@ class DefenseRegistrationControllerTest extends TestCase
         parent::setUp();
         $this->controller = new DefenseRegistrationController(
             Mockery::mock(Request::class),
+            Mockery::mock(CharonRepository::class),
             Mockery::mock(StudentsRepository::class),
             Mockery::mock(DefenseRegistrationRepository::class),
             $this->registrationService = Mockery::mock(DefenceRegistrationService::class),
-            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class)
+            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class),
+            Mockery::mock(FindAvailableRegistrationTimes::class),
+            Mockery::mock(BookStudentRegistration::class)
         );
     }
 

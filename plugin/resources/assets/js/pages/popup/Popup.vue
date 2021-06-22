@@ -31,7 +31,7 @@
     </v-app>
 </template>
 
-<script>
+<script>	
     import {PopupHeader, PopupBody, PopupNavigation} from './layouts'
     import {Loader} from './partials'
     import Charon from "../../api/Charon";
@@ -63,7 +63,7 @@
 
         created() {
             this.initializeEventListeners();
-            document.title = window.course_name;
+            document.title = 'Charon popup: ' + window.course_name;
 
             Charon.all(this.course.id, response => {
                 this.$store.state.charons = response

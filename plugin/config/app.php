@@ -127,6 +127,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Lab Defense Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify values for defense parameters. Chunk duration in
+    | minutes is a default unless changed by individual Labs. Timeslot and
+    | booking durations are set only here.
+    |
+    */
+
+    'defense_timeslot_minutes' => env('APP_DEFENSE_TIMESLOT_MINUTES', 5),
+    'defense_chunk_minutes' => env('APP_DEFENSE_CHUNK_MINUTES', 30),
+    'defense_booking_minutes' => env('APP_DEFENSE_BOOKING_MINUTES', 15),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

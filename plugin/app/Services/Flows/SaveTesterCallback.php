@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use TTU\Charon\Constants\GradeType;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -64,7 +65,7 @@ class SaveTesterCallback
      * @throws Exception
      * @return Submission
      */
-    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
+    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames): Submission
     {
         $users = $this->getStudentsInvolved($usernames);
 
@@ -148,7 +149,7 @@ class SaveTesterCallback
             $this->resultRepository->saveIfGrademapPresent([
                 'submission_id' => $submission->id,
                 'user_id' => $user->id,
-                'grade_type_code' => 101,
+                'grade_type_code' => GradeType::STYLE_TYPE_MINIMUM,
                 'percentage' => (int) $request['style'] == 100 ? 1 : 0,
                 'calculated_result' => 0,
                 'stdout' => null,

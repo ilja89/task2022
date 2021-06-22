@@ -33,6 +33,14 @@ class SubmissionsRepository
     }
 
     /**
+     * @return Builder|Submission
+     */
+    public function query(): Builder
+    {
+        return Submission::query();
+    }
+
+    /**
      * @param $id
      *
      * @return Submission
@@ -475,6 +483,36 @@ class SubmissionsRepository
             ])
             ->latest()
             ->simplePaginate(10);
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $studentId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestForDefense(int $courseId, int $studentId)
+    {
+        return Submission::select(['id', 'charon_id', 'created_at'])
+            ->whereHas('users', function ($query) use ($studentId) {
+                $query->where('id', $studentId);
+            })
+            ->whereHas('charon', function ($query) use ($courseId) {
+                $query->where('course', $courseId);
+            })
+            ->with([
+                'charon' => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+                'results' => function ($query) use ($studentId) {
+                    $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                    $query->where('user_id', $studentId);
+                    $query->orderBy('grade_type_code');
+                },
+            ])
+            ->latest()
+            ->take(30)
+            ->get();
     }
 
     /**

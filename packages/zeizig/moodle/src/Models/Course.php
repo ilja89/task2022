@@ -2,6 +2,7 @@
 
 namespace Zeizig\Moodle\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -12,6 +13,8 @@ use Illuminate\Support\Collection;
  * @property integer $id
  * @property string $fullname
  * @property string $shortname
+ * @property Carbon $startdate
+ * @property Carbon $enddate
  * @property CourseModule[]|Collection $courseModules
  * @property Group[]|Collection $groups
  * @property Grouping[]|Collection $groupings
@@ -75,5 +78,15 @@ class Course extends Model
     {
         $course = Course::select('id')->where('shortname', $courseName)->first();
         return $course->id;
+    }
+
+    public function getStartdateAttribute($value): Carbon
+    {
+        return $this->asDateTime($value);
+    }
+
+    public function getEnddateAttribute($value): Carbon
+    {
+        return $this->asDateTime($value);
     }
 }

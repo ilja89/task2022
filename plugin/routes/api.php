@@ -23,7 +23,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('courses/{course}/user/{user}/charons', 'SubmissionsController@findLatestForDefense');
+
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -85,8 +89,6 @@ Route::group(['namespace' => 'Api'], function () {
     // LABS
 
     Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
-    Route::middleware('auth.course.managing.require')  // save lab
-        ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
         ->get('courses/{course}/labs', 'LabController@getByCourse');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
@@ -95,6 +97,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); 
+        // get number of affected registrations when lab is being to deleted or modified
 
     // TEACHERS
 
@@ -118,7 +123,12 @@ Route::group(['namespace' => 'Api'], function () {
     // COURSE
 
     Route::middleware('auth.course.managing.require') // get a course
-        ->get('courses/{course}', 'LabController@getCourse');
+        ->get('courses/{course}', 'CourseController@index');
+
+    // GROUPS
+
+    Route::middleware('auth.course.managing.require') // get groups for course
+        ->get('courses/{course}/groups', 'LabController@getGroups');
 
     // CHARON
 
@@ -152,4 +162,13 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
+    // Used only by Registration version 2
+
+    Route::middleware('auth.course.managing.require')->post('courses/{course}/labs', 'LabController@create');
+
+    Route::middleware('auth.charon.submissions.view.require')
+        ->get('charons/{charon}/labs/available', 'DefenseRegistrationController@findAvailableTimes');
+
+    Route::middleware('auth.charon.submissions.view.require')
+        ->post('charons/{charon}/labs/book', 'DefenseRegistrationController@bookRegistrationTime');
 });

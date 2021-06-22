@@ -3,12 +3,14 @@
 use Carbon\Carbon;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factory;
+use TTU\Charon\Constants\GradeType;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\TesterType;
 use Zeizig\Moodle\Models\Course;
@@ -22,7 +24,7 @@ $factory->define(Charon::class, function (Generator $faker) {
         'category_id' => 0,
         'name' => $faker->name,
         'description' => $faker->paragraph,
-        'project_folder' => $faker->word,
+        'project_folder' => $faker->sha256,
         'tester_extra' => $faker->word,
         'system_extra' => $faker->word,
         'tester_type_code' => $faker->randomElement([1, 2, 3]),
@@ -81,6 +83,16 @@ $factory->define(Submission::class, function (Generator $faker) {
     ];
 });
 
+$factory->define(Result::class, function (Generator $faker) {
+    return [
+        'grade_type_code' => GradeType::TEST_TYPE_MINIMUM,
+        'percentage' => 1,
+        'calculated_result' => 1,
+        'stdout' => $faker->sentence,
+        'stderr' => $faker->sentence
+    ];
+});
+
 $factory->define(GitCallback::class, function (Generator $faker) {
     return [
         'url' => $faker->url,
@@ -95,7 +107,8 @@ $factory->define(Lab::class, function (Generator $faker) {
     return [
         'start' => Carbon::now(),
         'end' => Carbon::now()->addHours(5),
-        'course_id' => 0
+        'name' => $faker->word,
+        'course_id' => 0,
     ];
 });
 

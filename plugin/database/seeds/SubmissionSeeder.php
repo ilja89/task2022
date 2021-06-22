@@ -51,13 +51,13 @@ class SubmissionSeeder extends Seeder
         $style = 0;
 
         foreach ($charon->grademaps as $grademap) {
-            if ($grademap->grade_type_code >= 1000) {
+            if ($grademap->isCustomGrade()) {
                 continue;
             }
 
             $result = (int) $this->command->ask('Enter % for ' . $grademap->name, 100);
 
-            if ($grademap->grade_type_code == 101) {
+            if ($grademap->isStyleGrade()) {
                 $style = $result;
             } else {
                 $testSuites[] = [

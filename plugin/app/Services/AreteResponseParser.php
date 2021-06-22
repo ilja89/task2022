@@ -52,6 +52,7 @@ class AreteResponseParser
     public function getSubmissionFromRequest(Request $request, string $repository, int $authorId)
     {
         $course = $this->gitCallbackService->getCourse($repository);
+
         $charon = $this->getCharon($request, $course->id);
 
         $originalId = $request->has('retest') && !!$request->input('retest')

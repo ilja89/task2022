@@ -194,6 +194,17 @@ class SubmissionsController extends Controller
         return $submissions;
     }
 
+    /**
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestForDefense(int $courseId, int $userId)
+    {
+        return $this->submissionsRepository->findLatestForDefense($courseId, $userId);
+    }
+
     public function findSubmissionCounts(Course $course)
     {
         return $this->submissionsRepository->findSubmissionCounts($course->id);

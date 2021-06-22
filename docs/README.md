@@ -6,7 +6,7 @@ apart from perfectly working 1:1 development environment which is running at htt
 
 ## Prerequisites
 
-This guide assumes that you have installed [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/),
+This guide assumes that you have installed PHP 7.3, [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/),
 are familiar with command line and have read access to [Charon repository](https://gitlab.cs.ttu.ee/ained/charon).
 
 ## First time setup
