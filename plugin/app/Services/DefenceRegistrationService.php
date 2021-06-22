@@ -219,7 +219,7 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
-        $delta = Carbon::createFromFormat('Y-m-d H:i', $chosenTime)->diffInSeconds($lab->start) / 60;
+        $delta = Carbon::createFromFormat('Y-m-d\TH:i:s.uP', $chosenTime)->diffInSeconds($lab->start) / 60;
         if ($delta % $duration != 0) {
             throw new RegistrationException('invalid_chosen_time');
         }

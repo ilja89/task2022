@@ -95,19 +95,19 @@ class Submission extends Model
 
     public function getGitTimestampAttribute($gitTimestamp)
     {
-        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
+        $gitTimestamp = Carbon::createFromFormat('Y-m-d\TH:i:s.uP', $gitTimestamp, 'UTC');
         return $gitTimestamp->toDateTimeString();
     }
 
     public function getCreatedAtAttribute($createdAt)
     {
-        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'UTC');
+        $createdAt = Carbon::createFromFormat('Y-m-d\TH:i:s.uP', $createdAt, 'UTC');
         return $createdAt->toDateTimeString();
     }
 
     public function getUpdatedAtAttribute($updatedAt)
     {
-        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'UTC');
+        $updatedAt = Carbon::createFromFormat('Y-m-d\TH:i:s.uP', $updatedAt, 'UTC');
         return $updatedAt->toDateTimeString();
     }
 }
