@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\ResultPointsRequiredException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -145,10 +146,13 @@ class SubmissionsController extends Controller
      */
     public function getByCharon(Charon $charon)
     {
-        return $this->submissionsRepository->paginateSubmissionsByCharonUser(
+        Log::info('Now searching submissions...');
+        $gg = $this->submissionsRepository->paginateSubmissionsByCharonUser(
             $charon,
-            intval($this->request['user_id'])
-        );
+            intval($this->request['user_id']));
+        Log::info('Submissions: ' . $gg);
+        error_log($gg);
+        return $gg;
     }
 
     /**

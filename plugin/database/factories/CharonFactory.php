@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Model;
 use Carbon\Carbon;
 use Faker\Generator;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
