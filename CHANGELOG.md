@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
 - \#429 Option to connect a Lab with specific groups
 - \#392 Persistent grades marked with asterisk
+- \#210 Charon deadline events are visible in Moodle calendar
 
 ### Fixed
 - \#434 Current points in submission view show selected submission's points now

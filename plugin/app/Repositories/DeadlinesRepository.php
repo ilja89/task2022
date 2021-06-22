@@ -22,4 +22,10 @@ class DeadlinesRepository
             ->where('instance', $charonId)
             ->delete();
     }
+
+    public function addCharonDeadlinesToCalendarEvents($data)
+    {
+        Log::info("Add deadline event");
+        DB::table('event')->insert($data);
+    }
 }
