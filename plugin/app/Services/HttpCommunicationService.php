@@ -42,13 +42,13 @@ class HttpCommunicationService
      */
     public function sendInfoToTester($method, $data)
     {
-        $testerUrl = $this->settingsService->getSetting(
+        $testerUrl = strlen(trim($data['testerUrl'])) > 0 ? $data['testerUrl'] : $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
             'http://neti.ee'
         );
 
-        $testerToken = $this->settingsService->getSetting(
+        $testerToken = strlen(trim($data['testerToken'])) > 0 ? $data['testerToken'] : $this->settingsService->getSetting(
             'mod_charon',
             'tester_token',
             'charon'

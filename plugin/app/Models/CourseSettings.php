@@ -22,7 +22,7 @@ class CourseSettings extends Model
     public $timestamps = false;
     protected $table = 'charon_course_settings';
     protected $fillable = [
-        'course_id', 'unittests_git'
+        'course_id', 'unittests_git', 'tester_url', 'tester_token'
     ];
 
     public function course()
