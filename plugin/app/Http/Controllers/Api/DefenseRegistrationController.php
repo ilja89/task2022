@@ -269,7 +269,7 @@ class DefenseRegistrationController extends Controller
     {
         
         $registrationId = $request->input('registration_id');
-        $studentId = $request->input('user_id');
+        $studentId = $request->input('student_id');
         $labId = $request->input('lab_id');
         $submissionId = $request->input('submission_id');
         /**
