@@ -29,7 +29,7 @@ class Registration extends Model {
      * @var array
      */
     protected $fillable = [
-        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id', 'progress', 'charon_id', 'teacher_id'
+        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'progress', 'charon_id', 'teacher_id','registration_id','lab_id'
     ];
 
     protected $table = 'charon_defenders';
