@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
 - \#429 Option to connect a Lab with specific groups
+- \#392 Persistent grades marked with asterisk
+- \#210 Charon deadline events are visible in Moodle calendar
 
 ### Fixed
 - \#434 Current points in submission view show selected submission's points now
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#417 "Charon popup:" added to popup window title
 - \#352 Submissions in students report view are now clickable
 - \#359 Popup settings sliders' thumbs are always visible
+- \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 
 ## [1.2.3] - 2021-05-15
