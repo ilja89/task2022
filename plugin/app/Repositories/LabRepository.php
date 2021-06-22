@@ -202,8 +202,6 @@ class LabRepository
     /**
      * Deletes the instance with given id.
      *
-     * @version Registration 1.*
-     *
      * @param integer $id
      *
      * @return Lab
@@ -214,6 +212,7 @@ class LabRepository
         /** @var Lab $lab */
         $lab = Lab::find($id);
 
+        DefenseRegistration::where('lab_id', $id)->delete();
         CharonDefenseLab::where('lab_id', $id)->delete();
         LabTeacher::where('lab_id', $id)->delete();
 
