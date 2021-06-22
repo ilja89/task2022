@@ -99,29 +99,6 @@ class LabController extends Controller
     }
 
     /**
-     * Save lab.
-     *
-     * @version Registration 1.*
-     *
-     * @param Course $course
-     *
-     * @return bool
-     */
-    public function save(Course $course)
-    {
-        return $this->labRepository->save(
-            $this->request['start'],
-            $this->request['end'],
-            $this->request['name'],
-            $course->id,
-            $this->request['teachers'],
-            $this->request['charons'],
-            $this->request['groups'],
-            $this->request['weeks']
-        );
-    }
-
-    /**
      * Update lab.
      *
      * @version Registration 1.*

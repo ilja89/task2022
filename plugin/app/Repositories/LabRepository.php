@@ -98,86 +98,6 @@ class LabRepository
     }
 
     /**
-     * Save the lab instance.
-     *
-     * @version Registration 1.*
-     *
-     * @param $start
-     * @param $end
-     * @param $name
-     * @param $courseId
-     * @param $teachers
-     * @param $charons
-     * @param $groups
-     * @param $weeks
-     *
-     * @return boolean
-     */
-    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $weeks)
-    {
-        $allCarbonStartDatesForLabs = array();
-
-        $labStartCarbon = Carbon::parse($start);
-        $labEndCarbon = Carbon::parse($end);
-
-        $this->validateLab($teachers, $courseId, $labStartCarbon, $labEndCarbon);
-
-        $labLength = CarbonInterval::hours($labStartCarbon->diffInHours($labEndCarbon))
-            ->minutes($labStartCarbon->diffInMinutes($labEndCarbon) % 60);
-
-        if ($weeks) {
-            $courseStartTimestamp = DB::table('course')->where('id', $courseId)->select('startdate')->get()[0]->startdate;
-            $courseStartCarbon = Carbon::createFromTimestamp($courseStartTimestamp)->startOfWeek();
-
-            $firstWeekLabStart = $courseStartCarbon->copy()->addDays($courseStartCarbon->diffInDays($labStartCarbon) % 7);
-            $firstWeekLabStart->hour = $labStartCarbon->hour;
-            $firstWeekLabStart->minute = $labStartCarbon->minute;
-
-            foreach ($weeks as $week) {
-                $allCarbonStartDatesForLabs[] = $firstWeekLabStart->copy()->addWeeks($week - 1);
-            }
-        }
-
-        if (!in_array($labStartCarbon, $allCarbonStartDatesForLabs)) {
-            $allCarbonStartDatesForLabs[] = $labStartCarbon;
-        }
-
-        foreach ($allCarbonStartDatesForLabs as $labStartDate) {
-            $lab = Lab::create([
-                'start' => $labStartDate->format('Y-m-d H:i:s'),
-                'end' => $labStartDate->copy()->add($labLength)->format('Y-m-d H:i:s'),
-                'name' => $name,
-                'course_id' => $courseId
-            ]);
-
-            foreach ($teachers as $teacher) {
-                LabTeacher::create([
-                    'lab_id' => $lab->id,
-                    'teacher_id' => $teacher
-                ])->save();
-            }
-
-            foreach ($charons as $charon) {
-                CharonDefenseLab::create([
-                    'lab_id' => $lab->id,
-                    'charon_id' => $charon
-                ])->save();
-            }
-
-            foreach ($groups as $group) {
-                LabGroup::create([
-                    'lab_id' => $lab->id,
-                    'group_id' => $group
-                ])->save();
-            }
-
-            $lab->save();
-        }
-
-        return $lab;
-    }
-
-    /**
      * Get all labs.
      *
      * @return Collection|static[]
@@ -326,7 +246,7 @@ class LabRepository
     {
         $labs = DB::table('charon_lab')
             ->where('course_id', $courseId)
-            ->select('id', 'start', 'end', 'name', 'course_id')
+            ->select('id', 'start', 'end', 'name', 'course_id', 'chunk_size')
             ->orderBy('start')
             ->get();
 
