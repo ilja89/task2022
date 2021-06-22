@@ -486,6 +486,36 @@ class SubmissionsRepository
     }
 
     /**
+     * @param int $courseId
+     * @param int $studentId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestForDefense(int $courseId, int $studentId)
+    {
+        return Submission::select(['id', 'charon_id', 'created_at'])
+            ->whereHas('users', function ($query) use ($studentId) {
+                $query->where('id', $studentId);
+            })
+            ->whereHas('charon', function ($query) use ($courseId) {
+                $query->where('course', $courseId);
+            })
+            ->with([
+                'charon' => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+                'results' => function ($query) use ($studentId) {
+                    $query->select(['id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                    $query->where('user_id', $studentId);
+                    $query->orderBy('grade_type_code');
+                },
+            ])
+            ->latest()
+            ->take(30)
+            ->get();
+    }
+
+    /**
      * Provides overview stats for popup dashboard.
      *
      * Currently only submission authors are taken into account.
