@@ -145,10 +145,10 @@ export default {
         },
 
         deleteRegistration() {
-            Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id, this.item.charon_defense_lab_id, this.item.submission_id, () => {
+            Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id, this.item.lab_id, this.item.submission_id, this.item.registration_id, () => {
                 VueEvent.$emit('show-notification', "Registration successfully deleted", 'danger')
                 this.alert = false
-                const index = this.findWithAttr(this.defenseList, "charon_defense_lab_id", this.item.charon_defense_lab_id);
+                const index = this.findWithAttr(this.defenseList, "lab_id", this.item.lab_id);
                 if (index > -1) {
                     this.defenseList.splice(index, 1);
                 }
