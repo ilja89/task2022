@@ -266,7 +266,7 @@ class CharonRepository
                 },
             ])
                 ->where('charon_id', $charon->id)
-                ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name']);
+                ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name', 'persistent']);
             $charon->deadlines = Deadline::with([
                 'group' => function ($query) {
                     $query->select(['id', 'name']);

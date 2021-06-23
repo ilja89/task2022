@@ -36,7 +36,6 @@
                     :name="getGradeTypeName(grademap.grade_type_code)"
                     :key="grademap.grade_type_code"
                     :selected="index === 0">
-
                 <grademap-row :grademap="grademap" :formula="form.fields.calculation_formula"></grademap-row>
 
             </charon-tab>
