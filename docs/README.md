@@ -22,7 +22,7 @@ git clone https://gitlab.cs.ttu.ee/ained/charon && cd charon
 Moodle instance will run inside a docker container, your local Charon folder will be mounted into that container
 at `bitnami/moodle/mod/charon` - hence your (PHP code) changes will have immediate effect.
 
-Navigate to `/docs` and start the Moodle and its database container with 
+Navigate to `/docs` and start the Moodle and its database container with
 
 ```bash
 docker-compose up -d
@@ -67,9 +67,9 @@ If the table is empty, run the following command in the Charon directory _inside
 php artisan db:seed
 ```
 
-### Revert possible changes to .htaccess   
+### Revert possible changes to .htaccess
 
-Moodle container sometimes may want to overwrite your local `.htaccess` which came with the project. 
+Moodle container sometimes may want to overwrite your local `.htaccess` which came with the project.
 In your project root, check `git status` and if the `.htaccess` file appears to be modified then discard the changes
 
 ```bash
@@ -82,7 +82,7 @@ Navigate to [http://localhost](http://localhost) and login with user `dev` and p
 
 ### Installing TalTech theme
 
-Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.  
+Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.
 
 Copy the theme inside the Moodle container
 ```
@@ -120,7 +120,7 @@ To add users go to **Site administration > Users > Accounts > Add a new user**.
 
 ### Creating a course
 
-Go to **Site home > \*cog\* > Turn editing on >** add a new course button appears.  
+Go to **Site home > \*cog\* > Turn editing on >** add a new course button appears.
 
 Course info is up to you, but the shortname should follow a similar pattern `python-2021`.
 
@@ -140,7 +140,7 @@ php artisan db:seed --class=SubmissionSeeder
 
 ### Using Adminer
 
-Docker-composes also have an Adminer container for easy access to database. 
+Docker-composes also have an Adminer container for easy access to database.
 
 To use it, navigate to [http://localhost:8190/](http://localhost:8190/) and login with the following parameters:
 - System: `MySQL`
@@ -160,3 +160,11 @@ To use it, navigate to [http://localhost:8190/](http://localhost:8190/) and logi
 By default, git picks up changes in [file permissions](https://linuxhandbook.com/linux-file-permissions/).      
 During the development process, Moodle might change the file permissions on your machine.  
 Run `git config core.filemode false` to disable tracking of filemode changes for this project.
+
+### Updating from version 5.5.x to 8.48.0
+
+To upgrade from previous versions to the latest.
+Run `php composer.phar update` in your docker run terminal inside bitnami/moodle/mod/charon.    
+Updating works only if you already have you composer set up, if you don't then run `php composer.phar install`.     
+To check which Laravel version you are running run: `php artisan --verion`  
+Sometimes if localhost does not open, you might need to run: `sudo chmod -R 777 plugin/storage/`.
