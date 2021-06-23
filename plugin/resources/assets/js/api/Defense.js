@@ -38,8 +38,8 @@ class Defense {
         })
     }
 
-    static deleteStudentRegistration(charon_id, studentId, defense_lab_id, submission_id, then) {
-        axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
+    static deleteStudentRegistration(charon_id, studentId, lab_id, submission_id, registration_id, then) {
+        axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?student_id=${studentId}&lab_id=${lab_id}&submission_id=${submission_id}&registration_id=${registration_id}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
