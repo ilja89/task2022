@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- \#438 Update Laravel version from 5.5 to 8.48.0
+
 ### Added
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations

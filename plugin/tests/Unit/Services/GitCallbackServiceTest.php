@@ -123,7 +123,7 @@ class GitCallbackServiceTest extends TestCase
      */
     public function testCheckGitCallbackThrowsExceptionWhenTooOld()
     {
-        $this->markTestSkipped('After laravel update to v8.47 fails checkGitCallbackForToken()');
+        $this->expectException('TTU\Charon\Exceptions\IncorrectSecretTokenException');
 
         $gitCallback = Mockery::mock(GitCallback::class)
                         ->shouldNotReceive('save')
