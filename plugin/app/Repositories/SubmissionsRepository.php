@@ -6,7 +6,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
@@ -101,18 +100,18 @@ class SubmissionsRepository
 
         $submissions = DB::select(
             'SELECT DISTINCT cs1.id '
-                . 'FROM ' . $prefix . 'charon_submission AS cs1 '
-                . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
-                . 'JOIN ( '
-                . '    SELECT '
-                . '        csu2.user_id, '
-                . '        max(cs2.created_at) AS created_at '
-                . '    FROM ' . $prefix . 'charon_submission AS cs2 '
-                . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
-                . '    WHERE cs2.charon_id = ? '
-                . '    GROUP BY csu2.user_id '
-                . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
-                . 'WHERE cs1.charon_id = ?',
+            . 'FROM ' . $prefix . 'charon_submission AS cs1 '
+            . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
+            . 'JOIN ( '
+            . '    SELECT '
+            . '        csu2.user_id, '
+            . '        max(cs2.created_at) AS created_at '
+            . '    FROM ' . $prefix . 'charon_submission AS cs2 '
+            . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
+            . '    WHERE cs2.charon_id = ? '
+            . '    GROUP BY csu2.user_id '
+            . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
+            . 'WHERE cs1.charon_id = ?',
             [$charonId, $charonId]
         );
 
@@ -176,20 +175,8 @@ class SubmissionsRepository
                 ->get();
             $submission->test_suites = $this->getTestSuites($submission->id);
         }
-        Log::info('This is some useful information.');
-
-        Log::warning('Something could be going wrong.');
-
-        Log::error('Something is really going wrong.');Log::info('This is some useful information.');
-
-        Log::warning('Something could be going wrong.');
-
-        Log::error('Something is really going wrong.');
-        Log::info('sex is ok');
         return $submissions;
     }
-
-
 
 
     /**
@@ -254,10 +241,10 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_gr.finalgrade'
-                . ' FROM ' . $prefix . 'charon ch'
-                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-                . ' WHERE ch.course = ? AND gr_gr.userid = ?',
+            . ' FROM ' . $prefix . 'charon ch'
+            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+            . ' WHERE ch.course = ? AND gr_gr.userid = ?',
             [$courseId, $userId]
         );
     }
@@ -277,11 +264,11 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade'
-                . ' FROM ' . $prefix . 'charon ch'
-                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-                . ' WHERE ch.course = ?'
-                . ' GROUP BY ch.id, ch.name, gr_it.grademax',
+            . ' FROM ' . $prefix . 'charon ch'
+            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+            . ' WHERE ch.course = ?'
+            . ' GROUP BY ch.id, ch.name, gr_it.grademax',
             [$courseId]
         );
     }
@@ -379,7 +366,8 @@ class SubmissionsRepository
         int $userId,
         int $charonId,
         int $gradeTypeCode
-    ) {
+    )
+    {
         /** @var Result $previous */
         $previous = $this->buildForUser($userId)
             ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
