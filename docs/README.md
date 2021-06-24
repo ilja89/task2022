@@ -167,4 +167,7 @@ To upgrade from previous versions to the latest.
 Run `php composer.phar update` in your docker run terminal inside bitnami/moodle/mod/charon.    
 Updating works only if you already have you composer set up, if you don't then run `php composer.phar install`.     
 To check which Laravel version you are running run: `php artisan --verion`  
-Sometimes if localhost does not open, you might need to run: `sudo chmod -R 777 plugin/storage/`.
+Sometimes if localhost does not open, you might need to run: `sudo chmod -R 777 plugin/storage/`.   
+And make sure that your `.env` and `.env.develop` have the same `APP_KEY`. It is generated automatically when after 
+composer install, but if you still do not have it run `php artisan key:generate` inside bitnami/moodle/mod/charon. And
+check that both files have the same key.
