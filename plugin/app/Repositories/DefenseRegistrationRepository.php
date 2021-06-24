@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\DefenseRegistration;
 use TTU\Charon\Models\Registration;
@@ -450,5 +451,30 @@ class DefenseRegistrationRepository
                 'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment', 'charon_lab.name as lab_name')
             ->distinct()
             ->get();
+    }
+
+    /**
+     * @param $studentId
+     * @param $registrations
+     * @return string
+     * @version Registration 1.*
+     *
+     */
+
+    public function register($studentId, $registrations): string
+    {
+        $affected = DB::table('charon_defense_registration')
+            ->whereIn('id', $registrations)
+            ->where('student_id', $studentId)
+            ->where('progress', 'Booked')
+            ->update(array('progress' => 'Pending'));
+
+        if ($affected < count($registrations)){
+            Log::info("Warning: can not register all the registrations provided");
+            return "Warning: can not register all the registrations provided. Please check your registrations";
+        }
+        else {
+            return "success";
+        }
     }
 }

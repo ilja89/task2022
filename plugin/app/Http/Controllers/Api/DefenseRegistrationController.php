@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use TTU\Charon\Exceptions\BadRequestException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -20,6 +21,7 @@ use TTU\Charon\Services\Flows\BookStudentRegistration;
 use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
+use TTU\Charon\Repositories\LabTeacherRepository;
 
 class DefenseRegistrationController extends Controller
 {
@@ -37,6 +39,9 @@ class DefenseRegistrationController extends Controller
 
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
+
+    /** @var LabTeacherRepository */
+    protected $labTeacherRepository;
 
     /** @var FindAvailableRegistrationTimes */
     protected $findTimes;
@@ -292,5 +297,30 @@ class DefenseRegistrationController extends Controller
         $studentId = $request->input('user_id');
 
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
+    }
+
+    /**
+     * @param $courseId
+     * @param $studentId
+     * @param $registrations
+     * @return string
+     * @throws BadRequestException
+     * @version Registration 1.*
+     */
+    public function register($courseId, $studentId, $registrations) : string
+    {
+        $currentUserId = (new User)->currentUserId();
+        $teachers = $this->labTeacherRepository->getTeachersByCourseId($courseId);
+        $student = $this->studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
+
+        if ($currentUserId == $studentId && $student::id == $studentId || in_array($currentUserId, $teachers) ){
+            $result = $this->defenseRegistrationRepository->register($studentId, $registrations);
+            if ($result != "success")
+            {
+                return $result;
+            }
+            return "";
+        }
+        throw new BadRequestException("Either student or teacher not registered in the course");
     }
 }
