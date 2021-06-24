@@ -147,7 +147,8 @@ class SubmissionsController extends Controller
     {
         return $this->submissionsRepository->paginateSubmissionsByCharonUser(
             $charon,
-            intval($this->request['user_id']));
+            intval($this->request['user_id'])
+        );
     }
 
     /**
