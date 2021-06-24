@@ -10,6 +10,7 @@ use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\GitCallbackService;
+use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 
 class GitCallbackServiceTest extends TestCase
 {
@@ -118,12 +119,9 @@ class GitCallbackServiceTest extends TestCase
         $gitCallbackService->checkGitCallbackForToken('secret_token');
     }
 
-    /**
-     * @expectedException \TTU\Charon\Exceptions\IncorrectSecretTokenException
-     */
     public function testCheckGitCallbackThrowsExceptionWhenTooOld()
     {
-        $this->expectException('TTU\Charon\Exceptions\IncorrectSecretTokenException');
+        $this->expectException(IncorrectSecretTokenException::class);
 
         $gitCallback = Mockery::mock(GitCallback::class)
                         ->shouldNotReceive('save')

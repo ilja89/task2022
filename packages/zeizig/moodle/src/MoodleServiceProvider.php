@@ -40,7 +40,7 @@ class MoodleServiceProvider extends ServiceProvider
 
         $this->registerHelpers();
 
-        //$this->registerBladeExtensions();
+        $this->registerBladeExtensions();
     }
 
     /**

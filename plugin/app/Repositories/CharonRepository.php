@@ -369,7 +369,7 @@ class CharonRepository
             }
         }
 
-        //Log::info("Update charon labs:", [$new_labs]);
+        Log::info("Update charon labs:", [$new_labs]);
 
         foreach ($labs as $lab) {
             if (!in_array($lab, $new_labs)) {
