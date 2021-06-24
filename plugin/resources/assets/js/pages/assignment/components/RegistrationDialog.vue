@@ -74,20 +74,20 @@
                     <v-row class="ma-5 d-flex align-center">
 
                         <!---------------------------->
-                        <!-- Selected charons list -->
+                        <!-- Booked charons list -->
                         <!---------------------------->
                         <v-card class="pa-md-4 d-flex flex-column" style="width: fit-content">
-                            <p class="text-sm-h5 text-center">Selected charons</p>
+                            <p class="text-sm-h5 text-center">Booked Charons</p>
 
                             <v-divider style="margin-bottom: 1rem"></v-divider>
 
-                            <v-card-text class="text-center text-lg-button" v-if="selectedCharons.length === 0">
+                            <v-card-text class="text-center text-lg-button" v-if="bookedCharons.length === 0">
                                 <v-icon>mdi-alert-circle-outline</v-icon>
                                 No charons selected
                             </v-card-text>
 
                             <div class="scrollable" style="max-height: 150px">
-                                <v-card class="registered-charon" v-for="charon in selectedCharons">
+                                <v-card class="registered-charon" v-for="charon in bookedCharons">
                                     <v-card class="d-flex justify-space-between" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0" :color="charon.event.color">
                                         <v-card-text class="white--text" style="padding: 0 0.5rem">{{charon.event.name}}</v-card-text>
                                         <v-card-text class="white--text text-right" style="padding: 0 0.5rem">12.05.2020</v-card-text>
@@ -104,19 +104,19 @@
                                 </v-card>
                             </div>
 
-                            <v-card-text v-if="selectedCharons.length > 0" class="text-center">Session time left: 00:00</v-card-text>
+                            <v-card-text v-if="bookedCharons.length > 0" class="text-center">Session time left: 00:00</v-card-text>
 
                             <v-divider class="ma-4"></v-divider>
 
                             <div class="d-flex justify-center">
-                                <v-badge v-if="selectedCharons.length > 0" style="width: fit-content" bordered overlap :content="selectedCharons.length" v-resize="2">
-                                    <v-btn @click="selectedCharons = []" class="ma-2 blue white--text">Deselect all</v-btn>
+                                <v-badge v-if="bookedCharons.length > 0" style="width: fit-content" bordered overlap :content="bookedCharons.length" v-resize="2">
+                                    <v-btn @click="bookedCharons = []" class="ma-2 blue white--text">Cancel all</v-btn>
                                 </v-badge>
 
-                                <v-btn disabled v-else class="ma-2 blue white--text">Deselect all</v-btn>
+                                <v-btn disabled v-else class="ma-2 blue white--text">Cancel all</v-btn>
 
                                 <v-dialog
-                                    v-model="bookingModal"
+                                    v-model="registrationModal"
                                     v-if="!dontShowModal"
                                     persistent
                                     width="300"
@@ -124,11 +124,11 @@
                                     <template v-slot:activator="{on, attrs}">
                                         <v-btn
                                             class="ma-2 green white--text"
-                                            :disabled="selectedCharons.length === 0"
+                                            :disabled="bookedCharons.length === 0"
                                             v-bind="attrs"
                                             v-on="on"
                                         >
-                                            Book all
+                                            Register all
                                         </v-btn>
                                     </template>
 
@@ -138,7 +138,7 @@
                                         </v-card-title>
 
                                         <v-card-text class="text-lg-body-1">
-                                            Are you <b>sure?</b> Booked charons cannot be un-booked.
+                                            Are you <b>sure</b>?
                                         </v-card-text>
 
                                         <div style="margin-left: 1.5rem">
@@ -149,14 +149,14 @@
                                             <v-spacer></v-spacer>
                                             <v-btn color="green" text
                                                 @click="() => {
-                                                    addBookings();
-                                                    bookingModal = false;
+                                                    addRegistrations();
+                                                    registrationModal = false;
                                                 }"
                                             >
                                                 Proceed
                                             </v-btn>
                                             <v-btn color="red" text
-                                                @click="bookingModal = false"
+                                                @click="registrationModal = false"
                                             >
                                                 Cancel
                                             </v-btn>
@@ -164,7 +164,7 @@
                                     </v-card>
                                 </v-dialog>
 
-                                <v-btn color="green" v-else :disabled="selectedCharons.length === 0" @click="addBookings" class="ma-2 blue white--text">Book all</v-btn>
+                                <v-btn color="green" v-else :disabled="bookedCharons.length === 0" @click="addRegistrations" class="ma-2 blue white--text">Register all</v-btn>
                             </div>
                         </v-card>
 
@@ -176,40 +176,38 @@
                         </div>
 
                         <!---------------------------->
-                        <!-- Booked charons list -->
+                        <!-- Registered charons list -->
                         <!---------------------------->
                         <v-card class="pa-md-4 d-flex flex-column" style="width: fit-content">
-                            <p class="text-sm-h5 text-center">Booked charons</p>
+                            <p class="text-sm-h5 text-center">Registered Charons</p>
 
                             <v-divider style="margin-bottom: 1rem"></v-divider>
 
-                            <v-card-text v-if="bookedCharons.length === 0" class="text-center text-lg-button">
+                            <v-card-text v-if="registeredCharons.length === 0" class="text-center text-lg-button">
                                 <v-icon>mdi-alert-circle-outline</v-icon>
-                                Saved bookings not found
+                                Saved registrations not found
                             </v-card-text>
 
-                            <div class="booking" v-for="bookedCharon in bookedCharons">
-                                <div class="booking-title">
+                            <div class="reservation" v-for="registeredCharon in registeredCharons">
+                                <div class="reservation-title">
                                     <div style="display: flex">
                                         <span style="margin-right: 0.4rem">Event:</span>
-                                        <v-card :color="bookedCharon.event.color">
-                                            <v-card-text class="white--text" style="padding: 0 0.5rem">{{bookedCharon.event.name}}</v-card-text>
+                                        <v-card :color="registeredCharon.event.color">
+                                            <v-card-text class="white--text" style="padding: 0 0.5rem">{{registeredCharon.event.name}}</v-card-text>
                                         </v-card>
                                     </div>
-                                    <div class="booking-date">
-                                        12.05.2020 12:00
+                                    <div class="reservation-date">
+                                        {{registeredCharon.event.start}}
                                     </div>
                                 </div>
                                 <v-divider></v-divider>
-                                <div class="booking-body">
-                                    <div class="booking-charon" v-for="charon in bookedCharon.charons">
+                                <div class="reservation-body">
+                                    <div class="reservation-charon" v-for="charon in registeredCharon.charons">
                                         <v-icon>mdi-git</v-icon>
                                         {{charon.name}}
                                     </div>
                                 </div>
                             </div>
-                            <v-divider class="ma-4"></v-divider>
-                            <v-card-text>Note: Saved bookings are not supposed to be canceled</v-card-text>
                         </v-card>
 
                     </v-row>
@@ -325,18 +323,19 @@
                                                         {{charon.name}}
                                                     </v-card-text>
                                                     <v-btn @click="() => {
-                                                        if (isCharonSelected(charon)) {
-                                                            selectedCharons = selectedCharons.filter((obj) => {
+                                                        if (isCharonBooked(charon)) {
+                                                            bookedCharons = bookedCharons.filter((obj) => {
                                                                 return obj.name !== charon.name && obj.event !== charon.event
                                                             })
                                                         } else {
-                                                            selectedCharons.push({
+                                                            bookedCharons.push({
+                                                                id: charon.id,
                                                                 name: charon.name,
                                                                 event: selectedEvent
                                                             })
                                                         }
                                                     }">
-                                                        {{isCharonSelected(charon) ? 'Cancel' : 'Select'}}
+                                                        {{ isCharonBooked(charon) ? 'Cancel' : 'Book' }}
                                                     </v-btn>
                                                 </div>
                                             </v-card>
@@ -350,7 +349,7 @@
                                                 :disabled="getEventSelectedCharons(selectedEvent).length === selectedEvent.charons.length"
                                                 @click="addAllCurrentCharons"
                                             >
-                                                Select all
+                                                Book all
                                             </v-btn>
 
                                             <v-btn
@@ -360,7 +359,7 @@
                                                 text
                                                 @click="getEventSelectedCharons(selectedEvent).forEach(obj => deselectCharon(obj))"
                                             >
-                                                Deselect all
+                                                Cancel all
                                             </v-btn>
 
                                             <v-btn color="secondary" text @click="selectedOpen = false">
@@ -381,6 +380,7 @@
 
 <script>
 import {getSubmissionWeightedScore} from "../helpers/submission";
+import {mapState} from "vuex";
 
 export default {
     name: "registration-dialog",
@@ -401,15 +401,15 @@ export default {
             // Items in node list (tree-view)
             items: [],
             labs: [],
-            // Modal which pops up when pressing "Book all"
-            bookingModal: null,
-            // Currently selected charons
-            selectedCharons: [],
-            // Booked charons
+            // Modal which pops up when pressing "Register all"
+            registrationModal: null,
+            // Currently booked charons
             bookedCharons: [],
+            // Registered charons
+            registeredCharons: [],
             // Model for checkbox
             dontShowModalBox: false,
-            // Determines whether if bookingModal should appear.
+            // Determines whether if registrationModal should appear.
             // Is taken from localStorage.
             dontShowModal: false,
 
@@ -800,44 +800,45 @@ export default {
                 ],
             },
         ];
+
+        this.getCharons()
+
+        // TODO: fetch lab times once charons have been fetched
         this.labs = [
             {
                 id: 1,
                 name: this.names[this.rnd(0, this.names.length - 1)],
                 start: new Date(`2021-06-20T10:00:00`),
                 end: new Date(`2021-06-20T10:30:00`),
-                color: this.colors[this.rnd(0, this.colors.length - 1)],
-                timed: true,
-                charonsAvailable: 1,
-                charonIds: [2]
+                times: 1,
+                charons: [2]
             },
             {
                 id: 1,
                 name: this.names[this.rnd(0, this.names.length - 1)],
                 start: new Date(`2021-06-20T11:00:00`),
                 end: new Date(`2021-06-20T11:30:00`),
-                color: this.colors[this.rnd(0, this.colors.length - 1)],
-                timed: true,
-                charonsAvailable: 1,
-                charonIds: [2]
+                times: 1,
+                charons: [2]
             },
             {
                 id: 2,
                 name: this.names[this.rnd(0, this.names.length - 1)],
                 start: new Date(`2021-06-20T11:00:00`),
                 end: new Date(`2021-06-20T11:30:00`),
-                color: this.colors[this.rnd(0, this.colors.length - 1)],
-                timed: true,
-                charonsAvailable: 3,
-                charonIds: [2, 3, 4]
+                times: 3,
+                charons: [2, 3, 4]
             }
         ];
 
         this.labs.forEach(lab => {
-            const charonIds = lab.charonIds;
+            lab.name = `${lab.name} [${lab.times}]`;
+            lab.timed = true;
+            lab.color = this.colors[this.rnd(0, this.colors.length - 1)];
+            lab.charonIds = lab.charons;
             lab.charons = this.items
                 .filter(charon => {
-                    return charonIds.includes(charon.id);
+                    return lab.charonIds.includes(charon.id);
                 })
                 .map(charon => {
                     return {
@@ -849,7 +850,12 @@ export default {
         });
     },
 
-    computed: {},
+    computed: {
+        ...mapState([
+            'course',
+            'student_id'
+        ])
+    },
 
     watch: {
         submissionSelection: function (updatedSubmissionSelection) {
@@ -882,31 +888,31 @@ export default {
     },
 
     mounted() {
-        this.dontShowModal = localStorage.getItem("dontShowBookModal") === 'true';
+        this.dontShowModal = localStorage.getItem('dontShowRegistrationModal') === 'true';
         this.$refs.calendar.checkChange()
     },
 
     methods: {
-        // Return true if charon is currently selected
-        isCharonSelected(charon) {
-            return this.selectedCharons.find(obj => obj.name === charon.name) !== undefined;
-        },
-
-        // Return true if charon is booked
+        // Return true if charon is currently booked
         isCharonBooked(charon) {
-            return this.bookedCharons.find(obj => obj.charons.find((chObj) => chObj.name === charon.name) !== undefined) !== undefined;
+            return this.bookedCharons.find(obj => obj.id === charon.id) !== undefined;
         },
 
-        // Deselect a charon which is in selectedCharons list
+        // Return true if charon is registered
+        isCharonRegistered(charon) {
+            return this.registeredCharons.find(obj => obj.charons.find((chObj) => chObj.id === charon.id) !== undefined) !== undefined;
+        },
+
+        // Deselect a charon which is in bookedCharons list
         deselectCharon(charon) {
-            this.selectedCharons = this.selectedCharons.filter(obj => obj.name !== charon.name && obj.event !== charon.event);
+            this.bookedCharons = this.bookedCharons.filter(obj => obj.id !== charon.id && obj.event !== charon.event);
         },
 
         // Return a charons list which are connected to specific event
         getEventSelectedCharons(event) {
             const result = []
             for (let charon of event.charons) {
-                if(this.selectedCharons.find(obj => obj.name === charon.name) !== undefined) {
+                if(this.bookedCharons.find(obj => obj.id === charon.id) !== undefined) {
                     result.push(charon);
                 }
             }
@@ -917,10 +923,11 @@ export default {
         addAllCurrentCharons() {
             //@ts-ignore
             for (let evtCharon of this.selectedEvent.charons) {
-                if (this.selectedCharons.find(obj => obj.name === evtCharon.name)) {
+                if (this.bookedCharons.find(obj => obj.name === evtCharon.name)) {
                     continue;
                 }
-                this.selectedCharons.push({
+                this.bookedCharons.push({
+                    id: evtCharon.id,
                     name: evtCharon.name,
                     event: this.selectedEvent
                 })
@@ -929,35 +936,39 @@ export default {
 
         // Get CSS classes for event
         getCharonEventClasses(charon) {
-            if (this.isCharonSelected(charon)) {
+            if (this.isCharonBooked(charon)) {
                 return 'green-outlined'
-            } else if (this.isCharonBooked(charon)) {
+            } else if (this.isCharonRegistered(charon)) {
                 return 'green white--text'
             } else {
                 return 'white'
             }
         },
 
-        // Book all selected charons
-        addBookings() {
-            for (let charon of this.selectedCharons) {
-                this.bookCharon(charon);
+        // Register all booked charons
+        addRegistrations() {
+            for (let charon of this.bookedCharons) {
+                this.registerCharon(charon);
             }
-            this.selectedCharons = [];
-            localStorage.setItem("dontShowBookModal", this.dontShowModalBox ? 'true' : 'false');
+            this.bookedCharons = [];
+            localStorage.setItem('dontShowRegistrationModal', this.dontShowModalBox ? 'true' : 'false');
             this.dontShowModal = this.dontShowModalBox;
         },
 
-        // Book specific charon
-        bookCharon(charon) {
-            const bookedCharonEventPair = this.bookedCharons.find((obj) => obj.event === charon.event)
-            if (bookedCharonEventPair) {
-                bookedCharonEventPair.charons.push({name: charon.name});
+        // Register specific charon
+        registerCharon(charon) {
+            const registeredCharonEventPair = this.registeredCharons.find((obj) => obj.event === charon.event)
+            if (registeredCharonEventPair) {
+                registeredCharonEventPair.charons.push({
+                    id: charon.id,
+                    name: charon.name
+                });
             } else {
-                this.bookedCharons.push({
+                this.registeredCharons.push({
                     event: charon.event,
                     charons: [
                         {
+                            id: charon.id,
                             name: charon.name
                         }
                     ]
@@ -1042,6 +1053,48 @@ export default {
         rnd(a, b) {
             return Math.floor((b - a + 1) * Math.random()) + a
         },
+
+        getCharons() {
+            // TODO: `this.course` is not properly mapped by `computed.mapState`
+            // axios.get(`/api/courses/${this.course.id}/user/${this.student_id}/charons`).then(result => {
+            //     let charons = {};
+            //
+            //     result.data.forEach(submission => {
+            //         if (!charons[submission.charon.id]) {
+            //             charons[submission.charon.id] = {
+            //                 'id': submission.charon.id,
+            //                 'name': submission.charon.name,
+            //                 'children': []
+            //             };
+            //         }
+            //
+            //         let testResult = submission.results.filter(result => {
+            //             return result.grade_type_code <= 100;
+            //         }).reduce((previous,current,index,array) => {
+            //             return previous + (current/array.length);
+            //         }, 0);
+            //
+            //         testResult = Math.round(testResult * 100);
+            //
+            //         charons[submission.charon.id].children.push({
+            //             'id': submission.id,
+            //             'git_timestamp': submission.git_timestamp,
+            //             'charon_id': submission.charon.id,
+            //             'results': submission.results,
+            //             'result': testResult,
+            //             'name': `${submission.charon.name} - ${submission.git_timestamp} - ${testResult}%`
+            //         });
+            //     });
+            //
+            //     for (const charon of charons) {
+            //         this.items.push(charon);
+            //     }
+            // });
+        },
+
+        getRegistrationTimes() {
+
+        },
     },
 }
 </script>
@@ -1063,30 +1116,30 @@ export default {
         text-align: center;
     }
 
-    .booking + .booking {
+    .reservation + .reservation {
         margin-top: 0.5rem;
     }
 
-    .booking {
+    .reservation {
         border-radius: 3px;
         border: 1px solid rgba(#000, 0.15);
         box-shadow: 0 2px 3px 0 rgba(#000, 0.2);
         padding: 0.4rem;
 
-        .booking-title {
+        .reservation-title {
             font-size: 16px;
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.3rem;
 
-            .booking-date {
+            .reservation-date {
                 padding: 0 0.4rem;
                 display: flex;
                 align-items: center;
                 font-size: 13px;
             }
 
-            .booking-event {
+            .reservation-event {
                 font-size: 18px;
                 background: #56b019;
                 padding: 0 0.4rem;
@@ -1096,7 +1149,7 @@ export default {
             }
         }
 
-        .booking-charon {
+        .reservation-charon {
             border: 1px solid rgba(#000, 0.1);
             margin: 0.2rem 0;
             padding: 0 1rem;

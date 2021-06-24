@@ -255,6 +255,7 @@ class FindAvailableRegistrationTimes
                     $end = $start->copy()->addMinutes($lab->chunk_size);
                     $chunks[$key] = [
                         'lab' => $lab->id,
+                        'lab_name' => $lab->name,
                         'start' => $start,
                         'end' => $end->isBefore($lab->end) ? $end : $lab->end,
                         'charons' => $lab->charons,
