@@ -123,7 +123,6 @@ class LabController extends Controller
 
     /**
      * Delete lab.
-     * @version Registration 1.*
      *
      * @param Course $course
      * @param Lab $lab
