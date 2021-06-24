@@ -614,8 +614,8 @@ class SubmissionsRepository
                 LEFT JOIN " . $prefix . "grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = 'category'
                 LEFT JOIN " . $prefix . "grade_grades gr_gr ON gr_gr.userid = ch_su.user_id
             WHERE gr_gr.itemid = gr_it.id $where
-	            GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
-	            ORDER BY $sortField $sortType
+	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
+	        ORDER BY $sortField $sortType
                 LIMIT $rows, $perPage"
         ));
 
