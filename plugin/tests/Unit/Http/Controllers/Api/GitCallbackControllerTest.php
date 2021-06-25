@@ -18,7 +18,6 @@ use TTU\Charon\Models\TesterType;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\GitCallbackService;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class GitCallbackControllerTest extends TestCase

@@ -20,7 +20,7 @@ class SubmissionRepositoryTest extends TestCase
     /** @var SubmissionsRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         /** @var Mock|MoodleConfig $config */

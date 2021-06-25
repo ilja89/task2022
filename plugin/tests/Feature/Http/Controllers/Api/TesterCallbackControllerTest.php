@@ -34,7 +34,7 @@ class TesterCallbackControllerTest extends TestCase
     /**
      * Mocking GradingService as it would try to include Moodle source which is not available
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
