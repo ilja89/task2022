@@ -1,6 +1,6 @@
 # Development guidelines
 
-We're currently using [Laravel 5.5](https://laravel.com/docs/5.5/)
+We're currently using [Laravel 8.x](https://laravel.com/docs/8.x/releases)
 
 ## Working on an issue
 
