@@ -58,9 +58,7 @@ class Lab {
             teachers: teachers
         }).then(response => {
             then(response)
-        }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating lab.\n' + error, 'danger')
-        })
+        }).catch(onError)
     }
 
     static getByCharonId(charonId, then) {

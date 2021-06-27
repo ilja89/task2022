@@ -68,6 +68,7 @@ class LabController extends Controller
             $course,
             $this->request['charons'],
             $this->request['teachers'],
+            $this->request['groups'] ? $this->request['groups'] : [],
             $this->request['weeks'] ? $this->request['weeks'] : []
         );
     }
@@ -101,23 +102,42 @@ class LabController extends Controller
     /**
      * Update lab.
      *
-     * @version Registration 1.*
+     * @version Registration 2.*
      *
      * @param Course $course
      * @param Lab $lab
      *
      * @return Lab
+     * @throws ValidationException
      */
     public function update(Course $course, Lab $lab)
     {
-        return $this->labRepository->update(
-            $lab->id,
-            $this->request['start'],
-            $this->request['end'],
-            $this->request['name'],
-            $this->request['teachers'],
+        if (Carbon::parse($lab->end)->isPast() && $this->labRepository->countRegistrations($lab->id) > 0) {
+            throw ValidationException::withMessages(["It is not possible to edit lab in past. You need to create a new one."]);
+        }
+
+        $validator = Validator::make($this->request->all(), [
+            'teachers' => 'required|filled',
+            'charons' => 'required|filled',
+            'start' => 'required|date|after:' . Carbon::now(),
+            'end' => 'required|date|after:start',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        $lab->name = $this->request['name'];
+        $lab->start = Carbon::parse($this->request['start'])->format('Y-m-d H:i:s');
+        $lab->end = Carbon::parse($this->request['end'])->format('Y-m-d H:i:s');
+        $lab->chunk_size = $this->request['chunk_size'];
+
+        return $this->labService->update(
+            $lab,
+            $course,
             $this->request['charons'],
-            $this->request['groups'],
+            $this->request['teachers'],
+            $this->request['groups'] ? $this->request['groups'] : []
         );
     }
 

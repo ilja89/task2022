@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\LabGroup;
+use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
@@ -35,22 +37,28 @@ class LabService
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var CharonDefenseLabRepository */
+    private $charonDefenseLabRepository;
+
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
      * @param DefenseRegistrationRepository $registrationRepository
      * @param LabRepository $labRepository
+     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
     public function __construct(
         CharonRepository $charonRepository,
         LabTeacherRepository $teacherRepository,
         DefenseRegistrationRepository $registrationRepository,
-        LabRepository $labRepository
+        LabRepository $labRepository,
+        CharonDefenseLabRepository $charonDefenseLabRepository
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->registrationRepository = $registrationRepository;
         $this->labRepository = $labRepository;
+        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
     }
 
     /**
@@ -63,7 +71,7 @@ class LabService
      * @return int[]
      * @throws ValidationException
      */
-    public function create(Lab $lab, Course $course, array $charonsIds, array $teacherIds, array $weeks): array
+    public function create(Lab $lab, Course $course, array $charonsIds, array $teacherIds, array $groupIds, array $weeks): array
     {
         $created = [];
 
@@ -71,6 +79,7 @@ class LabService
         $charons = $this->charonRepository->query()->whereIn('id', $charonsIds)->get();
         $teachers = $this->teacherRepository->getTeachersByCourse($course->id);
 
+        //TODO: do groups need validation?
         $this->validate($lab, $course, $charons, $teacherIds, $teachers);
 
         $teachers = $teachers->whereIn('id', $teacherIds);
@@ -80,7 +89,7 @@ class LabService
             DB::beginTransaction();
 
             foreach ($labs as $lab) {
-                array_push($created, $this->createOne($lab, $course, $charons, $teachers));
+                array_push($created, $this->createOne($lab, $course, $charons, $teachers, $groupIds));
             }
 
             DB::commit();
@@ -100,13 +109,92 @@ class LabService
     /**
      * @param Lab $lab
      * @param Course $course
+     * @param array $charonsIds
+     * @param array $teacherIds
+     * @param array $groupIds
+     *
+     * @return Lab
+     * @throws ValidationException
+     */
+    public function update(Lab $lab, Course $course, array $charonsIds, array $teacherIds, array $groupIds): Lab
+    {
+        $charons = $this->charonRepository->query()->whereIn('id', $charonsIds)->get();
+        $teachers = $this->teacherRepository->getTeachersByCourse($course->id);
+
+        $this->validate($lab, $course, $charons, $teacherIds, $teachers);
+
+        $teachers = $teachers->whereIn('id', $teacherIds);
+        $this->validateLab($lab, $course, $charons, $teachers);
+
+        if ($lab->chunk_size < 1) {
+            $lab->chunk_size = Config::get('app.defense_chunk_minutes');
+        }
+
+        try {
+            DB::beginTransaction();
+            
+            $lab->save();
+
+            $oldTeacherIds = $this->teacherRepository
+                ->getTeachersByLabAndCourse($course->id, $lab->id)
+                ->pluck('id')
+                ->toArray();
+            $teachersToBeRemoved = array_diff($oldTeacherIds, $teacherIds);
+            $toBeAdded = array_diff($teacherIds, $oldTeacherIds);
+            $this->attachTeachers($lab, collect($toBeAdded));
+            foreach ($teachersToBeRemoved as $id) {
+                $this->teacherRepository->deleteByLabAndTeacherId($lab->id, $id);
+            }
+
+            $oldCharonIds = $this->labRepository
+                ->getCharonsForLab($course->id, $lab->id)
+                ->pluck('id')
+                ->toArray();
+            $charonsToBeRemoved = array_diff($oldCharonIds, $charonsIds);
+            $toBeAdded = array_diff($charonsIds, $oldCharonIds);
+            $this->attachCharons($lab, collect($toBeAdded));
+            foreach ($charonsToBeRemoved as $id) {
+                $this->charonDefenseLabRepository->deleteDefenseLabByLabAndCharon($lab->id, $id);
+            }
+
+            $oldGroupIds = $this->labRepository
+                ->getGroupsForLab($course->id, $lab->id)
+                ->pluck('id')
+                ->toArray();
+            $groupsToBeRemoved = array_diff($oldGroupIds, $groupIds);
+            $toBeAdded = array_diff($groupIds, $oldGroupIds);
+            $this->attachGroups($lab, collect($toBeAdded));
+            foreach ($groupsToBeRemoved as $id) {
+                $this->labRepository->deleteGroupForLab($lab->id, $id);
+            }
+
+            $this->labRepository->countRegistrations($lab->id, $lab->start, $lab->end, $charonsToBeRemoved, $teachersToBeRemoved, true);
+
+            DB::commit();
+        } catch (ValidationException $exception) {
+            DB::rollBack();
+            Log::warning('Lab update failed: ' . $exception->getMessage());
+            throw $exception;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error('Lab update failed: ' . $exception->getMessage(), $exception->getTrace());
+            throw $exception;
+        }
+
+        return $lab;
+    }
+
+    /**
+     * @param Lab $lab
+     * @param Course $course
      * @param Collection|Charon[] $charons
      * @param Collection|User[] $teachers
+     * @param array $groupIds
      *
      * @return int
      * @throws ValidationException
      */
-    private function createOne(Lab $lab, Course $course, Collection $charons, Collection $teachers): int
+    private function createOne(Lab $lab, Course $course, Collection $charons, Collection $teachers, array $groupIds): int
     {
         $this->validateLab($lab, $course, $charons, $teachers);
 
@@ -115,8 +203,9 @@ class LabService
         }
 
         $lab->save();
-        $this->attachTeachers($lab, $teachers);
-        $this->attachCharons($lab, $charons);
+        $this->attachTeachers($lab, $teachers->pluck('id'));
+        $this->attachCharons($lab, $charons->pluck('id'));
+        $this->attachGroups($lab, collect($groupIds));
         $this->createRegistrationTimes($lab, $teachers);
 
         return $lab->id;
@@ -192,14 +281,14 @@ class LabService
 
     /**
      * @param Lab $lab
-     * @param Collection|User[] $teachers
+     * @param Collection $teacherIds
      */
-    private function attachTeachers(Lab $lab, Collection $teachers)
+    private function attachTeachers(Lab $lab, Collection $teacherIds)
     {
-        $labTeachers = $teachers->map(function ($teacher) use ($lab) {
+        $labTeachers = $teacherIds->map(function ($teacherId) use ($lab) {
             return [
                 'lab_id' => $lab->id,
-                'teacher_id' => $teacher->id
+                'teacher_id' => $teacherId
             ];
         })->all();
 
@@ -208,18 +297,34 @@ class LabService
 
     /**
      * @param Lab $lab
-     * @param Collection|Charon[] $charons
+     * @param Collection $charonIds
      */
-    private function attachCharons(Lab $lab, Collection $charons)
+    private function attachCharons(Lab $lab, Collection $charonIds)
     {
-        $labCharons = $charons->map(function ($charon) use ($lab) {
+        $labCharons = $charonIds->map(function ($charonId) use ($lab) {
             return [
                 'lab_id' => $lab->id,
-                'charon_id' => $charon->id
+                'charon_id' => $charonId
             ];
         })->all();
 
         $this->labRepository->createManyLabCharons($labCharons);
+    }
+
+    /**
+     * @param Lab $lab
+     * @param Collection $groupIds
+     */
+    private function attachGroups(Lab $lab, Collection $groupIds)
+    {
+        $labGroups = $groupIds->map(function ($groupId) use ($lab) {
+            return [
+                'lab_id' => $lab->id,
+                'group_id' => $groupId
+            ];
+        })->all();
+
+        $this->labRepository->createManyLabGroups($labGroups);
     }
 
     /**

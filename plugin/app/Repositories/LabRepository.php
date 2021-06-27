@@ -7,6 +7,7 @@ use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\CharonDefenseLab;
@@ -65,6 +66,16 @@ class LabRepository
     public function createManyLabCharons(array $collection)
     {
         CharonDefenseLab::insert($collection);
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param array $collection
+     */
+    public function createManyLabGroups(array $collection)
+    {
+        LabGroup::insert($collection);
     }
 
     /**
@@ -138,98 +149,6 @@ class LabRepository
 
         $lab->delete();
         return $lab;
-    }
-
-    /**
-     * Takes the old instance and override its values with the new Charon values.
-     *
-     * @version Registration 1.*
-     *
-     * @param Number $oldLabId
-     * @param Carbon $newStart
-     * @param Carbon $newEnd
-     * @param $newTeachers
-     * @param $newCharons
-     * @param $newGroups
-     *
-     * @return Lab
-     */
-    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups)
-    {
-        $newStartCarbon = Carbon::parse($newStart);
-        $newEndCarbon = Carbon::parse($newEnd);
-        $oldLab = Lab::find($oldLabId);
-
-        $this->validateLab($newTeachers, $oldLab->course_id, $newStartCarbon, $newEndCarbon);
-
-        $oldLab->name = $name;
-        $oldLab->start = $newStartCarbon->format('Y-m-d H:i:s');
-        $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
-
-        $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabAndCourse($oldLab->course_id, $oldLabId);
-        $oldLabCharons = $this->getCharonsForLab($oldLab->course_id, $oldLabId);
-
-        foreach ($oldLabTeachers as $oldLabTeacher) {
-            if (!in_array($oldLabTeacher->id, $newTeachers)) {
-                $this->labTeacherRepository->deleteByLabAndTeacherId($oldLabId, $oldLabTeacher->id);
-            }
-        }
-
-        $oldLabTeacherIds = array_map(
-            function ($a) {
-                return $a->id;
-            },
-            $oldLabTeachers->toArray()
-        );
-
-        foreach ($newTeachers as $newTeacherId) {
-            if (!in_array($newTeacherId, $oldLabTeacherIds)) {
-                LabTeacher::create([
-                    'lab_id' => $oldLab->id,
-                    'teacher_id' => $newTeacherId
-                ])->save();
-            }
-        }
-
-        foreach ($oldLabCharons as $oldLabCharon) {
-            if (!in_array($oldLabCharon->id, $newCharons)) {
-                $this->charonDefenseLabRepository->deleteDefenseLabByLabAndCharon($oldLabId, $oldLabCharon->id);
-            }
-        }
-
-        $oldLabCharonIds = array_map(
-            function ($a) {
-                return $a->id;
-            },
-            $oldLabCharons->toArray()
-        );
-
-        foreach ($newCharons as $newCharonId) {
-            if (!in_array($newCharonId, $oldLabCharonIds)) {
-                CharonDefenseLab::create([
-                    'lab_id' => $oldLab->id,
-                    'charon_id' => $newCharonId
-                ])->save();
-            }
-        }
-
-        $oldGroups = $this->getGroupsForLab($oldLab->course_id, $oldLabId)->pluck('id')->toArray();
-        $toBeRemoved = array_diff($oldGroups, $newGroups);
-        $toBeAdded = array_diff($newGroups, $oldGroups);
-
-        foreach ($toBeRemoved as $id) {
-            $this->deleteGroupForLab($oldLabId, $id);
-        }
-
-        foreach ($toBeAdded as $id) {
-            LabGroup::create([
-                'lab_id' => $oldLabId,
-                'group_id' => $id
-            ])->save();
-        }
-
-        $oldLab->save();
-        return $oldLab;
     }
 
     /**
@@ -348,37 +267,46 @@ class LabRepository
      * Count affected registrations for lab
      * request body may contain additional filters
      * 
-     * @version Registration 1.*
+     * @version Registration 2.*
      * 
      * @param int $labId
      * @param string $start
      * @param string $end
      * @param int[] $charons
      * @param int[] $teachers
+     * @param bool $delete
      * @return int
      * 
      */
-    public function countRegistrations($labId, $start, $end, $charons, $teachers)
+    public function countRegistrations($labId, $start=null, $end=null, $charons=null, $teachers=null, $delete=false)
     {
-
-        return \DB::table('charon_defenders')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+        $records = \DB::table('charon_defense_registration')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defense_registration.lab_id')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->where('charon_defenders.progress', '<>', 'Done')
+            ->whereNotIn('progress',  ['Done', 'New'])
             ->where(function($q) use($start, $end, $charons, $teachers) {
                 if ($start) {
-                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $start);
+                    $q = $q->orWhere('time', '<', $start);
                 }
                 if ($end) {
-                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $end);
+                    $q = $q->orWhere('time', '>', $end);
                 }
                 if ($charons) {
-                    $q = $q->orWhereIn('charon_defenders.charon_id', $charons);
+                    $q = $q->orWhereIn('charon_defense_registration.charon_id', $charons);
                 }
                 if ($teachers) {
-                    $q = $q->orWhereIn('charon_defenders.teacher_id', $teachers);
+                    $q = $q->orWhereIn('charon_defense_registration.teacher_id', $teachers);
                 }
-            })->count();
+            });
+
+        $count = $records->count();
+
+        if ($delete && $count > 0) {
+            $records->delete();
+            Log::info('Deleted ' . $count . " registrations");
+        }
+
+        return $count;
     }
 
     /**
@@ -436,40 +364,5 @@ class LabRepository
             ->select('groupings.id', 'groupings.name', 'groupings_groups.groupid')
             ->orderBy('groupings.name', 'asc')
             ->get();
-    }
-
-    /**
-     * Validate lab times and teachers. Throw http exceptions when validation not passed.
-     *
-     * @version Registration 1.*
-     *
-     * @param $teachers
-     * @param $courseId
-     */
-    private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd)
-    {
-        $courseTeacherIds = array_map(
-            function ($a) {
-                return $a->id;
-            },
-            $this->labTeacherRepository->getTeachersByCourseId($courseId)->toArray()
-        );
-
-        foreach ($teachers as $teacher) {
-            if (!in_array($teacher, $courseTeacherIds)) {
-                throw new BadRequestHttpException("Lab teachers have to be teachers in the course.");
-            }
-        }
-
-        if ($carbonEnd->lessThanOrEqualTo($carbonStart)) {
-            throw new BadRequestHttpException("Lab end has to be after lab start.");
-        }
-
-        $labLength = CarbonInterval::hours($carbonStart->diffInHours($carbonEnd))
-            ->minutes($carbonStart->diffInMinutes($carbonEnd) % 60);
-
-        if ($labLength->hours >= 24) {
-            throw new BadRequestHttpException("Lab has to be below 24 hours long.");
-        }
     }
 }
