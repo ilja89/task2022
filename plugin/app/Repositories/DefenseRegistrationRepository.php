@@ -457,7 +457,7 @@ class DefenseRegistrationRepository
      * @param $studentId
      * @param $registrations
      * @return string
-     * @version Registration 1.*
+     * @version Registration 2.*
      *
      */
 

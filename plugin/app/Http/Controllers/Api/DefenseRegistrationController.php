@@ -5,23 +5,24 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use TTU\Charon\Exceptions\BadRequestException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\Flows\BookStudentRegistration;
 use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
-use TTU\Charon\Repositories\LabTeacherRepository;
+
 
 class DefenseRegistrationController extends Controller
 {
@@ -300,21 +301,22 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * @param $courseId
-     * @param $studentId
-     * @param $registrations
+     * @param Request $request
      * @return string
      * @throws BadRequestException
-     * @version Registration 1.*
+     * @version Registration 2.*
      */
-    public function register($courseId, $studentId, $registrations) : string
+    public function register(Request $request) : string
     {
+        $userId = $request->input('user_id');
+        $registrations = $request->input('registrations');
+        $courseId = $this->charonRepository->getCharonById($request->input('charon_id'))->course;
         $currentUserId = (new User)->currentUserId();
         $teachers = $this->labTeacherRepository->getTeachersByCourseId($courseId);
         $student = $this->studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
 
-        if ($currentUserId == $studentId && $student::id == $studentId || in_array($currentUserId, $teachers) ){
-            $result = $this->defenseRegistrationRepository->register($studentId, $registrations);
+        if ($currentUserId == $userId && $student::id == $userId || in_array($currentUserId, $teachers) ){
+            $result = $this->defenseRegistrationRepository->register($userId, $registrations);
             if ($result != "success")
             {
                 return $result;
