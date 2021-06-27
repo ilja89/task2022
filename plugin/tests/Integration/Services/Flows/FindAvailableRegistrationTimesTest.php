@@ -373,6 +373,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
         $this->assertEquals([
             [
                 'lab' => $labs[0],
+                'lab_name' => 'WithCount 2',
                 'start' => $this->start->copy()->addMinutes(120),
                 'end' => $this->start->copy()->addMinutes(150),
                 'charons' => [$mathTask->id, $bioTask->id],
@@ -380,6 +381,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[0],
+                'lab_name' => 'WithCount 2',
                 'start' => $this->start->copy()->addMinutes(150),
                 'end' => $this->start->copy()->addMinutes(180),
                 'charons' => [$mathTask->id, $bioTask->id],
@@ -387,6 +389,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(240),
                 'end' => $this->start->copy()->addMinutes(260),
                 'charons' => [$bioTask->id],
@@ -394,6 +397,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(260),
                 'end' => $this->start->copy()->addMinutes(280),
                 'charons' => [$bioTask->id],
@@ -401,6 +405,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(280),
                 'end' => $this->start->copy()->addMinutes(300),
                 'charons' => [$bioTask->id],
@@ -408,6 +413,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(300),
                 'end' => $this->start->copy()->addMinutes(320),
                 'charons' => [$bioTask->id],
@@ -415,6 +421,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(320),
                 'end' => $this->start->copy()->addMinutes(340),
                 'charons' => [$bioTask->id],
@@ -422,6 +429,7 @@ class FindAvailableRegistrationTimesTest extends TestCase
             ],
             [
                 'lab' => $labs[1],
+                'lab_name' => 'WithCount 1',
                 'start' => $this->start->copy()->addMinutes(340),
                 'end' => $this->start->copy()->addMinutes(360),
                 'charons' => [$bioTask->id],
@@ -463,7 +471,8 @@ class FindAvailableRegistrationTimesTest extends TestCase
                     'course_id' => $this->course->id,
                     'start' => $start,
                     'end' => $end,
-                    'chunk_size' => $chunkSize
+                    'chunk_size' => $chunkSize,
+                    'name' => 'WithCount ' . count($charons)
                 ]
             ),
             $this->course,
