@@ -229,21 +229,21 @@ class SubmissionRepositoryTest extends TestCase
         $oldSubmission = factory(Submission::class)->create([
             'charon_id' => $math->id,
             'user_id' => $kath->id,
-            'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
+            'git_timestamp' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
         ]);
 
         /** @var Submission $newSubmission */
         $newSubmission = factory(Submission::class)->create([
             'charon_id' => $math->id,
             'user_id' => $kath->id,
-            'created_at' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
+            'git_timestamp' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
         ]);
 
         /** @var Submission $oldestSubmission */
         $oldestSubmission = factory(Submission::class)->create([
             'charon_id' => $bio->id,
             'user_id' => $jane->id,
-            'created_at' => Carbon::now()->subDays(7)->format('Y-m-d H:i:s')
+            'git_timestamp' => Carbon::now()->subDays(7)->format('Y-m-d H:i:s')
         ]);
 
         $oldSubmission->users()->saveMany([$kath]);

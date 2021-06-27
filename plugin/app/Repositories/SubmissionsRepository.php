@@ -493,7 +493,7 @@ class SubmissionsRepository
      */
     public function findLatestForDefense(int $courseId, int $studentId)
     {
-        return Submission::select(['id', 'charon_id', 'created_at'])
+        return Submission::select(['id', 'charon_id', 'git_timestamp'])
             ->whereHas('users', function ($query) use ($studentId) {
                 $query->where('id', $studentId);
             })
@@ -510,7 +510,7 @@ class SubmissionsRepository
                     $query->orderBy('grade_type_code');
                 },
             ])
-            ->latest()
+            ->orderBy('git_timestamp', 'desc')
             ->take(30)
             ->get();
     }

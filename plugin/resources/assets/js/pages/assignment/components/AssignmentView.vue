@@ -17,7 +17,7 @@
 			<v-row class="my-4">
 				<student-registration-sheet/>
 
-<!--				<registration-dialog/>-->
+				<registration-dialog/>
 			</v-row>
 		</v-main>
 	</v-app>
