@@ -255,4 +255,96 @@ class DefenseRegistrationRepositoryTest extends TestCase
             $actual->pluck('id')->all()
         );
     }
+
+    /**
+     * Cases:
+     * + 1st student id in all registrations is matching
+     * - 2nd student id not matching in one of registrations
+     */
+    public function testRegistrationBooking(){
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+
+        /** @var User $student */
+        $student = factory(User::class)->create();
+
+        /** @var User $teacher */
+        $teacher = factory(User::class)->create();
+
+        /** @var Lab $lab */
+        $lab = factory(Lab::class)->create();
+
+        $defenseLab = CharonDefenseLab::create(['charon_id' => $charon->id, 'lab_id' => $lab->id]);
+
+        $time = Carbon::parse('2020-12-15 22:10:00');
+
+        $reg1 = DefenseRegistration::create([
+            'teacher_id' => $teacher->id,
+            'time' => $time->clone()->addMinutes(10),
+            'student_id' => $student->id,
+            'lab_id' => $defenseLab->id,
+            'charon_id' => $charon->id,
+            'progress' => "Booked"
+        ]);
+
+        $reg2 = DefenseRegistration::create([
+            'teacher_id' => $teacher->id,
+            'time' => $time->clone()->addMinutes(15),
+            'student_id' => $student->id,
+            'lab_id' => $defenseLab->id,
+            'charon_id' => $charon->id,
+            'progress' => "Booked"
+        ]);
+
+        $reg3 = DefenseRegistration::create([
+            'teacher_id' => factory(User::class)->create()->id,
+            'time' => $time->clone()->addMinutes(10),
+            'student_id' => factory(User::class)->create()->id,
+            'lab_id' => $defenseLab->id,
+            'charon_id' => $charon->id,
+            'progress' => "Booked"
+        ]);
+
+        $incorrectRegistrations = array($reg1->id, $reg2->id, $reg3->id);
+        $actualNotCorrect = $this->repository->register($student->id, $incorrectRegistrations);
+        $this->assertNotEquals("success", $actualNotCorrect);
+
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+
+        /** @var User $student */
+        $student = factory(User::class)->create();
+
+        /** @var User $teacher */
+        $teacher = factory(User::class)->create();
+
+        /** @var Lab $lab */
+        $lab = factory(Lab::class)->create();
+
+        $defenseLab = CharonDefenseLab::create(['charon_id' => $charon->id, 'lab_id' => $lab->id]);
+
+        $time = Carbon::parse('2020-12-15 22:10:00');
+
+        $reg1 = DefenseRegistration::create([
+            'teacher_id' => $teacher->id,
+            'time' => $time->clone()->addMinutes(10),
+            'student_id' => $student->id,
+            'lab_id' => $defenseLab->id,
+            'charon_id' => $charon->id,
+            'progress' => "Booked"
+        ]);
+
+        $reg2 = DefenseRegistration::create([
+            'teacher_id' => $teacher->id,
+            'time' => $time->clone()->addMinutes(15),
+            'student_id' => $student->id,
+            'lab_id' => $defenseLab->id,
+            'charon_id' => $charon->id,
+            'progress' => "Booked"
+        ]);
+
+        $correctRegistrations = array($reg1->id, $reg2->id);
+        $actualCorrect = $this->repository->register($student->id, $correctRegistrations);
+        $this->assertEquals("success", $actualCorrect);
+    }
 }

@@ -156,6 +156,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // save defense progress
         ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@saveProgress');
 
+    Route::middleware('auth.course.managing.require')  // register and confirm booked registrations to the user
+    ->put('charon/{charon}/user/{user}/registrations', 'DefenseRegistrationController@register');
+
     Route::middleware('auth.charon.submissions.view.require') // add registration
         ->post('charons/{charon}/submission', 'DefenseRegistrationController@studentRegisterDefence');
 

@@ -5,21 +5,24 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use TTU\Charon\Exceptions\BadRequestException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\Flows\BookStudentRegistration;
 use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
+
 
 class DefenseRegistrationController extends Controller
 {
@@ -37,6 +40,9 @@ class DefenseRegistrationController extends Controller
 
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
+
+    /** @var LabTeacherRepository */
+    protected $labTeacherRepository;
 
     /** @var FindAvailableRegistrationTimes */
     protected $findTimes;
@@ -292,5 +298,31 @@ class DefenseRegistrationController extends Controller
         $studentId = $request->input('user_id');
 
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     * @throws BadRequestException
+     * @version Registration 2.*
+     */
+    public function register(Request $request) : string
+    {
+        $userId = $request->input('user_id');
+        $registrations = $request->input('registrations');
+        $courseId = $this->charonRepository->getCharonById($request->input('charon_id'))->course;
+        $currentUserId = (new User)->currentUserId();
+        $teachers = $this->labTeacherRepository->getTeachersByCourseId($courseId);
+        $student = $this->studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
+
+        if ($currentUserId == $userId && $student::id == $userId || in_array($currentUserId, $teachers) ){
+            $result = $this->defenseRegistrationRepository->register($userId, $registrations);
+            if ($result != "success")
+            {
+                return $result;
+            }
+            return "";
+        }
+        throw new BadRequestException("Either student or teacher not registered in the course");
     }
 }
