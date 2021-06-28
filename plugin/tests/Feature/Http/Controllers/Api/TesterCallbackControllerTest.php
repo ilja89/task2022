@@ -109,8 +109,8 @@ class TesterCallbackControllerTest extends TestCase
         $response->assertStatus(200);
 
         $this->gradingService
-            ->shouldReceive('updateGrade')
-            ->with($course->id, $charon->id, 101, $user->id, 100);
+            ->shouldhaveReceived('updateGrade')
+            ->with($course->id, $charon->id, 101, $user->id, $gradeItem->grademax)->once();
 
         $callback->refresh();
         $this->assertEquals(Carbon::now(), $callback->first_response_time);
