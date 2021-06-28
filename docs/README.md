@@ -68,10 +68,10 @@ sudo chmod -R 777 plugin/storage/
 ```
 
 If having errors in charon popup section, check if error messages suggests  running "composer update".
-Running it requires raising default memory limit for php. Other ways there might be memory allocation error.
-Straight after cloning charon add ```ENV PHP_Memory:LIMIT=2G``` line to Dockerfile after the following line:
-```FROM bitnami/moodle:3.9.0```
-2G is surely ok, but you can try some lower limit also.
+On this case start with cleaning out ```vendor``` folder and rerunning ```php composer.phar install```.
+If you are required to run ```composer update```, take into consideration that running it requires raising default memory limit for php. Other ways there might be memory allocation error.
+The recommended way for this is to use command like ```COMPOSER_MEMORY_LIMIT=2G composer update```
+Please note that ```composer.lock``` file will be updated with this. As rule, you should NOT to commit changes in this file.
 
 On error executing 'postinstallation': The configuration file config.php already exists.
 Try to delete everything from docker and create new files, as there might be something corrupt or if there were previous
