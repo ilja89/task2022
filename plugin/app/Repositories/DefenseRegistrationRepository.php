@@ -68,7 +68,7 @@ class DefenseRegistrationRepository
      *
      * @return int[]
      */
-    public function checkBusyTeacherBetween(Carbon $from, Carbon $to, int $teacherId): array
+    public function getRegistrationsByTeacherAndTimeBetween(Carbon $from, Carbon $to, int $teacherId): array
     {
         $query = DefenseRegistration::query()
             ->where('teacher_id', $teacherId)
