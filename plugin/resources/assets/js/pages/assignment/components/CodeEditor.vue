@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 export default {
 
   name: "code-editor",
@@ -18,5 +17,4 @@ export default {
   }
 
 }
-
 </script>
