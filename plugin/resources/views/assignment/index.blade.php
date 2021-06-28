@@ -41,7 +41,6 @@
 </div>
 
 <script>
-    import CodeEditor from "../../assets/js/pages/assignment/components/CodeEditor";
     var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
@@ -81,9 +80,6 @@
         selectTimeText: "{{ translate('select_time') }}",
         registerText: "{{ translate('register') }}"
     };
-    export default {
-        components: {CodeEditor}
-    }
 </script>
 
 @include('partials._highlightjs')
