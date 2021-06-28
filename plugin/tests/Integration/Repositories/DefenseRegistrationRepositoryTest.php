@@ -256,12 +256,8 @@ class DefenseRegistrationRepositoryTest extends TestCase
         );
     }
 
-    /**
-     * Cases:
-     * + 1st student id in all registrations is matching
-     * - 2nd student id not matching in one of registrations
-     */
-    public function testRegistrationBooking(){
+    public function testRegisterWarnsIfLessAffected()
+    {
         /** @var Charon $charon */
         $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
 
@@ -284,7 +280,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'student_id' => $student->id,
             'lab_id' => $defenseLab->id,
             'charon_id' => $charon->id,
-            'progress' => "Booked"
+            'progress' => 'Booked'
         ]);
 
         $reg2 = DefenseRegistration::create([
@@ -293,7 +289,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'student_id' => $student->id,
             'lab_id' => $defenseLab->id,
             'charon_id' => $charon->id,
-            'progress' => "Booked"
+            'progress' => 'Booked'
         ]);
 
         $reg3 = DefenseRegistration::create([
@@ -302,13 +298,24 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'student_id' => factory(User::class)->create()->id,
             'lab_id' => $defenseLab->id,
             'charon_id' => $charon->id,
-            'progress' => "Booked"
+            'progress' => 'Booked'
         ]);
 
-        $incorrectRegistrations = array($reg1->id, $reg2->id, $reg3->id);
-        $actualNotCorrect = $this->repository->register($student->id, $incorrectRegistrations);
-        $this->assertNotEquals("success", $actualNotCorrect);
+        $actualNotCorrect = $this->repository->register($student->id, [$reg1->id, $reg2->id, $reg3->id]);
 
+        $this->assertNotEquals('success', $actualNotCorrect);
+
+        $reg1->refresh();
+        $reg2->refresh();
+        $reg3->refresh();
+
+        $this->assertEquals('Waiting', $reg1->progress);
+        $this->assertEquals('Waiting', $reg2->progress);
+        $this->assertEquals('Booked', $reg3->progress);
+    }
+
+    public function testRegisterSetsProgressWaitingOnSuccess()
+    {
         /** @var Charon $charon */
         $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
 
@@ -331,7 +338,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'student_id' => $student->id,
             'lab_id' => $defenseLab->id,
             'charon_id' => $charon->id,
-            'progress' => "Booked"
+            'progress' => 'Booked'
         ]);
 
         $reg2 = DefenseRegistration::create([
@@ -340,11 +347,17 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'student_id' => $student->id,
             'lab_id' => $defenseLab->id,
             'charon_id' => $charon->id,
-            'progress' => "Booked"
+            'progress' => 'Booked'
         ]);
 
-        $correctRegistrations = array($reg1->id, $reg2->id);
-        $actualCorrect = $this->repository->register($student->id, $correctRegistrations);
-        $this->assertEquals("success", $actualCorrect);
+        $actualCorrect = $this->repository->register($student->id, [$reg1->id, $reg2->id]);
+
+        $this->assertEquals('success', $actualCorrect);
+
+        $reg1->refresh();
+        $reg2->refresh();
+
+        $this->assertEquals('Waiting', $reg1->progress);
+        $this->assertEquals('Waiting', $reg2->progress);
     }
 }
