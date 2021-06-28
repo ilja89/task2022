@@ -42,9 +42,6 @@ class AppServiceProvider extends ServiceProvider
 
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            //Log::useFiles('php://stderr');
-        } else {
-            //Log::useFiles('php://stderr');
         }
     }
 }
