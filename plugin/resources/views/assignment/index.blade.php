@@ -16,6 +16,10 @@
                     Charon popup
                 </a>
 
+                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/charons/{{$charon->id}}/dashboard">
+                    Charon dashboard
+                </a>
+
                 <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
                     Grade settings
                 </a>
