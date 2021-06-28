@@ -64,6 +64,25 @@ class DefenseRegistrationRepository
      *
      * @param Carbon $from
      * @param Carbon $to
+     * @param int $teacherId
+     *
+     * @return int[]
+     */
+    public function checkBusyTeacherBetween(Carbon $from, Carbon $to, int $teacherId): array
+    {
+        $query = DefenseRegistration::query()
+            ->where('teacher_id', $teacherId)
+            ->where('time', '>=', $from)
+            ->where('time', '<', $to);
+
+        return $query->get()->all();
+    }
+
+    /**
+     * @version Registration 2.*
+     *
+     * @param Carbon $from
+     * @param Carbon $to
      * @param int|null $excludingLab
      *
      * @return int[]
@@ -476,5 +495,16 @@ class DefenseRegistrationRepository
         else {
             return "success";
         }
+    }
+
+    /**
+     * @param $id
+     *
+     * @return DefenseRegistration
+     */
+    public function getDefenseRegistrationById($id): DefenseRegistration
+    {
+        return DB::table('charon_defense_registration')
+            ->where('id', $id);
     }
 }

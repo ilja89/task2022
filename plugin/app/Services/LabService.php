@@ -246,4 +246,31 @@ class LabService
 
         $this->registrationRepository->createMany($registrations);
     }
+
+    /**
+     * @param Collection $registrationIds
+     */
+    private function rescheduleRegistrationsIfEmptyGapsAppear(Collection $registrationIds)
+    {
+        foreach ($registrationIds as $registrationId)
+        {
+            $registration = $this->registrationRepository->getDefenseRegistrationById($registrationId);
+            $lab = $this->labRepository->getLabById($registration->lab_id);
+
+            $chunkSize = $lab->chunk_size;
+            $time = $registration->time;
+            $teacherId = $registration->teacher_id;
+
+            $multiplier = 0;
+            while ($lab->start + $chunkSize * $multiplier < $time)
+            {
+                $multiplier++;
+            }
+
+            $chunkBeginning = $lab->start + $chunkSize * $multiplier;
+            $chunkEnd = $chunkBeginning + $chunkSize;
+
+            $registrations = $this->registrationRepository->checkBusyTeacherBetween($chunkBeginning, $chunkEnd, $teacherId);
+        }
+    }
 }
