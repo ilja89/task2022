@@ -262,15 +262,15 @@ class LabService
             $teacherId = $registration->teacher_id;
 
             $multiplier = 0;
-            while ($lab->start + $chunkSize * $multiplier < $time - $chunkSize)
+            while ($lab->start->addMinutes($chunkSize * $multiplier) < $time->subMinutes($chunkSize))
             {
                 $multiplier++;
             }
 
-            $chunkBeginning = $lab->start + $chunkSize * $multiplier;
-            $chunkEnd = $chunkBeginning + $chunkSize;
+            $chunkBeginning = $lab->start->addMinutes($chunkSize * $multiplier);
+            $chunkEnd = $chunkBeginning->addMinutes($chunkSize);
 
-            $registrations = $this->registrationRepository->getRegistrationsByTeacherAndTimeBetween($chunkBeginning, $chunkEnd, $teacherId);
+            $chunkRegistrations = $this->registrationRepository->getRegistrationsByTeacherAndTimeBetween($chunkBeginning, $chunkEnd, $teacherId);
         }
     }
 }

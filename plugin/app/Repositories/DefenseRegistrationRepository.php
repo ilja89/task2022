@@ -66,7 +66,7 @@ class DefenseRegistrationRepository
      * @param Carbon $to
      * @param int $teacherId
      *
-     * @return int[]
+     * @return DefenseRegistration[]
      */
     public function getRegistrationsByTeacherAndTimeBetween(Carbon $from, Carbon $to, int $teacherId): array
     {
