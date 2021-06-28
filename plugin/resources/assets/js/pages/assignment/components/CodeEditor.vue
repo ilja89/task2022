@@ -51,10 +51,8 @@ export default {
 </script>
 
 <style>
-
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
 }
-
 </style>
