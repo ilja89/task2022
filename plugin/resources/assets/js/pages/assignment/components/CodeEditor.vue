@@ -34,6 +34,18 @@ export default {
     MonacoEditor
   },
 
+  methods: {
+
+    onMounted(editor) {
+      this.editor = editor;
+    },
+
+    onCodeChange() {
+      console.log(this.editor.getValue());
+    }
+
+  }
+
 }
 
 </script>
