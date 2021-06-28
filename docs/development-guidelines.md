@@ -37,14 +37,30 @@ We're currently using [Laravel 5.5](https://laravel.com/docs/5.5/)
 - We are currently missing testing setup for javascript
 - PHP unit tests should run without any additional setup via your IDE in folder [/plugin/tests/Unit](/plugin/tests/Unit)
 - PHP integration and feature tests require you to specify your database connection parameters (Since usually they would be provided via Moodle config.php file)
-  - you can do so via your `.env` file
+  - you can do so via your `.env` file, that is located on our projects, main folder. Add following lines to the .env file:
   ```
-  DB_HOST=127.0.0.1
   DB_DATABASE=bitnami_moodle
   DB_USERNAME=bn_moodle
   DB_PASSWORD=dev
   DB_TABLE_PREFIX=mdl_
   ```
+
+#### Configuring PhpStorm:
+
+Setting the configuration for running the tests in PHP Storm:
+- Choose ```Edit configurations``` for the file you want to run
+- From the left pane you should choose PHPUnit
+- Under Test Runner options choose option Defined in the configuration file
+- Tick ```use alternative configuration file```
+- set path to phpunit.xml (located in your project "charon" folder) as an alternative configuration file
+- Check that interpreter is also set and confirm the configuration
+
+Using XDebug is not obligatory but may be useful.
+Installation for Windows: https://xdebug.org/wizard
+If getting errors not finding the file, check if some parts of the path need to be deleted from the suggested path, that wizard suggests adding to php.ini.
+
+After this in the same configuration dialog as above, set:
+- Preferred Coverage engine ```XDebug```
 
 ### Once you're done with your development:
 
