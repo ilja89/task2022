@@ -271,6 +271,22 @@ class LabService
             $chunkEnd = $chunkBeginning->addMinutes($chunkSize);
 
             $chunkRegistrations = $this->registrationRepository->getRegistrationsByTeacherAndTimeBetween($chunkBeginning, $chunkEnd, $teacherId);
+
+            for ($i = 0, $i < count($chunkRegistrations); $i++;)
+            {
+                if ($chunkRegistrations[$i]->time > $time)
+                {
+                    $this->registrationRepository->replaceRegistration(
+                        $registration->id, $chunkRegistrations[$i]->student_id, $chunkRegistrations[$i]->charon_id,
+                        $chunkRegistrations[$i]->submission_id, $chunkRegistrations[$i]->progress);
+
+                    if ($chunkRegistrations[$i + 1] !== null)
+                    {
+                        $registration->id = $chunkRegistrations[$i]->id;
+                        $time = $time + $chunkRegistrations[$i + 1] - $chunkRegistrations[$i];
+                    }
+                }
+            }
         }
     }
 }

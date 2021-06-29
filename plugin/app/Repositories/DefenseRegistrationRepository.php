@@ -73,9 +73,10 @@ class DefenseRegistrationRepository
         $query = DefenseRegistration::query()
             ->where('teacher_id', $teacherId)
             ->where('time', '>=', $from)
-            ->where('time', '<', $to);
+            ->where('time', '<', $to)
+            ->orderBy('time');
 
-        return $query->get()->all();
+        return $query->get();
     }
 
     /**
@@ -185,6 +186,30 @@ class DefenseRegistrationRepository
                 'updated_at' => Carbon::now()
             ];
         }, $collection));
+    }
+
+    /**
+     * Replace to-be-deleted registration by changing its properties.
+     *
+     * @version Registration 2.*
+     *
+     * @param $defenseId
+     * @param $studentId
+     * @param $charonId
+     * @param $submissionId
+     * @param $progress
+     *
+     * @return DefenseRegistration
+     */
+    public function replaceRegistration($defenseId, $studentId, $charonId, $submissionId, $progress)
+    {
+        $defense = Registration::find($defenseId);
+        $defense->studentId     = $studentId;
+        $defense->charonId      = $charonId;
+        $defense->submissionId  = $submissionId;
+        $defense->progress      = $progress;
+        $defense->update();
+        return $defense;
     }
 
     /**
