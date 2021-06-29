@@ -2,7 +2,7 @@
 <script>
     window.hljs = hljs;
 </script>
-<script src="/mod/charon/plugin/public/js/popup.js"></script>
+<script src="/mod/charon/plugin/public/js/charonDashboard.js"></script>
 
 </body>
 </html>

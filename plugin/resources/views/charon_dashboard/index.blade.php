@@ -1,7 +1,7 @@
 @include('charon_dashboard.header')
 
 <div id="app">
-    <charon_dashboard></charon_dashboard>
+    <charon-dashboard></charon-dashboard>
 </div>
 
 <script>
