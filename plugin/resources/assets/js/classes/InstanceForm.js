@@ -108,6 +108,11 @@ export default class InstanceFormForm {
 
     initializeFields(instance, courseSettings) {
         this.fields = {
+            // EDITOR
+            editor_set: false,
+            file_name: '',
+            code: '',
+
             // MODULE INFO
             name: instance['name'] ? instance['name'] : '',
 

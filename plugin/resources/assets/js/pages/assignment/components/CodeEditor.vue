@@ -2,7 +2,7 @@
 
   <MonacoEditor class="editor"
                 language="javascript"
-                height="75%"
+                height="600"
                 theme="vs"
                 :code="code"
                 :editorOptions="options"
@@ -23,7 +23,7 @@ export default {
 
   data () {
     return {
-      code: 'function hello() {\n\talert(\'Hello world!\');\n}',
+      code: '',
       options: {
         selectOnLineNumbers: true
       }

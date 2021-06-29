@@ -63,6 +63,7 @@
 		
 		<deadline-section :form="form"></deadline-section>
 		<grouping-section :form="form"></grouping-section>
+    <code-editor-section :form="form"></code-editor-section>
 		
 		<v-snackbar
 			top
@@ -93,7 +94,7 @@
 import {
 	AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection,
 	SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
-	SimplePlagiarismSection, GroupingSection
+	SimplePlagiarismSection, GroupingSection, CodeEditorSection
 } from './sections'
 import {InstanceFormFieldset} from '../../components/form'
 import {Translate} from '../../mixins'
@@ -109,7 +110,7 @@ export default {
 		SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
 		AdvancedTaskInfoSection, AdvancedGradingSection,
 		InstanceFormFieldset, AdvancedPlagiarismSection,
-		SimplePlagiarismSection, GroupingSection
+		SimplePlagiarismSection, GroupingSection, CodeEditorSection
 	},
 	
 	data() {
@@ -130,6 +131,7 @@ export default {
 	methods: {
 		toggleAdvancedInfoSection(advanced_toggle) {
 			this.advanced_info_section_active = advanced_toggle;
+			console.log(this.form.fields.editor_set); // TODO:
 		},
 		
 		toggleAdvancedGradingSection(advanced_toggle) {
