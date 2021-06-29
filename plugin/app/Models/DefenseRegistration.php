@@ -12,7 +12,7 @@ use Zeizig\Moodle\Models\User;
  * Possible values for progress:
  * New - not registered
  * Booked - student has booked for defense
- * Pending - student has registered for defense
+ * Waiting - student has registered for defense
  * Defending - defense actively in progress
  * Done - defense is done
  *

@@ -454,27 +454,25 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @param $studentId
-     * @param $registrations
-     * @return string
      * @version Registration 2.*
      *
+     * @param $studentId
+     * @param $registrations
+     *
+     * @return string
      */
-
     public function register($studentId, $registrations): string
     {
         $affected = DB::table('charon_defense_registration')
             ->whereIn('id', $registrations)
             ->where('student_id', $studentId)
             ->where('progress', 'Booked')
-            ->update(array('progress' => 'Pending'));
+            ->update(['progress' => 'Waiting']);
 
-        if ($affected < count($registrations)){
-            Log::info("Warning: can not register all the registrations provided");
-            return "Warning: can not register all the registrations provided. Please check your registrations";
+        if ($affected < count($registrations)) {
+            Log::info('Warning: can not register all the registrations provided');
+            return 'Warning: can not register all the registrations provided. Please check your registrations';
         }
-        else {
-            return "success";
-        }
+        return 'success';
     }
 }
