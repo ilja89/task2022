@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 use Mockery\MockInterface;
-use mysql_xdevapi\Exception;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Api\GitCallbackController;
 use Tests\TestCase;
