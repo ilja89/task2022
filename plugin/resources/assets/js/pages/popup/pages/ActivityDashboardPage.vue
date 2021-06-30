@@ -44,7 +44,6 @@ export default {
 
     Charon.getById(this.routeCharonId, response => {
       this.$store.state.charon = response
-      this.charon = response
     })
   },
 

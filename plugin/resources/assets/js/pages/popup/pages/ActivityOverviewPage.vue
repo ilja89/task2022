@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {PageTitle} from '../partials'
 import {PopupSection} from "../layouts";
 
@@ -39,6 +39,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters([
+      'activityLink',
+    ]),
+
     ...mapState([
       'course',
       'charons'
@@ -62,7 +66,7 @@ export default {
       if (chunk.length) {
         chunks.push(chunk)
       }
-
+      console.log(chunks)
       return chunks
     },
 
@@ -72,8 +76,8 @@ export default {
   },
 
   methods: {
-    activitySelected(submission) {
-      this.$router.push(this.submissionLink(submission.id))
+    activitySelected(activity) {
+      this.$router.push(this.activityLink(activity.id))
     },
   }
 
