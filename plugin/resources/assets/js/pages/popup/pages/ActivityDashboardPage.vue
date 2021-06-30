@@ -32,22 +32,32 @@ export default {
     },
 
     page_name() {
-      if (this.charon) {
-        return 'Charon dashboard: ' + this.charon.name
+      if (this.$store.state.charon) {
+        return 'Charon dashboard: ' + this.$store.state.charon.name
       }
       return 'Charon dashboard'
-    }
+    },
+  },
+
+  watch: {
+    $route() {
+      if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
+        this.getCharon()
+      }
+    },
   },
 
   created() {
-    document.title = this.page_name;
-
-    Charon.getById(this.routeCharonId, response => {
-      this.$store.state.charon = response
-    })
+    this.getCharon()
   },
 
   methods: {
+    getCharon() {
+      Charon.getById(this.routeCharonId, response => {
+        this.$store.state.charon = response
+      })
+      document.title = this.page_name
+    }
   },
 }
 </script>

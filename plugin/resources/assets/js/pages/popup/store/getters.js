@@ -62,9 +62,9 @@ export const courseLink = state => state.course ? `/course/view.php?id=${state.c
  */
 export const activityLink = state => (activityId = null) => {
     if (activityId) {
-        return `charon/${activityId}`
+        return `activities/charon/${activityId}`
     }
     if (state.charon.id) {
-        return `charon/${state.charon.id}`
+        return `activities/charon/${state.charon.id}`
     }
 }
