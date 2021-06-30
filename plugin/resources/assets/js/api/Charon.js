@@ -24,6 +24,15 @@ class Charon {
         })
     }
 
+    static getById(charonId, then) {
+        window.axios.get(Charon.getRoot() + '/charons/' + charonId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error fetching a Charon.\n' + error, 'danger')
+        })
+    }
+
     static fetchLatestLogs(courseId, then) {
         window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs')
             .then(response => {

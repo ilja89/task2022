@@ -47,6 +47,16 @@ class CharonsController extends Controller
 
     /**
      * @param int $charonId
+     *
+     * @return Charon
+     */
+    public function getById(int $charonId)
+    {
+        return $this->charonRepository->getCharonById($charonId);
+    }
+
+    /**
+     * @param int $charonId
      */
     public function deleteById(int $charonId)
     {
