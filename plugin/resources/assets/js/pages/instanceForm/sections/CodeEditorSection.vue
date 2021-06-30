@@ -12,7 +12,7 @@
       </label>
 
       <charon-text-input v-if="form.fields.editor_set"
-                         name="name"
+                         name="file_name"
                          label="File Name"
                          :required="true"
                          :value="form.fields.file_name"
