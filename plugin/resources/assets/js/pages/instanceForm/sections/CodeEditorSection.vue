@@ -8,7 +8,7 @@
     <div class="fcontainer clearfix fitem">
 
       <label> Add code editor to this charon:
-        <input type="checkbox" v-model="form.fields.editor_set" value="1">
+        <input type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
       </label>
 
       <charon-text-input v-if="form.fields.editor_set"
@@ -21,6 +21,7 @@
 
 
       <MonacoEditor class="editor"
+                    name="code"
                     language="javascript"
                     theme="vs"
                     height="600"
@@ -58,7 +59,7 @@ export default {
 
   data () {
     return {
-      code: this.form.fields.code,
+      code: '',
       options: {
         selectOnLineNumbers: true
       }
@@ -72,9 +73,7 @@ export default {
     },
 
     onCodeChange() {
-      if (this.form.fields.editor_set === true) {
-        this.form.fields.code = this.editor.getValue();
-      }
+      this.form.fields.code = this.editor.getValue();
       console.log(this.form.fields.code);
     }
 
