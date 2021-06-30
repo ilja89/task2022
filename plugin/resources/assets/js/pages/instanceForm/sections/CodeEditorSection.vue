@@ -21,7 +21,6 @@
 
 
       <MonacoEditor class="editor"
-                    name="code"
                     language="javascript"
                     theme="vs"
                     height="600"
@@ -31,6 +30,8 @@
                     @codeChange="onCodeChange"
       >
       </MonacoEditor>
+
+      <input type="hidden" id="code" name="code" v-model="form.fields.code">
 
 
     </div>
@@ -73,8 +74,9 @@ export default {
     },
 
     onCodeChange() {
-      this.form.fields.code = this.editor.getValue();
-      console.log(this.form.fields.code);
+      if (this.form.fields.editor_set === true) {
+        document.getElementById('code').value = this.editor.getValue();
+      }
     }
 
   }
