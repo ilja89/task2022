@@ -47,13 +47,14 @@
                     {title: 'Dashboard', icon: "dashboard", route: () => '/'},
                     {title: 'Grading', icon: 'grading', route: this.gradingLink},
                     {title: 'Student overview', icon: 'face', route: this.studentOverviewLink},
+                    {title: 'Activity overview', icon: 'edit', route: () => '/activities'},
                     {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
                     {title: 'Labs', icon: 'event_available', route: () => '/labs'},
                     {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
                     {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
                     {title: 'Teacher overview', icon: 'school', route: () => '/teachers'},
-                    {title: window.course_shortname, icon: 'home', route: () => this.courseLink, external: true},
+                    {title: window.course_shortname, icon: 'home', route: () => this.courseLink, external: true}
                 ]
             }
         },
