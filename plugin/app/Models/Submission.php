@@ -3,6 +3,7 @@
 namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Zeizig\Moodle\Models\User;
@@ -109,5 +110,16 @@ class Submission extends Model
     {
         $updatedAt = Carbon::parse($updatedAt, 'UTC');
         return $updatedAt->toDateTimeString();
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    public function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
