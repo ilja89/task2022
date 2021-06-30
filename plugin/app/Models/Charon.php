@@ -51,6 +51,9 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string|null docker_content_root
  * @property string|null docker_test_root
  * @property int|null group_size
+ * @property bool editor_set
+ * @property string file_name
+ * @property string code
  *
  * @package TTU\Charon\Model
  */
@@ -65,7 +68,7 @@ class Charon extends Model
         'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
         'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold',
-        'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size'
+        'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size', 'editor_set', 'file_name', 'code'
     ];
 
     /**
