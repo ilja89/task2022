@@ -23,7 +23,7 @@
       <MonacoEditor class="editor"
                     language="javascript"
                     theme="vs"
-                    height="20%"
+                    height="600"
                     :code="code"
                     :editorOptions="options"
                     @mounted="onMounted"
