@@ -76,6 +76,8 @@ export default {
     onCodeChange() {
       if (this.form.fields.editor_set === true) {
         document.getElementById('code').value = this.editor.getValue();
+      } else {
+        document.getElementById('code').value = '';
       }
     }
 
