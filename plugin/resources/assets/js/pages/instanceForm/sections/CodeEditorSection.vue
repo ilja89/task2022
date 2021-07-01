@@ -16,6 +16,7 @@
                          label="File Name"
                          :required="true"
                          :value="form.fields.file_name"
+                         @input-was-changed="onFileNameChanged"
       >
       </charon-text-input>
 
@@ -33,7 +34,6 @@
 
       <input type="hidden" id="code" name="code" v-model="form.fields.code">
 
-
     </div>
 
   </fieldset>
@@ -44,10 +44,13 @@
 
 import MonacoEditor from 'vue-monaco-editor';
 import { CharonTextInput } from '../../../components/form';
+import { EmitEventOnInputChange } from "../../../mixins";
 
 export default {
 
   name: "CodeEditorSection",
+
+  mixins: [ EmitEventOnInputChange ],
 
   props: {
     form: {required: true}
@@ -78,6 +81,7 @@ export default {
         document.getElementById('code').value = this.editor.getValue();
       } else {
         document.getElementById('code').value = '';
+        this.editor.value = '';
       }
     }
 

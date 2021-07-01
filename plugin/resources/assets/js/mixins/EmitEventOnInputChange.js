@@ -4,6 +4,10 @@ export default {
             VueEvent.$emit('name-was-changed', name);
         },
 
+        onFileNameChanged(fileName) {
+            VueEvent.$emit('file-name-was-changed', fileName);
+        },
+
         onProjectFolderChanged(projectFolder) {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
         },
