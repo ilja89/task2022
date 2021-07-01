@@ -8,8 +8,7 @@
 <script>
 import {PageTitle} from '../partials'
 import {mapState} from 'vuex'
-import Charon from "../../../api/Charon"
-import {Submission} from '../../../api/index'
+import Charon from "../../../api/Charon";
 
 export default {
   name: "ActivityDashboardPage",
@@ -58,10 +57,6 @@ export default {
         this.$store.state.charon = response
       })
       document.title = this.page_name
-    },
-
-    fetchSubmissions() {
-      Submission.findByUserCharon()
     }
   },
 }
