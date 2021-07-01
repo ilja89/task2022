@@ -152,6 +152,24 @@ class SubmissionsController extends Controller
     }
 
     /**
+     * Find the latest submissions in the given course.
+     *
+     * @param int $charonId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestByCharonId(int $charonId)
+    {
+        $submissions = $this->submissionsRepository->findLatestSubmissionsForCharon($charonId);
+
+        foreach ($submissions as $submission) {
+            $submission->makeHidden(['charon_id', 'user_id']);
+        }
+
+        return $submissions;
+    }
+
+    /**
      * Find all confirmed submissions for user.
      *
      * @param Course $course

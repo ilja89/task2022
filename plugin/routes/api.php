@@ -23,7 +23,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -72,8 +72,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
     Route::middleware('auth.course.managing.require')
-        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
-    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/counts', 'SubmissionsController@findSubmissionCounts');
@@ -83,6 +81,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/submissions/submissions-report/{page}/{perPage}/{sortField}/{sortType}/{firstName?}/' .
             '{lastName?}/{exerciseName?}/{isConfirmed?}/{gitTimestampForStartDate?}/{gitTimestampForEndDate?}',
             'SubmissionsController@findAllSubmissionsForReport');
+    Route::middleware('auth.course.managing.require')
+        ->get('charons/submissions/{charonId}/latest', 'SubmissionsController@findLatestByCharonId');
 
     // LABS
 

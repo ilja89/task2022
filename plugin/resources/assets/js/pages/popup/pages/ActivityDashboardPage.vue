@@ -8,7 +8,7 @@
 <script>
 import {PageTitle} from '../partials'
 import {mapState} from 'vuex'
-import Charon from "../../../api/Charon";
+import {Charon, Submission} from "../../../api/";
 
 export default {
   name: "ActivityDashboardPage",
@@ -43,12 +43,14 @@ export default {
     $route() {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
         this.getCharon()
+        this.getSubmissions()
       }
     },
   },
 
   created() {
     this.getCharon()
+    this.getSubmissions()
   },
 
   methods: {
@@ -57,6 +59,14 @@ export default {
         this.$store.state.charon = response
       })
       document.title = this.page_name
+    },
+
+    getSubmissions() {
+      if (this.routeCharonId) {
+        Submission.findByCharonId(this.routeCharonId, response => {
+          this.$store.state.submissions = response
+        })
+      }
     }
   },
 }

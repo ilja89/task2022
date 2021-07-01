@@ -10,6 +10,15 @@ class Submission {
         })
     }
 
+    static findByCharonId(charonId, then) {
+        axios.get(`/mod/charon/api/charons/submissions/${charonId}/latest`)
+            .then(({data}) => {
+                then(data.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
+            })
+    }
+
     static getNext(then) {
         axios.get(Submission.nextUrl)
             .then(({data}) => {
