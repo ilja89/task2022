@@ -1,6 +1,8 @@
 <template>
   <div class="student-overview-container">
     <page-title :title="page_name"></page-title>
+
+<!--    <general-information-section></general-information-section>-->
   </div>
 
 </template>
@@ -9,11 +11,12 @@
 import {PageTitle} from '../partials'
 import {mapState} from 'vuex'
 import Charon from "../../../api/Charon";
+import GeneralInformationSection from "../sections/GeneralInformationSection";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {PageTitle},
+  components: {PageTitle, GeneralInformationSection},
 
   data() {
     return {
@@ -58,7 +61,7 @@ export default {
       })
       document.title = this.page_name
     }
-  },
+  }
 }
 </script>
 
