@@ -72,6 +72,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
     Route::middleware('auth.course.managing.require')
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/counts', 'SubmissionsController@findSubmissionCounts');

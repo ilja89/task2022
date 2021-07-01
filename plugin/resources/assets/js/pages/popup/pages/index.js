@@ -11,7 +11,8 @@ import CharonSettingsEditingPage from "./CharonSettingsEditingPage";
 import DefenseRegistrationPage from "./DefenseRegistrationPage";
 import TeachersPage from "./TeachersPage"
 import ActivityOverviewPage from "./ActivityOverviewPage";
+import ActivityDashboardPage from "./ActivityDashboardPage";
 export {
     GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage, TeachersPage,
-    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage, ActivityOverviewPage
+    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage, ActivityOverviewPage, ActivityDashboardPage
 }

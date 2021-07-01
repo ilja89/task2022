@@ -15,7 +15,8 @@ import {
     CharonSettingsEditingPage,
     DefenseRegistrationPage,
     TeachersPage,
-    ActivityOverviewPage
+    ActivityOverviewPage,
+    ActivityDashboardPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
 
@@ -52,6 +53,12 @@ const routes = [
         title: 'Activities overview',
         component: ActivityOverviewPage,
         name: 'activities-overview',
+    },
+    {
+        path: '/activities/charon/:charon_id',
+        title: 'Activity Dashboard',
+        component: ActivityDashboardPage,
+        name: 'activity-dashboard',
     },
     {
         path: '/plagiarism',
