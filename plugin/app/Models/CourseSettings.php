@@ -14,6 +14,8 @@ use Zeizig\Moodle\Models\Course;
  * @property integer tester_type_code
  * @property Course course
  * @property TesterType testerType
+ * @property \Illuminate\Routing\Route|mixed|object|string tester_url
+ * @property \Illuminate\Routing\Route|mixed|object|string tester_token
  *
  * @package TTU\Charon\Models
  */
