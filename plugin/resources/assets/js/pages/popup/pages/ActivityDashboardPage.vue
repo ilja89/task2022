@@ -1,10 +1,14 @@
 <template>
   <div class="student-overview-container">
+
     <page-title :title="page_name"></page-title>
+
+    <general-information-section :charon="charon"></general-information-section>
+
+    <dashboard-latest-submissions-section :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
 
     <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
 
-    <general-information-section :charon="charon"></general-information-section>
   </div>
 
 </template>
@@ -14,11 +18,14 @@ import {mapGetters, mapState} from 'vuex'
 import {PageTitle} from '../partials'
 import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection} from '../sections'
 import {Charon, Submission} from "../../../api/index";
+import LatestSubmissionsSection from "../sections/LatestSubmissionsSection";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection},
+  components: {
+    LatestSubmissionsSection,
+    PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection},
 
   data() {
     return {
