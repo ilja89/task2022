@@ -1,29 +1,32 @@
 <template>
   <div class="student-overview-container">
     <page-title :title="page_name"></page-title>
+
+    <dashboard-statistics-section :charon-id="routeCharonId"></dashboard-statistics-section>
   </div>
 
 </template>
 
 <script>
-import {PageTitle} from '../partials'
 import {mapGetters, mapState} from 'vuex'
-import {Charon, Submission} from "../../../api/index";
+import {PageTitle} from '../partials'
+import {DashboardStatisticsSection} from '../sections'
+import {Charon} from "../../../api/index";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {PageTitle},
+  components: {PageTitle, DashboardStatisticsSection},
 
   data() {
     return {
+      charon: {}
     }
   },
 
   computed: {
     ...mapState([
       "course",
-      "charon"
     ]),
 
     ...mapGetters([
@@ -32,7 +35,7 @@ export default {
     version: function () { return window.appVersion; },
 
     routeCharonId() {
-      return this.$route.params.charon_id
+      return parseInt(this.$route.params.charon_id)
     },
 
     page_name() {
