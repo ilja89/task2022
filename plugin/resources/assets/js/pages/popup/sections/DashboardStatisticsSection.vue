@@ -1,7 +1,7 @@
 <template>
   <popup-section title="Submission statistics">
 
-    <v-card-title v-if="submission_counts.length">
+    <v-card-title v-if="submissionsExist">
       Results
       <v-spacer></v-spacer>
     </v-card-title>
@@ -10,14 +10,9 @@
     </v-card-title>
 
     <v-data-table
-        v-if="submission_counts.length"
+        v-if="submissionsExist"
         :headers="submission_count_headers"
         :items="submission_counts">
-      <template v-slot:no-results>
-        <v-alert :value="true" color="primary" icon="warning">
-          Your search for "{{ search }}" found no results.
-        </v-alert>
-      </template>
     </v-data-table>
 
   </popup-section>
@@ -35,8 +30,7 @@ export default {
 
   data() {
     return {
-      empty: 'Press load statistics to get started',
-      submission_counts: [],
+      empty: 'No submissions for this charon!',
       submission_count_headers: [
         {text: 'Different users', value: 'diff_users'},
         {text: 'Total submissions', value: 'tot_subs'},
@@ -48,40 +42,21 @@ export default {
   },
 
   props: {
-    charonId: {
+    submission_counts: {
       required: true,
-      default: 0,
-      type: Number
-    }
+      default: [],
+      type: Array
+    },
   },
 
   computed: {
     ...mapGetters([
       'courseId',
     ]),
-  },
 
-  created() {
-    this.fetchSubmissionCounts();
-  },
-
-  methods: {
-    fetchSubmissionCounts() {
-      Submission.findSubmissionCounts(this.courseId, counts => {
-        this.empty = 'No submissions for this charon!';
-        this.submission_counts = counts.filter(item => item.charon_id === this.charonId).map(item => {
-          const container = {};
-
-          container['diff_users'] = item.diff_users;
-          container['tot_subs'] = item.tot_subs;
-          container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
-          container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
-          container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
-
-          return container;
-        });
-      })
-    },
+    submissionsExist() {
+      return !!(this.submission_counts.length && this.submission_counts[0].tot_subs !== 0);
+    }
   },
 }
 </script>

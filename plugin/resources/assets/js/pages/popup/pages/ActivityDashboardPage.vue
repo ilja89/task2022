@@ -2,7 +2,7 @@
   <div class="student-overview-container">
     <page-title :title="page_name"></page-title>
 
-    <dashboard-statistics-section :charon-id="routeCharonId"></dashboard-statistics-section>
+    <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
   </div>
 
 </template>
@@ -11,7 +11,7 @@
 import {mapGetters, mapState} from 'vuex'
 import {PageTitle} from '../partials'
 import {DashboardStatisticsSection} from '../sections'
-import {Charon} from "../../../api/index";
+import {Charon, Submission} from "../../../api/index";
 
 export default {
   name: "ActivityDashboardPage",
@@ -20,7 +20,8 @@ export default {
 
   data() {
     return {
-      charon: {}
+      charon: {},
+      submission_counts: [],
     }
   },
 
@@ -50,14 +51,14 @@ export default {
     $route() {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
         this.getCharon()
-        // this.getSubmissions()
+        this.fetchSubmissionCounts()
       }
     },
   },
 
   created() {
     this.getCharon()
-    // this.getSubmissions()
+    this.fetchSubmissionCounts()
   },
 
   methods: {
@@ -68,11 +69,21 @@ export default {
       document.title = this.page_name
     },
 
-    // getSubmissions() {
-    //   Submission.findLatest(this.courseId, response => {
-    //     this.latestSubmissions = response
-    //   })
-    // }
+    fetchSubmissionCounts() {
+      Submission.findSubmissionCounts(this.courseId, counts => {
+        this.submission_counts = counts.filter(item => item.charon_id === this.routeCharonId).map(item => {
+          const container = {};
+
+          container['diff_users'] = item.diff_users;
+          container['tot_subs'] = item.tot_subs;
+          container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
+          container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
+          container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
+
+          return container;
+        });
+      })
+    },
   },
 }
 </script>
