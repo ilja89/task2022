@@ -2,82 +2,91 @@
   <div class="student-overview-container">
     <page-title :title="page_name"></page-title>
 
+    <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
+
     <general-information-section :charon="charon"></general-information-section>
   </div>
 
 </template>
 
 <script>
+import {mapGetters, mapState} from 'vuex'
 import {PageTitle} from '../partials'
-import {mapState} from 'vuex'
-import {Charon, Submission} from "../../../api/";
+import {DashboardStatisticsSection} from '../sections'
+import {Charon, Submission} from "../../../api/index";
 import GeneralInformationSection from "../sections/GeneralInformationSection";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {GeneralInformationSection, PageTitle},
+  components: {GeneralInformationSection, PageTitle, DashboardStatisticsSection},
 
   data() {
     return {
+      charon: {},
+      submission_counts: [],
     }
   },
 
   computed: {
     ...mapState([
       "course",
-      "charon"
+    ]),
+
+    ...mapGetters([
+       "courseId"
     ]),
     version: function () { return window.appVersion; },
 
     routeCharonId() {
-      return this.$route.params.charon_id
+      return parseInt(this.$route.params.charon_id)
     },
 
     page_name() {
-      if (this.$store.state.charon) {
-        return 'Charon dashboard: ' + this.$store.state.charon.name
+      if (this.charon) {
+        return 'Charon dashboard: ' + this.charon.name
       }
       return 'Charon dashboard'
     },
-
-    charon() {
-      if (this.$store.state.charon) {
-        return this.$store.state.charon
-      }
-      return {}
-    }
   },
 
   watch: {
     $route() {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
         this.getCharon()
-        this.getSubmissions()
+        this.fetchSubmissionCounts()
       }
     },
   },
 
   created() {
     this.getCharon()
-    this.getSubmissions()
+    this.fetchSubmissionCounts()
   },
 
   methods: {
     getCharon() {
       Charon.getById(this.routeCharonId, response => {
-        this.$store.state.charon = response
+        this.charon = response
       })
       document.title = this.page_name
     },
 
-    getSubmissions() {
-      if (this.routeCharonId) {
-        Submission.findByCharonId(this.routeCharonId, response => {
-          this.$store.state.submissions = response
-        })
-      }
-    }
+    fetchSubmissionCounts() {
+      Submission.findSubmissionCounts(this.courseId, counts => {
+        this.submission_counts = counts.filter(item => item.charon_id === this.routeCharonId).map(item => {
+          const container = {};
+
+          container['diff_users'] = item.diff_users;
+          container['tot_subs'] = item.tot_subs;
+          container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
+          container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
+          container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
+
+          return container;
+        });
+      })
+    },
   },
 }
 </script>

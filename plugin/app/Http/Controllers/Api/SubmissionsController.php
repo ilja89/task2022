@@ -156,17 +156,11 @@ class SubmissionsController extends Controller
      *
      * @param int $charonId
      *
-     * @return Collection|Submission[]
+     * @return Submission[]
      */
     public function findLatestByCharonId(int $charonId)
     {
-        $submissions = $this->submissionsRepository->findLatestSubmissionsForCharon($charonId);
-
-        foreach ($submissions as $submission) {
-            $submission->makeHidden(['charon_id', 'user_id']);
-        }
-
-        return $submissions;
+        return $this->submissionsRepository->findLatestSubmissionsForCharon($charonId);
     }
 
     /**

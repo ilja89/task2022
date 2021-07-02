@@ -82,7 +82,7 @@ Route::group(['namespace' => 'Api'], function () {
             '{lastName?}/{exerciseName?}/{isConfirmed?}/{gitTimestampForStartDate?}/{gitTimestampForEndDate?}',
             'SubmissionsController@findAllSubmissionsForReport');
     Route::middleware('auth.course.managing.require')
-        ->get('charons/submissions/{charonId}/latest', 'SubmissionsController@findLatestByCharonId');
+        ->get('charons/{charon}/submissions/all', 'SubmissionsController@findLatestByCharonId');
 
     // LABS
 
