@@ -66,7 +66,6 @@ export default {
       if (chunk.length) {
         chunks.push(chunk)
       }
-      console.log(chunks)
       return chunks
     },
 
