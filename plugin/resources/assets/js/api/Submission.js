@@ -11,7 +11,7 @@ class Submission {
     }
 
     static findByCharonId(charonId, then) {
-        axios.get(`/mod/charon/api/charons/submissions/${charonId}/latest`)
+        axios.get(`/mod/charon/api/charons/${charonId}/submissions/all`)
             .then(({data}) => {
                 then(data.data)
         }).catch(error => {

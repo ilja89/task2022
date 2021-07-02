@@ -7,8 +7,8 @@
 
 <script>
 import {PageTitle} from '../partials'
-import {mapState} from 'vuex'
-import {Charon, Submission} from "../../../api/";
+import {mapGetters, mapState} from 'vuex'
+import {Charon, Submission} from "../../../api/index";
 
 export default {
   name: "ActivityDashboardPage",
@@ -25,6 +25,10 @@ export default {
       "course",
       "charon"
     ]),
+
+    ...mapGetters([
+       "courseId"
+    ]),
     version: function () { return window.appVersion; },
 
     routeCharonId() {
@@ -32,8 +36,8 @@ export default {
     },
 
     page_name() {
-      if (this.$store.state.charon) {
-        return 'Charon dashboard: ' + this.$store.state.charon.name
+      if (this.charon) {
+        return 'Charon dashboard: ' + this.charon.name
       }
       return 'Charon dashboard'
     },
@@ -43,31 +47,29 @@ export default {
     $route() {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
         this.getCharon()
-        this.getSubmissions()
+        // this.getSubmissions()
       }
     },
   },
 
   created() {
     this.getCharon()
-    this.getSubmissions()
+    // this.getSubmissions()
   },
 
   methods: {
     getCharon() {
       Charon.getById(this.routeCharonId, response => {
-        this.$store.state.charon = response
+        this.charon = response
       })
       document.title = this.page_name
     },
 
-    getSubmissions() {
-      if (this.routeCharonId) {
-        Submission.findByCharonId(this.routeCharonId, response => {
-          this.$store.state.submissions = response
-        })
-      }
-    }
+    // getSubmissions() {
+    //   Submission.findLatest(this.courseId, response => {
+    //     this.latestSubmissions = response
+    //   })
+    // }
   },
 }
 </script>
