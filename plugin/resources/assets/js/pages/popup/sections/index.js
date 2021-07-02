@@ -15,6 +15,7 @@ import TesterTypeSection from "./TesterTypeSection";
 import TeacherSection from "./TeacherSection";
 import GeneralInformationSection from "./GeneralInformationSection";
 import DashboardStatisticsSection from "./DashboardStatisticsSection";
+import DashboardLatestSubmissionsSection from "./DashboardLatestSubmissionsSection";
 
 export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
@@ -23,5 +24,5 @@ export {
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
     LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, GeneralInformationSection,
-    DashboardStatisticsSection
+    DashboardStatisticsSection, DashboardLatestSubmissionsSection
 }

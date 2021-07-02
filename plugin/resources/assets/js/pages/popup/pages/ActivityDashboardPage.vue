@@ -3,6 +3,8 @@
     <page-title :title="page_name"></page-title>
 
     <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
+
+    <dashboard-latest-submissions-section :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
   </div>
 
 </template>
@@ -10,18 +12,19 @@
 <script>
 import {mapGetters, mapState} from 'vuex'
 import {PageTitle} from '../partials'
-import {DashboardStatisticsSection} from '../sections'
+import {DashboardStatisticsSection, DashboardLatestSubmissionsSection} from '../sections'
 import {Charon, Submission} from "../../../api/index";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {PageTitle, DashboardStatisticsSection},
+  components: {PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection},
 
   data() {
     return {
       charon: {},
       submission_counts: [],
+      latestSubmissions: []
     }
   },
 
@@ -52,6 +55,7 @@ export default {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
         this.getCharon()
         this.fetchSubmissionCounts()
+        this.fetchLatestSubmissions()
       }
     },
   },
@@ -59,6 +63,7 @@ export default {
   created() {
     this.getCharon()
     this.fetchSubmissionCounts()
+    this.fetchLatestSubmissions()
   },
 
   methods: {
@@ -82,6 +87,12 @@ export default {
 
           return container;
         });
+      })
+    },
+
+    fetchLatestSubmissions() {
+      Submission.findLatest(this.courseId, submissions => {
+        this.latestSubmissions = submissions.filter(submission => submission.charon.id === this.routeCharonId)
       })
     },
   },
