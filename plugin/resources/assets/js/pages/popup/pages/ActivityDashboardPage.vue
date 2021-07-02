@@ -1,6 +1,8 @@
 <template>
   <div class="student-overview-container">
     <page-title :title="page_name"></page-title>
+
+    <general-information-section :charon="charon"></general-information-section>
   </div>
 
 </template>
@@ -9,11 +11,12 @@
 import {PageTitle} from '../partials'
 import {mapState} from 'vuex'
 import {Charon, Submission} from "../../../api/";
+import GeneralInformationSection from "../sections/GeneralInformationSection";
 
 export default {
   name: "ActivityDashboardPage",
 
-  components: {PageTitle},
+  components: {GeneralInformationSection, PageTitle},
 
   data() {
     return {
@@ -37,6 +40,13 @@ export default {
       }
       return 'Charon dashboard'
     },
+
+    charon() {
+      if (this.$store.state.charon) {
+        return this.$store.state.charon
+      }
+      return {}
+    }
   },
 
   watch: {
