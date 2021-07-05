@@ -11,27 +11,6 @@
         <input type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
       </label>
 
-      <charon-text-input v-if="form.fields.editor_set"
-                         name="file_name"
-                         label="File Name"
-                         :required="true"
-                         :value="form.fields.file_name"
-                         @input-was-changed="onFileNameChanged"
-      >
-      </charon-text-input>
-
-
-<!--      <MonacoEditor class="editor"-->
-<!--                    language="javascript"-->
-<!--                    theme="vs"-->
-<!--                    height="600"-->
-<!--                    :code="code"-->
-<!--                    :editorOptions="options"-->
-<!--                    @mounted="onMounted"-->
-<!--                    @codeChange="onCodeChange"-->
-<!--      >-->
-<!--      </MonacoEditor>-->
-
 <!--      <input type="hidden" id="code" name="code" v-model="form.fields.code">-->
 
       <AceEditor
@@ -69,35 +48,18 @@
 
 <script>
 
-// import MonacoEditor from 'vue-monaco-editor';
-import { CharonTextInput } from '../../../components/form';
-import { EmitEventOnInputChange } from "../../../mixins";
 import AceEditor from 'vuejs-ace-editor';
-
 
 export default {
 
   name: "CodeEditorSection",
-
-  mixins: [ EmitEventOnInputChange ],
 
   props: {
     form: {required: true}
   },
 
   components: {
-    // MonacoEditor,
-    CharonTextInput,
     AceEditor
-  },
-
-  data () {
-    return {
-      code: '',
-      options: {
-        selectOnLineNumbers: true
-      }
-    }
   },
 
   methods: {
@@ -108,19 +70,6 @@ export default {
       require('brace/mode/less')
       require('brace/theme/monokai')
       require('brace/snippets/python') //snippet
-    },
-
-    onMounted(editor) {
-      this.editor = editor;
-    },
-
-    onCodeChange() {
-      if (this.form.fields.editor_set === true) {
-        document.getElementById('code').value = this.editor.getValue();
-      } else {
-        document.getElementById('code').value = '';
-        this.editor.value = '';
-      }
     }
 
   }

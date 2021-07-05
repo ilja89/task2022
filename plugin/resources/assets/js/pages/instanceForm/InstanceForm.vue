@@ -155,7 +155,6 @@ export default {
 	
 	mounted() {
 		VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
-		VueEvent.$on('file-name-was-changed', (fileName) => this.form.fields.file_name = fileName);
 		VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
 		VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
 		VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);

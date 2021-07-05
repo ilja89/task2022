@@ -1,47 +1,56 @@
 <template>
-
-  <MonacoEditor class="editor"
-                language="javascript"
-                height="600"
-                theme="vs"
-                :code="code"
-                :editorOptions="options"
-                @mounted="onMounted"
-                @codeChange="onCodeChange"
-  >
-  </MonacoEditor>
-
+  <div id="app">
+    <AceEditor
+        v-model="content"
+        @init="editorInit"
+        lang="python"
+        theme="monk"
+        width="100%"
+        height="200px"
+        :options="{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        fontSize: 14,
+        highlightActiveLine: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2,
+        showPrintMargin: false,
+        showGutter: true,
+    }"
+        :commands="[
+        {
+            name: 'save',
+            bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+            exec: dataSumit,
+            readOnly: true,
+        },
+    ]"
+    />
+  </div>
 </template>
 
 <script>
-
-import MonacoEditor from 'vue-monaco-editor';
+import AceEditor from 'vuejs-ace-editor';
 
 export default {
-
-  name: "code-editor",
-
-  data () {
-    return {
-      code: '',
-      options: {
-        selectOnLineNumbers: true
-      }
-    }
+  name: "App",
+  props: {
+    form: {required: true}
   },
 
   components: {
-    MonacoEditor
+    AceEditor
   },
 
   methods: {
-
-    onMounted(editor) {
-      this.editor = editor;
-    },
-
-    onCodeChange() {
-      console.log(this.editor.getValue());
+    editorInit: function () {
+      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/python')    //language
+      require('brace/mode/less')
+      require('brace/theme/monokai')
+      require('brace/snippets/python') //snippet
     }
 
   }
