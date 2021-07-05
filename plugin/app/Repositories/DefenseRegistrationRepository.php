@@ -264,6 +264,26 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @version Registration 2.*
+     *
+     * @param int $userId
+     * @param Carbon $time
+     * @param bool $userIsStudent
+     *
+     * @return bool
+     */
+    public function isUserBusyAt(int $userId, Carbon $time, bool $userIsStudent = false): bool
+    {
+        return DB::table('charon_defense_registration')
+            ->join('charon', 'charon.id', 'charon_defense_registration.charon_id')
+            ->whereDate('charon_defense_registration.time', '=', $time->format('Y-m-d'))
+            ->whereTime('charon_defense_registration.time', '<=', $time->toTimeString())
+            ->whereTime(DB::raw('time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
+            ->where($userIsStudent ? 'student_id' : 'teacher_id', $userId)
+            ->count() > 0;
+    }
+
+    /**
      * @version Registration 1.*
      *
      * @param $teacherId

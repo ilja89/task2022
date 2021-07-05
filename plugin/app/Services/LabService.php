@@ -274,6 +274,11 @@ class LabService
 
             for ($i = 0, $i < count($chunkRegistrations); $i++;)
             {
+                if (!$this->registrationRepository->isUserBusyAt($registration->student_id, $time, true))
+                {
+                    break;
+                }
+
                 if ($chunkRegistrations[$i]->time > $time)
                 {
                     $this->registrationRepository->replaceRegistration(
