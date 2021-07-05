@@ -259,18 +259,14 @@ class LabService
 
             $chunkSize = $lab->chunk_size;
             $time = $registration->time;
-            $teacherId = $registration->teacher_id;
 
-            $multiplier = 0;
-            while ($lab->start->addMinutes($chunkSize * $multiplier) < $time->subMinutes($chunkSize))
-            {
-                $multiplier++;
-            }
+            $multiplier = floor(($registration->time - $lab->start)->getTimestamp() / ($chunkSize * 60));
 
             $chunkBeginning = $lab->start->addMinutes($chunkSize * $multiplier);
             $chunkEnd = $chunkBeginning->addMinutes($chunkSize);
 
-            $chunkRegistrations = $this->registrationRepository->getRegistrationsByTeacherAndTimeBetween($chunkBeginning, $chunkEnd, $teacherId);
+            $chunkRegistrations = $this->registrationRepository
+                ->getRegistrationsByTeacherAndTimeBetween($chunkBeginning, $chunkEnd, $registration->teacher_id);
 
             for ($i = 0, $i < count($chunkRegistrations); $i++;)
             {
@@ -285,7 +281,7 @@ class LabService
                         $registration->id, $chunkRegistrations[$i]->student_id, $chunkRegistrations[$i]->charon_id,
                         $chunkRegistrations[$i]->submission_id, $chunkRegistrations[$i]->progress);
 
-                    if ($chunkRegistrations[$i + 1] !== null)
+                    if ($chunkRegistrations[$i + 1] !== null) // maybe compare count and $i?
                     {
                         $registration->id = $chunkRegistrations[$i]->id;
                         $time = $time + $chunkRegistrations[$i + 1] - $chunkRegistrations[$i];

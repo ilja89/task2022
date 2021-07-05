@@ -203,7 +203,7 @@ class DefenseRegistrationRepository
      */
     public function replaceRegistration($defenseId, $studentId, $charonId, $submissionId, $progress)
     {
-        $defense = Registration::find($defenseId);
+        $defense                = Registration::find($defenseId);
         $defense->studentId     = $studentId;
         $defense->charonId      = $charonId;
         $defense->submissionId  = $submissionId;
