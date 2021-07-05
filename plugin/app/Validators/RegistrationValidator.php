@@ -3,7 +3,7 @@
 namespace TTU\Charon\Validators;
 
 use Illuminate\Contracts\Translation\Translator;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use TTU\Charon\Models\Submission;
 
 /**
@@ -26,13 +26,7 @@ class RegistrationValidator extends WithErrors
     public function studentBelongsToCourse(int $courseId, int $studentId): RegistrationValidator
     {
         $this->after(function () use ($courseId, $studentId) {
-            /**
-             * TODO:
-             * check exists from role_assignments
-             * join role_assignments.contextid on context.id
-             * where role_assignments.userid = $studentId
-             * and context.instanceid = $courseId
-             */
+            // Implement at: https://gitlab.cs.ttu.ee/ained/charon/-/issues/468
         });
 
         return $this;
@@ -40,10 +34,10 @@ class RegistrationValidator extends WithErrors
 
     /**
      * @param int $courseId
-     * @param \Illuminate\Support\Collection|Submission[] $submissions
+     * @param Collection|Submission[] $submissions
      * @return $this
      */
-    public function submissionsBelongToCourse(int $courseId, \Illuminate\Support\Collection $submissions): RegistrationValidator
+    public function submissionsBelongToCourse(int $courseId, Collection $submissions): RegistrationValidator
     {
         $this->after(function () use ($courseId, $submissions) {
             foreach ($submissions as $submission) {
@@ -62,10 +56,10 @@ class RegistrationValidator extends WithErrors
 
     /**
      * @param int $studentId
-     * @param \Illuminate\Support\Collection|Submission[] $submissions
+     * @param Collection|Submission[] $submissions
      * @return $this
      */
-    public function submissionsBelongToStudent(int $studentId, \Illuminate\Support\Collection $submissions): RegistrationValidator
+    public function submissionsBelongToStudent(int $studentId, Collection $submissions): RegistrationValidator
     {
         $this->after(function () use ($studentId, $submissions) {
             foreach ($submissions as $submission) {

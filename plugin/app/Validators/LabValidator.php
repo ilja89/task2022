@@ -175,8 +175,6 @@ class LabValidator extends WithErrors
             }
         });
 
-        // TODO: check if busy at Moodle calendar event?
-
         return $this;
     }
 }

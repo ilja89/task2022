@@ -215,10 +215,6 @@ class FindAvailableRegistrationTimes
     }
 
     /**
-     * TODO: when a charon is booked/registered for a defense it will take up x amount of registration times depending
-     * on the length of the defense time specified for the charon and divided by the timeslot length.
-     * Frontend booking ought to allow booking a Charon where there are enough timeslots to cover the x.
-     *
      * @param Collection|Lab[] $labs
      * @param Collection|DefenseRegistration[] $timeslots
      *
