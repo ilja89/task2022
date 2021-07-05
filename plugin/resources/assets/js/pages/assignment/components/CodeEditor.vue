@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <AceEditor
+        class="editor"
         v-model="content"
         @init="editorInit"
         lang="python"
@@ -17,7 +18,7 @@
         tabSize: 2,
         showPrintMargin: false,
         showGutter: true,
-    }"
+        }"
         :commands="[
         {
             name: 'save',
@@ -27,6 +28,7 @@
         },
     ]"
     />
+
   </div>
 </template>
 
@@ -35,9 +37,6 @@ import AceEditor from 'vuejs-ace-editor';
 
 export default {
   name: "App",
-  props: {
-    form: {required: true}
-  },
 
   components: {
     AceEditor
