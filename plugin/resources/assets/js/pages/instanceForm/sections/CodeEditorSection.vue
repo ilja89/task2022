@@ -21,19 +21,46 @@
       </charon-text-input>
 
 
-      <MonacoEditor class="editor"
-                    language="javascript"
-                    theme="vs"
-                    height="600"
-                    :code="code"
-                    :editorOptions="options"
-                    @mounted="onMounted"
-                    @codeChange="onCodeChange"
-      >
-      </MonacoEditor>
+<!--      <MonacoEditor class="editor"-->
+<!--                    language="javascript"-->
+<!--                    theme="vs"-->
+<!--                    height="600"-->
+<!--                    :code="code"-->
+<!--                    :editorOptions="options"-->
+<!--                    @mounted="onMounted"-->
+<!--                    @codeChange="onCodeChange"-->
+<!--      >-->
+<!--      </MonacoEditor>-->
 
-      <input type="hidden" id="code" name="code" v-model="form.fields.code">
+<!--      <input type="hidden" id="code" name="code" v-model="form.fields.code">-->
 
+      <AceEditor
+          v-model="content"
+          @init="editorInit"
+          lang="python"
+          theme="monk"
+          width="100%"
+          height="200px"
+          :options="{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        fontSize: 14,
+        highlightActiveLine: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2,
+        showPrintMargin: false,
+        showGutter: true,
+    }"
+          :commands="[
+        {
+            name: 'save',
+            bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+            exec: dataSumit,
+            readOnly: true,
+        },
+    ]"
+      />
     </div>
 
   </fieldset>
@@ -42,9 +69,11 @@
 
 <script>
 
-import MonacoEditor from 'vue-monaco-editor';
+// import MonacoEditor from 'vue-monaco-editor';
 import { CharonTextInput } from '../../../components/form';
 import { EmitEventOnInputChange } from "../../../mixins";
+import AceEditor from 'vuejs-ace-editor';
+
 
 export default {
 
@@ -57,8 +86,9 @@ export default {
   },
 
   components: {
-    MonacoEditor,
-    CharonTextInput
+    // MonacoEditor,
+    CharonTextInput,
+    AceEditor
   },
 
   data () {
@@ -71,6 +101,14 @@ export default {
   },
 
   methods: {
+    editorInit: function () {
+      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/python')    //language
+      require('brace/mode/less')
+      require('brace/theme/monokai')
+      require('brace/snippets/python') //snippet
+    },
 
     onMounted(editor) {
       this.editor = editor;
