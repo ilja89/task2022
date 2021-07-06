@@ -67,12 +67,14 @@ export default {
       require('brace/mode/javascript')
       require('brace/mode/java')
       require('brace/mode/prolog')
+      require('brace/mode/csharp')
       require('brace/mode/less')
       require('brace/theme/monokai')
       require('brace/snippets/python')//snippet
       require('brace/snippets/javascript')
       require('brace/snippets/java')
       require('brace/snippets/prolog')
+      require('brace/snippets/csharp')
     }
   }
 
