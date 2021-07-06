@@ -78,8 +78,6 @@ class BookStudentRegistration
 
         $this->findRegistrationTimes->validate($courseId, $studentId, $submissions);
 
-        // TODO: verify that the start-end time is a valid chunk for given lab and not manually modified time range
-
         try {
             DB::beginTransaction();
             $this->registrationRepository->lock(true);
@@ -109,11 +107,6 @@ class BookStudentRegistration
     /**
      * Attempt to schedule a defense at the earliest time for a Teacher with the most available times in the range.
      * If the Charon defense takes up more than one timeslot, attempt to find subsequent timeslots at the same Teacher.
-     *
-     * TODO: fill in gaps in a timeslot caused by cancellations or expired bookings (at a separate ticket)
-     *
-     * TODO: identify other bookings/registrations by the student in the same time range and try to match x slots next
-     * to those instead of the start of the range
      *
      * @param int $labId
      * @param Charon $charon
