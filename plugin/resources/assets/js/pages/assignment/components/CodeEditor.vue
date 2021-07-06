@@ -7,7 +7,7 @@
         lang="python"
         theme="monk"
         width="100%"
-        height="200px"
+        height="500px"
         :options="{
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
