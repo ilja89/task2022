@@ -4,7 +4,7 @@
         class="editor"
         v-model="content"
         @init="editorInit"
-        lang="python"
+        :lang="language"
         theme="monk"
         width="100%"
         height="500px"
@@ -42,6 +42,10 @@ export default {
     AceEditor
   },
 
+  props: {
+    language: { required: true }
+  },
+
   data() {
     return {
       content: '# some code',
@@ -57,10 +61,14 @@ export default {
       require('brace/mode/html')
       require('brace/mode/python')//language
       require('brace/mode/javascript')
+      require('brace/mode/java')
+      require('brace/mode/prolog')
       require('brace/mode/less')
       require('brace/theme/monokai')
       require('brace/snippets/python')//snippet
       require('brace/snippets/javascript')
+      require('brace/snippets/java')
+      require('brace/snippets/prolog')
     }
   }
 
