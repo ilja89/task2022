@@ -23,7 +23,7 @@
         {
             name: 'save',
             bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-            exec: dataSumit,
+            exec: dataSubmit,
             readOnly: true,
         },
     ]"
@@ -42,16 +42,26 @@ export default {
     AceEditor
   },
 
+  data() {
+    return {
+      content: '# some code',
+    }
+  },
+
   methods: {
+    dataSubmit() {
+      //code here
+    },
     editorInit: function () {
-      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
-      require('brace/mode/python')    //language
+      require('brace/mode/python')//language
+      require('brace/mode/javascript')
       require('brace/mode/less')
       require('brace/theme/monokai')
-      require('brace/snippets/python') //snippet
+      require('brace/snippets/python')//snippet
+      require('brace/snippets/javascript')
     }
-
   }
 
 }
