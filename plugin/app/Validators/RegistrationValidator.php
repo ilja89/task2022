@@ -4,18 +4,38 @@ namespace TTU\Charon\Validators;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Collection;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Repositories\StudentsRepository;
+use Zeizig\Moodle\Globals\User;
 
 /**
  * @version Registration 2.*
  */
 class RegistrationValidator extends WithErrors
 {
+
+    /** @var MoodleConfig */
+    protected $moodleConfig;
+
+    /** @var StudentsRepository */
+    protected $studentsRepository;
+
     /**
      * @param Translator $translator
+     * @param MoodleConfig $moodleConfig
+     * @param StudentsRepository $studentsRepository
      */
-    public function __construct(Translator $translator) {
+    public function __construct(
+        Translator $translator,
+        MoodleConfig $moodleConfig,
+        StudentsRepository $studentsRepository
+    )
+    {
         parent::__construct($translator, [], []);
+        $this->moodleConfig = $moodleConfig;
+        $this->studentsRepository = $studentsRepository;
     }
 
     /**
@@ -78,6 +98,24 @@ class RegistrationValidator extends WithErrors
                 }
             }
         });
+
+        return $this;
+    }
+
+    public function checkCurrentUsersValidityForRegisteringDefence($userId, $courseId): RegistrationValidator
+    {
+        $teacherRepository = new LabTeacherRepository($this->moodleConfig);
+        $currentUserId = (new User)->currentUserId();
+        $teachers = $teacherRepository->getTeachersByCourseId($courseId);
+        $student = $this->studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
+        if ($currentUserId != $userId && $student::id != $userId || !in_array($currentUserId, $teachers) )
+        {
+            $this->addError(
+                'current user',
+                'Current user %d is not authorized to register defenses to other users',
+                $currentUserId
+            );
+        }
 
         return $this;
     }
