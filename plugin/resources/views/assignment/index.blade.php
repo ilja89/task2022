@@ -25,7 +25,10 @@
                 </a>
             </div>
         @endif
-        <code-editor></code-editor>
+        <code-editor
+                :language="language"
+                :editor_set="editorSet"
+        ></code-editor>
     </div>
 
     <div class="column is-one-third">
@@ -45,6 +48,9 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
+
+    window.language = "{!! $charon->testerType->name !!}";
+    window.editorSet = {!! $charon->editor_set !!};
 
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",

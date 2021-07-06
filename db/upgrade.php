@@ -743,5 +743,12 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021070601){
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN editor_set BOOL DEFAULT FALSE";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_editor_set (editor_set)";
+        $DB->execute($sql);
+    }
+
     return true;
 }
