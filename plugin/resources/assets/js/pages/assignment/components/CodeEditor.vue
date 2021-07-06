@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+
+    <span>Language: {{language}}</span>
+
     <AceEditor
         class="editor"
         v-model="content"
