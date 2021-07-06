@@ -3,6 +3,9 @@ import Vue from 'vue'
 import {HighlightDirective} from '../../directives'
 import AssignmentView from "./components/AssignmentView";
 import CodeEditor from "./components/CodeEditor";
+import CharonTabs from "../../components/partials/CharonTabs";
+import CharonTab from "../../components/partials/CharonTab";
+import GradesCheckboxes from "../../components/form/GradesCheckboxes";
 import Vuetify from "vuetify";
 import store from './store'
 import VueMaterial from 'vue-material'
@@ -30,7 +33,7 @@ const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
 
-    components: {AssignmentView, CodeEditor},
+    components: {AssignmentView, CodeEditor, CharonTabs, CharonTab, GradesCheckboxes},
 
     icons: {
         iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'

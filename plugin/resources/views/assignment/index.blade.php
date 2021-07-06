@@ -25,7 +25,18 @@
                 </a>
             </div>
         @endif
-        <code-editor></code-editor>
+        <grades-checkboxes
+                :label="translate('grades_label')"
+                :active_grade_type_codes="getActiveGradeTypes()"
+                :helper_text="translate('grades_helper')"
+                @grade-type-was-activated="onGradeTypeActivated"
+                @grade-type-was-deactivated="onGradeTypeDeactivated">
+        </grades-checkboxes>
+        <charon-tabs>
+            <charon-tab name>
+                <code-editor></code-editor>
+            </charon-tab>
+        </charon-tabs>
     </div>
 
     <div class="column is-one-third">
