@@ -43,6 +43,7 @@ const app = new Vue({
         studentId: window.studentId,
 
         language: language,
+        editorSet: editorSet,
     },
 
     store
