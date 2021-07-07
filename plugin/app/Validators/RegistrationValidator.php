@@ -19,23 +19,18 @@ class RegistrationValidator extends WithErrors
     /** @var MoodleConfig */
     protected $moodleConfig;
 
-    /** @var StudentsRepository */
-    protected $studentsRepository;
 
     /**
      * @param Translator $translator
      * @param MoodleConfig $moodleConfig
-     * @param StudentsRepository $studentsRepository
      */
     public function __construct(
         Translator $translator,
-        MoodleConfig $moodleConfig,
-        StudentsRepository $studentsRepository
+        MoodleConfig $moodleConfig
     )
     {
         parent::__construct($translator, [], []);
         $this->moodleConfig = $moodleConfig;
-        $this->studentsRepository = $studentsRepository;
     }
 
     /**
@@ -105,10 +100,16 @@ class RegistrationValidator extends WithErrors
     public function checkCurrentUsersValidityForRegisteringDefence($userId, $courseId): RegistrationValidator
     {
         $teacherRepository = new LabTeacherRepository($this->moodleConfig);
+        $studentsRepository = new StudentsRepository();
         $currentUserId = (new User)->currentUserId();
         $teachers = $teacherRepository->getTeachersByCourseId($courseId);
-        $student = $this->studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
-        if ($currentUserId != $userId && $student::id != $userId || !in_array($currentUserId, $teachers) )
+        $students = $studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
+        $studentId = null;
+        if (count($students) > 0)
+        {
+            $studentId = $students[0];
+        }
+        if ($currentUserId != $userId && $studentId != $userId || !in_array($currentUserId, $teachers) )
         {
             $this->addError(
                 'current user',
