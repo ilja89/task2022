@@ -9,6 +9,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
 
+    Route::middleware('auth.submission.managing.require')
+        ->get('submissions/{submission}/postFromInline', 'TesterController@postFromInline');
+
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
     Route::get('git_callback', 'GitCallbackController@index')
