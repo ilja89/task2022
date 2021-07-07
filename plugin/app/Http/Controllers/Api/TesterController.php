@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Dto\SourceFileDTO;
+use TTU\Charon\Dto\SubmissionsDTO;
 use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
 use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Http\Controllers\Controller;
@@ -63,17 +64,17 @@ class TesterController extends Controller
     /**
      * Trigger retesting the student's submission.
      *
-     * @param Submission $submission
-     * @param $count
+     * @param SubmissionsDTO $submission
      * @param string|null $requestUrl
      * @param string|null $callbackUrl
      *
      * @return JsonResponse
      * @throws SubmissionNoGitCallbackException
      */
-    public function postFromInline(Submission $submission, string $requestUrl = null, string $callbackUrl = null) {
+    public function postFromInline(SubmissionsDTO $sentSubmission, string $requestUrl = null, string $callbackUrl = null) {
 
-        $gitCallback = $submission->gitCallback;
+
+        $submission = $sentSubmission->getSubmission();
 
         Log::info("gitCallback --->" . $gitCallback);
 
