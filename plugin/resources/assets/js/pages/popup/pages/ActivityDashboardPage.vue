@@ -9,14 +9,16 @@
 
     <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
 
-  </div>
+    <charon-defense-registrations-section :defense-list="defenseList" :teachers="teachers"></charon-defense-registrations-section>
+
+    </div>
 
 </template>
 
 <script>
 import {mapGetters, mapState} from 'vuex'
 import {PageTitle} from '../partials'
-import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection} from '../sections'
+import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection, CharonDefenseRegistrationsSection} from '../sections'
 import {Charon, Submission} from "../../../api/index";
 import LatestSubmissionsSection from "../sections/LatestSubmissionsSection";
 
@@ -25,13 +27,16 @@ export default {
 
   components: {
     LatestSubmissionsSection,
-    PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection},
+    PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection,
+    CharonDefenseRegistrationsSection},
 
   data() {
     return {
       charon: {},
       submission_counts: [],
-      latestSubmissions: []
+      latestSubmissions: [],
+      defenseList: [],
+      teachers: []
     }
   },
 
