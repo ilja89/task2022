@@ -103,13 +103,21 @@ class RegistrationValidator extends WithErrors
         $studentsRepository = new StudentsRepository();
         $currentUserId = (new User)->currentUserId();
         $teachers = $teacherRepository->getTeachersByCourseId($courseId);
+
+        $teacherIds = array(count($teachers));
+        foreach ($teachers as $teacher)
+        {
+            array_push($teacherIds, $teacher->id);
+        }
+
         $students = $studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
         $studentId = null;
+
         if (count($students) > 0)
         {
             $studentId = $students[0];
         }
-        if ($currentUserId != $userId && $studentId != $userId || !in_array($currentUserId, $teachers) )
+        if ($currentUserId != $userId && $studentId != $userId || !in_array($currentUserId, $teacherIds) )
         {
             $this->addError(
                 'current user',
