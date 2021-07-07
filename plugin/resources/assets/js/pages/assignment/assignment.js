@@ -14,6 +14,7 @@ import 'vuetify/dist/vuetify.min.css'
 import 'vue-good-table/dist/vue-good-table.css'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+import AssignmentTab from "./components/AssignmentTab";
 
 Vue.directive('highlightjs', HighlightDirective);
 Vue.use(VueMaterial)
@@ -33,7 +34,7 @@ const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
 
-    components: {AssignmentView, CodeEditor, CharonTabs, CharonTab, GradesCheckboxes},
+    components: {AssignmentView, CodeEditor, CharonTabs, CharonTab, GradesCheckboxes, AssignmentTab},
 
     icons: {
         iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'

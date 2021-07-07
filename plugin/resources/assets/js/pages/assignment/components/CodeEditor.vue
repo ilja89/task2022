@@ -38,8 +38,13 @@ import AceEditor from 'vuejs-ace-editor';
 export default {
   name: "App",
 
+
   components: {
     AceEditor
+  },
+
+  props: {
+    code: { require: true }
   },
 
   methods: {
@@ -50,8 +55,14 @@ export default {
       require('brace/mode/less')
       require('brace/theme/monokai')
       require('brace/snippets/python') //snippet
+
     }
 
+  },
+  data() {
+    return {
+      editor: null,
+    }
   }
 
 }

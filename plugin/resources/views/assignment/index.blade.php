@@ -1,6 +1,7 @@
 {!! $header !!}
 
 <link href="/mod/charon/plugin/public/css/assignment.css" rel="stylesheet">
+<link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 
 <h1 class="title">{{ $charon->name }}</h1>
 
@@ -25,11 +26,7 @@
                 </a>
             </div>
         @endif
-        <charon-tabs>
-            <charon-tab name>
-                <code-editor></code-editor>
-            </charon-tab>
-        </charon-tabs>
+        <assignment-tab></assignment-tab>
     </div>
 
     <div class="column is-one-third">
@@ -49,7 +46,6 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
-
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
         submissionText: "{{ translate('submission') }}",
