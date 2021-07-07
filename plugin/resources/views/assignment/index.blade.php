@@ -35,7 +35,6 @@
         @include('assignment.partials._deadlines_table')
 
         <h2 class="title">{{ translate('submissions') }}</h2>
-
         <assignment-view></assignment-view>
 
     </div>
