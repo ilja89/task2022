@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="editor_set">
+  <div class="editorDiv" id="app" v-if="editor_set">
 
     <span>Language: {{language}}</span>
 
@@ -32,10 +32,15 @@
     ]"
     />
 
+    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+      Submit
+    </v-btn>
+
   </div>
 </template>
 
 <script>
+import Submission from "../../../api/Submission";
 import AceEditor from 'vuejs-ace-editor';
 
 export default {
@@ -57,9 +62,20 @@ export default {
   },
 
   methods: {
+    submitClicked() {
+      try {
+        Submission.saveSubmission(this.content, () =>
+            VueEvent.$emit('show-notification', 'Submission successfully saved!')
+        )
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error saving submission!')
+      }
+    },
+
     dataSubmit() {
       //code here
     },
+
     editorInit: function () {
       require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
@@ -87,6 +103,14 @@ export default {
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
+}
+
+.submitBtn {
+  margin-top: 1.5em;
+}
+
+.editorDiv {
+  margin-top: 1.5em;
 }
 
 </style>
