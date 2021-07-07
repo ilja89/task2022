@@ -62,7 +62,7 @@ class TesterController extends Controller
     }
 
     /**
-     * Trigger retesting the student's submission.
+     * Trigger testing the student's submission.
      *
      * @param SubmissionsDTO $submission
      * @param string|null $requestUrl
