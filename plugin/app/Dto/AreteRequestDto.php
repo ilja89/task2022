@@ -42,6 +42,9 @@ class AreteRequestDto
     /** @var int */
     private $timestamp;
 
+    /** @var array|SourceFileDTO */
+    private $source;
+
     /**
      * @param string|null $dockerContentRoot
      * @return AreteRequestDto
@@ -164,6 +167,16 @@ class AreteRequestDto
         if (is_int($timestamp)) {
             $this->timestamp = $timestamp;
         }
+        return $this;
+    }
+
+    /**
+     * @param array|SourceFileDTO
+     * @return AreteRequestDto
+     */
+    public function setSource(array $sourceFiles = []): AreteRequestDto
+    {
+        $this->source = $sourceFiles;
         return $this;
     }
 
