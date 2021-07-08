@@ -281,7 +281,13 @@ export default {
 
       apply() {
         Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
-          this.defenseList = response
+          response.forEach(charon => {
+            if (charon.charon_id === parseInt(this.$route.params.charon_id)) {
+              if(Object.values(this.defenseList).includes(charon)) {
+                this.defenseList.push(charon);
+              }
+            }
+          });
         })
       },
 
@@ -315,7 +321,11 @@ export default {
 
       fetchRegistrations() {
         Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
-          this.defenseList = response
+          response.forEach(charon => {
+            if (charon.charon_id === parseInt(this.$route.params.charon_id)) {
+              this.defenseList.push(charon);
+            }
+          });
         })
       },
 
