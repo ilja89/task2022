@@ -293,7 +293,6 @@ export default {
 
       startSession() {
         const teacher_id = this.findWithAttr(this.teachers, 'id', this.filter_teacher)
-
         if (teacher_id > -1) {
           const teacher = this.teachers[teacher_id]
           this.updateTeacher({teacher})
