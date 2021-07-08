@@ -7,7 +7,7 @@
         class="editor"
         v-model="content"
         @init="editorInit"
-        :lang="language"
+        :lang="lang"
         theme="monk"
         width="100%"
         height="500px"
@@ -58,10 +58,18 @@ export default {
   data() {
     return {
       content: '',
+      lang: this.language,
+    }
+  },
+
+  beforeMount() {
+    if (this.language === 'javang') {
+      this.lang = 'java';
     }
   },
 
   methods: {
+
     submitClicked() {
       try {
         Submission.saveSubmission(this.content, () =>

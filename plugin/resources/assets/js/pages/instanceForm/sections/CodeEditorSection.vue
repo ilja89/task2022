@@ -7,8 +7,9 @@
 
     <div class="fcontainer clearfix fitem">
 
-      <label> Add code editor to this charon:
-        <input type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
+      <label>
+        <input id="setEditor" type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
+        Add code editor to this charon
       </label>
 
     </div>
