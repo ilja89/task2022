@@ -1,11 +1,15 @@
 <template>
-  <charon-tabs>
-    <charon-tab v-for="(code, index) in codes"
-                :name="code"
-                :selected="index===0">
-      <code-editor :code="code"></code-editor>
-    </charon-tab>
-  </charon-tabs>
+  <div>
+    <charon-tabs>
+      <charon-tab v-for="(code, index) in codes"
+                  :name="code"
+                  :selected="index===0">
+        <code-editor :code="code"
+                     :language="language"
+        ></code-editor>
+      </charon-tab>
+    </charon-tabs>
+  </div>
 </template>
 <script>
 import CharonTab from "../../../components/partials/CharonTab";
@@ -17,7 +21,7 @@ export default {
   components: {CharonTab, CharonTabs, CodeEditor},
 
   props: {
-
+    language: {require: true}
   },
 
   data() {
