@@ -45,6 +45,9 @@ const app = new Vue({
         grademaps: window.grademaps,
         charonId: window.charonId,
         studentId: window.studentId,
+
+        language: language,
+        editorSet: editorSet,
     },
 
     store

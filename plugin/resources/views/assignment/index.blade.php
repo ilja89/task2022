@@ -1,7 +1,6 @@
 {!! $header !!}
 
 <link href="/mod/charon/plugin/public/css/assignment.css" rel="stylesheet">
-<link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 
 <h1 class="title">{{ $charon->name }}</h1>
 
@@ -26,7 +25,10 @@
                 </a>
             </div>
         @endif
-        <assignment-tab></assignment-tab>
+        <assignment-tab
+                :language="language"
+                :editor_set="editorSet"
+        ></assignment-tab>
     </div>
 
     <div class="column is-one-third">
@@ -35,6 +37,7 @@
         @include('assignment.partials._deadlines_table')
 
         <h2 class="title">{{ translate('submissions') }}</h2>
+
         <assignment-view></assignment-view>
 
     </div>
@@ -45,6 +48,10 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
+
+    window.language = "{!! $charon->testerType->name !!}";
+    window.editorSet = {!! $charon->editor_set !!};
+
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
         submissionText: "{{ translate('submission') }}",

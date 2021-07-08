@@ -131,7 +131,6 @@ export default {
 	methods: {
 		toggleAdvancedInfoSection(advanced_toggle) {
 			this.advanced_info_section_active = advanced_toggle;
-			console.log(this.form.fields.editor_set); // TODO:
 		},
 		
 		toggleAdvancedGradingSection(advanced_toggle) {

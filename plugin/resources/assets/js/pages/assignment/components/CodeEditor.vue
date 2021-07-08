@@ -1,13 +1,16 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="editor_set">
+
+    <span>Language: {{language}}</span>
+
     <AceEditor
         class="editor"
         v-model="content"
         @init="editorInit"
-        lang="python"
+        :lang="language"
         theme="monk"
         width="100%"
-        height="200px"
+        height="500px"
         :options="{
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
@@ -23,7 +26,7 @@
         {
             name: 'save',
             bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-            exec: dataSumit,
+            exec: dataSubmit,
             readOnly: true,
         },
     ]"
@@ -38,30 +41,41 @@ import AceEditor from 'vuejs-ace-editor';
 export default {
   name: "App",
 
-
   components: {
     AceEditor
   },
 
   props: {
+    language: { required: true },
+    editor_set: { required: true },
     code: { require: true }
   },
 
-  methods: {
-    editorInit: function () {
-      require('brace/ext/language_tools') //language extension prerequsite...
-      require('brace/mode/html')
-      require('brace/mode/python')    //language
-      require('brace/mode/less')
-      require('brace/theme/monokai')
-      require('brace/snippets/python') //snippet
-
-    }
-
-  },
   data() {
     return {
-      editor: null,
+      content: '',
+    }
+  },
+
+  methods: {
+    dataSubmit() {
+      //code here
+    },
+    editorInit: function () {
+      require('brace/ext/language_tools')//language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/python')//language
+      require('brace/mode/javascript')
+      require('brace/mode/java')
+      require('brace/mode/prolog')
+      require('brace/mode/csharp')
+      require('brace/mode/less')
+      require('brace/theme/monokai')
+      require('brace/snippets/python')//snippet
+      require('brace/snippets/javascript')
+      require('brace/snippets/java')
+      require('brace/snippets/prolog')
+      require('brace/snippets/csharp')
     }
   }
 
