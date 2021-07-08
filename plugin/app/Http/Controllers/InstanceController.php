@@ -98,6 +98,13 @@ class InstanceController extends Controller
      */
     public function store()
     {
+        $repository_id = 20193;
+        $token = 'UFYor62fUjJJB_Jefzzf';
+        $urlStart = 'https://gitlab.cs.ttu.ee/api/v4/projects/'. $repository_id . '/repository';
+        $repository_path = 'EX01';
+        $urlToken = 'access_token=' . $token;
+
+        $files = $this->getCharonTemplates($urlStart, $repository_path, $urlToken);
 
         $charon = $this->getCharonFromRequest();
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
@@ -285,5 +292,35 @@ class InstanceController extends Controller
         );
 
         return $newDescription;
+    }
+
+    private function getCharonTemplates($urlStart, $repository_path, $urlToken): array
+    {
+        $files = array();
+        $result = file_get_contents($urlStart . '/tree?path=' . $repository_path . '&' .  $urlToken);
+
+        $responses = (json_decode($result, true));
+
+        foreach ($responses as $response) {
+            if ($response['type'] == 'tree') {
+                foreach ($this->getCharonSamples($urlStart, $response['path'], $urlToken) as $key => $value){
+                    $files[$key] = $value;
+                }
+            } elseif ($response['type'] == 'blob') {
+                $file_path_name = $response['path'];
+                $path_split = explode("/", $file_path_name);
+                $path = '';
+                for ($x = 0; $x < count($path_split); $x++) {
+                    if ($x != count($path_split) - 1) {
+                        $path = $path . $path_split[$x] . '%2F';
+                    } else {
+                        $path = $path . $path_split[$x];
+                    }
+                }
+                $file_raw = file_get_contents($urlStart. '/files/' . $path . '/raw?ref=master&' . $urlToken);
+                $files[$file_path_name] = $file_raw;
+            }
+        }
+        return $files;
     }
 }
