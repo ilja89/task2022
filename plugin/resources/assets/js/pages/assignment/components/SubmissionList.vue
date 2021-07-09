@@ -171,15 +171,15 @@ export default {
 		},
 		
 		submissionString(submission) {
-      let resultStr = '';
-      let prefix = '';
+            let resultStr = '';
+            let prefix = '';
 
-      submission.results.forEach((result) => {
-        resultStr += prefix;
-        resultStr += result.calculated_result;
-        prefix = ' | ';
-      });
-      return resultStr;
+            submission.results.forEach((result) => {
+                resultStr += prefix;
+                resultStr += result.calculated_result;
+                prefix = ' | ';
+            });
+            return resultStr;
 		},
 		
 		refreshSubmissions() {
