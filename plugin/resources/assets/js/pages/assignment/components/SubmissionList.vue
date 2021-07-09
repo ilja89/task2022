@@ -180,7 +180,7 @@ export default {
 		            prefix = ' | ';
 		      });
 		      return resultStr;
-            },
+		},
 		
 		refreshSubmissions() {
 			this.refreshing = true;
