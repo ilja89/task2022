@@ -720,9 +720,10 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2021062801) {
-        $sql = "ALTER TABLE " . $CFG->prefix . "charon_course_settings ADD COLUMN tester_url VARCHAR(255)";
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_course_settings ADD COLUMN IF NOT EXISTS tester_url VARCHAR(255)";
         $DB->execute($sql);
-        $sql = "ALTER TABLE " . $CFG->prefix . "charon_course_settings ADD COLUMN tester_token VARCHAR(255)";
+
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_course_settings ADD COLUMN IF NOT EXISTS tester_token VARCHAR(255)";
         $DB->execute($sql);
     }
 
