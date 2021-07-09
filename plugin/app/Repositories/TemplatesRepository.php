@@ -3,7 +3,6 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\CharonTemplate;
 
 /**
@@ -13,15 +12,11 @@ use TTU\Charon\Models\CharonTemplate;
  */
 class TemplatesRepository
 {
-    /** @var MoodleConfig */
-    private $moodleConfig;
-
     /**
-     * @param MoodleConfig $moodleConfig
+     * TemplatesRepository constructor.
      */
-    public function __construct(MoodleConfig $moodleConfig)
+    public function __construct()
     {
-        $this->moodleConfig = $moodleConfig;
     }
 
     /**
@@ -42,4 +37,16 @@ class TemplatesRepository
         return $template;
     }
 
+    /**
+     * @param $charonId
+     * @param $path
+     * @return mixed
+     */
+    public function deleteTemplate($charonId, $path)
+    {
+        return DB::table('charon_code_editor_sample')
+            ->where('charon_id', $charonId)
+            ->where('path', $path)
+            ->delete();
+    }
 }

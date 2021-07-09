@@ -54,6 +54,23 @@ class TemplatesController extends Controller
      */
     public function store(Request $request, Charon $charon)
     {
-        $this->templatesService->saveOrUpdateTemplates($request->toArray(), $charon->id);
+        $charon_id = $charon->id;
+        $templates = $request->toArray();
+
+        $this->templatesService->saveOrUpdateTemplates($charon_id, $templates);
+    }
+
+    /**
+     * Deletes template by path
+     *
+     * @param Request $request
+     * @param Charon $charon
+     */
+    public function delete(Request $request, Charon $charon)
+    {
+        $charon_id = $charon->id;
+        $path = $request['path'];
+
+        $this->templatesRepository->deleteTemplate($charon_id, $path);
     }
 }

@@ -32,7 +32,7 @@ class TemplatesService
      * @param $templates
      * @param int $charonId
      */
-    public function saveOrUpdateTemplates($templates, int $charonId)
+    public function saveOrUpdateTemplates(int $charonId, $templates)
     {
         foreach ($templates as $template) {
             $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);

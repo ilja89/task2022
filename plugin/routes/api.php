@@ -161,5 +161,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
     // CHARON TEMPLATES
-    Route::post('charons/{charon}/templates/store', 'TemplatesController@store');
+    Route::post('charons/{charon}/templates/store', 'TemplatesController@store'); // add and also update templates
+    Route::delete('charons/{charon}/template', 'TemplatesController@delete'); // delete template by id and path
 });
