@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
+use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -82,10 +84,14 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request, string $requestUrl = null, string $callbackUrl = null) {
 
-
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($request->input('courseId'));
+        Log::info("gitCallback --->" . print_r($request->input('courseId'), true)
+            . print_r($request->input('charonId'), true)
+            . print_r($request->input('sourceFiles'), true));
 
         $charon = $this->charonRepository->getCharonById($request->input('charonId'));
+
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
+
 
         // If tester requires files to be of SourceFileDTO then uncomment this
         // and change ->setSource input with $finalListofSource
@@ -110,6 +116,12 @@ class TesterController extends Controller
 
 
         Log::info("Ready to send to tester------->" . print_r($areteRequest, true));
+
+        try {
+            $this->testerCommunicationService->sendInfoToTester($areteRequest, $this->request->getUriForPath('/api/tester_callback'));
+        } catch (GuzzleException $e) {
+            Log::error($e);
+        }
 
         return response()->json([
             'message' => 'Testing triggered.'
