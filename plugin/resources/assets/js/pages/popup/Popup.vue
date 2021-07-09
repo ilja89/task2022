@@ -24,7 +24,7 @@
             <v-footer absolute class="font-weight-medium">
                 <v-col class="text-center" cols="12">
                     <span :title="new Date(version.date).toLocaleString()">{{ new Date(version.date).getFullYear() }}</span> — <strong>Charon</strong>
-                    <span class="version"> — Version: {{ version.commit }} </span>
+                    <span class="version"> — <a href="https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md">Version: {{ version.commit }} </a></span>
                 </v-col>
             </v-footer>
         </v-main>

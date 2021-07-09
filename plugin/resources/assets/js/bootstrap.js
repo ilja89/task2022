@@ -28,5 +28,5 @@ axios.interceptors.response.use(response => {
 })
 
 window.appVersion = {}
-window.appVersion.commit = 'hash';
+window.appVersion.commit = '1.2.3 -2021-05-15';
 window.appVersion.date = new Date().valueOf();
