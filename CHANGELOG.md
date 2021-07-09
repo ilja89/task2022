@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#210 Charon deadline events are visible in Moodle calendar
 
 ### Fixed
-- \#389 All grade components are now always visible in students' submission view
+- \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
 - \#417 "Charon popup:" added to popup window title
