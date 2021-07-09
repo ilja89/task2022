@@ -12,6 +12,8 @@ use TTU\Charon\Exceptions\SubmissionNoGitCallbackException;
 use TTU\Charon\Facades\MoodleCron;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\SubmissionFile;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
@@ -34,6 +36,10 @@ class TesterController extends Controller
 
     /** @var MoodleCron */
     protected $cron;
+    /**
+     * @var CharonRepository
+     */
+    private $charonRepository;
 
     /**
      * RetestController constructor.
@@ -43,6 +49,7 @@ class TesterController extends Controller
      * @param GitCallbacksRepository $gitCallbacksRepository
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param SubmissionsRepository $submissionRepository
+     * @param CharonRepository $charonRepository
      * @param MoodleCron $cron
      */
     public function __construct(
@@ -51,6 +58,7 @@ class TesterController extends Controller
         GitCallbacksRepository $gitCallbacksRepository,
         CourseSettingsRepository $courseSettingsRepository,
         SubmissionsRepository $submissionRepository,
+        CharonRepository $charonRepository,
         MoodleCron $cron
     ) {
         parent::__construct($request);
@@ -58,62 +66,50 @@ class TesterController extends Controller
         $this->gitCallbacksRepository = $gitCallbacksRepository;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->submissionRepository = $submissionRepository;
+        $this->charonRepository = $charonRepository;
         $this->cron = $cron;
     }
 
     /**
      * Trigger testing the student's submission.
      *
-     * @param SubmissionsDTO $submission
+     * @param Request $request
      * @param string|null $requestUrl
      * @param string|null $callbackUrl
      *
      * @return JsonResponse
      * @throws SubmissionNoGitCallbackException
      */
-    public function postFromInline(SubmissionsDTO $sentSubmission, string $requestUrl = null, string $callbackUrl = null) {
+    public function postFromInline(Request $request, string $requestUrl = null, string $callbackUrl = null) {
 
 
-        $submission = $sentSubmission->getSubmission();
+        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($request->input('courseId'));
 
-        Log::info("gitCallback --->" . $gitCallback);
+        $charon = $this->charonRepository->getCharonById($request->input('charonId'));
 
-        /*if (!$gitCallback) {
-            $exception = new SubmissionNoGitCallbackException('submission_git_callback_is_required');
-            $exception->setSubmissionId($submission->id);
-
-            throw $exception;
+        // If tester requires files to be of SourceFileDTO then uncomment this
+        // and change ->setSource input with $finalListofSource
+        /*$sourceFiles = json_decode($request->input('sourceFiles'));
+        $finalListofSource = [];
+        foreach ($sourceFiles as $sourceFile) {
+            $finalFile = new SourceFileDTO();
+            $finalFile->setPath($sourceFile->path);
+            $finalFile->setContent($sourceFile->content);
+            array_push($finalListofSource, $finalFile);
         }*/
-        $newGitCallback = $this->gitCallbacksRepository->save(
-            $requestUrl ? $requestUrl : $this->request->fullUrl(),
-            $gitCallback->repo,
-            $gitCallback->user
-        );
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($submission->charon->course);
 
-        $sourceFile = new SourceFileDTO();
-        $sourceFile->setPath($submission->charon->name);
-        $sourceFile->setContent("Java function\n Java code");
-
-        $request = (new AreteRequestDto())
-            ->setDockerContentRoot($submission->charon->docker_content_root)
-            ->setDockerTestRoot($submission->charon->docker_test_root)
-            ->setDockerExtra($submission->charon->tester_extra)
-            ->setDockerTimeout($submission->charon->docker_timeout)
+        $areteRequest = (new AreteRequestDto())
+            ->setDockerContentRoot($charon->docker_content_root)
+            ->setDockerTestRoot($charon->docker_test_root)
+            ->setDockerExtra($charon->tester_extra)
+            ->setDockerTimeout($charon->docker_timeout)
             ->setGitTestRepo($courseSettings->unittests_git)
-            ->setHash($submission->git_hash)
-            ->setTestingPlatform($submission->charon->testerType->name)
-            ->setSystemExtra($submission->charon->system_extra)
-            ->setSource([$sourceFile])
-            ->setTimestamp($submission->git_timestamp);
+            ->setTestingPlatform($charon->testerType->name)
+            ->setSystemExtra($charon->system_extra)
+            ->setSource(json_decode($request->input('sourceFiles')));
 
-        $this->testerCommunicationService->sendGitCallback(
-            $newGitCallback,
-            $callbackUrl ? $callbackUrl : $this->request->getUriForPath('/api/tester_callback'),
-            $request->toArray()
-        );
 
-        Log::info("Sending to git");
+        Log::info("Ready to send to tester------->" . print_r($areteRequest, true));
 
         return response()->json([
             'message' => 'Testing triggered.'
