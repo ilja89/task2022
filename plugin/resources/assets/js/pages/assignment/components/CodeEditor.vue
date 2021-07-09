@@ -71,8 +71,9 @@ export default {
   methods: {
 
     submitClicked() {
+      let sourceFiles = [{"path": "EX03", "content": this.content}];
       try {
-        Submission.saveSubmission(this.content, () =>
+        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
             VueEvent.$emit('show-notification', 'Submission successfully saved!')
         )
       } catch (e) {

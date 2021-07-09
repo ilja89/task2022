@@ -84,7 +84,7 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request, string $requestUrl = null, string $callbackUrl = null) {
 
-        Log::info("gitCallback --->" . print_r($request->input('courseId'), true)
+        Log::info("gitCallback --->"
             . print_r($request->input('charonId'), true)
             . print_r($request->input('sourceFiles'), true));
 
@@ -112,7 +112,7 @@ class TesterController extends Controller
             ->setGitTestRepo($courseSettings->unittests_git)
             ->setTestingPlatform($charon->testerType->name)
             ->setSystemExtra($charon->system_extra)
-            ->setSource(json_decode($request->input('sourceFiles')));
+            ->setSource($request->input('sourceFiles'));
 
 
         Log::info("Ready to send to tester------->" . print_r($areteRequest, true));

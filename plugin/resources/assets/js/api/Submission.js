@@ -1,11 +1,15 @@
 class Submission {
 
-    static saveSubmission(submission, then) {
-        axios.post(`/mod/charon/api/submissions/postFromInline`, submission).then(response => {
-            then(response.data)
-        }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving submission.\n' + error, 'danger')
-        })
+    static saveSubmission(sourceFiles, charonId, studentId, then) {
+        axios.post('/mod/charon/api/submissions/postFromInline', {
+                charonId: charonId,
+                sourceFiles: sourceFiles,
+                // studentId: studentId
+            }).then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error saving submission.\n' + error, 'danger')
+            })
     }
 
     static findByUserCharon(userId, charonId, then) {
