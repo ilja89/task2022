@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Services\SettingsService;
 
 /**
@@ -19,14 +20,27 @@ class HttpCommunicationService
     /** @var SettingsService */
     private $settingsService;
 
+    /** @var CourseSettingsRepository */
+    private $courseSettingsRepository;
+
+    /** @var GitCallbackService */
+    private $gitCallbackService;
+
     /**
      * HttpCommunicator constructor.
      *
      * @param SettingsService $settingsService
+     * @param CourseSettingsRepository $courseSettingsRepository
+     * @param GitCallbackService $gitCallbackService
      */
-    public function __construct(SettingsService $settingsService)
+    public function __construct(
+        SettingsService $settingsService,
+        CourseSettingsRepository $courseSettingsRepository,
+        GitCallbackService $gitCallbackService)
     {
         $this->settingsService = $settingsService;
+        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->gitCallbackService = $gitCallbackService;
     }
 
     /**
@@ -42,17 +56,39 @@ class HttpCommunicationService
      */
     public function sendInfoToTester($method, $data)
     {
-        $testerUrl = strlen(trim($data['testerUrl'])) > 0 ? $data['testerUrl'] : $this->settingsService->getSetting(
+        /**
+         * @var String $testerUrl
+         * Initialize by default value
+         */
+        $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
-            'http://neti.ee'
-        );
+            'http://neti.ee');
 
-        $testerToken = strlen(trim($data['testerToken'])) > 0 ? $data['testerToken'] : $this->settingsService->getSetting(
+        /**
+         * @var String $testerToken
+         * Initialize by default value
+         */
+        $testerToken = $this->settingsService->getSetting(
             'mod_charon',
             'tester_token',
             'charon'
         );
+
+        $repo = $data['$gitStudentRepo'];
+
+        if ($repo) {
+            $course = $this->gitCallbackService->getCourse($repo);
+            $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+
+            if ($settings && $settings->tester_url) {
+                $testerUrl = $settings->tester_url;
+            }
+
+            if ($settings && $settings->tester_token) {
+                $testerToken = $settings->tester_token;
+            }
+        }
 
         Log::info('Sending data to tester.', [
             'uri' => $testerUrl,

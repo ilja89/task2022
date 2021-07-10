@@ -123,7 +123,7 @@ class GitCallbackControllerTest extends TestCase
             'full url',
             'repository url',
             'callback url',
-            ['gitTestRepo' => 'unittest git', 'testingPlatform' => 'tester name', 'testerUrl' => NULL, 'testerToken' => NULL]
+            ['gitTestRepo' => 'unittest git', 'testingPlatform' => 'tester name']
         );
 
         $response = $this->controller->indexPost($request);
@@ -174,8 +174,6 @@ class GitCallbackControllerTest extends TestCase
         $expectedParams = [
             'gitTestRepo' => 'unittest git',
             'testingPlatform' => 'other name',
-            'testerUrl' => NULL,
-            'testerToken' => NULL,
             'slugs' => ['folder'],
             'systemExtra' => ['some', 'extras'],
             'dockerExtra' => 'tester extra',

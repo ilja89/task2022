@@ -117,8 +117,6 @@ class GitCallbackController extends Controller
 
         $params['gitTestRepo'] = $settings->unittests_git;
         $params['testingPlatform'] = $settings->testerType->name;
-        $params['testerUrl'] = $settings->tester_url;
-        $params['testerToken'] = $settings->tester_token;
 
         $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->input('commits', []));
         Log::debug('Found modified files: ', $modifiedFiles);
