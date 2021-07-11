@@ -3,7 +3,7 @@
                  subtitle="Here's some general information about the activity.">
       <v-card class="ges-card">
         <v-card-text>Charon name: {{ charon.name }}</v-card-text>
-        <v-card-text>Max points: {{  this.maxPoints }}</v-card-text>
+        <v-card-text>Max points: {{  maxPoints }}</v-card-text>
         <v-card-text>Deadline: {{ charon.defense_deadline }}</v-card-text>
       </v-card>
   </popup-section>
@@ -17,12 +17,7 @@ export default {
 
   components: {PopupSection},
 
-  props: {
-    charon: {
-      required: false,
-      default: {}
-    }
-  },
+  props: ['charon'],
 
   computed: {
     maxPoints() {
@@ -34,8 +29,10 @@ export default {
             thisCharon = charons[charonIndex];
           }
         }
-        let maxPoints = thisCharon['grademaps']['0']['grade_item']['grademax'];
-        return parseFloat(maxPoints);
+        if (thisCharon['grademaps']) {
+          let maxPoints = thisCharon['grademaps']['0']['grade_item']['grademax'];
+          return parseFloat(maxPoints);
+        }
       }
       return ''
     }
