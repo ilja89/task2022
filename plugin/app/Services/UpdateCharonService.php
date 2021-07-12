@@ -3,11 +3,13 @@
 namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use TTU\Charon\Events\CharonUpdated;
+use TTU\Charon\Listeners\UpdateCalendarDeadlines;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -27,6 +29,8 @@ class UpdateCharonService
     protected $charonGradingService;
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
+    /** @var CalendarService */
+    private $calendarService;
 
     /**
      * UpdateCharonService constructor.
@@ -36,19 +40,22 @@ class UpdateCharonService
      * @param  DeadlineService  $deadlineService
      * @param  DeadlinesRepository  $deadlinesRepository
      * @param  CharonGradingService  $charonGradingService
+     * @param  CalendarService $calendarService
      */
     public function __construct(
         GrademapService $grademapService,
         GradebookService $gradebookService,
         DeadlineService $deadlineService,
         DeadlinesRepository $deadlinesRepository,
-        CharonGradingService $charonGradingService
+        CharonGradingService $charonGradingService,
+        CalendarService $calendarService
     ) {
         $this->grademapService     = $grademapService;
         $this->gradebookService    = $gradebookService;
         $this->deadlineService     = $deadlineService;
         $this->deadlinesRepository = $deadlinesRepository;
         $this->charonGradingService = $charonGradingService;
+        $this->calendarService = $calendarService;
     }
 
     /**
@@ -100,8 +107,10 @@ class UpdateCharonService
     public function updateDeadlines($request, $charon)
     {
         $oldDeadlines = $charon->deadlines;
-        $this->deadlinesRepository->deleteAllDeadlinesForCharon($charon->id);
-        $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charon->id);
+        $charonId = $charon->id;
+
+        $this->deadlinesRepository->deleteAllDeadlinesForCharon($charonId);
+        $this->deadlinesRepository->deleteAllCalendarEventsForCharon($charonId);
 
         // Create new deadlines
         if ($request->deadlines !== null) {
@@ -109,9 +118,10 @@ class UpdateCharonService
                 $this->deadlineService->createDeadline($charon, $deadline);
             }
         }
-
         $charon->load('deadlines');
-
+        $event = new CharonUpdated($charon);
+        $eventAdder = new UpdateCalendarDeadlines($this->calendarService);
+        $eventAdder->handle($event);
         return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }
 

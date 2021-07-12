@@ -2,9 +2,9 @@
 
 namespace TTU\Charon\Listeners;
 
+use Carbon\Carbon;
 use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Deadline;
-use Zeizig\Moodle\Models\Event;
 use Zeizig\Moodle\Services\CalendarService;
 
 class UpdateCalendarDeadlines
@@ -30,31 +30,34 @@ class UpdateCalendarDeadlines
      */
     public function handle(CharonUpdated $event)
     {
-        $eventIds = $event->oldDeadlineEventIds;
-
-        Event::destroy($eventIds);
-
         $charon = $event->charon;
-
-        $previousPercentage = 100;
-        $charon->deadlines->each(function ($deadline) use ($charon, &$previousPercentage) {
+        $charon->deadlines->each(function ($deadline) use ($charon) {
             /** @var Deadline $deadline */
+            $charonName = $charon->name;
+            $percentage = $deadline['percentage'];
+            $name = "{$charonName} - {$percentage}%";
+            $description = __('descriptions.descriptionStart') . ' ' . $charonName
+                . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
+                . '% ' . __('descriptions.descriptionEnd');
+            $rightTime = $deadline->deadline_time;
+            if (Carbon::createFromTimestamp($rightTime->getTimestamp())->isDST()){
+                $rightTime = $deadline->deadline_time->subHour();
+            }
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
-                "{$charon->name} - {$previousPercentage}%",
-                $charon->description,
+                $name,
+                $description,
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $deadline->deadline_time->getTimestamp(),
+                $rightTime->getTimestamp(),
                 true,
-                true
+                true,
+                $deadline->group_id
             );
 
             $deadline->event_id = $event->id;
             $deadline->save();
-
-            $previousPercentage = $deadline->percentage;
         });
     }
 }
