@@ -27,26 +27,41 @@ class TemplatesService
     }
 
     /**
-     * Method to add new templates and update old templates.
-     *
      * @param $templates
      * @param int $charonId
      */
-    public function saveOrUpdateTemplates(int $charonId, $templates)
+    public function updateTemplates(int $charonId, $templates)
     {
         $db_templates = $this->templatesRepository->getTemplates($charonId);
         foreach ($templates as $template) {
             $template_path = $template['path'];
-            $changed_contents = false;
             foreach ($db_templates as $db_template){
                 if ($template_path == $db_template->path){
                     $db_template->contents = $template['contents'];
                     $this->templatesRepository->updateTemplateContents($db_template);
-                    $changed_contents = true;
                     break;
                 }
             }
-            if (!$changed_contents){
+        }
+    }
+
+    /**
+     * @param $templates
+     * @param int $charonId
+     */
+    public function addTemplates(int $charonId, $templates)
+    {
+        $db_templates = $this->templatesRepository->getTemplates($charonId);
+        foreach ($templates as $template) {
+            $template_path = $template['path'];
+            $same_path = false;
+            foreach ($db_templates as $db_template){
+                if ($template_path == $db_template->path){
+                    $same_path = true;
+                    break;
+                }
+            }
+            if (!$same_path){
                 $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
             }
         }

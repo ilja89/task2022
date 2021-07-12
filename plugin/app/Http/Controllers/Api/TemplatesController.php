@@ -48,7 +48,7 @@ class TemplatesController extends Controller
     }
 
     /**
-     * Method to store templates. If path exists, then update content.
+     * Method to add new templates.
      *
      * @param Request $request
      * @param Charon $charon
@@ -58,7 +58,21 @@ class TemplatesController extends Controller
         $charon_id = $charon->id;
         $templates = $request->toArray();
 
-        $this->templatesService->saveOrUpdateTemplates($charon_id, $templates);
+        $this->templatesService->addTemplates($charon_id, $templates);
+    }
+
+    /**
+     * Method to update templates contents.
+     *
+     * @param Request $request
+     * @param Charon $charon
+     */
+    public function update(Request $request, Charon $charon)
+    {
+        $charon_id = $charon->id;
+        $templates = $request->toArray();
+
+        $this->templatesService->updateTemplates($charon_id, $templates);
     }
 
     /**
