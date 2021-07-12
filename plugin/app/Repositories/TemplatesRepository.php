@@ -3,7 +3,8 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
-use TTU\Charon\Models\CharonTemplate;
+use Illuminate\Support\Facades\DB;
+use TTU\Charon\Models\Template;
 
 /**
  * Class TemplatesRepository.
@@ -23,11 +24,11 @@ class TemplatesRepository
      * @param $charonId
      * @param $path
      * @param $contents
-     * @return CharonTemplate
+     * @return Template
      */
-    public function saveTemplate($charonId, $path, $contents): CharonTemplate
+    public function saveTemplate($charonId, $path, $contents): Template
     {
-        $template = CharonTemplate::create([
+        $template = Template::create([
             'charon_id' => $charonId,
             'path' => $path,
             'contents' => $contents,

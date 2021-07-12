@@ -162,5 +162,5 @@ Route::group(['namespace' => 'Api'], function () {
 
     // CHARON TEMPLATES
     Route::post('charons/{charon}/templates/store', 'TemplatesController@store'); // add and also update templates
-    Route::delete('charons/{charon}/template', 'TemplatesController@delete'); // delete template by id and path
+    Route::delete('charons/{charon}/template/{template}', 'TemplatesController@delete'); // delete template by id and path
 });

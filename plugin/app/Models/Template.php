@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class CharonTemplate.
+ * Class Template.
  *
  * @property int id
  * @property int charon_id
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package TTU\Charon\Models
  */
-class CharonTemplate extends Model
+class Template extends Model
 {
     public $timestamps = false;
 

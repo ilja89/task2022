@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\TemplatesRepository;
 use TTU\Charon\Services\TemplatesService;
@@ -63,13 +64,13 @@ class TemplatesController extends Controller
     /**
      * Deletes template by path
      *
-     * @param Request $request
      * @param Charon $charon
+     * @param Template $template
      */
-    public function delete(Request $request, Charon $charon)
+    public function delete(Charon $charon, Template $template)
     {
         $charon_id = $charon->id;
-        $path = $request['path'];
+        $path = $template->path;
 
         $this->templatesRepository->deleteTemplate($charon_id, $path);
     }
