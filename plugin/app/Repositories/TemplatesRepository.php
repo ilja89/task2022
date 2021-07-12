@@ -32,8 +32,7 @@ class TemplatesRepository
             'charon_id' => $charonId,
             'path' => $path,
             'contents' => $contents,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'created_at' => Carbon::now()
         ]);
         return $template;
     }
@@ -45,7 +44,7 @@ class TemplatesRepository
      */
     public function deleteTemplate($charonId, $path)
     {
-        return DB::table('charon_code_editor_sample')
+        return DB::table('charon_template')
             ->where('charon_id', $charonId)
             ->where('path', $path)
             ->delete();
@@ -57,7 +56,7 @@ class TemplatesRepository
      */
     public function getTemplates($charonId)
     {
-        return DB::table('charon_code_editor_sample')
+        return DB::table('charon_template')
             ->where('charon_id', $charonId)
             ->get();
     }
