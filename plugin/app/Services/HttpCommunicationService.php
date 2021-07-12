@@ -75,23 +75,27 @@ class HttpCommunicationService
             'charon'
         );
 
-        $repo = $data['$gitStudentRepo'];
+        $repo = $data['gitStudentRepo'];
 
         if ($repo) {
+            Log::info("Repository found: '" . $repo . "'");
             $course = $this->gitCallbackService->getCourse($repo);
             $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
             if ($settings && $settings->tester_url) {
                 $testerUrl = $settings->tester_url;
+                Log::info("Tester url found: '" . $testerUrl . "'");
             }
 
             if ($settings && $settings->tester_token) {
                 $testerToken = $settings->tester_token;
+                Log::info("Tester token found: '" . $testerToken . "'");
             }
         }
 
         Log::info('Sending data to tester.', [
             'uri' => $testerUrl,
+            'tester token' => $testerToken,
             'data' => $data,
         ]);
 
