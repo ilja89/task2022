@@ -84,12 +84,12 @@ class HttpCommunicationService
 
             if ($settings && $settings->tester_url) {
                 $testerUrl = $settings->tester_url;
-                Log::info("Tester url found: '" . $testerUrl . "'");
+                Log::info("Custom tester url found: '" . $testerUrl . "'");
             }
 
             if ($settings && $settings->tester_token) {
                 $testerToken = $settings->tester_token;
-                Log::info("Tester token found: '" . $testerToken . "'");
+                Log::info("Custom tester token found: '" . $testerToken . "'");
             }
         }
 
