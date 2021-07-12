@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#429 Option to connect a Lab with specific groups
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
+- \#449 Tester url and token can be changed for specific course
 
 ### Fixed
 - \#389 All grade components are now always visible in students' charon submission view
