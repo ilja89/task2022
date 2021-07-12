@@ -21,28 +21,27 @@ class TemplatesRepository
     }
 
     /**
-     * @param $charonId
-     * @param $path
-     * @param $contents
+     * @param int $charonId
+     * @param string $path
+     * @param string $contents
      * @return Template
      */
-    public function saveTemplate($charonId, $path, $contents): Template
+    public function saveTemplate(int $charonId, string $path, string $contents): Template
     {
-        $template = Template::create([
+        return Template::create([
             'charon_id' => $charonId,
             'path' => $path,
             'contents' => $contents,
             'created_at' => Carbon::now()
         ]);
-        return $template;
     }
 
     /**
-     * @param $charonId
-     * @param $path
+     * @param int $charonId
+     * @param string $path
      * @return mixed
      */
-    public function deleteTemplate($charonId, $path)
+    public function deleteTemplate(int $charonId, string $path)
     {
         return DB::table('charon_template')
             ->where('charon_id', $charonId)
@@ -51,13 +50,25 @@ class TemplatesRepository
     }
 
     /**
-     * @param $charonId
-     * @return mixed
+     * @param int $charonId
+     * @return Template[]
      */
-    public function getTemplates($charonId)
+    public function getTemplates(int $charonId): iterable
     {
         return DB::table('charon_template')
             ->where('charon_id', $charonId)
             ->get();
+    }
+
+    /**
+     * @param $template
+     * @return mixed
+     */
+    public function updateTemplateContents($template)
+    {
+        return DB::table('charon_template')
+            ->where('charon_id', $template->charon_id)
+            ->where('path', $template->path)
+            ->update(['contents' => $template->contents]);
     }
 }

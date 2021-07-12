@@ -34,8 +34,21 @@ class TemplatesService
      */
     public function saveOrUpdateTemplates(int $charonId, $templates)
     {
+        $db_templates = $this->templatesRepository->getTemplates($charonId);
         foreach ($templates as $template) {
-            $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+            $template_path = $template['path'];
+            $changed_contents = false;
+            foreach ($db_templates as $db_template){
+                if ($template_path == $db_template->path){
+                    $db_template->contents = $template['contents'];
+                    $this->templatesRepository->updateTemplateContents($db_template);
+                    $changed_contents = true;
+                    break;
+                }
+            }
+            if (!$changed_contents){
+                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+            }
         }
     }
 }
