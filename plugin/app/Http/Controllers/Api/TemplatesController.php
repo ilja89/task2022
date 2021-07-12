@@ -62,7 +62,7 @@ class TemplatesController extends Controller
     }
 
     /**
-     * Deletes template by path
+     * Deletes template by path.
      *
      * @param Charon $charon
      * @param Template $template
@@ -73,5 +73,18 @@ class TemplatesController extends Controller
         $path = $template->path;
 
         $this->templatesRepository->deleteTemplate($charon_id, $path);
+    }
+
+    /**
+     * Getting templates by charon.
+     *
+     * @param Charon $charon
+     * @return mixed
+     */
+    public function get(Charon $charon)
+    {
+        $charon_id = $charon->id;
+
+        return $this->templatesRepository->getTemplates($charon_id);
     }
 }

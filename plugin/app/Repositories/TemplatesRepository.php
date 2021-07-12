@@ -50,4 +50,15 @@ class TemplatesRepository
             ->where('path', $path)
             ->delete();
     }
+
+    /**
+     * @param $charonId
+     * @return mixed
+     */
+    public function getTemplates($charonId)
+    {
+        return DB::table('charon_code_editor_sample')
+            ->where('charon_id', $charonId)
+            ->get();
+    }
 }
