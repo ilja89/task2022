@@ -59,6 +59,13 @@ class TemplatesController extends Controller
         $templates = $request->toArray();
 
         $this->templatesService->addTemplates($charon_id, $templates);
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Templates saved!',
+            ],
+        ]);
     }
 
     /**
@@ -73,6 +80,13 @@ class TemplatesController extends Controller
         $templates = $request->toArray();
 
         $this->templatesService->updateTemplates($charon_id, $templates);
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Templates updated!',
+            ],
+        ]);
     }
 
     /**
@@ -87,6 +101,13 @@ class TemplatesController extends Controller
         $path = $template->path;
 
         $this->templatesRepository->deleteTemplate($charon_id, $path);
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Template deleted!',
+            ],
+        ]);
     }
 
     /**
