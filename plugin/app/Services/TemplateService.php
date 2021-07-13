@@ -9,14 +9,14 @@ use TTU\Charon\Repositories\TemplatesRepository;
  *
  * @package TTU\Charon\Services
  */
-class TemplatesService
+class TemplateService
 {
 
     /** @var TemplatesRepository */
     private $templatesRepository;
 
     /**
-     * TemplatesService constructor.
+     * TemplateService constructor.
      * @param TemplatesRepository $templatesRepository
      */
     public function __construct(

@@ -8,7 +8,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\TemplatesRepository;
-use TTU\Charon\Services\TemplatesService;
+use TTU\Charon\Services\TemplateService;
 
 
 /**
@@ -18,7 +18,7 @@ use TTU\Charon\Services\TemplatesService;
 class TemplatesController extends Controller
 {
 
-    /** @var TemplatesService */
+    /** @var TemplateService */
     private $templatesService;
 
     /** @var TemplatesRepository */
@@ -30,13 +30,13 @@ class TemplatesController extends Controller
     /**
      * TemplatesController constructor.
      * @param Request $request
-     * @param TemplatesService $templatesService
+     * @param TemplateService $templatesService
      * @param TemplatesRepository $templatesRepository
      * @param CharonRepository $charonRepository
      */
     public function __construct(
         Request $request,
-        TemplatesService $templatesService,
+        TemplateService $templatesService,
         TemplatesRepository $templatesRepository,
         CharonRepository $charonRepository
     )
