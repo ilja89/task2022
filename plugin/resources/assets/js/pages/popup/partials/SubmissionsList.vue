@@ -1,6 +1,6 @@
 <template>
     <div class="submissions">
-
+Total points: {{ totalCharonPoints }}
         <h3 v-show="submissions.length === 0" class="title is-3">
             No submissions found!
         </h3>
@@ -28,7 +28,7 @@
     import {mapState, mapGetters} from 'vuex'
     import _ from 'lodash';
     import SubmissionPartial from './Submission'
-    import {Submission} from '../../../api'
+    import {Charon, Submission} from '../../../api'
 
     export default {
 
@@ -38,6 +38,7 @@
             return {
                 canLoadMore: true,
                 submissions: [],
+                totalCharonPoints: null
             }
         },
 
@@ -65,6 +66,16 @@
                 Submission.findByUserCharon(this.student.id, this.charon.id, submissions => {
                     this.submissions = submissions
                     this.canLoadMore = Submission.canLoadMore()
+
+                    if (this.submissions) {
+                        Charon.getResultForStudent(
+                            this.charon.id,
+                            this.submissions[0].user_id,
+                            points => {
+                                this.totalCharonPoints = points;
+                            }
+                        );
+                    }
                 })
             },
 
