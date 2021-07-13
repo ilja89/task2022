@@ -1,12 +1,12 @@
 <template>
   <div>
     <charon-tabs>
-      <charon-tab v-for="(code, index) in codes"
-                  :name="code"
+      <charon-tab v-for="(code, index) in this.codes"
+                  :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
-                     :code="code"
-                     :language="language"
+                     :code="code.contents"
+                     :language="this.language"
                      :codes="codes"
         ></code-editor>
       </charon-tab>
@@ -31,19 +31,28 @@ export default {
     language: {require: true}
   },
 
+  mounted() {
+    this.getTemplates();
+  },
+
   data() {
     return {
-      codes: ["def", "def2", "def3"]
+      codes: [],
     }
   },
 
   methods: {
+    getTemplates() {
+      Submission.getTemplates(window.charonId, answer => {
+        this.codes = answer
+      })
+    },
 
     submitClicked() {
       let sourceFiles = [];
 
       for (let i = 0; i < this.codes.length; i++) {
-        sourceFiles.push({"path": "EX03", "content": this.codes[i]});
+        sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents});
       }
 
       try {

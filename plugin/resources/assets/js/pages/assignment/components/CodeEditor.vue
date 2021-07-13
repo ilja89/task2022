@@ -60,7 +60,7 @@ export default {
 
   computed: {
     dataSubmit() {
-      this.codes[this.codeId] = this.content;
+      this.codes[this.codeId].contents = this.content;
     },
   },
 

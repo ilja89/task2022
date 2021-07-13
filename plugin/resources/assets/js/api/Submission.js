@@ -1,5 +1,14 @@
 class Submission {
 
+    static getTemplates(charonId, then) {
+        return axios.get(`/mod/charon/api/charons/${charonId}/templates`)
+            .then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+        })
+    }
+
     static saveSubmission(sourceFiles, charonId, studentId, then) {
         axios.post('/mod/charon/api/submissions/postFromInline', {
                 charonId: charonId,
