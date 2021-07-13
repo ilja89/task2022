@@ -6,6 +6,7 @@
     <AceEditor
         class="editor"
         v-model="content"
+        @input="dataSubmit"
         @init="editorInit"
         :lang="lang"
         theme="monk"
@@ -22,25 +23,12 @@
         showPrintMargin: false,
         showGutter: true,
         }"
-        :commands="[
-        {
-            name: 'save',
-            bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-            exec: dataSubmit,
-            readOnly: true,
-        },
-    ]"
     />
-
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
-      Submit
-    </v-btn>
 
   </div>
 </template>
 
 <script>
-import Submission from "../../../api/Submission";
 import AceEditor from 'vuejs-ace-editor';
 
 export default {
@@ -52,13 +40,15 @@ export default {
 
   props: {
     language: { required: true },
-    code: { require: true }
+    code: { require: true },
+    codes: { require: true },
+    codeId: { required: true }
   },
 
   data() {
     return {
       content: this.code,
-      lang: this.language,
+      lang: this.language
     }
   },
 
@@ -68,25 +58,13 @@ export default {
     }
   },
 
-  methods: {
-
-    submitClicked() {
-      this.code = this.content;
-      let sourceFiles = [{"path": "EX03", "content": this.code}];
-      console.log(this.code);
-      try {
-        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
-            VueEvent.$emit('show-notification', 'Submission successfully saved!')
-        )
-      } catch (e) {
-        VueEvent.$emit('show-notification', 'Error saving submission!')
-      }
-    },
-
+  computed: {
     dataSubmit() {
-      //code here
+      this.codes[this.codeId] = this.content;
     },
+  },
 
+  methods: {
     editorInit: function () {
       require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
@@ -104,7 +82,6 @@ export default {
       require('brace/snippets/csharp')
     }
   }
-
 }
 
 </script>
@@ -114,10 +91,6 @@ export default {
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
-}
-
-.submitBtn {
-  margin-top: 1.5em;
 }
 
 .editorDiv {
