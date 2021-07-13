@@ -1,5 +1,5 @@
 <template>
-  <div class="editorDiv" id="app" v-if="editor_set">
+  <div class="editorDiv">
 
     <span>Language: {{language}}</span>
 
@@ -52,12 +52,12 @@ export default {
 
   props: {
     language: { required: true },
-    editor_set: { required: true }
+    code: { require: true }
   },
 
   data() {
     return {
-      content: '',
+      content: this.code,
       lang: this.language,
     }
   },
@@ -71,7 +71,9 @@ export default {
   methods: {
 
     submitClicked() {
-      let sourceFiles = [{"path": "EX03", "content": this.content}];
+      this.code = this.content;
+      let sourceFiles = [{"path": "EX03", "content": this.code}];
+      console.log(this.code);
       try {
         Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
             VueEvent.$emit('show-notification', 'Submission successfully saved!')
