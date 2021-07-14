@@ -52,7 +52,7 @@ class TemplatesController extends Controller
      */
     public function store(Request $request, Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $templates = $request->toArray();
 
         foreach ($templates as $template) {
@@ -61,7 +61,7 @@ class TemplatesController extends Controller
             }
         }
 
-        $this->templatesService->addTemplates($charon_id, $templates);
+        $this->templatesService->addTemplates($charonId, $templates);
 
         return response()->json([
             'status' => 200,
@@ -76,13 +76,14 @@ class TemplatesController extends Controller
      *
      * @param Request $request
      * @param Charon $charon
+     * @throws TemplatePathException
      */
     public function update(Request $request, Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $templates = $request->toArray();
 
-        $this->templatesService->updateTemplates($charon_id, $templates);
+        $this->templatesService->updateTemplates($charonId, $templates);
 
         return response()->json([
             'status' => 200,
@@ -100,10 +101,10 @@ class TemplatesController extends Controller
      */
     public function delete(Charon $charon, Template $template)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $path = $template->path;
 
-        $this->templatesRepository->deleteTemplate($charon_id, $path);
+        $this->templatesRepository->deleteTemplate($charonId, $path);
 
         return response()->json([
             'status' => 200,
@@ -121,8 +122,8 @@ class TemplatesController extends Controller
      */
     public function get(Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
 
-        return $this->templatesRepository->getTemplates($charon_id);
+        return $this->templatesRepository->getTemplates($charonId);
     }
 }
