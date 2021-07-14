@@ -24,9 +24,6 @@ class TemplatesController extends Controller
     /** @var TemplatesRepository */
     private $templatesRepository;
 
-    /** @var CharonRepository */
-    private $charonRepository;
-
     /**
      * TemplatesController constructor.
      * @param Request $request
@@ -37,14 +34,12 @@ class TemplatesController extends Controller
     public function __construct(
         Request $request,
         TemplateService $templatesService,
-        TemplatesRepository $templatesRepository,
-        CharonRepository $charonRepository
+        TemplatesRepository $templatesRepository
     )
     {
         parent::__construct($request);
         $this->templatesRepository = $templatesRepository;
         $this->templatesService = $templatesService;
-        $this->charonRepository = $charonRepository;
     }
 
     /**
