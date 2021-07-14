@@ -16,7 +16,7 @@ import CharonTab from "../../../components/partials/CharonTab";
 import CharonTabs from "../../../components/partials/CharonTabs";
 import CodeEditor from "./CodeEditor";
 export default {
-  name: "AssignmentTab",
+  name: "CodeTemplates",
 
   components: {CharonTab, CharonTabs, CodeEditor},
 

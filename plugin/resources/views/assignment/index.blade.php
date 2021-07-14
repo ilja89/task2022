@@ -26,9 +26,9 @@
             </div>
         @endif
         @if ($charon->editor_set)
-            <assignment-tab
-                    :language="language"
-            ></assignment-tab>
+            <code-templates
+                :language="language">
+            </code-templates>
         @endif
 
     </div>
