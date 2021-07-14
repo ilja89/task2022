@@ -141,8 +141,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // get all registrations for student. query param user_id
         ->get('charons/{charon}/registrations', 'DefenseRegistrationController@getStudentRegistrations');
 
-    Route::middleware('auth.charon.submissions.view.require')  // delete defense registration. query param user_id
-        ->delete('charons/{charon}/registration', 'DefenseRegistrationController@delete');
+    Route::middleware('auth.charon.submissions.view.require')  // cancel defense registration
+        ->put('charons/{charon}/registration', 'DefenseRegistrationController@cancel');
 
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
         ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');

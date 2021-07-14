@@ -4,13 +4,20 @@ namespace TTU\Charon\Validators;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Collection;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Repositories\StudentsRepository;
+use Zeizig\Moodle\Globals\User;
 
 /**
  * @version Registration 2.*
  */
 class RegistrationValidator extends WithErrors
 {
+    /** @var MoodleConfig */
+    protected $moodleConfig;
+
     /**
      * @param Translator $translator
      */
@@ -75,4 +82,29 @@ class RegistrationValidator extends WithErrors
 
         return $this;
     }
+
+    public function checkCurrentUsersValidityForRegisteringDefence($userId, $courseId): RegistrationValidator
+    {
+        $teacherRepository = new LabTeacherRepository($this->moodleConfig);
+        $studentsRepository = new StudentsRepository();
+        $currentUserId = (new User)->currentUserId();
+        $teachers = $teacherRepository->getTeachersByCourseId($courseId);
+        $students = $studentsRepository->searchStudentsByCourseAndKeyword($courseId, $currentUserId);
+        $studentId = null;
+        if (count($students) > 0)
+        {
+            $studentId = $students[0];
+        }
+        if ($currentUserId != $userId && $studentId != $userId || !in_array($currentUserId, $teachers) )
+        {
+            $this->addError(
+                'current user',
+                'Current user %d is not authorized to register defenses to other users',
+                $currentUserId
+            );
+        }
+
+        return $this;
+    }
+
 }

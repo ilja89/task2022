@@ -20,6 +20,7 @@ use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\Flows\BookStudentRegistration;
 use TTU\Charon\Services\Flows\FindAvailableRegistrationTimes;
+use TTU\Charon\Validators\RegistrationValidator;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -50,6 +51,10 @@ class DefenseRegistrationController extends Controller
     /** @var BookStudentRegistration */
     protected $bookRegistration;
 
+    /** @var RegistrationValidator */
+    protected $registrationValidator;
+
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -61,6 +66,7 @@ class DefenseRegistrationController extends Controller
      * @param CharonDefenseLabRepository $defenseLabRepository
      * @param FindAvailableRegistrationTimes $findTimes
      * @param BookStudentRegistration $bookRegistration
+     * @param RegistrationValidator $registrationValidator
      */
     public function __construct(
         Request $request,
@@ -70,7 +76,8 @@ class DefenseRegistrationController extends Controller
         DefenceRegistrationService $registrationService,
         CharonDefenseLabRepository $defenseLabRepository,
         FindAvailableRegistrationTimes $findTimes,
-        BookStudentRegistration $bookRegistration
+        BookStudentRegistration $bookRegistration,
+        RegistrationValidator $registrationValidator
     ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
@@ -80,6 +87,7 @@ class DefenseRegistrationController extends Controller
         $this->defenseLabRepository = $defenseLabRepository;
         $this->findTimes = $findTimes;
         $this->bookRegistration = $bookRegistration;
+        $this->registrationValidator = $registrationValidator;
     }
 
     /**
@@ -269,21 +277,29 @@ class DefenseRegistrationController extends Controller
      *
      * @return mixed
      */
-    public function delete(Request $request)
+    public function cancel(Request $request)
     {
-        $studentId = $request->input('user_id');
-        $defenseLabId = $request->input('defLab_id');
+        echo "cancel method";
+        $studentId = $request->input('student_id');
+        $labId = $request->input('lab_id');
+        $registrationId = $request->input('registration_id');
+        $charonId = $request->input('charon_id');
         $submissionId = $request->input('submission_id');
 
         Log::warning(json_encode([
             'event' => 'registration_deletion',
             'by_user_id' => app(User::class)->currentUserId(),
             'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
-            'submission_id' => $submissionId
+            'defense_lab_id' => $labId,
+            'registration_id' => $registrationId
         ]));
 
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+        $this->registrationValidator->checkCurrentUsersValidityForRegisteringDefence($studentId, $charonId);
+        if ($this->registrationValidator->passes())
+        {
+            return $this->defenseRegistrationRepository->cancel($studentId, $labId, $submissionId);
+        }
+        return $this->registrationValidator;
     }
 
     /**

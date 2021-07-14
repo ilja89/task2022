@@ -38,12 +38,23 @@ class Defense {
         })
     }
 
-    static deleteStudentRegistration(charon_id, studentId, defense_lab_id, submission_id, then) {
-        axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
-            .then(response => {
-                then(response.data)
-            }).catch(error => {
+    static deleteStudentRegistration(registration_id, student_id, lab_id, submission_id, charon_id, then) {
+        axios.put('/mod/charon/api/charons/' + charon_id + `/registration`, {
+            registration_id: registration_id,
+            charon_id: charon_id,
+            lab_id: lab_id,
+            student_id: student_id,
+            submission_id: submission_id
+        }).then(response => {
+            then(response.data)
+        }).catch(error => {
             VueEvent.$emit('show-notification', 'Error deleting student registration.\n' + error, 'danger')
+            /*axios.put('/mod/charon/api/charons/' + registration_id + `/registration?user_id=${student_id}&defLab_id=${lab_id}&submission_id=${submission_id}`)
+                .then(response => {
+                    then(response.data)
+                }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error deleting student registration.\n' + error, 'danger')
+            })*/
         })
     }
 
