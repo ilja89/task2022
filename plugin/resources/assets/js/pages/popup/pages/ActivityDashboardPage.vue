@@ -93,9 +93,9 @@ export default {
 
           container['diff_users'] = item.diff_users;
           container['tot_subs'] = item.tot_subs;
-          container['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
-          container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
-          container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
+          container['subs_per_user'] = parseFloat(item.subs_per_user).toFixed(1);
+          container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toFixed(1);
+          container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toFixed(1);
 
           return container;
         });
