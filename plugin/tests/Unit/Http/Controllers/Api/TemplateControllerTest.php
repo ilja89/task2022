@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
+use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Http\Controllers\Api\TemplatesController;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Template;
@@ -50,7 +51,7 @@ class TemplateControllerTest extends TestCase
             ),
             array(
                 'path' => 'EX01/Zebra.php',
-                'contents' => 'neigh',
+                'contents' => '',
             ),
         );
         $charon = Mockery::mock(Charon::class)->makePartial();
@@ -65,6 +66,50 @@ class TemplateControllerTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Templates saved!', $response->getData()->data->message);
+    }
+
+    public function testStoreTemplatesControllerMissingPath()
+    {
+        $this->expectException(TemplatePathException::class);
+
+        $templates = array(
+            array(
+                'path' => 'EX01/Dog.php',
+                'contents' => 'auh',
+            ),
+            array(
+                'path' => 'rvv r',
+                'contents' => 'meow',
+            ),
+        );
+        $charon = Mockery::mock(Charon::class)->makePartial();
+        $charon->id = 222;
+        $this->service->shouldReceive('addTemplates')
+            ->never();
+        $request = new Request($templates);
+        $this->controller->store($request, $charon);
+    }
+
+    public function testStoreTemplatesControllerSpaceInPath()
+    {
+        $this->expectException(TemplatePathException::class);
+
+        $templates = array(
+            array(
+                'path' => 'EX01/Dog.php',
+                'contents' => 'auh',
+            ),
+            array(
+                'path' => 'EX01/ Cat.php',
+                'contents' => 'meow',
+            ),
+        );
+        $charon = Mockery::mock(Charon::class)->makePartial();
+        $charon->id = 222;
+        $this->service->shouldReceive('addTemplates')
+            ->never();
+        $request = new Request($templates);
+        $this->controller->store($request, $charon);
     }
 
     public function testUpdateTemplatesControllerWorksCorrect()

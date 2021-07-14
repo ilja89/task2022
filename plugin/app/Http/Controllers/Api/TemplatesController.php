@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Template;
@@ -47,11 +48,18 @@ class TemplatesController extends Controller
      *
      * @param Request $request
      * @param Charon $charon
+     * @throws TemplatePathException
      */
     public function store(Request $request, Charon $charon)
     {
         $charon_id = $charon->id;
         $templates = $request->toArray();
+
+        foreach ($templates as $template) {
+            if (preg_match('/\s/',$template['path']) or empty($template['path'])){
+                throw new TemplatePathException('template_path_are_required');
+            }
+        }
 
         $this->templatesService->addTemplates($charon_id, $templates);
 
