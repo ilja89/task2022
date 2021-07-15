@@ -173,6 +173,5 @@ php composer.phar install
 To check which Laravel version you are running run: `php artisan --verion`  
 Sometimes if localhost can't access to our log directory plugin/storage run the following (this error occurs when we 
 are trying to log somewhere in our project but logger does not have access to the log directory): `sudo chmod -R 777 plugin/storage/`.   
-And make sure that your `.env` and `.env.develop` have the same `APP_KEY`. It is generated automatically after 
-composer install, but if you still do not have it run `php artisan key:generate` inside bitnami/moodle/mod/charon. **And
-make sure that both files have the same APP_KEY.**
+**And make sure that your `.env` and `.env.develop` have the same `APP_KEY`.** It is generated automatically after 
+composer install, but if you still do not have it run `php artisan key:generate` inside bitnami/moodle/mod/charon.
