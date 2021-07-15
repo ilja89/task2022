@@ -1,24 +1,27 @@
 <template>
   <popup-section title="General information"
-                 subtitle="Here's some general information about the activity.">
+                 subtitle="Here's some general and critical information about the activity.">
     <div class="name">Charon name: {{ charon.name }}</div>
-    <v-card class="ges-card">
+    <v-card class="ges-card" v-if="submission_counts">
       <v-card-text class="text-card">Max points: {{  maxPoints }}</v-card-text>
       <v-card-text class="text-card">Deadline: {{ charon.defense_deadline }}</v-card-text>
       <v-card-text class="text-card">Students total: {{ noOfStudents }} (hardcoded)</v-card-text>
-      <v-card-text class="text-card">Students started: {{ submission_count['diff_users'] }}</v-card-text>
-      <v-card-text class="text-card">Students not started: {{ noOfStudents - submission_counts[0]['diff_users'] }}</v-card-text>
-      <v-card-text class="text-card">Students defended: {{ submission_counts[0]['defended_amount'] }}</v-card-text>
-      <v-card-text class="text-card">Students not defended: {{ submission_counts[0]['diff_users'] - submission_counts[0]['defended_amount'] }}</v-card-text>
+      <v-card-text class="text-card">Students started: {{ submission_counts['diff_users'] }}</v-card-text>
+      <v-card-text class="text-card">Students not started: {{ noOfStudents - submission_counts['diff_users'] }}</v-card-text>
+      <v-card-text class="text-card">Students defended: {{ submission_counts['defended_amount'] }}</v-card-text>
+      <v-card-text class="text-card">Students not defended: {{ submission_counts['diff_users'] - submission_counts['defended_amount'] }}</v-card-text>
       <v-card-text class="text-card">Registered for defense: {{  uniqueStudents.length }}</v-card-text>
-      <v-card-text class="text-card">Average defended points: {{ parseFloat(submission_counts[0]['avg_defended_grade']).toFixed(1) }}</v-card-text>
+      <v-card-text class="text-card">Average defended points: {{ parseFloat(submission_counts['avg_defended_grade']).toFixed(1) }}</v-card-text>
+    </v-card>
+    <v-card class="ges-card" v-else>
+      <v-card-text class="text-card"> {{  noDataToShow }} </v-card-text>
     </v-card>
   </popup-section>
 </template>
 
 <script>
 import {PopupSection} from "../layouts";
-import {Submission, Defense} from "../../../api/index"
+import {Defense} from "../../../api/index"
 import {mapGetters, mapState} from "vuex";
 
 export default {
@@ -26,15 +29,14 @@ export default {
 
   components: {PopupSection},
 
-  props: ['charon'],
+  props: ['charon', 'submission_counts'],
 
   data() {
     return {
-      submission_counts: [],
-      defended: [],
+      noDataToShow: "Can't find data to show",
       noOfStudents: 469,
       uniqueStudents: [],
-      submission_count: {},
+      defended: []
     }
   },
 
@@ -73,30 +75,12 @@ export default {
   watch: {
     $route() {
       if (typeof this.routeCharonId !== 'undefined' && this.$route.name === 'activity-dashboard') {
-        this.fetchSubmissionCounts()
       }
     },
   },
 
   methods: {
-    fetchSubmissionCounts() {
-      Submission.findSubmissionCounts(this.courseId, counts => {
-        this.submission_counts = counts.filter(item => item.charon_id === this.routeCharonId)
-        // console.log(this.submission_counts)
-        if (this.submission_counts) {
-          this.submission_count['diff_users'] = this.submission_counts['0']['diff_users'];
-        }
-
-        // submission_counts['diff_users'] = item.diff_users;
-        // submission_counts['tot_subs'] = item.tot_subs;
-        // submission_counts['subs_per_user'] = parseFloat(item.subs_per_user).toPrecision(2);
-        // submission_counts['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
-        // submission_counts['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
-
-      })
-    },
-
-    fetchDefenseAll() {
+    fetchAllDefenses() {
       Defense.all(this.courseId, data => {
         let charonDefenses = data.filter(item => item.charon_id === this.routeCharonId)
         this.defended = charonDefenses.filter(item => this.isUnique(item.student_id))
@@ -114,8 +98,7 @@ export default {
   },
 
   created() {
-    this.fetchSubmissionCounts()
-    this.fetchDefenseAll()
+    this.fetchAllDefenses()
   }
 }
 </script>
