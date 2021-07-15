@@ -7,11 +7,15 @@
                     <div v-for="submission in submissionChunk" class="column">
                         <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
-                                {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
-                                <wbr>
-                                {{ submission.charon.name }} <span class="timestamp-separator">|</span>
-                                <wbr>
-                                {{ formatStudentResults(submission) }}
+                                <span class="submission-line">
+                                    {{ submission | submissionTime }}
+                                </span><span class="timestamp-separator">|
+                                </span><span class="submission-line">
+                                    {{ submission.charon.name }}
+                                </span><span class="timestamp-separator">|
+                                </span><span class="submission-line">
+                                    {{ formatStudentResults(submission) }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -122,13 +126,17 @@
         padding-top: 30px;
         padding-bottom: 30px;
 
-        white-space: nowrap;
+        word-break: break-all;
         line-height: 1.5rem;
 
         @include touch {
             padding-bottom: 20px;
             padding-left: 10px;
         }
+    }
+
+    .submission-line {
+        display: inline-block;
     }
 
     .timestamp-separator {
