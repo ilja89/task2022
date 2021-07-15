@@ -9,6 +9,17 @@ apart from perfectly working 1:1 development environment which is running at htt
 This guide assumes that you have installed PHP 7.3, [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/),
 are familiar with command line and have read access to [Charon repository](https://gitlab.cs.ttu.ee/ained/charon).
 
+#### Notes on PHP setup
+
+mac: https://www.youtube.com/watch?v=gbWfA87yh3Q&t=2s
+
+windows: https://www.youtube.com/watch?v=oGMDpMNFFn4&t=1s
+
+After downloading php for win, unpack php files to some folder where folder name does not contain spaces (program files does not work, directly on c: ok).
+When adding variable to path, php.exe file should be directly under the lastly referenced folder, or it is not discoverable.
+PHP has by default php.ini-development and php.ini-production files under the main folder. 
+Copy one of them end change to php.ini. When modifying this file, things should work.
+
 ## First time setup
 
 ### Get Charon
@@ -56,6 +67,25 @@ npm run dev
 sudo chmod -R 777 plugin/storage/
 ```
 
+If having errors in charon popup section, check if error messages suggests  running "composer update".
+On this case start with cleaning out ```vendor``` folder and rerunning ```php composer.phar install```.
+If you are required to run ```composer update```, take into consideration that running it requires raising default memory limit for php. Other ways there might be memory allocation error.
+The recommended way for this is to use command like ```COMPOSER_MEMORY_LIMIT=2G composer update```
+Please note that ```composer.lock``` file will be updated with this. As rule, you should NOT to commit changes in this file.
+
+On error executing 'postinstallation': The configuration file config.php already exists.
+Try to delete everything from docker and create new files, as there might be something corrupt or if there were previous
+deletions, something might not been deleted properly.
+
+Please note docker has files on Containers, Images and Volumes. Volumes has database info.
+
+### Login to Moodle
+
+Navigate to [http://localhost](http://localhost) and login with user `dev` and password `dev`.
+
+After initial login, on the bottom of the page click "Continue" and on the following page there is a possibility to update data, 
+after which database tables for charon should be created.
+
 ### Verify that the database installation has been successful
 
 Initial data creation may sometimes fail during the installation. To verify if it succeeded logon to the local database
@@ -75,10 +105,6 @@ In your project root, check `git status` and if the `.htaccess` file appears to 
 ```bash
 git checkout -- .htaccess
 ```
-
-### Login to Moodle
-
-Navigate to [http://localhost](http://localhost) and login with user `dev` and password `dev`.
 
 ### Installing TalTech theme
 
