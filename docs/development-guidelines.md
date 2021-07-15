@@ -45,6 +45,7 @@ We're currently using [Laravel 8.x](https://laravel.com/docs/8.x/releases)
   DB_PASSWORD=dev
   DB_TABLE_PREFIX=mdl_
   ```
+  - you also need to set APP_URL to ```http://localhost``` to run feature tests successfully.
 
 ### Once you're done with your development:
 
