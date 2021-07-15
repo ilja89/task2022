@@ -13,6 +13,15 @@ class Course {
         })
     }
 
+    static getCourseStudentCount(courseId, then) {
+        window.axios.get(Course.getRoot() + '/courses/' + courseId + '/students')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving students.\n' + error, 'danger')
+        })
+    }
+
     static getTesterTypes(courseId, then) {
         window.axios.get(Course.getRoot() + '/courses/' + courseId + '/testerTypes/all')
             .then(response => {
