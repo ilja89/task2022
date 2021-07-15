@@ -3,7 +3,7 @@
 
     <page-title :title="page_name"></page-title>
 
-    <general-information-section :charon="charon"></general-information-section>
+    <general-information-section :charon="charon" :submission_counts="submission_counts['0']"></general-information-section>
 
     <dashboard-latest-submissions-section :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
 
@@ -96,6 +96,7 @@ export default {
           container['subs_per_user'] = parseFloat(item.subs_per_user).toFixed(1);
           container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toFixed(1);
           container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toFixed(1);
+          container['defended_amount'] = item.defended_amount;
 
           return container;
         });
