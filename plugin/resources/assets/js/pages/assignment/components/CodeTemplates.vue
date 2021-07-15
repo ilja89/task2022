@@ -23,7 +23,7 @@ import CodeEditor from "./CodeEditor";
 import Submission from "../../../api/Submission";
 
 export default {
-  name: "AssignmentTab",
+  name: "CodeTemplates",
 
   components: {CharonTab, CharonTabs, CodeEditor},
 
