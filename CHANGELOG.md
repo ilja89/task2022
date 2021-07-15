@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- \#438 Update Laravel version from 5.5 to 8.48.0
+- \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
+  php composer install/update is run)
 
 ### Added
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
