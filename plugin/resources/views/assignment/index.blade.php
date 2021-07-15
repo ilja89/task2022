@@ -52,7 +52,6 @@
     var studentId = {{ $student_id }};
 
     window.language = "{!! $charon->testerType->name !!}";
-    window.editorSet = {!! $charon->editor_set !!};
 
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",

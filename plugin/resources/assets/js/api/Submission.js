@@ -13,7 +13,7 @@ class Submission {
         axios.post('/mod/charon/api/submissions/postFromInline', {
                 charonId: charonId,
                 sourceFiles: sourceFiles,
-                // studentId: studentId
+                studentId: studentId
             }).then(response => {
                 then(response.data)
             }).catch(error => {

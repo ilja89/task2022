@@ -9,7 +9,7 @@
         @input="dataSubmit"
         @init="editorInit"
         :lang="lang"
-        theme="monk"
+        theme="crimson_editor"
         width="100%"
         height="500px"
         :options="{
@@ -40,14 +40,13 @@ export default {
 
   props: {
     language: { required: true },
-    code: { require: true },
     codes: { require: true },
     codeId: { required: true }
   },
 
   data() {
     return {
-      content: this.code,
+      content: this.codes[this.codeId].contents,
       lang: this.language
     }
   },
@@ -74,7 +73,7 @@ export default {
       require('brace/mode/prolog')
       require('brace/mode/csharp')
       require('brace/mode/less')
-      require('brace/theme/monokai')
+      require('brace/theme/crimson_editor')
       require('brace/snippets/python')//snippet
       require('brace/snippets/javascript')
       require('brace/snippets/java')

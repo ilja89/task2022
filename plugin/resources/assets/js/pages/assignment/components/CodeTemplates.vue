@@ -5,7 +5,6 @@
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
-                     :code="code.contents"
                      :language="this.language"
                      :codes="codes"
         ></code-editor>
@@ -43,9 +42,13 @@ export default {
 
   methods: {
     getTemplates() {
-      Submission.getTemplates(window.charonId, answer => {
-        this.codes = answer
-      })
+      try {
+        Submission.getTemplates(window.charonId, answer => {
+          this.codes = answer
+        })
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error getting templates!')
+      }
     },
 
     submitClicked() {
