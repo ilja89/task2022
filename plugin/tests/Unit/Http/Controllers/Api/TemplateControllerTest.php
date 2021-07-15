@@ -144,9 +144,13 @@ class TemplateControllerTest extends TestCase
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 333;
         $this->service->shouldReceive('updateTemplates')
-            ->with(333, $templates)
+            ->with($templates, array())
             ->once()
             ->andReturn(true);
+        $this->repository->shouldReceive('getTemplates')
+            ->with(333)
+            ->once()
+            ->andReturn(array());
         $request = new Request($templates);
 
         $response = $this->controller->update($request, $charon);

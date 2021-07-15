@@ -29,18 +29,18 @@ class TemplateService
 
     /**
      * @param $templates
-     * @param int $charonId
      * @throws TemplatePathException
      */
-    public function updateTemplates(int $charonId, $templates)
+    public function updateTemplates($templates, $dbTemplates)
     {
-        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
+        $templatesToUpdate = array();
         foreach ($templates as $template) {
             $templatePath = $template['path'];
             $pathInDb = false;
             foreach ($dbTemplates as $dbTemplate){
                 if ($templatePath == $dbTemplate->path){
-                    $dbTemplate->contents = $template['contents'];
+                    $dbTemplate->contents = $template['contents'] ?: '';
+                    array_push($templatesToUpdate, $dbTemplate);
                     $pathInDb = true;
                     break;
                 }
@@ -49,8 +49,8 @@ class TemplateService
                 throw new TemplatePathException('template_path_not_exists', $templatePath);
             }
         }
-        foreach ($dbTemplates as $dbTemplate){
-            $this->templatesRepository->updateTemplateContents($dbTemplate);
+        foreach ($templatesToUpdate as $temp){
+            $this->templatesRepository->updateTemplateContents($temp);
         }
     }
 

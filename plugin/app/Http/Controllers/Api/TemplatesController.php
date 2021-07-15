@@ -83,8 +83,9 @@ class TemplatesController extends Controller
     {
         $charonId = $charon->id;
         $templates = $request->toArray();
+        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
 
-        $this->templatesService->updateTemplates($charonId, $templates);
+        $this->templatesService->updateTemplates($templates, $dbTemplates);
 
         return response()->json([
             'status' => 200,
