@@ -56,10 +56,15 @@ class TemplateControllerTest extends TestCase
         );
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
+        $this->repository->shouldReceive('getTemplates')
+            ->once()
+            ->with(222)
+            ->andReturn(array());
         $this->service->shouldReceive('addTemplates')
-            ->with(222, $templates)
+            ->with(222, $templates, array())
             ->once()
             ->andReturn(true);
+
         $request = new Request($templates);
 
         $response = $this->controller->store($request, $charon);
@@ -84,6 +89,10 @@ class TemplateControllerTest extends TestCase
         );
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
+        $this->repository->shouldReceive('getTemplates')
+            ->once()
+            ->with(222)
+            ->andReturn(array());
         $this->service->shouldReceive('addTemplates')
             ->never();
         $request = new Request($templates);
@@ -106,6 +115,10 @@ class TemplateControllerTest extends TestCase
         );
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
+        $this->repository->shouldReceive('getTemplates')
+            ->once()
+            ->with(222)
+            ->andReturn(array());
         $this->service->shouldReceive('addTemplates')
             ->never();
         $request = new Request($templates);

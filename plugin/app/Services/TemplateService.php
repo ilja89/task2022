@@ -59,14 +59,22 @@ class TemplateService
      * @param int $charonId
      * @throws TemplatePathException
      */
-    public function addTemplates(int $charonId, $templates)
+    public function addTemplates(int $charonId, $templates, $dbTemplates)
     {
-        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
         foreach ($templates as $template) {
             $templatePath = $template['path'];
             foreach ($dbTemplates as $dbTemplate){
                 if ($templatePath == $dbTemplate->path){
                     throw new TemplatePathException('template_path_exists', $templatePath);
+                }
+            }
+            $secondSearch = false;
+            foreach ($templates as $template2){
+                if ($templatePath == $template2['path']){
+                    if ($secondSearch){
+                        throw new TemplatePathException('same_path', $templatePath);
+                    }
+                    $secondSearch = true;
                 }
             }
         }

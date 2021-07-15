@@ -54,6 +54,7 @@ class TemplatesController extends Controller
     {
         $charonId = $charon->id;
         $templates = $request->toArray();
+        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
 
         foreach ($templates as $template) {
             if (preg_match('/\s/',$template['path']) or empty($template['path'])){
@@ -61,7 +62,7 @@ class TemplatesController extends Controller
             }
         }
 
-        $this->templatesService->addTemplates($charonId, $templates);
+        $this->templatesService->addTemplates($charonId, $templates, $dbTemplates);
 
         return response()->json([
             'status' => 200,
