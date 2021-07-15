@@ -7,6 +7,7 @@ use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Http\Controllers\Api\StudentsController;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
 
@@ -17,10 +18,58 @@ class SubmissionSeeder extends Seeder
 
     /**
      * @param TesterCallbackController $controller
+     * @param StudentsController $studentController
      */
-    public function __construct(TesterCallbackController $controller) {
+    public function __construct(TesterCallbackController $controller, StudentsController $studentController) {
         $this->controller = $controller;
+        $this->studentsController = $studentController;
     }
+    
+    /* Function needed to get only names from array with all info of students belonging to course
+     * Takes -> 
+     *  - Complex string array $studentList
+     * Returns ->
+     *  - Simple string array $nameList
+     * 
+     */
+    public function extractNames($studentList)
+    {
+		$nameList = null;
+		$studentList = json_decode($studentList,true);
+		for($i=0;$i<count($studentList);$i++)
+		{
+			$nameList[$i] = $studentList[$i]["username"];
+		}
+		return $nameList;
+	}
+	
+	/* Function needed to pass only users who belong to course
+	 * Returns only these array elements what exist in both arrays
+	 * Takes ->
+	 *  - Simple string array $usernames
+	 *  - Simple string array $filter
+	 * Returns ->
+	 *  - Simple string array $filtered
+	 * 
+	 */
+	public function usernamesFilter($usernames,$filter)
+	{
+		sort($usernames);
+		sort($filter);
+		$filtered;
+		for($i=0;$i<count($usernames);$i++)
+		{
+			for($c=0;$c<count($filter);$c++)
+			{
+				if($usernames[$i]==$filter[$c])
+				{
+					$filtered[] = $usernames[$i];
+					break;
+				}
+			}
+		}
+		return $filtered;
+	}
 
     /**
      * Create a Submission under a specific Charon.
@@ -93,6 +142,17 @@ class SubmissionSeeder extends Seeder
                 'charon' => $charon->id
             ]
         ];
+        /* DEBUG INFO
+        $this->command->comment("Usernames-> ".json_encode($usernames));
+        $this->command->comment("Course-> ".json_encode($course));
+        $this->command->comment("Users belonging to course-> ".json_encode($this->studentsController->searchStudents($course)));
+        */
+        $usernamesBelongToCourse = $this->extractNames(json_encode($this->studentsController->searchStudents($course)));
+        $usernames = $this->usernamesFilter($usernames,$usernamesBelongToCourse);
+        /* DEBUG INFO
+        $this->command->comment("Users belonging to course names-> ".json_encode($usernamesBelongToCourse));
+        $this->command->comment("Students passed through filter-> ".json_encode($usernames));
+        */
 
         if (!empty($usernames)) {
             $payload['returnExtra']['usernames'] = $usernames;
