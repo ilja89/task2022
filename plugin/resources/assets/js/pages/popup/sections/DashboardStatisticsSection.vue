@@ -35,7 +35,6 @@ export default {
         {text: 'Different users', value: 'diff_users'},
         {text: 'Total submissions', value: 'tot_subs'},
         {text: 'Submissions per user', value: 'subs_per_user'},
-        {text: 'Average defended grade', value: 'avg_defended_grade'},
         {text: 'Average test grade', value: 'avg_raw_grade'},
       ],
     }
