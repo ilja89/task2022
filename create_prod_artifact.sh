@@ -1,7 +1,6 @@
 touch .env
 php composer.phar install --no-dev
 cp -p env.production .env
-rm .env.*
 php artisan key:generate
 echo "window.appVersion.date = $(git log -1 --format=%ct)000;" >> ${BOOTSTRAP_JS}
 echo "window.appVersion.commit = '$(git rev-parse --verify HEAD)';" >> ${BOOTSTRAP_JS}
