@@ -82,6 +82,7 @@ export default {
         this.getCharon()
         this.fetchSubmissionCounts()
         this.fetchLatestSubmissions()
+        this.getLabsByCharonId()
       }
     },
   },
