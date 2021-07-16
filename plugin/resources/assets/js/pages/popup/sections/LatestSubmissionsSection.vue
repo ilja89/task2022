@@ -9,10 +9,10 @@
                             <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
-                                </span><span class="timestamp-separator">|
+                                    <span class="timestamp-separator">|</span>
                                 </span><span class="submission-line">
                                     {{ submission.charon.name }}
-                                </span><span class="timestamp-separator">|
+                                    <span class="timestamp-separator">|</span>
                                 </span><span class="submission-line">
                                     {{ formatStudentResults(submission) }}
                                 </span>
@@ -126,7 +126,7 @@
         padding-top: 30px;
         padding-bottom: 30px;
 
-        word-break: break-all;
+        word-break: break-word;
         line-height: 1.5rem;
 
         @include touch {
