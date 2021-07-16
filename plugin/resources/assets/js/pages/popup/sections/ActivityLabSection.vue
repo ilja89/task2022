@@ -111,7 +111,7 @@ import Datepicker from "../../../components/partials/Datepicker";
 import _ from "lodash";
 
 export default {
-  name: "lab-section",
+  name: "activity-lab-section",
 
   components: {PopupSection, Datepicker},
 
@@ -131,7 +131,6 @@ export default {
         {text: 'Date', value: 'nice_date'},
         {text: 'Time', value: 'nice_time'},
         {text: 'Teachers', value: 'teacher_names'},
-        {text: 'Charons', value: 'charon_names'},
         {text: 'Actions', value: 'actions'},
       ],
       previous_param: null,
@@ -155,7 +154,6 @@ export default {
         container['nice_date'] = CharonFormat.getNiceDate(lab.start.time);
         container['nice_time'] = `${CharonFormat.getNiceTime(lab.start.time)} - ${CharonFormat.getNiceTime(lab.end.time)}`;
         container['teacher_names'] = lab.teachers.map(x => x.fullname).sort().join(', ')
-        container['charon_names'] = lab.charons.map(x => x.project_folder).sort().join(', ')
 
         r.push(container);
         return r;

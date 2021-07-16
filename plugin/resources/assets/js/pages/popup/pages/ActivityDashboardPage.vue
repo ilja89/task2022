@@ -11,6 +11,8 @@
 
     <charon-defense-registrations-section :defense-list="defenseList" :teachers="teachers"></charon-defense-registrations-section>
 
+    <activity-lab-section :labs="labs"></activity-lab-section>
+
     </div>
 
 </template>
@@ -21,11 +23,22 @@ import {PageTitle} from '../partials'
 import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection, CharonDefenseRegistrationsSection} from '../sections'
 import {Charon, Submission} from "../../../api/index";
 import LatestSubmissionsSection from "../sections/LatestSubmissionsSection";
+import LabTimesOverview from "../sections/ActivityLabSection";
+
+
+
+//
+import Lab from "../../../api/Lab";
+import ActivityLabSection from "../sections/ActivityLabSection";
+
+
 
 export default {
   name: "ActivityDashboardPage",
 
   components: {
+    ActivityLabSection,
+    LabTimesOverview,
     LatestSubmissionsSection,
     PageTitle, DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection,
     CharonDefenseRegistrationsSection},
@@ -36,7 +49,8 @@ export default {
       submission_counts: [],
       latestSubmissions: [],
       defenseList: [],
-      teachers: []
+      teachers: [],
+      labs: {}
     }
   },
 
@@ -76,6 +90,7 @@ export default {
     this.getCharon()
     this.fetchSubmissionCounts()
     this.fetchLatestSubmissions()
+    this.getLabsByCharonId()
   },
 
   methods: {
@@ -85,6 +100,35 @@ export default {
       })
       document.title = this.page_name
     },
+
+    getLabsByCharonId() {
+      Lab.all(this.courseId, response => {
+        this.labs = response.filter(lab => lab.charons.filter(
+            char => char.id === this.charon.id).length > 0)
+        this.formatLabs(this.labs, (done) => {
+          this.assignLabs(done)
+        })
+      })
+    },
+
+    formatLabs(labs, then) {
+      this.labs_countdown = labs.length
+      for (let i = 0; i < labs.length; i++) {
+        let save_start = labs[i].start
+        labs[i].start = {time: new Date(save_start)}
+        let save_end = labs[i].end
+        labs[i].end = {time: new Date(save_end)}
+        then(labs)
+      }
+    },
+
+    assignLabs(futureLabs) {
+      this.labs_countdown--
+      if (!this.labs_countdown) {
+        this.labs = futureLabs;
+      }
+    },
+
 
     fetchSubmissionCounts() {
       Submission.findSubmissionCounts(this.courseId, counts => {
