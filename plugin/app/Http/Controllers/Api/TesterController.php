@@ -18,6 +18,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
+use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Services\TesterCommunicationService;
 
@@ -38,10 +39,16 @@ class TesterController extends Controller
 
     /** @var MoodleCron */
     protected $cron;
+
     /**
      * @var CharonRepository
      */
     private $charonRepository;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
     /**
      * RetestController constructor.
@@ -61,6 +68,7 @@ class TesterController extends Controller
         CourseSettingsRepository $courseSettingsRepository,
         SubmissionsRepository $submissionRepository,
         CharonRepository $charonRepository,
+        UserRepository $userRepository,
         MoodleCron $cron
     ) {
         parent::__construct($request);
@@ -69,11 +77,12 @@ class TesterController extends Controller
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->submissionRepository = $submissionRepository;
         $this->charonRepository = $charonRepository;
+        $this->userRepository = $userRepository;
         $this->cron = $cron;
     }
 
     /**
-     * Trigger testing the student's submission.
+     * Trigger testing the student's inline submission.
      *
      * @param Request $request
      * @param string|null $requestUrl
@@ -84,14 +93,16 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request, string $requestUrl = null, string $callbackUrl = null) {
 
-        Log::info("gitCallback --->" . print_r($request->input('courseId'), true)
+        Log::info("Inline submission input --->"
             . print_r($request->input('charonId'), true)
-            . print_r($request->input('sourceFiles'), true));
+            . print_r($request->input('sourceFiles'), true)
+            . print_r($request->input('userId')));
 
         $charon = $this->charonRepository->getCharonById($request->input('charonId'));
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
+        $user = $this->userRepository->find($request->input('userId'));
 
         // If tester requires files to be of SourceFileDTO then uncomment this
         // and change ->setSource input with $finalListofSource
@@ -112,7 +123,8 @@ class TesterController extends Controller
             ->setGitTestRepo($courseSettings->unittests_git)
             ->setTestingPlatform($charon->testerType->name)
             ->setSystemExtra($charon->system_extra)
-            ->setSource(json_decode($request->input('sourceFiles')));
+            ->setSource(json_decode($request->input('sourceFiles')))
+            ->setUniid($user->username);
 
 
         Log::info("Ready to send to tester------->" . print_r($areteRequest, true));

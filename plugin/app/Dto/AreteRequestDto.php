@@ -5,7 +5,7 @@ namespace TTU\Charon\Dto;
 use Carbon\Carbon;
 
 /**
- * @see https://github.com/envomp/arete-java/blob/master/src/main/java/ee/taltech/arete/java/request/AreteRequestDTO.java
+     * @see https://github.com/envomp/arete-java/blob/master/src/main/java/ee/taltech/arete/java/request/AreteRequestDTO.java
  */
 class AreteRequestDto
 {
@@ -44,6 +44,9 @@ class AreteRequestDto
 
     /** @var array|SourceFileDTO */
     private $source;
+
+    /** @var string */
+    private $uniid;
 
     /**
      * @param string|null $dockerContentRoot
@@ -189,6 +192,14 @@ class AreteRequestDto
             }
         }
         return $payload;
+    }
+
+    /**
+     * @param string $uniid
+     */
+    public function setUniid(string $uniid)
+    {
+        $this->uniid = $uniid;
     }
 
 }
