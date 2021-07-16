@@ -137,14 +137,9 @@ class SaveTesterCallback
      */
     public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
     {
-		//print_r('Usernames-> '.json_encode($usernames)."\n\n");
-        //print_r('Gitcallback-> '.json_encode($gitCallback)."\n\n");
         $students = $this->getStudentsRelatedToCourse($this->getCourseIdFromGitCallBack($gitCallback));
-        //print_r('Related to course students-> '.json_encode($students)."\n\n");
         $usernames = $this->usernamesFilter($usernames,$students);
-        //print_r('Passed users-> '.json_encode($usernames)."\n\n");
         $users = $this->getStudentsInvolved($usernames);
-        //print_r('Users-> '.json_encode($users)."\n\n");
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
 
