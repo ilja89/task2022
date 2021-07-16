@@ -17,6 +17,20 @@ class StudentsRepository
 {
     /**
      * @param integer $courseId
+     */
+    public function getStudentsCount($courseId)
+    {
+        return DB::table('role_assignments')
+                    ->join('user', 'role_assignments.userid', '=', 'user.id')
+                    ->join('context', 'role_assignments.contextid', '=', 'context.id')
+                    ->where('context.contextlevel', CONTEXT_COURSE)
+                    ->where('context.instanceid', $courseId)
+                    ->where('role_assignments.roleid', 5)
+                    ->count();
+    }
+
+    /**
+     * @param integer $courseId
      * @param string $keyword
      */
     public function searchStudentsByCourseAndKeyword($courseId, $keyword)

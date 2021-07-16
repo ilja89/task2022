@@ -5,7 +5,7 @@
     <v-card class="ges-card" v-if="submission_counts">
       <v-card-text class="text-card">Max points: {{  maxPoints }}</v-card-text>
       <v-card-text class="text-card">Deadline: {{ charon.defense_deadline }}</v-card-text>
-      <v-card-text class="text-card">Students total: {{ noOfStudents }} (hardcoded)</v-card-text>
+      <v-card-text class="text-card">Students total: {{ noOfStudents }}</v-card-text>
       <v-card-text class="text-card">Students started: {{ submission_counts['diff_users'] }}</v-card-text>
       <v-card-text class="text-card">Students not started: {{ noOfStudents - submission_counts['diff_users'] }}</v-card-text>
       <v-card-text class="text-card">Students defended: {{ submission_counts['defended_amount'] }}</v-card-text>
@@ -21,7 +21,7 @@
 
 <script>
 import {PopupSection} from "../layouts";
-import {Defense} from "../../../api/index"
+import {Defense, Course} from "../../../api/index"
 import {mapGetters, mapState} from "vuex";
 
 export default {
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       noDataToShow: "Can't find data to show",
-      noOfStudents: 469,
+      noOfStudents: 0,
       uniqueStudents: [],
       defended: []
     }
@@ -87,6 +87,12 @@ export default {
       })
     },
 
+    getStudentCount() {
+      Course.getCourseStudentCount(this.courseId, data => {
+        this.noOfStudents = data
+      })
+    },
+
     isUnique(studentId) {
       if (!this.uniqueStudents.includes(studentId)) {
         this.uniqueStudents.push(studentId)
@@ -99,6 +105,7 @@ export default {
 
   created() {
     this.fetchAllDefenses()
+    this.getStudentCount()
   }
 }
 </script>
