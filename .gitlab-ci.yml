@@ -18,7 +18,7 @@ unit_test:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.dev .env
+    - cp -p env.develop .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml plugin/tests/Unit
   artifacts:
@@ -118,7 +118,7 @@ integration_test_dev:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.dev .env
+    - cp -p env.develop .env
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
