@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use TTU\Charon\Repositories\PluginConfigRepository;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -16,17 +15,9 @@ use Zeizig\Moodle\Models\Course;
  */
 class PopupController extends Controller
 {
-
-    /** @var PluginConfigRepository */
-    protected $pluginConfigRepository;
-
-    public function __construct(
-        Request $request,
-        PluginConfigRepository $pluginConfigRepository
-    )
+    public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->pluginConfigRepository = $pluginConfigRepository;
     }
 
     /**
@@ -42,14 +33,6 @@ class PopupController extends Controller
         $this->setUrl($course->id);
 
         return view('popup.index', compact('course'));
-    }
-
-    public function getReleaseDate() : string
-    {
-        return "date";
-        /*$version = $this->pluginConfigRepository->getMoodleVersion();
-        return substr($version, 0, 4) . '-' . substr($version, 4, 2) . '-' .
-            substr($version, 6, 2);*/
     }
 
     /**

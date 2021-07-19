@@ -45,6 +45,14 @@ class CharonsController extends Controller
         return $this->charonRepository->findCharonsByCourse($course->id);
     }
 
+    public function getReleaseDate()
+    {
+        // $version = $this->pluginConfigRepository->getMoodleVersion();
+        // return substr($version, 0, 4) . '-' . substr($version, 4, 2) . '-' .
+        //     substr($version, 6, 2);
+        return "date";
+    }
+
     /**
      * @param int $charonId
      */
