@@ -190,31 +190,14 @@ Run `git config core.filemode false` to disable tracking of filemode changes for
 ### Updating from version 5.5.x to 8.x
 
 To upgrade from previous versions to the latest.
-Run `php composer.phar update` in your docker run terminal inside bitnami/moodle/mod/charon.    
-Updating works only if you already have you composer set up, if you don't then run `php composer.phar install`.     
+Run the following commands in your docker container and inside bitnami/moodle/mod/charon: 
+```angular2html
+rm -r vendor/
+rm plugin/bootstrap/cache/*.php
+php composer.phar install
+```
 To check which Laravel version you are running run: `php artisan --verion`  
-Sometimes if localhost does not open, you might need to run: `sudo chmod -R 777 plugin/storage/`.   
-And make sure that your `.env` and `.env.develop` have the same `APP_KEY`. It is generated automatically when after 
-composer install, but if you still do not have it run `php artisan key:generate` inside bitnami/moodle/mod/charon. And
-check that both files have the same key.
- 
-If you get an error "../SneakerProvider... Not Found" or similar for LegacyServiceProvider, make sure that
-you have to delete this from plugin/bootstrap/cache/packages.php:
-``` 
-'squareboat/sneaker' =>
- array (
-    'providers' =>
-    array (
-      0 => 'SquareBoat\\Sneaker\\SneakerServiceProvider',
-   ),
-),
-```
-
-and from plugin/bootstrap/cache/services.php all the lines that contain SneakerServiceProvider eg:
-
-```
-25 => 'SquareBoat\\Sneaker\\SneakerServiceProvider',
-```
-
-If you are using PhpStorm or any other JetBrains IDE a good way to make sure that Sneaker is fully 
-removed from your project is to ctrl+shift+f and search for sneaker and delete everything that is associated with it. 
+Sometimes if localhost can't access to our log directory plugin/storage run the following (this error occurs when we 
+are trying to log somewhere in our project but logger does not have access to the log directory): `sudo chmod -R 777 plugin/storage/`.   
+**And make sure that your `.env` and `.env.develop` have the same `APP_KEY`.** It is generated automatically after 
+composer install, but if you still do not have it run `php artisan key:generate` inside bitnami/moodle/mod/charon.
