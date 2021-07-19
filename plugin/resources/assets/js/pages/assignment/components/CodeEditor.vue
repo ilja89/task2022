@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="editor_set">
+  <div id="app">
 
     <span>Language: {{language}}</span>
 
@@ -47,7 +47,7 @@ export default {
 
   props: {
     language: { required: true },
-    editor_set: { required: true }
+    code: { require: true }
   },
 
   data() {
