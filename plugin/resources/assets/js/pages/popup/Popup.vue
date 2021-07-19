@@ -24,7 +24,7 @@
             <v-footer absolute class="font-weight-medium">
                 <v-col class="text-center" cols="12">
                     <span :title="new Date(version.date).toLocaleString()">{{ new Date(version.date).getFullYear() }}</span> — <strong>Charon</strong>
-                    <span class="version"> — <a href="https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md">Version: {{ '1.2.3' }} ({{getReleaseDate()}}) </a></span>
+                    <span class="version"> — <a href="https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md">Version: ({{getReleaseDate()}}) </a></span>
                 </v-col>
             </v-footer>
         </v-main>
@@ -58,7 +58,7 @@
                 'course',
                 'charons'
             ]),
-            version: function () { return window.appVersion; }
+            version: function () { return window.appVersion; },
         },
 
         created() {
@@ -73,7 +73,12 @@
         methods: {
 
             getReleaseDate() {
-                return "release date"
+                console.log("POPUP")
+                let date = "";
+                Charon.getCharonVersionDate( response => {
+                     { date = response }
+                });
+                return date;
             },
 
             showNotification(message, type, timeout = 5000) {

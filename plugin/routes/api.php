@@ -160,4 +160,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
+    // POPUP
+    Route::get('charons/releasedate', 'PopupController@getReleaseDate'); // get a release date of the Charon version
+
 });

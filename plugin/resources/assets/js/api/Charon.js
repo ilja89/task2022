@@ -57,6 +57,13 @@ class Charon {
             VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
         });
     }
+
+    static getCharonVersionDate(then) {
+        console.log("CHARON");
+        window.axios.get(Charon.getRoot() + '/charons/releasedate').then(response => {
+            then(response.data);
+        })
+    }
 }
 
 export default Charon
