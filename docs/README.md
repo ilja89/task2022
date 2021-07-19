@@ -59,7 +59,6 @@ Navigate to Charon directory and execute the following commands
 
 ```bash
 cd bitnami/moodle/mod/charon
-cp -p .env.develop .env
 php composer.phar install
 apt install -y build-essential libpng-dev
 npm install
