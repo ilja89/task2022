@@ -1,7 +1,6 @@
 <template>
   <popup-section title="General information"
                  subtitle="Here's some general and critical information about the activity.">
-    <div class="name">Charon name: {{ charon.name }}</div>
     <v-card class="ges-card" v-if="submission_counts">
       <v-card-text class="text-card">Max points: {{  maxPoints }}</v-card-text>
       <v-card-text class="text-card">Deadline: {{ charon.defense_deadline }}</v-card-text>
@@ -118,10 +117,6 @@ export default {
 
 .text-card {
   flex: 0 0 33.3333%;
-}
-
-.name {
-  padding: 0 16px 16px;
 }
 
 </style>
