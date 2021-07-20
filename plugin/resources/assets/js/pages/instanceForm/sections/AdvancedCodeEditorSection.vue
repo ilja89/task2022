@@ -7,23 +7,54 @@
       Add code editor to this charon
     </label>
 
-    <h2>Source Files</h2>
+    <p>Source Files</p>
 
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary">
+    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="addFile">
       + Create Source File
     </v-btn>
 
-    <p>Language: python</p>
+    <v-list-item v-for="(file) in files">
+      <v-list-item-content>
+        <div class="fcontainer clearfix">
+          <div class="fitem fitem_ftext">
+            <div class="fitemtitle">
+              <label for="file_path">Path</label>
+            </div>
+            <p class="input-helper">Path to file.</p>
+            <div class="felement ftext path">
+              <v-btn
+                  class="red text--white ma-2"
+                  depressed
+                  dark
+              >
+                <v-icon left>
+                  {{ mdiDelete }}
+                </v-icon>
+                Delete
+              </v-btn>
+              <input
+                  id="file_path"
+                  class="form-control"
+                  type="text" required="required"
+                  v-model="file.path">
+            </div>
+          </div>
+        </div>
+      </v-list-item-content>
+    </v-list-item>
 
-    <AceEditor
-        class="editor"
-        v-model="content"
-        @init="editorInit"
-        lang="python"
-        theme="crimson_editor"
-        width="100%"
-        height="500px"
-        :options="{
+    <div v-if="files.length > 0">
+      <p>Language: python !!!!</p>
+
+      <AceEditor
+          class="editor"
+          v-model="content"
+          @init="editorInit"
+          lang="python"
+          theme="crimson_editor"
+          width="100%"
+          height="500px"
+          :options="{
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
         fontSize: 14,
@@ -34,7 +65,8 @@
         showPrintMargin: false,
         showGutter: true,
         }"
-    />
+      />
+    </div>
 
   </div>
 
@@ -42,6 +74,8 @@
 
 <script>
 import AceEditor from 'vuejs-ace-editor';
+import { CharonTextInput } from '../../../components/form';
+import { mdiDelete } from '@mdi/js'
 
 export default {
 
@@ -52,16 +86,25 @@ export default {
   },
 
   components: {
-    AceEditor
+    AceEditor,
+    CharonTextInput
   },
 
   data() {
     return {
       content: '',
+      files: [],
+      mdiDelete,
     }
   },
 
   methods: {
+
+    addFile() {
+      this.files.push({"path": '', "content": ''});
+      console.log(this.files);
+    },
+
     editorInit: function () {
       require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
@@ -85,5 +128,10 @@ export default {
 </script>
 
 <style scoped>
+
+.path {
+  display: flex;
+  flex-direction: row;
+}
 
 </style>
