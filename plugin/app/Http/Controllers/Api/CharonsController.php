@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\PluginConfigRepository;
 use TTU\Charon\Services\LogParseService;
 use Zeizig\Moodle\Models\Course;
 
@@ -18,6 +19,9 @@ class CharonsController extends Controller
     /** @var LogParseService */
     private $logParser;
 
+    /** @var PluginConfigRepository */
+    private $pluginConfigRepository;
+
     /**
      * CharonsController constructor.
      *
@@ -25,12 +29,19 @@ class CharonsController extends Controller
      * @param CharonRepository $charonRepository
      * @param LogParseService $logParser
      */
-    public function __construct(Request $request, CharonRepository $charonRepository, LogParseService $logParser)
+    public function __construct(
+        Request $request,
+        CharonRepository
+        $charonRepository,
+        LogParseService $logParser,
+        PluginConfigRepository $pluginConfigRepository
+    )
     {
         parent::__construct($request);
 
         $this->charonRepository = $charonRepository;
         $this->logParser = $logParser;
+        $this->pluginConfigRepository = $pluginConfigRepository;
     }
 
     /**
@@ -45,12 +56,17 @@ class CharonsController extends Controller
         return $this->charonRepository->findCharonsByCourse($course->id);
     }
 
-    public function getReleaseDate()
+    /**
+     * Get Charon release date from version.
+     *
+     * @return string
+     */
+    public function getReleaseDate() : string
     {
-        // $version = $this->pluginConfigRepository->getMoodleVersion();
-        // return substr($version, 0, 4) . '-' . substr($version, 4, 2) . '-' .
-        //     substr($version, 6, 2);
-        return "date";
+        $result = json_decode($this->pluginConfigRepository->getMoodleVersion(), true);
+        $version = $result[0]['value'];
+        return substr($version, 0, 4) . '-' . substr($version, 4, 2) . '-' .
+            substr($version, 6, 2);
     }
 
     /**

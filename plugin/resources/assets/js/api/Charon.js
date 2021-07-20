@@ -59,7 +59,7 @@ class Charon {
     }
 
     static getCharonVersionDate(then) {
-        window.axios.get(Charon.getRoot() + '/charons/releasedate').then(response => {
+        window.axios.get(Charon.getRoot() + '/releasedate').then(response => {
             then(response.data);
         }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving release date.\n' + error, 'danger')

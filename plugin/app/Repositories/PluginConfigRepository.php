@@ -4,6 +4,12 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class PluginRepository.
+ * Used to get charon plugin information.
+ *
+ * @package TTU\Charon\Repositories
+ */
 class PluginConfigRepository
 {
     public function getMoodleVersion()
@@ -14,5 +20,4 @@ class PluginConfigRepository
             ->select('value')
             ->get();
     }
-
 }

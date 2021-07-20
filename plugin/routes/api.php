@@ -133,7 +133,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require') // save Charon
         ->post('charons/{charon}', 'CharonsController@saveCharon');
     Route::get('charons/{charon}', 'CharonsController@getFull'); // get a whole charon
-    Route::get('charons/releasedate', 'CharonsController@getReleaseDate'); // get a release date of the Charon version
+    Route::get('releasedate', 'CharonsController@getReleaseDate'); // get a release date of the Charon version
 
     // CHARON DEFENSE
 
