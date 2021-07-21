@@ -21,7 +21,6 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
     import {PopupSection} from '../layouts/index'
     import VueApexCharts from "vue-apexcharts";
 
@@ -51,9 +50,6 @@
         },
 
         computed: {
-            ...mapGetters([
-                'courseId',
-            ]),
         },
 
         methods: {
