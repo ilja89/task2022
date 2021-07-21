@@ -67,4 +67,22 @@ class StudentsRepository
             return 0;
         }
     }
+    
+    /* Function needed to get list of students related to exact course
+     * 
+     * @param int $courseId
+     * 
+     * @return array $nameList
+     */
+     
+    public function getNamesOfStudentsRelatedToCourse(int $courseId)
+    {
+        $nameList = null;
+        $studentList=json_decode(json_encode($this->searchStudentsByCourseAndKeyword($courseId,"")),true);
+        for($i=0;$i<count($studentList);$i++)
+        {
+            $nameList[$i] = $studentList[$i]["username"];
+        }
+        return $nameList;
+    }
 }
