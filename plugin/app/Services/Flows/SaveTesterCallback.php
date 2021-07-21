@@ -17,6 +17,7 @@ use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Globals\Course as GlobalCourse;
 
 class SaveTesterCallback
 {
@@ -43,6 +44,7 @@ class SaveTesterCallback
      * @param TestSuiteService $testSuiteService
      * @param course $course
      * @param studentsRepository $studentsRepository
+     * @param GlobalCourse $GlobalCourse
      */
     public function __construct(
         SubmissionService $submissionService,
@@ -51,7 +53,8 @@ class SaveTesterCallback
         ResultRepository $resultRepository,
         TestSuiteService $testSuiteService,
         Course $course,
-        StudentsRepository $studentsRepository
+        StudentsRepository $studentsRepository,
+        GlobalCourse $GlobalCourse
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
@@ -60,68 +63,50 @@ class SaveTesterCallback
         $this->testSuiteService = $testSuiteService;
         $this->course = $course;
         $this->studentsRepository = $studentsRepository;
+        $this->GlobalCourse = $globalCourse;
     }
     /* Function needed to get course id using git callback
-     * Takes ->
-     * 	- GitCallback $call
-     * Returns ->
-     *  - int $courseId
+     *
+     * @param GitCallback $call
+     * 
+     * @return $courseId
      */
     
-    public function getCourseIdFromGitCallBack(GitCallback $call)
+    private function getCourseIdFromGitCallBack(GitCallback $call)
     {
-		$string = explode("/",$call->repo);
-		$string = $string[1];
-		$string = explode(".",$string);
-		$string = $string[0];
-		return $this->course->getCourseByName($string);
-	}
-	
-	/* Function needed to get list of students related to exact course
-	 * Takes ->
-	 *  - int $courseId
-	 * Returns ->
-	 *  - array $nameList
-	 */
-	 
-	public function getStudentsRelatedToCourse(int $courseId)
+        $string = explode("/",$call->repo);
+        $string = $string[1];
+        $string = explode(".",$string);
+        $string = $string[0];
+        return $this->course->getCourseByName($string);
+    }
+    
+    /* Function needed to pass only users who belong to course
+     * 
+     * @param array $usernames
+     * @param array $filter
+     * 
+     * @return array $filtered
+     * 
+     */
+    private function usernamesFilter(array $usernames,array $filter)
     {
-		$nameList = null;
-		$studentList=json_decode(json_encode($this->studentsRepository->searchStudentsByCourseAndKeyword($courseId,"")),true);
-		for($i=0;$i<count($studentList);$i++)
-		{
-			$nameList[$i] = $studentList[$i]["username"];
-		}
-		return $nameList;
-	}
-	
-	/* Function needed to pass only users who belong to course
-	 * Returns only these array elements what exist in both arrays
-	 * Takes ->
-	 *  - Simple string array $usernames
-	 *  - Simple string array $filter
-	 * Returns ->
-	 *  - Simple string array $filtered
-	 * 
-	 */
-	public function usernamesFilter(array $usernames,array $filter)
-	{
-		sort($usernames);
-		sort($filter);
-		$filtered;
-		for($i=0;$i<count($usernames);$i++)
-		{
-			for($c=0;$c<count($filter);$c++)
-			{
-				if($usernames[$i]==$filter[$c])
-				{
-					$filtered[] = $usernames[$i];
-					break;
-				}
-			}
-		}
-		return $filtered;
-	}
+        sort($usernames);
+        sort($filter);
+        $filtered;
+        for($i=0;$i<count($usernames);$i++)
+        {
+            for($c=0;$c<count($filter);$c++)
+            {
+                if($usernames[$i]==$filter[$c])
+                {
+                    $filtered[] = $usernames[$i];
+                    break;
+                }
+            }
+        }
+        return $filtered;
+    }
 
 
 
@@ -137,7 +122,8 @@ class SaveTesterCallback
      */
     public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
     {
-        $students = $this->getStudentsRelatedToCourse($this->getCourseIdFromGitCallBack($gitCallback));
+        $courseId = $this->getCourseIdFromGitCallBack($gitCallback);
+        $students = $this->globalCourse->getNamesOfStudentsRelatedToCourse($courseId);
         $usernames = $this->usernamesFilter($usernames,$students);
         $users = $this->getStudentsInvolved($usernames);
 
