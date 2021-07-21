@@ -3,14 +3,12 @@
                    subtitle="Graph showing the number of submissions for every day">
 
         <template slot="header-right">
-          <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissionCounts">Load Data</v-btn>
+          <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissions">Load Data</v-btn>
         </template>
 
         <v-card-title v-if="value">
           <template>
-            <div class="example">
-              <apexcharts width="500" height="350" type="line" :options="chartOptions" :series="series"></apexcharts>
-            </div>
+              <apexcharts class="chart" height="380" type="line" :options="chartOptions" :series="series"></apexcharts>
           </template>
         </v-card-title>
         <v-card-title v-else>
@@ -32,12 +30,8 @@
         data() {
             return {
                 value: false,
-                search: '',
                 empty: 'Click on Load Data to show the data',
               chartOptions: {
-                chart: {
-                  id: 'basic-bar'
-                },
                 xaxis: {
                   categories: ["13/07/2021", "14/07/2021", "15/07/2021", "16/07/2021", "17/07/2021", "18/07/2021", "19/07/2021", "20/07/2021"]
                 }
@@ -53,9 +47,16 @@
         },
 
         methods: {
-            fetchSubmissionCounts() {
+            fetchSubmissions() {
               this.value = true;
             },
         },
     }
 </script>
+
+<style scoped>
+  .chart {
+    display:block;
+    width: 100%;
+  }
+</style>
