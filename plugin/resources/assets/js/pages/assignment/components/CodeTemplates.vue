@@ -24,6 +24,16 @@ export default {
     language: {require: true}
   },
 
+  methods: {
+    jff() {
+      console.log(window.charonId);
+    }
+  },
+
+  mounted() {
+    this.jff()
+  },
+
   data() {
     return {
       codes: ["def", "def2", "def3"]
