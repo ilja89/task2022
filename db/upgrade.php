@@ -719,5 +719,20 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021062801) {
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('tester_token', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

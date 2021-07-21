@@ -115,8 +115,18 @@ class GitCallbackController extends Controller
         /** @var CourseSettings $settings */
         $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
-        $params['gitTestRepo'] = $settings->unittests_git;
-        $params['testingPlatform'] = $settings->testerType->name;
+        $params['gitTestRepo'] = '';
+        $params['testingPlatform'] = '';
+
+        if ($settings && $settings->unittests_git) {
+            Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
+            $params['gitTestRepo'] = $settings->unittests_git;
+        }
+
+        if ($settings && $settings->testerType) {
+            Log::info("TesterType found from CourseSettings: '" . $settings->testerType->name . "'");
+            $params['testingPlatform'] = $settings->testerType->name;
+        }
 
         $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->input('commits', []));
         Log::debug('Found modified files: ', $modifiedFiles);

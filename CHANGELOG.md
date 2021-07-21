@@ -11,13 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   php composer install/update is run)
 
 ### Added
+- \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
 - \#429 Option to connect a Lab with specific groups
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
+- \#449 Tester url and token can be changed for specific course
 
 ### Fixed
+- \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
 - \#417 "Charon popup:" added to popup window title
@@ -25,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
+
+## [1.2.4] - 2021-05-19
+
+### Fixed
+- \#427 Avoid faulty Submission creation when tester sends `null` file/stdout/stderr fields by making them optional
 
 ## [1.2.3] - 2021-05-15
 
@@ -107,6 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.2.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.3...1.2.4
 [1.2.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.2...1.2.3
 [1.2.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.1...1.2.2
 [1.2.1]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.0...1.2.1
