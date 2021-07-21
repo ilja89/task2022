@@ -26,12 +26,12 @@ class TemplatesRepository
      * @param string $contents
      * @return Template
      */
-    public function saveTemplate(int $charonId, string $path, string $contents): Template
+    public function saveTemplate(int $charonId, string $path, $contents): Template
     {
         return Template::create([
             'charon_id' => $charonId,
             'path' => $path,
-            'contents' => $contents,
+            'contents' => $contents ?: "",
             'created_at' => Carbon::now()
         ]);
     }

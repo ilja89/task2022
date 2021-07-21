@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Repositories\TemplatesRepository;
 
 /**
@@ -28,42 +29,57 @@ class TemplateService
 
     /**
      * @param $templates
-     * @param int $charonId
+     * @throws TemplatePathException
      */
-    public function updateTemplates(int $charonId, $templates)
+    public function updateTemplates($templates, $dbTemplates)
     {
-        $db_templates = $this->templatesRepository->getTemplates($charonId);
+        $templatesToUpdate = array();
         foreach ($templates as $template) {
-            $template_path = $template['path'];
-            foreach ($db_templates as $db_template){
-                if ($template_path == $db_template->path){
-                    $db_template->contents = $template['contents'];
-                    $this->templatesRepository->updateTemplateContents($db_template);
+            $templatePath = $template['path'];
+            $pathInDb = false;
+            foreach ($dbTemplates as $dbTemplate){
+                if ($templatePath == $dbTemplate->path){
+                    $dbTemplate->contents = $template['contents'] ?: '';
+                    array_push($templatesToUpdate, $dbTemplate);
+                    $pathInDb = true;
                     break;
                 }
             }
+            if (!$pathInDb){
+                throw new TemplatePathException('template_path_not_exists', $templatePath);
+            }
+        }
+        foreach ($templatesToUpdate as $temp){
+            $this->templatesRepository->updateTemplateContents($temp);
         }
     }
 
     /**
      * @param $templates
      * @param int $charonId
+     * @throws TemplatePathException
      */
-    public function addTemplates(int $charonId, $templates)
+    public function addTemplates(int $charonId, $templates, $dbTemplates)
     {
-        $db_templates = $this->templatesRepository->getTemplates($charonId);
         foreach ($templates as $template) {
-            $template_path = $template['path'];
-            $same_path = false;
-            foreach ($db_templates as $db_template){
-                if ($template_path == $db_template->path){
-                    $same_path = true;
-                    break;
+            $templatePath = $template['path'];
+            foreach ($dbTemplates as $dbTemplate){
+                if ($templatePath == $dbTemplate->path){
+                    throw new TemplatePathException('template_path_exists', $templatePath);
                 }
             }
-            if (!$same_path){
-                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+            $secondSearch = false;
+            foreach ($templates as $template2){
+                if ($templatePath == $template2['path']){
+                    if ($secondSearch){
+                        throw new TemplatePathException('same_path', $templatePath);
+                    }
+                    $secondSearch = true;
+                }
             }
+        }
+        foreach ($templates as $template){
+            $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
         }
     }
 }

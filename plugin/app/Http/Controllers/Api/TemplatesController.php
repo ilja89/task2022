@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Template;
@@ -24,9 +25,6 @@ class TemplatesController extends Controller
     /** @var TemplatesRepository */
     private $templatesRepository;
 
-    /** @var CharonRepository */
-    private $charonRepository;
-
     /**
      * TemplatesController constructor.
      * @param Request $request
@@ -37,14 +35,12 @@ class TemplatesController extends Controller
     public function __construct(
         Request $request,
         TemplateService $templatesService,
-        TemplatesRepository $templatesRepository,
-        CharonRepository $charonRepository
+        TemplatesRepository $templatesRepository
     )
     {
         parent::__construct($request);
         $this->templatesRepository = $templatesRepository;
         $this->templatesService = $templatesService;
-        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -52,13 +48,21 @@ class TemplatesController extends Controller
      *
      * @param Request $request
      * @param Charon $charon
+     * @throws TemplatePathException
      */
     public function store(Request $request, Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $templates = $request->toArray();
+        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
 
-        $this->templatesService->addTemplates($charon_id, $templates);
+        foreach ($templates as $template) {
+            if (preg_match('/\s/',$template['path']) or empty($template['path'])){
+                throw new TemplatePathException('template_path_are_required');
+            }
+        }
+
+        $this->templatesService->addTemplates($charonId, $templates, $dbTemplates);
 
         return response()->json([
             'status' => 200,
@@ -73,13 +77,15 @@ class TemplatesController extends Controller
      *
      * @param Request $request
      * @param Charon $charon
+     * @throws TemplatePathException
      */
     public function update(Request $request, Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $templates = $request->toArray();
+        $dbTemplates = $this->templatesRepository->getTemplates($charonId);
 
-        $this->templatesService->updateTemplates($charon_id, $templates);
+        $this->templatesService->updateTemplates($templates, $dbTemplates);
 
         return response()->json([
             'status' => 200,
@@ -97,10 +103,10 @@ class TemplatesController extends Controller
      */
     public function delete(Charon $charon, Template $template)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
         $path = $template->path;
 
-        $this->templatesRepository->deleteTemplate($charon_id, $path);
+        $this->templatesRepository->deleteTemplate($charonId, $path);
 
         return response()->json([
             'status' => 200,
@@ -118,8 +124,8 @@ class TemplatesController extends Controller
      */
     public function get(Charon $charon)
     {
-        $charon_id = $charon->id;
+        $charonId = $charon->id;
 
-        return $this->templatesRepository->getTemplates($charon_id);
+        return $this->templatesRepository->getTemplates($charonId);
     }
 }

@@ -68,7 +68,7 @@
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
                 <FIELD NAME="path" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
-                <FIELD NAME="contents" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="contents" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
             </FIELDS>
             <KEYS>
