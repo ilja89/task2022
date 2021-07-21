@@ -56,11 +56,12 @@
                                      track-by="id" @select="onSelect">
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}</template>
                         </multiselect>
-
+<!--
                         <multiselect v-if="this.value != null" v-model="value_time" :max-height="200"
                                      :options="this.times"
                                      :placeholder="translate('selectTimeText')" style="margin-top: 30px">
                         </multiselect>
+                        -->
                     </div>
                 </div>
 
@@ -153,6 +154,7 @@ export default {
         },
 
         sendData() {
+            this.value_time = this.times[0];
             if (this.value !== null && this.value['start'] !== null && this.value_time !== null && this.selected.length !== 0) {
                 let chosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
                 let selected_boolean = this.selected === "My teacher";

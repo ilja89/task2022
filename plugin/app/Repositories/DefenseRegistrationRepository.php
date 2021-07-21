@@ -55,6 +55,19 @@ class DefenseRegistrationRepository
         return Registration::create($fields);
     }
 
+    /** TODO: check if first exists somehow?
+     * @param int $labId
+     *
+     * @return int
+     */
+    public function getLastRegistrationInQueue(int $labId) : Registration
+    {
+        return DB::table('charon_defenders')
+            ->where('charon_defenders.lab_id', $labId)
+            ->orderBy('queue_nr', 'desc')
+            ->first();
+    }
+
     /**
      * @param int $labId
      * @param Carbon $time
