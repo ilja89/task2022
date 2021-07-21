@@ -17,7 +17,6 @@ use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 use Zeizig\Moodle\Models\Course;
-use Zeizig\Moodle\Globals\Course as GlobalCourse;
 
 class SaveTesterCallback
 {
@@ -53,8 +52,7 @@ class SaveTesterCallback
         ResultRepository $resultRepository,
         TestSuiteService $testSuiteService,
         Course $course,
-        StudentsRepository $studentsRepository,
-        GlobalCourse $GlobalCourse
+        StudentsRepository $studentsRepository
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
@@ -63,7 +61,6 @@ class SaveTesterCallback
         $this->testSuiteService = $testSuiteService;
         $this->course = $course;
         $this->studentsRepository = $studentsRepository;
-        $this->GlobalCourse = $globalCourse;
     }
     /* Function needed to get course id using git callback
      *
@@ -123,7 +120,7 @@ class SaveTesterCallback
     public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
     {
         $courseId = $this->getCourseIdFromGitCallBack($gitCallback);
-        $students = $this->globalCourse->getNamesOfStudentsRelatedToCourse($courseId);
+        $students = $this->studentsRepository->getNamesOfStudentsRelatedToCourse($courseId);
         $usernames = $this->usernamesFilter($usernames,$students);
         $users = $this->getStudentsInvolved($usernames);
 
