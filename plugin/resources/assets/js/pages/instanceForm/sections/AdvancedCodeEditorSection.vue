@@ -13,8 +13,8 @@
       + Create Source File
     </v-btn>
 
-    <v-list-item v-for="(file) in files">
-      <v-list-item-content>
+    <ul v-for="(file, index) in files">
+      <li>
         <div class="fcontainer clearfix">
           <div class="fitem fitem_ftext">
             <div class="fitemtitle">
@@ -22,26 +22,26 @@
             </div>
             <p class="input-helper">Path to file.</p>
             <div class="felement ftext path">
-              <v-btn
-                  class="red text--white ma-2"
-                  depressed
-                  dark
-              >
-                <v-icon left>
-                  {{ mdiDelete }}
-                </v-icon>
-                Delete
-              </v-btn>
               <input
                   id="file_path"
                   class="form-control"
                   type="text" required="required"
                   v-model="file.path">
+              <v-btn
+                  class="my-2 del_btn"
+                  depressed
+                  dark
+                  @click="deleteFile(index)">
+                Delete
+                <v-icon right>
+                  {{ mdiDelete }}
+                </v-icon>
+              </v-btn>
             </div>
           </div>
         </div>
-      </v-list-item-content>
-    </v-list-item>
+      </li>
+    </ul>
 
     <div v-if="files.length > 0">
       <p>Language: python !!!!</p>
@@ -105,6 +105,11 @@ export default {
       console.log(this.files);
     },
 
+    deleteFile(index) {
+      this.files.splice(index, 1);
+      console.log(this.files);
+    },
+
     editorInit: function () {
       require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
@@ -132,6 +137,18 @@ export default {
 .path {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  list-style-type: none
+}
+
+.del_btn {
+  margin-left: 0.5em;
 }
 
 </style>
