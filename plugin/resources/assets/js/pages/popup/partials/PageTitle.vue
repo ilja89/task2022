@@ -48,10 +48,7 @@
 
                 </v-row>
             </template>
-          <v-card-title v-if="this.$route.name === 'activity-dashboard'">
-            <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked()">Edit
-            </v-btn>
-          </v-card-title>
+
         </v-row>
 
     </v-card>
@@ -60,7 +57,7 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from "vuex";
+    import {mapState} from "vuex";
     import {TippyComponent} from "vue-tippy";
     import {Charon} from "../../../api/index";
 
@@ -82,10 +79,6 @@
             ...mapState(["student"]),
             hasRight() {
                 return !!this.$slots.default;
-            },
-
-            routeCharonId() {
-              return parseInt(this.$route.params.charon_id)
             },
 
             currentTitle() {
@@ -112,7 +105,6 @@
         },
 
         methods: {
-            ...mapActions(["updateCharon"]),
 
             createBadgeName(groupId) {
                 return "group_badge_" + groupId;
@@ -127,12 +119,6 @@
                 VueEvent.$emit('show-notification', message, type, timeout)
             },
 
-            editClicked() {
-              Charon.getById(this.routeCharonId, response => {
-                this.charon = response
-                window.location = `popup#/charonSettings/${this.charon.id}`;
-              })
-            }
         }
     };
 </script>

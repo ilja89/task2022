@@ -9,6 +9,8 @@
 
     <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
 
+    <submission-graph-section></submission-graph-section>
+
     <charon-defense-registrations-section :defense-list="defenseList" :teachers="teachers"></charon-defense-registrations-section>
 
     <activity-lab-section :labs="labs"></activity-lab-section>
@@ -30,6 +32,7 @@ import LabTimesOverview from "../sections/ActivityLabSection";
 //
 import Lab from "../../../api/Lab";
 import ActivityLabSection from "../sections/ActivityLabSection";
+import SubmissionGraphSection from "../sections/SubmissionGraphSection";
 
 
 
@@ -37,6 +40,7 @@ export default {
   name: "ActivityDashboardPage",
 
   components: {
+    SubmissionGraphSection,
     ActivityLabSection,
     LabTimesOverview,
     LatestSubmissionsSection,
