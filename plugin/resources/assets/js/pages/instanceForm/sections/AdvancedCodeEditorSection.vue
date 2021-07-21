@@ -15,40 +15,45 @@
 
     <ul v-for="(file, index) in files">
       <li>
-        <div class="fcontainer clearfix">
-          <div class="fitem fitem_ftext">
-            <div class="fitemtitle">
-              <label for="file_path">Path</label>
-            </div>
-            <p class="input-helper">Path to file.</p>
-            <div class="felement ftext path">
-              <input
-                  id="file_path"
-                  class="form-control"
-                  type="text" required="required"
-                  v-model="file.path">
-              <v-btn
-                  class="my-2 del_btn"
-                  depressed
-                  dark
-                  @click="deleteFile(index)">
-                Delete
-                <v-icon right>
-                  {{ mdiDelete }}
-                </v-icon>
-              </v-btn>
-            </div>
+        <div class="fitem_ftext">
+          <div class="fitemtitle">
+            <label for="file_path">Path</label>
+          </div>
+          <p class="input-helper">Path to file.</p>
+          <div class="felement ftext path">
+            <input
+                id="file_path"
+                class="form-control"
+                type="text" required="required"
+                v-model="file.path">
+            <v-btn
+                class="my-2 del_btn"
+                depressed
+                dark
+                @click="deleteFile(index)">
+              Delete
+              <v-icon right>
+                {{ mdiDelete }}
+              </v-icon>
+            </v-btn>
           </div>
         </div>
       </li>
     </ul>
 
     <div v-if="files.length > 0">
+
+      <label> Source File:
+        <select class="custom-select select" v-model="current_index">
+          <option v-bind:value="index" v-for="(file, index) in files">{{ file.path }}</option>
+        </select>
+      </label>
+
       <p>Language: python !!!!</p>
 
       <AceEditor
           class="editor"
-          v-model="content"
+          v-model="files[current_index].content"
           @init="editorInit"
           lang="python"
           theme="crimson_editor"
@@ -74,7 +79,6 @@
 
 <script>
 import AceEditor from 'vuejs-ace-editor';
-import { CharonTextInput } from '../../../components/form';
 import { mdiDelete } from '@mdi/js'
 
 export default {
@@ -87,14 +91,13 @@ export default {
 
   components: {
     AceEditor,
-    CharonTextInput
   },
 
   data() {
     return {
-      content: '',
       files: [],
       mdiDelete,
+      current_index: 0,
     }
   },
 
@@ -103,11 +106,11 @@ export default {
     addFile() {
       this.files.push({"path": '', "content": ''});
       console.log(this.files);
+      console.log(this.current_index);
     },
 
     deleteFile(index) {
       this.files.splice(index, 1);
-      console.log(this.files);
     },
 
     editorInit: function () {
@@ -149,6 +152,10 @@ ul {
 
 .del_btn {
   margin-left: 0.5em;
+}
+
+.select {
+  width: 35em;
 }
 
 </style>
