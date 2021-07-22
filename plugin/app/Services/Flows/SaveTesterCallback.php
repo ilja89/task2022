@@ -69,8 +69,7 @@ class SaveTesterCallback
      * @return $courseId
      */
     
-    private function getCourseIdFromGitCallBack(GitCallback $call)
-    {
+    private function getCourseIdFromGitCallBack(GitCallback $call){
         $string = explode("/",$call->repo);
         $string = $string[1];
         $string = explode(".",$string);
@@ -86,17 +85,13 @@ class SaveTesterCallback
      * @return array $filtered
      * 
      */
-    private function usernamesFilter(array $usernames,array $filter)
-    {
+    private function usernamesFilter(array $usernames,array $filter){
         sort($usernames);
         sort($filter);
         $filtered;
-        for($i=0;$i<count($usernames);$i++)
-        {
-            for($c=0;$c<count($filter);$c++)
-            {
-                if($usernames[$i]==$filter[$c])
-                {
+        for($i = 0; $i < count($usernames); $i++){
+            for($c = 0; $c < count($filter); $c++){
+                if($usernames[$i] == $filter[$c]){
                     $filtered[] = $usernames[$i];
                     break;
                 }
