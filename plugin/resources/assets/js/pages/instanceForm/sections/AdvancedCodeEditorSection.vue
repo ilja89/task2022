@@ -24,7 +24,8 @@
             <input
                 id="file_path"
                 class="form-control"
-                type="text" required="required"
+                type="text"
+                :required="true"
                 v-model="file.path">
             <v-btn
                 class="my-2 del_btn"
@@ -43,34 +44,39 @@
 
     <div v-if="files.length > 0">
 
-      <label> Source File:
-        <select class="custom-select select" v-model="current_index">
-          <option v-bind:value="index" v-for="(file, index) in files">{{ file.path }}</option>
-        </select>
-      </label>
+      <div class="felement">
+        <label> Source File:
+          <select class="custom-select select" v-model="current_index">
+            <option v-if="file.path !== ''" v-bind:value="index" v-for="(file, index) in files">{{ file.path }}</option>
+            <option v-if="files.length < 2 && files[0].path === ''" disabled>Insert file path to see it here and edit file content.</option>
+          </select>
+        </label>
+      </div>
 
-      <p>Language: python !!!!</p>
+      <div v-if="current_index < files.length && files[current_index].path !== ''">
+        <p>Language: python !!!!</p>
 
-      <AceEditor
-          class="editor"
-          v-model="files[current_index].content"
-          @init="editorInit"
-          lang="python"
-          theme="crimson_editor"
-          width="100%"
-          height="500px"
-          :options="{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        fontSize: 14,
-        highlightActiveLine: true,
-        enableSnippets: true,
-        showLineNumbers: true,
-        tabSize: 2,
-        showPrintMargin: false,
-        showGutter: true,
-        }"
-      />
+        <AceEditor
+            class="editor"
+            v-model="files[current_index].content"
+            @init="editorInit"
+            lang="python"
+            theme="crimson_editor"
+            width="100%"
+            height="500px"
+            :options="{
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          fontSize: 14,
+          highlightActiveLine: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2,
+          showPrintMargin: false,
+          showGutter: true,
+          }"
+        />
+      </div>
     </div>
 
   </div>
