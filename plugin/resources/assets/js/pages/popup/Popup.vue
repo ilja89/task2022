@@ -43,8 +43,6 @@
 
         data() {
             return {
-                rDate: "release date",
-                branchText: "branch",
                 loaderVisible: 0,
                 notification: {
                     text: '',
@@ -62,14 +60,16 @@
             ]),
             version: function () { return window.appVersion; },
             branch: function () {
-                this.branchText = window.appVersion.branch;
-                if (this.branchText.includes("/")) {
-                    return this.branchText.substring(this.branchText.indexOf("/") + 1)
+                let branchText = window.appVersion.branch;
+                if (branchText.includes("/")) {
+                    return branchText.substring(branchText.indexOf("/") + 1)
                 }
-                return this.branchText; },
+                return branchText;
+            },
+
             releaseDate: function () {
-                this.rDate = new Date(window.appVersion.date)
-                return this.rDate.toLocaleDateString('et-EE',{
+                let rDate = new Date(window.appVersion.date)
+                return rDate.toLocaleDateString('et-EE',{
                     month: '2-digit',day: '2-digit',year: 'numeric'} );
             },
         },
