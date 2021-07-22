@@ -85,7 +85,7 @@ class SaveTesterCallback
      * @return array $filtered
      * 
      */
-    private function usernamesFilter(array $usernames,array $filter){
+    private function usernamesFilter(array $usernames, array $filter){
         sort($usernames);
         sort($filter);
         $filtered;
