@@ -79,8 +79,7 @@ class StudentsRepository
     {
         $nameList = null;
         $studentList=json_decode(json_encode($this->searchStudentsByCourseAndKeyword($courseId,"")),true);
-        for($i=0;$i<count($studentList);$i++)
-        {
+        for ($i = 0; $i < count($studentList); $i++) {
             $nameList[$i] = $studentList[$i]["username"];
         }
         return $nameList;
