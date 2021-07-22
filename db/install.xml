@@ -265,7 +265,7 @@
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>
-                <FIELD NAME="queue_nr" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="queue_nr" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_defenders" TYPE="primary" FIELDS="id"/>
