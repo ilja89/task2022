@@ -54,13 +54,13 @@
       </div>
 
       <div v-if="current_index < files.length && files[current_index].path !== ''">
-        <p>Language: python !!!!</p>
+        <p>Language: {{language}}</p>
 
         <AceEditor
             class="editor"
             v-model="files[current_index].content"
             @init="editorInit"
-            lang="python"
+            :lang="language"
             theme="crimson_editor"
             width="100%"
             height="500px"
@@ -104,15 +104,52 @@ export default {
       files: [],
       mdiDelete,
       current_index: 0,
+      language: 'python',
     }
+  },
+
+  beforeMount() {
+    let language_code = 1
+
+    if (this.form.fields.tester_type === undefined) {
+      language_code = this.form.fields.tester_type_code;
+    } else {
+      language_code = this.form.fields.tester_type;
+    }
+    this.defineLanguage(language_code);
+  },
+
+  mounted() {
+    VueEvent.$on('tester-type-was-changed', (tester_type) => this.defineLanguage(tester_type));
   },
 
   methods: {
 
+    defineLanguage(language_code) {
+      let BreakException = {};
+
+      try {
+        this.form.tester_types.forEach(type => {
+          if (type.code === language_code) {
+            if (type.name === 'javang') {
+              this.language = 'java';
+            } else {
+              this.language = type.name;
+            }
+            throw BreakException;
+          }
+        });
+      } catch (e) {
+        if (e !== BreakException) throw e;
+      }
+    },
+
     addFile() {
       this.files.push({"path": '', "content": ''});
       console.log(this.files);
-      console.log(this.current_index);
+      console.log(this.form.tester_types);
+      console.log(this.form.fields.tester_type_code);
+      console.log(this.form.fields.tester_type);
     },
 
     deleteFile(index) {
