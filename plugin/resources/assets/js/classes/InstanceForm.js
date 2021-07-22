@@ -110,6 +110,7 @@ export default class InstanceFormForm {
         this.fields = {
             // EDITOR
             editor_set: false,
+            templates: [],
 
             // MODULE INFO
             name: instance['name'] ? instance['name'] : '',

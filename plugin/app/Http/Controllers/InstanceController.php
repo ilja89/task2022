@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Events\CharonUpdated;
+use TTU\Charon\Http\Controllers\Api\TemplatesController;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use TTU\Charon\Repositories\TemplatesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
+use TTU\Charon\Services\TemplateService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -52,6 +55,15 @@ class InstanceController extends Controller
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
 
+    /** @var TemplatesController */
+    private $templatesController;
+
+    /** @var TemplateService */
+    private $templateService;
+
+    /** @var TemplatesRepository */
+    private $templatesRepository;
+
     /**
      * InstanceController constructor.
      *
@@ -74,7 +86,10 @@ class InstanceController extends Controller
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
-        DeadlinesRepository $deadlinesRepository
+        DeadlinesRepository $deadlinesRepository,
+        TemplatesController $templatesController,
+        TemplateService $templateService,
+        TemplatesRepository $templatesRepository
     )
     {
         parent::__construct($request);
@@ -86,6 +101,8 @@ class InstanceController extends Controller
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
         $this->deadlinesRepository = $deadlinesRepository;
+        $this->templateService = $templateService;
+        $this->templatesRepository = $templatesRepository;
     }
 
     /**
@@ -112,7 +129,7 @@ class InstanceController extends Controller
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
-
+        Log::info("Create Charon", [$this->request->toArray()]);
         Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
         if ($this->request->input('plagiarism_enabled')) {
             $charon = $this->plagiarismService->createChecksuiteForCharon(
@@ -122,7 +139,9 @@ class InstanceController extends Controller
                 $this->request->input('plagiarism_includes')
             );
         }
-
+        Log::info("TEMPLATES----------",print_r(json_decode($this->request->input("templates")), true));
+        $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
+        $this->templateService->addTemplates($charon->id, $this->request->input("templates"), $dbTemplates);
         return $charon->id;
     }
 
@@ -265,7 +284,8 @@ class InstanceController extends Controller
             'tester_extra' => $this->request->input('tester_extra', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
-            'editor_set' => settype($editor_set, 'boolean')
+            'editor_set' => settype($editor_set, 'boolean'),
+            'templates' => $this->request->input('templates'),
         ]);
     }
 
