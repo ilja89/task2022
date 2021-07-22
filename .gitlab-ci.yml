@@ -41,7 +41,7 @@ security-advisories-vulnerabilities:
   services:
     - name: docker:dind
   script:
-    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh $CI_COMMIT_BRANCH
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
