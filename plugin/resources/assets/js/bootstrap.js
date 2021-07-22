@@ -30,3 +30,4 @@ axios.interceptors.response.use(response => {
 window.appVersion = {}
 window.appVersion.commit = 'hash';
 window.appVersion.date = new Date().valueOf();
+window.appVersion.branch = 'release/1.2.3';
