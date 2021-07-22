@@ -196,10 +196,12 @@ class AreteRequestDto
 
     /**
      * @param string $uniid
+     * @return AreteRequestDto
      */
     public function setUniid(string $uniid)
     {
         $this->uniid = $uniid;
+        return $this;
     }
 
 }
