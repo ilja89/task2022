@@ -192,12 +192,12 @@ class DefenseRegistrationRepository
             ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
-            ->select('charon_defenders.id', 'charon_defenders.queue_nr', 'charon_defenders.student_id',
+            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
                 'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
-            )->orderBy('charon_defenders.queue_nr');
+            )->orderBy('charon_defenders.id');
 
         if ($after != 'null' && $before != 'null') {
             $query->whereRaw('choosen_time BETWEEN ? AND ?', [
