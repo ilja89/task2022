@@ -145,7 +145,6 @@ export default {
 
     addFile() {
       this.form.fields.files.push({"path": '', "content": ''});
-      console.log(this.form.fields.files);
     },
 
     deleteFile(index) {
