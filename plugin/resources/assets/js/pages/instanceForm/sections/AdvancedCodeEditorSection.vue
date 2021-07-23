@@ -13,7 +13,7 @@
       + Create Source File
     </v-btn>
 
-    <ul v-for="(file, index) in files">
+    <ul v-for="(file, index) in form.fields.files">
       <li>
         <div class="fitem_ftext">
           <div class="fitemtitle">
@@ -42,23 +42,23 @@
       </li>
     </ul>
 
-    <div v-if="files.length > 0">
+    <div v-if="form.fields.files.length > 0">
 
       <div class="felement">
         <label> Source File:
           <select class="custom-select select" v-model="current_index">
-            <option v-if="file.path !== ''" v-bind:value="index" v-for="(file, index) in files">{{ file.path }}</option>
-            <option v-if="files.length < 2 && files[0].path === ''" disabled>Insert file path to see it here and edit file content.</option>
+            <option v-if="file.path !== ''" v-bind:value="index" v-for="(file, index) in form.fields.files">{{ file.path }}</option>
+            <option v-if="form.fields.files.length < 2 && form.fields.files[0].path === ''" disabled>Insert file path to see it here and edit file content.</option>
           </select>
         </label>
       </div>
 
-      <div v-if="current_index < files.length && files[current_index].path !== ''">
+      <div v-if="current_index < form.fields.files.length && form.fields.files[current_index].path !== ''">
         <p>Language: {{language}}</p>
 
         <AceEditor
             class="editor"
-            v-model="files[current_index].content"
+            v-model="form.fields.files[current_index].content"
             @init="editorInit"
             :lang="language"
             theme="crimson_editor"
@@ -101,7 +101,6 @@ export default {
 
   data() {
     return {
-      files: [],
       mdiDelete,
       current_index: 0,
       language: 'python',
@@ -145,16 +144,12 @@ export default {
     },
 
     addFile() {
-      console.log(this.current_index);
-      this.files.push({"path": '', "content": ''});
-      console.log(this.files);
-      console.log(this.form.tester_types);
-      console.log(this.form.fields.tester_type_code);
-      console.log(this.form.fields.tester_type);
+      this.form.fields.files.push({"path": '', "content": ''});
+      console.log(this.form.fields.files);
     },
 
     deleteFile(index) {
-      this.files.splice(index, 1);
+      this.form.fields.files.splice(index, 1);
       this.current_index = index - 1;
       if (this.current_index < 0) {
         this.current_index = 0;
