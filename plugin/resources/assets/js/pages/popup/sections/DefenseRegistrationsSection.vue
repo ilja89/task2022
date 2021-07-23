@@ -106,7 +106,7 @@ export default {
             search: '',
             all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
-                {text: 'Nr. in queue', value: 'id', align: 'start'},
+                {text: 'Nr. in queue', value: 'queue_nr', align: 'end'},
                 {text: 'Lab', value: 'lab_name'},
                 {text: 'Student name', value: 'student_name'},
                 {text: 'Duration', value: 'formatted_duration'},
@@ -193,7 +193,7 @@ export default {
 
         defense_list_table() {
             for (let i = 0; i < this.defenseList.length; i++) {
-                this.defenseList[i]['id'] = i + 1;
+                this.defenseList[i]['queue_nr'] = i + 1;
             }
             return this.defenseList.map(registration => {
                 const container = {...registration};
