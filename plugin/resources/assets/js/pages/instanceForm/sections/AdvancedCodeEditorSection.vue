@@ -145,6 +145,7 @@ export default {
     },
 
     addFile() {
+      console.log(this.current_index);
       this.files.push({"path": '', "content": ''});
       console.log(this.files);
       console.log(this.form.tester_types);
@@ -154,6 +155,10 @@ export default {
 
     deleteFile(index) {
       this.files.splice(index, 1);
+      this.current_index = index - 1;
+      if (this.current_index < 0) {
+        this.current_index = 0;
+      }
     },
 
     editorInit: function () {
