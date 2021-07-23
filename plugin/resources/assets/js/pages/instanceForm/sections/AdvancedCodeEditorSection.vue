@@ -1,58 +1,203 @@
 <template>
-<div>
+
   <div class="fcontainer clearfix fitem">
-    <p>Advanced Code Editor</p>
-    <button v-on:click="this.getTemplates">
-      getTemp
-    </button>
+
+    <label>
+      <input id="setEditor" type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
+      Add code editor to this charon
+    </label>
+
+    <p>Source Files</p>
+
+    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="addFile">
+      + Create Source File
+    </v-btn>
+
+    <ul v-for="(file, index) in form.fields.files">
+      <li>
+        <div class="fitem_ftext">
+          <div class="fitemtitle">
+            <label for="file_path">Path</label>
+          </div>
+          <p class="input-helper">Path to file.</p>
+          <div class="felement ftext path">
+            <input
+                id="file_path"
+                class="form-control"
+                type="text"
+                :required="true"
+                v-model="file.path">
+            <v-btn
+                class="my-2 del_btn"
+                depressed
+                dark
+                @click="deleteFile(index)">
+              Delete
+              <v-icon right>
+                {{ mdiDelete }}
+              </v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div v-if="form.fields.files.length > 0">
+
+      <div class="felement">
+        <label> Source File:
+          <select class="custom-select select" v-model="current_index">
+            <option v-if="file.path !== ''" v-bind:value="index" v-for="(file, index) in form.fields.files">{{ file.path }}</option>
+            <option v-if="form.fields.files.length < 2 && form.fields.files[0].path === ''" disabled>Insert file path to see it here and edit file content.</option>
+          </select>
+        </label>
+      </div>
+
+      <div v-if="current_index < form.fields.files.length && form.fields.files[current_index].path !== ''">
+        <p>Language: {{language}}</p>
+
+        <AceEditor
+            class="editor"
+            v-model="form.fields.files[current_index].content"
+            @init="editorInit"
+            :lang="language"
+            theme="crimson_editor"
+            width="100%"
+            height="500px"
+            :options="{
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          fontSize: 14,
+          highlightActiveLine: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2,
+          showPrintMargin: false,
+          showGutter: true,
+          }"
+        />
+      </div>
+    </div>
+
   </div>
-  <div>
-    <input @input-was-changed="sendTemplates" type="hidden" :name="'templates'" v-model="templates">
-  </div>
-</div>
+
 </template>
 
 <script>
-import {Charon} from "../../../api";
-import {EmitEventOnInputChange} from '../../../mixins';
+import AceEditor from 'vuejs-ace-editor';
+import { mdiDelete } from '@mdi/js'
+
 export default {
+
   name: "AdvancedCodeEditorSection",
 
-  mixins: [ EmitEventOnInputChange ],
-
   props: {
-    form: {required: true},
-    },
+    form: {required: true}
+  },
+
+  components: {
+    AceEditor,
+  },
 
   data() {
     return {
-      templates: [{path:'EX01/Car.java', contents:'import java.util.Set;'}],
+      mdiDelete,
+      current_index: 0,
+      language: 'python',
     }
   },
 
+  beforeMount() {
+    let language_code = 1
+
+    if (this.form.fields.tester_type === undefined) {
+      language_code = this.form.fields.tester_type_code;
+    } else {
+      language_code = this.form.fields.tester_type;
+    }
+    this.defineLanguage(language_code);
+  },
+
   mounted() {
-    console.log([{path:'EX01/Car.java', contents:'import java.util.Set;'}]);
-    this.form.fields.templates = [{path:'EX01/Car.java', contents:'import java.util.Set;'}]; //TODO not working, why? I dont know
-    console.log(this.form.fields.templates);
+    VueEvent.$on('tester-type-was-changed', (tester_type) => this.defineLanguage(tester_type));
   },
 
   methods: {
 
-    getTemplates() {
+    defineLanguage(language_code) {
+      let BreakException = {};
+
       try {
-        Charon.getTemplates(window.charonId, answer => {
-          console.log(answer)
-        })
+        this.form.tester_types.forEach(type => {
+          if (type.code === language_code) {
+            if (type.name === 'javang') {
+              this.language = 'java';
+            } else {
+              this.language = type.name;
+            }
+            throw BreakException;
+          }
+        });
       } catch (e) {
-        VueEvent.$emit('show-notification', 'Error getting templates!')
+        if (e !== BreakException) throw e;
       }
     },
 
-  }
+    addFile() {
+      this.form.fields.files.push({"path": '', "content": ''});
+    },
+
+    deleteFile(index) {
+      this.form.fields.files.splice(index, 1);
+      this.current_index = index - 1;
+      if (this.current_index < 0) {
+        this.current_index = 0;
+      }
+    },
+
+    editorInit: function () {
+      require('brace/ext/language_tools')//language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/python')//language
+      require('brace/mode/javascript')
+      require('brace/mode/java')
+      require('brace/mode/prolog')
+      require('brace/mode/csharp')
+      require('brace/mode/less')
+      require('brace/theme/crimson_editor')
+      require('brace/snippets/python')//snippet
+      require('brace/snippets/javascript')
+      require('brace/snippets/java')
+      require('brace/snippets/prolog')
+      require('brace/snippets/csharp')
+    }
+  },
+
 }
 
 </script>
 
 <style scoped>
+
+.path {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  list-style-type: none
+}
+
+.del_btn {
+  margin-left: 0.5em;
+}
+
+.select {
+  width: 35em;
+}
 
 </style>
