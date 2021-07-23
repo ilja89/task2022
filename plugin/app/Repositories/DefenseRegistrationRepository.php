@@ -57,20 +57,6 @@ class DefenseRegistrationRepository
 
     /**
      * @param int $labId
-     *
-     * @return Registration
-     */
-    public function getLastRegistrationInQueue(int $labId)
-    {
-        return DB::table('charon_defenders')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->where('charon_defense_lab.lab_id', $labId)
-            ->orderBy('queue_nr', 'desc')
-            ->first();
-    }
-
-    /**
-     * @param int $labId
      * @param Carbon $time
      *
      * @return int

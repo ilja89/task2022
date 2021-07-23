@@ -95,8 +95,6 @@ class DefenceRegistrationService
         }
 
         $user = $this->userRepository->find($studentId);
-        $lastRegInQ = $this->defenseRegistrationRepository->getLastRegistrationInQueue($labId);
-        $qNr = ($lastRegInQ->queue_nr ?? 0) + 1;
 
         try {
             $this->defenseRegistrationRepository->create([
@@ -108,8 +106,7 @@ class DefenceRegistrationService
                 'defense_lab_id' => $defenseLabId,
                 'progress' => 'Waiting',
                 'charon_id' => $charonId,
-                'teacher_id' => $teacherId,
-                'queue_nr' => $qNr
+                'teacher_id' => $teacherId
             ]);
         } catch (QueryException $exception) {
             if ($exception->errorInfo[1] == self::DUPLICATE_ERROR_CODE) {

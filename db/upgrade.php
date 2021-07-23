@@ -734,14 +734,5 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021072201) {
-        $table = new xmldb_table('charon_defenders');
-        $field = new xmldb_field('queue_nr', XMLDB_TYPE_INTEGER, '10');
-
-        if (!$dbManager->field_exists($table, $field)) {
-            $dbManager->add_field($table, $field);
-        }
-    }
-
     return true;
 }

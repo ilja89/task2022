@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Mockery;
 use Mockery\Mock;
 use TTU\Charon\Exceptions\RegistrationException;
-use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
@@ -98,23 +97,6 @@ class DefenceRegistrationServiceTest extends TestCase
         $exception->errorInfo = [1 => 1062];
 
         $this->defenseRegistrationRepository
-            ->shouldReceive('getLastRegistrationInQueue')
-            ->with(17)
-            ->once()
-            ->andReturn(new Registration([
-                'student_name' => '1name 2name',
-                'submission_id' => 5,
-                'choosen_time' => '2020-12-15 22:20:00',
-                'my_teacher' => false,
-                'student_id' => 3,
-                'defense_lab_id' => 13,
-                'progress' => 'Waiting',
-                'charon_id' => 7,
-                'teacher_id' => 11,
-                'queue_nr' => 1
-            ]));
-
-        $this->defenseRegistrationRepository
             ->shouldReceive('create')
             ->with([
                 'student_name' => '1name 2name',
@@ -125,8 +107,7 @@ class DefenceRegistrationServiceTest extends TestCase
                 'defense_lab_id' => 13,
                 'progress' => 'Waiting',
                 'charon_id' => 7,
-                'teacher_id' => 11,
-                'queue_nr' => 2
+                'teacher_id' => 11
             ])
             ->once()
             ->andThrowExceptions([$exception]);
