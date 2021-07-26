@@ -192,9 +192,15 @@ export default {
         },
 
         defense_list_table() {
-            for (let i = 0; i < this.defenseList.length; i++) {
-                this.defenseList[i]['queue_nr'] = i + 1;
-            }
+            let delVar = 0;
+            let i = 1;
+            do {
+                this.defenseList[i - 1]['queue_nr'] = i - delVar;
+                if (i < this.defenseList.length && this.defenseList[i - 1]['lab_id'] !== this.defenseList[i]['lab_id']) {
+                    delVar = i.valueOf();
+                }
+            } while (i++ < this.defenseList.length);
+
             return this.defenseList.map(registration => {
                 const container = {...registration};
                 container['formatted_duration'] = this.getFormattedDuration(registration.defense_duration);
