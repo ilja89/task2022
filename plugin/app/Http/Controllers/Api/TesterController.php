@@ -106,14 +106,14 @@ class TesterController extends Controller
 
         // If tester requires files to be of SourceFileDTO then uncomment this
         // and change ->setSource input with $finalListofSource
-        /*$sourceFiles = json_decode($request->input('sourceFiles'));
+        $sourceFiles = json_decode($request->input('sourceFiles'));
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
             $finalFile = new SourceFileDTO();
             $finalFile->setPath($sourceFile->path);
             $finalFile->setContent($sourceFile->content);
             array_push($finalListofSource, $finalFile);
-        }*/
+        }
 
         $areteRequest = (new AreteRequestDto())
             ->setDockerContentRoot($charon->docker_content_root)
@@ -123,7 +123,7 @@ class TesterController extends Controller
             ->setGitTestRepo($courseSettings->unittests_git)
             ->setTestingPlatform($charon->testerType->name)
             ->setSystemExtra($charon->system_extra)
-            ->setSource(json_decode($request->input('sourceFiles')))
+            ->setSource($finalListofSource)
             ->setUniid($user->username);
 
 

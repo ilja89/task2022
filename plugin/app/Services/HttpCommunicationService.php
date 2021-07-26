@@ -45,7 +45,8 @@ class HttpCommunicationService
         $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
-            'http://neti.ee'
+            'neti.ee' // This needs to be modified to the url that the tester is running on
+            // for me currently: http://10.40.254.5:8080/services/arete/api/v2/submission/:testAsync
         );
 
         $testerToken = $this->settingsService->getSetting(
@@ -57,13 +58,18 @@ class HttpCommunicationService
         Log::info('Sending data to tester.', [
             'uri' => $testerUrl,
             'data' => $data,
+            'token' => $testerToken,
         ]);
 
         $client = new Client();
         try {
             $client->request(
                 $method, $testerUrl,
-                ['headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
+                ['headers' => [/* Here needs to be added an Authorization header to access the tester
+                see: https://gitlab.cs.ttu.ee/ained/charon/-/issues/454#note_151343
+                'Authorization' => 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYW5hciIsInJvbGVzIjpbIlRFU1RFUiJdLCJpYXQiOjE2MjcyOT
+                kwODIsImV4cCI6MTYyNzMwMjY4Mn0.mIrH4xYmYxyNABD7gSV3K08jBVMBHkUBr6XUrcegUgc',*/
+                    'X-Testing-Token' => $testerToken], 'json' => $data,]
             );
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();

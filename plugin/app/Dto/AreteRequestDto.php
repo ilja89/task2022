@@ -45,6 +45,9 @@ class AreteRequestDto
     /** @var array|SourceFileDTO */
     private $source;
 
+    /** @var array|SourceFileDTO */
+    private $testSource;
+
     /** @var string */
     private $uniid;
 
@@ -180,6 +183,16 @@ class AreteRequestDto
     public function setSource(array $sourceFiles = []): AreteRequestDto
     {
         $this->source = $sourceFiles;
+        return $this;
+    }
+
+    /**
+     * @param array|SourceFileDTO $testSource
+     * @return AreteRequestDto
+     */
+    public function setTestSource(array $testSource = []): AreteRequestDto
+    {
+        $this->testSource = $testSource;
         return $this;
     }
 
