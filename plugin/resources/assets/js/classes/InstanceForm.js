@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Charon } from "../api";
 
 export default class InstanceFormForm {
     constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services) {
@@ -77,6 +78,24 @@ export default class InstanceFormForm {
         });
     }
 
+    initializeTemplates(templates) {
+        templates.forEach((template, index) => {
+            this.fields.files.push({
+                id: index,
+                path: template.path,
+                content: template.contents
+            });
+        })
+        console.log(this.fields.files);
+    }
+
+    addTemplates(templates) {
+        var template2 = [{path:'EX01/Car.java', contents:'import java.util.Set;'}]
+        template2.forEach((template) => {
+            this.fields.templates.push(template);
+        })
+    }
+
     initializeDeadlines(deadlines) {
         deadlines.forEach((deadline) => {
             // Check if previous deadline exists, if it matches format from database, if it matches
@@ -107,6 +126,7 @@ export default class InstanceFormForm {
     }
 
     initializeFields(instance, courseSettings) {
+        console.log(instance);
         this.fields = {
             // EDITOR
             editor_set: false,
@@ -154,7 +174,9 @@ export default class InstanceFormForm {
 
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
+            this.initializeTemplates(instance['templates']);
         } else {
+            this.initializeTemplates(instance['templates']);
             instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '';
         }
         instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();

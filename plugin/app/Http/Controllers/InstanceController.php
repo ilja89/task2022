@@ -139,9 +139,8 @@ class InstanceController extends Controller
                 $this->request->input('plagiarism_includes')
             );
         }
-        Log::info("TEMPLATES----------",print_r(json_decode($this->request->input("templates")), true));
         $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
-        $this->templateService->addTemplates($charon->id, $this->request->input("templates"), $dbTemplates);
+        $this->templateService->addTemplates($charon->id, $this->request->input("files"), $dbTemplates);
         return $charon->id;
     }
 
@@ -285,7 +284,6 @@ class InstanceController extends Controller
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
             'editor_set' => settype($editor_set, 'boolean'),
-            'templates' => $this->request->input('templates'),
         ]);
     }
 

@@ -77,6 +77,11 @@ class Charon extends Model
      */
     protected $table = 'charon';
 
+    public function templates()
+    {
+        return $this->hasMany(Template::class);
+    }
+
     public function grademaps()
     {
         return $this->hasMany(Grademap::class);

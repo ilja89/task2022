@@ -19,7 +19,7 @@ class Charon {
     }
 
     static getTemplates(charonId, then) {
-        return axios.get(`/mod/charon/api/charons/${charonId}/templates`)
+        return axios.get(Charon.getRoot() + `/charons/${charonId}/templates`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
