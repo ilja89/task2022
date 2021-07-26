@@ -106,7 +106,7 @@ export default {
             search: '',
             all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
-                {text: 'Nr. in queue', value: 'queue_nr', align: 'end'},
+                {text: 'Nr. in queue', value: 'queue_nr', align: 'start'},
                 {text: 'Lab', value: 'lab_name'},
                 {text: 'Student name', value: 'student_name'},
                 {text: 'Duration', value: 'formatted_duration'},
