@@ -734,5 +734,13 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021072701) {
+        $sql1 = "ALTER TABLE " . $CFG->prefix . "charon_defenders MODIFY choosen_time DATETIME NULL";
+        $DB->execute($sql1);
+
+        $sql2 = "ALTER TABLE " . $CFG->prefix . "charon_defenders MODIFY my_teacher TINYINT(1) NOT NULL DEFAULT 0";
+        $DB->execute($sql2);
+    }
+
     return true;
 }
