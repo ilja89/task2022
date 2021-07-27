@@ -72,10 +72,6 @@
           <v-btn class="ml-4" color="error" dense outlined text @click="sheet = false">
             {{ translate('closeText') }}
           </v-btn>
-
-          <v-btn class="ml-4" color="primary" dense outlined text @click="getThis()">
-            Get this
-          </v-btn>
         </v-row>
 
         <loading-container :render="this.busy"></loading-container>
@@ -154,11 +150,6 @@ export default {
       if (!this.submissionStyleOK) {
         VueEvent.$emit('show-notification', `Please fix your style before registering to submission`, 'danger')
       }
-    },
-
-    getThis(){
-      console.log(this);
-      console.log(this.getDefenseData());
     },
 
     sendData() {
