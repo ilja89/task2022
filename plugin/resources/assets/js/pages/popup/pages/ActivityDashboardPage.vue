@@ -26,15 +26,9 @@ import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralIn
 import {Charon, Submission} from "../../../api/index";
 import LatestSubmissionsSection from "../sections/LatestSubmissionsSection";
 import LabTimesOverview from "../sections/ActivityLabSection";
-
-
-
-//
 import Lab from "../../../api/Lab";
 import ActivityLabSection from "../sections/ActivityLabSection";
 import SubmissionGraphSection from "../sections/SubmissionGraphSection";
-
-
 
 export default {
   name: "ActivityDashboardPage",
