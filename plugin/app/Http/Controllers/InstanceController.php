@@ -175,6 +175,8 @@ class InstanceController extends Controller
 
             // TODO: Plagiarism
         }
+        $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
+        $this->templateService->updateTemplates($this->request->input("files"), $dbTemplates);
 
         return "1";
 
