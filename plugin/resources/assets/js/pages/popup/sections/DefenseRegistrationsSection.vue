@@ -172,6 +172,7 @@ export default {
             }
             return duration + ' min'
         },
+
         getSubmissionName(submission) {
             let name = "-";
             this.charons.forEach(charon => {
@@ -180,6 +181,19 @@ export default {
                 }
             });
             return name;
+        },
+
+        addQueueNumbersToDefenseList() {
+            if (this.defenseList && this.defenseList.length) {
+                let delVar = 0;
+                let i = 0;
+                while (++i <= this.defenseList.length) {
+                    this.defenseList[i - 1]['queue_nr'] = i - delVar;
+                    if (this.defenseList[i] && this.defenseList[i - 1]['lab_id'] !== this.defenseList[i]['lab_id']) {
+                        delVar = i.valueOf();
+                    }
+                }
+            }
         }
     },
     computed: {
@@ -192,14 +206,7 @@ export default {
         },
 
         defense_list_table() {
-            let delVar = 0;
-            let i = 1;
-            do {
-                this.defenseList[i - 1]['queue_nr'] = i - delVar;
-                if (i < this.defenseList.length && this.defenseList[i - 1]['lab_id'] !== this.defenseList[i]['lab_id']) {
-                    delVar = i.valueOf();
-                }
-            } while (i++ < this.defenseList.length);
+            this.addQueueNumbersToDefenseList();
 
             return this.defenseList.map(registration => {
                 const container = {...registration};
