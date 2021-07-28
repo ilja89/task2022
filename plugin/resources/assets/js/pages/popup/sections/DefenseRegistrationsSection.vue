@@ -106,7 +106,7 @@ export default {
             search: '',
             all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
-                {text: 'Date and time', value: 'choosen_time', align: 'start'},
+                {text: 'Nr. in queue', value: 'queue_nr', align: 'start'},
                 {text: 'Lab', value: 'lab_name'},
                 {text: 'Student name', value: 'student_name'},
                 {text: 'Duration', value: 'formatted_duration'},
@@ -172,6 +172,7 @@ export default {
             }
             return duration + ' min'
         },
+
         getSubmissionName(submission) {
             let name = "-";
             this.charons.forEach(charon => {
@@ -180,6 +181,19 @@ export default {
                 }
             });
             return name;
+        },
+
+        addQueueNumbersToDefenseList() {
+            if (this.defenseList && this.defenseList.length) {
+                let offset = 0;
+                let i = 0;
+                while (++i <= this.defenseList.length) {
+                    this.defenseList[i - 1]['queue_nr'] = i - offset;
+                    if (this.defenseList[i] && this.defenseList[i - 1]['lab_id'] !== this.defenseList[i]['lab_id']) {
+                        offset = i.valueOf();
+                    }
+                }
+            }
         }
     },
     computed: {
@@ -192,6 +206,8 @@ export default {
         },
 
         defense_list_table() {
+            this.addQueueNumbersToDefenseList();
+
             return this.defenseList.map(registration => {
                 const container = {...registration};
                 container['formatted_duration'] = this.getFormattedDuration(registration.defense_duration);
