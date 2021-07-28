@@ -51,6 +51,9 @@ class AreteRequestDto
     /** @var string */
     private $uniid;
 
+    /** @var array */
+    private $slugs;
+
     /**
      * @param string|null $dockerContentRoot
      * @return AreteRequestDto
@@ -211,10 +214,23 @@ class AreteRequestDto
      * @param string $uniid
      * @return AreteRequestDto
      */
-    public function setUniid(string $uniid)
+    public function setUniid(string $uniid): AreteRequestDto
     {
         $this->uniid = $uniid;
         return $this;
     }
+
+    /**
+     * @param array $slugs
+     * @return AreteRequestDto
+     */
+    public function setSlugs(array $slugs): AreteRequestDto
+    {
+        $this->slugs = $slugs;
+        return $this;
+    }
+
+
+
 
 }

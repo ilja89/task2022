@@ -11,7 +11,7 @@ class SourceFileDTO
     private $path;
 
     /** @var string */
-    private $content;
+    private $contents;
 
     /**
      * @param string $path
@@ -26,7 +26,7 @@ class SourceFileDTO
      */
     public function setContent(string $content)
     {
-        $this->content = $content;
+        $this->contents = $content;
     }
 
     /**
@@ -42,7 +42,18 @@ class SourceFileDTO
      */
     public function getContent(): string
     {
-        return $this->content;
+        return $this->contents;
+    }
+
+    public function toArray(): array
+    {
+        $payload = [];
+        foreach ($this as $key => $value) {
+            if (!empty($value)) {
+                $payload[$key] = $value;
+            }
+        }
+        return $payload;
     }
 
 

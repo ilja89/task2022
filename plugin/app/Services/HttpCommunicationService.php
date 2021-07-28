@@ -39,6 +39,8 @@ class HttpCommunicationService
         GitCallbackService $gitCallbackService)
     {
         $this->settingsService = $settingsService;
+        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->gitCallbackService = $gitCallbackService;
     }
 
     /**
@@ -61,8 +63,7 @@ class HttpCommunicationService
         $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
-            'neti.ee' // This needs to be modified to the url that the tester is running on
-            // for me currently: http://10.40.254.5:8080/services/arete/api/v2/submission/:testAsync
+            'neti.ee'
         );
 
         /**
@@ -75,7 +76,10 @@ class HttpCommunicationService
             'charon'
         );
 
-        $repo = $data['gitStudentRepo'];
+        $repo = null;
+        if (isset($data['gitStudentRepo'])) {
+            $repo = $data['gitStudentRepo'];
+        }
 
         if ($repo) {
             Log::info("Repository found: '" . $repo . "'");
@@ -101,13 +105,11 @@ class HttpCommunicationService
 
         $client = new Client();
         try {
+            #TODO Add 'Authorization' header to access tester
             $client->request(
                 $method, $testerUrl,
-                ['headers' => [/* Here needs to be added an Authorization header to access the tester
-                see: https://gitlab.cs.ttu.ee/ained/charon/-/issues/454#note_151343
-                'Authorization' => 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYW5hciIsInJvbGVzIjpbIlRFU1RFUiJdLCJpYXQiOjE2MjcyOT
-                kwODIsImV4cCI6MTYyNzMwMjY4Mn0.mIrH4xYmYxyNABD7gSV3K08jBVMBHkUBr6XUrcegUgc',*/
-                    'X-Testing-Token' => $testerToken], 'json' => $data,]
+                ['headers' => ['Authorization' => 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTYyNzQ4MzQ4NSwiZXhwIjoxNjI3NDg3MDg1fQ.VCcFSsipdJhTjVleNN7kvw6DfhVuvUvCeM84e4jfh2U',
+                    'X-Testing-Token' => $testerToken], 'json' => $data]
             );
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
