@@ -185,12 +185,12 @@ export default {
 
         addQueueNumbersToDefenseList() {
             if (this.defenseList && this.defenseList.length) {
-                let delVar = 0;
+                let offset = 0;
                 let i = 0;
                 while (++i <= this.defenseList.length) {
-                    this.defenseList[i - 1]['queue_nr'] = i - delVar;
+                    this.defenseList[i - 1]['queue_nr'] = i - offset;
                     if (this.defenseList[i] && this.defenseList[i - 1]['lab_id'] !== this.defenseList[i]['lab_id']) {
-                        delVar = i.valueOf();
+                        offset = i.valueOf();
                     }
                 }
             }
