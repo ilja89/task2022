@@ -734,12 +734,24 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021072701) {
-        $sql1 = "ALTER TABLE " . $CFG->prefix . "charon_defenders MODIFY choosen_time DATETIME NULL";
-        $DB->execute($sql1);
+    if ($oldversion < 2021072801) {
+        $table = new xmldb_table("charon_defenders");
 
-        $sql2 = "ALTER TABLE " . $CFG->prefix . "charon_defenders MODIFY my_teacher TINYINT(1) NOT NULL DEFAULT 0";
-        $DB->execute($sql2);
+        $index1 = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
+        if ($dbManager->index_exists($table, $index1)) {
+            $dbManager->drop_index($table, $index1);
+        }
+
+        $index2 = new xmldb_index("IXUNIQUE_choosen_time_and_student_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "student_id"]);
+        if ($dbManager->index_exists($table, $index2)) {
+            $dbManager->drop_index($table, $index2);
+        }
+
+        $field1 = new xmldb_field("choosen_time", XMLDB_TYPE_DATETIME);
+        $dbManager->change_field_notnull($table, $field1);
+
+        $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1", null, XMLDB_NOTNULL, null, 0);
+        $dbManager->change_field_default($table, $field);
     }
 
     return true;

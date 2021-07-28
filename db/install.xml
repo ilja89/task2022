@@ -280,8 +280,6 @@
                      REFTABLE="mdl_charon_defense_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
-                <INDEX NAME="IXUNIQUE_choosen_time_and_teacher_id" UNIQUE="true" FIELDS="choosen_time,teacher_id"/>
-                <INDEX NAME="IXUNIQUE_choosen_time_and_student_id" UNIQUE="true" FIELDS="choosen_time,student_id"/>
                 <INDEX NAME="IXFK_charon_defenders_student" UNIQUE="false" FIELDS="student_id"/>
                 <INDEX NAME="IXFK_charon_defenders_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_charon_defenders_submission" UNIQUE="false" FIELDS="submission_id"/>
