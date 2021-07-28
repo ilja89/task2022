@@ -85,7 +85,8 @@
 
 <script>
 import AceEditor from 'vuejs-ace-editor';
-import { mdiDelete } from '@mdi/js'
+import {mdiDelete} from '@mdi/js'
+import {Charon} from "../../../api";
 
 export default {
 
@@ -130,24 +131,8 @@ export default {
   },
 
   methods: {
-
     defineLanguage(language_code) {
-      let BreakException = {};
-
-      try {
-        this.form.tester_types.forEach(type => {
-          if (type.code === language_code) {
-            if (type.name === 'javang') {
-              this.language = 'java';
-            } else {
-              this.language = type.name;
-            }
-            throw BreakException;
-          }
-        });
-      } catch (e) {
-        if (e !== BreakException) throw e;
-      }
+      this.language = Charon.getTesterLanguage(language_code);
     },
 
     addFile() {
