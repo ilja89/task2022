@@ -38,26 +38,12 @@
 
     </instance-form-fieldset>
 
-    <instance-form-fieldset
-        toggle_id="tgl4"
-        @advanced-was-toggled="toggleAdvancedCodeEditorSection">
 
-      <template slot="title">Code Editor</template>
 
-      <slot>
-        <advanced-code-editor-section
-            v-if="advanced_code_editor_section_active"
-            :form="form">
-        </advanced-code-editor-section>
-        <code-editor-section
-            v-else
-            :form="form">
-        </code-editor-section>
-      </slot>
-
-    </instance-form-fieldset>
+    <code-editor-section :form="form"></code-editor-section>
 
     <deadline-section :form="form"></deadline-section>
+
     <grouping-section :form="form"></grouping-section>
 
     <v-snackbar
@@ -93,7 +79,6 @@ import {
 } from './sections'
 import {InstanceFormFieldset} from '../../components/form'
 import {Translate} from '../../mixins'
-import AdvancedCodeEditorSection from "./sections/AdvancedCodeEditorSection";
 
 export default {
   mixins: [Translate],
@@ -103,7 +88,6 @@ export default {
   },
 
   components: {
-    AdvancedCodeEditorSection,
     SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
     AdvancedTaskInfoSection, AdvancedGradingSection,
     InstanceFormFieldset, AdvancedPlagiarismSection,
@@ -115,7 +99,6 @@ export default {
       advanced_info_section_active: false,
       advanced_grading_section_active: false,
       advanced_plagiarism_section_active: false,
-      advanced_code_editor_section_active: false,
 
       notification: {
         text: '',
@@ -143,10 +126,6 @@ export default {
 
     toggleAdvancedPlagiarismSection(advanced_toggle) {
       this.advanced_plagiarism_section_active = advanced_toggle;
-    },
-
-    toggleAdvancedCodeEditorSection(advanced_toggle) {
-      this.advanced_code_editor_section_active = advanced_toggle;
     },
 
     showNotification(message, type, timeout = 5000) {
