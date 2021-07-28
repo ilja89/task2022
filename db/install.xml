@@ -261,8 +261,8 @@
                 <FIELD NAME="student_name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
-                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
-                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>
             </FIELDS>

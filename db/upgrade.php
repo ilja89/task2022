@@ -734,24 +734,30 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021072801) {
+    if ($oldversion < 2021072804) {
         $table = new xmldb_table("charon_defenders");
 
-        $index1 = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
-        if ($dbManager->index_exists($table, $index1)) {
-            $dbManager->drop_index($table, $index1);
+        $index = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
+        if ($dbManager->index_exists($table, $index)) {
+            $dbManager->drop_index($table, $index);
         }
-
-        $index2 = new xmldb_index("IXUNIQUE_choosen_time_and_student_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "student_id"]);
-        if ($dbManager->index_exists($table, $index2)) {
-            $dbManager->drop_index($table, $index2);
+        $index = new xmldb_index("IXUNIQUE_choosen_time_and_student_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "student_id"]);
+        if ($dbManager->index_exists($table, $index)) {
+            $dbManager->drop_index($table, $index);
         }
+        $field = new xmldb_field("choosen_time", XMLDB_TYPE_DATETIME);
+        $dbManager->change_field_notnull($table, $field);
 
-        $field1 = new xmldb_field("choosen_time", XMLDB_TYPE_DATETIME);
-        $dbManager->change_field_notnull($table, $field1);
+        $index = new xmldb_index("IXFK_charon_defenders_teacher", XMLDB_INDEX_NOTUNIQUE, ["teacher_id"]);
+        if ($dbManager->index_exists($table, $index)) {
+            $dbManager->drop_index($table, $index);
+        }
+        $field = new xmldb_field("teacher_id", XMLDB_TYPE_INTEGER, "10");
+        $dbManager->change_field_notnull($table, $field);
+        $dbManager->add_index($table, $index);
 
-        $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1", null, XMLDB_NOTNULL, null, 0);
-        $dbManager->change_field_default($table, $field);
+        $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1");
+        $dbManager->change_field_notnull($table, $field);
     }
 
     return true;
