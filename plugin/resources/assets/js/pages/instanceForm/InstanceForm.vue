@@ -63,7 +63,7 @@
 		
 		<deadline-section :form="form"></deadline-section>
 		<grouping-section :form="form"></grouping-section>
-    <code-editor-section :form="form"></code-editor-section>
+    <code-editor-section v-if="!isEditing" :form="form"></code-editor-section>
 		
 		<v-snackbar
 			top
@@ -127,11 +127,16 @@ export default {
 			
 		}
 	},
+
+  computed: {
+    isEditing() {
+      return window.isEditing;
+    },
+  },
 	
 	methods: {
 		toggleAdvancedInfoSection(advanced_toggle) {
 			this.advanced_info_section_active = advanced_toggle;
-			console.log(this.form.fields.editor_set); // TODO:
 		},
 		
 		toggleAdvancedGradingSection(advanced_toggle) {
@@ -155,7 +160,6 @@ export default {
 	
 	mounted() {
 		VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
-		VueEvent.$on('file-name-was-changed', (fileName) => this.form.fields.file_name = fileName);
 		VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
 		VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
 		VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);

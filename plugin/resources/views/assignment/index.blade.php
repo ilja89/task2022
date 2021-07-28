@@ -1,7 +1,7 @@
 {!! $header !!}
 
 <link href="/mod/charon/plugin/public/css/assignment.css" rel="stylesheet">
-
+<link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 <h1 class="title">{{ $charon->name }}</h1>
 
 <div class="columns assignment-columns" id="app">
@@ -25,7 +25,12 @@
                 </a>
             </div>
         @endif
-        <code-editor></code-editor>
+        @if ($charon->editor_set)
+            <code-templates
+                :language="language">
+            </code-templates>
+        @endif
+
     </div>
 
     <div class="column is-one-third">
@@ -45,6 +50,8 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
+
+    window.language = "{!! $charon->testerType->name !!}";
 
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
