@@ -19,29 +19,6 @@
 
     </instance-form-fieldset>
 
-    <!--		<instance-form-fieldset-->
-    <!--			toggle_id="tgl2"-->
-    <!--			@advanced-was-toggled="toggleAdvancedPlagiarismSection">-->
-    <!--			-->
-    <!--			<template slot="title">{{ translate('plagiarism_detection') }}</template>-->
-    <!--			-->
-    <!--			<slot>-->
-    <!--				<advanced-plagiarism-section-->
-    <!--					v-if="advanced_plagiarism_section_active"-->
-    <!--					:form="form">-->
-    <!--				</advanced-plagiarism-section>-->
-    <!--				<advanced-plagiarism-section-->
-    <!--					v-else-->
-    <!--					:form="form">-->
-    <!--				</advanced-plagiarism-section>-->
-    <!--				&lt;!&ndash;<simple-plagiarism-section&ndash;&gt;-->
-    <!--				&lt;!&ndash;v-else&ndash;&gt;-->
-    <!--				&lt;!&ndash;:form="form">&ndash;&gt;-->
-    <!--				&lt;!&ndash;</simple-plagiarism-section>&ndash;&gt;-->
-    <!--			</slot>-->
-    <!--		-->
-    <!--		</instance-form-fieldset>-->
-
     <instance-form-fieldset
         toggle_id="tgl3"
         @advanced-was-toggled="toggleAdvancedGradingSection">
