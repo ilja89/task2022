@@ -171,25 +171,15 @@ export default {
 		},
 		
 		submissionString(submission) {
-			let size = submission.results.length
-			
-			if (size > 3) {
-				return "" +
-					submission.results[0].calculated_result + " | ... | " +
-					submission.results[size - 2].calculated_result + " | " +
-					submission.results[size - 1].calculated_result
-				
-			} else {
-				let resultStr = '';
-				let prefix = '';
-				
-				submission.results.forEach((result) => {
-					resultStr += prefix;
-					resultStr += result.calculated_result;
-					prefix = ' | ';
-				});
-				return resultStr;
-			}
+			let resultStr = '';
+			let prefix = '';
+
+			submission.results.forEach((result) => {
+				resultStr += prefix;
+				resultStr += result.calculated_result;
+				prefix = ' | ';
+			});
+			return resultStr;
 		},
 		
 		refreshSubmissions() {
