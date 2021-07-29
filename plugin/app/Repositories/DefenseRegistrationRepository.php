@@ -215,8 +215,9 @@ class DefenseRegistrationRepository
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
-                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
-            )->orderBy('charon_defenders.choosen_time');
+                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name', 'charon_lab.id as lab_id'
+            )->orderBy('lab_id'
+            )->orderBy('charon_defenders.id');
 
         if ($after != 'null' && $before != 'null') {
             $query->whereRaw('choosen_time BETWEEN ? AND ?', [

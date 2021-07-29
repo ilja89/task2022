@@ -1,5 +1,14 @@
 class User {
 
+    static allStudents(courseId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/students/search')
+            .then(({data}) => {
+                then(data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving students with course id.\n' + error, 'danger')
+            })
+    }
+
     static getStudentInfo(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId)
             .then(({data}) => {
