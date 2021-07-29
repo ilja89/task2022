@@ -286,4 +286,10 @@ class InstanceController extends Controller
 
         return $newDescription;
     }
+
+    public function getCharonTesterLanguage($charonId)
+    {
+        $charon = $this->charonRepository->getCharonById($charonId);
+        return $charon->testerType->name;
+    }
 }

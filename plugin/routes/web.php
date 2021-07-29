@@ -28,6 +28,8 @@ Route::post('charons/update', 'InstanceController@update');
 Route::post('post_create/{charonId}', 'InstanceController@postCourseModuleCreated');
 Route::post('post_update/{charonId}', 'InstanceController@postCourseModuleUpdated');
 
+Route::get('charons/{charonId}/tester', 'InstanceController@getCharonTesterLanguage');
+
 // CHARON
 Route::get('instance_form', 'InstanceFormController@index');
 Route::post('instance_form', 'InstanceFormController@index');
