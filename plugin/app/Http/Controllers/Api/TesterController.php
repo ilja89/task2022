@@ -59,7 +59,7 @@ class TesterController extends Controller
      *
      * @return JsonResponse
      */
-    public function postFromInline(Request $request)
+    public function postFromInline(Request $request): JsonResponse
     {
         Log::info("Inline submission input: ", [
             'charonId' => $request->input('charonId'),
@@ -74,7 +74,7 @@ class TesterController extends Controller
         $user = $this->userRepository->find($request->input('userId'));
 
         $finalListofSource = [];
-        $sourceFiles = json_decode($request->input('sourceFiles'));
+        $sourceFiles = json_decode(json_encode($request->input('sourceFiles')));
         foreach ($sourceFiles as $sourceFile) {
             $finalFile = new SourceFileDTO();
             $finalFile->setPath($sourceFile->path);
@@ -94,7 +94,7 @@ class TesterController extends Controller
 
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
-            '');
+            $this->request->getUriForPath('/api/tester_callback'));
 
         return response()->json([
             'message' => 'Testing triggered.'

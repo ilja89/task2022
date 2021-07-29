@@ -46,7 +46,6 @@ class HttpCommunicationService
     /**
      * Sends info to the tester.
      *
-     * @param string $uri
      * @param string $method
      * @param array $data
      *
@@ -54,7 +53,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendInfoToTester($method, $data)
+    public function sendInfoToTester(string $method, array $data)
     {
         /**
          * @var String $testerUrl
@@ -76,14 +75,14 @@ class HttpCommunicationService
             'charon'
         );
 
-        $repo = null;
+        $studentGitRepo = null;
         if (isset($data['gitStudentRepo'])) {
-            $repo = $data['gitStudentRepo'];
+            $studentGitRepo = $data['gitStudentRepo'];
         }
 
-        if ($repo) {
-            Log::info("Repository found: '" . $repo . "'");
-            $course = $this->gitCallbackService->getCourse($repo);
+        if ($studentGitRepo) {
+            Log::info("Repository found: '" . $studentGitRepo . "'");
+            $course = $this->gitCallbackService->getCourse($studentGitRepo);
             $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
             if ($settings && $settings->tester_url) {
@@ -103,13 +102,16 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
+        #TODO Add 'Authorization' header to access tester
+        // Currently I've been getting Authorization header from:
+        // https://gitlab.cs.ttu.ee/ained/charon/-/issues/454#note_151343
+        $headers = ['Authorization' => '', 'X-Testing-Token' => $testerToken];
+
         $client = new Client();
         try {
-            #TODO Add 'Authorization' header to access tester
             $client->request(
                 $method, $testerUrl,
-                ['headers' => ['Authorization' => 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTYyNzQ4MzQ4NSwiZXhwIjoxNjI3NDg3MDg1fQ.VCcFSsipdJhTjVleNN7kvw6DfhVuvUvCeM84e4jfh2U',
-                    'X-Testing-Token' => $testerToken], 'json' => $data]
+                ['headers' => $headers, 'json' => $data]
             );
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
@@ -127,7 +129,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function postToTester($data)
+    public function postToTester(array $data)
     {
         $this->sendInfoToTester('post', $data);
     }
@@ -144,7 +146,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendPlagiarismServiceRequest($uri, $method, $data = [])
+    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [])
     {
         $plagiarismUrl = $this->settingsService->getSetting(
             'mod_charon',
