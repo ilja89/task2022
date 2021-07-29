@@ -23,27 +23,6 @@
             </v-toolbar>
 
             <v-sheet style="position:relative;" class="px-4 pt-4" height="80vh">
-                <div class="register-lab-headers">
-                    <h4>{{ translate('chooseTeacherText') }}</h4>
-                </div>
-
-                <div class="labs-schedule">
-                    <div class="row">
-                        <div v-if="this.charon['choose_teacher'] === 1" class="col-6 col-sm-4"><label
-                            for="my-teacher"></label>
-                            <input id="my-teacher" v-model="selected" name="labs-time"
-                                   type="radio" value="My teacher" @click="changeTeacher('My teacher')">
-                            {{ translate('myTeacherText') }}
-                        </div>
-                        <div class="w-100 d-none d-md-block"></div>
-                        <div class="col-6 col-sm-4">
-                            <label for="another-teacher"></label>
-                            <input id="another-teacher" v-model="selected" name="labs-time" type="radio"
-                                   value="Any teacher" @click="changeTeacher('Any teacher')">
-                            {{ translate('anyTeacherText') }}
-                        </div>
-                    </div>
-                </div>
                 <div class="register-lab-headers" style="margin-top: 2vh">
                     <h4>{{ translate('chooseTimeText') }}</h4>
                 </div>
@@ -56,12 +35,6 @@
                                      track-by="id" @select="onSelect">
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}</template>
                         </multiselect>
-<!--
-                        <multiselect v-if="this.value != null" v-model="value_time" :max-height="200"
-                                     :options="this.times"
-                                     :placeholder="translate('selectTimeText')" style="margin-top: 30px">
-                        </multiselect>
-                        -->
                     </div>
                 </div>
 
@@ -112,13 +85,8 @@ export default {
             hasPoints: false,
             submissionStyleOK: true,
             sheet: false,
-            value_time: null,
-            times: [],
-            not_available_times: [],
             cached_option: null,
-            selected: 'Any teacher',
             value: null,
-            teacher_options: [],
             busy: false
         }
     },
@@ -154,18 +122,12 @@ export default {
         },
 
         sendData() {
-            this.value_time = this.times[0];
-            if (this.value !== null && this.value['start'] !== null && this.value_time !== null && this.selected.length !== 0) {
-                let chosen_time = this.value['start'].split(' ')[0] + " " + this.value_time;
-                let selected_boolean = this.selected === "My teacher";
+            if (this.value !== null) {
                 this.busy = true;
-
                 axios.post(`api/charons/${this.charon.id}/submission?user_id=${this.student_id}`, {
                     charon_id: this.charon.id,
                     submission_id: this.submission.id,
-                    selected: selected_boolean,
                     defense_lab_id: this.value['id'],
-                    student_chosen_time: chosen_time,
                 }).then(() => {
                     VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
                     this.isActive = false
@@ -194,68 +156,10 @@ export default {
 
         onSelect(option) {
             this.cached_option = option;
-            this.arrayDefenseTime();
-        },
-
-        changeTeacher(teacher) {
-            this.selected = teacher;
-            this.arrayDefenseTime();
-        },
-
-        arrayDefenseTime() {
-            if (this.cached_option != null) {
-                const option = this.cached_option;
-                this.times.length = 0;
-                let time = option['start'].split(' ')[0];
-                this.busy = true;
-                axios.get(`api/charons/${this.charon.id}/labs/unavailable?time=${time
-                    }&my_teacher=${this.selected === "My teacher"
-                    }&user_id=${this.student_id
-                    }&lab_id=${option['id']
-                    }&charon_id=${this.charon.id}`
-                ).then(result => {
-                    this.not_available_times = result.data;
-                    this.timeGenerator(option);
-                }).catch(() => {
-                    VueEvent.$emit('show-notification', 'Unexpected error occurred. Try to refresh the page or notify a teacher if error persists.', 'danger')
-                }).finally(() => {
-                    this.busy = false;
-                });
-            }
-        },
-
-        timeGenerator(option) {
-            let defense_duration = this.charon['defense_duration'];
-            let startTime = moment(option['start'], 'YYYY-MM-DD HH:mm:ii')
-            let endTime = moment(option['end'], 'YYYY-MM-DD HH:mm:ii');
-            let curTime = moment();
-
-            this.times = [];
-            if (!defense_duration) {
-                console.error("Charon is missing defense_duration");
-                return;
-            }
-
-            while (startTime < endTime) {
-                const time = startTime.format('HH:mm');
-                if (!this.not_available_times.includes(time) && curTime.isBefore(startTime)) {
-                    this.times.push(time);
-                }
-                startTime.add(defense_duration, 'minutes');
-            }
-            if (this.not_available_times.length !== 0) {
-                this.times = this.times.filter(x => !this.not_available_times.includes(x));
-            }
         },
     },
 
     created() {
-        if (this.charon['choose_teacher'] === 1) {
-            this.teacher_options = ["Any teacher"]
-        } else {
-            this.teacher_options = ["My teacher", "Any teacher"]
-        }
-
         this.submissionStyleOK = true
         for (let j = 0; j < this.submission.results.length; j++) {
             const code = parseInt(this.submission.results[j].grade_type_code);

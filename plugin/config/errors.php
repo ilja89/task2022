@@ -79,6 +79,11 @@ return [
         'detail' => 'If you want to choose another time, then you should delete your previous time (My registrations button)',
     ],
 
+    'queue_full' => [
+        'title' => 'The lab you tried to register your defense to is full.',
+        'detail' => '',
+    ],
+
     'invalid_setup' => [
         'title' => 'Alert teachers that lab configuration was invalid!',
         'detail' => '',

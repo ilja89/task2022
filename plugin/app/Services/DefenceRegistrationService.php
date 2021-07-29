@@ -64,56 +64,29 @@ class DefenceRegistrationService
     }
 
     /**
-     * Student registers for a defence time slot
+     * Student registers for a defence
      *
      * @param int $studentId
      * @param int $submissionId
-     * @param bool $ownTeacher
      * @param int $charonId
-     * @param string $chosenTime
-     * @param int $teacherId
-     * @param int $labId
      * @param int $defenseLabId
-     *
-     * @throws RegistrationException
      */
     public function registerDefenceTime(
         int $studentId,
         int $submissionId,
-        bool $ownTeacher,
         int $charonId,
-        string $chosenTime,
-        int $teacherId,
-        int $labId,
-        int $defenseLabId
-    ) {
-        $teacherCount = $this->teacherRepository->countLabTeachers($labId);
-        $registeredSlotsAtTime = $this->defenseRegistrationRepository->countLabRegistrationsAt($labId, Carbon::parse($chosenTime));
-
-        if ($registeredSlotsAtTime >= $teacherCount) {
-            throw new RegistrationException('invalid_chosen_time');
-        }
-
+        int $defenseLabId)
+    {
         $user = $this->userRepository->find($studentId);
 
-        try {
-            $this->defenseRegistrationRepository->create([
-                'student_name' => $user->firstname . ' ' . $user->lastname,
-                'submission_id' => $submissionId,
-                'choosen_time' => $chosenTime,
-                'my_teacher' => $ownTeacher,
-                'student_id' => $studentId,
-                'defense_lab_id' => $defenseLabId,
-                'progress' => 'Waiting',
-                'charon_id' => $charonId,
-                'teacher_id' => $teacherId
-            ]);
-        } catch (QueryException $exception) {
-            if ($exception->errorInfo[1] == self::DUPLICATE_ERROR_CODE) {
-                throw new RegistrationException('duplicate');
-            }
-            throw $exception;
-        }
+        $this->defenseRegistrationRepository->create([
+            'student_name' => $user->firstname . ' ' . $user->lastname,
+            'submission_id' => $submissionId,
+            'student_id' => $studentId,
+            'defense_lab_id' => $defenseLabId,
+            'progress' => 'Waiting',
+            'charon_id' => $charonId,
+        ]);
 
         Log::info(json_encode([
             'event' => 'registration_creation',
@@ -121,8 +94,6 @@ class DefenceRegistrationService
             'for_user_id' => $studentId,
             'defense_lab_id' => $defenseLabId,
             'submission_id' => $submissionId,
-            'chosen_time' => $chosenTime,
-            'teacher_id' => $teacherId
         ]));
     }
 
@@ -199,6 +170,51 @@ class DefenceRegistrationService
         return array_keys(array_filter($labTimeslots, function($teachersRemaining) {
             return $teachersRemaining < 1;
         }));
+    }
+
+    /**
+     * Throw if lab has not enough capacity left for charon registration
+     *
+     * @param int $studentId
+     * @param int $charonId
+     * @param Lab $lab
+     *
+     * @throws RegistrationException
+     */
+    public function validateRegistration(int $studentId, int $charonId, Lab $lab)
+    {
+        $charonDuration = $this->charonRepository
+            ->getCharonById($charonId)
+            ->defense_duration;
+
+        if ($charonDuration == null || $charonDuration <= 0) {
+            throw new RegistrationException('invalid_setup');
+        }
+
+        $registrations = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
+        $totalOfDefenses = 0;
+        $labDurationInterval = $lab->start->diff($lab->end);
+        $labDuration = $labDurationInterval->h * 60 + $labDurationInterval->i;
+
+        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
+        foreach ($registrations as $registration) {
+            $totalOfDefenses += $registration->defense_duration;
+        }
+
+        if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
+            throw new RegistrationException("queue_full");
+        }
+
+        $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
+            $studentId,
+            $charonId,
+            $lab->start,
+            $lab->end
+        );
+
+        if ($pendingStudentDefences > 0) {
+            throw new RegistrationException('user_in_db');
+        }
     }
 
     /**
