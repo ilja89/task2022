@@ -38,19 +38,6 @@ class TemplatesRepository
 
     /**
      * @param int $charonId
-     * @param string $path
-     * @return mixed
-     */
-    public function deleteTemplate(int $charonId, string $path)
-    {
-        return DB::table('charon_template')
-            ->where('charon_id', $charonId)
-            ->where('path', $path)
-            ->delete();
-    }
-
-    /**
-     * @param int $charonId
      * @return Template[]
      */
     public function getTemplates(int $charonId): iterable
@@ -61,14 +48,13 @@ class TemplatesRepository
     }
 
     /**
-     * @param $template
+     * @param int $charonId
      * @return mixed
      */
-    public function updateTemplateContents($template)
+    public function deleteAllTemplates(int $charonId)
     {
         return DB::table('charon_template')
-            ->where('charon_id', $template->charon_id)
-            ->where('path', $template->path)
-            ->update(['contents' => $template->contents]);
+            ->where('charon_id', $charonId)
+            ->delete();
     }
 }
