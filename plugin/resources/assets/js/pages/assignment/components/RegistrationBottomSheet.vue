@@ -54,7 +54,7 @@
                          :options="this.labs" :placeholder="translate('selectDayText')"
                          label="start"
                          track-by="id" @select="onSelect">
-              <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }} {{ option.defenders }}</template>
+              <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }} {{ option.defenders_num }}</template>
             </multiselect>
 
             <multiselect v-if="this.value != null" v-model="value_time" :max-height="200"
@@ -183,17 +183,11 @@ export default {
       }
     },
 
-    getLabList({start, name, defenders}) {
+    getLabList({start, name, defenders_num}) {
       let date = `${start.split(' ')[0]}`;
       let time = `${start.split(' ')[1]}`;
-      let time_return = time.split(':');
-      let position = "not found";
-      for(let i = 0; i < defenders.length; i++){
-        if(defenders[i].def_student_id === this.student_id) {
-          position = i+1;
-        }
-      }
-      return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") + " | In queue:  " + position.toString() + " of " + defenders.length;
+      let time_return = time.split(':')
+      return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") + " - " + defenders_num + " defences in the queue";
     },
 
     onSelect(option) {
