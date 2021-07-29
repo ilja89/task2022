@@ -75,8 +75,8 @@ class DefenceRegistrationService
         int $studentId,
         int $submissionId,
         int $charonId,
-        int $defenseLabId)
-    {
+        int $defenseLabId
+    ) {
         $user = $this->userRepository->find($studentId);
 
         $this->defenseRegistrationRepository->create([

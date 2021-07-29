@@ -99,7 +99,7 @@ export default {
 			const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 			const dateTime = date + ' ' + time;
 			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
-			let day2 = moment.utc(item['choosen_time'], 'YYYY-MM-DD  HH:mm:ss');
+			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
 			return day2.diff(day1, 'hours') >= 2;
 		},
 
