@@ -5,6 +5,7 @@ namespace Zeizig\Moodle\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Course
@@ -75,5 +76,21 @@ class Course extends Model
     {
         $course = Course::select('id')->where('shortname', $courseName)->first();
         return $course->id;
+    }
+
+    /**
+     * @param $courseId
+     * @return mixed
+     */
+    public function getNamesOfStudentsRelatedToCourse($courseId)
+    {
+        return DB::table('role_assignments')
+            ->join('user', 'role_assignments.userid', '=', 'user.id')
+            ->join('context', 'role_assignments.contextid', '=', 'context.id')
+            ->where('context.contextlevel', CONTEXT_COURSE)
+            ->where('context.instanceid', $courseId)
+            ->select('username')
+            ->get()
+            ->all();
     }
 }
