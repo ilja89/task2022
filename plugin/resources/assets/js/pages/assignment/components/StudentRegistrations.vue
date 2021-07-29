@@ -77,6 +77,7 @@ export default {
 				{text: this.translate("teacherText"), value: 'teacher'},
 				{text: this.translate("locationText"), value: 'teacher_location'},
 				{text: this.translate("commentText"), value: 'teacher_comment'},
+        {text: this.translate("progressText"), value: 'progress'},
 				{text: this.translate("actionsText"), value: 'actions', sortable: false},
 			]
 		}
