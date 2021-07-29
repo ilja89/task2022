@@ -161,7 +161,9 @@ class InstanceController extends Controller
 
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$this->request->toArray()]);
-
+        Log::info("Templates", [$this->request->input("files")]);
+        $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
+        $this->templateService->updateTemplates($this->request->input("files"), $dbTemplates);
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
