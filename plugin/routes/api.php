@@ -8,6 +8,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterType');
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
 
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');

@@ -26,6 +26,14 @@ class ClassificationsRepository
         return TesterType::all();
     }
 
+    public function getTesterTypeName($code)
+    {
+        $some = DB::table('charon_tester_type')
+            ->where('code', $code)
+            ->first();
+        return $some;
+    }
+
     /**
      * Add a tester type.
      *

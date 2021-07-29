@@ -79,4 +79,13 @@ class ClassificationsController extends Controller
             'testerType' => $tester_name,
         ];
     }
+
+    public function getCharonTesterLanguage($course_id, $code)
+    {
+        $testerType = $this->classificationsRepository->getTesterTypeName($code);
+        if ($testerType->name === 'javang'){
+            return 'java';
+        }
+        return $testerType->name;
+    }
 }
