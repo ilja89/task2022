@@ -10,13 +10,13 @@ use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\ResultRepository;
-use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 use Zeizig\Moodle\Models\Course;
+use TTU\Charon\Services\GitCallbackService;
 
 class SaveTesterCallback
 {
@@ -42,8 +42,6 @@ class SaveTesterCallback
      * @param ResultRepository $resultRepository
      * @param TestSuiteService $testSuiteService
      * @param course $course
-     * @param studentsRepository $studentsRepository
-     * @param GlobalCourse $GlobalCourse
      */
     public function __construct(
         SubmissionService $submissionService,
@@ -52,7 +50,7 @@ class SaveTesterCallback
         ResultRepository $resultRepository,
         TestSuiteService $testSuiteService,
         Course $course,
-        StudentsRepository $studentsRepository
+        GitCallbackService $gitCallbackService
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
@@ -60,47 +58,8 @@ class SaveTesterCallback
         $this->resultRepository = $resultRepository;
         $this->testSuiteService = $testSuiteService;
         $this->course = $course;
-        $this->studentsRepository = $studentsRepository;
+        $this->gitCallbackService = $gitCallbackService;
     }
-    /* Function needed to get course id using git callback
-     *
-     * @param GitCallback $call
-     * 
-     * @return $courseId
-     */
-    
-    private function getCourseIdFromGitCallBack(GitCallback $call){
-        $string = explode("/",$call->repo);
-        $string = $string[1];
-        $string = explode(".",$string);
-        $string = $string[0];
-        return $this->course->getCourseByName($string);
-    }
-    
-    /* Function needed to pass only users who belong to course
-     * 
-     * @param array $usernames
-     * @param array $filter
-     * 
-     * @return array $filtered
-     * 
-     */
-    private function usernamesFilter(array $usernames, array $filter){
-        sort($usernames);
-        sort($filter);
-        $filtered;
-        for($i = 0; $i < count($usernames); $i++){
-            for($c = 0; $c < count($filter); $c++){
-                if($usernames[$i] == $filter[$c]){
-                    $filtered[] = $usernames[$i];
-                    break;
-                }
-            }
-        }
-        return $filtered;
-    }
-
-
 
     /**
      * Save a new submission from tester data.
@@ -114,10 +73,11 @@ class SaveTesterCallback
      */
     public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
     {
-        $courseId = $this->getCourseIdFromGitCallBack($gitCallback);
-        $students = $this->studentsRepository->getNamesOfStudentsRelatedToCourse($courseId);
-        $usernames = $this->usernamesFilter($usernames,$students);
-        $users = $this->getStudentsInvolved($usernames);
+        $courseId = $this->gitCallbackService->getCourse($gitCallback->repo)->id;
+
+        $students = $this->course->getNamesOfStudentsRelatedToCourse($courseId);
+
+        $users = $this->getStudentsInvolved($usernames, $students);
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
 
@@ -134,17 +94,36 @@ class SaveTesterCallback
         return $submission;
     }
 
-    /**
-     * @param array|string[] $usernames
+    /** Get list of students who have to pass to submission
+     * @param array $usernames
+     * @param array $studentNamesArray
      *
-     * @return array|User[]
-     * @throws InvalidArgumentException
+     * @return array
      */
-    private function getStudentsInvolved(array $usernames): array
+    private function getStudentsInvolved(array $usernames, array $studentNamesArray): array
     {
+        for ($i=0; $i < count($studentNamesArray); $i++)
+        {
+            $filter[$i]=$studentNamesArray[$i]->username;
+        }
+        sort($usernames);
+        sort($filter);
         $users = [];
+        $filtered = [];
 
-        foreach ($usernames as $uniId) {
+        for($i=0; $i < count($usernames); $i++)
+        {
+            for($c=0; $c < count($filter); $c++)
+            {
+                if($usernames[$i] == $filter[$c])
+                {
+                    $filtered[] = $usernames[$i];
+                    break;
+                }
+            }
+        }
+
+        foreach ($filtered as $uniId) {
             $user = $this->userService->findUserByUniid($uniId);
             if ($user) {
                 $users[$user->id] = $user;
@@ -154,7 +133,7 @@ class SaveTesterCallback
         }
 
         if (empty($users)) {
-            Log::error("Unable to find students for submission", $usernames);
+            Log::error("Unable to find students for submission", $filtered);
             throw new InvalidArgumentException("Unable to find students for submission");
         }
 
