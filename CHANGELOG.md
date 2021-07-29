@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- \#504 UI for teacher for registering a student for defence
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations

@@ -17,6 +17,7 @@ import {
     TeachersPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
+import AddNewDefenseRegistrationPage from "./pages/AddNewDefenseRegistrationPage";
 
 Vue.use(VueRouter)
 Vue.use(Vuetify);
@@ -99,6 +100,12 @@ const routes = [
         title: 'Defense Registrations',
         component: DefenseRegistrationPage,
         name: 'defense-registrations-page'
+    },
+    {
+        path: '/addRegistration',
+        title: 'Add registration ',
+        component: AddNewDefenseRegistrationPage,
+        name: 'add-new-defense-registration-page'
     }
 ];
 

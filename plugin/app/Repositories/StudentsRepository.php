@@ -22,10 +22,11 @@ class StudentsRepository
     public function searchStudentsByCourseAndKeyword($courseId, $keyword)
     {
         $keyword = '%' . strtolower($keyword) . '%';
-
         return DB::table('role_assignments')
+            ->join('role', 'role_assignments.roleid', '=', 'role.id')
             ->join('user', 'role_assignments.userid', '=', 'user.id')
             ->join('context', 'role_assignments.contextid', '=', 'context.id')
+            ->where('role.shortname', "student")
             ->where('context.contextlevel', CONTEXT_COURSE)
             ->where('context.instanceid', $courseId)
             ->where(function ($query) use ($keyword) {
