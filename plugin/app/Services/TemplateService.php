@@ -29,37 +29,10 @@ class TemplateService
 
     /**
      * @param $templates
-     * @throws TemplatePathException
-     */
-    public function updateTemplates($templates, $dbTemplates)
-    {
-        $templatesToUpdate = array();
-        foreach ($templates as $template) {
-            $templatePath = $template['path'];
-            $pathInDb = false;
-            foreach ($dbTemplates as $dbTemplate){
-                if ($templatePath == $dbTemplate->path){
-                    $dbTemplate->contents = $template['contents'] ?: '';
-                    array_push($templatesToUpdate, $dbTemplate);
-                    $pathInDb = true;
-                    break;
-                }
-            }
-            if (!$pathInDb){
-                throw new TemplatePathException('template_path_not_exists', $templatePath);
-            }
-        }
-        foreach ($templatesToUpdate as $temp){
-            $this->templatesRepository->updateTemplateContents($temp);
-        }
-    }
-
-    /**
-     * @param $templates
      * @param int $charonId
      * @throws TemplatePathException
      */
-    public function addTemplates(int $charonId, $templates, $dbTemplates)
+    public function addTemplates(int $charonId, $templates, $dbTemplates = array())
     {
         foreach ($templates as $template) {
             $templatePath = $template['path'];
