@@ -126,7 +126,7 @@ class InstanceController extends Controller
         }
 
         // Method to add new templates
-        $templates = $this->request->input('course');
+        $templates = $this->request->input('files');
         $this->checkTemplates($templates);
         $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
         $this->templatesService->addTemplates($charon->id, $templates, $dbTemplates);
@@ -161,19 +161,15 @@ class InstanceController extends Controller
      */
     public function update()
     {
-
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$this->request->toArray()]);
-
+        $templates = $this->request->input('files');
+        $this->checkTemplates($templates);
+        $this->templatesRepository->deleteAllTemplates($charon->id);
+        $this->templatesService->addTemplates($charon->id, $templates);
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
-
-            $templates = $this->request->input('course');
-            $this->checkTemplates($templates);
-            $this->templatesRepository->deleteAllTemplates($charon->id);
-            $this->templatesService->addTemplates($charon->id, $templates);
-
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,

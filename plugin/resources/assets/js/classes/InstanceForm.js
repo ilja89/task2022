@@ -86,14 +86,6 @@ export default class InstanceFormForm {
                 content: template.contents
             });
         })
-        console.log(this.fields.files);
-    }
-
-    addTemplates(templates) {
-        var template2 = [{path:'EX01/Car.java', contents:'import java.util.Set;'}]
-        template2.forEach((template) => {
-            this.fields.templates.push(template);
-        })
     }
 
     initializeDeadlines(deadlines) {
@@ -174,9 +166,8 @@ export default class InstanceFormForm {
 
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
-            this.initializeTemplates(instance['templates']);
         } else {
-            this.initializeTemplates(instance['templates']);
+            instance['templates'] ? this.initializeTemplates(instance['templates']) : '';
             instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '';
         }
         instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();
