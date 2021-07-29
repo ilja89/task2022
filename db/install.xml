@@ -260,9 +260,9 @@
                 <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="student_name" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="submission_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true"/>
-                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="choosen_time" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
+                <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
+                <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>
             </FIELDS>
@@ -280,8 +280,6 @@
                      REFTABLE="mdl_charon_defense_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
-                <INDEX NAME="IXUNIQUE_choosen_time_and_teacher_id" UNIQUE="true" FIELDS="choosen_time,teacher_id"/>
-                <INDEX NAME="IXUNIQUE_choosen_time_and_student_id" UNIQUE="true" FIELDS="choosen_time,student_id"/>
                 <INDEX NAME="IXFK_charon_defenders_student" UNIQUE="false" FIELDS="student_id"/>
                 <INDEX NAME="IXFK_charon_defenders_charon" UNIQUE="false" FIELDS="charon_id"/>
                 <INDEX NAME="IXFK_charon_defenders_submission" UNIQUE="false" FIELDS="submission_id"/>

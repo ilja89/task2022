@@ -65,31 +65,16 @@ class DefenseRegistrationController extends Controller
     {
         $studentId = $request->input('user_id');
         $submissionId = $request->input('submission_id');
-        $ownTeacher = $request->input('selected') == 1;
         $charonId = $request->input('charon_id');
-        $chosenTime = $request->input('student_chosen_time');
         $defenseLabId = $request->input('defense_lab_id');
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-
-        $this->registrationService->validateDefence($studentId, $charonId, $chosenTime, $lab);
-
-        $teacherId = $this->registrationService->getTeacherId(
-            $studentId,
-            $ownTeacher,
-            $lab->id,
-            $charonId,
-            Carbon::parse($chosenTime)
-        );
+        $this->registrationService->validateRegistration($studentId, $charonId, $lab);
 
         $this->registrationService->registerDefenceTime(
             $studentId,
             $submissionId,
-            $ownTeacher,
             $charonId,
-            $chosenTime,
-            $teacherId,
-            $lab->id,
             $defenseLabId
         );
 

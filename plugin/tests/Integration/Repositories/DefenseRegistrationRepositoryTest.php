@@ -33,24 +33,23 @@ class DefenseRegistrationRepositoryTest extends TestCase
 
     /**
      * Cases:
-     * + 1st & 2nd match time and progress
-     * - 3rd matches progress but too early
-     * - 4th matches progress but too late
-     * - 5th matches time but not progress
+     * - 1st matches time but not progress and still queues
+     * + 2nd & 3rd match time and progress
+     * - (4th matches progress but queue does not have enough capacity) - commented out
      */
     public function testGetUserPendingRegistrationsCount()
     {
         $start = Carbon::now();
-        $end = Carbon::now()->addHours(3);
+        $end = Carbon::now()->addMinutes(50);
 
         /** @var User $student */
         $student = factory(User::class)->create();
 
         /** @var Lab $lab */
-        $lab = factory(Lab::class)->create();
+        $lab = factory(Lab::class)->create(['start' => $start, 'end' => $end]);
 
         /** @var Charon $charon */
-        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+        $charon = factory(Charon::class)->create(['course' => 0, 'category_id' => 0, 'defense_duration' => 15]);
 
         /** @var CharonDefenseLab $defenseLab */
         $defenseLab = CharonDefenseLab::create(['lab_id' => $lab->id, 'charon_id' => $charon->id]);
@@ -62,29 +61,22 @@ class DefenseRegistrationRepositoryTest extends TestCase
         ];
 
         factory(Registration::class)->create($common + [
-            'choosen_time' => Carbon::now()->addMinutes(10),
+            'progress' => 'Done'
+        ]);
+
+        factory(Registration::class)->create($common + [
             'progress' => 'Waiting'
         ]);
 
         factory(Registration::class)->create($common + [
-            'choosen_time' => Carbon::now()->addMinutes(15),
             'progress' => 'Defending'
         ]);
 
+        /*
         factory(Registration::class)->create($common + [
-            'choosen_time' => Carbon::now()->subHours(5),
             'progress' => 'Defending'
         ]);
-
-        factory(Registration::class)->create($common + [
-            'choosen_time' => Carbon::now()->addHours(5),
-            'progress' => 'Defending'
-        ]);
-
-        factory(Registration::class)->create($common + [
-            'choosen_time' => Carbon::now()->addMinutes(20),
-            'progress' => 'Done'
-        ]);
+        */
 
         $actual = $this->repository->getUserPendingRegistrationsCount($student->id, $charon->id, $start, $end);
 

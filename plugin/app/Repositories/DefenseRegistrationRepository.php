@@ -74,6 +74,24 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * @param int $labId
+     *
+     * @return Collection|Registration[]
+     */
+    public function getDefenseRegistrationDurationsByLab(int $labId): array
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
+            ->join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+            ->where('charon_lab.id', $labId)
+            ->select('charon.defense_duration')
+            ->get()
+            ->all();
+    }
+
+    /**
      * @param int $teacherId
      * @param Carbon $time
      *
@@ -142,7 +160,8 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defenders.student_id', $studentId)
             ->where('charon_defenders.progress', '!=', 'Done')
-            ->whereBetween('charon_defenders.choosen_time', [date($labStart), date($labEnd)])
+            ->where('charon_lab.start', date($labStart))
+            ->where('charon_lab.end', date($labEnd))
             ->select('charon_lab.id')
             ->count();
     }
@@ -277,14 +296,10 @@ class DefenseRegistrationRepository
         return DB::table('charon_defenders')
             ->where('charon_defenders.student_id', $studentId)
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
-            ->join('charon_lab_teacher', 'charon_lab_teacher.teacher_id', 'charon_defenders.teacher_id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-            ->select(DB::raw('CONCAT(firstname, " ", lastname) AS teacher'))
-            ->addSelect('charon.name', 'charon_defenders.choosen_time', 'charon_defenders.teacher_id',
-                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
-                'charon_lab_teacher.teacher_location', 'charon_lab_teacher.teacher_comment', 'charon_lab.name as lab_name')
+            ->select('charon.name', 'charon_lab.start as lab_start', 'charon_defenders.teacher_id',
+                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name')
             ->distinct()
             ->get();
     }

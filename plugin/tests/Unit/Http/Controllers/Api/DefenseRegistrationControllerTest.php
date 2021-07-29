@@ -46,9 +46,7 @@ class DefenseRegistrationControllerTest extends TestCase
         $request = new Request([
             'user_id' => 3,
             'submission_id' => 5,
-            'selected' => 0,
             'charon_id' => 7,
-            'student_chosen_time' => '2020-12-15 22:20:00',
             'defense_lab_id' => 13
         ]);
 
@@ -62,20 +60,14 @@ class DefenseRegistrationControllerTest extends TestCase
             ->andReturn($lab);
 
         $this->registrationService
-            ->shouldReceive('validateDefence')
+            ->shouldReceive('validateRegistration')
             ->once()
-            ->with(3, 7, '2020-12-15 22:20:00', $lab);
-
-        $this->registrationService
-            ->shouldReceive('getTeacherId')
-            ->once()
-            ->with(3, false, 19, 7, equalTo(Carbon::parse('2020-12-15 22:20:00')))
-            ->andReturn(17);
+            ->with(3, 7, $lab);
 
         $this->registrationService
             ->shouldReceive('registerDefenceTime')
             ->once()
-            ->with(3, 5, false, 7, '2020-12-15 22:20:00', 17, 19, 13);
+            ->with(3, 5, 7, 13);
 
         $response = $this->controller->studentRegisterDefence($request);
 
