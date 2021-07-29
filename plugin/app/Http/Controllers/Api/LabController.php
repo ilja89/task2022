@@ -167,11 +167,9 @@ class LabController extends Controller
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
         foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders = \DB::table('charon_defenders')
+            $lab->defenders_num = \DB::table('charon_defenders')
                 ->where ('defense_lab_id', $lab->id) //where id of defense lab equals to id of lab sending by function
-                ->select('student_id as def_student_id')
-                ->orderBy('student_id', 'asc')
-                ->get();
+                ->count();
         }
         return $result;
     }
