@@ -132,7 +132,9 @@ export default {
 
   methods: {
     defineLanguage(language_code) {
-      this.language = Charon.getTesterLanguage(language_code);
+      Charon.getTesterLanguage(language_code, this.form.fields.course).then(response =>{
+        this.language = response;
+      })
     },
 
     addFile() {

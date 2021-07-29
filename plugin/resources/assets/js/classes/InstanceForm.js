@@ -109,6 +109,7 @@ export default class InstanceFormForm {
     initializeFields(instance, courseSettings) {
         this.fields = {
             // EDITOR
+            course: instance['course'],
             editor_set: false,
             files: [],
 

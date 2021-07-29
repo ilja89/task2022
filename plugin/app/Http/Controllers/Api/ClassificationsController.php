@@ -84,8 +84,15 @@ class ClassificationsController extends Controller
     {
         $testerType = $this->classificationsRepository->getTesterTypeName($code);
         if ($testerType->name === 'javang'){
-            return 'java';
+            return [
+                'status' => 'OK',
+                'testerType' => 'java',
+            ];
         }
-        return $testerType->name;
+        return [
+            'status' => 'OK',
+            'testerType' => $testerType->name,
+        ];
     }
+
 }

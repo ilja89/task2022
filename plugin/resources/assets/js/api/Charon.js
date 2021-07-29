@@ -15,10 +15,10 @@ class Charon {
         })
     }
 
-    static getTesterLanguage(testerTypeCode, then) {
-        return window.axios.get("", testerTypeCode)
+    static getTesterLanguage(testerTypeCode, courseId) {
+        return window.axios.get(Charon.getRoot() + '/courses/'+ courseId +'/testerType/' + testerTypeCode)
             .then(response => {
-                then(response.data)
+                return response.data.testerType;
             }).catch(error  => {
                 VueEvent.$emit('show-notification', 'Error getting editor language.\n' + error, 'danger')
         })
@@ -35,8 +35,7 @@ class Charon {
     }
 
     static fetchLatestLogs(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs')
-            .then(response => {
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs').then(response => {
                 then(response.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error fetching logs.\n' + error, 'danger')
