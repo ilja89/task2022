@@ -15,7 +15,7 @@ use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
-use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Models\Course as modelsCourse;
 use TTU\Charon\Services\GitCallbackService;
 
 class SaveTesterCallback
@@ -41,7 +41,8 @@ class SaveTesterCallback
      * @param UserService $userService
      * @param ResultRepository $resultRepository
      * @param TestSuiteService $testSuiteService
-     * @param course $course
+     * @param gitCallbackService $gitCallbackService
+     * @param modelsCourse $modelsCourse
      */
     public function __construct(
         SubmissionService $submissionService,
@@ -49,16 +50,16 @@ class SaveTesterCallback
         UserService $userService,
         ResultRepository $resultRepository,
         TestSuiteService $testSuiteService,
-        Course $course,
-        GitCallbackService $gitCallbackService
+        GitCallbackService $gitCallbackService,
+        modelsCourse $modelsCourse
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->userService = $userService;
         $this->resultRepository = $resultRepository;
         $this->testSuiteService = $testSuiteService;
-        $this->course = $course;
         $this->gitCallbackService = $gitCallbackService;
+        $this->modelsCourse = $modelsCourse;
     }
 
     /**
@@ -75,7 +76,7 @@ class SaveTesterCallback
     {
         $courseId = $this->gitCallbackService->getCourse($gitCallback->repo)->id;
 
-        $students = $this->course->getNamesOfStudentsRelatedToCourse($courseId);
+        $students = $this->modelsCourse->getNamesOfStudentsRelatedToCourse($courseId);
 
         $users = $this->getStudentsInvolved($usernames, $students);
 
@@ -109,31 +110,21 @@ class SaveTesterCallback
         sort($usernames);
         sort($filter);
         $users = [];
-        $filtered = [];
 
-        for($i=0; $i < count($usernames); $i++)
-        {
-            for($c=0; $c < count($filter); $c++)
-            {
-                if($usernames[$i] == $filter[$c])
-                {
-                    $filtered[] = $usernames[$i];
-                    break;
-                }
-            }
-        }
-
-        foreach ($filtered as $uniId) {
+        foreach ($usernames as $uniId) {
             $user = $this->userService->findUserByUniid($uniId);
-            if ($user) {
-                $users[$user->id] = $user;
-            } else {
+            if (!$user) {
                 Log::error("User was not found by Uni-ID:" . $uniId);
+            }
+            else if(!in_array($uniId,$filter)){
+                Log::error("User doesn't belong to course:" . $uniId);
+            } else {
+                $users[$user->id] = $user;
             }
         }
 
         if (empty($users)) {
-            Log::error("Unable to find students for submission", $filtered);
+            Log::error("Unable to find students for submission", $usernames);
             throw new InvalidArgumentException("Unable to find students for submission");
         }
 
