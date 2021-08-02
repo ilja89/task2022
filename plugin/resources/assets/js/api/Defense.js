@@ -27,6 +27,18 @@ class Defense {
         })
     }
 
+    static register(charonId, studentId, submissionId, defenseLabId, then) {
+        axios.post(`api/charons/${charonId}/submission?user_id=${studentId}`, {
+            charon_id: charonId,
+            submission_id: submissionId,
+            defense_lab_id: defenseLabId,
+        }).then((response) => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error registering defense.\n' + error, 'danger')
+        })
+    }
+
     static updateRegistration(courseId, defenseId, progress, teacher_id, then) {
         axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId, {
             progress: progress,

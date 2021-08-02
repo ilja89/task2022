@@ -59,7 +59,6 @@
 <script>
 import {Multiselect} from "vue-multiselect";
 import {Translate} from "../../../mixins";
-import moment from "moment";
 import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import LoadingContainer from "../graphics/LoadingContainer";

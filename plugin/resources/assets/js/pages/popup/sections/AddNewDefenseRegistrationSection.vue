@@ -43,10 +43,10 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-btn class="ma-2" small tile outlined color="primary"  @click="Save">
+                <v-btn class="ma-2" small tile outlined color="primary" @click="save">
                   Save
                 </v-btn>
-                <v-btn class="ma-2" small tile outlined color="error" @click="Cancel">
+                <v-btn class="ma-2" small tile outlined color="error" @click="cancel">
                   Cancel
                 </v-btn>
               </v-row>
@@ -60,10 +60,11 @@
 <script>
 
   import router from "../routes";
-  import {Lab, User} from "../../../api";
+  import {Defense, Lab, Submission, User} from "../../../api";
   import {mapState} from "vuex";
 
   export default {
+
     data: function () {
       return {
         all_progress_types: ['Waiting', 'Defending', 'Done'],
@@ -80,11 +81,25 @@
       ]),
     },
     methods: {
-      Cancel(){
+      cancel() {
         router.go(-1)
       },
-      Save(){
-        router.go(-1)
+
+      save() {
+        if (this.item && this.item.lab && this.item.student && this.item.charon ) {
+          let submissionId;
+          let defenseLabId;
+          Lab.getByLabId(this.item.lab.id, (response) => {
+            defenseLabId = response
+          })
+
+          submissionId = "coming soon"
+
+          Defense.register(this.item.charon.id, this.item.student.id, submissionId, defenseLabId, () => {
+            VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
+            router.go(-1)
+          })
+        }
       },
 
       updateFields() {
