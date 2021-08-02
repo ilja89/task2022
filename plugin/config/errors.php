@@ -58,19 +58,9 @@ return [
         'detail' => 'Path are required when saving template.',
     ],
 
-    'template_path_exists' => [
-        'title' => 'Template path with the same name cannot be added twice.',
-        'detail' => 'Template with name: %s exists for this charon.',
-    ],
-
     'same_path' => [
         'title' => 'Two templates with the same path.',
         'detail' => 'Templates with same name: %s cannot be added.',
-    ],
-
-    'template_path_not_exists' => [
-        'title' => 'Template path doesn\'t exists.',
-        'detail' => 'Template with name: %s cannot be updated, as it doesn\'t exists.',
     ],
 
     'submission_git_callback_is_required' => [

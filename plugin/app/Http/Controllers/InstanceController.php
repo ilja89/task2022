@@ -6,8 +6,6 @@ use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
@@ -128,8 +126,7 @@ class InstanceController extends Controller
         // Method to add new templates
         $templates = $this->request->input('course');
         $this->checkTemplates($templates);
-        $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
-        $this->templatesService->addTemplates($charon->id, $templates, $dbTemplates);
+        $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
