@@ -60,12 +60,12 @@ class TesterController extends Controller
     public function postFromInline(Request $request): JsonResponse
     {
         Log::info("Inline submission input: ", [
-            'charonId' => $request->input('charonId'),
+            'charon' => $request->route('charon'),
             'userId' => $request->input('userId'),
             'sourceFiles' => $request->input('sourceFiles'),
             ]);
 
-        $charon = $this->charonRepository->getCharonById($request->input('charonId'));
+        $charon = $this->charonRepository->getCharonById($request->route('charon'));
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 

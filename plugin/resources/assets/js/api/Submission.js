@@ -10,10 +10,9 @@ class Submission {
     }
 
     static saveSubmission(sourceFiles, charonId, studentId, then) {
-        axios.post('/mod/charon/api/submissions/postFromInline', {
-                charonId: charonId,
+        axios.post(`/mod/charon/api/submissions/${charonId}/postFromInline`, {
                 sourceFiles: sourceFiles,
-                studentId: studentId
+                userId: studentId
             }).then(response => {
                 then(response.data)
             }).catch(error => {
