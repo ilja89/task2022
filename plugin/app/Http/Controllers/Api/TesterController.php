@@ -15,7 +15,6 @@ use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
 {
-
     /** @var TesterCommunicationService */
     protected $testerCommunicationService;
 

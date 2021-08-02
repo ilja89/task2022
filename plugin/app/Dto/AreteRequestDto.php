@@ -5,7 +5,7 @@ namespace TTU\Charon\Dto;
 use Carbon\Carbon;
 
 /**
-     * @see https://github.com/envomp/arete-java/blob/master/src/main/java/ee/taltech/arete/java/request/AreteRequestDTO.java
+ * @see https://github.com/envomp/arete-java/blob/master/src/main/java/ee/taltech/arete/java/request/AreteRequestDTO.java
  */
 class AreteRequestDto
 {
@@ -229,8 +229,4 @@ class AreteRequestDto
         $this->slugs = $slugs;
         return $this;
     }
-
-
-
-
 }

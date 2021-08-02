@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Models\GitCallback;
 
@@ -35,7 +34,6 @@ class TesterCommunicationService
      */
     public function sendGitCallback(GitCallback $gitCallback, $testerCallbackUrl, $params)
     {
-        Log::info("Starting pre post:", [$gitCallback]);
         $secret_token = $gitCallback->secret_token;
 
         $params['returnUrl'] = $testerCallbackUrl;

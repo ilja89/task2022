@@ -6,7 +6,6 @@ namespace TTU\Charon\Dto;
 
 class SourceFileDTO
 {
-
     /** @var string */
     private $path;
 
@@ -55,7 +54,4 @@ class SourceFileDTO
         }
         return $payload;
     }
-
-
-
 }
