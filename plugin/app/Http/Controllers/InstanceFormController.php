@@ -81,6 +81,7 @@ class InstanceFormController extends Controller
         Log::debug("Moodle indexed instance from");
 
         if ($this->isUpdate()) {
+            Log::info($this->getCharon($this->request['update']));
             return $this->edit($this->getCharon($this->request['update']));
         }
 

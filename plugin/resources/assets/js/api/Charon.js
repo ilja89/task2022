@@ -6,6 +6,27 @@ class Charon {
         return '/mod/charon/api'
     }
 
+    static postTemplates() {
+
+    }
+
+    static updateTemplates() {
+
+    }
+
+    static deleteTemplates() {
+
+    }
+
+    static getTemplates(charonId, then) {
+        return axios.get(Charon.getRoot() + `/charons/${charonId}/templates`)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+            })
+    }
+
     static all(courseId, then) {
         window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/charons')
             .then(response => {

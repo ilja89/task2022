@@ -145,7 +145,7 @@ class CharonRepository
             throw new CharonNotFoundException('charon_course_module_not_found', $courseModuleId);
         }
 
-        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
+        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping', 'templates')
             ->where('id', $courseModule->instance)
             ->first();
     }

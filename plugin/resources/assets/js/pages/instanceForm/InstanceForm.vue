@@ -140,6 +140,7 @@ export default {
   },
 
   mounted() {
+
     VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
     VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
     VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
@@ -161,6 +162,9 @@ export default {
     });
     VueEvent.$on('deadline-was-removed', (id) => {
       this.form.fields.deadlines.splice(id, 1);
+    });
+    VueEvent.$on('save-templates', (templateList) => {
+      this.form.addTemplates(templateList)
     });
 
     VueEvent.$on('calculation-formula-was-changed', (calculationFormula) => this.form.fields.calculation_formula = calculationFormula);
