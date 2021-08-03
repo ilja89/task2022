@@ -78,7 +78,7 @@ class InstanceController extends Controller
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
         DeadlinesRepository $deadlinesRepository,
-        TemplateService $templatesService,
+        TemplateService $templatesService
     )
     {
         parent::__construct($request);
@@ -116,7 +116,7 @@ class InstanceController extends Controller
         }
 
         // Method to add new templates
-        $templates = $this->request->input('course');
+        $templates = $this->request->input('files');
         $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
@@ -157,7 +157,7 @@ class InstanceController extends Controller
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
 
-            $templates = $this->request->input('course');
+            $templates = $this->request->input('files');
             $this->templatesService->updateTemplates($charon->id, $templates);
 
             $this->updateCharonService->updateGrademaps(

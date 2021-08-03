@@ -47,7 +47,13 @@ class RequireEnrolment
     {
         try {
             if ($request['id'] === null) {
-                $charon = $this->charonRepository->getCharonByCourseModuleId($request->route('charon')->course);
+                if (is_string($request->route('charon'))) {
+                    $charon = $this->charonRepository->getCharonByCourseModuleId(
+                        $this->charonRepository->getCharonById($request->route('charon'))->course);
+                } else {
+                    $charon = $this->charonRepository
+                        ->getCharonByCourseModuleId($request->route('charon')->course);
+                }
             } else {
                 $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
             }
