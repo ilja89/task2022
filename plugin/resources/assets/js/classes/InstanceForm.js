@@ -153,8 +153,6 @@ export default class InstanceFormForm {
             preset: null,
         };
 
-        console.log(this.fields);
-
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
         } else {
