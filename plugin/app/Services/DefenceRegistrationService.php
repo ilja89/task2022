@@ -3,7 +3,6 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
@@ -27,9 +26,6 @@ class DefenceRegistrationService
     /** @var LabTeacherRepository */
     private $teacherRepository;
 
-    /** @var LabRepository */
-    private $labRepository;
-
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
@@ -42,7 +38,6 @@ class DefenceRegistrationService
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
-     * @param LabRepository $labRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
@@ -50,14 +45,12 @@ class DefenceRegistrationService
     public function __construct(
         CharonRepository $charonRepository,
         LabTeacherRepository $teacherRepository,
-        LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
-        $this->labRepository = $labRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
@@ -313,5 +306,37 @@ class DefenceRegistrationService
         }
 
         return $availableTeachers[array_rand($availableTeachers)];
+    }
+
+    public function calculateLabCapacitiesForCourse($courseId)
+    {
+        $labs = $this->defenseRegistrationRepository->getLabsWithDefenseRegistrationsByCourse($courseId);
+        if (count($labs) === 0) {
+
+        }
+
+        $summedTimes = $labs->groupBy('charon_lab_id', true)->map(function($row) {
+            return $row->sum('defence_time');
+        });
+
+        $labInfo = $labs->map(function($row) {
+            return [
+                'id' => $row->charon_lab_id,
+                'start' => $row->start,
+                'end' => $row->end,
+                'name' => $row->lab_name,
+            ];
+        })->toArray();
+
+        $labSet = array_unique($labInfo, SORT_REGULAR);
+        foreach ($labSet as &$lab) {
+            $lab['bookedTime'] = $summedTimes->get($lab['id']);
+        }
+
+        return array_values($labSet);
+    }
+
+    private function calculateBookingAbility() {
+
     }
 }

@@ -84,7 +84,7 @@ export default {
 			})
 		},
 
-		getLabs() {
+		/*getLabs() {
 			axios.get(`api/charons/${this.charon_id}/labs/view`).then(result => {
 				this.$store.state.labs = result.data;
 				this.$store.state.labs.sort((a, b) => {
@@ -93,7 +93,25 @@ export default {
 					return ta - tb;
 				});
 			});
-		},
+		},*/
+
+        getLabs() {
+            let charon;
+            axios.get(`api/charons/${this.charon_id}`).then(result => {
+                charon = result.data;
+                console.log(result.data);
+                console.log(charon.course);
+                axios.get(`api/courses/${charon.course}/labs/view`).then(result => {
+                    console.log(result.data)
+                    this.$store.state.labs = result.data;
+                    this.$store.state.labs.sort((a, b) => {
+                        let ta = new Date(a.start),
+                            tb = new Date(b.start);
+                        return ta - tb;
+                    });
+                });
+            })
+        },
 
 		getDefenseData() {
 			axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&user_id=${this.student_id}`).then(result => {

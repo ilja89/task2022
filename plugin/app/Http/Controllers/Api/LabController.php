@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\DefenceRegistrationService;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,16 +16,25 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var DefenceRegistrationService */
+    private $defenceRegistrationService;
+
     /**
      * LabDummyController constructor.
      *
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param DefenceRegistrationService $defenceRegistrationService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(
+        Request $request,
+        LabRepository $labRepository,
+        DefenceRegistrationService $defenceRegistrationService
+    )
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->defenceRegistrationService = $defenceRegistrationService;
     }
 
     /**
@@ -85,7 +95,7 @@ class LabController extends Controller
             $this->request['name'],
             $this->request['teachers'],
             $this->request['charons'],
-            $this->request['groups'],
+            $this->request['groups']
         );
     }
 
@@ -179,4 +189,10 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
+    public function getLabsWithCapacityInfoForCourse(Request $request)
+    {
+        $courseId = $request->route('course');
+        $duration = $request->route('defense_duration');
+        return $this->defenceRegistrationService->calculateLabCapacitiesForCourse($courseId);
+    }
 }
