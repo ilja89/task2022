@@ -78,6 +78,11 @@
               }"
             />
           </div>
+          <div v-for="file in form.fields.files">
+            <input type="hidden" :name="'files[' + file.id + '][path]'" :value="file.path">
+            <input type="hidden" :name="'files[' + file.id + '][contents]'" :value="file.content">
+          </div>
+
         </div>
       </div>
   </fieldset>
@@ -138,7 +143,7 @@ export default {
     },
 
     addFile() {
-      this.form.fields.files.push({"path": '', "content": ''});
+      this.form.fields.files.push({"id": this.form.fields.files.length, "path": '', "content": ''});
     },
 
     deleteFile(index) {
