@@ -46,7 +46,8 @@ class GitCallbackService
         $url = preg_replace('/\w+@/m', '', $url);
         $url = preg_replace('/^[\w+.]+[\/|:]/m', '', $url);
         $sub_domains = preg_split('/[\/|\\\\]/m', $url);
-        $course_regex = '/[\w\d]+-.+/m';
+        $course_regex = '/[\w\d]+.+/m';
+        $course_project_regex = '/[\w\d]+-.+/m';
 
         foreach ($sub_domains as $meta) {
             // Try finding COURSE
@@ -62,7 +63,7 @@ class GitCallbackService
             $pos = strrpos($meta, "-");
             while ($pos !== false) {
                 $course_name = substr($meta, 0, $pos);
-                if (preg_match($course_regex, $course_name)) {
+                if (preg_match($course_project_regex, $course_name)) {
                     Log::debug('Looking for course "' . $course_name . '"');
                     $course = Course::where('shortname', $course_name)->first();
                     if ($course) {

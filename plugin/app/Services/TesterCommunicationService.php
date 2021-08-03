@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Models\GitCallback;
 
 /**
@@ -41,6 +42,14 @@ class TesterCommunicationService
         } else {
             $params['returnExtra'] = ['token' => $secret_token];
         }
+
+        $this->httpCommunicationService->postToTester($params);
+    }
+
+    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl) {
+        $params = $areteRequestDto->toArray();
+
+        $params['returnUrl'] = $testerCallbackUrl;
 
         $this->httpCommunicationService->postToTester($params);
     }

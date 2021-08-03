@@ -4,7 +4,6 @@ namespace TTU\Charon\Http\Middleware;
 
 use Closure;
 use TTU\Charon\Exceptions\CharonNotFoundException;
-use TTU\Charon\Exceptions\ForbiddenException;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Services\PermissionsService;
@@ -47,7 +46,17 @@ class RequireEnrolment
     public function handle($request, Closure $next)
     {
         try {
-            $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
+            if ($request['id'] === null) {
+                if (is_string($request->route('charon'))) {
+                    $charon = $this->charonRepository->getCharonByCourseModuleId(
+                        $this->charonRepository->getCharonById($request->route('charon'))->course);
+                } else {
+                    $charon = $this->charonRepository
+                        ->getCharonByCourseModuleId($request->route('charon')->course);
+                }
+            } else {
+                $charon = $this->charonRepository->getCharonByCourseModuleId($request['id']);
+            }
         } catch (CharonNotFoundException $e) {
             return redirect('/', 'The requested Charon could not be found.');
         }

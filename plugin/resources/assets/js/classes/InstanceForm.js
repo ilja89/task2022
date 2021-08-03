@@ -121,6 +121,7 @@ export default class InstanceFormForm {
         console.log(instance);
         this.fields = {
             // EDITOR
+            course: courseSettings['course_id'],
             editor_set: false,
             files: [],
 

@@ -22,6 +22,24 @@
                     :helper_text="translate('tester_type_helper')"
                     @input-was-changed="onTesterTypeChanged">
             </charon-select>
+
+            <charon-text-input
+                    input_class="is-half"
+                    name="tester_url"
+                    label="Tester URL"
+                    :value="form.fields.tester_url"
+                    @input-was-changed="onTesterUrlChanged">
+            </charon-text-input>
+
+            <charon-text-input
+                    input_class="is-half"
+                    name="tester_token"
+                    label="Tester token"
+                    :value="form.fields.tester_token"
+                    :helper_text="translate('tester_token_helper')"
+                    @input-was-changed="onTesterTokenChanged">
+            </charon-text-input>
+
         </slot>
     </charon-fieldset>
 
@@ -48,6 +66,14 @@
 
             onTesterTypeChanged(testerType) {
                 VueEvent.$emit('tester-type-was-changed', testerType);
+            },
+
+            onTesterUrlChanged(testerUrl) {
+                VueEvent.$emit('tester-url-was-changed', testerUrl);
+            },
+
+            onTesterTokenChanged(testerToken) {
+                VueEvent.$emit('tester-token-was-changed', testerToken);
             }
         }
     }

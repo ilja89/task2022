@@ -1,20 +1,26 @@
 <template>
   <div>
     <charon-tabs>
-      <charon-tab v-for="(code, index) in codes"
-                  :name="code"
+      <charon-tab v-for="(code, index) in this.codes"
+                  :name="code.path"
                   :selected="index===0">
-        <code-editor :code="code"
-                     :language="language"
+        <code-editor :codeId="index"
+                     :language="this.language"
+                     :codes="codes"
         ></code-editor>
       </charon-tab>
     </charon-tabs>
+    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+      Submit
+    </v-btn>
   </div>
 </template>
 <script>
 import CharonTab from "../../../components/partials/CharonTab";
 import CharonTabs from "../../../components/partials/CharonTabs";
 import CodeEditor from "./CodeEditor";
+import Submission from "../../../api/Submission";
+
 export default {
   name: "CodeTemplates",
 
@@ -24,19 +30,41 @@ export default {
     language: {require: true}
   },
 
-  methods: {
-    jff() {
-      console.log(window.charonId);
-    }
-  },
-
   mounted() {
-    this.jff()
+    this.getTemplates();
   },
 
   data() {
     return {
-      codes: ["def", "def2", "def3"]
+      codes: [],
+    }
+  },
+
+  methods: {
+    getTemplates() {
+      try {
+        Submission.getTemplates(window.charonId, answer => {
+          this.codes = answer
+        })
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error getting templates!')
+      }
+    },
+
+    submitClicked() {
+      let sourceFiles = [];
+
+      for (let i = 0; i < this.codes.length; i++) {
+        sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents});
+      }
+
+      try {
+        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
+            VueEvent.$emit('show-notification', 'Submission successfully saved!')
+        )
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error saving submission!')
+      }
     }
   }
 }

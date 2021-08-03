@@ -6,13 +6,9 @@ use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Events\CharonUpdated;
-use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DeadlinesRepository;
-use TTU\Charon\Repositories\TemplatesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
@@ -58,9 +54,6 @@ class InstanceController extends Controller
     /** @var TemplateService */
     private $templatesService;
 
-    /** @var TemplatesRepository */
-    private $templatesRepository;
-
     /**
      * InstanceController constructor.
      *
@@ -73,7 +66,6 @@ class InstanceController extends Controller
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
      * @param TemplateService $templatesService
-     * @param TemplatesRepository $templatesRepository
      * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
@@ -86,8 +78,7 @@ class InstanceController extends Controller
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
         DeadlinesRepository $deadlinesRepository,
-        TemplateService $templatesService,
-        TemplatesRepository $templatesRepository
+        TemplateService $templatesService
     )
     {
         parent::__construct($request);
@@ -99,7 +90,6 @@ class InstanceController extends Controller
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
         $this->deadlinesRepository = $deadlinesRepository;
-        $this->templatesRepository = $templatesRepository;
         $this->templatesService = $templatesService;
     }
 
@@ -127,9 +117,7 @@ class InstanceController extends Controller
 
         // Method to add new templates
         $templates = $this->request->input('files');
-        $this->checkTemplates($templates);
-        $dbTemplates = $this->templatesRepository->getTemplates($charon->id);
-        $this->templatesService->addTemplates($charon->id, $templates, $dbTemplates);
+        $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
@@ -161,22 +149,23 @@ class InstanceController extends Controller
      */
     public function update()
     {
+
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$this->request->toArray()]);
-        $templates = $this->request->input('files');
-        $this->checkTemplates($templates);
-        $this->templatesRepository->deleteAllTemplates($charon->id);
-        $this->templatesService->addTemplates($charon->id, $templates);
+
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+
+            $templates = $this->request->input('files');
+            $this->templatesService->updateTemplates($charon->id, $templates);
+
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
                 $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
             );
-
             // TODO: Plagiarism
         }
 
@@ -266,7 +255,6 @@ class InstanceController extends Controller
      */
     private function getCharonFromRequest()
     {
-        $editor_set = $this->request->input('editor_set', false);
         return new Charon([
             'name' => $this->request->input('name'),
             'description' => $this->request->input('description')['text'],
@@ -287,7 +275,7 @@ class InstanceController extends Controller
             'tester_extra' => $this->request->input('tester_extra', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
-            'editor_set' => settype($editor_set, 'boolean')
+            'editor_set' => $this->request->input('editor_set', false) === 'true',
         ]);
     }
 
@@ -305,21 +293,6 @@ class InstanceController extends Controller
             'description',
             $charon->courseModule()->id
         );
-
         return $newDescription;
-    }
-
-    /**
-     * Checking if given templates have path and
-     *
-     * @param $templates
-     * @throws TemplatePathException
-     */
-    private function checkTemplates($templates){
-        foreach ($templates as $template) {
-            if (preg_match('/\s/',$template['path']) or empty($template['path'])){
-                throw new TemplatePathException('template_path_are_required');
-            }
-        }
     }
 }
