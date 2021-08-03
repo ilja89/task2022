@@ -109,7 +109,7 @@ export default class InstanceFormForm {
     initializeFields(instance, courseSettings) {
         this.fields = {
             // EDITOR
-            course: instance['course'],
+            course: courseSettings['course_id'],
             editor_set: false,
             files: [],
 
@@ -152,6 +152,8 @@ export default class InstanceFormForm {
 
             preset: null,
         };
+
+        console.log(this.fields);
 
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
