@@ -249,14 +249,13 @@
                     } else {
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
+                            this.registrations = result;
                             if (result == 0) {
                                 Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
                                     window.location = "popup#/labs";
                                     window.location.reload();
                                     VueEvent.$emit('show-notification', 'Lab updated!');
                                 });
-                            } else {
-                                this.registrations = result;
                             }
                         });
                     }
@@ -361,13 +360,13 @@
         },
 
         watch: {
-            lab: function() {
-                this.labInitial = _.cloneDeep(this.lab);
-            },
             lab: {
                 deep: true,
                 handler() {
                     this.registrations = 0;
+                    if (this.lab.id != this.labInitial.id) {
+                        this.labInitial = _.cloneDeep(this.lab);
+                    }
                 }
             }
         }

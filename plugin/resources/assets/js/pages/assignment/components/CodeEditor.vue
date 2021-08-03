@@ -1,14 +1,15 @@
 <template>
-  <div id="app" v-if="editor_set">
+  <div class="editorDiv">
 
     <span>Language: {{language}}</span>
 
     <AceEditor
         class="editor"
         v-model="content"
+        @input="dataSubmit"
         @init="editorInit"
-        :lang="language"
-        theme="monk"
+        :lang="lang"
+        theme="crimson_editor"
         width="100%"
         height="500px"
         :options="{
@@ -22,14 +23,6 @@
         showPrintMargin: false,
         showGutter: true,
         }"
-        :commands="[
-        {
-            name: 'save',
-            bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-            exec: dataSubmit,
-            readOnly: true,
-        },
-    ]"
     />
 
   </div>
@@ -47,19 +40,30 @@ export default {
 
   props: {
     language: { required: true },
-    editor_set: { required: true }
+    codes: { require: true },
+    codeId: { required: true }
   },
 
   data() {
     return {
-      content: '',
+      content: this.codes[this.codeId].contents,
+      lang: this.language
     }
   },
 
-  methods: {
+  beforeMount() {
+    if (this.language === 'javang') {
+      this.lang = 'java';
+    }
+  },
+
+  computed: {
     dataSubmit() {
-      //code here
+      this.codes[this.codeId].contents = this.content;
     },
+  },
+
+  methods: {
     editorInit: function () {
       require('brace/ext/language_tools')//language extension prerequsite...
       require('brace/mode/html')
@@ -69,7 +73,7 @@ export default {
       require('brace/mode/prolog')
       require('brace/mode/csharp')
       require('brace/mode/less')
-      require('brace/theme/monokai')
+      require('brace/theme/crimson_editor')
       require('brace/snippets/python')//snippet
       require('brace/snippets/javascript')
       require('brace/snippets/java')
@@ -77,7 +81,6 @@ export default {
       require('brace/snippets/csharp')
     }
   }
-
 }
 
 </script>
@@ -87,6 +90,10 @@ export default {
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
+}
+
+.editorDiv {
+  margin-top: 1.5em;
 }
 
 </style>
