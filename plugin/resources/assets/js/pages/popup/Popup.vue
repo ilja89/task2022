@@ -24,7 +24,8 @@
             <v-footer absolute class="font-weight-medium">
                 <v-col class="text-center" cols="12">
                     <span :title="new Date(version.date).toLocaleString()">{{ new Date(version.date).getFullYear() }}</span> — <strong>Charon</strong>
-                    <span class="version"> — Version: {{ version.commit }} </span>
+                    <span class="version"> — <a onclick='window.open("https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md")'>
+                        Version: {{branch}} - {{releaseDate}} </a></span>
                 </v-col>
             </v-footer>
         </v-main>
@@ -58,7 +59,20 @@
                 'course',
                 'charons'
             ]),
-            version: function () { return window.appVersion; }
+            version: function () { return window.appVersion; },
+            branch: function () {
+                let branchText = window.appVersion.branch;
+                if (branchText.includes("/")) {
+                    return branchText.substring(branchText.indexOf("/") + 1)
+                }
+                return branchText;
+            },
+
+            releaseDate: function () {
+                let rDate = new Date(window.appVersion.date)
+                return rDate.toLocaleDateString('et-EE',{
+                    month: '2-digit',day: '2-digit',year: 'numeric'} );
+            },
         },
 
         created() {
