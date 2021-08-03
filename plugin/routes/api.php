@@ -8,6 +8,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterType');
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
 
     Route::middleware('auth.course_module.enrolment.require')
         ->post('submissions/{charon}/postFromInline', 'TesterController@postFromInline');

@@ -282,7 +282,6 @@ class InstanceController extends Controller
             'description',
             $charon->courseModule()->id
         );
-
         return $newDescription;
     }
 }
