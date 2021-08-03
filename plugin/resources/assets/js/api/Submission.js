@@ -1,5 +1,25 @@
 class Submission {
 
+    static getTemplates(charonId, then) {
+        return axios.get(`/mod/charon/api/charons/${charonId}/templates`)
+            .then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+        })
+    }
+
+    static saveSubmission(sourceFiles, charonId, studentId, then) {
+        axios.post(`/mod/charon/api/submissions/${charonId}/postFromInline`, {
+                sourceFiles: sourceFiles,
+                userId: studentId
+            }).then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error saving submission.\n' + error, 'danger')
+            })
+    }
+
     static findByUserCharon(userId, charonId, then) {
         axios.get(`/mod/charon/api/charons/${charonId}/submissions`, {params: {user_id: userId}})
             .then(({data}) => {

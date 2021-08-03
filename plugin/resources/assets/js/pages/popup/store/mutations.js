@@ -23,5 +23,5 @@ export const UPDATE_LAB = (state, { lab }) => {
 }
 
 export const UPDATE_LAB_TO_EMPTY = (state) => {
-    state.lab = {start: {time: null}, end: {time: null}, teachers: []}
+    state.lab = {start: {time: null}, end: {time: null}, teachers: [], groups: []}
 }

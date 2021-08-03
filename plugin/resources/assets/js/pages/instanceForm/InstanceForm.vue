@@ -63,7 +63,7 @@
 		
 		<deadline-section :form="form"></deadline-section>
 		<grouping-section :form="form"></grouping-section>
-    <code-editor-section :form="form"></code-editor-section>
+    <code-editor-section v-if="!isEditing" :form="form"></code-editor-section>
 		
 		<v-snackbar
 			top
@@ -127,6 +127,12 @@ export default {
 			
 		}
 	},
+
+  computed: {
+    isEditing() {
+      return window.isEditing;
+    },
+  },
 	
 	methods: {
 		toggleAdvancedInfoSection(advanced_toggle) {
