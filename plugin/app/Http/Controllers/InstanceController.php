@@ -244,7 +244,6 @@ class InstanceController extends Controller
      */
     private function getCharonFromRequest()
     {
-        $editor_set = $this->request->input('editor_set', false);
         return new Charon([
             'name' => $this->request->input('name'),
             'description' => $this->request->input('description')['text'],
@@ -265,7 +264,7 @@ class InstanceController extends Controller
             'tester_extra' => $this->request->input('tester_extra', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
-            'editor_set' => settype($editor_set, 'boolean')
+            'editor_set' => $this->request->input('editor_set', false) === 'true',
         ]);
     }
 

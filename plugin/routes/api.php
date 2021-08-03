@@ -11,6 +11,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
 
+    Route::middleware('auth.course_module.enrolment.require')
+        ->post('submissions/{charon}/postFromInline', 'TesterController@postFromInline');
+
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
     Route::get('git_callback', 'GitCallbackController@index')
