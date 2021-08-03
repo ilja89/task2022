@@ -166,8 +166,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
     // CHARON TEMPLATES
-    Route::post('charons/{charon}/templates/store', 'TemplatesController@store'); // add new templates
-    Route::post('charons/{charon}/templates/update', 'TemplatesController@update'); // update templates
-    Route::delete('charons/{charon}/template/{template}', 'TemplatesController@delete'); // delete template by id and path
-    Route::get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
 });

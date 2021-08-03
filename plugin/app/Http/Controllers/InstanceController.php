@@ -6,14 +6,13 @@ use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use TTU\Charon\Events\CharonCreated;
-use TTU\Charon\Events\CharonUpdated;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
+use TTU\Charon\Services\TemplateService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -52,6 +51,9 @@ class InstanceController extends Controller
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
 
+    /** @var TemplateService */
+    private $templatesService;
+
     /**
      * InstanceController constructor.
      *
@@ -63,6 +65,7 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param TemplateService $templatesService
      * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
@@ -74,7 +77,8 @@ class InstanceController extends Controller
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
-        DeadlinesRepository $deadlinesRepository
+        DeadlinesRepository $deadlinesRepository,
+        TemplateService $templatesService
     )
     {
         parent::__construct($request);
@@ -86,6 +90,7 @@ class InstanceController extends Controller
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
         $this->deadlinesRepository = $deadlinesRepository;
+        $this->templatesService = $templatesService;
     }
 
     /**
@@ -109,6 +114,10 @@ class InstanceController extends Controller
         if (!$this->charonRepository->save($charon)) {
             return null;
         }
+
+        // Method to add new templates
+        $templates = $this->request->input('files');
+        $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
@@ -148,13 +157,15 @@ class InstanceController extends Controller
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
 
+            $templates = $this->request->input('files');
+            $this->templatesService->updateTemplates($charon->id, $templates);
+
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
                 $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
             );
-
             // TODO: Plagiarism
         }
 

@@ -26,27 +26,14 @@ class TemplatesRepository
      * @param string $contents
      * @return Template
      */
-    public function saveTemplate(int $charonId, string $path, string $contents): Template
+    public function saveTemplate(int $charonId, string $path, $contents): Template
     {
         return Template::create([
             'charon_id' => $charonId,
             'path' => $path,
-            'contents' => $contents,
+            'contents' => $contents ?: "",
             'created_at' => Carbon::now()
         ]);
-    }
-
-    /**
-     * @param int $charonId
-     * @param string $path
-     * @return mixed
-     */
-    public function deleteTemplate(int $charonId, string $path)
-    {
-        return DB::table('charon_template')
-            ->where('charon_id', $charonId)
-            ->where('path', $path)
-            ->delete();
     }
 
     /**
@@ -61,14 +48,13 @@ class TemplatesRepository
     }
 
     /**
-     * @param $template
+     * @param int $charonId
      * @return mixed
      */
-    public function updateTemplateContents($template)
+    public function deleteAllTemplates(int $charonId)
     {
         return DB::table('charon_template')
-            ->where('charon_id', $template->charon_id)
-            ->where('path', $template->path)
-            ->update(['contents' => $template->contents]);
+            ->where('charon_id', $charonId)
+            ->delete();
     }
 }
