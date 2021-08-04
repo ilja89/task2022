@@ -46,7 +46,7 @@
                 items: [
                     {title: 'Dashboard', icon: "dashboard", route: () => '/'},
                     {title: 'Grading', icon: 'grading', route: this.gradingLink},
-                    {title: 'Student overview', icon: 'face', route: this.studentOverviewLink},
+                    {title: 'Student overview', icon: 'face', route: () => '/student-overview'},
                     {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
                     {title: 'Labs', icon: 'event_available', route: () => '/labs'},
@@ -88,14 +88,6 @@
                     return '/grading/' + this.student.id
                 } else {
                     return '/grading'
-                }
-            },
-
-            studentOverviewLink() {
-                if (this.student != null) {
-                    return '/student-overview/' + this.student.id
-                } else {
-                    return '/student-overview'
                 }
             }
         }

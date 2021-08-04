@@ -1,79 +1,43 @@
 <template>
     <div class="student-overview-container">
-        <page-title :student="student"></page-title>
 
-        <popup-section title="Grades report"
-                       subtitle="Grading report for the current student.">
+      <v-card class="mb-16 pl-4">
+        <v-card-title>Student overview</v-card-title>
+      </v-card>
 
-            <v-card class="mx-auto" outlined light raised>
-                <v-container class="spacing-playground pa-3" fluid>
-                    <div class="student-overview-card" v-html="table"></div>
-                </v-container>
-            </v-card>
+        <popup-section title="Students"
+                       subtitle="Here is a list of all students for this course.">
+
+              <div v-for="(student, index) in students" :key="index">
+                <div class="card hover-overlay submission" @click="studentDetails(student.id)">{{ student.name }} </div>
+              </div>
 
         </popup-section>
     </div>
 </template>
 
 <script>
-    import {PageTitle} from '../partials'
-    import {mapState, mapGetters, mapActions} from 'vuex'
-    import {User} from '../../../api'
     import {PopupSection} from '../layouts'
 
     export default {
 
-        components: {PopupSection, PageTitle},
+        components: {PopupSection},
 
         data() {
             return {
-                table: '',
+                students: [
+                    {name: 'Paula Php', uniId: 'paphp', id: 3},
+                    {name: 'Jaak Java', uniId: 'jjava', id: 33},
+                    {name: 'Stiina Siisharp', uniId: 'ssiis', id: 69}
+                ]
             }
         },
 
-        computed: {
-            ...mapState([
-                'student',
-            ]),
-
-            ...mapGetters([
-                'courseId',
-            ]),
-
-            routeStudentId() {
-                return this.$route.params.student_id
-            },
-        },
-
-        watch: {
-            $route() {
-                if (typeof this.routeStudentId !== 'undefined' && this.$route.name === 'student-overview') {
-                    this.getStudent()
-                    this.getStudentOverviewTable()
-                }
-            },
-        },
-
         methods: {
-            ...mapActions([
-                'fetchStudent',
-            ]),
-
-            getStudentOverviewTable() {
-                User.getReportTable(this.courseId, this.routeStudentId, (table) => {
-                    this.table = table
-                })
-            },
-
-            getStudent() {
-                this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
-            },
-        },
-
-        created() {
-            this.getStudent()
-            this.getStudentOverviewTable()
-        },
+            studentDetails(id) {
+              this.$router.push({ name: 'student-details', params: {student_id: `${id}`} })
+            }
+        }
     }
 </script>
 
