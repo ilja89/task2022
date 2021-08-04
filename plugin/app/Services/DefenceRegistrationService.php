@@ -8,7 +8,6 @@ use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User as MoodleUser;
@@ -311,9 +310,6 @@ class DefenceRegistrationService
     public function calculateLabCapacitiesForCourse($courseId)
     {
         $labs = $this->defenseRegistrationRepository->getLabsWithDefenseRegistrationsByCourse($courseId);
-        if (count($labs) === 0) {
-
-        }
 
         $summedTimes = $labs->groupBy('charon_lab_id', true)->map(function($row) {
             return $row->sum('defence_time');

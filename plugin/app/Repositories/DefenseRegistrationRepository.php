@@ -307,8 +307,8 @@ class DefenseRegistrationRepository
     public function getLabsWithDefenseRegistrationsByCourse($courseId)
     {
         return \DB::table('charon_defense_lab')
-            ->leftjoin('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-            ->leftjoin('charon', 'charon.id', 'charon_defense_lab.charon_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+            ->join('charon', 'charon.id', 'charon_defense_lab.charon_id')
             ->leftjoin('charon_submission', 'charon_submission.charon_id', 'charon.id')
             ->leftjoin('user', 'user.id', 'charon_submission.user_id')
             ->leftjoin('charon_defenders', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
