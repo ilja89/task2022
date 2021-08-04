@@ -90,7 +90,6 @@ class TesterController extends Controller
             ->setSource($finalListofSource)
             ->setUniid($user->username);
 
-
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/tester_callback'));
 

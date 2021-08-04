@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use stdClass;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
@@ -81,7 +80,6 @@ class InstanceFormController extends Controller
         Log::debug("Moodle indexed instance from");
 
         if ($this->isUpdate()) {
-            Log::info($this->getCharon($this->request['update']));
             return $this->edit($this->getCharon($this->request['update']));
         }
 

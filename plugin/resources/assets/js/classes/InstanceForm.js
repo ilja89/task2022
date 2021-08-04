@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { Charon } from "../api";
 
 export default class InstanceFormForm {
     constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services) {
@@ -118,7 +117,6 @@ export default class InstanceFormForm {
     }
 
     initializeFields(instance, courseSettings) {
-        console.log(instance);
         this.fields = {
             // EDITOR
             course: courseSettings['course_id'],
