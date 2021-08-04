@@ -51,12 +51,6 @@ export default {
     }
   },
 
-  beforeMount() {
-    if (this.language === 'javang') {
-      this.lang = 'java';
-    }
-  },
-
   computed: {
     dataSubmit() {
       this.codes[this.codeId].contents = this.content;
@@ -64,17 +58,24 @@ export default {
   },
 
   methods: {
+
+    /**
+     * Ace-code editor now supports only html, python, javascript, java, prolog and C#,
+     * but more languages in these method like these: require('brace/mode/language'), where
+     * language is programming language you need.
+     * For example: require('brace/mode/python').
+     */
     editorInit: function () {
-      require('brace/ext/language_tools')//language extension prerequsite...
-      require('brace/mode/html')
-      require('brace/mode/python')//language
+      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/mode/html') //language
+      require('brace/mode/python')
       require('brace/mode/javascript')
       require('brace/mode/java')
       require('brace/mode/prolog')
       require('brace/mode/csharp')
       require('brace/mode/less')
       require('brace/theme/crimson_editor')
-      require('brace/snippets/python')//snippet
+      require('brace/snippets/python') //snippet
       require('brace/snippets/javascript')
       require('brace/snippets/java')
       require('brace/snippets/prolog')
