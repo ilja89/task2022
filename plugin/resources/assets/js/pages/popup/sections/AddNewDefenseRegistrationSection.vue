@@ -46,7 +46,7 @@
                 <v-btn class="ma-2" small tile outlined color="primary" @click="save">
                   Save
                 </v-btn>
-                <v-btn class="ma-2" small tile outlined color="error" @click="cancel">
+                <v-btn class="ma-2" small tile outlined color="error" @click="leave">
                   Cancel
                 </v-btn>
               </v-row>
@@ -81,23 +81,15 @@
       ]),
     },
     methods: {
-      cancel() {
+      leave() {
         router.go(-1)
       },
 
       save() {
-        if (this.item && this.item.lab && this.item.student && this.item.charon ) {
-          let submissionId;
-          let defenseLabId;
-          Lab.getByLabId(this.item.lab.id, (response) => {
-            defenseLabId = response
-          })
-
-          submissionId = "coming soon"
-
-          Defense.register(this.item.charon.id, this.item.student.id, submissionId, defenseLabId, () => {
-            VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
-            router.go(-1)
+        if (this.item && this.item.lab && this.item.student && this.item.charon) {
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.id, () => {
+            VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
+            this.leave();
           })
         }
       },

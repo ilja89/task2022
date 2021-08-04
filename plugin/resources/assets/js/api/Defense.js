@@ -27,15 +27,14 @@ class Defense {
         })
     }
 
-    static register(charonId, studentId, submissionId, defenseLabId, then) {
-        axios.post(`api/charons/${charonId}/submission?user_id=${studentId}`, {
+    static registerByTeacher(charonId, studentId, labId, then) {
+        axios.post(`/mod/charon/api/charons/${charonId}/registerDefense?user_id=${studentId}`, {
             charon_id: charonId,
-            submission_id: submissionId,
-            defense_lab_id: defenseLabId,
+            lab_id: labId,
         }).then((response) => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error registering defense.\n' + error, 'danger')
+            VueEvent.$emit('show-notification', 'Error creating a new defense registration.\n' + error, 'danger')
         })
     }
 

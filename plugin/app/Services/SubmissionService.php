@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Exceptions\NotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -39,6 +40,9 @@ class SubmissionService
     /** @var GrademapService */
     private $grademapService;
 
+    /** @var SubmissionCalculatorService */
+    private $submissionCalculatorService;
+
     /**
      * SubmissionService constructor.
      *
@@ -48,6 +52,7 @@ class SubmissionService
      * @param SubmissionsRepository $submissionsRepository
      * @param UserRepository $userRepository
      * @param GrademapService $grademapService
+     * @param SubmissionCalculatorService $submissionCalculatorService
      */
     public function __construct(
         GradebookService $gradebookService,
@@ -55,7 +60,8 @@ class SubmissionService
         AreteResponseParser $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
         UserRepository $userRepository,
-        GrademapService $grademapService
+        GrademapService $grademapService,
+        SubmissionCalculatorService $submissionCalculatorService
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
@@ -63,6 +69,7 @@ class SubmissionService
         $this->submissionsRepository = $submissionsRepository;
         $this->userRepository = $userRepository;
         $this->grademapService = $grademapService;
+        $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
     /**
@@ -243,5 +250,62 @@ class SubmissionService
                 );
             }
         }
+    }
+
+    /**
+     * Find the most suitable submission to register a defense with and return its identifier
+     * or throw if no suitable submission exist.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     *
+     * @return Submission
+     * @throws NotFoundException
+     */
+    public function findSubmissionToDefend(Charon $charon, int $userId): Submission
+    {
+        $submissions = $this->submissionsRepository->getUngradedSubmissions($charon->id, $userId);
+
+        if (count($submissions) < 1) {
+            throw new NotFoundException("no_submission"); // add in errors.php
+        }
+
+        $submission = $this->findMostSuitableSubmission($submissions, $charon);
+
+        if ($submission === null) {
+            throw new NotFoundException("no_submission"); // add in errors.php
+        }
+
+        return $submission;
+    }
+
+    /**
+     * Pick the most suitable submission from the given array of submissions or
+     * return null if none there are no suitable submissions in given array.
+     *
+     * @param array $submissions
+     * @param Charon $charon
+     *
+     * @return Submission|null
+     */
+    private function findMostSuitableSubmission(array $submissions, Charon $charon)
+    {
+        $bestScore = -1;
+        $bestSubmission = null;
+        $defenseThreshold = $charon->defense_threshold;
+
+        foreach ($submissions as $submission) {
+            if ($this->submissionCalculatorService->checkSubmissionStyle($submission)) {
+
+                $submissionWeightedScore = $this->submissionCalculatorService
+                    ->calculateSubmissionWeightedScore($submission);
+                if ($submissionWeightedScore >= $defenseThreshold && $bestScore < $submissionWeightedScore) {
+                    $bestSubmission = $submission;
+                    $bestScore = $submissionWeightedScore;
+                }
+            }
+        }
+
+        return $bestSubmission;
     }
 }

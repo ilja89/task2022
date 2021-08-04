@@ -152,4 +152,50 @@ class SubmissionCalculatorService
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
     }
+
+    /**
+     * Calculate weighted score of given submission's test suites.
+     *
+     * @param Submission $submission
+     *
+     * @return float|int
+     */
+    public function calculateSubmissionWeightedScore(Submission $submission)
+    {
+        $totalWeight = 0;
+        $totalWeightedScore = 0;
+        $testSuites = $submission->testSuites()->where('submission_id', $submission->id)->get();
+
+        for ($i = 0; $i < count($testSuites); $i++) {
+            $suite = $testSuites[$i];
+            $totalWeight += $suite->weight;
+            $totalWeightedScore += $suite->weight * $suite->grade;
+        }
+
+        return ($totalWeightedScore / number_format(max($totalWeight, 1), 2, '.', ''));
+    }
+
+    /**
+     * Return true if style of given submission is okay and false otherwise.
+     *
+     * @param Submission $submission
+     *
+     * @return bool
+     */
+    public function checkSubmissionStyle(Submission $submission): bool
+    {
+        // TODO: check if this works with group submissions
+        $results = $submission->results()->where('user_id', $submission->student_id)->get();
+
+        for ($i = 0; $i < count($results); $i++) {
+            $code = $results[$i]->grade_type_code;
+            if ($code > 100 && $code <= 1000) {
+                $result = $results[$i]->calculated_result;
+                if ($result < 0.999) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

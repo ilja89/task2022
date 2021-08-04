@@ -251,7 +251,8 @@ class SubmissionsController extends Controller
      *
      * @return int
      */
-    private function getStudentId(Submission $submission) {
+    private function getStudentId(Submission $submission)
+    {
         if (!$this->request->input('user_id')) {
             return $submission->user_id;
         }

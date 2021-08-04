@@ -2,9 +2,9 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use TTU\Charon\Exceptions\NotFoundException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
+use TTU\Charon\Services\CharonService;
 use TTU\Charon\Services\DefenceRegistrationService;
+use TTU\Charon\Services\LabService;
+use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -27,6 +30,15 @@ class DefenseRegistrationController extends Controller
     /** @var DefenceRegistrationService */
     protected $registrationService;
 
+    /** @var SubmissionService */
+    protected $submissionService;
+
+    /** @var CharonService */
+    protected $charonService;
+
+    /** @var LabService */
+    protected $labService;
+
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
@@ -37,6 +49,9 @@ class DefenseRegistrationController extends Controller
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
+     * @param SubmissionService $submissionService
+     * @param CharonService $charonService
+     * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
      */
     public function __construct(
@@ -44,17 +59,23 @@ class DefenseRegistrationController extends Controller
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
+        SubmissionService $submissionService,
+        CharonService $charonService,
+        LabService $labService,
         CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
+        $this->submissionService = $submissionService;
+        $this->charonService = $charonService;
+        $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
     }
 
     /**
-     * Student registers for a defence time slot
+     * Student registers their submission for a defense and puts it to a queue.
      *
      * @param Request $request
      *
@@ -69,6 +90,37 @@ class DefenseRegistrationController extends Controller
         $defenseLabId = $request->input('defense_lab_id');
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
+        $this->registrationService->validateRegistration($studentId, $charonId, $lab);
+
+        $this->registrationService->registerDefenceTime(
+            $studentId,
+            $submissionId,
+            $charonId,
+            $defenseLabId
+        );
+
+        return 'inserted';
+    }
+
+    /**
+     * Teacher registers a student's submission for a defense and puts it to a queue.
+     *
+     * @param Request $request
+     *
+     * @return string
+     * @throws RegistrationException
+     * @throws NotFoundException
+     */
+    public function teacherRegisterDefense(Request $request): string
+    {
+        $studentId = $request->input('user_id');
+        $charonId = $request->input('charon_id');
+        $labId = $request->input('lab_id');
+
+        $lab = $this->labService->getLabById($labId);
+        $charon = $this->charonService->getCharonById($charonId);
+        $defenseLabId = $this->defenseLabRepository->getDefenseLabByLabAndCharon($lab->id, $charonId)->id;
+        $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
         $this->registrationService->validateRegistration($studentId, $charonId, $lab);
 
         $this->registrationService->registerDefenceTime(
