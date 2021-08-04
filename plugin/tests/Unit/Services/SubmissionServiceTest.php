@@ -19,6 +19,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\GrademapService;
+use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Models\User;
@@ -62,7 +63,8 @@ class SubmissionServiceTest extends TestCase
             $this->requestHandlingService = Mockery::mock(AreteResponseParser::class),
             $this->submissionsRepository = Mockery::mock(SubmissionsRepository::class),
             $this->userRepository = Mockery::mock(UserRepository::class),
-            $this->grademapService = Mockery::mock(GrademapService::class)
+            $this->grademapService = Mockery::mock(GrademapService::class),
+            Mockery::mock(SubmissionCalculatorService::class)
         );
     }
 
