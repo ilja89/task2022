@@ -298,7 +298,7 @@ class DefenseRegistrationRepository
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-            ->select('charon.name', 'charon_lab.start as lab_start', 'charon_defenders.teacher_id',
+            ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end', 'charon_defenders.progress as status', 'charon_defenders.teacher_id',
                 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name')
             ->distinct()
             ->get();

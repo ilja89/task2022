@@ -40,7 +40,7 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="deleteItem(item)">
+                <v-btn v-if="deleteButtonCondition(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
               </template>
@@ -83,7 +83,7 @@ export default {
 	},
 
 	methods: {
-		deleteItem(item) {
+	  deleteItem(item) {
 			if (this.dateValidation(item)) {
 				if (confirm(this.translate("registrationDeletionConfirmationText"))) {
 					this.deleteReg(item);
@@ -93,11 +93,18 @@ export default {
 			}
 		},
 
+    dateFormatted()
+    {
+      const today = new Date();
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const dateTime = date + ' ' + time;
+      return dateTime;
+    },
+
 		dateValidation(item) {
-			const today = new Date();
-			const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-			const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-			const dateTime = date + ' ' + time;
+
+			const dateTime = this.dateFormatted();
 			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
 			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
 			return day2.diff(day1, 'hours') >= 2;
@@ -113,6 +120,30 @@ export default {
 				this.dialog = false
 			})
 		},
+
+    deleteButtonCondition({lab_end,status})
+    {
+      console.log(lab_end);
+      console.log(status);
+      if(status!=="Waiting")
+      {
+        return false;
+      }
+      const dateNow = new Date();
+      let dateEnd = lab_end.split(" ");
+      dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+      dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
+      if(dateNow.getTime()>dateEnd.getTime())
+      {
+        return false;
+      }
+      return true;
+    },
+
+    deleteItemDebug(item) {
+      console.log(this);
+      console.log(item);
+    }
 	},
 
 	computed: {
