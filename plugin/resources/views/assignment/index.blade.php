@@ -25,11 +25,9 @@
                 </a>
             </div>
         @endif
-        @if ($charon->editor_set)
-            <code-templates
-                :language="language">
-            </code-templates>
-        @endif
+        <code-templates
+            :language="language">
+        </code-templates>
 
     </div>
 
@@ -50,6 +48,7 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
+    var editorSet = {{ $charon->editor_set }};
 
     window.language = "{!! $charon->testerType->name !!}";
 

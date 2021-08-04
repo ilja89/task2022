@@ -5,7 +5,7 @@
 
         <label>
           <input id="setEditor" type="checkbox" name="editor_set" v-model="form.fields.editor_set" value="true">
-          Add code editor to this charon
+          Allow code submission on page
         </label>
 
         <p>Source Files</p>

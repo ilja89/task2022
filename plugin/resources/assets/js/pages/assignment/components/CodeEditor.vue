@@ -22,6 +22,7 @@
         tabSize: 2,
         showPrintMargin: false,
         showGutter: true,
+        readOnly: read_only,
         }"
     />
 
@@ -47,7 +48,8 @@ export default {
   data() {
     return {
       content: this.codes[this.codeId].contents,
-      lang: this.language
+      lang: this.language,
+      read_only: window.editorSet < 1
     }
   },
 
