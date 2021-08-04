@@ -59,7 +59,7 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request): JsonResponse
     {
-        Log::info("Inline submission input: ", [
+        Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
             'userId' => $request->input('userId'),
             'sourceFiles' => $request->input('sourceFiles'),
