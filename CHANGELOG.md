@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
 - \#449 Tester url and token can be changed for specific course
+- \#490 Added templates management view in charon settings, where tempaltes can be added to charon, updated or deleted.
+- \#474 Added ability to make submitions from charon student view.
 
 ### Fixed
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
