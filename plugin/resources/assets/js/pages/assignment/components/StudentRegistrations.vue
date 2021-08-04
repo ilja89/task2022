@@ -93,18 +93,12 @@ export default {
 			}
 		},
 
-    dateFormatted()
-    {
+		dateValidation(item) {
+
       const today = new Date();
       const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       const dateTime = date + ' ' + time;
-      return dateTime;
-    },
-
-		dateValidation(item) {
-
-			const dateTime = this.dateFormatted();
 			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
 			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
 			return day2.diff(day1, 'hours') >= 2;
@@ -123,8 +117,6 @@ export default {
 
     deleteButtonCondition({lab_end,status})
     {
-      console.log(lab_end);
-      console.log(status);
       if(status!=="Waiting")
       {
         return false;
@@ -138,11 +130,6 @@ export default {
         return false;
       }
       return true;
-    },
-
-    deleteItemDebug(item) {
-      console.log(this);
-      console.log(item);
     }
 	},
 
