@@ -54,7 +54,7 @@
                          :options="this.labs" :placeholder="translate('selectDayText')"
                          label="start"
                          track-by="id" @select="onSelect">
-              <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }} {{ option.defenders_num }}</template>
+              <template slot="singleLabel" slot-scope="{ option }">{{ option | getLabList }}</template>
             </multiselect>
 
             <multiselect v-if="this.value != null" v-model="value_time" :max-height="200"
@@ -89,6 +89,7 @@ import moment from "moment";
 import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import LoadingContainer from "../graphics/LoadingContainer";
+import getLabList from "../../../filters/getLabList";
 
 export default {
 
@@ -121,6 +122,10 @@ export default {
       busy: false
     }
   },
+
+  filters: {
+        getLabList
+      },
 
   computed: {
     ...mapState([
@@ -183,12 +188,8 @@ export default {
       }
     },
 
-    getLabList({start, name, defenders_num}) {
-      let date = `${start.split(' ')[0]}`;
-      let time = `${start.split(' ')[1]}`;
-      let time_return = time.split(':')
-      return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") + " - " + defenders_num + " defences in the queue";
-    },
+    //filter imported above, used as method too, because for "custom-label" function is required.
+    getLabList,
 
     onSelect(option) {
       this.cached_option = option;
