@@ -192,7 +192,13 @@ class CharonRepository
      */
     public function update($oldCharon, $newCharon)
     {
-        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id'];
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id', 'editor_set'];
+
+        if (array_key_exists('editor_set', $newCharon)) {
+            $newCharon['editor_set'] = 1;
+        } else {
+            $newCharon['editor_set'] = 0;
+        }
 
         $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
 
