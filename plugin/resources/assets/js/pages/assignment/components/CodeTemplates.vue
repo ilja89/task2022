@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-if="codes.length > 0">
     <charon-tabs>
-      <charon-tab v-for="(code, index) in this.codes"
+      <charon-tab v-for="(code, index) in codes"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
