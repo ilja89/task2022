@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Listeners;
 
-use Carbon\Carbon;
 use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Services\CalendarService;
@@ -43,9 +42,12 @@ class AddDeadlinesToCalendar
                 . '% ' . __('descriptions.descriptionEnd');
 
             $rightTime = $deadline->deadline_time;
-            if (Carbon::createFromTimestamp($rightTime->getTimestamp())->isDST()){
-                $rightTime = $deadline->deadline_time->subHour();
-            }
+            $rightTimeDuplicate = $deadline->deadline_time;
+            $timeInRealZone = $rightTimeDuplicate->setTimezone(config('app.timezone'));
+            $rightTimeOffset = $rightTime->getOffset() / 3600;
+            $timeInRealZoneOffset = $timeInRealZone->getOffset() / 3600;
+            $diffInHours = $timeInRealZoneOffset - $rightTimeOffset;
+            $newTime = $rightTime->subHours($diffInHours);
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
@@ -53,7 +55,7 @@ class AddDeadlinesToCalendar
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $rightTime->getTimestamp(),
+                $newTime->getTimestamp(),
                 true,
                 true,
                 $deadline->group_id

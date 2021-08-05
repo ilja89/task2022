@@ -190,7 +190,7 @@ Run `git config core.filemode false` to disable tracking of filemode changes for
 
 To upgrade from previous versions to the latest.
 Run the following commands in your docker container and inside bitnami/moodle/mod/charon: 
-```
+```bash
 rm -r vendor/
 rm plugin/bootstrap/cache/*.php
 php composer.phar install
