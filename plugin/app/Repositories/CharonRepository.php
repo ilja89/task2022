@@ -194,7 +194,7 @@ class CharonRepository
     {
         $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id', 'editor_set'];
 
-        if (array_key_exists('editor_set', $newCharon)) {
+        if (array_key_exists('editor_set', $newCharon) and $newCharon['editor_set'] == 'true') {
             $newCharon['editor_set'] = 1;
         } else {
             $newCharon['editor_set'] = 0;
