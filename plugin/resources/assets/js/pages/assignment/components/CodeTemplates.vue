@@ -30,7 +30,7 @@ export default {
     language: {require: true}
   },
 
-  mounted() {
+  beforeMount() {
     this.getTemplates();
   },
 
