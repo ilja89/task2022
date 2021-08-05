@@ -182,7 +182,7 @@ class SubmissionCalculatorService
      *
      * @return bool
      */
-    public function checkSubmissionStyle(Submission $submission): bool
+    public function isSubmissionStyleOk(Submission $submission): bool
     {
         // TODO: check if this works with group submissions
         $results = $submission->results()->where('user_id', $submission->student_id)->get();

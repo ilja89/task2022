@@ -91,6 +91,8 @@
             VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
             this.leave();
           });
+        } else {
+          VueEvent.$emit('show-notification', "Needed fields were not filled!", 'danger');
         }
       },
 
@@ -98,6 +100,7 @@
         if (this.item.charon) {
           this.labs = this.item.charon.labs;
         }
+        this.item.lab = null;
       },
     },
 

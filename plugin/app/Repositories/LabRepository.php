@@ -134,7 +134,7 @@ class LabRepository
     }
 
     /**
-     * Get an instance of Charon by its id.
+     * Get an instance of Charon lab by its id.
      *
      * @param integer $id
      *

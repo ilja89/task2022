@@ -23,8 +23,8 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
+            })
     }
 
     static registerByTeacher(charonId, studentId, labId, then) {
@@ -34,7 +34,12 @@ class Defense {
         }).then((response) => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error creating a new defense registration.\n' + error, 'danger')
+            if (error.response && error.response.data && error.response.data.title) {
+                VueEvent.$emit('show-notification', error.response.data.title + ' ' + error.response.data.detail, 'danger')
+            } else {
+                console.error(error);
+                VueEvent.$emit('show-notification', 'Error creating a new defense registration.\n' + error, 'danger')
+            }
         })
     }
 

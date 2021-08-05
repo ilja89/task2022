@@ -109,7 +109,6 @@ class DefenseRegistrationController extends Controller
      *
      * @return string
      * @throws RegistrationException
-     * @throws NotFoundException
      */
     public function teacherRegisterDefense(Request $request): string
     {

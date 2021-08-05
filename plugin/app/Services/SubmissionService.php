@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Exceptions\NotFoundException;
+use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -260,20 +260,20 @@ class SubmissionService
      * @param int $userId
      *
      * @return Submission
-     * @throws NotFoundException
+     * @throws RegistrationException
      */
     public function findSubmissionToDefend(Charon $charon, int $userId): Submission
     {
         $submissions = $this->submissionsRepository->getUngradedSubmissions($charon->id, $userId);
 
         if (count($submissions) < 1) {
-            throw new NotFoundException("no_submission"); // add in errors.php
+            throw new RegistrationException("no_submission");
         }
 
         $submission = $this->findMostSuitableSubmission($submissions, $charon);
 
         if ($submission === null) {
-            throw new NotFoundException("no_submission"); // add in errors.php
+            throw new RegistrationException("no_submission");
         }
 
         return $submission;
@@ -295,7 +295,7 @@ class SubmissionService
         $defenseThreshold = $charon->defense_threshold;
 
         foreach ($submissions as $submission) {
-            if ($this->submissionCalculatorService->checkSubmissionStyle($submission)) {
+            if ($this->submissionCalculatorService->isSubmissionStyleOk($submission)) {
 
                 $submissionWeightedScore = $this->submissionCalculatorService
                     ->calculateSubmissionWeightedScore($submission);
