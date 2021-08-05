@@ -46,6 +46,18 @@ class CharonsController extends Controller
     }
 
     /**
+     * Get Charons by given course's identifier and include labs.
+     *
+     * @param Course $course
+     *
+     * @return Charon[]
+     */
+    public function getByCourseWithLabs(Course $course): array
+    {
+        return $this->charonRepository->findCharonsByCourseWithLabs($course->id);
+    }
+
+    /**
      * @param int $charonId
      */
     public function deleteById(int $charonId)

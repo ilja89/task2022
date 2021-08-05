@@ -6,16 +6,6 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <div class="helper">Lab</div>
-                  <v-select placeholder="Lab"
-                            :items="labs"
-                            item-text="name"
-                            v-model="item.lab"
-                            return-object
-                            @change="updateFields"
-                  ></v-select>
-                </v-col>
-                <v-col>
                   <div class="helper">Student</div>
                   <v-select placeholder="Student"
                             :items="students"
@@ -28,8 +18,18 @@
                   <div class="helper">Charon</div>
                   <v-select placeholder="Charon"
                             :items="charons"
-                            item-text="project_folder"
+                            item-text="name"
                             v-model="item.charon"
+                            return-object
+                            @change="updateFields"
+                  ></v-select>
+                </v-col>
+                <v-col>
+                  <div class="helper">Lab</div>
+                  <v-select placeholder="Lab"
+                            :items="labs"
+                            item-text="name"
+                            v-model="item.lab"
                             return-object
                   ></v-select>
                 </v-col>
@@ -60,7 +60,7 @@
 <script>
 
   import router from "../routes";
-  import {Defense, Lab, Submission, User} from "../../../api";
+  import {Charon, Defense, User} from "../../../api";
   import {mapState} from "vuex";
 
   export default {
@@ -72,7 +72,7 @@
         labs: [],
         students: [],
         charons: [],
-        item: Object
+        item: {}
       }
     },
     computed: {
@@ -82,7 +82,7 @@
     },
     methods: {
       leave() {
-        router.go(-1)
+        router.go(-1);
       },
 
       save() {
@@ -90,25 +90,25 @@
           Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.id, () => {
             VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
             this.leave();
-          })
+          });
         }
       },
 
       updateFields() {
-        if (this.item.lab) {
-          this.charons = this.item.lab.charons;
+        if (this.item.charon) {
+          this.labs = this.item.charon.labs;
         }
-      }
+      },
     },
 
     created() {
-      Lab.all(this.course.id, (response) => {
-        this.labs = response;
+      Charon.allWithLabs(this.course.id, (response) => {
+        this.charons = response;
       });
 
       User.allStudents(this.course.id, (response) => {
         this.students = response;
-      })
+      });
     }
   }
 </script>

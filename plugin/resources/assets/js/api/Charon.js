@@ -11,7 +11,16 @@ class Charon {
             .then(response => {
                 then(CharonFormat.formatCharons(response.data))
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
+        })
+    }
+
+    static allWithLabs(courseId, then) {
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/charons/with/labs')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving Charons with labs.\n' + error, 'danger')
         })
     }
 

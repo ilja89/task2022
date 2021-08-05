@@ -47,7 +47,7 @@ class CharonDefenseLabRepository
     {
         return CharonDefenseLab::where('charon_id', $charonId)
             ->where('lab_id', $labId)
-            ->select('charon_defense_lab.id', 'charon_id', 'lab_id')
+            ->select('charon_defense_lab.id', 'charon_defense_lab.charon_id', 'charon_defense_lab.lab_id')
             ->first();
     }
 

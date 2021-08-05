@@ -279,6 +279,29 @@ class CharonRepository
     }
 
     /**
+     * Find all Charons in course with given id. Also loads deadlines,
+     * grademaps with grade items.
+     *
+     * @param integer $courseId
+     *
+     * @return Charon[]
+     */
+    public function findCharonsByCourseWithLabs($courseId)
+    {
+        $charons = Charon::where('charon.course', $courseId)
+            // where charon.deadline > Carbon::now?
+            ->select('charon.id', 'charon.name')
+            ->get()
+            ->all();
+
+        foreach ($charons as $charon) {
+            $charon->labs = $this->labRepository->getLabsByCharonLaterEqualToday($charon->id);
+        }
+
+        return $charons;
+    }
+
+    /**
      * Find a Charon instance by a submission id for that Submission.
      *
      * @param int $submissionId

@@ -20,6 +20,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
+    Route::middleware('auth.course.managing.require') // all charons by id and attached with ongoing or upcoming labs
+        ->get('courses/{course}/charons/with/labs', 'CharonsController@getByCourseWithLabs');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
@@ -157,8 +159,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // add registration by student
         ->post('charons/{charon}/submission', 'DefenseRegistrationController@studentRegisterDefence');
 
-    // TODO: ask if this works with teacher that is unable to manage
-    Route::middleware('auth.course.managing.require') // add registration by teacher
+    // TODO: does this work with teacher that is unable to manage
+    Route::middleware('auth.charon.managing.require') // add registration by teacher
         ->post('charons/{charon}/registerDefense', 'DefenseRegistrationController@teacherRegisterDefense');
 
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times

@@ -153,15 +153,16 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
+    /**
+     * Get ongoing and upcoming labs with given charon identifier.
+     *
+     * @param Request $request
+     *
+     * @return Lab[]
+     */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
-        $charonId = $request->route('charon');
-        return \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
+        return $this->labRepository->getLabsByCharonLaterEqualToday($request->route('charon'));
     }
 
     /**
