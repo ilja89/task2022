@@ -33,7 +33,7 @@
                                      :options="this.labs" :placeholder="translate('selectDayText')"
                                      label="start"
                                      track-by="id" @select="onSelect">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}</template>
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }} - Booked until {{ option.booked_until }}</template>
                         </multiselect>
                     </div>
                 </div>
@@ -59,7 +59,6 @@
 <script>
 import {Multiselect} from "vue-multiselect";
 import {Translate} from "../../../mixins";
-import moment from "moment";
 import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import LoadingContainer from "../graphics/LoadingContainer";
@@ -147,11 +146,11 @@ export default {
             }
         },
 
-        getLabList({start, name}) {
+        getLabList({start, name, booked_until}) {
             let date = `${start.split(' ')[0]}`;
             let time = `${start.split(' ')[1]}`;
             let time_return = time.split(':');
-            return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "");
+            return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") + ' - Booked until:' + booked_until;
         },
 
         onSelect(option) {

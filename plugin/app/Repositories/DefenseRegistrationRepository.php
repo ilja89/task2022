@@ -306,20 +306,19 @@ class DefenseRegistrationRepository
 
     public function getLabsWithDefenseRegistrationsByCourse($courseId)
     {
-        return \DB::table('charon_defense_lab')
-            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+        return \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->join('charon', 'charon.id', 'charon_defense_lab.charon_id')
-            ->leftjoin('charon_submission', 'charon_submission.charon_id', 'charon.id')
-            ->leftjoin('user', 'user.id', 'charon_submission.user_id')
             ->leftjoin('charon_defenders', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->where('charon_lab.course_id', $courseId)
             ->where('charon_lab.end', '>=', Carbon::now())
             ->select(
                 'charon_lab.id as charon_lab_id', 'charon_lab.start as start' , 'charon_lab.end as end',
-                'charon.defense_duration as defence_time', 'charon_lab.course_id as course_id',
-                'charon_defenders.student_name as name', 'charon_defenders.progress',
-                'charon_defense_lab.id as charon_defense_lab_id', 'charon.defense_duration',
-                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
+                'charon.defense_duration as defence_time', 'charon.id as charon_id', 'charon.name',
+                'charon_lab.course_id as course_id',
+                'charon_defenders.student_name as name', 'charon_defenders.progress as progress', 'charon_defenders.defense_lab_id',
+                'charon_defense_lab.id as charon_defense_lab_id',
+                'charon_lab.name as lab_name'
             )->orderBy('charon_lab_id', 'asc')
             ->get();
     }

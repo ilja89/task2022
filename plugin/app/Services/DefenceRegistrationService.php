@@ -307,9 +307,15 @@ class DefenceRegistrationService
         return $availableTeachers[array_rand($availableTeachers)];
     }
 
-    public function calculateLabCapacitiesForCourse($courseId)
+    public function calculateLabCapacitiesForCourse($courseId, $duration)
     {
         $labs = $this->defenseRegistrationRepository->getLabsWithDefenseRegistrationsByCourse($courseId);
+
+        foreach($labs as $lab) {
+            if ($lab->progress === null) {
+                $lab->defence_time = 0;
+            }
+        }
 
         $summedTimes = $labs->groupBy('charon_lab_id', true)->map(function($row) {
             return $row->sum('defence_time');
@@ -317,22 +323,41 @@ class DefenceRegistrationService
 
         $labInfo = $labs->map(function($row) {
             return [
-                'id' => $row->charon_lab_id,
+                'id' => $row->charon_defense_lab_id,
+                'charon_lab_id' => $row->charon_lab_id,
                 'start' => $row->start,
                 'end' => $row->end,
                 'name' => $row->lab_name,
+                'progress' => $row->progress
             ];
         })->toArray();
 
-        $labSet = array_unique($labInfo, SORT_REGULAR);
-        foreach ($labSet as &$lab) {
-            $lab['bookedTime'] = $summedTimes->get($lab['id']);
+        $labSet = [];
+        $countCheck = [];
+        foreach ($labInfo as &$lab) {
+            if (!in_array($lab['charon_lab_id'], $countCheck)) {
+                $labSet[] = $lab;
+                $countCheck[] = $lab['charon_lab_id'];
+            }
         }
 
-        return array_values($labSet);
+        foreach ($labSet as &$lab) {
+            $lab['bookedTime'] = $summedTimes->get($lab['charon_lab_id']);
+        }
+
+        foreach ($labSet as &$lab) {
+            $lab['booked_until'] = $this->calculateBookingAbility($lab['start'], $lab['bookedTime']);
+        }
+
+        return $labSet;
     }
 
-    private function calculateBookingAbility() {
+    private function calculateBookingAbility($start, $booked) {
 
+        //$hours = intdiv($booked, 60).':'. ($booked % 60);
+        $startC = date('Y-m-d H:i:s',strtotime('+'.$booked.' minutes',strtotime($start)));
+        $bookedUntil = Carbon:: createFromFormat("Y-m-d H:i:s", $startC)->format('H:i');
+
+        return $bookedUntil;
     }
 }

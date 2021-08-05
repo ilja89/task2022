@@ -193,6 +193,6 @@ class LabController extends Controller
     {
         $courseId = $request->route('course');
         $duration = $request->route('defense_duration');
-        return $this->defenceRegistrationService->calculateLabCapacitiesForCourse($courseId);
+        return $this->defenceRegistrationService->calculateLabCapacitiesForCourse($courseId, $duration);
     }
 }

@@ -101,7 +101,8 @@ export default {
                 charon = result.data;
                 console.log(result.data);
                 console.log(charon.course);
-                axios.get(`api/courses/${charon.course}/labs/view`).then(result => {
+                console.log(charon.defense_duration);
+                axios.get(`api/courses/${charon.course}/labs/view`, {params: {defense_duration: charon.defense_duration}}).then(result => {
                     console.log(result.data)
                     this.$store.state.labs = result.data;
                     this.$store.state.labs.sort((a, b) => {
