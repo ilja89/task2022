@@ -3,8 +3,8 @@
 namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Listeners\AddDeadlinesToCalendar;
 use TTU\Charon\Models\Charon;
 use Zeizig\Moodle\Services\CalendarService;
@@ -114,7 +114,7 @@ class CreateCharonService
         $charon->load('deadlines');
 
         $event = new CharonCreated($charon);
-        $eventAdder = new AddDeadlinesToCalendar($this->calendarService);
+        $eventAdder = new AddDeadlinesToCalendar($this->calendarService, new MoodleConfig());
         $eventAdder->handle($event, $userTimezone);
     }
 

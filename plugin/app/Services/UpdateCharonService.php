@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use Illuminate\Http\Request;
 use TTU\Charon\Events\CharonUpdated;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Listeners\UpdateCalendarDeadlines;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
@@ -121,7 +122,7 @@ class UpdateCharonService
         }
         $charon->load('deadlines');
         $event = new CharonUpdated($charon);
-        $eventAdder = new UpdateCalendarDeadlines($this->calendarService);
+        $eventAdder = new UpdateCalendarDeadlines($this->calendarService, new MoodleConfig());
         $eventAdder->handle($event, $userTimezone);
         return $this->deadlinesAreNew($oldDeadlines, $charon->deadlines);
     }

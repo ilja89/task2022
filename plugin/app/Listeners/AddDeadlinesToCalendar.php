@@ -3,6 +3,7 @@
 namespace TTU\Charon\Listeners;
 
 use TTU\Charon\Events\CharonCreated;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Services\CalendarService;
 
@@ -11,14 +12,18 @@ class AddDeadlinesToCalendar
     /** @var CalendarService */
     private $calendarService;
 
+    /** @var MoodleConfig */
+    private $moodleConfig;
+
     /**
      * Create the event listener.
      *
      * @param CalendarService $calendarService
      */
-    public function __construct(CalendarService $calendarService)
+    public function __construct(CalendarService $calendarService, MoodleConfig $moodleConfig)
     {
         $this->calendarService = $calendarService;
+        $this->moodleConfig = $moodleConfig;
     }
 
     /**
@@ -41,6 +46,10 @@ class AddDeadlinesToCalendar
             $description = __('descriptions.descriptionStart') . ' ' . $charonName
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
+
+            if ($userTimezone == "99") {
+                $userTimezone = $this->moodleConfig->timezone;
+            }
 
             $rightTime = $deadline->deadline_time->setTimezone($userTimezone);
 
