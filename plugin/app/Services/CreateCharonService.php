@@ -99,10 +99,11 @@ class CreateCharonService
      *
      * @param  Request $request
      * @param  Charon $charon
+     * @param  string $userTimezone
      *
      * @return void
      */
-    public function saveDeadlinesFromRequest(Request $request, $charon)
+    public function saveDeadlinesFromRequest(Request $request, Charon $charon, string $userTimezone)
     {
         if ($request->deadlines !== null) {
             foreach ($request->deadlines as $deadline) {
@@ -114,7 +115,7 @@ class CreateCharonService
 
         $event = new CharonCreated($charon);
         $eventAdder = new AddDeadlinesToCalendar($this->calendarService);
-        $eventAdder->handle($event);
+        $eventAdder->handle($event, $userTimezone);
     }
 
     /**

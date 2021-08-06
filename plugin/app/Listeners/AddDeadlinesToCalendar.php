@@ -25,13 +25,14 @@ class AddDeadlinesToCalendar
      * Handle the event.
      *
      * @param  CharonCreated  $event
+     * @param  string $userTimezone
      * @return void
      */
-    public function handle(CharonCreated $event)
+    public function handle(CharonCreated $event, string $userTimezone)
     {
         $charon = $event->charon;
 
-        $charon->deadlines->each(function ($deadline) use ($charon) {
+        $charon->deadlines->each(function ($deadline) use ($userTimezone, $charon) {
             /** @var Deadline $deadline */
             $charonName = $charon->name;
             $percentage = $deadline['percentage'];
@@ -41,13 +42,8 @@ class AddDeadlinesToCalendar
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
 
-            $rightTime = $deadline->deadline_time;
-            $rightTimeDuplicate = $deadline->deadline_time;
-            $timeInRealZone = $rightTimeDuplicate->setTimezone(config('app.timezone'));
-            $rightTimeOffset = $rightTime->getOffset() / 3600;
-            $timeInRealZoneOffset = $timeInRealZone->getOffset() / 3600;
-            $diffInHours = $timeInRealZoneOffset - $rightTimeOffset;
-            $newTime = $rightTime->subHours($diffInHours);
+            $rightTime = $deadline->deadline_time->setTimezone($userTimezone);
+
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
@@ -55,7 +51,7 @@ class AddDeadlinesToCalendar
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $newTime->getTimestamp(),
+                $rightTime->getTimestamp() - $rightTime->getOffset(),
                 true,
                 true,
                 $deadline->group_id
