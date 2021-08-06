@@ -99,8 +99,8 @@
       updateFields() {
         if (this.item.charon) {
           this.defenseLabs = this.item.charon.defenseLabs;
+          this.item.defenseLab = null;
         }
-        this.item.defenseLab = null;
       },
     },
 
