@@ -159,8 +159,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // add registration by student
         ->post('charons/{charon}/submission', 'DefenseRegistrationController@studentRegisterDefence');
 
-    // TODO: does this work with teacher that is unable to manage
-    Route::middleware('auth.charon.managing.require') // add registration by teacher
+    Route::middleware('auth.course.managing.require') // add registration by teacher
         ->post('charons/{charon}/registerDefense', 'DefenseRegistrationController@teacherRegisterDefense');
 
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
