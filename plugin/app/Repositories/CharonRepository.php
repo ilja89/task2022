@@ -279,8 +279,7 @@ class CharonRepository
     }
 
     /**
-     * Find all Charons in course with given id. Also loads deadlines,
-     * grademaps with grade items.
+     * Find all Charons in course with given id. Also include labs.
      *
      * @param integer $courseId
      *
