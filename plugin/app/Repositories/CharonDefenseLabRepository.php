@@ -36,22 +36,6 @@ class CharonDefenseLabRepository
     }
 
     /**
-     * Get defense lab by lab and charon's identifiers.
-     *
-     * @param $labId
-     * @param $charonId
-     *
-     * @return CharonDefenseLab
-     */
-    public function getDefenseLabByLabAndCharon($labId, $charonId): CharonDefenseLab
-    {
-        return CharonDefenseLab::where('charon_id', $charonId)
-            ->where('lab_id', $labId)
-            ->select('charon_defense_lab.id', 'charon_defense_lab.charon_id', 'charon_defense_lab.lab_id')
-            ->first();
-    }
-
-    /**
      * @param $defenseLabId
      *
      * @return Lab
