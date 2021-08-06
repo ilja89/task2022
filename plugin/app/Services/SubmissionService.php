@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
+use TTU\Charon\Exceptions\SubmissionNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -260,20 +261,20 @@ class SubmissionService
      * @param int $userId
      *
      * @return Submission
-     * @throws RegistrationException
+     * @throws SubmissionNotFoundException
      */
     public function findSubmissionToDefend(Charon $charon, int $userId): Submission
     {
         $submissions = $this->submissionsRepository->getUngradedSubmissions($charon->id, $userId);
 
         if (count($submissions) < 1) {
-            throw new RegistrationException("no_submission");
+            throw new SubmissionNotFoundException("no_submission");
         }
 
         $submission = $this->findMostSuitableSubmission($submissions, $charon);
 
         if ($submission === null) {
-            throw new RegistrationException("no_submission");
+            throw new SubmissionNotFoundException("no_submission");
         }
 
         return $submission;

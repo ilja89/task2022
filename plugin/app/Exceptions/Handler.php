@@ -86,6 +86,10 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($request->expectsJson()) {
+            if ($exception instanceof SubmissionNotFoundException) {
+                return response()->json($exception->toArray(), $exception->getStatus());
+            }
+
             if ($exception instanceof RegistrationException) {
                 return response()->json($exception->toArray(), $exception->getStatus());
             }

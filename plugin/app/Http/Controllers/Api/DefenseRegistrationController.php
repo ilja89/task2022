@@ -4,8 +4,8 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use TTU\Charon\Exceptions\NotFoundException;
 use TTU\Charon\Exceptions\RegistrationException;
+use TTU\Charon\Exceptions\SubmissionNotFoundException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
@@ -109,6 +109,7 @@ class DefenseRegistrationController extends Controller
      *
      * @return string
      * @throws RegistrationException
+     * @throws SubmissionNotFoundException
      */
     public function teacherRegisterDefense(Request $request): string
     {
