@@ -27,9 +27,9 @@
                 <v-col>
                   <div class="helper">Lab</div>
                   <v-select placeholder="Lab"
-                            :items="labs"
+                            :items="defenseLabs"
                             item-text="name"
-                            v-model="item.lab"
+                            v-model="item.defenseLab"
                             return-object
                   ></v-select>
                 </v-col>
@@ -69,7 +69,7 @@
       return {
         all_progress_types: ['Waiting', 'Defending', 'Done'],
         default_progress: 'Waiting',
-        labs: [],
+        defenseLabs: [],
         students: [],
         charons: [],
         item: {}
@@ -86,8 +86,8 @@
       },
 
       save() {
-        if (this.item && this.item.lab && this.item.student && this.item.charon) {
-          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.id, () => {
+        if (this.item && this.item.defenseLab && this.item.student && this.item.charon) {
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id, () => {
             VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
             this.leave();
           });
@@ -98,9 +98,9 @@
 
       updateFields() {
         if (this.item.charon) {
-          this.labs = this.item.charon.labs;
+          this.defenseLabs = this.item.charon.defenseLabs;
         }
-        this.item.lab = null;
+        this.item.defenseLab = null;
       },
     },
 

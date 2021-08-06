@@ -115,11 +115,10 @@ class DefenseRegistrationController extends Controller
     {
         $studentId = $request->input('user_id');
         $charonId = $request->input('charon_id');
-        $labId = $request->input('lab_id');
+        $defenseLabId = $request->input('defense_lab_id');
 
-        $lab = $this->labService->getLabById($labId);
+        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
         $charon = $this->charonService->getCharonById($charonId);
-        $defenseLabId = $this->defenseLabRepository->getDefenseLabByLabAndCharon($lab->id, $charonId)->id;
         $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
         $this->registrationService->validateRegistration($studentId, $charonId, $lab);
 

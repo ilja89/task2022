@@ -27,10 +27,10 @@ class Defense {
             })
     }
 
-    static registerByTeacher(charonId, studentId, labId, then) {
+    static registerByTeacher(charonId, studentId, defenseLabId, then) {
         axios.post(`/mod/charon/api/charons/${charonId}/registerDefense?user_id=${studentId}`, {
             charon_id: charonId,
-            lab_id: labId,
+            defense_lab_id: defenseLabId,
         }).then((response) => {
             then(response.data)
         }).catch(error => {
