@@ -12,25 +12,33 @@
       </v-card>
 
     </popup-section>
+
+    <student-charon-points-vs-course-average-chart
+        v-if="student"
+        :student="student"
+        :average-submissions="averageSubmissions">
+    </student-charon-points-vs-course-average-chart>
+
   </div>
 </template>
 
 <script>
 import {PageTitle} from '../partials'
 import {mapState, mapGetters, mapActions} from 'vuex'
-import {User} from '../../../api'
+import {Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
+import {StudentCharonPointsVsCourseAverageChart} from '../graphics'
 
 export default {
-  components: {PopupSection, PageTitle},
+  components: {PopupSection, PageTitle, StudentCharonPointsVsCourseAverageChart},
 
   name: "StudentDetailsPage",
 
   data() {
     return {
       name: 'Student name',
-      table: ''
-
+      table: '',
+      averageSubmissions: [],
     }
   },
 
@@ -70,11 +78,15 @@ export default {
       this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
     },
 
+    setAverageSubmissions(averageSubmissions) {
+      this.averageSubmissions = averageSubmissions;
+    },
   },
 
   created() {
     this.getStudent()
     this.getStudentOverviewTable()
+    Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
   },
 }
 </script>
