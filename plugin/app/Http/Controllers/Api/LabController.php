@@ -206,7 +206,7 @@ class LabController extends Controller
         //Format date
         foreach ($labTime as $key => $date)
         {
-            $labTime->$key = strtotime( $labTime->$key);
+            $labTime->$key = strtotime($labTime->$key);
         }
 
         foreach ($result as $key => $reg)
