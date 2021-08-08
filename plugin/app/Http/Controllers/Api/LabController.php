@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use Zeizig\Moodle\Models\Course;
 
@@ -29,12 +30,14 @@ class LabController extends Controller
     public function __construct(
         Request $request,
         LabRepository $labRepository,
-        DefenceRegistrationService $defenceRegistrationService
+        DefenceRegistrationService $defenceRegistrationService,
+        DefenseRegistrationRepository $defenseRegistrationRepository
     )
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->defenceRegistrationService = $defenceRegistrationService;
+        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
     /**
@@ -163,6 +166,16 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
+    public function calculateBookingAbility($labStart, $labBookedTime)
+    {
+        return $labBookedTime;
+    }
+
+    public function getLabsWithCapacityInfoForCharon($charon)
+    {
+        return $this->defenceRegistrationService->getLabsWithCapacityInfoForCharon($charon);
+    }
+
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
         $charonId = $request->route('charon');
@@ -187,12 +200,5 @@ class LabController extends Controller
         $charons = $this->request['charons'] ?? null;
         $teachers = $this->request['teachers'] ?? null;
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
-    }
-
-    public function getLabsWithCapacityInfoForCourse(Request $request)
-    {
-        $courseId = $request->route('course');
-        $duration = $request->route('defense_duration');
-        return $this->defenceRegistrationService->calculateLabCapacitiesForCourse($courseId, $duration);
     }
 }

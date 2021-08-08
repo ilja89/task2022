@@ -307,50 +307,7 @@ class DefenceRegistrationService
         return $availableTeachers[array_rand($availableTeachers)];
     }
 
-    public function calculateLabCapacitiesForCourse($courseId, $duration)
-    {
-        $labs = $this->defenseRegistrationRepository->getLabsWithDefenseRegistrationsByCourse($courseId);
 
-        foreach($labs as $lab) {
-            if ($lab->progress === null) {
-                $lab->defence_time = 0;
-            }
-        }
-
-        $summedTimes = $labs->groupBy('charon_lab_id', true)->map(function($row) {
-            return $row->sum('defence_time');
-        });
-
-        $labInfo = $labs->map(function($row) {
-            return [
-                'id' => $row->charon_defense_lab_id,
-                'charon_lab_id' => $row->charon_lab_id,
-                'start' => $row->start,
-                'end' => $row->end,
-                'name' => $row->lab_name,
-                'progress' => $row->progress
-            ];
-        })->toArray();
-
-        $labSet = [];
-        $countCheck = [];
-        foreach ($labInfo as &$lab) {
-            if (!in_array($lab['charon_lab_id'], $countCheck)) {
-                $labSet[] = $lab;
-                $countCheck[] = $lab['charon_lab_id'];
-            }
-        }
-
-        foreach ($labSet as &$lab) {
-            $lab['bookedTime'] = $summedTimes->get($lab['charon_lab_id']);
-        }
-
-        foreach ($labSet as &$lab) {
-            $lab['booked_until'] = $this->calculateBookingAbility($lab['start'], $lab['bookedTime']);
-        }
-
-        return $labSet;
-    }
 
     private function calculateBookingAbility($start, $booked) {
 
@@ -359,5 +316,72 @@ class DefenceRegistrationService
         $bookedUntil = Carbon:: createFromFormat("Y-m-d H:i:s", $startC)->format('H:i');
 
         return $bookedUntil;
+    }
+
+    public function getLabsWithCapacityInfoForCharon($charon)
+    {
+        $thisCharonLength = \DB::table('charon')
+            ->where("id",$charon)
+            ->select("defense_duration as len")
+            ->first()->len;
+
+        //Get list of labs related to this charon course
+        $courseId = \DB::table('charon')
+            ->where("id",$charon)
+            ->select("course")
+            ->first()->course;
+
+        //Get list of labs
+        $labs = \DB::table('charon_lab')
+            ->where("course_id",$courseId)
+            ->select("start","end","name","id")
+            ->get();
+
+        //Calculate lab capacity
+        //Calculate avg defense length and check if lab can be booked
+        foreach ($labs as $lab)
+        {
+            $avgDefTime=null;
+            //Get teachers number
+            $teacherNum = \DB::table('charon_lab_teacher')
+                ->where("lab_id", $lab->id)
+                ->count();
+            $lab->_teacherNum = $teacherNum; //DEBUG!
+
+            //Calculate lab capacity
+            $lab->capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60) * $teacherNum;
+
+            //Get all defense durations
+            $defTimes = \DB::table('charon_defenders')
+                ->join("charon","charon.id","charon_defenders.charon_id")
+                ->where("defense_lab_id",$lab->id)
+                ->select("defense_duration")
+                ->get();
+            $lab->_defTimes = $defTimes; //DEBUG!
+
+            //Sum them up and divide to get avg
+            foreach ($defTimes as $time)
+            {
+                $avgDefTime += $time->defense_duration;
+            }
+            $registered = count($defTimes);
+            $lab->_registered = $registered; //DEBUG!
+            $avgDefTime = $avgDefTime / $registered;
+            $lab->_avgDefTime = $avgDefTime; //DEBUG!
+            $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
+            if($lab->capacity - $registered * $avgDefTime > $thisCharonLength)
+            {
+                $move = floor($registered/$teacherNum) * $avgDefTime * 60;
+                $lab->registrable = true;
+                $lab->estimatedStartTime = date("Y-m-d H:i:s",strtotime("$lab->start") + $move);
+            }
+            else
+            {
+                $lab->registrable = false;
+                $lab->estimatedStartTime = null;
+            }
+        }
+
+        return $labs;
     }
 }
