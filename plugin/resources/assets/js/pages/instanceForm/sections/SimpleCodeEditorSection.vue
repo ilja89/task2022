@@ -23,6 +23,7 @@
               <p class="input-helper">Path to file.</p>
               <div class="felement ftext path">
                 <input
+                    v-on:change="validationCheck()"
                     id="file_path"
                     class="form-control"
                     type="text"
@@ -82,7 +83,6 @@
             <input type="hidden" :name="'files[' + file.id + '][path]'" :value="file.path">
             <input type="hidden" :name="'files[' + file.id + '][contents]'" :value="file.content">
           </div>
-
         </div>
       </div>
   </fieldset>
@@ -136,6 +136,17 @@ export default {
   },
 
   methods: {
+    validationCheck() {
+      const values = [];
+      $(".duplicate").removeClass("duplicate");
+      const $inputs = $('input[class="form-control"]');
+      $inputs.each(function() {
+        const v = this.value;
+        if (values.includes(v)) $inputs.filter(function() { return this.value === v }).addClass("duplicate");
+        values.push(v);
+      })
+    },
+
     defineLanguage(language_code) {
       Charon.getTesterLanguage(language_code, this.form.fields.course).then(response =>{
         this.language = response;
@@ -183,6 +194,10 @@ export default {
 </script>
 
 <style scoped>
+
+.duplicate {
+  box-shadow: inset 0 0 0 3px red;
+}
 
 .path {
   display: flex;
