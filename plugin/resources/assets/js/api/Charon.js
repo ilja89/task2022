@@ -6,18 +6,6 @@ class Charon {
         return '/mod/charon/api'
     }
 
-    static postTemplates() {
-
-    }
-
-    static updateTemplates() {
-
-    }
-
-    static deleteTemplates() {
-
-    }
-
     static getTemplates(charonId, then) {
         return axios.get(Charon.getRoot() + `/charons/${charonId}/templates`)
             .then(response => {
