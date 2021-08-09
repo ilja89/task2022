@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -74,7 +75,37 @@ class SaveTesterCallback
 
         $submission->users()->saveMany($users);
 
-        $this->saveResults($request, $submission, $users);
+        $this->saveResults($request['testSuites'], (int) $request['style'], $submission, $users);
+
+        $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
+
+        $this->updateGrades($submission, $users);
+
+        return $submission;
+    }
+
+    /**
+     * Save a new submission from tester data, from charon view submission.
+     *
+     * @param CharonViewTesterCallbackRequest $request
+     * @param array $usernames
+     * @param int $courseId
+     *
+     * @throws Exception
+     * @return Submission
+     */
+    public function runCharonSubmission(CharonViewTesterCallbackRequest $request,
+                                        array $usernames, int $courseId): Submission
+    {
+        $users = $this->getStudentsInvolved($usernames);
+
+        $submission = $this->createNewSubmission($request, new GitCallback(), $users[0]->id, $courseId);
+
+        $this->submissionService->saveFiles($submission->id, $request['files']);
+
+        $submission->users()->saveMany($users);
+
+        $this->saveResults($request['testSuites'],(int) $request['style'], $submission, $users);
 
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
 
@@ -116,13 +147,14 @@ class SaveTesterCallback
      * @param Request $request
      * @param GitCallback $gitCallback
      * @param int $authorId
+     * @param int|null $courseId
      *
      * @return Submission
      * @throws Exception
      */
-    private function createNewSubmission(Request $request, GitCallback $gitCallback, int $authorId)
+    private function createNewSubmission(Request $request, GitCallback $gitCallback, int $authorId, int $courseId = null): Submission
     {
-        return $this->submissionService->saveSubmission($request, $gitCallback, $authorId);
+        return $this->submissionService->saveSubmission($request, $gitCallback, $authorId, $courseId);
     }
 
     /**
@@ -130,13 +162,15 @@ class SaveTesterCallback
      *
      * Includes style, test suite results and unused grades.
      *
-     * @param TesterCallbackRequest $request
+     * @param array $testSuites
+     * @param int $style
+     *
      * @param Submission $submission
      * @param array|User[] $users
      */
-    private function saveResults(TesterCallbackRequest $request, Submission $submission, array $users)
+    private function saveResults(array $testSuites, int $style, Submission $submission, array $users)
     {
-        $results = $this->testSuiteService->saveSuites($request['testSuites'], $submission->id);
+        $results = $this->testSuiteService->saveSuites($testSuites, $submission->id);
 
         foreach ($users as $user) {
             foreach ($results as $result) {
@@ -149,7 +183,7 @@ class SaveTesterCallback
                 'submission_id' => $submission->id,
                 'user_id' => $user->id,
                 'grade_type_code' => 101,
-                'percentage' => (int) $request['style'] == 100 ? 1 : 0,
+                'percentage' => $style == 100 ? 1 : 0,
                 'calculated_result' => 0,
                 'stdout' => null,
                 'stderr' => null,

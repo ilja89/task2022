@@ -2,15 +2,19 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Dto\SourceFileDTO;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -27,6 +31,9 @@ class TesterController extends Controller
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var SaveTesterCallback */
+    private $saveTesterFlow;
+
     /**
      * RetestController constructor.
      *
@@ -40,7 +47,8 @@ class TesterController extends Controller
         Request $request,
         CourseSettingsRepository $courseSettingsRepository,
         CharonRepository $charonRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        SaveTesterCallback $saveTesterFlow
     )
     {
         parent::__construct($request);
@@ -48,6 +56,7 @@ class TesterController extends Controller
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->charonRepository = $charonRepository;
         $this->userRepository = $userRepository;
+        $this->saveTesterFlow = $saveTesterFlow;
     }
 
     /**
@@ -88,13 +97,54 @@ class TesterController extends Controller
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)
+            ->setReturnExtra(["course" => $charon->course])
             ->setUniid($user->username);
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
-            $this->request->getUriForPath('/api/tester_callback'));
+            $this->request->getUriForPath('/api/submissions/saveResults'));
 
         return response()->json([
             'message' => 'Testing triggered.'
         ]);
+    }
+
+    /**
+     * Save submission results that come from tester.
+     *
+     * @param CharonViewTesterCallbackRequest $request
+     *
+     * @throws Exception
+     */
+    public function saveResults(CharonViewTesterCallbackRequest $request)
+    {
+        Log::info("submissionresults", ["results" => $request]);
+
+        $usernames = collect([$request->input('uniid')])
+            ->merge($request->input('returnExtra.usernames'))
+            ->map(function ($name) { return strtolower($name); })
+            ->unique()
+            ->values()
+            ->all();
+
+        Log::info("users" , ["users" => $usernames]);
+
+        $submission = $this->saveTesterFlow->runCharonSubmission($request, $usernames,
+            intval($request->input('returnExtra')['course']));
+        Log::info("submission" , ["sub" => $submission]);
+
+        return $this->hideUnneededFields($submission);
+    }
+
+    /**
+     * Hide unnecessary fields so that the tester doesn't get duplicate information.
+     *
+     * @param Submission $submission
+     */
+    private function hideUnneededFields(Submission $submission)
+    {
+        $submission->makeHidden('charon');
+        foreach ($submission->results as $result) {
+            $result->makeHidden('submission');
+        }
     }
 }

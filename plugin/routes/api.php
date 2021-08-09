@@ -13,6 +13,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course_module.enrolment.require')
         ->post('submissions/{charon}/postFromInline', 'TesterController@postFromInline');
+    Route::post('submissions/saveResults', 'TesterController@saveResults');
 
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
