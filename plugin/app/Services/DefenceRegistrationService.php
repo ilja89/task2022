@@ -320,6 +320,7 @@ class DefenceRegistrationService
 
     public function getLabsWithCapacityInfoForCharon($charon)
     {
+        $labs = [];
         $thisCharonLength = \DB::table('charon')
             ->where("id",$charon)
             ->select("defense_duration as len")
@@ -332,16 +333,24 @@ class DefenceRegistrationService
             ->first()->course;
 
         //Get list of labs
-        $labs = \DB::table('charon_lab')
+            $allLabs = \DB::table('charon_lab')
             ->where("course_id",$courseId)
             ->select("start","end","name","id")
             ->get();
+
+        //check if lab actual
+        foreach ($allLabs as $lab)
+        {
+            if(strtotime($lab->end) > time()){
+                $labs[] = $lab;
+            }
+        }
 
         //Calculate lab capacity
         //Calculate avg defense length and check if lab can be booked
         foreach ($labs as $lab)
         {
-            $avgDefTime=null;
+            $defTime = null;
             //Get teachers number
             $teacherNum = \DB::table('charon_lab_teacher')
                 ->where("lab_id", $lab->id)
@@ -349,7 +358,8 @@ class DefenceRegistrationService
             $lab->_teacherNum = $teacherNum; //DEBUG!
 
             //Calculate lab capacity
-            $lab->capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60) * $teacherNum;
+            $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60) * $teacherNum;
+            $lab->_capacity = $capacity; //DEBUG!
 
             //Get all defense durations
             $defTimes = \DB::table('charon_defenders')
@@ -362,23 +372,21 @@ class DefenceRegistrationService
             //Sum them up and divide to get avg
             foreach ($defTimes as $time)
             {
-                $avgDefTime += $time->defense_duration;
+                $defTime += $time->defense_duration;
             }
-            $registered = count($defTimes);
-            $lab->_registered = $registered; //DEBUG!
-            $avgDefTime = $avgDefTime / $registered;
-            $lab->_avgDefTime = $avgDefTime; //DEBUG!
+            $defTime = 300;
+            $lab->_defTime = $defTime; //DEBUG!
             $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
-            if($lab->capacity - $registered * $avgDefTime > $thisCharonLength)
+            if($capacity - $defTime > $thisCharonLength)
             {
-                $move = floor($registered/$teacherNum) * $avgDefTime * 60;
+                $move = ($defTime / $teacherNum) * 60;
                 $lab->registrable = true;
                 $lab->estimatedStartTime = date("Y-m-d H:i:s",strtotime("$lab->start") + $move);
             }
             else
             {
                 $lab->registrable = false;
-                $lab->estimatedStartTime = null;
+                $lab->estimatedStartTime = "fully booked";
             }
         }
 
