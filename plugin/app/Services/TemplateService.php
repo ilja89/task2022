@@ -35,8 +35,8 @@ class TemplateService
     public function updateTemplates(int $charonId, $templates)
     {
         $this->checkTemplates($templates);
+        $this->templatesRepository->deleteAllTemplates($charonId);
         if (!is_null($templates)) {
-            $this->templatesRepository->deleteAllTemplates($charonId);
             foreach ($templates as $template) {
                 $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
             }
