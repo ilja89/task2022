@@ -47,7 +47,8 @@ class DefenceRegistrationService
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository
-    ) {
+    )
+    {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
@@ -68,7 +69,8 @@ class DefenceRegistrationService
         int $submissionId,
         int $charonId,
         int $defenseLabId
-    ) {
+    )
+    {
         $user = $this->userRepository->find($studentId);
 
         $this->defenseRegistrationRepository->create([
@@ -159,7 +161,7 @@ class DefenceRegistrationService
             }
         }
 
-        return array_keys(array_filter($labTimeslots, function($teachersRemaining) {
+        return array_keys(array_filter($labTimeslots, function ($teachersRemaining) {
             return $teachersRemaining < 1;
         }));
     }
@@ -264,7 +266,8 @@ class DefenceRegistrationService
         int $labId,
         int $charonId,
         Carbon $chosenTime
-    ): int {
+    ): int
+    {
         if (!$ownTeacher) {
             return $this->getTeachersByCharonAndLab($charonId, $labId, $chosenTime);
         }
@@ -308,11 +311,11 @@ class DefenceRegistrationService
     }
 
 
-
-    private function calculateBookingAbility($start, $booked) {
+    private function calculateBookingAbility($start, $booked)
+    {
 
         //$hours = intdiv($booked, 60).':'. ($booked % 60);
-        $startC = date('Y-m-d H:i:s',strtotime('+'.$booked.' minutes',strtotime($start)));
+        $startC = date('Y-m-d H:i:s', strtotime('+' . $booked . ' minutes', strtotime($start)));
         $bookedUntil = Carbon:: createFromFormat("Y-m-d H:i:s", $startC)->format('H:i');
 
         return $bookedUntil;
@@ -322,34 +325,27 @@ class DefenceRegistrationService
     {
         $labs = [];
         $thisCharonLength = \DB::table('charon')
-            ->where("id",$charon)
+            ->where("id", $charon)
             ->select("defense_duration as len")
             ->first()->len;
 
-        //Get list of labs related to this charon course
-        $courseId = \DB::table('charon')
-            ->where("id",$charon)
-            ->select("course")
-            ->first()->course;
-
         //Get list of labs
-            $allLabs = \DB::table('charon_lab')
-            ->where("course_id",$courseId)
-            ->select("start","end","name","id")
+        $allLabs = \DB::table('charon_defense_lab')
+            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
+            ->where("charon_defense_lab.charon_id", $charon)
+            ->select("charon_lab.start", "charon_lab.end", "charon_lab.name", "charon_lab.id")
             ->get();
 
         //check if lab actual
-        foreach ($allLabs as $lab)
-        {
-            if(strtotime($lab->end) > time()){
+        foreach ($allLabs as $lab) {
+            if (strtotime($lab->end) > time()) {
                 $labs[] = $lab;
             }
         }
 
         //Calculate lab capacity
         //Calculate avg defense length and check if lab can be booked
-        foreach ($labs as $lab)
-        {
+        foreach ($labs as $lab) {
             $defTime = null;
             //Get teachers number
             $teacherNum = \DB::table('charon_lab_teacher')
@@ -363,27 +359,23 @@ class DefenceRegistrationService
 
             //Get all defense durations
             $defTimes = \DB::table('charon_defenders')
-                ->join("charon","charon.id","charon_defenders.charon_id")
-                ->where("defense_lab_id",$lab->id)
+                ->join("charon", "charon.id", "charon_defenders.charon_id")
+                ->where("defense_lab_id", $lab->id)
                 ->select("defense_duration")
                 ->get();
             $lab->_defTimes = $defTimes; //DEBUG!
 
             //Sum them up and divide to get avg
-            foreach ($defTimes as $time)
-            {
+            foreach ($defTimes as $time) {
                 $defTime += $time->defense_duration;
             }
 
             $lab->_defTime = $defTime; //DEBUG!
             $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
-            if($capacity - $defTime > $thisCharonLength)
-            {
+            if ($capacity - $defTime > $thisCharonLength) {
                 $move = ($defTime / $teacherNum) * 60;
-                $lab->estimatedStartTime = date("Y-m-d H:i:s",strtotime("$lab->start") + $move);
-            }
-            else
-            {
+                $lab->estimatedStartTime = date("Y-m-d H:i:s", strtotime("$lab->start") + $move);
+            } else {
                 $lab->estimatedStartTime = null;
             }
         }
