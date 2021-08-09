@@ -374,19 +374,17 @@ class DefenceRegistrationService
             {
                 $defTime += $time->defense_duration;
             }
-            $defTime = 300;
+
             $lab->_defTime = $defTime; //DEBUG!
             $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
             if($capacity - $defTime > $thisCharonLength)
             {
                 $move = ($defTime / $teacherNum) * 60;
-                $lab->registrable = true;
                 $lab->estimatedStartTime = date("Y-m-d H:i:s",strtotime("$lab->start") + $move);
             }
             else
             {
-                $lab->registrable = false;
-                $lab->estimatedStartTime = "fully booked";
+                $lab->estimatedStartTime = null;
             }
         }
 

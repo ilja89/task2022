@@ -33,13 +33,16 @@
                                      :options="this.labs" :placeholder="translate('selectDayText')"
                                      label="start"
                                      track-by="id" @select="onSelect">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }} - Booked until {{ option.booked_until }}</template>
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}
+                              - {{ option.estimatedStartTime ? "Estimated time of defense: " +
+                                option.estimatedStartTime : "Fully booked" }}</template>
                         </multiselect>
                     </div>
                 </div>
 
                 <v-row class="mt-4">
-                    <v-btn class="ml-4" color="primary" dense outlined text @click="sendData()">
+                    <v-btn :disabled="!value || value && !value.estimatedStartTime"
+                        class="ml-4" color="primary" dense outlined text @click="sendData()">
                         {{ translate('registerText') }}
                     </v-btn>
 
@@ -146,11 +149,13 @@ export default {
             }
         },
 
-        getLabList({start, name, booked_until}) {
+        getLabList({start, name, estimatedStartTime}) {
             let date = `${start.split(' ')[0]}`;
             let time = `${start.split(' ')[1]}`;
             let time_return = time.split(':');
-            return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") + ' - Booked until:' + booked_until;
+            return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "") +
+              ' - ' + (estimatedStartTime ? 'Estimated time of defense: ' + estimatedStartTime :
+              "Fully booked");
         },
 
         onSelect(option) {
