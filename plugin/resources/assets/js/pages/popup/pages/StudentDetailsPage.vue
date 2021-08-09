@@ -2,6 +2,8 @@
   <div class="student-overview-container">
     <page-title :title="name"></page-title>
 
+    <student-details-submissions-section :latest-submissions="latestSubmissions"></student-details-submissions-section>
+
     <popup-section title="Grades report"
                    subtitle="Grading report for the current student.">
 
@@ -18,19 +20,20 @@
 <script>
 import {PageTitle} from '../partials'
 import {mapState, mapGetters, mapActions} from 'vuex'
-import {User} from '../../../api'
+import {Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
+import StudentDetailsSubmissionsSection from "../sections/StudentDetailsSubmissionsSection";
 
 export default {
-  components: {PopupSection, PageTitle},
+  components: {StudentDetailsSubmissionsSection, PopupSection, PageTitle},
 
   name: "StudentDetailsPage",
 
   data() {
     return {
       name: 'Student name',
-      table: ''
-
+      table: '',
+      latestSubmissions: []
     }
   },
 
@@ -52,7 +55,8 @@ export default {
     $route() {
       this.getStudent()
       this.getStudentOverviewTable()
-    },
+      this.fetchLatestSubmissions()
+    }
   },
 
   methods: {
@@ -70,12 +74,19 @@ export default {
       this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
     },
 
+    fetchLatestSubmissions() {
+      Submission.findLatestSubmissionsByUser(this.courseId, this.routeStudentId, submissions => {
+        this.latestSubmissions = submissions
+      })
+      }
+
   },
 
   created() {
     this.getStudent()
     this.getStudentOverviewTable()
-  },
+    this.fetchLatestSubmissions()
+  }
 }
 </script>
 

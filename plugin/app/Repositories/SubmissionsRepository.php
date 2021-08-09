@@ -478,6 +478,25 @@ class SubmissionsRepository
     }
 
     /**
+     * Find the latest submissions for the course by user.
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return array
+     */
+    public function findLatestSubmissionsByUser(int $courseId, int $userId)
+    {
+        return DB::table('charon_submission')
+            ->join('charon', 'charon_submission.charon_id', '=', 'charon.id')
+            ->select('charon_submission.created_at', 'charon_submission.id', 'charon.name')
+            ->where([['charon_submission.user_id', '=', $userId], ['charon.course', '=', $courseId]])
+            ->latest()
+            ->take(10)
+            ->get();
+    }
+
+    /**
      * Provides overview stats for popup dashboard.
      *
      * Currently only submission authors are taken into account.
