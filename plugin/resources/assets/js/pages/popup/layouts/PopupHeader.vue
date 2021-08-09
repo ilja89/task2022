@@ -21,7 +21,6 @@
                 :loading="isLoading"
                 :search-input.sync="search"
                 color="primary"
-                hide-selected
                 item-text="Description"
                 item-value="API"
                 label="Search student"
