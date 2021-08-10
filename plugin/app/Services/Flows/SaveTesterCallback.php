@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
@@ -65,11 +64,12 @@ class SaveTesterCallback
      * @throws Exception
      * @return Submission
      */
-    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
+    public function run(TesterCallbackRequest $request,
+                        GitCallback $gitCallback, array $usernames, int $courseId = null)
     {
         $users = $this->getStudentsInvolved($usernames);
 
-        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
+        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
 
         $this->submissionService->saveFiles($submission->id, $request['files']);
 
@@ -84,35 +84,6 @@ class SaveTesterCallback
         return $submission;
     }
 
-    /**
-     * Save a new submission from tester data, from charon view submission.
-     *
-     * @param CharonViewTesterCallbackRequest $request
-     * @param array $usernames
-     * @param int $courseId
-     *
-     * @throws Exception
-     * @return Submission
-     */
-    public function runCharonSubmission(CharonViewTesterCallbackRequest $request,
-                                        array $usernames, int $courseId): Submission
-    {
-        $users = $this->getStudentsInvolved($usernames);
-
-        $submission = $this->createNewSubmission($request, new GitCallback(), $users[0]->id, $courseId);
-
-        $this->submissionService->saveFiles($submission->id, $request['files']);
-
-        $submission->users()->saveMany($users);
-
-        $this->saveResults($request['testSuites'],(int) $request['style'], $submission, $users);
-
-        $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
-
-        $this->updateGrades($submission, $users);
-
-        return $submission;
-    }
 
     /**
      * @param array|string[] $usernames

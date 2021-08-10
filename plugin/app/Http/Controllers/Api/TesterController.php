@@ -10,6 +10,7 @@ use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Dto\SourceFileDTO;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
@@ -68,11 +69,11 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request): JsonResponse
     {
-        Log::info("Inline submission input for the tester: ", [
+        /*Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
             'userId' => $request->input('userId'),
             'sourceFiles' => $request->input('sourceFiles'),
-            ]);
+            ]);*/
 
         $charon = $this->charonRepository->getCharonById($request->route('charon'));
 
@@ -126,11 +127,8 @@ class TesterController extends Controller
             ->values()
             ->all();
 
-        Log::info("users" , ["users" => $usernames]);
-
-        $submission = $this->saveTesterFlow->runCharonSubmission($request, $usernames,
+        $submission = $this->saveTesterFlow->run($request, new GitCallback(), $usernames,
             intval($request->input('returnExtra')['course']));
-        Log::info("submission" , ["sub" => $submission]);
 
         return $this->hideUnneededFields($submission);
     }
