@@ -36,8 +36,10 @@ class TemplateService
     {
         $this->checkTemplates($templates);
         $this->templatesRepository->deleteAllTemplates($charonId);
-        foreach ($templates as $template) {
-            $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+        if (!is_null($templates)) {
+            foreach ($templates as $template) {
+                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+            }
         }
     }
 
@@ -49,8 +51,10 @@ class TemplateService
     public function addTemplates(int $charonId, $templates)
     {
         $this->checkTemplates($templates);
-        foreach ($templates as $template) {
-            $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+        if (!is_null($templates)) {
+            foreach ($templates as $template) {
+                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+            }
         }
     }
 
@@ -62,20 +66,22 @@ class TemplateService
      */
     private function checkTemplates($templates)
     {
-        foreach ($templates as $template) {
-            if (preg_match('/\s/', $template['path']) or empty($template['path'])) {
-                throw new TemplatePathException('template_path_are_required');
+        if (!is_null($templates)) {
+            foreach ($templates as $template) {
+                if (preg_match('/\s/', $template['path']) or empty($template['path'])) {
+                    throw new TemplatePathException('template_path_are_required');
+                }
             }
-        }
-        foreach ($templates as $template) {
-            $templatePath = $template['path'];
-            $secondSearch = false;
-            foreach ($templates as $template2) {
-                if ($templatePath == $template2['path']) {
-                    if ($secondSearch) {
-                        throw new TemplatePathException('same_path', $templatePath);
+            foreach ($templates as $template) {
+                $templatePath = $template['path'];
+                $secondSearch = false;
+                foreach ($templates as $template2) {
+                    if ($templatePath == $template2['path']) {
+                        if ($secondSearch) {
+                            throw new TemplatePathException('same_path', $templatePath);
+                        }
+                        $secondSearch = true;
                     }
-                    $secondSearch = true;
                 }
             }
         }

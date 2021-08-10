@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="codes.length > 0">
     <charon-tabs>
       <charon-tab v-for="(code, index) in this.codes"
                   :name="code.path"
@@ -30,7 +30,7 @@ export default {
     language: {require: true}
   },
 
-  mounted() {
+  beforeMount() {
     this.getTemplates();
   },
 
