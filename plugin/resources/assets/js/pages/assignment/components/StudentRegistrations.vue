@@ -43,6 +43,7 @@
                 <v-btn icon @click="deleteItem(item)">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
+                <registration-queue-sheet></registration-queue-sheet>
               </template>
             </v-data-table>
           </v-flex>
@@ -59,11 +60,16 @@ import moment from 'moment'
 import {Translate} from '../../../mixins';
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
+import RegistrationQueueSheet from "./RegistrationQueueSheet";
 
 export default {
 	mixins: [Translate],
 
 	name: "student-registrations",
+
+  components: {
+	  RegistrationQueueSheet
+  },
 
 	data() {
 		return {
