@@ -122,7 +122,6 @@ export default {
 
   beforeMount() {
     let language_code = 1
-
     if (this.form.fields.tester_type === undefined) {
       language_code = this.form.fields.tester_type_code;
     } else {
@@ -142,7 +141,7 @@ export default {
       const $inputs = $('input[class="form-control"]');
       $inputs.each(function() {
         const v = this.value;
-        if (values.includes(v)) $inputs.filter(function() { return this.value === v }).addClass("duplicate");
+        if (v !== "" && values.includes(v)) $inputs.filter(function() { return this.value === v }).addClass("duplicate");
         values.push(v);
       })
     },
