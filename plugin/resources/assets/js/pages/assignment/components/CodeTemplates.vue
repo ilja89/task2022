@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-if="codes.length > 0">
     <charon-tabs>
-      <charon-tab v-for="(code, index) in this.codes"
+      <charon-tab v-for="(code, index) in codes"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
@@ -32,7 +32,7 @@ export default {
     allow_submission: {required: true}
   },
 
-  mounted() {
+  beforeMount() {
     this.getTemplates();
   },
 
@@ -61,7 +61,7 @@ export default {
       }
 
       try {
-        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
+        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
             VueEvent.$emit('show-notification', 'Submission successfully saved!')
         )
       } catch (e) {
