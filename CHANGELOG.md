@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
