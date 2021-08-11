@@ -1,8 +1,7 @@
 <template>
   <div class="editorDiv">
-
     <span>Language: {{language}}</span>
-
+    <textarea id="copyTextArea" class="textareaForCopy"></textarea>
     <AceEditor
         class="editor"
         v-model="content"
@@ -61,25 +60,11 @@ export default {
 
   methods: {
     copyToClipBoard() {
-      const id = "mycustom-clipboard-textarea-hidden-id";
+      const id = "copyTextArea";
       let existsTextarea = document.getElementById(id);
-      if(!existsTextarea){
-        const textarea = document.createElement("textarea");
-        textarea.id = id;
-        textarea.style.position = 'fixed';
-        textarea.style.top = 0;
-        textarea.style.left = 0;
-        textarea.style.width = '1px';
-        textarea.style.height = '1px';
-        textarea.style.padding = 0;
-        textarea.style.border = 'none';
-        textarea.style.outline = 'none';
-        textarea.style.boxShadow = 'none';
-        textarea.style.background = 'transparent';
-        document.querySelector("body").appendChild(textarea);
-        existsTextarea = document.getElementById(id);
-      }
+      document.querySelector("body").appendChild(existsTextarea);
       existsTextarea.value = this.content;
+
       existsTextarea.select();
       try {
         const status = document.execCommand('copy');
@@ -120,7 +105,18 @@ export default {
 </script>
 
 <style>
-
+.textareaForCopy {
+  top: 0;
+  left: 0;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+  position: fixed;
+  width: 1px;
+  height: 1px;
+}
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
