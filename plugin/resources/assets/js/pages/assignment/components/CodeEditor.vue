@@ -49,7 +49,7 @@ export default {
     return {
       content: this.codes[this.codeId].contents,
       lang: this.language,
-      read_only: window.editorSet < 1
+      read_only: window.allowSubmission < 1
     }
   },
 

@@ -48,7 +48,7 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
-    var editorSet = {{ $charon->editor_set }};
+    var allowSubmission = {{ $charon->allow_submission }};
 
     window.language = "{!! $charon->testerType->name !!}";
 

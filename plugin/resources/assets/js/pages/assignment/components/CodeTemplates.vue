@@ -10,7 +10,7 @@
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn v-if="editor_set" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+    <v-btn v-if="allow_submission" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
       Submit
     </v-btn>
   </div>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       codes: [],
-      editor_set: window.editorSet > 0
+      allow_submission: window.allowSubmission > 0
     }
   },
 

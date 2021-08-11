@@ -275,7 +275,7 @@ class InstanceController extends Controller
             'tester_extra' => $this->request->input('tester_extra', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
-            'editor_set' => $this->request->input('editor_set', false) === 'true',
+            'allow_submission' => $this->request->input('allow_submission', false) === 'true',
         ]);
     }
 
