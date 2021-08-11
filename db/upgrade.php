@@ -720,10 +720,15 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2021070601){
+        $table = new xmldb_table("charon");
         $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN editor_set BOOL DEFAULT FALSE";
-        $DB->execute($sql);
+        if (!$dbManager->field_exists($table, $sql)) {
+            $DB->execute($sql);
+        }
         $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_editor_set (editor_set)";
-        $DB->execute($sql);
+        if (!$dbManager->index_exists($table, $sql)) {
+            $DB->execute($sql);
+        }
     }
 
     if ($oldversion < 2021071302){
@@ -748,12 +753,19 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2021081101){
+        $table = new xmldb_table("charon");
         $sql = "ALTER TABLE " . $CFG->prefix . "charon CHANGE COLUMN editor_set allow_submission BOOL DEFAULT FALSE";
-        $DB->execute($sql);
+        if (!$dbManager->field_exists($table, $sql)) {
+            $DB->execute($sql);
+        }
         $sql = "ALTER TABLE {charon} DROP INDEX IXFX_charon_editor_set";
-        $DB->execute($sql);
+        if (!$dbManager->field_exists($table, $sql)) {
+            $DB->execute($sql);
+        }
         $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_allow_submission (allow_submission)";
-        $DB->execute($sql);
+        if (!$dbManager->field_exists($table, $sql)) {
+            $DB->execute($sql);
+        }
     }
 
     return true;
