@@ -738,7 +738,7 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2021070601){
         $table = new xmldb_table("charon");
         $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN editor_set BOOL DEFAULT FALSE";
-        if (!$dbManager->field_exists($table, $field)) {
+        if (!$dbManager->field_exists($table, $sql)) {
             $DB->execute($sql);
         }
         $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_editor_set (editor_set)";
