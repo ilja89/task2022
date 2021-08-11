@@ -59,7 +59,6 @@
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
                 <INDEX NAME="IXFX_charon_grade_categories" UNIQUE="false" FIELDS="category_id"/>
-                <INDEX NAME="IXFX_charon_allow_submission" UNIQUE="false" FIELDS="allow_submission"/>
             </INDEXES>
         </TABLE>
 
