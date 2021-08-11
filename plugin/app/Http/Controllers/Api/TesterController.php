@@ -16,6 +16,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
+use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -35,6 +36,9 @@ class TesterController extends Controller
     /** @var SaveTesterCallback */
     private $saveTesterFlow;
 
+    /** @var GitCallbackService */
+    private $callbackService;
+
     /**
      * RetestController constructor.
      *
@@ -49,7 +53,8 @@ class TesterController extends Controller
         CourseSettingsRepository $courseSettingsRepository,
         CharonRepository $charonRepository,
         UserRepository $userRepository,
-        SaveTesterCallback $saveTesterFlow
+        SaveTesterCallback $saveTesterFlow,
+        GitCallbackService $callbackService
     )
     {
         parent::__construct($request);
@@ -58,6 +63,7 @@ class TesterController extends Controller
         $this->charonRepository = $charonRepository;
         $this->userRepository = $userRepository;
         $this->saveTesterFlow = $saveTesterFlow;
+        $this->callbackService = $callbackService;
     }
 
     /**
@@ -80,6 +86,9 @@ class TesterController extends Controller
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
         $user = $this->userRepository->find($request->input('userId'));
+        $username = strtok($user->username, "@");
+        $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
+            $username);
 
         $finalListofSource = [];
         $sourceFiles = json_decode(json_encode($request->input('sourceFiles')));
@@ -98,8 +107,8 @@ class TesterController extends Controller
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)
-            ->setReturnExtra(["course" => $charon->course])
-            ->setUniid($user->username);
+            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers])
+            ->setUniid($username);
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
