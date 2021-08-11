@@ -734,19 +734,6 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-
-    if ($oldversion < 2021070601){
-        $table = new xmldb_table("charon");
-        $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN editor_set BOOL DEFAULT FALSE";
-        if (!$dbManager->field_exists($table, $sql)) {
-            $DB->execute($sql);
-        }
-        $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_editor_set (editor_set)";
-        if (!$dbManager->index_exists($table, $sql)) {
-            $DB->execute($sql);
-        }
-    }
-
     if ($oldversion < 2021071302){
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_template(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
@@ -765,6 +752,15 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         if (!$dbManager->table_exists($table)) {
             $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2021081101){
+        $table = new xmldb_table("charon");
+
+        $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
         }
     }
 

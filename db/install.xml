@@ -32,7 +32,7 @@
                 <FIELD NAME="docker_content_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="docker_test_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="group_size" SEQUENCE="false" TYPE="int" LENGTH="4" NOTNULL="false"/>
-                <FIELD NAME="editor_set" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="allow_submission" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
 
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
@@ -59,7 +59,6 @@
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
                 <INDEX NAME="IXFX_charon_grade_categories" UNIQUE="false" FIELDS="category_id"/>
-                <INDEX NAME="IXFX_charon_editor_set" UNIQUE="false" FIELDS="editor_set"/>
             </INDEXES>
         </TABLE>
 

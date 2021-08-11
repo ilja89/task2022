@@ -22,6 +22,7 @@
         tabSize: 2,
         showPrintMargin: false,
         showGutter: true,
+        readOnly: read_only,
         }"
     />
 
@@ -40,14 +41,16 @@ export default {
 
   props: {
     language: { required: true },
-    codes: { require: true },
-    codeId: { required: true }
+    codes: { required: true },
+    codeId: { required: true },
+    allow_submission: {required: true}
   },
 
   data() {
     return {
       content: this.codes[this.codeId].contents,
-      lang: this.language
+      lang: this.language,
+      read_only: this.allow_submission < 1
     }
   },
 

@@ -7,10 +7,11 @@
         <code-editor :codeId="index"
                      :language="this.language"
                      :codes="codes"
+                     :allow_submission="allow_submission"
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+    <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
       Submit
     </v-btn>
   </div>
@@ -27,7 +28,8 @@ export default {
   components: {CharonTab, CharonTabs, CodeEditor},
 
   props: {
-    language: {require: true}
+    language: {required: true},
+    allow_submission: {required: true}
   },
 
   beforeMount() {
