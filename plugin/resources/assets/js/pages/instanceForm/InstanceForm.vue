@@ -145,7 +145,10 @@ export default {
     VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
     VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
     VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);
-    VueEvent.$on('tester-type-was-changed', (tester_type) => this.form.fields.tester_type = tester_type);
+    VueEvent.$on('tester-type-was-changed', (tester_type) => {
+      this.form.fields.tester_type = tester_type
+      this.form.fields.tester_type_code = tester_type
+    });
     VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
     VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = grouping_id);
     VueEvent.$on('defense-deadline-was-changed', (defense_deadline) => this.form.fields.defense_deadline = defense_deadline);
