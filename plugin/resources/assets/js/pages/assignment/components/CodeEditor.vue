@@ -41,15 +41,16 @@ export default {
 
   props: {
     language: { required: true },
-    codes: { require: true },
-    codeId: { required: true }
+    codes: { required: true },
+    codeId: { required: true },
+    allow_submission: {required: true}
   },
 
   data() {
     return {
       content: this.codes[this.codeId].contents,
       lang: this.language,
-      read_only: window.allowSubmission < 1
+      read_only: this.allow_submission < 1
     }
   },
 
