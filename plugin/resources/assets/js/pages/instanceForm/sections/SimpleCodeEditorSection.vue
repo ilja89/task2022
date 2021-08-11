@@ -1,6 +1,6 @@
 <template>
-  <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-    <legend class="ftoggler">Code Editor</legend>
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+      <legend class="ftoggler">Code Editor</legend>
       <div class="fcontainer clearfix fitem">
 
         <label>
@@ -22,13 +22,22 @@
               </div>
               <p class="input-helper">Path to file.</p>
               <div class="felement ftext path">
-                <input
-                    v-on:change="validationCheck()"
-                    id="file_path"
-                    class="form-control"
-                    type="text"
-                    :required="true"
-                    v-model="file.path">
+                <v-tooltip
+                    v-model="file.duplicate"
+                    top
+                >
+                  <template v-slot:activator="{ attrs }">
+                    <input
+                        v-on:change="validationCheck()"
+                        id="file_path"
+                        v-bind:class="{'form-control': true, 'duplicate': file.duplicate, attrs}"
+                        type="text"
+                        :required="true"
+                        v-model="file.path">
+                  </template>
+                  <span>Duplicated!</span>
+                </v-tooltip>
+
                 <v-btn
                     class="my-2 del_btn"
                     depressed
@@ -85,9 +94,8 @@
           </div>
         </div>
       </div>
-  </fieldset>
+    </fieldset>
 </template>
-
 <script>
 import AceEditor from 'vuejs-ace-editor';
 import {mdiDelete} from '@mdi/js'
@@ -137,13 +145,20 @@ export default {
   methods: {
     validationCheck() {
       const values = [];
-      $(".duplicate").removeClass("duplicate");
-      const $inputs = $('input[class="form-control"]');
-      $inputs.each(function() {
-        const v = this.value;
-        if (v !== "" && values.includes(v)) $inputs.filter(function() { return this.value === v }).addClass("duplicate");
-        values.push(v);
-      })
+      this.form.fields.files.forEach(file => {
+        file.duplicate = false;
+      });
+      this.form.fields.files.forEach(file => {
+        const v = file.path;
+        if (v !== "" && values.includes(v)) {
+          this.form.fields.files.forEach(file => {
+            if (file.path === v) {
+              file.duplicate = true;
+            }
+          });
+        }
+        values.push(v)
+      });
     },
 
     defineLanguage(language_code) {
@@ -153,7 +168,7 @@ export default {
     },
 
     addFile() {
-      this.form.fields.files.push({"id": this.form.fields.files.length, "path": '', "content": ''});
+      this.form.fields.files.push({"id": this.form.fields.files.length, "path": '', "content": '', "duplicate": false});
     },
 
     deleteFile(index) {
@@ -162,6 +177,7 @@ export default {
       if (this.current_index < 0) {
         this.current_index = 0;
       }
+      this.validationCheck();
     },
 
     /**
@@ -187,7 +203,6 @@ export default {
       require('brace/snippets/csharp')
     }
   },
-
 }
 
 </script>
