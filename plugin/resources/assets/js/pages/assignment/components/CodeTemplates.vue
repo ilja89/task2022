@@ -59,7 +59,7 @@ export default {
       }
 
       try {
-        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
+        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
             VueEvent.$emit('show-notification', 'Submission successfully saved!')
         )
       } catch (e) {

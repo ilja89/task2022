@@ -62,7 +62,7 @@ class HttpCommunicationService
         $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
-            'neti.ee'
+            'http://neti.ee'
         );
 
         /**
