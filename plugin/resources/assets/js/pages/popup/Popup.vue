@@ -24,7 +24,7 @@
             <v-footer absolute class="font-weight-medium">
                 <v-col class="text-center" cols="12">
                     <span :title="new Date(version.date).toLocaleString()">{{ new Date(version.date).getFullYear() }}</span> — <strong>Charon</strong>
-                    <span class="version"> — <a onclick='window.open("https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md")'>
+                    <span class="version"> — <a href="https://gitlab.cs.ttu.ee/ained/charon/-/blob/develop/CHANGELOG.md" target="_blank">
                         Version: {{branch}} - {{releaseDate}} </a></span>
                 </v-col>
             </v-footer>
