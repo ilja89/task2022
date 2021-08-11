@@ -250,7 +250,7 @@ class LabController extends Controller
         //**** TEACHERS AND ONGOING DEFENCES ****
         //get teachers who have labs with registrations on them
         $result["teachers"] = \DB::table('charon_defenders')
-            ->join("user", "user.id", "charon_defenders.teacher_id")
+            ->join("user", "user.id", "charon_defenders.teacher_id",null,"left")
             ->select("user.username as teacher_name","user.id")
             ->get();
 
