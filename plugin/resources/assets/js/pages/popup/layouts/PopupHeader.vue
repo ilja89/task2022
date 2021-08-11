@@ -63,6 +63,7 @@
             isLoading: false,
             model: null,
             search: null,
+            timer: null,
         }),
 
         computed: {
@@ -137,6 +138,25 @@
                     });
                 }
             },
+
+          fetchInputItems(val) {
+            fetch(`${this.studentsSearchUrl}?q=${val}`)
+                .then(res => res.json())
+                .then(res => {
+                  this.count = res.length
+                  this.entries = res
+                })
+                .catch(err => {
+                  VueEvent.$emit('show-notification', "Session has expired. Refreshing.", "error", 3000)
+                  setInterval(function () {
+                    location.reload();
+                  }, 3000);
+                })
+                .finally(() => {
+                  this.isLoading = false
+                  this.timer = null
+                })
+          }
         },
 
         watch: {
@@ -145,22 +165,12 @@
                     return
                 }
 
-                this.isLoading = true
+                if (this.timer) {
+                  clearTimeout(this.timer)
+                }
 
-                // Lazily load input items
-                fetch(`${this.studentsSearchUrl}?q=${val}`)
-                    .then(res => res.json())
-                    .then(res => {
-                        this.count = res.length
-                        this.entries = res
-                    })
-                    .catch(err => {
-                        VueEvent.$emit('show-notification', "Session has expired. Refreshing.", "error", 3000)
-                        setInterval(function () {
-                            location.reload();
-                        }, 3000);
-                    })
-                    .finally(() => (this.isLoading = false))
+                this.isLoading = true
+                this.timer = setTimeout(this.fetchInputItems, 1000, val)
             },
 
             // React to any route changes and act accordingly
