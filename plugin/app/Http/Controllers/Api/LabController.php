@@ -185,10 +185,13 @@ class LabController extends Controller
         $labId = $request->input("lab_id");
         $middleDefTime=null;
 
+        //**** REGISTRATIONS ****
+
         //get list of registrations
-        $result = \DB::table('charon_defenders')
+        $result["registrations"] = \DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->where("defense_lab_id", $labId)
+            ->where("progress","Waiting")
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
             ->get();
 
@@ -209,7 +212,7 @@ class LabController extends Controller
             $labTime->$key = strtotime($labTime->$key);
         }
 
-        foreach ($result as $key => $reg)
+        foreach ($result["registrations"] as $key => $reg)
         {
             //if student id equals to user id, then return username as field, else set it null
             if($reg->student_id == $userId)
@@ -236,12 +239,36 @@ class LabController extends Controller
         $middleDefTime = $middleDefTime/count($result);
 
         //Calculate approximate time and delete not needed variables
-        foreach ($result as $reg)
+        foreach ($result["registrations"] as $reg)
         {
             $move = floor($reg->queue_pos-1/$teachers_num) * $middleDefTime;
             $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
+        }
+
+        //**** TEACHERS AND ONGOING DEFENCES ****
+        //get teachers who have labs with registrations on them
+        $result["teachers"] = \DB::table('charon_defenders')
+            ->join("user", "user.id", "charon_defenders.teacher_id")
+            ->select("user.username as teacher_name","user.id")
+            ->get();
+
+        //get currently ongoing labs for teacher
+        if(count($result["teachers"])>0) {
+            foreach ($result["teachers"] as $teacher)
+            {
+                $teacher->currently_defending_registration_id = \DB::table('charon_defenders')
+                    ->where("teacher_id",$teacher->id)
+                    ->where("progress","Defending")
+                    ->select("id")
+                    ->first();
+                if($teacher->currently_defending_registration_id)
+                {
+                    $teacher->currently_defending_registration_id = $teacher->currently_defending_registration_id->id;
+                }
+                unset($teacher->id);
+            }
         }
 
         return $result;
