@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#492 Integrated templates management frontend with backend endpoints
 - \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
 - \#474 Added ability to make submitions from charon student view
+- \#542 Now a submission is made to tester, its response is handled and submissions are created.
 
 ### Fixed
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
