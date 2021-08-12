@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\TemplatePathException;
 use TTU\Charon\Repositories\TemplatesRepository;
 
@@ -72,7 +73,7 @@ class TemplateService
                 if (preg_match('/\s/', $template['path']) or empty($template['path'])) {
                     throw new TemplatePathException('template_path_are_required');
                 }
-                array_push($templatePaths, $template);
+                array_push($templatePaths, $template['path']);
             }
             $uniqueTemplatePaths = array_unique($templatePaths);
             if(sizeof($templatePaths) != sizeof($uniqueTemplatePaths)) {
