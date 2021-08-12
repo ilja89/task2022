@@ -216,7 +216,7 @@ class StudentsController extends Controller
      * @param int $charonId
      * @param int $userId
      *
-     * @return ?
+     * @return array
      */
     public function getUserCharonsDetails($courseId, $userId)
     {

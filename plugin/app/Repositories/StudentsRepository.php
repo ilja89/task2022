@@ -3,12 +3,10 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
-// use TTU\Charon\Models\Grademap;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Models\User;
-use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class StudentsRepository.
@@ -17,10 +15,6 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class StudentsRepository
 {
-
-/** @var GradebookService */
-    private $gradebookService;
-
     /**
      * @param integer $courseId
      * @param string $keyword
