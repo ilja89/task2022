@@ -67,9 +67,9 @@ export default {
 
 	name: "student-registrations",
 
-  components: {
-	  RegistrationQueueSheet
-  },
+	components: {
+		RegistrationQueueSheet
+	},
 
 	data() {
 		return {

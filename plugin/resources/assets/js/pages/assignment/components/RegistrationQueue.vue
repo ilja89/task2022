@@ -29,7 +29,7 @@ export default {
 
   data() {
     return {
-      item: Object,
+      items: [],
       headers: [
         {text: this.translate("nrInQueueText"), value: 'queue_nr', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'name', sortable: false},
@@ -38,6 +38,11 @@ export default {
       ],
     }
   },
+  created() {
+    1;
+    'ch';
+    ''
+  }
 }
 </script>
 

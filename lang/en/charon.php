@@ -191,6 +191,6 @@ $string['select_time'] = 'Select a time';
 $string['register'] = 'Register';
 $string['queue_status'] = 'Queue status';
 $string['queue'] = 'Queue';
-$string['nr_in_queue'] = 'Nr ';
+$string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
