@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#210 Charon deadline events are visible in Moodle calendar
 - \#449 Tester url and token can be changed for specific course
 - \#492 Integrated templates management frontend with backend endpoints
-- \#490 Added templates management view in charon settings, where tempaltes can be added to charon, updated or deleted
+- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
 - \#474 Added ability to make submitions from charon student view
 
 ### Fixed
@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
+- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.2.4] - 2021-05-19
 

@@ -12,7 +12,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
 
     Route::middleware('auth.course_module.enrolment.require')
-        ->post('submissions/{charon}/postFromInline', 'TesterController@postFromInline');
+        ->post('submissions/{charon}/postSubmission', 'TesterController@postSubmission');
     Route::post('submissions/saveResults', 'TesterController@saveResults');
 
     Route::post('tester_callback', 'TesterCallbackController@index')

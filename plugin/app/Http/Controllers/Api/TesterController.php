@@ -2,21 +2,10 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Dto\AreteRequestDto;
-use TTU\Charon\Dto\SourceFileDTO;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
-use TTU\Charon\Models\GitCallback;
-use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\CourseSettingsRepository;
-use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\Flows\SaveTesterCallback;
-use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -33,12 +22,6 @@ class TesterController extends Controller
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var SaveTesterCallback */
-    private $saveTesterFlow;
-
-    /** @var GitCallbackService */
-    private $callbackService;
-
     /**
      * RetestController constructor.
      *
@@ -49,21 +32,11 @@ class TesterController extends Controller
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
-        Request $request,
-        CourseSettingsRepository $courseSettingsRepository,
-        CharonRepository $charonRepository,
-        UserRepository $userRepository,
-        SaveTesterCallback $saveTesterFlow,
-        GitCallbackService $callbackService
+        Request $request
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
-        $this->courseSettingsRepository = $courseSettingsRepository;
-        $this->charonRepository = $charonRepository;
-        $this->userRepository = $userRepository;
-        $this->saveTesterFlow = $saveTesterFlow;
-        $this->callbackService = $callbackService;
     }
 
     /**
@@ -75,40 +48,15 @@ class TesterController extends Controller
      */
     public function postFromInline(Request $request): JsonResponse
     {
-        /*Log::info("Inline submission input for the tester: ", [
+        Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
             'userId' => $request->input('userId'),
             'sourceFiles' => $request->input('sourceFiles'),
-            ]);*/
+            ]);
 
-        $charon = $this->charonRepository->getCharonById($request->route('charon'));
-
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
-
-        $user = $this->userRepository->find($request->input('userId'));
-        $username = strtok($user->username, "@");
-        $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
-            $username);
-
-        $finalListofSource = [];
-        $sourceFiles = json_decode(json_encode($request->input('sourceFiles')));
-        foreach ($sourceFiles as $sourceFile) {
-            $finalFile = new SourceFileDTO();
-            $finalFile->setPath($sourceFile->path);
-            $finalFile->setContent($sourceFile->content);
-            array_push($finalListofSource, $finalFile->toArray());
-        }
-
-        $finalListofSlugs = [];
-        array_push($finalListofSlugs, $charon->project_folder);
-
-        $areteRequest = (new AreteRequestDto())
-            ->setGitTestRepo($courseSettings->unittests_git)
-            ->setTestingPlatform($charon->testerType->name)
-            ->setSlugs($finalListofSlugs)
-            ->setSource($finalListofSource)
-            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers])
-            ->setUniid($username);
+        $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
+            $request->input('userId'),
+            json_decode(json_encode($request->input('sourceFiles'))));
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
