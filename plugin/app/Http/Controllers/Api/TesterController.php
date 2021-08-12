@@ -2,10 +2,14 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -13,30 +17,25 @@ class TesterController extends Controller
     /** @var TesterCommunicationService */
     protected $testerCommunicationService;
 
-    /** @var CourseSettingsRepository */
-    protected $courseSettingsRepository;
-
-    /** @var CharonRepository */
-    private $charonRepository;
-
-    /** @var UserRepository */
-    private $userRepository;
+    /** @var SaveTesterCallback */
+    private $saveTesterFlow;
 
     /**
      * RetestController constructor.
      *
      * @param TesterCommunicationService $testerCommunicationService
      * @param Request $request
-     * @param CourseSettingsRepository $courseSettingsRepository
-     * @param CharonRepository $charonRepository
+     * @param SaveTesterCallback $saveTesterFlow
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
-        Request $request
+        Request $request,
+        SaveTesterCallback $saveTesterFlow
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
+        $this->saveTesterFlow = $saveTesterFlow;
     }
 
     /**
@@ -46,7 +45,7 @@ class TesterController extends Controller
      *
      * @return JsonResponse
      */
-    public function postFromInline(Request $request): JsonResponse
+    public function postSubmission(Request $request): JsonResponse
     {
         Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
@@ -87,19 +86,6 @@ class TesterController extends Controller
         $submission = $this->saveTesterFlow->run($request, new GitCallback(), $usernames,
             intval($request->input('returnExtra')['course']));
 
-        return $this->hideUnneededFields($submission);
-    }
-
-    /**
-     * Hide unnecessary fields so that the tester doesn't get duplicate information.
-     *
-     * @param Submission $submission
-     */
-    private function hideUnneededFields(Submission $submission)
-    {
-        $submission->makeHidden('charon');
-        foreach ($submission->results as $result) {
-            $result->makeHidden('submission');
-        }
+        $this->saveTesterFlow->hideUnneededFields($submission);
     }
 }

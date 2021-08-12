@@ -60,9 +60,10 @@ class SaveTesterCallback
      * @param TesterCallbackRequest $request
      * @param GitCallback $gitCallback
      * @param array $usernames
+     * @param int|null $courseId
      *
-     * @throws Exception
      * @return Submission
+     * @throws Exception
      */
     public function run(TesterCallbackRequest $request,
                         GitCallback $gitCallback, array $usernames, int $courseId = null)
@@ -176,6 +177,19 @@ class SaveTesterCallback
             if ($this->charonGradingService->gradesShouldBeUpdated($submission, $user->id)) {
                 $this->charonGradingService->updateGrade($submission, $user->id);
             }
+        }
+    }
+
+    /**
+     * Hide unnecessary fields so that the tester doesn't get duplicate information.
+     *
+     * @param Submission $submission
+     */
+    public function hideUnneededFields(Submission $submission)
+    {
+        $submission->makeHidden('charon');
+        foreach ($submission->results as $result) {
+            $result->makeHidden('submission');
         }
     }
 }

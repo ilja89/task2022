@@ -76,14 +76,21 @@ class HttpCommunicationService
         );
 
         $studentGitRepo = null;
+        $course = null;
         if (isset($data['gitStudentRepo'])) {
             $studentGitRepo = $data['gitStudentRepo'];
+        } else if (isset($data['returnExtra']['course'])){
+            $course = $data['returnExtra']['course'];
         }
 
-        if ($studentGitRepo) {
-            Log::info("Repository found: '" . $studentGitRepo . "'");
-            $course = $this->gitCallbackService->getCourse($studentGitRepo);
-            $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+        if ($studentGitRepo or $course) {
+            if (!$course) {
+                Log::info("Repository found: '" . $studentGitRepo . "'");
+                $course = $this->gitCallbackService->getCourse($studentGitRepo);
+                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+            } else {
+                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course);
+            }
 
             if ($settings && $settings->tester_url) {
                 $testerUrl = $settings->tester_url;
@@ -102,10 +109,7 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
-        #TODO Add 'Authorization' header to access tester
-        // Currently I've been getting Authorization header from:
-        // https://gitlab.cs.ttu.ee/ained/charon/-/issues/454#note_151343
-        $headers = ['Authorization' => '', 'X-Testing-Token' => $testerToken];
+        $headers = ['Authorization' => $testerToken];
 
         $client = new Client();
         try {

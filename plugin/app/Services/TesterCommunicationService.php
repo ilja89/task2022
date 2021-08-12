@@ -29,6 +29,9 @@ class TesterCommunicationService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var GitCallbackService */
+    private $callbackService;
+
     /**
      * TesterCommunicationService constructor.
      *
@@ -36,18 +39,21 @@ class TesterCommunicationService
      * @param CharonRepository $charonRepository
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param UserRepository $userRepository
+     * @param GitCallbackService $callbackService
      */
     public function __construct(
         HttpCommunicationService $httpCommunicationService,
         CharonRepository $charonRepository,
         CourseSettingsRepository $courseSettingsRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        GitCallbackService $callbackService
     )
     {
         $this->httpCommunicationService = $httpCommunicationService;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->charonRepository = $charonRepository;
         $this->userRepository = $userRepository;
+        $this->callbackService = $callbackService;
     }
 
     /**
@@ -103,6 +109,9 @@ class TesterCommunicationService
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
         $user = $this->userRepository->find($userId);
+        $username = strtok($user->username, "@");
+        $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
+            $username);
 
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
@@ -120,6 +129,7 @@ class TesterCommunicationService
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)
-            ->setUniid($user->username);
+            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers])
+            ->setUniid($username);
     }
 }
