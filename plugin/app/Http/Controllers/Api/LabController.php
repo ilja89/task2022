@@ -179,17 +179,62 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
-    public function queueStatusBeforeLabBeginning(Request $request,int $charon)
+    //find teacher with smallest approximate load
+    private function findLessLoadedTeacher(Array $teachers)
+    {
+        $min = 999999;
+        $minId = null;
+        foreach ($teachers as $key => $teacher)
+        {
+            if($teacher <= $min)
+            {
+                $min = $teacher;
+                $minId = $key;
+            }
+        }
+        return $minId;
+    }
+
+    //gives approximate time move since lab start for each student based on their charon lengths and teacher number
+    private function getApproximateTimeMoveForStudent(Object $registrations, int $teachersNum): Array
+    {
+        $defMoves = [];
+        $defLengths = [];
+
+        //fill empty array for teachers
+        $teachers = array_fill(0,$teachersNum,0);
+
+        //get list of defTimes
+        foreach ($registrations as $key => $reg)
+        {
+            $defLengths[$key] = $reg->charon_length;
+        }
+
+        //Fill the massive
+        for($i = 0; $i < count($defLengths); $i++)
+        {
+            //find teacher what is loaded less than others. $to is number of this teacher
+            $to = $this->findLessLoadedTeacher($teachers);
+            //remember time on what this is possible to start current charon
+            $defMoves[$i] = $teachers[$to];
+            //add length of current charon to this teacher, simulating registered charon
+            $teachers[$to] += $defLengths[$i];
+        }
+        $defMoves[] = $teachers; //DEBUG!
+        return $defMoves;
+    }
+
+    public function labQueueStatus(Request $request)
     {
         $userId = $request->input("user_id");
         $labId = $request->input("lab_id");
-        $middleDefTime=null;
 
         //get list of registrations
         $result = \DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->where("defense_lab_id", $labId)
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
+            ->orderBy("charon_defenders.id","asc")
             ->get();
 
         //get number of teachers assigned to lab
@@ -224,25 +269,20 @@ class LabController extends Controller
                 $reg->student_name = null;
             }
 
-            //get length of this charon and sum to $middleDeftime
-            $middleDefTime += $reg->charon_length;
-
             //show position in queue
             $reg->queue_pos = $key+1;
 
         }
-
-        //Get average defense length
-        $middleDefTime = $middleDefTime/count($result);
+        $move = $this->getApproximateTimeMoveForStudent($result, $teachers_num);
 
         //Calculate approximate time and delete not needed variables
-        foreach ($result as $reg)
+        foreach ($result as $key => $reg)
         {
-            $move = floor($reg->queue_pos-1/$teachers_num) * $middleDefTime;
-            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move * 60);
+            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move[$key] * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
         }
+        $result[] = $move; //DEBUG!
 
         return $result;
 
