@@ -26,7 +26,7 @@ class TemplatesRepositoryTest extends TestCase
     public function testCheckTemplateRepositoryWorksFineTestDifferentCases()
     {
         /** @var Charon $charon */
-        $charon55 = factory(Charon::class)->create(['id' => 55, 'category_id' => 0]);
+        $charon55 = factory(Charon::class)->create(['id' => 155, 'category_id' => 0]);
 
         /** @var Charon $charon */
         $charon65 = factory(Charon::class)->create(['id' => 65, 'category_id' => 0]);

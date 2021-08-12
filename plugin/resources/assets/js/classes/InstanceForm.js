@@ -120,7 +120,7 @@ export default class InstanceFormForm {
         this.fields = {
             // EDITOR
             course: courseSettings['course_id'],
-            editor_set: false,
+            allow_submission: instance['allow_submission'] === null ? false : instance['allow_submission'] > 0,
             files: [],
 
             // MODULE INFO

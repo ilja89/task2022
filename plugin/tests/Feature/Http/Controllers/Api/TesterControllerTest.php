@@ -54,7 +54,7 @@ class TesterControllerTest extends TestCase
 
         $submissionFile = array("path"=>"exercise/ex.py", "content"=>"print('hello')");
 
-        $response = $this->postJson('/api/submissions/' . $charon->id . '/postFromInline', [
+        $response = $this->postJson('/api/submissions/' . $charon->id . '/postSubmission', [
             'userId' => $user->id,
             'sourceFiles' => [$submissionFile]
         ]);
