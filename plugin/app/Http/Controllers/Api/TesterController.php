@@ -44,6 +44,7 @@ class TesterController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postSubmission(Request $request): JsonResponse
     {
