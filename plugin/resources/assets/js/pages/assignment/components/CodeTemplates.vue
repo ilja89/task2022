@@ -1,16 +1,17 @@
 <template>
-  <div>
+  <div v-if="codes.length > 0">
     <charon-tabs>
-      <charon-tab v-for="(code, index) in this.codes"
+      <charon-tab v-for="(code, index) in codes"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
                      :language="this.language"
                      :codes="codes"
+                     :allow_submission="allow_submission"
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+    <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
       Submit
     </v-btn>
   </div>
@@ -27,10 +28,11 @@ export default {
   components: {CharonTab, CharonTabs, CodeEditor},
 
   props: {
-    language: {require: true}
+    language: {required: true},
+    allow_submission: {required: true}
   },
 
-  mounted() {
+  beforeMount() {
     this.getTemplates();
   },
 
@@ -59,7 +61,7 @@ export default {
       }
 
       try {
-        Submission.saveSubmission(sourceFiles, window.charonId, window.studentId, () =>
+        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
             VueEvent.$emit('show-notification', 'Submission successfully saved!')
         )
       } catch (e) {
