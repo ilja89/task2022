@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#474 Added ability to make submitions from charon student view
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", ff it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
+- \#539 Substitute Ace Editor with textarea
 
 ### Fixed
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
