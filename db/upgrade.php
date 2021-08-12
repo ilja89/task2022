@@ -719,11 +719,19 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021070601){
-        $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD COLUMN editor_set BOOL DEFAULT FALSE";
-        $DB->execute($sql);
-        $sql = "ALTER TABLE {charon} ADD INDEX IXFX_charon_editor_set (editor_set)";
-        $DB->execute($sql);
+    if ($oldversion < 2021062801) {
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('tester_token', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
     }
 
     if ($oldversion < 2021071302){
@@ -744,6 +752,15 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         if (!$dbManager->table_exists($table)) {
             $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2021081101){
+        $table = new xmldb_table("charon");
+
+        $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
         }
     }
 

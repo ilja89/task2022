@@ -48,24 +48,25 @@ export default {
 
   props: {
     language: { required: true },
-    codes: { require: true },
-    codeId: { required: true }
+    codes: { required: true },
+    codeId: { required: true },
+    allow_submission: {required: true}
   },
 
   data() {
     return {
       content: this.codes[this.codeId].contents,
-      // lang: this.language,
-      read_only: window.editorSet < 1
+      lang: this.language,
+      read_only: this.allow_submission < 1
     }
   },
 
   methods: {
 
     dataSubmit() {
-      console.log(this.codes);
       this.codes[this.codeId].contents = this.content;
     },
+  },
 
     // /**
     //  * Ace-code editor now supports only html, python, javascript, java, prolog and C#,
@@ -89,7 +90,6 @@ export default {
     //   require('brace/snippets/prolog')
     //   require('brace/snippets/csharp')
     // }
-  }
 }
 
 </script>
