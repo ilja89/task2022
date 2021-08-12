@@ -209,4 +209,8 @@ class StudentsController extends Controller
 
         return $studentsDistribution;
     }
+
+    public function getAllStudents(Course $course) {
+        return $this->studentsRepository->getAllByCourse($course->id);
+    }
 }
