@@ -3,10 +3,12 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
+// use TTU\Charon\Models\Grademap;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Models\User;
+use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class StudentsRepository.
@@ -15,6 +17,10 @@ use Zeizig\Moodle\Models\User;
  */
 class StudentsRepository
 {
+
+/** @var GradebookService */
+    private $gradebookService;
+
     /**
      * @param integer $courseId
      * @param string $keyword
@@ -66,5 +72,36 @@ class StudentsRepository
         } else {
             return 0;
         }
+    }
+
+    public function getUserCharonsDetails($courseId, $userId)
+    {
+        $charons = DB::table('charon')
+            ->where('course', $courseId)
+            ->select('id', 'name')
+            ->get();
+
+        foreach ($charons as $charon) {
+            $charon->maxPoints = sprintf('%.2f', DB::table('grade_items')
+                ->join('charon', 'charon.category_id', '=', 'grade_items.categoryid')
+                ->where('grade_items.itemnumber', '=', 1)
+                ->where('grade_items.iteminstance', '=', $charon->id)
+                ->value('grade_items.grademax'));
+
+            $charon->studentPoints = sprintf('%.2f', DB::table('grade_grades')
+                ->join('grade_items', 'grade_items.id', '=', 'grade_grades.itemid')
+                ->where('grade_grades.userid', '=', $userId)
+                ->where('grade_items.itemnumber', '<', 100)
+                ->where('grade_items.iteminstance', '=', $charon->id)
+                ->value('finalgrade'));
+
+            $charon->defended = (DB::table('charon_submission')
+                ->where('charon_submission.user_id', '=', $userId)
+                ->where('charon_submission.charon_id', '=', $charon->id)
+                ->where('charon_submission.confirmed', '=', 1)
+                ->count() == 1) ? 'Yes' : 'No';
+        }
+
+        return $charons;
     }
 }

@@ -18,7 +18,6 @@ class User {
             })
     }
 
-
     static findActiveUsers(courseId, period, then) {
         window.axiosNoLoading.get('/mod/charon/api/courses/' + courseId + '/users/active', { params: { period } })
             .then(({data}) => {
@@ -43,6 +42,15 @@ class User {
                 then(response.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
+        })
+    }
+
+    static getUserCharonsDetails(courseId, userId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/charons-details')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving user charons details.\n' + error, 'danger')
         })
     }
 }

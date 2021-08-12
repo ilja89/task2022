@@ -58,6 +58,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/results/{user}', 'StudentsController@getStudentActiveResultForCharon');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/charons-details', 'StudentsController@getUserCharonsDetails');
 
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');

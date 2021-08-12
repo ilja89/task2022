@@ -209,4 +209,17 @@ class StudentsController extends Controller
 
         return $studentsDistribution;
     }
+
+    /**
+     * Get data from all charons by user.
+     *
+     * @param int $charonId
+     * @param int $userId
+     *
+     * @return ?
+     */
+    public function getUserCharonsDetails($courseId, $userId)
+    {
+        return $this->studentsRepository->getUserCharonsDetails($courseId, $userId);
+    }
 }
