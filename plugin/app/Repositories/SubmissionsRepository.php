@@ -663,4 +663,24 @@ class SubmissionsRepository
                 return 'git_timestamp';
         }
     }
+
+    /**
+     * Get all submissions for given user in given course
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return int
+     */
+    public function getAllForUser(int $courseId, int $userId)
+    {
+        $charons_ids = Charon::where('course', $courseId)
+            ->pluck('id');
+
+        $submission_amount = Submission::whereIn('charon_id', $charons_ids)
+            ->where('user_id', $userId)
+            ->pluck('user_id');
+
+        return count($submission_amount);
+    }
 }

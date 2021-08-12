@@ -12,6 +12,9 @@
       </v-card>
 
     </popup-section>
+
+    <student-summary-section :student_id="routeStudentId" :course_id="courseId"></student-summary-section>
+
   </div>
 </template>
 
@@ -21,8 +24,11 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 import {User} from '../../../api'
 import {PopupSection} from '../layouts'
 
+import StudentSummarySection from "../sections/StudentSummarySection";
+
+
 export default {
-  components: {PopupSection, PageTitle},
+  components: {PopupSection, PageTitle, StudentSummarySection},
 
   name: "StudentDetailsPage",
 

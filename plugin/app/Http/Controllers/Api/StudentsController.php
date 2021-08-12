@@ -87,6 +87,24 @@ class StudentsController extends Controller
         }
     }
 
+
+    public function getPointFromAllCharonsForStudent(Course $course, User $user)
+    {
+        $charons = Charon::where('course', $course->id)
+            ->select('category_id')
+            ->get();
+        $result = 0;
+
+        foreach ($charons as $charon) {
+            if (!is_null($this->getStudentActiveResultForCharon($charon, $user))) {
+                $result += $this->getStudentActiveResultForCharon($charon, $user);
+            }
+        }
+        return $result;
+    }
+
+
+
     public function getStudentReportTable(Course $course, User $user)
     {
         global $CFG; // grade/lib.php needs it

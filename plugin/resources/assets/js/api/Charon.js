@@ -42,6 +42,16 @@ class Charon {
         })
     }
 
+
+    static getAllPointFromCourseForStudent(courseId, userId, then) {
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/all-points/' + userId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error removing a tester type.\n' + error, 'danger')
+        })
+    }
+
     static saveCharon(charon, then) {
         axios.post(Charon.getRoot() + '/charons/' + charon.id, charon).then(response => {
             then(response.data)

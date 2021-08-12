@@ -58,6 +58,11 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/results/{user}', 'StudentsController@getStudentActiveResultForCharon');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
+    //
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse');
 
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');
@@ -70,7 +75,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/retest', 'RetestController@retestByCharon');
 
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
+        ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');//
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')

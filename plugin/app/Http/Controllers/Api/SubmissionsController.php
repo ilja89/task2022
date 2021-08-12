@@ -263,4 +263,18 @@ class SubmissionsController extends Controller
 
         return $submission->user_id;
     }
+
+    /**
+     * Find amount of all submissions for user in course
+     *
+     * @param User $user
+     * @param Course $course
+     *
+     * @return int
+     */
+    public function getAllForUserInCourse(Course $course,User $user)
+    {
+        return $this->submissionsRepository->getAllForUser($course->id, $user->id);
+    }
+
 }
