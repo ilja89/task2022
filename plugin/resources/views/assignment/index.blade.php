@@ -77,7 +77,8 @@
         chooseTimeText: "{{ translate('choose_time') }}",
         selectDayText: "{{ translate('select_day') }}",
         selectTimeText: "{{ translate('select_time') }}",
-        registerText: "{{ translate('register') }}"
+        registerText: "{{ translate('register') }}",
+        progressText: "{{ translate('progress') }}"
     };
 </script>
 
