@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - \#454 Added posting to tester from inline submission
+- \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Fixed
+- \#528 In grading view show "Total points: 0" if there is no result for charon
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
