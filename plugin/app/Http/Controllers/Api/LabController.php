@@ -183,7 +183,6 @@ class LabController extends Controller
     {
         $userId = $request->input("user_id");
         $labId = $request->input("lab_id");
-        $temp = null;
         $middleDefTime=null;
 
         //**** REGISTRATIONS ****
