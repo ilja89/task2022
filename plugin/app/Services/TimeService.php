@@ -4,12 +4,16 @@ namespace TTU\Charon\Services;
 
 class TimeService
 {
-    public function formatDateObjectToTimestamp(Array $dateObject)
+    /**
+     * @param $dateList
+     * @return mixed
+     */
+    public function formatDateObjectToTimestamp($dateList)
     {
-        foreach ($dateObject as $key => $date)
+        foreach ($dateList as &$date)
         {
-            $dateObject->$key = strtotime($dateObject->$key);
+            $date = strtotime($date);
         }
-        return $dateObject;
+        return $dateList;
     }
 }
