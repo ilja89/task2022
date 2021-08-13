@@ -83,6 +83,8 @@ export default {
 .editor {
   margin-top: 1.5em;
   border: solid lightgray 2px;
+  width: 100%;
+  resize:none;
 }
 
 .editorDiv {
