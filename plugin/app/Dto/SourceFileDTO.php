@@ -7,7 +7,7 @@ class SourceFileDTO
     /** @var string */
     private $path;
 
-    /** @var string */
+    /** @var string|null */
     private $contents;
 
     /**
@@ -19,9 +19,9 @@ class SourceFileDTO
     }
 
     /**
-     * @param string $content
+     * @param string|null $content
      */
-    public function setContent(string $content)
+    public function setContent(string $content = null)
     {
         $this->contents = $content;
     }
