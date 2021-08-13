@@ -2,8 +2,6 @@
   <div class="student-overview-container">
     <page-title :title="name"></page-title>
 
-    <student-details-submissions-section :latest-submissions="latestSubmissions"></student-details-submissions-section>
-
     <popup-section title="Grades report"
                    subtitle="Grading report for the current student.">
 
@@ -15,6 +13,8 @@
 
     </popup-section>
 
+    <student-details-submissions-section :latest-submissions="latestSubmissions"></student-details-submissions-section>
+
     <popup-section title="Upcoming registrations">
       <defense-registrations-section :teachers="teachers" :defense-list="defenseList"/>
     </popup-section>
@@ -25,6 +25,8 @@
         :average-submissions="averageSubmissions">
     </student-charon-points-vs-course-average-chart>
 
+    <comments-section :charonSelector="true"></comments-section>
+
   </div>
 </template>
 
@@ -33,6 +35,7 @@ import {PageTitle} from '../partials'
 import {mapState, mapGetters, mapActions} from 'vuex'
 import {Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
+import {CommentsSection} from '../sections'
 import {DefenseRegistrationsSection, StudentDetailsSubmissionsSection} from '../sections'
 import {StudentCharonPointsVsCourseAverageChart} from '../graphics'
 import moment from "moment"
@@ -40,7 +43,7 @@ import Teacher from "../../../api/Teacher";
 import Defense from "../../../api/Defense";
 
 export default {
-  components: {PopupSection, PageTitle, DefenseRegistrationsSection, StudentCharonPointsVsCourseAverageChart, StudentDetailsSubmissionsSection},
+  components: {PopupSection, PageTitle, CommentsSection, DefenseRegistrationsSection, StudentCharonPointsVsCourseAverageChart,StudentDetailsSubmissionsSection},
 
   name: "StudentDetailsPage",
 

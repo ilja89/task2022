@@ -1,6 +1,12 @@
 <template>
     <popup-section title="Comments"
                    subtitle="Comments are for every Charon and student.">
+
+        <template v-if="charonSelector" v-slot:header-right>
+          <v-spacer></v-spacer>
+          <charon-select/>
+        </template>
+
         <v-card class="mx-auto" outlined light raised>
             <v-container class="spacing-playground pa-3" fluid>
                 <ul>
@@ -22,6 +28,7 @@
                 </v-row>
             </v-container>
         </v-card>
+
     </popup-section>
 </template>
 
@@ -29,10 +36,11 @@
     import {mapState} from 'vuex'
     import {PopupSection} from '../layouts/index'
     import {Comment} from '../../../api/index'
+    import {CharonSelect} from '../partials'
 
     export default {
 
-        components: {PopupSection},
+        components: {PopupSection, CharonSelect},
 
         data() {
             return {
@@ -40,6 +48,13 @@
                 comments: [],
             }
         },
+
+      props: {
+          charonSelector: {
+            required: false,
+            default: false
+          }
+      },
 
         computed: {
             ...mapState([
@@ -51,6 +66,9 @@
         watch: {
             student() {
                 this.refreshComments();
+            },
+            charon() {
+              this.refreshComments();
             }
         },
 
