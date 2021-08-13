@@ -47,6 +47,8 @@
 
 <script>
     import {PopupSection} from '../layouts'
+    import {User} from "../../../api";
+    import {mapGetters} from "vuex";
 
     export default {
 
@@ -56,35 +58,31 @@
             return {
               alert: false,
               search: '',
-              students: [
-                {name: 'Kaia Kaalikas', uniId: 'kkaal', id: 3},
-                {name: 'Jaak Java', uniId: 'jjava', id: 4},
-                {name: 'Stiina Siisharp', uniId: 'ssiis', id: 5},
-                {name: 'Paul Pyyton', uniId: 'ppyyt', id: 6},
-                {name: 'Paula Php', uniId: 'paphp', id: 7},
-                {name: 'Place Holder', uniId: 'phold', id: 8},
-                {name: 'Place Holder', uniId: 'phold', id: 9},
-                {name: 'Place Holder', uniId: 'phold', id: 10},
-                {name: 'Place Holder', uniId: 'phold', id: 11},
-                {name: 'Place Holder', uniId: 'phold', id: 12},
-                {name: 'Place Holder', uniId: 'phold', id: 13},
-                {name: 'Place Holder', uniId: 'phold', id: 14},
-                {name: 'Place Holder', uniId: 'phold', id: 15},
-                {name: 'Place Holder', uniId: 'phold', id: 16},
-                {name: 'Place Holder', uniId: 'phold', id: 17},
-              ],
+              students: [],
               students_headers: [
-                {text: 'Full name', value: 'name', align: 'start'},
-                {text: 'Uni-id', value: 'uniId'},
+                {text: 'Full name', value: 'fullname', align: 'start'},
+                {text: 'Uni-id', value: 'username'},
                 {text: 'Actions', value: 'actions'}
               ]
             }
+        },
+
+        computed: {
+        ...mapGetters([
+            'courseId',
+          ]),
         },
 
         methods: {
             studentDetails(id) {
               this.$router.push({ name: 'student-details', params: {student_id: `${id}`} })
             }
+        },
+
+        created() {
+            User.getStudentsInCourse(this.courseId, students => {
+              this.students = students;
+            })
         }
     }
 </script>
