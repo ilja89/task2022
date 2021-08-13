@@ -1,6 +1,6 @@
 <template>
   <div class="student-overview-container">
-    <page-title :title="name"></page-title>
+    <page-title :title="studentName"></page-title>
 
     <popup-section title="Grades report"
                    subtitle="Grading report for the current student.">
@@ -49,7 +49,6 @@ export default {
 
   data() {
     return {
-      name: 'Student name',
       table: '',
       latestSubmissions: [],
       averageSubmissions: [],
@@ -74,6 +73,10 @@ export default {
     routeStudentId() {
       return this.$route.params.student_id
     },
+
+    studentName() {
+      return this.student ? this.student.firstname + ' ' + this.student.lastname + ' (' + this.student.username + ')' : "Student name"
+    }
   },
 
   watch: {
