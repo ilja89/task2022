@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
             ! $this->isPrivateEnv()
         ) {
             // Don't try to email exceptions when in local environment.
-            app('sneaker')->captureException($exception);
+            //app('sneaker')->captureException($exception);
         }
 
         parent::report($exception);
