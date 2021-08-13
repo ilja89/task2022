@@ -110,8 +110,12 @@ class TesterCommunicationService
 
         $user = $this->userRepository->find($userId);
         $username = strtok($user->username, "@");
-        $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
-            $username);
+        if ($charon->grouping_id != null) {
+            $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
+                $username);
+        } else {
+            $associatedUsers = [];
+        }
 
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
