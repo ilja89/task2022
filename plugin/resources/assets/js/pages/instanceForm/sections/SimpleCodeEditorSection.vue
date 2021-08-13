@@ -36,7 +36,7 @@
                         :required="true"
                         v-model="file.path">
                   </template>
-                  <span>Duplicated!</span>
+                  <span>Path should be unique</span>
                 </v-tooltip>
 
                 <v-btn
