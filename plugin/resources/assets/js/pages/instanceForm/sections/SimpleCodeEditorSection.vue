@@ -56,29 +56,14 @@
           </div>
 
           <div v-if="current_index < form.fields.files.length && form.fields.files[current_index].path !== ''">
-            <p>Language: {{language}}</p>
-
-            <AceEditor
-                class="editor"
-                v-model="form.fields.files[current_index].content"
-                @init="editorInit"
-                :lang="language"
-                theme="crimson_editor"
-                width="100%"
-                height="500px"
-                :options="{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              fontSize: 14,
-              highlightActiveLine: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-              showPrintMargin: false,
-              showGutter: true,
-              }"
-            />
+            <label for="content">Language: {{language}}</label>
+            <textarea class="editor"
+                      id="content"
+                      v-model="form.fields.files[current_index].content"
+                      rows="28">
+            </textarea>
           </div>
+
           <div v-for="file in form.fields.files">
             <input type="hidden" :name="'files[' + file.id + '][path]'" :value="file.path">
             <input type="hidden" :name="'files[' + file.id + '][contents]'" :value="file.content">
@@ -90,7 +75,6 @@
 </template>
 
 <script>
-import AceEditor from 'vuejs-ace-editor';
 import {mdiDelete} from '@mdi/js'
 import {Charon} from "../../../api";
 
@@ -101,17 +85,6 @@ export default {
   props: {
     form: {required: true}
   },
-
-  components: {
-    AceEditor,
-  },
-
-  computed: {
-    isEditing() {
-      return window.isEditing;
-    },
-  },
-
 
   data() {
     return {
@@ -154,29 +127,6 @@ export default {
         this.current_index = 0;
       }
     },
-
-    /**
-     * Ace-code editor now supports only html, python, javascript, java, prolog and C#,
-     * but more languages in these method like these: require('brace/mode/language'), where
-     * language is programming language you need.
-     * For example: require('brace/mode/python').
-     */
-    editorInit: function () {
-      require('brace/ext/language_tools') //language extension prerequsite...
-      require('brace/mode/html') //language
-      require('brace/mode/python')
-      require('brace/mode/javascript')
-      require('brace/mode/java')
-      require('brace/mode/prolog')
-      require('brace/mode/csharp')
-      require('brace/mode/less')
-      require('brace/theme/crimson_editor')
-      require('brace/snippets/python') //snippet
-      require('brace/snippets/javascript')
-      require('brace/snippets/java')
-      require('brace/snippets/prolog')
-      require('brace/snippets/csharp')
-    }
   },
 
 }
@@ -204,6 +154,13 @@ ul {
 
 .select {
   width: 35em;
+}
+
+.editor {
+  margin-top: 1.5em;
+  border: solid lightgray 2px;
+  width: 100%;
+  resize: none;
 }
 
 </style>
