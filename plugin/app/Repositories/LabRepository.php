@@ -10,9 +10,13 @@ use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\LabGroup;
+use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\LabService;
+use TTU\Charon\Services\TimeService;
 use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
+
 
 /**
  * Class CharonRepository.
@@ -31,19 +35,27 @@ class LabRepository
 
     /**
      * LabRepository constructor.
-     *
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
+     * @param TimeService $timeService
+     * @param \TTU\Charon\Repositories\UserRepository $userRepository
+     * @param LabService $labService
      */
     public function __construct(
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository,
-        CharonDefenseLabRepository $charonDefenseLabRepository
+        CharonDefenseLabRepository $charonDefenseLabRepository,
+        TimeService $timeService,
+        UserRepository $userRepository,
+        LabService $labService
     ) {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+        $this->timeService = $timeService;
+        $this->userRepository = $userRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -488,39 +500,26 @@ class LabRepository
         }
     }
 
-    /** Function to return time shift array for registrations in labQueueStatus
-     *  return list of time shifts
-     * @param Object $registrations
-     * @param int $teachersNum
-     * @return Array
-     */
-    //gives approximate time move since lab start for each student based on their charon lengths and teacher number
-    private function getApproximateTimeMoveForStudent(Object $registrations, int $teachersNum): Array
+    public function getLabStartEndTimesByLabId(int $labId)
     {
-        $defMoves = [];
-        $defLengths = [];
+        return \DB::table('charon_lab')
+            ->where("id", $labId)
+            ->select("start","end")
+            ->first();
+    }
 
-        //fill empty array for teachers
-        $teachers = array_fill(0,$teachersNum,0);
-
-        //get list of defTimes
-        foreach ($registrations as $key => $reg)
-        {
-            $defLengths[$key] = $reg->charon_length;
-        }
-
-        //Fill the massive
-        for($i = 0; $i < count($defLengths); $i++)
-        {
-            //find teacher what is loaded less than others. $to is number of this teacher
-            $to = array_keys($teachers, min($teachers))[0];
-            //remember time on what this is possible to start current charon
-            $defMoves[$i] = $teachers[$to];
-            //add length of current charon to this teacher, simulating registered charon
-            $teachers[$to] += $defLengths[$i];
-        }
-        $defMoves[] = $teachers; //DEBUG!
-        return $defMoves;
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getListOfLabRegistrationsByLabIdReduced(int $labId)
+    {
+        return \DB::table('charon_defenders')
+            ->join("charon", "charon.id", "charon_defenders.charon_id")
+            ->where("defense_lab_id", $labId)
+            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
+            ->orderBy("charon_defenders.id", "asc")
+            ->get();
     }
 
     /** Function to return list of defence registrations for lab with:
@@ -535,39 +534,23 @@ class LabRepository
     public function labQueueStatus(int $userId, int $labId)
     {
         //get list of registrations
-        $result = \DB::table('charon_defenders')
-            ->join("charon", "charon.id", "charon_defenders.charon_id")
-            ->where("defense_lab_id", $labId)
-            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
-            ->orderBy("charon_defenders.id","asc")
-            ->get();
+        $result = $this->getListOfLabRegistrationsByLabIdReduced($labId);
 
         //get number of teachers assigned to lab
-        $teachers_num = \DB::table('charon_lab_teacher')
-            ->where("lab_id", $labId)
-            ->count();
+        $teachers_num = $this->labTeacherRepository->countLabTeachers($labId);
 
         //Get times when lab starts and ends
-        $labTime = \DB::table('charon_lab')
-            ->where("id",$labId)
-            ->select("start","end")
-            ->first();
+        $labTime = $this->getLabStartEndTimesByLabId($labId);
 
-        //Format date
-        foreach ($labTime as $key => $date)
-        {
-            $labTime->$key = strtotime($labTime->$key);
-        }
+        //Format date to timestamp
+        $labTime = $this->timeService->formatDateObjectToTimestamp($labTime);
 
         foreach ($result as $key => $reg)
         {
             //if student id equals to user id, then return username as field, else set it null
             if($reg->student_id == $userId)
             {
-                $reg->student_name = \DB::table('user')
-                    ->where("id", $userId)
-                    ->select("username")
-                    ->first()->username;
+                $reg->student_name = $this->userRepository->getUsernameById($userId);
             }
             else
             {
@@ -578,7 +561,7 @@ class LabRepository
             $reg->queue_pos = $key+1;
 
         }
-        $move = $this->getApproximateTimeMoveForStudent($result, $teachers_num);
+        $move = $this->labService->getApproximateTimeMoveForStudent($result, $teachers_num);
 
         //Calculate approximate time and delete not needed variables
         foreach ($result as $key => $reg)
