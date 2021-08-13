@@ -46,7 +46,6 @@ class HttpCommunicationService
     /**
      * Sends info to the tester.
      *
-     * @param string $uri
      * @param string $method
      * @param array $data
      *
@@ -54,7 +53,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendInfoToTester($method, $data)
+    public function sendInfoToTester(string $method, array $data)
     {
         /**
          * @var String $testerUrl
@@ -63,7 +62,8 @@ class HttpCommunicationService
         $testerUrl = $this->settingsService->getSetting(
             'mod_charon',
             'tester_url',
-            'http://neti.ee');
+            'http://neti.ee'
+        );
 
         /**
          * @var String $testerToken
@@ -75,12 +75,22 @@ class HttpCommunicationService
             'charon'
         );
 
-        $repo = $data['gitStudentRepo'];
+        $studentGitRepo = null;
+        $course = null;
+        if (isset($data['gitStudentRepo'])) {
+            $studentGitRepo = $data['gitStudentRepo'];
+        } else if (isset($data['returnExtra']['course'])){
+            $course = $data['returnExtra']['course'];
+        }
 
-        if ($repo) {
-            Log::info("Repository found: '" . $repo . "'");
-            $course = $this->gitCallbackService->getCourse($repo);
-            $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+        if ($studentGitRepo or $course) {
+            if (!$course) {
+                Log::info("Repository found: '" . $studentGitRepo . "'");
+                $course = $this->gitCallbackService->getCourse($studentGitRepo);
+                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
+            } else {
+                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course);
+            }
 
             if ($settings && $settings->tester_url) {
                 $testerUrl = $settings->tester_url;
@@ -99,11 +109,13 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
+        $headers = ['Authorization' => $testerToken];
+
         $client = new Client();
         try {
             $client->request(
                 $method, $testerUrl,
-                ['headers' => ['X-Testing-Token' => $testerToken], 'json' => $data]
+                ['headers' => $headers, 'json' => $data]
             );
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
@@ -121,7 +133,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function postToTester($data)
+    public function postToTester(array $data)
     {
         $this->sendInfoToTester('post', $data);
     }
@@ -138,7 +150,7 @@ class HttpCommunicationService
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendPlagiarismServiceRequest($uri, $method, $data = [])
+    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [])
     {
         $plagiarismUrl = $this->settingsService->getSetting(
             'mod_charon',

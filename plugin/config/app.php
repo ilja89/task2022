@@ -169,7 +169,6 @@ return [
          */
 
         Zeizig\Moodle\MoodleServiceProvider::class,
-        SquareBoat\Sneaker\SneakerServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
 
         /*

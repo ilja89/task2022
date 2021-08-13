@@ -1,5 +1,9 @@
 export default {
     methods: {
+        sendTemplates(templateList) {
+            VueEvent.$emit('save-templates', templateList);
+        },
+
         onNameChanged(name) {
             VueEvent.$emit('name-was-changed', name);
         },

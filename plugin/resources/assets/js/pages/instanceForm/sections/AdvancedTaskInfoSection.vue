@@ -43,7 +43,7 @@
                 :label="translate('tester_type_label')"
                 name="tester_type_code"
                 :options="form.tester_types"
-                :value="form.fields.tester_type_code"
+                :value="form.fields.tester_type === undefined ? form.fields.tester_type_code : form.fields.tester_type"
                 :helper_text="translate('tester_type_helper')"
                 @input-was-changed="onTesterTypeChanged">
         </charon-select>
