@@ -177,7 +177,7 @@ class DefenseRegistrationRepository
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id')
+            ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select(
@@ -208,7 +208,7 @@ class DefenseRegistrationRepository
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id')
+            ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
@@ -219,6 +219,7 @@ class DefenseRegistrationRepository
             )->orderBy('lab_id'
             )->orderBy('charon_defenders.id');
 
+        /* currently breaks the query and awaits its destiny
         if ($after != 'null' && $before != 'null') {
             $query->whereRaw('choosen_time BETWEEN ? AND ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
@@ -233,6 +234,7 @@ class DefenseRegistrationRepository
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
+        */
         if ($teacher_id != -1) {
             $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
         }
