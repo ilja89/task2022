@@ -177,7 +177,7 @@ class DefenseRegistrationRepository
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id', null, 'left') // 5th param default == 'inner'
+            ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select(
@@ -208,7 +208,7 @@ class DefenseRegistrationRepository
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
             ->join('charon', 'charon.id', 'charon_submission.charon_id')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('user', 'charon_defenders.teacher_id', 'user.id', null, 'left') // 5th param default == 'inner'
+            ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
