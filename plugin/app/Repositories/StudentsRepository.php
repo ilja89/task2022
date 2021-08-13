@@ -67,4 +67,19 @@ class StudentsRepository
             return 0;
         }
     }
+
+    /**
+     * @param integer $courseId
+     */
+    public function getAllByCourse($courseId)
+    {
+        return DB::table('role_assignments')
+            ->join('user', 'role_assignments.userid', '=', 'user.id')
+            ->join('context', 'role_assignments.contextid', '=', 'context.id')
+            ->where('context.contextlevel', CONTEXT_COURSE)
+            ->where('context.instanceid', $courseId)
+            ->where('role_assignments.roleid', 5)
+            ->select('user.id', DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"), 'user.username')
+            ->get();
+    }
 }
