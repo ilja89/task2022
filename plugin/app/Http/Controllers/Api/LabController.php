@@ -183,6 +183,7 @@ class LabController extends Controller
     {
         $userId = $request->input("user_id");
         $labId = $request->input("lab_id");
+        $temp = null;
         $middleDefTime=null;
 
         //**** REGISTRATIONS ****
@@ -251,7 +252,9 @@ class LabController extends Controller
         //get teachers who have labs with registrations on them
         $result["teachers"] = \DB::table('charon_defenders')
             ->join("user", "user.id", "charon_defenders.teacher_id",null,"left")
+            ->whereNotNull("charon_defenders.teacher_id")
             ->select("user.username as teacher_name","user.id")
+            ->distinct()
             ->get();
 
         //get currently ongoing labs for teacher
