@@ -165,6 +165,19 @@ class SubmissionsController extends Controller
     }
 
     /**
+     * Find latest submissions for user.
+     *
+     * @param Course $course
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getLatestByUser(Course $course, User $user)
+    {
+        return $this->submissionsRepository->findLatestSubmissionsByUser($course->id, $user->id);
+    }
+
+    /**
      * Find average Charon submission result in the given course.
      *
      * @param Course $course
