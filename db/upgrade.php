@@ -734,5 +734,35 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021071302){
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_template(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    charon_id BIGINT(10) NOT NULL," .
+            "    path TEXT NOT NULL," .
+            "    contents TEXT," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_template_charon (charon_id)," .
+            "    CONSTRAINT FK_template_charon" .
+            "        FOREIGN KEY (charon_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon(id)" .
+            ")";
+
+        $table = new xmldb_table("charon_template");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2021081101){
+        $table = new xmldb_table("charon");
+
+        $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

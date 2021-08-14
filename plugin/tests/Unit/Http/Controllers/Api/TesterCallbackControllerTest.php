@@ -26,7 +26,7 @@ class TesterCallbackControllerTest extends TestCase
     /** @var TesterCallbackController */
     private $controller;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -42,6 +42,8 @@ class TesterCallbackControllerTest extends TestCase
      */
     public function testIndexPassesAvailableUsernamesToFlow()
     {
+        $this->markTestSkipped('Out of date, needs attention');
+
         $callback = new GitCallback();
 
         $request = new TesterCallbackRequest([

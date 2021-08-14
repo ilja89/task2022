@@ -22,9 +22,9 @@ mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
 let webpack = require('webpack');
 
 mix.webpackConfig({
-  plugins: [
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
-  ]
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
+    ]
 });
 
 // Full API

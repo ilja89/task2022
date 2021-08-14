@@ -64,6 +64,15 @@ class Handler extends ExceptionHandler
             throw $exception;
         }
 
+        if (
+            $this->shouldReport($exception) &&
+            $this->shouldSendEmail($exception) &&
+            ! $this->isPrivateEnv()
+        ) {
+            // Don't try to email exceptions when in local environment.
+            //app('sneaker')->captureException($exception);
+        }
+
         parent::report($exception);
     }
 

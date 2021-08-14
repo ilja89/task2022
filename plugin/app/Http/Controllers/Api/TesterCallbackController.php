@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
-use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\GitCallbackService;
 
@@ -68,19 +67,6 @@ class TesterCallbackController extends Controller
 
         $submission = $this->saveCallbackFlow->run($request, $gitCallback, $usernames);
 
-        return $this->hideUnneededFields($submission);
-    }
-
-    /**
-     * Hide unnecessary fields so that the tester doesn't get duplicate information.
-     *
-     * @param Submission $submission
-     */
-    private function hideUnneededFields(Submission $submission)
-    {
-        $submission->makeHidden('charon');
-        foreach ($submission->results as $result) {
-            $result->makeHidden('submission');
-        }
+        return $this->saveCallbackFlow->hideUnneededFields($submission);
     }
 }

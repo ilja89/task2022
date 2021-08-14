@@ -12,6 +12,7 @@ use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
+use TTU\Charon\Services\TemplateService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
@@ -54,6 +55,9 @@ class InstanceController extends Controller
     /** @var MoodleUser */
     private $moodleUser;
 
+    /** @var TemplateService */
+    private $templatesService;
+
     /**
      * InstanceController constructor.
      *
@@ -65,6 +69,7 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param TemplateService $templatesService
      * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
@@ -77,7 +82,8 @@ class InstanceController extends Controller
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
         DeadlinesRepository $deadlinesRepository,
-        Moodleuser $moodleUser
+        Moodleuser $moodleUser,
+        TemplateService $templatesService
     )
     {
         parent::__construct($request);
@@ -90,6 +96,7 @@ class InstanceController extends Controller
         $this->plagiarismService = $plagiarismService;
         $this->deadlinesRepository = $deadlinesRepository;
         $this->moodleUser = $moodleUser;
+        $this->templatesService = $templatesService;
     }
 
     /**
@@ -113,6 +120,10 @@ class InstanceController extends Controller
         if (!$this->charonRepository->save($charon)) {
             return null;
         }
+
+        // Method to add new templates
+        $templates = $this->request->input('files');
+        $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon,
@@ -153,6 +164,9 @@ class InstanceController extends Controller
 
             $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon,
                 $this->moodleUser->currentUser()->toArray()['timezone']);
+
+            $templates = $this->request->input('files');
+            $this->templatesService->updateTemplates($charon->id, $templates);
 
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
@@ -270,6 +284,7 @@ class InstanceController extends Controller
             'tester_extra' => $this->request->input('tester_extra', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
+            'allow_submission' => $this->request->input('allow_submission', false) === 'true',
         ]);
     }
 
@@ -287,7 +302,6 @@ class InstanceController extends Controller
             'description',
             $charon->courseModule()->id
         );
-
         return $newDescription;
     }
 }
