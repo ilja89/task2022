@@ -87,10 +87,11 @@
 
       save() {
         if (this.item && this.item.defenseLab && this.item.student && this.item.charon) {
-          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id, () => {
-            VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
-            this.leave();
-          });
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id, this.course.id,
+            () => {
+              VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
+              this.leave();
+            });
         } else {
           VueEvent.$emit('show-notification', "Needed fields were not filled!", 'danger');
         }
