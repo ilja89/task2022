@@ -195,4 +195,6 @@ rm -r vendor/
 rm plugin/bootstrap/cache/*.php
 php composer.phar install
 ```
+**And make sure that your `.env.*` files are changed to `env.*`**   
+If you have both then delete the ones that match `.env.*`   
 To check which Laravel version you are running run: `php artisan --verion`
