@@ -1,5 +1,5 @@
 import '../../bootstrap'
-import Vue from 'vue'
+import * as Vue from 'vue'
 import {HighlightDirective} from '../../directives'
 import AssignmentView from "./components/AssignmentView";
 import CodeEditor from "./components/CodeEditor";
@@ -16,10 +16,10 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import CodeTemplates from "./components/CodeTemplates";
 
-Vue.directive('highlightjs', HighlightDirective);
-Vue.use(VueMaterial)
+Vue.createApp(app).directive('highlightjs', HighlightDirective);
+Vue.createApp(app).use(VueMaterial)
 
-Vue.use(Vuetify)
+Vue.createApp(app).use(Vuetify)
 
 const opts = {
     theme: {

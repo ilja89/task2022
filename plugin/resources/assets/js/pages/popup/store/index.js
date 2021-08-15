@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import * as Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from "vuetify";
 
@@ -6,8 +6,8 @@ import * as actions from './actions'
 import * as mutations from './mutations'
 import * as getters from './getters'
 
-Vue.use(Vuex)
-Vue.use(Vuetify, {
+Vue.createApp(app).use(Vuex)
+Vue.createApp(app).use(Vuetify, {
     iconfont: 'md'
 })
 

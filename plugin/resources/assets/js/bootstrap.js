@@ -1,8 +1,8 @@
-import Vue from 'vue'
+import * as Vue from 'vue'
 import axios from 'axios'
 
 window.Vue = Vue
-window.VueEvent = new Vue()
+window.VueEvent = Vue.createApp(app)
 
 window.axios = axios
 window.axios.defaults.headers.common = {
