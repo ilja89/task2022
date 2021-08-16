@@ -84,7 +84,7 @@ export default {
 	},
 
 	methods: {
-	  deleteItem(item) {
+  	deleteItem(item) {
 			if (this.dateValidation(item)) {
 				if (confirm(this.translate("registrationDeletionConfirmationText"))) {
 					this.deleteReg(item);
