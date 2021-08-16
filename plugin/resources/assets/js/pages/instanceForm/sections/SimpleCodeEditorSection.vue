@@ -1,6 +1,6 @@
 <template>
-  <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-    <legend class="ftoggler">Code Editor</legend>
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+      <legend class="ftoggler">Code Editor</legend>
       <div class="fcontainer clearfix fitem">
 
         <label>
@@ -23,12 +23,22 @@
               </div>
               <p class="input-helper">Path to file.</p>
               <div class="felement ftext path">
-                <input
-                    id="file_path"
-                    class="form-control"
-                    type="text"
-                    :required="true"
-                    v-model="file.path">
+                <v-tooltip
+                    v-model="file.duplicate"
+                    top
+                >
+                  <template v-slot:activator="{ attrs }">
+                    <input
+                        v-on:change="validationCheck()"
+                        id="file_path"
+                        v-bind:class="{'form-control': true, 'duplicate': file.duplicate, attrs}"
+                        type="text"
+                        :required="true"
+                        v-model="file.path">
+                  </template>
+                  <span>Path should be unique</span>
+                </v-tooltip>
+
                 <v-btn
                     class="my-2 del_btn"
                     depressed
@@ -68,12 +78,10 @@
             <input type="hidden" :name="'files[' + file.id + '][path]'" :value="file.path">
             <input type="hidden" :name="'files[' + file.id + '][contents]'" :value="file.content">
           </div>
-
         </div>
       </div>
-  </fieldset>
+    </fieldset>
 </template>
-
 <script>
 import {mdiDelete} from '@mdi/js'
 import {Charon} from "../../../api";
@@ -96,7 +104,6 @@ export default {
 
   beforeMount() {
     let language_code = 1
-
     if (this.form.fields.tester_type === undefined) {
       language_code = this.form.fields.tester_type_code;
     } else {
@@ -110,6 +117,24 @@ export default {
   },
 
   methods: {
+    validationCheck() {
+      const values = [];
+      this.form.fields.files.forEach(file => {
+        file.duplicate = false;
+      });
+      this.form.fields.files.forEach(file => {
+        const v = file.path;
+        if (v !== "" && values.includes(v)) {
+          this.form.fields.files.forEach(file => {
+            if (file.path === v) {
+              file.duplicate = true;
+            }
+          });
+        }
+        values.push(v)
+      });
+    },
+
     defineLanguage(language_code) {
       Charon.getTesterLanguage(language_code, this.form.fields.course).then(response =>{
         this.language = response;
@@ -117,7 +142,7 @@ export default {
     },
 
     addFile() {
-      this.form.fields.files.push({"id": this.form.fields.files.length, "path": '', "content": ''});
+      this.form.fields.files.push({"id": this.form.fields.files.length, "path": '', "content": '', "duplicate": false});
     },
 
     deleteFile(index) {
@@ -126,14 +151,18 @@ export default {
       if (this.current_index < 0) {
         this.current_index = 0;
       }
+      this.validationCheck();
     },
   },
-
 }
 
 </script>
 
 <style scoped>
+
+.duplicate {
+  box-shadow: inset 0 0 0 3px red;
+}
 
 .path {
   display: flex;
