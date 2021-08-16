@@ -31,7 +31,7 @@ security-advisories-vulnerabilities:
   image: umutphp/php-docker-images-for-ci:7.4
   script:
     - local-php-security-checker
-
+ 
 .builds:
   tags:
     - docker
