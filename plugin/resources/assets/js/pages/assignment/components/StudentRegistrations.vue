@@ -40,7 +40,7 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-btn v-if="deleteButtonCondition(item)" icon @click="deleteItem(item) ">
+                <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
               </template>
@@ -115,7 +115,7 @@ export default {
 			})
 		},
 
-    deleteButtonCondition({lab_end,status})
+    showDeleteButton({lab_end,status})
     {
       if(status!=="Waiting")
       {
