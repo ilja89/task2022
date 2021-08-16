@@ -10,6 +10,7 @@
           <v-flex md6 style="overflow: auto">
             <v-data-table
                 :headers="headers"
+                :items="items"
             >
             </v-data-table>
           </v-flex>
@@ -38,11 +39,6 @@ export default {
       ],
     }
   },
-  created() {
-    1;
-    'ch';
-    ''
-  }
 }
 </script>
 
