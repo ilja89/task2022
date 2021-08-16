@@ -24,7 +24,7 @@ class TesterCommunicationServiceTest extends TestCase
     /** @var TesterCommunicationService  */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->gitCallback = new GitCallback(['secret_token' => 'Very secret token']);

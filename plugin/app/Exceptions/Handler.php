@@ -13,6 +13,7 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -57,7 +58,7 @@ class Handler extends ExceptionHandler
      * @return void
      * @throws Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (\App::environment('testing')) {
             throw $exception;
@@ -83,7 +84,7 @@ class Handler extends ExceptionHandler
      *
      * @return Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($request->expectsJson()) {
             if ($exception instanceof RegistrationException) {
@@ -133,7 +134,7 @@ class Handler extends ExceptionHandler
      *
      * @return bool
      */
-    protected function shouldntSendEmail(Exception $e)
+    protected function shouldntSendEmail(Throwable $e)
     {
         foreach ($this->dontSendEmail as $type) {
             if ($e instanceof $type) {
@@ -144,7 +145,7 @@ class Handler extends ExceptionHandler
         return false;
     }
 
-    protected function shouldSendEmail(Exception $e)
+    protected function shouldSendEmail(Throwable $e)
     {
         return ! $this->shouldntSendEmail($e);
     }

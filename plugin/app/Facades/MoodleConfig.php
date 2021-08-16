@@ -18,6 +18,7 @@ class MoodleConfig extends Facade
     public $dataroot  = '';
     public $dirroot   = '';
     public $admin     = '';
+    public $timezone  = '';
 
     /**
      * MoodleConfig constructor.
