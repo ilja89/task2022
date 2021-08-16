@@ -16,6 +16,7 @@ use TTU\Charon\Services\TemplateService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
+use Zeizig\Moodle\Globals\User as MoodleUser;
 
 /**
  * Class InstanceController.
@@ -51,6 +52,9 @@ class InstanceController extends Controller
     /** @var DeadlinesRepository */
     private $deadlinesRepository;
 
+    /** @var MoodleUser */
+    private $moodleUser;
+
     /** @var TemplateService */
     private $templatesService;
 
@@ -78,6 +82,7 @@ class InstanceController extends Controller
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
         DeadlinesRepository $deadlinesRepository,
+        Moodleuser $moodleUser,
         TemplateService $templatesService
     )
     {
@@ -90,6 +95,7 @@ class InstanceController extends Controller
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
         $this->deadlinesRepository = $deadlinesRepository;
+        $this->moodleUser = $moodleUser;
         $this->templatesService = $templatesService;
     }
 
@@ -120,7 +126,8 @@ class InstanceController extends Controller
         $this->templatesService->addTemplates($charon->id, $templates);
 
         $this->createCharonService->saveGrademapsFromRequest($this->request, $charon);
-        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon);
+        $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon,
+            $this->moodleUser->currentUser()->toArray()['timezone']);
 
         Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
         if ($this->request->input('plagiarism_enabled')) {
@@ -155,7 +162,8 @@ class InstanceController extends Controller
 
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
-            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon);
+            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon,
+                $this->moodleUser->currentUser()->toArray()['timezone']);
 
             $templates = $this->request->input('files');
             $this->templatesService->updateTemplates($charon->id, $templates);
@@ -166,6 +174,7 @@ class InstanceController extends Controller
                 $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
             );
+
             // TODO: Plagiarism
         }
 

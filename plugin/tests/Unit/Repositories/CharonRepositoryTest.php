@@ -23,7 +23,7 @@ class CharonRepositoryTest extends TestCase
     /** @var CharonRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

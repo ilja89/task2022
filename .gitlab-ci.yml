@@ -18,7 +18,7 @@ unit_test:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.develop .env
+    - cp -p env.develop .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml plugin/tests/Unit
   artifacts:
@@ -28,7 +28,6 @@ unit_test:
 
 security-advisories-vulnerabilities:
   stage: test
-  when: manual # TODO: resolve at #438
   image: umutphp/php-docker-images-for-ci:7.4
   script:
     - local-php-security-checker
@@ -119,7 +118,7 @@ integration_test_dev:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.develop .env
+    - cp -p env.develop .env
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml

@@ -21,7 +21,7 @@ class TesterControllerTest extends TestCase
     /** @var int */
     private $charonModuleId;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

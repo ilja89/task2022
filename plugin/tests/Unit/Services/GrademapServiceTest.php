@@ -25,7 +25,7 @@ class GrademapServiceTest extends TestCase
     /** @var GrademapService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
