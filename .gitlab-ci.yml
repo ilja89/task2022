@@ -27,11 +27,15 @@ unit_test:
     expire_in: 1 week
 
 security-advisories-vulnerabilities:
+  tags:
+    - docker
   stage: test
   image: umutphp/php-docker-images-for-ci:7.4
+  services:
+    - name: docker:dind
   script:
     - local-php-security-checker
- 
+
 .builds:
   tags:
     - docker
