@@ -115,9 +115,9 @@ export default {
 			})
 		},
 
-    showDeleteButton({lab_end,status})
+    showDeleteButton({lab_end,progress})
     {
-      if(status!=="Waiting")
+      if(progress!=="Waiting")
       {
         return false;
       }
