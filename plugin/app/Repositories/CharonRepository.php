@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
@@ -330,7 +331,7 @@ class CharonRepository
         $nullable_fields = ['docker_test_root', 'docker_content_root', 'system_extra', 'tester_extra'];
 
         foreach ($nullable_fields as $key) {
-            if (array_has($modifiableFields, $key)) {
+            if (Arr::has($modifiableFields, $key)) {
                 if (isset($updated[$key]) && $updated[$key] != '') {
                     $charon[$key] = $updated[$key];
                 } else {
@@ -340,7 +341,7 @@ class CharonRepository
         }
 
         foreach ($modifiableFields as $key) {
-            if (!array_has($nullable_fields, $key)) {
+            if (!Arr::has($nullable_fields, $key)) {
                 if (isset($updated[$key])) {
                     $charon[$key] = $updated[$key];
                 } else {

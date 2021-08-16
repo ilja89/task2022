@@ -26,7 +26,7 @@ class SaveTesterCallbackTest extends TestCase
     /** @var SaveTesterCallback */
     private $flow;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
