@@ -145,7 +145,7 @@ class CharonRepository
             throw new CharonNotFoundException('charon_course_module_not_found', $courseModuleId);
         }
 
-        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
+        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping', 'templates')
             ->where('id', $courseModule->instance)
             ->first();
     }
@@ -192,7 +192,14 @@ class CharonRepository
      */
     public function update($oldCharon, $newCharon)
     {
-        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id'];
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code',
+            'grouping_id', 'allow_submission'];
+
+        if (array_key_exists('allow_submission', $newCharon) and $newCharon['allow_submission'] == 'true') {
+            $newCharon['allow_submission'] = 1;
+        } else {
+            $newCharon['allow_submission'] = 0;
+        }
 
         $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
 
