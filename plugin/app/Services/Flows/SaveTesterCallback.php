@@ -107,7 +107,7 @@ class SaveTesterCallback
     {
         for ($i=0; $i < count($studentNamesArray); $i++)
         {
-            $filter[$i]=$studentNamesArray[$i]->username;
+            $filter[$i] = $studentNamesArray[$i]->username;
         }
         sort($usernames);
         sort($filter);
