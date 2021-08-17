@@ -1,7 +1,7 @@
 <template>
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn class="mt-4 ml-4" v-bind="attrs" v-on="on" color="primary" outlined dense text @click="sheet = true">
+      <v-btn v-bind="attrs" v-on="on" @click="sheet = true">
         {{ translate('queueStatusText') }}
       </v-btn>
     </template>
@@ -17,9 +17,6 @@
       </v-toolbar>
 
       <v-sheet height="80vh" class="pt-4 px-4">
-        <div>
-          {{labData}}
-        </div>
         <registration-queue></registration-queue>
 
         <v-row class="my-4">
@@ -52,7 +49,6 @@ export default {
   data() {
     return {
       sheet: false,
-      item: [],
     };
   },
 

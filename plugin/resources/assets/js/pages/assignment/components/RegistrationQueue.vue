@@ -10,7 +10,7 @@
           <v-flex md6 style="overflow: auto">
             <v-data-table
                 :headers="headers"
-                :items="items"
+                :items="testItems"
             >
             </v-data-table>
           </v-flex>
@@ -30,7 +30,14 @@ export default {
 
   data() {
     return {
-      items: [],
+      testItems: [
+        {
+          queue_nr: 2,
+          name: 'charon name',
+          start_time: '01.09.2021 12:20',
+          student: 'student name',
+        },
+      ],
       headers: [
         {text: this.translate("nrInQueueText"), value: 'queue_nr', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'name', sortable: false},
