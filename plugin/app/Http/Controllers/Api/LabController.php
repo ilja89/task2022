@@ -85,7 +85,7 @@ class LabController extends Controller
             $this->request['name'],
             $this->request['teachers'],
             $this->request['charons'],
-            $this->request['groups'],
+            $this->request['groups']
         );
     }
 
@@ -160,17 +160,19 @@ class LabController extends Controller
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
         $charonId = $request->route('charon');
-        $result = \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
+        $result = \DB::table('charon_defense_lab')  // id, start, end
+        ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // id, lab_id, charon_id
+        ->where('charon_defense_lab.charon_id', $charonId)
+        ->where('charon_lab.end', '>=', Carbon::now())
+        ->select('charon_defense_lab.lab_id as id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
+        ->get();
         foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = \DB::table('charon_defenders')
-                ->where ('defense_lab_id', $lab->id) //where id of defense lab equals to id of lab sending by function
+            $lab->defenders_num = \DB::table("charon_defenders")
+                ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
+                ->where("charon_defense_lab.lab_id",$lab->id)
                 ->count();
         }
+
         return $result;
     }
 
