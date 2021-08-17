@@ -161,11 +161,11 @@ class LabController extends Controller
     {
         $charonId = $request->route('charon');
         $result = \DB::table('charon_defense_lab')  // id, start, end
-        ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // id, lab_id, charon_id
-        ->where('charon_defense_lab.charon_id', $charonId)
-        ->where('charon_lab.end', '>=', Carbon::now())
-        ->select('charon_defense_lab.lab_id as id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
-        ->get();
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // id, lab_id, charon_id
+            ->where('charon_defense_lab.charon_id', $charonId)
+            ->where('charon_lab.end', '>=', Carbon::now())
+            ->select('charon_defense_lab.lab_id as id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
+            ->get();
         foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
             $lab->defenders_num = \DB::table("charon_defenders")
                 ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
