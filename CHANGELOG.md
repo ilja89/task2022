@@ -6,11 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
+  php composer install/update is run)
+
 ### Added
 - \#514 My registration shows the registration status
 - \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - \#504 UI for teacher for registering a student for defence
+- \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#454 Added posting to tester from inline submission
 - \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view

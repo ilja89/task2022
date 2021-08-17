@@ -35,7 +35,7 @@ class GitCallbackControllerTest extends TestCase
     /** @var GitCallbackService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->callbackRepository = Mockery::mock(GitCallbacksRepository::class);

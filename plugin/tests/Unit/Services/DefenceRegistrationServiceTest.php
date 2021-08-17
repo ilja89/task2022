@@ -31,7 +31,7 @@ class DefenceRegistrationServiceTest extends TestCase
     /** @var DefenceRegistrationService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->service = new DefenceRegistrationService(

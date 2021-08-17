@@ -3,8 +3,6 @@
 namespace Tests\Unit\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
 use Mockery;
 use Mockery\Mock;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
@@ -22,15 +20,13 @@ class TesterCallbackControllerTest extends TestCase
     /** @var Mock|GitCallbackService */
     private $gitCallbackService;
 
+    /** @var Mock|SaveTesterCallback */
+    private $saveCallbackFlow;
+
     /** @var TesterCallbackController */
     private $controller;
 
-    /**
-     * @var Mock|SaveTesterCallback
-     */
-    private $saveCallbackFlow;
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

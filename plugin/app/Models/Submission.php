@@ -3,6 +3,7 @@
 namespace TTU\Charon\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Zeizig\Moodle\Models\User;
@@ -95,19 +96,30 @@ class Submission extends Model
 
     public function getGitTimestampAttribute($gitTimestamp)
     {
-        $gitTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $gitTimestamp, 'UTC');
+        $gitTimestamp = Carbon::parse( $gitTimestamp, 'UTC');
         return $gitTimestamp->toDateTimeString();
     }
 
     public function getCreatedAtAttribute($createdAt)
     {
-        $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt, 'UTC');
+        $createdAt = Carbon::parse($createdAt, 'UTC');
         return $createdAt->toDateTimeString();
     }
 
     public function getUpdatedAtAttribute($updatedAt)
     {
-        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', $updatedAt, 'UTC');
+        $updatedAt = Carbon::parse($updatedAt, 'UTC');
         return $updatedAt->toDateTimeString();
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    public function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

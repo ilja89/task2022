@@ -21,7 +21,7 @@ class TemplateControllerTest extends TestCase
     /** @var Mock|TemplatesRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
