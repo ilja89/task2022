@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use stdClass;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;

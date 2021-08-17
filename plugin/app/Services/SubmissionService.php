@@ -3,7 +3,6 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -71,17 +70,28 @@ class SubmissionService
      * @param Request $submissionRequest
      * @param GitCallback $gitCallback
      * @param int $authorId
+     * @param null $courseId
      *
      * @return Submission
-     * @throws Exception
      */
-    public function saveSubmission(Request $submissionRequest, GitCallback $gitCallback, int $authorId)
+    public function saveSubmission(Request $submissionRequest,
+                                   GitCallback $gitCallback, int $authorId, $courseId = null): Submission
     {
-        $submission = $this->requestHandlingService->getSubmissionFromRequest(
-            $submissionRequest,
-            $gitCallback->repo,
-            $authorId
-        );
+        if ($gitCallback->repo != null) {
+            $submission = $this->requestHandlingService->getSubmissionFromRequest(
+                $submissionRequest,
+                $gitCallback->repo,
+                $authorId
+            );
+
+        } else {
+            $submission = $this->requestHandlingService->getSubmissionFromRequest(
+                $submissionRequest,
+                '',
+                $authorId,
+                $courseId
+            );
+        }
 
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
