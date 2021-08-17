@@ -9,22 +9,26 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use Zeizig\Moodle\Models\Course;
+use TTU\Charon\Services\LabService;
 
 class LabController extends Controller
 {
     /** @var LabRepository */
     private $labRepository;
-
     /**
      * LabDummyController constructor.
-     *
      * @param Request $request
      * @param LabRepository $labRepository
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(
+        Request $request,
+        LabRepository $labRepository,
+        LabService $labService
+    )
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -181,7 +185,7 @@ class LabController extends Controller
 
     public function labQueueStatus(Request $request)
     {
-        return $this->labRepository->labQueueStatus($request->input("user_id"), $request->input("lab_id"));
+        return $this->labService->labQueueStatus($request->input("user_id"), $request->input("lab_id"));
     }
 
 }

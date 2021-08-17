@@ -4,15 +4,11 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\LabGroup;
-use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\LabService;
-use TTU\Charon\Services\TimeService;
 use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
@@ -36,26 +32,14 @@ class LabRepository
     /**
      * LabRepository constructor.
      * @param ModuleService $moduleService
-     * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
-     * @param TimeService $timeService
-     * @param \TTU\Charon\Repositories\UserRepository $userRepository
-     * @param LabService $labService
      */
     public function __construct(
         ModuleService $moduleService,
-        LabTeacherRepository $labTeacherRepository,
-        CharonDefenseLabRepository $charonDefenseLabRepository,
-        TimeService $timeService,
-        UserRepository $userRepository,
-        LabService $labService
+        CharonDefenseLabRepository $charonDefenseLabRepository
     ) {
         $this->moduleService = $moduleService;
-        $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
-        $this->timeService = $timeService;
-        $this->userRepository = $userRepository;
-        $this->labService = $labService;
     }
 
     /**
@@ -520,60 +504,6 @@ class LabRepository
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
             ->orderBy("charon_defenders.id", "asc")
             ->get();
-    }
-
-    /** Function to return list of defence registrations for lab with:
-     *  - number in queue
-     *  - charon id
-     *  - approximate start time
-     *  - student name, if student name equals to username of requested student
-     * @param int $userId
-     * @param int $labId
-     * @return mixed
-     */
-    public function labQueueStatus(int $userId, int $labId)
-    {
-        //get list of registrations
-        $result = $this->getListOfLabRegistrationsByLabIdReduced($labId);
-
-        //get number of teachers assigned to lab
-        $teachers_num = $this->labTeacherRepository->countLabTeachers($labId);
-
-        //Get times when lab starts and ends
-        $labTime = $this->getLabStartEndTimesByLabId($labId);
-
-        //Format date to timestamp
-        $labTime = $this->timeService->formatDateObjectToTimestamp($labTime);
-
-        foreach ($result as $key => $reg)
-        {
-            //if student id equals to user id, then return username as field, else set it null
-            if($reg->student_id == $userId)
-            {
-                $reg->student_name = $this->userRepository->getUsernameById($userId);
-            }
-            else
-            {
-                $reg->student_name = null;
-            }
-
-            //show position in queue
-            $reg->queue_pos = $key+1;
-
-        }
-        $move = $this->labService->getApproximateTimeMoveForStudent($result, $teachers_num);
-
-        //Calculate approximate time and delete not needed variables
-        foreach ($result as $key => $reg)
-        {
-            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move[$key] * 60);
-            unset($reg->charon_length);
-            unset($reg->student_id);
-        }
-        $result[] = $move; //DEBUG!
-
-        return $result;
-
     }
 
 }

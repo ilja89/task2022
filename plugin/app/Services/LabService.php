@@ -2,8 +2,32 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Services\TimeService;
+use TTU\Charon\Repositories\UserRepository;
+
 class LabService
 {
+    /**
+     * LabService constructor.
+     * @param LabRepository $labRepository
+     * @param LabTeacherRepository $labTeacherRepository
+     * @param \TTU\Charon\Services\TimeService $timeService
+     */
+    public function __construct(
+        LabRepository $labRepository,
+        LabTeacherRepository $labTeacherRepository,
+        TimeService $timeService,
+        UserRepository $userRepository
+    )
+    {
+        $this->labRepository = $labRepository;
+        $this->labTeacherRepository = $labTeacherRepository;
+        $this->userRepository = $userRepository;
+        $this->timeService = $timeService;
+    }
+
     /** Function to return time shift array for registrations in labQueueStatus
      *  return list of time shifts
      * //gives approximate time move since lab start for each student based on their charon lengths and teacher number
@@ -12,7 +36,7 @@ class LabService
      * @param int $teachersNum
      * @return Array
      */
-    public function getApproximateTimeMoveForStudent(Object $registrations, int $teachersNum): Array
+    public function getApproximateTimeMoveForStudent(Object $registrations, int $teachersNum): array
     {
         $defMoves = [];
         $defLengths = [];
@@ -38,5 +62,59 @@ class LabService
         }
         $defMoves[] = $teachers; //DEBUG!
         return $defMoves;
+    }
+
+    /** Function to return list of defence registrations for lab with:
+     *  - number in queue
+     *  - charon id
+     *  - approximate start time
+     *  - student name, if student name equals to username of requested student
+     * @param int $userId
+     * @param int $labId
+     * @return mixed
+     */
+    public function labQueueStatus(int $userId, int $labId)
+    {
+        //get list of registrations
+        $result = $this->labRepository->getListOfLabRegistrationsByLabIdReduced($labId);
+
+        //get number of teachers assigned to lab
+        $teachers_num = $this->labTeacherRepository->countLabTeachers($labId);
+
+        //Get times when lab starts and ends
+        $labTime = $this->labRepository->getLabStartEndTimesByLabId($labId);
+
+        //Format date to timestamp
+        $labTime = $this->timeService->formatDateObjectToTimestamp($labTime);
+
+        foreach ($result as $key => $reg)
+        {
+            //if student id equals to user id, then return username as field, else set it null
+            if($reg->student_id == $userId)
+            {
+                $reg->student_name = $this->userRepository->getUsernameById($userId);
+            }
+            else
+            {
+                $reg->student_name = null;
+            }
+
+            //show position in queue
+            $reg->queue_pos = $key+1;
+
+        }
+        $move = $this->getApproximateTimeMoveForStudent($result, $teachers_num);
+
+        //Calculate approximate time and delete not needed variables
+        foreach ($result as $key => $reg)
+        {
+            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move[$key] * 60);
+            unset($reg->charon_length);
+            unset($reg->student_id);
+        }
+        $result[] = $move; //DEBUG!
+
+        return $result;
+
     }
 }
