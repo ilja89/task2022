@@ -17,7 +17,9 @@
       </v-toolbar>
 
       <v-sheet height="80vh" class="pt-4 px-4">
-
+        <div>
+          {{labData}}
+        </div>
         <registration-queue></registration-queue>
 
         <v-row class="my-4">
@@ -45,12 +47,17 @@ export default {
     RegistrationQueue
   },
 
+  props: ['labData'],
+
   data() {
     return {
-      sheet: false
+      sheet: false,
+      item: [],
     };
   },
+
 }
+
 </script>
 
 <style scoped>

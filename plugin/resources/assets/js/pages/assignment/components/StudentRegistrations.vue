@@ -43,7 +43,10 @@
                 <v-btn icon @click="deleteItem(item)">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
-                <registration-queue-sheet></registration-queue-sheet>
+                <v-btn @click="getLabId(item)">
+                  <registration-queue-sheet labData="labId"/>
+                </v-btn>
+
               </template>
             </v-data-table>
           </v-flex>
@@ -119,6 +122,11 @@ export default {
 				this.dialog = false
 			})
 		},
+    getLabId(item){
+		  let labId;
+		  labId = this.getLabId(item);
+		  return labId;
+    },
 	},
 
 	computed: {
