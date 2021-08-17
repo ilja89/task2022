@@ -28,7 +28,10 @@ class UserRepository
         return User::findOrFail($id);
     }
 
-    //Get user username using user id
+    /** Get user username using user id
+     * @param $userId
+     * @return mixed
+     */
     public function getUsernameById($userId)
     {
         return \DB::table('user')
