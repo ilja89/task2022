@@ -118,7 +118,7 @@ class SaveTesterCallback
             if (!$user) {
                 Log::error("User was not found by Uni-ID:" . $uniId);
             }
-            else if(!in_array($uniId,$filter)){
+            else if(!in_array($uniId, $filter)){
                 Log::error("User doesn't belong to course:" . $uniId);
             } else {
                 $users[$user->id] = $user;
