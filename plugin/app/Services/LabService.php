@@ -95,7 +95,7 @@ class LabService
             }
             else
             {
-                $reg->student_name = null;
+                $reg->student_name = "";
             }
 
             //show position in queue
