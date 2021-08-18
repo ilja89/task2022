@@ -12,7 +12,7 @@
       </charon-tab>
     </charon-tabs>
     <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
-      Submit
+      {{ translate('submitButton') }}
     </v-btn>
   </div>
 </template>
@@ -21,8 +21,11 @@ import CharonTab from "../../../components/partials/CharonTab";
 import CharonTabs from "../../../components/partials/CharonTabs";
 import CodeEditor from "./CodeEditor";
 import Submission from "../../../api/Submission";
+import Translate from "../../../mixins/Translate";
 
 export default {
+  mixins: [Translate],
+
   name: "CodeTemplates",
 
   components: {CharonTab, CharonTabs, CodeEditor},

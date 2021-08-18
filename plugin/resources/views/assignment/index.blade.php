@@ -86,7 +86,10 @@
         chooseTimeText: "{{ translate('choose_time') }}",
         selectDayText: "{{ translate('select_day') }}",
         selectTimeText: "{{ translate('select_time') }}",
-        registerText: "{{ translate('register') }}"
+        registerText: "{{ translate('register') }}",
+        programmingLanguage: "{{ translate('language') }}",
+        copyButton: "{{ translate('copy') }}",
+        submitButton: "{{ translate('submit') }}"
     };
 </script>
 
