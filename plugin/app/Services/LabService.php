@@ -111,7 +111,7 @@ class LabService
             unset($reg->charon_length);
             unset($reg->student_id);
         }
-        $result[] = $move; //DEBUG!
+        $result['move'] = $move; //DEBUG!
 
         return $result;
 
