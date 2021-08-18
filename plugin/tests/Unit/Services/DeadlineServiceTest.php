@@ -13,7 +13,7 @@ class DeadlineServiceTest extends TestCase
     /** @var DeadlineService */
     protected $deadlineService;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->deadlineService = new DeadlineService;
     }
