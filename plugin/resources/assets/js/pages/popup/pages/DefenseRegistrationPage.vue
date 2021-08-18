@@ -113,7 +113,7 @@
                 all_progress_types: ['Waiting', 'Defending', 'Done'],
                 after: {time: `${moment().format("YYYY-MM-DD")} 00:00`},
                 before: {time: null},
-                filter_teacher: -1,
+                filter_teacher: null,
                 filter_progress: null,
                 defenseList: [],
                 countDown: 0,

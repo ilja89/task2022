@@ -235,7 +235,7 @@ class DefenseRegistrationRepository
             ]);
         }
         */
-        if ($teacher_id != -1) {
+        if ($teacher_id != 'null') {
             $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
         }
         if ($progress != 'null') {
