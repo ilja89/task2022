@@ -8,8 +8,8 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
-use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Services\LabService;
+use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
 {
@@ -24,8 +24,7 @@ class LabController extends Controller
         Request $request,
         LabRepository $labRepository,
         LabService $labService
-    )
-    {
+    ){
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;

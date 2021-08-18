@@ -4,8 +4,8 @@ namespace TTU\Charon\Services;
 
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
-use TTU\Charon\Services\TimeService;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\TimeService;
 
 class LabService
 {
@@ -20,8 +20,7 @@ class LabService
         LabTeacherRepository $labTeacherRepository,
         TimeService $timeService,
         UserRepository $userRepository
-    )
-    {
+    ){
         $this->labRepository = $labRepository;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->userRepository = $userRepository;
@@ -30,8 +29,8 @@ class LabService
 
     /** Function to return time shift array for registrations in labQueueStatus
      *  return list of time shifts
-     * //gives approximate time move since lab start for each student based on their charon lengths and teacher number
-     * // SERVICE PART OF "LabRepository->labQueueStatus() function"
+     *  gives approximate time move since lab start for each student based on their charon lengths and teacher number
+     *  Part of labQueueStatus() function
      * @param Object $registrations
      * @param int $teachersNum
      * @return Array
