@@ -9,7 +9,12 @@
     <div class="column is-two-thirds assignment-content content" v-highlightjs>
 
         {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
-
+        <div class="edit-container">
+            <code-templates
+                    :language="language"
+                    :allow_submission="allow_submission">
+            </code-templates>
+        </div>
         @if ($can_edit)
             <div class="edit-container">
                 <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup">
@@ -25,10 +30,7 @@
                 </a>
             </div>
         @endif
-        <code-templates
-            :language="language"
-            :allow_submission="allow_submission">
-        </code-templates>
+
 
     </div>
 
