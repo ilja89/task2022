@@ -169,7 +169,7 @@ class LabController extends Controller
         foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
             $lab->defenders_num = \DB::table("charon_defenders")
                 ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
-                ->where("charon_defense_lab.lab_id",$lab->id)
+                ->where("charon_defense_lab.lab_id",$lab->lab_id)
                 ->count();
         }
 
