@@ -87,7 +87,12 @@
         selectDayText: "{{ translate('select_day') }}",
         selectTimeText: "{{ translate('select_time') }}",
         registerText: "{{ translate('register') }}",
-        progressText: "{{ translate('progress') }}"
+        progressText: "{{ translate('progress') }}",
+        queueStatusText: "{{ translate('queue_status') }}",
+        queueText: "{{ translate('queue') }}",
+        nrInQueueText: "{{ translate('nr_in_queue') }}",
+        estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
+        studentText: "{{ translate('student') }}"
     };
 </script>
 
