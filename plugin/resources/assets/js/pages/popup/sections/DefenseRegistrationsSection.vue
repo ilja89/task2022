@@ -85,6 +85,9 @@
                 <v-btn class="ma-2" small tile outlined color="error" @click="promptDeletionAlert(item)">
                     Delete
                 </v-btn>
+								<v-btn class="ma-2" small tile outlined color="primary" @click="deferRegistration(item)">
+									Defer
+								</v-btn>
             </template>
         </v-data-table>
     </div>
@@ -121,6 +124,30 @@ export default {
         teachers: {required: true}
     },
     methods: {
+    		deferRegistration(registration)
+				{
+					const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
+					if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
+						Defense.deferStudentRegistration(registration.charon_defense_lab_id,registration.id, this.student_id, (answer) =>
+						{
+							console.log(answer)
+							if (answer.okay === true)
+							{
+								VueEvent.$emit('show-notification', "Registration deferred successfully!", "primary");
+							}
+							else
+							{
+								VueEvent.$emit('show-notification', 'Registration was not deferred, reason:' + answer.reason, 'danger');
+							}
+						});
+					}
+					else if(userChoise === "get")
+					{
+						console.log(registration);
+						console.log(this);
+					}
+				},
+
         getSubmissionRouting(submissionId) {
             return '/submissions/' + submissionId
         },

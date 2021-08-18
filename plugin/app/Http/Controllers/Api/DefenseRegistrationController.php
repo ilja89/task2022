@@ -181,13 +181,11 @@ class DefenseRegistrationController extends Controller
             'event' => 'registration_deferring',
             'by_user_id' => app(User::class)->currentUserId(),
             'for_user_id' => $userId,
-            'for_charon_id' => $charonId,
-            'for_submission_id' => $submissionId,
             'reg_id' => $reg_id,
             'defense_lab_id' => $defenseLabId
         ]));
 
 
-        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $reg_id);
+        return $this->registrationService->deferRegistration($userId, $defenseLabId, $reg_id);
     }
 }

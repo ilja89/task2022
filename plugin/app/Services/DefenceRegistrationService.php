@@ -325,25 +325,21 @@ class DefenceRegistrationService
      * @param $submissionId
      * @return false|string
      */
-    public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
+    public function deferRegistration($userId, $defLabId, $regId)
     {
         $result = new \stdClass();
 
         //0. Check if all required info received
         if($userId == null||
-            $defLabId == null||
-            $charonId == null||
-            $submissionId == null)
+            $defLabId == null)
         {
             $result->okay = false;
-            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId) is null";
+            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId) is null";
             return json_encode($result);
         }
 
         $result->input["userId"] = $userId; //DEBUG!
         $result->input["defLabId"] = $defLabId; //DEBUG!
-        $result->input["charonId"] = $charonId; //DEBUG!
-        $result->input["submissionId"] = $submissionId; //DEBUG!
         $result->input["regId"] = $regId; //DEBUG!
 
         //1. Check if this request is acceptable at all.
