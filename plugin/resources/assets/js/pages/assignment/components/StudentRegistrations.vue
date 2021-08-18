@@ -91,7 +91,7 @@ export default {
 	methods: {
 		deferRegistration(item)
 		{
-			const userChoise = prompt(`"get" or "send"?`,"")
+			const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
 			if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
 				Defense.deferStudentRegistration(item, this.student_id, this.charon.id, (answer) =>
 				{
