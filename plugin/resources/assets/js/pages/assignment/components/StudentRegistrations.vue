@@ -90,9 +90,6 @@ export default {
 
   methods: {
 			showQueueButton({lab_end,progress}) {
-				if (progress !== "Waiting") {
-					return false;
-				}
 				const dateNow = new Date();
 				let dateEnd = lab_end.split(" ");
 				dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
