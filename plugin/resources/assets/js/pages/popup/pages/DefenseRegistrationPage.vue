@@ -44,6 +44,7 @@
                                 <v-select
                                         :disabled="isSessionActive"
                                         class="mx-auto"
+                                        clearable
                                         dense
                                         single-line
                                         item-text="fullname"
@@ -60,6 +61,7 @@
 
                                 <v-select
                                         class="mx-auto"
+                                        clearable
                                         dense
                                         :items="all_progress_types"
                                         v-model="filter_progress"
