@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -44,13 +43,15 @@ class DefenseRegistrationController extends Controller
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
-        CharonDefenseLabRepository $defenseLabRepository
+        CharonDefenseLabRepository $defenseLabRepository,
+        User $user
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->user = $user;
     }
 
     /**
@@ -170,10 +171,8 @@ class DefenseRegistrationController extends Controller
     public function deferRegistration(Request $request)
     {
         //Get variables
-        $userId = $request->input('user_id');
+        $userId = $this->user->currentUserId();
         $defenseLabId = $request->input('defLab_id');
-        $charonId = $request->input("charon_id");
-        $submissionId = $request->input("submission_id");
         $reg_id = $request->input("reg_id");
 
         //Log

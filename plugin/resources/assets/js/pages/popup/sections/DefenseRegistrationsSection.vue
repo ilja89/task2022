@@ -128,7 +128,7 @@ export default {
 				{
 					const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
 					if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
-						Defense.deferStudentRegistration(registration.charon_defense_lab_id,registration.id, this.student_id, (answer) =>
+						Defense.deferStudentRegistration(registration.charon_defense_lab_id,registration.id, (answer) =>
 						{
 							console.log(answer)
 							if (answer.okay === true)

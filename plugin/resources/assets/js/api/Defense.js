@@ -47,9 +47,9 @@ class Defense {
         })
     }
 
-    static deferStudentRegistration(defense_lab_id, reg_id, userId, then)
+    static deferStudentRegistration(defense_lab_id, reg_id, then)
     {
-        axios.get(`/mod/charon/api/charons/registration/defer?user_id=${userId}&defLab_id=${defense_lab_id}&reg_id=${reg_id}`)
+        axios.get(`/mod/charon/api/charons/registration/defer?defLab_id=${defense_lab_id}&reg_id=${reg_id}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {

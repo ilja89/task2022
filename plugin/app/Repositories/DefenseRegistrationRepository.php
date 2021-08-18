@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Object_;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 
@@ -325,6 +326,11 @@ class DefenseRegistrationRepository
             ->all()[0];
     }
 
+    /**
+     * @param $regId
+     * @param $defLabId
+     * @return array
+     */
     public function deferRegistrationUsersAllowedToPerform($regId, $defLabId)
     {
         //Get id of student what is registered for this lab and id of teachers what are related to this lab
