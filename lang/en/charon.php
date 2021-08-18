@@ -190,3 +190,6 @@ $string['select_day'] = 'Select a lab';
 $string['select_time'] = 'Select a time';
 $string['register'] = 'Register';
 $string['progress'] = 'Progress';
+$string['successfulRegistrationDefer'] = "Registration was deferred successfully!";
+$string['failedRegistrationDefer'] = "Registration deferring was failed! Reason: ";
+$string['askRegistrationDefer'] = "Do you really want to defer registration?";
