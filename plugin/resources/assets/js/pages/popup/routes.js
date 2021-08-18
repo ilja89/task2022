@@ -1,4 +1,4 @@
-import * as Vue from 'vue';
+import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuetify from "vuetify";
 
@@ -18,8 +18,8 @@ import {
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm";
 
-Vue.createApp(app).use(VueRouter)
-Vue.createApp(app).use(Vuetify);
+Vue.use(VueRouter)
+Vue.use(Vuetify);
 
 const routes = [
     {

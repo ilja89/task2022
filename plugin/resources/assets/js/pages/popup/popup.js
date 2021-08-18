@@ -1,5 +1,5 @@
 import '../../bootstrap'
-import * as Vue from 'vue'
+import Vue from 'vue'
 import axios from 'axios'
 import Popup from './Popup.vue'
 import router from './routes'
@@ -13,9 +13,9 @@ import VueGoodTablePlugin from 'vue-good-table';
 import VueJsonToCsv from 'vue-json-to-csv';
 import VueMaterial from 'vue-material'
 
-Vue.createApp(app).use(VueMaterial)
-Vue.createApp(app).use(VueClipboard)
-Vue.createApp(app).use(Vuetify)
+Vue.use(VueMaterial)
+Vue.use(VueClipboard)
+Vue.use(Vuetify)
 
 import 'vuetify/dist/vuetify.min.css'
 import 'vue-good-table/dist/vue-good-table.css';
@@ -30,14 +30,14 @@ const opts = {
 
 export default new Vuetify(opts)
 
-Vue.createApp(app).directive('highlightjs', HighlightDirective);
-Vue.createApp(app).component('apexcharts', VueApexCharts);
-Vue.createApp(app).use(VueGoodTablePlugin);
-Vue.createApp(app).component('vue-json-to-csv', VueJsonToCsv);
+Vue.directive('highlightjs', HighlightDirective);
+Vue.component('apexcharts', VueApexCharts);
+Vue.use(VueGoodTablePlugin);
+Vue.component('vue-json-to-csv', VueJsonToCsv);
 
 window.axiosNoLoading = axios.create();
 
-const app = Vue.createApp({
+const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
 

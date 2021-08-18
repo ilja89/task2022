@@ -11,26 +11,21 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.override((config) => {
-    delete config.watchOptions;
-});
-
-
 mix.setPublicPath('plugin/public');
 
-mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js').vue();
-mix.js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js').vue();
-mix.js('plugin/resources/assets/js/pages/popup/popup.js', 'js').vue();
-mix.js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js').vue();
-mix.js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js').vue();
+mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
+  .js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js')
+  .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
+  .js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js')
+  .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js');
 
-// let webpack = require('webpack');
-//
-// mix.webpackConfig({
-//     plugins: [
-//         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
-//     ]
-// });
+let webpack = require('webpack');
+
+mix.webpackConfig({
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
+    ]
+});
 
 // Full API
 // mix.js(src, output);
