@@ -6,11 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
+  php composer install/update is run)
+
 ### Added
 - \#514 My registration shows the registration status
 - \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - \#504 UI for teacher for registering a student for defence
+- \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
+- \#454 Added posting to tester from inline submission
+- \#418 Charon footer shows Charon version in use and has a link to Changelog
+- \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
@@ -18,8 +26,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
 - \#449 Tester url and token can be changed for specific course
+- \#492 Integrated templates management frontend with backend endpoints
+- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
+- \#474 Added ability to make submitions from charon student view
+- \#542 Now a submission is made to tester, its response is handled and submissions are created.
+- \#522 Show code editor always if there is at least one template (student view)
+- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
+- \#539 Substitute Ace Editor with textarea
+
 
 ### Fixed
+- \#528 In grading view show "Total points: 0" if there is no result for charon
+- \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
@@ -28,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
+- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.2.4] - 2021-05-19
 

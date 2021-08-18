@@ -50,7 +50,7 @@ class SubmissionServiceTest extends TestCase
     /** @var SubmissionService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
