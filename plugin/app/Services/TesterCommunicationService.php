@@ -130,6 +130,7 @@ class TesterCommunicationService
 
         return (new AreteRequestDto())
             ->setGitTestRepo($courseSettings->unittests_git)
+            ->setDockerExtra($charon->tester_extra)
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)

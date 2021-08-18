@@ -76,6 +76,7 @@ class SaveTesterCallback
 
         $submission->users()->saveMany($users);
 
+        Log::info("Results response", ["testsuites" => $request['testSuites'], "style" => $request['style']]);
         $this->saveResults($request['testSuites'], (int) $request['style'], $submission, $users);
 
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
