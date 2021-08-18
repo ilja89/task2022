@@ -48,15 +48,16 @@ class TesterController extends Controller
      */
     public function postSubmission(Request $request): JsonResponse
     {
+        $content = json_decode($request->getContent(), true);
         Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
-            'userId' => $request->input('userId'),
-            'sourceFiles' => $request->input('sourceFiles'),
+            'userId' => $content['userId'],
+            'sourceFiles[]' => $content['sourceFiles']
             ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
-            $request->input('userId'),
-            json_decode(json_encode($request->input('sourceFiles'))));
+            $content['userId'],
+            $content['sourceFiles']);
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
