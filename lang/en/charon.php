@@ -190,3 +190,9 @@ $string['select_day'] = 'Select a lab';
 $string['select_time'] = 'Select a time';
 $string['register'] = 'Register';
 $string['progress'] = 'Progress';
+$string['queue_status'] = 'Queue status';
+$string['queue'] = 'Queue';
+$string['nr_in_queue'] = 'Nr ';
+$string['estimated_start_time'] = 'Estimated start time';
+$string['student'] = 'Student';
+
