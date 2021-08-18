@@ -57,7 +57,7 @@ export default {
       let sourceFiles = [];
 
       for (let i = 0; i < this.codes.length; i++) {
-        sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents});
+        sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents + "\n"});
       }
 
       try {
