@@ -107,7 +107,7 @@ class LabService
         //Calculate approximate time and delete not needed variables
         foreach ($result as $key => $reg)
         {
-            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move[$key] * 60);
+            $reg->approxStartTime = date("d.m.Y H:i", $labTime->start + $move[$key] * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
         }
