@@ -31,7 +31,10 @@ class DefenseRegistrationRepository
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      */
-    public function __construct(ModuleService $moduleService, LabTeacherRepository $labTeacherRepository)
+    public function __construct(
+        ModuleService $moduleService,
+        LabTeacherRepository $labTeacherRepository
+    )
     {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
@@ -293,6 +296,13 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    public function deleteRegistrationById($regId)
+    {
+        return DB::table('charon_defenders')
+            ->where('id', $regId)
+            ->delete();
+    }
+
     public function getStudentRegistrations($studentId)
     {
         return DB::table('charon_defenders')
@@ -301,10 +311,36 @@ class DefenseRegistrationRepository
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end', 'charon_defenders.teacher_id',
-                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name', 'charon_defenders.progress')
-                
+                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name', 'charon_defenders.progress', 'charon_defenders.id as reg_id')
             ->distinct()
             ->get();
+    }
+
+    public function getDefenseRegistrationByRegId($regId)
+    {
+        return \DB::table("charon_defenders")
+            ->where("id",$regId)
+            ->select()
+            ->get()
+            ->all()[0];
+    }
+
+    public function deferRegistrationUsersAllowedToPerform($regId, $defLabId)
+    {
+        //Get id of student what is registered for this lab and id of teachers what are related to this lab
+        return array_merge(
+            \DB::table("charon_defenders")
+                ->where("id", $regId)
+                ->select("student_id as id")
+                ->get()
+                ->all(),
+
+            \DB::table("charon_lab_teacher")
+            ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
+            ->where("charon_defense_lab.id", $defLabId)
+            ->select("charon_lab_teacher.teacher_id as id")
+            ->get()
+            ->all());
     }
 
 }

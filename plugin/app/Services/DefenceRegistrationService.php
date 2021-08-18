@@ -12,6 +12,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\ConverterService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -53,7 +54,8 @@ class DefenceRegistrationService
         LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ConverterService $converterService
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
@@ -61,6 +63,7 @@ class DefenceRegistrationService
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
+        $this->converterService = $converterService;
     }
 
     /**
@@ -313,5 +316,73 @@ class DefenceRegistrationService
         }
 
         return $availableTeachers[array_rand($availableTeachers)];
+    }
+
+    /** Function to defer any existing registration to last place in queue
+     * @param $userId
+     * @param $defLabId
+     * @param $charonId
+     * @param $submissionId
+     * @return false|string
+     */
+    public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
+    {
+        $result = new \stdClass();
+
+        //0. Check if all required info received
+        if($userId == null||
+            $defLabId == null||
+            $charonId == null||
+            $submissionId == null)
+        {
+            $result->okay = false;
+            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId) is null";
+            return json_encode($result);
+        }
+
+        $result->input["userId"] = $userId; //DEBUG!
+        $result->input["defLabId"] = $defLabId; //DEBUG!
+        $result->input["charonId"] = $charonId; //DEBUG!
+        $result->input["submissionId"] = $submissionId; //DEBUG!
+        $result->input["regId"] = $regId; //DEBUG!
+
+        //1. Check if this request is acceptable at all.
+        //1.1 Get id of student what is registered for this lab and id of teachers what are related to this lab
+        $allowed = $this->defenseRegistrationRepository->deferRegistrationUsersAllowedToPerform($regId,$defLabId);
+        $result->allowed = $allowed; //DEBUG!
+        //1.2 Check if any of these IDs is similar to id of user trying to defer this registration
+        foreach ($allowed as $var)
+        {
+            if($var->id == $userId)
+            {
+                $allowed = true;
+            }
+        }
+
+        //1.3 If it is not and this user is not allowed to defer this registration, then disapprove
+        if($allowed !== true)
+        {
+            $result->okay = false;
+            $result->reason = "User with userId = $userId is not student related to this registration or teacher related to this lab.";
+            return json_encode($result);
+        }
+
+        //2. Put registration in the end of queue by deleting old one and creating new one
+        //2.1 Get all info about this registration
+        $reg = $this->defenseRegistrationRepository->getDefenseRegistrationByRegId($regId);
+
+        $reg = $this->converterService->objectToArray($reg);
+        unset($reg['id']);
+
+        //2.2  Delete old registration
+        $this->defenseRegistrationRepository->deleteRegistrationById($regId);
+
+        //2.2 Create a new registration using vars received
+        $this->defenseRegistrationRepository->create($reg);
+
+        $result->reg = $reg; //DEBUG!
+        $result->allowed = $allowed; //DEBUG!
+        $result->okay = true;
+        return json_encode($result);
     }
 }

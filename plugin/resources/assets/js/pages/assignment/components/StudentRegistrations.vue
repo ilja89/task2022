@@ -40,9 +40,14 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
-                  <img alt="eye" height="24px" src="pix/bin.png" width="24px">
-                </v-btn>
+								<v-row dense justify="center" align="center" align-content="center">
+									<v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
+										<img alt="eye" height="24px" src="pix/bin.png" width="24px">
+									</v-btn>
+									<v-btn v-if="showDeleteButton(item)" icon @click="deferRegistration(item) ">
+										<img alt="eye" height="24px" src="pix/later.png" width="24px">
+									</v-btn>
+								</v-row>
               </template>
             </v-data-table>
           </v-flex>
@@ -84,6 +89,30 @@ export default {
 	},
 
 	methods: {
+		deferRegistration(item)
+		{
+			const userChoise = prompt(`"get" or "send"?`,"")
+			if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
+				Defense.deferStudentRegistration(item, this.student_id, this.charon.id, (answer) =>
+				{
+					console.log(answer)
+					if (answer.okay === true)
+					{
+						VueEvent.$emit('show-notification', "Registration deferred successfully!", "primary");
+					}
+					else
+					{
+						VueEvent.$emit('show-notification', 'Registration was not deferred, reason:' + answer.reason, 'danger');
+					}
+				});
+			}
+			else if(userChoise === "get")
+			{
+				console.log(item);
+				console.log(this);
+			}
+		},
+
   	deleteItem(item) {
 			if (this.dateValidation(item)) {
 				if (confirm(this.translate("registrationDeletionConfirmationText"))) {

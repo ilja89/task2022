@@ -162,4 +162,32 @@ class DefenseRegistrationController extends Controller
 
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
+
+    /** Function to defer existing registration
+     * @param Request $request
+     * @return mixed
+     */
+    public function deferRegistration(Request $request)
+    {
+        //Get variables
+        $userId = $request->input('user_id');
+        $defenseLabId = $request->input('defLab_id');
+        $charonId = $request->input("charon_id");
+        $submissionId = $request->input("submission_id");
+        $reg_id = $request->input("reg_id");
+
+        //Log
+        Log::warning(json_encode([
+            'event' => 'registration_deferring',
+            'by_user_id' => app(User::class)->currentUserId(),
+            'for_user_id' => $userId,
+            'for_charon_id' => $charonId,
+            'for_submission_id' => $submissionId,
+            'reg_id' => $reg_id,
+            'defense_lab_id' => $defenseLabId
+        ]));
+
+
+        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $reg_id);
+    }
 }

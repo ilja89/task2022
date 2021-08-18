@@ -47,6 +47,16 @@ class Defense {
         })
     }
 
+    static deferStudentRegistration({defense_lab_id, submission_id, reg_id}, userId, charonId, then)
+    {
+        axios.get(`/mod/charon/api/charons/registration/defer?user_id=${userId}&defLab_id=${defense_lab_id}&charon_id=${charonId}&submission_id=${submission_id}&reg_id=${reg_id}`)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error deferring student registration.\n' + error, 'danger');
+        })
+    }
+
 }
 
 export default Defense
