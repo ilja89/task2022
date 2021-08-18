@@ -24,8 +24,7 @@ class LabController extends Controller
         Request $request,
         LabRepository $labRepository,
         LabService $labService
-    )
-    {
+    ){
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;
