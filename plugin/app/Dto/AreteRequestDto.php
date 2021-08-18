@@ -42,6 +42,18 @@ class AreteRequestDto
     /** @var int */
     private $timestamp;
 
+    /** @var array|SourceFileDTO */
+    private $source;
+
+    /** @var array|SourceFileDTO */
+    private $testSource;
+
+    /** @var string */
+    private $uniid;
+
+    /** @var array */
+    private $slugs;
+
     /**
      * @param string|null $dockerContentRoot
      * @return AreteRequestDto
@@ -167,6 +179,26 @@ class AreteRequestDto
         return $this;
     }
 
+    /**
+     * @param array|SourceFileDTO
+     * @return AreteRequestDto
+     */
+    public function setSource(array $sourceFiles = []): AreteRequestDto
+    {
+        $this->source = $sourceFiles;
+        return $this;
+    }
+
+    /**
+     * @param array|SourceFileDTO $testSource
+     * @return AreteRequestDto
+     */
+    public function setTestSource(array $testSource = []): AreteRequestDto
+    {
+        $this->testSource = $testSource;
+        return $this;
+    }
+
     public function toArray(): array
     {
         $payload = [];
@@ -178,4 +210,23 @@ class AreteRequestDto
         return $payload;
     }
 
+    /**
+     * @param string $uniid
+     * @return AreteRequestDto
+     */
+    public function setUniid(string $uniid): AreteRequestDto
+    {
+        $this->uniid = $uniid;
+        return $this;
+    }
+
+    /**
+     * @param array $slugs
+     * @return AreteRequestDto
+     */
+    public function setSlugs(array $slugs): AreteRequestDto
+    {
+        $this->slugs = $slugs;
+        return $this;
+    }
 }

@@ -17,7 +17,7 @@ class CharonDefenseLabRepositoryTest extends TestCase
     /** @var CharonDefenseLabRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repository = new CharonDefenseLabRepository();

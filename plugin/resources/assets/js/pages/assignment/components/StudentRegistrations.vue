@@ -40,7 +40,7 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="deleteItem(item)">
+                <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
                 <registration-queue-sheet :labData="item"/>
@@ -83,13 +83,14 @@ export default {
 				{text: this.translate("teacherText"), value: 'teacher'},
 				{text: this.translate("locationText"), value: 'teacher_location'},
 				{text: this.translate("commentText"), value: 'teacher_comment'},
+				{text: this.translate("progressText"), value: 'progress'},
 				{text: this.translate("actionsText"), value: 'actions', sortable: false},
 			]
 		}
 	},
 
 	methods: {
-		deleteItem(item) {
+  	deleteItem(item) {
 			if (this.dateValidation(item)) {
 				if (confirm(this.translate("registrationDeletionConfirmationText"))) {
 					this.deleteReg(item);
@@ -100,10 +101,11 @@ export default {
 		},
 
 		dateValidation(item) {
-			const today = new Date();
-			const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-			const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-			const dateTime = date + ' ' + time;
+
+      const today = new Date();
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const dateTime = date + ' ' + time;
 			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
 			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
 			return day2.diff(day1, 'hours') >= 2;
@@ -119,6 +121,23 @@ export default {
 				this.dialog = false
 			})
 		},
+
+    showDeleteButton({lab_end,progress})
+    {
+      if(progress!=="Waiting")
+      {
+        return false;
+      }
+      const dateNow = new Date();
+      let dateEnd = lab_end.split(" ");
+      dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+      dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
+      if(dateNow.getTime()>dateEnd.getTime())
+      {
+        return false;
+      }
+      return true;
+    }
 	},
 
 	computed: {

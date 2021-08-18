@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
 use TTU\Charon\Models\Charon;
@@ -145,7 +146,7 @@ class CharonRepository
             throw new CharonNotFoundException('charon_course_module_not_found', $courseModuleId);
         }
 
-        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping')
+        return Charon::with('defenseLabs', 'testerType', 'gradingMethod', 'grademaps.gradeItem', 'deadlines', 'deadlines.group', 'grouping', 'templates')
             ->where('id', $courseModule->instance)
             ->first();
     }
@@ -192,7 +193,14 @@ class CharonRepository
      */
     public function update($oldCharon, $newCharon)
     {
-        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code', 'grouping_id'];
+        $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code',
+            'grouping_id', 'allow_submission'];
+
+        if (array_key_exists('allow_submission', $newCharon) and $newCharon['allow_submission'] == 'true') {
+            $newCharon['allow_submission'] = 1;
+        } else {
+            $newCharon['allow_submission'] = 0;
+        }
 
         $charon = $this->saveCharon($oldCharon, $newCharon, $modifiableFields);
 
@@ -323,7 +331,7 @@ class CharonRepository
         $nullable_fields = ['docker_test_root', 'docker_content_root', 'system_extra', 'tester_extra'];
 
         foreach ($nullable_fields as $key) {
-            if (array_has($modifiableFields, $key)) {
+            if (Arr::has($modifiableFields, $key)) {
                 if (isset($updated[$key]) && $updated[$key] != '') {
                     $charon[$key] = $updated[$key];
                 } else {
@@ -333,7 +341,7 @@ class CharonRepository
         }
 
         foreach ($modifiableFields as $key) {
-            if (!array_has($nullable_fields, $key)) {
+            if (!Arr::has($nullable_fields, $key)) {
                 if (isset($updated[$key])) {
                     $charon[$key] = $updated[$key];
                 } else {

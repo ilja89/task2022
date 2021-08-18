@@ -2,8 +2,8 @@
 
 namespace TTU\Charon\Listeners;
 
-use Carbon\Carbon;
 use TTU\Charon\Events\CharonUpdated;
+use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Deadline;
 use Zeizig\Moodle\Services\CalendarService;
 
@@ -12,26 +12,31 @@ class UpdateCalendarDeadlines
     /** @var CalendarService */
     private $calendarService;
 
+    /** @var MoodleConfig */
+    private $moodleConfig;
+
     /**
      * Create the event listener.
      *
      * @param CalendarService $calendarService
      */
-    public function __construct(CalendarService $calendarService)
+    public function __construct(CalendarService $calendarService, MoodleConfig $moodleConfig)
     {
         $this->calendarService = $calendarService;
+        $this->moodleConfig = $moodleConfig;
     }
 
     /**
      * Handle the event.
      *
      * @param  CharonUpdated  $event
+     * @param  string $userTimezone
      * @return void
      */
-    public function handle(CharonUpdated $event)
+    public function handle(CharonUpdated $event, string $userTimezone)
     {
         $charon = $event->charon;
-        $charon->deadlines->each(function ($deadline) use ($charon) {
+        $charon->deadlines->each(function ($deadline) use ($userTimezone, $charon) {
             /** @var Deadline $deadline */
             $charonName = $charon->name;
             $percentage = $deadline['percentage'];
@@ -39,10 +44,13 @@ class UpdateCalendarDeadlines
             $description = __('descriptions.descriptionStart') . ' ' . $charonName
                 . ' ' . __('descriptions.descriptionMiddle') . ' ' . $percentage
                 . '% ' . __('descriptions.descriptionEnd');
-            $rightTime = $deadline->deadline_time;
-            if (Carbon::createFromTimestamp($rightTime->getTimestamp())->isDST()){
-                $rightTime = $deadline->deadline_time->subHour();
+
+            if ($userTimezone == "99") {
+                $userTimezone = $this->moodleConfig->timezone;
             }
+
+            $rightTime = $deadline->deadline_time->setTimezone($userTimezone);
+
             $event = $this->calendarService->createEvent(
                 'CHARON_DEADLINE',
                 $name,
@@ -50,7 +58,7 @@ class UpdateCalendarDeadlines
                 $charon->course,
                 config('moodle.plugin_slug'),
                 $charon->id,
-                $rightTime->getTimestamp(),
+                $rightTime->getTimestamp() - $rightTime->getOffset(),
                 true,
                 true,
                 $deadline->group_id
