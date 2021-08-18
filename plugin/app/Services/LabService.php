@@ -4,8 +4,8 @@ namespace TTU\Charon\Services;
 
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
-use TTU\Charon\Services\TimeService;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\TimeService;
 
 class LabService
 {
