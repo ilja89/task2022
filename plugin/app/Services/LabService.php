@@ -10,16 +10,38 @@ use TTU\Charon\Services\TimeService;
 class LabService
 {
     /**
+     * @var LabRepository
+     */
+    private $labRepository;
+
+    /**
+     * @var LabTeacherRepository
+     */
+    private $labTeacherRepository;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @var \TTU\Charon\Services\TimeService
+     */
+    private $timeService;
+
+
+    /**
      * LabService constructor.
      * @param LabRepository $labRepository
      * @param LabTeacherRepository $labTeacherRepository
+     * @param UserRepository $userRepository
      * @param \TTU\Charon\Services\TimeService $timeService
      */
     public function __construct(
         LabRepository $labRepository,
         LabTeacherRepository $labTeacherRepository,
-        TimeService $timeService,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        TimeService $timeService
     ){
         $this->labRepository = $labRepository;
         $this->labTeacherRepository = $labTeacherRepository;
@@ -31,11 +53,11 @@ class LabService
      *  return list of time shifts
      *  gives approximate time move since lab start for each student based on their charon lengths and teacher number
      *  Part of labQueueStatus() function
-     * @param Object $registrations
+     * @param \stdClass $registrations
      * @param int $teachersNum
-     * @return Array
+     * @return array
      */
-    public function getApproximateTimeMoveForStudent(Object $registrations, int $teachersNum): array
+    public function getApproximateTimeMoveForStudent(\stdClass $registrations, int $teachersNum): array
     {
         $defMoves = [];
         $defLengths = [];
@@ -70,9 +92,9 @@ class LabService
      *  - student name, if student name equals to username of requested student
      * @param int $userId
      * @param int $labId
-     * @return mixed
+     * @return \stdClass
      */
-    public function labQueueStatus(int $userId, int $labId)
+    public function labQueueStatus(int $userId, int $labId): \stdClass
     {
         //get list of registrations
         $result = $this->labRepository->getListOfLabRegistrationsByLabIdReduced($labId);

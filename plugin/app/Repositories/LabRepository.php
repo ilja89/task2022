@@ -33,13 +33,16 @@ class LabRepository
      * LabRepository constructor.
      * @param ModuleService $moduleService
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
+     * @param LabTeacherRepository $labTeacherRepository
      */
     public function __construct(
         ModuleService $moduleService,
-        CharonDefenseLabRepository $charonDefenseLabRepository
+        CharonDefenseLabRepository $charonDefenseLabRepository,
+        LabTeacherRepository $labTeacherRepository
     ) {
         $this->moduleService = $moduleService;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+        $this->labTeacherRepository = $labTeacherRepository;
     }
 
     /**

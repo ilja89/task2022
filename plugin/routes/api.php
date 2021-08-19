@@ -102,8 +102,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); 
+        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations');
         // get number of affected registrations when lab is being to deleted or modified
+    Route::get('labs/labQueueStatus', 'LabController@labQueueStatus');// endpoint in api for the queue status before the lab beginning
 
     // TEACHERS
 
@@ -165,8 +166,6 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
-
-    Route::get('labs/labQueueStatus', 'LabController@labQueueStatus');// endpoint in api for the queue status before the lab beginning
 
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')

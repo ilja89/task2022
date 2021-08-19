@@ -15,10 +15,16 @@ class LabController extends Controller
 {
     /** @var LabRepository */
     private $labRepository;
+
     /**
-     * LabDummyController constructor.
+     * @var LabService */
+    private $labService;
+
+    /**
+     * LabController constructor.
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
     public function __construct(
         Request $request,
