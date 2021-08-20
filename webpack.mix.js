@@ -27,6 +27,11 @@ mix.webpackConfig({
     ]
 });
 
+mix.options({
+        postCss: [
+            require('autoprefixer'),
+        ],
+});
 // Full API
 // mix.js(src, output);
 // mix.extract(vendorLibs);

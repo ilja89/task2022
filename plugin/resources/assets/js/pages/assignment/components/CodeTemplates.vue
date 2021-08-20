@@ -1,7 +1,7 @@
 <template>
   <div>
     <charon-tabs>
-      <charon-tab v-for="(code, index) in codes"
+      <charon-tab v-for="(code, index) in codes" v-bind:key="code"
                   :name="code"
                   :selected="index===0">
         <code-editor :code="code"

@@ -3,7 +3,7 @@
                    subtitle="Here are the latest submissions for all tasks in this course">
         <div class="latest-submissions">
             <transition-group name="list">
-                <div v-for="(submissionChunk, index) in latestSubmissionsChunks" :key="index" class="columns">
+                <div v-for="(submissionChunk) in latestSubmissionsChunks" class="columns">
                     <div v-for="submission in submissionChunk" class="column">
                         <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
