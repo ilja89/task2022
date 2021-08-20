@@ -25,11 +25,10 @@
                 </a>
             </div>
         @endif
-        @if ($charon->editor_set)
-            <code-templates
-                :language="language">
-            </code-templates>
-        @endif
+        <code-templates
+            :language="language"
+            :allow_submission="allow_submission">
+        </code-templates>
 
     </div>
 
@@ -51,8 +50,10 @@
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
 
+
+    window.allow_submission = {{ $charon->allow_submission }};
     window.language = "{!! $charon->testerType->name !!}";
-    window.editorSet = {!! $charon->editor_set !!};
+
     var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
         submissionText: "{{ translate('submission') }}",

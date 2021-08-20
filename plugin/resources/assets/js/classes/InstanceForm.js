@@ -77,6 +77,17 @@ export default class InstanceFormForm {
         });
     }
 
+    initializeTemplates(templates) {
+        templates.forEach((template, index) => {
+            this.fields.files.push({
+                id: index,
+                path: template.path,
+                content: template.contents,
+                duplicate: false
+            });
+        })
+    }
+
     initializeDeadlines(deadlines) {
         deadlines.forEach((deadline) => {
             // Check if previous deadline exists, if it matches format from database, if it matches
@@ -109,7 +120,9 @@ export default class InstanceFormForm {
     initializeFields(instance, courseSettings) {
         this.fields = {
             // EDITOR
-            editor_set: false,
+            course: courseSettings['course_id'],
+            allow_submission: instance['allow_submission'] === null ? false : instance['allow_submission'] > 0,
+            files: [],
 
             // MODULE INFO
             name: instance['name'] ? instance['name'] : '',
@@ -154,6 +167,7 @@ export default class InstanceFormForm {
         if (window.update) {
             this.initializeGrademapsUpdate(instance['grademaps']);
         } else {
+            instance['templates'] ? this.initializeTemplates(instance['templates']) : '';
             instance['grademaps'] ? this.initializeGrademaps(instance['grademaps']) : '';
         }
         instance['deadlines'] ? this.initializeDeadlines(instance['deadlines']) : this.addDeadline();

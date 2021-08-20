@@ -29,7 +29,7 @@ class AreteResponseParserTest extends TestCase
     /** @var AreteResponseParser */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         Course::unguard();

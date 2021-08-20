@@ -46,8 +46,8 @@ const app = new Vue({
         charonId: window.charonId,
         studentId: window.studentId,
 
+        allow_submission: allow_submission,
         language: language,
-        editorSet: editorSet,
     },
 
     store
