@@ -165,12 +165,7 @@ class LabController extends Controller
         $result = array_column($result, null);
         return ['groups' => $groups, 'groupings' => $result];
     }
-
-    public function calculateBookingAbility($labStart, $labBookedTime)
-    {
-        return $labBookedTime;
-    }
-
+    
     public function getLabsWithCapacityInfoForCharon($charon)
     {
         return $this->defenceRegistrationService->getLabsWithCapacityInfoForCharon($charon);
