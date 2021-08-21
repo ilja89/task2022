@@ -29,8 +29,8 @@ export default {
 		return {
 			table: '',
 			CssOverflowWrapStyle:`<style type="text/css">.gradeitemheader {overflow-wrap:anywhere !important;word-break:break-all !important;}
-th[class="level2 leveleven oddd2 b1b b1t column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}
-th[class="level2 leveleven evend2 b1b b1t column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}</style>`,
+th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}
+th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}</style>`,
 		}
 	},
 
