@@ -61,6 +61,13 @@ class DefenseRegistrationController extends Controller
      * @return string
      * @throws RegistrationException
      */
+
+    //DEBUG!
+    public function checkRegistrationPossibility()
+    {
+        return $this->registrationService->checkRegistrationPossibility(2,"E0 (30.08.2021)");
+    }
+
     public function studentRegisterDefence(Request $request): string
     {
         $studentId = $request->input('user_id');

@@ -172,6 +172,59 @@ class DefenceRegistrationService
         }));
     }
 
+    public function checkRegistrationPossibility(int $charonId, string $labName)
+    {
+        $result = new \stdClass;
+        $registrable = false;
+
+
+        //Get id of lab
+        $lab = $this->labRepository->getLabByLabName($labName);
+        $labId = $lab->id;
+
+        //Get lab length in minutes
+        $labLength = (strtotime($lab->end) - strtotime($lab->start)) / 60;
+
+
+        //Get list of registrations lengths for lab
+        $registered = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($labId);
+
+        //Get length of registrable charon
+        $thisCharonLength = $this->charonRepository->getCharonById($charonId);
+        $thisCharonLength = $thisCharonLength->defense_duration;
+
+        //Get number of teachers assigned to lab
+        $teachersCount = $this->teacherRepository->countLabTeachers($labId);
+
+        $teachers = array_fill(0,$teachersCount,0);
+        for($i = 0; $i < count($registered); $i++)
+        {
+            //find teacher what is loaded less than others. $to is number of this teacher
+            $to = array_keys($teachers, min($teachers))[0];
+            //remember time on what this is possible to start current charon
+            $defMoves[$i] = $teachers[$to];
+            //add length of current charon to this teacher, simulating registered charon
+            $teachers[$to] += $registered[$i]->defense_duration;
+        }
+        foreach($teachers as $teacher)
+        {
+            if(($teacher + $thisCharonLength) < $labLength)
+            {
+                $registrable = true;
+            }
+        }
+
+        $result->registered = $registered;//DEBUG!
+        $result->labId = $labId;//DEBUG!
+        $result->labLength = $labLength;//DEBUG!
+        $result->thisCharonLength = $thisCharonLength;//DEBUG!
+        $result->teachersCount = $teachersCount;//DEBUG!
+        $result->teachers = $teachers;//DEBUG!
+        $result->registrable = $registrable;//DEBUG
+
+        return $registrable;
+    }
+
     /**
      * Throw if lab has not enough capacity left for charon registration
      *
@@ -201,8 +254,10 @@ class DefenceRegistrationService
             $totalOfDefenses += $registration->defense_duration;
         }
 
-        if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
-            throw new RegistrationException("queue_full");
+        //registration possibility checking.
+        if ($this->checkRegistrationPossibility($charonId, $lab->name) == false)
+        {
+            throw new RegistrationException('queue_is_full');
         }
 
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(

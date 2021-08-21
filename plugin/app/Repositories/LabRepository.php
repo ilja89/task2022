@@ -487,4 +487,11 @@ class LabRepository
         }
     }
 
+    public function getLabByLabName(string $labName)
+    {
+        return \DB::table("charon_lab")
+            ->where("name", $labName)
+            ->first();
+    }
+
 }
