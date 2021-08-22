@@ -159,7 +159,7 @@ class LabController extends Controller
      *
      * @param Request $request
      *
-     * @return Lab[]
+     * @return mixed
      */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {

@@ -329,16 +329,24 @@ class LabRepository
      *
      * @param int $charonId
      *
-     * @return Lab[]
+     * @return mixed
      */
     public function getLabsByCharonLaterEqualToday(int $charonId)
     {
-        return \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
+        $result = \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
+            ->where('charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
+
+        foreach ($result as &$lab) {
+            $lab->defenders_num = \DB::table('charon_defenders')
+                ->where('defense_lab_id', $lab->id) // where id of defense lab equals to id of lab sending by function
+                ->count();
+        }
+
+        return $result;
     }
 
     /**
