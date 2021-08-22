@@ -154,7 +154,8 @@ class LabController extends Controller
     }
 
     /**
-     * Get ongoing and upcoming labs with given charon identifier.
+     * Get ongoing and upcoming labs, including students registered for each lab
+     * with given charon identifier got from request.
      *
      * @param Request $request
      *
@@ -168,7 +169,7 @@ class LabController extends Controller
     /**
      * @param Course $course (not used)
      * @param Lab $lab
-     * 
+     *
      * @return int
      */
     public function countRegistrations(Course $course, Lab $lab)

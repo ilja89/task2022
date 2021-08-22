@@ -33,7 +33,7 @@
                                      :options="this.labs" :placeholder="translate('selectDayText')"
                                      label="start"
                                      track-by="id" @select="onSelect">
-                            <template slot="singleLabel" slot-scope="{ option }">{{ option.start }} {{ option.name }}</template>
+                            <template slot="singleLabel" slot-scope="{ option }">{{ option | getLabList }}</template>
                         </multiselect>
                     </div>
                 </div>
@@ -62,6 +62,7 @@ import {Translate} from "../../../mixins";
 import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import LoadingContainer from "../graphics/LoadingContainer";
+import getLabList from "../../../filters/getLabList";
 
 export default {
 
@@ -90,15 +91,19 @@ export default {
         }
     },
 
-    computed: {
-        ...mapState([
-            'charon_id',
-            'student_id',
-            'registrations',
-            'charon',
-            'labs'
-        ]),
-    },
+  filters: {
+        getLabList
+      },
+
+  computed: {
+    ...mapState([
+      'charon_id',
+      'student_id',
+      'registrations',
+      'charon',
+      'labs'
+    ]),
+  },
 
 
     methods: {
@@ -146,12 +151,8 @@ export default {
             }
         },
 
-        getLabList({start, name}) {
-            let date = `${start.split(' ')[0]}`;
-            let time = `${start.split(' ')[1]}`;
-            let time_return = time.split(':');
-            return date + " " + time_return[0] + ":" + time_return[1] + (name ? " " + name : "");
-        },
+    //filter imported above, used as method too, because for "custom-label" function is required.
+    getLabList,
 
         onSelect(option) {
             this.cached_option = option;

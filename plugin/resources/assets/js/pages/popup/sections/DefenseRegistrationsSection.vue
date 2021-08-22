@@ -24,7 +24,7 @@
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     Are you sure you want to delete this registration?
-                    ({{this.item.student_name}}, {{this.item.lab_name}}, {{this.item.choosen_time}})
+                    ({{this.item.student_name}}, {{this.item.lab_name}})
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>

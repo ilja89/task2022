@@ -53,6 +53,16 @@ return [
         'detail' => 'All result points are required when saving a submission.',
     ],
 
+    'template_path_are_required' => [
+        'title' => 'Template path are required.',
+        'detail' => 'Path are required when saving template.',
+    ],
+
+    'same_path' => [
+        'title' => 'Two templates with the same path.',
+        'detail' => 'Templates with same name: %s cannot be added.',
+    ],
+
     'submission_git_callback_is_required' => [
         'title' => 'Submission is not linked to a Git callback.',
         'detail' => 'Submission requires a Git callback so it can be retested.',

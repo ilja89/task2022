@@ -29,7 +29,7 @@ class TeacherModifiesSubmissionTest extends TestCase
     /** @var TeacherModifiesSubmission */
     private $flow;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
