@@ -357,7 +357,7 @@ class CharonGradingServiceTest extends TestCase
         $builder->shouldReceive('where')->with('submission_id', 5)->once()->andReturn($builder);
         $builder->shouldReceive('where')->with('charon_id', 3)->once()->andReturn($builder);
         $builder->shouldReceive('select')->with('id')->once()->andReturn($builder);
-        $builder->shouldReceive('orderBy')->with('choosen_time', 'desc')->once()->andReturn($builder);
+        $builder->shouldReceive('orderBy')->with('id', 'desc')->once()->andReturn($builder);
         $builder->shouldReceive('first')->once()->andReturn(null);
 
         $this->service->updateProgressByStudentId(3, 5, 7, 11, 'Done');
@@ -378,7 +378,7 @@ class CharonGradingServiceTest extends TestCase
         $builder->shouldReceive('where')->with('submission_id', 5)->once()->andReturn($builder);
         $builder->shouldReceive('where')->with('charon_id', 3)->once()->andReturn($builder);
         $builder->shouldReceive('select')->with('id')->once()->andReturn($builder);
-        $builder->shouldReceive('orderBy')->with('choosen_time', 'desc')->once()->andReturn($builder);
+        $builder->shouldReceive('orderBy')->with('id', 'desc')->once()->andReturn($builder);
         $builder->shouldReceive('first')->once()->andReturn(new Registration(['id' => 11]));
 
         $this->registrationRepository->shouldReceive('updateRegistration')->with(11, 'Done', 13)->once();

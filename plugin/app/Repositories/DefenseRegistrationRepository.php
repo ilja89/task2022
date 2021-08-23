@@ -57,24 +57,6 @@ class DefenseRegistrationRepository
 
     /**
      * @param int $labId
-     * @param Carbon $time
-     *
-     * @return int
-     */
-    public function countLabRegistrationsAt(int $labId, Carbon $time): int
-    {
-        return DB::table('charon_defenders')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
-            ->whereDate('charon_defenders.choosen_time', '=', $time->format('Y-m-d'))
-            ->whereTime('charon_defenders.choosen_time', '<=', $time->toTimeString())
-            ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
-            ->where('charon_defense_lab.lab_id', $labId)
-            ->count();
-    }
-
-    /**
-     * @param int $labId
      *
      * @return Collection|Registration[]
      */
@@ -106,42 +88,6 @@ class DefenseRegistrationRepository
             ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
             ->where('teacher_id', $teacherId)
             ->count() > 0;
-    }
-
-    /**
-     * @param $teacherId
-     * @param $time
-     *
-     * @return array
-     */
-    public function getChosenTimesForTeacherAt($teacherId, $time): array
-    {
-        return DB::table('charon_defenders')
-            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
-            ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('teacher_id', $teacherId)
-            ->select('choosen_time', 'defense_duration')
-            ->get()
-            ->all();
-    }
-
-    /**
-     * @param string $time
-     * @param int $teacherCount
-     * @param int $labId
-     *
-     * @return array
-     */
-    public function getChosenTimesForLabTeachers(string $time, int $labId): array
-    {
-        return DB::table('charon_defenders')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
-            ->where('choosen_time', 'like', '%' . $time . '%')
-            ->where('charon_defense_lab.lab_id', $labId)
-            ->select('choosen_time', 'defense_duration')
-            ->get()
-            ->all();
     }
 
     /**
@@ -181,12 +127,12 @@ class DefenseRegistrationRepository
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
             ->select(
-                'charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
+                'charon_defenders.id', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
                 'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
-            )->orderBy('charon_defenders.choosen_time')
+            )->orderBy('charon_defenders.id')
             ->get();
 
         return $this->moveTeacher($defenseRegistrations);
@@ -211,7 +157,7 @@ class DefenseRegistrationRepository
             ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->where('charon.course', $courseId)
-            ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
+            ->select('charon_defenders.id', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
@@ -219,22 +165,6 @@ class DefenseRegistrationRepository
             )->orderBy('lab_id'
             )->orderBy('charon_defenders.id');
 
-        /* currently breaks the query and awaits its destiny
-        if ($after != 'null' && $before != 'null') {
-            $query->whereRaw('choosen_time BETWEEN ? AND ?', [
-                Carbon::parse($after)->format('Y-m-d H:i:s'),
-                Carbon::parse($before)->format('Y-m-d H:i:s')
-            ]);
-        } elseif ($after != 'null') {
-            $query->whereRaw('choosen_time >= ?', [
-                Carbon::parse($after)->format('Y-m-d H:i:s'),
-            ]);
-        } elseif ($before != 'null') {
-            $query->whereRaw('choosen_time <= ?', [
-                Carbon::parse($before)->format('Y-m-d H:i:s')
-            ]);
-        }
-        */
         if ($teacher_id != -1) {
             $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
         }

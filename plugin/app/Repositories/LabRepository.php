@@ -373,20 +373,13 @@ class LabRepository
      * @return int
      * 
      */
-    public function countRegistrations($labId, $start, $end, $charons, $teachers)
+    public function countRegistrations($labId, $charons, $teachers)
     {
-
         return \DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->where('charon_defense_lab.lab_id', $labId)
             ->where('charon_defenders.progress', '<>', 'Done')
-            ->where(function($q) use($start, $end, $charons, $teachers) {
-                if ($start) {
-                    $q = $q->orWhere('charon_defenders.choosen_time', '<', $start);
-                }
-                if ($end) {
-                    $q = $q->orWhere('charon_defenders.choosen_time', '>', $end);
-                }
+            ->where(function($q) use($charons, $teachers) {
                 if ($charons) {
                     $q = $q->orWhereIn('charon_defenders.charon_id', $charons);
                 }
