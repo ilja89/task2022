@@ -2,6 +2,7 @@
   <div v-if="codes.length > 0">
     <charon-tabs>
       <charon-tab v-for="(code, index) in codes"
+                  v-bind:key="code.path"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
