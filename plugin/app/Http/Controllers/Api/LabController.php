@@ -16,8 +16,7 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
-    /**
-     * @var LabService */
+    /** @var LabService */
     private $labService;
 
     /**
