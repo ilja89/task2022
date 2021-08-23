@@ -7,7 +7,7 @@
 
             <v-card class="mx-auto" outlined light raised>
                 <v-container class="spacing-playground pa-3" fluid>
-                    <div class="student-overview-card" v-bind:style="CssOverflowWrapStyle" v-html="table"></div>
+                    <div class="student-overview-card" v-html="table"></div>
                 </v-container>
             </v-card>
 
@@ -28,7 +28,6 @@
         data() {
             return {
                 table: '',
-							CssOverflowWrapStyle:".gradeitemheader {word-break:anywhere;}",
             }
         },
 
