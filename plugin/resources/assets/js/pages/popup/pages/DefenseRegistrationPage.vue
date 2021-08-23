@@ -138,7 +138,7 @@
         },
 
         watch: {
-          '$route': 'fetchRegistrations'
+            '$route': 'fetchRegistrations'
         },
 
         beforeDestroy() {
