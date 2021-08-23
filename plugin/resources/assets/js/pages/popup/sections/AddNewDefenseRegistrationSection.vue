@@ -90,7 +90,7 @@
           Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id, this.course.id,
             () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
-              this.leave();
+              router.push('defenseRegistrations');
             });
         } else {
           VueEvent.$emit('show-notification', "Needed fields were not filled!", 'danger');

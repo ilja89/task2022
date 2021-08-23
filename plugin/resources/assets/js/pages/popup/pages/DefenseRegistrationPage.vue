@@ -137,6 +137,10 @@
             })
         },
 
+        watch: {
+          '$route': 'fetchRegistrations'
+        },
+
         beforeDestroy() {
             VueEvent.$off('refresh-page', this.fetchRegistrations)
         },
@@ -183,9 +187,10 @@
                     this.defenseList = response
                 })
             },
-            AddRegistration(){
+
+            AddRegistration() {
                 router.push(`addRegistration`)
-            }
+            },
         }
     }
 </script>
