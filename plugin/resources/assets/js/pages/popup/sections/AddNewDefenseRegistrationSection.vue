@@ -37,7 +37,7 @@
                   <div class="helper">Progress</div>
                   <v-select placeholder="Progress"
                             class="mx-auto"
-                            v-model="default_progress"
+                            v-model="progress"
                             :items="all_progress_types"
                   ></v-select>
                 </v-col>
@@ -68,7 +68,7 @@
     data: function () {
       return {
         all_progress_types: ['Waiting', 'Defending', 'Done'],
-        default_progress: 'Waiting',
+        progress: 'Waiting',
         defenseLabs: [],
         students: [],
         charons: [],
@@ -86,9 +86,9 @@
       },
 
       save() {
-        if (this.item && this.item.defenseLab && this.item.student && this.item.charon) {
-          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id, this.course.id,
-            () => {
+        if (this.item && this.item.defenseLab && this.item.student && this.item.charon && this.progress) {
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id,
+            this.progress, this.course.id, () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
               router.push('defenseRegistrations');
             });

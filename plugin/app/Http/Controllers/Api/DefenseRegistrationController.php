@@ -116,6 +116,7 @@ class DefenseRegistrationController extends Controller
         $studentId = $request->input('user_id');
         $charonId = $request->input('charon_id');
         $defenseLabId = $request->input('defense_lab_id');
+        $progress = $request->input('progress');
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
         $charon = $this->charonService->getCharonById($charonId);
@@ -126,7 +127,8 @@ class DefenseRegistrationController extends Controller
             $studentId,
             $submissionId,
             $charonId,
-            $defenseLabId
+            $defenseLabId,
+            $progress
         );
 
         return 'inserted';

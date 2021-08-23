@@ -70,12 +70,14 @@ class DefenceRegistrationService
      * @param int $submissionId
      * @param int $charonId
      * @param int $defenseLabId
+     * @param ?string $progress
      */
     public function registerDefenceTime(
         int $studentId,
         int $submissionId,
         int $charonId,
-        int $defenseLabId
+        int $defenseLabId,
+        ?string $progress = null
     ) {
         $user = $this->userRepository->find($studentId);
 
@@ -84,7 +86,7 @@ class DefenceRegistrationService
             'submission_id' => $submissionId,
             'student_id' => $studentId,
             'defense_lab_id' => $defenseLabId,
-            'progress' => 'Waiting',
+            'progress' => $progress != null ? $progress : "Waiting",
             'charon_id' => $charonId,
         ]);
 
@@ -94,6 +96,7 @@ class DefenceRegistrationService
             'for_user_id' => $studentId,
             'defense_lab_id' => $defenseLabId,
             'submission_id' => $submissionId,
+            'progress' => $progress,
         ]));
     }
 
