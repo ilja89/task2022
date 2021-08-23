@@ -1,6 +1,6 @@
 <template>
   <popup-section title="Charons' details"
-                 subtitle="Here's some info on charons for this student.">
+                 subtitle="Here's some info on charons for the selected student.">
     <v-card-title v-if="table.length">
       Charons
       <v-spacer></v-spacer>
@@ -28,10 +28,10 @@
         </v-alert>
       </template>
       <template v-slot:item.defended="{ item }">
-        <v-chip :color="getDefColor(item.defended)" dark> {{ item.defended }}</v-chip>
+        <v-chip :color="getDefColor(item.defended)" dark> {{ item.defended | defFilter }}</v-chip>
       </template>
-      <template v-slot:item.studentPoints="{ item }">
-        <v-chip :color="getPtsColor(item.maxPoints, item.studentPoints)" dark> {{ item.studentPoints }}</v-chip>
+      <template v-slot:item.points="{ item }">
+        <v-chip :color="getPtsColor(item.maxPoints, item.studentPoints, item.defThreshold)" dark> {{ item.points | pointsFilter(item.maxPoints, item.studentPoints)}}</v-chip>
       </template>
     </v-data-table>
 
@@ -51,9 +51,8 @@ export default {
       alert: false,
       search: '',
       table_headers: [
-        {text: 'Charon', value: 'name', align: 'start'},
-        {text: 'Max Points', value: 'maxPoints'},
-        {text: 'Student Points', value: 'studentPoints'},
+        {text: 'Charon', value: 'charonName', align: 'start'},
+        {text: 'Points', value: 'points'},
         {text: 'Defended', value: 'defended'}
       ]
     }
@@ -65,16 +64,26 @@ export default {
 
   methods: {
     getDefColor (defended) {
-      if (defended === 'Yes') return 'green'
+      if (defended === 1 ) return 'green'
       else return 'red'
       },
 
-    getPtsColor (maxPoints, studentPoints) {
-      if (studentPoints === maxPoints) return 'green'
-      else if (studentPoints < maxPoints && studentPoints > 0) return 'orange'
+    getPtsColor (maxPoints, studentPoints, threshold) {
+      if (parseFloat(studentPoints) >= (parseFloat(maxPoints) * threshold) / 100.0) return 'green'
       else return 'red'
       }
+  },
+
+  filters: {
+    defFilter: function(value) {
+      return (value === 1) ? 'Yes' : 'No';
+    },
+
+    pointsFilter: function(value, maxPoints, studentPoints) {
+      studentPoints = studentPoints ? studentPoints : "0.0";
+      return parseFloat(studentPoints).toFixed(1) + ' p / ' + parseInt(maxPoints) + ' p';
     }
+  }
 }
 </script>
 

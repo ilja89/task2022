@@ -70,32 +70,38 @@ class StudentsRepository
 
     public function getUserCharonsDetails($courseId, $userId)
     {
-        $charons = DB::table('charon')
-            ->where('course', $courseId)
-            ->select('id', 'name')
-            ->get();
-
-        foreach ($charons as $charon) {
-            $charon->maxPoints = sprintf('%.2f', DB::table('grade_items')
-                ->join('charon', 'charon.category_id', '=', 'grade_items.categoryid')
-                ->where('grade_items.itemnumber', '=', 1)
-                ->where('grade_items.iteminstance', '=', $charon->id)
-                ->value('grade_items.grademax'));
-
-            $charon->studentPoints = sprintf('%.2f', DB::table('grade_grades')
-                ->join('grade_items', 'grade_items.id', '=', 'grade_grades.itemid')
-                ->where('grade_grades.userid', '=', $userId)
-                ->where('grade_items.itemnumber', '<', 100)
-                ->where('grade_items.iteminstance', '=', $charon->id)
-                ->value('finalgrade'));
-
-            $charon->defended = (DB::table('charon_submission')
-                ->where('charon_submission.user_id', '=', $userId)
-                ->where('charon_submission.charon_id', '=', $charon->id)
-                ->where('charon_submission.confirmed', '=', 1)
-                ->count() == 1) ? 'Yes' : 'No';
-        }
-
-        return $charons;
+        return DB::select("
+        SELECT
+            c.id AS charonId,
+            c.name AS charonName,
+            c.defense_threshold as defThreshold,
+            (
+                SELECT gg.finalgrade
+                FROM mdl_grade_grades gg
+                JOIN mdl_grade_items gi
+                ON gi.id = gg.itemid
+                WHERE gg.userid = ?
+                AND gi.itemnumber < 100
+                AND gi.iteminstance = charonId
+            ) AS studentPoints,
+            (
+                SELECT gi.grademax
+                FROM mdl_grade_items gi
+                INNER JOIN mdl_charon c
+                ON c.category_id = gi.categoryid
+                WHERE gi.itemnumber = 1
+                AND gi.iteminstance = charonId
+            ) AS maxPoints,
+            ' ' AS points,
+            (
+            SELECT COUNT(confirmed)
+            FROM mdl_charon_submission cs
+            WHERE cs.user_id = ?
+            AND cs.charon_id = charonId
+            AND cs.confirmed = 1
+            ) AS defended
+        FROM mdl_charon c
+        WHERE c.course = ?
+        ", [$userId, $userId, $courseId]);
     }
 }
