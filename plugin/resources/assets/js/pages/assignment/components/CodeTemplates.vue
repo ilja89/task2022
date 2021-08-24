@@ -6,7 +6,7 @@
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
-                     :language="this.language"
+                     :language="language"
                      :codes="codes"
                      :allow_submission="allow_submission"
         ></code-editor>

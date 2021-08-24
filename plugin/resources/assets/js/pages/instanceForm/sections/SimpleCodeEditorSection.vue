@@ -1,5 +1,5 @@
 <template>
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr_SCES">
       <legend class="ftoggler">Code Editor</legend>
       <div class="fcontainer clearfix fitem">
 
