@@ -28,9 +28,9 @@
         data() {
             return {
                 table: '',
-                CssOverflowWrapStyle:`<style type="text/css">.gradeitemheader {overflow-wrap:anywhere !important;word-break:break-all !important;}
-    th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}
-    th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}</style>`,
+                CssOverflowWrapStyle:`<style type="text/css">.gradeitemheader {overflow-wrap:anywhere !important;word-break:break-all !important;}`+
+                `th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}`+
+                `th[class$="column-itemname"]{overflow-wrap:anywhere !important;word-break:break-all !important;}</style>`,
             }
         },
 
