@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use Zeizig\Moodle\Models\Course;
 
@@ -30,14 +30,11 @@ class LabController extends Controller
     public function __construct(
         Request $request,
         LabRepository $labRepository,
-        DefenceRegistrationService $defenceRegistrationService,
-        DefenseRegistrationRepository $defenseRegistrationRepository
-    )
-    {
+        DefenceRegistrationService $defenceRegistrationService
+    ){
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->defenceRegistrationService = $defenceRegistrationService;
-        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
     /**

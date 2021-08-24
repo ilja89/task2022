@@ -47,8 +47,7 @@ class DefenceRegistrationService
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository
-    )
-    {
+    ){
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
@@ -69,8 +68,7 @@ class DefenceRegistrationService
         int $submissionId,
         int $charonId,
         int $defenseLabId
-    )
-    {
+    ){
         $user = $this->userRepository->find($studentId);
 
         $this->defenseRegistrationRepository->create([
@@ -266,8 +264,7 @@ class DefenceRegistrationService
         int $labId,
         int $charonId,
         Carbon $chosenTime
-    ): int
-    {
+    ): int {
         if (!$ownTeacher) {
             return $this->getTeachersByCharonAndLab($charonId, $labId, $chosenTime);
         }
@@ -310,17 +307,11 @@ class DefenceRegistrationService
         return $availableTeachers[array_rand($availableTeachers)];
     }
 
-
-    private function calculateBookingAbility($start, $booked)
-    {
-
-        //$hours = intdiv($booked, 60).':'. ($booked % 60);
-        $startC = date('Y-m-d H:i:s', strtotime('+' . $booked . ' minutes', strtotime($start)));
-        $bookedUntil = Carbon:: createFromFormat("Y-m-d H:i:s", $startC)->format('H:i');
-
-        return $bookedUntil;
-    }
-
+    /**
+     * @param $charon
+     *
+     * @return mixed
+     */
     public function getLabsWithCapacityInfoForCharon($charon)
     {
         $labs = [];
