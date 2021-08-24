@@ -3,8 +3,8 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
@@ -12,7 +12,6 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\ConverterService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -40,9 +39,6 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var ConverterService */
-    private $converterService;
-
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
@@ -57,8 +53,7 @@ class DefenceRegistrationService
         LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
-        UserRepository $userRepository,
-        ConverterService $converterService
+        UserRepository $userRepository
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
@@ -66,7 +61,6 @@ class DefenceRegistrationService
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
-        $this->converterService = $converterService;
     }
 
     /**
@@ -331,7 +325,7 @@ class DefenceRegistrationService
      */
     public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
     {
-        $result = new \stdClass();
+        $result = new stdClass();
 
         //0. Check if all required info received
         if(
