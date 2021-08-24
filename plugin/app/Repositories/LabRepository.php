@@ -13,6 +13,7 @@ use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
 
+
 /**
  * Class CharonRepository.
  * Used to handle database actions.
@@ -30,19 +31,18 @@ class LabRepository
 
     /**
      * LabRepository constructor.
-     *
      * @param ModuleService $moduleService
-     * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
+     * @param LabTeacherRepository $labTeacherRepository
      */
     public function __construct(
         ModuleService $moduleService,
-        LabTeacherRepository $labTeacherRepository,
-        CharonDefenseLabRepository $charonDefenseLabRepository
+        CharonDefenseLabRepository $charonDefenseLabRepository,
+        LabTeacherRepository $labTeacherRepository
     ) {
         $this->moduleService = $moduleService;
-        $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+        $this->labTeacherRepository = $labTeacherRepository;
     }
 
     /**
@@ -485,6 +485,29 @@ class LabRepository
         if ($labLength->hours >= 24) {
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
+    }
+
+    public function getLabStartEndTimesByLabId(int $labId)
+    {
+        return \DB::table('charon_lab')
+            ->where("id", $labId)
+            ->select("start","end")
+            ->first();
+    }
+
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getListOfLabRegistrationsByLabIdReduced(int $labId)
+    {
+        return \DB::table('charon_defenders')
+            ->join("charon", "charon.id", "charon_defenders.charon_id")
+            ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
+            ->where("charon_defense_lab.lab_id", $labId)
+            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
+            ->orderBy("charon_defenders.id", "asc")
+            ->get();
     }
 
 }

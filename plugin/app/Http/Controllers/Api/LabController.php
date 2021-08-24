@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,16 +16,23 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
-     * LabDummyController constructor.
-     *
+     * LabController constructor.
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
-    {
+    public function __construct(
+        Request $request,
+        LabRepository $labRepository,
+        LabService $labService
+    ){
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -189,102 +197,9 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
-    public function queueStatusBeforeLabBeginning(Request $request,int $charon)
+    public function labQueueStatus(Request $request)
     {
-        $userId = $request->input("user_id");
-        $labId = $request->input("lab_id");
-        $middleDefTime=null;
-
-        //**** REGISTRATIONS ****
-
-        //get list of registrations
-        $result["registrations"] = \DB::table('charon_defenders')
-            ->join("charon", "charon.id", "charon_defenders.charon_id")
-            ->where("defense_lab_id", $labId)
-            ->where("progress","Waiting")
-            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "student_id")
-            ->get();
-
-        //get number of teachers assigned to lab
-        $teachers_num = \DB::table('charon_lab_teacher')
-            ->where("lab_id", $labId)
-            ->count();
-
-        //Get times when lab starts and ends
-        $labTime = \DB::table('charon_lab')
-            ->where("id",$labId)
-            ->select("start","end")
-            ->first();
-
-        //Format date
-        foreach ($labTime as $key => $date)
-        {
-            $labTime->$key = strtotime($labTime->$key);
-        }
-
-        foreach ($result["registrations"] as $key => $reg)
-        {
-            //if student id equals to user id, then return username as field, else set it null
-            if($reg->student_id == $userId)
-            {
-                $reg->student_name = \DB::table('user')
-                    ->where("id", $userId)
-                    ->select("username")
-                    ->first()->username;
-            }
-            else
-            {
-                $reg->student_name = null;
-            }
-
-            //get length of this charon and sum to $middleDeftime
-            $middleDefTime += $reg->charon_length;
-
-            //show position in queue
-            $reg->queue_pos = $key+1;
-
-        }
-
-        //Get average defense length
-        $middleDefTime = $middleDefTime/count($result);
-
-        //Calculate approximate time and delete not needed variables
-        foreach ($result["registrations"] as $reg)
-        {
-            $move = floor($reg->queue_pos-1/$teachers_num) * $middleDefTime;
-            $reg->approxStartTime = date("d \of F H:i", $labTime->start + $move * 60);
-            unset($reg->charon_length);
-            unset($reg->student_id);
-        }
-
-        //**** TEACHERS AND ONGOING DEFENCES ****
-        //get teachers who have labs with registrations on them
-        $result["teachers"] = \DB::table('charon_defenders')
-            ->join("user", "user.id", "charon_defenders.teacher_id",null,"left")
-            ->whereNotNull("charon_defenders.teacher_id")
-            ->select("user.username as teacher_name","user.id")
-            ->distinct()
-            ->get();
-
-        //get currently ongoing labs for teacher
-        if(count($result["teachers"])>0) {
-            foreach ($result["teachers"] as $teacher)
-            {
-                $teacher->currently_defending_registration_id = \DB::table('charon_defenders')
-                    ->where("teacher_id",$teacher->id)
-                    ->where("progress","Defending")
-                    ->select("id")
-                    ->first();
-                if($teacher->currently_defending_registration_id)
-                {
-                    $teacher->currently_defending_registration_id = $teacher->currently_defending_registration_id->id;
-                }
-                unset($teacher->id);
-            }
-        }
-
-        return $result;
-
+        return $this->labService->labQueueStatus($request->input("user_id"), $request->input("lab_id"));
     }
 
 }
