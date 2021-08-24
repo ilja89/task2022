@@ -8,6 +8,7 @@ use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User as MoodleUser;
@@ -35,6 +36,10 @@ class DefenceRegistrationService
     private $userRepository;
 
     /**
+     * @var LabRepository */
+    private $labRepository;
+
+    /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
@@ -46,13 +51,15 @@ class DefenceRegistrationService
         LabTeacherRepository $teacherRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        LabRepository $labRepository
     ){
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
+        $this->labRepository = $labRepository;
     }
 
     /**
@@ -315,17 +322,13 @@ class DefenceRegistrationService
     public function getLabsWithCapacityInfoForCharon($charon)
     {
         $labs = [];
-        $thisCharonLength = \DB::table('charon')
-            ->where("id", $charon)
-            ->select("defense_duration as len")
-            ->first()->len;
+
+        //Get length of this charon
+        $thisCharonLength = $this->charonRepository->getCharonById($charon);
+        $thisCharonLength = $thisCharonLength->defense_duration;
 
         //Get list of labs
-        $allLabs = \DB::table('charon_defense_lab')
-            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
-            ->where("charon_defense_lab.charon_id", $charon)
-            ->select("charon_lab.start", "charon_lab.end", "charon_lab.name", "charon_lab.id")
-            ->get();
+        $allLabs = $this->labRepository->getLabsByCharonIdWithRealId($charon);
 
         //check if lab actual
         foreach ($allLabs as $lab) {
@@ -337,11 +340,11 @@ class DefenceRegistrationService
         //Calculate lab capacity
         //Calculate avg defense length and check if lab can be booked
         foreach ($labs as $lab) {
+            $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
             $defTime = null;
+
             //Get teachers number
-            $teacherNum = \DB::table('charon_lab_teacher')
-                ->where("lab_id", $lab->id)
-                ->count();
+            $teacherNum = $this->teacherRepository->countLabTeachers($lab->id);
             $lab->_teacherNum = $teacherNum; //DEBUG!
 
             //Calculate lab capacity
@@ -349,12 +352,9 @@ class DefenceRegistrationService
             $lab->_capacity = $capacity; //DEBUG!
 
             //Get all defense durations
-            $defTimes = \DB::table('charon_defenders')
-                ->join("charon", "charon.id", "charon_defenders.charon_id")
-                ->where("defense_lab_id", $lab->id)
-                ->select("defense_duration")
-                ->get();
+            $defTimes = $this->defenseRegistrationRepository->getDefenseRegistrationsDurationsListByLabId($lab->id);
             $lab->_defTimes = $defTimes; //DEBUG!
+            $lab->defenders_num = count($defTimes);
 
             //Sum them up and divide to get avg
             foreach ($defTimes as $time) {

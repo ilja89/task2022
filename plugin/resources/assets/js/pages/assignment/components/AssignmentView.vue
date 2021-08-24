@@ -103,6 +103,7 @@ export default {
                   tb = new Date(b.start);
               return ta - tb;
             });
+            console.log(this.$store.state.labs); //DEBUG!
         });
     },
 

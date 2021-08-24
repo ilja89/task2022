@@ -315,12 +315,21 @@ class LabRepository
      * @param $charonId
      * @return Lab[]
      */
-    public function getLabsByCharonId($charonId)
+    public function getLabsByCharonId($charonId) //Returns lab with defense_lab_id as id
     {
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_id', $charonId)
             ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
+            ->get();
+    }
+
+    public function getLabsByCharonIdWithRealId ($charonId) //Returns lab with real lab id as id
+    {
+        return \DB::table('charon_defense_lab')
+            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
+            ->where("charon_defense_lab.charon_id", $charonId)
+            ->select("charon_lab.start", "charon_lab.end", "charon_lab.name", "charon_lab.id","charon_lab.course_id")
             ->get();
     }
 
