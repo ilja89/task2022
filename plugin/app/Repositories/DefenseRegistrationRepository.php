@@ -91,6 +91,10 @@ class DefenseRegistrationRepository
             ->all();
     }
 
+    /** Function what will return list of all registrations lengths in minutes, what are related to exact lab with id of $labId
+     * @param int $labId
+     * @return mixed
+     */
     public function getDefenseRegistrationsDurationsListByLabId(int $labId)
     {
         return \DB::table('charon_defenders')

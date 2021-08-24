@@ -314,10 +314,16 @@ class DefenceRegistrationService
         return $availableTeachers[array_rand($availableTeachers)];
     }
 
-    /**
+    /** Function what will return list of labs related to charon with id of $charon, with following fields:
+     *    - course_id: shows id of course what lab is related to
+     *    - defenders_num: shows number of existing registrations for this lab
+     *    - start: shows lab end time
+     *    - end: shows lab end time
+     *    - estimatedStartTime: shows estimated time when student registering on this lab will be defending
+     *    - id: id of this lab
+     *    - name: name of this lab
      * @param $charon
-     *
-     * @return mixed
+     * @return array
      */
     public function getLabsWithCapacityInfoForCharon($charon)
     {
