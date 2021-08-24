@@ -17,7 +17,7 @@ class ResultRepositoryTest extends TestCase
     /** @var ResultRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repository = new ResultRepository();

@@ -1,6 +1,6 @@
 # Development guidelines
 
-We're currently using [Laravel 5.5](https://laravel.com/docs/5.5/)
+We're currently using [Laravel 8.x](https://laravel.com/docs/8.x/releases)
 
 ## Working on an issue
 
@@ -44,6 +44,7 @@ We're currently using [Laravel 5.5](https://laravel.com/docs/5.5/)
   DB_PASSWORD=dev
   DB_TABLE_PREFIX=mdl_
   ```
+  - you also need to set APP_URL to ```http://localhost``` to run feature tests successfully.
 
 #### Configuring PhpStorm:
 
