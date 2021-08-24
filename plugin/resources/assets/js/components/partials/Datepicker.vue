@@ -1,4 +1,16 @@
 <template>
+    <datetime firstDayOfWeek="1" format="YYYY-MM-DD H:i:s" width="150px"></datetime>
+</template>
+
+<script>
+import datetime from 'vuejs-datetimepicker';
+
+export default {
+    components: { datetime }
+};
+</script>
+<!--
+<template>
     <div class="">
         <date-picker :date="datetime" :option="option"></date-picker>
     </div>
@@ -90,3 +102,4 @@
         }
     }
 </script>
+-->
