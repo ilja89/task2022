@@ -54,11 +54,11 @@ class LabService
      *  return list of time shifts
      *  gives approximate time move since lab start for each student based on their charon lengths and teacher number
      *  Part of labQueueStatus() function
-     * @param stdClass $registrations
+     * @param $registrations
      * @param int $teachersNum
      * @return array
      */
-    public function getApproximateTimeMoveForStudent(stdClass $registrations, int $teachersNum): array
+    public function getApproximateTimeMoveForStudent($registrations, int $teachersNum): array
     {
         $defMoves = [];
         $defLengths = [];
@@ -93,9 +93,9 @@ class LabService
      *  - student name, if student name equals to username of requested student
      * @param int $userId
      * @param int $labId
-     * @return stdClass
+     * @return mixed
      */
-    public function labQueueStatus(int $userId, int $labId): stdClass
+    public function labQueueStatus(int $userId, int $labId)
     {
         //get list of registrations
         $result = $this->labRepository->getListOfLabRegistrationsByLabIdReduced($labId);

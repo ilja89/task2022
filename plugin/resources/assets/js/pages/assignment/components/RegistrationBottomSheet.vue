@@ -113,7 +113,7 @@ export default {
     methods: {
         test()
         {
-          axios.get(`api/charons/${this.charon_id}/getLabBeforeStarted?user_id=${this.student_id}&lab_id=8`).then(result => {
+          axios.get(`api/labs/labQueueStatus?user_id=${this.student_id}&lab_id=9`).then(result => {
             console.log(result.data);
           })
         },
