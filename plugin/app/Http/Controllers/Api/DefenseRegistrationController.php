@@ -187,7 +187,6 @@ class DefenseRegistrationController extends Controller
             'defense_lab_id' => $defenseLabId
         ]));
 
-
         return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $reg_id);
     }
 }

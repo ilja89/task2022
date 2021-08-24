@@ -40,6 +40,9 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var ConverterService */
+    private $converterService;
+
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
@@ -323,6 +326,7 @@ class DefenceRegistrationService
      * @param $defLabId
      * @param $charonId
      * @param $submissionId
+     * @param $regId
      * @return false|string
      */
     public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
@@ -330,11 +334,12 @@ class DefenceRegistrationService
         $result = new \stdClass();
 
         //0. Check if all required info received
-        if($userId == null||
+        if(
+            $userId == null||
             $defLabId == null||
             $charonId == null||
-            $submissionId == null)
-        {
+            $submissionId == null
+            ) {
             $result->okay = false;
             $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId) is null";
             return json_encode($result);
@@ -353,15 +358,13 @@ class DefenceRegistrationService
         //1.2 Check if any of these IDs is similar to id of user trying to defer this registration
         foreach ($allowed as $var)
         {
-            if($var->id == $userId)
-            {
+            if($var->id == $userId) {
                 $allowed = true;
             }
         }
 
         //1.3 If it is not and this user is not allowed to defer this registration, then disapprove
-        if($allowed !== true)
-        {
+        if($allowed !== true) {
             $result->okay = false;
             $result->reason = "User with userId = $userId is not student related to this registration or teacher related to this lab.";
             return json_encode($result);

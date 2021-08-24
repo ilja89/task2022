@@ -34,8 +34,7 @@ class DefenseRegistrationRepository
     public function __construct(
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository
-    )
-    {
+    ){
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
     }
@@ -321,8 +320,7 @@ class DefenseRegistrationRepository
         return \DB::table("charon_defenders")
             ->where("id",$regId)
             ->select()
-            ->get()
-            ->all()[0];
+            ->first();
     }
 
     public function deferRegistrationUsersAllowedToPerform($regId, $defLabId)
@@ -336,11 +334,11 @@ class DefenseRegistrationRepository
                 ->all(),
 
             \DB::table("charon_lab_teacher")
-            ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
-            ->where("charon_defense_lab.id", $defLabId)
-            ->select("charon_lab_teacher.teacher_id as id")
-            ->get()
-            ->all());
+                ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
+                ->where("charon_defense_lab.id", $defLabId)
+                ->select("charon_lab_teacher.teacher_id as id")
+                ->get()
+                ->all());
     }
 
 }
