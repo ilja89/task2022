@@ -182,3 +182,4 @@ $string['choose_time'] = 'Vali koodi ettenäitamise aeg';
 $string['select_day'] = 'Vali praktikum';
 $string['select_time'] = 'Vali kellaaeg';
 $string['register'] = 'Registreeri';
+$string['progress'] = 'Progress';

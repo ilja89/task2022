@@ -30,7 +30,7 @@ class SubmissionCalculatorServiceTest extends TestCase
     /** @var SubmissionCalculatorService */
     protected $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new SubmissionCalculatorService(
             $this->gradebookService = Mockery::mock(GradebookService::class)

@@ -8,6 +8,12 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterType');
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
+
+    Route::middleware('auth.course_module.enrolment.require')
+        ->post('submissions/{charon}/postSubmission', 'TesterController@postSubmission');
+    Route::post('submissions/saveResults', 'TesterController@saveResults');
 
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
@@ -163,4 +169,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // endpoint in api for the queue status before the lab beginning
     ->get('charons/{charon}/getLabBeforeStarted', 'LabController@queueStatusBeforeLabBeginning');
 
+    // CHARON TEMPLATES
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
 });

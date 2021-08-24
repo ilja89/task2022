@@ -34,7 +34,7 @@ class TesterCallbackControllerTest extends TestCase
     /**
      * Mocking GradingService as it would try to include Moodle source which is not available
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -91,7 +91,7 @@ class TesterCallbackControllerTest extends TestCase
 
         // when
 
-        $response = $this->postJson('/api/tester_callback', [
+        $response = $this->postJson('api/tester_callback', [
             'slug' => 'charon_folder',
             'uniid' => 'mindy',
             'style' => 100,
@@ -109,9 +109,8 @@ class TesterCallbackControllerTest extends TestCase
         $response->assertStatus(200);
 
         $this->gradingService
-            ->shouldHaveReceived('updateGrade')
-            ->with($course->id, $charon->id, 101, $user->id, 100)
-            ->once();
+            ->shouldhaveReceived('updateGrade')
+            ->with($course->id, $charon->id, 101, $user->id, $gradeItem->grademax)->once();
 
         $callback->refresh();
         $this->assertEquals(Carbon::now(), $callback->first_response_time);
