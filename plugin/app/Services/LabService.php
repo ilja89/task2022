@@ -136,6 +136,32 @@ class LabService
         }
         $result['move'] = $move; //DEBUG!
 
+        //**** TEACHERS AND ONGOING DEFENCES ****
+        //get teachers who have labs with registrations on them
+        $result["teachers"] = \DB::table('charon_lab_teacher')
+            ->join("user", "user.id", "charon_lab_teacher.teacher_id")
+            ->where("charon_lab_teacher.lab_id",$labId)
+            ->select("user.username as teacher_name","user.id")
+            ->distinct()
+            ->get();
+
+        //get currently ongoing labs for teacher
+        if(count($result["teachers"])>0) {
+            foreach ($result["teachers"] as $teacher)
+            {
+                $teacher->currently_defending_registration_id = \DB::table('charon_defenders')
+                    ->where("teacher_id",$teacher->id)
+                    ->where("progress","Defending")
+                    ->select("id")
+                    ->first();
+                if($teacher->currently_defending_registration_id)
+                {
+                    $teacher->currently_defending_registration_id = $teacher->currently_defending_registration_id->id;
+                }
+                unset($teacher->id);
+            }
+        }
+
         return $result;
 
     }
