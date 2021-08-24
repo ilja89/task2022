@@ -286,6 +286,12 @@ class DefenseRegistrationRepository
         return $defense;
     }
 
+    /**
+     * @param $studentId
+     * @param $defenseLabId
+     * @param $submissionId
+     * @return int
+     */
     public function deleteRegistration($studentId, $defenseLabId, $submissionId)
     {
         return DB::table('charon_defenders')
@@ -295,6 +301,10 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    /**
+     * @param $regId
+     * @return int
+     */
     public function deleteRegistrationById($regId)
     {
         return DB::table('charon_defenders')
@@ -302,6 +312,10 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    /**
+     * @param $studentId
+     * @return Collection
+     */
     public function getStudentRegistrations($studentId)
     {
         return DB::table('charon_defenders')
@@ -315,6 +329,10 @@ class DefenseRegistrationRepository
             ->get();
     }
 
+    /**
+     * @param $regId
+     * @return mixed
+     */
     public function getDefenseRegistrationByRegId($regId)
     {
         return \DB::table("charon_defenders")
@@ -323,24 +341,37 @@ class DefenseRegistrationRepository
             ->first();
     }
 
-    public function deferRegistrationUsersAllowedToPerform($regId, $defLabId)
+    /**
+     * @param $regId
+     * @return mixed
+     */
+    public function getStudentIdForDefenceRegistration($regId)
     {
-        //Get id of student what is registered for this lab and id of teachers what are related to this lab
-        return array_merge(
-            \DB::table("charon_defenders")
-                ->where("id", $regId)
-                ->select("student_id as id")
-                ->get()
-                ->all(),
+        return \DB::table("charon_defenders")
+            ->where("id", $regId)
+            ->select("student_id as id")
+            ->get()
+            ->all();
+    }
 
-            \DB::table("charon_lab_teacher")
+    /**
+     * @param $defLabId
+     * @return mixed
+     */
+    public function getTeachersRelatedToDefenceLab($defLabId)
+    {
+        return \DB::table("charon_lab_teacher")
                 ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
                 ->where("charon_defense_lab.id", $defLabId)
                 ->select("charon_lab_teacher.teacher_id as id")
                 ->get()
-                ->all());
+                ->all();
     }
 
+    /**
+     * @param $oldRegId
+     * @return mixed
+     */
     public function getLastRegistrationId($oldRegId)
     {
         return \DB::table("charon_defenders")
