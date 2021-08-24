@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\TesterCommunicationService;
 
@@ -58,11 +59,26 @@ class TesterController extends Controller
             $request->input('userId'),
             json_decode(json_encode($request->input('sourceFiles'))));
 
-        $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
+        if (empty($response->getContent())) {
+            return response()->json([
+                'message' => 'Testing triggered.'
+            ]);
+        }
+        Log::info("success", ["addthis" => $response]);
+        try {
+            $submission = $this->saveResults($response);
+            return response()->json([
+                'message' => 'Testing triggered.',
+                'submission' => $submission
+            ]);
+        } catch (Exception $e) {
+
+        }
         return response()->json([
-            'message' => 'Testing triggered.'
+            'message' => 'Failed to send submission to tester.'
         ]);
     }
 
@@ -71,6 +87,7 @@ class TesterController extends Controller
      *
      * @param CharonViewTesterCallbackRequest $request
      *
+     * @return Submission
      * @throws Exception
      */
     public function saveResults(CharonViewTesterCallbackRequest $request)
@@ -88,5 +105,7 @@ class TesterController extends Controller
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);
+
+        return $submission;
     }
 }
