@@ -35,8 +35,7 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
-    /**
-     * @var LabRepository */
+    /** @var LabRepository */
     private $labRepository;
 
     /**
@@ -334,7 +333,7 @@ class DefenceRegistrationService
         $thisCharonLength = $thisCharonLength->defense_duration;
 
         //Get list of labs
-        $allLabs = $this->labRepository->getLabsByCharonIdWithRealId($charon);
+        $allLabs = $this->labRepository->getLabsByCharonId($charon);
 
         //check if lab actual
         foreach ($allLabs as $lab) {
