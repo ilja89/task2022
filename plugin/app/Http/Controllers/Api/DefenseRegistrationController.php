@@ -167,12 +167,12 @@ class DefenseRegistrationController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function deferRegistration(Request $request)
+    public function deferRegistration(Request $request, int $charon)
     {
         //Get variables
         $userId = $request->input('user_id');
         $defenseLabId = $request->input('defLab_id');
-        $charonId = $request->input("charon_id");
+        $charonId = $charon;
         $submissionId = $request->input("submission_id");
         $reg_id = $request->input("reg_id");
 

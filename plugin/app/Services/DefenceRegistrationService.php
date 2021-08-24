@@ -12,6 +12,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\ConverterService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -39,6 +40,9 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var \TTU\Charon\Services\ConverterService */
+    private $converterService;
+
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
@@ -53,7 +57,9 @@ class DefenceRegistrationService
         LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ConverterService $converterService
+
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
@@ -61,6 +67,7 @@ class DefenceRegistrationService
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
+        $this->converterService = $converterService;
     }
 
     /**
@@ -332,10 +339,11 @@ class DefenceRegistrationService
             $userId == null||
             $defLabId == null||
             $charonId == null||
-            $submissionId == null
+            $submissionId == null||
+            $regId == null
             ) {
             $result->okay = false;
-            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId) is null";
+            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId, regId = $regId) is null";
             return json_encode($result);
         }
 
@@ -376,6 +384,8 @@ class DefenceRegistrationService
 
         //2.2 Create a new registration using vars received
         $this->defenseRegistrationRepository->create($reg);
+
+        $result->newRegId = $this->defenseRegistrationRepository->getLastRegistrationId($regId);
 
         $result->reg = $reg; //DEBUG!
         $result->allowed = $allowed; //DEBUG!

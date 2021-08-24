@@ -40,14 +40,14 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-					<v-row dense justify="center" align="center" align-content="center">
-						<v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
-							<img alt="delete_item" height="24px" src="pix/bin.png" width="24px">
-						</v-btn>
-						<v-btn v-if="showDeleteButton(item)" icon @click="deferRegistration(item) ">
-							<img alt="defer_item" height="24px" src="pix/later.png" width="24px">
-						</v-btn>
-					</v-row>
+								<v-row dense justify="center" align="center" align-content="center">
+									<v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
+										<img alt="delete_item" height="24px" src="pix/bin.png" width="24px">
+									</v-btn>
+									<v-btn v-if="showDeleteButton(item)" icon @click="deferRegistration(item) ">
+										<img alt="defer_item" height="24px" src="pix/later.png" width="24px">
+									</v-btn>
+								</v-row>
               </template>
             </v-data-table>
           </v-flex>
@@ -90,6 +90,8 @@ export default {
 
 	methods: {
 		deferRegistration(item) {
+			console.log(this);
+			console.log(item);
 			const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
 			if (userChoise === "send"/*confirm(this.translate("askRegistrationDeferText"))*/) { //Idk how translation system works so pls tell me how to add translation
 				Defense.deferStudentRegistration(item, this.student_id, this.charon.id, (answer) =>
@@ -98,6 +100,7 @@ export default {
 					if (answer.okay === true)
 					{
 						VueEvent.$emit('show-notification', this.translate("successfulRegistrationDeferText"), "primary");
+						item["reg_id"] = answer.newRegId;
 					}
 					else
 					{

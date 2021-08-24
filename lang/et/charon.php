@@ -185,4 +185,4 @@ $string['register'] = 'Registreeri';
 $string['progress'] = 'Progress';
 $string['successfulRegistrationDefer'] = 'Registreerimine oli edukalt edasi lükatud';
 $string['failedRegistrationDefer'] = 'Registreerimise edasilükkamine ebaõnnestus! Põhjus: ';
-$string['askRegistrationDefer'] = "Kas tõesti soovite registreerimist edasi lükata?";
+$string['askRegistrationDefer'] = 'Kas tõesti soovite registreerimist edasi lükata?';

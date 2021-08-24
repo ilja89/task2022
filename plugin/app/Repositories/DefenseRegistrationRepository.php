@@ -341,4 +341,13 @@ class DefenseRegistrationRepository
                 ->all());
     }
 
+    public function getLastRegistrationId($oldRegId)
+    {
+        return \DB::table("charon_defenders")
+            ->where("id",">",$oldRegId)
+            ->select("id")
+            ->orderBy("id","desc")
+            ->first()
+            ->id;
+    }
 }
