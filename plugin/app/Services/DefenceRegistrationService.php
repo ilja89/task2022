@@ -9,7 +9,6 @@ use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\ConverterService;
@@ -28,9 +27,6 @@ class DefenceRegistrationService
     /** @var LabTeacherRepository */
     private $teacherRepository;
 
-    /** @var LabRepository */
-    private $labRepository;
-
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
@@ -44,26 +40,24 @@ class DefenceRegistrationService
     private $converterService;
 
     /**
+     * DefenceRegistrationService constructor.
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
-     * @param LabRepository $labRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
+     * @param \TTU\Charon\Services\ConverterService $converterService
      */
     public function __construct(
         CharonRepository $charonRepository,
         LabTeacherRepository $teacherRepository,
-        LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository,
         ConverterService $converterService
-
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
-        $this->labRepository = $labRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
@@ -328,7 +322,7 @@ class DefenceRegistrationService
      * @param $charonId
      * @param $submissionId
      * @param $regId
-     * @return false|string
+     * @return false|stdClass|string
      */
     public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
     {
@@ -357,13 +351,12 @@ class DefenceRegistrationService
         //1.1 Get id of student what is registered for this lab and id of teachers what are related to this lab
         $allowed = array_merge(
             $this->defenseRegistrationRepository->getStudentIdForDefenceRegistration($regId),
-            $this->defenseRegistrationRepository->getTeachersRelatedToDefenceLab($defLabId)
+            $this->teacherRepository->getTeachersRelatedToDefenceLab($defLabId)
         );
 
         $result->allowed = $allowed; //DEBUG!
         //1.2 Check if any of these IDs is similar to id of user trying to defer this registration
-        foreach ($allowed as $var)
-        {
+        foreach ($allowed as $var) {
             if($var->id == $userId) {
                 $allowed = true;
             }
@@ -394,6 +387,6 @@ class DefenceRegistrationService
         $result->reg = $reg; //DEBUG!
         $result->allowed = $allowed; //DEBUG!
         $result->okay = true;
-        return json_encode($result);
+        return $result;
     }
 }

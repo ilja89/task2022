@@ -355,20 +355,6 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @param $defLabId
-     * @return mixed
-     */
-    public function getTeachersRelatedToDefenceLab($defLabId)
-    {
-        return \DB::table("charon_lab_teacher")
-                ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
-                ->where("charon_defense_lab.id", $defLabId)
-                ->select("charon_lab_teacher.teacher_id as id")
-                ->get()
-                ->all();
-    }
-
-    /**
      * @param $oldRegId
      * @return mixed
      */

@@ -98,7 +98,7 @@ export default {
           console.log(answer)
           if (answer.okay === true) {
             VueEvent.$emit('show-notification', this.translate("successfulRegistrationDeferText"), "primary");
-            item["reg_id"] = answer.newRegId;
+            this.getDefenseData();
           }
           else {
             VueEvent.$emit('show-notification', this.translate('failedRegistrationDeferText') + answer.reason, 'danger');
@@ -159,6 +159,12 @@ export default {
         return false;
       }
       return true;
+    },
+
+    getDefenseData() {
+      Defense.getDefenseData(this.charon_id, this.student_id, (data) => {
+        this.$store.state.registrations = data;
+      })
     }
   },
 
@@ -176,7 +182,7 @@ export default {
 <style>
 
 .v-application--wrap {
-  min-height: 1vh !important;
+    min-height: 1vh !important;
 }
 
 </style>

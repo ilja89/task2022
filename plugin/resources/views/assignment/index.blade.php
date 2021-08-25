@@ -88,9 +88,9 @@
         selectTimeText: "{{ translate('select_time') }}",
         registerText: "{{ translate('register') }}",
         progressText: "{{ translate('progress') }}",
-        successfulRegistrationDeferText: "{{ translate('successfulRegistrationDefer') }}",
-        failedRegistrationDeferText: "{{translate('failedRegistrationDefer')}}",
-        askRegistrationDeferText: "{{translate('askRegistrationDefer')}}"
+        successfulRegistrationDeferText: "{{ translate('successful_registration_defer') }}",
+        failedRegistrationDeferText: "{{translate('failed_registration_defer')}}",
+        askRegistrationDeferText: "{{translate('ask_registration_defer')}}"
     };
 </script>
 

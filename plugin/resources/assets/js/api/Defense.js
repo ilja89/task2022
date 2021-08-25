@@ -55,6 +55,15 @@ class Defense {
             VueEvent.$emit('show-notification', 'Error deferring student registration.\n' + error, 'danger');
         })
     }
+
+    static getDefenseData(charon_id, student_id, then) {
+        axios.get(`/mod/charon/api/charons/${charon_id}/registrations?id=${charon_id}&user_id=${student_id}`)
+            .then(result => {
+                then(result.data);
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error getting defense data.\n' + error, 'danger');
+        })
+    }
 }
 
 export default Defense
