@@ -126,6 +126,7 @@ export default {
     methods: {
     		deferRegistration(registration)
 				{
+				    console.log(registration);
 					const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
 					if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
 						Defense.deferStudentRegistration(registration.charon_defense_lab_id,registration.id, (answer) =>
@@ -134,6 +135,7 @@ export default {
 							if (answer.okay === true)
 							{
 								VueEvent.$emit('show-notification', "Registration deferred successfully!", "primary");
+								registration["id"] = answer.newRegId;
 							}
 							else
 							{
