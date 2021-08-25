@@ -61,8 +61,12 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
-            VueEvent.$emit('show-notification', 'Submission successfully saved!')
+        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, (response) => {
+          if (response['message'] === 'Testing successful') {
+            VueEvent.$emit('add-submission', response['submission']);
+          }
+          VueEvent.$emit('show-notification', response['message']);
+        }
         )
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error saving submission!')

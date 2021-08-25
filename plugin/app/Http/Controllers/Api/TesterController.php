@@ -11,6 +11,7 @@ use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TesterCommunicationService;
 
 class TesterController extends Controller
@@ -21,22 +22,28 @@ class TesterController extends Controller
     /** @var SaveTesterCallback */
     private $saveTesterFlow;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * RetestController constructor.
      *
      * @param TesterCommunicationService $testerCommunicationService
+     * @param SubmissionService $submissionService
      * @param Request $request
      * @param SaveTesterCallback $saveTesterFlow
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
-        SaveTesterCallback $saveTesterFlow
+        SaveTesterCallback $saveTesterFlow,
+        SubmissionService $submissionService
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
         $this->saveTesterFlow = $saveTesterFlow;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -62,23 +69,25 @@ class TesterController extends Controller
         $response = $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
-        if (empty($response->getContent())) {
-            return response()->json([
-                'message' => 'Testing triggered.'
-            ]);
-        }
-        Log::info("success", ["addthis" => $response]);
-        try {
-            $submission = $this->saveResults($response);
-            return response()->json([
-                'message' => 'Testing triggered.',
-                'submission' => $submission
-            ]);
-        } catch (Exception $e) {
+        if ($response->getStatus() == 202) {
+            try {
+                $responseSubmission = $this->submissionService
+                    ->prepareSubmissionResponse($this->saveResults($response));
 
+                return response()->json([
+                    'message' => 'Testing successful',
+                    'submission' => $responseSubmission
+                ]);
+            } catch (Exception $e) {
+            }
+        } else if ($response->getStatus() == 204) {
+            return response()->json([
+                'message' => 'Testing triggered. Give it a few minutes to process and then refresh'
+            ]);
         }
+
         return response()->json([
-            'message' => 'Failed to send submission to tester.'
+            'message' => 'Failed to send submission to tester'
         ]);
     }
 

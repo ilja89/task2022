@@ -115,14 +115,20 @@ class HttpCommunicationService
             $response = Http::withToken($testerToken)->post($testerUrl, $data);
             Log::info("Response" , ["status" => $response->status()
             , "body" => $response->json()]);
-            if ($response->successful() and !empty($response->body())) {
-                return CharonViewTesterCallbackRequest::create("", "POST", json_decode($response->body(), true));
+            if ($response->successful()) {
+                if (!empty($response->body())) {
+                    return CharonViewTesterCallbackRequest::create("", "POST",
+                        json_decode($response->body(), true))
+                        ->setStatus($response->status());
+                } else {
+                    return (new CharonViewTesterCallbackRequest())->setStatus(204);
+                }
             }
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
             Log::error('Could not send info to tester to url ' . $testerUrl . ' with body:', [$body]);
         }
-        return new CharonViewTesterCallbackRequest();
+        return (new CharonViewTesterCallbackRequest())->setStatus(400);
     }
 
     /**
