@@ -68,6 +68,43 @@ class StudentsRepository
         }
     }
 
+    public function getUserCharonsDetails($courseId, $userId)
+    {
+        return DB::select("
+        SELECT
+            c.id AS charonId,
+            c.name AS charonName,
+            c.defense_threshold as defThreshold,
+            (
+                SELECT gg.finalgrade
+                FROM mdl_grade_grades gg
+                JOIN mdl_grade_items gi
+                ON gi.id = gg.itemid
+                WHERE gg.userid = ?
+                AND gi.itemnumber < 100
+                AND gi.iteminstance = charonId
+            ) AS studentPoints,
+            (
+                SELECT gi.grademax
+                FROM mdl_grade_items gi
+                INNER JOIN mdl_charon c
+                ON c.category_id = gi.categoryid
+                WHERE gi.itemnumber = 1
+                AND gi.iteminstance = charonId
+            ) AS maxPoints,
+            ' ' AS points,
+            (
+            SELECT COUNT(confirmed)
+            FROM mdl_charon_submission cs
+            WHERE cs.user_id = ?
+            AND cs.charon_id = charonId
+            AND cs.confirmed = 1
+            ) AS defended
+        FROM mdl_charon c
+        WHERE c.course = ?
+        ", [$userId, $userId, $courseId]);
+    }
+
     /**
      * @param integer $courseId
      */
