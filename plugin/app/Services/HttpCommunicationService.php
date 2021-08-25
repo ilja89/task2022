@@ -112,7 +112,7 @@ class HttpCommunicationService
         ]);
 
         try {
-            $response = Http::withToken($testerToken)->post($testerUrl, $data);
+            $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
             Log::info("Response" , ["status" => $response->status()
             , "body" => $response->json()]);
             if ($response->successful()) {
