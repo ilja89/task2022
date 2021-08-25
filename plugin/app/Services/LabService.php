@@ -109,15 +109,12 @@ class LabService
         //Format date to timestamp
         $labTime = $this->timeService->formatDateObjectToTimestamp($labTime);
 
-        foreach ($result as $key => $reg)
-        {
+        foreach ($result as $key => $reg) {
             //if student id equals to user id, then return username as field, else set it null
-            if($reg->student_id == $userId)
-            {
+            if($reg->student_id == $userId) {
                 $reg->student_name = $this->userRepository->getUsernameById($userId);
             }
-            else
-            {
+            else {
                 $reg->student_name = "";
             }
 
@@ -128,8 +125,7 @@ class LabService
         $move = $this->getApproximateTimeMoveForStudent($result, $teachers_num);
 
         //Calculate approximate time and delete not needed variables
-        foreach ($result as $key => $reg)
-        {
+        foreach ($result as $key => $reg) {
             $reg->approxStartTime = date("d.m.Y H:i", $labTime->start + $move[$key] * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
@@ -147,15 +143,13 @@ class LabService
 
         //get currently ongoing labs for teacher
         if(count($result["teachers"])>0) {
-            foreach ($result["teachers"] as $teacher)
-            {
+            foreach ($result["teachers"] as $teacher) {
                 $teacher->currently_defending_registration_id = \DB::table('charon_defenders')
                     ->where("teacher_id",$teacher->id)
                     ->where("progress","Defending")
                     ->select("id")
                     ->first();
-                if($teacher->currently_defending_registration_id)
-                {
+                if($teacher->currently_defending_registration_id) {
                     $teacher->currently_defending_registration_id = $teacher->currently_defending_registration_id->id;
                 }
                 unset($teacher->id);
