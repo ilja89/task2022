@@ -89,18 +89,18 @@ export default {
   },
 
   methods: {
-			showQueueButton({lab_end,progress}) {
-				const dateNow = new Date();
-				let dateEnd = lab_end.split(" ");
-				dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
-				dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
-				if (dateNow.getTime() > dateEnd.getTime()) {
-					return false;
-				}
-				return true;
-			},
+      showQueueButton({lab_end,progress}) {
+        const dateNow = new Date();
+        let dateEnd = lab_end.split(" ");
+        dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+        dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
+        if (dateNow.getTime() > dateEnd.getTime()) {
+          return false;
+        }
+        return true;
+      },
 
-			deleteItem(item) {
+      deleteItem(item) {
       if (this.dateValidation(item)) {
         if (confirm(this.translate("registrationDeletionConfirmationText"))) {
           this.deleteReg(item);
