@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title :student="student"></page-title>
+        <page-title :student="student" v-html="CSSStyle"></page-title>
 
         <submission-overview-section/>
 
@@ -22,7 +22,9 @@
 
         data() {
             return {
-                guard_navigation: false
+                guard_navigation: false,
+                CSSStyle: '<style type="text/css"> html{overflow-x:scroll !important}' +
+                    '.v-card{overflow-wrap:anywhere} </style>'
             };
         },
 
