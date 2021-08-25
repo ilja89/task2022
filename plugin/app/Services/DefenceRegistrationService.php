@@ -35,6 +35,7 @@ class DefenceRegistrationService
     private $userRepository;
 
     /**
+     * DefenceRegistrationService constructor.
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository

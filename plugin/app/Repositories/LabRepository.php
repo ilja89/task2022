@@ -311,11 +311,11 @@ class LabRepository
             ->get();
     }
 
-    /**
+    /** Returns lab with defense_lab_id as id
      * @param $charonId
      * @return Lab[]
      */
-    public function getLabsByCharonId($charonId) //Returns lab with defense_lab_id as id
+    public function getLabsByCharonId($charonId)
     {
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
