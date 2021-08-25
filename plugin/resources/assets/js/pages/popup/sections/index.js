@@ -14,6 +14,7 @@ import DefenseRegistrationsSection from "./DefenseRegistrationsSection";
 import TesterTypeSection from "./TesterTypeSection";
 import TeacherSection from "./TeacherSection";
 import StudentDetailsCharonsTableSection from "./StudentDetailsCharonsTableSection";
+import StudentDetailsSubmissionsSection from "./StudentDetailsSubmissionsSection";
 
 export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
@@ -21,5 +22,5 @@ export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
-    LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, StudentDetailsCharonsTableSection
+    LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, StudentDetailsCharonsTableSection, StudentDetailsSubmissionsSection
 }

@@ -60,6 +60,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/charons-details', 'StudentsController@getUserCharonsDetails');
+    Route::middleware('auth.course.managing.require') // Fetches all students enrolled in given course
+        ->get('courses/{course}/allStudents', 'StudentsController@getAllStudents');
 
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');
@@ -73,6 +75,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
+    Route::middleware('auth.course.managing.require')
+            ->get('courses/{course}/users/{user}/latest-submissions', 'SubmissionsController@getLatestByUser');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')

@@ -222,4 +222,8 @@ class StudentsController extends Controller
     {
         return $this->studentsRepository->getUserCharonsDetails($courseId, $userId);
     }
+
+    public function getAllStudents(Course $course) {
+        return $this->studentsRepository->getAllByCourse($course->id);
+    }
 }

@@ -76,7 +76,7 @@
             },
 
             currentTitle() {
-                if (this.student !== null) {
+                if (this.student !== null && this.title.length === 0) {
                     return `${this.student.firstname} ${this.student.lastname}`;
                 } else {
                     return this.title;

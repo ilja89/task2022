@@ -5,19 +5,50 @@
         <v-card-title>Student overview</v-card-title>
       </v-card>
 
-        <popup-section title="Students"
-                       subtitle="Here is a list of all students for this course.">
+      <popup-section title="Students"
+                     subtitle="Here is a list of all students for this course.">
 
-              <div v-for="(student, index) in students" :key="index">
-                <div class="card hover-overlay submission" @click="studentDetails(student.id)">{{ student.name }} </div>
-              </div>
+        <v-card-title v-if="students.length">
+          Students
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-if="students.length"
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details>
+          </v-text-field>
+        </v-card-title>
+        <v-card-title v-else>
+          No Students for this course!
+        </v-card-title>
 
-        </popup-section>
+        <v-data-table
+            v-if="students.length"
+            :headers="students_headers"
+            :items="students"
+            :search="search">
+          <template v-slot:no-results>
+            <v-alert :value="true" color="primary" icon="warning">
+              Your search for "{{ search }}" found no results.
+            </v-alert>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-btn class="ma-2" small tile outlined color="primary" @click="studentDetails(item.id)">Details
+            </v-btn>
+          </template>
+        </v-data-table>
+
+      </popup-section>
+
     </div>
 </template>
 
 <script>
     import {PopupSection} from '../layouts'
+    import {User} from "../../../api";
+    import {mapGetters} from "vuex";
 
     export default {
 
@@ -25,18 +56,33 @@
 
         data() {
             return {
-                students: [
-                    {name: 'Paula Php', uniId: 'paphp', id: 3},
-                    {name: 'Jaak Java', uniId: 'jjava', id: 33},
-                    {name: 'Stiina Siisharp', uniId: 'ssiis', id: 69}
-                ]
+              alert: false,
+              search: '',
+              students: [],
+              students_headers: [
+                {text: 'Full name', value: 'fullname', align: 'start'},
+                {text: 'Uni-id', value: 'username'},
+                {text: 'Actions', value: 'actions'}
+              ]
             }
+        },
+
+        computed: {
+        ...mapGetters([
+            'courseId',
+          ]),
         },
 
         methods: {
             studentDetails(id) {
               this.$router.push({ name: 'student-details', params: {student_id: `${id}`} })
             }
+        },
+
+        created() {
+            User.getStudentsInCourse(this.courseId, students => {
+              this.students = students;
+            })
         }
     }
 </script>
