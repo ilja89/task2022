@@ -124,6 +124,9 @@ $string['add_button_text'] = 'Add';
 $string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
 $string['grouping'] = "Grouping";
 
+$string['asd'] = "Charon completion threshold: ";
+$string['asdasd'] = "Threshold";
+
 /*------------------------*\
    Labs form
 \*------------------------*/
