@@ -211,9 +211,9 @@ class StudentsController extends Controller
     }
 
     /**
-     * Get data from all charons by user.
+     * Get data from all charons by user and course.
      *
-     * @param int $charonId
+     * @param int $courseId
      * @param int $userId
      *
      * @return array
