@@ -35,12 +35,19 @@ export default {
       read_only: this.allow_submission < 1
     }
   },
+  mounted() {
+    VueEvent.$on('change-editor', (codes) => {
+      this.content = codes[this.codeId].contents
+    });
+  },
+
 
   methods: {
 
     dataSubmit() {
       this.codes[this.codeId].contents = this.content;
     },
+
     copyToClipBoard() {
       const id = "copyTextArea";
       let existsTextarea = document.getElementById(id);

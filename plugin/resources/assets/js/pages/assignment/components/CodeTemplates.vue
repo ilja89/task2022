@@ -36,6 +36,14 @@ export default {
     this.getTemplates();
   },
 
+  mounted() {
+    VueEvent.$on('change-editor-content', (codes) => {
+      this.codes = [];
+      this.codes = codes;
+      VueEvent.$emit('change-editor', codes);
+    });
+  },
+
   data() {
     return {
       codes: [],
@@ -52,7 +60,6 @@ export default {
         VueEvent.$emit('show-notification', 'Error getting templates!')
       }
     },
-
     submitClicked() {
       let sourceFiles = [];
 

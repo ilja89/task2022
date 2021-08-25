@@ -49,11 +49,13 @@
 					{{ submissionString(item) }}
 				</v-chip>
 			</template>
-			
+
 			<template v-slot:item.actions="{ item }">
 				<v-row>
 					<submission-modal :submission="item" :color="getColor(item)"/>
-					
+					<v-btn @click="copyToEditor(item)">
+            <span>copy</span>
+          </v-btn>
 					<registration-bottom-sheet :submission="item" :color="getColor(item)"/>
 				</v-row>
 			</template>
@@ -65,7 +67,7 @@
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
-import {Submission} from "../../../api";
+import {File, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
 import SubmissionModal from "./SubmissionModal";
 import {mapState} from "vuex";
@@ -119,6 +121,13 @@ export default {
 	},
 	
 	methods: {
+
+    copyToEditor(item) {
+      File.findBySubmission(item.id, files => {
+        VueEvent.$emit('change-editor-content', files);
+      })
+    },
+
 		getColor(submission) {
 			if (this.defendedSubmission(submission)) return 'success'
 			else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
