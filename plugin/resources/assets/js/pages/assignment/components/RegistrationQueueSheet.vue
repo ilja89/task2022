@@ -7,7 +7,7 @@
     </template>
     <div>
       <v-toolbar color="success" dark>
-        <span class="headline">{{ translate('queueStatusText') }}</span>
+        <span class="headline">{{ translate('queueText') }}</span>
 
         <v-spacer></v-spacer>
 
