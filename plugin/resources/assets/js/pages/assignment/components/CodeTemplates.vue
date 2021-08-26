@@ -11,9 +11,9 @@
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+    <a v-if="allow_submission > 0" class="button is-link" @click="submitClicked">
       Submit
-    </v-btn>
+    </a>
   </div>
 </template>
 <script>
@@ -61,8 +61,8 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
-            VueEvent.$emit('show-notification', 'Submission successfully saved!')
+        Submission.submitSubmission(sourceFiles, window.charonId, () =>
+            VueEvent.$emit('show-notification', 'Code has been sent to tester. Please refresh submissions in a while.')
         )
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error saving submission!')
