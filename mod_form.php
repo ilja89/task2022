@@ -86,8 +86,9 @@ class mod_charon_mod_form extends moodleform_mod
         $mform = $this->_form;
 
         $group = [
-            $mform->createElement('checkbox', 'completionthresholdenabled', ''),
+            $mform->createElement('text', 'defense_threshold', ' ', 'Threshold (%)'),
         ];
+        $mform->setType('defense_threshold', PARAM_INT);
         $mform->addGroup($group, 'completionthresholdgroup', 'Enable charon completion on threshold', [' '], false);
 
         return ['completionthresholdgroup'];
@@ -100,6 +101,6 @@ class mod_charon_mod_form extends moodleform_mod
      * @return bool True if one or more rules is enabled, false if none are.
      */
     public function completion_rule_enabled($data) {
-        return (!empty($data['completionthresholdenabled']));
+        return (!empty($data['defense_threshold']) && $data['defense_threshold'] >= 0 && $data['defense_threshold'] <= 100);
     }
 }
