@@ -10,9 +10,9 @@
               rows="28"
               @input="dataSubmit">
     </textarea>
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="copyToClipBoard">
+    <a class="button is-link" @click="copyToClipBoard">
       {{ translate('copyButton') }}
-    </v-btn>
+    </a>
   </div>
 </template>
 
