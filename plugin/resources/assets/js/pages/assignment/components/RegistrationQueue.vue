@@ -8,9 +8,14 @@
             <v-card-title>
               {{ translate('queueStatusText') }}
             </v-card-title>
+            <v-btn @click="updateTest">
+              Update queue status
+            </v-btn>
             <v-data-table
                 :headers="teachersLiveQueueHeaders"
                 :items="teachersLiveQueueTestItems"
+                :hide-default-footer="true"
+                @input="updateData"
             >
             </v-data-table>
             <v-card-title>
@@ -48,11 +53,13 @@ export default {
       ],
       teachersLiveQueueTestItems: [
         {
-          teacher: 'Teacher 1',
-          name: 'Charon 1',
-          duration: '00:10',
-          start_time: '14:07',
-
+          teacher: 'Teacher 1', name: 'charon1', duration: '00:15', start_time: '15:00',
+        },
+        {
+          teacher: 'Teacher 2', name: 'ch2', duration: '00:05', start_time: '15:05',
+        },
+        {
+          teacher: 'Teacher 3', name: 'charon3', duration: '00:15', start_time: '15:00',
         },
       ],
       headers: [
@@ -68,6 +75,26 @@ export default {
         {text: this.translate("startTimeText"), value: 'start_time', sortable: false},
       ],
     }
+  },
+  methods: {
+    updateTest(){
+      this.updateData()
+    },
+    updateData(){
+      this.teachersLiveQueueTestItems = [
+        {
+          teacher: 'Teacher 1', name: 'charon1', duration: '00:15', start_time: '15:00',
+        },
+        {
+          teacher: 'Teacher 2', name: 'ch4', duration: '00:25', start_time: '15:10',
+        },
+        {
+          teacher: 'Teacher 3', name: '', duration: '', start_time: '',
+        },
+      ]
+      console.log(this.teachersLiveQueueTestItems);
+    }
+
   },
 }
 </script>
