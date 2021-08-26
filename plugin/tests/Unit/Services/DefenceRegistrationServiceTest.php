@@ -38,8 +38,7 @@ class DefenceRegistrationServiceTest extends TestCase
         $this->service = new DefenceRegistrationService(
             Mockery::mock(CharonRepository::class),
             $this->teacherRepository = Mockery::mock(LabTeacherRepository::class),
-            Mockery::mock(LabRepository::class),
-            $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
+            Mockery::mock(DefenseRegistrationRepository::class),
             Mockery::mock(MoodleUser::class),
             $this->userRepository = Mockery::mock(UserRepository::class),
             Mockery::mock(ConverterService::class)
