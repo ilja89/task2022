@@ -504,7 +504,10 @@ class LabRepository
         return \DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
+            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
+            ->where("charon_lab.end",">=",Carbon::now())
+            ->where("charon_defenders.progress","Waiting")
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id", "asc")
             ->get();
