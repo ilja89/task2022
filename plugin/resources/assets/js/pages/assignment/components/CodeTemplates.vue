@@ -61,7 +61,7 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
+        Submission.submitSubmission(sourceFiles, window.charonId, () =>
             VueEvent.$emit('show-notification', 'Code has been sent to tester. Please refresh submissions in a while.')
         )
       } catch (e) {
