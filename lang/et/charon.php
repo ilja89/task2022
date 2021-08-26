@@ -183,3 +183,6 @@ $string['select_day'] = 'Vali praktikum';
 $string['select_time'] = 'Vali kellaaeg';
 $string['register'] = 'Registreeri';
 $string['progress'] = 'Progress';
+$string['successful_registration_defer'] = 'Registreerimine oli edukalt edasi lükatud';
+$string['failed_registration_defer'] = 'Registreerimise edasilükkamine ebaõnnestus! Põhjus: ';
+$string['ask_registration_defer'] = 'Kas tõesti soovite registreerimist edasi lükata?';

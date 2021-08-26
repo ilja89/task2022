@@ -47,9 +47,8 @@ class Defense {
         })
     }
 
-    static deferStudentRegistration(defense_lab_id, reg_id, then)
-    {
-        axios.get(`/mod/charon/api/charons/registration/defer?defLab_id=${defense_lab_id}&reg_id=${reg_id}`)
+    static deferStudentRegistration({defense_lab_id, submission_id, reg_id}, userId, {id, course}, then) {
+        axios.post(`/mod/charon/api/courses/${course}/charons/${id}/registration/defer?user_id=${userId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}&reg_id=${reg_id}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -57,6 +56,14 @@ class Defense {
         })
     }
 
+    static getDefenseData(charon_id, student_id, then) {
+        axios.get(`/mod/charon/api/charons/${charon_id}/registrations?id=${charon_id}&user_id=${student_id}`)
+            .then(result => {
+                then(result.data);
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error getting defense data.\n' + error, 'danger');
+        })
+    }
 }
 
 export default Defense

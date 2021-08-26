@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Object_;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 
@@ -35,8 +34,7 @@ class DefenseRegistrationRepository
     public function __construct(
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository
-    )
-    {
+    ){
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
     }
@@ -288,6 +286,12 @@ class DefenseRegistrationRepository
         return $defense;
     }
 
+    /**
+     * @param $studentId
+     * @param $defenseLabId
+     * @param $submissionId
+     * @return int
+     */
     public function deleteRegistration($studentId, $defenseLabId, $submissionId)
     {
         return DB::table('charon_defenders')
@@ -297,6 +301,10 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    /**
+     * @param $regId
+     * @return int
+     */
     public function deleteRegistrationById($regId)
     {
         return DB::table('charon_defenders')
@@ -304,6 +312,10 @@ class DefenseRegistrationRepository
             ->delete();
     }
 
+    /**
+     * @param $studentId
+     * @return Collection
+     */
     public function getStudentRegistrations($studentId)
     {
         return DB::table('charon_defenders')
@@ -317,36 +329,28 @@ class DefenseRegistrationRepository
             ->get();
     }
 
+    /**
+     * @param $regId
+     * @return mixed
+     */
     public function getDefenseRegistrationByRegId($regId)
     {
         return \DB::table("charon_defenders")
             ->where("id",$regId)
             ->select()
-            ->get()
-            ->all()[0];
+            ->first();
     }
 
     /**
      * @param $regId
-     * @param $defLabId
-     * @return array
+     * @return mixed
      */
-    public function deferRegistrationUsersAllowedToPerform($regId, $defLabId)
+    public function getStudentIdForDefenceRegistration($regId)
     {
-        //Get id of student what is registered for this lab and id of teachers what are related to this lab
-        return array_merge(
-            \DB::table("charon_defenders")
-                ->where("id", $regId)
-                ->select("student_id as id")
-                ->get()
-                ->all(),
-
-            \DB::table("charon_lab_teacher")
-            ->join("charon_defense_lab", "charon_defense_lab.lab_id", "charon_lab_teacher.lab_id")
-            ->where("charon_defense_lab.id", $defLabId)
-            ->select("charon_lab_teacher.teacher_id as id")
+        return \DB::table("charon_defenders")
+            ->where("id", $regId)
+            ->select("student_id as id")
             ->get()
-            ->all());
+            ->all();
     }
-
 }

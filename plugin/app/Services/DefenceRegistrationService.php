@@ -3,8 +3,8 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
@@ -40,13 +40,18 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var \TTU\Charon\Services\ConverterService */
+    private $converterService;
+
     /**
+     * DefenceRegistrationService constructor.
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
      * @param LabRepository $labRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
+     * @param \TTU\Charon\Services\ConverterService $converterService
      */
     public function __construct(
         CharonRepository $charonRepository,
@@ -323,41 +328,49 @@ class DefenceRegistrationService
      * @param $defLabId
      * @param $charonId
      * @param $submissionId
-     * @return false|string
+     * @param $regId
+     * @return false|stdClass|string
      */
     public function deferRegistration($userId, $defLabId, $regId)
     {
-        $result = new \stdClass();
+        $result = new stdClass();
 
         //0. Check if all required info received
-        if($userId == null||
-            $defLabId == null)
-        {
+        if(
+            $userId == null||
+            $defLabId == null||
+            $charonId == null||
+            $submissionId == null||
+            $regId == null
+            ) {
             $result->okay = false;
-            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId) is null";
+            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId, regId = $regId) is null";
             return json_encode($result);
         }
 
         $result->input["userId"] = $userId; //DEBUG!
         $result->input["defLabId"] = $defLabId; //DEBUG!
+        $result->input["charonId"] = $charonId; //DEBUG!
+        $result->input["submissionId"] = $submissionId; //DEBUG!
         $result->input["regId"] = $regId; //DEBUG!
 
         //1. Check if this request is acceptable at all.
         //1.1 Get id of student what is registered for this lab and id of teachers what are related to this lab
-        $allowed = $this->defenseRegistrationRepository->deferRegistrationUsersAllowedToPerform($regId,$defLabId);
+        $allowed = array_merge(
+            $this->defenseRegistrationRepository->getStudentIdForDefenceRegistration($regId),
+            $this->teacherRepository->getTeachersRelatedToDefenceLab($defLabId)
+        );
+
         $result->allowed = $allowed; //DEBUG!
         //1.2 Check if any of these IDs is similar to id of user trying to defer this registration
-        foreach ($allowed as $var)
-        {
-            if($var->id == $userId)
-            {
+        foreach ($allowed as $var) {
+            if($var->id == $userId) {
                 $allowed = true;
             }
         }
 
         //1.3 If it is not and this user is not allowed to defer this registration, then disapprove
-        if($allowed !== true)
-        {
+        if($allowed !== true) {
             $result->okay = false;
             $result->reason = "User with userId = $userId is not student related to this registration or teacher related to this lab.";
             return json_encode($result);
@@ -374,11 +387,12 @@ class DefenceRegistrationService
         $this->defenseRegistrationRepository->deleteRegistrationById($regId);
 
         //2.2 Create a new registration using vars received
-        $this->defenseRegistrationRepository->create($reg);
+        $newRegId = $this->defenseRegistrationRepository->create($reg)->id;
 
         $result->reg = $reg; //DEBUG!
         $result->allowed = $allowed; //DEBUG!
         $result->okay = true;
+        $result->newRegId = $newRegId;
         return json_encode($result);
     }
 }

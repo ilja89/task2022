@@ -11,6 +11,7 @@ use TTU\Charon\Http\Controllers\Api\DefenseRegistrationController;
 use Tests\TestCase;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -24,7 +25,7 @@ class DefenseRegistrationControllerTest extends TestCase
     /** @var CharonDefenseLabRepository|Mock */
     private $defenseLabRepository;
 
-    /** @var DefenseRegistrationController  */
+    /** @var DefenseRegistrationController */
     private $controller;
 
     protected function setUp(): void
@@ -36,7 +37,7 @@ class DefenseRegistrationControllerTest extends TestCase
             Mockery::mock(DefenseRegistrationRepository::class),
             $this->registrationService = Mockery::mock(DefenceRegistrationService::class),
             $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class),
-            $this->user = Mockery::mock(User::class)
+            Mockery::mock(CharonRepository::class)
         );
     }
 

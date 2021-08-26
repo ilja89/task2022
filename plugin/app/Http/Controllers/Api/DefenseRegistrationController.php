@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -9,6 +10,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -29,6 +31,12 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
+    /** @var CharonRepository */
+    protected $charonRepository;
+
+    /** @var User */
+    protected $user;
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -37,6 +45,7 @@ class DefenseRegistrationController extends Controller
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
+     * @param CharonRepository $charonRepository
      */
     public function __construct(
         Request $request,
@@ -44,6 +53,7 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         CharonDefenseLabRepository $defenseLabRepository,
+        CharonRepository $charonRepository,
         User $user
     ) {
         parent::__construct($request);
@@ -51,6 +61,7 @@ class DefenseRegistrationController extends Controller
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->charonRepository = $charonRepository;
         $this->user = $user;
     }
 
@@ -168,11 +179,12 @@ class DefenseRegistrationController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function deferRegistration(Request $request)
+    public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
         //Get variables
         $userId = $this->user->currentUserId();
         $defenseLabId = $request->input('defLab_id');
+        $submissionId = $request->input("submission_id");
         $reg_id = $request->input("reg_id");
 
         //Log
@@ -180,11 +192,13 @@ class DefenseRegistrationController extends Controller
             'event' => 'registration_deferring',
             'by_user_id' => app(User::class)->currentUserId(),
             'for_user_id' => $userId,
+            'for_charon_id' => $charonId,
+            'for_submission_id' => $submissionId,
+            'for_course_id' => $courseId,
             'reg_id' => $reg_id,
             'defense_lab_id' => $defenseLabId
         ]));
 
-
-        return $this->registrationService->deferRegistration($userId, $defenseLabId, $reg_id);
+        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $reg_id);
     }
 }
