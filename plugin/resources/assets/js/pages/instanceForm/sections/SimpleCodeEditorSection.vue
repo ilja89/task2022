@@ -1,6 +1,6 @@
 <template>
     <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-      <legend class="ftoggler">Code Editor</legend>
+      <legend class="ftoggler">Templates and code submission on page</legend>
       <div class="fcontainer clearfix fitem">
 
         <label>
