@@ -1,6 +1,5 @@
 <template>
   <div class="editorDiv">
-
     <label for="content">Language: {{language}}</label>
     <textarea id="copyTextArea" class="textareaForCopy"></textarea>
     <textarea class="editor"
@@ -10,9 +9,9 @@
               rows="28"
               @input="dataSubmit">
     </textarea>
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="copyToClipBoard">
-      Copy
-    </v-btn>
+    <a class="button is-link" @click="copyToClipBoard">
+      Copy to clipboard
+    </a>
   </div>
 </template>
 
@@ -37,7 +36,6 @@ export default {
   },
 
   methods: {
-
     dataSubmit() {
       this.codes[this.codeId].contents = this.content;
     },
@@ -46,7 +44,6 @@ export default {
       let existsTextarea = document.getElementById(id);
       document.querySelector("body").appendChild(existsTextarea);
       existsTextarea.value = this.content;
-
       existsTextarea.select();
       try {
         const status = document.execCommand('copy');

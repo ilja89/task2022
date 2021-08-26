@@ -11,9 +11,9 @@
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
+    <a v-if="allow_submission > 0" class="button is-link" @click="submitClicked">
       Submit
-    </v-btn>
+    </a>
   </div>
 </template>
 <script>
