@@ -2,9 +2,9 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use stdClass;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -39,13 +39,13 @@ class DefenseRegistrationController extends Controller
 
     /**
      * DefenseRegistrationController constructor.
-     *
      * @param Request $request
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
      * @param CharonRepository $charonRepository
+     * @param User $user
      */
     public function __construct(
         Request $request,
@@ -177,15 +177,23 @@ class DefenseRegistrationController extends Controller
 
     /** Function to defer existing registration
      * @param Request $request
-     * @return mixed
+     * @param int $courseId
+     * @param int $charonId
+     * @return false|stdClass|string
      */
     public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
         //Get variables
         $userId = $this->user->currentUserId();
+
+        if (!$userId)
+        {
+            $userId = $this->user->currentUserId();
+        }
+
         $defenseLabId = $request->input('defLab_id');
         $submissionId = $request->input("submission_id");
-        $reg_id = $request->input("reg_id");
+        $regId = $request->input("reg_id");
 
         //Log
         Log::warning(json_encode([
@@ -195,10 +203,10 @@ class DefenseRegistrationController extends Controller
             'for_charon_id' => $charonId,
             'for_submission_id' => $submissionId,
             'for_course_id' => $courseId,
-            'reg_id' => $reg_id,
+            'reg_id' => $regId,
             'defense_lab_id' => $defenseLabId
         ]));
 
-        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $reg_id);
+        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $regId);
     }
 }

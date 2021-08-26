@@ -48,7 +48,7 @@ class Defense {
     }
 
     static deferStudentRegistration({defense_lab_id, submission_id, reg_id}, userId, {id, course}, then) {
-        axios.post(`/mod/charon/api/courses/${course}/charons/${id}/registration/defer?user_id=${userId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}&reg_id=${reg_id}`)
+        axios.post(`/mod/charon/api/courses/${course}/charons/${id}/registration/defer?` + (userId ? `user_id=${userId}` : ``) + `&defLab_id=${defense_lab_id}&submission_id=${submission_id}&reg_id=${reg_id}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {

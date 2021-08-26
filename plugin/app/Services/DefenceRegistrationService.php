@@ -12,7 +12,6 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\ConverterService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -28,9 +27,6 @@ class DefenceRegistrationService
     /** @var LabTeacherRepository */
     private $teacherRepository;
 
-    /** @var LabRepository */
-    private $labRepository;
-
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
@@ -40,23 +36,21 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var \TTU\Charon\Services\ConverterService */
+    /** @var ConverterService */
     private $converterService;
 
     /**
      * DefenceRegistrationService constructor.
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
-     * @param LabRepository $labRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
-     * @param \TTU\Charon\Services\ConverterService $converterService
+     * @param ConverterService $converterService
      */
     public function __construct(
         CharonRepository $charonRepository,
         LabTeacherRepository $teacherRepository,
-        LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository,
@@ -64,7 +58,6 @@ class DefenceRegistrationService
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
-        $this->labRepository = $labRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
@@ -329,9 +322,9 @@ class DefenceRegistrationService
      * @param $charonId
      * @param $submissionId
      * @param $regId
-     * @return false|stdClass|string
+     * @return false|string
      */
-    public function deferRegistration($userId, $defLabId, $regId)
+    public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
     {
         $result = new stdClass();
 
