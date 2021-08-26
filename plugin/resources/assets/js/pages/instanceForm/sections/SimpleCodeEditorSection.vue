@@ -1,27 +1,27 @@
 <template>
     <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
-      <legend class="ftoggler">Templates and code submission on page</legend>
+      <legend class="ftoggler">{{ translate('codeEditorSection') }}</legend>
       <div class="fcontainer clearfix fitem">
 
         <label>
           <input id="setEditor" type="checkbox" name="allow_submission"
                  v-model="form.fields.allow_submission" value="true">
-          Allow code submission on page
+          {{ translate('allowCodeSubmission') }}
         </label>
 
-        <p>Source Files</p>
+        <p>{{ translate('sourceFiles') }}</p>
 
         <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="addFile">
-          + Create Source File
+          {{ translate('createSourceFileButton') }}
         </v-btn>
 
         <ul v-for="(file, index) in form.fields.files">
           <li>
             <div class="fitem_ftext">
               <div class="fitemtitle">
-                <label for="file_path">Path</label>
+                <label for="file_path">{{ translate('path') }}</label>
               </div>
-              <p class="input-helper">Path to file.</p>
+              <p class="input-helper">{{ translate('pathToFileHelper')}}</p>
               <div class="felement ftext path">
                 <v-tooltip
                     v-model="file.duplicate"
@@ -36,7 +36,7 @@
                         :required="true"
                         v-model="file.path">
                   </template>
-                  <span>Path should be unique</span>
+                  <span>{{ translate('pathWarning') }}</span>
                 </v-tooltip>
 
                 <v-btn
@@ -44,7 +44,7 @@
                     depressed
                     dark
                     @click="deleteFile(index)">
-                  Delete
+                  {{ translate('deleteButton') }}
                   <v-icon right>
                     {{ mdiDelete }}
                   </v-icon>
@@ -57,16 +57,16 @@
         <div v-if="form.fields.files.length > 0">
 
           <div class="felement">
-            <label> Source File:
+            <label>{{ translate('sourceFile') }}
               <select class="custom-select select" v-model="current_index">
                 <option v-if="file.path !== ''" v-bind:value="index" v-for="(file, index) in form.fields.files">{{ file.path }}</option>
-                <option v-if="form.fields.files.length < 2 && form.fields.files[0].path === ''" disabled>Insert file path to see it here and edit file content.</option>
+                <option v-if="form.fields.files.length < 2 && form.fields.files[0].path === ''" disabled>{{ translate('insertFilePath') }}</option>
               </select>
             </label>
           </div>
 
           <div v-if="current_index < form.fields.files.length && form.fields.files[current_index].path !== ''">
-            <label for="content">Language: {{language}}</label>
+            <label for="content">{{ translate('programmingLanguage') }}: {{language}}</label>
             <textarea class="editor"
                       id="content"
                       v-model="form.fields.files[current_index].content"
@@ -85,8 +85,10 @@
 <script>
 import {mdiDelete} from '@mdi/js'
 import {Charon} from "../../../api";
+import Translate from "../../../mixins/Translate";
 
 export default {
+  mixins: [Translate],
 
   name: "AdvancedCodeEditorSection",
 

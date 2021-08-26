@@ -1,6 +1,7 @@
 <template>
   <div class="editorDiv">
-    <label for="content">Language: {{language}}</label>
+
+    <label for="content">{{ translate('programmingLanguage') }}: {{language}}</label>
     <textarea id="copyTextArea" class="textareaForCopy"></textarea>
     <textarea class="editor"
               id="content"
@@ -10,15 +11,17 @@
               @input="dataSubmit">
     </textarea>
     <a class="button is-link" @click="copyToClipBoard">
-      Copy to clipboard
+      {{ translate('copyButton') }}
     </a>
   </div>
 </template>
 
 <script>
 
+import Translate from "../../../mixins/Translate";
+
 export default {
-  name: "App",
+  mixins: [Translate],
 
   props: {
     language: { required: true },
@@ -36,6 +39,7 @@ export default {
   },
 
   methods: {
+
     dataSubmit() {
       this.codes[this.codeId].contents = this.content;
     },
@@ -44,6 +48,7 @@ export default {
       let existsTextarea = document.getElementById(id);
       document.querySelector("body").appendChild(existsTextarea);
       existsTextarea.value = this.content;
+
       existsTextarea.select();
       try {
         const status = document.execCommand('copy');

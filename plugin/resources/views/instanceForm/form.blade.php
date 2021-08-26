@@ -77,6 +77,18 @@
 
         remove: "{{ translate('remove_button_text') }}",
         add: "{{ translate('add_button_text') }}",
+
+        codeEditorSection: "{{ translate('code_editor') }}",
+        allowCodeSubmission: "{{ translate('code_submission') }}",
+        createSourceFileButton: "{{ translate('create_source_file') }}",
+        path: "{{ translate('path') }}",
+        pathToFileHelper: "{{ translate('path_to_file') }}",
+        pathWarning: "{{ translate('path_warning') }}",
+        deleteButton: "{{ translate('delete') }}",
+        sourceFile: "{{ translate('source_file') }}",
+        insertFilePath: "{{ translate('insert_file_path') }}",
+        programmingLanguage: "{{ translate('language') }}",
+        sourceFiles: "{{ translate('source_files') }}"
     };
 
     window.courseSettingsUrl = "{{ $courseSettingsUrl }}";
