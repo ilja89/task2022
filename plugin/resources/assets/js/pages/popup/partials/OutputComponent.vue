@@ -13,7 +13,7 @@
 
         <v-card :key="submission.id" class="mx-auto" max-height="900" max-width="80vw" outlined raised
                 v-if="outputs.length">
-              <pre v-html="activeOutput" style="max-height: 900px"></pre>
+          <pre v-html="activeOutput" style="max-height: 900px"></pre>
         </v-card>
 
     </div>

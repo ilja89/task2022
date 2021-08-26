@@ -1,7 +1,7 @@
 <template>
   <div class="editorDiv">
 
-    <label for="content">Language: {{language}}</label>
+    <label for="content">{{ translate('programmingLanguage') }}: {{language}}</label>
     <textarea id="copyTextArea" class="textareaForCopy"></textarea>
     <textarea class="editor"
               id="content"
@@ -10,16 +10,18 @@
               rows="28"
               @input="dataSubmit">
     </textarea>
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="copyToClipBoard">
-      Copy
-    </v-btn>
+    <a class="button is-link" @click="copyToClipBoard">
+      {{ translate('copyButton') }}
+    </a>
   </div>
 </template>
 
 <script>
 
+import Translate from "../../../mixins/Translate";
+
 export default {
-  name: "App",
+  mixins: [Translate],
 
   props: {
     language: { required: true },
