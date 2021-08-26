@@ -51,7 +51,7 @@ class LabService
      * @param $charon
      * @return array
      */
-    public function getLabsWithCapacityInfoForCharon($charon)
+    public function getLabsWithCapacityInfoForCharon($charon): array
     {
         $labs = [];
 
@@ -84,7 +84,7 @@ class LabService
             $lab->_capacity = $capacity; //DEBUG!
 
             //Get all defense durations
-            $defTimes = $this->defenseRegistrationRepository->getDefenseRegistrationsDurationsListByLabId($lab->id);
+            $defTimes = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
             $lab->_defTimes = $defTimes; //DEBUG!
             $lab->defenders_num = count($defTimes);
 

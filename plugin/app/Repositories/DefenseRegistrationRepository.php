@@ -91,20 +91,6 @@ class DefenseRegistrationRepository
             ->all();
     }
 
-    /** Function what will return list of all registrations lengths in minutes, what are related to exact lab with id of $labId
-     * @param int $labId
-     * @return mixed
-     */
-    public function getDefenseRegistrationsDurationsListByLabId(int $labId)
-    {
-        return \DB::table('charon_defenders')
-            ->join("charon", "charon.id", "charon_defenders.charon_id")
-            ->join("charon_defense_lab","charon_defenders.defense_lab_id","charon_defense_lab.id")
-            ->where("charon_defense_lab.lab_id", $labId)
-            ->select("charon.defense_duration")
-            ->get();
-    }
-
     /**
      * @param int $teacherId
      * @param Carbon $time
@@ -141,7 +127,6 @@ class DefenseRegistrationRepository
 
     /**
      * @param string $time
-     * @param int $teacherCount
      * @param int $labId
      *
      * @return array
