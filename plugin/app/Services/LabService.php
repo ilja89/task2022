@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use stdClass;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
@@ -54,11 +53,11 @@ class LabService
      *  return list of time shifts
      *  gives approximate time move since lab start for each student based on their charon lengths and teacher number
      *  Part of labQueueStatus() function
-     * @param stdClass $registrations
+     * @param $registrations
      * @param int $teachersNum
      * @return array
      */
-    public function getApproximateTimeMoveForStudent(stdClass $registrations, int $teachersNum): array
+    public function getApproximateTimeMoveForStudent($registrations, int $teachersNum): array
     {
         $defMoves = [];
         $defLengths = [];
@@ -93,9 +92,9 @@ class LabService
      *  - student name, if student name equals to username of requested student
      * @param int $userId
      * @param int $labId
-     * @return stdClass
+     * @return mixed
      */
-    public function labQueueStatus(int $userId, int $labId): stdClass
+    public function labQueueStatus(int $userId, int $labId)
     {
         //get list of registrations
         $result = $this->labRepository->getListOfLabRegistrationsByLabIdReduced($labId);
@@ -112,12 +111,10 @@ class LabService
         foreach ($result as $key => $reg)
         {
             //if student id equals to user id, then return username as field, else set it null
-            if($reg->student_id == $userId)
-            {
+            if($reg->student_id == $userId) {
                 $reg->student_name = $this->userRepository->getUsernameById($userId);
             }
-            else
-            {
+            else {
                 $reg->student_name = "";
             }
 
@@ -137,6 +134,5 @@ class LabService
         $result['move'] = $move; //DEBUG!
 
         return $result;
-
     }
 }
