@@ -81,10 +81,11 @@ class TesterController extends Controller
                     'submission' => $responseSubmission
                 ]);
             } catch (Exception $e) {
+                Log::info("Exception when saving results" , ["exception" => $e]);
             }
         } else if ($response->getStatus() == 204) {
             return response()->json([
-                'message' => 'Testing triggered. Give it a few minutes to process and then refresh'
+                'message' => 'Code has been sent to tester. Please refresh submissions in a while.'
             ]);
         }
 

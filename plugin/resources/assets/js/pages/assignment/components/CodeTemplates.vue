@@ -64,7 +64,7 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, (response) => {
+        Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
           if (response['message'] === 'Testing successful') {
             VueEvent.$emit('add-submission', response['submission']);
           }
