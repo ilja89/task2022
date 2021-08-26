@@ -167,7 +167,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
     Route::middleware('auth.charon.submissions.view.require')
-        ->post('charons/{charon}/registration/defer', 'DefenseRegistrationController@deferRegistration'); // defer student registration
+        ->post('courses/{course}/charons/{charon}/registration/defer', 'DefenseRegistrationController@deferRegistration'); // defer student registration
 
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')

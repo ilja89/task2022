@@ -94,11 +94,11 @@ export default {
       console.log(item);
       const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
       if (userChoise === "send"/*confirm(this.translate("askRegistrationDeferText"))*/) { //Idk how translation system works so pls tell me how to add translation
-        Defense.deferStudentRegistration(item, this.student_id, this.charon.id, (answer) => {
+        Defense.deferStudentRegistration(item, this.student_id, this.charon, (answer) => {
           console.log(answer)
           if (answer.okay === true) {
             VueEvent.$emit('show-notification', this.translate("successfulRegistrationDeferText"), "primary");
-            this.getDefenseData();
+            item["reg_id"] = answer.newRegId;
           }
           else {
             VueEvent.$emit('show-notification', this.translate('failedRegistrationDeferText') + answer.reason, 'danger');

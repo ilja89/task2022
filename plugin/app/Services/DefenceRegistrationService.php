@@ -380,13 +380,12 @@ class DefenceRegistrationService
         $this->defenseRegistrationRepository->deleteRegistrationById($regId);
 
         //2.2 Create a new registration using vars received
-        $this->defenseRegistrationRepository->create($reg);
-
-        $result->newRegId = $this->defenseRegistrationRepository->getLastRegistrationId($regId);
+        $newRegId = $this->defenseRegistrationRepository->create($reg)->id;
 
         $result->reg = $reg; //DEBUG!
         $result->allowed = $allowed; //DEBUG!
         $result->okay = true;
-        return $result;
+        $result->newRegId = $newRegId;
+        return json_encode($result);
     }
 }

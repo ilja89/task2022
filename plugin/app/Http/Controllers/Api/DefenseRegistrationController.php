@@ -10,6 +10,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -30,27 +31,32 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
+    /** @var CharonRepository */
+    protected $charonRepository;
+
     /**
      * DefenseRegistrationController constructor.
-     *
      * @param Request $request
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
+     * @param CharonRepository $charonRepository
      */
     public function __construct(
         Request $request,
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
-        CharonDefenseLabRepository $defenseLabRepository
+        CharonDefenseLabRepository $defenseLabRepository,
+        CharonRepository $charonRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -167,12 +173,11 @@ class DefenseRegistrationController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function deferRegistration(Request $request, int $charon)
+    public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
         //Get variables
         $userId = $request->input('user_id');
         $defenseLabId = $request->input('defLab_id');
-        $charonId = $charon;
         $submissionId = $request->input("submission_id");
         $reg_id = $request->input("reg_id");
 
@@ -183,6 +188,7 @@ class DefenseRegistrationController extends Controller
             'for_user_id' => $userId,
             'for_charon_id' => $charonId,
             'for_submission_id' => $submissionId,
+            'for_course_id' => $courseId,
             'reg_id' => $reg_id,
             'defense_lab_id' => $defenseLabId
         ]));
