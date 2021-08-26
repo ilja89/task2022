@@ -6,8 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
+  php composer install/update is run)
+
 ### Added
+- \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#454 Added posting to tester from inline submission
+- \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
@@ -26,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Fixed
+- \#528 In grading view show "Total points: 0" if there is no result for charon
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
