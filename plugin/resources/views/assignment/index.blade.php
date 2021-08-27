@@ -93,7 +93,7 @@
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
         studentText: "{{ translate('student') }}",
-        queuePositionText: "{{ translate('queue_position') }}",
+        placeInQueueText: "{{ translate('place_in_queue') }}",
         estimatedDurationText: "{{ translate('estimated_duration') }}",
         startTimeText: "{{ trans('start_time') }}",
 

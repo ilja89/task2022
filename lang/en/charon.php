@@ -195,4 +195,7 @@ $string['queue'] = 'Queue';
 $string['nr_in_queue'] = 'Nr ';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
+$string['place_in_queue'] = 'Place in queue';
+$string['estimated_duration'] = 'Estimated duration';
+$string['start_time'] = 'Start time';
 

@@ -188,4 +188,7 @@ $string['queue'] = 'Järjekord';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
+$string['place_in_queue'] = 'Koht järjekorras';
+$string['estimated_duration'] = 'Hinnanguline kestvus';
+$string['start_time'] = 'Algusaeg';
 

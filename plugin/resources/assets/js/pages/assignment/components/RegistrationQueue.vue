@@ -19,7 +19,7 @@
             >
             </v-data-table>
             <v-card-title>
-              {{ translate('queuePositionText') }}
+              {{ translate('placeInQueueText') }}
             </v-card-title>
             <v-data-table
                 :headers="headers"
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     updateTest(){
-      this.updateData()
+      setInterval(this.updateData, 10000);
     },
     updateData(){
       this.teachersLiveQueueTestItems = [
