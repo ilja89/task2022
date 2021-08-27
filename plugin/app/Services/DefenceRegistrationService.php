@@ -172,9 +172,14 @@ class DefenceRegistrationService
         }));
     }
 
+    /**
+     * @param int $charonId
+     * @param string $labName
+     * @return bool
+     */
     public function checkRegistrationPossibility(int $charonId, string $labName)
     {
-        $result = new \stdClass;
+        $result = new \stdClass; //DEBUG!
         $registrable = false;
         $defMoves = []; //DEBUG!
 
@@ -225,7 +230,7 @@ class DefenceRegistrationService
         $result->registrable = $registrable;//DEBUG
         $result->defMoves = $defMoves;//DEBUG!
 
-        return json_encode($result);
+        return $registrable;
     }
 
     /**
