@@ -65,7 +65,7 @@ class DefenseRegistrationController extends Controller
     //DEBUG!
     public function checkRegistrationPossibility()
     {
-        return $this->registrationService->checkRegistrationPossibility(2,"E0 (30.08.2021)");
+        return $this->registrationService->checkRegistrationPossibility(1,"N21 (23.09.2021)");
     }
 
     public function studentRegisterDefence(Request $request): string

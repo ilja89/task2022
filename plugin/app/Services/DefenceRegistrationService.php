@@ -176,6 +176,7 @@ class DefenceRegistrationService
     {
         $result = new \stdClass;
         $registrable = false;
+        $defMoves = []; //DEBUG!
 
 
         //Get id of lab
@@ -202,10 +203,11 @@ class DefenceRegistrationService
             //find teacher what is loaded less than others. $to is number of this teacher
             $to = array_keys($teachers, min($teachers))[0];
             //remember time on what this is possible to start current charon
-            $defMoves[$i] = $teachers[$to];
+            $defMoves[$i] = $teachers[$to]; //DEBUG!
             //add length of current charon to this teacher, simulating registered charon
             $teachers[$to] += $registered[$i]->defense_duration;
         }
+
         foreach($teachers as $teacher)
         {
             if(($teacher + $thisCharonLength) < $labLength)
@@ -221,8 +223,9 @@ class DefenceRegistrationService
         $result->teachersCount = $teachersCount;//DEBUG!
         $result->teachers = $teachers;//DEBUG!
         $result->registrable = $registrable;//DEBUG
+        $result->defMoves = $defMoves;//DEBUG!
 
-        return $registrable;
+        return json_encode($result);
     }
 
     /**
