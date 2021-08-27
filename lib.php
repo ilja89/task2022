@@ -191,7 +191,7 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
         ",
         [$course->id, $cm->instance]);
 
-        return ($threshold * intval($max_grade) / 100) <= intval($best_grade);
+        return ($threshold * floatval($max_grade) / 100) <= floatval($best_grade);
     } else {
         // Completion option is not enabled so just return $type
         return $type;
