@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
 function charon_add_instance($test, $mform)
 {
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
@@ -146,5 +148,52 @@ function charon_supports($feature)
             return true;
         default:
             return null;
+    }
+}
+
+/**
+ * Obtains the completion state for a user that has submitted to a charon
+ *
+ * @param object $course Course
+ * @param object $cm Course-module
+ * @param int $userid User ID
+ * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
+ * @return bool True if completed, false if not, $type if conditions not set.
+ */
+function charon_get_completion_state($course, $cm, $userid, $type) {
+    global $CFG,$DB;
+
+    // Get charon  details
+    $charon = $DB->get_record('charon', array('id' => $cm->instance), '*', MUST_EXIST);
+
+    $threshold = intval($charon->defense_threshold);
+
+    // If completion option is enabled, evaluate it and return true/false
+    if($threshold && $threshold >= 0 && $threshold <= 100) {
+
+        $best_grade = DB::select("
+            SELECT 
+                MAX(grades.finalgrade)
+            FROM 
+                mdl_grade_grades AS grades
+                INNER JOIN mdl_charon_submission AS submissions ON grades.id=submissions.id
+            WHERE
+                grades.userid=? AND submissions.charon_id=?
+            ",
+            [$userid, $charon->id]);
+
+        $max_grade = DB::select("
+        SELECT
+            items.grademax
+        FROM
+            mdl_grade_items AS items
+        WHERE items.courseid=? AND items.iteminstance=? AND itemnumber='1'
+        ",
+        [$course->id, $cm->instance]);
+
+        return ($threshold * intval($max_grade) / 100) <= intval($best_grade);
+    } else {
+        // Completion option is not enabled so just return $type
+        return $type;
     }
 }
