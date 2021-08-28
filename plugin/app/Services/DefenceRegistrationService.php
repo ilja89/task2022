@@ -202,8 +202,7 @@ class DefenceRegistrationService
         $teachersCount = $this->teacherRepository->countLabTeachers($labId);
 
         $teachers = array_fill(0,$teachersCount,0);
-        for($i = 0; $i < count($registered); $i++)
-        {
+        for($i = 0; $i < count($registered); $i++) {
             //find teacher what is loaded less than others. $to is number of this teacher
             $to = array_keys($teachers, min($teachers))[0];
             //remember time on what this is possible to start current charon
@@ -212,10 +211,8 @@ class DefenceRegistrationService
             $teachers[$to] += $registered[$i]->defense_duration;
         }
 
-        foreach($teachers as $teacher)
-        {
-            if(($teacher + $thisCharonLength) <= $labLength)
-            {
+        foreach($teachers as $teacher) {
+            if(($teacher + $thisCharonLength) <= $labLength) {
                 $registrable = true;
             }
         }
@@ -252,8 +249,7 @@ class DefenceRegistrationService
         }
 
         //registration possibility checking.
-        if ($this->checkRegistrationPossibility($charonId, $lab) == false)
-        {
+        if ($this->checkRegistrationPossibility($charonId, $lab) == false) {
             throw new RegistrationException('queue_full');
         }
 
