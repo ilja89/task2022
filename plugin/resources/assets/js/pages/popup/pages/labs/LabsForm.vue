@@ -142,10 +142,8 @@
                 <span v-if="registrations <= 0">Save</span>
                 <span v-else>Confirm</span>
             </v-btn>
-
-						<v-btn class="ma-2" tile outlined color="primary" @click="test">TEST
-						</v-btn>
-
+            <v-btn class="ma-2" tile outlined color="primary" @click="test">TEST
+            </v-btn>
             <v-btn class="ma-2" tile outlined color="error" @click="cancelClicked">
                 Cancel
             </v-btn>
@@ -180,20 +178,20 @@
                 filtered_charons: [],
                 labDuration: 0,
                 registrations: 0,
-								maxLabLength: 180,
+                maxLabLength: 180,
             }
         },
 
         methods: {
-        		test()
-						{
-							let start = new Date(this.lab.start.time);
-							let end = new Date(this.lab.end.time);
-							let diff = ((end.getTime()-start.getTime())/1000)/60;
-							console.log(start);
-							console.log(end);
-							console.log(diff);
-						},
+            test()
+            {
+                let start = new Date(this.lab.start.time);
+                let end = new Date(this.lab.end.time);
+                let diff = ((end.getTime()-start.getTime())/1000)/60;
+                console.log(start);
+                console.log(end);
+                console.log(diff);
+            },
 
             filterCharons() {
                 var filtered_charons = []
@@ -212,9 +210,9 @@
             },
 
             saveClicked() {
-        				const labStartTimestamp = new Date(this.lab.start.time);
-        				const labEndTimestamp = new Date(this.lab.end.time);
-        				const labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
+                const labStartTimestamp = new Date(this.lab.start.time);
+                const labEndTimestamp = new Date(this.lab.end.time);
+                const labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
 
                 if (!this.lab.start.time || !this.lab.end.time) {
                     VueEvent.$emit('show-notification', 'Please fill all the required fields.', 'danger');
@@ -222,11 +220,11 @@
                 }
 
                 //Check if lab time is maximum 3h
-								if(labLengthMinutes > this.maxLabLength)
-								{
-									VueEvent.$emit('show-notification', 'Chosen registration time is longer than ' + labLengthMinutes + ' minutes', 'danger');
-									return
-								}
+                if(labLengthMinutes > this.maxLabLength)
+                {
+                    VueEvent.$emit('show-notification', 'Chosen registration time is longer than ' + labLengthMinutes + ' minutes', 'danger');
+                    return
+                }
 
                 let chosen_teachers = []
                 if (this.lab.teachers !== undefined) {
@@ -355,19 +353,19 @@
 
                 return filter;
             },
-						checkCorrectTimeInputAndFix()
-						{
-							const labStartTimestamp = new Date(this.lab.start.time);
-							let labEndTimestamp = new Date(this.lab.end.time);
-							let labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
-							if(labLengthMinutes > this.maxLabLength)
-							{
-								VueEvent.$emit(`show-notification`, `You can not put lab length longer than ${this.maxLabLength} minutes.`);
-								this.assignDates(this.maxLabLength);
-								labLengthMinutes = this.maxLabLength;
-							}
-							this.labDuration = labLengthMinutes;
-					},
+            checkCorrectTimeInputAndFix()
+            {
+                const labStartTimestamp = new Date(this.lab.start.time);
+                let labEndTimestamp = new Date(this.lab.end.time);
+                let labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
+                if(labLengthMinutes > this.maxLabLength)
+                {
+                    VueEvent.$emit(`show-notification`, `You can not put lab length longer than ${this.maxLabLength} minutes.`);
+                    this.assignDates(this.maxLabLength);
+                    labLengthMinutes = this.maxLabLength;
+                }
+                this.labDuration = labLengthMinutes;
+        },
         },
         computed: {
             ...mapState([
