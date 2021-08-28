@@ -183,8 +183,7 @@
         },
 
         methods: {
-            test()
-            {
+            test() {
                 let start = new Date(this.lab.start.time);
                 let end = new Date(this.lab.end.time);
                 let diff = ((end.getTime()-start.getTime())/1000)/60;
@@ -220,8 +219,7 @@
                 }
 
                 //Check if lab time is maximum 3h
-                if(labLengthMinutes > this.maxLabLength)
-                {
+                if(labLengthMinutes > this.maxLabLength) {
                     VueEvent.$emit('show-notification', 'Chosen registration time is longer than ' + labLengthMinutes + ' minutes', 'danger');
                     return
                 }
@@ -353,13 +351,11 @@
 
                 return filter;
             },
-            checkCorrectTimeInputAndFix()
-            {
+            checkCorrectTimeInputAndFix() {
                 const labStartTimestamp = new Date(this.lab.start.time);
                 let labEndTimestamp = new Date(this.lab.end.time);
                 let labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
-                if(labLengthMinutes > this.maxLabLength)
-                {
+                if(labLengthMinutes > this.maxLabLength) {
                     VueEvent.$emit(`show-notification`, `You can not put lab length longer than ${this.maxLabLength} minutes.`);
                     this.assignDates(this.maxLabLength);
                     labLengthMinutes = this.maxLabLength;
