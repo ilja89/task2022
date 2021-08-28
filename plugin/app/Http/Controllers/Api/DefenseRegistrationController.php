@@ -4,7 +4,6 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use stdClass;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -175,11 +174,11 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
 
-    /** Function to defer existing registration
+    /** Function to defer any existing registration to last place in queue
      * @param Request $request
      * @param int $courseId
      * @param int $charonId
-     * @return false|stdClass|string
+     * @return false|string
      */
     public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
