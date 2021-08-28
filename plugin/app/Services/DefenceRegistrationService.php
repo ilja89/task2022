@@ -215,8 +215,6 @@ class DefenceRegistrationService
         if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
             throw new RegistrationException("queue_full");
         }
-
-
     }
 
     /**
