@@ -89,7 +89,7 @@ export default {
   },
 
   methods: {
-      showQueueButton({lab_end,progress}) {
+      showQueueButton({lab_end}) {
         const dateNow = new Date();
         let dateEnd = lab_end.split(" ");
         dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
@@ -101,13 +101,13 @@ export default {
       },
 
       deleteItem(item) {
-      if (this.dateValidation(item)) {
-        if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-          this.deleteReg(item);
-        }
-      } else {
-        VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
-      }
+				if (this.dateValidation(item)) {
+					if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+						this.deleteReg(item);
+					}
+				} else {
+					VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+				}
     },
 
     dateValidation(item) {
