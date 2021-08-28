@@ -169,9 +169,11 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
 
-    /** Function to defer existing registration
+    /** Function to defer any existing registration to last place in queue
      * @param Request $request
-     * @return mixed
+     * @param int $courseId
+     * @param int $charonId
+     * @return false|string
      */
     public function deferRegistration(Request $request, int $courseId, int $charonId)
     {

@@ -340,17 +340,4 @@ class DefenseRegistrationRepository
             ->select()
             ->first();
     }
-
-    /**
-     * @param $regId
-     * @return mixed
-     */
-    public function getStudentIdForDefenceRegistration($regId)
-    {
-        return \DB::table("charon_defenders")
-            ->where("id", $regId)
-            ->select("student_id as id")
-            ->get()
-            ->all();
-    }
 }

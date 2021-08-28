@@ -322,7 +322,7 @@ class DefenceRegistrationService
      * @param $charonId
      * @param $submissionId
      * @param $regId
-     * @return false|stdClass|string
+     * @return false|string
      */
     public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
     {
@@ -349,10 +349,9 @@ class DefenceRegistrationService
 
         //1. Check if this request is acceptable at all.
         //1.1 Get id of student what is registered for this lab and id of teachers what are related to this lab
-        $allowed = array_merge(
-            $this->defenseRegistrationRepository->getStudentIdForDefenceRegistration($regId),
-            $this->teacherRepository->getTeachersRelatedToDefenceLab($defLabId)
-        );
+        $allowed = $this->teacherRepository->getTeachersRelatedToDefenceLab($defLabId);
+        $allowed[] = new stdClass();
+        $allowed[count($allowed)-1]->id = $this->defenseRegistrationRepository->getDefenseRegistrationByRegId($regId)->student_id;
 
         $result->allowed = $allowed; //DEBUG!
         //1.2 Check if any of these IDs is similar to id of user trying to defer this registration
