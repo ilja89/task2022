@@ -220,7 +220,7 @@
 
                 //Check if lab time is maximum 3h
                 if(labLengthMinutes > this.maxLabLength) {
-                    VueEvent.$emit('show-notification', 'Chosen registration time is longer than ' + labLengthMinutes + ' minutes', 'danger');
+                    VueEvent.$emit('show-notification', 'Chosen registration time is longer than ' + this.maxLabLength + ' minutes', 'danger');
                     return
                 }
 
