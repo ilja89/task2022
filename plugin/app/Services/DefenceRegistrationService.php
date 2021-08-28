@@ -174,23 +174,22 @@ class DefenceRegistrationService
 
     /**
      * @param int $charonId
-     * @param string $labName
+     * @param Lab|stdClass $lab
      * @return bool
      */
-    public function checkRegistrationPossibility(int $charonId, string $labName)
+    public function checkRegistrationPossibility(int $charonId, $lab)
     {
+        $labName = $lab->name;
         $result = new \stdClass; //DEBUG!
         $registrable = false;
         $defMoves = []; //DEBUG!
 
-
         //Get id of lab
-        $lab = $this->labRepository->getLabByLabName($labName);
+        $lab = $this->labRepository->getLabByData($lab);
         $labId = $lab->id;
 
         //Get lab length in minutes
         $labLength = (strtotime($lab->end) - strtotime($lab->start)) / 60;
-
 
         //Get list of registrations lengths for lab
         $registered = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($labId);
@@ -215,7 +214,7 @@ class DefenceRegistrationService
 
         foreach($teachers as $teacher)
         {
-            if(($teacher + $thisCharonLength) < $labLength)
+            if(($teacher + $thisCharonLength) <= $labLength)
             {
                 $registrable = true;
             }
@@ -252,20 +251,10 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
-        $registrations = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
-        $totalOfDefenses = 0;
-        $labDurationInterval = $lab->start->diff($lab->end);
-        $labDuration = $labDurationInterval->h * 60 + $labDurationInterval->i;
-
-        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
-        foreach ($registrations as $registration) {
-            $totalOfDefenses += $registration->defense_duration;
-        }
-
         //registration possibility checking.
-        if ($this->checkRegistrationPossibility($charonId, $lab->name) == false)
+        if ($this->checkRegistrationPossibility($charonId, $lab) == false)
         {
-            throw new RegistrationException('queue_is_full');
+            throw new RegistrationException('queue_full');
         }
 
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(

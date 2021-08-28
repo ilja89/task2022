@@ -65,7 +65,12 @@ class DefenseRegistrationController extends Controller
     //DEBUG!
     public function checkRegistrationPossibility()
     {
-        return $this->registrationService->checkRegistrationPossibility(1,"N21 (23.09.2021)");
+        $lab = new \stdClass();
+        $lab->name = "N21 (23.09.2021)";
+        $lab->start = "2021-09-23 21:57:00";
+        $lab->end = "2021-09-24 00:57:00";
+        $lab->course_id = 2;
+        return $this->registrationService->checkRegistrationPossibility(1, $lab);
     }
 
     public function studentRegisterDefence(Request $request): string

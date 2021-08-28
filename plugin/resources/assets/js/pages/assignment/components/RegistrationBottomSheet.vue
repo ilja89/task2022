@@ -114,9 +114,9 @@ export default {
     		//DEBUG!
     		test()
 				{
-						axios.get(`api/charons/lab/queue/status`).then(result => {
-							console.log(result.data);
-						})
+					axios.get(`api/charons/lab/queue/status`).then(result => {
+						console.log(result.data);
+					})
 				},
 
         getDefenseData() {

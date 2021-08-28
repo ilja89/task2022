@@ -487,10 +487,13 @@ class LabRepository
         }
     }
 
-    public function getLabByLabName(string $labName)
+    public function getLabByData($lab)
     {
         return \DB::table("charon_lab")
-            ->where("name", $labName)
+            ->where("name", $lab->name)
+            ->where("start", $lab->start)
+            ->where("end", $lab->end)
+            ->where("course_id", $lab->course_id)
             ->first();
     }
 
