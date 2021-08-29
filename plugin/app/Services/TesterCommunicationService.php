@@ -120,8 +120,8 @@ class TesterCommunicationService
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
             $finalFile = new SourceFileDTO();
-            $finalFile->setPath($sourceFile->path);
-            $finalFile->setContent($sourceFile->content);
+            $finalFile->setPath($sourceFile['path']);
+            $finalFile->setContent($sourceFile['content']);
             array_push($finalListofSource, $finalFile->toArray());
         }
 
@@ -130,6 +130,7 @@ class TesterCommunicationService
 
         return (new AreteRequestDto())
             ->setGitTestRepo($courseSettings->unittests_git)
+            ->setDockerExtra($charon->tester_extra)
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)

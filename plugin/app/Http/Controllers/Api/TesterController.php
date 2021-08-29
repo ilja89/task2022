@@ -11,6 +11,7 @@ use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\TesterCommunicationService;
+use Zeizig\Moodle\Globals\User;
 
 class TesterController extends Controller
 {
@@ -48,15 +49,16 @@ class TesterController extends Controller
      */
     public function postSubmission(Request $request): JsonResponse
     {
+        $content = json_decode($request->getContent(), true);
         Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
-            'userId' => $request->input('userId'),
-            'sourceFiles' => $request->input('sourceFiles'),
+            'userId' => app(User::class)->currentUserId(),
+            'sourceFiles' => $content['sourceFiles'],
             ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
-            $request->input('userId'),
-            json_decode(json_encode($request->input('sourceFiles'))));
+            app(User::class)->currentUserId(),
+            $content['sourceFiles']);
 
         $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
