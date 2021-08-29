@@ -185,7 +185,7 @@ class SubmissionsRepository
      * @param $submissionId
      * @return TestSuite[]
      */
-    private function getTestSuites($submissionId)
+    public function getTestSuites($submissionId)
     {
         $testSuites = \DB::table('charon_test_suite')
             ->where('submission_id', $submissionId)

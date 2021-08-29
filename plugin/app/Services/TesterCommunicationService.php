@@ -5,6 +5,8 @@ namespace TTU\Charon\Services;
 use GuzzleHttp\Exception\GuzzleException;
 use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Dto\SourceFileDTO;
+use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
@@ -83,14 +85,18 @@ class TesterCommunicationService
      *
      * @param AreteRequestDto $areteRequestDto
      * @param $testerCallbackUrl
+     *
+     * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
+     *
      * @throws GuzzleException
      */
-    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl) {
+    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl): TesterCallbackRequest
+    {
         $params = $areteRequestDto->toArray();
 
         $params['returnUrl'] = $testerCallbackUrl;
 
-        $this->httpCommunicationService->postToTester($params);
+        return $this->httpCommunicationService->postToTester($params);
     }
 
     /**

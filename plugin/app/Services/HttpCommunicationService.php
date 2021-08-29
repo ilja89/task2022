@@ -4,7 +4,10 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Services\SettingsService;
 
@@ -46,14 +49,13 @@ class HttpCommunicationService
     /**
      * Sends info to the tester.
      *
-     * @param string $method
      * @param array $data
      *
-     * @return void
+     * @return TesterCallbackRequest
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendInfoToTester(string $method, array $data)
+    public function sendInfoToTester(array $data):TesterCallbackRequest
     {
         /**
          * @var String $testerUrl
@@ -109,18 +111,24 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
-        $headers = ['Authorization' => $testerToken];
-
-        $client = new Client();
         try {
-            $client->request(
-                $method, $testerUrl,
-                ['headers' => $headers, 'json' => $data]
-            );
+            $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
+            Log::info("Response" , ["status" => $response->status()
+            , "body" => $response->json()]);
+            if ($response->successful()) {
+                if (!empty($response->body())) {
+                    return CharonViewTesterCallbackRequest::create("", "POST",
+                        json_decode($response->body(), true))
+                        ->setStatus($response->status());
+                } else {
+                    return (new CharonViewTesterCallbackRequest())->setStatus(204);
+                }
+            }
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
             Log::error('Could not send info to tester to url ' . $testerUrl . ' with body:', [$body]);
         }
+        return (new CharonViewTesterCallbackRequest())->setStatus(400);
     }
 
     /**
@@ -129,13 +137,13 @@ class HttpCommunicationService
      * @param string $uri
      * @param array $data
      *
-     * @return void
+     * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function postToTester(array $data)
+    public function postToTester(array $data):TesterCallbackRequest
     {
-        $this->sendInfoToTester('post', $data);
+        return $this->sendInfoToTester($data);
     }
 
     /**

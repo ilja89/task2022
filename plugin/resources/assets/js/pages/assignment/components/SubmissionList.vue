@@ -117,6 +117,12 @@ export default {
 			});
 		}
 	},
+
+  mounted() {
+    VueEvent.$on('add-submission', (submission) => {
+      this.$store.state.submissions.unshift(submission);
+    });
+  },
 	
 	methods: {
 		getColor(submission) {

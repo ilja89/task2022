@@ -64,8 +64,12 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, () =>
-            VueEvent.$emit('show-notification', 'Code has been sent to tester. Please refresh submissions in a while.')
+        Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
+          if (response['message'] === 'Testing successful') {
+            VueEvent.$emit('add-submission', response['submission']);
+          }
+          VueEvent.$emit('show-notification', response['message']);
+        }
         )
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error saving submission!')
