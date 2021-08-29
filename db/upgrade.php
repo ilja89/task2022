@@ -764,5 +764,29 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021082901) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_code_review_comment(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    teacher_id BIGINT(10) NOT NULL," .
+            "    charon_submission_file_id BIGINT(10) NOT NULL," .
+            "    code_row_no_start INT NULL," .
+            "    code_row_no_end INT NULL," .
+            "    comment VARCHAR(255) NOT NULL," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    PRIMARY KEY (id)," .
+            "    CONSTRAINT FK_charon_code_review_comment_teacher" .
+            "        FOREIGN KEY (teacher_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)," .
+            "    CONSTRAINT FK_charon_code_review_comment_charon_submission_file" .
+            "        FOREIGN KEY (charon_submission_file_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)," .
+
+        $table = new xmldb_table("charon_code_review_comment");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
     return true;
 }
