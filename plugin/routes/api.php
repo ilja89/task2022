@@ -63,6 +63,11 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints');
+
 
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');

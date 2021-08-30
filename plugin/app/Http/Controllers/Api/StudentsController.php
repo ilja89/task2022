@@ -227,4 +227,18 @@ class StudentsController extends Controller
 
         return $studentsDistribution;
     }
+
+    /**
+     * Find number of possible points for course from all charons
+     *
+     * @param Course $course
+     * @param User $user
+     * @return int
+     */
+
+    public function possiblePoints(Course $course, User $user)
+    {
+        return $this->studentsRepository->getPossiblePointsForCourseFromCharons($course->id, $user->id);
+    }
+
 }

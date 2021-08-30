@@ -13,7 +13,7 @@
 
     </popup-section>
 
-    <student-summary-section :student_id="routeStudentId" :course_id="courseId"></student-summary-section>
+    <student-summary-section :student_summary_data="student_summary"></student-summary-section>
 
   </div>
 </template>
@@ -21,9 +21,8 @@
 <script>
 import {PageTitle} from '../partials'
 import {mapState, mapGetters, mapActions} from 'vuex'
-import {User} from '../../../api'
+import {Charon, Defense, Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
-
 import StudentSummarySection from "../sections/StudentSummarySection";
 
 
@@ -35,7 +34,15 @@ export default {
   data() {
     return {
       name: 'Student name',
-      table: ''
+      table: '',
+      student_summary: {
+        'total_points_course': 0,
+        'total_submissions': 0,
+        'defended_charons': 0,
+        'upcoming_defences': 0,
+        'charons_with_submissions': 0,
+        'potential_points': 0
+      }
 
     }
   },
@@ -76,12 +83,42 @@ export default {
       this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
     },
 
+    getStudentSummary() {
+      Charon.getAllPointsFromCourseForStudent(this.courseId, this.routeStudentId, result => {
+        this.student_summary['total_points_course'] = result
+      })
+
+      Submission.findAllForUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['total_submissions'] = result
+      })
+
+      Submission.findByUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade !== null).length
+      })
+
+      Defense.all(this.courseId, result => {
+        this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id == this.student_id).length
+      })
+
+      Submission.findCharonsWithSubmissionsForUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['charons_with_submissions'] = result
+      })
+
+      User.getPossiblePointsForCourse(this.courseId, this.routeStudentId, result => {
+        this.student_summary['potential_points'] = result
+      })
+    },
+
   },
 
   created() {
     this.getStudent()
     this.getStudentOverviewTable()
+    this.getStudentSummary()
   },
+
+
+
 }
 </script>
 

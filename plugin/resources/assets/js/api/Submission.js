@@ -129,6 +129,15 @@ class Submission {
         })
     }
 
+    static findCharonsWithSubmissionsForUser(courseId, userId, then) {
+        axios.get(`/mod/charon/api/courses/${courseId}/users/${userId}/charons-with-submissions`)
+            .then(data => {
+                then(data.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving submissions by user.\n' + error, 'danger')
+        })
+    }
+
 }
 
 Submission.nextUrl = null

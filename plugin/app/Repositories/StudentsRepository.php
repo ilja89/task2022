@@ -67,4 +67,13 @@ class StudentsRepository
             return 0;
         }
     }
+
+
+    public function getPossiblePointsForCourseFromCharons(int $courseId, int $userId)
+    {
+        return GradeItem::select(['courseid', 'itemnumber', 'grademax'])
+            ->where('courseid', $courseId)
+            ->where('itemnumber', 1)
+            ->sum('grademax');
+    }
 }

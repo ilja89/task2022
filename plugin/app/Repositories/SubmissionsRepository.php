@@ -677,10 +677,28 @@ class SubmissionsRepository
         $charons_ids = Charon::where('course', $courseId)
             ->pluck('id');
 
-        $submission_amount = Submission::whereIn('charon_id', $charons_ids)
+        return Submission::whereIn('charon_id', $charons_ids)
             ->where('user_id', $userId)
-            ->pluck('user_id');
+            ->count();
+    }
 
-        return count($submission_amount);
+    /**
+     * Get number of charons with at least 1 submission in given course
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return mixed
+     */
+
+    public function getNumberOfCharonsWithSubmissions(int $courseId, int $userId)
+    {
+        $charons_ids = Charon::where('course', $courseId)
+            ->pluck('id');
+
+        return Submission::whereIn('charon_id', $charons_ids)
+            ->where('user_id', $userId)
+            ->distinct()
+            ->count('charon_id');
     }
 }
