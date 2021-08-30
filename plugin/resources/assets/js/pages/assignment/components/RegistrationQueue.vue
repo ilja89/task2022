@@ -85,12 +85,10 @@ export default {
   watch: {
     queueInterval: function (queueInterval){
       if (queueInterval === true){
-        console.log('true');
         this.intervalOne = setInterval(this.updateDataLiveQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
         this.intervalTwo = setInterval(this.updateDataPlaceInQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
       }
       if (queueInterval === false){
-        console.log('false!!!');
         clearInterval(this.intervalOne);
         clearInterval(this.intervalTwo);
       }
@@ -102,9 +100,6 @@ export default {
       this.updateDataPlaceInQueue();
     },
     updateDataLiveQueue(){
-      if(this.interval){
-
-      }
       this.teachersLiveQueueTestItems = [
         {
           teacher: 'Teacher 1', name: 'charon1', duration: '00:15', start_time: '15:00',
@@ -116,7 +111,6 @@ export default {
           teacher: 'Teacher 3', name: '', duration: '', start_time: '',
         },
       ]
-      console.log(this.teachersLiveQueueTestItems);
     },
     updateDataPlaceInQueue(){
       this.testItems = [
@@ -127,7 +121,6 @@ export default {
           student: 'student name',
         },
       ]
-      console.log(this.testItems);
     },
 
   },
