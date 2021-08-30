@@ -141,7 +141,7 @@ function charon_supports($feature)
 
     switch ($feature) {
         case FEATURE_GRADE_HAS_GRADE:
-            return false;
+            return true;
         case FEATURE_BACKUP_MOODLE2:
             return true;
         case FEATURE_COMPLETION_HAS_RULES:
@@ -166,32 +166,17 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
     // Get charon  details
     $charon = $DB->get_record('charon', array('id' => $cm->instance), '*', MUST_EXIST);
 
-    $threshold = intval($charon->defense_threshold);
+    $threshold = $charon->defense_threshold;
 
     // If completion option is enabled, evaluate it and return true/false
-    if($threshold && $threshold >= 0 && $threshold <= 100) {
+    if ($threshold && $threshold >= 0 && $threshold <= 100) {
 
-        $best_grade = DB::select("
-            SELECT 
-                MAX(grades.finalgrade)
-            FROM 
-                mdl_grade_grades AS grades
-                INNER JOIN mdl_charon_submission AS submissions ON grades.id=submissions.id
-            WHERE
-                grades.userid=? AND submissions.charon_id=?
-            ",
-            [$userid, $charon->id]);
+        $grading_info = grade_get_grades($course->id, 'mod', 'charon', $cm->instance, $userid);
 
-        $max_grade = DB::select("
-        SELECT
-            items.grademax
-        FROM
-            mdl_grade_items AS items
-        WHERE items.courseid=? AND items.iteminstance=? AND itemnumber='1'
-        ",
-        [$course->id, $cm->instance]);
+        $grade_item_grademax = $grading_info->items[1]->grademax;
+        $user_final_grade = $grading_info->items[1]->grades[$userid]->grade;
 
-        return ($threshold * floatval($max_grade) / 100) <= floatval($best_grade);
+        return ($threshold * $grade_item_grademax / 100) <= $user_final_grade;
     } else {
         // Completion option is not enabled so just return $type
         return $type;
