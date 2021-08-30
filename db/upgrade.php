@@ -764,7 +764,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021082901) {
+    if ($oldversion < 2021083001) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_code_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    teacher_id BIGINT(10) NOT NULL," .
@@ -772,7 +772,7 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    code_row_no_start BIGINT(10) NULL," .
             "    code_row_no_end BIGINT(10) NULL," .
             "    comment VARCHAR(255) NOT NULL," .
-            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    PRIMARY KEY (id)," .
             "    CONSTRAINT FK_charon_code_review_comment_teacher" .
             "        FOREIGN KEY (teacher_id)" .

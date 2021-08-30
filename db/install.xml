@@ -605,7 +605,7 @@
                 <FIELD NAME="code_row_no_start" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="code_row_no_end" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="comment" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
-                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+                <FIELD NAME="timestamp" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_code_review_comment" TYPE="primary" FIELDS="id"/>
