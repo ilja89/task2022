@@ -596,14 +596,14 @@
 
         <!-- Code review comments -->
 
-        <TABLE NAME="mld_charon_code_review_comment"
+        <TABLE NAME="charon_code_review_comment"
                COMMENT="Teacher's comments on the student's submitted code in submission.">
             <FIELDS>
                 <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="charon_submission_file_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="code_row_no_start" SEQUENCE="false" TYPE="int" NOTNULL="false"/>
-                <FIELD NAME="code_row_no_end" SEQUENCE="false" TYPE="int" NOTNULL="false"/>
+                <FIELD NAME="code_row_no_start" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="code_row_no_end" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="comment" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
             </FIELDS>

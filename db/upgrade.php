@@ -769,8 +769,8 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    teacher_id BIGINT(10) NOT NULL," .
             "    charon_submission_file_id BIGINT(10) NOT NULL," .
-            "    code_row_no_start INT NULL," .
-            "    code_row_no_end INT NULL," .
+            "    code_row_no_start BIGINT(10) NULL," .
+            "    code_row_no_end BIGINT(10) NULL," .
             "    comment VARCHAR(255) NOT NULL," .
             "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    PRIMARY KEY (id)," .
@@ -779,7 +779,8 @@ function xmldb_charon_upgrade($oldversion = 0)
             "            REFERENCES " . $CFG->prefix . "user(id)," .
             "    CONSTRAINT FK_charon_code_review_comment_charon_submission_file" .
             "        FOREIGN KEY (charon_submission_file_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)," .
+            "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)" .
+            ")";
 
         $table = new xmldb_table("charon_code_review_comment");
 
