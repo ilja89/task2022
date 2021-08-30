@@ -95,7 +95,8 @@
         studentText: "{{ translate('student') }}",
         placeInQueueText: "{{ translate('place_in_queue') }}",
         estimatedDurationText: "{{ translate('estimated_duration') }}",
-        startTimeText: "{{ trans('start_time') }}",
+        startTimeText: "{{ translate('start_time') }}",
+        updateQueueText: "{{ translate ('update_queue') }}"
 
     };
 </script>

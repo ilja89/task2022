@@ -1,7 +1,7 @@
 <template>
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" @click="sheet = true">
+      <v-btn v-bind="attrs" v-on="on" @click="sheetTrue">
         {{ translate('queueStatusText') }}
       </v-btn>
     </template>
@@ -11,13 +11,13 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn color="error" @click="sheet = false">
+        <v-btn color="error" @click="sheetFalse">
           {{ translate('closeText') }}
         </v-btn>
       </v-toolbar>
 
       <v-sheet height="80vh" class="pt-4 px-4">
-        <registration-queue></registration-queue>
+        <registration-queue :queueInterval="item"/>
       </v-sheet>
     </div>
   </v-bottom-sheet>
@@ -43,8 +43,21 @@ export default {
   data() {
     return {
       sheet: false,
+      item: [],
     };
   },
+  methods: {
+    sheetTrue(){
+      this.sheet = true;
+      this.item = true;
+    },
+    sheetFalse(){
+      this.sheet = false;
+      this.item = false;
+    },
+  }
+
+
 
 }
 

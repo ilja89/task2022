@@ -7,15 +7,16 @@
           <v-flex md6 style="overflow: auto">
             <v-card-title>
               {{ translate('queueStatusText') }}
+              <v-spacer></v-spacer>
+              <v-btn @click="dataUpdate">
+                {{ translate('updateQueueText') }}
+              </v-btn>
             </v-card-title>
-            <v-btn @click="updateTest">
-              Update queue status
-            </v-btn>
             <v-data-table
                 :headers="teachersLiveQueueHeaders"
                 :items="teachersLiveQueueTestItems"
                 :hide-default-footer="true"
-                @input="updateData"
+                @update:items="updateDataLiveQueue"
             >
             </v-data-table>
             <v-card-title>
@@ -24,6 +25,7 @@
             <v-data-table
                 :headers="headers"
                 :items="testItems"
+                @update:items="updateDataPlaceInQueue"
             >
             </v-data-table>
           </v-flex>
@@ -41,13 +43,15 @@ export default {
 
   mixins: [Translate],
 
+  props: ['queueInterval'],
+
   data() {
     return {
       testItems: [
         {
           queue_nr: 2,
           name: 'charon name',
-          start_time: '01.09.2021 12:20',
+          estimated_start_time: '16.09.2021 12:20',
           student: 'student name',
         },
       ],
@@ -74,13 +78,33 @@ export default {
         {text: this.translate("estimatedDurationText"), value: 'duration', sortable: false},
         {text: this.translate("startTimeText"), value: 'start_time', sortable: false},
       ],
+      intervalOne: null,
+      intervalTwo: null,
+    }
+  },
+  watch: {
+    queueInterval: function (queueInterval){
+      if (queueInterval === true){
+        console.log('true');
+        this.intervalOne = setInterval(this.updateDataLiveQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
+        this.intervalTwo = setInterval(this.updateDataPlaceInQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
+      }
+      if (queueInterval === false){
+        console.log('false!!!');
+        clearInterval(this.intervalOne);
+        clearInterval(this.intervalTwo);
+      }
     }
   },
   methods: {
-    updateTest(){
-      setInterval(this.updateData, 10000);
+    dataUpdate(){
+      this.updateDataLiveQueue();
+      this.updateDataPlaceInQueue();
     },
-    updateData(){
+    updateDataLiveQueue(){
+      if(this.interval){
+
+      }
       this.teachersLiveQueueTestItems = [
         {
           teacher: 'Teacher 1', name: 'charon1', duration: '00:15', start_time: '15:00',
@@ -93,7 +117,18 @@ export default {
         },
       ]
       console.log(this.teachersLiveQueueTestItems);
-    }
+    },
+    updateDataPlaceInQueue(){
+      this.testItems = [
+        {
+          queue_nr: 1,
+          name: 'charon name',
+          estimated_start_time: '16.09.2021 12:20',
+          student: 'student name',
+        },
+      ]
+      console.log(this.testItems);
+    },
 
   },
 }

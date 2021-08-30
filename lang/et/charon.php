@@ -191,4 +191,5 @@ $string['student'] = 'Üliõpilane';
 $string['place_in_queue'] = 'Koht järjekorras';
 $string['estimated_duration'] = 'Hinnanguline kestvus';
 $string['start_time'] = 'Algusaeg';
+$string['update_queue'] = 'Uuenda järjekorda;
 
