@@ -30,9 +30,6 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
-    /** @var CharonRepository */
-    protected $charonRepository;
-
     /** @var User */
     protected $user;
 
@@ -43,7 +40,6 @@ class DefenseRegistrationController extends Controller
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
-     * @param CharonRepository $charonRepository
      * @param User $user
      */
     public function __construct(
@@ -52,7 +48,6 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         CharonDefenseLabRepository $defenseLabRepository,
-        CharonRepository $charonRepository,
         User $user
     ) {
         parent::__construct($request);
@@ -60,7 +55,6 @@ class DefenseRegistrationController extends Controller
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
-        $this->charonRepository = $charonRepository;
         $this->user = $user;
     }
 
