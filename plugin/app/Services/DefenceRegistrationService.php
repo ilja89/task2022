@@ -322,7 +322,7 @@ class DefenceRegistrationService
      * @param $charonId
      * @param $submissionId
      * @param $regId
-     * @return false|string
+     * @return string
      */
     public function deferRegistration($userId, $defLabId, $charonId, $submissionId, $regId)
     {

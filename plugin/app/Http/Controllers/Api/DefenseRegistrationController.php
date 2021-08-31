@@ -166,7 +166,7 @@ class DefenseRegistrationController extends Controller
      * @param Request $request
      * @param int $courseId
      * @param int $charonId
-     * @return false|string
+     * @return string
      */
     public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
