@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -9,7 +10,6 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
-use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -183,7 +183,7 @@ class DefenseRegistrationController extends Controller
     public function deferRegistration(Request $request, int $courseId, int $charonId)
     {
         //Get variables
-        $userId = $this->user->currentUserId();
+        $userId = $request->input('user_id');
 
         if (!$userId)
         {

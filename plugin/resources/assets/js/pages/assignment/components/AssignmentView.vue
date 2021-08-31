@@ -97,9 +97,9 @@ export default {
     },
 
     getDefenseData() {
-			Defense.getDefenseData(this.charon_id, this.student_id, (data) => {
-				this.$store.state.registrations = data;
-			})
+      Defense.getDefenseData(this.charon_id, this.student_id, (data) => {
+        this.$store.state.registrations = data;
+      })
     }
 
   },
