@@ -12,6 +12,9 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+import SubmissionComment from "../../../api/SubmissionComment";
+
 export default {
     name: "CommentComponent",
 
@@ -22,6 +25,36 @@ export default {
         }
     },
 
+    computed: {
+        ...mapState([
+            'submission',
+        ]),
+    },
+
+    methods: {
+        saveComment() {
+            if (this.newComment === null || this.newComment.length === 0) {
+                return
+            }
+
+            SubmissionComment.save(this.newComment, this.submission, comment => {
+                this.comments.push(comment)
+                this.writtenComment = ''
+                VueEvent.$emit('show-notification', 'Comment saved!')
+            });
+        },
+
+        refreshComments() {
+            if (this.charon === null || this.student === null) {
+                this.comments = []
+                return
+            }
+
+            Comment.all(this.charon.id, this.student.id, comments => {
+                this.comments = comments
+            })
+        },
+    },
 
 }
 </script>
