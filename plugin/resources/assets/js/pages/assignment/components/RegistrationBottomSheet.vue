@@ -47,9 +47,11 @@
                         {{ translate('closeText') }}
                     </v-btn>
 
-                    <v-btn class="ml-4" color="error" dense outlined text @click="test()">TEST
-                    </v-btn>
-                </v-row>
+										<v-btn class="ml-4" color="error" dense outlined text @click="test()">
+											TEST
+										</v-btn>
+
+								</v-row>
 
                 <loading-container :render="this.busy"></loading-container>
 

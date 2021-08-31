@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use stdClass;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
@@ -157,6 +156,5 @@ class LabService
         }
 
         return $result;
-
     }
 }
