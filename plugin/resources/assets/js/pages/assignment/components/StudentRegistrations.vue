@@ -101,13 +101,13 @@ export default {
       },
 
       deleteItem(item) {
-				if (this.dateValidation(item)) {
-					if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-						this.deleteReg(item);
-					}
-				} else {
-					VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
-				}
+        if (this.dateValidation(item)) {
+          if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+            this.deleteReg(item);
+          }
+        } else {
+          VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+        }
     },
 
     dateValidation(item) {
