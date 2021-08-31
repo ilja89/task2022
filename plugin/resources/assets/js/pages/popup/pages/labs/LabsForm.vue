@@ -351,17 +351,17 @@
 
                 return filter;
             },
-            checkCorrectTimeInputAndFix() {
-                const labStartTimestamp = new Date(this.lab.start.time);
-                let labEndTimestamp = new Date(this.lab.end.time);
-                let labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
-                if(labLengthMinutes > this.maxLabLength) {
-                    VueEvent.$emit(`show-notification`, `You can not put lab length longer than ${this.maxLabLength} minutes.`);
-                    this.assignDates(this.maxLabLength);
-                    labLengthMinutes = this.maxLabLength;
-                }
-                this.labDuration = labLengthMinutes;
-        },
+						checkCorrectTimeInputAndFix() {
+								const labStartTimestamp = new Date(this.lab.start.time);
+								let labEndTimestamp = new Date(this.lab.end.time);
+								let labLengthMinutes = ((labEndTimestamp.getTime()-labStartTimestamp.getTime())/1000)/60;
+								if(labLengthMinutes > this.maxLabLength) {
+										VueEvent.$emit(`show-notification`, `You can not put lab length longer than ${this.maxLabLength} minutes.`);
+										this.assignDates(this.maxLabLength);
+										labLengthMinutes = this.maxLabLength;
+								}
+								this.labDuration = labLengthMinutes;
+					  },
         },
         computed: {
             ...mapState([
