@@ -29,6 +29,12 @@
 
             </charon-tab>
 
+            <charon-tab name="Comment for submission">
+
+                <comment-component/>
+
+            </charon-tab>
+
             <charon-tab name="Outputs">
 
                 <output-component :submission="submission"/>
@@ -45,10 +51,11 @@
     import {CharonTabs, CharonTab, FilesComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
+    import {CommentComponent} from '../partials/index';
 
     export default {
 
-        components: {PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent},
+        components: {PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent},
 
         data() {
             return {
