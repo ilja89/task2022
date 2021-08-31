@@ -10,7 +10,6 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
-use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
@@ -31,9 +30,6 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
-    /** @var CharonRepository */
-    protected $charonRepository;
-
     /**
      * DefenseRegistrationController constructor.
      * @param Request $request
@@ -41,22 +37,19 @@ class DefenseRegistrationController extends Controller
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
-     * @param CharonRepository $charonRepository
      */
     public function __construct(
         Request $request,
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
-        CharonDefenseLabRepository $defenseLabRepository,
-        CharonRepository $charonRepository
+        CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
-        $this->charonRepository = $charonRepository;
     }
 
     /**
