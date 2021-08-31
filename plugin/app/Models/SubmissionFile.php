@@ -3,6 +3,7 @@
 namespace TTU\Charon\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class SubmissionFile.
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string path
  * @property string contents
  * @property Submission submission
+ *
+ * @property CharonCodeReviewComment[]|Collection comments
  *
  * @package TTU\Charon\Models
  */
@@ -27,5 +30,10 @@ class SubmissionFile extends Model
     public function submission()
     {
         return $this->belongsTo(Submission::class, 'submission_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(CharonCodeReviewComment::class)->orderBy('id');
     }
 }
