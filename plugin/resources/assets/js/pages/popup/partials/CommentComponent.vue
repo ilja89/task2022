@@ -2,8 +2,8 @@
     <v-card class="mx-auto" outlined light raised>
         <v-container class="spacing-playground pa-3" fluid>
             <v-row>
-                <input type="text" placeholder="Add a comment..."
-                       class="comment-input" v-model="newComment" @keyup.enter="saveComment">
+                <input type="text" placeholder="Write a comment..."
+                    class="comment-input" v-model="newComment" @keyup.enter="saveComment">
                 <v-btn class="ma-2" tile outlined color="primary" @click="saveComment">Comment</v-btn>
             </v-row>
             <div class="student-overview-card">Test comment here...</div>
@@ -13,7 +13,7 @@
 
 <script>
 import {mapState} from "vuex";
-import SubmissionComment from "../../../api/SubmissionComment";
+import CodeReviewComment from "../../../api/CodeReviewComment";
 
 export default {
     name: "CommentComponent",
@@ -37,7 +37,7 @@ export default {
                 return
             }
 
-            SubmissionComment.save(this.newComment, this.submission, comment => {
+            CodeReviewComment.save(this.newComment, this.submission, comment => {
                 this.comments.push(comment)
                 this.writtenComment = ''
                 VueEvent.$emit('show-notification', 'Comment saved!')
