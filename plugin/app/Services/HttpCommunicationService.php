@@ -95,7 +95,11 @@ class HttpCommunicationService
             }
 
             if ($settings && $settings->tester_url) {
-                $testerUrl = $settings->tester_url;
+                if (array_key_exists('source', $data)) {
+                    $testerUrl = $settings->tester_sync_url;
+                } else {
+                    $testerUrl = $settings->tester_url;
+                }
                 Log::info("Custom tester url found: '" . $testerUrl . "'");
             }
 
