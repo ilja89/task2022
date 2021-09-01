@@ -130,10 +130,17 @@
         },
 
         created() {
+            const emptyOptionTeacher = [{
+              firstname: " ",
+              fullname: " ",
+              id: -1,
+              lastname: " "
+            }]
             this.fetchRegistrations()
             VueEvent.$on('refresh-page', this.fetchRegistrations)
             Teacher.getAllTeachers(this.course.id, response => {
-                this.teachers = response
+                this.teachers = [...response,...emptyOptionTeacher]
+                console.log("Teachers response:\n",this.teachers); //DEBUG!
             })
         },
 
@@ -145,6 +152,7 @@
             ...mapActions(["updateTeacher"]),
 
             apply() {
+                console.log(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress);//DEBUG!
                 Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
                     this.defenseList = response
                 })
@@ -181,6 +189,7 @@
             fetchRegistrations() {
                 Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
                     this.defenseList = response
+                     console.log("defenseList:\n", this.defenseList); //DEBUG!
                 })
             },
             AddRegistration(){

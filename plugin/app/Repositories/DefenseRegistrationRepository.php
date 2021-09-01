@@ -210,6 +210,7 @@ class DefenseRegistrationRepository
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->leftJoin('user', 'charon_defenders.teacher_id', 'user.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+            ->join('charon_lab_teacher', 'charon_lab_teacher.lab_id', 'charon_lab.id')
             ->where('charon.course', $courseId)
             ->select('charon_defenders.id', 'charon_defenders.choosen_time', 'charon_defenders.student_id',
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
@@ -236,13 +237,13 @@ class DefenseRegistrationRepository
         }
         */
         if ($teacher_id != -1) {
-            $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
+            $query->where('charon_lab_teacher.teacher_id', $teacher_id);
         }
         if ($progress != 'null') {
             $query->whereRaw('progress LIKE ?', [$progress]);
         }
 
-        $defenseRegistrations = $query->get();
+        $defenseRegistrations = $query->distinct()->get();
 
         return $this->moveTeacher($defenseRegistrations);
     }
