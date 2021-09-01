@@ -764,22 +764,22 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021083001) {
+    if ($oldversion < 2021090101) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_code_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    teacher_id BIGINT(10) NOT NULL," .
-            "    charon_submission_file_id BIGINT(10) NOT NULL," .
+            "    submission_file_id BIGINT(10) NOT NULL," .
             "    code_row_no_start BIGINT(10) NULL," .
             "    code_row_no_end BIGINT(10) NULL," .
             "    comment VARCHAR(255) NOT NULL," .
-            "    timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    PRIMARY KEY (id)," .
             "    CONSTRAINT FK_charon_code_review_comment_teacher" .
             "        FOREIGN KEY (teacher_id)" .
             "            REFERENCES " . $CFG->prefix . "user(id)," .
-            "    CONSTRAINT FK_charon_code_review_comment_charon_submission_file" .
-            "        FOREIGN KEY (charon_submission_file_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)" .
+            "    CONSTRAINT FK_charon_code_review_comment_submission_file" .
+            "        FOREIGN KEY (submission_file_id)" .
+            "            REFERENCES " . $CFG->prefix . "submission_file(id)" .
             ")";
 
         $table = new xmldb_table("charon_code_review_comment");
