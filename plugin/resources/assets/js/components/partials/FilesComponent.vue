@@ -1,5 +1,13 @@
 <template>
     <v-card class="mx-auto" max-width="70vw" outlined raised>
+
+        <v-card>
+            <v-container class="gray-part">
+                <textarea rows="4" type="text" class="code-comment" v-model="newComment" @keyup.enter="saveComment">
+                    Write comment for the selected code</textarea>
+                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment()">Comment</v-btn>
+            </v-container>
+        </v-card>
         <div
                 class="columns is-gapless code-container"
                 :class="{ 'is-round': isRound }"
@@ -35,10 +43,11 @@
 <script>
 
     import FileTree from './FileTree'
+    import CodeReviewComment from "../../api/CodeReviewComment";
 
     export default {
 
-        components: {FileTree},
+        components: {FileTree, CodeReviewComment},
 
         props: {
             submission: {required: true},
@@ -54,6 +63,7 @@
                 files: [],
                 activeFileId: null,
                 formattedFiles: [],
+                newComment: '',
             }
         },
 
@@ -183,6 +193,18 @@
                     contents: file.contents.map(this.compressFiles)
                 }
             },
+
+            saveComment() {
+                if (this.newComment === null || this.newComment.length === 0) {
+                    return
+                }
+
+                CodeReviewComment.save(this.newComment, this.submission, comment => {
+                    this.comments.push(comment)
+                    this.writtenComment = ''
+                    VueEvent.$emit('show-notification', 'Comment saved!')
+                });
+            },
         },
     }
 </script>
@@ -265,6 +287,21 @@
                 display: none;
             }
         }
+    }
+
+    .code-comment {
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 10px;
+        background-color: white;
+    }
+
+    .comment-button {
+        background: darken(#d6d7d7, 5%);
+    }
+
+    .gray-part {
+        background-color: darken(#fafafa, 5%);
     }
 
 </style>
