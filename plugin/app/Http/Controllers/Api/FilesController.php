@@ -7,6 +7,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\SubmissionFile;
 use Illuminate\Http\Request;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Services\PermissionsService;
 
 /**
@@ -23,14 +24,19 @@ class FilesController extends Controller
     /** @var PermissionsService */
     private $permissionsService;
 
+    /** @var LabTeacherRepository */
+    private $labTeacherRepository;
+
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
-        PermissionsService $permissionsService
+        PermissionsService $permissionsService,
+        LabTeacherRepository $labTeacherRepository
     ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
         $this->permissionsService = $permissionsService;
+        $this->labTeacherRepository = $labTeacherRepository;
     }
     /**
      * Get files for the given submission.
@@ -51,6 +57,10 @@ class FilesController extends Controller
         }
         $result = [];
         foreach ($submission->files as $submissionFile) {
+            foreach ($submissionFile->comments as $comment) {
+                $comment->teacher = $this->labTeacherRepository->getTeacherByUserId($comment->teacher_id)[0];
+            }
+
             // legacy - for the case where "is_test" was not available
             // TODO: remove in new semester
             if ($submissionFile->is_test === null) {
