@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer id
  * @property integer teacher_id
- * @property integer charon_submission_file_id
+ * @property integer submission_file_id
  * @property integer|null code_row_no_start
  * @property integer|null code_row_no_end
  * @property string comment
@@ -24,7 +24,7 @@ class CharonCodeReviewComment extends Model
 
     protected $table = 'charon_code_review_comment';
     protected $fillable = [
-        'teacher_id', 'charon_submission_file_id',
+        'teacher_id', 'submission_file_id',
         'code_row_no_start', 'code_row_no_end', 'comment'
     ];
 }
