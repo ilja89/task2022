@@ -1,4 +1,4 @@
-class SubmissionComment {
+class CodeReviewComment {
 
     /*static all(charonId, studentId, then) {
         axios.get('/mod/charon/api/charons/' + charonId + '/comments', { params: { student_id: studentId } })
@@ -21,4 +21,4 @@ class SubmissionComment {
     }
 }
 
-export default SubmissionComment
+export default CodeReviewComment
