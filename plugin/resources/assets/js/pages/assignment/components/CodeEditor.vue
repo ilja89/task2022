@@ -7,6 +7,7 @@
     <AceEditor
         class="editor"
         v-model="content"
+        id="content"
         @input="dataSubmit"
         @init="editorInit"
         :lang="lang"
@@ -27,9 +28,9 @@
         }"
     />
 
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="copyToClipBoard">
-      Copy
-    </v-btn>
+    <a class="button is-link" @click="copyToClipBoard">
+      {{ translate('copyButton') }}
+    </a>
   </div>
 </template>
 
