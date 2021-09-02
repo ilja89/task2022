@@ -189,3 +189,4 @@ $string['choose_time'] = 'Choose a time';
 $string['select_day'] = 'Select a lab';
 $string['select_time'] = 'Select a time';
 $string['register'] = 'Register';
+$string['comments'] = 'Comments';

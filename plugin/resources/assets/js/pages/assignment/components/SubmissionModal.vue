@@ -44,6 +44,10 @@
 				
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
+
+				<h3>{{ translate('commentsText') }}</h3>
+
+				<comment-component :files="files"></comment-component>
 			</v-card-text>
 		</v-card>
 	</v-dialog>
@@ -53,13 +57,15 @@
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
+import {File} from "../../../api";
+import CommentComponent from "../../../components/partials/CommentComponent";
 
 export default {
 	name: "submission-modal",
 	
 	mixins: [Translate],
 	
-	components: {FilesComponentWithoutTree, SubmissionTable},
+	components: {CommentComponent, FilesComponentWithoutTree, SubmissionTable},
 	
 	props: {
 		submission: {required: true},
@@ -70,7 +76,8 @@ export default {
 		return {
 			isActive: false,
 			testerType: '',
-			toggleOn: false
+			toggleOn: false,
+			files: []
 		}
 	},
 	
@@ -86,6 +93,15 @@ export default {
 	
 	mounted() {
 		this.testerType = window.testerType
+		this.getFiles()
+	},
+
+	methods: {
+		getFiles() {
+			File.findBySubmission(this.submission.id, files => {
+				this.files = files
+			})
+		},
 	},
 }
 </script>
