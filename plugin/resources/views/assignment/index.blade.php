@@ -26,7 +26,9 @@
             <div v-if="!(allow_submission > 0)">
                 <h2 class="title">{{ translate('submissions') }}</h2>
 
-                <assignment-view></assignment-view>
+                <assignment-view
+                        :allow_submission="allow_submission">
+                </assignment-view>
             </div>
 
         </div>
@@ -59,7 +61,9 @@
             <div v-if="allow_submission > 0">
                 <h2 class="title">{{ translate('submissions') }}</h2>
 
-                <assignment-view></assignment-view>
+                <assignment-view
+                        :allow_submission="allow_submission">
+                </assignment-view>
             </div>
         </div>
     </div>
