@@ -47,7 +47,7 @@
 
 				<h3>{{ translate('commentsText') }}</h3>
 
-				<comment-component :files="files"></comment-component>
+				<comment-component :submission="submission"></comment-component>
 			</v-card-text>
 		</v-card>
 	</v-dialog>
@@ -99,7 +99,7 @@ export default {
 	methods: {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
-				this.files = files
+				this.submission.files = files
 			})
 		},
 	},
