@@ -3,6 +3,8 @@
 
     <span>Language: {{language}}</span>
 
+    <textarea id="copyTextArea" class="textareaForCopy"></textarea>
+
     <AceEditor
         class="editor"
         v-model="content"
@@ -62,6 +64,7 @@ export default {
     dataSubmit() {
       this.codes[this.codeId].contents = this.content;
     },
+
     copyToClipBoard() {
       const id = "copyTextArea";
       let existsTextarea = document.getElementById(id);
