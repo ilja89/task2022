@@ -13,17 +13,15 @@ use TTU\Charon\Models\CharonCodeReviewComment;
  */
 class CodeReviewCommentRepository
 {
-    public function saveComment($teacherId, $submissionFileId, $comment)
+    /**
+     * Save a submission file comment.
+     *
+     * @param $teacherId
+     * @param $submissionFileId
+     * @param $comment
+     */
+    public function save($teacherId, $submissionFileId, $comment)
     {
-        /*$comment = new CharonCodeReviewComment([
-            'teacher_id' => $teacherId,
-            'submission_file_id' => $submissionFileId,
-            'code_row_no_start' => null,
-            'code_row_no_end' => null,
-            'comment' => $comment,
-            'created_at' => Carbon::now(),
-        ]);*/
-
         DB::table('charon_code_review_comment')->insert([
             'teacher_id' => $teacherId,
             'submission_file_id' => $submissionFileId,

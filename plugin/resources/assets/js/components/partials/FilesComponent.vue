@@ -3,10 +3,11 @@
 
         <v-card>
             <v-container class="gray-part">
-                <textarea rows="4" type="text" class="code-comment" v-model="newComment" placeholder="Write comment for the selected code (visible for student)"
+                <textarea rows="4" type="text" class="code-comment" v-model="newComment"
+                          placeholder="Write a comment for the selected code (visible for student)"
                           @keyup.enter="saveComment">
                 </textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment()">Add comment</v-btn>
+                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
             </v-container>
         </v-card>
         <div
@@ -45,6 +46,7 @@
 
     import FileTree from './FileTree'
     import CodeReviewComment from "../../api/CodeReviewComment";
+    import {mapState} from "vuex";
 
     export default {
 
@@ -69,6 +71,10 @@
         },
 
         computed: {
+            ...mapState([
+                'charon',
+            ]),
+
             activeFile() {
                 if (this.files.length === 0) {
                     return null
@@ -200,8 +206,8 @@
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, comment => {
-                    //this.comments.push(comment)
+                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, comment => {
+                    // this.comments.push(comment)
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
