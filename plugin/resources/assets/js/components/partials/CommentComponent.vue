@@ -3,6 +3,7 @@
         <v-container class="spacing-playground pa-3" fluid>
             <file-comments
                 v-for="file in submission.files"
+                v-if="file.comments.length > 0"
                 :file="file"
             >
             </file-comments>
