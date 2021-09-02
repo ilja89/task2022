@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ comment.teacher.fullname }}: {{ comment.comment }}
+        ({{ comment.created_at }}) {{ comment.teacher.fullname }}: {{ comment.comment }}
     </div>
 </template>
 
