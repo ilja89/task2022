@@ -59,6 +59,12 @@ export default {
       read_only: this.allow_submission < 1
     }
   },
+  mounted() {
+    VueEvent.$on('change-editor', (codes) => {
+      this.content = codes[this.codeId].contents
+    });
+  },
+
 
   methods: {
 
