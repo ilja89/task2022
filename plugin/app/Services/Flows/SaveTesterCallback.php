@@ -72,10 +72,11 @@ class SaveTesterCallback
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
 
-        if ($content = json_decode($request->getContent(), true)) {
-            $this->submissionService->saveFiles($submission->id, $content['files']);
-        } else {
+        if ($request['files']) {
             $this->submissionService->saveFiles($submission->id, $request['files']);
+        } else if (array_key_exists('files', json_decode($request->getContent(), true))) {
+            $this->submissionService
+                ->saveFiles($submission->id, json_decode($request->getContent(), true)['files']);
         };
 
         $submission->users()->saveMany($users);

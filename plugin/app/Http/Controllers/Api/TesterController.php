@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TesterCommunicationService;
 use Zeizig\Moodle\Globals\User;
 
@@ -21,22 +23,28 @@ class TesterController extends Controller
     /** @var SaveTesterCallback */
     private $saveTesterFlow;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * RetestController constructor.
      *
      * @param TesterCommunicationService $testerCommunicationService
+     * @param SubmissionService $submissionService
      * @param Request $request
      * @param SaveTesterCallback $saveTesterFlow
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
-        SaveTesterCallback $saveTesterFlow
+        SaveTesterCallback $saveTesterFlow,
+        SubmissionService $submissionService
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
         $this->saveTesterFlow = $saveTesterFlow;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -60,11 +68,29 @@ class TesterController extends Controller
             app(User::class)->currentUserId(),
             $content['sourceFiles']);
 
-        $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTester($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
+        if ($response->getStatus() == 202) {
+            try {
+                $responseSubmission = $this->submissionService
+                    ->prepareSubmissionResponse($this->saveResults($response));
+
+                return response()->json([
+                    'message' => 'Testing successful',
+                    'submission' => $responseSubmission
+                ]);
+            } catch (Exception $e) {
+                Log::info("Exception when saving results" , ["exception" => $e]);
+            }
+        } else if ($response->getStatus() == 204) {
+            return response()->json([
+                'message' => 'Code has been sent to tester. Please refresh submissions in a while.'
+            ]);
+        }
+
         return response()->json([
-            'message' => 'Testing triggered.'
+            'message' => 'Failed to send submission to tester'
         ]);
     }
 
@@ -73,6 +99,7 @@ class TesterController extends Controller
      *
      * @param CharonViewTesterCallbackRequest $request
      *
+     * @return Submission
      * @throws Exception
      */
     public function saveResults(CharonViewTesterCallbackRequest $request)
@@ -90,5 +117,7 @@ class TesterController extends Controller
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);
+
+        return $submission;
     }
 }

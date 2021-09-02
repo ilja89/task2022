@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -27,6 +27,11 @@ mix.webpackConfig({
     ]
 });
 
+mix.options({
+        postCss: [
+            require('autoprefixer'),
+        ],
+});
 // Full API
 // mix.js(src, output);
 // mix.extract(vendorLibs);

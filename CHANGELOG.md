@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
   php composer install/update is run)
+- \#511 Update Laravel Mix from 0.10.0 to 4.1.4
 
 ### Added
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#539 Substitute Ace Editor with textarea
 - \#562 Teacher buttons are now at the very bottom
 - \#566 Added Estonian translation to everything associated to templates
+- \#558 Submitting from stuednt view now can use synchronous request so that results appear automatically
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon

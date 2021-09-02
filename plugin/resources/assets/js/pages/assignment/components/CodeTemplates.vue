@@ -2,10 +2,11 @@
   <div v-if="codes.length > 0">
     <charon-tabs>
       <charon-tab v-for="(code, index) in codes"
+                  v-bind:key="code.path"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
-                     :language="this.language"
+                     :language="language"
                      :codes="codes"
                      :allow_submission="allow_submission"
         ></code-editor>
@@ -71,8 +72,12 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, () =>
-            VueEvent.$emit('show-notification', 'Code has been sent to tester. Please refresh submissions in a while.')
+        Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
+          if (response['message'] === 'Testing successful') {
+            VueEvent.$emit('add-submission', response['submission']);
+          }
+          VueEvent.$emit('show-notification', response['message']);
+        }
         )
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error saving submission!')
