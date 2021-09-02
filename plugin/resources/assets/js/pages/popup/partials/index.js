@@ -9,11 +9,10 @@ import PageTitle from './PageTitle'
 import Submission from './Submission'
 import PopupSelect from './PopupSelect'
 import TeacherSection from '../sections/TeacherSection'
-import CommentComponent from './CommentComponent'
 
 export {
     CharonSelect, ExtraOptions, Loader, OutputComponent, SubmissionsList,
-    SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect, TeacherSection, CommentComponent
+    SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect, TeacherSection
 }
 
 export {default as PlagiarismSimilaritiesTabs} from './PlagiarismSimilaritiesTabs'

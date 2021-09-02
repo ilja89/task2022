@@ -29,9 +29,9 @@
 
             </charon-tab>
 
-            <charon-tab name="Comment for submission">
+            <charon-tab name="Comments">
 
-                <comment-component/>
+                <comment-component :submission="submission"/>
 
             </charon-tab>
 
@@ -48,10 +48,9 @@
 
 <script>
     import {mapState} from 'vuex'
-    import {CharonTabs, CharonTab, FilesComponent} from '../../../components/partials/index';
+    import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
-    import {CommentComponent} from '../partials/index';
 
     export default {
 
