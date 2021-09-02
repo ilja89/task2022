@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
   php composer install/update is run)
+- \#511 Update Laravel Mix from 0.10.0 to 4.1.4
 
 ### Added
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.

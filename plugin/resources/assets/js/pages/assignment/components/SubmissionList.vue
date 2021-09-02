@@ -13,7 +13,7 @@
 					
 					<v-btn class="ml-4" icon @click="refreshSubmissions()">
 						<img alt="refresh" height="24px" src="pix/refresh.png"
-							 v-bind:class="this.refreshing ? 'rotating' : ''"
+							 v-bind:class="refreshing ? 'rotating' : ''"
 							 width="24px">
 					</v-btn>
 				</v-toolbar>
