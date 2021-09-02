@@ -45,8 +45,6 @@
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
-				<h3>{{ translate('commentsText') }}</h3>
-
 				<comment-component :submission="submission"></comment-component>
 			</v-card-text>
 		</v-card>
