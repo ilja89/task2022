@@ -9,12 +9,10 @@ class CodeReviewComment {
         })
     }*/
 
-    static save(comment, submissionId, then) {
-        axios.post('/mod/charon/api/charons/savecomment', {
-            comment: comment,
-            submissionId: submissionId
-        }).then(response => {
-            then(response.data.comment)
+    static save(comment, submissionFileId) {
+        axios.post('/mod/charon/api/reviewcomment', {
+            submission_file_id: submissionFileId,
+            comment: comment
         }).catch(error => {
             VueEvent.$emit('show-notification', 'Error saving comment.\n' + error, 'danger')
         })

@@ -3,9 +3,10 @@
 
         <v-card>
             <v-container class="gray-part">
-                <textarea rows="4" type="text" class="code-comment" v-model="newComment" @keyup.enter="saveComment">
-                    Write comment for the selected code</textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment()">Comment</v-btn>
+                <textarea rows="4" type="text" class="code-comment" v-model="newComment" placeholder="Write comment for the selected code (visible for student)"
+                          @keyup.enter="saveComment">
+                </textarea>
+                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment()">Add comment</v-btn>
             </v-container>
         </v-card>
         <div
@@ -199,9 +200,9 @@
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.submission, comment => {
-                    this.comments.push(comment)
-                    this.writtenComment = ''
+                CodeReviewComment.save(this.newComment, this.activeFileId, comment => {
+                    //this.comments.push(comment)
+                    this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
             },
