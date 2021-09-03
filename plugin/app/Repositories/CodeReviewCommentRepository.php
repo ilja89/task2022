@@ -36,16 +36,19 @@ class CodeReviewCommentRepository
      * Find a comment by id.
      *
      * @param $commentId
-     * @return CharonCodeReviewComment
+     * @return CharonCodeReviewComment|null
      */
-    public function get($commentId): CharonCodeReviewComment
+    public function get($commentId): ?CharonCodeReviewComment
     {
         $res = DB::table('charon_code_review_comment')
             ->where('id', $commentId)
             ->get();
-        echo $res;
-        $commentData = json_decode($res, true);
-        return new CharonCodeReviewComment($commentData);
+        if ( sizeof($res) != 0 )
+        {
+            $commentData = json_decode($res, true);
+            return new CharonCodeReviewComment($commentData[0]);
+        }
+        return null;
     }
 
     /**
@@ -56,8 +59,13 @@ class CodeReviewCommentRepository
      */
     public function delete($commentId): bool
     {
-        //$comment = CharonCodeReviewComment::find($commentId);
         $comment = $this->get($commentId);
-        return $comment->delete();
+        if ($comment)
+        {
+            return DB::table('charon_code_review_comment')
+                ->where('id', $commentId)
+                ->delete();
+        }
+        return 0;
     }
 }

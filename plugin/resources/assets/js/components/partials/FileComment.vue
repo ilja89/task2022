@@ -29,11 +29,12 @@ export default {
     methods: {
         deleteComment() {
             if (this.comment === null) {
-                return
+                return;
             }
 
             CodeReviewComment.delete(this.comment.id, this.charon.id,() => {
                 this.comment = ''
+
                 VueEvent.$emit('show-notification', 'Comment deleted')
             });
         },
