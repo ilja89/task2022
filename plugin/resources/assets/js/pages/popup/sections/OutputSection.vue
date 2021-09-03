@@ -31,7 +31,7 @@
 
             <charon-tab name="Comments">
 
-                <comment-component :files="submission.files"/>
+                <comment-component :submission="submission"/>
 
             </charon-tab>
 

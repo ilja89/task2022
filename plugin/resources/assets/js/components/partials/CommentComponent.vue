@@ -2,7 +2,7 @@
     <v-card class="mx-auto" outlined light raised>
         <v-container class="spacing-playground pa-3" fluid>
             <file-comments
-                v-for="file in files"
+                v-for="file in submission.files"
                 v-if="file.comments.length > 0"
                 :file="file"
             >
@@ -18,7 +18,7 @@ export default {
     components: {FileComments},
 
     props: {
-        files: { required: true },
+        submission: { required: true },
     },
 }
 </script>

@@ -31,4 +31,33 @@ class CodeReviewCommentRepository
             'created_at' => Carbon::now(),
         ]);
     }
+
+    /**
+     * Find a comment by id.
+     *
+     * @param $commentId
+     * @return CharonCodeReviewComment
+     */
+    public function get($commentId): CharonCodeReviewComment
+    {
+        $res = DB::table('charon_code_review_comment')
+            ->where('id', $commentId)
+            ->get();
+        echo $res;
+        $commentData = json_decode($res, true);
+        return new CharonCodeReviewComment($commentData);
+    }
+
+    /**
+     * Remove a comment by id.
+     *
+     * @param $commentId
+     * @return boolean
+     */
+    public function delete($commentId): bool
+    {
+        //$comment = CharonCodeReviewComment::find($commentId);
+        $comment = $this->get($commentId);
+        return $comment->delete();
+    }
 }
