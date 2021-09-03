@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
+use Zeizig\Moodle\Services\GradebookService;
 
 function charon_add_instance($test, $mform)
 {
@@ -161,6 +161,7 @@ function charon_supports($feature)
  * @return bool True if completed, false if not, $type if conditions not set.
  */
 function charon_get_completion_state($course, $cm, $userid, $type) {
+    $gradeService = app(GradebookService::class);
     global $DB;
 
     // Get charon  details
@@ -171,11 +172,16 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
     // If completion option is enabled, evaluate it and return true/false
     if ($threshold && $threshold >= 0 && $threshold <= 100) {
 
-        $grading_info = grade_get_grades($course->id, 'mod', 'charon', $cm->instance, array($userid));
-        $grade_item_grademax = $grading_info->items[1]->grademax;
-        $finalgrade = $grading_info->items[1]->grades[$userid]->grade;
+        $categoryGradeItem = $gradeService->getGradeItemByCategoryId($charon->category_id);
+        $categoryGradeGrade = $gradeService->getGradeForGradeItemAndUser($categoryGradeItem->id, $userid);
 
-        return ($threshold * $grade_item_grademax / 100) <= $finalgrade;
+        $category_grade = $categoryGradeItem->grademax;
+        $finalgrade = 0;
+        if ($categoryGradeGrade !== null) {
+            $finalgrade = $categoryGradeGrade->finalgrade;
+        }
+
+        return ($threshold * $category_grade / 100) <= $finalgrade;
     } else {
         // Completion option is not enabled so just return $type
         return $type;
