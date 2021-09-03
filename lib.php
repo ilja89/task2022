@@ -161,7 +161,7 @@ function charon_supports($feature)
  * @return bool True if completed, false if not, $type if conditions not set.
  */
 function charon_get_completion_state($course, $cm, $userid, $type) {
-    global $CFG,$DB;
+    global $DB;
 
     // Get charon  details
     $charon = $DB->get_record('charon', array('id' => $cm->instance), '*', MUST_EXIST);
@@ -171,12 +171,14 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
     // If completion option is enabled, evaluate it and return true/false
     if ($threshold && $threshold >= 0 && $threshold <= 100) {
 
-        $grading_info = grade_get_grades($course->id, 'mod', 'charon', $cm->instance, $userid);
-
+        $grading_info = grade_get_grades($course->id, 'mod', 'charon', $cm->instance, array($userid));
+        Log::debug($userid);
         $grade_item_grademax = $grading_info->items[1]->grademax;
-        $user_final_grade = $grading_info->items[1]->grades[$userid]->grade;
+        $finalgrade = $grading_info->items[1]->grades[$userid]->grade;
 
-        return ($threshold * $grade_item_grademax / 100) <= $user_final_grade;
+        Log::debug('finalgrade: ' . $finalgrade);
+
+        return ($threshold * $grade_item_grademax / 100) <= $finalgrade;
     } else {
         // Completion option is not enabled so just return $type
         return $type;

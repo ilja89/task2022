@@ -10,6 +10,7 @@ use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\ResultRepository;
+use TTU\Charon\Services\AreteResponseParser;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TestSuiteService;
@@ -33,6 +34,9 @@ class SaveTesterCallback
     /** @var TestSuiteService */
     private $testSuiteService;
 
+    /** @var AreteResponseParser */
+    private $areteResponseParser;
+
     /**
      * @param SubmissionService $submissionService
      * @param CharonGradingService $charonGradingService
@@ -45,13 +49,15 @@ class SaveTesterCallback
         CharonGradingService $charonGradingService,
         UserService $userService,
         ResultRepository $resultRepository,
-        TestSuiteService $testSuiteService
+        TestSuiteService $testSuiteService,
+        AreteResponseParser $areteResponseParser
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->userService = $userService;
         $this->resultRepository = $resultRepository;
         $this->testSuiteService = $testSuiteService;
+        $this->areteResponseParser = $areteResponseParser;
     }
 
     /**
@@ -81,6 +87,24 @@ class SaveTesterCallback
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
 
         $this->updateGrades($submission, $users);
+
+        if ($request->input('returnExtra.charon')) {
+            global $DB, $CFG;
+            require_once ($CFG->dirroot . '/lib/completionlib.php');
+
+            $charon = $DB->get_record('charon', array('id' => $request->input('returnExtra.charon')), '*', MUST_EXIST);
+            $course = $DB->get_record('course', array('id' => $charon->course), '*', MUST_EXIST);
+            $mod_info = get_fast_modinfo($course);
+            $cm = $mod_info->get_cm($charon->category_id);
+            $completion = new \completion_info($course);
+
+            foreach ($users as $user) {
+                Log::info("Completion enabled: " . $completion->is_enabled($cm));
+                if ($completion->is_enabled($cm)) {
+                    $completion->update_state($cm, COMPLETION_COMPLETE, $user->id);
+                }
+            }
+        }
 
         return $submission;
     }
