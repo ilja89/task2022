@@ -13,12 +13,28 @@
 
 <script>
 import FileComment from "./FileComment";
+import CodeReviewComment from "../../api/CodeReviewComment";
+import {mapState} from "vuex";
 export default {
-    components: {FileComment},
+    ...mapState([
+        'charon_id',
+        'student_id'
+    ]),
+    components: {FileComment, CodeReviewComment},
 
     props: {
         file: { required: true },
     },
+
+  mounted: function () {
+    this.$root.$on('refresh_review_comments', (newComment) => {
+
+      CodeReviewComment.all(this.charon_id, this.student_id, {
+      })
+
+      this.$forceUpdate();
+    })
+  }
 }
 </script>
 
