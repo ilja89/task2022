@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            ({{ comment.created_at }}) {{ comment.teacher.fullname }}: {{ comment.comment }} studentid {{this.student.id}} teacherid {{this.teacher.id}}
+            ({{ comment.created_at }}) {{ comment.teacher.fullname }}: {{ comment.comment }}
         </div>
         <v-btn class="comment-button ma-2" tile outlined color="primary" @click="deleteComment">Delete comment</v-btn>
     </div>

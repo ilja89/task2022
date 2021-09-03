@@ -40,7 +40,7 @@ class CodeReviewCommentController extends Controller
 
     public function deleteComment(Request $request): array
     {
-        $commentId = $request->input('comment_id');
+        $commentId = $request->route('codeReviewComment');
         echo $commentId. " ID ".PHP_EOL;
         return $this->codeReviewCommentService->deleteComment($commentId);
     }
