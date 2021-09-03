@@ -34,6 +34,6 @@ class SubmissionFile extends Model
 
     public function comments()
     {
-        return $this->hasMany(CharonCodeReviewComment::class)->orderBy('id');
+        return $this->hasMany(CharonCodeReviewComment::class)->orderBy('created_at', 'desc');
     }
 }
