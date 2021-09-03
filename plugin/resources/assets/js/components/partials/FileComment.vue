@@ -1,12 +1,10 @@
 <template>
     <div class="comment">
         <div class="comment-heading">
-            <div class="comment-info">
-                <span class="comment-author">
+            <span class="comment-author">
                     {{ comment.teacher.fullname }}
                 </span>
-                {{ comment.created_at }}
-            </div>
+            {{ comment.created_at }}
         </div>
         <div class="comment-body">
             <p>
@@ -43,16 +41,12 @@ export default {
         font-size: 14px;
     }
 
-    .comment-info {
-        color: rgba(0, 0, 0, 0.5);
-        margin-left: 10px;
-    }
-
     .comment-author {
         color: rgba(0, 0, 0, 0.85);
         font-weight: bold;
         text-decoration: none;
         padding-right: 10px;
+        margin-left: 10px;
     }
 
     .comment-body {

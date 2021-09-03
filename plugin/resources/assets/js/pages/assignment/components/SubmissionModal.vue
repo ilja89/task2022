@@ -45,7 +45,10 @@
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
-				<comment-component :submission="submission"></comment-component>
+				<div class="comments">
+					<h3>{{ translate('commentsText') }}</h3>
+					<comment-component :submission="submission"></comment-component>
+				</div>
 			</v-card-text>
 		</v-card>
 	</v-dialog>
@@ -168,5 +171,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
 	border-radius: 50%;
+}
+
+.comments {
+    padding-top: 10px;
 }
 </style>

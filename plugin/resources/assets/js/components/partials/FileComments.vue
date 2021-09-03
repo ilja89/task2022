@@ -1,7 +1,7 @@
 <template>
     <div class="file-comments">
         <span class="comment-header">
-            {{ file.path }} - <!--{{ // translation does not work in popup -->translate('commentsText') <!--}}-->
+            {{ file.path }}
         </span>
         <file-comment
             v-for="comment in file.comments"
