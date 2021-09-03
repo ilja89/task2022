@@ -54,4 +54,8 @@ export default {
         text-decoration: none;
         padding-right: 10px;
     }
+
+    .comment-body {
+        white-space: pre-line;
+    }
 </style>
