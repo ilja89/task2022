@@ -36,7 +36,7 @@ export default {
 
     .comment-heading {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         height: 50px;
         font-size: 14px;
     }
