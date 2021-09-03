@@ -99,7 +99,6 @@ class SaveTesterCallback
             $completion = new \completion_info($course);
 
             foreach ($users as $user) {
-                Log::info("Completion enabled: " . $completion->is_enabled($cm));
                 if ($completion->is_enabled($cm)) {
                     $completion->update_state($cm, COMPLETION_COMPLETE, $user->id);
                 }

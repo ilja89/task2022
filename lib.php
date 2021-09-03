@@ -172,11 +172,8 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
     if ($threshold && $threshold >= 0 && $threshold <= 100) {
 
         $grading_info = grade_get_grades($course->id, 'mod', 'charon', $cm->instance, array($userid));
-        Log::debug($userid);
         $grade_item_grademax = $grading_info->items[1]->grademax;
         $finalgrade = $grading_info->items[1]->grades[$userid]->grade;
-
-        Log::debug('finalgrade: ' . $finalgrade);
 
         return ($threshold * $grade_item_grademax / 100) <= $finalgrade;
     } else {
