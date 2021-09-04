@@ -25,16 +25,14 @@ export default {
     props: {
         file: { required: true },
     },
+    mounted: function () {
+      this.$root.$on('refresh_review_comments', (newComment) => {
 
-  mounted: function () {
-    this.$root.$on('refresh_review_comments', (newComment) => {
+        console.log("refreshed2")
 
-      CodeReviewComment.all(this.charon_id, this.student_id, {
+        this.$forceUpdate();
       })
-
-      this.$forceUpdate();
-    })
-  }
+    }
 }
 </script>
 

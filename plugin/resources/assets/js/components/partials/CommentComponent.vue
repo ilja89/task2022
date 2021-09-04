@@ -20,6 +20,14 @@ export default {
     props: {
         submission: { required: true },
     },
+  mounted: function () {
+    this.$root.$on('refresh_review_comments', (newComment) => {
+
+      console.log("refreshed1")
+
+      this.$forceUpdate();
+    })
+  }
 }
 </script>
 

@@ -51,6 +51,7 @@
     import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
+    import {Submission} from "../../../api";
 
     export default {
 
@@ -68,9 +69,36 @@
                 'submission',
             ]),
 
+            // submission: {
+            //   get(){
+            //     return this.submission
+            //   },
+            //   set(newSubmission){
+            //     this.submission = newSubmission
+            //   }
+            // },
             hasMail() {
-                return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
+              return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             },
-        }
+        },
+
+      mounted: function () {
+        this.$root.$on('refresh_submission', (newComment) => {
+
+          console.log(this.submission.files)
+
+          Submission.findById(this.submission.id, this.submission.user_id, newSubmission =>{
+            // this.submission.set(newSubmission)
+            console.log(newSubmission.files)
+            this.$root.$emit('refresh_review_comments', 12345)
+          })
+          // CodeReviewComment.all(this.charon_id, this.student_id, {
+          // })
+          console.log("done")
+
+
+          // this.$forceUpdate();
+        })
+      }
     }
 </script>
