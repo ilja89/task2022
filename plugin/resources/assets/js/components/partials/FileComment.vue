@@ -1,17 +1,20 @@
 <template>
-    <div class="comment">
+    <v-card class="comment">
         <div class="comment-heading">
             <span class="comment-author">
                     {{ comment.teacher.fullname }}
-                </span>
-            {{ comment.created_at }}
+            </span>
+            <span class="comment-date">
+                {{ comment.created_at }}
+            </span>
+
         </div>
         <div class="comment-body">
             <p>
                 {{ comment.comment }}
             </p>
         </div>
-    </div>
+    </v-card>
 </template>
 
 <script>
@@ -31,25 +34,31 @@ export default {
 
     .comment {
         position: relative;
-        margin: 20px auto;
+        margin: 10px auto 10px fill;
+        background-color: #f2f3f4;
+        font-family: Roboto, sans-serif;
+        letter-spacing: .0071428571em;
     }
 
     .comment-heading {
         display: flex;
         align-items: flex-end;
-        height: 50px;
+        height: 30px;
         font-size: 14px;
     }
 
     .comment-author {
-        color: rgba(0, 0, 0, 0.85);
-        font-weight: bold;
-        text-decoration: none;
+        color: #448aff;
         padding-right: 10px;
         margin-left: 10px;
+        font-weight: normal;
+    }
+
+    .comment-date {
+        font-size: 12px;
     }
 
     .comment-body {
-        white-space: pre-line;
+        font-size: 14px;
     }
 </style>

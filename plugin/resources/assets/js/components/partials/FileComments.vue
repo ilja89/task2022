@@ -28,12 +28,16 @@ export default {
 
 <style scoped>
     .file-comments {
-        padding: 10px;
+        color: #448aff;
     }
 
     .comment-header {
-        color: #bbbbbb;
-        font-size: 28px;
-        font-weight: bold;
+        text-align: center;
+        line-height: 2;
+        padding-left: 33px;
+
+        color: #448aff;
+        font-size: 20px;
+        font-family: Roboto, sans-serif;
     }
 </style>
