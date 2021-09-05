@@ -34,7 +34,7 @@ export default {
 
     .comment {
         position: relative;
-        margin: 10px auto 10px fill;
+        margin: 1px 20px;
         background-color: #f2f3f4;
         font-family: Roboto, sans-serif;
         letter-spacing: .0071428571em;
@@ -60,5 +60,9 @@ export default {
 
     .comment-body {
         font-size: 14px;
+    }
+
+    p {
+        white-space: pre-line;
     }
 </style>
