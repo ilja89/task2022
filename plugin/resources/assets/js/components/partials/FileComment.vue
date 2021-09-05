@@ -21,7 +21,6 @@ export default {
     computed: {
         ...mapState([
             'charon',
-            'teacher',
             'student'
         ])
     },
@@ -31,17 +30,14 @@ export default {
             if (this.comment === null) {
                 return;
             }
-
+            console.log("Before delete")
             CodeReviewComment.delete(this.comment.id, this.charon.id,() => {
-                this.comment = ''
-
+                console.log("after delete");
+                console.log(this.comment.submission_file_id);
+                this.$emit('updateFromFileComment', this.comment.submission_file_id);
                 VueEvent.$emit('show-notification', 'Comment deleted')
             });
         },
     }
 }
 </script>
-
-<style scoped>
-
-</style>

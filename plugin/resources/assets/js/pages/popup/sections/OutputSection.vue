@@ -31,7 +31,7 @@
 
             <charon-tab name="Comments">
 
-                <comment-component :submission="submission"/>
+                <comment-component @updateFromCommentComponent="updateOutputSection" :submission="submission"/>
 
             </charon-tab>
 
@@ -47,10 +47,12 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+
+    import {mapState, mapActions} from "vuex";
     import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
+    import {Submission} from "../../../api";
 
     export default {
 
@@ -71,6 +73,18 @@
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             },
+        },
+
+       methods: {
+           ...mapActions(["updateSubmission"]),
+
+            updateOutputSection() {
+                console.log(this.submission);
+                Submission.findById(this.submission.id, this.submission.user_id,  submission => {
+                    this.updateSubmission({submission});
+                    this.$forceUpdate();
+                })
+            }
         }
     }
 </script>
