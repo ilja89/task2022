@@ -89,7 +89,7 @@ class mod_charon_mod_form extends moodleform_mod
             $mform->createElement('text', 'defense_threshold', ' ', 'Threshold (%)'),
         ];
         $mform->setType('defense_threshold', PARAM_INT);
-        $mform->addGroup($group, 'completionthresholdgroup', 'Enable charon completion on threshold', [' '], false);
+        $mform->addGroup($group, 'completionthresholdgroup', 'Enable activity completion on threshold (0-100%)', [' '], false);
 
         return ['completionthresholdgroup'];
     }
