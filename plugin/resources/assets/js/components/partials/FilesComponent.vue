@@ -4,7 +4,7 @@
         <v-card>
             <v-container class="gray-part">
                 <textarea rows="4" type="text" class="code-comment" v-model="newComment"
-                          placeholder="Write a comment for the selected code (visible for student)"
+                          placeholder="Write a comment for the selected code (visible for the student)"
                           @keyup.enter="saveComment">
                 </textarea>
                 <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
