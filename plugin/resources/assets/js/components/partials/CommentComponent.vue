@@ -1,6 +1,6 @@
 <template>
-    <v-card class="mx-auto" outlined light raised>
-        <v-container class="spacing-playground pa-3" fluid>
+    <v-card>
+        <v-container>
             <file-comments
                 v-for="file in submission.files"
                 v-if="file.comments.length > 0"
@@ -22,7 +22,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>
