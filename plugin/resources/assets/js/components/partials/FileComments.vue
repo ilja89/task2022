@@ -14,14 +14,8 @@
 <script>
 import FileComment from "./FileComment";
 import CodeReviewComment from "../../api/CodeReviewComment";
-import {mapState} from "vuex";
 
 export default {
-    ...mapState([
-        'charon_id',
-        'student_id',
-    ]),
-
     components: {FileComment, CodeReviewComment},
 
     props: {
@@ -29,11 +23,8 @@ export default {
     },
 
     methods: {
-        updateFileComments(submissionFileId) {
-            console.log("FileComments");
-            console.log(submissionFileId);
-            this.$forceUpdate();
-            this.$emit('updateFromFileComments', submissionFileId);
+        updateFileComments() {
+            this.$emit('updateFromFileComments');
         }
     }
 }

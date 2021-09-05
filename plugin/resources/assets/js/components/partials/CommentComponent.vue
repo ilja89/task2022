@@ -22,12 +22,8 @@ export default {
     },
 
     methods: {
-        updateCommentComponent(submissionFileId) {
-            console.log("CommentComponent");
-            console.log(submissionFileId);
-            console.log(this.submission.id);
-            this.$forceUpdate();
-            this.$emit('updateFromCommentComponent', this.submission.id);
+        updateCommentComponent() {
+            this.$emit('updateFromCommentComponent');
         }
     },
 }
