@@ -13,25 +13,12 @@
 
 <script>
 import FileComment from "./FileComment";
-import CodeReviewComment from "../../api/CodeReviewComment";
-import {mapState} from "vuex";
+
 export default {
-    ...mapState([
-        'charon_id',
-        'student_id'
-    ]),
-    components: {FileComment, CodeReviewComment},
+    components: {FileComment},
 
     props: {
         file: { required: true },
-    },
-    mounted: function () {
-      this.$root.$on('refresh_review_comments', (newComment) => {
-
-        console.log("refreshed2")
-
-        this.$forceUpdate();
-      })
     }
 }
 </script>
