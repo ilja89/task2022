@@ -51,7 +51,7 @@
     import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
-    import {Submission} from "../../../api";
+    import {File} from "../../../api";
 
     export default {
 
@@ -77,8 +77,8 @@
         mounted: function () {
             this.$root.$on('refresh_submission_files', () => {
 
-                Submission.findById(this.submission.id, this.submission.user_id, newSubmission =>{
-                  this.submission.files = newSubmission.files
+                File.findBySubmission(this.submission.id, newFile => {
+                    this.submission.files = newFile
                 })
 
             })
