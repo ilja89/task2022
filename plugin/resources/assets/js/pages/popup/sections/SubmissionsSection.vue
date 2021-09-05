@@ -4,7 +4,7 @@
         subtitle="Here are the submissions from one student for the given task."
     >
 
-        <template slot="header-right">
+        <template>
             <v-spacer></v-spacer>
             Total points: {{ totalCharonPoints }}
             <v-spacer></v-spacer>

@@ -44,14 +44,13 @@
                         <v-btn class="ma-2" tile outlined color="primary" @click="resetFilters">Reset Filters</v-btn>
 
                         <date-range-picker
-                                :startDate="startDate"
-                                :endDate="endDate"
+                                :date-range="dateRange"
                                 :locale-data="locale"
                                 :opens="opens"
                                 :ranges="ranges"
                                 @update="updatePeriodDates"
                         >
-                            <button class="button is-primary" slot="input" slot-scope="picker">
+                            <button class="ma-2" slot="input" slot-scope="picker">
                                 Select Period
                             </button>
                         </date-range-picker>
@@ -77,6 +76,7 @@
                                 :csv-title="'ReportExportToCsvRaw'">
                             <v-btn class="ma-2" tile outlined color="primary"> Export CSV Raw</v-btn>
                         </vue-json-to-csv>
+                        <v-btn class="ma-2" tile outlined color="primary" @click="test()">DEBUG</v-btn>
                     </div>
                 </vue-good-table>
             </v-container>
@@ -214,6 +214,10 @@
                 // Datepicker options
                 startDate: moment().subtract(6, 'days'),
                 endDate: moment(),
+                dateRange: {
+                  startDate: this.startDate,
+                  endDate: this.endDate
+                },
                 opens: "left",// which way the picker opens, default "center", can be "left"/"right"
                 locale: {
                     direction: 'ltr', // direction of text
@@ -258,6 +262,11 @@
         },
 
         methods: {
+            test() //DEBUG!
+            {
+              console.log(this)
+            },
+
             setSubmissionsForReport(submissionsForReport) {
                 this.submissionsForReport = submissionsForReport.rows.map(submission => {
                     return {
@@ -293,6 +302,7 @@
 
             updatePeriodDates(value) {
                 if (value != null) {
+                    console.log(value);
                     this.$refs.reportTable.columnFilters.gitTimestampForStartDate = moment(value.startDate).format("YYYY-MM-DD HH:mm:ss");
                     this.$refs.reportTable.columnFilters.gitTimestampForEndDate = moment(value.endDate).format("YYYY-MM-DD HH:mm:ss");
 

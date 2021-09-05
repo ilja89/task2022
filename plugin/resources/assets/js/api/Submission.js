@@ -134,6 +134,7 @@ class Submission {
             `${serverParams.columnFilters.gitTimestampForStartDate ? serverParams.columnFilters.gitTimestampForStartDate : ' '}/` +
             `${serverParams.columnFilters.gitTimestampForEndDate ? serverParams.columnFilters.gitTimestampForEndDate : ' '}/`)
             .then(data => {
+                console.log(serverParams.columnFilters.gitTimestampForStartDate)
                 then(data.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.\n' + error, 'danger')
