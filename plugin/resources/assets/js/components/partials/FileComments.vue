@@ -13,13 +13,12 @@
 
 <script>
 import FileComment from "./FileComment";
-
 export default {
     components: {FileComment},
 
     props: {
         file: { required: true },
-    }
+    },
 }
 </script>
 

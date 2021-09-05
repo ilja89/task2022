@@ -19,7 +19,7 @@ export default {
 
     props: {
         submission: { required: true },
-    }
+    },
 }
 </script>
 
