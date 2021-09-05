@@ -9,7 +9,6 @@ class CodeReviewComment {
         })
     }*/
 
-
     static save(comment, submissionFileId, charonId, then) {
         axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/save', {
             submission_file_id: submissionFileId,
