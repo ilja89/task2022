@@ -59,7 +59,6 @@ class CodeReviewCommentService
             return [
                 'status'=>'Failed',
             ];
-
         }
     }
 }
