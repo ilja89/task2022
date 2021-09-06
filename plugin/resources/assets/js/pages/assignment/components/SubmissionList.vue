@@ -203,6 +203,7 @@ export default {
 				this.$store.state.submissions = submissions;
 				this.canLoadMore = Submission.canLoadMore();
 				this.refreshing = false;
+        VueEvent.$emit('latest-submission-to-editor', this.$store.state.submissions[0].id);
 			});
 		},
 		
