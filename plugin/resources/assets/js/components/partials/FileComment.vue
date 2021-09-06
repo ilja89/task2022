@@ -11,7 +11,7 @@
             </div>
             <div class="comment-actions">
                 <v-btn icon class="remove-button" @click="deleteComment">
-                    <img src="pix/bin.png" alt="delete" width="24px">
+                    <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
                 </v-btn>
             </div>
         </div>
@@ -64,7 +64,7 @@ export default {
 
     .comment {
         position: relative;
-        margin: 1px 20px;
+        padding: 10px 20px;
         background-color: #f2f3f4;
         font-family: Roboto, sans-serif;
         letter-spacing: .0071428571em;
@@ -75,7 +75,6 @@ export default {
         justify-content: space-between;
         height: 30px;
         font-size: 14px;
-        padding-right: 10px;
     }
 
     .comment-heading-info {
