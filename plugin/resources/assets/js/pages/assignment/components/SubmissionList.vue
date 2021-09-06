@@ -2,8 +2,8 @@
 	<div>
 		<v-data-table
 			:expanded.sync="expanded" :headers="submissionHeaders" :items="submissionsTable"
-			dense disable-filtering disable-pagination hide-default-footer item-key="time" show-expand single-expand>
-			
+			dense disable-filtering disable-pagination hide-default-footer item-key="id" show-expand single-expand>
+
 			<template v-slot:footer>
 				<v-toolbar flat class="mt-4">
 					<v-btn v-if="canLoadMore" class="ml-4" color="primary" dense outlined text
