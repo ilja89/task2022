@@ -5,7 +5,7 @@
             <v-container class="gray-part">
                 <textarea rows="4" type="text" class="code-comment" v-model="newComment"
                           placeholder="Write a comment for the selected code (visible for the student)"
-                          @keyup.enter="saveComment">
+                          @keydown.enter="saveComment">
                 </textarea>
                 <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
             </v-container>
@@ -201,13 +201,13 @@
                 }
             },
 
-            saveComment() {
-                if (this.newComment === null || this.newComment.length === 0) {
+            saveComment(event) {
+                if (event.shiftKey || this.newComment === null || this.newComment.length === 0) {
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, comment => {
-                    // this.comments.push(comment)
+                event.preventDefault()
+                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
