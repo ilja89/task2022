@@ -10,9 +10,9 @@
                 </span>
             </div>
             <div class="comment-actions">
-                <span class="remove-button">
-                    <v-btn icon @click="deleteComment"><img src="pix/bin.png" alt="delete" height="24px"></v-btn>
-                </span>
+                <v-btn icon class="remove-button" @click="deleteComment">
+                    <img src="pix/bin.png" alt="delete" width="24px">
+                </v-btn>
             </div>
         </div>
 
@@ -75,6 +75,7 @@ export default {
         justify-content: space-between;
         height: 30px;
         font-size: 14px;
+        padding-right: 10px;
     }
 
     .comment-heading-info {
@@ -105,7 +106,7 @@ export default {
     }
 
     .remove-button {
-        padding-right: 10px;
+
     }
 
 </style>
