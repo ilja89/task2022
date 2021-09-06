@@ -49,16 +49,21 @@ class CodeReviewCommentService
      */
     public function deleteComment($commentId): array
     {
-        $id = $this->codeReviewCommentRepository->delete($commentId);
-        if ($id) {
-            return [
-                'status' => 'OK'
-            ];
-        } else {
-
-            return [
-                'status'=>'Failed',
-            ];
+        $comment = $this->codeReviewCommentRepository->get($commentId);
+        if ($comment) {
+            $id = $this->codeReviewCommentRepository->delete($commentId);
+            if ($id) {
+                return [
+                    'status' => 'OK'
+                ];
+            } else {
+                return [
+                    'status'=>'Failed',
+                ];
+            }
         }
+        return [
+            'status'=>'Failed',
+        ];
     }
 }
