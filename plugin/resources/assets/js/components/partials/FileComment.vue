@@ -1,15 +1,19 @@
 <template>
     <v-card class="comment">
         <div class="comment-heading">
-            <span class="comment-author">
-                    {{ comment.teacher.fullname }}
-            </span>
-            <span class="comment-date">
-                {{ comment.created_at }}
-            </span>
-            <span class="remove-button">
-                <v-btn icon @click="deleteComment"><img src="pix/bin.png" alt="delete" height="24px"></v-btn>
-            </span>
+            <div class="comment-heading-info">
+                <span class="comment-author">
+                        {{ comment.teacher.fullname }}
+                </span>
+                <span class="comment-date">
+                    {{ comment.created_at }}
+                </span>
+            </div>
+            <div class="comment-actions">
+                <span class="remove-button">
+                    <v-btn icon @click="deleteComment"><img src="pix/bin.png" alt="delete" height="24px"></v-btn>
+                </span>
+            </div>
         </div>
 
         <div class="comment-body">
@@ -68,9 +72,17 @@ export default {
 
     .comment-heading {
         display: flex;
-        align-items: flex-end;
+        justify-content: space-between;
         height: 30px;
         font-size: 14px;
+    }
+
+    .comment-heading-info {
+
+    }
+
+    .comment-actions {
+
     }
 
     .comment-author {
@@ -93,7 +105,6 @@ export default {
     }
 
     .remove-button {
-        alignment: right;
         padding-right: 10px;
     }
 
