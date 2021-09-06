@@ -43,9 +43,16 @@ export default {
   },
 
   beforeMount() {
-    VueEvent.$on('latest-submission-to-editor', (submissionId) => {
-      this.getFilesForSubmission(submissionId);
-    });
+    if (!(allow_submission > 0)) {
+      this.getTemplates();
+    } else {
+      VueEvent.$on('latest-submission-to-editor', (submissionId) => {
+        this.getFilesForSubmission(submissionId);
+      });
+      VueEvent.$on('latest-submission-does-not-exist', () => {
+        this.getTemplates();
+      });
+    }
   },
 
   mounted() {

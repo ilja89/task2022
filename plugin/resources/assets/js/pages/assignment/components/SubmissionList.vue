@@ -200,10 +200,14 @@ export default {
 		refreshSubmissions() {
 			this.refreshing = true;
 			Submission.findByUserCharon(this.student_id, this.charon.id, (submissions) => {
-				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				this.refreshing = false;
-        VueEvent.$emit('latest-submission-to-editor', this.$store.state.submissions[0].id);
+			  if (submissions.length === 0) {
+          VueEvent.$emit('latest-submission-does-not-exist');
+        } else {
+          VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
+        }
+        this.$store.state.submissions = submissions;
+        this.canLoadMore = Submission.canLoadMore();
+        this.refreshing = false;
 			});
 		},
 		
