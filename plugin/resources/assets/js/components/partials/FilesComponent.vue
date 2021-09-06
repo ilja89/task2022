@@ -7,7 +7,10 @@
                           placeholder="Write a comment for the selected code (visible for the student)"
                           @keyup.enter="saveComment">
                 </textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
+                <v-btn class="comment-button ma-2" tile outlined color="primary"
+                       :disabled="!newComment" @click="saveComment">
+                    Add comment
+                </v-btn>
             </v-container>
         </v-card>
         <div
