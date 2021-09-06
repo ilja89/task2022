@@ -7,14 +7,17 @@
             <span class="comment-date">
                 {{ comment.created_at }}
             </span>
-
+            <span class="remove-button">
+                <v-btn icon @click="deleteComment"><img src="pix/bin.png" alt="delete" height="24px"></v-btn>
+            </span>
         </div>
+
         <div class="comment-body">
             <p>
                 {{ comment.comment }}
             </p>
         </div>
-        <v-btn class="comment-button ma-2" tile outlined color="primary" @click="deleteComment">Delete comment</v-btn>
+
     </v-card>
 </template>
 
@@ -88,4 +91,10 @@ export default {
     p {
         white-space: pre-line;
     }
+
+    .remove-button {
+        alignment: right;
+        padding-right: 10px;
+    }
+
 </style>

@@ -3,7 +3,7 @@
 
         <v-card>
             <v-container class="gray-part">
-                <textarea rows="4" type="text" class="code-comment" v-model="newComment"
+                <textarea rows="8" type="text" class="code-comment" v-model="newComment"
                           placeholder="Write a comment for the selected code (visible for the student)"
                           @keyup.enter="saveComment">
                 </textarea>
