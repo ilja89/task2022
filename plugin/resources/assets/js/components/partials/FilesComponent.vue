@@ -211,6 +211,8 @@
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
+
+                this.$root.$emit('refresh_submission_files')
             },
         },
     }

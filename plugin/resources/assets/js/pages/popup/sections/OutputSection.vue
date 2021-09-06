@@ -51,6 +51,7 @@
     import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
+    import {File} from "../../../api";
 
     export default {
 
@@ -71,6 +72,16 @@
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
             },
+        },
+
+        mounted: function () {
+            this.$root.$on('refresh_submission_files', () => {
+
+                File.findBySubmission(this.submission.id, newFile => {
+                    this.submission.files = newFile
+                })
+
+            })
         }
     }
 </script>
