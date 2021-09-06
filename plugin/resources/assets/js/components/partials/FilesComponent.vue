@@ -8,7 +8,7 @@
                           @keyup.enter="saveComment">
                 </textarea>
                 <v-btn class="comment-button ma-2" tile outlined color="primary"
-                       :disabled="!newComment || !newComment.length" @click="saveComment">
+                       :disabled="!newComment" @click="saveComment">
                     Add comment
                 </v-btn>
             </v-container>
