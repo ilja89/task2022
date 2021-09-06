@@ -12,9 +12,14 @@
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <a v-if="allow_submission > 0" class="button is-link" @click="submitClicked">
-      {{ translate('submitButton') }}
-    </a>
+    <div v-if="allow_submission > 0">
+      <a class="button is-link" @click="getTemplates">
+        Reset to templates
+      </a>
+      <a class="button is-link" @click="submitClicked">
+        {{ translate('submitButton') }}
+      </a>
+    </div>
   </div>
 </template>
 <script>
@@ -23,6 +28,7 @@ import CharonTabs from "../../../components/partials/CharonTabs";
 import CodeEditor from "./CodeEditor";
 import Submission from "../../../api/Submission";
 import Translate from "../../../mixins/Translate";
+import {File} from "../../../api";
 
 export default {
   mixins: [Translate],
@@ -37,12 +43,13 @@ export default {
   },
 
   beforeMount() {
-    this.getTemplates();
+    VueEvent.$on('latest-submission-to-editor', (submissionId) => {
+      this.getFilesForSubmission(submissionId);
+    });
   },
 
   mounted() {
     VueEvent.$on('change-editor-content', (codes) => {
-      this.codes = [];
       this.codes = codes;
       VueEvent.$emit('change-editor', codes);
     });
@@ -55,10 +62,20 @@ export default {
   },
 
   methods: {
+    getFilesForSubmission(submissionId) {
+      try {
+        File.findBySubmission(submissionId, files => {
+          this.codes = files
+        })
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error getting templates!')
+      }
+    },
     getTemplates() {
       try {
         Submission.getTemplates(window.charonId, answer => {
           this.codes = answer
+          VueEvent.$emit('change-editor-content', answer);
         })
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error getting templates!')
