@@ -3,10 +3,13 @@
 
         <v-card>
             <v-container class="gray-part">
-                <textarea rows="4" type="text" class="code-comment" v-model="newComment"
+                <textarea rows="4" type="text" class="code-comment" v-model="newComment" maxlength="10000"
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
+                <v-btn class="comment-button ma-2" tile outlined color="primary"
+                       :disabled="!newComment" @click="saveComment">
+                    Add comment
+                </v-btn>
             </v-container>
         </v-card>
         <div
