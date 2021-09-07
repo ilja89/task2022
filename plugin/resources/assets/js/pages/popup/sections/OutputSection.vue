@@ -82,7 +82,6 @@
             updateOutputSection() {
                 Submission.findById(this.submission.id, this.submission.user_id,  submission => {
                     this.updateSubmission({submission});
-                    this.$forceUpdate();
                 })
             }
         },
