@@ -126,7 +126,7 @@ class TesterCommunicationService
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
             $finalFile = new SourceFileDTO();
-            $finalFile->setPath($sourceFile['path']);
+            $finalFile->setPath($charon->project_folder . '/' . $sourceFile['path']);
             $finalFile->setContent($sourceFile['content']);
             array_push($finalListofSource, $finalFile->toArray());
         }
