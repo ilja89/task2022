@@ -19,14 +19,15 @@
         enableLiveAutocompletion: true,
         fontSize: 14,
         highlightActiveLine: true,
+        highlightSelectedWord: true,
         enableSnippets: true,
         showLineNumbers: true,
-        tabSize: 2,
+        tabSize: 4,
         showPrintMargin: false,
         showGutter: true,
         readOnly: read_only,
         }"
-    />
+    /> <br>
 
     <a class="button is-link" @click="copyToClipBoard">
       {{ translate('copyButton') }}

@@ -53,7 +53,7 @@
 			<template v-slot:item.actions="{ item }">
 				<v-row>
 					<submission-modal :submission="item" :color="getColor(item)"/>
-					<v-btn icon @click="copyToEditor(item)" v-bind="attrs" v-on="on">
+					<v-btn icon @click="copyToEditor(item)">
             <img alt="eye" height="24px" src="pix/copy.png" width="24px">
           </v-btn>
 					<registration-bottom-sheet :submission="item" :color="getColor(item)"/>
@@ -200,9 +200,14 @@ export default {
 		refreshSubmissions() {
 			this.refreshing = true;
 			Submission.findByUserCharon(this.student_id, this.charon.id, (submissions) => {
-				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				this.refreshing = false;
+			  if (submissions.length === 0) {
+          VueEvent.$emit('latest-submission-does-not-exist');
+        } else {
+          VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
+        }
+        this.$store.state.submissions = submissions;
+        this.canLoadMore = Submission.canLoadMore();
+        this.refreshing = false;
 			});
 		},
 		

@@ -78,15 +78,16 @@
                 width="100%"
                 height="500px"
                 :options="{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              fontSize: 14,
-              highlightActiveLine: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-              showPrintMargin: false,
-              showGutter: true,
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                fontSize: 14,
+                highlightActiveLine: true,
+                highlightSelectedWord: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 4,
+                showPrintMargin: false,
+                showGutter: true,
               }"
             />
           </div>
