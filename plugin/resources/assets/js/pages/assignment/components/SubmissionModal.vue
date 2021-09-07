@@ -174,6 +174,6 @@ input:checked + .slider:before {
 }
 
 .comments {
-    padding-top: 10px;
+	padding-top: 10px;
 }
 </style>

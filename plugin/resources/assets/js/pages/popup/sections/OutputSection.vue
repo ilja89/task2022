@@ -53,6 +53,7 @@
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
     import {Submission} from "../../../api";
+    import {File} from "../../../api";
 
     export default {
 
@@ -88,6 +89,16 @@
 
         created() {
             VueEvent.$on('update-from-file-comment', this.updateOutputSection)
+        },
+
+        mounted: function () {
+            this.$root.$on('refresh_submission_files', () => {
+
+                File.findBySubmission(this.submission.id, newFile => {
+                    this.submission.files = newFile
+                })
+
+            })
         }
     }
 </script>

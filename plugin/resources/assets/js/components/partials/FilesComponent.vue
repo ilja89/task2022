@@ -3,11 +3,13 @@
 
         <v-card>
             <v-container class="gray-part">
-                <textarea rows="8" type="text" class="code-comment" v-model="newComment"
-                          placeholder="Write a comment for the selected code (visible for the student)"
-                          @keyup.enter="saveComment">
+                <textarea rows="8" type="text" class="code-comment" v-model="newComment" maxlength="10000"
+                          placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary" @click="saveComment">Add comment</v-btn>
+                <v-btn class="comment-button ma-2" tile outlined color="primary"
+                       :disabled="!newComment" @click="saveComment">
+                    Add comment
+                </v-btn>
             </v-container>
         </v-card>
         <div
@@ -206,11 +208,12 @@
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, comment => {
-                    // this.comments.push(comment)
+                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                 });
+
+                this.$root.$emit('refresh_submission_files')
             },
         },
     }
