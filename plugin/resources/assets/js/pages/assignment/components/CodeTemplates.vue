@@ -14,7 +14,7 @@
     </charon-tabs>
     <div v-if="allow_submission > 0">
       <a class="button is-link" @click="getTemplates">
-        Reset to templates
+        {{ translate('resetToTemplates') }}
       </a>
       <a class="button is-link" @click="submitClicked">
         {{ translate('submitButton') }}

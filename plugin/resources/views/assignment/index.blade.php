@@ -91,7 +91,8 @@
         registerText: "{{ translate('register') }}",
         programmingLanguage: "{{ translate('language') }}",
         copyButton: "{{ translate('copy') }}",
-        submitButton: "{{ translate('submit') }}"
+        submitButton: "{{ translate('submit') }}",
+        resetToTemplates: "{{ translate('reset_to_templates') }}"
     };
 </script>
 

@@ -27,7 +27,7 @@
         showGutter: true,
         readOnly: read_only,
         }"
-    />
+    /> <br>
 
     <a class="button is-link" @click="copyToClipBoard">
       {{ translate('copyButton') }}

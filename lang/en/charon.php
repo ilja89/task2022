@@ -202,3 +202,4 @@ $string['delete'] = 'Delete';
 $string['source_file'] = 'Source File:';
 $string['insert_file_path'] = 'Insert file path to see it here and edit file content.';
 $string['source_files'] = 'Source Files';
+$string['reset_to_templates'] = 'Reset templates';
