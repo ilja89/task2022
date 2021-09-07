@@ -5,7 +5,7 @@
         </span>
         <file-comment
             v-for="comment in file.comments"
-            :comment="comment"
+            :comment="comment" :view="view"
         >
         </file-comment>
     </div>
@@ -13,15 +13,14 @@
 
 <script>
 import FileComment from "./FileComment";
-import {Translate} from "../../mixins";
-export default {
 
-    mixins: [Translate],
+export default {
 
     components: {FileComment},
 
     props: {
         file: { required: true },
+        view: { required: true }
     },
 }
 </script>

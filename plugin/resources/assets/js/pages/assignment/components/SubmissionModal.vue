@@ -47,7 +47,7 @@
 
 				<div class="comments">
 					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component :submission="submission"></comment-component>
+					<comment-component :submission="submission" view="student"></comment-component>
 				</div>
 			</v-card-text>
 		</v-card>

@@ -37,6 +37,13 @@ class CodeReviewCommentController extends Controller
 
         return $this->codeReviewCommentService->saveComment($submissionFileId, $comment);
     }
+
+    public function deleteComment(Request $request): array
+    {
+        $commentId = $request->route('codeReviewComment');
+
+        return $this->codeReviewCommentService->deleteComment($commentId);
+    }
 }
 
 

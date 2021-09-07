@@ -40,4 +40,30 @@ class CodeReviewCommentService
             'status'  => 'OK'
         ];
     }
+
+    /**
+     * Delete comment.
+     *
+     * @param $commentId
+     * @return array
+     */
+    public function deleteComment($commentId): array
+    {
+        $comment = $this->codeReviewCommentRepository->get($commentId);
+        if ($comment) {
+            $result = $this->codeReviewCommentRepository->delete($commentId);
+            if ($result) {
+                return [
+                    'status' => 'OK'
+                ];
+            } else {
+                return [
+                    'status'=>'Failed',
+                ];
+            }
+        }
+        return [
+            'status'=>'Failed',
+        ];
+    }
 }
