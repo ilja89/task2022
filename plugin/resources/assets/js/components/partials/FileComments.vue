@@ -5,7 +5,7 @@
         </span>
         <file-comment @updateFromFileComment="updateFileComments"
             v-for="comment in file.comments"
-            :comment="comment"
+            :comment="comment" :view="view"
         >
         </file-comment>
     </div>
@@ -21,6 +21,7 @@ export default {
 
     props: {
         file: { required: true },
+        view: { required: true }
     },
 
     methods: {

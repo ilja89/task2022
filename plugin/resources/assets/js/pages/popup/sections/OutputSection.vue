@@ -31,7 +31,7 @@
 
             <charon-tab name="Comments">
 
-                <comment-component @updateFromCommentComponent="updateOutputSection" :submission="submission"/>
+                <comment-component @updateFromCommentComponent="updateOutputSection" :submission="submission" view="teacher"/>
 
             </charon-tab>
 

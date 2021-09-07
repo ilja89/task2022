@@ -4,7 +4,7 @@
             <file-comments @updateFromFileComments="updateCommentComponent"
                 v-for="file in submission.files"
                 v-if="file.comments.length > 0"
-                :file="file"
+                :file="file" :view="view"
             >
             </file-comments>
         </v-container>
@@ -19,6 +19,7 @@ export default {
 
     props: {
         submission: { required: true },
+        view: {required: true }
     },
 
     methods: {

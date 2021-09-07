@@ -6,11 +6,11 @@
                         {{ comment.teacher.fullname }}
                 </span>
                 <span class="comment-date">
-                    {{ comment.created_at }}
+                    {{ comment.created_at }} {{ view }}
                 </span>
             </div>
             <div class="comment-actions">
-                <v-btn icon class="remove-button" @click="deleteComment">
+                <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteComment">
                     <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
                 </v-btn>
             </div>
@@ -34,6 +34,7 @@ export default {
 
     props: {
         comment: { required: true },
+        view: {required: true }
     },
 
     computed: {

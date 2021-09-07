@@ -1,7 +1,6 @@
 class CodeReviewComment {
 
-    static all(charonId, studentId, then)
-    {
+    static all(charonId, studentId, then) {
         axios.get('/mod/charon/api/charons/' + charonId + '/comments', { params: { student_id: studentId }
         }).then(response => {
             then(response.data)
@@ -10,8 +9,7 @@ class CodeReviewComment {
         })
     }
 
-    static save(comment, submissionFileId, charonId, then)
-    {
+    static save(comment, submissionFileId, charonId, then) {
         axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/save', {
             submission_file_id: submissionFileId,
             comment: comment
@@ -22,8 +20,7 @@ class CodeReviewComment {
         })
     }
 
-    static delete(commentId, charonId, then)
-    {
+    static delete(commentId, charonId, then) {
         axios.delete('/mod/charon/api/charons/' + charonId + '/codeReviewComments/' + commentId + '/delete')
             .then(response => {
                 then(response.data)
