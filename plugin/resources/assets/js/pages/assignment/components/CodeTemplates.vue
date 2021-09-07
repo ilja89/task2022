@@ -16,9 +16,9 @@
       <a class="button is-link" @click="getTemplates">
         {{ translate('resetToTemplates') }}
       </a>
-      <a class="button is-link" @click="submitClicked">
+      <button style="float: right" class="btn btn-primary" @click="submitClicked">
         {{ translate('submitButton') }}
-      </a>
+      </button>
     </div>
   </div>
 </template>
