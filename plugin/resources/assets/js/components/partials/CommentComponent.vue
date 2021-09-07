@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-container>
-            <file-comments @updateFromFileComments="updateCommentComponent"
+            <file-comments
                 v-for="file in submission.files"
                 v-if="file.comments.length > 0"
                 :file="file" :view="view"
@@ -20,12 +20,6 @@ export default {
     props: {
         submission: { required: true },
         view: {required: true }
-    },
-
-    methods: {
-        updateCommentComponent() {
-            this.$emit('updateFromCommentComponent');
-        }
     },
 }
 </script>

@@ -50,7 +50,7 @@ export default {
             }
 
             CodeReviewComment.delete(this.comment.id, this.charon.id,() => {
-                this.$emit('updateFromFileComment');
+                VueEvent.$emit('update-from-file-comment');
                 VueEvent.$emit('show-notification', 'Comment deleted')
             });
         },
@@ -78,14 +78,6 @@ export default {
         font-size: 14px;
     }
 
-    .comment-heading-info {
-
-    }
-
-    .comment-actions {
-
-    }
-
     .comment-author {
         color: #448aff;
         padding-right: 10px;
@@ -103,10 +95,6 @@ export default {
 
     p {
         white-space: pre-line;
-    }
-
-    .remove-button {
-
     }
 
 </style>

@@ -3,7 +3,7 @@
         <span class="comment-header">
             {{ file.path }}
         </span>
-        <file-comment @updateFromFileComment="updateFileComments"
+        <file-comment
             v-for="comment in file.comments"
             :comment="comment" :view="view"
         >
@@ -23,12 +23,6 @@ export default {
         file: { required: true },
         view: { required: true }
     },
-
-    methods: {
-        updateFileComments() {
-            this.$emit('updateFromFileComments');
-        }
-    }
 }
 </script>
 

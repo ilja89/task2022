@@ -31,7 +31,7 @@
 
             <charon-tab name="Comments">
 
-                <comment-component @updateFromCommentComponent="updateOutputSection" :submission="submission" view="teacher"/>
+                <comment-component :submission="submission" view="teacher"/>
 
             </charon-tab>
 
@@ -75,7 +75,7 @@
             },
         },
 
-       methods: {
+        methods: {
            ...mapActions(["updateSubmission"]),
 
             updateOutputSection() {
@@ -84,6 +84,10 @@
                     this.$forceUpdate();
                 })
             }
+        },
+
+        created() {
+            VueEvent.$on('update-from-file-comment', this.updateOutputSection)
         }
     }
 </script>

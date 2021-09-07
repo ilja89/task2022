@@ -51,8 +51,8 @@ class CodeReviewCommentService
     {
         $comment = $this->codeReviewCommentRepository->get($commentId);
         if ($comment) {
-            $id = $this->codeReviewCommentRepository->delete($commentId);
-            if ($id) {
+            $result = $this->codeReviewCommentRepository->delete($commentId);
+            if ($result) {
                 return [
                     'status' => 'OK'
                 ];
