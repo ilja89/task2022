@@ -13,11 +13,10 @@
 
 <script>
 import FileComment from "./FileComment";
-import CodeReviewComment from "../../api/CodeReviewComment";
 
 export default {
 
-    components: {FileComment, CodeReviewComment},
+    components: {FileComment},
 
     props: {
         file: { required: true },

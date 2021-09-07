@@ -6,7 +6,7 @@
                         {{ comment.teacher.fullname }}
                 </span>
                 <span class="comment-date">
-                    {{ comment.created_at }} {{ view }}
+                    {{ comment.created_at }}
                 </span>
             </div>
             <div class="comment-actions">
