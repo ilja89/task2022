@@ -183,3 +183,4 @@ $string['select_day'] = 'Vali praktikum';
 $string['select_time'] = 'Vali kellaaeg';
 $string['register'] = 'Registreeri';
 $string['comments'] = 'Kommentaarid';
+$string['no-comments-text'] = 'Kui õpetaja/juhendaja lisab koodi kohta kommentaare, siis need on nähtavad siin.';

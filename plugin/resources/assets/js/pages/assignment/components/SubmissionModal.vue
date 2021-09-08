@@ -47,7 +47,8 @@
 
 				<div class="comments">
 					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component :submission="submission" view="student"></comment-component>
+					<comment-component v-if="comments===true" :submission="submission" view="student"></comment-component>
+                    <no-comments-component v-else></no-comments-component>
 				</div>
 			</v-card-text>
 		</v-card>
@@ -60,13 +61,14 @@ import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
 import {File} from "../../../api";
 import CommentComponent from "../../../components/partials/CommentComponent";
+import NoCommentsComponent from "../../../components/partials/NoCommentsComponent";
 
 export default {
 	name: "submission-modal",
 	
 	mixins: [Translate],
 	
-	components: {CommentComponent, FilesComponentWithoutTree, SubmissionTable},
+	components: {NoCommentsComponent, CommentComponent, FilesComponentWithoutTree, SubmissionTable},
 	
 	props: {
 		submission: {required: true},
@@ -78,7 +80,8 @@ export default {
 			isActive: false,
 			testerType: '',
 			toggleOn: false,
-			files: []
+			files: [],
+            comments: false
 		}
 	},
 	
@@ -101,8 +104,17 @@ export default {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
 				this.submission.files = files
+                this.hasComments();
 			})
 		},
+
+        hasComments() {
+		    this.submission.files.forEach(file => {
+                if(file.comments.length > 0) {
+                    this.comments = true;
+                }
+            });
+        }
 	},
 }
 </script>
