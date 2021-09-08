@@ -108,7 +108,6 @@
         methods: {
             getFiles() {
 
-
                 this.files = this.submission.files
                 this.formattedFiles = []
 
@@ -122,6 +121,8 @@
                     this.formattedFiles.forEach((file, idx) => {
                         this.formattedFiles[idx] = this.compressFiles(file);
                     });
+                } else {
+                    this.activeFileId = null
                 }
 
             },
