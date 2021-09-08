@@ -47,7 +47,7 @@
 
 				<div class="comments">
 					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component v-if="comments===true" :submission="submission" view="student"></comment-component>
+					<comment-component v-if="comments" :submission="submission" view="student"></comment-component>
                     <no-comments-component v-else></no-comments-component>
 				</div>
 			</v-card-text>
