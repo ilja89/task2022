@@ -59,8 +59,7 @@
     export default {
 
         components: {
-            NoCommentsComponentPopup,
-            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent},
+            NoCommentsComponentPopup, PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent},
 
         data() {
             return {
@@ -97,7 +96,7 @@
                 Submission.findById(this.submission.id, this.submission.user_id,  submission => {
                     this.updateSubmission({submission});
                 })
-            },
+            }
         },
 
         created() {
