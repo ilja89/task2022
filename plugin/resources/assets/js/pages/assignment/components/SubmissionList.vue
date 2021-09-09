@@ -240,7 +240,7 @@ export default {
 <style>
 
 .latest {
-  background-color: #dbe5ed;
+  background-color: #E8F3FA;
 }
 
 .rotating {
