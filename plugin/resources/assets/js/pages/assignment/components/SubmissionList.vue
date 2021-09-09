@@ -2,8 +2,9 @@
 	<div>
 		<v-data-table
 			:expanded.sync="expanded" :headers="submissionHeaders" :items="submissionsTable"
-			dense disable-filtering disable-pagination hide-default-footer item-key="time" show-expand single-expand>
-			
+			dense disable-filtering disable-pagination hide-default-footer item-key="id" show-expand single-expand
+      :item-class="itemRowBackground">
+
 			<template v-slot:footer>
 				<v-toolbar flat class="mt-4">
 					<v-btn v-if="canLoadMore" class="ml-4" color="primary" dense outlined text
@@ -122,11 +123,16 @@ export default {
 
   mounted() {
     VueEvent.$on('add-submission', (submission) => {
+      submission.latestAdded = true;
       this.$store.state.submissions.unshift(submission);
     });
   },
 	
 	methods: {
+
+	  itemRowBackground(item) {
+      return item.hasOwnProperty('latestAdded') ? 'latest' : '';
+    },
 
     copyToEditor(item) {
       File.findBySubmission(item.id, files => {
@@ -231,7 +237,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.latest {
+  background-color: #E8F3FA;
+}
 
 .rotating {
 	animation-name: spin;
