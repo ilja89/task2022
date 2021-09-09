@@ -100,7 +100,7 @@ class SaveTesterCallback
 
             foreach ($users as $user) {
                 if ($completion->is_enabled($cm)) {
-                    $completion->update_state($cm, COMPLETION_UNKNOWN, $user->id);
+                    $completion->update_state($cm, COMPLETION_COMPLETE, $user->id);
                 }
             }
         }
