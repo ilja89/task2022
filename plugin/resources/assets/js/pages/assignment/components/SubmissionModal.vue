@@ -47,7 +47,7 @@
 
 				<div class="comments">
 					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component v-if="comments" :submission="submission" view="student"></comment-component>
+					<comment-component v-if="commentsExist" :submission="submission" view="student"></comment-component>
                     <no-comments-component v-else></no-comments-component>
 				</div>
 			</v-card-text>
@@ -81,7 +81,7 @@ export default {
 			testerType: '',
 			toggleOn: false,
 			files: [],
-            comments: false
+            commentsExist: false
 		}
 	},
 	
@@ -111,7 +111,7 @@ export default {
         hasComments() {
 		    this.submission.files.forEach(file => {
                 if(file.comments.length > 0) {
-                    this.comments = true;
+                    this.commentsExist = true;
                 }
             });
         }

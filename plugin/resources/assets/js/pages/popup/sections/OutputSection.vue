@@ -32,7 +32,9 @@
             <charon-tab name="Comments">
 
                 <comment-component v-if="hasComments" :submission="submission" view="teacher"/>
-                <no-comments-component-popup v-else></no-comments-component-popup>
+                <v-card v-else class="message">
+                    When a teacher will add comments for the submission, these comments will be visible here.
+                </v-card>
 
             </charon-tab>
 
@@ -59,12 +61,12 @@
     export default {
 
         components: {
-            NoCommentsComponentPopup, PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent},
+            NoCommentsComponentPopup, PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent
+        },
 
         data() {
             return {
-                stickyTabs: false,
-                comments: false
+                stickyTabs: false
             }
         },
 
@@ -113,3 +115,10 @@
         }
     }
 </script>
+
+<style scoped>
+
+.message {
+    padding: 10px;
+}
+</style>
