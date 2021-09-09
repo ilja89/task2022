@@ -2,7 +2,7 @@
     <v-card class="mx-auto" max-width="70vw" outlined raised>
 
         <v-card>
-            <v-container class="gray-part">
+            <v-container v-if="activeFileId" class="gray-part">
                 <textarea rows="8" type="text" class="code-comment" v-model="newComment" maxlength="10000"
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
@@ -108,7 +108,6 @@
         methods: {
             getFiles() {
 
-
                 this.files = this.submission.files
                 this.formattedFiles = []
 
@@ -122,6 +121,8 @@
                     this.formattedFiles.forEach((file, idx) => {
                         this.formattedFiles[idx] = this.compressFiles(file);
                     });
+                } else {
+                    this.activeFileId = null
                 }
 
             },
