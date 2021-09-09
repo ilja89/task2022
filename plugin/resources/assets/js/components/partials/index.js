@@ -6,5 +6,5 @@ import FilesComponentWithoutTree from './FilesComponentWithoutTree.vue'
 import CommentComponent from "./CommentComponent";
 
 export {
-    CharonTab, CharonTabs, Datepicker, FilesComponent, FilesComponentWithoutTree, CommentComponent,
+    CharonTab, CharonTabs, Datepicker, FilesComponent, FilesComponentWithoutTree, CommentComponent
 }

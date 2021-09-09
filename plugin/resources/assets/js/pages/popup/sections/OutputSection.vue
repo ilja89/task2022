@@ -31,7 +31,11 @@
 
             <charon-tab name="Comments">
 
-                <comment-component :submission="submission" view="teacher"/>
+                <comment-component v-if="hasComments" :submission="submission" view="teacher"/>
+
+                <v-card v-else class="message">
+                    When a teacher will add comments for the submission, these comments will be visible here.
+                </v-card>
 
             </charon-tab>
 
@@ -57,11 +61,13 @@
 
     export default {
 
-        components: {PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent},
+        components: {
+            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent
+        },
 
         data() {
             return {
-                stickyTabs: false,
+                stickyTabs: false
             }
         },
 
@@ -70,6 +76,15 @@
                 'charon',
                 'submission',
             ]),
+
+            hasComments() {
+                for(let i = 0; i < this.submission.files.length; i++) {
+                    if(this.submission.files[i].comments.length > 0) {
+                        return true;
+                    }
+                }
+                return false;
+            },
 
             hasMail() {
                 return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
@@ -96,8 +111,14 @@
                 File.findBySubmission(this.submission.id, newFile => {
                     this.submission.files = newFile
                 })
-
             })
         }
     }
 </script>
+
+<style scoped>
+
+.message {
+    padding: 10px;
+}
+</style>

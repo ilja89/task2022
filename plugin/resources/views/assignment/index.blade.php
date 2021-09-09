@@ -87,7 +87,8 @@
         selectDayText: "{{ translate('select_day') }}",
         selectTimeText: "{{ translate('select_time') }}",
         registerText: "{{ translate('register') }}",
-        commentsText: "{{ translate('comments') }}"
+        commentsText: "{{ translate('comments') }}",
+        noCommentsInfo: "{{ translate('no-comments-text') }}"
     };
 </script>
 

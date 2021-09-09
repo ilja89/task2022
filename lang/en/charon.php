@@ -190,3 +190,4 @@ $string['select_day'] = 'Select a lab';
 $string['select_time'] = 'Select a time';
 $string['register'] = 'Register';
 $string['comments'] = 'Comments';
+$string['no-comments-text'] = 'When a teacher adds comments for the submission, they will be visible here.';

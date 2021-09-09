@@ -6,32 +6,32 @@
 				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
 			</v-btn>
 		</template>
-		
+
 		<v-card style="background-color: white; overflow-y: auto;">
 			<v-toolbar :color="color" dark>
 				<span class="headline">{{ translate('submissionText') }} {{ submission.git_hash }}</span>
-				
+
 				<v-spacer></v-spacer>
-				
+
 				<v-btn color="error" @click="isActive = false">
 					{{ translate('closeText') }}
 				</v-btn>
 			</v-toolbar>
-			
+
 			<v-card-text class="pt-4">
 				<div v-if="hasCommitMessage">
 					<h3>{{ translate('commitMessageText') }}</h3>
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
-				
+
 				<h3 v-if="toggleOn">Showing table</h3>
 				<h3 v-else>Showing mail</h3>
-				
+
 				<label class="switch">
 					<input type="checkbox" v-model="toggleOn">
 					<span class="slider round"></span>
 				</label>
-				
+
 				<div v-if="hasMail && !toggleOn">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
@@ -39,15 +39,18 @@
 				<div v-if="toggleOn">
 					<submission-table :submission="submission"></submission-table>
 				</div>
-				
+
 				<h3>{{ translate('filesText') }}</h3>
-				
+
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
 				<div class="comments">
 					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component :submission="submission" view="student"></comment-component>
+					<comment-component v-if="commentsExist" :submission="submission" view="student"></comment-component>
+					<v-card v-else class="message">
+						{{ translate('noCommentsInfo') }}
+					</v-card>
 				</div>
 			</v-card-text>
 		</v-card>
@@ -63,35 +66,38 @@ import CommentComponent from "../../../components/partials/CommentComponent";
 
 export default {
 	name: "submission-modal",
-	
+
 	mixins: [Translate],
-	
-	components: {CommentComponent, FilesComponentWithoutTree, SubmissionTable},
-	
+
+	components: {
+		CommentComponent, FilesComponentWithoutTree, SubmissionTable
+	},
+
 	props: {
 		submission: {required: true},
 		color: {required: true}
 	},
-	
+
 	data() {
 		return {
 			isActive: false,
 			testerType: '',
 			toggleOn: false,
-			files: []
+			files: [],
+			commentsExist: false
 		}
 	},
-	
+
 	computed: {
 		hasCommitMessage() {
 			return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0
 		},
-		
+
 		hasMail() {
 			return this.submission.mail !== null && this.submission.mail.length > 0
 		},
 	},
-	
+
 	mounted() {
 		this.testerType = window.testerType
 		this.getFiles()
@@ -101,8 +107,17 @@ export default {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
 				this.submission.files = files
+				this.hasComments();
 			})
 		},
+
+		hasComments() {
+			this.submission.files.forEach(file => {
+				if(file.comments.length > 0) {
+					this.commentsExist = true;
+				}
+			});
+		}
 	},
 }
 </script>
@@ -176,4 +191,9 @@ input:checked + .slider:before {
 .comments {
 	padding-top: 10px;
 }
+
+.message {
+	padding: 10px;
+}
+
 </style>
