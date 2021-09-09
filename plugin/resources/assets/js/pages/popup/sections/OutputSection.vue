@@ -53,7 +53,7 @@
 <script>
 
     import {mapState, mapActions} from "vuex";
-    import {CharonTabs, CharonTab, FilesComponent, CommentComponent, NoCommentsComponentPopup} from '../../../components/partials/index';
+    import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
     import {Submission} from "../../../api";
@@ -62,7 +62,7 @@
     export default {
 
         components: {
-            NoCommentsComponentPopup, PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent
+            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent
         },
 
         data() {
@@ -78,13 +78,12 @@
             ]),
 
             hasComments() {
-                let comments = false;
-                this.submission.files.forEach(file => {
-                    if(file.comments.length > 0) {
-                        comments = true;
+                for(let i = 0; i < this.submission.files.length; i++) {
+                    if(this.submission.files[i].comments.length > 0) {
+                        return true;
                     }
-                });
-                return comments;
+                }
+                return false;
             },
 
             hasMail() {
