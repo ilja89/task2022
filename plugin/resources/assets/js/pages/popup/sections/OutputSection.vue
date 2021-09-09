@@ -32,6 +32,7 @@
             <charon-tab name="Comments">
 
                 <comment-component v-if="hasComments" :submission="submission" view="teacher"/>
+
                 <v-card v-else class="message">
                     When a teacher will add comments for the submission, these comments will be visible here.
                 </v-card>
