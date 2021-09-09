@@ -32,7 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#539 Substitute Ace Editor with textarea
 - \#562 Teacher buttons are now at the very bottom
 - \#566 Added Estonian translation to everything associated to templates
+- \#557 Added a button to each submission in submissions list, that copies its files to editor
 - \#558 Submitting from stuednt view now can use synchronous request so that results appear automatically
+- \#592 Added synchronous url field in course charon settings and editors submissions uses that synchronous url
+- \#605 Editors content now defaults to the last submission and added a button that resets editors content to that of templates
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -51,6 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#561 `Submit` and `Copy` buttons look the same as other teacher buttons
 - \#564 In charon settings `Code editor` section is renamed to `Templates and code submission on page`
 - \#565 After a successful submission request to backend it now displays `Code has been sent to tester. Please refresh submissions in a while.`
+- \#601 Fixed how submissions files path is put togheter
+- \#612 Changed the style of submission button and added highlighting to recently submitted submissions
 
 ## [1.2.4] - 2021-05-19
 
