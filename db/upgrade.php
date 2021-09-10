@@ -764,7 +764,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021083001){
+    if ($oldversion < 2021090901){
         $table = new xmldb_table("charon_course_settings");
         $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
 
