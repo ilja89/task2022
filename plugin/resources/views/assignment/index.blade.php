@@ -5,7 +5,7 @@
 <h1 class="title">{{ $charon->name }}</h1>
 
 <div class="rows assignment-rows" id="app">
-    <div class="columns assignment-columns" id="app">
+    <div class="columns assignment-columns">
         <div class="column is-two-thirds assignment-content content" v-highlightjs>
 
             {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
@@ -33,7 +33,7 @@
 
         </div>
     </div>
-    <div class="columns assignment-columns" id="app">
+    <div class="columns assignment-columns">
         <div class="column is-two-thirds assignment-content content" v-highlightjs>
             <div class="edit-container" v-if="allow_submission > 0">
                 <code-templates
