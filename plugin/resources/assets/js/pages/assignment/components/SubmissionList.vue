@@ -238,10 +238,12 @@ export default {
 </script>
 
 <style>
-
 .latest {
   background-color: #E8F3FA;
 }
+</style>
+
+<style scoped>
 
 .rotating {
 	animation-name: spin;
