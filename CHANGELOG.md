@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#565 After a successful submission request to backend it now displays `Code has been sent to tester. Please refresh submissions in a while.`
 - \#601 Fixed how submissions files path is put togheter
 - \#612 Changed the style of submission button and added highlighting to recently submitted submissions
+- \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
 
 ## [1.2.4] - 2021-05-19
 
