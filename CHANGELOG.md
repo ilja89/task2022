@@ -6,8 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.3.0] - 2021-07-19
-
 ### Added
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#562 Teacher buttons are now at the very bottom
