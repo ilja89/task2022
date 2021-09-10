@@ -6,13 +6,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
+- \#562 Teacher buttons are now at the very bottom
+- \#566 Added Estonian translation to everything associated to templates
+- \#557 Added a button to each submission in submissions list, that copies its files to editor
+- \#558 Submitting from stuednt view now can use synchronous request so that results appear automatically
+- \#592 Added synchronous url field in course charon settings and editors submissions uses that synchronous url
+- \#605 Editors content now defaults to the last submission and added a button that resets editors content to that of templates
+
+### Fixed
+- \#555 When `stylecheck` in `tester extra` tester sends style results also, also results output in Popup got also fixed
+- \#556 Now `userId` is not passed along with the solution submit request
+- \#561 `Submit` and `Copy` buttons look the same as other teacher buttons
+- \#564 In charon settings `Code editor` section is renamed to `Templates and code submission on page`
+- \#565 After a successful submission request to backend it now displays `Code has been sent to tester. Please refresh submissions in a while.`
+- \#601 Fixed how submissions files path is put togheter
+- \#612 Changed the style of submission button and added highlighting to recently submitted submissions
+- \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
+
+
+### Changed
+
 ### Changed
 - \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
   php composer install/update is run)
 - \#511 Update Laravel Mix from 0.10.0 to 4.1.4
 
+## [1.3.0] - 2021-07-19
+
 ### Added
-- \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#454 Added posting to tester from inline submission
 - \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
@@ -30,12 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
-- \#562 Teacher buttons are now at the very bottom
-- \#566 Added Estonian translation to everything associated to templates
-- \#557 Added a button to each submission in submissions list, that copies its files to editor
-- \#558 Submitting from stuednt view now can use synchronous request so that results appear automatically
-- \#592 Added synchronous url field in course charon settings and editors submissions uses that synchronous url
-- \#605 Editors content now defaults to the last submission and added a button that resets editors content to that of templates
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -49,14 +66,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-- \#555 When `stylecheck` in `tester extra` tester sends style results also, also results output in Popup got also fixed
-- \#556 Now `userId` is not passed along with the solution submit request
-- \#561 `Submit` and `Copy` buttons look the same as other teacher buttons
-- \#564 In charon settings `Code editor` section is renamed to `Templates and code submission on page`
-- \#565 After a successful submission request to backend it now displays `Code has been sent to tester. Please refresh submissions in a while.`
-- \#601 Fixed how submissions files path is put togheter
-- \#612 Changed the style of submission button and added highlighting to recently submitted submissions
-- \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
 
 ## [1.2.4] - 2021-05-19
 
