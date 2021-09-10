@@ -33,6 +33,14 @@
 
             <charon-text-input
                     input_class="is-half"
+                    name="tester_sync_url"
+                    label="Tester synchronous URL"
+                    :value="form.fields.tester_sync_url"
+                    @input-was-changed="onTesterSyncUrlChanged">
+            </charon-text-input>
+
+            <charon-text-input
+                    input_class="is-half"
                     name="tester_token"
                     label="Tester token"
                     :value="form.fields.tester_token"
@@ -60,6 +68,9 @@
         },
 
         methods: {
+            onTesterSyncUrlChanged(testerUrl) {
+              VueEvent.$emit('tester-sync-url-was-changed', testerUrl);
+            },
             onUnittestsGitChanged(unittestsGit) {
                 VueEvent.$emit('unittests-git-was-changed', unittestsGit);
             },
