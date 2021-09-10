@@ -54,7 +54,7 @@
 			<template v-slot:item.actions="{ item }">
 				<v-row>
 					<submission-modal :submission="item" :color="getColor(item)"/>
-					<v-btn icon @click="copyToEditor(item)">
+          <v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
             <img alt="eye" height="24px" src="pix/copy.png" width="24px">
           </v-btn>
 					<registration-bottom-sheet :submission="item" :color="getColor(item)"/>
@@ -81,7 +81,11 @@ export default {
 	components: {
 		RegistrationBottomSheet, SubmissionModal
 	},
-	
+
+  props: {
+    allow_submission: {required: true}
+  },
+
 	data() {
 		return {
 			expanded: [],
