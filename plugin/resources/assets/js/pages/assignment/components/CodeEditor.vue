@@ -8,6 +8,7 @@
         class="editor"
         v-model="content"
         id="content"
+        v-bind:id="codes[this.codeId].path"
         @input="dataSubmit"
         @init="editorInit"
         :lang="lang"
@@ -19,14 +20,15 @@
         enableLiveAutocompletion: true,
         fontSize: 14,
         highlightActiveLine: true,
+        highlightSelectedWord: true,
         enableSnippets: true,
         showLineNumbers: true,
-        tabSize: 2,
+        tabSize: 4,
         showPrintMargin: false,
         showGutter: true,
         readOnly: read_only,
         }"
-    />
+    /> <br>
 
     <a class="button is-link" @click="copyToClipBoard">
       {{ translate('copyButton') }}
@@ -63,8 +65,12 @@ export default {
     VueEvent.$on('change-editor', (codes) => {
       this.content = codes[this.codeId].contents
     });
+    VueEvent.$on('tab-was-changed', (selectedTab) => {
+      const editor = ace.edit(selectedTab);
+      editor.focus();
+      editor.navigateFileEnd();
+    })
   },
-
 
   methods: {
 

@@ -2,8 +2,9 @@
 	<div>
 		<v-data-table
 			:expanded.sync="expanded" :headers="submissionHeaders" :items="submissionsTable"
-			dense disable-filtering disable-pagination hide-default-footer item-key="time" show-expand single-expand>
-			
+			dense disable-filtering disable-pagination hide-default-footer item-key="id" show-expand single-expand
+      :item-class="itemRowBackground">
+
 			<template v-slot:footer>
 				<v-toolbar flat class="mt-4">
 					<v-btn v-if="canLoadMore" class="ml-4" color="primary" dense outlined text
@@ -84,7 +85,7 @@ export default {
   props: {
     allow_submission: {required: true}
   },
-	
+
 	data() {
 		return {
 			expanded: [],
@@ -126,11 +127,16 @@ export default {
 
   mounted() {
     VueEvent.$on('add-submission', (submission) => {
+      submission.latestAdded = true;
       this.$store.state.submissions.unshift(submission);
     });
   },
 	
 	methods: {
+
+	  itemRowBackground(item) {
+      return item.hasOwnProperty('latestAdded') ? 'latest' : '';
+    },
 
     copyToEditor(item) {
       File.findBySubmission(item.id, files => {
@@ -204,9 +210,14 @@ export default {
 		refreshSubmissions() {
 			this.refreshing = true;
 			Submission.findByUserCharon(this.student_id, this.charon.id, (submissions) => {
-				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				this.refreshing = false;
+			  if (submissions.length === 0) {
+          VueEvent.$emit('latest-submission-does-not-exist');
+        } else {
+          VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
+        }
+        this.$store.state.submissions = submissions;
+        this.canLoadMore = Submission.canLoadMore();
+        this.refreshing = false;
 			});
 		},
 		
@@ -229,6 +240,12 @@ export default {
 	},
 }
 </script>
+
+<style>
+.latest {
+  background-color: #E8F3FA;
+}
+</style>
 
 <style scoped>
 

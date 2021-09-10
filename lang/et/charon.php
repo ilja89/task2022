@@ -195,3 +195,4 @@ $string['delete'] = 'Kustuta';
 $string['source_file'] = 'Lähtefail:';
 $string['insert_file_path'] = 'Sisestage faili tee, et seda siin näha ja faili sisu muuta.';
 $string['source_files'] = 'Lähtefailid';
+$string['reset_to_templates'] = 'Taasta mallid';
