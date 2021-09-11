@@ -22,12 +22,12 @@
 
         <p>
             {{ translate('tester_extra_label') }}:
-            {{ form.fields.tester_extra.length > 0 ? form.fields.tester_extra : '(No tester extra specified)' }}
+            {{ (form.fields.tester_extra && (form.fields.tester_extra.length > 0)) ? form.fields.tester_extra : '(No tester extra specified)' }}
         </p>
 
         <p>
             {{ translate('system_extra_label') }}:
-            {{ form.fields.system_extra.length > 0 ? form.fields.system_extra : '(No system extra specified)' }}
+            {{ (form.fields.system_extra && (form.fields.system_extra.length > 0)) ? form.fields.system_extra : '(No system extra specified)' }}
         </p>
 
         <input type="hidden" name="tester_extra" :value="form.fields.tester_extra">
