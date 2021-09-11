@@ -764,7 +764,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021090301) {
+    if ($oldversion < 2021091101) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_code_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    teacher_id BIGINT(10) NOT NULL," .
