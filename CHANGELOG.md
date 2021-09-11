@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## Added
+- \#589 Added the ability for teachers to add feedback for students' submissions
+
 ## [1.5.1] - 2021-09-10
 
 ### Added
-- \#589 Added the ability for teachers to add feedback for students' submissions
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#562 Teacher buttons are now at the very bottom
 - \#566 Added Estonian translation to everything associated to templates
