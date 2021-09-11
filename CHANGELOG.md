@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## Added
+### Added
 - \#589 Added the ability for teachers to add feedback for students' submissions
 
 ## [1.5.1] - 2021-09-10
