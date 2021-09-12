@@ -69,7 +69,7 @@ class TeacherModifiesSubmission
         $completion = new \completion_info($course);
 
         if ($completion->is_enabled($cm)) {
-            $completion->update_state($cm, COMPLETION_UNKNOWN, $submission->user_id);
+            $completion->update_state($cm, COMPLETION_COMPLETE, $submission->user_id);
         }
 
         return $submission;
