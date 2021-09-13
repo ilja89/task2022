@@ -798,5 +798,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021091301) {
+        $sql = "ALTER TABLE {charon_code_review_comment} ADD COLUMN notify TINYINT(1) NOT NULL";
+        $DB->execute($sql);
+    }
+
     return true;
 }
