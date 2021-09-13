@@ -14,5 +14,24 @@ class TrimStrings extends BaseTrimmer
     protected $except = [
         'password',
         'password_confirmation',
+        'contents'
     ];
+
+    /**
+     * Transform the given value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    protected function transform($key, $value)
+    {
+        foreach ($this->except as $pattern) {
+            if (preg_match("/" . $pattern . "/", $key)) {
+                return $value;
+            }
+        }
+
+        return is_string($value) ? trim($value) : $value;
+    }
 }
