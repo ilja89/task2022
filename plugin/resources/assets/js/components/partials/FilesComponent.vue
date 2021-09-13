@@ -86,7 +86,7 @@
                 }
 
                 let file = this.files.find(file => {
-                    return file.id == this.activeFileId
+                    return file.id === this.activeFileId
                 })
 
                 return {
@@ -149,7 +149,7 @@
                 while (pathArray.length) {
                     const currentFolder = pathArray.shift()
                     const hasFolder = currentContext.find((context) => {
-                        return context.title === currentFolder
+                        return context.title == currentFolder
                     })
 
                     if (hasFolder) {
