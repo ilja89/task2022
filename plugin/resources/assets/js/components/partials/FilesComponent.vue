@@ -10,6 +10,14 @@
                        :disabled="!newComment" @click="saveComment">
                     Add comment
                 </v-btn>
+                <span>
+                    <input
+                        type="checkbox"
+                        class="form-control"
+                        v-model="notification"
+                    >
+                    Send notification to the student about the comment
+                </span>
             </v-container>
         </v-card>
         <div
@@ -69,6 +77,7 @@
                 activeFileId: null,
                 formattedFiles: [],
                 newComment: '',
+                notification: true
             }
         },
 
