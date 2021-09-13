@@ -146,7 +146,7 @@
                 while (pathArray.length) {
                     const currentFolder = pathArray.shift()
                     const hasFolder = currentContext.find((context) => {
-                        return context.title === currentFolder
+                        return context.title == currentFolder
                     })
 
                     if (hasFolder) {
