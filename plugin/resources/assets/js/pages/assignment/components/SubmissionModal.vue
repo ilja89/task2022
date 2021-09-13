@@ -2,7 +2,7 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon @click="isActive=true" v-bind="attrs" v-on="on">
+			<v-btn icon v-bind:class="{ outlined: notify, 'notify': notify }" @click="isActive=true" v-bind="attrs" v-on="on">
 				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
 			</v-btn>
 		</template>
@@ -84,7 +84,8 @@ export default {
 			testerType: '',
 			toggleOn: false,
 			files: [],
-			commentsExist: false
+			commentsExist: false,
+			notify: false,
 		}
 	},
 
@@ -113,8 +114,13 @@ export default {
 
 		hasComments() {
 			this.submission.files.forEach(file => {
-				if(file.comments.length > 0) {
+				if (file.comments.length > 0) {
 					this.commentsExist = true;
+					file.comments.forEach(reviewComment => {
+						if (reviewComment.notify) {
+							this.notify = true;
+						}
+					})
 				}
 			});
 		}
@@ -194,6 +200,10 @@ input:checked + .slider:before {
 
 .message {
 	padding: 10px;
+}
+
+.notify {
+	color: red;
 }
 
 </style>
