@@ -146,7 +146,7 @@
                 while (pathArray.length) {
                     const currentFolder = pathArray.shift()
                     const hasFolder = currentContext.find((context) => {
-                        return context.title == currentFolder
+                        return context.title === currentFolder
                     })
 
                     if (hasFolder) {
@@ -212,9 +212,8 @@
                 CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
+                    this.$root.$emit('refresh_submission_files')
                 });
-
-                this.$root.$emit('refresh_submission_files')
             },
         },
     }
