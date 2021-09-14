@@ -2,8 +2,8 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon :outlined="notify" :color="notifyColor" @click="isActive=true" v-bind="attrs" v-on="on">
-				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
+			<v-btn icon :color="notifyColor" @click="isActive=true" v-bind="attrs" v-on="on">
+				<v-icon>mdi-eye</v-icon>
 			</v-btn>
 		</template>
 
