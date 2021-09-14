@@ -34,8 +34,9 @@ class CodeReviewCommentController extends Controller
     {
         $submissionFileId = $request->input('submission_file_id');
         $comment = $request->input('comment');
+        $notify = $request->input('notify');
 
-        return $this->codeReviewCommentService->saveComment($submissionFileId, $comment);
+        return $this->codeReviewCommentService->saveComment($submissionFileId, $comment, $notify);
     }
 
     public function deleteComment(Request $request): array
