@@ -86,6 +86,7 @@ export default {
 			files: [],
 			commentsExist: false,
 			notify: false,
+			reviewIdsWithNotify: [],
 		}
 	},
 
@@ -123,6 +124,7 @@ export default {
 					file.comments.forEach(reviewComment => {
 						if (reviewComment.notify) {
 							this.notify = true;
+							this.reviewIdsWithNotify.push(reviewComment.id);
 						}
 					})
 				}
