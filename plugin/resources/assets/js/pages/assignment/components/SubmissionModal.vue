@@ -3,7 +3,7 @@
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn icon :color="notifyColor" @click="isActive=true" v-bind="attrs" v-on="on">
-				<v-icon>mdi-eye</v-icon>
+				<v-icon aria-label="Submission Information" role="img" aria-hidden="false">mdi-eye</v-icon>
 			</v-btn>
 		</template>
 
