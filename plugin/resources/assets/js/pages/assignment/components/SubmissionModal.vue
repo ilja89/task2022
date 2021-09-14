@@ -2,7 +2,7 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon v-bind:class="{ outlined: notify, 'notify': notify }" @click="isActive=true" v-bind="attrs" v-on="on">
+			<v-btn icon :outlined="notify" :color="notifyColor" @click="isActive=true" v-bind="attrs" v-on="on">
 				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
 			</v-btn>
 		</template>
@@ -97,6 +97,10 @@ export default {
 		hasMail() {
 			return this.submission.mail !== null && this.submission.mail.length > 0
 		},
+
+		notifyColor() {
+			return this.notify ? 'red' : '';
+		}
 	},
 
 	mounted() {
@@ -200,10 +204,6 @@ input:checked + .slider:before {
 
 .message {
 	padding: 10px;
-}
-
-.notify {
-	color: red;
 }
 
 </style>
