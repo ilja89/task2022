@@ -30,12 +30,13 @@ class CodeReviewCommentService
      *
      * @param $submissionFileId
      * @param $comment
+     * @param $notify
      * @return string[]
      */
-    public function saveComment($submissionFileId, $comment): array
+    public function saveComment($submissionFileId, $comment, $notify): array
     {
         $teacherId = (new User)->currentUserId();
-        $this->codeReviewCommentRepository->save($teacherId, $submissionFileId, $comment);
+        $this->codeReviewCommentRepository->save($teacherId, $submissionFileId, $comment, $notify);
         return [
             'status'  => 'OK'
         ];

@@ -10,6 +10,8 @@
                        :disabled="!newComment" @click="saveComment">
                     Add comment
                 </v-btn>
+                <input type="checkbox" class="form-control" v-model="notify">
+                    Notify the student about the comment
             </v-container>
         </v-card>
         <div
@@ -69,6 +71,7 @@
                 activeFileId: null,
                 formattedFiles: [],
                 newComment: '',
+                notify: true
             }
         },
 
@@ -209,7 +212,7 @@
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
+                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, this.notify, () => {
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                     this.$root.$emit('refresh_submission_files')

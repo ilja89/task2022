@@ -19,8 +19,9 @@ class CodeReviewCommentRepository
      * @param $teacherId
      * @param $submissionFileId
      * @param $comment
+     * @param $notify
      */
-    public function save($teacherId, $submissionFileId, $comment)
+    public function save($teacherId, $submissionFileId, $comment, $notify)
     {
         DB::table('charon_code_review_comment')->insert([
             'teacher_id' => $teacherId,
@@ -29,6 +30,7 @@ class CodeReviewCommentRepository
             'code_row_no_end' => null,
             'comment' => $comment,
             'created_at' => Carbon::now(),
+            'notify' => $notify
         ]);
     }
 
