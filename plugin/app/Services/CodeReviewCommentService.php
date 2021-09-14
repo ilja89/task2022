@@ -26,32 +26,32 @@ class CodeReviewCommentService
     }
 
     /**
-     * Get logged-in user's identifier and save their comment.
+     * Get logged-in user's identifier and save their review comment.
      *
      * @param $submissionFileId
-     * @param $comment
+     * @param $reviewComment
      * @return string[]
      */
-    public function saveComment($submissionFileId, $comment): array
+    public function save($submissionFileId, $reviewComment): array
     {
         $teacherId = (new User)->currentUserId();
-        $this->codeReviewCommentRepository->save($teacherId, $submissionFileId, $comment);
+        $this->codeReviewCommentRepository->save($teacherId, $submissionFileId, $reviewComment);
         return [
             'status'  => 'OK'
         ];
     }
 
     /**
-     * Delete comment.
+     * Delete review comment.
      *
-     * @param $commentId
+     * @param $reviewCommentId
      * @return array
      */
-    public function deleteComment($commentId): array
+    public function delete($reviewCommentId): array
     {
-        $comment = $this->codeReviewCommentRepository->get($commentId);
+        $comment = $this->codeReviewCommentRepository->get($reviewCommentId);
         if ($comment) {
-            $result = $this->codeReviewCommentRepository->delete($commentId);
+            $result = $this->codeReviewCommentRepository->delete($reviewCommentId);
             if ($result) {
                 return [
                     'status' => 'OK'

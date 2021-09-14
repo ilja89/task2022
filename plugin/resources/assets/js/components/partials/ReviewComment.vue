@@ -1,24 +1,24 @@
 <template>
-    <v-card class="comment">
-        <div class="comment-heading">
+    <v-card class="review-comment">
+        <div class="review-comment-heading">
             <div class="comment-heading-info">
-                <span class="comment-author">
-                        {{ comment.teacher.fullname }}
+                <span class="review-comment-author">
+                        {{ reviewComment.teacher.fullname }}
                 </span>
-                <span class="comment-date">
-                    {{ comment.created_at }}
+                <span class="review-comment-date">
+                    {{ reviewComment.created_at }}
                 </span>
             </div>
-            <div class="comment-actions">
-                <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteComment">
+            <div class="review-comment-actions">
+                <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteReviewComment">
                     <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
                 </v-btn>
             </div>
         </div>
 
-        <div class="comment-body">
+        <div class="review-comment-body">
             <p>
-                {{ comment.comment }}
+                {{ reviewComment.comment }}
             </p>
         </div>
 
@@ -30,10 +30,10 @@ import {mapState} from 'vuex'
 import CodeReviewComment from "../../api/CodeReviewComment";
 
 export default {
-    name: "FileComment",
+    name: "ReviewComment",
 
     props: {
-        comment: { required: true },
+        reviewComment: { required: true },
         view: {required: true }
     },
 
@@ -44,12 +44,12 @@ export default {
     },
 
     methods: {
-        deleteComment() {
-            if (this.comment === null) {
+        deleteReviewComment() {
+            if (this.reviewComment === null) {
                 return;
             }
 
-            CodeReviewComment.delete(this.comment.id, this.charon.id,() => {
+            CodeReviewComment.delete(this.reviewComment.id, this.charon.id,() => {
                 VueEvent.$emit('update-from-file-comment');
                 VueEvent.$emit('show-notification', 'Comment deleted')
             });
@@ -63,7 +63,7 @@ export default {
         box-sizing: border-box;
     }
 
-    .comment {
+    .review-comment {
         position: relative;
         padding: 10px 20px;
         background-color: #f2f3f4;
@@ -71,25 +71,25 @@ export default {
         letter-spacing: .0071428571em;
     }
 
-    .comment-heading {
+    .review-comment-heading {
         display: flex;
         justify-content: space-between;
         height: 30px;
         font-size: 14px;
     }
 
-    .comment-author {
+    .review-comment-author {
         color: #448aff;
         padding-right: 10px;
         margin-left: 10px;
         font-weight: normal;
     }
 
-    .comment-date {
+    .review-comment-date {
         font-size: 12px;
     }
 
-    .comment-body {
+    .review-comment-body {
         font-size: 14px;
     }
 

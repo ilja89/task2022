@@ -57,8 +57,8 @@ class FilesController extends Controller
         }
         $result = [];
         foreach ($submission->files as $submissionFile) {
-            foreach ($submissionFile->comments as $comment) {
-                $comment->teacher = $this->labTeacherRepository->getTeacherByUserId($comment->teacher_id)[0];
+            foreach ($submissionFile->comments as $reviewComment) {
+                $reviewComment->teacher = $this->labTeacherRepository->getTeacherByUserId($reviewComment->teacher_id)[0];
             }
 
             // legacy - for the case where "is_test" was not available

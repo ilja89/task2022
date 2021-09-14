@@ -1,21 +1,21 @@
 <template>
     <v-card>
         <v-container>
-            <file-comments
+            <review-comments
                 v-for="file in submission.files"
                 v-if="file.comments.length > 0"
                 :file="file" :view="view"
             >
-            </file-comments>
+            </review-comments>
         </v-container>
     </v-card>
 </template>
 
 <script>
-import FileComments from "./FileComments";
+import ReviewComments from "./ReviewComments";
 
 export default {
-    components: {FileComments},
+    components: {ReviewComments},
 
     props: {
         submission: { required: true },

@@ -18,16 +18,16 @@ class CodeReviewCommentRepository
      *
      * @param $teacherId
      * @param $submissionFileId
-     * @param $comment
+     * @param $reviewComment
      */
-    public function save($teacherId, $submissionFileId, $comment)
+    public function save($teacherId, $submissionFileId, $reviewComment)
     {
         DB::table('charon_code_review_comment')->insert([
             'teacher_id' => $teacherId,
             'submission_file_id' => $submissionFileId,
             'code_row_no_start' => null,
             'code_row_no_end' => null,
-            'comment' => $comment,
+            'comment' => $reviewComment,
             'created_at' => Carbon::now(),
         ]);
     }
@@ -35,25 +35,25 @@ class CodeReviewCommentRepository
     /**
      * Find a comment by id.
      *
-     * @param $commentId
+     * @param $reviewCommentId
      * @return CharonCodeReviewComment|null
      */
-    public function get($commentId): ?CharonCodeReviewComment
+    public function get($reviewCommentId): ?CharonCodeReviewComment
     {
-        return CharonCodeReviewComment::where('id', $commentId)
+        return CharonCodeReviewComment::where('id', $reviewCommentId)
             ->first();
     }
 
     /**
      * Remove a comment by id.
      *
-     * @param $commentId
+     * @param $reviewCommentId
      * @return boolean
      */
-    public function delete($commentId): bool
+    public function delete($reviewCommentId): bool
     {
         return DB::table('charon_code_review_comment')
-            ->where('id', $commentId)
+            ->where('id', $reviewCommentId)
             ->delete();
     }
 }
