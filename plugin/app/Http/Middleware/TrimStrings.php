@@ -14,7 +14,7 @@ class TrimStrings extends BaseTrimmer
     protected $except = [
         'password',
         'password_confirmation',
-        'contents'
+        'templateContents'
     ];
 
     /**
