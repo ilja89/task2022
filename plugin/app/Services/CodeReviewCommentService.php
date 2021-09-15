@@ -77,7 +77,8 @@ class CodeReviewCommentService
     public function clearNotifications($reviewCommentIds): array
     {
         foreach ($reviewCommentIds as $reviewCommentId) {
-            $this->codeReviewCommentRepository->clearNotification($reviewCommentId);
+            $this->codeReviewCommentRepository
+                ->clearNotification($this->codeReviewCommentRepository->get($reviewCommentId));
         }
 
         return [

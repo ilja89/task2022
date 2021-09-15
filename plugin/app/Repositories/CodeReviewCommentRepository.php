@@ -62,12 +62,11 @@ class CodeReviewCommentRepository
     /**
      * Clear notification of a comment with given identifier/change its 'notify' field to 0.
      *
-     * @param $reviewCommentId
+     * @param CharonCodeReviewComment $reviewComment
      * @return bool
      */
-    public function clearNotification($reviewCommentId): bool
+    public function clearNotification(CharonCodeReviewComment $reviewComment): bool
     {
-        $reviewComment = CharonCodeReviewComment::find($reviewCommentId);
         $reviewComment->notify = 0;
         return $reviewComment->update();
     }

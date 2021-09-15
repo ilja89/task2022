@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer|null code_row_no_start
  * @property integer|null code_row_no_end
  * @property string comment
+ * @property integer notify
  * @property Carbon timestamp
  *
  * @package TTU\Charon\Model
