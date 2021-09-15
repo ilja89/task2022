@@ -3,7 +3,7 @@
         <v-container>
             <review-comments
                 v-for="file in submission.files"
-                v-if="file.comments.length > 0"
+                v-if="file.review_comments.length > 0"
                 :file="file" :view="view"
             >
             </review-comments>

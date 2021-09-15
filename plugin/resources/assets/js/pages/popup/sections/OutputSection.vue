@@ -79,7 +79,7 @@
 
             hasReviewComments() {
                 for(let i = 0; i < this.submission.files.length; i++) {
-                    if(this.submission.files[i].comments.length > 0) {
+                    if (this.submission.files[i].review_comments.length > 0) {
                         return true;
                     }
                 }

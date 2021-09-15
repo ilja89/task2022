@@ -115,8 +115,8 @@
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
         resetToTemplates: "{{ translate('reset_to_templates') }}",
-        feedback: "{{ translate('feedback') }}",
-        noReviewCommentsInfo: "{{ translate('no-review-comments-text') }}"
+        feedbackText: "{{ translate('feedback-text') }}",
+        noFeedbackInfo: "{{ translate('no-feedback-info') }}"
     };
 </script>
 

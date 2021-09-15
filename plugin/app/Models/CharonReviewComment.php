@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  * Charon review comment model class.
  *
  * @property integer id
- * @property integer teacher_id
+ * @property integer user_id
  * @property integer submission_file_id
  * @property integer|null code_row_no_start
  * @property integer|null code_row_no_end
- * @property string comment
+ * @property string review_comment
+ * @property integer notify
  * @property Carbon timestamp
  *
  * @package TTU\Charon\Model
@@ -22,9 +23,9 @@ class CharonReviewComment extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'charon_code_review_comment';
+    protected $table = 'charon_review_comment';
     protected $fillable = [
-        'teacher_id', 'submission_file_id',
-        'code_row_no_start', 'code_row_no_end', 'comment'
+        'user_id', 'submission_file_id',
+        'code_row_no_start', 'code_row_no_end', 'review_comment'
     ];
 }

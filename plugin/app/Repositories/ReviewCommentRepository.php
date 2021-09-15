@@ -20,14 +20,14 @@ class ReviewCommentRepository
      * @param $submissionFileId
      * @param $reviewComment
      */
-    public function save($teacherId, $submissionFileId, $reviewComment)
+    public function save($userId, $submissionFileId, $reviewComment)
     {
-        DB::table('charon_code_review_comment')->insert([
-            'teacher_id' => $teacherId,
+        DB::table('charon_review_comment')->insert([
+            'user_id' => $userId,
             'submission_file_id' => $submissionFileId,
             'code_row_no_start' => null,
             'code_row_no_end' => null,
-            'comment' => $reviewComment,
+            'review_comment' => $reviewComment,
             'created_at' => Carbon::now(),
         ]);
     }
@@ -52,7 +52,7 @@ class ReviewCommentRepository
      */
     public function delete($reviewCommentId): bool
     {
-        return DB::table('charon_code_review_comment')
+        return DB::table('charon_review_comment')
             ->where('id', $reviewCommentId)
             ->delete();
     }

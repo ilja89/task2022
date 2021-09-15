@@ -34,8 +34,8 @@ class ReviewCommentService
      */
     public function save($submissionFileId, $reviewComment): array
     {
-        $teacherId = (new User)->currentUserId();
-        $this->reviewCommentRepository->save($teacherId, $submissionFileId, $reviewComment);
+        $userId = (new User)->currentUserId();
+        $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment);
         return [
             'status'  => 'OK'
         ];

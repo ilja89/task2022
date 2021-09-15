@@ -3,7 +3,7 @@
         <div class="review-comment-heading">
             <div class="comment-heading-info">
                 <span class="review-comment-author">
-                        {{ reviewComment.teacher.fullname }}
+                        {{ reviewComment.user.fullname }}
                 </span>
                 <span class="review-comment-date">
                     {{ reviewComment.created_at }}
@@ -18,7 +18,7 @@
 
         <div class="review-comment-body">
             <p>
-                {{ reviewComment.comment }}
+                {{ reviewComment.review_comment }}
             </p>
         </div>
 

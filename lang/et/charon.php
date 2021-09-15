@@ -196,5 +196,5 @@ $string['source_file'] = 'Lähtefail:';
 $string['insert_file_path'] = 'Sisestage faili tee, et seda siin näha ja faili sisu muuta.';
 $string['source_files'] = 'Lähtefailid';
 $string['reset_to_templates'] = 'Taasta mallid';
-$string['feedback'] = 'Tagasiside';
-$string['no-review-comments-text'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
+$string['feedback-text'] = 'Tagasiside';
+$string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
