@@ -16,7 +16,7 @@
       <a class="button is-link" @click="getTemplates">
         {{ translate('resetToTemplates') }}
       </a>
-      <button style="float: right" class="btn btn-primary" @click="submitClicked">
+      <button style="float: right" class="btn btn-primary" @click="submitClicked" :disabled="submitDisabled">
         {{ translate('submitButton') }}
       </button>
     </div>
@@ -60,10 +60,14 @@ export default {
       this.codes = codes;
       VueEvent.$emit('change-editor', codes);
     });
+    VueEvent.$on('reset-submit-button', () => {
+      this.submitDisabled = false
+    });
   },
 
   data() {
     return {
+      submitDisabled: false,
       codes: [],
     }
   },
@@ -89,22 +93,26 @@ export default {
       }
     },
     submitClicked() {
-      let sourceFiles = [];
+      VueEvent.$emit('show-notification', 'Trying to submit a new submission')
+      this.submitDisabled = true;
 
+      let sourceFiles = [];
       for (let i = 0; i < this.codes.length; i++) {
         sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents});
-      }
 
+      }
       try {
         Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
-          if (response['message'] === 'Testing successful') {
+          if (response['message'] === 'Testing the submission was successful') {
             VueEvent.$emit('add-submission', response['submission']);
           }
           VueEvent.$emit('show-notification', response['message']);
+          this.submitDisabled = false;
         }
         )
       } catch (e) {
-        VueEvent.$emit('show-notification', 'Error saving submission!')
+        VueEvent.$emit('show-notification', 'Error submitting a submission!')
+        this.submitDisabled = false;
       }
     }
   }
