@@ -47,12 +47,12 @@
 <script>
 
     import FileTree from './FileTree'
-    import CodeReviewComment from "../../api/CodeReviewComment";
+    import ReviewComment from "../../api/ReviewComment";
     import {mapState} from "vuex";
 
     export default {
 
-        components: {FileTree, CodeReviewComment},
+        components: {FileTree, ReviewComment},
 
         props: {
             submission: {required: true},
@@ -209,7 +209,7 @@
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
+                ReviewComment.save(this.newComment, this.activeFileId, this.charon.id, () => {
                     this.newComment = ''
                     VueEvent.$emit('show-notification', 'Comment saved!')
                     this.$root.$emit('refresh_submission_files')

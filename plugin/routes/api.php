@@ -46,9 +46,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
     Route::middleware('auth.charon.managing.require')
-        ->post('charons/{charon}/reviewComments/save', 'CodeReviewCommentController@save');
+        ->post('charons/{charon}/reviewComments/save', 'ReviewCommentController@save');
     Route::middleware('auth.charon.managing.require')
-        ->delete('charons/{charon}/codeReviewComments/{codeReviewComment}/delete', 'CodeReviewCommentController@delete');
+        ->delete('charons/{charon}/reviewComments/{reviewComment}/delete', 'ReviewCommentController@delete');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');

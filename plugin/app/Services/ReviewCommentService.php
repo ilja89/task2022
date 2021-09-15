@@ -2,27 +2,27 @@
 
 namespace TTU\Charon\Services;
 
-use TTU\Charon\Repositories\CodeReviewCommentRepository;
+use TTU\Charon\Repositories\ReviewCommentRepository;
 use Zeizig\Moodle\Globals\User;
 
 /**
- * Class CodeReviewCommentService
+ * Class ReviewCommentService
  *
  * @package TTU\Charon\Services
  */
-class CodeReviewCommentService
+class ReviewCommentService
 {
-    /** @var CodeReviewCommentRepository */
-    private $codeReviewCommentRepository;
+    /** @var ReviewCommentRepository */
+    private $reviewCommentRepository;
 
     /**
-     * CodeReviewCommentService constructor.
+     * ReviewCommentService constructor.
      *
-     * @param CodeReviewCommentRepository $codeReviewCommentRepository
+     * @param ReviewCommentRepository $reviewCommentRepository
      */
-    public function __construct(CodeReviewCommentRepository $codeReviewCommentRepository)
+    public function __construct(ReviewCommentRepository $reviewCommentRepository)
     {
-        $this->codeReviewCommentRepository = $codeReviewCommentRepository;
+        $this->reviewCommentRepository = $reviewCommentRepository;
     }
 
     /**
@@ -35,7 +35,7 @@ class CodeReviewCommentService
     public function save($submissionFileId, $reviewComment): array
     {
         $teacherId = (new User)->currentUserId();
-        $this->codeReviewCommentRepository->save($teacherId, $submissionFileId, $reviewComment);
+        $this->reviewCommentRepository->save($teacherId, $submissionFileId, $reviewComment);
         return [
             'status'  => 'OK'
         ];
@@ -49,9 +49,9 @@ class CodeReviewCommentService
      */
     public function delete($reviewCommentId): array
     {
-        $comment = $this->codeReviewCommentRepository->get($reviewCommentId);
+        $comment = $this->reviewCommentRepository->get($reviewCommentId);
         if ($comment) {
-            $result = $this->codeReviewCommentRepository->delete($reviewCommentId);
+            $result = $this->reviewCommentRepository->delete($reviewCommentId);
             if ($result) {
                 return [
                     'status' => 'OK'

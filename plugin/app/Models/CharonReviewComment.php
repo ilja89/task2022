@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Charon code review comment model class.
+ * Charon review comment model class.
  *
  * @property integer id
  * @property integer teacher_id
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package TTU\Charon\Model
  */
-class CharonCodeReviewComment extends Model
+class CharonReviewComment extends Model
 {
     public $timestamps = false;
 

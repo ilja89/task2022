@@ -27,7 +27,7 @@
 
 <script>
 import {mapState} from 'vuex'
-import CodeReviewComment from "../../api/CodeReviewComment";
+import ReviewComment from "../../api/ReviewComment";
 
 export default {
     name: "ReviewComment",
@@ -49,8 +49,8 @@ export default {
                 return;
             }
 
-            CodeReviewComment.delete(this.reviewComment.id, this.charon.id,() => {
-                VueEvent.$emit('update-from-file-comment');
+            ReviewComment.delete(this.reviewComment.id, this.charon.id,() => {
+                VueEvent.$emit('update-from-review-comment');
                 VueEvent.$emit('show-notification', 'Comment deleted')
             });
         },

@@ -102,7 +102,7 @@
         },
 
         created() {
-            VueEvent.$on('update-from-file-comment', this.updateOutputSection)
+            VueEvent.$on('update-from-review-comment', this.updateOutputSection)
         },
 
         mounted: function () {
