@@ -2,7 +2,7 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon :color="notifyColor" @click="isActive=true" v-bind="attrs" v-on="on">
+			<v-btn icon :color="notifyColor" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
 				<v-icon aria-label="Submission Information" role="img" aria-hidden="false">mdi-eye</v-icon>
 			</v-btn>
 		</template>
@@ -63,6 +63,8 @@ import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
 import {File} from "../../../api";
 import CommentComponent from "../../../components/partials/CommentComponent";
+import CodeReviewComment from "../../../api/CodeReviewComment";
+import {mapState} from "vuex";
 
 export default {
 	name: "submission-modal",
@@ -85,12 +87,16 @@ export default {
 			toggleOn: false,
 			files: [],
 			commentsExist: false,
-			notify: false,
-			reviewIdsWithNotify: [],
+			reviewCommentIdsWithNotify: [],
 		}
 	},
 
 	computed: {
+		...mapState([
+			'charon_id',
+			'student_id',
+		]),
+
 		hasCommitMessage() {
 			return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0
 		},
@@ -100,7 +106,7 @@ export default {
 		},
 
 		notifyColor() {
-			return this.notify ? 'red' : '';
+			return this.reviewCommentIdsWithNotify.length ? 'red' : '';
 		}
 	},
 
@@ -123,12 +129,21 @@ export default {
 					this.commentsExist = true;
 					file.comments.forEach(reviewComment => {
 						if (reviewComment.notify) {
-							this.notify = true;
-							this.reviewIdsWithNotify.push(reviewComment.id);
+							this.reviewCommentIdsWithNotify.push(reviewComment.id);
 						}
-					})
+					});
 				}
 			});
+		},
+
+		onClickSubmissionInformation() {
+			this.isActive = true;
+			if (this.reviewCommentIdsWithNotify.length) {
+				CodeReviewComment.clearNotifications(
+					this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
+						this.reviewCommentIdsWithNotify = [];
+					});
+			}
 		}
 	},
 }

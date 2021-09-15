@@ -58,4 +58,17 @@ class CodeReviewCommentRepository
             ->where('id', $commentId)
             ->delete();
     }
+
+    /**
+     * Clear notification of a comment with given identifier/change its 'notify' field to 0.
+     *
+     * @param $reviewCommentId
+     * @return bool
+     */
+    public function clearNotification($reviewCommentId): bool
+    {
+        $reviewComment = CharonCodeReviewComment::find($reviewCommentId);
+        $reviewComment->notify = 0;
+        return $reviewComment->update();
+    }
 }
