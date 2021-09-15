@@ -81,23 +81,6 @@ class TesterCommunicationService
     }
 
     /**
-     * Send AreteRequestDTO info to the tester.
-     *
-     * @param AreteRequestDto $areteRequestDto
-     * @param $testerCallbackUrl
-     *
-     * @throws GuzzleException
-     */
-    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl)
-    {
-        $params = $areteRequestDto->toArray();
-
-        $params['returnUrl'] = $testerCallbackUrl;
-
-        $this->httpCommunicationService->postToTester($params);
-    }
-
-    /**
      * Send AreteRequestDTO info to the tester in a synchronous request.
      *
      * @param AreteRequestDto $areteRequestDto
