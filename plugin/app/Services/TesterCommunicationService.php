@@ -86,17 +86,33 @@ class TesterCommunicationService
      * @param AreteRequestDto $areteRequestDto
      * @param $testerCallbackUrl
      *
-     * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
-     *
      * @throws GuzzleException
      */
-    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl): TesterCallbackRequest
+    public function sendInfoToTester(AreteRequestDto $areteRequestDto, $testerCallbackUrl)
     {
         $params = $areteRequestDto->toArray();
 
         $params['returnUrl'] = $testerCallbackUrl;
 
-        return $this->httpCommunicationService->postToTester($params);
+        $this->httpCommunicationService->postToTester($params);
+    }
+
+    /**
+     * Send AreteRequestDTO info to the tester in a synchronous request.
+     *
+     * @param AreteRequestDto $areteRequestDto
+     * @param $testerCallbackUrl
+     *
+     * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
+     *
+     */
+    public function sendInfoToTesterSync(AreteRequestDto $areteRequestDto, $testerCallbackUrl): TesterCallbackRequest
+    {
+        $params = $areteRequestDto->toArray();
+
+        $params['returnUrl'] = $testerCallbackUrl;
+
+        return $this->httpCommunicationService->postToTesterSync($params);
     }
 
     /**

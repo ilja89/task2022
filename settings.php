@@ -15,6 +15,15 @@ if ($ADMIN->fulltree) {
     );
 
     $settings->add(new admin_setting_configtext(
+            'mod_charon/tester_sync_url',
+            'Tester synchronous URL',
+            'The tester synchronous url.',
+            'neti.ee',
+            PARAM_TEXT,
+            100)
+    );
+
+    $settings->add(new admin_setting_configtext(
             'mod_charon/tester_token',
             'Tester token',
             'Token used to authenticate against tester',
