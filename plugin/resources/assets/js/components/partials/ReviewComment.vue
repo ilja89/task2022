@@ -1,7 +1,7 @@
 <template>
     <v-card class="review-comment">
         <div class="review-comment-heading">
-            <div class="comment-heading-info">
+            <div class="review-comment-heading-info">
                 <span class="review-comment-author">
                         {{ reviewComment.user.fullname }}
                 </span>
