@@ -223,7 +223,7 @@ class InstanceController extends Controller
      * and can be accessed, moved around and changed.
      *
      * @param integer $charonId
-     *4
+     *
      * @return void
      */
     public function postCourseModuleUpdated($charonId)
