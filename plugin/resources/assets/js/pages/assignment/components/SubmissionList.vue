@@ -135,7 +135,8 @@ export default {
 	methods: {
 
 	  itemRowBackground(item) {
-      return item.hasOwnProperty('latestAdded') ? 'latest' : '';
+      return item.hasOwnProperty('latestAdded')
+          && item.id === this.$store.state.submissions[0].id ? 'latest' : '';
     },
 
     copyToEditor(item) {
