@@ -194,7 +194,8 @@ class InstanceController extends Controller
     public function destroy($charonId)
     {
         Log::info("Delete charon ", [$charonId]);
-        return $this->charonRepository->deleteByInstanceId($charonId);
+        if ($charonId != 0) return $this->charonRepository->deleteByInstanceId($charonId);
+        return false;
     }
 
     /**
@@ -222,7 +223,7 @@ class InstanceController extends Controller
      * and can be accessed, moved around and changed.
      *
      * @param integer $charonId
-     *
+     *4
      * @return void
      */
     public function postCourseModuleUpdated($charonId)
