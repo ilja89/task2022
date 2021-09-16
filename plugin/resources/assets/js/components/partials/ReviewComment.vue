@@ -51,7 +51,7 @@ export default {
 
             ReviewComment.delete(this.reviewComment.id, this.charon.id,() => {
                 VueEvent.$emit('update-from-review-comment');
-                VueEvent.$emit('show-notification', 'Comment deleted')
+                VueEvent.$emit('show-notification', 'Review comment deleted!')
             });
         },
     }

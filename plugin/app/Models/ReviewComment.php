@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package TTU\Charon\Model
  */
-class CharonReviewComment extends Model
+class ReviewComment extends Model
 {
     public $timestamps = false;
 

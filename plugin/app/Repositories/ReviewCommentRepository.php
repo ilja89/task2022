@@ -4,7 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use TTU\Charon\Models\CharonReviewComment;
+use TTU\Charon\Models\ReviewComment;
 
 /**
  * Class ReviewCommentRepository.
@@ -16,7 +16,7 @@ class ReviewCommentRepository
     /**
      * Save a submission file comment.
      *
-     * @param $teacherId
+     * @param $userId
      * @param $submissionFileId
      * @param $reviewComment
      */
@@ -36,16 +36,16 @@ class ReviewCommentRepository
      * Find a comment by id.
      *
      * @param $reviewCommentId
-     * @return CharonReviewComment|null
+     * @return ReviewComment|null
      */
-    public function get($reviewCommentId): ?CharonReviewComment
+    public function get($reviewCommentId): ?ReviewComment
     {
-        return CharonReviewComment::where('id', $reviewCommentId)
+        return ReviewComment::where('id', $reviewCommentId)
             ->first();
     }
 
     /**
-     * Remove a comment by id.
+     * Remove a review comment by id.
      *
      * @param $reviewCommentId
      * @return boolean
