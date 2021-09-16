@@ -84,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
+- \#629 Made templates deleting with charon deleting
 
 ## [1.2.4] - 2021-05-19
 
