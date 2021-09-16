@@ -21,21 +21,14 @@ export default {
 
   data() {
     return {
-      test1: 0,
-      test2: [],
-
-      tp_course: 0,
-
       summary_headers: [
-        {text: 'Total points from course', value: 'total_points_course', align: 'center'},
-        {text: 'Potential points', value: 'potential_points', align: 'center'},
+        {text: 'Total points for course', value: 'total_points_course', align: 'center'},
+        {text: 'Potential/unclaimed points for course', value: 'potential_points', align: 'center'},
         {text: 'Total number of submissions', value: 'total_submissions', align: 'center'},
         {text: 'Charons with submissions', value: 'charons_with_submissions', align: 'center'},
         {text: 'Defended charons', value: 'defended_charons', align: 'center'},
         {text: 'Upcoming defences', value: 'upcoming_defences', align: 'center'}
       ],
-
-
     }
   },
 
@@ -44,13 +37,10 @@ export default {
       required: true,
       default: {}
     },
-
   },
 
   computed: {
-
     summary_row() {
-
       return [{
         total_points_course: this.student_summary_data.total_points_course,
         potential_points: this.student_summary_data.potential_points,
@@ -64,15 +54,5 @@ export default {
   },
 
   components: {PopupSection},
-
-
-  created() {
-
-  },
-
-  methods: {
-
-
-  },
 }
 </script>

@@ -88,8 +88,16 @@ export default {
         this.student_summary['total_points_course'] = result
       })
 
+      User.getPossiblePointsForCourse(this.courseId, this.routeStudentId, result => {
+        this.student_summary['potential_points'] = result
+      })
+
       Submission.findAllForUser(this.courseId, this.routeStudentId, result => {
         this.student_summary['total_submissions'] = result
+      })
+
+      Submission.findCharonsWithSubmissionsForUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['charons_with_submissions'] = result
       })
 
       Submission.findByUser(this.courseId, this.routeStudentId, result => {
@@ -98,14 +106,6 @@ export default {
 
       Defense.all(this.courseId, result => {
         this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id == this.student_id).length
-      })
-
-      Submission.findCharonsWithSubmissionsForUser(this.courseId, this.routeStudentId, result => {
-        this.student_summary['charons_with_submissions'] = result
-      })
-
-      User.getPossiblePointsForCourse(this.courseId, this.routeStudentId, result => {
-        this.student_summary['potential_points'] = result
       })
     },
 
