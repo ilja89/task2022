@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#601 Fixed how submissions files path is put togheter
 - \#612 Changed the style of submission button and added highlighting to recently submitted submissions
 - \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
+- \#576 Templates can contain new lines and spaces in the beginning and/or in the end when creating charon
 
 ### Changed
 - \#511 Update Laravel Mix from 0.10.0 to 4.1.4
