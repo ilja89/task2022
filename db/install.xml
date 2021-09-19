@@ -616,10 +616,6 @@
                 <KEY NAME="FK_charon_review_comment_submission_file" TYPE="foreign" FIELDS="submission_file_id"
                      REFTABLE="submission_file" REFFIELDS="id"/>
             </KEYS>
-            <INDEXES>
-                <INDEX NAME="IXFK_charon_review_comment_user" UNIQUE="false" FIELDS="user_id"/>
-                <INDEX NAME="IXFK_charon_review_comment_submission_file" UNIQUE="false" FIELDS="submission_file_id"/>
-            </INDEXES>
         </TABLE>
 
     </TABLES>

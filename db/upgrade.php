@@ -773,7 +773,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021091501) {
+    if ($oldversion < 2021091901) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    user_id BIGINT(10) NOT NULL," .
@@ -788,10 +788,14 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    INDEX IXFK_charon_review_comment_submission_file (submission_file_id)," .
             "    CONSTRAINT FK_charon_review_comment_user" .
             "        FOREIGN KEY (user_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)," .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
             "    CONSTRAINT FK_charon_review_comment_submission_file" .
             "        FOREIGN KEY (submission_file_id)" .
             "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
             ")";
 
         $table = new xmldb_table("charon_review_comment");
