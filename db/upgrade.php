@@ -781,7 +781,7 @@ function xmldb_charon_upgrade($oldversion = 0)
             "    code_row_no_start BIGINT(10) NULL," .
             "    code_row_no_end BIGINT(10) NULL," .
             "    review_comment TEXT NOT NULL," .
-            "    notify TINYINT(1) NOT NULL DEFAULT 0," .
+            "    notify BOOL NOT NULL DEFAULT FALSE," .
             "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    PRIMARY KEY (id)," .
             "    INDEX IXFK_charon_review_comment_user (user_id)," .
