@@ -45,11 +45,11 @@
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
-				<div class="comments">
-					<h3>{{ translate('commentsText') }}</h3>
-					<comment-component v-if="commentsExist" :submission="submission" view="student"></comment-component>
+				<div class="review-comments">
+					<h3>{{ translate('feedbackText') }}</h3>
+					<review-comment-component v-if="reviewCommentsExist" :submission="submission" view="student"></review-comment-component>
 					<v-card v-else class="message">
-						{{ translate('noCommentsInfo') }}
+						{{ translate('noFeedbackInfo') }}
 					</v-card>
 				</div>
 			</v-card-text>
@@ -62,7 +62,7 @@ import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
 import {File} from "../../../api";
-import CommentComponent from "../../../components/partials/CommentComponent";
+import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
 
 export default {
 	name: "submission-modal",
@@ -70,7 +70,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		CommentComponent, FilesComponentWithoutTree, SubmissionTable
+		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable
 	},
 
 	props: {
@@ -84,7 +84,7 @@ export default {
 			testerType: '',
 			toggleOn: false,
 			files: [],
-			commentsExist: false
+			reviewCommentsExist: false
 		}
 	},
 
@@ -113,8 +113,8 @@ export default {
 
 		hasComments() {
 			this.submission.files.forEach(file => {
-				if(file.comments.length > 0) {
-					this.commentsExist = true;
+				if (file.review_comments.length > 0) {
+					this.reviewCommentsExist = true;
 				}
 			});
 		}
@@ -188,7 +188,7 @@ input:checked + .slider:before {
 	border-radius: 50%;
 }
 
-.comments {
+.review-comments {
 	padding-top: 10px;
 }
 
