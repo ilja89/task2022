@@ -71,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
+- \#618 Synchronous url can now be set in moodle's charon settings
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -84,6 +85,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
+- \#618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles 
+  synchronous url
 
 ## [1.2.4] - 2021-05-19
 
