@@ -3,7 +3,7 @@
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn icon :color="notifyColor" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
-				<v-icon aria-label="Submission Information" role="img" aria-hidden="false">mdi-eye</v-icon>
+				<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
 			</v-btn>
 		</template>
 
@@ -105,7 +105,7 @@ export default {
 		},
 
 		notifyColor() {
-			return this.reviewCommentIdsWithNotify.length ? 'red' : '';
+			return this.reviewCommentIdsWithNotify.length ? 'red' : undefined;
 		}
 	},
 
