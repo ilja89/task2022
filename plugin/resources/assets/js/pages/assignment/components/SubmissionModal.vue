@@ -63,7 +63,7 @@ import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
 import {File} from "../../../api";
 import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
-import CodeReviewComment from "../../../api/CodeReviewComment";
+import ReviewComment from "../../../api/ReviewComment";
 import {mapState} from "vuex";
 
 export default {
@@ -127,7 +127,7 @@ export default {
 			this.submission.files.forEach(file => {
 				if (file.review_comments.length > 0) {
 					this.reviewCommentsExist = true;
-					file.comments.forEach(reviewComment => {
+					file.review_comments.forEach(reviewComment => {
 						if (reviewComment.notify) {
 							this.reviewCommentIdsWithNotify.push(reviewComment.id);
 						}
@@ -139,7 +139,7 @@ export default {
 		onClickSubmissionInformation() {
 			this.isActive = true;
 			if (this.reviewCommentIdsWithNotify.length) {
-				CodeReviewComment.clearNotifications(
+				ReviewComment.clearNotifications(
 					this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
 						this.reviewCommentIdsWithNotify = [];
 					});

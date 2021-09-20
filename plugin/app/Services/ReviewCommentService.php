@@ -67,4 +67,22 @@ class ReviewCommentService
             'status'=>'Failed',
         ];
     }
+
+    /**
+     * Clear notifications of given comments.
+     *
+     * @param $reviewCommentIds
+     * @return array
+     */
+    public function clearNotifications($reviewCommentIds): array
+    {
+        foreach ($reviewCommentIds as $reviewCommentId) {
+            $this->reviewCommentRepository
+                ->clearNotification($this->reviewCommentRepository->get($reviewCommentId));
+        }
+
+        return [
+            'status' => 'OK'
+        ];
+    }
 }

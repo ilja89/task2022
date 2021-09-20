@@ -58,4 +58,16 @@ class ReviewCommentRepository
             ->where('id', $reviewCommentId)
             ->delete();
     }
+
+    /**
+     * Clear notification of a comment with given identifier/change its 'notify' field to 0.
+     *
+     * @param ReviewComment $reviewComment
+     * @return bool
+     */
+    public function clearNotification(ReviewComment $reviewComment): bool
+    {
+        $reviewComment->notify = 0;
+        return $reviewComment->update();
+    }
 }
