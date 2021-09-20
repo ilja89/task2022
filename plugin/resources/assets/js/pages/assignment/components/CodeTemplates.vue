@@ -16,9 +16,14 @@
       <a class="button is-link" @click="getTemplates">
         {{ translate('resetToTemplates') }}
       </a>
-      <button style="float: right" class="btn btn-primary" @click="submitClicked" :disabled="submitDisabled">
-        {{ translate('submitButton') }}
-      </button>
+      <div style="float: right">
+        <button v-if="submitDisabled === false" class="btn btn-primary" @click="submitClicked" :disabled="submitDisabled">
+          {{ translate('submitButton') }}
+        </button>
+        <img v-if="submitDisabled" style="margin-right: 20px" alt="submit loading" height="32px" src="pix/refresh.png"
+             v-bind:class="submitDisabled ? 'rotating' : ''"
+             width="32px">
+      </div>
     </div>
   </div>
 </template>
@@ -118,3 +123,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.rotating {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+</style>
