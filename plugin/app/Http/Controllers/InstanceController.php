@@ -194,7 +194,7 @@ class InstanceController extends Controller
     public function destroy($charonId)
     {
         Log::info("Delete charon ", [$charonId]);
-        if ($charonId != 0) return $this->charonRepository->deleteByInstanceId($charonId);
+        if (intval($charonId) != 0) return $this->charonRepository->deleteByInstanceId(intval($charonId));
         return false;
     }
 
