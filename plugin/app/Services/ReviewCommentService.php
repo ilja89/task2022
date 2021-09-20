@@ -30,12 +30,13 @@ class ReviewCommentService
      *
      * @param $submissionFileId
      * @param $reviewComment
+     * @param $notify
      * @return string[]
      */
-    public function save($submissionFileId, $reviewComment): array
+    public function save($submissionFileId, $reviewComment, $notify): array
     {
         $userId = (new User)->currentUserId();
-        $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment);
+        $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
         return [
             'status'  => 'OK'
         ];

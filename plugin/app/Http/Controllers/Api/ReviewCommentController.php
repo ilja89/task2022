@@ -34,8 +34,9 @@ class ReviewCommentController extends Controller
     {
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
+        $notify = $request->input('notify');
 
-        return $this->reviewCommentService->save($submissionFileId, $reviewComment);
+        return $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
     }
 
     public function delete(Request $request): array

@@ -608,7 +608,6 @@
                 <FIELD NAME="review_comment" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="notify" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="1" DEFAULT="0"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
-                <FIELD NAME="notify" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="1"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_review_comment" TYPE="primary" FIELDS="id"/>

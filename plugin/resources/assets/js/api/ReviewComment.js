@@ -1,9 +1,10 @@
 class ReviewComment {
 
-    static save(reviewComment, submissionFileId, charonId, then) {
+    static save(reviewComment, submissionFileId, charonId, notify, then) {
         axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/save', {
             submission_file_id: submissionFileId,
-            review_comment: reviewComment
+            review_comment: reviewComment,
+            notify: notify,
         }).then(response => {
             then(response.data)
         }).catch(error => {
