@@ -61,9 +61,8 @@
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
-import {File} from "../../../api";
+import {File, ReviewComment} from "../../../api";
 import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
-import ReviewComment from "../../../api/ReviewComment";
 import {mapState} from "vuex";
 
 export default {

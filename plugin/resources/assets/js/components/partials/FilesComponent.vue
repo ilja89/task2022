@@ -49,7 +49,7 @@
 <script>
 
     import FileTree from './FileTree'
-    import ReviewComment from "../../api/ReviewComment";
+    import {ReviewComment} from "../../api";
     import {mapState} from "vuex";
 
     export default {
