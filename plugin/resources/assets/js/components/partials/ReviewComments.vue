@@ -1,22 +1,22 @@
 <template>
-    <div class="file-comments">
-        <span class="comment-header">
+    <div class="review-comments">
+        <span class="header">
             {{ file.path }}
         </span>
-        <file-comment
-            v-for="comment in file.comments"
-            :comment="comment" :view="view"
+        <review-comment
+            v-for="reviewComment in file.review_comments"
+            :reviewComment="reviewComment" :view="view"
         >
-        </file-comment>
+        </review-comment>
     </div>
 </template>
 
 <script>
-import FileComment from "./FileComment";
+import ReviewComment from "./ReviewComment";
 
 export default {
 
-    components: {FileComment},
+    components: {ReviewComment},
 
     props: {
         file: { required: true },
@@ -26,11 +26,11 @@ export default {
 </script>
 
 <style scoped>
-    .file-comments {
+    .review-comments {
         color: #448aff;
     }
 
-    .comment-header {
+    .header {
         text-align: center;
         line-height: 2;
         padding-left: 33px;

@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -46,11 +46,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('charons/{charon}/comments', 'CommentsController@getByCharonAndStudent');
     Route::middleware('auth.charon.managing.require')
-        ->post('charons/{charon}/reviewComments/save', 'CodeReviewCommentController@saveComment');
+        ->post('charons/{charon}/reviewComments/save', 'ReviewCommentController@save');
     Route::middleware('auth.charon.managing.require')
-        ->delete('charons/{charon}/codeReviewComments/{codeReviewComment}/delete', 'CodeReviewCommentController@deleteComment');
+        ->delete('charons/{charon}/reviewComments/{reviewComment}/delete', 'ReviewCommentController@delete');
     Route::middleware('auth.charon.submissions.view.require') // clear review comments' notifications
-        ->put('charons/{charon}/reviewComments/clear', 'CodeReviewCommentController@clearNotifications');
+        ->put('charons/{charon}/reviewComments/clear', 'ReviewCommentController@clearNotifications');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');

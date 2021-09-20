@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
  * @property string contents
  * @property Submission submission
  *
- * @property CharonCodeReviewComment[]|Collection comments
+ * @property ReviewComment[]|Collection review_comments
  *
  * @package TTU\Charon\Models
  */
@@ -32,8 +32,8 @@ class SubmissionFile extends Model
         return $this->belongsTo(Submission::class, 'submission_id', 'id');
     }
 
-    public function comments()
+    public function reviewComments()
     {
-        return $this->hasMany(CharonCodeReviewComment::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(ReviewComment::class)->orderBy('created_at', 'desc');
     }
 }
