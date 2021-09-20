@@ -205,11 +205,12 @@
             },
 
             saveReviewComment() {
-                if (this.newReviewComment === null || this.newReviewComment.length === 0) {
+                if (!this.newReviewComment || !this.newReviewComment.trim().length) {
+                    VueEvent.$emit('show-notification', 'Please add content to the comment.')
                     return
                 }
 
-                ReviewComment.save(this.newReviewComment, this.activeFileId, this.charon.id, () => {
+                ReviewComment.save(this.newReviewComment.trim(), this.activeFileId, this.charon.id, () => {
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment saved!')
                     this.$root.$emit('refresh_submission_files')
