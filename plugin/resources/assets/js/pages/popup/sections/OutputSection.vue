@@ -29,12 +29,12 @@
 
             </charon-tab>
 
-            <charon-tab name="Comments">
+            <charon-tab name="Feedback">
 
-                <comment-component v-if="hasComments" :submission="submission" view="teacher"/>
+                <review-comment-component v-if="hasReviewComments" :submission="submission" view="teacher"/>
 
                 <v-card v-else class="message">
-                    When a teacher will add comments for the submission, these comments will be visible here.
+                    When a teacher adds feedback for the submission, it will be visible here.
                 </v-card>
 
             </charon-tab>
@@ -53,7 +53,7 @@
 <script>
 
     import {mapState, mapActions} from "vuex";
-    import {CharonTabs, CharonTab, FilesComponent, CommentComponent} from '../../../components/partials/index';
+    import {CharonTabs, CharonTab, FilesComponent, ReviewCommentComponent} from '../../../components/partials/index';
     import {PopupSection} from '../layouts/index';
     import {OutputComponent} from '../partials/index';
     import {Submission} from "../../../api";
@@ -62,7 +62,7 @@
     export default {
 
         components: {
-            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, CommentComponent
+            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, ReviewCommentComponent
         },
 
         data() {
@@ -77,9 +77,9 @@
                 'submission',
             ]),
 
-            hasComments() {
-                for(let i = 0; i < this.submission.files.length; i++) {
-                    if(this.submission.files[i].comments.length > 0) {
+            hasReviewComments() {
+                for (let i = 0; i < this.submission.files.length; i++) {
+                    if (this.submission.files[i].review_comments.length > 0) {
                         return true;
                     }
                 }
@@ -102,7 +102,7 @@
         },
 
         created() {
-            VueEvent.$on('update-from-file-comment', this.updateOutputSection)
+            VueEvent.$on('update-from-review-comment', this.updateOutputSection)
         },
 
         mounted: function () {

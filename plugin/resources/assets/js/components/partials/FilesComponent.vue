@@ -3,11 +3,11 @@
 
         <v-card>
             <v-container v-if="activeFileId" class="gray-part">
-                <textarea rows="8" type="text" class="code-comment" v-model="newComment" maxlength="10000"
+                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment" maxlength="10000"
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
-                <v-btn class="comment-button ma-2" tile outlined color="primary"
-                       :disabled="!newComment" @click="saveComment">
+                <v-btn class="review-comment-button ma-2" tile outlined color="primary"
+                       :disabled="!newReviewComment" @click="saveReviewComment">
                     Add comment
                 </v-btn>
                 <input type="checkbox" class="form-control" v-model="notify">
@@ -49,12 +49,12 @@
 <script>
 
     import FileTree from './FileTree'
-    import CodeReviewComment from "../../api/CodeReviewComment";
+    import ReviewComment from "../../api/ReviewComment";
     import {mapState} from "vuex";
 
     export default {
 
-        components: {FileTree, CodeReviewComment},
+        components: {FileTree, ReviewComment},
 
         props: {
             submission: {required: true},
@@ -70,7 +70,7 @@
                 files: [],
                 activeFileId: null,
                 formattedFiles: [],
-                newComment: '',
+                newReviewComment: '',
                 notify: true
             }
         },
@@ -207,14 +207,14 @@
                 }
             },
 
-            saveComment() {
-                if (this.newComment === null || this.newComment.length === 0) {
+            saveReviewComment() {
+                if (this.newReviewComment === null || this.newReviewComment.length === 0) {
                     return
                 }
 
-                CodeReviewComment.save(this.newComment, this.activeFileId, this.charon.id, this.notify, () => {
-                    this.newComment = ''
-                    VueEvent.$emit('show-notification', 'Comment saved!')
+                ReviewComment.save(this.newReviewComment, this.activeFileId, this.charon.id, this.notify, () => {
+                    this.newReviewComment = ''
+                    VueEvent.$emit('show-notification', 'Review comment saved!')
                     this.$root.$emit('refresh_submission_files')
                 });
             },
@@ -302,14 +302,14 @@
         }
     }
 
-    .code-comment {
+    .review-comment {
         width: 100%;
         flex-wrap: wrap;
         padding: 10px;
         background-color: white;
     }
 
-    .comment-button {
+    .review-comment-button {
         background: darken(#d6d7d7, 5%);
     }
 

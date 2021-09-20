@@ -773,25 +773,32 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021091101) {
-        $sql = "CREATE TABLE " . $CFG->prefix . "charon_code_review_comment(" .
+    if ($oldversion < 2021091901) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
-            "    teacher_id BIGINT(10) NOT NULL," .
+            "    user_id BIGINT(10) NOT NULL," .
             "    submission_file_id BIGINT(10) NOT NULL," .
             "    code_row_no_start BIGINT(10) NULL," .
             "    code_row_no_end BIGINT(10) NULL," .
-            "    comment TEXT NOT NULL," .
+            "    review_comment TEXT NOT NULL," .
+            "    notify BOOL NOT NULL DEFAULT FALSE," .
             "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
             "    PRIMARY KEY (id)," .
-            "    CONSTRAINT FK_charon_code_review_comment_teacher" .
-            "        FOREIGN KEY (teacher_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)," .
-            "    CONSTRAINT FK_charon_code_review_comment_submission_file" .
+            "    INDEX IXFK_charon_review_comment_user (user_id)," .
+            "    INDEX IXFK_charon_review_comment_submission_file (submission_file_id)," .
+            "    CONSTRAINT FK_charon_review_comment_user" .
+            "        FOREIGN KEY (user_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
+            "    CONSTRAINT FK_charon_review_comment_submission_file" .
             "        FOREIGN KEY (submission_file_id)" .
             "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
             ")";
 
-        $table = new xmldb_table("charon_code_review_comment");
+        $table = new xmldb_table("charon_review_comment");
 
         if (!$dbManager->table_exists($table)) {
             $DB->execute($sql);
