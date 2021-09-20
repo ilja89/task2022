@@ -205,7 +205,7 @@
             },
 
             saveReviewComment() {
-                if (!this.newReviewComment.trim() || !this.newReviewComment.length) {
+                if (!this.newReviewComment || !this.newReviewComment.trim().length) {
                     VueEvent.$emit('show-notification', 'Please add content to the comment.')
                     return
                 }
