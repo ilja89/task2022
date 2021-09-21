@@ -162,6 +162,11 @@ class CharonRepository
      */
     public function deleteByInstanceId($id)
     {
+        $id = intval($id);
+        if (intval($id) == 0) {
+            return false;
+        }
+
         /** @var Charon $charon */
         $charon = Charon::find($id);
 
