@@ -78,21 +78,12 @@
         },
 
         mounted() {
-            this.getFiles();
+            if (this.submission.files.length > 0) {
+                this.activeFileId = this.submission.files[0].id
+            }
         },
 
         methods: {
-            getFiles() {
-                File.findBySubmission(this.submission.id, files => {
-                    this.files = files
-                    this.formattedFiles = []
-
-                    if (files.length > 0) {
-                        this.activeFileId = files[0].id
-                    }
-                })
-            },
-
             handleFileClicked(file) {
                 this.activeFileId = file.id
             },
