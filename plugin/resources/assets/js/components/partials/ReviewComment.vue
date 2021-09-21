@@ -96,5 +96,4 @@ export default {
     p {
         white-space: pre-line;
     }
-
 </style>
