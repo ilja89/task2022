@@ -29,6 +29,9 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
             $paths[] = new restore_path_element(
                 'charon_submission_file', '/activity/charon/submissions/submission/submission_files/submission_file'
             );
+            $paths[] = new restore_path_element( 'charon_review_comment',
+                '/activity/charon/submissions/submission/submission_files/submission_file/review_comments/review_comment'
+            );
         }
 
         return $this->prepare_activity_structure($paths);
@@ -168,9 +171,27 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
         global $DB;
 
         $data = (object) $data;
+        $oldId = $data->id;
 
         $data->submission_id = $this->get_new_parentid('charon_submission');
 
-        $DB->insert_record('charon_submission_file', $data);
+        $newItemId = $DB->insert_record('charon_submission_file', $data);
+        $this->set_mapping('charon_submission_file', $oldId, $newItemId);
+
+    }
+
+    /**
+     * @param $data
+     * @throws dml_exception
+     */
+    protected function process_charon_review_comment($data)
+    {
+        global $DB;
+
+        $data = (object) $data;
+
+        $data->submission_file_id = $this->get_new_parentid('charon_submission_file');
+
+        $DB->insert_record('charon_review_comment', $data);
     }
 }
