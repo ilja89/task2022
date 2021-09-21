@@ -87,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 - \#618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles 
   synchronous url
+- \#630 Apache error with submission is no longer thrown
 
 ## [1.2.4] - 2021-05-19
 
