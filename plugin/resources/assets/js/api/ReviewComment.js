@@ -27,7 +27,7 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error clearing code review comments\' notifications.\n'
+            VueEvent.$emit('show-notification', 'Error clearing review comments\' notifications.\n'
                 + error, 'danger');
         });
     }
