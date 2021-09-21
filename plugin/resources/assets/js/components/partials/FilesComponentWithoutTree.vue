@@ -78,8 +78,9 @@
         },
 
         mounted() {
-            if (this.submission.files.length > 0) {
-                this.activeFileId = this.submission.files[0].id
+            this.files = this.submission.files;
+            if (this.files.length > 0) {
+                this.activeFileId = this.files[0].id;
             }
         },
 
