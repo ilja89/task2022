@@ -118,11 +118,11 @@ export default {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
 				this.submission.files = files
-				this.hasComments();
+				this.checkComments();
 			})
 		},
 
-		hasComments() {
+		checkComments() {
 			this.submission.files.forEach(file => {
 				if (file.review_comments.length > 0) {
 					this.reviewCommentsExist = true;
