@@ -35,7 +35,7 @@ class ReviewCommentService
      */
     public function save($submissionFileId, $reviewComment, $notify): array
     {
-        if (strlen($reviewComment) <= 10000) {
+        if (strlen($reviewComment) < 10000) {
             $userId = (new User)->currentUserId();
             $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
             return [
