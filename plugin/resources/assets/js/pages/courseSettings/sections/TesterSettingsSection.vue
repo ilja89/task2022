@@ -26,7 +26,7 @@
             <charon-text-input
                     input_class="is-half"
                     name="tester_url"
-                    label="Tester URL"
+                    label="Tester Asynchronous URL"
                     :value="form.fields.tester_url"
                     @input-was-changed="onTesterUrlChanged">
             </charon-text-input>

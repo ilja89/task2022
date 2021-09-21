@@ -7,8 +7,8 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext(
             'mod_charon/tester_url',
-            'Tester URL',
-            'The tester url.',
+            'Tester asynchronous URL',
+            'The tester asynchronous url.',
             'neti.ee',
             PARAM_TEXT,
             100)
