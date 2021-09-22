@@ -37,15 +37,20 @@ class ReviewCommentService
     {
         if (strlen($reviewComment) <= 10000) {
             $userId = (new User)->currentUserId();
-            $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
-            return [
-                'status'  => 'OK'
-            ];
-        } else {
-            return [
-                'status' => 'Failed'
-            ];
+            $result = $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
+            if ($result) {
+                return [
+                    'status'  => 'OK'
+                ];
+            } else {
+                return [
+                    'status' => 'Failed'
+                ];
+            }
         }
+        return [
+            'status' => 'Failed',
+        ];
     }
 
     /**
