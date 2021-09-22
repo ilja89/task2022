@@ -178,14 +178,19 @@ class CharonRepository
         Deadline::where('charon_id', $id)->delete();
         CharonDefenseLab::where('charon_id', $id)->delete();
 
-        $result = $charon->delete();
+        if ($charon != null) {
 
-        $this->gradebookService->deleteGradeCategory(
-            $charon->category_id,
-            $charon->course
-        );
+            $result = $charon->delete();
 
-        return $result;
+            $this->gradebookService->deleteGradeCategory(
+                $charon->category_id,
+                $charon->course
+            );
+
+            return $result;
+        }
+
+        return false;
     }
 
     /**
