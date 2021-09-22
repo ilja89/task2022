@@ -85,17 +85,6 @@ export default {
     }
   },
 
-  watch: {
-    $route() {
-      if (typeof this.routeStudentId !== 'undefined' && this.$route.name === 'student-details') {
-        this.getStudent()
-        this.getStudentOverviewTable()
-        this.getCharonsTable()
-        this.fetchLatestSubmissions()
-      }
-    }
-  },
-
   methods: {
     ...mapActions([
       'fetchStudent',

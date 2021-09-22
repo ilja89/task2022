@@ -59,14 +59,6 @@
             }
         },
 
-        watch: {
-            $route() {
-                if (typeof this.$route.params.submission_id !== "undefined") {
-                    this.getSubmission();
-                }
-            }
-        },
-
         methods: {
             ...mapActions(["fetchStudent", "updateCharon", "updateSubmission"]),
 
