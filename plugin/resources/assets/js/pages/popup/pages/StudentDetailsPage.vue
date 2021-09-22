@@ -43,15 +43,10 @@ export default {
         'charons_with_submissions': 0,
         'potential_points': 0
       }
-
     }
   },
 
   computed: {
-    ...mapState([
-      'student',
-    ]),
-
     ...mapGetters([
       'courseId',
     ]),
@@ -63,24 +58,15 @@ export default {
 
   watch: {
     $route() {
-      this.getStudent()
       this.getStudentOverviewTable()
     },
   },
 
   methods: {
-    ...mapActions([
-      'fetchStudent',
-    ]),
-
     getStudentOverviewTable() {
       User.getReportTable(this.courseId, this.routeStudentId, (table) => {
         this.table = table
       })
-    },
-
-    getStudent() {
-      this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
     },
 
     getStudentSummary() {
@@ -105,23 +91,17 @@ export default {
       })
 
       Defense.all(this.courseId, result => {
-        this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id == this.student_id).length
+        this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id === parseInt(this.routeStudentId)).length
       })
     },
-
   },
 
   created() {
-    this.getStudent()
     this.getStudentOverviewTable()
     this.getStudentSummary()
   },
-
-
-
 }
 </script>
 
 <style scoped>
-
 </style>
