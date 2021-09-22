@@ -3,7 +3,7 @@
 
         <v-card>
             <v-container v-if="activeFileId" class="gray-part">
-                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment"
+                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment" maxlength="10000"
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
                 <v-btn class="review-comment-button ma-2" tile outlined color="primary"
@@ -214,13 +214,13 @@
                 }
 
                 ReviewComment.save(this.newReviewComment.trim(), this.activeFileId, this.charon.id, this.notify, (data) => {
-                    console.log(data)
                     if (data.status === 'Failed') {
                         VueEvent.$emit('show-notification', 'Error saving comment!')
+                    } else {
+                        this.newReviewComment = ''
+                        VueEvent.$emit('show-notification', 'Review comment saved!')
+                        this.$root.$emit('refresh_submission_files')
                     }
-                    this.newReviewComment = ''
-                    VueEvent.$emit('show-notification', 'Review comment saved!')
-                    this.$root.$emit('refresh_submission_files')
                 });
             },
         },
