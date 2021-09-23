@@ -105,7 +105,7 @@ export default {
 		},
 
 		notifyColor() {
-			return this.reviewCommentIdsWithNotify.length ? 'red' : undefined;
+			return this.reviewCommentIdsWithNotify.length ? '#f00' : undefined;
 		}
 	},
 
