@@ -56,12 +56,6 @@ export default {
     },
   },
 
-  watch: {
-    $route() {
-      this.getStudentOverviewTable()
-    },
-  },
-
   methods: {
     getStudentOverviewTable() {
       User.getReportTable(this.courseId, this.routeStudentId, (table) => {
