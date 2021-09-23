@@ -45,6 +45,15 @@ class User {
         })
     }
 
+    static getPossiblePointsForCourse(courseId, studentId, then) {
+        axios.get(`/mod/charon/api/courses/${courseId}/users/${studentId}/possible-points`)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
+        })
+    }
+
     static getUserCharonsDetails(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/charons-details')
             .then(response => {

@@ -63,6 +63,17 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require') // Fetches all students enrolled in given course
         ->get('courses/{course}/allStudents', 'StudentsController@getAllStudents');
 
+    // Student statistics
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent'); // get total points for student so far
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse'); // get count of submissions for student
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions'); // get count of charons that have submissions
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints'); // get potential points for student
+
+
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/presets', 'PresetsController@store');
     Route::middleware('auth.course.managing.require')

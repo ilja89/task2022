@@ -87,6 +87,20 @@ class StudentsController extends Controller
         }
     }
 
+    public function getPointFromAllCharonsForStudent(Course $course, User $user) {
+        $charons = Charon::where('course', $course->id)
+            ->select('category_id')
+            ->get();
+        $result = 0;
+
+        foreach ($charons as $charon) {
+            if (!is_null($this->getStudentActiveResultForCharon($charon, $user))) {
+                $result += $this->getStudentActiveResultForCharon($charon, $user);
+            }
+        }
+        return $result;
+    }
+
     public function getStudentReportTable(Course $course, User $user)
     {
         global $CFG; // grade/lib.php needs it
@@ -210,6 +224,19 @@ class StudentsController extends Controller
         return $studentsDistribution;
     }
 
+    /**
+     * Find number of possible points for course from all charons
+     *
+     * @param Course $course
+     * @param User $user
+     * @return int
+     */
+
+    public function possiblePoints(Course $course, User $user)
+    {
+        return $this->studentsRepository->getPossiblePointsForCourseFromCharons($course->id, $user->id);
+    }
+    
     /**
      * Get data from all charons by user and course.
      *
