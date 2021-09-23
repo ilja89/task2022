@@ -49,7 +49,7 @@
                     this.charon.id,
                     this.student.id,
                     points => {
-                        this.totalCharonPoints = points;
+                        this.totalCharonPoints = points ? points : 0;
                     }
                 );
             },
