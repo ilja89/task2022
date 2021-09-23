@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   php composer install/update is run)
 
 ### Added
-- \#560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 - \#514 My registration shows the registration status
 - \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
@@ -48,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
+- \#560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ## [1.2.4] - 2021-05-19
 
