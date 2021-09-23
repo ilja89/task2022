@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\ReviewComment;
 
@@ -44,6 +45,19 @@ class ReviewCommentRepository
     {
         return ReviewComment::where('id', $reviewCommentId)
             ->first();
+    }
+
+    /**
+     * Find multiple comments with given array of identifiers.
+     *
+     * @param $reviewCommentIds
+     * @return ReviewComment[]|Collection
+     */
+    public function getMany($reviewCommentIds): array
+    {
+        return ReviewComment::whereIn('id', $reviewCommentIds)
+            ->get()
+            ->all();
     }
 
     /**
