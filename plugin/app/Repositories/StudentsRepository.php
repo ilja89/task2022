@@ -68,6 +68,20 @@ class StudentsRepository
         }
     }
 
+    public function getPossiblePointsForCourseFromCharons(int $courseId, int $userId)
+    {
+        $gradeItemIds = GradeItem::where(array('courseid' => $courseId, 'itemtype' => 'category'))->pluck('id');
+        $potentialMaxGrades = GradeGrade::where('userid', $userId)
+            ->whereIn('itemid', $gradeItemIds)
+            ->sum('rawgrademax');
+
+        $finalGrades = GradeGrade::where('userid', $userId)
+            ->whereIn('itemid', $gradeItemIds)
+            ->sum('finalgrade');
+
+        return $potentialMaxGrades - $finalGrades;
+    }
+
     public function getUserCharonsDetails($courseId, $userId)
     {
         return DB::select("

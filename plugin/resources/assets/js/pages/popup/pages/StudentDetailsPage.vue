@@ -15,6 +15,8 @@
 
     </popup-section>
 
+    <student-summary-section :student_summary_data="student_summary"></student-summary-section>
+
     <student-details-submissions-section :latest-submissions="latestSubmissions"></student-details-submissions-section>
 
     <popup-section title="Upcoming registrations">
@@ -35,8 +37,9 @@
 <script>
 import {PageTitle} from '../partials'
 import {mapState, mapGetters, mapActions} from 'vuex'
-import {Submission, User} from '../../../api'
+import {Charon, Defense, Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
+import StudentSummarySection from "../sections/StudentSummarySection";
 import {DefenseRegistrationsSection, StudentDetailsSubmissionsSection, StudentDetailsCharonsTableSection, CommentsSection} from '../sections'
 import {StudentCharonPointsVsCourseAverageChart} from '../graphics'
 import moment from "moment"
@@ -44,7 +47,7 @@ import Teacher from "../../../api/Teacher";
 import Defense from "../../../api/Defense";
 
 export default {
-  components: {PopupSection, PageTitle, CommentsSection, DefenseRegistrationsSection, StudentCharonPointsVsCourseAverageChart,StudentDetailsSubmissionsSection, StudentDetailsCharonsTableSection},
+  components: {PopupSection, PageTitle, StudentSummarySection, CommentsSection, DefenseRegistrationsSection, StudentCharonPointsVsCourseAverageChart,StudentDetailsSubmissionsSection, StudentDetailsCharonsTableSection},
 
   name: "StudentDetailsPage",
 
@@ -59,15 +62,21 @@ export default {
       filter_teacher: -1,
       filter_progress: null,
       defenseList: [],
-      teachers: []
+      teachers: [],
+      name: 'Student name',
+      table: '',
+      student_summary: {
+        'total_points_course': 0,
+        'total_submissions': 0,
+        'defended_charons': 0,
+        'upcoming_defences': 0,
+        'charons_with_submissions': 0,
+        'potential_points': 0
+      }
     }
   },
 
   computed: {
-    ...mapState([
-      'student',
-    ]),
-
     ...mapGetters([
       'courseId',
     ]),
@@ -102,8 +111,30 @@ export default {
       })
     },
 
-    getStudent() {
-      this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
+    getStudentSummary() {
+      Charon.getAllPointsFromCourseForStudent(this.courseId, this.routeStudentId, result => {
+        this.student_summary['total_points_course'] = result
+      })
+
+      User.getPossiblePointsForCourse(this.courseId, this.routeStudentId, result => {
+        this.student_summary['potential_points'] = result
+      })
+
+      Submission.findAllForUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['total_submissions'] = result
+      })
+
+      Submission.findCharonsWithSubmissionsForUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['charons_with_submissions'] = result
+      })
+
+      Submission.findByUser(this.courseId, this.routeStudentId, result => {
+        this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade !== null).length
+      })
+
+      Defense.all(this.courseId, result => {
+        this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id === parseInt(this.routeStudentId)).length
+      })
     },
 
     fetchLatestSubmissions() {
@@ -124,8 +155,8 @@ export default {
   },
 
   created() {
-    this.getStudent()
     this.getStudentOverviewTable()
+    this.getStudentSummary()
     this.getCharonsTable()
     this.fetchLatestSubmissions()
     this.fetchRegistrations()

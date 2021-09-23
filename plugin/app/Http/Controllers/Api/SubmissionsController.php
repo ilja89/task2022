@@ -276,4 +276,32 @@ class SubmissionsController extends Controller
 
         return $submission->user_id;
     }
+
+    /**
+     * Find amount of all submissions for user in course
+     *
+     * @param User $user
+     * @param Course $course
+     *
+     * @return int
+     */
+    public function getAllForUserInCourse(Course $course, User $user)
+    {
+        return $this->submissionsRepository->getAllForUser($course->id, $user->id);
+    }
+
+    /**
+     * Find number of charons with at least 1 submission
+     *
+     * @param Course $course
+     * @param User $user
+     *
+     * @return int
+     */
+
+    public function charonsWithSubmissions(Course $course, User $user)
+    {
+        return $this->submissionsRepository->getNumberOfCharonsWithSubmissions($course->id, $user->id);
+    }
+
 }
