@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Model;
 use Carbon\Carbon;
 use Faker\Generator;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
@@ -10,6 +11,7 @@ use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\Template;
 use TTU\Charon\Models\TesterType;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeCategory;
@@ -119,5 +121,13 @@ $factory->define(Grademap::class, function (Generator $faker) {
         'grade_type_code' => 1,
         'name' => $faker->firstName,
         'grade_item_id' => 0,
+    ];
+});
+
+$factory->define(Template::class, function (Generator $faker) {
+    return [
+        'charon_id' => 1,
+        'path' => 'EX00/Missing.java',
+        'contents' => 'missing code'
     ];
 });

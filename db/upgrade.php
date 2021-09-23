@@ -692,5 +692,86 @@ function xmldb_charon_upgrade($oldversion = 0)
         );
     }
 
+    if ($oldversion < 2021052601) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_lab_group(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    lab_id BIGINT(10) NOT NULL," .
+            "    group_id BIGINT(10) NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_charon_lab_group_charon_lab (lab_id)," .
+            "    CONSTRAINT UQ_charon_lab_lab_and_group UNIQUE (lab_id, group_id)," .
+            "    CONSTRAINT FK_charon_lab_group_charon_lab" .
+            "        FOREIGN KEY (lab_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_lab(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
+            "    CONSTRAINT FK_charon_lab_group_groups" .
+            "        FOREIGN KEY (group_id)" .
+            "            REFERENCES " . $CFG->prefix . "groups(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_lab_group");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2021062801) {
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('tester_token', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021071302){
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_template(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    charon_id BIGINT(10) NOT NULL," .
+            "    path TEXT NOT NULL," .
+            "    contents TEXT," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_template_charon (charon_id)," .
+            "    CONSTRAINT FK_template_charon" .
+            "        FOREIGN KEY (charon_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon(id)" .
+            ")";
+
+        $table = new xmldb_table("charon_template");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2021081101){
+        $table = new xmldb_table("charon");
+        $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021090901){
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

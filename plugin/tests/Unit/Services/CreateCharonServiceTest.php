@@ -9,6 +9,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\DeadlineService;
 use TTU\Charon\Services\GrademapService;
+use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
 /**
@@ -57,7 +58,8 @@ class CreateCharonServiceTest extends TestCase
                 ->shouldReceive('createGrademapWithGradeItem')->once()->with($charon, 101, 1, $grademap2)
                 ->shouldReceive('createGrademapWithGradeItem')->never()
                 ->getMock(),
-            m::mock(DeadlineService::class)
+            m::mock(DeadlineService::class),
+            m::mock(CalendarService::class)
         );
         $createCharonService->saveGrademapsFromRequest($request, $charon);
     }
@@ -99,7 +101,8 @@ class CreateCharonServiceTest extends TestCase
             m::mock(GrademapService::class),
             m::mock(DeadlineService::class)
              ->shouldReceive('createDeadline')->never()
-             ->getMock()
+             ->getMock(),
+            m::mock(CalendarService::class)
         );
 
         $createCharonService->saveDeadlinesFromRequest($request, new Charon);

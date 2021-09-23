@@ -78,6 +78,10 @@
                                     </v-btn>
                                 </v-col>
 
+                                <v-col cols="12" sm="12" md="4" lg="4">
+                                    <add-groups-selector :lab="lab" :course="course"></add-groups-selector>
+                                </v-col>
+
                                 <v-col cols="12" sm="12" md="12" lg="12">
                                     <div class="labs-field is-flex-1">
                                         <p>Teachers attending this lab session</p>
@@ -125,8 +129,18 @@
 
             <add-multiple-labs-section :lab="lab"></add-multiple-labs-section>
 
+            <div class="lab-details-message">
+                <div v-if="registrations === -1">
+                    Checking for active registrations ...
+                </div>
+                <div v-else-if="registrations > 0">
+                    {{registrations}} active registrations would be lost with this change
+                </div>
+            </div>
+
             <v-btn class="ma-2" tile outlined color="primary" @click="saveClicked">
-                Save
+                <span v-if="registrations <= 0">Save</span>
+                <span v-else>Confirm</span>
             </v-btn>
 
             <v-btn class="ma-2" tile outlined color="error" @click="cancelClicked">
@@ -139,6 +153,7 @@
 <script>
     import {PopupSection} from '../../layouts/index'
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import AddGroupsSelector from "./sections/AddGroupsSelector";
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
     import Teacher from "../../../../api/Teacher";
@@ -147,10 +162,12 @@
     import {CharonSelect} from "../../../../components/form";
     import Multiselect from "vue-multiselect";
     import CharonFormat from "../../../../helpers/CharonFormat";
+    import _ from "lodash";
+    import moment from "moment";
 
     export default {
 
-        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, PopupSection},
+        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, AddGroupsSelector, PopupSection},
 
         data() {
             return {
@@ -158,7 +175,8 @@
                 teachers: [],
                 show_info: true,
                 filtered_charons: [],
-                labDuration: 0
+                labDuration: 0,
+                registrations: 0,
             }
         },
 
@@ -203,6 +221,8 @@
                     this.lab.name = this.namePlaceholder;
                 }
 
+                let groups = _.map(this.lab.groups, "id");
+
                 if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
@@ -215,13 +235,32 @@
                         giveEnd = giveEnd.toString().slice(0, 24)
                     }
 
-                    Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, () => {
-                        window.location = "popup#/labs";
-                        window.location.reload();
-                        VueEvent.$emit('show-notification', 'Lab updated!');
-                    })
+                    let filter = this.detectChanges(this.labInitial, this.lab, chosen_charons, chosen_teachers);
+
+                    // (registrations > 0) means that lost registrations 
+                    // are already fetched for current lab and shown to user.
+                    // Second click to Save confirms update on this case.
+                    if (_.isEmpty(filter) || (this.registrations > 0)) {
+                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
+                            window.location = "popup#/labs";
+                            window.location.reload();
+                            VueEvent.$emit('show-notification', 'Lab updated!');
+                        });
+                    } else {
+                        this.registrations = -1;
+                        Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
+                            this.registrations = result;
+                            if (result == 0) {
+                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
+                                    window.location = "popup#/labs";
+                                    window.location.reload();
+                                    VueEvent.$emit('show-notification', 'Lab updated!');
+                                });
+                            }
+                        });
+                    }
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
@@ -256,6 +295,40 @@
                     ('0' + dateObj.getDate()).slice(-2) + ' ' +
                     ('0' + dateObj.getHours()).slice(-2) + ':' +
                     ('0' + dateObj.getMinutes()).slice(-2)
+            },
+
+            detectChanges(old, current, charons, teachers) {
+                let filter = {};
+
+                if (moment(current.start.time).isAfter(old.start.time)) {
+                    filter.start = moment(current.start.time).format();
+                }
+
+                if (moment(current.end.time).isBefore(old.end.time)) {
+                    filter.end = moment(current.end.time).format();
+                }
+
+                let missing = [];
+                for (let ch of old.charons) {
+                    if (!charons.includes(ch.id)) {
+                        missing.push(ch.id);
+                    }
+                }
+                if (missing.length) {
+                    filter.charons = [...missing];
+                }
+
+                missing = [];
+                for (let tc of old.teachers) {
+                    if (!teachers.includes(tc.id)) {
+                        missing.push(tc.id);
+                    }
+                }
+                if (missing.length) {
+                    filter.teachers = [...missing];
+                }
+
+                return filter;
             }
         },
         computed: {
@@ -282,7 +355,22 @@
                 this.charons = charons
                 this.filterCharons()
             })
+
+            this.labInitial = _.cloneDeep(this.lab);
+        },
+
+        watch: {
+            lab: {
+                deep: true,
+                handler() {
+                    this.registrations = 0;
+                    if (this.lab.id != this.labInitial.id) {
+                        this.labInitial = _.cloneDeep(this.lab);
+                    }
+                }
+            }
         }
+
     }
 </script>
 
@@ -293,6 +381,11 @@
     .datepicker-overlay .cov-date-box .hour-item,
     .datepicker-overlay .cov-date-box .min-item {
         padding: 0 10px;
+    }
+
+    .lab-details-message div {
+        margin-left: 10px;
+        color: red;
     }
 
 </style>

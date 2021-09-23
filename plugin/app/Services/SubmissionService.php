@@ -3,13 +3,14 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Services\GradebookService;
@@ -33,6 +34,9 @@ class SubmissionService
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
+    /** @var CharonRepository */
+    private $charonRepository;
+
     /** @var UserRepository */
     private $userRepository;
 
@@ -48,6 +52,7 @@ class SubmissionService
      * @param SubmissionsRepository $submissionsRepository
      * @param UserRepository $userRepository
      * @param GrademapService $grademapService
+     * @param CharonRepository $charonRepository
      */
     public function __construct(
         GradebookService $gradebookService,
@@ -55,7 +60,8 @@ class SubmissionService
         AreteResponseParser $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
         UserRepository $userRepository,
-        GrademapService $grademapService
+        GrademapService $grademapService,
+        CharonRepository $charonRepository
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
@@ -63,6 +69,7 @@ class SubmissionService
         $this->submissionsRepository = $submissionsRepository;
         $this->userRepository = $userRepository;
         $this->grademapService = $grademapService;
+        $this->charonRepository = $charonRepository;
     }
 
     /**
@@ -71,17 +78,28 @@ class SubmissionService
      * @param Request $submissionRequest
      * @param GitCallback $gitCallback
      * @param int $authorId
+     * @param null $courseId
      *
      * @return Submission
-     * @throws Exception
      */
-    public function saveSubmission(Request $submissionRequest, GitCallback $gitCallback, int $authorId)
+    public function saveSubmission(Request $submissionRequest,
+                                   GitCallback $gitCallback, int $authorId, $courseId = null): Submission
     {
-        $submission = $this->requestHandlingService->getSubmissionFromRequest(
-            $submissionRequest,
-            $gitCallback->repo,
-            $authorId
-        );
+        if ($gitCallback->repo != null) {
+            $submission = $this->requestHandlingService->getSubmissionFromRequest(
+                $submissionRequest,
+                $gitCallback->repo,
+                $authorId
+            );
+
+        } else {
+            $submission = $this->requestHandlingService->getSubmissionFromRequest(
+                $submissionRequest,
+                '',
+                $authorId,
+                $courseId
+            );
+        }
 
         $submission->git_callback_id = $gitCallback->id;
         $submission->save();
@@ -243,5 +261,39 @@ class SubmissionService
                 );
             }
         }
+    }
+
+    /**
+     * Prepare tester results response from synchronous post request to tester.
+     *
+     * @param Submission $submission
+     *
+     * @return array
+     */
+    public function prepareSubmissionResponse(Submission $submission):array {
+        $responseSubmission = [];
+        $fields = [
+            'id',
+            'charon_id',
+            'confirmed',
+            'created_at',
+            'git_hash',
+            'git_timestamp',
+            'git_commit_message',
+            'user_id',
+            'mail',
+        ];
+        foreach ($fields as $field) {
+            $responseSubmission[$field] = $submission[$field];
+        }
+        $charon = $this->charonRepository->getCharonById($submission['charon_id']);
+        $responseSubmission['results'] = Result::where('submission_id', $submission->id)
+            ->where('user_id', $submission['user_id'])
+            ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+            ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
+            ->orderBy('grade_type_code')
+            ->get();
+        $responseSubmission['test_suites'] = $this->submissionsRepository->getTestSuites($submission->id);
+        return $responseSubmission;
     }
 }

@@ -38,7 +38,7 @@ class CharonGradingServiceTest extends TestCase
     /** @var CharonGradingService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

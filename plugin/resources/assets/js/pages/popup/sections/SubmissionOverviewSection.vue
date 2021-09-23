@@ -39,7 +39,7 @@
 
                             <div class="result">
                                 <div>
-                                    {{ getGrademapByResult(result).name }}
+                                  <span v-if="getGrademapByResult(result).persistent > 0" title="This grade is persistent.">* </span>{{ getGrademapByResult(result).name }}
                                     <span class="grademax">
                                         / {{ getGrademapByResult(result).grade_item.grademax | withoutTrailingZeroes }}p
                                     </span>
@@ -94,6 +94,12 @@
                 points_changed: false,
                 goBackIsDisabled: true
             };
+        },
+
+        watch: {
+            submission() {
+                this.getTotalResult();
+            },
         },
 
         computed: {
@@ -167,13 +173,11 @@
                         correctGrademap = grademap;
                     }
                 });
-
                 return correctGrademap;
             },
 
             getResultKey(result) {
                 let key = 'result_' + result.user_id + '_' + result.grade_type_code + '_' + result.id;
-                console.log(key);
                 return key;
             },
 
@@ -219,8 +223,6 @@
                         window.VueEvent.$emit("refresh-page");
 
                         this.errors = {};
-
-                        this.getTotalResult();
                     }
                 }
 
@@ -247,6 +249,7 @@
             },
 
             getTotalResult() {
+                this.charon_confirmed_points = null;
                 if (this.submission == null || this.charon == null) return;
 
                 Charon.getResultForStudent(
