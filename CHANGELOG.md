@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - \#589 Added the ability for teachers to add feedback for students' submissions
+- \#635 Backup and restore possibility for charon_review_comment table
 
 ## [1.5.1] - 2021-09-10
 
