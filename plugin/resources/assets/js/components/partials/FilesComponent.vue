@@ -215,7 +215,10 @@
 
                 ReviewComment.save(this.newReviewComment.trim(), this.activeFileId, this.charon.id, this.notify, (data) => {
                     if (data.status === 'Failed') {
-                        VueEvent.$emit('show-notification', 'Error saving comment!')
+                        VueEvent.$emit('show-notification', 'Error saving review comment!')
+                    }
+                    else if (data.status === 'NotValidated') {
+                        VueEvent.$emit('show-notification', 'Error saving review comment, input too long!')
                     } else {
                         this.newReviewComment = ''
                         VueEvent.$emit('show-notification', 'Review comment saved!')

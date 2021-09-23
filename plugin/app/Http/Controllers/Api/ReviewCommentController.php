@@ -35,7 +35,6 @@ class ReviewCommentController extends Controller
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-
         return $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
     }
 
@@ -46,5 +45,3 @@ class ReviewCommentController extends Controller
         return $this->reviewCommentService->delete($reviewCommentId);
     }
 }
-
-

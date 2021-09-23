@@ -40,7 +40,7 @@ class ReviewCommentService
             $result = $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
             if ($result) {
                 return [
-                    'status'  => 'OK'
+                    'status' => 'OK'
                 ];
             } else {
                 return [
@@ -49,7 +49,7 @@ class ReviewCommentService
             }
         }
         return [
-            'status' => 'Failed',
+            'status' => 'NotValidated'
         ];
     }
 
