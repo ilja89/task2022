@@ -4,6 +4,8 @@
 
     <student-details-charons-table-section :table="charonsTable"></student-details-charons-table-section>
 
+    <student-summary-section :student_summary_data="student_summary"></student-summary-section>
+
     <popup-section title="Grades report"
                    subtitle="Grading report for the current student.">
 
@@ -14,8 +16,6 @@
       </v-card>
 
     </popup-section>
-
-    <student-summary-section :student_summary_data="student_summary"></student-summary-section>
 
     <student-details-submissions-section :latest-submissions="latestSubmissions"></student-details-submissions-section>
 
@@ -44,7 +44,6 @@ import {DefenseRegistrationsSection, StudentDetailsSubmissionsSection, StudentDe
 import {StudentCharonPointsVsCourseAverageChart} from '../graphics'
 import moment from "moment"
 import Teacher from "../../../api/Teacher";
-import Defense from "../../../api/Defense";
 
 export default {
   components: {PopupSection, PageTitle, StudentSummarySection, CommentsSection, DefenseRegistrationsSection, StudentCharonPointsVsCourseAverageChart,StudentDetailsSubmissionsSection, StudentDetailsCharonsTableSection},
@@ -64,6 +63,7 @@ export default {
       defenseList: [],
       teachers: [],
       name: 'Student name',
+      student: null,
       table: '',
       student_summary: {
         'total_points_course': 0,
@@ -72,7 +72,7 @@ export default {
         'upcoming_defences': 0,
         'charons_with_submissions': 0,
         'potential_points': 0
-      }
+      },
     }
   },
 
@@ -95,10 +95,6 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'fetchStudent',
-    ]),
-
     getCharonsTable() {
       User.getUserCharonsDetails(this.courseId, this.routeStudentId, data => {
         this.charonsTable = data
@@ -129,7 +125,7 @@ export default {
       })
 
       Submission.findByUser(this.courseId, this.routeStudentId, result => {
-        this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade !== null).length
+        this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade > 0).length
       })
 
       Defense.all(this.courseId, result => {
@@ -162,8 +158,11 @@ export default {
     this.fetchRegistrations()
     Teacher.getAllTeachers(this.courseId, response => {
       this.teachers = response
-    }),
-    Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)    
+    })
+    Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
+    User.getStudentInfo(this.courseId, this.routeStudentId, response => {
+      this.student = response
+    })
   }
 }
 </script>
