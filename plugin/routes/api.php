@@ -58,15 +58,16 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/results/{user}', 'StudentsController@getStudentActiveResultForCharon');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/groups', 'StudentsController@getStudentGroups');
-    //
+
+    // Student statistics
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent');
+        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent'); // get total points for student so far
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse');
+        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse'); // get count of submissions for student
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions');
+        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions'); // get count of charons that have submissions
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints');
+        ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints'); // get potential points for student
 
 
     Route::middleware('auth.course.managing.require')
@@ -80,7 +81,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('charons/{charon}/retest', 'RetestController@retestByCharon');
 
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');//
+        ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
     Route::middleware('auth.course.managing.require')
