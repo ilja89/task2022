@@ -90,12 +90,12 @@
 						<template v-slot:activator="{ on, attrs }">
 							<v-slider
 								v-model="charon.docker_timeout"
-								color="purple"
+								color="blue"
 								label="Docker timeout"
 								min="0"
 								max="3000"
 								step="30"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -201,11 +201,11 @@
 						<template v-slot:activator="{ on, attrs }">
 							<v-slider
 								v-model="charon.group_size"
-								color="purple"
+								color="blue"
 								label="Group size"
 								min="1"
 								max="10"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -219,12 +219,12 @@
 						<template v-slot:activator="{ on, attrs }">
 							<v-slider
 								v-model="charon.defense_duration"
-								color="purple"
+								color="blue"
 								label="Duration"
 								min="5"
 								max="30"
 								step="5"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -240,11 +240,11 @@
 						<template v-slot:activator="{ on, attrs }">
 							<v-slider
 								v-model="charon.defense_threshold"
-								color="purple"
+								color="blue"
 								label="Threshold"
 								min="0"
 								max="100"
-								thumb-label
+								thumb-label="always"
 								v-bind="attrs"
 								v-on="on"
 							></v-slider>
@@ -307,7 +307,7 @@ import Course from "../../../api/Course";
 export default {
 	name: "charon-settings-form",
 	components: {Multiselect, Datepicker},
-	
+
 	props: {
 		charon: {required: true},
 		course_id: {required: true}

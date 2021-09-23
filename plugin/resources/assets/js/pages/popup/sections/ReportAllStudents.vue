@@ -17,6 +17,7 @@
                                 @on-sort-change="onSortChange"
                                 @on-column-filter="onColumnFilter"
                                 @on-per-page-change="onPerPageChange"
+                                @on-row-click="onRowClick"
                                 :isLoading.sync="isLoading"
                                 :fixed-header="false"
                                 :line-numbers="false"
@@ -246,7 +247,8 @@
 
         computed: {
             ...mapGetters([
-                'courseId'
+                'courseId',
+                'submissionLink'
             ]),
 
             jsonData() {
@@ -332,6 +334,10 @@
 
             loadItems() {
                 Submission.findAllSubmissionsForReport(this.courseId, this.serverParams, this.columns, this.setSubmissionsForReport)
+            },
+
+            onRowClick(params) {
+                this.$router.push(this.submissionLink(params.row.submissionId))
             },
         },
     };

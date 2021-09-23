@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -22,11 +22,16 @@ mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
 let webpack = require('webpack');
 
 mix.webpackConfig({
-  plugins: [
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
-  ]
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
+    ]
 });
 
+mix.options({
+        postCss: [
+            require('autoprefixer'),
+        ],
+});
 // Full API
 // mix.js(src, output);
 // mix.extract(vendorLibs);

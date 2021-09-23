@@ -18,13 +18,23 @@ unit_test:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.develop .env
+    - cp -p env.develop .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml plugin/tests/Unit
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
     expire_in: 1 week
+
+security-advisories-vulnerabilities:
+  tags:
+    - docker
+  stage: test
+  image: umutphp/php-docker-images-for-ci:7.4
+  services:
+    - name: docker:dind
+  script:
+    - local-php-security-checker
 
 .builds:
   tags:
@@ -34,7 +44,7 @@ unit_test:
   services:
     - name: docker:dind
   script:
-    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh
+    - chmod +x create_prod_artifact.sh && ./create_prod_artifact.sh $CI_COMMIT_BRANCH
   artifacts:
     paths:
       - $CI_PROJECT_DIR/charon
@@ -112,7 +122,7 @@ integration_test_dev:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p .env.develop .env
+    - cp -p env.develop .env
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml

@@ -47,6 +47,9 @@
         mounted() {
             VueEvent.$on('unittests-git-was-changed', unittests_git => this.form.fields.unittests_git = unittests_git);
             VueEvent.$on('tester-type-was-changed', tester_type => this.form.fields.tester_type = tester_type);
+            VueEvent.$on('tester-url-was-changed', tester_url => this.form.fields.tester_url = tester_url);
+            VueEvent.$on('tester-sync-url-was-changed', tester_url => this.form.fields.tester_sync_url = tester_url);
+            VueEvent.$on('tester-token-was-changed', tester_token => this.form.fields.tester_token = tester_token);
 
             VueEvent.$on('show-loader', () => this.loaderVisible++);
             VueEvent.$on('hide-loader', () => this.loaderVisible--);

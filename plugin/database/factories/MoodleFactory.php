@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Faker\Generator;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use TTU\Charon\Models\Charon;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;

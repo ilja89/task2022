@@ -15,6 +15,7 @@ use TTU\Charon\Services\DeadlineService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Models\GradeItem;
+use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
 class UpdateCharonServiceTest extends TestCase
@@ -60,7 +61,8 @@ class UpdateCharonServiceTest extends TestCase
             $gradebookService,
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
-            m::mock(CharonGradingService::class)
+            m::mock(CharonGradingService::class),
+            m::mock(CalendarService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
@@ -85,7 +87,8 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(GradebookService::class),
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
-            m::mock(CharonGradingService::class)
+            m::mock(CharonGradingService::class),
+            m::mock(CalendarService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
