@@ -71,6 +71,10 @@
         ...mapGetters([
             'courseId',
           ]),
+
+          studentName() {
+            return this.student ? this.student.firstname + ' ' + this.student.lastname : "Student"
+          }
         },
 
         methods: {
@@ -83,6 +87,12 @@
             User.getStudentsInCourse(this.courseId, students => {
               this.students = students;
             })
+        },
+
+        metaInfo() {
+          return {
+            title: 'Student overview page'
+          }
         }
     }
 </script>

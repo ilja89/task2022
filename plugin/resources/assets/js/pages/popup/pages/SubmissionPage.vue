@@ -44,6 +44,12 @@
             );
         },
 
+      metaInfo() {
+        return {
+          title: this.studentName + ' submission page'
+        }
+      },
+
         beforeRouteLeave(to, from, next) {
             if (this.guard_navigation === true) {
                 const answer = window.confirm(

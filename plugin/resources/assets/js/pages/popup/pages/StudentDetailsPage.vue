@@ -90,7 +90,7 @@ export default {
     },
 
     studentName() {
-      return this.student ? this.student.firstname + ' ' + this.student.lastname + ' (' + this.student.username + ')' : "Student name"
+      return this.student ? this.student.firstname + ' ' + this.student.lastname + ' (' + this.student.username + ')' : "Student"
     }
   },
 
@@ -163,6 +163,12 @@ export default {
     User.getStudentInfo(this.courseId, this.routeStudentId, response => {
       this.student = response
     })
+  },
+
+  metaInfo() {
+    return {
+      title: this.studentName + ' details page'
+    }
   }
 }
 </script>
