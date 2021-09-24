@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+### Added
+
+
+## [1.5.2] - 2021-09-23
+
+### Fixed
+- \#630 Apache error with submission is no longer thrown
+
+## [1.5.1] - 2021-09-10
+
 ### Added
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#562 Teacher buttons are now at the very bottom
@@ -24,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#601 Fixed how submissions files path is put togheter
 - \#612 Changed the style of submission button and added highlighting to recently submitted submissions
 - \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
+- \#576 Templates can contain new lines and spaces in the beginning and/or in the end when creating charon
 
 ### Changed
 - \#511 Update Laravel Mix from 0.10.0 to 4.1.4
@@ -71,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
+- \#638 Added css so that when tester returns styled output, it will be displayed that way
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -84,7 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-- \#629 Made templates deleting with charon deleting
+- \#630 Apache error with submission is no longer thrown
+- \#632 Fixed submissions seeders
 
 ## [1.2.4] - 2021-05-19
 

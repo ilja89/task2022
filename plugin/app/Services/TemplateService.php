@@ -39,7 +39,7 @@ class TemplateService
         $this->templatesRepository->deleteAllTemplates($charonId);
         if (!is_null($templates)) {
             foreach ($templates as $template) {
-                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['templateContents']);
             }
         }
     }
@@ -54,7 +54,7 @@ class TemplateService
         $this->checkTemplates($templates);
         if (!is_null($templates)) {
             foreach ($templates as $template) {
-                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['contents']);
+                $this->templatesRepository->saveTemplate($charonId, $template['path'], $template['templateContents']);
             }
         }
     }
