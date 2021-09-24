@@ -216,6 +216,7 @@ export default {
 				}
 				this.$store.state.submissions = submissions;
 				this.canLoadMore = Submission.canLoadMore();
+				VueEvent.$emit("student-refresh-submissions");
 				this.refreshing = false;
 			});
 		},

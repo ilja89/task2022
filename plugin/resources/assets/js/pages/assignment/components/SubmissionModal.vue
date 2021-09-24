@@ -112,6 +112,7 @@ export default {
 	mounted() {
 		this.testerType = window.testerType
 		this.getFiles()
+		VueEvent.$on("student-refresh-submissions", this.getFiles);
 	},
 
 	methods: {
