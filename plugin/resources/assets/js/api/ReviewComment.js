@@ -20,6 +20,17 @@ class ReviewComment {
             VueEvent.$emit('show-notification', 'Error deleting review comment.\n' + error, 'danger')
         });
     }
+
+    static clearNotifications(reviewCommentIds, charonId, studentId, then) {
+        axios.put('/mod/charon/api/charons/' + charonId + '/reviewComments/clear?user_id=' + studentId, {
+            reviewCommentIds: reviewCommentIds,
+        }).then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error clearing review comments\' notifications.\n'
+                + error, 'danger');
+        });
+    }
 }
 
 export default ReviewComment

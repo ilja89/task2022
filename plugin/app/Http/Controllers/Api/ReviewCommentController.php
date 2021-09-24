@@ -45,6 +45,12 @@ class ReviewCommentController extends Controller
 
         return $this->reviewCommentService->delete($reviewCommentId);
     }
+
+    public function clearNotifications(Request $request): array
+    {
+        $reviewCommentIds = $request->input('reviewCommentIds');
+        return $this->reviewCommentService->clearNotifications($reviewCommentIds);
+    }
 }
 
 
