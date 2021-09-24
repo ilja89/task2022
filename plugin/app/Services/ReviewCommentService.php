@@ -35,10 +35,21 @@ class ReviewCommentService
      */
     public function save($submissionFileId, $reviewComment, $notify): array
     {
-        $userId = (new User)->currentUserId();
-        $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
+        if (strlen($reviewComment) <= 10000) {
+            $userId = (new User)->currentUserId();
+            $result = $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
+            if ($result) {
+                return [
+                    'status' => 'OK'
+                ];
+            } else {
+                return [
+                    'status' => 'Failed'
+                ];
+            }
+        }
         return [
-            'status'  => 'OK'
+            'status' => 'NotValidated'
         ];
     }
 
