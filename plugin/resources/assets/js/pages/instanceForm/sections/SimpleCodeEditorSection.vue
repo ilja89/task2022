@@ -94,7 +94,7 @@
 
           <div v-for="file in form.fields.files">
             <input type="hidden" :name="'files[' + file.id + '][path]'" :value="file.path">
-            <input type="hidden" :name="'files[' + file.id + '][contents]'" :value="file.content">
+            <input type="hidden" :name="'files[' + file.id + '][templateContents]'" :value="file.content">
           </div>
         </div>
       </div>
