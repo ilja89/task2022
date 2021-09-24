@@ -4,11 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [Unreleased]
 
 ### Fixed
 - \#630 Apache error with submission is no longer thrown
+- \#632 Fixed submissions seeders
 
+### Added
+- \#604 Now only last "latest" submission will be highlighted
+- \#638 Added css so that when tester returns styled output, it will be displayed that way
+
+
+## [1.5.2] - 2021-09-23
+
+### Fixed
+- \#630 Apache error with submission is no longer thrown
 
 ## [1.5.1] - 2021-09-10
 
@@ -30,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#601 Fixed how submissions files path is put togheter
 - \#612 Changed the style of submission button and added highlighting to recently submitted submissions
 - \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
+- \#576 Templates can contain new lines and spaces in the beginning and/or in the end when creating charon
 
 ### Changed
 - \#511 Update Laravel Mix from 0.10.0 to 4.1.4
@@ -77,7 +88,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
-- \#604 Now only last "latest" submission will be highlighted
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
