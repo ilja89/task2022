@@ -67,7 +67,8 @@ class SubmissionsRepository
             'stdout',
             'stderr'
         ];
-        $submission = Submission::with([
+
+        return Submission::with([
             'results' => function ($query) use ($gradeTypeCodes) {
                 // Only select results which have a corresponding grademap
                 $query->whereIn('grade_type_code', $gradeTypeCodes);
@@ -84,9 +85,6 @@ class SubmissionsRepository
                 $query->select(['id', 'repo']);
             },
         ])->where('id', $submissionId)->first($fields);
-        error_log("submission111 :" . print_r($submission, true));
-
-        return $submission;
     }
 
     /**
