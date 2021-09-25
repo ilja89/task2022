@@ -51,7 +51,7 @@ export default {
   name: "StudentDetailsPage",
 
   data() {
-    return {      
+    return {
       gradesTable: '',
       charonsTable: [],
       latestSubmissions: [],
@@ -174,5 +174,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
