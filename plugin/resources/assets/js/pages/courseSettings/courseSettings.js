@@ -2,6 +2,7 @@ import '../../bootstrap';
 
 import CourseSettingsForm from './CourseSettingsForm.vue';
 import { CourseSettingsForm as CourseSettingsFormForm } from '../../classes';
+import Vue from "vue";
 
 const app = new Vue({
     el: '#app',

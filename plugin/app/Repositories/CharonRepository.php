@@ -162,6 +162,11 @@ class CharonRepository
      */
     public function deleteByInstanceId($id)
     {
+        $id = intval($id);
+        if (intval($id) == 0) {
+            return false;
+        }
+
         /** @var Charon $charon */
         $charon = Charon::find($id);
 
@@ -173,14 +178,19 @@ class CharonRepository
         Deadline::where('charon_id', $id)->delete();
         CharonDefenseLab::where('charon_id', $id)->delete();
 
-        $result = $charon->delete();
+        if ($charon != null) {
 
-        $this->gradebookService->deleteGradeCategory(
-            $charon->category_id,
-            $charon->course
-        );
+            $result = $charon->delete();
 
-        return $result;
+            $this->gradebookService->deleteGradeCategory(
+                $charon->category_id,
+                $charon->course
+            );
+
+            return $result;
+        }
+
+        return false;
     }
 
     /**

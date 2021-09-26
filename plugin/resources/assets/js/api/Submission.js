@@ -9,10 +9,9 @@ class Submission {
         })
     }
 
-    static submitSubmission(sourceFiles, charonId, studentId, then) {
+    static submitSubmission(sourceFiles, charonId, then) {
         axios.post(`/mod/charon/api/submissions/${charonId}/postSubmission`, {
-                sourceFiles: sourceFiles,
-                userId: studentId
+                sourceFiles: sourceFiles
             }).then(response => {
                 then(response.data)
             }).catch(error => {

@@ -2,18 +2,24 @@
   <div v-if="codes.length > 0">
     <charon-tabs>
       <charon-tab v-for="(code, index) in codes"
+                  v-bind:key="code.path"
                   :name="code.path"
                   :selected="index===0">
         <code-editor :codeId="index"
-                     :language="this.language"
+                     :language="language"
                      :codes="codes"
                      :allow_submission="allow_submission"
         ></code-editor>
       </charon-tab>
     </charon-tabs>
-    <v-btn v-if="allow_submission > 0" class="ma-2 submitBtn" small tile outlined color="primary" @click="submitClicked">
-      Submit
-    </v-btn>
+    <div v-if="allow_submission > 0">
+      <a class="button is-link" @click="getTemplates">
+        {{ translate('resetToTemplates') }}
+      </a>
+      <button style="float: right" class="btn btn-primary" @click="submitClicked">
+        {{ translate('submitButton') }}
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -21,8 +27,12 @@ import CharonTab from "../../../components/partials/CharonTab";
 import CharonTabs from "../../../components/partials/CharonTabs";
 import CodeEditor from "./CodeEditor";
 import Submission from "../../../api/Submission";
+import Translate from "../../../mixins/Translate";
+import {File} from "../../../api";
 
 export default {
+  mixins: [Translate],
+
   name: "CodeTemplates",
 
   components: {CharonTab, CharonTabs, CodeEditor},
@@ -33,7 +43,23 @@ export default {
   },
 
   beforeMount() {
-    this.getTemplates();
+    if (!(allow_submission > 0)) {
+      this.getTemplates();
+    } else {
+      VueEvent.$on('latest-submission-to-editor', (submissionId) => {
+        this.getFilesForSubmission(submissionId);
+      });
+      VueEvent.$on('latest-submission-does-not-exist', () => {
+        this.getTemplates();
+      });
+    }
+  },
+
+  mounted() {
+    VueEvent.$on('change-editor-content', (codes) => {
+      this.codes = codes;
+      VueEvent.$emit('change-editor', codes);
+    });
   },
 
   data() {
@@ -43,16 +69,25 @@ export default {
   },
 
   methods: {
-    getTemplates() {
+    getFilesForSubmission(submissionId) {
       try {
-        Submission.getTemplates(window.charonId, answer => {
-          this.codes = answer
+        File.findBySubmission(submissionId, files => {
+          this.codes = files
         })
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error getting templates!')
       }
     },
-
+    getTemplates() {
+      try {
+        Submission.getTemplates(window.charonId, answer => {
+          this.codes = answer
+          VueEvent.$emit('change-editor-content', answer);
+        })
+      } catch (e) {
+        VueEvent.$emit('show-notification', 'Error getting templates!')
+      }
+    },
     submitClicked() {
       let sourceFiles = [];
 
@@ -61,8 +96,12 @@ export default {
       }
 
       try {
-        Submission.submitSubmission(sourceFiles, window.charonId, window.studentId, () =>
-            VueEvent.$emit('show-notification', 'Submission successfully saved!')
+        Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
+          if (response['message'] === 'Testing successful') {
+            VueEvent.$emit('add-submission', response['submission']);
+          }
+          VueEvent.$emit('show-notification', response['message']);
+        }
         )
       } catch (e) {
         VueEvent.$emit('show-notification', 'Error saving submission!')

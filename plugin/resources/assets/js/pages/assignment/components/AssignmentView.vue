@@ -12,7 +12,9 @@
 				</template>
 			</v-snackbar>
 
-			<submission-list/>
+      <submission-list
+          :allow_submission="allow_submission">
+      </submission-list>
 
 			<v-row class="my-4">
 				<student-registration-sheet/>
@@ -42,6 +44,10 @@ export default {
 	components: {
 		SubmissionList, RegistrationDialog, StudentRegistrationSheet
 	},
+
+  props: {
+    allow_submission: {required: true}
+  },
 
 	data() {
 		return {

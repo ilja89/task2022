@@ -16,7 +16,7 @@ import {
     DefenseRegistrationPage,
     TeachersPage
 } from './pages';
-import LabsForm from "./pages/labs/LabsForm";
+import LabsForm from "./pages/labs/LabsForm.vue";
 
 Vue.use(VueRouter)
 Vue.use(Vuetify);
