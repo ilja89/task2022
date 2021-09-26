@@ -81,7 +81,7 @@ export default {
 
     pointsFilter: function(value, maxPoints, studentPoints) {
       studentPoints = studentPoints ? studentPoints : "0.0";
-      return parseFloat(studentPoints).toFixed(1) + ' p / ' + parseInt(maxPoints) + ' p';
+      return parseFloat(studentPoints).toFixed(2) + ' p / ' + parseInt(maxPoints) + ' p';
     }
   }
 }
