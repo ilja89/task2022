@@ -32,10 +32,18 @@
             ...mapGetters(["courseId"])
         },
 
-        created() {
-            this.getSubmission();
+        watch: {
+          $route() {
+            if (typeof this.$route.params.submission_id !== "undefined") {
+              this.getSubmission();
+            }
+          }
+        },
 
-            window.VueEvent.$on("submission-was-saved", _ => {
+      created() {
+        this.getSubmission();
+
+        window.VueEvent.$on("submission-was-saved", _ => {
                 this.getSubmission();
                 this.guardFromNavigation(false)
             });
