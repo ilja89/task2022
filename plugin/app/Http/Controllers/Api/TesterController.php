@@ -68,7 +68,7 @@ class TesterController extends Controller
             app(User::class)->currentUserId(),
             $content['sourceFiles']);
 
-        $response = $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
         if ($response->getStatus() == 202) {
@@ -77,16 +77,12 @@ class TesterController extends Controller
                     ->prepareSubmissionResponse($this->saveResults($response));
 
                 return response()->json([
-                    'message' => 'Testing successful',
+                    'message' => 'Testing the submission was successful',
                     'submission' => $responseSubmission
                 ]);
             } catch (Exception $e) {
                 Log::info("Exception when saving results" , ["exception" => $e]);
             }
-        } else if ($response->getStatus() == 204) {
-            return response()->json([
-                'message' => 'Code has been sent to tester. Please refresh submissions in a while.'
-            ]);
         }
 
         return response()->json([
