@@ -20,7 +20,7 @@ class ReviewCommentRepository
      * @param $submissionFileId
      * @param $reviewComment
      */
-    public function save($userId, $submissionFileId, $reviewComment)
+    public function add($userId, $submissionFileId, $reviewComment)
     {
         DB::table('charon_review_comment')->insert([
             'user_id' => $userId,

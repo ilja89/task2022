@@ -7,7 +7,7 @@
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
                 <v-btn class="review-comment-button ma-2" tile outlined color="primary"
-                       :disabled="!newReviewComment" @click="saveReviewComment">
+                       :disabled="!newReviewComment" @click="addReviewComment">
                     Add comment
                 </v-btn>
             </v-container>
@@ -204,15 +204,15 @@
                 }
             },
 
-            saveReviewComment() {
+            addReviewComment() {
                 if (!this.newReviewComment || !this.newReviewComment.trim().length) {
                     VueEvent.$emit('show-notification', 'Please add content to the comment.')
                     return
                 }
 
-                ReviewComment.save(this.newReviewComment.trim(), this.activeFileId, this.charon.id, () => {
+                ReviewComment.add(this.newReviewComment.trim(), this.activeFileId, this.charon.id, () => {
                     this.newReviewComment = ''
-                    VueEvent.$emit('show-notification', 'Review comment saved!')
+                    VueEvent.$emit('show-notification', 'Review comment added!')
                     this.$root.$emit('refresh_submission_files')
                 });
             },
