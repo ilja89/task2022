@@ -30,12 +30,12 @@ class ReviewCommentController extends Controller
         $this->reviewCommentService = $reviewCommentService;
     }
 
-    public function save(Request $request): array
+    public function add(Request $request): array
     {
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-        return $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
+        return $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify);
     }
 
     public function delete(Request $request): array

@@ -33,11 +33,11 @@ class ReviewCommentService
      * @param $notify
      * @return string[]
      */
-    public function save($submissionFileId, $reviewComment, $notify): array
+    public function add($submissionFileId, $reviewComment, $notify): array
     {
         if (strlen($reviewComment) <= 10000) {
-            $userId = (new User)->currentUserId();
-            $result = $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
+            $userId = app(User::class)->currentUserId();
+            $result = $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
             if ($result) {
                 return [
                     'status' => 'OK'

@@ -23,7 +23,7 @@ class ReviewCommentRepository
      * @param $notify
      * @return bool
      */
-    public function save($userId, $submissionFileId, $reviewComment, $notify): bool
+    public function add($userId, $submissionFileId, $reviewComment, $notify): bool
     {
         return DB::table('charon_review_comment')->insert([
             'user_id' => $userId,
