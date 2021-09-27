@@ -781,7 +781,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
-    if ($oldversion < 2021091901) {
+    if ($oldversion < 2021092701) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    user_id BIGINT(10) NOT NULL," .
