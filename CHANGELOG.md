@@ -14,8 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - \#618 Synchronous url can now be set in moodle's charon settings
+- \#604 Now only last "latest" submission will be highlighted
 - \#638 Added css so that when tester returns styled output, it will be displayed that way
-
 
 
 ## [1.5.2] - 2021-09-23
@@ -104,7 +104,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-
 
 ## [1.2.4] - 2021-05-19
 
