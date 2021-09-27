@@ -8,11 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - \#632 Fixed submissions seeders
+- \#629 Made templates deleting with charon deleting
 
 ### Added
 - \#619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
   the button, while it makes the request and waits for a response
+- \#604 Now only last "latest" submission will be highlighted
 - \#638 Added css so that when tester returns styled output, it will be displayed that way
+
 
 ## [1.5.2] - 2021-09-23
 
@@ -85,8 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#474 Added ability to make submitions from charon student view
 - \#542 Now a submission is made to tester, its response is handled and submissions are created.
 - \#522 Show code editor always if there is at least one template (student view)
-- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button 
-  (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
+- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
 
 ### Fixed
