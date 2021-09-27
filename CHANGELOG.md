@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- \#632 Fixed submissions seeders
 - \#629 Made templates deleting with charon deleting
 
 ### Added
+- \#604 Now only last "latest" submission will be highlighted
+- \#638 Added css so that when tester returns styled output, it will be displayed that way
 
 
 ## [1.5.2] - 2021-09-23
@@ -85,7 +88,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
-- \#638 Added css so that when tester returns styled output, it will be displayed that way
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -99,8 +101,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-- \#630 Apache error with submission is no longer thrown
-- \#632 Fixed submissions seeders
 
 ## [1.2.4] - 2021-05-19
 
