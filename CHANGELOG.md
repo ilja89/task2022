@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-- \#630 Apache error with submission is no longer thrown
 - \#632 Fixed submissions seeders
 - \#629 Made templates deleting with charon deleting
 
