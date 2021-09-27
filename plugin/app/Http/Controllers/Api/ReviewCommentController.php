@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
+use TTU\Charon\Exceptions\ReviewCommentException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Services\ReviewCommentService;
 
@@ -30,24 +31,29 @@ class ReviewCommentController extends Controller
         $this->reviewCommentService = $reviewCommentService;
     }
 
-    public function save(Request $request): array
+    /**
+     * @throws ReviewCommentException
+     */
+    public function save(Request $request): void
     {
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-        return $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
+        $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
     }
 
-    public function delete(Request $request): array
+    /**
+     * @throws ReviewCommentException
+     */
+    public function delete(Request $request): void
     {
         $reviewCommentId = $request->route('reviewComment');
-
-        return $this->reviewCommentService->delete($reviewCommentId);
+        $this->reviewCommentService->delete($reviewCommentId);
     }
 
-    public function clearNotifications(Request $request): array
+    public function clearNotifications(Request $request): void
     {
         $reviewCommentIds = $request->input('reviewCommentIds');
-        return $this->reviewCommentService->clearNotifications($reviewCommentIds);
+        $this->reviewCommentService->clearNotifications($reviewCommentIds);
     }
 }
