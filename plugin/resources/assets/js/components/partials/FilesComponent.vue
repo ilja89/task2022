@@ -7,7 +7,7 @@
                           placeholder="Write a comment for the selected code (visible for the student)">
                 </textarea>
                 <v-btn class="review-comment-button ma-2" tile outlined color="primary"
-                       :disabled="!newReviewComment" @click="saveReviewComment">
+                       :disabled="!newReviewComment.trim()" @click="saveReviewComment">
                     Add comment
                 </v-btn>
                 <input type="checkbox" class="form-control" v-model="notify">
