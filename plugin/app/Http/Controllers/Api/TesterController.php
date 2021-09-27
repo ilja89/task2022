@@ -77,7 +77,7 @@ class TesterController extends Controller
                     ->prepareSubmissionResponse($this->saveResults($response));
 
                 return response()->json([
-                    'message' => 'Testing successful',
+                    'message' => 'Testing the submission was successful',
                     'submission' => $responseSubmission
                 ]);
             } catch (Exception $e) {

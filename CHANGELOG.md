@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - \#618 Synchronous url can now be set in moodle's charon settings
+- \#619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
+  the button, while it makes the request and waits for a response
 - \#604 Now only last "latest" submission will be highlighted
 - \#638 Added css so that when tester returns styled output, it will be displayed that way
 
