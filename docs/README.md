@@ -59,24 +59,22 @@ Navigate to Charon directory and execute the following commands
 
 ```bash
 cd bitnami/moodle/mod/charon
+./dev-setup.sh
+```
+
+Script `dev-setup.sh` is executing following commands:
+
+```bash
+git config core.filemode false
+git checkout -- .htaccess
 php composer.phar install
-apt install -y build-essential libpng-dev
-npm install
+npm config set registry https://registry.npmjs.org/
+npm ci
 npm run dev
 sudo chmod -R 777 plugin/storage/
 ```
 
-If having errors in charon popup section, check if error messages suggests  running "composer update".
-On this case start with cleaning out ```vendor``` folder and rerunning ```php composer.phar install```.
-If you are required to run ```composer update```, take into consideration that running it requires raising default memory limit for php. Other ways there might be memory allocation error.
-The recommended way for this is to use command like ```COMPOSER_MEMORY_LIMIT=2G composer update```
-Please note that ```composer.lock``` file will be updated with this. As rule, you should NOT to commit changes in this file.
-
-On error executing 'postinstallation': The configuration file config.php already exists.
-Try to delete everything from docker and create new files, as there might be something corrupt or if there were previous
-deletions, something might not been deleted properly.
-
-Please note docker has files on Containers, Images and Volumes. Volumes has database info.
+If you already have set up development environment before, and only need to refresh some parts, not all these commands are really neccessary. Usually running just few of them is ok.
 
 ### Login to Moodle
 
@@ -186,15 +184,13 @@ By default, git picks up changes in [file permissions](https://linuxhandbook.com
 During the development process, Moodle might change the file permissions on your machine.  
 Run `git config core.filemode false` to disable tracking of filemode changes for this project.
 
-### Updating from version 5.5.x to 8.48.1
+### Using "npm install"
 
-To upgrade from previous versions to the latest.
-Run the following commands in your docker container and inside bitnami/moodle/mod/charon: 
-```bash
-rm -r vendor/
-rm plugin/bootstrap/cache/*.php
-php composer.phar install
-```
-**And make sure that your `.env.*` files are changed to `env.*`**   
-If you have both then delete the ones that match `.env.*`   
-To check which Laravel version you are running run: `php artisan --verion`
+If you need to reinstall components for gui (in `node_modules` folder), use **`npm ci`**,  not `npm install`.
+As rule, you should not commit changes in `package-lock.json` file, if it was changed accidentally.
+Only if `package.json` is modified on purpose, execute `npm update` or `npm install` and after this also commit new `package-lock.json`.
+
+### Reinstall with full cleanup
+
+If you need to clean up containers and start from scratch, remember that probably you need to remove all Containers, Images 
+and Volumes before creating containers again. Volumes are containing permanent info, like database content, for example.
