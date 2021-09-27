@@ -34,7 +34,7 @@ class ReviewCommentService
      */
     public function add($submissionFileId, $reviewComment): array
     {
-        $userId = (new User)->currentUserId();
+        $userId = app(User::class)->currentUserId();
         $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment);
         return [
             'status'  => 'OK'
