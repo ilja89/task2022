@@ -87,11 +87,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($request->expectsJson()) {
-            if ($exception instanceof ReviewCommentException) {
-                return response()->json($exception->toArray(), $exception->getStatus());
-            }
-
-            if ($exception instanceof RegistrationException) {
+            if ($exception instanceof RegistrationException || $exception instanceof ReviewCommentException) {
                 return response()->json($exception->toArray(), $exception->getStatus());
             }
 
