@@ -53,7 +53,7 @@ class ReviewCommentService
     {
         $comment = $this->reviewCommentRepository->get($reviewCommentId);
         if (!$comment) {
-            throw new ReviewCommentException("review_comment_not_found");
+            throw new ReviewCommentException("delete_review_comment_not_found");
         }
         $this->reviewCommentRepository->delete($reviewCommentId);
     }
