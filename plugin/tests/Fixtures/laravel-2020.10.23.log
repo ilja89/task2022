@@ -1,7 +1,0 @@
-[2020-10-23 21:04:01] develop.ERROR: A single line message
-[2020-10-23 21:04:02] develop.ERROR: Error over multiple lines
-Stack trace:
-#0 trace line 0
-#1 trace line 1
-#2 trace line 2
-[2020-10-23 21:04:03] develop.ERROR: Most recent line
