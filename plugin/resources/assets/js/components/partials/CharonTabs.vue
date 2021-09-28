@@ -42,6 +42,9 @@
                 this.tabs.forEach(tab => {
                     tab.isActive = (tab.name === selectedTab.name);
                 });
+                if (selectedTab.name !== undefined) {
+                  VueEvent.$emit('tab-was-changed', selectedTab.name);
+                }
             }
         }
     }

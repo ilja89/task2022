@@ -1,13 +1,14 @@
 <template>
   <div class="editorDiv">
 
-    <span>Language: {{language}}</span>
-
+    <label for="content">{{ translate('programmingLanguage') }}: {{language}}</label>
     <textarea id="copyTextArea" class="textareaForCopy"></textarea>
 
     <AceEditor
         class="editor"
         v-model="content"
+        id="content"
+        v-bind:id="codes[this.codeId].path"
         @input="dataSubmit"
         @init="editorInit"
         :lang="lang"
@@ -19,26 +20,28 @@
         enableLiveAutocompletion: true,
         fontSize: 14,
         highlightActiveLine: true,
+        highlightSelectedWord: true,
         enableSnippets: true,
         showLineNumbers: true,
-        tabSize: 2,
+        tabSize: 4,
         showPrintMargin: false,
         showGutter: true,
         readOnly: read_only,
         }"
-    />
+    /> <br>
 
-    <v-btn class="ma-2 submitBtn" small tile outlined color="primary" @click="copyToClipBoard">
-      Copy
-    </v-btn>
+    <a class="button is-link" @click="copyToClipBoard">
+      {{ translate('copyButton') }}
+    </a>
   </div>
 </template>
 
 <script>
 import AceEditor from 'vuejs-ace-editor';
+import Translate from "../../../mixins/Translate";
 
 export default {
-  name: "App",
+  mixins: [Translate],
 
   components: {
     AceEditor
@@ -57,6 +60,16 @@ export default {
       lang: this.language,
       read_only: this.allow_submission < 1
     }
+  },
+  mounted() {
+    VueEvent.$on('change-editor', (codes) => {
+      this.content = codes[this.codeId].contents
+    });
+    VueEvent.$on('tab-was-changed', (selectedTab) => {
+      const editor = ace.edit(selectedTab);
+      editor.focus();
+      editor.navigateFileEnd();
+    })
   },
 
   methods: {

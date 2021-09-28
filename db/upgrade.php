@@ -757,11 +757,28 @@ function xmldb_charon_upgrade($oldversion = 0)
 
     if ($oldversion < 2021081101){
         $table = new xmldb_table("charon");
-
         $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);
         }
+    }
+
+    if ($oldversion < 2021090901){
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021091501){
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
+            . "REFERENCES " . $CFG->prefix . "charon (id) ON DELETE CASCADE ON UPDATE CASCADE";
+        $DB->execute($sql);
     }
 
     return true;
