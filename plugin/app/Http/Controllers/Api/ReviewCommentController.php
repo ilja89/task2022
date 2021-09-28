@@ -34,12 +34,12 @@ class ReviewCommentController extends Controller
     /**
      * @throws ReviewCommentException
      */
-    public function save(Request $request): void
+    public function add(Request $request): void
     {
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-        $this->reviewCommentService->save($submissionFileId, $reviewComment, $notify);
+        $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify);
     }
 
     /**

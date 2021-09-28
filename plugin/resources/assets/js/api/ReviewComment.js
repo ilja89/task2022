@@ -1,7 +1,7 @@
 class ReviewComment {
 
-    static save(reviewComment, submissionFileId, charonId, notify, then) {
-        axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/save', {
+    static add(reviewComment, submissionFileId, charonId, notify, then) {
+        axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/add', {
             submission_file_id: submissionFileId,
             review_comment: reviewComment,
             notify: notify,
@@ -11,7 +11,7 @@ class ReviewComment {
             VueEvent.$emit('show-notification',
                 error.response && error.response.data && error.response.data.title
                     ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error saving review comment.\n' + error, 'danger')
+                    : 'Error adding review comment.\n' + error, 'danger')
         })
 
     }

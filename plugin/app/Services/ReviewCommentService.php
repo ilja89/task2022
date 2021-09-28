@@ -34,13 +34,13 @@ class ReviewCommentService
      * @param $notify
      * @throws ReviewCommentException
      */
-    public function save($submissionFileId, $reviewComment, $notify): void
+    public function add($submissionFileId, $reviewComment, $notify): void
     {
         if (strlen($reviewComment) > 10000) {
             throw new ReviewCommentException("review_comment_over_limit");
         }
-        $userId = (new User)->currentUserId();
-        $this->reviewCommentRepository->save($userId, $submissionFileId, $reviewComment, $notify);
+        $userId = app(User::class)->currentUserId();
+        $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
     }
 
     /**
