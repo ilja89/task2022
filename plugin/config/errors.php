@@ -115,11 +115,11 @@ return [
 
     'review_comment_over_limit' => [
         'title' => 'Review comment is too long.',
-        'detail' => 'Make sure it is no more than 10000 characters.',
+        'detail' => 'Review comment\'s length should not exceed 10000 characters.',
     ],
 
-    'delete_review_comment_not_found' => [
-        'title'  => 'The review comment could not be deleted because it was not found.',
+    'review_comment_not_found' => [
+        'title'  => 'The review comment could not be found.',
         'detail' => '',
     ],
 

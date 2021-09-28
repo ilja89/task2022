@@ -59,7 +59,7 @@ class ReviewCommentService
     }
 
     /**
-     * Clear notifications of comments got from given identifiers.
+     * Remove notification setting from review comments got by given identifiers.
      *
      * @param $reviewCommentIds
      */

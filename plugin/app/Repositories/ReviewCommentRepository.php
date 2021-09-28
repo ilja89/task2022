@@ -75,7 +75,7 @@ class ReviewCommentRepository
     }
 
     /**
-     * Clear notification of a comment with given identifier/change its 'notify' field to 0.
+     * Remove notification setting from a given review comment.
      *
      * @param ReviewComment $reviewComment
      * @return bool
