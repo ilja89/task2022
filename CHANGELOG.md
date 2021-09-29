@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the button, while it makes the request and waits for a response
 - \#604 Now only last "latest" submission will be highlighted
 - \#638 Added css so that when tester returns styled output, it will be displayed that way
+- \#514 My registration shows the registration status
+- \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
+- \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- \#504 UI for teacher for registering a student for defence
 
 
 ## [1.5.2] - 2021-09-23
@@ -28,10 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.1] - 2021-09-10
 
 ### Added
-- \#514 My registration shows the registration status
-- \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
-- \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
-- \#504 UI for teacher for registering a student for defence
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
 - \#562 Teacher buttons are now at the very bottom
 - \#566 Added Estonian translation to everything associated to templates
