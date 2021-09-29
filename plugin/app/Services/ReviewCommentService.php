@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Exceptions\ReviewCommentException;
 use TTU\Charon\Repositories\ReviewCommentRepository;
 use Zeizig\Moodle\Globals\User;
 
@@ -31,69 +32,42 @@ class ReviewCommentService
      * @param $submissionFileId
      * @param $reviewComment
      * @param $notify
-     * @return string[]
+     * @throws ReviewCommentException
      */
-    public function add($submissionFileId, $reviewComment, $notify): array
+    public function add($submissionFileId, $reviewComment, $notify): void
     {
-        if (strlen($reviewComment) <= 10000) {
-            $userId = app(User::class)->currentUserId();
-            $result = $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
-            if ($result) {
-                return [
-                    'status' => 'OK'
-                ];
-            } else {
-                return [
-                    'status' => 'Failed'
-                ];
-            }
+        if (strlen($reviewComment) > 10000) {
+            throw new ReviewCommentException("review_comment_over_limit");
         }
-        return [
-            'status' => 'NotValidated'
-        ];
+        $userId = app(User::class)->currentUserId();
+        $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
     }
 
     /**
      * Delete review comment.
      *
      * @param $reviewCommentId
-     * @return array
+     * @throws ReviewCommentException
      */
-    public function delete($reviewCommentId): array
+    public function delete($reviewCommentId): void
     {
         $comment = $this->reviewCommentRepository->get($reviewCommentId);
-        if ($comment) {
-            $result = $this->reviewCommentRepository->delete($reviewCommentId);
-            if ($result) {
-                return [
-                    'status' => 'OK'
-                ];
-            } else {
-                return [
-                    'status'=>'Failed',
-                ];
-            }
+        if (!$comment) {
+            throw new ReviewCommentException("delete_review_comment_not_found");
         }
-        return [
-            'status'=>'Failed',
-        ];
+        $this->reviewCommentRepository->delete($reviewCommentId);
     }
 
     /**
-     * Clear notifications of given comments.
+     * Remove notification setting from review comments got by given identifiers.
      *
      * @param $reviewCommentIds
-     * @return array
      */
-    public function clearNotifications($reviewCommentIds): array
+    public function clearNotifications($reviewCommentIds): void
     {
         $reviewComments = $this->reviewCommentRepository->getMany($reviewCommentIds);
         foreach ($reviewComments as $reviewComment) {
             $this->reviewCommentRepository->clearNotification($reviewComment);
         }
-
-        return [
-            'status' => 'OK'
-        ];
     }
 }

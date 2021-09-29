@@ -8,16 +8,23 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error adding review comment.\n' + error, 'danger')
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error adding review comment.\n' + error, 'danger')
         })
+
     }
 
     static delete(reviewCommentId, charonId, then) {
-        axios.delete('/mod/charon/api/charons/' + charonId + '/reviewComments/' + reviewCommentId + '/delete')
-            .then(response => {
-                then(response.data)
-            }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting review comment.\n' + error, 'danger')
+        axios.delete('/mod/charon/api/charons/' + charonId + '/reviewComments/' + reviewCommentId + '/delete'
+        ).then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error deleting review comment.\n' + error, 'danger')
         });
     }
 
@@ -27,8 +34,10 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error clearing review comments\' notifications.\n'
-                + error, 'danger');
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error clearing review comments\' notifications.\n' + error, 'danger')
         });
     }
 }
