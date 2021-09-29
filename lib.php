@@ -187,3 +187,19 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
         return $type;
     }
 }
+
+function update_charon_completion_state($submission, $userId) {
+    global $DB, $CFG;
+    require_once ($CFG->dirroot . '/lib/completionlib.php');
+
+    $course = $DB->get_record('course', array('id' => $submission->charon->course), '*', MUST_EXIST);
+    $mod_info = get_fast_modinfo($course);
+    $cm = $mod_info->get_cm($submission->charon->category_id);
+    $completion = new \completion_info($course);
+
+    if ($completion->is_enabled($cm)) {
+        $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
+    }
+
+    return $submission;
+}

@@ -74,6 +74,9 @@ class SaveTesterCallback
     public function run(TesterCallbackRequest $request,
                         GitCallback $gitCallback, array $usernames, int $courseId = null)
     {
+        global $CFG;
+        require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
         $users = $this->getStudentsInvolved($usernames);
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
@@ -93,21 +96,8 @@ class SaveTesterCallback
 
         $this->updateGrades($submission, $users);
 
-        if ($request->input('returnExtra.charon')) {
-            global $DB, $CFG;
-            require_once ($CFG->dirroot . '/lib/completionlib.php');
-
-            $charon = $DB->get_record('charon', array('id' => $request->input('returnExtra.charon')), '*', MUST_EXIST);
-            $course = $DB->get_record('course', array('id' => $charon->course), '*', MUST_EXIST);
-            $mod_info = get_fast_modinfo($course);
-            $cm = $mod_info->get_cm($charon->category_id);
-            $completion = new \completion_info($course);
-
-            foreach ($users as $user) {
-                if ($completion->is_enabled($cm)) {
-                    $completion->update_state($cm, COMPLETION_COMPLETE, $user->id);
-                }
-            }
+        foreach ($users as $student) {
+            update_charon_completion_state($submission, $student->id);
         }
 
         return $submission;

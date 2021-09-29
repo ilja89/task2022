@@ -117,9 +117,6 @@ $string['add_button_text'] = 'Lisa';
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
 
-$string['asd'] = 'Charoni täitvuse lävend: ';
-$string['asdasd'] = 'Lävend';
-
 /*------------------------*\
         Labs form
 \*------------------------*/
