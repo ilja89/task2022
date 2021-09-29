@@ -1,5 +1,5 @@
 <template>
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr_CF">
 
         <legend class="ftoggler" v-on:click="open = !open">
             <slot name="title"></slot>
