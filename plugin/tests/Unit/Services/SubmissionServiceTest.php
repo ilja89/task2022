@@ -49,6 +49,9 @@ class SubmissionServiceTest extends TestCase
     /** @var Mock|GrademapService */
     private $grademapService;
 
+    /** @var Mock|SubmissionCalculatorService */
+    private $submissionCalculatorService;
+
     /** @var Mock|CharonRepository */
     private $charonRepository;
 
@@ -69,7 +72,7 @@ class SubmissionServiceTest extends TestCase
             $this->userRepository = Mockery::mock(UserRepository::class),
             $this->grademapService = Mockery::mock(GrademapService::class),
             $this->charonRepository = Mockery::mock(CharonRepository::class),
-            Mockery::mock(SubmissionCalculatorService::class)
+            $this->submissionCalculatorService = Mockery::mock(SubmissionCalculatorService::class)
         );
     }
 
