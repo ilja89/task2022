@@ -773,5 +773,13 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021091501){
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
+            . "REFERENCES " . $CFG->prefix . "charon (id) ON DELETE CASCADE ON UPDATE CASCADE";
+        $DB->execute($sql);
+    }
+
     return true;
 }

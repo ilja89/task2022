@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -51,11 +52,8 @@ class HttpCommunicationService
      *
      * @param array $data
      *
-     * @return TesterCallbackRequest
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendInfoToTester(array $data):TesterCallbackRequest
+    public function  sendInfoToTester(array $data)
     {
         /**
          * @var String $testerUrl
@@ -78,28 +76,17 @@ class HttpCommunicationService
         );
 
         $studentGitRepo = null;
-        $course = null;
         if (isset($data['gitStudentRepo'])) {
             $studentGitRepo = $data['gitStudentRepo'];
-        } else if (isset($data['returnExtra']['course'])){
-            $course = $data['returnExtra']['course'];
         }
 
-        if ($studentGitRepo or $course) {
-            if (!$course) {
-                Log::info("Repository found: '" . $studentGitRepo . "'");
-                $course = $this->gitCallbackService->getCourse($studentGitRepo);
-                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
-            } else {
-                $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course);
-            }
+        if ($studentGitRepo) {
+            Log::info("Repository found: '" . $studentGitRepo . "'");
+            $course = $this->gitCallbackService->getCourse($studentGitRepo);
+            $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
 
             if ($settings && $settings->tester_url) {
-                if (array_key_exists('source', $data)) {
-                    $testerUrl = $settings->tester_sync_url;
-                } else {
-                    $testerUrl = $settings->tester_url;
-                }
+                $testerUrl = $settings->tester_url;
                 Log::info("Custom tester url found: '" . $testerUrl . "'");
             }
 
@@ -119,13 +106,75 @@ class HttpCommunicationService
             $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
             Log::info("Response" , ["status" => $response->status()
             , "body" => $response->json()]);
+        } catch (RequestException $exception) {
+            $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
+            Log::error('Could not send info to tester to url ' . $testerUrl . ' with body:', [$body]);
+        }
+    }
+
+    /**
+     * Sends info to the tester in a synchronous request.
+     *
+     * @param array $data
+     *
+     * @return TesterCallbackRequest
+     *
+     */
+    public function sendInfoToTesterSync(array $data):TesterCallbackRequest
+    {
+        /**
+         * @var String $testerUrl
+         * Initialize by default value
+         */
+        $testerUrl = $this->settingsService->getSetting(
+            'mod_charon',
+            'tester_sync_url',
+            'http://neti.ee'
+        );
+
+        /**
+         * @var String $testerToken
+         * Initialize by default value
+         */
+        $testerToken = $this->settingsService->getSetting(
+            'mod_charon',
+            'tester_token',
+            'charon'
+        );
+
+        $course = null;
+        if (isset($data['returnExtra']['course'])){
+            $course = $data['returnExtra']['course'];
+        }
+
+        if ($course) {
+            $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course);
+            if ($settings && $settings->tester_sync_url) {
+                $testerUrl = $settings->tester_sync_url;
+                Log::info("Custom tester synchronous url found: '" . $testerUrl . "'");
+            }
+
+            if ($settings && $settings->tester_token) {
+                $testerToken = $settings->tester_token;
+                Log::info("Custom tester token found: '" . $testerToken . "'");
+            }
+        }
+
+        Log::info('Sending data to tester in a sync request.', [
+            'uri' => $testerUrl,
+            'tester token' => $testerToken,
+            'data' => $data,
+        ]);
+
+        try {
+            $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
+            Log::info("Response" , ["status" => $response->status()
+                , "body" => $response->json()]);
             if ($response->successful()) {
                 if (!empty($response->body())) {
                     return CharonViewTesterCallbackRequest::create("", "POST",
                         json_decode($response->body(), true))
                         ->setStatus($response->status());
-                } else {
-                    return (new CharonViewTesterCallbackRequest())->setStatus(204);
                 }
             }
         } catch (RequestException $exception) {
@@ -135,19 +184,30 @@ class HttpCommunicationService
         return (new CharonViewTesterCallbackRequest())->setStatus(400);
     }
 
+
     /**
      * Wrapper for sendInfoToTester for easier calling.
      *
-     * @param string $uri
+     * @param array $data
+     *
+     * @throws GuzzleException
+     */
+    public function postToTester(array $data)
+    {
+        $this->sendInfoToTester($data);
+    }
+
+    /**
+     * Wrapper for sendInfoToTester for easier calling.
+     *
      * @param array $data
      *
      * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function postToTester(array $data):TesterCallbackRequest
+    public function postToTesterSync(array $data):TesterCallbackRequest
     {
-        return $this->sendInfoToTester($data);
+        return $this->sendInfoToTesterSync($data);
     }
 
     /**
@@ -160,7 +220,7 @@ class HttpCommunicationService
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [])
     {
