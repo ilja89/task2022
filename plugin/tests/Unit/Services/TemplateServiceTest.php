@@ -42,15 +42,15 @@ class TemplateServiceTest extends TestCase
         $templates = array(
             array(
                 'path' => 'EX01/Dog.php',
-                'contents' => 'auh',
+                'templateContents' => 'auh',
             ),
             array(
                 'path' => 'EX01/Cat.php',
-                'contents' => 'meow',
+                'templateContents' => 'meow',
             ),
             array(
                 'path' => 'EX01/Zebra.php',
-                'contents' => '',
+                'templateContents' => '',
             ),
         );
 
@@ -80,15 +80,15 @@ class TemplateServiceTest extends TestCase
         $templates = array(
             array(
                 'path' => 'EX01/Dog.php',
-                'contents' => 'auh',
+                'templateContents' => 'auh',
             ),
             array(
                 'path' => 'EX01/Cat.php',
-                'contents' => 'meow',
+                'templateContents' => 'meow',
             ),
             array(
                 'path' => 'EX01/Dog.php',
-                'contents' => '',
+                'templateContents' => '',
             ),
         );
 

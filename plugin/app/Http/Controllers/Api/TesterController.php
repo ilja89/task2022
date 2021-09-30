@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TesterCommunicationService;
+use Zeizig\Moodle\Globals\User;
 
 class TesterController extends Controller
 {
@@ -20,22 +23,28 @@ class TesterController extends Controller
     /** @var SaveTesterCallback */
     private $saveTesterFlow;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * RetestController constructor.
      *
      * @param TesterCommunicationService $testerCommunicationService
+     * @param SubmissionService $submissionService
      * @param Request $request
      * @param SaveTesterCallback $saveTesterFlow
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
-        SaveTesterCallback $saveTesterFlow
+        SaveTesterCallback $saveTesterFlow,
+        SubmissionService $submissionService
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
         $this->saveTesterFlow = $saveTesterFlow;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -48,21 +57,36 @@ class TesterController extends Controller
      */
     public function postSubmission(Request $request): JsonResponse
     {
+        $content = json_decode($request->getContent(), true);
         Log::info("Inline submission input for the tester: ", [
             'charon' => $request->route('charon'),
-            'userId' => $request->input('userId'),
-            'sourceFiles' => $request->input('sourceFiles'),
+            'userId' => app(User::class)->currentUserId(),
+            'sourceFiles' => $content['sourceFiles'],
             ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
-            $request->input('userId'),
-            json_decode(json_encode($request->input('sourceFiles'))));
+            app(User::class)->currentUserId(),
+            $content['sourceFiles']);
 
-        $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
+        if ($response->getStatus() == 202) {
+            try {
+                $responseSubmission = $this->submissionService
+                    ->prepareSubmissionResponse($this->saveResults($response));
+
+                return response()->json([
+                    'message' => 'Testing the submission was successful',
+                    'submission' => $responseSubmission
+                ]);
+            } catch (Exception $e) {
+                Log::info("Exception when saving results" , ["exception" => $e]);
+            }
+        }
+
         return response()->json([
-            'message' => 'Testing triggered.'
+            'message' => 'Failed to send submission to tester'
         ]);
     }
 
@@ -71,6 +95,7 @@ class TesterController extends Controller
      *
      * @param CharonViewTesterCallbackRequest $request
      *
+     * @return Submission
      * @throws Exception
      */
     public function saveResults(CharonViewTesterCallbackRequest $request)
@@ -88,5 +113,7 @@ class TesterController extends Controller
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);
+
+        return $submission;
     }
 }
