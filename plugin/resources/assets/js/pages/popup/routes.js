@@ -14,10 +14,10 @@ import {
     CharonSettingsPage,
     CharonSettingsEditingPage,
     DefenseRegistrationPage,
-    TeachersPage
+    TeachersPage,
+    AddNewDefenseRegistrationPage
 } from './pages';
-import LabsForm from "./pages/labs/LabsForm";
-import AddNewDefenseRegistrationPage from "./pages/AddNewDefenseRegistrationPage";
+import LabsForm from "./pages/labs/LabsForm.vue";
 
 Vue.use(VueRouter)
 Vue.use(Vuetify);

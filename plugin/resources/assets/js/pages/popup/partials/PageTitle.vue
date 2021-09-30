@@ -30,10 +30,11 @@
                                     <v-list>
                                         <template v-for="member in group.members">
                                             <v-list-item
-                                                    :key="member.username"
                                                     @click="doCopy(member.username)"
                                             >
-                                                <v-list-item-content>
+                                                <v-list-item-content
+                                                    :key="member.username"
+                                                >
                                                     <v-list-item-title>{{member.firstname}} {{member.lastname}}
                                                         ({{member.username}})
                                                     </v-list-item-title>
