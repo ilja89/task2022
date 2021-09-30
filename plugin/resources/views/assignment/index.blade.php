@@ -115,8 +115,7 @@
         programmingLanguage: "{{ translate('language') }}",
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
-        resetToTemplates: "{{ translate('reset_to_templates') }}"
-        progressText: "{{ translate('progress') }}",
+        resetToTemplates: "{{ translate('reset_to_templates') }}",
         queueStatusText: "{{ translate('queue_status') }}",
         queueText: "{{ translate('queue') }}",
         nrInQueueText: "{{ translate('nr_in_queue') }}",
