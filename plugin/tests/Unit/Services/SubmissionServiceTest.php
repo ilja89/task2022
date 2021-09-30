@@ -11,6 +11,7 @@ use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\AreteResponseParser;
 use TTU\Charon\Models\Charon;
@@ -48,6 +49,9 @@ class SubmissionServiceTest extends TestCase
     /** @var Mock|GrademapService */
     private $grademapService;
 
+    /** @var Mock|CharonRepository */
+    private $charonRepository;
+
     /** @var SubmissionService */
     private $service;
 
@@ -63,6 +67,8 @@ class SubmissionServiceTest extends TestCase
             $this->requestHandlingService = Mockery::mock(AreteResponseParser::class),
             $this->submissionsRepository = Mockery::mock(SubmissionsRepository::class),
             $this->userRepository = Mockery::mock(UserRepository::class),
+            $this->grademapService = Mockery::mock(GrademapService::class),
+            $this->charonRepository = Mockery::mock(CharonRepository::class),
             $this->grademapService = Mockery::mock(GrademapService::class),
             Mockery::mock(SubmissionCalculatorService::class)
         );

@@ -6,11 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Exceptions\SubmissionNotFoundException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Services\GradebookService;
@@ -34,6 +35,9 @@ class SubmissionService
     /** @var SubmissionsRepository */
     private $submissionsRepository;
 
+    /** @var CharonRepository */
+    private $charonRepository;
+
     /** @var UserRepository */
     private $userRepository;
 
@@ -52,6 +56,7 @@ class SubmissionService
      * @param SubmissionsRepository $submissionsRepository
      * @param UserRepository $userRepository
      * @param GrademapService $grademapService
+     * @param CharonRepository $charonRepository
      * @param SubmissionCalculatorService $submissionCalculatorService
      */
     public function __construct(
@@ -61,6 +66,7 @@ class SubmissionService
         SubmissionsRepository $submissionsRepository,
         UserRepository $userRepository,
         GrademapService $grademapService,
+        CharonRepository $charonRepository,
         SubmissionCalculatorService $submissionCalculatorService
     ) {
         $this->gradebookService = $gradebookService;
@@ -69,6 +75,7 @@ class SubmissionService
         $this->submissionsRepository = $submissionsRepository;
         $this->userRepository = $userRepository;
         $this->grademapService = $grademapService;
+        $this->charonRepository = $charonRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
@@ -261,6 +268,40 @@ class SubmissionService
                 );
             }
         }
+    }
+
+    /**
+     * Prepare tester results response from synchronous post request to tester.
+     *
+     * @param Submission $submission
+     *
+     * @return array
+     */
+    public function prepareSubmissionResponse(Submission $submission):array {
+        $responseSubmission = [];
+        $fields = [
+            'id',
+            'charon_id',
+            'confirmed',
+            'created_at',
+            'git_hash',
+            'git_timestamp',
+            'git_commit_message',
+            'user_id',
+            'mail',
+        ];
+        foreach ($fields as $field) {
+            $responseSubmission[$field] = $submission[$field];
+        }
+        $charon = $this->charonRepository->getCharonById($submission['charon_id']);
+        $responseSubmission['results'] = Result::where('submission_id', $submission->id)
+            ->where('user_id', $submission['user_id'])
+            ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+            ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
+            ->orderBy('grade_type_code')
+            ->get();
+        $responseSubmission['test_suites'] = $this->submissionsRepository->getTestSuites($submission->id);
+        return $responseSubmission;
     }
 
     /**
