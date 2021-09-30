@@ -4,6 +4,10 @@ namespace TTU\Charon\Http\Requests;
 
 class CharonViewTesterCallbackRequest extends TesterCallbackRequest
 {
+
+    /** @var int */
+    private $status;
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -18,4 +22,25 @@ class CharonViewTesterCallbackRequest extends TesterCallbackRequest
             'hash' => 'required',
         ];
     }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return CharonViewTesterCallbackRequest
+     */
+    public function setStatus(int $status): CharonViewTesterCallbackRequest
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
 }

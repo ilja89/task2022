@@ -1,4 +1,4 @@
-import LabsForm from "./LabsForm";
+import LabsForm from "./LabsForm.vue";
 
 export {
     LabsForm
