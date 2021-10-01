@@ -82,7 +82,8 @@ export default class InstanceFormForm {
             this.fields.files.push({
                 id: index,
                 path: template.path,
-                content: template.contents
+                content: template.contents,
+                duplicate: false
             });
         })
     }
