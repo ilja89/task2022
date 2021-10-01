@@ -40,7 +40,7 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="deleteItem(item)">
+                <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
                 <registration-queue-sheet v-if="showQueueButton(item)" :labData="item"/>
@@ -130,6 +130,23 @@ export default {
         this.dialog = false
       })
     },
+
+    showDeleteButton({lab_end,progress})
+    {
+      if(progress!=="Waiting")
+      {
+        return false;
+      }
+      const dateNow = new Date();
+      let dateEnd = lab_end.split(" ");
+      dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+      dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
+      if(dateNow.getTime()>dateEnd.getTime())
+      {
+        return false;
+      }
+      return true;
+    }
   },
 
   computed: {

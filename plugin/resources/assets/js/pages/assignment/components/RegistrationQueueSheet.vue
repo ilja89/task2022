@@ -18,12 +18,6 @@
 
       <v-sheet height="80vh" class="pt-4 px-4">
         <registration-queue></registration-queue>
-
-        <v-row class="my-4">
-          <v-btn class="mt-4 ml-4" outlined text color="error" @click="sheet = false">
-            {{ translate('closeText') }}
-          </v-btn>
-        </v-row>
       </v-sheet>
     </div>
   </v-bottom-sheet>
