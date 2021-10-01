@@ -4,43 +4,68 @@
 <link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 <h1 class="title">{{ $charon->name }}</h1>
 
-<div class="columns assignment-columns" id="app">
+<div class="rows assignment-rows" id="app">
+    <div class="columns assignment-columns">
+        <div class="column is-two-thirds assignment-content content" v-highlightjs>
 
-    <div class="column is-two-thirds assignment-content content" v-highlightjs>
+            {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
 
-        {!! rewritePluginTextUrls($charon->description, 'description', $course_module_id) !!}
-
-        @if ($can_edit)
-            <div class="edit-container">
-                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup">
-                    Charon popup
-                </a>
-
-                <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
-                    Grade settings
-                </a>
-
-                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup#/charonSettings/{{$charon->id}}">
-                    Registration settings
-                </a>
+            <div class="edit-container" v-if="!(allow_submission > 0)">
+                <code-templates
+                        :language="language"
+                        :allow_submission="allow_submission">
+                </code-templates><br>
             </div>
-        @endif
-        <code-templates
-            :language="language"
-            :allow_submission="allow_submission">
-        </code-templates>
 
+        </div>
+
+        <div class="column is-one-third">
+
+            @include('assignment.partials._grademaps_table')
+            @include('assignment.partials._deadlines_table')
+            <div v-if="!(allow_submission > 0)">
+                <h2 class="title">{{ translate('submissions') }}</h2>
+
+                <assignment-view
+                        :allow_submission="allow_submission">
+                </assignment-view>
+            </div>
+
+        </div>
     </div>
+    <div class="columns assignment-columns">
+        <div class="column is-two-thirds assignment-content content" v-highlightjs>
+            <div class="edit-container" v-if="allow_submission > 0">
+                <code-templates
+                        :language="language"
+                        :allow_submission="allow_submission">
+                </code-templates><br>
+            </div>
+            @if ($can_edit)
+                <div class="edit-container">
+                    <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup">
+                        Charon popup
+                    </a>
 
-    <div class="column is-one-third">
+                    <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
+                        Grade settings
+                    </a>
 
-        @include('assignment.partials._grademaps_table')
-        @include('assignment.partials._deadlines_table')
+                    <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup#/charonSettings/{{$charon->id}}">
+                        Registration settings
+                    </a>
+                </div>
+            @endif
+        </div>
+        <div class="column is-one-third">
+            <div v-if="allow_submission > 0">
+                <h2 class="title">{{ translate('submissions') }}</h2>
 
-        <h2 class="title">{{ translate('submissions') }}</h2>
-
-        <assignment-view></assignment-view>
-
+                <assignment-view
+                        :allow_submission="allow_submission">
+                </assignment-view>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -49,7 +74,6 @@
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};
-
 
     window.allow_submission = {{ $charon->allow_submission }};
     window.language = "{!! $charon->testerType->name !!}";
@@ -87,6 +111,11 @@
         selectDayText: "{{ translate('select_day') }}",
         selectTimeText: "{{ translate('select_time') }}",
         registerText: "{{ translate('register') }}",
+        progressText: "{{ translate('progress') }}",
+        programmingLanguage: "{{ translate('language') }}",
+        copyButton: "{{ translate('copy') }}",
+        submitButton: "{{ translate('submit') }}",
+        resetToTemplates: "{{ translate('reset_to_templates') }}",
         progressText: "{{ translate('progress') }}",
         successfulRegistrationDeferText: "{{ translate('successful_registration_defer') }}",
         failedRegistrationDeferText: "{{translate('failed_registration_defer')}}",

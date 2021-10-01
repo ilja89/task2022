@@ -20,3 +20,4 @@ npm-shrinkwrap.json
 mix-manifest.json
 /plugin/public/fonts/vendor/material-icons/iconMaterialIcons-Regular.*
 plugin/public/fonts
+.phpunit.result.cache
