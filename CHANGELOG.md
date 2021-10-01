@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   synchronous url
 - \#632 Fixed submissions seeders
 - \#629 Made templates deleting with charon deleting
+- \#560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ### Added
 - \#618 Synchronous url can now be set in moodle's charon settings
@@ -22,7 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - \#504 UI for teacher for registering a student for defence
-
 
 ## [1.5.2] - 2021-09-23
 
@@ -110,7 +110,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-- \#560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ## [1.2.4] - 2021-05-19
 
