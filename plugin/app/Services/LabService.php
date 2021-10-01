@@ -32,4 +32,17 @@ class LabService
     {
         return $this->labRepository->getLabById($labId);
     }
+
+    /**
+     * Get ongoing and upcoming labs, including students registered for each lab
+     * with given charon identifier got from request.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function findLabsByCharonLaterEqualToday(int $charonId)
+    {
+        return $this->labRepository->getLabsByCharonLaterEqualToday($charonId);
+    }
 }

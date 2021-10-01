@@ -3,13 +3,13 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
+use TTU\Charon\Exceptions\SubmissionNotFoundException;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User as MoodleUser;
@@ -27,9 +27,6 @@ class DefenceRegistrationService
     /** @var LabTeacherRepository */
     private $teacherRepository;
 
-    /** @var LabRepository */
-    private $labRepository;
-
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
@@ -39,28 +36,43 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var CharonDefenseLabRepository */
+    private $defenseLabRepository;
+
+    /** @var CharonService */
+    private $charonService;
+
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
-     * @param LabRepository $labRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
+     * @param CharonDefenseLabRepository $defenseLabRepository
+     * @param CharonService $charonService
+     * @param SubmissionService $submissionService
      */
     public function __construct(
         CharonRepository $charonRepository,
         LabTeacherRepository $teacherRepository,
-        LabRepository $labRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CharonDefenseLabRepository $defenseLabRepository,
+        CharonService $charonService,
+        SubmissionService $submissionService
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
-        $this->labRepository = $labRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->loggedInUser = $loggedInUser;
         $this->userRepository = $userRepository;
+        $this->defenseLabRepository = $defenseLabRepository;
+        $this->charonService = $charonService;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -316,5 +328,39 @@ class DefenceRegistrationService
         }
 
         return $availableTeachers[array_rand($availableTeachers)];
+    }
+
+    /**
+     * Teacher registers a student's submission for a defense and puts it into a queue.
+     *
+     * @param int $studentId
+     * @param int $charonId
+     * @param int $defenseLabId
+     * @param ?string $progress
+     *
+     * @return string
+     * @throws RegistrationException
+     * @throws SubmissionNotFoundException
+     */
+    public function teacherRegisterDefense(
+        int $studentId,
+        int $charonId,
+        int $defenseLabId,
+        ?string $progress = null
+    ): string {
+        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
+        $charon = $this->charonService->getCharonById($charonId);
+        $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
+        $this->validateRegistration($studentId, $charonId, $lab);
+
+        $this->registerDefenceTime(
+            $studentId,
+            $submissionId,
+            $charonId,
+            $defenseLabId,
+            $progress
+        );
+
+        return 'inserted';
     }
 }

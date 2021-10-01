@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,16 +16,21 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
      * LabDummyController constructor.
      *
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -163,7 +169,7 @@ class LabController extends Controller
      */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
-        return $this->labRepository->getLabsByCharonLaterEqualToday($request->route('charon'));
+        return $this->labService->findLabsByCharonLaterEqualToday($request->route('charon'));
     }
 
     /**

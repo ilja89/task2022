@@ -12,10 +12,8 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
-use TTU\Charon\Services\CharonService;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
-use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -30,12 +28,6 @@ class DefenseRegistrationController extends Controller
     /** @var DefenceRegistrationService */
     protected $registrationService;
 
-    /** @var SubmissionService */
-    protected $submissionService;
-
-    /** @var CharonService */
-    protected $charonService;
-
     /** @var LabService */
     protected $labService;
 
@@ -49,8 +41,6 @@ class DefenseRegistrationController extends Controller
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
-     * @param SubmissionService $submissionService
-     * @param CharonService $charonService
      * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
      */
@@ -59,8 +49,6 @@ class DefenseRegistrationController extends Controller
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
-        SubmissionService $submissionService,
-        CharonService $charonService,
         LabService $labService,
         CharonDefenseLabRepository $defenseLabRepository
     ) {
@@ -68,8 +56,6 @@ class DefenseRegistrationController extends Controller
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
-        $this->submissionService = $submissionService;
-        $this->charonService = $charonService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
     }
@@ -103,35 +89,17 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Teacher registers a student's submission for a defense and puts it into a queue.
-     *
-     * @param Request $request
-     *
-     * @return string
      * @throws RegistrationException
      * @throws SubmissionNotFoundException
      */
     public function teacherRegisterDefense(Request $request): string
     {
-        $studentId = $request->input('user_id');
-        $charonId = $request->input('charon_id');
-        $defenseLabId = $request->input('defense_lab_id');
-        $progress = $request->input('progress');
-
-        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-        $charon = $this->charonService->getCharonById($charonId);
-        $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
-        $this->registrationService->validateRegistration($studentId, $charonId, $lab);
-
-        $this->registrationService->registerDefenceTime(
-            $studentId,
-            $submissionId,
-            $charonId,
-            $defenseLabId,
-            $progress
+        return $this->registrationService->teacherRegisterDefense(
+            $request->input("user_id"),
+            $request->input("charon_id"),
+            $request->input("defense_lab_id"),
+            $request->input("progress")
         );
-
-        return 'inserted';
     }
 
     /**

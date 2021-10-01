@@ -37,4 +37,16 @@ class CharonService
     {
         return $this->charonRepository->getCharonById($charonId);
     }
+
+    /**
+     * Get Charons by given course's identifier and include labs.
+     *
+     * @param int $courseId
+     *
+     * @return Charon[]
+     */
+    public function findCharonsByCourseWithLabs(int $courseId): array
+    {
+        return $this->charonRepository->findCharonsByCourseWithLabs($courseId);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -297,16 +298,16 @@ class CharonRepository
     }
 
     /**
-     * Find all Charons in course with given id. Also include labs.
+     * Find all ongoing and upcoming Charons in course with given id. Also include labs.
      *
      * @param integer $courseId
      *
      * @return Charon[]
      */
-    public function findCharonsByCourseWithLabs($courseId)
+    public function findCharonsByCourseWithLabs(int $courseId): array
     {
         $charons = Charon::where('charon.course', $courseId)
-            // where charon.deadline > Carbon::now?
+            ->where('charon.defense_deadline', '>=', Carbon::now())
             ->select('charon.id', 'charon.name')
             ->get()
             ->all();
