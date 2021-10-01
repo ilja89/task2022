@@ -103,7 +103,7 @@ export default {
           this.charon.course, (answer) => {
           console.log(answer)
           if (answer.okay === true) {
-            VueEvent.$emit('show-notification', this.translate("successfulRegistrationDeferText"), "primary");
+            VueEvent.$emit('show-notification', this.translate('successfulRegistrationDeferText'), "primary");
             item["reg_id"] = answer.newRegId;
           }
           else {
@@ -111,8 +111,7 @@ export default {
           }
         });
       }
-      else if(userChoise === "get")
-      {
+      else if(userChoise === "get") {
         console.log(item);
         console.log(this);
       }
@@ -129,7 +128,6 @@ export default {
     },
 
     dateValidation(item) {
-
       const today = new Date();
       const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -150,21 +148,16 @@ export default {
       })
     },
 
-    showDeleteButton({lab_end,progress})
-    {
-      if(progress!=="Waiting")
-      {
+    showDeleteButton({lab_end,progress}) {
+      if(progress!=="Waiting") {
         return false;
       }
       const dateNow = new Date();
       let dateEnd = lab_end.split(" ");
       dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
       dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
-      if(dateNow.getTime()>dateEnd.getTime())
-      {
-        return false;
-      }
-      return true;
+
+      return dateNow.getTime() <= dateEnd.getTime();
     }
   },
 

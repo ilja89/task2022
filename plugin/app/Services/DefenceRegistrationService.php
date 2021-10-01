@@ -11,7 +11,6 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\ConverterService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -36,7 +35,7 @@ class DefenceRegistrationService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var \TTU\Charon\Services\ConverterService */
+    /** @var ConverterService */
     private $converterService;
 
     /**
@@ -46,7 +45,7 @@ class DefenceRegistrationService
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param MoodleUser $loggedInUser
      * @param UserRepository $userRepository
-     * @param \TTU\Charon\Services\ConverterService $converterService
+     * @param ConverterService $converterService
      */
     public function __construct(
         CharonRepository $charonRepository,
@@ -329,15 +328,10 @@ class DefenceRegistrationService
         $result = new stdClass();
 
         //0. Check if all required info received
-        if(
-            $userId == null||
-            $defLabId == null||
-            $charonId == null||
-            $submissionId == null||
-            $regId == null
-            ) {
+        if ($userId == null || $defLabId == null || $charonId == null || $submissionId == null || $regId == null) {
             $result->okay = false;
-            $result->reason = "One of fields received in deferRegistration(userId = $userId, defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId, regId = $regId) is null";
+            $result->reason = "One of fields received in deferRegistration(userId = $userId, " .
+                "defLabId = $defLabId, charonId = $charonId, submissionId = $submissionId, regId = $regId) is null";
             return json_encode($result);
         }
 
@@ -364,7 +358,8 @@ class DefenceRegistrationService
         //1.3 If it is not and this user is not allowed to defer this registration, then disapprove
         if($allowed !== true) {
             $result->okay = false;
-            $result->reason = "User with userId = $userId is not student related to this registration or teacher related to this lab.";
+            $result->reason = "User with userId = $userId is not student related to" .
+                " this registration or teacher related to this lab.";
             return json_encode($result);
         }
 

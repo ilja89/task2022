@@ -34,7 +34,7 @@ class DefenseRegistrationRepository
     public function __construct(
         ModuleService $moduleService,
         LabTeacherRepository $labTeacherRepository
-    ){
+    ) {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
     }

@@ -34,6 +34,7 @@ import RegistrationDialog from "./RegistrationDialog";
 import SubmissionList from "./SubmissionList";
 import {mapState} from "vuex";
 import StudentRegistrationSheet from "./StudentRegistrationSheet";
+import {Defense} from "../../../api";
 
 export default {
 
@@ -102,9 +103,9 @@ export default {
 		},
 
 		getDefenseData() {
-			axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&user_id=${this.student_id}`).then(result => {
-				this.$store.state.registrations = result.data
-			})
+      Defense.getDefenseData(this.charon_id, this.student_id, (data) => {
+        this.$store.state.registrations = data;
+      })
 		},
 	},
 
