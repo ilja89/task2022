@@ -306,7 +306,7 @@ class SubmissionService
 
     /**
      * Find the most suitable submission to register a defense with and return its identifier
-     * or throw if no suitable submission exist.
+     * or throw if no suitable submissions exist.
      *
      * @param Charon $charon
      * @param int $userId

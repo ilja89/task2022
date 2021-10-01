@@ -75,7 +75,7 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Student registers their submission for a defense and puts it to a queue.
+     * Student registers their submission for a defense and puts it into a queue.
      *
      * @param Request $request
      *
@@ -103,7 +103,7 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Teacher registers a student's submission for a defense and puts it to a queue.
+     * Teacher registers a student's submission for a defense and puts it into a queue.
      *
      * @param Request $request
      *
