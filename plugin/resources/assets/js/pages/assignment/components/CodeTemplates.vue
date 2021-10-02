@@ -16,9 +16,14 @@
       <a class="button is-link" @click="getTemplates">
         {{ translate('resetToTemplates') }}
       </a>
-      <button style="float: right" class="btn btn-primary" @click="submitClicked">
-        {{ translate('submitButton') }}
-      </button>
+      <div style="float: right">
+        <button v-if="submitDisabled === false" class="btn btn-primary" @click="submitClicked" :disabled="submitDisabled">
+          {{ translate('submitButton') }}
+        </button>
+        <img v-if="submitDisabled" style="margin-right: 20px" alt="submit loading" height="32px" src="pix/refresh.png"
+             v-bind:class="submitDisabled ? 'rotating' : ''"
+             width="32px">
+      </div>
     </div>
   </div>
 </template>
@@ -60,10 +65,14 @@ export default {
       this.codes = codes;
       VueEvent.$emit('change-editor', codes);
     });
+    VueEvent.$on('reset-submit-button', () => {
+      this.submitDisabled = false
+    });
   },
 
   data() {
     return {
+      submitDisabled: false,
       codes: [],
     }
   },
@@ -89,24 +98,48 @@ export default {
       }
     },
     submitClicked() {
-      let sourceFiles = [];
+      VueEvent.$emit('show-notification', 'Trying to submit a new submission')
+      this.submitDisabled = true;
 
+      let sourceFiles = [];
       for (let i = 0; i < this.codes.length; i++) {
         sourceFiles.push({"path": this.codes[i].path, "content": this.codes[i].contents});
-      }
 
+      }
       try {
         Submission.submitSubmission(sourceFiles, window.charonId, (response) => {
-          if (response['message'] === 'Testing successful') {
+          if (response['message'] === 'Testing the submission was successful') {
             VueEvent.$emit('add-submission', response['submission']);
           }
           VueEvent.$emit('show-notification', response['message']);
+          this.submitDisabled = false;
         }
         )
       } catch (e) {
-        VueEvent.$emit('show-notification', 'Error saving submission!')
+        VueEvent.$emit('show-notification', 'Error submitting a submission!')
+        this.submitDisabled = false;
       }
     }
   }
 }
 </script>
+
+<style scoped>
+
+.rotating {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+</style>
