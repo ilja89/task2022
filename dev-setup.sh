@@ -1,3 +1,4 @@
+apt-get install -y build-essential libpng-dev git
 git config core.filemode false
 git checkout -- .htaccess
 php composer.phar install
