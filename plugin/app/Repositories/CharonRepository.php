@@ -313,7 +313,7 @@ class CharonRepository
             ->all();
 
         foreach ($charons as $charon) {
-            $charon->labs = $this->labRepository->getLabsByCharonLaterEqualToday($charon->id);
+            $charon->labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charon->id);
         }
 
         return $charons;

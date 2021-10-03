@@ -159,7 +159,7 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
-    public function findLabsByCharonIdLaterEqualToday(Request $request)
+    public function findLabsByCharonLaterEqualToday(Request $request)
     {
         return $this->labService->findLabsByCharonIdLaterEqualToday($request->route('charon'));
     }
