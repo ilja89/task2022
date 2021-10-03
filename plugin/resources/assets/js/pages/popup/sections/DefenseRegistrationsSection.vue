@@ -24,6 +24,7 @@
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     Are you sure you want to delete this registration?
+                    ({{this.item.student_name}}, {{this.item.lab_name}}, {{this.item.choosen_time}})
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
@@ -148,7 +149,7 @@ export default {
             Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id, this.item.charon_defense_lab_id, this.item.submission_id, () => {
                 VueEvent.$emit('show-notification', "Registration successfully deleted", 'danger')
                 this.alert = false
-                const index = this.findWithAttr(this.defenseList, "charon_defense_lab_id", this.item.charon_defense_lab_id);
+                const index = this.findWithAttr(this.defenseList, "id", this.item.id);
                 if (index > -1) {
                     this.defenseList.splice(index, 1);
                 }

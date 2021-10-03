@@ -20,7 +20,7 @@ class SubmissionRepositoryTest extends TestCase
     /** @var SubmissionsRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         /** @var Mock|MoodleConfig $config */
@@ -209,5 +209,30 @@ class SubmissionRepositoryTest extends TestCase
         $actual = $this->repository->findLatestByCharon($charon->id);
 
         $this->assertEquals([$newSubmission->id, $oldSubmission->id], $actual);
+    }
+
+    public function testLatestSubmissionsForCharon() {
+
+        /** @var Charon $charon1 */
+        $charon1 = factory(Charon::class)->create(['course' => 0, 'category_id' => 0]);
+        /** @var Charon $charon2 */
+        $charon2 = factory(Charon::class)->create(['course' => 1, 'category_id' => 1]);
+
+        /** @var Submission $submission1 */
+        $submission1 = factory(Submission::class)->create(['charon_id' => $charon1->id]);
+
+        /** @var Submission $submission2 */
+        $submission2 = factory(Submission::class)->create(['charon_id' => $charon2->id]);
+
+        /** @var Submission $submission3 */
+        $submission3 = factory(Submission::class)->create(['charon_id' => $charon2->id]);
+
+        $submissions1 = $this->repository->findLatestSubmissionsForCharon($charon1->id);
+
+        $this->assertEquals(1, $submissions1->count());
+
+        $submissions2 = $this->repository->findLatestSubmissionsForCharon($charon2->id);
+
+        $this->assertEquals(2, $submissions2->count());
     }
 }

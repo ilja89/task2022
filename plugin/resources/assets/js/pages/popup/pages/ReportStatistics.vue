@@ -12,5 +12,11 @@
 
     export default {
         components: { PageTitle, ReportAllStudents },
+
+        metaInfo() {
+            return {
+              title: `${'Charon report statistics - ' + window.course_name}`
+            }
+        },
     };
 </script>

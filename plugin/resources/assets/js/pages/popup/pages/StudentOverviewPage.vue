@@ -45,34 +45,23 @@
             },
         },
 
-        watch: {
-            $route() {
-                if (typeof this.routeStudentId !== 'undefined' && this.$route.name === 'student-overview') {
-                    this.getStudent()
-                    this.getStudentOverviewTable()
-                }
-            },
-        },
-
         methods: {
-            ...mapActions([
-                'fetchStudent',
-            ]),
-
             getStudentOverviewTable() {
                 User.getReportTable(this.courseId, this.routeStudentId, (table) => {
                     this.table = table
                 })
-            },
-
-            getStudent() {
-                this.fetchStudent({courseId: this.courseId, studentId: this.routeStudentId})
             },
         },
 
         created() {
             this.getStudent()
             this.getStudentOverviewTable()
+        },
+
+        metaInfo() {
+            return {
+              title: `${'Charon student overview - ' + window.course_name}`
+            }
         },
     }
 </script>

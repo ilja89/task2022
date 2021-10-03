@@ -7,19 +7,20 @@
     "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.14.7",
     "@mdi/font": "^5.4.55",
     "@mdi/js": "^5.4.55",
     "@nuxtjs/vuetify": "^1.11.2",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "cross-env": "^3.2.4",
-    "laravel-mix": "^0.10.0",
-    "sass-loader": "^7.1.0"
+    "laravel-mix": "^4.1.4",
+    "sass-loader": "^7.3.1",
+    "vue-template-compiler": "^2.6.14"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.15.0",
     "apexcharts": "^3.6.9",
     "axios": "^0.21.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-latest": "^6.24.1",
     "bulma": "^0.9.0",
     "highlight.js": "^9.18.1",
     "lodash": "^4.17.15",
@@ -36,11 +37,13 @@
     "vue-good-table": "2.16.4",
     "vue-json-to-csv": "^1.1.7",
     "vue-material": "latest",
+    "vue-meta": "^2.4.0",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.3.4",
     "vue-tippy": "1.0.0",
     "vue2-autocomplete-js": "^0.2.2",
     "vue2-daterange-picker": "^0.2.3",
+    "vuejs-ace-editor": "^1.0.1",
     "vuejs-datepicker": "^1.6.2",
     "vuetify": "^2.3.10",
     "vuex": "3.4.0"

@@ -35,7 +35,7 @@ class GitCallbackControllerTest extends TestCase
     /** @var GitCallbackService */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->callbackRepository = Mockery::mock(GitCallbacksRepository::class);
@@ -109,7 +109,7 @@ class GitCallbackControllerTest extends TestCase
         $this->service->shouldReceive('getCourse')->with('repository url')->andReturn($course);
 
         /** @var CourseSettings $settings */
-        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git']);
+        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git', ]);
         $settings->testerType = factory(TesterType::class)->make(['name' => 'tester name']);
 
         $this->settingsRepository->shouldReceive('getCourseSettingsByCourseId')->with(1)->andReturn($settings);

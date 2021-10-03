@@ -12,10 +12,12 @@ import VueApexCharts from 'vue-apexcharts';
 import VueGoodTablePlugin from 'vue-good-table';
 import VueJsonToCsv from 'vue-json-to-csv';
 import VueMaterial from 'vue-material'
+import VueMeta from 'vue-meta'
 
 Vue.use(VueMaterial)
 Vue.use(VueClipboard)
 Vue.use(Vuetify)
+Vue.use(VueMeta)
 
 import 'vuetify/dist/vuetify.min.css'
 import 'vue-good-table/dist/vue-good-table.css';

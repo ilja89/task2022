@@ -14,6 +14,12 @@
     export default {
         name: "teachers-page",
 
-        components: {TeacherSection}
+        components: {TeacherSection},
+
+        metaInfo() {
+            return {
+              title: `${'Charon teacher - ' + window.course_name}`
+            }
+        },
     }
 </script>

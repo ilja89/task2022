@@ -183,7 +183,7 @@ class SubmissionsRepository
      * @param $submissionId
      * @return TestSuite[]
      */
-    private function getTestSuites($submissionId)
+    public function getTestSuites($submissionId)
     {
         $testSuites = \DB::table('charon_test_suite')
             ->where('submission_id', $submissionId)
@@ -478,6 +478,36 @@ class SubmissionsRepository
     }
 
     /**
+     * Find the latest submissions for the charon with the given id.
+     *
+     * @param int $charonId
+     *
+     * @return Collection|Submission[]
+     */
+    public function findLatestSubmissionsForCharon(int $charonId)
+    {
+        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
+            ->where('charon_id', $charonId)
+            ->with([
+                'users' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
+                'user' => function ($query) {
+                    $query->select(['id', 'firstname', 'lastname']);
+                },
+                'charon' => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+                'results' => function ($query) {
+                    $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                    $query->orderBy('grade_type_code');
+                },
+            ])
+            ->latest()
+            ->simplePaginate(10);
+    }
+
+    /**
      * Provides overview stats for popup dashboard.
      *
      * Currently only submission authors are taken into account.
@@ -504,6 +534,7 @@ class SubmissionsRepository
                      WHERE      gi.courseid = c.course 
                      AND        gi.itemtype = 'category' 
                      AND        gi.iteminstance = c.category_id
+                     AND        gg.finalgrade > 0
           ) AS avg_defended_grade,
           ( 
                      SELECT     Count(DISTINCT gg.userid) 
@@ -614,7 +645,7 @@ class SubmissionsRepository
             WHERE gr_gr.itemid = gr_it.id $where
 	        GROUP BY ch_su.id, us.firstname, us.lastname, ch.name, finalgrade, ch_su.confirmed, ch_su.git_timestamp
 	        ORDER BY $sortField $sortType
-	        LIMIT $rows, $perPage"
+                LIMIT $rows, $perPage"
         ));
 
         $resultRows = DB::select(DB::raw(

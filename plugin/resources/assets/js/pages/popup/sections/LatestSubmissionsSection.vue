@@ -3,15 +3,19 @@
                    subtitle="Here are the latest submissions for all tasks in this course">
         <div class="latest-submissions">
             <transition-group name="list">
-                <div v-for="(submissionChunk, index) in latestSubmissionsChunks" :key="index" class="columns">
-                    <div v-for="submission in submissionChunk" class="column">
-                        <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                <div v-for="(submissionChunk, index) in latestSubmissionsChunks" v-bind:key="index" class="columns">
+                    <div v-for="(submission, index) in submissionChunk" v-bind:key="index" class="column">
+                      <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
-                                {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
-                                <wbr>
-                                {{ submission.charon.name }} <span class="timestamp-separator">|</span>
-                                <wbr>
-                                {{ formatStudentResults(submission) }}
+                                <span class="submission-line">
+                                    {{ submission | submissionTime }}
+                                    <span class="timestamp-separator">|</span>
+                                </span><span class="submission-line">
+                                    {{ submission.charon.name }}
+                                    <span class="timestamp-separator">|</span>
+                                </span><span class="submission-line">
+                                    {{ formatStudentResults(submission) }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -122,13 +126,17 @@
         padding-top: 30px;
         padding-bottom: 30px;
 
-        white-space: nowrap;
+        word-break: break-word;
         line-height: 1.5rem;
 
         @include touch {
             padding-bottom: 20px;
             padding-left: 10px;
         }
+    }
+
+    .submission-line {
+        display: inline-block;
     }
 
     .timestamp-separator {

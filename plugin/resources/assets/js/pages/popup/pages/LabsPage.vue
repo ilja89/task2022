@@ -57,6 +57,12 @@
                 }
             }
 
-        }
+        },
+
+        metaInfo() {
+            return {
+              title: `${'Charon labs - ' + window.course_name}`
+            }
+        },
     }
 </script>
