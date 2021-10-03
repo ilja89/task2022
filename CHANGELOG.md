@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#629 Made templates deleting with charon deleting
 
 ### Added
+- \#520 Showing teachers ongoing registrations and updating data automatically
+- \#518 UI for registration queue status
 - \#618 Synchronous url can now be set in moodle's charon settings
 - \#619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
   the button, while it makes the request and waits for a response

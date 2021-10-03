@@ -116,6 +116,17 @@
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
         resetToTemplates: "{{ translate('reset_to_templates') }}"
+        progressText: "{{ translate('progress') }}",
+        queueStatusText: "{{ translate('queue_status') }}",
+        queueText: "{{ translate('queue') }}",
+        nrInQueueText: "{{ translate('nr_in_queue') }}",
+        estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
+        studentText: "{{ translate('student') }}",
+        placeInQueueText: "{{ translate('place_in_queue') }}",
+        estimatedDurationText: "{{ translate('estimated_duration') }}",
+        startTimeText: "{{ translate('start_time') }}",
+        updateQueueText: "{{ translate ('update_queue') }}"
+
     };
 </script>
 
