@@ -5,7 +5,6 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
-use TTU\Charon\Exceptions\SubmissionNotFoundException;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
@@ -340,7 +339,6 @@ class DefenceRegistrationService
      *
      * @return string
      * @throws RegistrationException
-     * @throws SubmissionNotFoundException
      */
     public function teacherRegisterDefense(
         int $studentId,
