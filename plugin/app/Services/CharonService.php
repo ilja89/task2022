@@ -45,8 +45,8 @@ class CharonService
      *
      * @return Charon[]
      */
-    public function findCharonsByCourseWithLabs(int $courseId): array
+    public function findCharonsByCourseIdWithLabs(int $courseId): array
     {
-        return $this->charonRepository->findCharonsByCourseWithLabs($courseId);
+        return $this->charonRepository->findCharonsByCourseIdWithLabs($courseId);
     }
 }

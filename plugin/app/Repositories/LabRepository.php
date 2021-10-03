@@ -331,7 +331,7 @@ class LabRepository
      *
      * @return mixed
      */
-    public function getLabsByCharonLaterEqualToday(int $charonId)
+    public function getLabsByCharonIdLaterEqualToday(int $charonId)
     {
         $result = \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id

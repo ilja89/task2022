@@ -41,8 +41,8 @@ class LabService
      *
      * @return mixed
      */
-    public function findLabsByCharonLaterEqualToday(int $charonId)
+    public function findLabsByCharonIdLaterEqualToday(int $charonId)
     {
-        return $this->labRepository->getLabsByCharonLaterEqualToday($charonId);
+        return $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
     }
 }

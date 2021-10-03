@@ -55,9 +55,9 @@ class CharonsController extends Controller
         return $this->charonRepository->findCharonsByCourse($course->id);
     }
 
-    public function getByCourseWithLabs(Course $course): array
+    public function getByCourseIdWithLabs(Course $course): array
     {
-        return $this->charonService->findCharonsByCourseWithLabs($course->id);
+        return $this->charonService->findCharonsByCourseIdWithLabs($course->id);
     }
 
     /**

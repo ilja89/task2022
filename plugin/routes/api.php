@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require') // all charons by id and attached with ongoing and upcoming labs
-        ->get('courses/{course}/charons/with/labs', 'CharonsController@getByCourseWithLabs');
+        ->get('courses/{course}/charons/with/labs', 'CharonsController@getByCourseIdWithLabs');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
@@ -92,7 +92,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LABS
 
-    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday'); // get labs student can register to
+    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonIdLaterEqualToday'); // get labs student can register to
     Route::middleware('auth.course.managing.require')  // save lab
         ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course

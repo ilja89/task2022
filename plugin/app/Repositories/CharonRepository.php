@@ -304,7 +304,7 @@ class CharonRepository
      *
      * @return Charon[]
      */
-    public function findCharonsByCourseWithLabs(int $courseId): array
+    public function findCharonsByCourseIdWithLabs(int $courseId): array
     {
         $charons = Charon::where('charon.course', $courseId)
             ->where('charon.defense_deadline', '>=', Carbon::now())
