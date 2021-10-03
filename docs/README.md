@@ -68,7 +68,6 @@ Script `dev-setup.sh` is executing following commands:
 git config core.filemode false
 git checkout -- .htaccess
 php composer.phar install
-npm config set registry https://registry.npmjs.org/
 npm ci
 npm run dev
 sudo chmod -R 777 plugin/storage/
@@ -194,3 +193,4 @@ Only if `package.json` is modified on purpose, execute `npm update` or `npm inst
 
 If you need to clean up containers and start from scratch, remember that probably you need to remove all Containers, Images 
 and Volumes before creating containers again. Volumes are containing permanent info, like database content, for example.
+It is also recommended to remove folders `vendor` and `node modules` before recreating containers.
