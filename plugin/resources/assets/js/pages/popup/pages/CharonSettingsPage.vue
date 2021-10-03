@@ -23,5 +23,11 @@
                 'course'
             ]),
         },
+
+        metaInfo() {
+            return {
+              title: `${'Charon settings - ' + window.course_name}`
+            }
+        },
     }
 </script>

@@ -32,6 +32,7 @@
                 <FIELD NAME="docker_content_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="docker_test_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="group_size" SEQUENCE="false" TYPE="int" LENGTH="4" NOTNULL="false"/>
+                <FIELD NAME="allow_submission" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
 
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
@@ -58,6 +59,24 @@
                 <INDEX NAME="IXFK_charon_tester_type" UNIQUE="false" FIELDS="tester_type_code"/>
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
                 <INDEX NAME="IXFX_charon_grade_categories" UNIQUE="false" FIELDS="category_id"/>
+            </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="charon_template" COMMENT="Code editor template for Charon.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="path" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="contents" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_template" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_template_charon" TYPE="foreign" FIELDS="charon_id"
+                     REFTABLE="charon" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_template_charon" UNIQUE="false" FIELDS="charon_id"/>
             </INDEXES>
         </TABLE>
 
@@ -431,6 +450,9 @@
                 <FIELD NAME="course_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
                 <FIELD NAME="unittests_git" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="tester_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="tester_sync_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="tester_token" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_course_settings" TYPE="primary" FIELDS="id"/>

@@ -32,7 +32,15 @@
             ...mapGetters(["courseId"])
         },
 
-        created() {
+        watch: {
+          $route() {
+            if (typeof this.$route.params.submission_id !== "undefined") {
+              this.getSubmission();
+            }
+          }
+        },
+
+      created() {
             this.getSubmission();
 
             window.VueEvent.$on("submission-was-saved", _ => {
@@ -56,14 +64,6 @@
                 }
             } else {
                 next();
-            }
-        },
-
-        watch: {
-            $route() {
-                if (typeof this.$route.params.submission_id !== "undefined") {
-                    this.getSubmission();
-                }
             }
         },
 

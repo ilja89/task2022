@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <page-title :title="page_name"></page-title>
+        <page-title :title="this.title"></page-title>
 
         <latest-submissions-section></latest-submissions-section>
 
@@ -25,21 +25,27 @@
     } from '../sections'
 
     export default {
-        name: "dashboard-page",
+        data() {
+          return {
+            title: "dashboard-page",
+          }
+        },
 
         computed: {
             ...mapState([
                 'is_mobile'
             ]),
-
-            page_name() {
-                return `Dashboard - ${window.course_name}`
-            },
         },
 
         components: {
             PageTitle, LatestSubmissionsSection, ActiveStudentsSection, SubmissionCountsSection,
             StudentsDistributionSection, LogSection
+        },
+
+        metaInfo() {
+            return {
+              title: `${'Charon dashboard - ' + window.course_name}`
+            }
         },
     }
 </script>

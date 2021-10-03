@@ -43,6 +43,9 @@ class CourseSettingsController extends Controller
 
         $courseSettings->unittests_git = $this->request['unittests_git'];
         $courseSettings->tester_type_code = $this->request['tester_type_code'];
+        $courseSettings->tester_url = $this->request['tester_url'];
+        $courseSettings->tester_sync_url = $this->request['tester_sync_url'];
+        $courseSettings->tester_token = $this->request['tester_token'];
         $courseSettings->save();
 
         return app('redirect')->action('CourseSettingsFormController@index', ['course' => $course->id]);

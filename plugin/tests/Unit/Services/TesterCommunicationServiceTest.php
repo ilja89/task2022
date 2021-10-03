@@ -5,6 +5,10 @@ namespace Tests\Unit\Services;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
+use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\CourseSettingsRepository;
+use TTU\Charon\Repositories\UserRepository;
+use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Services\TesterCommunicationService;
@@ -20,12 +24,16 @@ class TesterCommunicationServiceTest extends TestCase
     /** @var TesterCommunicationService  */
     private $service;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->gitCallback = new GitCallback(['secret_token' => 'Very secret token']);
         $this->communicator = Mockery::mock(HttpCommunicationService::class);
-        $this->service = new TesterCommunicationService($this->communicator);
+        $this->service = new TesterCommunicationService($this->communicator,
+        Mockery::mock(CharonRepository::class),
+        Mockery::mock(CourseSettingsRepository::class),
+        Mockery::mock(UserRepository::class),
+        Mockery::mock(GitCallbackService::class));
     }
 
     public function testSendsGitCallbackWithoutExtra()

@@ -6,6 +6,15 @@ class Charon {
         return '/mod/charon/api'
     }
 
+    static getTemplates(charonId, then) {
+        return axios.get(Charon.getRoot() + `/charons/${charonId}/templates`)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+            })
+    }
+
     static all(courseId, then) {
         window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/charons')
             .then(response => {
@@ -13,6 +22,16 @@ class Charon {
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
         })
+    }
+
+    static getTesterLanguage(testerTypeCode, courseId) {
+        return window.axios.get(Charon.getRoot() + '/courses/'+ courseId +'/testerType/' + testerTypeCode)
+            .then(response => {
+                return response.data.testerType;
+            }).catch(error  => {
+                VueEvent.$emit('show-notification', 'Error getting editor language.\n' + error, 'danger')
+        })
+
     }
 
     static deleteById(charonId, then) {
@@ -24,9 +43,17 @@ class Charon {
         })
     }
 
-    static fetchLatestLogs(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs')
+    static getById(charonId, then) {
+        window.axios.get(Charon.getRoot() + '/charons/' + charonId)
             .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error fetching a Charon.\n' + error, 'danger')
+        })
+    }
+
+    static fetchLatestLogs(courseId, then) {
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs').then(response => {
                 then(response.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error fetching logs.\n' + error, 'danger')

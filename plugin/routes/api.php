@@ -8,6 +8,12 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/testerTypes/add/{name}', 'ClassificationsController@saveTesterType');
     Route::middleware('auth.course.managing.require')
         ->delete('courses/{course}/testerTypes/remove/{name}', 'ClassificationsController@removeTesterType');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/testerType/{code}', 'ClassificationsController@getCharonTesterLanguage');
+
+    Route::middleware('auth.course_module.enrolment.require')
+        ->post('submissions/{charon}/postSubmission', 'TesterController@postSubmission');
+    Route::post('submissions/saveResults', 'TesterController@saveResults');
 
     Route::post('tester_callback', 'TesterCallbackController@index')
         ->name('tester_callback');
@@ -19,11 +25,13 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
+            ->get('courses/{course}/students', 'StudentsController@getStudentsCount');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-    ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -81,6 +89,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/submissions/submissions-report/{page}/{perPage}/{sortField}/{sortType}/{firstName?}/' .
             '{lastName?}/{exerciseName?}/{isConfirmed?}/{gitTimestampForStartDate?}/{gitTimestampForEndDate?}',
             'SubmissionsController@findAllSubmissionsForReport');
+    Route::middleware('auth.course.managing.require')
+        ->get('charons/{charon}/submissions/all', 'SubmissionsController@findLatestByCharonId');
 
     // LABS
 
@@ -90,7 +100,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // get all labs for course
         ->get('courses/{course}/labs', 'LabController@getByCourse');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
-        ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
+        ->get('charons/{charon}/labs', 'LabController@getByCharon');
     Route::middleware('auth.course.managing.require')  // delete lab
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
@@ -160,4 +170,14 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
+    // CHARON TEMPLATES
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
+
+    // STATISTICS
+    Route::middleware('auth.charon.submissions.view.require') // get all submission dates with counts for charon
+        ->get('courses/{course}/charons/{charon}/submissions-dates-counts', 'StatisticsController@getSubmissionDatesCountsForCharon');
+
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/charons/{charon}/submissions-counts-today', 'StatisticsController@getSubmissionCountsForCharonToday');
 });

@@ -1,5 +1,5 @@
 <template>
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+    <fieldset class="clearfix collapsible" v-bind:id="'id_modstandardelshdr_iFF' + toggle_id">
 
         <legend class="ftoggler"><slot name="title"></slot>
             <span class="section-title-right">

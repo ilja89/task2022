@@ -4,3 +4,14 @@
         <h2 class="subtitle">Production version!</h2>
     </div>
 </template>
+
+<script>
+
+export default {
+  metaInfo() {
+    return {
+      title: `${'No student selected - ' + window.course_name}`
+    }
+  },
+}
+</script>
