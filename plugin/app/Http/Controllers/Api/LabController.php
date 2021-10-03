@@ -159,14 +159,6 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
-    /**
-     * Get ongoing and upcoming labs, including students registered for each lab
-     * with given charon identifier got from request.
-     *
-     * @param Request $request
-     *
-     * @return mixed
-     */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
         return $this->labService->findLabsByCharonLaterEqualToday($request->route('charon'));

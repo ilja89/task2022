@@ -8,7 +8,7 @@
                 subtitle="Here are all the registrations for code showing. Select your name in the 'Teacher name' and press start session - then progress will be automatically updated"
         >
             <template slot="header-right">
-                <v-btn class="ma-2" tile outlined color="primary" dense @click="AddRegistration">
+                <v-btn class="ma-2" tile outlined color="primary" dense @click="addRegistration">
                     Add registration
                 </v-btn>
             </template>
@@ -188,7 +188,7 @@
                 })
             },
 
-            AddRegistration() {
+            addRegistration() {
                 router.push(`addRegistration`)
             },
         }
