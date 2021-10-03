@@ -131,7 +131,7 @@ export default {
                 axios.post(`api/charons/${this.charon.id}/submission?user_id=${this.student_id}`, {
                     charon_id: this.charon.id,
                     submission_id: this.submission.id,
-                    defense_lab_id: this.value['id'],
+                    defense_lab_id: this.value['defense_lab_id'],
                 }).then(() => {
                     VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
                     this.isActive = false

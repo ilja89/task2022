@@ -113,7 +113,6 @@ export default {
 			'registrations',
 			'student_id',
 			'charon',
-			'labs'
 		]),
 		
 		submissionsTable() {

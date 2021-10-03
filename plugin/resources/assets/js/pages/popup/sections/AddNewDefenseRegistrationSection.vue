@@ -27,9 +27,9 @@
                 <v-col>
                   <div class="helper">Lab</div>
                   <v-select placeholder="Lab"
-                            :items="defenseLabs"
+                            :items="labs"
                             item-text="name"
-                            v-model="item.defenseLab"
+                            v-model="item.lab"
                             return-object
                   ></v-select>
                 </v-col>
@@ -69,7 +69,7 @@
       return {
         all_progress_types: ['Waiting', 'Defending', 'Done'],
         progress: 'Waiting',
-        defenseLabs: [],
+        labs: [],
         students: [],
         charons: [],
         item: {}
@@ -86,8 +86,8 @@
       },
 
       save() {
-        if (this.item && this.item.defenseLab && this.item.student && this.item.charon && this.progress) {
-          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.defenseLab.id,
+        if (this.item && this.item.lab && this.item.student && this.item.charon && this.progress) {
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.defense_lab_id,
             this.progress, this.course.id, () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
               router.push('defenseRegistrations');
@@ -99,9 +99,9 @@
 
       updateFields() {
         if (this.item.charon) {
-          this.defenseLabs = this.item.charon.defenseLabs;
-          if (this.item.defenseLab) {
-            this.item.defenseLab = null;
+          this.labs = this.item.charon.labs;
+          if (this.item.labs) {
+            this.item.lab = null;
           }
         }
       },
