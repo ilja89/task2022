@@ -8,7 +8,6 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
-use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\Course;
 
