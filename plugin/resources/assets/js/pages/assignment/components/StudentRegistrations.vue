@@ -90,30 +90,20 @@ export default {
 
   methods: {
     deferRegistration(item) {
-      console.log(this);
-      console.log(item);
-      const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
-      if (userChoise === "send"/*confirm(this.translate("askRegistrationDeferText"))*/) { //Idk how translation system works so pls tell me how to add translation
+      if (confirm(this.translate("registrationDeferConfirmationText"))) {
         Defense.deferStudentRegistration(
           item.defense_lab_id,
-          item.submission_id,
           item.reg_id,
           this.student_id,
-          this.charon.id,
-          this.charon.course, (answer) => {
-          console.log(answer)
-          if (answer.okay === true) {
+          this.charon.id, (answer) => {
+          if (answer.message === "Registration deferred successfully") {
             VueEvent.$emit('show-notification', this.translate('successfulRegistrationDeferText'), "primary");
             item["reg_id"] = answer.newRegId;
           }
           else {
-            VueEvent.$emit('show-notification', this.translate('failedRegistrationDeferText') + answer.reason, 'danger');
+            VueEvent.$emit('show-notification', this.translate('failedRegistrationDeferText') + answer.message, 'danger');
           }
         });
-      }
-      else if(userChoise === "get") {
-        console.log(item);
-        console.log(this);
       }
     },
 

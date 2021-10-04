@@ -205,5 +205,5 @@ $string['insert_file_path'] = 'Insert file path to see it here and edit file con
 $string['source_files'] = 'Source Files';
 $string['reset_to_templates'] = 'Reset templates';
 $string['successful_registration_defer'] = 'Registration was deferred successfully!';
-$string['failed_registration_defer'] = 'Registration deferring was failed! Reason: ';
-$string['ask_registration_defer'] = 'Do you really want to defer registration?';
+$string['failed_registration_defer'] = 'Registration deferring failed! Reason: ';
+$string['ask_registration_defer'] = 'Are you sure you want to defer this registration?';

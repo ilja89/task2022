@@ -94,6 +94,7 @@
         noRegistrationsText: "{{ translate('no_registrations') }}",
         tableNoRegistrationsText: "{{ translate('table_no_registrations') }}",
         registrationDeletionConfirmationText: "{{ translate('registration_deletion_confirmation') }}",
+        registrationDeferConfirmationText: "{{translate('ask_registration_defer')}}",
         registrationBeforeErrorText: "{{ translate('registration_before_error') }}",
         charonText: "{{ translate('charon') }}",
         labNameText: "{{ translate('lab_name') }}",
@@ -118,8 +119,7 @@
         resetToTemplates: "{{ translate('reset_to_templates') }}",
         progressText: "{{ translate('progress') }}",
         successfulRegistrationDeferText: "{{ translate('successful_registration_defer') }}",
-        failedRegistrationDeferText: "{{translate('failed_registration_defer')}}",
-        askRegistrationDeferText: "{{translate('ask_registration_defer')}}"
+        failedRegistrationDeferText: "{{translate('failed_registration_defer')}}"
     };
 </script>
 
