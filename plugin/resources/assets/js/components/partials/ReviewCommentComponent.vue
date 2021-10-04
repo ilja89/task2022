@@ -2,7 +2,7 @@
     <v-card>
         <v-container>
             <review-comments
-                v-for="file in files" key="file.id"
+                v-for="file in files" :key="file.id"
                 v-if="file.review_comments.length > 0"
                 :file="file" :view="view"
             >
