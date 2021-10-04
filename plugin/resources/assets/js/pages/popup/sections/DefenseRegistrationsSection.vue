@@ -124,38 +124,22 @@ export default {
         teachers: {required: true}
     },
     methods: {
-        deferRegistration(registration)
-        {
-          console.log(registration);
-          console.log(this);
-
-          const userChoise = prompt(`"get" or "send"? DEBUG!`,"")
-          if (userChoise === "send"/*confirm("Do you want to defer this registration?")*/) { //Idk how translation system works so pls tell me how to add translation
+        deferRegistration(registration) {
+          if (confirm("Do you want to defer this registration?")) {
             Defense.deferStudentRegistration(
               registration.charon_defense_lab_id,
-              registration.submission_id,
               registration.id,
               null,
               registration.charon_id,
-              this.course.id,
-              (answer) =>
-            {
-              console.log(answer)
-              if (answer.okay === true)
-              {
+              (answer) => {
+              if (answer.message === "Registration deferred successfully") {
                 VueEvent.$emit('show-notification', "Registration deferred successfully!", "primary");
                 registration["id"] = answer.newRegId;
               }
-              else
-              {
+              else {
                 VueEvent.$emit('show-notification', 'Registration was not deferred, reason:' + answer.reason, 'danger');
               }
             });
-          }
-          else if(userChoise === "get")
-          {
-            console.log(registration);
-            console.log(this);
           }
         },
 

@@ -95,7 +95,8 @@ export default {
           item.defense_lab_id,
           item.reg_id,
           this.student_id,
-          this.charon.id, (answer) => {
+          this.charon.id,
+          (answer) => {
           if (answer.message === "Registration deferred successfully") {
             VueEvent.$emit('show-notification', this.translate('successfulRegistrationDeferText'), "primary");
             item["reg_id"] = answer.newRegId;

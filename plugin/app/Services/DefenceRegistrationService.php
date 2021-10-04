@@ -315,7 +315,7 @@ class DefenceRegistrationService
      * @param $regId
      * @return string
      */
-    public function deferRegistration($userId, $labId, $regId)
+    public function deferRegistration($userId, $labId, $regId, $courseId)
     {
         if ($userId == null || $labId == null || $regId == null) {
             return response()->json([
@@ -325,9 +325,17 @@ class DefenceRegistrationService
         $registration = $this->defenseRegistrationRepository
             ->getDefenseRegistrationByRegId($regId);
 
+        $teachers = $this->teacherRepository->getTeachersByLabAndCourse($courseId, $labId);
+
         $allowed = false;
         if ($registration->student_id == $userId) {
             $allowed = true;
+        } else {
+            foreach ($teachers as $teacher) {
+                if ($teacher->id == $userId) {
+                    $allowed = true;
+                }
+            }
         }
 
         if($allowed == false) {

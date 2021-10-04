@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
@@ -164,23 +165,24 @@ class DefenseRegistrationController extends Controller
 
     /** Function to defer any existing registration to last place in queue
      * @param Request $request
+     * @param Charon $charon
      * @return JsonResponse
      */
-    public function deferRegistration(Request $request): JsonResponse
+    public function deferRegistration(Request $request, Charon $charon): JsonResponse
     {
         //Get variables
         $defenseLabId = $request->input('defLab_id');
-        $reg_id = $request->input("reg_id");
+        $regId = $request->input("reg_id");
 
         //Log
         Log::warning(json_encode([
             'event' => 'registration_deferring',
             'user_id' => app(User::class)->currentUserId(),
-            'reg_id' => $reg_id,
+            'reg_id' => $regId,
             'defense_lab_id' => $defenseLabId
         ]));
 
         return $this->registrationService->deferRegistration(app(User::class)->currentUserId(),
-            $defenseLabId, $reg_id);
+            $defenseLabId, $regId, $charon->course);
     }
 }
