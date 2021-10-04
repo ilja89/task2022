@@ -153,7 +153,9 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
-    /** Function what will return list of defense labs with lists of students - defenders registered for each lab
+    /**
+     * Return list of defense labs with lists of students/defenders registered for each lab
+     *
      * @param Request $request
      * @return mixed
      */
@@ -164,12 +166,15 @@ class LabController extends Controller
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id') // id, lab_id, charon_id
             ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_lab.end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id','charon_defense_lab.lab_id as lab_id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
+            ->select('charon_defense_lab.id', 'charon_defense_lab.lab_id as lab_id', 'charon_lab.start',
+                'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
             ->get();
-        foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
+
+        // Getting all students-defenders who registered on defense lab
+        foreach ($result as &$lab) {
             $lab->defenders_num = \DB::table("charon_defenders")
-                ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
-                ->where("charon_defense_lab.lab_id",$lab->lab_id)
+                ->join("charon_defense_lab", "charon_defense_lab.id", "charon_defenders.defense_lab_id")
+                ->where("charon_defense_lab.lab_id", $lab->lab_id)
                 ->count();
         }
 
