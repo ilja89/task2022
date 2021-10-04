@@ -153,7 +153,7 @@ export default {
             }
         },
 
-    //filter imported above, used as method too, because for "custom-label" function is required.
+    // filter imported above, used as method too, because for "custom-label" function is required.
     getLabList,
 
         onSelect(option) {

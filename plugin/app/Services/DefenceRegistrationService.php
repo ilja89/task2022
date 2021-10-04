@@ -48,7 +48,7 @@ class DefenceRegistrationService
         DefenseRegistrationRepository $defenseRegistrationRepository,
         MoodleUser $loggedInUser,
         UserRepository $userRepository
-    ){
+    ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
@@ -69,7 +69,7 @@ class DefenceRegistrationService
         int $submissionId,
         int $charonId,
         int $defenseLabId
-    ){
+    ) {
         $user = $this->userRepository->find($studentId);
 
         $this->defenseRegistrationRepository->create([

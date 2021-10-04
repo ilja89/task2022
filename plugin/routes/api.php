@@ -90,7 +90,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LABS
 
-    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday'); //Get labs with calculated capacity and other info
+    // get labs with calculated capacity and other info student can register to
+    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday');
 
     Route::middleware('auth.course.managing.require')  // save lab
         ->post('courses/{course}/labs', 'LabController@save');

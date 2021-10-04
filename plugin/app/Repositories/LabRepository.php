@@ -311,7 +311,9 @@ class LabRepository
             ->get();
     }
 
-    /** Returns lab with defense_lab_id as id
+    /**
+     * Returns labs got by given charon identifier.
+     *
      * @param $charonId
      * @return Lab[]
      */

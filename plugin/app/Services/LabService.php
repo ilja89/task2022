@@ -33,14 +33,15 @@ class LabService
         LabTeacherRepository $teacherRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         LabRepository $labRepository
-    ){
+    ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labRepository = $labRepository;
     }
 
-    /** Function what will return list of labs related to charon with id of $charon, with following fields:
+    /**
+     * Function what will return list of labs related to charon with id of $charon, with following fields:
      *    - course_id: shows id of course what lab is related to
      *    - defenders_num: shows number of existing registrations for this lab
      *    - start: shows lab end time
@@ -48,6 +49,7 @@ class LabService
      *    - estimatedStartTime: shows estimated time when student registering on this lab will be defending
      *    - id: id of this lab
      *    - name: name of this lab
+     *
      * @param $charon
      * @return array
      */
@@ -55,40 +57,40 @@ class LabService
     {
         $labs = [];
 
-        //Get length of this charon
+        // Get length of this charon
         $thisCharonLength = $this->charonRepository->getCharonById($charon);
         $thisCharonLength = $thisCharonLength->defense_duration;
 
-        //Get list of labs
+        // Get list of labs
         $allLabs = $this->labRepository->getLabsByCharonId($charon);
 
-        //check if lab actual
+        // Check if lab is actual
         foreach ($allLabs as $lab) {
             if (strtotime($lab->end) > time()) {
                 $labs[] = $lab;
             }
         }
 
-        //Calculate lab capacity
-        //Calculate avg defense length and check if lab can be booked
+        // Calculate lab capacity
+        // Calculate avg defense length and check if lab can be booked
         foreach ($labs as $lab) {
             $lab->_thisCharonLength = $thisCharonLength; //DEBUG!
             $defTime = null;
 
-            //Get teachers number
+            // Get teachers number
             $teacherNum = $this->teacherRepository->countLabTeachers($lab->id);
             $lab->_teacherNum = $teacherNum; //DEBUG!
 
-            //Calculate lab capacity
+            // Calculate lab capacity
             $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60) * $teacherNum;
             $lab->_capacity = $capacity; //DEBUG!
 
-            //Get all defense durations
+            // Get all defense durations
             $defTimes = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
             $lab->_defTimes = $defTimes; //DEBUG!
             $lab->defenders_num = count($defTimes);
 
-            //Sum them up and divide to get avg
+            // Sum them up and divide to get avg
             foreach ($defTimes as $time) {
                 $defTime += $time->defense_duration;
             }
