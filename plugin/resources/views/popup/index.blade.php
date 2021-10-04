@@ -1,5 +1,6 @@
 @include('popup.header')
 
+<link href="/mod/charon/plugin/public/css/ansi2html_style.css" rel="stylesheet">
 <div id="app">
     <popup></popup>
 </div>

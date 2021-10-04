@@ -1,6 +1,6 @@
 <template>
 
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr_GS">
 
         <legend class="ftoggler">{{ translate('grouping') }}</legend>
 

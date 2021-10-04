@@ -1,6 +1,6 @@
 <template>
 
-    <fieldset class="clearfix collapsible" id="id_modstandardelshdr">
+    <fieldset class="clearfix collapsible" id="id_modstandardelshdr_DS">
 
         <legend class="ftoggler">{{ translate('deadlines') }}</legend>
 
