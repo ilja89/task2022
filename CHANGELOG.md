@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-- \#618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
+- #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
-- \#632 Fixed submissions seeders
-- \#629 Made templates deleting with charon deleting
+- #632 Fixed submissions seeders
+- #629 Made templates deleting with charon deleting
 
 ### Added
-- \#618 Synchronous url can now be set in moodle's charon settings
-- \#619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
+- #618 Synchronous url can now be set in moodle's charon settings
+- #619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
   the button, while it makes the request and waits for a response
 - \#604 Now only last "latest" submission will be highlighted
 - \#638 Added css so that when tester returns styled output, it will be displayed that way
