@@ -118,10 +118,8 @@ export default {
 		]),
 	},
 
-
 	created() {
 		this.initializeEventListeners()
-
 		this.getDefenseData();
 		this.getCharon();
 		this.getLabs();

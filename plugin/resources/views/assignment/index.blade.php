@@ -70,15 +70,15 @@
 </div>
 
 <script>
-    var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
-    var testerType = "{!! $charon->testerType->name !!}";
-    var charonId = {{ $charon->id }};
-    var studentId = {{ $student_id }};
+    let grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
+    let testerType = "{!! $charon->testerType->name !!}";
+    let charonId = {{ $charon->id }};
+    let studentId = {{ $student_id }};
 
     window.allow_submission = {{ $charon->allow_submission }};
     window.language = "{!! $charon->testerType->name !!}";
 
-    var translations = {
+    let translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
         submissionText: "{{ translate('submission') }}",
         commitMessageText: "{{ translate('commit_message') }}",
@@ -115,8 +115,7 @@
         programmingLanguage: "{{ translate('language') }}",
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
-        resetToTemplates: "{{ translate('reset_to_templates') }}"
-        progressText: "{{ translate('progress') }}",
+        resetToTemplates: "{{ translate('reset_to_templates') }}",
         queueStatusText: "{{ translate('queue_status') }}",
         queueText: "{{ translate('queue') }}",
         nrInQueueText: "{{ translate('nr_in_queue') }}",
