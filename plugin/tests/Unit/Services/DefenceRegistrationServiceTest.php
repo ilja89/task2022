@@ -9,10 +9,8 @@ use Mockery\Mock;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\UserRepository;
-use TTU\Charon\Services\ConverterService;
 use TTU\Charon\Services\DefenceRegistrationService;
 use Tests\TestCase;
 use Zeizig\Moodle\Globals\User as MoodleUser;
@@ -40,8 +38,7 @@ class DefenceRegistrationServiceTest extends TestCase
             $this->teacherRepository = Mockery::mock(LabTeacherRepository::class),
             Mockery::mock(DefenseRegistrationRepository::class),
             Mockery::mock(MoodleUser::class),
-            $this->userRepository = Mockery::mock(UserRepository::class),
-            Mockery::mock(ConverterService::class)
+            $this->userRepository = Mockery::mock(UserRepository::class)
         );
     }
 

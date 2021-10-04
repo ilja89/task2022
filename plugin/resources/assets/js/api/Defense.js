@@ -38,8 +38,8 @@ class Defense {
         })
     }
 
-    static deleteStudentRegistration(charon_id, studentId, defense_lab_id, submission_id, then) {
-        axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
+    static deleteStudentRegistration(charonId, studentId, labId, submissionId, then) {
+        axios.delete('/mod/charon/api/charons/' + charonId + `/registration?user_id=${studentId}&defLab_id=${labId}&submission_id=${submissionId}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -47,8 +47,8 @@ class Defense {
         })
     }
 
-    static deferStudentRegistration(defense_lab_id, submission_id, reg_id, userId, charon_id, course_id, then) {
-        axios.post(`/mod/charon/api/courses/${course_id}/charons/${charon_id}/registration/defer?user_id=${userId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}&reg_id=${reg_id}`)
+    static deferStudentRegistration(labId, regId, userId, charonId, then) {
+        axios.post(`/mod/charon/api/charons/${charonId}/registration/defer?user_id=${userId}&defLab_id=${labId}&reg_id=${regId}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {

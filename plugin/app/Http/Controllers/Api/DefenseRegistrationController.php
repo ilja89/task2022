@@ -2,7 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -30,9 +30,6 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
-    /** @var User */
-    protected $user;
-
     /**
      * DefenseRegistrationController constructor.
      * @param Request $request
@@ -40,22 +37,19 @@ class DefenseRegistrationController extends Controller
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
-     * @param User $user
      */
     public function __construct(
         Request $request,
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
-        CharonDefenseLabRepository $defenseLabRepository,
-        User $user
+        CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
         $this->defenseLabRepository = $defenseLabRepository;
-        $this->user = $user;
     }
 
     /**
@@ -170,36 +164,23 @@ class DefenseRegistrationController extends Controller
 
     /** Function to defer any existing registration to last place in queue
      * @param Request $request
-     * @param int $courseId
-     * @param int $charonId
-     * @return false|string
+     * @return JsonResponse
      */
-    public function deferRegistration(Request $request, int $courseId, int $charonId)
+    public function deferRegistration(Request $request): JsonResponse
     {
         //Get variables
-        $userId = $request->input('user_id');
-
-        if (!$userId)
-        {
-            $userId = $this->user->currentUserId();
-        }
-
         $defenseLabId = $request->input('defLab_id');
-        $submissionId = $request->input("submission_id");
-        $regId = $request->input("reg_id");
+        $reg_id = $request->input("reg_id");
 
         //Log
         Log::warning(json_encode([
             'event' => 'registration_deferring',
-            'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $userId,
-            'for_charon_id' => $charonId,
-            'for_submission_id' => $submissionId,
-            'for_course_id' => $courseId,
-            'reg_id' => $regId,
+            'user_id' => app(User::class)->currentUserId(),
+            'reg_id' => $reg_id,
             'defense_lab_id' => $defenseLabId
         ]));
 
-        return $this->registrationService->deferRegistration($userId, $defenseLabId, $charonId, $submissionId, $regId);
+        return $this->registrationService->deferRegistration(app(User::class)->currentUserId(),
+            $defenseLabId, $reg_id);
     }
 }
