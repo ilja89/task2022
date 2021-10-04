@@ -197,7 +197,7 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
-    public function labQueueStatus(Request $request)
+    public function getLabQueueStatus(Request $request)
     {
         return $this->labService->labQueueStatus($request->input("user_id"), $request->input("lab_id"));
     }
