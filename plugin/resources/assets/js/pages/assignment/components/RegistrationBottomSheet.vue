@@ -39,7 +39,7 @@
                 </div>
 
                 <v-row class="mt-4">
-                    <v-btn :disabled="!value || value && !value.estimatedStartTime"
+                    <v-btn :disabled="!value || value && !value['estimated_start_time']"
                         class="ml-4" color="primary" dense outlined text @click="sendData()">
                         {{ translate('registerText') }}
                     </v-btn>
