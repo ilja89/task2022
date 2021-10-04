@@ -47,7 +47,7 @@
 
 				<div class="review-comments">
 					<h3>{{ translate('feedbackText') }}</h3>
-					<review-comment-component v-if="reviewCommentsExist" :submission="submission" view="student"></review-comment-component>
+					<review-comment-component v-if="reviewCommentsExist" :files="files" view="student"></review-comment-component>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -118,13 +118,13 @@ export default {
 	methods: {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
-				this.submission.files = files
+				this.files = files
 				this.checkComments();
 			})
 		},
 
 		checkComments() {
-			this.submission.files.forEach(file => {
+			this.files.forEach(file => {
 				if (file.review_comments.length > 0) {
 					this.reviewCommentsExist = true;
 					file.review_comments.forEach(reviewComment => {
