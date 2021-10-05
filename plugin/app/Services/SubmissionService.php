@@ -210,8 +210,6 @@ class SubmissionService
             return;
         }
 
-        Log::debug("Saving files: ", [sizeof($filesRequest)]);
-
         foreach ($filesRequest as $fileRequest) {
             $submissionFile = $this->requestHandlingService->getFileFromRequest($submissionId, $fileRequest, false);
             $submissionFile->save();
