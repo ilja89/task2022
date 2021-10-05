@@ -205,7 +205,6 @@ $string['insert_file_path'] = 'Insert file path to see it here and edit file con
 $string['source_files'] = 'Source Files';
 $string['reset_to_templates'] = 'Reset templates';
 $string['queue_status'] = 'Queue status';
-$string['queue'] = 'Queue';
 $string['nr_in_queue'] = 'Nr ';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
