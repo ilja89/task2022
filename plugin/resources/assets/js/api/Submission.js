@@ -15,6 +15,7 @@ class Submission {
             }).then(response => {
                 then(response.data)
             }).catch(error => {
+                VueEvent.$emit('reset-submit-button')
                 VueEvent.$emit('show-notification', 'Error saving submission.\n' + error, 'danger')
             })
     }

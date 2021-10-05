@@ -15,17 +15,6 @@
                         :language="language"
                         :allow_submission="allow_submission">
                 </code-templates><br>
-                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/charons/{{$charon->id}}/dashboard">
-                    Charon dashboard
-                </a>
-
-                <a class="button is-link" href="/course/modedit.php?update={{ $charon->courseModule()->id }}&return=1&sr=0">
-                    Grade settings
-                </a>
-
-                <a class="button is-link" href="/mod/charon/courses/{{$charon->course}}/popup#/charonSettings/{{$charon->id}}">
-                    Registration settings
-                </a>
             </div>
 
         </div>

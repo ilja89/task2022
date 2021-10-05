@@ -55,7 +55,7 @@
 				<v-row>
 					<submission-modal :submission="item" :color="getColor(item)"/>
           <v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
-            <img alt="eye" height="24px" src="pix/copy.png" width="24px">
+            <img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
           </v-btn>
 					<registration-bottom-sheet :submission="item" :color="getColor(item)"/>
 				</v-row>
@@ -131,11 +131,12 @@ export default {
       this.$store.state.submissions.unshift(submission);
     });
   },
-	
+
 	methods: {
 
 	  itemRowBackground(item) {
-      return item.hasOwnProperty('latestAdded') ? 'latest' : '';
+      return item.hasOwnProperty('latestAdded')
+          && item.id === this.$store.state.submissions[0].id ? 'latest' : '';
     },
 
     copyToEditor(item) {

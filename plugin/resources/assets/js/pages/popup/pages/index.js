@@ -6,10 +6,10 @@ import DashboardPage from './DashboardPage.vue'
 import PlagiarismPage from './PlagiarismPage.vue'
 import ReportStatistics from './ReportStatistics.vue'
 import LabsPage from './LabsPage.vue'
-import CharonSettingsPage from "./CharonSettingsPage";
-import CharonSettingsEditingPage from "./CharonSettingsEditingPage";
-import DefenseRegistrationPage from "./DefenseRegistrationPage";
-import TeachersPage from "./TeachersPage"
+import CharonSettingsPage from "./CharonSettingsPage.vue";
+import CharonSettingsEditingPage from "./CharonSettingsEditingPage.vue";
+import DefenseRegistrationPage from "./DefenseRegistrationPage.vue";
+import TeachersPage from "./TeachersPage.vue"
 import ActivityOverviewPage from "./ActivityOverviewPage";
 import ActivityDashboardPage from "./ActivityDashboardPage";
 export {

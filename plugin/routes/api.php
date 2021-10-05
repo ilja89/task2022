@@ -173,6 +173,9 @@ Route::group(['namespace' => 'Api'], function () {
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')
         ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
+    // CHARON TEMPLATES
+    Route::middleware('auth.course_module.enrolment.require')
+        ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
 
     // STATISTICS
     Route::middleware('auth.charon.submissions.view.require') // get all submission dates with counts for charon
