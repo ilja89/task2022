@@ -43,6 +43,7 @@
                 <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
+                <registration-queue-sheet v-if="showQueueButton(item)" :labData="item"/>
               </template>
             </v-data-table>
           </v-flex>
@@ -59,62 +60,76 @@ import moment from 'moment'
 import {Translate} from '../../../mixins';
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
+import RegistrationQueueSheet from "./RegistrationQueueSheet";
 
 export default {
-	mixins: [Translate],
+  mixins: [Translate],
 
-	name: "student-registrations",
+  name: "student-registrations",
 
-	data() {
-		return {
-			search: '',
-			singleSelect: false,
-			dialog: false,
-			headers: [
-				{text: this.translate("charonText"), align: 'start', value: 'name'},
-				{text: this.translate("labNameText"), value: 'lab_name'},
-				{text: this.translate("timeText"), value: 'choosen_time'},
-				{text: this.translate("teacherText"), value: 'teacher'},
-				{text: this.translate("locationText"), value: 'teacher_location'},
-				{text: this.translate("commentText"), value: 'teacher_comment'},
-				{text: this.translate("progressText"), value: 'progress'},
-				{text: this.translate("actionsText"), value: 'actions', sortable: false},
-			]
-		}
-	},
+  components: {
+    RegistrationQueueSheet
+  },
 
-	methods: {
-  	deleteItem(item) {
-			if (this.dateValidation(item)) {
-				if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-					this.deleteReg(item);
-				}
-			} else {
-				VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
-			}
-		},
+  data() {
+    return {
+      search: '',
+      singleSelect: false,
+      dialog: false,
+      headers: [
+        {text: this.translate("charonText"), align: 'start', value: 'name'},
+        {text: this.translate("labNameText"), value: 'lab_name'},
+        {text: this.translate("timeText"), value: 'choosen_time'},
+        {text: this.translate("teacherText"), value: 'teacher'},
+        {text: this.translate("locationText"), value: 'teacher_location'},
+        {text: this.translate("commentText"), value: 'teacher_comment'},
+        {text: this.translate("actionsText"), value: 'actions', sortable: false},
+      ]
+    }
+  },
 
-		dateValidation(item) {
+  methods: {
+      showQueueButton({lab_end}) {
+        const dateNow = new Date();
+        let dateEnd = lab_end.split(" ");
+        dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+        dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
+        if (dateNow.getTime() > dateEnd.getTime()) {
+          return false;
+        }
+        return true;
+      },
 
+      deleteItem(item) {
+        if (this.dateValidation(item)) {
+          if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+            this.deleteReg(item);
+          }
+        } else {
+          VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+        }
+    },
+
+    dateValidation(item) {
       const today = new Date();
       const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       const dateTime = date + ' ' + time;
-			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
-			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
-			return day2.diff(day1, 'hours') >= 2;
-		},
+      let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
+      let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
+      return day2.diff(day1, 'hours') >= 2;
+    },
 
-		deleteReg(defense_lab_item) {
-			Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'], defense_lab_item['submission_id'], (xs) => {
-				const index = this.registrations.indexOf(defense_lab_item);
-				if (index > -1) {
-					this.registrations.splice(index, 1)
-					VueEvent.$emit('show-notification', 'Deleted ' + xs + ' items successfully!', 'primary')
-				}
-				this.dialog = false
-			})
-		},
+    deleteReg(defense_lab_item) {
+      Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'], defense_lab_item['submission_id'], (xs) => {
+        const index = this.registrations.indexOf(defense_lab_item);
+        if (index > -1) {
+          this.registrations.splice(index, 1)
+          VueEvent.$emit('show-notification', 'Deleted ' + xs + ' items successfully!', 'primary')
+        }
+        this.dialog = false
+      })
+    },
 
     showDeleteButton({lab_end,progress})
     {
@@ -132,15 +147,15 @@ export default {
       }
       return true;
     }
-	},
+  },
 
-	computed: {
-		...mapState([
-			'registrations',
-			'student_id',
-			'charon'
-		]),
-	},
+  computed: {
+    ...mapState([
+      'registrations',
+      'student_id',
+      'charon'
+    ]),
+  },
 
 }
 </script>
@@ -148,7 +163,7 @@ export default {
 <style>
 
 .v-application--wrap {
-	min-height: 1vh !important;
+  min-height: 1vh !important;
 }
 
 </style>
