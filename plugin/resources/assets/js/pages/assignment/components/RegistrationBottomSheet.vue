@@ -113,10 +113,10 @@ export default {
 
 
     methods: {
-			test()
-			{
-				let defLabId = prompt("Enter defense lab id to test", "");
-				axios.get(`api/labs/labQueueStatus?user_id=${this.student_id}&lab_id=${defLabId}`).then(result => {
+			test() {
+				axios.get(`api/charons/${this.charon_id}/labs/${this.value.id}/queueStatus
+				?user_id=${this.student_id}?lab_id=${this.value.id}`
+				).then(result => {
 					console.log(result.data);
 				})
 			},
