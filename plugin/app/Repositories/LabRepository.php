@@ -487,14 +487,6 @@ class LabRepository
         }
     }
 
-    public function getLabStartEndTimesByLabId(int $labId)
-    {
-        return \DB::table('charon_lab')
-            ->where("id", $labId)
-            ->select("start","end")
-            ->first();
-    }
-
     /**
      * @param int $labId
      * @return mixed
@@ -507,7 +499,8 @@ class LabRepository
             ->where("charon_defense_lab.lab_id", $labId)
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id", "asc")
-            ->get();
+            ->get()
+            ->all();
     }
 
 }

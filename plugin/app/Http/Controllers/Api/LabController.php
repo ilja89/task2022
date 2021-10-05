@@ -3,13 +3,15 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Http\Controllers\Controller;
+use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Services\LabService;
-use Zeizig\Moodle\Models\Course;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Zeizig\Moodle\Globals\User;
 
 class LabController extends Controller
 {
@@ -197,9 +199,16 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
-    public function getLabQueueStatus(Request $request)
+    /**
+     * Returns queue status in the form of an array, with approximate defence times.
+     *
+     * @param Charon $charon
+     * @param Lab $lab
+     * @return array
+     */
+    public function getLabQueueStatus(Charon $charon, Lab $lab)
     {
-        return $this->labService->labQueueStatus($request->input("user_id"), $request->input("lab_id"));
+        Log::info("queue status input" , ["user" => app(User::class)->currentUser(), "lab" => $lab]);
+        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $lab);
     }
-
 }

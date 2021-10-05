@@ -47,10 +47,6 @@
                         {{ translate('closeText') }}
                     </v-btn>
 
-										<v-btn class="ml-4" color="error" dense outlined text @click="test()">
-											TEST
-										</v-btn>
-
 								</v-row>
 
                 <loading-container :render="this.busy"></loading-container>
@@ -113,14 +109,6 @@ export default {
 
 
     methods: {
-			test() {
-				axios.get(`api/charons/${this.charon_id}/labs/${this.value.id}/queueStatus
-				?user_id=${this.student_id}?lab_id=${this.value.id}`
-				).then(result => {
-					console.log(result.data);
-				})
-			},
-
 			getDefenseData() {
             axios.get(`api/charons/${this.charon_id}/registrations?id=${this.charon_id}&user_id=${this.student_id}`).then(result => {
                 this.$store.state.registrations = result.data

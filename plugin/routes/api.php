@@ -105,8 +105,8 @@ Route::group(['namespace' => 'Api'], function () {
     // get number of affected registrations when lab is being to deleted or modified
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations');
-    Route::/*middleware('auth.charon.submissions.view.require') // get lab queue status
-        ->*/get('charons/{charon}/labs/{lab}/queueStatus', 'LabController@getLabQueueStatus');
+    Route::middleware('auth.charon.submissions.view.require') // get lab queue status
+        ->get('charons/{charon}/labs/{lab}/queueStatus', 'LabController@getLabQueueStatus');
 
     // TEACHERS
 
