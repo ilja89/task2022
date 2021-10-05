@@ -322,7 +322,7 @@ class LabRepository
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_id', $charonId)
-            ->select('charon_defense_lab.id as def_lab_id', 'start', 'end', 'name', 'course_id', 'charon_lab.id')
+            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
 
@@ -342,7 +342,7 @@ class LabRepository
             ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
             ->get();
 
-        foreach ($result as &$lab) {
+        foreach ($result as $lab) {
             $lab->defenders_num = \DB::table('charon_defenders')
                 ->where('defense_lab_id', $lab->id) // where id of defense lab equals to id of lab sending by function
                 ->count();

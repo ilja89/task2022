@@ -72,9 +72,8 @@ class LabService
 
             // Get all defense durations
             $defenceTimes = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
-            $lab->defenders_num = count($defenceTimes);
 
-            // Sum them up and divide to get avg
+            // Get sum of defence times and divide to get avg
             $defenceTimesSum = 0;
             foreach ($defenceTimes as $time) {
                 $defenceTimesSum += $time->defense_duration;
