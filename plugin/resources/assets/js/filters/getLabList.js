@@ -8,8 +8,8 @@ export default function getLabList({start, name, defenders_num, estimated_start_
 
     return date + " " + timeReturn[0] + ":" + timeReturn[1] + (name ? " " + name : "") + " - " +
         (estimated_start_time
-            ? defenders_num + " defences in the queue - est. defence time: " +
+            ? defenders_num + " defences in queue - est. defence time: " +
                 estimated_start_time.split(" ")[1].split(":")[0] + ":" +
                 estimated_start_time.split(" ")[1].split(":")[1]
-            : "Lab is fully booked");
+            : "Fully booked");
 }
