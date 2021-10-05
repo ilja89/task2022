@@ -3,28 +3,38 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Http\Controllers\Controller;
+use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
-use Zeizig\Moodle\Models\Course;
+use TTU\Charon\Services\LabService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Zeizig\Moodle\Globals\User;
 
 class LabController extends Controller
 {
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
-     * LabDummyController constructor.
-     *
+     * LabController constructor.
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
-    {
+    public function __construct(
+        Request $request,
+        LabRepository $labRepository,
+        LabService $labService
+    ){
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -85,7 +95,7 @@ class LabController extends Controller
             $this->request['name'],
             $this->request['teachers'],
             $this->request['charons'],
-            $this->request['groups'],
+            $this->request['groups']
         );
     }
 
@@ -189,4 +199,16 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
+    /**
+     * Returns queue status in the form of an array, with approximate defence times.
+     *
+     * @param Charon $charon
+     * @param Lab $lab
+     * @return array
+     */
+    public function getLabQueueStatus(Charon $charon, Lab $lab)
+    {
+        Log::info("queue status input" , ["user" => app(User::class)->currentUser(), "lab" => $lab]);
+        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $lab);
+    }
 }
