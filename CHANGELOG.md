@@ -9,11 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
-- \#632 Fixed submissions seeders
-- \#629 Made templates deleting with charon deleting
-- \#625 Fixed templates to be also backupable 
-- \#630 Apache error with submission is no longer thrown
-- \#632 Fixed submissions seeders
+- #632 Fixed submissions seeders
+- #629 Made templates deleting with charon deleting
+- #625 Fixed templates to be also backupable
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -26,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.2] - 2021-09-23
 
 ### Fixed
+- \#630 Apache error with submission is no longer thrown
 
 ## [1.5.1] - 2021-09-10
 
