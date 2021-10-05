@@ -43,7 +43,7 @@
                 <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
-                <registration-queue-sheet :labData="item"/>
+                <registration-queue-sheet v-if="showQueueButton(item)" :labData="item"/>
               </template>
             </v-data-table>
           </v-flex>
@@ -89,14 +89,25 @@ export default {
   },
 
   methods: {
-    deleteItem(item) {
-      if (this.dateValidation(item)) {
-        if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-          this.deleteReg(item);
+      showQueueButton({lab_end}) {
+        const dateNow = new Date();
+        let dateEnd = lab_end.split(" ");
+        dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+        dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
+        if (dateNow.getTime() > dateEnd.getTime()) {
+          return false;
         }
-      } else {
-        VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
-      }
+        return true;
+      },
+
+      deleteItem(item) {
+        if (this.dateValidation(item)) {
+          if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+            this.deleteReg(item);
+          }
+        } else {
+          VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+        }
     },
 
     dateValidation(item) {
