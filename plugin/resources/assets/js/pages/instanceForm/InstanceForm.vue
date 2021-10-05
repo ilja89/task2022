@@ -1,74 +1,76 @@
 <template>
-  <div>
-    <instance-form-fieldset
-        toggle_id="tgl1"
-        @advanced-was-toggled="toggleAdvancedInfoSection">
+  <v-app>
+    <div>
+      <instance-form-fieldset
+          toggle_id="tgl1"
+          @advanced-was-toggled="toggleAdvancedInfoSection">
 
-      <template slot="title">{{ translate('task_info_title') }}</template>
+        <template slot="title">{{ translate('task_info_title') }}</template>
 
-      <slot>
-        <advanced-task-info-section
-            v-if="advanced_info_section_active"
-            :form="form">
-        </advanced-task-info-section>
-        <simple-task-info-section
-            v-else
-            :form="form">
-        </simple-task-info-section>
-      </slot>
+        <slot>
+          <advanced-task-info-section
+              v-if="advanced_info_section_active"
+              :form="form">
+          </advanced-task-info-section>
+          <simple-task-info-section
+              v-else
+              :form="form">
+          </simple-task-info-section>
+        </slot>
 
-    </instance-form-fieldset>
+      </instance-form-fieldset>
 
-    <instance-form-fieldset
-        toggle_id="tgl3"
-        @advanced-was-toggled="toggleAdvancedGradingSection">
+      <instance-form-fieldset
+          toggle_id="tgl3"
+          @advanced-was-toggled="toggleAdvancedGradingSection">
 
-      <template slot="title">{{ translate('grading_title') }}</template>
+        <template slot="title">{{ translate('grading_title') }}</template>
 
-      <slot>
-        <advanced-grading-section
-            v-if="advanced_grading_section_active"
-            :form="form">
-        </advanced-grading-section>
-        <simple-grading-section
-            v-else
-            :form="form">
-        </simple-grading-section>
-      </slot>
+        <slot>
+          <advanced-grading-section
+              v-if="advanced_grading_section_active"
+              :form="form">
+          </advanced-grading-section>
+          <simple-grading-section
+              v-else
+              :form="form">
+          </simple-grading-section>
+        </slot>
 
-    </instance-form-fieldset>
+      </instance-form-fieldset>
 
 
 
-    <code-editor-section :form="form"></code-editor-section>
+      <code-editor-section :form="form"></code-editor-section>
 
-    <deadline-section :form="form"></deadline-section>
+      <deadline-section :form="form"></deadline-section>
 
-    <grouping-section :form="form"></grouping-section>
+      <grouping-section :form="form"></grouping-section>
 
-    <v-snackbar
-        top
-        right
-        multi-line
-        shaped
-        v-model="notification.show"
-        :timeout="notification.timeout"
-    >
-      {{ notification.text }}
+      <v-snackbar
+          top
+          right
+          multi-line
+          shaped
+          v-model="notification.show"
+          :timeout="notification.timeout"
+      >
+        {{ notification.text }}
 
-      <template v-slot:action="{ attrs }">
-        <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="notification.show = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+        <template v-slot:action="{ attrs }">
+          <v-btn
+              color="blue"
+              text
+              v-bind="attrs"
+              @click="notification.show = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
 
-  </div>
+    </div>
+  </v-app>
 </template>
 
 <script>
