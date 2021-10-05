@@ -60,24 +60,46 @@ class SaveTesterCallback
      * @param TesterCallbackRequest $request
      * @param GitCallback $gitCallback
      * @param array $usernames
-     * @param int|null $courseId
      *
      * @return Submission
      * @throws Exception
      */
-    public function run(TesterCallbackRequest $request,
-                        GitCallback $gitCallback, array $usernames, int $courseId = null)
+    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
     {
         $users = $this->getStudentsInvolved($usernames);
 
-        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
+        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
 
-        if ($request['files']) {
-            $this->submissionService->saveFiles($submission->id, $request['files']);
-        } else if ($request->getContent() and array_key_exists('files', json_decode($request->getContent(), true))) {
-            $this->submissionService
-                ->saveFiles($submission->id, json_decode($request->getContent(), true)['files']);
-        };
+        $this->submissionService->saveFiles($submission->id, $request['files']);
+
+        $submission->users()->saveMany($users);
+
+        $this->saveResults($request['testSuites'], (int) $request['style'], $submission, $users);
+
+        $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
+
+        $this->updateGrades($submission, $users);
+
+        return $submission;
+    }
+
+    /**
+     * Save a new submission from synchronous tester response.
+     *
+     * @param TesterCallbackRequest $request
+     * @param User $user
+     * @param int $courseId
+     *
+     * @return Submission
+     * @throws Exception
+     */
+    public function saveSync(TesterCallbackRequest $request, User $user, int $courseId): Submission
+    {
+        $users = [$user];
+
+        $submission = $this->createNewSubmission($request, new GitCallback(), $user->id, $courseId);
+
+        $this->submissionService->saveFiles($submission->id, $request['files']);
 
         $submission->users()->saveMany($users);
 
