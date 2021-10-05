@@ -92,19 +92,19 @@ export default {
         }
     },
 
-  filters: {
+    filters: {
         getLabList
-      },
+    },
 
-  computed: {
-    ...mapState([
-      'charon_id',
-      'student_id',
-      'registrations',
-      'charon',
-      'labs'
-    ]),
-  },
+    computed: {
+        ...mapState([
+            'charon_id',
+            'student_id',
+            'registrations',
+            'charon',
+            'labs'
+        ]),
+    },
 
 
     methods: {
