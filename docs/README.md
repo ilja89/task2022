@@ -173,6 +173,12 @@ To use it, navigate to [http://localhost:8190/](http://localhost:8190/) and logi
 
 ## Misc
 
+### Troubleshooting
+
+If you have problems with environment, the first step usually should be cleaning up and reinstalling third-party components for php and javascript.
+Clean out `vendor` folder and run again `php composer.phar install` for php components.
+For reinstalling Javascript components, rerun `npm ci`
+
 ### Why .htacces is used
 
 .htaccess is needed so `/mod/charon/courses/<id>/settings` doesn't return 404. Purely because how Moodle is done
@@ -194,3 +200,16 @@ Only if `package.json` is modified on purpose, execute `npm update` or `npm inst
 If you need to clean up containers and start from scratch, remember that probably you need to remove all Containers, Images 
 and Volumes before creating containers again. Volumes are containing permanent info, like database content, for example.
 It is also recommended to remove folders `vendor` and `node modules` before recreating containers.
+
+### Switching between Laravel versions
+
+To upgrade from previous Laravel versions to the latest.
+Run the following commands in your docker container and inside bitnami/moodle/mod/charon: 
+```bash
+rm -r vendor/
+rm plugin/bootstrap/cache/*.php
+php composer.phar install
+```
+**And make sure that your `.env.*` files are changed to `env.*`**   
+If you have both then delete the ones that match `.env.*`   
+To check which Laravel version you are running run: `php artisan --version`
