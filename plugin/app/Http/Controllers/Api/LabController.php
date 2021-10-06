@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Carbon\Carbon;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\CharonDefenseLab;
 use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
@@ -203,12 +204,12 @@ class LabController extends Controller
      * Returns queue status in the form of an array, with approximate defence times.
      *
      * @param Charon $charon
-     * @param Lab $lab
+     * @param CharonDefenseLab $defenseLab
      * @return array
      */
-    public function getLabQueueStatus(Charon $charon, Lab $lab)
+    public function getLabQueueStatus(Charon $charon, CharonDefenseLab $defenseLab)
     {
-        Log::info("queue status input" , ["user" => app(User::class)->currentUser(), "lab" => $lab]);
+        $lab = $defenseLab->lab;
         return $this->labService->labQueueStatus(app(User::class)->currentUser(), $lab);
     }
 }

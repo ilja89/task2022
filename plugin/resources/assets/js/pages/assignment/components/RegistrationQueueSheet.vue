@@ -17,7 +17,7 @@
       </v-toolbar>
 
       <v-sheet height="80vh" class="pt-4 px-4">
-        <registration-queue></registration-queue>
+        <registration-queue :items="this.queueStatus"></registration-queue>
       </v-sheet>
     </div>
   </v-bottom-sheet>
@@ -28,6 +28,7 @@
 <script>
 import {Translate} from "../../../mixins";
 import RegistrationQueue from "./RegistrationQueue";
+import {Lab} from "../../../api";
 
 export default {
   name: "registration-queue-sheet",
@@ -38,13 +39,27 @@ export default {
     RegistrationQueue
   },
 
-  props: ['labData'],
+  props: ['labData', 'charon'],
 
   data() {
     return {
       sheet: false,
     };
   },
+
+    methods: {
+        getQueueStatus: function (){
+            this.queueStatus = [];
+            Lab.getLabQueueStatus(this.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
+                this.queueStatus = queueStatus;
+            });
+            return this.queueStatus;
+        }
+    },
+
+    beforeMount(){
+        this.getQueueStatus()
+    },
 
 }
 

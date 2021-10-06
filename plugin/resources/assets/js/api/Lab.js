@@ -88,6 +88,15 @@ class Lab {
                 VueEvent.$emit('show-notification', 'Error retrieving groups.\n' + error, 'danger');
         });
     }
+
+    static getLabQueueStatus(charonId, defLabId, studentId, then) {
+        axios.get('/mod/charon/api/charons/' + charonId + '/defenseLab/' + defLabId + '/queueStatus?user_id=' + studentId)
+            .then(response => {
+                then(response.data);
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving queue status.\n' + error, 'danger');
+        });
+    }
 }
 
 export default Lab

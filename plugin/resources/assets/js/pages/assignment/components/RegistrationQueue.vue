@@ -10,7 +10,7 @@
           <v-flex md6 style="overflow: auto">
             <v-data-table
                 :headers="headers"
-                :items="testItems"
+                :items="items"
             >
             </v-data-table>
           </v-flex>
@@ -26,23 +26,17 @@ import {Translate} from "../../../mixins";
 export default {
   name: "registration-queue",
 
-  mixins: [Translate],
+    props: ['items'],
+
+    mixins: [Translate],
 
   data() {
     return {
-      testItems: [
-        {
-          queue_nr: 2,
-          name: 'charon name',
-          start_time: '01.09.2021 12:20',
-          student: 'student name',
-        },
-      ],
       headers: [
-        {text: this.translate("nrInQueueText"), value: 'queue_nr', align: 'start', sortable: false},
-        {text: this.translate("charonText"), value: 'name', sortable: false},
-        {text: this.translate("estimatedStartTimeText"), value: 'start_time', sortable: false},
-        {text: this.translate("studentText"), value: 'student', sortable: false},
+        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
+        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
+        {text: this.translate("estimatedStartTimeText"), value: 'approxStartTime', sortable: false},
+        {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
     }
   },

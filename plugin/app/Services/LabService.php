@@ -103,7 +103,6 @@ class LabService
             $reg->approxStartTime = date("d.m.Y H:i", $labStart + $move[$key] * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
-            unset($reg->charon_name);
         }
 
         return $registrations;
