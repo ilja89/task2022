@@ -23,7 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - \#504 UI for teacher for registering a student for defence
-
+- \#516 Backend for registration queue status
+- \#519 Integrated #516 and #518
 
 ## [1.5.2] - 2021-09-23
 
