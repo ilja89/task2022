@@ -66,7 +66,18 @@ class SaveTesterCallback
      */
     public function saveTestersSyncResponse(TesterCallbackRequest $request, User $user, int $courseId): Submission
     {
-        $users = [$user];
+        $users = [];
+
+        if (!empty($request->input('returnExtra.usernames'))) {
+            $usernames = collect($request->input('returnExtra.usernames'))
+                ->map(function ($name) { return strtolower($name); })
+                ->unique()
+                ->values()
+                ->all();
+            $users = $this->getStudentsInvolved($usernames);
+        }
+
+        array_unshift($users, $user);
 
         return $this->executeSave($request, new GitCallback(), $users, $courseId);
     }

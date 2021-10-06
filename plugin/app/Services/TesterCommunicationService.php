@@ -28,22 +28,28 @@ class TesterCommunicationService
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var GitCallbackService */
+    private $callbackService;
+
     /**
      * TesterCommunicationService constructor.
      *
      * @param HttpCommunicationService $httpCommunicationService
      * @param CharonRepository $charonRepository
      * @param CourseSettingsRepository $courseSettingsRepository
+     * @param GitCallbackService $callbackService
      */
     public function __construct(
         HttpCommunicationService $httpCommunicationService,
         CharonRepository $charonRepository,
-        CourseSettingsRepository $courseSettingsRepository
+        CourseSettingsRepository $courseSettingsRepository,
+        GitCallbackService $callbackService
     )
     {
         $this->httpCommunicationService = $httpCommunicationService;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->charonRepository = $charonRepository;
+        $this->callbackService = $callbackService;
     }
 
     /**
@@ -101,6 +107,15 @@ class TesterCommunicationService
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
+        $username = strtok($user->username, "@");
+        if ($charon->grouping_id != null) {
+            $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
+                $username);
+            unset($associatedUsers[array_search($username, $associatedUsers)]);
+        } else {
+            $associatedUsers = [];
+        }
+
         $finalListofSource = [];
         foreach ($sourceFiles as $sourceFile) {
             $finalFile = new SourceFileDTO();
@@ -118,7 +133,7 @@ class TesterCommunicationService
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)
-            ->setReturnExtra(["course" => $charon->course])
-            ->setUniid(strtok($user->username, "@"));
+            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers])
+            ->setUniid($username);
     }
 }

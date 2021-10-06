@@ -58,6 +58,12 @@ class TesterController extends Controller
         $content = json_decode($request->getContent(), true);
         $user = app(User::class)->currentUser();
 
+        Log::info("Preparing to send inline submission to tester with: ", [
+            'charon' => $request->route('charon'),
+            'userId' => $user->id,
+            'content' => $content
+        ]);
+
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
             $user,
             $content['sourceFiles']);
