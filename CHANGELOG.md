@@ -19,18 +19,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the button, while it makes the request and waits for a response
 - #604 Now only last "latest" submission will be highlighted
 - #638 Added css so that when tester returns styled output, it will be displayed that way
-
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
 
 ## [1.5.2] - 2021-09-23
 
 ### Fixed
 - \#630 Apache error with submission is no longer thrown
-
-## [1.5.1] - 2021-09-10
-
-### Added
-- \#589 Added the ability for teachers to add feedback for students' submissions
-- \#635 Backup and restore possibility for charon_review_comment table
 
 ## [1.5.1] - 2021-09-10
 
