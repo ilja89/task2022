@@ -79,7 +79,7 @@ class LabService
                 $defenceTimesSum += $time->defense_duration;
             }
 
-            if ($capacity - $defenceTimesSum > $charonLength) {
+            if ($capacity - $defenceTimesSum >= $charonLength) {
                 $averageWaitingTime = ($defenceTimesSum / $teacherNum) * 60;
                 $lab->estimated_start_time = date("Y-m-d H:i:s", strtotime($lab->start) + $averageWaitingTime);
             } else {

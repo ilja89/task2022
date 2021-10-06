@@ -312,8 +312,6 @@ class LabRepository
     }
 
     /**
-     * Returns labs got by given charon identifier.
-     *
      * @param $charonId
      * @return Lab[]
      */
@@ -327,7 +325,7 @@ class LabRepository
     }
 
     /**
-     * Get all ongoing and upcoming labs.
+     * Get all ongoing and upcoming labs with the amount of registered defences.
      *
      * @param int $charonId
      *
