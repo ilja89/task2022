@@ -91,7 +91,6 @@ class SubmissionService
                 $gitCallback->repo,
                 $authorId
             );
-
         } else {
             $submission = $this->requestHandlingService->getSubmissionFromRequest(
                 $submissionRequest,
