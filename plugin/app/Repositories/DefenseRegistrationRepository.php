@@ -306,5 +306,4 @@ class DefenseRegistrationRepository
             ->distinct()
             ->get();
     }
-
 }
