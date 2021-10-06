@@ -342,7 +342,7 @@ class LabRepository
 
         foreach ($result as $lab) {
             $lab->defenders_num = \DB::table('charon_defenders')
-                ->where('defense_lab_id', $lab->id) // where id of defense lab equals to id of lab sending by function
+                ->where('defense_lab_id', $lab->defense_lab_id) // where id of defense lab equals to id of lab sending by function
                 ->count();
         }
 
