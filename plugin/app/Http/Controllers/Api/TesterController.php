@@ -93,9 +93,9 @@ class TesterController extends Controller
      * @return Submission
      * @throws Exception
      */
-    public function saveResults(CharonViewTesterCallbackRequest $request, \Zeizig\Moodle\Models\User $user)
+    public function saveResults(CharonViewTesterCallbackRequest $request, \Zeizig\Moodle\Models\User $user): Submission
     {
-        $submission = $this->saveTesterFlow->saveSync($request, $user,
+        $submission = $this->saveTesterFlow->saveTestersSyncResponse($request, $user,
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);

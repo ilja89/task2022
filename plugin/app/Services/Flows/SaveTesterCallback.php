@@ -55,35 +55,6 @@ class SaveTesterCallback
     }
 
     /**
-     * Save a new submission from tester data.
-     *
-     * @param TesterCallbackRequest $request
-     * @param GitCallback $gitCallback
-     * @param array $usernames
-     *
-     * @return Submission
-     * @throws Exception
-     */
-    public function run(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames)
-    {
-        $users = $this->getStudentsInvolved($usernames);
-
-        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id);
-
-        $this->submissionService->saveFiles($submission->id, $request['files']);
-
-        $submission->users()->saveMany($users);
-
-        $this->saveResults($request['testSuites'], (int) $request['style'], $submission, $users);
-
-        $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
-
-        $this->updateGrades($submission, $users);
-
-        return $submission;
-    }
-
-    /**
      * Save a new submission from synchronous tester response.
      *
      * @param TesterCallbackRequest $request
@@ -93,11 +64,44 @@ class SaveTesterCallback
      * @return Submission
      * @throws Exception
      */
-    public function saveSync(TesterCallbackRequest $request, User $user, int $courseId): Submission
+    public function saveTestersSyncResponse(TesterCallbackRequest $request, User $user, int $courseId): Submission
     {
         $users = [$user];
 
-        $submission = $this->createNewSubmission($request, new GitCallback(), $user->id, $courseId);
+        return $this->executeSave($request, new GitCallback(), $users, $courseId);
+    }
+
+    /**
+     * Save a new submission from asynchronous tester response.
+     *
+     * @param TesterCallbackRequest $request
+     * @param GitCallback $gitCallback
+     * @param array $usernames
+     *
+     * @return Submission
+     * @throws Exception
+     */
+    public function saveTestersAsyncResponse(TesterCallbackRequest $request,GitCallback $gitCallback, array $usernames): Submission
+    {
+        $users = $this->getStudentsInvolved($usernames);
+
+        return $this->executeSave($request, $gitCallback, $users);
+    }
+
+    /**
+     * Save a new submission from tester data.
+     *
+     * @param TesterCallbackRequest $request
+     * @param GitCallback $gitCallback
+     * @param array $users
+     * @param int|null $courseId
+     *
+     * @return Submission
+     * @throws Exception
+     */
+    private function executeSave(TesterCallbackRequest $request, GitCallback $gitCallback, array $users, int $courseId = null): Submission
+    {
+        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
 
         $this->submissionService->saveFiles($submission->id, $request['files']);
 
@@ -111,7 +115,6 @@ class SaveTesterCallback
 
         return $submission;
     }
-
 
     /**
      * @param array|string[] $usernames
