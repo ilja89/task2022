@@ -43,7 +43,7 @@
                 <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
-                <registration-queue-sheet v-if="showQueueButton(item)" :labData="item" :charon="charon"/>
+                <registration-queue-sheet v-if="showQueueButton(item)" :labData="item"/>
               </template>
             </v-data-table>
           </v-flex>
@@ -94,10 +94,7 @@ export default {
         let dateEnd = lab_end.split(" ");
         dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
         dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
-        if (dateNow.getTime() > dateEnd.getTime()) {
-          return false;
-        }
-        return true;
+        return dateNow.getTime() <= dateEnd.getTime();
       },
 
       deleteItem(item) {
@@ -141,11 +138,7 @@ export default {
       let dateEnd = lab_end.split(" ");
       dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
       dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
-      if(dateNow.getTime()>dateEnd.getTime())
-      {
-        return false;
-      }
-      return true;
+      return dateNow.getTime() <= dateEnd.getTime();
     }
   },
 

@@ -35,7 +35,7 @@ export default {
       headers: [
         {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'charon_name', sortable: false},
-        {text: this.translate("estimatedStartTimeText"), value: 'approxStartTime', sortable: false},
+        {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
     }

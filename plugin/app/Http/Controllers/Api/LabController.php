@@ -10,7 +10,6 @@ use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Services\LabService;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Zeizig\Moodle\Globals\User;
 

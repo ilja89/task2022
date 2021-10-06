@@ -87,7 +87,7 @@ class LabService
 
         foreach ($registrations as $key => $reg) {
             if($reg->student_id == $user->id) {
-                $reg->student_name = $user->firstname;
+                $reg->student_name = $user->firstname . ' ' . $user->lastname;
             }
             else {
                 $reg->student_name = "";
@@ -100,7 +100,7 @@ class LabService
 
         //Calculate approximate time and delete not needed variables
         foreach ($registrations as $key => $reg) {
-            $reg->approxStartTime = date("d.m.Y H:i", $labStart + $move[$key] * 60);
+            $reg->approx_start_time = date("d.m.Y H:i", $labStart + $move[$key] * 60);
             unset($reg->charon_length);
             unset($reg->student_id);
         }
