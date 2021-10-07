@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
+- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
