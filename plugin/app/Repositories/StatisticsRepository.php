@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Facades\MoodleConfig;
 
 
@@ -45,6 +46,10 @@ class StatisticsRepository
         $firstSubmission = DB::select(DB::raw(
             "SELECT DATE(created_at) AS date1 FROM mdl_charon_submission WHERE charon_id = " . $charonId . " ORDER BY date1 LIMIT 0,1"
         ));
+
+        if (count($firstSubmission) == 0) {
+            return [];
+        }
 
         $date1 = array_pop($firstSubmission)->date1;
         $firstSubmissionDate = new DateTime($date1);

@@ -23,7 +23,6 @@
 import {mapGetters, mapState} from 'vuex'
 import {DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection, CharonDefenseRegistrationsSection, SubmissionGraphSection} from '../sections'
 import {Charon, Submission} from "../../../api/index";
-import LatestSubmissionsSection from "../sections/LatestSubmissionsSection";
 import Lab from "../../../api/Lab";
 import LabSection from "../sections/LabSection";
 import Statistics from "../../../api/Statistics";
@@ -34,7 +33,6 @@ export default {
 
   components: {
     LabSection,
-    LatestSubmissionsSection,
     DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection,
     CharonDefenseRegistrationsSection, SubmissionGraphSection, PageTitle},
 

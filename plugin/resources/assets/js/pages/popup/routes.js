@@ -16,7 +16,7 @@ import {
     DefenseRegistrationPage,
     TeachersPage,
     ActivityOverviewPage,
-    ActivityDashboardPage
+    ActivityDashboardPage,
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm.vue";
 

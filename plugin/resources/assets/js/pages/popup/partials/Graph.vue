@@ -22,7 +22,7 @@ export default {
     },
     series: {
       required: true,
-      type: Object
+      type: Array
     }
   }
 }

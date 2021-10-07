@@ -6,8 +6,8 @@
                    subtitle="Here are all the charon activities for this course. Choose one to see its dashboard">
       <div class="latest-submissions">
         <transition-group name="list">
-          <div v-for="(activityChunk, index) in charonActivitiesChunks" :key="index" class="columns">
-            <div v-for="activity in activityChunk" class="column">
+          <div v-for="activityChunk in charonActivitiesChunks" :key="activityChunk.id" class="columns">
+            <div v-for="activity in activityChunk.charons" :key="activity.id" class="column">
               <div class="card  hover-overlay  submission" @click="activitySelected(activity)">
                 <div>
                   <wbr>
@@ -57,21 +57,30 @@ export default {
 
     charonActivitiesChunks() {
       const chunkSize = 2
+      let chunkIndex = 0
 
       let chunks = []
-      let chunk = []
-      this.charons.forEach(activity => {
-        if (chunk.length < chunkSize) {
-          chunk.push(activity)
+      let chunk = {
+        id: chunkIndex,
+        charons: []
+      }
+      this.charons.forEach(charon => {
+        if (chunk.charons.length < chunkSize) {
+          chunk.charons.push(charon)
         } else {
+          chunkIndex++
           chunks.push(chunk)
-          chunk = [activity]
+          chunk = {
+            id: chunkIndex,
+            charons: [charon]
+          }
         }
       })
 
-      if (chunk.length) {
+      if (chunk.charons.length) {
         chunks.push(chunk)
       }
+
       return chunks
     },
 

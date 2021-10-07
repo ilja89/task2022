@@ -127,11 +127,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#427 Avoid faulty Submission creation when tester sends `null` file/stdout/stderr fields by making them optional
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
-## [1.2.4] - 2021-05-19
-
-### Fixed
-- \#427 Avoid faulty Submission creation when tester sends `null` file/stdout/stderr fields by making them optional
-
 ## [1.2.3] - 2021-05-15
 
 ### Added

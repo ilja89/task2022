@@ -2,8 +2,8 @@
   <popup-section title="Latest submissions">
     <div v-if="latestSubmissions.length" class="latest-submissions">
       <transition-group name="list">
-        <div v-for="(submissionChunk, index) in latestSubmissionsChunks" :key="index" class="columns">
-          <div v-for="submission in submissionChunk" class="column">
+        <div v-for="submissionChunk in latestSubmissionsChunks" :key="submissionChunk.id" class="columns">
+          <div v-for="submission in submissionChunk.subs" class="column">
             <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
               <div>
                 {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
@@ -56,19 +56,27 @@ export default {
 
     latestSubmissionsChunks() {
       const chunkSize = 2
+      let chunkIndex = 0
 
       let chunks = []
-      let chunk = []
+      let chunk = {
+        id: chunkIndex,
+        subs: []
+      }
       this.latestSubmissions.forEach(submission => {
-        if (chunk.length < chunkSize) {
-          chunk.push(submission)
+        if (chunk.subs.length < chunkSize) {
+          chunk.subs.push(submission)
         } else {
+          chunkIndex++
           chunks.push(chunk)
-          chunk = [submission]
+          chunk = {
+            id: chunkIndex,
+            subs: [submission]
+          }
         }
       })
 
-      if (chunk.length) {
+      if (chunk.subs.length) {
         chunks.push(chunk)
       }
 
