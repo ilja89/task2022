@@ -3,6 +3,7 @@
 namespace Zeizig\Moodle\Services;
 
 use Zeizig\Moodle\Models\User;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UserService.
@@ -47,7 +48,13 @@ class UserService
     {
         $users = User::where('username', $name . '@ttu.ee')->get();
         if (count($users) == 0) {
-            return User::where('username', 'like', $name . '%')->first();
+            Log::info("@ttu.ee user was not found, continue searching with @taltech.ee. Current username: " . $name);
+            $users2 = User::where('username', $name . '@taltech.ee')->get();
+            if (count($users2) == 0) {
+                Log::info("School username was not found (uniid@taltech.ee), continue searching with username. Current username: " . $name);
+                return User::where('username', $name)->first();
+            }
+            return $users2[0];
         }
         return $users[0];
     }
