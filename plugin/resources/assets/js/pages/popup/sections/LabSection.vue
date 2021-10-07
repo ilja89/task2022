@@ -186,7 +186,7 @@
             deleteLab() {
                 this.alert = false
                 Lab.delete(this.course.id, this.lab_id, () => {
-                    this.labs = this.labs.filter(x => x.id !== this.lab_id)
+                    this.$root.$emit('refresh_labs')
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
             },

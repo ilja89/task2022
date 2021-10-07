@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the button, while it makes the request and waits for a response
 - #604 Now only last "latest" submission will be highlighted
 - #638 Added css so that when tester returns styled output, it will be displayed that way
+- #610 Fixed most of the vue warnings which are shown in console
 
 
 ## [1.5.2] - 2021-09-23
