@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
@@ -46,19 +47,21 @@ class LabService
      *    - defenders_num: shows number of existing registrations for this lab
      *    - start: shows lab end time
      *    - end: shows lab end time
-     *    - estimatedStartTime: shows estimated time when student registering on this lab will be defending
+     *    - estimated_start_time: shows estimated time when student registering on this lab will be defending
      *    - id: id of this lab
      *    - name: name of this lab
      *
      * @param int $charonId
-     * @return mixed
+     *
+     * @return Lab[]
      */
-    public function getLabsWithCapacityInfoForCharon(int $charonId)
+    public function getLabsWithCapacityInfoForCharon(int $charonId): array
     {
         $labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
 
         // Get length of this charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;
+
 
         // Calculate lab capacity
         // Calculate avg defense length and check if lab can be booked

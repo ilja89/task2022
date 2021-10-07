@@ -164,9 +164,10 @@ class LabController extends Controller
 
     /**
      * @param Request $request
-     * @return array
+     *
+     * @return Lab[]
      */
-    public function findLabsByCharonLaterEqualToday(Request $request)
+    public function findLabsByCharonLaterEqualToday(Request $request): array
     {
         return $this->labService->getLabsWithCapacityInfoForCharon($request->route('charon'));
     }

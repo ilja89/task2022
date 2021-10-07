@@ -93,19 +93,19 @@ export default {
         }
     },
 
-  filters: {
+    filters: {
         getLabList
-      },
+    },
 
-  computed: {
-    ...mapState([
-      'charon_id',
-      'student_id',
-      'registrations',
-      'charon',
-      'labs'
-    ]),
-  },
+    computed: {
+        ...mapState([
+            'charon_id',
+            'student_id',
+            'registrations',
+            'charon',
+            'labs'
+        ]),
+    },
 
 
     methods: {
@@ -174,6 +174,8 @@ export default {
         }
 
         this.hasPoints = getSubmissionWeightedScore(this.submission) >= this.charon['defense_threshold'];
+
+        console.log(this.labs);
     }
 }
 </script>

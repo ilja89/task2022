@@ -9,6 +9,7 @@ use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\LabGroup;
+use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
@@ -329,20 +330,19 @@ class LabRepository
      *
      * @param int $charonId
      *
-     * @return mixed
+     * @return Lab[]
      */
-    public function getLabsByCharonIdLaterEqualToday(int $charonId)
+    public function getLabsByCharonIdLaterEqualToday(int $charonId): array
     {
-        $result = \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
+        $result = Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
             ->where('charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
             ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
-            ->get();
+            ->get()
+            ->all();
 
         foreach ($result as $lab) {
-            $lab->defenders_num = \DB::table('charon_defenders')
-                ->where('defense_lab_id', $lab->defense_lab_id) // where id of defense lab equals to id of lab sending by function
+            $lab->defenders_num = Registration::where('defense_lab_id', $lab->defense_lab_id)
                 ->count();
         }
 
