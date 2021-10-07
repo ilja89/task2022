@@ -70,6 +70,11 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
             'path', 'contents',
         ]);
 
+        $reviewComments = new backup_nested_element('review_comments');
+        $reviewComment = new backup_nested_element('review_comment', ['id'], [
+            'user_id', 'code_row_no_start', 'code_row_no_end', 'review_comment', 'notify', 'created_at'
+        ]);
+
         $templates = new backup_nested_element('templates');
         $template = new backup_nested_element('template', ['id'], [
             'path', 'contents', 'created_at'
@@ -97,6 +102,9 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
 
         $submission->add_child($submissionFiles);
         $submissionFiles->add_child($submissionFile);
+
+        $submissionFile->add_child($reviewComments);
+        $reviewComments->add_child($reviewComment);
 
         $submission->add_child($results);
         $results->add_child($result);
@@ -136,6 +144,8 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
             $result->set_source_table('charon_result', ['submission_id' => backup::VAR_PARENTID]);
 
             $submissionFile->set_source_table('charon_submission_file', ['submission_id' => backup::VAR_PARENTID]);
+
+            $reviewComment->set_source_table('charon_review_comment', ['submission_file_id' => backup::VAR_PARENTID]);
         }
 
 
@@ -152,6 +162,8 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
 
         $teacherComment->annotate_ids('user', 'student_id');
         $teacherComment->annotate_ids('user', 'teacher_id');
+
+        $reviewComment->annotate_ids('user', 'user_id');
 
         // Define file annotations
 
