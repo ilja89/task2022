@@ -10,7 +10,6 @@ export default function getLabList({start, name, defenders_num, estimated_start_
         (name ? " " + name : "") + " - " +
         (estimated_start_time
             ? defenders_num + " defences in queue - est. defence time: " +
-                estimated_start_time.split(" ")[1].split(":")[0] + ":" +
-                estimated_start_time.split(" ")[1].split(":")[1]
+                new Date(estimated_start_time).toLocaleTimeString(locales, timeOptions)
             : "Fully booked");
 }

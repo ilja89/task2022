@@ -59,33 +59,34 @@ class LabService
     {
         $labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
 
-        // Get length of this charon
+        // Get length of given charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;
 
-        // Calculate lab capacity
-        // Calculate avg defense length and check if lab can be booked
+        // Calculate lab capacity and the shortest defence time the registration would have
         foreach ($labs as $lab) {
 
             // Get teachers number
             $teacherNum = $this->teacherRepository->countLabTeachers($lab->id);
 
             // Calculate lab capacity
-            $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60) * $teacherNum;
+            $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60);
 
             // Get all defense durations
             $defenceTimes = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
 
-            // Get sum of defence times and divide to get avg
-            $defenceTimesSum = 0;
-            foreach ($defenceTimes as $time) {
-                $defenceTimesSum += $time->defense_duration;
+            $queuePresumption = array_fill(0, $teacherNum, 0);
+
+            foreach ($defenceTimes as $defenceTime) {
+                $queuePresumption[array_keys($queuePresumption, min($queuePresumption))[0]] +=
+                    $defenceTime->defense_duration;
             }
 
-            if ($capacity - $defenceTimesSum >= $charonLength) {
-                $averageWaitingTime = ($defenceTimesSum / $teacherNum) * 60;
-                $lab->estimated_start_time = date("Y-m-d H:i:s", strtotime($lab->start) + $averageWaitingTime);
+            $shortestWaitingTime = $queuePresumption[array_keys($queuePresumption, min($queuePresumption))[0]];
+
+            if ($capacity >= $shortestWaitingTime + $charonLength) {
+                $lab["estimated_start_time"] = $lab->start->addMinutes($shortestWaitingTime);
             } else {
-                $lab->estimated_start_time = null;
+                $lab["estimated_start_time"] = null;
             }
         }
 

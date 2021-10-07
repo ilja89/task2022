@@ -342,7 +342,10 @@ class LabRepository
             ->all();
 
         foreach ($result as $lab) {
-            $lab->defenders_num = Registration::where('defense_lab_id', $lab->defense_lab_id)
+            $lab->defenders_num =
+                Registration::join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+                ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+                ->where('charon_lab.id', $lab->id)
                 ->count();
         }
 
