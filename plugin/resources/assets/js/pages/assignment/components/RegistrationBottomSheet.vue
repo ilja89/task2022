@@ -174,8 +174,6 @@ export default {
         }
 
         this.hasPoints = getSubmissionWeightedScore(this.submission) >= this.charon['defense_threshold'];
-
-        console.log(this.labs);
     }
 }
 </script>
