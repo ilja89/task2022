@@ -48,17 +48,17 @@ export default {
   },
 
     methods: {
-        getQueueStatus: function (){
-            this.queueStatus = [];
-            Lab.getLabQueueStatus(this.$store.state.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
-                this.queueStatus = queueStatus;
-            });
-            return this.queueStatus;
-        }
+      getQueueStatus: function (){
+        this.queueStatus = [];
+        Lab.getLabQueueStatus(this.$store.state.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
+            this.queueStatus = queueStatus;
+        });
+        return this.queueStatus;
+      }
     },
 
     beforeMount(){
-        this.getQueueStatus()
+      this.getQueueStatus()
     },
 
 }

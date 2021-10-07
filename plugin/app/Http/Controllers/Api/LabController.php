@@ -3,15 +3,15 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use TTU\Charon\Models\Charon;
+use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
-use Zeizig\Moodle\Models\Course;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Services\LabService;
-use Illuminate\Http\Request;
 use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
 {
@@ -31,7 +31,7 @@ class LabController extends Controller
         Request $request,
         LabRepository $labRepository,
         LabService $labService
-    ){
+    ) {
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;

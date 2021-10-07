@@ -26,9 +26,9 @@ import {Translate} from "../../../mixins";
 export default {
   name: "registration-queue",
 
-    props: ['items'],
+  props: ['items'],
 
-    mixins: [Translate],
+  mixins: [Translate],
 
   data() {
     return {

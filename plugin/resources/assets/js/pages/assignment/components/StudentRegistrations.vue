@@ -89,22 +89,22 @@ export default {
   },
 
   methods: {
-      showQueueButton({lab_end}) {
-        const dateNow = new Date();
-        let dateEnd = lab_end.split(" ");
-        dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
-        dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
-        return dateNow.getTime() <= dateEnd.getTime();
-      },
+    showQueueButton({lab_end}) {
+      const dateNow = new Date();
+      let dateEnd = lab_end.split(" ");
+      dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+      dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], dateEnd[3].split(":")[0], dateEnd[3].split(":")[1]);
+      return dateNow.getTime() <= dateEnd.getTime();
+    },
 
-      deleteItem(item) {
-        if (this.dateValidation(item)) {
-          if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-            this.deleteReg(item);
-          }
-        } else {
-          VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+    deleteItem(item) {
+      if (this.dateValidation(item)) {
+        if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+          this.deleteReg(item);
         }
+      } else {
+        VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+      }
     },
 
     dateValidation(item) {
