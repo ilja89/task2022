@@ -116,6 +116,8 @@
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
         resetToTemplates: "{{ translate('reset_to_templates') }}",
+        feedbackText: "{{ translate('feedback-text') }}",
+        noFeedbackInfo: "{{ translate('no-feedback-info') }}",
         queueStatusText: "{{ translate('queue_status') }}",
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",

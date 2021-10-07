@@ -197,8 +197,10 @@ $string['source_file'] = 'Lähtefail:';
 $string['insert_file_path'] = 'Sisestage faili tee, et seda siin näha ja faili sisu muuta.';
 $string['source_files'] = 'Lähtefailid';
 $string['reset_to_templates'] = 'Taasta mallid';
+$string['feedback-text'] = 'Tagasiside';
+$string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
 $string['queue_status'] = 'Järjekorra olek';
-$string['nr_in_queue'] = 'Nr ';
+$string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
 
