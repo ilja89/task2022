@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #632 Fixed submissions seeders
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
+- #610 Fixed most of the vue warnings which are shown in console
 - #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
@@ -20,7 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the button, while it makes the request and waits for a response
 - #604 Now only last "latest" submission will be highlighted
 - #638 Added css so that when tester returns styled output, it will be displayed that way
-
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
 
 ## [1.5.2] - 2021-09-23
 
