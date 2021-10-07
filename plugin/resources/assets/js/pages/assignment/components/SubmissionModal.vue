@@ -6,32 +6,32 @@
 				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
 			</v-btn>
 		</template>
-		
+
 		<v-card style="background-color: white; overflow-y: auto;">
 			<v-toolbar :color="color" dark>
 				<span class="headline">{{ translate('submissionText') }} {{ submission.git_hash }}</span>
-				
+
 				<v-spacer></v-spacer>
-				
+
 				<v-btn color="error" @click="isActive = false">
 					{{ translate('closeText') }}
 				</v-btn>
 			</v-toolbar>
-			
+
 			<v-card-text class="pt-4">
 				<div v-if="hasCommitMessage">
 					<h3>{{ translate('commitMessageText') }}</h3>
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
-				
+
 				<h3 v-if="toggleOn">Showing table</h3>
 				<h3 v-else>Showing mail</h3>
-				
+
 				<label class="switch">
 					<input type="checkbox" v-model="toggleOn">
 					<span class="slider round"></span>
 				</label>
-				
+
 				<div v-if="hasMail && !toggleOn">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
@@ -39,11 +39,19 @@
 				<div v-if="toggleOn">
 					<submission-table :submission="submission"></submission-table>
 				</div>
-				
+
 				<h3>{{ translate('filesText') }}</h3>
-				
+
 				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
+
+				<div class="review-comments">
+					<h3>{{ translate('feedbackText') }}</h3>
+					<review-comment-component v-if="reviewCommentsExist" :submission="submission" view="student"></review-comment-component>
+					<v-card v-else class="message">
+						{{ translate('noFeedbackInfo') }}
+					</v-card>
+				</div>
 			</v-card-text>
 		</v-card>
 	</v-dialog>
@@ -53,39 +61,63 @@
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
+import {File} from "../../../api";
+import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
 
 export default {
 	name: "submission-modal",
-	
+
 	mixins: [Translate],
-	
-	components: {FilesComponentWithoutTree, SubmissionTable},
-	
+
+	components: {
+		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable
+	},
+
 	props: {
 		submission: {required: true},
 		color: {required: true}
 	},
-	
+
 	data() {
 		return {
 			isActive: false,
 			testerType: '',
-			toggleOn: false
+			toggleOn: false,
+			files: [],
+			reviewCommentsExist: false
 		}
 	},
-	
+
 	computed: {
 		hasCommitMessage() {
 			return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0
 		},
-		
+
 		hasMail() {
 			return this.submission.mail !== null && this.submission.mail.length > 0
 		},
 	},
-	
+
 	mounted() {
 		this.testerType = window.testerType
+		this.getFiles()
+	},
+
+	methods: {
+		getFiles() {
+			File.findBySubmission(this.submission.id, files => {
+				this.submission.files = files
+				this.hasComments();
+			})
+		},
+
+		hasComments() {
+			this.submission.files.forEach(file => {
+				if (file.review_comments.length > 0) {
+					this.reviewCommentsExist = true;
+				}
+			});
+		}
 	},
 }
 </script>
@@ -155,4 +187,13 @@ input:checked + .slider:before {
 .slider.round:before {
 	border-radius: 50%;
 }
+
+.review-comments {
+	padding-top: 10px;
+}
+
+.message {
+	padding: 10px;
+}
+
 </style>
