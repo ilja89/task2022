@@ -28,6 +28,8 @@ class LabRepository
     protected $labTeacherRepository;
     /** @var CharonDefenseLabRepository */
     protected $charonDefenseLabRepository;
+    /** @var DefenseRegistrationRepository */
+    protected $defenseRegistrationRepository;
 
     /**
      * LabRepository constructor.
@@ -35,15 +37,18 @@ class LabRepository
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
+     * @param DefenseRegistrationRepository $defenseRegistrationRepository
      */
     public function __construct(
-        ModuleService              $moduleService,
-        LabTeacherRepository       $labTeacherRepository,
-        CharonDefenseLabRepository $charonDefenseLabRepository
+        ModuleService                   $moduleService,
+        LabTeacherRepository            $labTeacherRepository,
+        CharonDefenseLabRepository      $charonDefenseLabRepository,
+        DefenseRegistrationRepository   $defenseRegistrationRepository
     ) {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
+        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
     /**
@@ -342,11 +347,8 @@ class LabRepository
             ->all();
 
         foreach ($result as $lab) {
-            $lab->defenders_num =
-                Registration::join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-                ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-                ->where('charon_lab.id', $lab->id)
-                ->count();
+            $lab->defenders_num = count($this->defenseRegistrationRepository
+                ->getDefenseRegistrationDurationsByLab($lab->id));
         }
 
         return $result;
