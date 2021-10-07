@@ -36,6 +36,7 @@ class DefenceRegistrationService
 
     /**
      * DefenceRegistrationService constructor.
+     *
      * @param CharonRepository $charonRepository
      * @param LabTeacherRepository $teacherRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
