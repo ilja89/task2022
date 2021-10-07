@@ -62,7 +62,6 @@ class LabService
         // Get length of this charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;
 
-
         // Calculate lab capacity
         // Calculate avg defense length and check if lab can be booked
         foreach ($labs as $lab) {
