@@ -11,15 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   synchronous url
 - #632 Fixed submissions seeders
 - #629 Made templates deleting with charon deleting
+- #625 Fixed templates to be also backupable
+- #610 Fixed most of the vue warnings which are shown in console
+- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
 - #619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
   the button, while it makes the request and waits for a response
-- \#604 Now only last "latest" submission will be highlighted
-- \#638 Added css so that when tester returns styled output, it will be displayed that way
-- \#636 If charon does not have defences, the defence icon would not be shown submission list
-
+- #604 Now only last "latest" submission will be highlighted
+- #638 Added css so that when tester returns styled output, it will be displayed that way
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
+- #636 If charon does not have defences, the defence icon would not be shown submission list
 
 ## [1.5.2] - 2021-09-23
 
