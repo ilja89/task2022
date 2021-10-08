@@ -21,6 +21,7 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
         $paths[] = new restore_path_element('charon', '/activity/charon');
         $paths[] = new restore_path_element('charon_deadline', '/activity/charon/deadlines/deadline');
         $paths[] = new restore_path_element('charon_grademap', '/activity/charon/grademaps/grademap');
+        $paths[] = new restore_path_element('charon_template', '/activity/charon/templates/template');
 
         if ($userInfo) {
             $paths[] = new restore_path_element('charon_teacher_comment', '/activity/charon/teacher_comments/teacher_comment');
@@ -106,6 +107,21 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
 
         // So that grademaps can later point to grade items
         $this->get_task()->grademaps[] = $data;
+    }
+
+    /**
+     * @param $data
+     * @throws dml_exception
+     */
+    protected function process_charon_template($data)
+    {
+        global $DB;
+
+        $data = (object) $data;
+
+        $data->charon_id = $this->get_new_parentid('charon');
+
+        $DB->insert_record('charon_template', $data);
     }
 
     /**
