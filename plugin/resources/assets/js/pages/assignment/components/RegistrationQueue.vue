@@ -10,7 +10,7 @@
           <v-flex md6 style="overflow: auto">
             <v-data-table
                 :headers="headers"
-                :items="items"
+                :items="items.registrations"
             >
             </v-data-table>
           </v-flex>

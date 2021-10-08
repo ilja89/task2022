@@ -110,6 +110,10 @@ class LabService
             unset($reg->student_id);
         }
 
-        return $registrations;
+        $queueStatus = [];
+
+        $queueStatus['registrations'] = $registrations;
+
+        return $queueStatus;
     }
 }
