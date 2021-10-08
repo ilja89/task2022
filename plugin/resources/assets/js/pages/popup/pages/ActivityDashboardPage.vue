@@ -3,7 +3,7 @@
 
     <page-title :title="charonName"></page-title>
 
-    <general-information-section :charon="charon" :submission_counts="submission_counts['0']"></general-information-section>
+    <general-information-section :charon="charon" :general_information="general_information"></general-information-section>
 
     <dashboard-latest-submissions-section :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
 
@@ -46,7 +46,8 @@ export default {
       labs: {},
       labs_countdown: 0,
       graphDataToday: [],
-      graphDataEveryDay: []
+      graphDataEveryDay: [],
+      general_information: {},
     }
   },
 
@@ -83,6 +84,7 @@ export default {
     this.fetchSubmissionCounts()
     this.fetchLatestSubmissions()
     this.fetchGraphData()
+    this.fetchGeneralInformation()
   },
 
   methods: {
@@ -149,7 +151,13 @@ export default {
       Statistics.getSubmissionCountsForCharonToday(this.courseId, this.routeCharonId, data => {
         this.graphDataToday = data
       })
-    }
+    },
+
+    fetchGeneralInformation() {
+      Statistics.getCharonGeneralInformation(this.courseId, this.routeCharonId, data => {
+        this.general_information = data
+      })
+    },
   },
 }
 </script>

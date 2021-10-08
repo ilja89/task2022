@@ -183,4 +183,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons/{charon}/submissions-counts-today', 'StatisticsController@getSubmissionCountsForCharonToday');
+
+    Route::middleware('auth.charon.managing.require')
+        ->get('courses/{course}/charons/{charon}/charon-general-information', 'StatisticsController@getCharonGeneralInformation');
 });

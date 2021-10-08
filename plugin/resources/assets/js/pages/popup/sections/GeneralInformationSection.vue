@@ -1,16 +1,16 @@
 <template>
   <popup-section title="General information"
                  subtitle="Here's some general and critical information about the activity.">
-    <v-card class="ges-card" v-if="submission_counts">
+    <v-card class="ges-card" v-if="general_information">
       <v-card-text class="text-card">Max points: {{  maxPoints }}</v-card-text>
       <v-card-text class="text-card">Deadline: {{ charon.defense_deadline }}</v-card-text>
       <v-card-text class="text-card">Students total: {{ noOfStudents }}</v-card-text>
-      <v-card-text class="text-card">Students started: {{ submission_counts['diff_users'] }}</v-card-text>
-      <v-card-text class="text-card">Students not started: {{ noOfStudents - submission_counts['diff_users'] }}</v-card-text>
-      <v-card-text class="text-card">Students defended: {{ submission_counts['defended_amount'] }}</v-card-text>
-      <v-card-text class="text-card">Students not defended: {{ submission_counts['diff_users'] - submission_counts['defended_amount'] }}</v-card-text>
+      <v-card-text class="text-card">Students started: {{ general_information.studentsStarted }}</v-card-text>
+      <v-card-text class="text-card">Students not started: {{ noOfStudents - general_information.studentsStarted }}</v-card-text>
+      <v-card-text class="text-card">Students defended: {{ general_information.studentsDefended }}</v-card-text>
+      <v-card-text class="text-card">Students not defended: {{ general_information.studentsStarted - general_information.studentsDefended }}</v-card-text>
       <v-card-text class="text-card">Registered for defense: {{  uniqueStudents.length }}</v-card-text>
-      <v-card-text class="text-card">Average defended points: {{ submission_counts['avg_defended_grade'] | avgDefGradeFilter }}</v-card-text>
+      <v-card-text class="text-card">Average defended points: {{ general_information.avgDefenseGrade | avgDefGradeFilter }}</v-card-text>
     </v-card>
     <v-card class="ges-card" v-else>
       <v-card-text class="text-card"> {{  noDataToShow }} </v-card-text>
@@ -28,7 +28,7 @@ export default {
 
   components: {PopupSection},
 
-  props: ['charon', 'submission_counts'],
+  props: ['charon', 'general_information'],
 
   data() {
     return {

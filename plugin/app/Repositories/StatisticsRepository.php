@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 use TTU\Charon\Facades\MoodleConfig;
 
 
@@ -122,5 +123,72 @@ class StatisticsRepository
         ORDER BY time;
         "
         ));
+    }
+
+    /**
+     * Find all required general information for given charon
+     *
+     * @param int $charonId
+     *
+     * @return false|string
+     */
+    public function getCharonGeneralInformation(int $charonId)
+    {
+        $generalInformation = new stdClass();
+        $defenseItemNumber = 1001;
+
+        Log::debug(print_r($generalInformation, true));
+
+        // find charon category id
+        $categoryId = DB::table('charon')
+            ->where('id', $charonId)
+            ->pluck('category_id');
+
+        Log::debug(print_r($categoryId, true));
+
+        // find defense grade_item ids that belong to this charon
+        $defenseGradeItemIds = DB::table('grade_items')
+            ->select('id')
+            ->whereNotNull('categoryid')
+            ->where('categoryid', $categoryId)
+            ->where('itemnumber', $defenseItemNumber)
+            ->pluck('id');
+
+        Log::debug(print_r($defenseGradeItemIds, true));
+
+        // find amount students that have at least one submission
+        $studentsStarted = DB::table('charon_submission')
+            ->where('charon_id', $charonId)
+            ->distinct()
+            ->count('user_id');
+
+        Log::debug(print_r($studentsStarted, true));
+
+        // find amount students that have defended (def grade > 0)
+        $studentsDefended = DB::table('grade_grades')
+            ->whereIn('itemid', $defenseGradeItemIds)
+            ->whereNotNull('finalgrade')
+            ->where('finalgrade', '>', 0)
+            ->count();
+
+        Log::debug(print_r($studentsDefended, true));
+
+        // find average defense grade
+        $avgDefenseGrade = DB::table('grade_grades')
+            ->whereIn('itemid', $defenseGradeItemIds)
+            ->whereNotNull('finalgrade')
+            ->where('finalgrade', '>', 0)
+            ->avg('finalgrade');
+
+        Log::debug(print_r($avgDefenseGrade, true));
+
+        // add values to object
+        $generalInformation->studentsStarted = $studentsStarted;
+        $generalInformation->studentsDefended = $studentsDefended;
+        $generalInformation->avgDefenseGrade = $avgDefenseGrade;
+
+        Log::debug(print_r($generalInformation, true));
+
+        return json_encode($generalInformation);
     }
 }
