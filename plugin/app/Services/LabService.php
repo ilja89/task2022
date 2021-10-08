@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
@@ -76,8 +77,12 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
-        //get list of registrations
-        $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabIdReduced($lab->id);
+        //get list of registrations. If lab started, then only waiting
+        if (Carbon::now() >= $lab->start){
+            $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsWithWaitingStatsIfLabStartedReduced($lab->id);
+        } else {
+            $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsIfLabNotStartedReduced($lab->id);
+        }
 
         //get number of teachers assigned to lab
         $teachers_num = $this->labTeacherRepository->countLabTeachers($lab->id);
