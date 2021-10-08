@@ -1,19 +1,5 @@
 <template>
     <v-card class="mx-auto" max-width="70vw" outlined raised>
-
-        <v-card>
-            <v-container v-if="activeFileId" class="gray-part">
-                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment" maxlength="10000"
-                          placeholder="Write a comment for the selected code (visible for the student)">
-                </textarea>
-                <v-btn class="review-comment-button ma-2" tile outlined color="primary"
-                       :disabled="!newReviewComment" @click="addReviewComment">
-                    Add comment
-                </v-btn>
-                <input type="checkbox" class="form-control" v-model="notify">
-                    Notify the student about the comment
-            </v-container>
-        </v-card>
         <div
                 class="columns is-gapless code-container"
                 :class="{ 'is-round': isRound }"
@@ -42,6 +28,18 @@
                 <pre class="code" v-highlightjs="activeFile.contents"><code :class="testerType"></code></pre>
             </div>
         </div>
+
+        <v-container v-if="activeFileId" class="gray-part">
+                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment" maxlength="10000"
+                          placeholder="Write a comment for the selected code (visible for the student)">
+                </textarea>
+            <v-btn class="review-comment-button ma-2" tile outlined color="primary"
+                   :disabled="!newReviewComment" @click="addReviewComment">
+                Add comment
+            </v-btn>
+            <input type="checkbox" class="form-control" v-model="notify">
+            Notify the student about the comment
+        </v-container>
     </v-card>
 
 </template>
@@ -316,6 +314,10 @@
 
     .gray-part {
         background-color: darken(#fafafa, 5%);
+    }
+
+    .is-gapless.code-container {
+        margin-bottom: 0;
     }
 
 </style>
