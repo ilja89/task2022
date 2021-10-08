@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   synchronous url
 - \#632 Fixed submissions seeders
 - \#629 Made templates deleting with charon deleting
+- \#553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within the search parameters.
 
 ### Added
 - \#618 Synchronous url can now be set in moodle's charon settings
