@@ -70,15 +70,15 @@
 </div>
 
 <script>
-    let grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
-    let testerType = "{!! $charon->testerType->name !!}";
-    let charonId = {{ $charon->id }};
-    let studentId = {{ $student_id }};
+    var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
+    var testerType = "{!! $charon->testerType->name !!}";
+    var charonId = {{ $charon->id }};
+    var studentId = {{ $student_id }};
 
     window.allow_submission = {{ $charon->allow_submission }};
     window.language = "{!! $charon->testerType->name !!}";
 
-    let translations = {
+    var translations = {
         closeButtonText: "{{ translate('closebuttontitle', 'moodle') }}",
         submissionText: "{{ translate('submission') }}",
         commitMessageText: "{{ translate('commit_message') }}",
