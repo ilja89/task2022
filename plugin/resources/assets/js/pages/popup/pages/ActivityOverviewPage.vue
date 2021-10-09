@@ -92,6 +92,7 @@ export default {
   methods: {
     activitySelected(activity) {
       this.$router.push(this.activityLink(activity.id))
+
       window.location.reload();
     },
   }

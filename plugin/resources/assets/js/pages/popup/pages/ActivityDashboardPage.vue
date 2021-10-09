@@ -3,7 +3,7 @@
 
     <page-title :title="charonName"></page-title>
 
-    <general-information-section :charon="charon" :general_information="general_information"></general-information-section>
+    <general-information-section :general_information="general_information"></general-information-section>
 
     <dashboard-latest-submissions-section :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
 
@@ -38,7 +38,6 @@ export default {
 
   data() {
     return {
-      charon: {},
       submission_counts: [],
       latestSubmissions: [],
       defenseList: [],
@@ -53,6 +52,7 @@ export default {
 
   computed: {
     ...mapState([
+      "charon",
       "course",
     ]),
 
@@ -73,6 +73,21 @@ export default {
     }
   },
 
+  watch: {
+    charon() {
+      this.$router.replace({params: {charon_id: this.charon.id}}).catch(err => {
+        // Ignore the vuex err regarding navigating to the page they are already on.
+        if (
+            err.name !== 'NavigationDuplicated' &&
+            !err.message.includes('Avoided redundant navigation to current location')
+        ) {
+          // But print any other errors to the console
+          VueEvent.$emit('show-notification', 'Navigation error ($router.replace).\n' + err, 'danger');
+        }
+      });
+    },
+  },
+
   metaInfo() {
     return {
       title: `${'Charon -' + this.charonName}`
@@ -90,7 +105,7 @@ export default {
   methods: {
     getCharon() {
       Charon.getById(this.routeCharonId, response => {
-        this.charon = response
+        this.$store.state.charon = response
       })
     },
 

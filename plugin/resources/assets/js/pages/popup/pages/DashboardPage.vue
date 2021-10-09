@@ -27,7 +27,7 @@
     export default {
         data() {
           return {
-            title: "dashboard-page",
+            title: `${'Charon dashboard - ' + window.course_name}`,
           }
         },
 
