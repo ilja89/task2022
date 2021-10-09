@@ -222,8 +222,7 @@ class DefenceRegistrationService
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
             $studentId,
             $charonId,
-            $lab->start,
-            $lab->end
+            $lab->id
         );
 
         if ($pendingStudentDefences > 0) {
@@ -257,8 +256,7 @@ class DefenceRegistrationService
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
             $studentId,
             $charonId,
-            $lab->start,
-            $lab->end
+            $lab->id
         );
 
         if ($pendingStudentDefences > 0) {
