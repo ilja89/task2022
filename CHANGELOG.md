@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #589 Added the ability for teachers to add feedback for students' submissions
 - #635 Backup and restore possibility for charon_review_comment table
 
+## [1.5.3] - 2021-10-08
+
+### Fixed
+- #662 "Inline" submissions "user" is defined by currently logged user
+
 ## [1.5.2] - 2021-09-23
 
 ### Fixed
