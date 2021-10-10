@@ -4,7 +4,6 @@ namespace Zeizig\Moodle\Services;
 
 use Illuminate\Support\Facades\Log;
 use Zeizig\Moodle\Models\User;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class UserService.
