@@ -24,15 +24,6 @@ class Charon {
         })
     }
 
-    static allWithLabs(courseId, then) {
-        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/charons/with/labs')
-            .then(response => {
-                then(response.data)
-            }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Charons with labs.\n' + error, 'danger')
-        })
-    }
-
     static getTesterLanguage(testerTypeCode, courseId) {
         return window.axios.get(Charon.getRoot() + '/courses/'+ courseId +'/testerType/' + testerTypeCode)
             .then(response => {

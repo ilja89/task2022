@@ -26,8 +26,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
-    Route::middleware('auth.course.managing.require') // all charons by id and attached with ongoing and upcoming labs
-        ->get('courses/{course}/charons/with/labs', 'CharonsController@getByCourseIdWithLabs');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id

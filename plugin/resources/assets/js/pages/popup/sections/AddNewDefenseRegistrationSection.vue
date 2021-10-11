@@ -108,7 +108,7 @@
     },
 
     created() {
-      Charon.allWithLabs(this.course.id, (response) => {
+      Charon.all(this.course.id, (response) => {
         this.charons = response;
       });
 

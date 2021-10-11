@@ -225,19 +225,18 @@ class CharonRepository
     }
 
     /**
-     * Find all Charons in course with given id. Also loads deadlines,
-     * grademaps with grade items.
+     * Find all Charons in course with given identifier. Also loads deadlines,
+     * grademaps with grade items, and labs.
      *
      * @param integer $courseId
      *
      * @return Charon[]
      */
-    public function findCharonsByCourse($courseId)
+    public function findCharonsByCourse(int $courseId): array
     {
         $moduleId = $this->moduleService->getModuleId();
 
-        $charons = \DB::table('charon')
-            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
+        $charons = Charon::leftJoin('course_modules', 'course_modules.instance', 'charon.id')
             ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('charon.course', $courseId)
             ->where('course_modules.module', $moduleId)
@@ -265,7 +264,8 @@ class CharonRepository
                 'charon.system_extra'
             )
             ->orderBy('charon.name')
-            ->get();
+            ->get()
+            ->all();
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
@@ -292,6 +292,8 @@ class CharonRepository
             ])
                 ->where('charon_id', $charon->id)
                 ->get();
+
+            $charon->labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charon->id);
         }
 
         return $charons;

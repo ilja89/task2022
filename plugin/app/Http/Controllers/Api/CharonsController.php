@@ -43,21 +43,9 @@ class CharonsController extends Controller
         $this->logParser = $logParser;
     }
 
-    /**
-     * Get Charons by course.
-     *
-     * @param Course $course
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|Charon[]
-     */
-    public function getByCourse(Course $course)
+    public function getByCourse(Course $course): array
     {
-        return $this->charonRepository->findCharonsByCourse($course->id);
-    }
-
-    public function getByCourseIdWithLabs(Course $course): array
-    {
-        return $this->charonService->findCharonsByCourseIdWithLabs($course->id);
+        return $this->charonService->findCharonsByCourseId($course->id);
     }
 
     /**
