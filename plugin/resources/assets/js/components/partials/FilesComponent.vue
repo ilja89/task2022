@@ -49,7 +49,7 @@
 <script>
 
     import FileTree from './FileTree'
-    import {ReviewComment} from "../../api";
+    import {ReviewComment, Email} from "../../api";
     import {mapState} from "vuex";
 
     export default {
@@ -207,6 +207,19 @@
                 }
             },
 
+            sendEmail() {
+              Email.sendEmailFromTeacherToStudent(
+                  this.submission.user_id,
+                  'test_subject',
+                  'test_message_text',
+                  'test_message_html',
+                  this.charon.id,
+                  () => {
+                    VueEvent.$emit('show-notification', 'Email sent!')
+                  }
+              )
+            },
+
             addReviewComment() {
                 if (!this.newReviewComment || !this.newReviewComment.trim().length) {
                     VueEvent.$emit('show-notification', 'Please add content to the comment.')
@@ -217,6 +230,14 @@
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment added!')
                     this.$root.$emit('refresh_submission_files')
+
+                    if (this.notify) {
+                      if (!this.submission) {
+                        VueEvent.$emit('show-notification', 'Submission file not yet loaded. Unable to retrive user id!')
+                      } else {
+                        this.sendEmail()
+                      }
+                    }
                 });
             },
         },
