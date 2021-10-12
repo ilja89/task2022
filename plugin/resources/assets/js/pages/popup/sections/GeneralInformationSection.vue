@@ -9,7 +9,7 @@
 
     <v-card class="ges-card" v-if="general_information">
       <v-card-text class="text-card">Max points: {{  maxPoints }}</v-card-text>
-      <v-card-text class="text-card">Deadline: {{ charon ? charon.defense_deadline : 'Unable to display deadline' }}</v-card-text>
+      <v-card-text class="text-card">Deadline: {{ firstDeadline }}</v-card-text>
       <v-card-text class="text-card">Students total: {{ noOfStudents }}</v-card-text>
       <v-card-text class="text-card">Students started: {{ general_information.studentsStarted }}</v-card-text>
       <v-card-text class="text-card">Students not started: {{ noOfStudents - general_information.studentsStarted }}</v-card-text>
@@ -69,20 +69,30 @@ export default {
     },
 
     maxPoints() {
-      let thisCharon = {};
       if (this.$store.state.charons) {
-        const charons = this.$store.state.charons;
-        for (let charonIndex in charons) {
-          if (charons[charonIndex].id === parseInt(this.$route.params.charon_id)) {
-            thisCharon = charons[charonIndex];
-          }
-        }
+        let thisCharon = this.getThisCharon();
         if (thisCharon['grademaps']) {
           let maxPoints = thisCharon['grademaps']['0']['grade_item']['grademax'];
           return parseFloat(maxPoints).toFixed(2);
         }
       }
       return ''
+    },
+
+    firstDeadline() {
+      if (this.$store.state.charons){
+        let deadline = null;
+        let thisCharon = this.getThisCharon();
+        if (thisCharon.deadlines){
+          thisCharon.deadlines.forEach(newDeadline =>{
+            if (deadline === null || newDeadline.deadline_time < deadline) {
+              deadline = newDeadline.deadline_time;
+            }
+          })
+        }
+        return deadline ? deadline.toLocaleString() : 'No deadline for this charon';
+      }
+      return 'Unable to display deadline';
     }
   },
 
@@ -107,6 +117,17 @@ export default {
       } else {
         return false
       }
+    },
+
+    getThisCharon(){
+      let thisCharon = {};
+      const charons = this.$store.state.charons;
+      for (let charonIndex in charons) {
+        if (charons[charonIndex].id === parseInt(this.$route.params.charon_id)) {
+          thisCharon = charons[charonIndex];
+        }
+      }
+      return thisCharon;
     }
   },
 
