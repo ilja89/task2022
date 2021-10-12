@@ -48,29 +48,20 @@ class DefenseRegistrationControllerTest extends TestCase
             'user_id' => 3,
             'submission_id' => 5,
             'charon_id' => 7,
-            'defense_lab_id' => 13
+            'defense_lab_id' => 13,
+            'progress' => null,
         ]);
 
         $lab = new Lab();
         $lab->id = 19;
 
-        $this->defenseLabRepository
-            ->shouldReceive('getLabByDefenseLabId')
-            ->once()
-            ->with(13)
-            ->andReturn($lab);
-
         $this->registrationService
-            ->shouldReceive('validateRegistration')
+            ->shouldReceive('registerDefence')
             ->once()
-            ->with(3, 7, $lab);
+            ->with(3, 7, 13, 5, null)
+            ->andReturn('inserted');
 
-        $this->registrationService
-            ->shouldReceive('registerDefenceTime')
-            ->once()
-            ->with(3, 5, 7, 13);
-
-        $response = $this->controller->studentRegisterDefence($request);
+        $response = $this->controller->registerDefence($request);
 
         $this->assertEquals('inserted', $response);
     }

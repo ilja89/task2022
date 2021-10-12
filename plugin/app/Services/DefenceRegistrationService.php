@@ -328,7 +328,13 @@ class DefenceRegistrationService
     }
 
     /**
-     * Teacher registers a student's submission for a defense and puts it into a queue.
+     * Registers a student for a defence. If submission identifier is null then tries to find it.
+     *
+     * Throws if:
+     *  given charon setup is invalid;
+     *  user already has a defence registered for given charon in given lab;
+     *  not enough time left for given charon;
+     *  student does not have an eligible submission in given charon.
      *
      * @param int $studentId
      * @param int $charonId
