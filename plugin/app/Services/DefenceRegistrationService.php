@@ -333,20 +333,27 @@ class DefenceRegistrationService
      * @param int $studentId
      * @param int $charonId
      * @param int $defenseLabId
+     * @param ?int $submissionId
      * @param ?string $progress
      *
      * @return string
      * @throws RegistrationException
      */
-    public function teacherRegisterDefense(
+    public function registerDefence(
         int $studentId,
         int $charonId,
         int $defenseLabId,
+        ?int $submissionId,
         ?string $progress = null
     ): string {
+
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-        $charon = $this->charonService->getCharonById($charonId);
-        $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
+
+        if ($submissionId === null) {
+            $charon = $this->charonService->getCharonById($charonId);
+            $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
+        }
+
         $this->validateRegistration($studentId, $charonId, $lab);
 
         $this->registerDefenceTime(

@@ -60,42 +60,15 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Student registers their submission for a defense and puts it into a queue.
-     *
-     * @param Request $request
-     *
-     * @return string
      * @throws RegistrationException
      */
-    public function studentRegisterDefence(Request $request): string
+    public function registerDefence(Request $request): string
     {
-        $studentId = $request->input('user_id');
-        $submissionId = $request->input('submission_id');
-        $charonId = $request->input('charon_id');
-        $defenseLabId = $request->input('defense_lab_id');
-
-        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-        $this->registrationService->validateRegistration($studentId, $charonId, $lab);
-
-        $this->registrationService->registerDefenceTime(
-            $studentId,
-            $submissionId,
-            $charonId,
-            $defenseLabId
-        );
-
-        return 'inserted';
-    }
-
-    /**
-     * @throws RegistrationException
-     */
-    public function teacherRegisterDefense(Request $request): string
-    {
-        return $this->registrationService->teacherRegisterDefense(
+        return $this->registrationService->registerDefence(
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
+            $request->input('submission_id'),
             $request->input("progress")
         );
     }

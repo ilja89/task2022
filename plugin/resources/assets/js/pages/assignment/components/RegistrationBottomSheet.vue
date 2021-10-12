@@ -63,6 +63,7 @@ import {mapState} from "vuex";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import LoadingContainer from "../graphics/LoadingContainer";
 import getLabList from "../../../filters/getLabList";
+import {Defense} from "../../../api";
 
 export default {
 
@@ -91,19 +92,19 @@ export default {
         }
     },
 
-  filters: {
+    filters: {
         getLabList
-      },
+    },
 
-  computed: {
-    ...mapState([
-      'charon_id',
-      'student_id',
-      'registrations',
-      'charon',
-      'labs'
-    ]),
-  },
+    computed: {
+        ...mapState([
+            'charon_id',
+            'student_id',
+            'registrations',
+            'charon',
+            'labs'
+        ]),
+    },
 
 
     methods: {
@@ -128,27 +129,20 @@ export default {
         sendData() {
             if (this.value !== null) {
                 this.busy = true;
-                axios.post(`api/charons/${this.charon.id}/submission?user_id=${this.student_id}`, {
-                    charon_id: this.charon.id,
-                    submission_id: this.submission.id,
-                    defense_lab_id: this.value['defense_lab_id'],
-                }).then(() => {
-                    VueEvent.$emit('show-notification', "Registration was successful!", 'primary')
-                    this.isActive = false
-                }).catch(error => {
-                    if (error.response && error.response.data && error.response.data.title) {
-                        VueEvent.$emit('show-notification', error.response.data.title + ' ' + error.response.data.detail, 'danger')
-                    } else {
-                        console.error(error);
-                        VueEvent.$emit('show-notification', 'Unexpected error, please try again', 'danger')
-                    }
-                }).finally(() => {
-                    this.getDefenseData();
-                    this.busy = false;
-                })
+                Defense.register(this.charon.id, this.student_id, this.value['defense_lab_id'],
+                    this.submission.id, null, () => {
+                        VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
+                        this.isActive = false;
+                        this.endLoading();
+                    });
             } else {
-                VueEvent.$emit('show-notification', "Needed parameters weren't inserted!", 'danger')
+                VueEvent.$emit('show-notification', "Needed parameters weren't inserted!", 'danger');
             }
+        },
+
+        endLoading() {
+            this.getDefenseData();
+            this.busy = false;
         },
 
     //filter imported above, used as method too, because for "custom-label" function is required.
@@ -172,6 +166,11 @@ export default {
         }
 
         this.hasPoints = getSubmissionWeightedScore(this.submission) >= this.charon['defense_threshold'];
-    }
+        VueEvent.$on('student-register-end-loading', this.endLoading);
+    },
+
+    beforeDestroy() {
+        VueEvent.$off('student-register-end-loading');
+    },
 }
 </script>
