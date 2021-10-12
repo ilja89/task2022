@@ -11,5 +11,5 @@ export default function getLabList({start, name, defenders_num, estimated_start_
         (estimated_start_time
             ? defenders_num + " defences in queue - est. defence time: " +
                 new Date(estimated_start_time).toLocaleTimeString(locales, timeOptions)
-            : "Fully booked");
+            : "Not enough time left in lab queue");
 }

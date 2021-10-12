@@ -89,9 +89,10 @@ return [
         'detail' => 'If you want to choose another time, then you should delete your previous time (My registrations button)',
     ],
 
-    'queue_full' => [
-        'title' => 'The lab you tried to register your defense to is full.',
-        'detail' => '',
+    'not_enough_time' => [
+        'title' => 'Not enough time left in lab queue.',
+        'detail' => 'The lab you tried to register your defense to ' .
+            'does not have enough time left to defend this charon.',
     ],
 
     'invalid_setup' => [

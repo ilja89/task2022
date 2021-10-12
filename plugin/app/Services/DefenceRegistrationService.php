@@ -196,7 +196,7 @@ class DefenceRegistrationService
         }
 
         if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
-            throw new RegistrationException("queue_full");
+            throw new RegistrationException("not_enough_time");
         }
 
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
