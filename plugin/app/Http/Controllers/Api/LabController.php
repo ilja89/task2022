@@ -208,7 +208,6 @@ class LabController extends Controller
      */
     public function getLabQueueStatus(Charon $charon, CharonDefenseLab $defenseLab)
     {
-        $lab = $defenseLab->lab;
-        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $lab);
+        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $defenseLab->lab);
     }
 }
