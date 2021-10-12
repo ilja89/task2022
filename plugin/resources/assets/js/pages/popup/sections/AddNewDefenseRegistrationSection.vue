@@ -91,6 +91,7 @@
             null, this.progress, () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
               router.push('defenseRegistrations');
+              VueEvent.$emit('refresh-page');
             });
         } else {
           VueEvent.$emit('show-notification', "Needed fields were not filled!", 'danger');

@@ -137,10 +137,6 @@
             })
         },
 
-        watch: {
-            '$route': 'fetchRegistrations'
-        },
-
         beforeDestroy() {
             VueEvent.$off('refresh-page', this.fetchRegistrations)
         },
