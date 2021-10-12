@@ -99,7 +99,7 @@
 
       updateFields() {
         if (this.item.charon) {
-          this.labs = this.item.charon.labs;
+          this.labs = this.item.charon.defense_labs;
           if (this.item.lab) {
             this.item.lab = null;
           }

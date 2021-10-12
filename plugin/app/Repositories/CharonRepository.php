@@ -269,7 +269,7 @@ class CharonRepository
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-            $charon->defense_labs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
+            $charon->defense_labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(
@@ -293,7 +293,6 @@ class CharonRepository
                 ->where('charon_id', $charon->id)
                 ->get();
 
-            $charon->labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charon->id);
         }
 
         return $charons;
