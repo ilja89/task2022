@@ -2,9 +2,9 @@
   <v-card class="mx-auto mb-4">
     <v-card-text class="grey lighten-4">
       <v-container class="spacing-playground pa-3" fluid>
-<!--        <v-card-title>-->
-<!--          {{ translate('queueText') }}-->
-<!--        </v-card-title>-->
+        <v-card-title>
+          {{ translate('queueText') }}
+        </v-card-title>
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
@@ -44,16 +44,16 @@ export default {
     return {
       teachersLiveQueueTestItems: [
         {
-          teacher: 'Teacher 1', charons: 'ex03', count: 1, availability: 'Defending'
+          teacher: 'Teacher 1', charons: 'ex03', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 2', charons: 'ex01, ex03', count: 2, availability: 'Defending'
+          teacher: 'Teacher 2', charons: 'ex01, ex03', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 3', charons: 'ex02', count: 1, availability: 'Defending'
+          teacher: 'Teacher 3', charons: 'ex02', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 4', charons: '', count: 0, availability: 'Free'
+          teacher: 'Teacher 4', charons: '', availability: 'Free'
         },
       ],
       teachersLiveQueueHeaders: [
@@ -68,21 +68,11 @@ export default {
         {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
-      intervalOne: null,
-      intervalTwo: null,
+      timer: ''
     }
   },
-  watch: {
-    queueInterval: function (queueInterval){
-      if (queueInterval === true){
-        this.intervalOne = setInterval(this.updateDataLiveQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
-        this.intervalTwo = setInterval(this.updateDataPlaceInQueue, 5000); //timeout for testing is 5 sec! in integration issue choose reasonable time!
-      }
-      if (queueInterval === false){
-        clearInterval(this.intervalOne);
-        clearInterval(this.intervalTwo);
-      }
-    }
+  created () {
+    this.timer = setInterval(this.dataUpdate, 15000);
   },
   methods: {
     dataUpdate(){
@@ -92,28 +82,29 @@ export default {
     updateDataLiveQueue(){
       this.teachersLiveQueueTestItems = [
         {
-          teacher: 'Teacher 1', name: 'charon1', duration: '00:15', start_time: '15:00',
+          teacher: 'Teacher 1', charons: 'ex02', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 2', name: 'ch4', duration: '00:25', start_time: '15:10',
+          teacher: 'Teacher 2', charons: 'ex01', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 3', name: '', duration: '', start_time: '',
+          teacher: 'Teacher 3', charons: '', availability: 'Free'
+        },
+        {
+          teacher: 'Teacher 4', charons: '', availability: 'Free'
         },
       ]
     },
     updateDataPlaceInQueue(){
-      this.testItems = [
-        {
-          queue_nr: 1,
-          name: 'charon name',
-          estimated_start_time: '16.09.2021 12:20',
-          student: 'student name',
-        },
-      ]
+      this.testItems = []
     },
-
+    cancelAutoUpdate () {
+      clearInterval(this.timer);
+    }
   },
+  beforeDestroy () {
+    this.cancelAutoUpdate();
+  }
 }
 </script>
 
