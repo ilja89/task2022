@@ -3,8 +3,8 @@
                    subtitle="Here are the latest submissions for all tasks in this course">
         <div class="latest-submissions">
             <transition-group name="list">
-                <div v-for="(submissionChunk, index) in latestSubmissionsChunks" v-bind:key="submissionChunk" class="columns">
-                    <div v-for="(submission, index) in submissionChunk" v-bind:key="submission" class="column">
+                <div v-for="(submissionChunk) in latestSubmissionsChunks" v-bind:key="submissionChunk.id" class="columns">
+                    <div v-for="(submission, index) in submissionChunk" v-bind:key="index" class="column">
                       <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
                                 <span class="submission-line">
@@ -52,18 +52,22 @@
             latestSubmissionsChunks() {
                 const chunkSize = 2
 
+                let chunkIndex = 0
                 let chunks = []
                 let chunk = []
                 this.latestSubmissions.forEach(submission => {
                     if (chunk.length < chunkSize) {
                         chunk.push(submission)
                     } else {
+                        chunk.id = chunkIndex
                         chunks.push(chunk)
                         chunk = [submission]
+                        chunkIndex++
                     }
                 })
 
                 if (chunk.length) {
+                    chunk.id = chunkIndex
                     chunks.push(chunk)
                 }
 

@@ -21,6 +21,7 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
         $paths[] = new restore_path_element('charon', '/activity/charon');
         $paths[] = new restore_path_element('charon_deadline', '/activity/charon/deadlines/deadline');
         $paths[] = new restore_path_element('charon_grademap', '/activity/charon/grademaps/grademap');
+        $paths[] = new restore_path_element('charon_template', '/activity/charon/templates/template');
 
         if ($userInfo) {
             $paths[] = new restore_path_element('charon_teacher_comment', '/activity/charon/teacher_comments/teacher_comment');
@@ -28,6 +29,9 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
             $paths[] = new restore_path_element('charon_result', '/activity/charon/submissions/submission/results/result');
             $paths[] = new restore_path_element(
                 'charon_submission_file', '/activity/charon/submissions/submission/submission_files/submission_file'
+            );
+            $paths[] = new restore_path_element( 'charon_review_comment',
+                '/activity/charon/submissions/submission/submission_files/submission_file/review_comments/review_comment'
             );
         }
 
@@ -109,6 +113,21 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
      * @param $data
      * @throws dml_exception
      */
+    protected function process_charon_template($data)
+    {
+        global $DB;
+
+        $data = (object) $data;
+
+        $data->charon_id = $this->get_new_parentid('charon');
+
+        $DB->insert_record('charon_template', $data);
+    }
+
+    /**
+     * @param $data
+     * @throws dml_exception
+     */
     protected function process_charon_teacher_comment($data)
     {
         global $DB;
@@ -168,9 +187,27 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
         global $DB;
 
         $data = (object) $data;
+        $oldId = $data->id;
 
         $data->submission_id = $this->get_new_parentid('charon_submission');
 
-        $DB->insert_record('charon_submission_file', $data);
+        $newItemId = $DB->insert_record('charon_submission_file', $data);
+        $this->set_mapping('charon_submission_file', $oldId, $newItemId);
+
+    }
+
+    /**
+     * @param $data
+     * @throws dml_exception
+     */
+    protected function process_charon_review_comment($data)
+    {
+        global $DB;
+
+        $data = (object) $data;
+
+        $data->submission_file_id = $this->get_new_parentid('charon_submission_file');
+
+        $DB->insert_record('charon_review_comment', $data);
     }
 }

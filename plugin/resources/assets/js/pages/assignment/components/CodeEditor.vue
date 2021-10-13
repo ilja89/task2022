@@ -63,7 +63,9 @@ export default {
   },
   mounted() {
     VueEvent.$on('change-editor', (codes) => {
-      this.content = codes[this.codeId].contents
+      if (codes[this.codeId]){
+        this.content = codes[this.codeId].contents
+      }
     });
     VueEvent.$on('tab-was-changed', (selectedTab) => {
       const editor = ace.edit(selectedTab);
