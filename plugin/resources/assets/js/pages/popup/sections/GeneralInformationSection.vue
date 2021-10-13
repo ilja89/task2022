@@ -29,6 +29,7 @@ import {PopupSection} from "../layouts";
 import { CharonSelect } from '../partials';
 import {Defense, Course} from "../../../api/index"
 import {mapGetters, mapState} from "vuex";
+import moment from "moment";
 
 export default {
   name: "GeneralInformationSection",
@@ -90,7 +91,7 @@ export default {
             }
           })
         }
-        return deadline ? deadline.toLocaleString() : 'No deadline for this charon';
+        return deadline ? this.formatDate(deadline) : 'No deadline for this charon';
       }
       return 'Unable to display deadline';
     }
@@ -128,7 +129,11 @@ export default {
         }
       }
       return thisCharon;
-    }
+    },
+
+    formatDate(date) {
+      return moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
+    },
   },
 
   created() {
