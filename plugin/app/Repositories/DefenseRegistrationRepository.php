@@ -219,18 +219,17 @@ class DefenseRegistrationRepository
             )->orderBy('lab_id'
             )->orderBy('charon_defenders.id');
 
-        /* currently breaks the query and awaits its destiny
         if ($after != 'null' && $before != 'null') {
-            $query->whereRaw('choosen_time BETWEEN ? AND ?', [
+            $query->whereRaw('end >= ? AND start <= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         } elseif ($after != 'null') {
-            $query->whereRaw('choosen_time >= ?', [
+            $query->whereRaw('end >= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
             ]);
         } elseif ($before != 'null') {
-            $query->whereRaw('choosen_time <= ?', [
+            $query->whereRaw('start <= ?', [
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
@@ -306,5 +305,5 @@ class DefenseRegistrationRepository
             ->distinct()
             ->get();
     }
-
 }
+
