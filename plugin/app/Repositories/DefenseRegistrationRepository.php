@@ -233,7 +233,7 @@ class DefenseRegistrationRepository
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
-        */
+
         if ($teacher_id != 'null') {
             $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
         }
