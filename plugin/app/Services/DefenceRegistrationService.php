@@ -191,6 +191,17 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
+        $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
+            $studentId,
+            $charonId,
+            $lab->start,
+            $lab->end
+        );
+
+        if ($pendingStudentDefences > 0) {
+            throw new RegistrationException('user_in_db');
+        }
+
         $registrations = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
         $totalOfDefenses = 0;
         $labDurationInterval = $lab->start->diff($lab->end);
@@ -203,17 +214,6 @@ class DefenceRegistrationService
 
         if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
             throw new RegistrationException("queue_full");
-        }
-
-        $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
-            $studentId,
-            $charonId,
-            $lab->start,
-            $lab->end
-        );
-
-        if ($pendingStudentDefences > 0) {
-            throw new RegistrationException('user_in_db');
         }
     }
 
