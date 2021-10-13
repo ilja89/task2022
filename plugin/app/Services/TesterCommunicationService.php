@@ -10,7 +10,7 @@ use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
-use TTU\Charon\Repositories\UserRepository;
+use Zeizig\Moodle\Models\User;
 
 /**
  * Class TesterCommunicationService.
@@ -28,9 +28,6 @@ class TesterCommunicationService
     /** @var CharonRepository */
     private $charonRepository;
 
-    /** @var UserRepository */
-    private $userRepository;
-
     /** @var GitCallbackService */
     private $callbackService;
 
@@ -40,21 +37,18 @@ class TesterCommunicationService
      * @param HttpCommunicationService $httpCommunicationService
      * @param CharonRepository $charonRepository
      * @param CourseSettingsRepository $courseSettingsRepository
-     * @param UserRepository $userRepository
      * @param GitCallbackService $callbackService
      */
     public function __construct(
         HttpCommunicationService $httpCommunicationService,
         CharonRepository $charonRepository,
         CourseSettingsRepository $courseSettingsRepository,
-        UserRepository $userRepository,
         GitCallbackService $callbackService
     )
     {
         $this->httpCommunicationService = $httpCommunicationService;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->charonRepository = $charonRepository;
-        $this->userRepository = $userRepository;
         $this->callbackService = $callbackService;
     }
 
@@ -107,17 +101,17 @@ class TesterCommunicationService
      *
      * @return AreteRequestDto
      */
-    public function prepareAreteRequest (int $charonId, int $userId, array $sourceFiles): AreteRequestDto
+    public function prepareAreteRequest (int $charonId, User $user, array $sourceFiles): AreteRequestDto
     {
         $charon = $this->charonRepository->getCharonById($charonId);
 
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
-        $user = $this->userRepository->find($userId);
         $username = strtok($user->username, "@");
         if ($charon->grouping_id != null) {
             $associatedUsers = $this->callbackService->getGroupUsers($charon->grouping_id,
                 $username);
+            unset($associatedUsers[array_search($username, $associatedUsers)]);
         } else {
             $associatedUsers = [];
         }

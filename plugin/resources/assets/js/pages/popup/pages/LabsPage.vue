@@ -57,6 +57,15 @@
                 }
             }
 
-        }
+        },
+
+        mounted: function () {
+            this.$root.$on('refresh_labs', () => {
+                Lab.all(this.course.id, labs => {
+                    this.labs = labs;
+                })
+            })
+          }
+
     }
 </script>
