@@ -7,33 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-- #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
+- \#618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
-- \#553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within the search parameters.
-- #632 Fixed submissions seeders
-- #629 Made templates deleting with charon deleting
-- #625 Fixed templates to be also backupable
-- #610 Fixed most of the vue warnings which are shown in console
-- #662 "Inline" submissions "user" is defined by currently logged user
+- \#632 Fixed submissions seeders
+- \#629 Made templates deleting with charon deleting
+- \#625 Fixed templates to be also backupable
+- \#610 Fixed most of the vue warnings which are shown in console
+- \#662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
-- #618 Synchronous url can now be set in moodle's charon settings
-- #619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
+- \#618 Synchronous url can now be set in moodle's charon settings
+- \#619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
   the button, while it makes the request and waits for a response
-- #604 Now only last "latest" submission will be highlighted
-- #638 Added css so that when tester returns styled output, it will be displayed that way
-- #589 Added the ability for teachers to add feedback for students' submissions
-- #635 Backup and restore possibility for charon_review_comment table
-- #514 My registration shows the registration status
-- #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
-- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
-- #504 UI for teacher for registering a student for defence
+- \#604 Now only last "latest" submission will be highlighted
+- \#638 Added css so that when tester returns styled output, it will be displayed that way
+- \#589 Added the ability for teachers to add feedback for students' submissions
+- \#635 Backup and restore possibility for charon_review_comment table
+- \#514 My registration shows the registration status
+- \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
+- \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- \#504 UI for teacher for registering a student for defence
+- \#571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
 
 
 ## [1.5.3] - 2021-10-08
 
 ### Fixed
-- #662 "Inline" submissions "user" is defined by currently logged user
+- \#662 "Inline" submissions "user" is defined by currently logged user
 
 ## [1.5.2] - 2021-09-23
 
@@ -165,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
 
 ## [1.1.3] - 2021-03-16
 
@@ -200,7 +200,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score % 
+- \#394 Submission result colors in Student view are less random and reflect score %
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber
