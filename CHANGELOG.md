@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
 - #662 "Inline" submissions "user" is defined by currently logged user
+- #560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -30,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #504 UI for teacher for registering a student for defence
+- #571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
 
 
 ## [1.5.3] - 2021-10-08
@@ -167,7 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
 
 ## [1.1.3] - 2021-03-16
 
@@ -202,7 +204,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score % 
+- \#394 Submission result colors in Student view are less random and reflect score %
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber
