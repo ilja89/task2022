@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
+- \#553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within the search parameters.
 - #632 Fixed submissions seeders
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
