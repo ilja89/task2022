@@ -7,7 +7,6 @@ use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
-use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Models\GitCallback;
@@ -32,7 +31,6 @@ class TesterCommunicationServiceTest extends TestCase
         $this->service = new TesterCommunicationService($this->communicator,
         Mockery::mock(CharonRepository::class),
         Mockery::mock(CourseSettingsRepository::class),
-        Mockery::mock(UserRepository::class),
         Mockery::mock(GitCallbackService::class));
     }
 
