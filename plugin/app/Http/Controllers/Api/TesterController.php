@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
-use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TesterCommunicationService;
+use Zeizig\Moodle\Globals\User;
 
 class TesterController extends Controller
 {
@@ -20,22 +22,28 @@ class TesterController extends Controller
     /** @var SaveTesterCallback */
     private $saveTesterFlow;
 
+    /** @var SubmissionService */
+    private $submissionService;
+
     /**
      * RetestController constructor.
      *
      * @param TesterCommunicationService $testerCommunicationService
+     * @param SubmissionService $submissionService
      * @param Request $request
      * @param SaveTesterCallback $saveTesterFlow
      */
     public function __construct(
         TesterCommunicationService $testerCommunicationService,
         Request $request,
-        SaveTesterCallback $saveTesterFlow
+        SaveTesterCallback $saveTesterFlow,
+        SubmissionService $submissionService
     )
     {
         parent::__construct($request);
         $this->testerCommunicationService = $testerCommunicationService;
         $this->saveTesterFlow = $saveTesterFlow;
+        $this->submissionService = $submissionService;
     }
 
     /**
@@ -44,25 +52,41 @@ class TesterController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postSubmission(Request $request): JsonResponse
     {
-        Log::info("Inline submission input for the tester: ", [
+        $content = json_decode($request->getContent(), true);
+        $user = app(User::class)->currentUser();
+
+        Log::info("Preparing to send inline submission to tester with: ", [
             'charon' => $request->route('charon'),
-            'userId' => $request->input('userId'),
-            'sourceFiles' => $request->input('sourceFiles'),
-            ]);
+            'userId' => $user->id,
+            'content' => $content
+        ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
-            $request->input('userId'),
-            json_decode(json_encode($request->input('sourceFiles'))));
+            $user,
+            $content['sourceFiles']);
 
-        $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
+        if ($response->getStatus() == 202) {
+            try {
+                $responseSubmission = $this->submissionService
+                    ->prepareSubmissionResponse($this->saveResults($response, $user));
+
+                return response()->json([
+                    'message' => 'Testing the submission was successful',
+                    'submission' => $responseSubmission
+                ]);
+            } catch (Exception $e) {
+                Log::info("Exception when saving results" , ["exception" => $e]);
+            }
+        }
+
         return response()->json([
-            'message' => 'Testing triggered.'
+            'message' => 'Failed to send submission to tester'
         ]);
     }
 
@@ -70,23 +94,18 @@ class TesterController extends Controller
      * Save submission results that come from tester.
      *
      * @param CharonViewTesterCallbackRequest $request
+     * @param \Zeizig\Moodle\Models\User $user
      *
+     * @return Submission
      * @throws Exception
      */
-    public function saveResults(CharonViewTesterCallbackRequest $request)
+    public function saveResults(CharonViewTesterCallbackRequest $request, \Zeizig\Moodle\Models\User $user): Submission
     {
-        Log::info("submissionresults", ["results" => $request]);
-
-        $usernames = collect([$request->input('uniid')])
-            ->merge($request->input('returnExtra.usernames'))
-            ->map(function ($name) { return strtolower($name); })
-            ->unique()
-            ->values()
-            ->all();
-
-        $submission = $this->saveTesterFlow->run($request, new GitCallback(), $usernames,
+        $submission = $this->saveTesterFlow->saveTestersSyncResponse($request, $user,
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);
+
+        return $submission;
     }
 }
