@@ -29,6 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #504 UI for teacher for registering a student for defence
 
 
+## [1.5.3] - 2021-10-08
+
+### Fixed
+- #662 "Inline" submissions "user" is defined by currently logged user
+
 ## [1.5.2] - 2021-09-23
 
 ### Fixed
