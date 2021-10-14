@@ -59,7 +59,6 @@ export default {
       teachersLiveQueueHeaders: [
         {text: this.translate("teacherText"), value: 'teacher'},
         {text: this.translate("defendingCharonsText"), value: 'charons'},
-        {text: this.translate("defendingStudentsCountText"), value: 'count'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
       headers: [

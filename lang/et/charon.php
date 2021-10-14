@@ -203,5 +203,4 @@ $string['queue_status'] = 'Järjekorra olek';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
-$string['defending_students_count'] = 'Tudengite arv';
 $string['availability'] = 'Kättesaadavus';

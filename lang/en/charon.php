@@ -210,7 +210,6 @@ $string['queue_status'] = 'Queue status';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
-$string['defending_students_count'] = 'Students count';
 $string['availability'] = 'Availability';
 $string['teachers_queue'] = 'Defending teachers';
 $string['live_queue'] = 'Students live defence queue';
