@@ -487,4 +487,18 @@ class LabRepository
         }
     }
 
+    /**
+     *
+     * @param int $charonId
+     * @return mixed
+     */
+    public function getLabsWithStartAndEndTimes(int $charonId){
+        return \DB::table('charon_lab')
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+        ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
+            ->get();
+    }
+
 }

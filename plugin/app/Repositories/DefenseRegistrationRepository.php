@@ -311,14 +311,15 @@ class DefenseRegistrationRepository
      * @param int $labId
      * @return mixed
      */
-    public function getListOfLabRegistrationsIfLabNotStartedReduced(int $labId)
+    public function getListOfLabRegistrationsByLabId(int $labId)
     {
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
+            ->where("charon_defenders.progress","Waiting")
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
-            ->orderBy("charon_defenders.id", "asc")
+            ->orderBy("charon_defenders.id")
             ->get()
             ->all();
     }
@@ -327,18 +328,11 @@ class DefenseRegistrationRepository
      * @param int $labId
      * @return mixed
      */
-    public function getListOfLabRegistrationsWithWaitingStatsIfLabStartedReduced(int $labId)
+    public function countDefendersByLab(int $labId)
     {
         return DB::table('charon_defenders')
-            ->join("charon", "charon.id", "charon_defenders.charon_id")
-            ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
-            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
-            ->where("charon_defense_lab.lab_id", $labId)
-            ->where("charon_defenders.progress","Waiting")
-            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
-            ->orderBy("charon_defenders.id", "asc")
-            ->get()
-            ->all();
+            ->where ('defense_lab_id', $labId) //where id of defense lab equals to id of lab sending by function
+            ->count();
     }
 
 }
