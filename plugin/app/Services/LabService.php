@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Zeizig\Moodle\Models\User;
 
@@ -20,32 +21,39 @@ class LabService
     private $labTeacherRepository;
 
     /**
+     * @var LabRepository
+     */
+    private $labRepository;
+
+    /**
      * LabService constructor.
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param LabTeacherRepository $labTeacherRepository
      */
     public function __construct(
         DefenseRegistrationRepository $defenseRegistrationRepository,
-        LabTeacherRepository $labTeacherRepository
+        LabTeacherRepository $labTeacherRepository,
+        LabRepository $labRepository
     ) {
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labTeacherRepository = $labTeacherRepository;
+        $this->labRepository = $labRepository;
     }
 
     /**
      * Function to return time shift array for registrations in labQueueStatus
      *
      * @param $registrations
-     * @param int $teachersNum
+     * @param int $teachersNumber
      * @return array
      */
-    public function getEstimatedTimesToDefenceRegistrations($registrations, int $teachersNum): array
+    public function getEstimatedTimesToDefenceRegistrations($registrations, int $teachersNumber): array
     {
         $estDefTimes = [];
         $defLengths = [];
 
         //fill empty array for teachers
-        $teachers = array_fill(0,$teachersNum,0);
+        $teachers = array_fill(0,$teachersNumber,0);
 
         //get list of defTimes
         foreach ($registrations as $key => $reg) {
@@ -76,14 +84,14 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
-        //get list of registrations
-        $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabIdReduced($lab->id);
+        $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id);
 
-        //get number of teachers assigned to lab
-        $teachers_num = $this->labTeacherRepository->countLabTeachers($lab->id);
+        $teachersNumber = $this->labTeacherRepository->countLabTeachers($lab->id);
 
         //Get lab start time and format date to timestamp
         $labStart = strtotime($lab->start);
+
+        $defRegEstTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachersNumber);
 
         foreach ($registrations as $key => $reg) {
             if($reg->student_id == $user->id) {
@@ -95,16 +103,22 @@ class LabService
             //show position in queue
             $reg->queue_pos = $key+1;
 
-        }
-        $defRegEstTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachers_num);
-
-        //Calculate approximate time and delete not needed variables
-        foreach ($registrations as $key => $reg) {
+            //calculate estimated time
             $reg->approx_start_time = date("d.m.Y H:i", $labStart + $defRegEstTimes[$key] * 60);
+
+            //delete not needed variables
             unset($reg->charon_length);
             unset($reg->student_id);
         }
 
         return $registrations;
+    }
+
+    public function findUpcomingOrActiveLabsByCharon(int $charonId){
+        $result = $this->labRepository->getLabsWithStartAndEndTimes($charonId);
+        foreach ($result as $lab){ //Getting all students-defenders who registered on defense lab
+            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
+        }
+        return $result;
     }
 }
