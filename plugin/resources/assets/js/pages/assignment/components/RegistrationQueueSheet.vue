@@ -2,7 +2,7 @@
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
-          <img alt="queue" height="24px" src="pix/line.png" width="24px">
+        <img alt="queue" height="24px" src="pix/line.png" width="24px">
       </v-btn>
     </template>
     <div>
@@ -51,7 +51,7 @@ export default {
       getQueueStatus: function (){
         this.queueStatus = [];
         Lab.getLabQueueStatus(this.$store.state.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
-            this.queueStatus = queueStatus;
+          this.queueStatus = queueStatus;
         });
         return this.queueStatus;
       }
