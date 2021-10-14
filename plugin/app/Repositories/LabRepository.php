@@ -501,4 +501,18 @@ class LabRepository
             ->get();
     }
 
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getTeachersAndDefendingCharon(int $labId){
+        return \DB::table('charon_defense_lab')
+            ->join('charon_defenders', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
+            ->join('user', 'user.id', 'charon_defenders.teacher_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->where('progress', 'Defending')
+            ->select('firstname' ,'lastname', 'charon.name')
+            ->get();
+    }
+
 }

@@ -92,7 +92,7 @@ class LabService
             $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsIfLabNotStartedReduced($lab->id);
         }
         //get number of teachers assigned to lab
-        $teachers_num = $this->labTeacherRepository->countLabTeachers($lab->id);
+        $teachersNumber = $this->labTeacherRepository->countLabTeachers($lab->id);
 
         //Get lab start time and format date to timestamp
         $labStart = strtotime($lab->start);
@@ -120,6 +120,8 @@ class LabService
         $queueStatus = [];
 
         $queueStatus['registrations'] = $registrations;
+
+        $queueStatus['teachers'] = $this->labRepository->getTeachersAndDefendingCharon($lab->id);
 
         return $queueStatus;
     }
