@@ -53,7 +53,6 @@ class TesterCallbackController extends Controller
     public function index(TesterCallbackRequest $request)
     {
         Log::info("Arete 2.0 callback", [$request->input('returnExtra'),
-            "status" => $request->status(),
             "body" => $request->json()]);
 
         $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
