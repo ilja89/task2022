@@ -95,7 +95,7 @@ export default {
       ]
     },
     updateDataPlaceInQueue(){
-      this.testItems = []
+      this.items = []
     },
     cancelAutoUpdate () {
       clearInterval(this.timer);
