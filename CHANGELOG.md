@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #504 UI for teacher for registering a student for defence
 - #571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
-
+- #569 Ability for students to cancel their registrations if there are less than 2 hours remaining to lab's start
 
 ## [1.5.3] - 2021-10-08
 

@@ -172,7 +172,6 @@ $string['all_registrations'] = 'All my registrations';
 $string['no_registrations'] = 'No Registrations! Press the shield icon to get started.';
 $string['table_no_registrations'] = 'Sorry, nothing to display here :(';
 $string['registration_deletion_confirmation'] = 'Are you sure you want to delete this item?';
-$string['registration_before_error'] = 'You can\'t delete a registration 2 hours before the start!';
 $string['charon'] = 'Exercise';
 $string['time'] = 'Time';
 $string['lab_name'] = 'Lab';
