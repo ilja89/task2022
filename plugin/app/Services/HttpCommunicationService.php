@@ -168,7 +168,7 @@ class HttpCommunicationService
 
         try {
             $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
-            Log::info("Response" , ["status" => $response->status()
+            Log::info("Synchronous response" , ["status" => $response->status()
                 , "body" => $response->json()]);
             if ($response->successful()) {
                 if (!empty($response->body())) {
