@@ -121,7 +121,27 @@ class LabService
 
         $queueStatus['registrations'] = $registrations;
 
-        $queueStatus['teachers'] = $this->labRepository->getTeachersAndDefendingCharon($lab->id);
+        $teachersList = $this->labRepository->getTeachersAndDefendingCharon($lab->id);
+
+        $teachers = array();
+
+        foreach ($teachersList as $key => $teacher) {
+            $teacherId = $teacher->id;
+            if (array_key_exists($teacherId, $teachers)){
+                $teachers[$teacherId]['charons'] .= ', ' . $teacher->charon;
+            } else {
+                $teachers[$teacherId] = [];
+                $teachers[$teacherId]['teacher'] = $teacher->firstname . ' ' . $teacher->lastname;
+                if ($teacher->charon){
+                    $teachers[$teacherId]['charons'] = $teacher->charon;
+                    $teachers[$teacherId]['availability'] = 'Defending';
+                } else {
+                    $teachers[$teacherId]['availability'] = 'Free';
+                }
+            }
+        }
+
+        $queueStatus['teachers'] = $teachers;
 
         return $queueStatus;
     }
