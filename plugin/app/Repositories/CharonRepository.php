@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Repositories;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -36,9 +35,6 @@ class CharonRepository
     /** @var FileUploadService */
     private $fileUploadService;
 
-    /** @var CharonDefenseLabRepository */
-    private $charonDefenseLabRepository;
-
     /** @var LabRepository */
     private $labRepository;
 
@@ -48,21 +44,17 @@ class CharonRepository
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
-     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      * @param LabRepository $labRepository
      */
     public function __construct(
         ModuleService $moduleService,
         FileUploadService $fileUploadService,
         GradebookService $gradebookService,
-        CharonDefenseLabRepository $charonDefenseLabRepository,
         LabRepository $labRepository
-    )
-    {
+    ) {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
-        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
         $this->labRepository = $labRepository;
     }
 
