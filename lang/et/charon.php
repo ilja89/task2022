@@ -198,3 +198,10 @@ $string['source_files'] = 'Lähtefailid';
 $string['reset_to_templates'] = 'Taasta mallid';
 $string['feedback-text'] = 'Tagasiside';
 $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
+
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Teavitus kommentaarist charoni katsele';
+$string['charon:emailcommentsubmission'] = 'Tuvasta teavitus kommentaarist charoni katsele';
