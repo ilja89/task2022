@@ -10,6 +10,7 @@ use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
@@ -41,8 +42,8 @@ class DefenceRegistrationService
     /** @var CharonService */
     private $charonService;
 
-    /** @var SubmissionService */
-    private $submissionService;
+    /** @var SubmissionsRepository */
+    private $submissionRepository;
 
     /**
      * @param CharonRepository $charonRepository
@@ -52,7 +53,7 @@ class DefenceRegistrationService
      * @param UserRepository $userRepository
      * @param CharonDefenseLabRepository $defenseLabRepository
      * @param CharonService $charonService
-     * @param SubmissionService $submissionService
+     * @param SubmissionsRepository $submissionRepository
      */
     public function __construct(
         CharonRepository $charonRepository,
@@ -62,7 +63,7 @@ class DefenceRegistrationService
         UserRepository $userRepository,
         CharonDefenseLabRepository $defenseLabRepository,
         CharonService $charonService,
-        SubmissionService $submissionService
+        SubmissionsRepository $submissionRepository
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
@@ -71,7 +72,7 @@ class DefenceRegistrationService
         $this->userRepository = $userRepository;
         $this->defenseLabRepository = $defenseLabRepository;
         $this->charonService = $charonService;
-        $this->submissionService = $submissionService;
+        $this->submissionRepository = $submissionRepository;
     }
 
     /**
@@ -328,13 +329,13 @@ class DefenceRegistrationService
     }
 
     /**
-     * Registers a student for a defence. If submission identifier is null then tries to find it.
+     * Registers a student for a defence. If submission identifier is null then try to find it.
      *
      * Throws if:
      *  given charon setup is invalid;
      *  user already has a defence registered for given charon in given lab;
      *  not enough time left for given charon;
-     *  student does not have an eligible submission in given charon.
+     *  student does not have an ungraded submission in given Charon.
      *
      * @param int $studentId
      * @param int $charonId
@@ -356,8 +357,16 @@ class DefenceRegistrationService
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
 
         if ($submissionId === null) {
+
             $charon = $this->charonService->getCharonById($charonId);
-            $submissionId = $this->submissionService->findSubmissionToDefend($charon, $studentId)->id;
+
+            $submission = $this->submissionRepository->getLatestUngradedSubmission($charon->id, $studentId);
+
+            if ($submission === null) {
+                throw new RegistrationException("no_submission");
+            }
+
+            $submissionId = $submission->id;
         }
 
         $this->validateRegistration($studentId, $charonId, $lab);

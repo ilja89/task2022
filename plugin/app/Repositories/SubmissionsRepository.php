@@ -250,23 +250,22 @@ class SubmissionsRepository
     }
 
     /**
-     * Find all unconfirmed submissions for given user and Charon identifier.
+     * Find the latest ungraded submission with given Charon and user identifiers.
      *
      * @param int $charonId
      * @param int $userId
      *
-     * @return array
+     * @return Submission|null
      */
-    public function getUngradedSubmissions(int $charonId, int $userId): array
+    public function getLatestUngradedSubmission(int $charonId, int $userId): ?Submission
     {
-        $submissions = Submission::join('charon_submission_user', 'charon_submission.id', 'charon_submission_user.submission_id')
+        return Submission::join('charon_submission_user', 'charon_submission.id', 'charon_submission_user.submission_id')
             ->where('charon_submission_user.user_id', $userId)
             ->where('charon_submission.charon_id', $charonId)
             ->where('charon_submission.confirmed', 0)
-            ->select('charon_submission.id', 'charon_submission.charon_id', 'charon_submission.user_id')
-            ->get();
-
-        return $submissions->all();
+            ->select('charon_submission.id')
+            ->orderBy('updated_at', 'desc')
+            ->first();
     }
 
     /**
