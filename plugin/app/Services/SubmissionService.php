@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
@@ -44,9 +43,6 @@ class SubmissionService
     /** @var GrademapService */
     private $grademapService;
 
-    /** @var SubmissionCalculatorService */
-    private $submissionCalculatorService;
-
     /**
      * SubmissionService constructor.
      *
@@ -57,7 +53,6 @@ class SubmissionService
      * @param UserRepository $userRepository
      * @param GrademapService $grademapService
      * @param CharonRepository $charonRepository
-     * @param SubmissionCalculatorService $submissionCalculatorService
      */
     public function __construct(
         GradebookService $gradebookService,
@@ -67,7 +62,6 @@ class SubmissionService
         UserRepository $userRepository,
         GrademapService $grademapService,
         CharonRepository $charonRepository,
-        SubmissionCalculatorService $submissionCalculatorService
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
@@ -76,7 +70,6 @@ class SubmissionService
         $this->userRepository = $userRepository;
         $this->grademapService = $grademapService;
         $this->charonRepository = $charonRepository;
-        $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
     /**
