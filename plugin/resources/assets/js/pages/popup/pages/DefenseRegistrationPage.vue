@@ -44,6 +44,7 @@
                                 <v-select
                                         :disabled="isSessionActive"
                                         class="mx-auto"
+                                        clearable
                                         dense
                                         single-line
                                         item-text="fullname"
@@ -60,6 +61,7 @@
 
                                 <v-select
                                         class="mx-auto"
+                                        clearable
                                         dense
                                         :items="all_progress_types"
                                         v-model="filter_progress"
@@ -111,7 +113,7 @@
                 all_progress_types: ['Waiting', 'Defending', 'Done'],
                 after: {time: `${moment().format("YYYY-MM-DD")} 00:00`},
                 before: {time: null},
-                filter_teacher: -1,
+                filter_teacher: null,
                 filter_progress: null,
                 defenseList: [],
                 countDown: 0,

@@ -6,16 +6,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- \#438 Update Laravel version from 5.5 to 8.x (It will update laravel to the latest version of 8.x whenever 
-  php composer install/update is run)
+### Fixed
+- #577 Registration for defense gives errors on following situations to the student: invalid charon setup, 
+- can not register twice submission for the same charon, can not register as lab is full
+- #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
+  synchronous url
+- #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within the search parameters.
+- #632 Fixed submissions seeders
+- #629 Made templates deleting with charon deleting
+- #625 Fixed templates to be also backupable
+- #610 Fixed most of the vue warnings which are shown in console
+- #662 "Inline" submissions "user" is defined by currently logged user
+- #560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ### Added
-- \#514 My registration shows the registration status
-- \#503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
-- \#501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
-- \#504 UI for teacher for registering a student for defence
+- #618 Synchronous url can now be set in moodle's charon settings
+- #619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
+  the button, while it makes the request and waits for a response
+- #604 Now only last "latest" submission will be highlighted
+- #638 Added css so that when tester returns styled output, it will be displayed that way
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
+- #514 My registration shows the registration status
+- #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
+- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- #504 UI for teacher for registering a student for defence
+- #571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
+- #569 Ability for students to cancel their registrations if there are less than 2 hours remaining to lab's start
+
+## [1.5.3] - 2021-10-08
+
+### Fixed
+- #662 "Inline" submissions "user" is defined by currently logged user
+
+## [1.5.2] - 2021-09-23
+
+### Fixed
+- \#630 Apache error with submission is no longer thrown
+
+## [1.5.1] - 2021-09-10
+
+### Added
 - \#488 When a teacher creates a deadline for charon, then it displayed the event to everyone enrolled in calendar.
+- \#562 Teacher buttons are now at the very bottom
+- \#566 Added Estonian translation to everything associated to templates
+- \#557 Added a button to each submission in submissions list, that copies its files to editor
+- \#558 Submitting from stuednt view now can use synchronous request so that results appear automatically
+- \#592 Added synchronous url field in course charon settings and editors submissions uses that synchronous url
+- \#605 Editors content now defaults to the last submission and added a button that resets editors content to that of templates
+
+### Fixed
+- \#555 When `stylecheck` in `tester extra` tester sends style results also, also results output in Popup got also fixed
+- \#556 Now `userId` is not passed along with the solution submit request
+- \#561 `Submit` and `Copy` buttons look the same as other teacher buttons
+- \#564 In charon settings `Code editor` section is renamed to `Templates and code submission on page`
+- \#565 After a successful submission request to backend it now displays `Code has been sent to tester. Please refresh submissions in a while.`
+- \#601 Fixed how submissions files path is put togheter
+- \#612 Changed the style of submission button and added highlighting to recently submitted submissions
+- \#584 Submission results are now shown more conveniently (next to editor when submissions are allowed)
+- \#576 Templates can contain new lines and spaces in the beginning and/or in the end when creating charon
+
+### Changed
+- \#511 Update Laravel Mix from 0.10.0 to 4.1.4
+
+## [1.5.0] - 2021-09-09
+- \#438 Update Laravel version
+
+## [1.4.0] - 2021-08-13
+
+### Added
+- \#454 Added posting to tester from inline submission
+- \#418 Charon footer shows Charon version in use and has a link to Changelog
+- \#431 Added charon total points in grading view
+- \#492 Integrated templates management frontend with backend endpoints
+- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
+- \#474 Added ability to make submitions from charon student view
+- \#542 Now a submission is made to tester, its response is handled and submissions are created.
+- \#522 Show code editor always if there is at least one template (student view)
+- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
+- \#539 Substitute Ace Editor with textarea
+
+
+### Fixed
+- \#528 In grading view show "Total points: 0" if there is no result for charon
+- \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
+- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
+
+## [1.3.0] - 2021-07-19
+
+### Added
 - \#454 Added posting to tester from inline submission
 - \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
@@ -33,7 +112,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
-
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -91,7 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
 
 ## [1.1.3] - 2021-03-16
 
@@ -126,7 +204,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score % 
+- \#394 Submission result colors in Student view are less random and reflect score %
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber
@@ -134,6 +212,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/master...develop
+[1.3.0]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.4...1.3.0
 [1.2.4]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.3...1.2.4
 [1.2.3]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.2...1.2.3
 [1.2.2]: https://gitlab.cs.ttu.ee/ained/charon/-/compare/1.2.1...1.2.2

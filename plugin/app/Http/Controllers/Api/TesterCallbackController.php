@@ -65,7 +65,7 @@ class TesterCallbackController extends Controller
             ->values()
             ->all();
 
-        $submission = $this->saveCallbackFlow->run($request, $gitCallback, $usernames);
+        $submission = $this->saveCallbackFlow->saveTestersAsyncResponse($request, $gitCallback, $usernames);
 
         return $this->saveCallbackFlow->hideUnneededFields($submission);
     }

@@ -449,6 +449,7 @@
                 <FIELD NAME="unittests_git" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_type_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="tester_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="tester_sync_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_token" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
             </FIELDS>
             <KEYS>
@@ -590,6 +591,29 @@
             <INDEXES>
                 <INDEX NAME="IXUNIQUE_submission_and_user" UNIQUE="true" FIELDS="submission_id,user_id"/>
             </INDEXES>
+        </TABLE>
+
+        <!-- Code review comments -->
+
+        <TABLE NAME="charon_review_comment"
+               COMMENT="Teacher/student's comments on the student's submitted code in submission.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="user_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="submission_file_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="code_row_no_start" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="code_row_no_end" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="review_comment" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="notify" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="1" DEFAULT="0"/>
+                <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_review_comment" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_review_comment_user" TYPE="foreign" FIELDS="user_id"
+                     REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="FK_charon_review_comment_submission_file" TYPE="foreign" FIELDS="submission_file_id"
+                     REFTABLE="submission_file" REFFIELDS="id"/>
+            </KEYS>
         </TABLE>
 
     </TABLES>

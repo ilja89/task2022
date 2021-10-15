@@ -85,24 +85,9 @@ export default {
 
 	methods: {
   	deleteItem(item) {
-			if (this.dateValidation(item)) {
-				if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-					this.deleteReg(item);
-				}
-			} else {
-				VueEvent.$emit('show-notification', this.translate("registrationBeforeErrorText"), 'danger')
+			if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+				this.deleteReg(item);
 			}
-		},
-
-		dateValidation(item) {
-
-      const today = new Date();
-      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      const dateTime = date + ' ' + time;
-			let day1 = moment.utc(dateTime, 'YYYY-MM-DD  HH:mm:ss');
-			let day2 = moment.utc(item['lab_start'], 'YYYY-MM-DD  HH:mm:ss');
-			return day2.diff(day1, 'hours') >= 2;
 		},
 
 		deleteReg(defense_lab_item) {

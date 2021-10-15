@@ -5,6 +5,7 @@ export default class CourseSettingsForm {
             tester_type_code: settings['tester_type_code'] ? settings['tester_type_code'] : '',
             tester_url: settings['tester_url'] ? settings['tester_url'] : '',
             tester_token: settings['tester_token'] ? settings['tester_token'] : '',
+            tester_sync_url: settings['tester_sync_url'] ? settings['tester_sync_url'] : '',
         };
 
         this.course_id = courseId;

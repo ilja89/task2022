@@ -248,11 +248,6 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
-        //registration possibility checking.
-        if ($this->checkRegistrationPossibility($charonId, $lab) == false) {
-            throw new RegistrationException('queue_full');
-        }
-
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
             $studentId,
             $charonId,
@@ -262,6 +257,11 @@ class DefenceRegistrationService
 
         if ($pendingStudentDefences > 0) {
             throw new RegistrationException('user_in_db');
+        }
+
+        //registration possibility checking.
+        if ($this->checkRegistrationPossibility($charonId, $lab) == false) {
+            throw new RegistrationException('queue_full');
         }
     }
 

@@ -8,7 +8,7 @@
 
         <v-card class="mx-auto" max-height="900" max-width="80vw" style="overflow: auto;" outlined raised>
             <v-list v-if="Array.isArray(logs)">
-                <log-entry v-for="log in logs" v-bind:log="log"></log-entry>
+                <log-entry v-for="(log, index) in logs" v-bind:key="index" v-bind:log="log"></log-entry>
             </v-list>
           <pre v-else>{{ logs }}</pre>
         </v-card>
