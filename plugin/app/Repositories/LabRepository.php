@@ -486,15 +486,4 @@ class LabRepository
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
     }
-
-    public function getLabByData($lab)
-    {
-        return \DB::table("charon_lab")
-            ->where("name", $lab->name)
-            ->where("start", $lab->start)
-            ->where("end", $lab->end)
-            ->where("course_id", $lab->course_id)
-            ->first();
-    }
-
 }

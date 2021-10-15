@@ -74,11 +74,13 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Find all defence registration of a lab got with given identifier.
+     *
      * @param int $labId
      *
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationDurationsByLab(int $labId): array
+    public function getDefenceRegistrationsByLabId(int $labId): array
     {
         return DB::table('charon_defenders')
             ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
