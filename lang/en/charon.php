@@ -213,5 +213,3 @@ $string['student'] = 'Student';
 $string['availability'] = 'Availability';
 $string['teachers_queue'] = 'Defending teachers';
 $string['students_live_queue'] = 'Students live defence queue';
-
-
