@@ -72,12 +72,16 @@ class AreteResponseParserTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         $callback = new GitCallback(['repo' => 'iti0200-2020/task-folder.git']);
+        $request = new Request();
 
         $this->gitCallbackService
             ->shouldReceive('getCourse')
             ->andThrow(new ModelNotFoundException());
 
-        $this->service->getSubmissionFromRequest(new Request(), $callback, 3);
+        $course = $this->gitCallbackService->getCourse($callback->repo);
+        $charon = $this->service->getCharon($request, $course->id);
+
+        $this->service->getSubmissionFromRequest($request, $charon, 3);
     }
 
     /**
@@ -103,7 +107,10 @@ class AreteResponseParserTest extends TestCase
         $callback = new GitCallback(['repo' => '']);
         $request = new Request(['returnExtra' => ['charon' => 5]]);
 
-        $this->service->getSubmissionFromRequest($request, $callback, 7);
+        $course = $this->gitCallbackService->getCourse($callback->repo);
+        $charon = $this->service->getCharon($request, $course->id);
+
+        $this->service->getSubmissionFromRequest($request, $charon, 7);
     }
 
     /**
@@ -129,7 +136,10 @@ class AreteResponseParserTest extends TestCase
         $callback = new GitCallback(['repo' => '']);
         $request = new Request(['slug' => 'folder']);
 
-        $this->service->getSubmissionFromRequest($request, $callback, 7);
+        $course = $this->gitCallbackService->getCourse($callback->repo);
+        $charon = $this->service->getCharon($request, $course->id);
+
+        $this->service->getSubmissionFromRequest($request, $charon, 7);
     }
 
     /**
@@ -169,7 +179,10 @@ class AreteResponseParserTest extends TestCase
         $now = Carbon::create(2020, 11, 16, 12);
         Carbon::setTestNow($now);
 
-        $submission = $this->service->getSubmissionFromRequest($request, $callback, 7);
+        $course = $this->gitCallbackService->getCourse($callback->repo);
+        $charon = $this->service->getCharon($request, $course->id);
+
+        $submission = $this->service->getSubmissionFromRequest($request, $charon, 7);
 
         $this->assertEquals(5, $submission->charon_id);
         $this->assertEquals(7, $submission->user_id);

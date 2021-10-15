@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\SubmissionService;
@@ -50,21 +51,22 @@ class TesterController extends Controller
      * Trigger testing the student's inline submission.
      *
      * @param Request $request
+     * @param Charon $charon
      *
      * @return JsonResponse
      */
-    public function postSubmission(Request $request): JsonResponse
+    public function postSubmission(Request $request, Charon $charon): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
         $user = app(User::class)->currentUser();
 
         Log::info("Preparing to send inline submission to tester with: ", [
-            'charon' => $request->route('charon'),
+            'charon' => $charon->id,
             'userId' => $user->id,
             'content' => $content
         ]);
 
-        $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
+        $areteRequest = $this->testerCommunicationService->prepareAreteRequest($charon,
             $user,
             $content['sourceFiles']);
 
@@ -74,7 +76,7 @@ class TesterController extends Controller
         if ($response->getStatus() == 202) {
             try {
                 $responseSubmission = $this->submissionService
-                    ->prepareSubmissionResponse($this->saveResults($response, $user));
+                    ->prepareSubmissionResponse($this->saveResults($response, $charon, $user));
 
                 return response()->json([
                     'message' => 'Testing the submission was successful',
@@ -94,15 +96,25 @@ class TesterController extends Controller
      * Save submission results that come from tester.
      *
      * @param CharonViewTesterCallbackRequest $request
+     * @param Charon $charon
      * @param \Zeizig\Moodle\Models\User $user
      *
      * @return Submission
      * @throws Exception
      */
-    public function saveResults(CharonViewTesterCallbackRequest $request, \Zeizig\Moodle\Models\User $user): Submission
+    public function saveResults(CharonViewTesterCallbackRequest $request, Charon $charon,
+                                \Zeizig\Moodle\Models\User $user): Submission
     {
+        $usernames = collect($request->input('returnExtra.usernames'))
+            ->map(function ($name) {
+                return strtolower($name);
+            })
+            ->unique()
+            ->values()
+            ->all();
+
         $submission = $this->saveTesterFlow->saveTestersSyncResponse($request, $user,
-            intval($request->input('returnExtra')['course']));
+            $charon, $usernames);
 
         $this->saveTesterFlow->hideUnneededFields($submission);
 

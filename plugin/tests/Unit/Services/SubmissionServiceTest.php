@@ -80,15 +80,18 @@ class SubmissionServiceTest extends TestCase
 
         $request = new Request();
         $callback = new GitCallback(['id' => 3, 'repo' => 'iti2020']);
+        $charon = new Charon();
+
+        $request['gitCallBackId'] = $callback->id;
 
         $this->requestHandlingService
             ->shouldReceive('getSubmissionFromRequest')
-            ->with($request, 'iti2020', 5)
+            ->with($request, $charon, 5)
             ->andReturn($this->submission);
 
         $this->submission->shouldReceive('save');
 
-        $actual = $this->service->saveSubmission($request, $callback, 5);
+        $actual = $this->service->saveSubmission($request, $charon, 5);
 
         $this->assertEquals(3, $actual->git_callback_id);
     }

@@ -44,22 +44,13 @@ class AreteResponseParser
      * Mail, stdout, stderr are optional.
      *
      * @param Request $request
-     * @param string $repository
+     * @param Charon $charon
      * @param int $authorId
-     * @param string|null $courseId
      *
      * @return Submission
      */
-    public function getSubmissionFromRequest(Request $request, string $repository,
-                                             int $authorId, string $courseId = null): Submission
+    public function getSubmissionFromRequest(Request $request, Charon $charon, int $authorId): Submission
     {
-        if (!empty($repository)) {
-            $course = $this->gitCallbackService->getCourse($repository);
-            $charon = $this->getCharon($request, $course->id);
-        } else {
-            $charon = $this->getCharon($request, intval($courseId));
-        }
-
         $originalId = $request->has('retest') && !!$request->input('retest')
             ? $request->input('original_submission_id')
             : null;
@@ -147,7 +138,7 @@ class AreteResponseParser
      * @return Charon|Model
      * @throws ModelNotFoundException
      */
-    private function getCharon(Request $request, int $courseId)
+    public function getCharon(Request $request, int $courseId)
     {
         if ($request->input('returnExtra.charon')) {
             $query = [['id', $request->input('returnExtra.charon')]];
