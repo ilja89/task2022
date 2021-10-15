@@ -10,13 +10,12 @@ use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\CharonService;
 use TTU\Charon\Services\DefenceRegistrationService;
 use Tests\TestCase;
-use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 use Zeizig\Moodle\Models\User;
 
@@ -45,7 +44,7 @@ class DefenceRegistrationServiceTest extends TestCase
             $this->userRepository = Mockery::mock(UserRepository::class),
             Mockery::mock(CharonDefenseLabRepository::class),
             Mockery::mock(CharonService::class),
-            Mockery::mock(SubmissionService::class)
+            Mockery::mock(SubmissionsRepository::class)
         );
     }
 

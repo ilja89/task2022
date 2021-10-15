@@ -358,9 +358,10 @@ class DefenceRegistrationService
 
         if ($submissionId === null) {
 
-            $charon = $this->charonService->getCharonById($charonId);
-
-            $submission = $this->submissionRepository->getLatestUngradedSubmission($charon->id, $studentId);
+            $submission = $this->submissionRepository->getLatestUngradedSubmission(
+                $this->charonService->getCharonById($charonId)->id,
+                $studentId
+            );
 
             if ($submission === null) {
                 throw new RegistrationException("no_submission");
