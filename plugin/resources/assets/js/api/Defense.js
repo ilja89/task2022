@@ -40,7 +40,7 @@ class Defense {
                 error.response && error.response.data && error.response.data.title
                     ? error.response.data.title + ' ' + error.response.data.detail
                     : 'Error creating a new defense registration.\n' + error, 'danger');
-            VueEvent.$emit('student-register-end-loading');
+            if (progress === null) VueEvent.$emit('student-register-end-loading');
         });
     }
 
