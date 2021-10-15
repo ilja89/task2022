@@ -202,18 +202,8 @@ class DefenceRegistrationService
             throw new RegistrationException('user_in_db');
         }
 
-        $registrations = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
-        $totalOfDefenses = 0;
-        $labDurationInterval = $lab->start->diff($lab->end);
-        $labDuration = $labDurationInterval->h * 60 + $labDurationInterval->i;
-
-        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
-        foreach ($registrations as $registration) {
-            $totalOfDefenses += $registration->defense_duration;
-        }
-
-        if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
-            throw new RegistrationException("queue_full");
+        if ($this->getEstimatedStartTimeInQueue($charonId, $lab) === null) {
+            throw new RegistrationException('queue_full');
         }
     }
 
@@ -313,5 +303,35 @@ class DefenceRegistrationService
         }
 
         return $availableTeachers[array_rand($availableTeachers)];
+    }
+
+    /**
+     * Return estimated start time in queue with Charon with given identifier if lab has enough room left.
+     * Otherwise, return null.
+     *
+     * @param int $charonId
+     * @param Lab $lab
+     *
+     * @return Carbon|null
+     */
+    public function getEstimatedStartTimeInQueue(int $charonId, Lab $lab): ?Carbon
+    {
+        $labDefences = $this->defenseRegistrationRepository->getDefenceRegistrationsByLabId($lab->id);
+        $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;
+        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
+
+        $queuePresumption = array_fill(0, $teacherCount, 0);
+
+        // assumption of the queue based on defences' lengths
+        foreach ($labDefences as $defence) {
+            $queuePresumption[array_keys($queuePresumption, min($queuePresumption))[0]] += $defence->defense_duration;
+        }
+
+        $shortestWaitingTime = $queuePresumption[array_keys($queuePresumption, min($queuePresumption))[0]];
+        $labLength = (strtotime($lab->end) - strtotime($lab->start)) / 60;
+
+        return (($shortestWaitingTime + $charonLength) <= $labLength)
+            ? $lab->start->addMinutes($shortestWaitingTime)
+            : null;
     }
 }

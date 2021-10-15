@@ -486,5 +486,4 @@ class LabRepository
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
     }
-
 }
