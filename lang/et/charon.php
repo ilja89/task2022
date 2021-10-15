@@ -204,3 +204,5 @@ $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
 $string['availability'] = 'Kättesaadavus';
+$string['teachers_queue'] = 'Kaitsvad õpetajad';
+$string['students_live_queue'] = 'Õpilaste kaitsmise elav järjekord';

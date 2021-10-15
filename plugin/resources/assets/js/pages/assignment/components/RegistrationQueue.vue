@@ -16,7 +16,7 @@
               @update:items="updateDataLiveQueue"
             >
             </v-data-table>
-            {{ translate('liveQueueText') }}
+            {{ translate('studentsLiveQueueText') }}
             <v-data-table
                 :headers="headers"
                 :items="items"
@@ -44,21 +44,21 @@ export default {
     return {
       teachersLiveQueueTestItems: [
         {
-          teacher: 'Teacher 1', charons: 'ex03', availability: 'Defending'
+          teacher: 'Teacher 1', charon: 'ex03', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 2', charons: 'ex01, ex03', availability: 'Defending'
+          teacher: 'Teacher 2', charon: 'ex01, ex03', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 3', charons: 'ex02', availability: 'Defending'
+          teacher: 'Teacher 3', charon: 'ex02', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 4', charons: '', availability: 'Free'
+          teacher: 'Teacher 4', charon: '', availability: 'Free'
         },
       ],
       teachersLiveQueueHeaders: [
         {text: this.translate("teacherText"), value: 'teacher'},
-        {text: this.translate("defendingCharonsText"), value: 'charons'},
+        {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
       headers: [
@@ -81,16 +81,16 @@ export default {
     updateDataLiveQueue(){
       this.teachersLiveQueueTestItems = [
         {
-          teacher: 'Teacher 1', charons: 'ex02', availability: 'Defending'
+          teacher: 'Teacher 1', charon: 'ex02', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 2', charons: 'ex01', availability: 'Defending'
+          teacher: 'Teacher 2', charon: 'ex01', availability: 'Defending'
         },
         {
-          teacher: 'Teacher 3', charons: '', availability: 'Free'
+          teacher: 'Teacher 3', charon: '', availability: 'Free'
         },
         {
-          teacher: 'Teacher 4', charons: '', availability: 'Free'
+          teacher: 'Teacher 4', charon: '', availability: 'Free'
         },
       ]
     },

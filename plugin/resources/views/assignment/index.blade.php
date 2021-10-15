@@ -122,10 +122,9 @@
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
         studentText: "{{ translate('student') }}",
-        defendingCharonsText: "{{ translate('modulenameplural') }}",
         availabilityText: "{{ translate('availability') }}",
         teachersQueueText: "{{ translate('teachers_queue') }}",
-        liveQueueText: "{{ translate('live_queue') }}",
+        studentsLiveQueueText: "{{ translate('students_live_queue') }}",
     };
 </script>
 

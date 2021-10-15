@@ -212,6 +212,6 @@ $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
 $string['availability'] = 'Availability';
 $string['teachers_queue'] = 'Defending teachers';
-$string['live_queue'] = 'Students live defence queue';
+$string['students_live_queue'] = 'Students live defence queue';
 
 
