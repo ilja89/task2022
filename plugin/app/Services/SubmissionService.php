@@ -61,7 +61,7 @@ class SubmissionService
         SubmissionsRepository $submissionsRepository,
         UserRepository $userRepository,
         GrademapService $grademapService,
-        CharonRepository $charonRepository,
+        CharonRepository $charonRepository
     ) {
         $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
