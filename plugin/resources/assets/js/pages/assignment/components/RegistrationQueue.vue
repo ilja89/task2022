@@ -8,19 +8,19 @@
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
-            {{ translate('teachersQueueText') }}
+            {{ translate('defendingTeachersText') }}
             <v-data-table
-              :headers="teachersLiveQueueHeaders"
-              :items="teachersLiveQueueTestItems"
+              :headers="defendingTeachersHeaders"
+              :items="defendingTeachersTestItems"
               :hide-default-footer="true"
-              @update:items="updateDataLiveQueue"
+              @update:items="updateDefendingTeachers"
             >
             </v-data-table>
             {{ translate('studentsLiveQueueText') }}
             <v-data-table
                 :headers="headers"
-                :items="items"
-                @update:items="updateDataPlaceInQueue"
+                :items="this.studentsQueue"
+                @update:items="updateStudentsQueue"
             >
             </v-data-table>
           </v-flex>
@@ -42,7 +42,7 @@ export default {
 
   data() {
     return {
-      teachersLiveQueueTestItems: [
+      defendingTeachersTestItems: [
         {
           teacher: 'Teacher 1', charon: 'ex03', availability: 'Defending'
         },
@@ -56,7 +56,7 @@ export default {
           teacher: 'Teacher 4', charon: '', availability: 'Free'
         },
       ],
-      teachersLiveQueueHeaders: [
+      defendingTeachersHeaders: [
         {text: this.translate("teacherText"), value: 'teacher'},
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
@@ -67,19 +67,21 @@ export default {
         {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
-      timer: ''
+      timer: '',
+      studentsQueue: ''
     }
   },
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
+    this.studentsQueue = this.items;
   },
   methods: {
     dataUpdate(){
-      this.updateDataLiveQueue();
-      this.updateDataPlaceInQueue();
+      this.updateDefendingTeachers();
+      this.updateStudentsQueue();
     },
-    updateDataLiveQueue(){
-      this.teachersLiveQueueTestItems = [
+    updateDefendingTeachers(){
+      this.defendingTeachersTestItems = [
         {
           teacher: 'Teacher 1', charon: 'ex02', availability: 'Defending'
         },
@@ -94,8 +96,8 @@ export default {
         },
       ]
     },
-    updateDataPlaceInQueue(){
-      this.items = []
+    updateStudentsQueue(){
+      this.studentsQueue = []
     },
     cancelAutoUpdate () {
       clearInterval(this.timer);

@@ -123,7 +123,7 @@
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
         studentText: "{{ translate('student') }}",
         availabilityText: "{{ translate('availability') }}",
-        teachersQueueText: "{{ translate('teachers_queue') }}",
+        defendingTeachersText: "{{ translate('defending_teachers') }}",
         studentsLiveQueueText: "{{ translate('students_live_queue') }}",
     };
 </script>
