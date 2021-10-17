@@ -8,7 +8,7 @@
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
-            {{ translate('defendingTeachersText') }}
+            {{ translate('labTeachersText') }}
             <v-data-table
               :headers="defendingTeachersHeaders"
               :items="defendingTeachersTestItems"
@@ -68,12 +68,11 @@ export default {
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
       timer: '',
-      studentsQueue: ''
+      studentsQueue: this.items
     }
   },
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
-    this.studentsQueue = this.items;
   },
   methods: {
     dataUpdate(){

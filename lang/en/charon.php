@@ -211,5 +211,5 @@ $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
 $string['availability'] = 'Availability';
-$string['defending_teachers'] = 'Defending teachers';
+$string['lab_teachers'] = 'Lab teachers';
 $string['students_live_queue'] = 'Students live defence queue';

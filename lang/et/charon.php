@@ -204,5 +204,5 @@ $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
 $string['availability'] = 'Kättesaadavus';
-$string['defending_teachers'] = 'Kaitsvad õpetajad';
+$string['lab_teachers'] = 'Praktikumi õpetajad';
 $string['students_live_queue'] = 'Õpilaste kaitsmise elav järjekord';
