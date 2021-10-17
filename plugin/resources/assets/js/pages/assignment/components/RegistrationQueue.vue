@@ -8,7 +8,10 @@
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
-            {{ translate('labTeachersText') }}
+
+            <v-card-title>
+              {{ translate('labTeachersText') }}
+            </v-card-title>
             <v-data-table
               :headers="defendingTeachersHeaders"
               :items="defendingTeachersTestItems"
@@ -16,12 +19,16 @@
               @update:items="updateDefendingTeachers"
             >
             </v-data-table>
-            {{ translate('studentsLiveQueueText') }}
+
+            <v-card-title>
+              {{ translate('studentsLiveQueueText') }}
+            </v-card-title>
             <v-data-table
-                :headers="headers"
-                :items="this.studentsQueue"
-                @update:items="updateStudentsQueue"
+              :headers="headers"
+              :items="studentsQueue"
+              @update:items="updateStudentsQueue"
             >
+
             </v-data-table>
           </v-flex>
         </v-layout>
@@ -109,5 +116,9 @@ export default {
 </script>
 
 <style>
+
+.v-application--wrap {
+  min-height: 1vh !important;
+}
 
 </style>
