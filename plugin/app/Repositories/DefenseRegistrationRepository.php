@@ -311,7 +311,7 @@ class DefenseRegistrationRepository
      * @param int $labId
      * @return mixed
      */
-    public function getListOfLabRegistrationsWithWaitingStatsIfLabStartedReduced(int $labId)
+    public function getLabRegistrationsWithWaitingStatusIfLabStartedByLabId(int $labId)
     {
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
@@ -328,7 +328,7 @@ class DefenseRegistrationRepository
      * @param int $labId
      * @return mixed
      */
-    public function getListOfLabRegistrationsIfLabNotStartedReduced(int $labId)
+    public function getLabRegistrationsIfLabNotStartedByLabId(int $labId)
     {
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
