@@ -351,4 +351,20 @@ class DefenseRegistrationRepository
             ->count();
     }
 
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getTeacherAndDefendingCharonByLab(int $labId){
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('progress', 'Defending')
+            ->whereNotNull('charon_defenders.teacher_id')
+            ->select('charon_defenders.teacher_id', 'charon.name as charon')
+            ->groupBy('teacher_id','charon')
+            ->get();
+    }
+
 }

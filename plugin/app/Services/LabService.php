@@ -121,27 +121,39 @@ class LabService
 
         $queueStatus['registrations'] = $registrations;
 
-        $teachersList = $this->labRepository->getTeachersAndDefendingCharon($lab->id);
+        // Get teachers and charons which they are defending
+        $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
 
-        $teachers = array();
+        // Get defending charon er teacher
+        $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
+
 
         foreach ($teachersList as $key => $teacher) {
-            $teacherId = $teacher->id;
-            if (array_key_exists($teacherId, $teachers)){
-                $teachers[$teacherId]['charons'] .= ', ' . $teacher->charon;
-            } else {
-                $teachers[$teacherId] = [];
-                $teachers[$teacherId]['teacher'] = $teacher->firstname . ' ' . $teacher->lastname;
-                if ($teacher->charon){
-                    $teachers[$teacherId]['charons'] = $teacher->charon;
-                    $teachers[$teacherId]['availability'] = 'Defending';
-                } else {
-                    $teachers[$teacherId]['availability'] = 'Free';
+
+            $teacher->teacher = $teacher->firstname . ' ' . $teacher->lastname;
+            $teacher->charon = '';
+
+            // Check if teacher is defending some charon or not
+            foreach ($teachersDefences as $teachersDefence) {
+                if ($teachersDefence->teacher_id === $teacher->id){
+                    $teacher->charon = $teachersDefence->charon;
                 }
             }
+
+            // Add defending or not status
+            if ($teacher->charon){
+                $teacher->availability = 'Defending';
+            } else {
+                $teacher->availability = 'Free';
+            }
+
+            // Unset unuseful data
+            unset($teacher->id);
+            unset($teacher->firstname);
+            unset($teacher->lastname);
         }
 
-        $queueStatus['teachers'] = $teachers;
+        $queueStatus['teachers'] = $teachersList;
 
         return $queueStatus;
     }
