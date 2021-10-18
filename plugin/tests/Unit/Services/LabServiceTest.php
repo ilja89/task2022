@@ -57,7 +57,7 @@ class LabServiceTest extends TestCase
         $lab2 = Mockery::mock(Lab::class)->makePartial();
         $lab2->id = 2;
         $lab4 = Mockery::mock(Lab::class)->makePartial();
-        $lab4->id = 4;
+        $lab4->id = 3;
 
         $labs = array($lab1, $lab2, $lab4);
 
@@ -69,10 +69,17 @@ class LabServiceTest extends TestCase
         foreach ($labs as $lab){
             $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
                 ->with($lab->id)
-                ->once();
+                ->once()
+                ->andReturn($lab->id);
         }
 
-        $this->service->findUpcomingOrActiveLabsByCharon($charon->id);
+        $result = $this->service->findUpcomingOrActiveLabsByCharon($charon->id);
+
+        $this->assertEquals(3, count($result));
+
+        foreach ($result as $key => $lab){
+            $this->assertEquals($key + 1, $lab->defenders_num); // as defense number is lab id + 1
+        }
     }
 
     /**
