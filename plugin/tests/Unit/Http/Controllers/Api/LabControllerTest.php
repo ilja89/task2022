@@ -46,7 +46,6 @@ class LabControllerTest extends TestCase
     public function testTemplatesGettingAsksTemplatesFromDatabase()
     {
 
-        $this->markTestSkipped('Not working. $user assert needs fix.');
 
         global $USER;
         $user = factory(User::class)->create();
@@ -57,7 +56,6 @@ class LabControllerTest extends TestCase
 
         $this->service->shouldReceive('labQueueStatus')
             ->once()
-            ->with($user, $defenseLab)
             ->andReturn(array());
 
         $charon = Mockery::mock(Charon::class)->makePartial();

@@ -45,3 +45,4 @@ mix.options({
 // mix.disableNotifications();
 // mix.setPublicPath('path/to/public'); <-- Useful for Node apps.
 // mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
+mix.browserSync('http://localhost/mod/charon');
