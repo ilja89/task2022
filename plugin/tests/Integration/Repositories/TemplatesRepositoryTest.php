@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Template;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use Tests\TestCase;
 use TTU\Charon\Repositories\TemplatesRepository;
 
@@ -14,7 +13,7 @@ class TemplatesRepositoryTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /** @var LabTeacherRepository */
+    /** @var TemplatesRepository */
     private $repository;
 
     protected function setUp(): void
