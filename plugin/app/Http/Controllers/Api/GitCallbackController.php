@@ -62,6 +62,7 @@ class GitCallbackController extends Controller
      */
     public function index(GitCallbackRequest $request)
     {
+        Log::info("GitCallback index", [$request]);
         $gitCallback = $this->gitCallbacksRepository->save(
             $request->fullUrl(),
             $request->input('repo'),
@@ -90,6 +91,7 @@ class GitCallbackController extends Controller
      */
     public function indexPost(GitCallbackPostRequest $request)
     {
+        Log::info("GitCallback indexPost", [$request]);
         $repo = $request->input('repository')['git_ssh_url'];
         $initialUser = $request->input('user_username');
         $callbackUrl = $request->getUriForPath('/api/tester_callback');
