@@ -8,6 +8,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,16 +16,21 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
      * LabDummyController constructor.
      *
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -153,25 +159,9 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
-    /** Function what will return list of defense labs with lists of students - defenders registered for each lab
-     * @param Request $request
-     * @return mixed
-     */
     public function findLabsByCharonLaterEqualToday(Request $request)
     {
-        $charonId = $request->route('charon');
-        $result = \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
-        foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = \DB::table('charon_defenders')
-                ->where ('defense_lab_id', $lab->id) //where id of defense lab equals to id of lab sending by function
-                ->count();
-        }
-        return $result;
+        return $this->labService->findLabsByCharonIdLaterEqualToday($request->route('charon'));
     }
 
     /**

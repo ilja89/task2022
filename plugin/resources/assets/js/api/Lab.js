@@ -9,8 +9,8 @@ class Lab {
                 CharonFormat.getNamesForLabs(labs)
                 then(labs)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
+            })
     }
 
     static save(courseId, start, end, name, teachers, charons, groups, weeks, then) {
