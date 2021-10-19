@@ -17,6 +17,9 @@ use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
 use Zeizig\Moodle\Services\UserService;
 
+global $CFG;
+require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
 class SaveTesterCallback
 {
     /** @var SubmissionService */
@@ -74,9 +77,6 @@ class SaveTesterCallback
     public function run(TesterCallbackRequest $request,
                         GitCallback $gitCallback, array $usernames, int $courseId = null)
     {
-        global $CFG;
-        require_once ($CFG->dirroot . '/mod/charon/lib.php');
-
         $users = $this->getStudentsInvolved($usernames);
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
