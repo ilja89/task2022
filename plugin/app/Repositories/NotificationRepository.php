@@ -2,15 +2,9 @@
 
 namespace TTU\Charon\Repositories;
 
-class EmailRepository
+class NotificationRepository
 {
-    public function sendEmailFromTeacherToStudent($teacherId, $studentId, $emailSubject, $message_text, $message_html) {
-//        global $CFG;
-//        require_once ($CFG->dirroot . '/lib/moodlelib.php');
-//
-//        $CFG->smtphosts = 'smtp.mailtrap.io';
-//        $CFG->smtpuser = '5aa9e89bfe8308';
-//        $CFG->smtppass = '7a2708d228091e';
+    public function sendNotificationFromTeacherToStudent($teacherId, $studentId, $emailSubject, $message_text, $file_path, $charon_id) {
 
         $teacher = \DB::table('user')->where('id', $teacherId)
             ->first();
@@ -18,15 +12,8 @@ class EmailRepository
         $student = \DB::table('user')->where('id', $studentId)
             ->first();
 
-        if(!\core_message\api::get_conversation_between_users([$teacherId, $studentId ])){
-            $conversation = \core_message\api::create_conversation(
-                \core_message\api::MESSAGE_CONVERSATION_TYPE_INDIVIDUAL,
-                [
-                    $teacherId,
-                    $studentId
-                ]
-            );
-        }
+        $charon = \DB::table('charon')->where('id', $charon_id)
+            ->first();
 
         $message = new \core\message\message();
         $message->component = 'mod_charon'; // Your plugin's name
@@ -36,7 +23,12 @@ class EmailRepository
         $message->subject = $emailSubject;
         $message->fullmessage = $message_text;
         $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = '<p>' . $message_text . '</p>';
+        $message->fullmessagehtml = <<<EOT
+<h4>$charon->name</h4><br>
+<b>$teacher->firstname $teacher->lastname</b><br>
+<b>$file_path</b><br>
+$message_text
+EOT;
         $message->smallmessage = 'small message';
         $message->notification = 1; // Because this is a notification generated from Moodle, not a user-to-user message
         $message->contexturl = (new \moodle_url('/course/'))->out(false); // A relevant URL for the notification
@@ -44,9 +36,6 @@ class EmailRepository
         $content = array('*' => array('header' => ' test ', 'footer' => ' test ')); // Extra content for specific processor
         $message->set_additional_content('email', $content);
 
-        $messageid = message_send($message);
-
-
-//        email_to_user($student, $teacher, $emailSubject, $message_text, $message_html, '', '', true);
+        message_send($message);
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <popup-section
-            title="Email and outputs"
+            title="Notification and outputs"
             subtitle="Output from the tester and mail sent to the student."
             class="output-section"
     >

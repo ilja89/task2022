@@ -49,7 +49,7 @@
 <script>
 
     import FileTree from './FileTree'
-    import {ReviewComment, Email} from "../../api";
+    import {ReviewComment, Notification} from "../../api";
     import {mapState} from "vuex";
 
     export default {
@@ -78,6 +78,7 @@
         computed: {
             ...mapState([
                 'charon',
+                'course'
             ]),
 
             activeFile() {
@@ -207,15 +208,14 @@
                 }
             },
 
-            sendEmail() {
-              Email.sendEmailFromTeacherToStudent(
+            sendCommentNotification(subject, message, file_path) {
+              Notification.notifyStudentWhenTeacherComments(
                   this.submission.user_id,
-                  'test_subject',
-                  'test_message_text',
-                  'test_message_html',
+                  subject,
+                  message,
+                  file_path,
                   this.charon.id,
                   () => {
-                    VueEvent.$emit('show-notification', 'Email sent!')
                   }
               )
             },
@@ -227,17 +227,16 @@
                 }
 
                 ReviewComment.add(this.newReviewComment.trim(), this.activeFileId, this.charon.id, this.notify, () => {
-                    this.newReviewComment = ''
-                    VueEvent.$emit('show-notification', 'Review comment added!')
-                    this.$root.$emit('refresh_submission_files')
-
                     if (this.notify) {
                       if (!this.submission) {
                         VueEvent.$emit('show-notification', 'Submission file not yet loaded. Unable to retrive user id!')
                       } else {
-                        this.sendEmail()
+                        this.sendCommentNotification(this.charon.name, this.newReviewComment.trim(), this.activeFile.path)
                       }
                     }
+                    this.newReviewComment = ''
+                    VueEvent.$emit('show-notification', 'Review comment added!')
+                    this.$root.$emit('refresh_submission_files')
                 });
             },
         },
