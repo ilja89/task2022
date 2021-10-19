@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
 function charon_add_instance($test, $mform)
 {
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
@@ -25,6 +27,7 @@ function charon_delete_instance($id)
         // TODO: Make this better!
         $kernel->handle($request = \Illuminate\Http\Request::capture());
     } catch (Exception $e) {
+        Log::error('Charon deletion failed with the exception being: ', [$e]);
     }
 
     $controller = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
