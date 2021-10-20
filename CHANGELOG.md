@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Added
+- /#678 Added logging when an exception is thrown when charon is being deleted by moodle
 
 ## [1.5.4] - 2021-10-11
 
