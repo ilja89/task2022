@@ -43,11 +43,7 @@ class LabServiceTest extends TestCase
         );
     }
 
-
-    /**
-     * @test
-     */
-    public function findUpcomingOrActiveLabsByCharonTest()
+    public function testFindUpcomingOrActiveLabsByCharon()
     {
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
@@ -82,10 +78,7 @@ class LabServiceTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function labQueueStatusTest()
+    public function testLabQueueStatus()
     {
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
