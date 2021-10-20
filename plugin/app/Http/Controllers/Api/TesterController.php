@@ -62,8 +62,7 @@ class TesterController extends Controller
 
         Log::info("Preparing to send inline submission to tester with: ", [
             'charon' => $charon->id,
-            'userId' => $user->id,
-            'content' => $content
+            'user' => $user->id
         ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($charon,
