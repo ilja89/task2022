@@ -3,16 +3,17 @@ import NoStudentSelectedPage from './NoStudentSelectedPage.vue'
 import SubmissionPage from './SubmissionPage.vue'
 import StudentOverviewPage from './StudentOverviewPage.vue'
 import DashboardPage from './DashboardPage.vue'
-import PlagiarismPage from './PlagiarismPage'
-import ReportStatistics from './ReportStatistics'
+import PlagiarismPage from './PlagiarismPage.vue'
+import ReportStatistics from './ReportStatistics.vue'
 import LabsPage from './LabsPage.vue'
-import CharonSettingsPage from "./CharonSettingsPage";
-import CharonSettingsEditingPage from "./CharonSettingsEditingPage";
-import DefenseRegistrationPage from "./DefenseRegistrationPage";
-import TeachersPage from "./TeachersPage";
-import StudentDetailsPage from "./StudentDetailsPage";
+import CharonSettingsPage from "./CharonSettingsPage.vue";
+import CharonSettingsEditingPage from "./CharonSettingsEditingPage.vue";
+import DefenseRegistrationPage from "./DefenseRegistrationPage.vue";
+import TeachersPage from "./TeachersPage.vue"
+import StudentDetailsPage from "./StudentDetailsPage.vue";
 
 export {
     GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage, TeachersPage,
-    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage, StudentDetailsPage
+    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage,
+    StudentDetailsPage
 }

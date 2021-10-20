@@ -757,10 +757,59 @@ function xmldb_charon_upgrade($oldversion = 0)
 
     if ($oldversion < 2021081101){
         $table = new xmldb_table("charon");
-
         $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
+
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021090901){
+        $table = new xmldb_table("charon_course_settings");
+        $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2021101101){
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
+        $DB->execute($sql);
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
+            . "REFERENCES " . $CFG->prefix . "charon (id) ON DELETE CASCADE ON UPDATE CASCADE";
+        $DB->execute($sql);
+    }
+
+    if ($oldversion < 2021101101) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_review_comment(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    user_id BIGINT(10) NOT NULL," .
+            "    submission_file_id BIGINT(10) NOT NULL," .
+            "    code_row_no_start BIGINT(10) NULL," .
+            "    code_row_no_end BIGINT(10) NULL," .
+            "    review_comment TEXT NOT NULL," .
+            "    notify BOOL NOT NULL DEFAULT FALSE," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_charon_review_comment_user (user_id)," .
+            "    INDEX IXFK_charon_review_comment_submission_file (submission_file_id)," .
+            "    CONSTRAINT FK_charon_review_comment_user" .
+            "        FOREIGN KEY (user_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
+            "    CONSTRAINT FK_charon_review_comment_submission_file" .
+            "        FOREIGN KEY (submission_file_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_submission_file(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_review_comment");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
         }
     }
 

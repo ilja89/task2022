@@ -8,7 +8,7 @@
             :expand-on-hover="!is_mobile"
             clipped
             :mini-variant="!is_mobile">
-        <v-list v-for="item in items" nav>
+        <v-list v-for="(item, index) in items" v-bind:key="index" nav>
 
             <v-list-item v-if="item.external" nav :href="item.route()">
                 <v-list-item-icon>
