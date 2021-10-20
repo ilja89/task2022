@@ -10,7 +10,6 @@ use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\ResultRepository;
-use TTU\Charon\Services\AreteResponseParser;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TestSuiteService;
@@ -34,9 +33,6 @@ class SaveTesterCallback
     /** @var TestSuiteService */
     private $testSuiteService;
 
-    /** @var AreteResponseParser */
-    private $areteResponseParser;
-
     /**
      * @param SubmissionService $submissionService
      * @param CharonGradingService $charonGradingService
@@ -49,15 +45,13 @@ class SaveTesterCallback
         CharonGradingService $charonGradingService,
         UserService $userService,
         ResultRepository $resultRepository,
-        TestSuiteService $testSuiteService,
-        AreteResponseParser $areteResponseParser
+        TestSuiteService $testSuiteService
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->userService = $userService;
         $this->resultRepository = $resultRepository;
         $this->testSuiteService = $testSuiteService;
-        $this->areteResponseParser = $areteResponseParser;
     }
 
     /**
