@@ -8,6 +8,7 @@ use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
+use TTU\Charon\Http\Requests\GithubCallbackPostRequest;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
@@ -48,6 +49,11 @@ class GitCallbackController extends Controller
         $this->gitCallbacksRepository = $gitCallbacksRepository;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->gitCallbackService = $gitCallbackService;
+    }
+
+    public function gitHubPostIndex(GithubCallbackPostRequest $request)
+    {
+        Log::info("github callback", [$request]);
     }
 
     /**
