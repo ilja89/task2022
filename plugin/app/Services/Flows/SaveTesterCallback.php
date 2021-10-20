@@ -55,32 +55,75 @@ class SaveTesterCallback
     }
 
     /**
-     * Save a new submission from tester data.
+     * Save a new submission from synchronous tester response.
      *
      * @param TesterCallbackRequest $request
-     * @param GitCallback $gitCallback
-     * @param array $usernames
-     * @param int|null $courseId
+     * @param User $user
+     * @param int $courseId
      *
      * @return Submission
      * @throws Exception
      */
-    public function run(TesterCallbackRequest $request,
-                        GitCallback $gitCallback, array $usernames, int $courseId = null)
+    public function saveTestersSyncResponse(TesterCallbackRequest $request, User $user, int $courseId): Submission
+    {
+        $users = [];
+
+        if (!empty($request->input('returnExtra.usernames'))) {
+            $usernames = collect($request->input('returnExtra.usernames'))
+                ->map(function ($name) { return strtolower($name); })
+                ->unique()
+                ->values()
+                ->all();
+            $users = $this->getStudentsInvolved($usernames);
+        }
+
+        array_unshift($users, $user);
+
+        return $this->executeSave($request, new GitCallback(), $users, $courseId);
+    }
+
+    /**
+     * Save a new submission from asynchronous tester response.
+     *
+     * @param TesterCallbackRequest $request
+     * @param GitCallback $gitCallback
+     * @param array $usernames
+     *
+     * @return Submission
+     * @throws Exception
+     */
+    public function saveTestersAsyncResponse(TesterCallbackRequest $request,GitCallback $gitCallback, array $usernames): Submission
     {
         global $CFG;
         require_once ($CFG->dirroot . '/mod/charon/lib.php');
 
         $users = $this->getStudentsInvolved($usernames);
 
+        return $this->executeSave($request, $gitCallback, $users);
+    }
+
+    /**
+     * Save a new submission from tester data.
+     *
+     * @param TesterCallbackRequest $request
+     * @param GitCallback $gitCallback
+     * @param array $users
+     * @param int|null $courseId
+     *
+     * @return Submission
+     * @throws Exception
+     */
+    private function executeSave(TesterCallbackRequest $request, GitCallback $gitCallback, array $users, int $courseId = null): Submission
+    {
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
 
         if ($request['files']) {
             $this->submissionService->saveFiles($submission->id, $request['files']);
-        } else if ($request->getContent() and array_key_exists('files', json_decode($request->getContent(), true))) {
+        } else if ($request->getContent() and
+            array_key_exists('files', json_decode($request->getContent(), true))) {
             $this->submissionService
                 ->saveFiles($submission->id, json_decode($request->getContent(), true)['files']);
-        };
+        }
 
         $submission->users()->saveMany($users);
 
@@ -96,7 +139,6 @@ class SaveTesterCallback
 
         return $submission;
     }
-
 
     /**
      * @param array|string[] $usernames

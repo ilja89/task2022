@@ -1,5 +1,17 @@
 <template>
     <v-card class="mx-auto" max-width="70vw" outlined raised>
+
+        <v-card>
+            <v-container v-if="activeFileId" class="gray-part">
+                <textarea rows="8" type="text" class="review-comment" v-model="newReviewComment" maxlength="10000"
+                          placeholder="Write a comment for the selected code (visible for the student)">
+                </textarea>
+                <v-btn class="review-comment-button ma-2" tile outlined color="primary"
+                       :disabled="!newReviewComment" @click="addReviewComment">
+                    Add comment
+                </v-btn>
+            </v-container>
+        </v-card>
         <div
                 class="columns is-gapless code-container"
                 :class="{ 'is-round': isRound }"
@@ -35,10 +47,12 @@
 <script>
 
     import FileTree from './FileTree'
+    import ReviewComment from "../../api/ReviewComment";
+    import {mapState} from "vuex";
 
     export default {
 
-        components: {FileTree},
+        components: {FileTree, ReviewComment},
 
         props: {
             submission: {required: true},
@@ -54,10 +68,15 @@
                 files: [],
                 activeFileId: null,
                 formattedFiles: [],
+                newReviewComment: '',
             }
         },
 
         computed: {
+            ...mapState([
+                'charon',
+            ]),
+
             activeFile() {
                 if (this.files.length === 0) {
                     return null
@@ -89,7 +108,6 @@
         methods: {
             getFiles() {
 
-
                 this.files = this.submission.files
                 this.formattedFiles = []
 
@@ -103,6 +121,8 @@
                     this.formattedFiles.forEach((file, idx) => {
                         this.formattedFiles[idx] = this.compressFiles(file);
                     });
+                } else {
+                    this.activeFileId = null
                 }
 
             },
@@ -182,6 +202,19 @@
                     ...file,
                     contents: file.contents.map(this.compressFiles)
                 }
+            },
+
+            addReviewComment() {
+                if (!this.newReviewComment || !this.newReviewComment.trim().length) {
+                    VueEvent.$emit('show-notification', 'Please add content to the comment.')
+                    return
+                }
+
+                ReviewComment.add(this.newReviewComment.trim(), this.activeFileId, this.charon.id, () => {
+                    this.newReviewComment = ''
+                    VueEvent.$emit('show-notification', 'Review comment added!')
+                    this.$root.$emit('refresh_submission_files')
+                });
             },
         },
     }
@@ -265,6 +298,21 @@
                 display: none;
             }
         }
+    }
+
+    .review-comment {
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 10px;
+        background-color: white;
+    }
+
+    .review-comment-button {
+        background: darken(#d6d7d7, 5%);
+    }
+
+    .gray-part {
+        background-color: darken(#fafafa, 5%);
     }
 
 </style>

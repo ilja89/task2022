@@ -91,7 +91,6 @@ class SubmissionService
                 $gitCallback->repo,
                 $authorId
             );
-
         } else {
             $submission = $this->requestHandlingService->getSubmissionFromRequest(
                 $submissionRequest,
@@ -209,8 +208,6 @@ class SubmissionService
         if ($filesRequest == null) {
             return;
         }
-
-        Log::debug("Saving files: ", [sizeof($filesRequest)]);
 
         foreach ($filesRequest as $fileRequest) {
             $submissionFile = $this->requestHandlingService->getFileFromRequest($submissionId, $fileRequest, false);

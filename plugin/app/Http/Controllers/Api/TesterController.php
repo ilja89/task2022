@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
-use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\SaveTesterCallback;
 use TTU\Charon\Services\SubmissionService;
@@ -53,40 +52,37 @@ class TesterController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postSubmission(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        Log::info("Inline submission input for the tester: ", [
+        $user = app(User::class)->currentUser();
+
+        Log::info("Preparing to send inline submission to tester with: ", [
             'charon' => $request->route('charon'),
-            'userId' => app(User::class)->currentUserId(),
-            'sourceFiles' => $content['sourceFiles'],
-            ]);
+            'userId' => $user->id,
+            'content' => $content
+        ]);
 
         $areteRequest = $this->testerCommunicationService->prepareAreteRequest($request->route('charon'),
-            app(User::class)->currentUserId(),
+            $user,
             $content['sourceFiles']);
 
-        $response = $this->testerCommunicationService->sendInfoToTester($areteRequest,
+        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest,
             $this->request->getUriForPath('/api/submissions/saveResults'));
 
         if ($response->getStatus() == 202) {
             try {
                 $responseSubmission = $this->submissionService
-                    ->prepareSubmissionResponse($this->saveResults($response));
+                    ->prepareSubmissionResponse($this->saveResults($response, $user));
 
                 return response()->json([
-                    'message' => 'Testing successful',
+                    'message' => 'Testing the submission was successful',
                     'submission' => $responseSubmission
                 ]);
             } catch (Exception $e) {
                 Log::info("Exception when saving results" , ["exception" => $e]);
             }
-        } else if ($response->getStatus() == 204) {
-            return response()->json([
-                'message' => 'Code has been sent to tester. Please refresh submissions in a while.'
-            ]);
         }
 
         return response()->json([
@@ -98,22 +94,14 @@ class TesterController extends Controller
      * Save submission results that come from tester.
      *
      * @param CharonViewTesterCallbackRequest $request
+     * @param \Zeizig\Moodle\Models\User $user
      *
      * @return Submission
      * @throws Exception
      */
-    public function saveResults(CharonViewTesterCallbackRequest $request)
+    public function saveResults(CharonViewTesterCallbackRequest $request, \Zeizig\Moodle\Models\User $user): Submission
     {
-        Log::info("submissionresults", ["results" => $request]);
-
-        $usernames = collect([$request->input('uniid')])
-            ->merge($request->input('returnExtra.usernames'))
-            ->map(function ($name) { return strtolower($name); })
-            ->unique()
-            ->values()
-            ->all();
-
-        $submission = $this->saveTesterFlow->run($request, new GitCallback(), $usernames,
+        $submission = $this->saveTesterFlow->saveTestersSyncResponse($request, $user,
             intval($request->input('returnExtra')['course']));
 
         $this->saveTesterFlow->hideUnneededFields($submission);

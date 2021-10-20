@@ -10,6 +10,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [1.5.4] - 2021-10-11
+
+### Fixed
+- #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
+  synchronous url
+- #632 Fixed submissions seeders
+- #629 Made templates deleting with charon deleting
+- #625 Fixed templates to be also backupable
+- #610 Fixed most of the vue warnings which are shown in console
+- #662 "Inline" submissions "user" is defined by currently logged user
+
+### Added
+- #618 Synchronous url can now be set in moodle's charon settings
+- #619 User will be notified, when pressing submit in student view and a loading animation will appear instead of
+  the button, while it makes the request and waits for a response
+- #604 Now only last "latest" submission will be highlighted
+- #638 Added css so that when tester returns styled output, it will be displayed that way
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
+
+## [1.5.3] - 2021-10-08
+
+### Fixed
+- #662 "Inline" submissions "user" is defined by currently logged user
 
 ## [1.5.2] - 2021-09-23
 
@@ -84,7 +108,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#522 Show code editor always if there is at least one template (student view)
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
-- \#638 Added css so that when tester returns styled output, it will be displayed that way
 
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
@@ -98,8 +121,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
 - \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
-- \#630 Apache error with submission is no longer thrown
-- \#632 Fixed submissions seeders
 
 ## [1.2.4] - 2021-05-19
 
