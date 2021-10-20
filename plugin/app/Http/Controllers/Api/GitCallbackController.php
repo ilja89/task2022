@@ -51,12 +51,12 @@ class GitCallbackController extends Controller
         $this->gitCallbackService = $gitCallbackService;
     }
 
-    public function gitHubIndex(GithubCallbackPostRequest $request)
+    public function gitHubIndex(Request $request)
     {
         Log::info("github callback", ["req" => $request, "body" => $request->json()]);
     }
 
-    public function gitHubPostIndex(GithubCallbackPostRequest $request)
+    public function gitHubPostIndex(Request $request)
     {
         Log::info("github callback, post", ["req" => $request, "body" => $request->json()]);
     }
