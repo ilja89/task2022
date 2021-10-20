@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->name('git_callback');
     Route::post('git_callback', 'GitCallbackController@indexPost')
         ->name('git_callback_post');
+    Route::get('git_hub_callback', 'GitCallbackController@gitHubindex')
+        ->name('git_hub_callback');
     Route::post('git_hub_callback', 'GitCallbackController@gitHubPostIndex')
         ->name('git_hub_callback_post');
 

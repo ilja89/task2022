@@ -26,9 +26,6 @@ class GithubCallbackPostRequest extends GitCallbackPostRequest
     public function rules()
     {
         return [
-            'repository' => 'required',
-            'repository.ssh_url' => 'required',
-            'repository.owner.email' => 'required',
         ];
     }
 
