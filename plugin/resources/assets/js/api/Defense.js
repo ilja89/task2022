@@ -23,8 +23,25 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
+            })
+    }
+
+    static register(charonId, studentId, defenseLabId, submissionId, progress, then) {
+        axios.post(`/mod/charon/api/charons/${charonId}/submission?user_id=${studentId}`, {
+            charon_id: charonId,
+            defense_lab_id: defenseLabId,
+            submission_id: submissionId,
+            progress: progress,
+        }).then(response => {
+            then(response.data);
+        }).catch(error => {
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error creating a new defense registration.\n' + error, 'danger');
+            if (progress === null) VueEvent.$emit('student-register-end-loading');
+        });
     }
 
     static updateRegistration(courseId, defenseId, progress, teacher_id, then) {

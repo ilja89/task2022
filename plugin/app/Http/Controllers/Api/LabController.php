@@ -22,16 +22,14 @@ class LabController extends Controller
     private $labService;
 
     /**
-     * LabController constructor.
+     * LabDummyController constructor.
+     *
      * @param Request $request
      * @param LabRepository $labRepository
      * @param LabService $labService
      */
-    public function __construct(
-        Request $request,
-        LabRepository $labRepository,
-        LabService $labService
-    ) {
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
+    {
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;
@@ -167,9 +165,9 @@ class LabController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function findUpcomingOrActiveLabsByCharon(Request $request)
+    public function findUpcomingOrActiveLabsByCharon(Charon $charon)
     {
-        return $this->labService->findUpcomingOrActiveLabsByCharon($request->route('charon'));
+        return $this->labService->findUpcomingOrActiveLabsByCharon($charon->id);
     }
 
     /**

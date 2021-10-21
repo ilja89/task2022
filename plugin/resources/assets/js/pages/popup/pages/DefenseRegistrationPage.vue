@@ -8,82 +8,82 @@
                 subtitle="Here are all the registrations for code showing. Select your name in the 'Teacher name' and press start session - then progress will be automatically updated"
         >
             <template slot="header-right">
-                <v-btn class="ma-2" tile outlined color="primary" dense @click="AddRegistration">
+                <v-btn class="ma-2" tile outlined color="primary" dense @click="addRegistration">
                     Add registration
                 </v-btn>
             </template>
-                <v-card class="mx-auto" outlined light raised>
-                    <v-container class="spacing-playground pa-3" fluid>
-                        <v-row>
+            <v-card class="mx-auto" outlined light raised>
+                <v-container class="spacing-playground pa-3" fluid>
+                    <v-row>
 
-                            <v-col cols="12" xs="12" sm="12" md="6" lg="3">
-                                <div class="helper">
-                                    After
-                                </div>
-                                <div class="datepick">
-                                    <datepicker :datetime="after"></datepicker>
-                                    <input type="hidden" :value="after">
-                                </div>
-                            </v-col>
+                        <v-col cols="12" xs="12" sm="12" md="6" lg="3">
+                            <div class="helper">
+                                After
+                            </div>
+                            <div class="datepick">
+                                <datepicker :datetime="after"></datepicker>
+                                <input type="hidden" :value="after">
+                            </div>
+                        </v-col>
 
-                            <v-col cols="12" xs="12" sm="12" md="6" lg="3">
-                                <div class="helper">
-                                    Before
-                                </div>
-                                <div class="datepick">
-                                    <datepicker :datetime="before"></datepicker>
-                                    <input type="hidden" :value="before">
-                                </div>
-                            </v-col>
+                        <v-col cols="12" xs="12" sm="12" md="6" lg="3">
+                            <div class="helper">
+                                Before
+                            </div>
+                            <div class="datepick">
+                                <datepicker :datetime="before"></datepicker>
+                                <input type="hidden" :value="before">
+                            </div>
+                        </v-col>
 
-                            <v-col cols="12" xs="12" sm="4" md="4" lg="2">
-                                <div class="helper">
-                                    Teacher name
-                                </div>
+                        <v-col cols="12" xs="12" sm="4" md="4" lg="2">
+                            <div class="helper">
+                                Teacher name
+                            </div>
 
-                                <v-select
-                                        :disabled="isSessionActive"
-                                        class="mx-auto"
-                                        dense
-                                        single-line
-                                        item-text="fullname"
-                                        item-value="id"
-                                        :items="teachers"
-                                        v-model="filter_teacher"
-                                ></v-select>
-                            </v-col>
+                            <v-select
+                                    :disabled="isSessionActive"
+                                    class="mx-auto"
+                                    dense
+                                    single-line
+                                    item-text="fullname"
+                                    item-value="id"
+                                    :items="teachers"
+                                    v-model="filter_teacher"
+                            ></v-select>
+                        </v-col>
 
-                            <v-col cols="12" xs="12" sm="4" md="4" lg="2">
-                                <div class="helper">
-                                    Progress
-                                </div>
+                        <v-col cols="12" xs="12" sm="4" md="4" lg="2">
+                            <div class="helper">
+                                Progress
+                            </div>
 
-                                <v-select
-                                        class="mx-auto"
-                                        dense
-                                        :items="all_progress_types"
-                                        v-model="filter_progress"
-                                ></v-select>
-                            </v-col>
+                            <v-select
+                                    class="mx-auto"
+                                    dense
+                                    :items="all_progress_types"
+                                    v-model="filter_progress"
+                            ></v-select>
+                        </v-col>
 
-                            <v-col cols="12" xs="12" sm="4" md="4" lg="2">
-                                <v-btn class="ma-2" tile outlined color="primary" dense @click="apply">
-                                    Apply
-                                </v-btn>
+                        <v-col cols="12" xs="12" sm="4" md="4" lg="2">
+                            <v-btn class="ma-2" tile outlined color="primary" dense @click="apply">
+                                Apply
+                            </v-btn>
 
-                                <v-btn class="ma-2" tile outlined color="error" dense @click="endSession"
-                                       v-if="isSessionActive">
-                                    End session
-                                </v-btn>
+                            <v-btn class="ma-2" tile outlined color="error" dense @click="endSession"
+                                   v-if="isSessionActive">
+                                End session
+                            </v-btn>
 
-                                <v-btn class="ma-2" tile outlined color="primary" dense @click="startSession" v-else>
-                                    Start session
-                                </v-btn>
-                            </v-col>
+                            <v-btn class="ma-2" tile outlined color="primary" dense @click="startSession" v-else>
+                                Start session
+                            </v-btn>
+                        </v-col>
 
-                        </v-row>
-                    </v-container>
-                </v-card>
+                    </v-row>
+                </v-container>
+            </v-card>
 
             <defense-registrations-section :defense-list="defenseList" :teachers="teachers"/>
         </popup-section>
@@ -183,9 +183,10 @@
                     this.defenseList = response
                 })
             },
-            AddRegistration(){
+
+            addRegistration() {
                 router.push(`addRegistration`)
-            }
+            },
         }
     }
 </script>

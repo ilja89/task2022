@@ -13,7 +13,6 @@ use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
 
-
 /**
  * Class CharonRepository.
  * Used to handle database actions.
@@ -31,18 +30,19 @@ class LabRepository
 
     /**
      * LabRepository constructor.
+     *
      * @param ModuleService $moduleService
-     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      * @param LabTeacherRepository $labTeacherRepository
+     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      */
     public function __construct(
         ModuleService $moduleService,
-        CharonDefenseLabRepository $charonDefenseLabRepository,
-        LabTeacherRepository $labTeacherRepository
+        LabTeacherRepository $labTeacherRepository,
+        CharonDefenseLabRepository $charonDefenseLabRepository
     ) {
         $this->moduleService = $moduleService;
-        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
         $this->labTeacherRepository = $labTeacherRepository;
+        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
     }
 
     /**
@@ -134,7 +134,7 @@ class LabRepository
     }
 
     /**
-     * Get an instance of Charon by its id.
+     * Get an instance of Charon lab by its id.
      *
      * @param integer $id
      *
@@ -325,6 +325,37 @@ class LabRepository
     }
 
     /**
+     * Get all ongoing and upcoming labs.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function getLabsByCharonIdLaterEqualToday(int $charonId)
+    {
+        $result = \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
+            ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select(
+                'charon_lab.id',
+                'charon_defense_lab.id as defense_lab_id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.name',
+                'charon_lab.course_id')
+            ->get();
+
+        foreach ($result as &$lab) {
+            $lab->defenders_num = \DB::table('charon_defenders')
+                ->where('defense_lab_id', $lab->id) // where id of defense lab equals to id of lab sending by function
+                ->count();
+        }
+
+        return $result;
+    }
+
+    /**
      * @param $charonId
      * @return int[]
      */
@@ -497,7 +528,7 @@ class LabRepository
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
         ->where('charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
+            ->select('charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
 
