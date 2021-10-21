@@ -517,4 +517,19 @@ class LabRepository
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
     }
+
+    /**
+     *
+     * @param int $charonId
+     * @return mixed
+     */
+    public function getLabsWithStartAndEndTimes(int $charonId){
+        return \DB::table('charon_lab')
+        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+        ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select('charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
+            ->get();
+    }
+
 }
