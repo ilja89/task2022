@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+
+### Added
+
+## [1.5.4] - 2021-10-11
+
+### Fixed
 - #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
 - #632 Fixed submissions seeders
