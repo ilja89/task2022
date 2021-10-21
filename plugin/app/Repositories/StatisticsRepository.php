@@ -44,22 +44,26 @@ class StatisticsRepository
         $lastYear = date("Y-12-31", strtotime("-1 years"));
         $lastYearDateTime = new DateTime($lastYear);
 
-        $firstSubmission = DB::select(DB::raw(
-            "SELECT DATE(created_at) AS date1 FROM mdl_charon_submission WHERE charon_id = " . $charonId . " ORDER BY date1 LIMIT 0,1"
-        ));
+        $firstSubmission = DB::table('charon_submission')
+            ->select('created_at')
+            ->where('charon_id', $charonId)
+            ->orderBy('created_at')
+            ->first();
 
         if (count($firstSubmission) == 0) {
             return [];
         }
 
-        $date1 = array_pop($firstSubmission)->date1;
+        $date1 = $firstSubmission->created_at;
         $firstSubmissionDate = new DateTime($date1);
 
-        $lastSubmission =DB::select(DB::raw(
-            "SELECT DATE(created_at) AS date2 FROM mdl_charon_submission WHERE charon_id = " . $charonId . " ORDER BY date2 DESC LIMIT 0,1"
-        ));
+        $lastSubmission = DB::table('charon_submission')
+            ->select('created_at')
+            ->where('charon_id', $charonId)
+            ->orderByDesc('created_at')
+            ->first();
 
-        $date2 = array_pop($lastSubmission)->date2;
+        $date2 = $lastSubmission->created_at;
         $lastSubmissionDate = new DateTime($date2);
 
         $firstSubmissionDays = (int) date_diff($lastYearDateTime, $firstSubmissionDate)->format('%a');
@@ -94,6 +98,8 @@ class StatisticsRepository
      */
     public function findSubmissionCountsToday(int $charonId)
     {
+        $prefix = $this->moodleConfig->prefix;
+
         return DB::select(DB::raw(
             "(SELECT TIME(
         DATE_ADD(
@@ -101,7 +107,7 @@ class StatisticsRepository
         INTERVAL IF(MINUTE(created_at) < 30, 00, 30) MINUTE
         )) AS time, COUNT(*) AS count
         
-        FROM mdl_charon_submission
+        FROM " . $prefix . "charon_submission
         WHERE DATE(created_at) = CURDATE() AND charon_id = " . $charonId . "
         GROUP BY time)
         
@@ -115,7 +121,7 @@ class StatisticsRepository
         SELECT TIME(DATE_ADD(
         DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00'),
         INTERVAL IF(MINUTE(created_at) < 30, 00, 30) MINUTE)) AS time
-        FROM mdl_charon_submission
+        FROM " . $prefix . "charon_submission
         WHERE DATE(created_at) = CURDATE() AND charon_id = " . $charonId . ")
         
         GROUP BY table2.time)
@@ -137,58 +143,64 @@ class StatisticsRepository
         $generalInformation = new stdClass();
         $defenseItemNumber = 1001;
 
-        Log::debug(print_r($generalInformation, true));
-
-        // find charon category id
-        $categoryId = DB::table('charon')
-            ->where('id', $charonId)
-            ->pluck('category_id');
-
-        Log::debug(print_r($categoryId, true));
-
-        // find defense grade_item ids that belong to this charon
-        $defenseGradeItemIds = DB::table('grade_items')
-            ->select('id')
-            ->whereNotNull('categoryid')
-            ->where('categoryid', $categoryId)
-            ->where('itemnumber', $defenseItemNumber)
-            ->pluck('id');
-
-        Log::debug(print_r($defenseGradeItemIds, true));
-
-        // find amount students that have at least one submission
-        $studentsStarted = DB::table('charon_submission')
-            ->where('charon_id', $charonId)
-            ->distinct()
-            ->count('user_id');
-
-        Log::debug(print_r($studentsStarted, true));
-
+        $categoryId = $this->findCharonCategoryId($charonId);
+        $defenseGradeItemIds = $this->findDefenseGradeItemIds($categoryId, $defenseItemNumber);
+        $studentsStarted = $this->findStudentsStartedAmount($charonId);
+        $studentsDefended = $this->findStudentsDefendedAmount($defenseGradeItemIds);
+        $avgDefenseGrade = $this->findAverageDefenseGrade($defenseGradeItemIds);
         // find amount students that have defended (def grade > 0)
-        $studentsDefended = DB::table('grade_grades')
-            ->whereIn('itemid', $defenseGradeItemIds)
-            ->whereNotNull('finalgrade')
-            ->where('finalgrade', '>', 0)
-            ->count();
-
-        Log::debug(print_r($studentsDefended, true));
 
         // find average defense grade
-        $avgDefenseGrade = DB::table('grade_grades')
-            ->whereIn('itemid', $defenseGradeItemIds)
-            ->whereNotNull('finalgrade')
-            ->where('finalgrade', '>', 0)
-            ->avg('finalgrade');
 
-        Log::debug(print_r($avgDefenseGrade, true));
 
         // add values to object
         $generalInformation->studentsStarted = $studentsStarted;
         $generalInformation->studentsDefended = $studentsDefended;
         $generalInformation->avgDefenseGrade = $avgDefenseGrade;
 
-        Log::debug(print_r($generalInformation, true));
-
         return json_encode($generalInformation);
+    }
+
+    function findCharonCategoryId($charonId)
+    {
+        return DB::table('charon')
+            ->where('id', $charonId)
+            ->value('category_id');
+    }
+
+    function findDefenseGradeItemIds($categoryId, $defenseItemNumber): \Illuminate\Support\Collection
+    {
+        return DB::table('grade_items')
+            ->select('id')
+            ->whereNotNull('categoryid')
+            ->where('categoryid', $categoryId)
+            ->where('itemnumber', $defenseItemNumber)
+            ->pluck('id');
+    }
+
+    function findStudentsStartedAmount($charonId): int
+    {
+        return DB::table('charon_submission')
+            ->where('charon_id', $charonId)
+            ->distinct()
+            ->count('user_id');
+    }
+
+    function findStudentsDefendedAmount($defenseGradeItemIds)
+    {
+        return DB::table('grade_grades')
+            ->whereIn('itemid', $defenseGradeItemIds)
+            ->whereNotNull('finalgrade')
+            ->where('finalgrade', '>', 0)
+            ->count();
+    }
+
+    function findAverageDefenseGrade($defenseGradeItemIds)
+    {
+        return DB::table('grade_grades')
+            ->whereIn('itemid', $defenseGradeItemIds)
+            ->whereNotNull('finalgrade')
+            ->where('finalgrade', '>', 0)
+            ->avg('finalgrade');
     }
 }
