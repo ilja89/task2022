@@ -773,7 +773,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021091501){
+    if ($oldversion < 2021101101){
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
         $DB->execute($sql);
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
@@ -781,7 +781,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute($sql);
     }
 
-    if ($oldversion < 2021092701) {
+    if ($oldversion < 2021101101) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_review_comment(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    user_id BIGINT(10) NOT NULL," .
