@@ -109,4 +109,9 @@ return [
         'detail' => '',
     ],
 
+    'no_submission' => [
+        'title' => 'No eligible submission was found for registration.',
+        'detail' => '',
+    ],
+
 ];

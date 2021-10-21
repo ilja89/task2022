@@ -145,14 +145,15 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Count registrations given student has with given charon on given lab.
+     *
      * @param int $studentId
      * @param int $charonId
-     * @param Carbon $labStart
-     * @param Carbon $labEnd
+     * @param int $labId
      *
      * @return int
      */
-    public function getUserPendingRegistrationsCount(int $studentId, int $charonId, Carbon $labStart, Carbon $labEnd)
+    public function getUserPendingRegistrationsCount(int $studentId, int $charonId, int $labId): int
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -160,8 +161,7 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.charon_id', $charonId)
             ->where('charon_defenders.student_id', $studentId)
             ->where('charon_defenders.progress', '!=', 'Done')
-            ->where('charon_lab.start', date($labStart))
-            ->where('charon_lab.end', date($labEnd))
+            ->where('charon_lab.id', $labId)
             ->select('charon_lab.id')
             ->count();
     }

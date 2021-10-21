@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Services\CharonService;
 use TTU\Charon\Services\LogParseService;
 use Zeizig\Moodle\Models\Course;
 
@@ -14,6 +15,9 @@ class CharonsController extends Controller
 {
     /** @var CharonRepository */
     private $charonRepository;
+
+    /** @var CharonService */
+    private $charonService;
 
     /** @var LogParseService */
     private $logParser;
@@ -23,26 +27,25 @@ class CharonsController extends Controller
      *
      * @param Request $request
      * @param CharonRepository $charonRepository
+     * @param CharonService $charonService
      * @param LogParseService $logParser
      */
-    public function __construct(Request $request, CharonRepository $charonRepository, LogParseService $logParser)
-    {
+    public function __construct(
+        Request $request,
+        CharonRepository $charonRepository,
+        CharonService $charonService,
+        LogParseService $logParser
+    ) {
         parent::__construct($request);
 
         $this->charonRepository = $charonRepository;
+        $this->charonService = $charonService;
         $this->logParser = $logParser;
     }
 
-    /**
-     * Get Charons by course.
-     *
-     * @param Course $course
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|Charon[]
-     */
-    public function getByCourse(Course $course)
+    public function getByCourse(Course $course): array
     {
-        return $this->charonRepository->findCharonsByCourse($course->id);
+        return $this->charonService->findCharonsByCourseId($course->id);
     }
 
     /**

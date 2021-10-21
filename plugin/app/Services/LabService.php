@@ -41,6 +41,31 @@ class LabService
     }
 
     /**
+     * Get lab by its identifier.
+     *
+     * @param int $labId
+     *
+     * @return Lab
+     */
+    public function getLabById(int $labId): Lab
+    {
+        return $this->labRepository->getLabById($labId);
+    }
+
+    /**
+     * Get ongoing and upcoming labs, including students registered for each lab
+     * with given charon identifier got from request.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function findLabsByCharonIdLaterEqualToday(int $charonId)
+    {
+        return $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
+    }
+
+    /**
      * Function to return time shift array for registrations in labQueueStatus
      *
      * @param $registrations

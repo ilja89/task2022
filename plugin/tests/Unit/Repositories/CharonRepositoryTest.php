@@ -31,7 +31,6 @@ class CharonRepositoryTest extends TestCase
             Mockery::mock(ModuleService::class),
             Mockery::mock(FileUploadService::class),
             Mockery::mock(GradebookService::class),
-            Mockery::mock(CharonDefenseLabRepository::class),
             $this->labRepository = Mockery::mock(LabRepository::class)
         );
     }

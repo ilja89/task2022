@@ -22,16 +22,14 @@ class LabController extends Controller
     private $labService;
 
     /**
-     * LabController constructor.
+     * LabDummyController constructor.
+     *
      * @param Request $request
      * @param LabRepository $labRepository
      * @param LabService $labService
      */
-    public function __construct(
-        Request $request,
-        LabRepository $labRepository,
-        LabService $labService
-    ) {
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
+    {
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;
