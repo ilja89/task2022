@@ -142,7 +142,7 @@ class LabService
     public function findUpcomingOrActiveLabsByCharon(int $charonId){
         $result = $this->labRepository->getLabsWithStartAndEndTimes($charonId);
         foreach ($result as $lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
+            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->defense_lab_id);
         }
         return $result;
     }

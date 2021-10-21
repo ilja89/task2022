@@ -528,7 +528,7 @@ class LabRepository
         ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
         ->where('charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
+            ->select('charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
             ->get();
     }
 
