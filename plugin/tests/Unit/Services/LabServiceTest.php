@@ -78,7 +78,7 @@ class LabServiceTest extends TestCase
         }
     }
 
-    public function testLabQueueStatus()
+    public function testStudentsQueueLabNotStarted()
     {
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
@@ -121,7 +121,7 @@ class LabServiceTest extends TestCase
 
         $registrations = array($reg1, $reg2, $reg3, $reg4, $reg5, $reg6, $reg7);
 
-        $this->defenseRegistrationRepository->shouldReceive('getListOfLabRegistrationsByLabId')
+        $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsIfLabNotStartedByLabId')
             ->once()
             ->with(401)
             ->andReturn($registrations);
@@ -130,6 +130,14 @@ class LabServiceTest extends TestCase
             ->once()
             ->with(401)
             ->andReturn(3); // this is a number of teachers for lab
+
+        $this->labTeacherRepository->shouldReceive('getAllLabTeachersByLab')
+            ->once()
+            ->with(401)
+            ->andReturn([]);
+        $this->defenseRegistrationRepository->shouldReceive('getTeacherAndDefendingCharonByLab')
+            ->once()
+            ->with(401);
 
         $result = $this->service->labQueueStatus($user, $this->lab);
 
@@ -171,6 +179,6 @@ class LabServiceTest extends TestCase
 
         $expectedResult = array($expectedReg1, $expectedReg2, $expectedReg3, $expectedReg4, $expectedReg5, $expectedReg6, $expectedReg7);
 
-        $this->assertEquals($expectedResult, $result);
+        $this->assertEquals($expectedResult, $result['registrations']);
     }
 }
