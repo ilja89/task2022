@@ -50,7 +50,7 @@ class StatisticsRepository
             ->orderBy('created_at')
             ->first();
 
-        if (count($firstSubmission) == 0) {
+        if ($firstSubmission == null) {
             return [];
         }
 
@@ -148,12 +148,7 @@ class StatisticsRepository
         $studentsStarted = $this->findStudentsStartedAmount($charonId);
         $studentsDefended = $this->findStudentsDefendedAmount($defenseGradeItemIds);
         $avgDefenseGrade = $this->findAverageDefenseGrade($defenseGradeItemIds);
-        // find amount students that have defended (def grade > 0)
 
-        // find average defense grade
-
-
-        // add values to object
         $generalInformation->studentsStarted = $studentsStarted;
         $generalInformation->studentsDefended = $studentsDefended;
         $generalInformation->avgDefenseGrade = $avgDefenseGrade;
