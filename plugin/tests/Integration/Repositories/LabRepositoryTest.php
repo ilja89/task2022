@@ -26,8 +26,8 @@ class LabRepositoryTest extends TestCase
         parent::setUp();
         $this->repository = new LabRepository(
             Mockery::mock(ModuleService::class),
-            Mockery::mock(CharonDefenseLabRepository::class),
-            Mockery::mock(LabTeacherRepository::class)
+            Mockery::mock(LabTeacherRepository::class),
+            Mockery::mock(CharonDefenseLabRepository::class)
         );
     }
 
