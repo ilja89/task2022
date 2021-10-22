@@ -7,17 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-- #577 Registration for defense gives errors on following situations to the student: invalid charon setup, 
+
+### Added
+- #514 My registration shows the registration status
+- #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
+- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- #505 Ability for teachers to register students for a defence
+- #518 Defence registration status showing before defence start wit approximated time.
+- #577 Registration for defense gives errors on following situations to the student: invalid charon setup,
 - can not register twice submission for the same charon, can not register as lab is full
+- #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within
+- the search parameters.
+- #560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
+
+### Added
+
+- #514 My registration shows the registration status
+- #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
+- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- #504 UI for teacher for registering a student for defence
+- #571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
+- #569 Ability for students to cancel their registrations if there are less than 2 hours remaining to lab's start
+
+## [1.5.4] - 2021-10-11
+
+### Fixed
 - #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
-- #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within the search parameters.
 - #632 Fixed submissions seeders
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
 - #662 "Inline" submissions "user" is defined by currently logged user
-- #560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -27,12 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #638 Added css so that when tester returns styled output, it will be displayed that way
 - #589 Added the ability for teachers to add feedback for students' submissions
 - #635 Backup and restore possibility for charon_review_comment table
-- #514 My registration shows the registration status
-- #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
-- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
-- #504 UI for teacher for registering a student for defence
-- #571 Ability to clear teacher and progress from defense registrations filter in defense registrations view, popup
-- #569 Ability for students to cancel their registrations if there are less than 2 hours remaining to lab's start
 
 ## [1.5.3] - 2021-10-08
 

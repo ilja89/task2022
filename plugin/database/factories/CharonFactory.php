@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
@@ -129,5 +130,12 @@ $factory->define(Template::class, function (Generator $faker) {
         'charon_id' => 1,
         'path' => 'EX00/Missing.java',
         'contents' => 'missing code'
+    ];
+});
+
+$factory->define(CharonDefenseLab::class, function (Generator $faker) {
+    return [
+        'lab_id' => 0,
+        'charon_id' => 0,
     ];
 });

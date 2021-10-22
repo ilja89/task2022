@@ -6,8 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
+use TTU\Charon\Services\LabService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -15,16 +18,21 @@ class LabController extends Controller
     /** @var LabRepository */
     private $labRepository;
 
+    /** @var LabService */
+    private $labService;
+
     /**
      * LabDummyController constructor.
      *
      * @param Request $request
      * @param LabRepository $labRepository
+     * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository)
+    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
     {
         parent::__construct($request);
         $this->labRepository = $labRepository;
+        $this->labService = $labService;
     }
 
     /**
@@ -85,7 +93,7 @@ class LabController extends Controller
             $this->request['name'],
             $this->request['teachers'],
             $this->request['charons'],
-            $this->request['groups'],
+            $this->request['groups']
         );
     }
 
@@ -157,21 +165,9 @@ class LabController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function findLabsByCharonLaterEqualToday(Request $request)
+    public function findUpcomingOrActiveLabsByCharon(Charon $charon)
     {
-        $charonId = $request->route('charon');
-        $result = \DB::table('charon_lab')  // id, start, end
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-        ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
-        foreach ($result as &$lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = \DB::table('charon_defenders')
-                ->where ('defense_lab_id', $lab->id) //where id of defense lab equals to id of lab sending by function
-                ->count();
-        }
-        return $result;
+        return $this->labService->findUpcomingOrActiveLabsByCharon($charon->id);
     }
 
     /**
@@ -189,4 +185,15 @@ class LabController extends Controller
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
     }
 
+    /**
+     * Returns queue status in the form of an array, with approximate defence times.
+     *
+     * @param Charon $charon
+     * @param CharonDefenseLab $defenseLab
+     * @return array
+     */
+    public function getLabQueueStatus(Charon $charon, CharonDefenseLab $defenseLab)
+    {
+        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $defenseLab->lab);
+    }
 }

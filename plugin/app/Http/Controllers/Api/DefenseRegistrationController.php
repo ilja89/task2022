@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
@@ -13,6 +12,7 @@ use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
+use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -27,6 +27,9 @@ class DefenseRegistrationController extends Controller
     /** @var DefenceRegistrationService */
     protected $registrationService;
 
+    /** @var LabService */
+    protected $labService;
+
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
@@ -37,6 +40,7 @@ class DefenseRegistrationController extends Controller
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param DefenceRegistrationService $registrationService
+     * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
      */
     public function __construct(
@@ -44,41 +48,29 @@ class DefenseRegistrationController extends Controller
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
+        LabService $labService,
         CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->registrationService = $registrationService;
+        $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
     }
 
     /**
-     * Student registers for a defence time slot
-     *
-     * @param Request $request
-     *
-     * @return string
      * @throws RegistrationException
      */
-    public function studentRegisterDefence(Request $request): string
+    public function registerDefence(Request $request): string
     {
-        $studentId = $request->input('user_id');
-        $submissionId = $request->input('submission_id');
-        $charonId = $request->input('charon_id');
-        $defenseLabId = $request->input('defense_lab_id');
-
-        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-        $this->registrationService->validateRegistration($studentId, $charonId, $lab);
-
-        $this->registrationService->registerDefenceTime(
-            $studentId,
-            $submissionId,
-            $charonId,
-            $defenseLabId
+        return $this->registrationService->registerDefence(
+            $request->input("user_id"),
+            $request->input("charon_id"),
+            $request->input("defense_lab_id"),
+            $request->input('submission_id'),
+            $request->input("progress")
         );
-
-        return 'inserted';
     }
 
     /**

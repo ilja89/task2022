@@ -43,6 +43,7 @@
                 <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
+                <registration-queue-sheet v-if="checkLabNotEnded(item)" :labData="item"/>
               </template>
             </v-data-table>
           </v-flex>
@@ -59,6 +60,7 @@ import moment from 'moment'
 import {Translate} from '../../../mixins';
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
+import RegistrationQueueSheet from "./RegistrationQueueSheet";
 
 export default {
 	mixins: [Translate],
@@ -84,11 +86,15 @@ export default {
 	},
 
 	methods: {
-  	deleteItem(item) {
-			if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-				this.deleteReg(item);
-			}
-		},
+        checkLabNotEnded({lab_end}) {
+            return new Date() <= new Date(lab_end);
+        },
+
+        deleteItem(item) {
+            if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+                this.deleteReg(item);
+            }
+        },
 
 		deleteReg(defense_lab_item) {
 			Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'], defense_lab_item['submission_id'], (xs) => {
@@ -101,8 +107,7 @@ export default {
 			})
 		},
 
-    showDeleteButton({lab_end,progress})
-    {
+    showDeleteButton({lab_end,progress}) {
       if(progress!=="Waiting")
       {
         return false;
@@ -111,11 +116,7 @@ export default {
       let dateEnd = lab_end.split(" ");
       dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
       dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
-      if(dateNow.getTime()>dateEnd.getTime())
-      {
-        return false;
-      }
-      return true;
+      return dateNow.getTime() <= dateEnd.getTime();
     }
 	},
 

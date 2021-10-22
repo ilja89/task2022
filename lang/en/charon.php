@@ -205,3 +205,8 @@ $string['source_files'] = 'Source Files';
 $string['reset_to_templates'] = 'Reset templates';
 $string['feedback-text'] = 'Feedback';
 $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, it will be visible here.';
+$string['queue_status'] = 'Queue status';
+$string['nr_in_queue'] = 'Nr';
+$string['estimated_start_time'] = 'Estimated start time';
+$string['student'] = 'Student';
+
