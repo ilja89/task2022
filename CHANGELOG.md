@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
 
 ## [1.5.4] - 2021-10-11
 
