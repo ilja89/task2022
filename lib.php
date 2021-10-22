@@ -1,5 +1,7 @@
 <?php
 
+use Zeizig\Moodle\Services\GradebookService;
+
 function charon_add_instance($test, $mform)
 {
     require_once __DIR__ . '/plugin/bootstrap/helpers.php';
@@ -139,10 +141,65 @@ function charon_supports($feature)
 
     switch ($feature) {
         case FEATURE_GRADE_HAS_GRADE:
-            return true;
+            return false;
         case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_COMPLETION_HAS_RULES:
             return true;
         default:
             return null;
     }
+}
+
+/**
+ * Obtains the completion state for a user that has submitted to a charon
+ *
+ * @param object $course Course
+ * @param object $cm Course-module
+ * @param int $userid User ID
+ * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
+ * @return bool True if completed, false if not, $type if conditions not set.
+ */
+function charon_get_completion_state($course, $cm, $userid, $type) {
+    $gradeService = app(GradebookService::class);
+    global $DB;
+
+    // Get charon  details
+    $charon = $DB->get_record('charon', array('id' => $cm->instance), '*', MUST_EXIST);
+
+    $threshold = $charon->defense_threshold;
+
+    // If completion option is enabled, evaluate it and return true/false
+    if ($threshold && $threshold >= 0 && $threshold <= 100) {
+
+        $categoryGradeItem = $gradeService->getGradeItemByCategoryId($charon->category_id);
+        $categoryGradeGrade = $gradeService->getGradeForGradeItemAndUser($categoryGradeItem->id, $userid);
+
+        $category_grade = $categoryGradeItem->grademax;
+        $finalgrade = 0;
+        if ($categoryGradeGrade !== null) {
+            $finalgrade = $categoryGradeGrade->finalgrade;
+        }
+
+        return ($threshold * $category_grade / 100) <= $finalgrade;
+    } else {
+        // Completion option is not enabled so just return $type
+        return $type;
+    }
+}
+
+function update_charon_completion_state($submission, $userId) {
+    global $DB, $CFG;
+    require_once ($CFG->dirroot . '/lib/completionlib.php');
+
+    $course = $DB->get_record('course', array('id' => $submission->charon->course), '*', MUST_EXIST);
+    $mod_info = get_fast_modinfo($course);
+    $cm = $mod_info->get_cm($submission->charon->category_id);
+    $completion = new \completion_info($course);
+
+    if ($completion->is_enabled($cm)) {
+        $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
+    }
+
+    return $submission;
 }
