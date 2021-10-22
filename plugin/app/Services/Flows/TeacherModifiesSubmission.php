@@ -46,6 +46,9 @@ class TeacherModifiesSubmission
      */
     public function run(Submission $submission, $newResults)
     {
+        global $CFG;
+        require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
         $teacherId = $this->user->currentUserId();
 
         $this->updateResults($submission, $newResults);
@@ -58,6 +61,8 @@ class TeacherModifiesSubmission
             $this->submissionsRepository->confirmSubmission($submission, $teacherId);
 
             $this->charonGradingService->updateProgressByStudentId($submission->charon_id, $submission->id, $student->id, $teacherId, 'Done');
+
+            update_charon_completion_state($submission, $student->id);
         }
 
         return $submission;
