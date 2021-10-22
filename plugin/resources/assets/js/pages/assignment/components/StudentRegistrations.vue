@@ -56,11 +56,9 @@
 
 <script>
 
-import moment from 'moment'
 import {Translate} from '../../../mixins';
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
-import RegistrationQueueSheet from "./RegistrationQueueSheet";
 
 export default {
 	mixins: [Translate],
@@ -86,15 +84,15 @@ export default {
 	},
 
 	methods: {
-        checkLabNotEnded({lab_end}) {
-            return new Date() <= new Date(lab_end);
-        },
+		checkLabNotEnded({lab_end}) {
+			return new Date() <= new Date(lab_end);
+		},
 
-        deleteItem(item) {
-            if (confirm(this.translate("registrationDeletionConfirmationText"))) {
-                this.deleteReg(item);
-            }
-        },
+		deleteItem(item) {
+			if (confirm(this.translate("registrationDeletionConfirmationText"))) {
+				this.deleteReg(item);
+			}
+		},
 
 		deleteReg(defense_lab_item) {
 			Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'], defense_lab_item['submission_id'], (xs) => {
@@ -107,17 +105,18 @@ export default {
 			})
 		},
 
-    showDeleteButton({lab_end,progress}) {
-      if(progress!=="Waiting")
-      {
-        return false;
-      }
-      const dateNow = new Date();
-      let dateEnd = lab_end.split(" ");
-      dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
-      dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
-      return dateNow.getTime() <= dateEnd.getTime();
-    }
+		showDeleteButton({lab_end,progress}) {
+
+			if (progress !== "Waiting") {
+				return false;
+			}
+
+			const dateNow = new Date();
+			let dateEnd = lab_end.split(" ");
+			dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
+			dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
+			return dateNow.getTime() <= dateEnd.getTime();
+		}
 	},
 
 	computed: {
