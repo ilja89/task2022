@@ -59,6 +59,7 @@
 import {Translate} from '../../../mixins';
 import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
+import RegistrationQueueSheet from "./RegistrationQueueSheet";
 
 export default {
 	mixins: [Translate],
