@@ -27,4 +27,16 @@ class UserRepository
     {
         return User::findOrFail($id);
     }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function findByEmail(string $email)
+    {
+        return User::where('email', $email)
+            ->get()
+            ->first();
+    }
 }
