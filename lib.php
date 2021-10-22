@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Zeizig\Moodle\Services\GradebookService;
 
 function charon_add_instance($test, $mform)
@@ -27,6 +28,7 @@ function charon_delete_instance($id)
         // TODO: Make this better!
         $kernel->handle($request = \Illuminate\Http\Request::capture());
     } catch (Exception $e) {
+        Log::error('Charon deletion failed with the exception being: ', [$e]);
     }
 
     $controller = $app->make(\TTU\Charon\Http\Controllers\InstanceController::class);
