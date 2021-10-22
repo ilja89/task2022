@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use stdClass;
 use TTU\Charon\Facades\MoodleConfig;
 
@@ -146,7 +145,7 @@ class StatisticsRepository
         $categoryId = $this->findCharonCategoryId($charonId);
         $defenseGradeItemIds = $this->findDefenseGradeItemIds($categoryId, $defenseItemNumber);
         $studentsStarted = $this->findStudentsStartedAmount($charonId);
-        $studentsDefended = $this->findStudentsDefendedAmount($defenseGradeItemIds);
+        $studentsDefended = $this->findStudentsDefendedAmount($charonId);
         $avgDefenseGrade = $this->findAverageDefenseGrade($defenseGradeItemIds);
 
         $generalInformation->studentsStarted = $studentsStarted;
@@ -163,7 +162,7 @@ class StatisticsRepository
             ->value('category_id');
     }
 
-    function findDefenseGradeItemIds($categoryId, $defenseItemNumber): \Illuminate\Support\Collection
+    function findDefenseGradeItemIds($categoryId, $defenseItemNumber)
     {
         return DB::table('grade_items')
             ->select('id')
@@ -181,21 +180,31 @@ class StatisticsRepository
             ->count('user_id');
     }
 
-    function findStudentsDefendedAmount($defenseGradeItemIds)
+    function findConfirmedSubmissions()
     {
-        return DB::table('grade_grades')
-            ->whereIn('itemid', $defenseGradeItemIds)
-            ->whereNotNull('finalgrade')
-            ->where('finalgrade', '>', 0)
+        return DB::table('charon_submission')
+            ->select('user_id')
+            ->where('confirmed', '=', 1);
+
+    }
+
+    function findStudentsDefendedAmount($charonId)
+    {
+        return DB::table('charon_submission')
+            ->where('charon_id', $charonId)
+            ->where('confirmed', '=', 1)
             ->count();
     }
 
     function findAverageDefenseGrade($defenseGradeItemIds)
     {
+        $confirmedSubmissions = $this->findConfirmedSubmissions();
         return DB::table('grade_grades')
-            ->whereIn('itemid', $defenseGradeItemIds)
-            ->whereNotNull('finalgrade')
-            ->where('finalgrade', '>', 0)
+            ->joinSub($confirmedSubmissions, 'confirmed_subs', function ($join) {
+                $join->on('grade_grades.userid', '=', 'confirmed_subs.user_id');
+            })
+            ->whereIn('grade_grades.itemid', $defenseGradeItemIds)
+            ->whereNotNull('grade_grades.finalgrade')
             ->avg('finalgrade');
     }
 }
