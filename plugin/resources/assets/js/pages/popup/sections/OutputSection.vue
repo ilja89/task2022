@@ -31,7 +31,7 @@
 
             <charon-tab name="Feedback">
 
-                <review-comment-component v-if="hasReviewComments" :submission="submission" view="teacher"/>
+                <review-comment-component v-if="hasReviewComments" :files="submission.files" view="teacher"/>
 
                 <v-card v-else class="message">
                     When a teacher adds feedback for the submission, it will be visible here.

@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
+- #678 Added logging when an exception is thrown when charon is being deleted by moodle
+- #681 updated composer/composer to 2.1.9
+- #567 Activity completion for charon
+
 ## [1.5.4] - 2021-10-11
 
 ### Fixed
