@@ -17,6 +17,7 @@ use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\TesterType;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\GitCallbackService;
 use Zeizig\Moodle\Models\Course;
 
@@ -35,18 +36,23 @@ class GitCallbackControllerTest extends TestCase
     /** @var GitCallbackService */
     private $service;
 
+    /** @var UserRepository */
+    private $userRepository;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->callbackRepository = Mockery::mock(GitCallbacksRepository::class);
         $this->settingsRepository = Mockery::mock(CourseSettingsRepository::class);
         $this->service = Mockery::mock(GitCallbackService::class);
+        $this->userRepository = Mockery::mock(UserRepository::class);
 
         $this->controller = new GitCallbackController(
             Mockery::mock(Request::class),
             $this->callbackRepository,
             $this->settingsRepository,
-            $this->service
+            $this->service,
+            $this->userRepository
         );
     }
 
