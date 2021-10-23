@@ -9,7 +9,6 @@ use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\LabGroup;
-use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\Group;
@@ -28,8 +27,6 @@ class LabRepository
     protected $labTeacherRepository;
     /** @var CharonDefenseLabRepository */
     protected $charonDefenseLabRepository;
-    /** @var DefenseRegistrationRepository */
-    protected $defenseRegistrationRepository;
 
     /**
      * LabRepository constructor.
@@ -37,18 +34,15 @@ class LabRepository
      * @param ModuleService $moduleService
      * @param LabTeacherRepository $labTeacherRepository
      * @param CharonDefenseLabRepository $charonDefenseLabRepository
-     * @param DefenseRegistrationRepository $defenseRegistrationRepository
      */
     public function __construct(
-        ModuleService                   $moduleService,
-        LabTeacherRepository            $labTeacherRepository,
-        CharonDefenseLabRepository      $charonDefenseLabRepository,
-        DefenseRegistrationRepository   $defenseRegistrationRepository
+        ModuleService $moduleService,
+        LabTeacherRepository $labTeacherRepository,
+        CharonDefenseLabRepository $charonDefenseLabRepository
     ) {
         $this->moduleService = $moduleService;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->charonDefenseLabRepository = $charonDefenseLabRepository;
-        $this->defenseRegistrationRepository = $defenseRegistrationRepository;
     }
 
     /**
@@ -140,7 +134,7 @@ class LabRepository
     }
 
     /**
-     * Get an instance of Charon by its id.
+     * Get an instance of Charon lab by its id.
      *
      * @param integer $id
      *
@@ -292,6 +286,23 @@ class LabRepository
         return $labs;
     }
 
+    /**
+     * Get all ongoing and upcoming labs.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function getLabsByCharonId(int $charonId)
+    {
+        return \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
+            ->get();
+    }
+
     public function getCourse($courseId)
     {
         $course = \DB::table('course')
@@ -315,43 +326,6 @@ class LabRepository
             ->join('charon', 'charon_defense_lab.charon_id', 'charon.id')
             ->select('charon.id', 'charon.project_folder')
             ->get();
-    }
-
-    /**
-     * @param $charonId
-     * @return Lab[]
-     */
-    public function getLabsByCharonId($charonId)
-    {
-        return \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_id', $charonId)
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
-    }
-
-    /**
-     * Get all ongoing and upcoming labs with the amount of registered defences.
-     *
-     * @param int $charonId
-     *
-     * @return Lab[]
-     */
-    public function getLabsByCharonIdLaterEqualToday(int $charonId): array
-    {
-        $result = Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-            ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
-            ->get()
-            ->all();
-
-        foreach ($result as $lab) {
-            $lab->defenders_num = count($this->defenseRegistrationRepository
-                ->getDefenseRegistrationDurationsByLab($lab->id));
-        }
-
-        return $result;
     }
 
     /**

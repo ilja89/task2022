@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Services\LabService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class LabController extends Controller
@@ -120,15 +122,6 @@ class LabController extends Controller
     }
 
     /**
-     * @param Charon $charon
-     * @return Lab[]
-     */
-    public function getByCharon(Charon $charon)
-    {
-        return $this->labRepository->getLabsByCharonId($charon->id);
-    }
-
-    /**
      * Gets all groups and groupings for course
      *
      * @param int $courseId         The course identifier
@@ -167,9 +160,9 @@ class LabController extends Controller
      *
      * @return Lab[]
      */
-    public function findLabsByCharonLaterEqualToday(Request $request): array
+    public function findUpcomingOrActiveLabsByCharon(Charon $charon): array
     {
-        return $this->labService->getLabsWithCapacityInfoForCharon($request->route('charon'));
+        return $this->labService->findUpcomingOrActiveLabsByCharon($charon->id);
     }
 
     /**
@@ -185,5 +178,17 @@ class LabController extends Controller
         $charons = $this->request['charons'] ?? null;
         $teachers = $this->request['teachers'] ?? null;
         return $this->labRepository->countRegistrations($lab->id, $start, $end, $charons, $teachers);
+    }
+
+    /**
+     * Returns queue status in the form of an array, with approximate defence times.
+     *
+     * @param Charon $charon
+     * @param CharonDefenseLab $defenseLab
+     * @return array
+     */
+    public function getLabQueueStatus(Charon $charon, CharonDefenseLab $defenseLab)
+    {
+        return $this->labService->labQueueStatus(app(User::class)->currentUser(), $defenseLab->lab);
     }
 }

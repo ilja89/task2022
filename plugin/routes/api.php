@@ -93,9 +93,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LABS
 
-    // get labs with calculated capacity and other info student can register to
-    Route::get('charons/{charon}/labs/view', 'LabController@findLabsByCharonLaterEqualToday');
-
+    // get labs which are available for registration
+    Route::get('charons/{charon}/labs/available', 'LabController@findUpcomingOrActiveLabsByCharon');
     Route::middleware('auth.course.managing.require')  // save lab
         ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
@@ -106,9 +105,11 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
+    // number of affected registrations when lab is going to be deleted or modified
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations'); 
-        // get number of affected registrations when lab is being to deleted or modified
+        ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations');
+    Route::middleware('auth.charon.submissions.view.require') // get lab queue status
+        ->get('charons/{charon}/defenseLab/{defenseLab}/queueStatus', 'LabController@getLabQueueStatus');
 
     // TEACHERS
 
@@ -165,8 +166,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // save defense progress
         ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@saveProgress');
 
-    Route::middleware('auth.charon.submissions.view.require') // add registration
-        ->post('charons/{charon}/submission', 'DefenseRegistrationController@studentRegisterDefence');
+    Route::middleware('auth.charon.submissions.view.require') // add registration by student/teacher
+        ->post('charons/{charon}/submission', 'DefenseRegistrationController@registerDefence');
 
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');

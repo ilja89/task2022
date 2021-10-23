@@ -9,8 +9,8 @@ class Lab {
                 CharonFormat.getNamesForLabs(labs)
                 then(labs)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
-        })
+                VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
+            })
     }
 
     static save(courseId, start, end, name, teachers, charons, groups, weeks, then) {
@@ -86,6 +86,15 @@ class Lab {
                 then(response.data);
             }).catch(error => {
                 VueEvent.$emit('show-notification', 'Error retrieving groups.\n' + error, 'danger');
+        });
+    }
+
+    static getLabQueueStatus(charonId, defLabId, studentId, then) {
+        axios.get('/mod/charon/api/charons/' + charonId + '/defenseLab/' + defLabId + '/queueStatus?user_id=' + studentId)
+            .then(response => {
+                then(response.data);
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error retrieving queue status.\n' + error, 'danger');
         });
     }
 }

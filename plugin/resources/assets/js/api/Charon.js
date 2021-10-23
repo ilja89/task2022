@@ -20,7 +20,7 @@ class Charon {
             .then(response => {
                 then(CharonFormat.formatCharons(response.data))
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
+                VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
         })
     }
 

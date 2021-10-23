@@ -35,9 +35,6 @@ class CharonRepository
     /** @var FileUploadService */
     private $fileUploadService;
 
-    /** @var CharonDefenseLabRepository */
-    private $charonDefenseLabRepository;
-
     /** @var LabRepository */
     private $labRepository;
 
@@ -47,21 +44,17 @@ class CharonRepository
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
-     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      * @param LabRepository $labRepository
      */
     public function __construct(
         ModuleService $moduleService,
         FileUploadService $fileUploadService,
         GradebookService $gradebookService,
-        CharonDefenseLabRepository $charonDefenseLabRepository,
         LabRepository $labRepository
-    )
-    {
+    ) {
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
-        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
         $this->labRepository = $labRepository;
     }
 
@@ -224,19 +217,18 @@ class CharonRepository
     }
 
     /**
-     * Find all Charons in course with given id. Also loads deadlines,
-     * grademaps with grade items.
+     * Find all Charons in course with given identifier. Also loads deadlines,
+     * grademaps with grade items, and labs.
      *
      * @param integer $courseId
      *
      * @return Charon[]
      */
-    public function findCharonsByCourse($courseId)
+    public function findCharonsByCourse(int $courseId): array
     {
         $moduleId = $this->moduleService->getModuleId();
 
-        $charons = \DB::table('charon')
-            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
+        $charons = Charon::leftJoin('course_modules', 'course_modules.instance', 'charon.id')
             ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
             ->where('charon.course', $courseId)
             ->where('course_modules.module', $moduleId)
@@ -264,11 +256,12 @@ class CharonRepository
                 'charon.system_extra'
             )
             ->orderBy('charon.name')
-            ->get();
+            ->get()
+            ->all();
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-            $charon->defense_labs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
+            $charon->defense_labs = $this->labRepository->getLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(
@@ -291,6 +284,7 @@ class CharonRepository
             ])
                 ->where('charon_id', $charon->id)
                 ->get();
+
         }
 
         return $charons;

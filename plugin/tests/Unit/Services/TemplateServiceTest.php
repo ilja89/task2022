@@ -54,7 +54,6 @@ class TemplateServiceTest extends TestCase
             ),
         );
 
-        $dbTemplates = array();
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
 

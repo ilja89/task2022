@@ -78,7 +78,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
         ]);
         */
 
-        $actual = $this->repository->getUserPendingRegistrationsCount($student->id, $charon->id, $start, $end);
+        $actual = $this->repository->getUserPendingRegistrationsCount($student->id, $charon->id, $lab->id);
 
         $this->assertEquals(2, $actual);
     }
