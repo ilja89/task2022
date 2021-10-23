@@ -62,7 +62,7 @@ class LabRepositoryTest extends TestCase
         $defLab3Charon3 = factory(CharonDefenseLab::class)->create(['lab_id' => $lab3->id, 'charon_id' => $charon3->id]);
 
         // Test lab getting by charon 1
-        $actual = $this->repository->getLabsWithStartAndEndTimes($charon1->id);
+        $actual = $this->repository->getLabsByCharonId($charon1->id);
         $this->assertEquals(2, count($actual));
         $wrongLabs = ['lab2', 'lab4'];
         foreach ($actual as $lab){
@@ -70,14 +70,14 @@ class LabRepositoryTest extends TestCase
         }
 
         // Test lab getting by charon 2
-        $actual = $this->repository->getLabsWithStartAndEndTimes($charon2->id);
+        $actual = $this->repository->getLabsByCharonId($charon2->id);
         $this->assertEquals(3, count($actual));
         foreach ($actual as $lab){
             $this->assertNotEquals('lab4', $lab->name);
         }
 
         // Test lab getting by charon 3
-        $actual = $this->repository->getLabsWithStartAndEndTimes($charon3->id);
+        $actual = $this->repository->getLabsByCharonId($charon3->id);
         $this->assertEquals(2, count($actual));
         $wrongLabs = ['lab1', 'lab4'];
         foreach ($actual as $lab){
@@ -85,7 +85,7 @@ class LabRepositoryTest extends TestCase
         }
 
         // Test lab getting by charon 4
-        $actual = $this->repository->getLabsWithStartAndEndTimes($charon4->id);
+        $actual = $this->repository->getLabsByCharonId($charon4->id);
         $this->assertEmpty($actual);
 
     }
