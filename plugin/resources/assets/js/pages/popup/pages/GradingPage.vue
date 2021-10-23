@@ -56,7 +56,7 @@
 
         metaInfo() {
             return {
-              title: `${'Charon grading - ' + window.course_name}`
+                title: `${'Charon grading - ' + window.course_name}`
             }
         },
 

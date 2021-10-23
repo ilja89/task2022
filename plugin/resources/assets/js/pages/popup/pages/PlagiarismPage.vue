@@ -42,7 +42,7 @@
 
         metaInfo() {
             return {
-              title: `${'Charon plagiarism - ' + window.course_name}`
+                title: `${'Charon plagiarism - ' + window.course_name}`
             }
         },
     }

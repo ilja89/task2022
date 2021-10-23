@@ -33,14 +33,14 @@
         },
 
         watch: {
-          $route() {
-            if (typeof this.$route.params.submission_id !== "undefined") {
-              this.getSubmission();
+            $route() {
+                if (typeof this.$route.params.submission_id !== "undefined") {
+                    this.getSubmission();
+                }
             }
-          }
         },
 
-      created() {
+        created() {
             this.getSubmission();
 
             window.VueEvent.$on("submission-was-saved", _ => {

@@ -49,10 +49,10 @@
 
                 </v-row>
             </template>
-          <v-card-title v-if="this.$route.name === 'activity-dashboard'">
-            <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked()">Edit
-            </v-btn>
-          </v-card-title>
+            <v-card-title v-if="this.$route.name === 'activity-dashboard'">
+                <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked()">Edit
+                </v-btn>
+            </v-card-title>
         </v-row>
 
     </v-card>
@@ -67,11 +67,11 @@
 
     export default {
         components: {TippyComponent, Charon},
-      data() {
-        return {
-          charon: {},
-        }
-      },
+        data() {
+            return {
+                charon: {},
+            }
+        },
         props: {
             title: {
                 required: false,
@@ -86,7 +86,7 @@
             },
 
             routeCharonId() {
-              return parseInt(this.$route.params.charon_id)
+                return parseInt(this.$route.params.charon_id)
             },
 
             currentTitle() {
@@ -116,7 +116,7 @@
             ...mapActions(["updateCharon"]),
             ...mapActions(['resetStudent']),
 
-          createBadgeName(groupId) {
+            createBadgeName(groupId) {
                 return "group_badge_" + groupId;
             },
 
@@ -130,10 +130,10 @@
             },
 
             editClicked() {
-              Charon.getById(this.routeCharonId, response => {
-                this.charon = response
-                window.location = `popup#/charonSettings/${this.charon.id}`;
-              })
+                Charon.getById(this.routeCharonId, response => {
+                    this.charon = response
+                    window.location = `popup#/charonSettings/${this.charon.id}`;
+                })
             }
         }
     };

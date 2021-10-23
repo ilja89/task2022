@@ -18,7 +18,7 @@
 
         metaInfo() {
             return {
-              title: `${'Charon teacher - ' + window.course_name}`
+                title: `${'Charon teacher - ' + window.course_name}`
             }
         },
     }

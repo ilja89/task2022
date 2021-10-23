@@ -15,7 +15,7 @@
 
     <lab-section :labs="labs" :activity-dashboard-page="true"></lab-section>
 
-    </div>
+  </div>
 
 </template>
 

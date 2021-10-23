@@ -183,7 +183,7 @@
 
         metaInfo() {
             return {
-              title: `${'Charon defense registrations - ' + window.course_name}`
+                title: `${'Charon defense registrations - ' + window.course_name}`
             }
         },
     }

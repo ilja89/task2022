@@ -26,9 +26,9 @@
 
     export default {
         data() {
-          return {
-            title: `${'Charon dashboard - ' + window.course_name}`,
-          }
+            return {
+                title: `${'Charon dashboard - ' + window.course_name}`,
+            }
         },
 
         computed: {
@@ -44,7 +44,7 @@
 
         metaInfo() {
             return {
-              title: `${'Charon dashboard - ' + window.course_name}`
+                title: `${'Charon dashboard - ' + window.course_name}`
             }
         },
     }
