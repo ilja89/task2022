@@ -1,5 +1,6 @@
 <?php
 
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Services\GradebookService;
 
 function charon_add_instance($test, $mform)
@@ -192,9 +193,11 @@ function update_charon_completion_state($submission, $userId) {
     global $DB, $CFG;
     require_once ($CFG->dirroot . '/lib/completionlib.php');
 
+    $charonRepository = app(CharonRepository::class);
+    $charonModel = $charonRepository->getCharonById($submission->charon->id);
+    $cm = $charonModel->courseModule();
     $course = $DB->get_record('course', array('id' => $submission->charon->course), '*', MUST_EXIST);
-    $mod_info = get_fast_modinfo($course);
-    $cm = $mod_info->get_cm($submission->charon->category_id);
+
     $completion = new \completion_info($course);
 
     if ($completion->is_enabled($cm)) {
