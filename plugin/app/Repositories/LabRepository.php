@@ -286,6 +286,23 @@ class LabRepository
         return $labs;
     }
 
+    /**
+     * Get all ongoing and upcoming labs.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function getLabsByCharonId(int $charonId)
+    {
+        return \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
+            ->get();
+    }
+
     public function getCourse($courseId)
     {
         $course = \DB::table('course')
@@ -309,50 +326,6 @@ class LabRepository
             ->join('charon', 'charon_defense_lab.charon_id', 'charon.id')
             ->select('charon.id', 'charon.project_folder')
             ->get();
-    }
-
-    /**
-     * @param $charonId
-     * @return Lab[]
-     */
-    public function getLabsByCharonId($charonId)
-    {
-        return \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_id', $charonId)
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
-            ->get();
-    }
-
-    /**
-     * Get all ongoing and upcoming labs.
-     *
-     * @param int $charonId
-     *
-     * @return mixed
-     */
-    public function getLabsByCharonIdLaterEqualToday(int $charonId)
-    {
-        $result = \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id') // id, lab_id, charon_id
-            ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select(
-                'charon_lab.id',
-                'charon_defense_lab.id as defense_lab_id',
-                'charon_lab.start',
-                'charon_lab.end',
-                'charon_lab.name',
-                'charon_lab.course_id')
-            ->get();
-
-        foreach ($result as &$lab) {
-            $lab->defenders_num = \DB::table('charon_defenders')
-                ->where('defense_lab_id', $lab->id) // where id of defense lab equals to id of lab sending by function
-                ->count();
-        }
-
-        return $result;
     }
 
     /**
@@ -516,20 +489,6 @@ class LabRepository
         if ($labLength->hours >= 24) {
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
-    }
-
-    /**
-     *
-     * @param int $charonId
-     * @return mixed
-     */
-    public function getLabsWithStartAndEndTimes(int $charonId){
-        return \DB::table('charon_lab')
-        ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-        ->where('charon_id', $charonId)
-            ->where('end', '>=', Carbon::now())
-            ->select('charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
-            ->get();
     }
 
 }

@@ -119,15 +119,6 @@ class LabController extends Controller
     }
 
     /**
-     * @param Charon $charon
-     * @return Lab[]
-     */
-    public function getByCharon(Charon $charon)
-    {
-        return $this->labRepository->getLabsByCharonId($charon->id);
-    }
-
-    /**
      * Gets all groups and groupings for course
      *
      * @param int $courseId         The course identifier

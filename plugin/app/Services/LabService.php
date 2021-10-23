@@ -53,19 +53,6 @@ class LabService
     }
 
     /**
-     * Get ongoing and upcoming labs, including students registered for each lab
-     * with given charon identifier got from request.
-     *
-     * @param int $charonId
-     *
-     * @return mixed
-     */
-    public function findLabsByCharonIdLaterEqualToday(int $charonId)
-    {
-        return $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
-    }
-
-    /**
      * Function to return time shift array for registrations in labQueueStatus
      *
      * @param $registrations
@@ -139,11 +126,23 @@ class LabService
         return $registrations;
     }
 
-    public function findUpcomingOrActiveLabsByCharon(int $charonId){
-        $result = $this->labRepository->getLabsWithStartAndEndTimes($charonId);
-        foreach ($result as $lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->defense_lab_id);
+    /**
+     * Get ongoing and upcoming labs, including students registered for each lab
+     * with given charon identifier got from request.
+     *
+     * @param int $charonId
+     *
+     * @return mixed
+     */
+    public function findUpcomingOrActiveLabsByCharon(int $charonId)
+    {
+        $result = $this->labRepository->getLabsByCharonId($charonId);
+
+        foreach ($result as $lab) {
+            $lab->defenders_num = $this->defenseRegistrationRepository
+                ->countDefendersByLab($lab->id);
         }
+
         return $result;
     }
 }
