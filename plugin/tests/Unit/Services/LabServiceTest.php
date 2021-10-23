@@ -49,24 +49,24 @@ class LabServiceTest extends TestCase
         $charon->id = 222;
 
         $lab1 = Mockery::mock(Lab::class)->makePartial();
-        $lab1->defense_lab_id = 1;
+        $lab1->id = 1;
         $lab2 = Mockery::mock(Lab::class)->makePartial();
-        $lab2->defense_lab_id = 2;
+        $lab2->id = 2;
         $lab4 = Mockery::mock(Lab::class)->makePartial();
-        $lab4->defense_lab_id = 3;
+        $lab4->id = 3;
 
         $labs = array($lab1, $lab2, $lab4);
 
-        $this->labRepository->shouldReceive('getLabsWithStartAndEndTimes')
+        $this->labRepository->shouldReceive('getLabsByCharonId')
             ->once()
             ->with(222)
             ->andReturn($labs);
 
         foreach ($labs as $lab){
             $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
-                ->with($lab->defense_lab_id)
+                ->with($lab->id)
                 ->once()
-                ->andReturn($lab->defense_lab_id);
+                ->andReturn($lab->id);
         }
 
         $result = $this->service->findUpcomingOrActiveLabsByCharon($charon->id);
