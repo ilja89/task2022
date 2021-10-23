@@ -325,13 +325,17 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Find total defenders count for a lab by its identifier.
+     *
      * @param int $labId
-     * @return mixed
+     *
+     * @return int
      */
-    public function countDefendersByLab(int $labId)
+    public function countDefendersByLab(int $labId): int
     {
         return DB::table('charon_defenders')
-            ->where ('defense_lab_id', $labId) //where id of defense lab equals to id of lab sending by function
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
             ->count();
     }
 
