@@ -13,7 +13,7 @@
 		"ext-curl": "*",
 		"ext-json": "*",
 		"barryvdh/laravel-ide-helper": "^2.3",
-		"composer/composer": "^2.1",
+		"composer/composer": "2.1.9",
 		"guzzlehttp/guzzle": "^7.0.1",
 		"kylekatarnls/laravel-carbon-2": "^1.0.0",
 		"laravel/framework": "8.48.1",

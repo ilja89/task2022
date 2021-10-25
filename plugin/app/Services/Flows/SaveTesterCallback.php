@@ -124,6 +124,9 @@ class SaveTesterCallback
      */
     private function executeSave(TesterCallbackRequest $request, Charon $charon, array $users): Submission
     {
+        global $CFG;
+        require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
         $submission = $this->createNewSubmission($request, $charon, $users[0]->id);
 
         $this->submissionService->saveFiles($submission->id, $request['files']);
@@ -135,6 +138,10 @@ class SaveTesterCallback
         $this->charonGradingService->calculateCalculatedResultsForNewSubmission($submission);
 
         $this->updateGrades($submission, $users);
+
+        foreach ($users as $student) {
+            update_charon_completion_state($submission, $student->id);
+        }
 
         return $submission;
     }

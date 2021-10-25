@@ -4,7 +4,7 @@
             {{ file.path }}
         </span>
         <review-comment
-            v-for="reviewComment in file.review_comments"
+            v-for="reviewComment in file.review_comments" :key="reviewComment.id"
             :reviewComment="reviewComment" :view="view"
         >
         </review-comment>
