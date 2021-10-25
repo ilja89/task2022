@@ -199,8 +199,6 @@ function update_charon_completion_state($submission, $userId) {
 
     $completion = new \completion_info($course);
 
-    \Illuminate\Support\Facades\Log::debug(print_r($cm, true));
-
     try {
         if ($completion->is_enabled($cm)) {
             $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
