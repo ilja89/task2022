@@ -14,9 +14,9 @@
             </v-card-title>
             <v-data-table
               :headers="defendingTeachersHeaders"
-              :items="defendingTeachersTestItems"
+              :items="defendingTeachers"
               :hide-default-footer="true"
-              @update:items="updateDefendingTeachers"
+              @update:items="dataUpdate"
             >
             </v-data-table>
 
@@ -24,9 +24,9 @@
               {{ translate('studentsLiveQueueText') }}
             </v-card-title>
             <v-data-table
-              :headers="headers"
+              :headers="studentsQueueHeaders"
               :items="studentsQueue"
-              @update:items="updateStudentsQueue"
+              @update:items="dataUpdate"
             >
 
             </v-data-table>
@@ -39,76 +39,54 @@
 
 <script>
 import {Translate} from "../../../mixins";
+import {Lab} from "../../../api";
 
 export default {
   name: "registration-queue",
 
-  props: ['items'],
+  props: {
+    items: {required: true},
+    defenseLabId: {required: true}
+  },
 
   mixins: [Translate],
 
   data() {
     return {
-      defendingTeachersTestItems: [
-        {
-          teacher: 'Teacher 1', charon: 'ex03', availability: 'Defending'
-        },
-        {
-          teacher: 'Teacher 2', charon: 'ex01, ex03', availability: 'Defending'
-        },
-        {
-          teacher: 'Teacher 3', charon: 'ex02', availability: 'Defending'
-        },
-        {
-          teacher: 'Teacher 4', charon: '', availability: 'Free'
-        },
-      ],
+      defendingTeachers: [],
       defendingTeachersHeaders: [
         {text: this.translate("teacherText"), value: 'teacher'},
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
-      headers: [
+      studentsQueueHeaders: [
         {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'charon_name', sortable: false},
         {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
       timer: '',
-      studentsQueue: this.items
+      studentsQueue: []
     }
   },
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
+    this.studentsQueue = this.items.registrations;
+    this.defendingTeachers = this.items.teachers
   },
   methods: {
     dataUpdate(){
-      this.updateDefendingTeachers();
-      this.updateStudentsQueue();
+      Lab.getLabQueueStatus(this.$store.state.charon.id, this.defenseLabId, this.$store.state.student_id,  (items)=>{
+        this.studentsQueue = items.registrations;
+        this.defendingTeachers = items.teachers;
+      });
     },
-    updateDefendingTeachers(){
-      this.defendingTeachersTestItems = [
-        {
-          teacher: 'Teacher 1', charon: 'ex02', availability: 'Defending'
-        },
-        {
-          teacher: 'Teacher 2', charon: 'ex01', availability: 'Defending'
-        },
-        {
-          teacher: 'Teacher 3', charon: '', availability: 'Free'
-        },
-        {
-          teacher: 'Teacher 4', charon: '', availability: 'Free'
-        },
-      ]
-    },
-    updateStudentsQueue(){
-      this.studentsQueue = []
-    },
+
     cancelAutoUpdate () {
       clearInterval(this.timer);
     }
   },
+
   beforeDestroy () {
     this.cancelAutoUpdate();
   }
