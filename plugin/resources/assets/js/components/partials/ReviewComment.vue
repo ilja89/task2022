@@ -27,7 +27,7 @@
 
 <script>
 import {mapState} from 'vuex'
-import ReviewComment from "../../api/ReviewComment";
+import {ReviewComment} from "../../api";
 
 export default {
     name: "ReviewComment",
