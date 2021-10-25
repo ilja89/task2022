@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;

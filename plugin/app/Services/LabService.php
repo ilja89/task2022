@@ -118,12 +118,13 @@ class LabService
             $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
             $queueFirstDefenseTime = strtotime($lab->start);
         }
-        //get number of teachers assigned to lab
-        $teachersNumber = $this->labTeacherRepository->countLabTeachers($lab->id);
+
+        // Get teachers per lab
+        $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
 
         //Get lab start time and format date to timestamp
 
-        $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachersNumber);
+        $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, count($teachersList));
 
         foreach ($registrations as $key => $reg) {
             if($reg->student_id == $user->id) {
@@ -147,9 +148,6 @@ class LabService
 
         $queueStatus['registrations'] = $registrations;
 
-        // Get teachers per lab
-        $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
-
         // Get defending charon per teacher
         $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
 
@@ -161,7 +159,7 @@ class LabService
 
             // Check if teacher is defending some charon or not
             foreach ($teachersDefences as $teachersDefence) {
-                if ($teachersDefence->teacher_id === $teacher->id){
+                if ($teacher->charon === '' && $teachersDefence->teacher_id === $teacher->id){
                     $teacher->charon = $teachersDefence->charon;
                 }
             }
