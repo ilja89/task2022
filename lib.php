@@ -192,16 +192,21 @@ function charon_get_completion_state($course, $cm, $userid, $type) {
 function update_charon_completion_state($submission, $userId) {
     global $DB, $CFG;
     require_once ($CFG->dirroot . '/lib/completionlib.php');
+    require_once ($CFG->dirroot . '/lib/datalib.php');
 
-    $charonRepository = app(CharonRepository::class);
-    $charonModel = $charonRepository->getCharonById($submission->charon->id);
-    $cm = $charonModel->courseModule();
+    $cm = get_coursemodule_from_instance('charon', $submission->charon->id);
     $course = $DB->get_record('course', array('id' => $submission->charon->course), '*', MUST_EXIST);
 
     $completion = new \completion_info($course);
 
-    if ($completion->is_enabled($cm)) {
-        $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
+    \Illuminate\Support\Facades\Log::debug(print_r($cm, true));
+
+    try {
+        if ($completion->is_enabled($cm)) {
+            $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
+        }
+    } catch (Exception $exception) {
+        \Illuminate\Support\Facades\Log::error('Failed to update completion state.\nLikely culprit: course module.\nError: ' . $exception->getMessage());
     }
 
     return $submission;
