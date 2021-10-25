@@ -134,7 +134,11 @@ class SaveTesterCallback
         $this->updateGrades($submission, $users);
 
         foreach ($users as $student) {
-            update_charon_completion_state($submission, $student->id);
+            try {
+                update_charon_completion_state($submission, $student->id);
+            } catch (\Exception $exception) {
+                Log::error('Failed to update completion state.\nLikely culprit: course module.\nError: ' . $exception->getMessage());
+            }
         }
 
         return $submission;
