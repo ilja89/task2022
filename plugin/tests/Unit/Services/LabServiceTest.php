@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use DateInterval;
+use Illuminate\Support\Facades\Log;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -88,7 +90,8 @@ class LabServiceTest extends TestCase
         $charon->id = 2;
 
         $this->lab->id = 401;
-        $this->lab->start = new \DateTime('2033-07-14 21:30:00');
+        $this->lab->start = new \DateTime('+1 day');
+        Log::info($this->lab->start);
 
         $reg1 = new \stdClass();
         $reg1->charon_name = 'EX01';
@@ -121,7 +124,7 @@ class LabServiceTest extends TestCase
 
         $registrations = array($reg1, $reg2, $reg3, $reg4, $reg5, $reg6, $reg7);
 
-        $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsIfLabNotStartedByLabId')
+        $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
             ->with(401)
             ->andReturn($registrations);
@@ -145,37 +148,45 @@ class LabServiceTest extends TestCase
         $expectedReg1->charon_name = 'EX01';
         $expectedReg1->student_name = '';
         $expectedReg1->queue_pos = 1;
-        $expectedReg1->approx_start_time = '14.07.2033 21:30';
+        $expectedReg1->approx_start_time = $this->lab->start->format('d.m.Y H:i');
         $expectedReg2 = new \stdClass();
         $expectedReg2->charon_name = 'EX02';
         $expectedReg2->student_name = 'Tom Jackson';
         $expectedReg2->queue_pos = 2;
-        $expectedReg2->approx_start_time = '14.07.2033 21:30';
+        $expectedReg2->approx_start_time = $this->lab->start->format('d.m.Y H:i');
         $expectedReg3 = new \stdClass();
         $expectedReg3->charon_name = 'EX01';
         $expectedReg3->student_name = '';
         $expectedReg3->queue_pos = 3;
-        $expectedReg3->approx_start_time = '14.07.2033 21:30';
+        $expectedReg3->approx_start_time = $this->lab->start->format('d.m.Y H:i');
+
+        // add 5 minutes to time, as next labs are 5 minutes later
+        $labStartPlusFive = $this->lab->start->modify('+5 minutes');
+
         $expectedReg4 = new \stdClass();
         $expectedReg4->charon_name = 'EX06';
         $expectedReg4->student_name = '';
         $expectedReg4->queue_pos = 4;
-        $expectedReg4->approx_start_time = '14.07.2033 21:35';
+        $expectedReg4->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
         $expectedReg5 = new \stdClass();
         $expectedReg5->charon_name = 'EX06';
         $expectedReg5->student_name = '';
         $expectedReg5->queue_pos = 5;
-        $expectedReg5->approx_start_time = '14.07.2033 21:35';
+        $expectedReg5->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
         $expectedReg6 = new \stdClass();
         $expectedReg6->charon_name = 'EX08';
         $expectedReg6->student_name = '';
         $expectedReg6->queue_pos = 6;
-        $expectedReg6->approx_start_time = '14.07.2033 21:35';
+        $expectedReg6->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
+
+        // add 5 minutes to time, as next lab is 5 minutes later
+        $labStartPlusFive = $labStartPlusFive->modify('+5 minutes');
+
         $expectedReg7 = new \stdClass();
         $expectedReg7->charon_name = 'EX01';
         $expectedReg7->student_name = 'Tom Jackson';
         $expectedReg7->queue_pos = 7;
-        $expectedReg7->approx_start_time = '14.07.2033 21:40';
+        $expectedReg7->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
 
         $expectedResult = array($expectedReg1, $expectedReg2, $expectedReg3, $expectedReg4, $expectedReg5, $expectedReg6, $expectedReg7);
 

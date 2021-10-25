@@ -147,16 +147,16 @@ class LabService
 
         $queueStatus['registrations'] = $registrations;
 
-        // Get teachers and charons which they are defending
+        // Get teachers per lab
         $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
 
-        // Get defending charon er teacher
+        // Get defending charon per teacher
         $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
 
 
         foreach ($teachersList as $key => $teacher) {
 
-            $teacher->teacher = $teacher->firstname . ' ' . $teacher->lastname;
+            $teacher->teacher_name = $teacher->firstname . ' ' . $teacher->lastname;
             $teacher->charon = '';
 
             // Check if teacher is defending some charon or not
