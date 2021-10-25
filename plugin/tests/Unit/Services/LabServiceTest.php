@@ -6,6 +6,7 @@ use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
@@ -39,7 +40,9 @@ class LabServiceTest extends TestCase
         $this->service = new LabService(
             $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
             $this->labTeacherRepository = Mockery::mock(LabTeacherRepository::class),
-            $this->labRepository = Mockery::mock(LabRepository::class)
+            $this->labRepository = Mockery::mock(LabRepository::class),
+            Mockery::mock(CharonRepository::class),
+            Mockery::mock(LabTeacherRepository::class)
         );
     }
 
