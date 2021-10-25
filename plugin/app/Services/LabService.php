@@ -112,15 +112,16 @@ class LabService
     {
         //get list of registrations. If lab started, then only waiting
         if (Carbon::now() >= $lab->start){
-            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsWithWaitingStatusIfLabStartedByLabId($lab->id);
+            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, true);
+            $queueFirstDefenseTime = strtotime(Carbon::now());
         } else {
-            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsIfLabNotStartedByLabId($lab->id);
+            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
+            $queueFirstDefenseTime = strtotime($lab->start);
         }
         //get number of teachers assigned to lab
         $teachersNumber = $this->labTeacherRepository->countLabTeachers($lab->id);
 
         //Get lab start time and format date to timestamp
-        $labStart = strtotime($lab->start);
 
         $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachersNumber);
 
@@ -135,7 +136,7 @@ class LabService
             $reg->queue_pos = $key+1;
 
             //calculate estimated time
-            $reg->approx_start_time = date("d.m.Y H:i", $labStart + $defenceTimes[$key] * 60);
+            $reg->approx_start_time = date("d.m.Y H:i", $queueFirstDefenseTime + $defenceTimes[$key] * 60);
 
             //delete not needed variables
             unset($reg->charon_length);
