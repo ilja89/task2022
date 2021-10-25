@@ -199,12 +199,8 @@ function update_charon_completion_state($submission, $userId) {
 
     $completion = new \completion_info($course);
 
-    try {
-        if ($completion->is_enabled($cm)) {
-            $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
-        }
-    } catch (Exception $exception) {
-        \Illuminate\Support\Facades\Log::error('Failed to update completion state.\nLikely culprit: course module.\nError: ' . $exception->getMessage());
+    if ($completion->is_enabled($cm)) {
+        $completion->update_state($cm, COMPLETION_COMPLETE, $userId);
     }
 
     return $submission;
