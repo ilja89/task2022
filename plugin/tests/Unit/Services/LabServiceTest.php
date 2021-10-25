@@ -41,8 +41,7 @@ class LabServiceTest extends TestCase
             $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
             $this->labTeacherRepository = Mockery::mock(LabTeacherRepository::class),
             $this->labRepository = Mockery::mock(LabRepository::class),
-            Mockery::mock(CharonRepository::class),
-            Mockery::mock(LabTeacherRepository::class)
+            Mockery::mock(CharonRepository::class)
         );
     }
 

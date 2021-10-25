@@ -23,9 +23,6 @@ class LabService
     /** @var CharonRepository */
     private $charonRepository;
 
-    /** @var LabTeacherRepository */
-    private $teacherRepository;
-
     /**
      * LabService constructor.
      *
@@ -33,20 +30,17 @@ class LabService
      * @param LabTeacherRepository $labTeacherRepository
      * @param LabRepository $labRepository,
      * @param CharonRepository $charonRepository
-     * @param LabTeacherRepository $teacherRepository
      */
     public function __construct(
         DefenseRegistrationRepository $defenseRegistrationRepository,
         LabTeacherRepository $labTeacherRepository,
         LabRepository $labRepository,
-        CharonRepository $charonRepository,
-        LabTeacherRepository $teacherRepository
+        CharonRepository $charonRepository
     ) {
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->labRepository = $labRepository;
         $this->charonRepository = $charonRepository;
-        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -180,7 +174,7 @@ class LabService
         foreach ($labs as $lab) {
 
             // Get teachers number
-            $teacherNum = $this->teacherRepository->countLabTeachers($lab->id);
+            $teacherNum = $this->labTeacherRepository->countLabTeachers($lab->id);
 
             // Calculate lab capacity
             $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60);
