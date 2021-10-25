@@ -137,7 +137,7 @@ class SaveTesterCallback
             try {
                 update_charon_completion_state($submission, $student->id);
             } catch (\Exception $exception) {
-                Log::error('Failed to update completion state.\nLikely culprit: course module.\nError: ' . $exception->getMessage());
+                Log::error('Failed to update completion state. Likely culprit: course module. Error: ' . $exception->getMessage());
             }
         }
 
