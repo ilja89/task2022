@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\Api;
+namespace Tests\Integration\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Mockery;
@@ -43,16 +43,22 @@ class LabControllerTest extends TestCase
         );
     }
 
-    public function testLabsGetting()
+    public function testLabQueueStatusGetting()
     {
 
+        global $USER;
+        $user = factory(User::class)->create();
+        $USER = $user;
+
+        $defenseLab = Mockery::mock(CharonDefenseLab::class)->makePartial();
+        $defenseLab->lab = Mockery::mock(Lab::class)->makePartial();
+
+        $this->service->shouldReceive('labQueueStatus')
+            ->once()
+            ->andReturn(array());
+
         $charon = Mockery::mock(Charon::class)->makePartial();
-        $charon->id = 666;
 
-        $this->service->shouldReceive('findUpcomingOrActiveLabsByCharon')
-            ->with(666)
-            ->once();
-
-        $this->controller->findUpcomingOrActiveLabsByCharon($charon);
+        $this->controller->getLabQueueStatus($charon, $defenseLab);
     }
 }

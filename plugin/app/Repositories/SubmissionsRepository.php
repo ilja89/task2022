@@ -250,6 +250,25 @@ class SubmissionsRepository
     }
 
     /**
+     * Find the latest ungraded submission with given Charon and user identifiers.
+     *
+     * @param int $charonId
+     * @param int $userId
+     *
+     * @return Submission|null
+     */
+    public function getLatestUngradedSubmission(int $charonId, int $userId): ?Submission
+    {
+        return Submission::join('charon_submission_user', 'charon_submission.id', 'charon_submission_user.submission_id')
+            ->where('charon_submission_user.user_id', $userId)
+            ->where('charon_submission.charon_id', $charonId)
+            ->where('charon_submission.confirmed', 0)
+            ->select('charon_submission.id')
+            ->orderBy('updated_at', 'desc')
+            ->first();
+    }
+
+    /**
      * Finds all course submissions and calculates each Charon average.
      *
      * TODO: rename to findCourseCharonAverageGrades?
