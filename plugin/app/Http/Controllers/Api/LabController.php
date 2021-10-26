@@ -160,9 +160,9 @@ class LabController extends Controller
      *
      * @return mixed
      */
-    public function findUpcomingOrActiveLabsByCharon(Charon $charon)
+    public function findAvailableLabsByCharon(Charon $charon)
     {
-        return $this->labService->findUpcomingOrActiveLabsByCharon($charon->id);
+        return $this->labService->findAvailableLabsByCharon($charon->id);
     }
 
     /**

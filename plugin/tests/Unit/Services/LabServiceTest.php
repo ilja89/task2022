@@ -64,12 +64,12 @@ class LabServiceTest extends TestCase
 
         $labs = array($lab1, $lab2, $lab4);
 
-        $this->labRepository->shouldReceive('getActiveLabsWithDefenderCountByCharonId')
+        $this->labRepository->shouldReceive('getAvailableLabsWithDefenderCountByCharonId')
             ->once()
             ->with(222)
             ->andReturn($labs);
 
-        $result = $this->service->findUpcomingOrActiveLabsByCharon($charon->id);
+        $result = $this->service->findAvailableLabsByCharon($charon->id);
 
         $this->assertEquals(3, count($result));
 

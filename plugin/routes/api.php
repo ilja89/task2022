@@ -94,7 +94,7 @@ Route::group(['namespace' => 'Api'], function () {
     // LABS
 
     // get labs which are available for registration
-    Route::get('charons/{charon}/labs/available', 'LabController@findUpcomingOrActiveLabsByCharon');
+    Route::get('charons/{charon}/labs/available', 'LabController@findAvailableLabsByCharon');
     Route::middleware('auth.course.managing.require')  // save lab
         ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course

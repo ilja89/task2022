@@ -293,7 +293,7 @@ class LabRepository
      *
      * @return mixed
      */
-    public function getActiveLabsWithDefenderCountByCharonId(int $charonId)
+    public function getAvailableLabsWithDefenderCountByCharonId(int $charonId)
     {
         $labIds = $this->getLabsIdsByCharonId($charonId);
         $fields = [
