@@ -375,4 +375,75 @@ class LabServiceTest extends TestCase
 
         $this->assertEquals($expectedResult, $result['teachers']);
     }
+
+    public function testGettingEstimatedTimesToDefenceRegistrations()
+    {
+        $user = Mockery::mock(User::class)->makePartial();
+        $user->id = 1;
+        $user->firstname = 'Tom';
+        $user->lastname = 'Jackson';
+        $charon = Mockery::mock(Charon::class)->makePartial();
+        $charon->id = 2;
+
+        $registration1 = new \stdClass();
+        $registration1->charon_name = 'EX01';
+        $registration1->charon_length = 5;
+        $registration1->student_id = 1;
+        $registration2 = new \stdClass();
+        $registration2->charon_name = 'EX02';
+        $registration2->charon_length = 5;
+        $registration2->student_id = 2;
+        $registration3 = new \stdClass();
+        $registration3->charon_name = 'EX01';
+        $registration3->charon_length = 5;
+        $registration3->student_id = 4;
+        $registration4 = new \stdClass();
+        $registration4->charon_name = 'EX01';
+        $registration4->charon_length = 5;
+        $registration4->student_id = 3;
+        $registration5 = new \stdClass();
+        $registration5->charon_name = 'EX02';
+        $registration5->charon_length = 5;
+        $registration5->student_id = 3;
+
+
+        $registrations = array ($registration1, $registration2, $registration3, $registration4, $registration5);
+
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 1);
+        $expectedResult = array(0, 5, 10, 15, 20);
+        $this->assertEquals($expectedResult, $actual);
+
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 2);
+        $expectedResult = array(0, 0, 5, 5, 10);
+        $this->assertEquals($expectedResult, $actual);
+
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 3);
+        $expectedResult = array(0, 0, 0, 5, 5);
+        $this->assertEquals($expectedResult, $actual);
+
+        // Change EX02 charon length
+        $registration2->charon_length = 10;
+        $registration5->charon_length = 10;
+
+        $expectedResult = array(0, 5, 15, 20, 25);
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 1);
+        $this->assertEquals($expectedResult, $actual);
+
+        $expectedResult = array(0, 0, 5, 10, 10);
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 2);
+        $this->assertEquals($expectedResult, $actual);
+
+        $expectedResult = array(0, 0, 0, 5, 5);
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 3);
+        $this->assertEquals($expectedResult, $actual);
+
+        // Change EX01 charon length
+        $registration1->charon_length = 15;
+        $registration3->charon_length = 15;
+        $registration4->charon_length = 15;
+
+        $expectedResult = array(0, 0, 0, 10, 15);
+        $actual = $this->service->getEstimatedTimesToDefenceRegistrations($registrations, 3);
+        $this->assertEquals($expectedResult, $actual);
+    }
 }
