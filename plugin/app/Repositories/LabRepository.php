@@ -293,7 +293,7 @@ class LabRepository
      *
      * @return mixed
      */
-    public function getLabsByCharonId(int $charonId)
+    public function getActiveLabsByCharonId(int $charonId)
     {
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
