@@ -123,7 +123,6 @@ class LabService
         $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
 
         //Get lab start time and format date to timestamp
-
         $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, count($teachersList));
 
         foreach ($registrations as $key => $reg) {
@@ -150,7 +149,6 @@ class LabService
 
         // Get defending charon per teacher
         $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
-
 
         foreach ($teachersList as $key => $teacher) {
 
