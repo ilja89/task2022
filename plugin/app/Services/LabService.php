@@ -130,8 +130,8 @@ class LabService
     }
 
     /**
-     * Get ongoing and upcoming labs, including students registered for each lab
-     * with given charon identifier got from request.
+     * Get ongoing and upcoming labs, including count of students registered
+     * for each lab with given charon identifier.
      *
      * @param int $charonId
      *
@@ -139,14 +139,7 @@ class LabService
      */
     public function findUpcomingOrActiveLabsByCharon(int $charonId)
     {
-        $result = $this->labRepository->getActiveLabsByCharonId($charonId);
-
-        foreach ($result as $lab) {
-            $lab->defenders_num = $this->defenseRegistrationRepository
-                ->countDefendersByLab($lab->id);
-        }
-
-        return $result;
+        return $this->labRepository->getActiveLabsWithDefenderCountByCharonId($charonId);
     }
 
     /**
@@ -165,7 +158,7 @@ class LabService
      */
     public function getLabsWithCapacityInfoForCharon(int $charonId): array
     {
-        $labs = $this->labRepository->getActiveLabsByCharonId($charonId);
+        $labs = $this->labRepository->getActiveLabsWithDefenderCountByCharonId($charonId);
 
         // Get length of given charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;

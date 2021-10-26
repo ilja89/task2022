@@ -287,19 +287,32 @@ class LabRepository
     }
 
     /**
-     * Get all ongoing and upcoming labs.
+     * Get all active (ongoing and upcoming) labs.
      *
      * @param int $charonId
      *
      * @return mixed
      */
-    public function getActiveLabsByCharonId(int $charonId)
+    public function getActiveLabsWithDefenderCountByCharonId(int $charonId)
     {
+        $labIds = $this->getLabsIdsByCharonId($charonId);
+        $fields = [
+            'charon_lab.id',
+            'charon_defense_lab.id as defense_lab_id',
+            'charon_lab.start',
+            'charon_lab.end',
+            'charon_lab.name',
+            'charon_lab.course_id'
+        ];
+
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_id', $charonId)
+            ->leftJoin('charon_defenders', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->whereIn('charon_defense_lab.lab_id', $labIds)
             ->where('end', '>=', Carbon::now())
-            ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
+            ->select($fields)
+            ->selectRaw('COUNT(mdl_charon_defenders.id) AS defenders_num')
+            ->groupBy('charon_lab.id')
             ->get();
     }
 
