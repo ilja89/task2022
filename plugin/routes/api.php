@@ -53,6 +53,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('charons/{charon}/reviewComments/add', 'ReviewCommentController@add');
     Route::middleware('auth.charon.managing.require')
         ->delete('charons/{charon}/reviewComments/{reviewComment}/delete', 'ReviewCommentController@delete');
+    Route::middleware('auth.charon.submissions.view.require') // clear review comments' notifications
+        ->put('charons/{charon}/reviewComments/clear', 'ReviewCommentController@clearNotifications');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');
