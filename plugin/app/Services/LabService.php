@@ -139,7 +139,7 @@ class LabService
      */
     public function findUpcomingOrActiveLabsByCharon(int $charonId)
     {
-        $result = $this->labRepository->getLabsByCharonId($charonId);
+        $result = $this->labRepository->getActiveLabsByCharonId($charonId);
 
         foreach ($result as $lab) {
             $lab->defenders_num = $this->defenseRegistrationRepository
@@ -165,7 +165,7 @@ class LabService
      */
     public function getLabsWithCapacityInfoForCharon(int $charonId): array
     {
-        $labs = $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
+        $labs = $this->labRepository->getActiveLabsByCharonId($charonId);
 
         // Get length of given charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;

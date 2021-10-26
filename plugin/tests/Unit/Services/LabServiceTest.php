@@ -59,7 +59,7 @@ class LabServiceTest extends TestCase
 
         $labs = array($lab1, $lab2, $lab4);
 
-        $this->labRepository->shouldReceive('getLabsByCharonId')
+        $this->labRepository->shouldReceive('getActiveLabsByCharonId')
             ->once()
             ->with(222)
             ->andReturn($labs);
