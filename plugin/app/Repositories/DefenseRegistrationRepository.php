@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
@@ -308,15 +307,19 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Returns all lab registrations. If $waitingStatus is true, then only labs with progress 'waiting'.
+     *
      * @param int $labId
-     * @return mixed
+     * @param bool $waitingStatus
+     * @return array
      */
-    public function getListOfLabRegistrationsByLabId(int $labId)
+    public function getLabRegistrationsByLabId(int $labId, array $progresses = ['Waiting', 'Defending', 'Done']): array
     {
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
+            ->whereIn("charon_defenders.progress", $progresses)
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id")
             ->get()
@@ -332,6 +335,22 @@ class DefenseRegistrationRepository
         return DB::table('charon_defenders')
             ->where ('defense_lab_id', $labId) //where id of defense lab equals to id of lab sending by function
             ->count();
+    }
+
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getTeacherAndDefendingCharonByLab(int $labId){
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('progress', 'Defending')
+            ->whereNotNull('charon_defenders.teacher_id')
+            ->select('charon_defenders.teacher_id', 'charon.name as charon')
+            ->groupBy('teacher_id','charon')
+            ->get();
     }
 
 }
