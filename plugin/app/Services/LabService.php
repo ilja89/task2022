@@ -72,7 +72,7 @@ class LabService
 
         //get list of defTimes
         foreach ($registrations as $key => $reg) {
-            $defLengths[$key] = $reg->charon_length;
+            $defLengths[$key] = $reg->defense_duration;
         }
 
         //Fill the massive
@@ -122,7 +122,7 @@ class LabService
             $reg->approx_start_time = date("d.m.Y H:i", $labStart + $defRegEstTimes[$key] * 60);
 
             //delete not needed variables
-            unset($reg->charon_length);
+            unset($reg->defense_duration);
             unset($reg->student_id);
         }
 
@@ -175,7 +175,7 @@ class LabService
             $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60);
 
             // Get all defense durations
-            $defenceTimes = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
+            $defenceTimes = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id);
 
             $queuePresumption = array_fill(0, $teacherNum, 0);
 

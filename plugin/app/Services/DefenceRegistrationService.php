@@ -208,7 +208,7 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
-        $registrations = $this->defenseRegistrationRepository->getDefenseRegistrationDurationsByLab($lab->id);
+        $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id);
         $totalOfDefenses = 0;
         $labDurationInterval = $lab->start->diff($lab->end);
         $labDuration = $labDurationInterval->h * 60 + $labDurationInterval->i;
