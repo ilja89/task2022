@@ -289,13 +289,12 @@ class LabRepository
     /**
      * Get all active (ongoing and upcoming) labs.
      *
-     * @param int $charonId
+     * @param array $labIds
      *
      * @return mixed
      */
-    public function getAvailableLabsWithDefenderCountByCharonId(int $charonId)
+    public function getAvailableLabsWithDefenderCountByCharonId(array $labIds)
     {
-        $labIds = $this->getLabsIdsByCharonId($charonId);
         $fields = [
             'charon_lab.id',
             'charon_defense_lab.id as defense_lab_id',

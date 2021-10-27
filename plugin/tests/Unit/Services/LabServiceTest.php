@@ -52,30 +52,29 @@ class LabServiceTest extends TestCase
 
         $lab1 = Mockery::mock(Lab::class)->makePartial();
         $lab1->id = 1;
-        $lab1["defenders_num"] = $lab1->id;
 
         $lab2 = Mockery::mock(Lab::class)->makePartial();
         $lab2->id = 2;
-        $lab2["defenders_num"] = $lab2->id;
 
         $lab4 = Mockery::mock(Lab::class)->makePartial();
         $lab4->id = 3;
-        $lab4["defenders_num"] = $lab4->id;
 
         $labs = array($lab1, $lab2, $lab4);
+        $labIds = array($lab1->id, $lab2->id, $lab4->id);
+
+        $this->labRepository->shouldReceive('getLabsIdsByCharonId')
+            ->once()
+            ->with($charon->id)
+            ->andReturn($labIds);
 
         $this->labRepository->shouldReceive('getAvailableLabsWithDefenderCountByCharonId')
             ->once()
-            ->with(222)
+            ->with($labIds)
             ->andReturn($labs);
 
         $result = $this->service->findAvailableLabsByCharon($charon->id);
 
-        $this->assertEquals(3, count($result));
-
-        foreach ($result as $key => $lab) {
-            $this->assertEquals($key + 1, $lab->defenders_num); // as defender count is lab id
-        }
+        $this->assertEquals(count($labs), count($result));
     }
 
     public function testLabQueueStatus()

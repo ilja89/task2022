@@ -31,7 +31,7 @@ class LabRepositoryTest extends TestCase
         );
     }
 
-    public function testGettingLabsWithStartAndEndTimes()
+    public function testGettingAvailableLabsWithDefenderCountByCharonId()
     {
         // Creating 4 charons
         $charon1 = factory(Charon::class)->create();
@@ -62,7 +62,8 @@ class LabRepositoryTest extends TestCase
         $defLab3Charon3 = factory(CharonDefenseLab::class)->create(['lab_id' => $lab3->id, 'charon_id' => $charon3->id]);
 
         // Test lab getting by charon 1
-        $actual = $this->repository->getAvailableLabsWithDefenderCountByCharonId($charon1->id);
+        $actual = $this->repository
+            ->getAvailableLabsWithDefenderCountByCharonId([$lab1->id, $lab3->id]);
         $this->assertEquals(2, count($actual));
         $wrongLabs = ['lab2', 'lab4'];
         foreach ($actual as $lab){
@@ -70,14 +71,16 @@ class LabRepositoryTest extends TestCase
         }
 
         // Test lab getting by charon 2
-        $actual = $this->repository->getAvailableLabsWithDefenderCountByCharonId($charon2->id);
+        $actual = $this->repository
+            ->getAvailableLabsWithDefenderCountByCharonId([$lab1->id, $lab2->id, $lab3->id]);
         $this->assertEquals(3, count($actual));
         foreach ($actual as $lab){
             $this->assertNotEquals('lab4', $lab->name);
         }
 
         // Test lab getting by charon 3
-        $actual = $this->repository->getAvailableLabsWithDefenderCountByCharonId($charon3->id);
+        $actual = $this->repository
+            ->getAvailableLabsWithDefenderCountByCharonId([$lab2->id, $lab3->id]);
         $this->assertEquals(2, count($actual));
         $wrongLabs = ['lab1', 'lab4'];
         foreach ($actual as $lab){
@@ -85,7 +88,8 @@ class LabRepositoryTest extends TestCase
         }
 
         // Test lab getting by charon 4
-        $actual = $this->repository->getAvailableLabsWithDefenderCountByCharonId($charon4->id);
+        $actual = $this->repository
+            ->getAvailableLabsWithDefenderCountByCharonId([]);
         $this->assertEmpty($actual);
 
     }
