@@ -28,6 +28,9 @@ class LabServiceTest extends TestCase
     /** @var Mock|LabTeacherRepository */
     private $labTeacherRepository;
 
+    /** @var Mock|CharonRepository */
+    private $charonRepository;
+
     /** @var Mock|Lab */
     private $lab;
 
@@ -41,11 +44,11 @@ class LabServiceTest extends TestCase
             $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
             $this->labTeacherRepository = Mockery::mock(LabTeacherRepository::class),
             $this->labRepository = Mockery::mock(LabRepository::class),
-            Mockery::mock(CharonRepository::class)
+            $this->charonRepository = Mockery::mock(CharonRepository::class)
         );
     }
 
-    public function testFindUpcomingOrActiveLabsByCharon()
+    public function testFindAvailableLabsByCharon()
     {
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
@@ -60,17 +63,28 @@ class LabServiceTest extends TestCase
         $lab4->id = 3;
 
         $labs = array($lab1, $lab2, $lab4);
-        $labIds = array($lab1->id, $lab2->id, $lab4->id);
 
-        $this->labRepository->shouldReceive('getLabsIdsByCharonId')
+        $this->labRepository->shouldReceive('getAvailableLabsByCharonId')
             ->once()
             ->with($charon->id)
-            ->andReturn($labIds);
-
-        $this->labRepository->shouldReceive('getAvailableLabsWithDefenderCountByCharonId')
-            ->once()
-            ->with($labIds)
             ->andReturn($labs);
+
+        $this->charonRepository->shouldReceive('getCharonById')
+            ->once()
+            ->with($charon->id)
+            ->andReturn($charon);
+
+        foreach ($labs as $lab) {
+            $this->labTeacherRepository->shouldReceive('countLabTeachers')
+                ->once()
+                ->with($lab->id)
+                ->andReturn(1);
+
+            $this->defenseRegistrationRepository->shouldReceive('getListOfLabRegistrationsByLabId')
+                ->once()
+                ->with($lab->id)
+                ->andReturn([]);
+        }
 
         $result = $this->service->findAvailableLabsByCharon($charon->id);
 

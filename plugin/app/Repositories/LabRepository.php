@@ -293,12 +293,11 @@ class LabRepository
      *
      * @return mixed
      */
-    public function getAvailableLabsWithDefenderCountByCharonId(array $labIds)
+    public function getAvailableLabsByCharonId(int $charonId)
     {
         return \DB::table('charon_lab')
             ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->leftJoin('charon_defenders', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->whereIn('charon_defense_lab.lab_id', $labIds)
+            ->where('charon_defense_lab.charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
             ->select(
                 'charon_lab.id',
@@ -307,8 +306,6 @@ class LabRepository
                 'charon_lab.end',
                 'charon_lab.name',
                 'charon_lab.course_id')
-            ->selectRaw('COUNT(mdl_charon_defenders.id) AS defenders_num')
-            ->groupBy('charon_lab.id')
             ->get()
             ->all();
     }

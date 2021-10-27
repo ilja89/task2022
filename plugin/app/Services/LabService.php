@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -60,6 +61,7 @@ class LabService
      *
      * @param $registrations
      * @param int $teachersNumber
+     *
      * @return array
      */
     public function getEstimatedTimesToDefenceRegistrations($registrations, int $teachersNumber): array
@@ -88,13 +90,14 @@ class LabService
     }
 
     /**
-     *  Function to return list of defence registrations for lab with:
+     * Function to return list of defence registrations for lab with:
      *  - number in queue
      *  - approximate start time
      *  - student name, if student name equals to username of requested student
      *
      * @param User $user
      * @param Lab $lab
+     *
      * @return array
      */
     public function labQueueStatus(User $user, Lab $lab): array
@@ -131,51 +134,26 @@ class LabService
 
     /**
      * Get ongoing and upcoming labs, including count of students registered
-     * for each lab with given charon identifier.
+     * and estimated start time of next available defence.
      *
      * @param int $charonId
      *
-     * @return mixed
+     * @return array
      */
-    public function findAvailableLabsByCharon(int $charonId)
+    public function findAvailableLabsByCharon(int $charonId): array
     {
-        return $this->labRepository
-            ->getAvailableLabsWithDefenderCountByCharonId($this->labRepository->getLabsIdsByCharonId($charonId));
-    }
+        $labs = $this->labRepository->getAvailableLabsByCharonId($charonId);
 
-    /**
-     * Function what will return list of labs related to charon got by $charonId, with following fields:
-     *    - course_id: shows id of course what lab is related to
-     *    - defenders_num: shows number of existing registrations for this lab
-     *    - start: shows lab end time
-     *    - end: shows lab end time
-     *    - estimated_start_time: shows estimated time when student registering on this lab will be defending
-     *    - id: id of this lab
-     *    - name: name of this lab
-     *
-     * @param int $charonId
-     *
-     * @return Lab[]
-     */
-    public function getLabsWithCapacityInfoForCharon(int $charonId): array
-    {
-        $labs = $this->labRepository
-            ->getAvailableLabsWithDefenderCountByCharonId($this->labRepository->getLabsIdsByCharonId($charonId));
-
-        // Get length of given charon
         $charonLength = $this->charonRepository->getCharonById($charonId)->defense_duration;
 
-        // Calculate lab capacity and the shortest defence time the registration would have
         foreach ($labs as $lab) {
 
-            // Get teachers number
             $teacherNum = $this->labTeacherRepository->countLabTeachers($lab->id);
+            $labStart = new Carbon(strtotime($lab->start));
+            $capacity = (new Carbon(strtotime($lab->end)))->diff($labStart)->i;
 
-            // Calculate lab capacity
-            $capacity = ((strtotime($lab->end) - strtotime($lab->start)) / 60);
-
-            // Get all defense durations
             $defenceTimes = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id);
+            $lab->defenders_num = count($defenceTimes);
 
             $queuePresumption = array_fill(0, $teacherNum, 0);
 
@@ -187,9 +165,9 @@ class LabService
             $shortestWaitingTime = $queuePresumption[array_keys($queuePresumption, min($queuePresumption))[0]];
 
             if ($capacity >= $shortestWaitingTime + $charonLength) {
-                $lab["estimated_start_time"] = $lab->start->addMinutes($shortestWaitingTime);
+                $lab->estimated_start_time = $labStart->addMinutes($shortestWaitingTime);
             } else {
-                $lab["estimated_start_time"] = null;
+                $lab->estimated_start_time = null;
             }
         }
 
