@@ -112,7 +112,7 @@ class LabService
     {
         //get list of registrations. If lab started, then only waiting
         if (Carbon::now() >= $lab->start){
-            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, true);
+            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
             $queueFirstDefenseTime = strtotime(Carbon::now());
         } else {
             $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);

@@ -246,7 +246,7 @@ class DefenseRegistrationRepositoryTest extends TestCase
             $this->assertContains($reg->charon_length, [5, 10]);
         }
 
-        $registrationsWaitingLab1 = $this->repository->getLabRegistrationsByLabId($lab1->id, true);
+        $registrationsWaitingLab1 = $this->repository->getLabRegistrationsByLabId($lab1->id, ['Waiting']);
 
         $this->assertEquals(2, sizeof($registrationsWaitingLab1));
         foreach ($registrationsWaitingLab1 as $reg) {
@@ -255,6 +255,13 @@ class DefenseRegistrationRepositoryTest extends TestCase
             $this->assertContains($reg->charon_length, [5, 10]);
         }
 
+        $registrationsDoneLab1 = $this->repository->getLabRegistrationsByLabId($lab1->id, ['Done']);
+
+        $this->assertEquals(1, sizeof($registrationsDoneLab1));
+        $this->assertEquals(1, $registrationsDoneLab1[0]->student_id);
+        $this->assertEquals('EX01', $registrationsDoneLab1[0]->charon_name);
+        $this->assertEquals(5, $registrationsDoneLab1[0]->charon_length);
+
         $registrationsAllLab2 = $this->repository->getLabRegistrationsByLabId($lab2->id);
 
         $this->assertEquals(1, sizeof($registrationsAllLab2));
@@ -262,9 +269,9 @@ class DefenseRegistrationRepositoryTest extends TestCase
         $this->assertEquals('EX02', $registrationsAllLab2[0]->charon_name);
         $this->assertEquals(10, $registrationsAllLab2[0]->charon_length);
 
-        $registrationsAllLab2 = $this->repository->getLabRegistrationsByLabId($lab2->id, true);
+        $registrationsWaitingLab2 = $this->repository->getLabRegistrationsByLabId($lab2->id, ['Waiting']);
 
-        $this->assertEquals(0, sizeof($registrationsAllLab2));
+        $this->assertEquals(0, sizeof($registrationsWaitingLab2));
     }
 
     public function testGetTeacherAndDefendingCharonByLab()
