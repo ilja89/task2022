@@ -24,19 +24,19 @@
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
 
-				<h3 v-if="toggleOn">Showing table</h3>
+				<h3 v-if="toggleShowTable">Showing table</h3>
 				<h3 v-else>Showing mail</h3>
 
 				<label class="switch">
-					<input type="checkbox" v-model="toggleOn">
+					<input type="checkbox" v-model="toggleShowTable">
 					<span class="slider round"></span>
 				</label>
 
-				<div v-if="hasMail && !toggleOn">
+				<div v-if="hasMail && !toggleShowTable">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
 				</div>
-				<div v-if="toggleOn">
+				<div v-if="toggleShowTable">
 					<submission-table :submission="submission"></submission-table>
 				</div>
 
@@ -46,7 +46,16 @@
 				</files-component-without-tree>
 
 				<div class="review-comments">
-					<h3>{{ translate('feedbackText') }}</h3>
+                    <div v-if="!toggleShowAllSubmissions">
+                        <h3>{{ translate('feedbackTextThisSubmission') }}</h3>
+                    </div>
+                    <div v-else>
+                        <h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" v-model="toggleShowAllSubmissions">
+                        <span class="slider round"></span>
+                    </label>
 					<review-comment-component v-if="reviewCommentsExist" :files="files" view="student"></review-comment-component>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
@@ -83,10 +92,11 @@ export default {
 		return {
 			isActive: false,
 			testerType: '',
-			toggleOn: false,
+			toggleShowTable: false,
 			files: [],
 			reviewCommentsExist: false,
 			reviewCommentIdsWithNotify: [],
+            toggleShowAllSubmissions: false,
 		}
 	},
 
