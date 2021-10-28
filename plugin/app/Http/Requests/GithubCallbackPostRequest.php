@@ -40,7 +40,7 @@ class GithubCallbackPostRequest extends GitCallbackPostRequest
     public function withValidator($validator)
     {
         if ($validator->fails()) {
-            Log::notice('Git callback with incorrect parameters', [
+            Log::notice('GitHub callback with incorrect parameters', [
                 'url' => $this->fullUrl(),
                 'body' => $this->all(),
             ]);

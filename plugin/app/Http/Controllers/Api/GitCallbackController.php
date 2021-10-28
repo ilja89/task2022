@@ -51,6 +51,7 @@ class GitCallbackController extends Controller
 
     public function gitHubPostIndex(GithubCallbackPostRequest $request)
     {
+        Log::info("Git callback with github data validation");
         $repo = $request->input('repository')['ssh_url'];
         $userEmail = $request->input('repository')['owner']['email'];
         $callbackUrl = $request->getUriForPath('/api/tester_callback');
@@ -62,7 +63,7 @@ class GitCallbackController extends Controller
         $user = $this->userRepository->findByEmail($userEmail);
 
         Log::debug('Initial user' , [$user]);
-        Log::debug('Initial user, username' , [$user->username]);
+
         if (!$user) {
             Log::debug('User not found with email' , [$userEmail]);
             return 'NO USER';
@@ -70,7 +71,9 @@ class GitCallbackController extends Controller
 
         $params['email'] = $userEmail;
 
-        return $this->gitCallbackService->saveFromCallback($user->username, $fullUrl, $repo, $callbackUrl,
+        $username = str_replace("@ttu.ee", '', $user->username);
+
+        return $this->gitCallbackService->saveFromCallback($username, $fullUrl, $repo, $callbackUrl,
             $params, $request->input('commits', []));
     }
 
@@ -86,7 +89,6 @@ class GitCallbackController extends Controller
      */
     public function index(GitCallbackRequest $request)
     {
-        Log::info("GitCallback index", [$request]);
         $gitCallback = $this->gitCallbacksRepository->save(
             $request->fullUrl(),
             $request->input('repo'),
@@ -115,7 +117,7 @@ class GitCallbackController extends Controller
      */
     public function indexPost(GitCallbackPostRequest $request)
     {
-        Log::info("GitCallback indexPost", [$request]);
+        Log::info("Git callback with gitlab data validation");
         $repo = $request->input('repository')['git_ssh_url'];
         $initialUser = $request->input('user_username');
         $callbackUrl = $request->getUriForPath('/api/tester_callback');
