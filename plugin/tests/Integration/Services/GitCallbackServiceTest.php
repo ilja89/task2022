@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use Tests\TestCase;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
 use TTU\Charon\Services\GitCallbackService;
 use Zeizig\Moodle\Models\Course;
@@ -21,14 +22,12 @@ class GitCallbackServiceTest extends TestCase
     /** @var GitCallbackService */
     private $service;
 
-    /** @var GitCallbacksRepository */
-    private $repository;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = Mockery::mock(GitCallbacksRepository::class);
-        $this->service = new GitCallbackService($this->repository);
+        $this->service = new GitCallbackService(
+            Mockery::mock(GitCallbacksRepository::class),
+            Mockery::mock(CourseSettingsRepository::class));
     }
 
     public function testGetCourseReturnsCourseOnFullMatch()

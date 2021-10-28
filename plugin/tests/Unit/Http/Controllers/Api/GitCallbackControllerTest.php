@@ -50,9 +50,9 @@ class GitCallbackControllerTest extends TestCase
         $this->controller = new GitCallbackController(
             Mockery::mock(Request::class),
             $this->callbackRepository,
-            $this->settingsRepository,
             $this->service,
-            $this->userRepository
+            $this->userRepository,
+            $this->settingsRepository
         );
     }
 
@@ -88,16 +88,9 @@ class GitCallbackControllerTest extends TestCase
         $request = $this->createCommonRequest();
         $request->shouldReceive('input')->with('commits')->andReturn(true);
         $request->shouldReceive('input')->with('commits.0.author.email')->andReturn('user@email.com');
+        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $this->service->shouldReceive('getCourse')->with('repository url')->andReturnNull();
-
-        $this->service->shouldReceive('saveCallbackForUser')->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            ['email' => 'user@email.com']
-        );
+        $this->service->shouldReceive('saveFromCallback')->andReturn('NO COURSE');
 
         $response = $this->controller->indexPost($request);
 
@@ -109,28 +102,9 @@ class GitCallbackControllerTest extends TestCase
         $request = $this->createCommonRequest();
         $request->shouldReceive('input')->with('commits')->andReturn(false);
         $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
+        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $course = factory(Course::class)->make(['id' => 1, 'shortname' => 'course name']);
-
-        $this->service->shouldReceive('getCourse')->with('repository url')->andReturn($course);
-
-        /** @var CourseSettings $settings */
-        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git', ]);
-        $settings->testerType = factory(TesterType::class)->make(['name' => 'tester name']);
-
-        $this->settingsRepository->shouldReceive('getCourseSettingsByCourseId')->with(1)->andReturn($settings);
-
-        $this->service->shouldReceive('getModifiedFiles')->with(['commit files'])->andReturn(['file/name']);
-
-        $this->service->shouldReceive('findCharons')->with(['file/name'], 1)->andReturnNull();
-
-        $this->service->shouldReceive('saveCallbackForUser')->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            ['gitTestRepo' => 'unittest git', 'testingPlatform' => 'tester name']
-        );
+        $this->service->shouldReceive('saveFromCallback')->andReturn('NO MATCHING CHARONS');
 
         $response = $this->controller->indexPost($request);
 
@@ -142,85 +116,9 @@ class GitCallbackControllerTest extends TestCase
         $request = $this->createCommonRequest();
         $request->shouldReceive('input')->with('commits')->andReturn(false);
         $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
+        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $course = factory(Course::class)->make(['id' => 1, 'shortname' => 'course name']);
-
-        $this->service->shouldReceive('getCourse')->with('repository url')->andReturn($course);
-
-        /** @var CourseSettings $settings */
-        $settings = factory(CourseSettings::class)->make(['course_id' => 1, 'unittests_git' => 'unittest git']);
-        $settings->testerType = factory(TesterType::class)->make(['name' => 'tester name']);
-
-        $this->settingsRepository->shouldReceive('getCourseSettingsByCourseId')->with(1)->andReturn($settings);
-
-        $this->service->shouldReceive('getModifiedFiles')->with(['commit files'])->andReturn(['file/name']);
-
-        $charonParams = [
-            'project_folder' => 'folder',
-            'system_extra' => 'some,extras',
-            'tester_extra' => 'tester extra',
-            'docker_test_root' => 'test root',
-            'docker_content_root' => 'content root',
-            'docker_timeout' => 180,
-        ];
-
-        $charonNoGrouping = factory(Charon::class)->make(['id' => 3, 'grouping_id' => null] + $charonParams);
-        $charonNoUsers = factory(Charon::class)->make(['id' => 5, 'grouping_id' => 11] + $charonParams);
-        $charon = factory(Charon::class)->make(['id' => 7, 'grouping_id' => 13] + $charonParams);
-
-        $charonNoGrouping->testerType = factory(TesterType::class)->make(['name' => 'other name']);
-        $charonNoUsers->testerType = factory(TesterType::class)->make(['name' => 'other name']);
-        $charon->testerType = factory(TesterType::class)->make(['name' => 'other name']);
-
-        $this->service
-            ->shouldReceive('findCharons')
-            ->with(['file/name'], 1)
-            ->andReturn([$charonNoGrouping, $charonNoUsers, $charon]);
-
-        $expectedParams = [
-            'gitTestRepo' => 'unittest git',
-            'testingPlatform' => 'other name',
-            'slugs' => ['folder'],
-            'systemExtra' => ['some', 'extras'],
-            'dockerExtra' => 'tester extra',
-            'dockerTestRoot' => 'test root',
-            'dockerContentRoot' => 'content root',
-            'dockerTimeout' => 180,
-            'returnExtra' => ['charon' => 3]
-        ];
-
-        $this->service->shouldReceive('getGroupUsers')->with(11, 'username')->andReturn([]);
-
-        $this->service->shouldReceive('saveCallbackForUser')->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            $expectedParams
-        );
-
-        $expectedParams['returnExtra']['charon'] = 5;
-
-        $this->service->shouldReceive('saveCallbackForUser')->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            $expectedParams
-        );
-
-        $this->service->shouldReceive('getGroupUsers')->with(13, 'username')->andReturn(['some', 'other', 'names']);
-
-        $expectedParams['returnExtra']['usernames'] = ['some', 'other', 'names'];
-        $expectedParams['returnExtra']['charon'] = 7;
-
-        $this->service->shouldReceive('saveCallbackForUser')->with(
-            'username',
-            'full url',
-            'repository url',
-            'callback url',
-            $expectedParams
-        );
+        $this->service->shouldReceive('saveFromCallback')->andReturn('SUCCESS');
 
         $response = $this->controller->indexPost($request);
 

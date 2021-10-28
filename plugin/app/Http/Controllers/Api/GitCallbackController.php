@@ -9,9 +9,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
 use TTU\Charon\Http\Requests\GithubCallbackPostRequest;
-use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Repositories\GitCallbacksRepository;
-use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\GitCallbackService;
 
@@ -26,9 +24,6 @@ class GitCallbackController extends Controller
     /** @var GitCallbacksRepository */
     private $gitCallbacksRepository;
 
-    /** @var CourseSettingsRepository */
-    private $courseSettingsRepository;
-
     /** @var GitCallbackService */
     private $gitCallbackService;
 
@@ -40,29 +35,21 @@ class GitCallbackController extends Controller
      *
      * @param Request $request
      * @param GitCallbacksRepository $gitCallbacksRepository
-     * @param CourseSettingsRepository $courseSettingsRepository
      * @param GitCallbackService $gitCallbackService
      */
     public function __construct(
         Request $request,
         GitCallbacksRepository $gitCallbacksRepository,
-        CourseSettingsRepository $courseSettingsRepository,
         GitCallbackService $gitCallbackService,
         UserRepository $userRepository
     ) {
         parent::__construct($request);
         $this->gitCallbacksRepository = $gitCallbacksRepository;
-        $this->courseSettingsRepository = $courseSettingsRepository;
         $this->gitCallbackService = $gitCallbackService;
         $this->userRepository = $userRepository;
     }
 
-    public function gitHubIndex(Request $request)
-    {
-        Log::info("github callback", ["req" => $request, "body" => $request->json()]);
-    }
-
-    public function gitHubPostIndex(Request $request)
+    public function gitHubPostIndex(GithubCallbackPostRequest $request)
     {
         $repo = $request->input('repository')['ssh_url'];
         $userEmail = $request->input('repository')['owner']['email'];
@@ -77,79 +64,14 @@ class GitCallbackController extends Controller
         Log::debug('Initial user' , [$user]);
         Log::debug('Initial user, username' , [$user->username]);
         if (!$user) {
+            Log::debug('User not found with email' , [$userEmail]);
             return 'NO USER';
         }
 
         $params['email'] = $userEmail;
 
-        $course = $this->gitCallbackService->getCourse($repo);
-
-        if (is_null($course)) {
-            Log::warning('No course discovered, maybe git repo address is not in valid format.');
-            $this->gitCallbackService->saveCallbackForUser($user->username, $fullUrl, $repo, $callbackUrl, $params); // THIS IS NOT CORRECT FOR GITHUB SUBMISSION
-            return 'NO COURSE';
-        }
-
-        Log::debug('Found course: "' . $course->shortname . '" with ID ' . $course->id);
-
-        $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
-
-        $params['gitTestRepo'] = '';
-        $params['testingPlatform'] = '';
-
-        if ($settings && $settings->unittests_git) {
-            Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
-            $params['gitTestRepo'] = $settings->unittests_git;
-        }
-
-        if ($settings && $settings->testerType) {
-            Log::info("TesterType found from CourseSettings: '" . $settings->testerType->name . "'");
-            $params['testingPlatform'] = $settings->testerType->name;
-        }
-
-        $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->input('commits', []));
-        Log::debug('Found modified files: ', $modifiedFiles);
-
-        $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
-
-        if (empty($charons)) {
-            Log::warning('No matching Charons were found. Forwarding to tester.');
-            $this->gitCallbackService->saveCallbackForUser($user->username, $fullUrl, $repo, $callbackUrl, $params);
-            return 'NO MATCHING CHARONS';
-        }
-
-        foreach ($charons as $charon) {
-            Log::debug("Found charon with id: " . $charon->id);
-
-            $params['slugs'] = [$charon->project_folder];
-            $params['testingPlatform'] = $charon->testerType->name;
-            $params['systemExtra'] = explode(',', $charon->system_extra);
-            $params['dockerExtra'] = $charon->tester_extra;
-            $params['dockerTestRoot'] = $charon->docker_test_root;
-            $params['dockerContentRoot'] = $charon->docker_content_root;
-            $params['dockerTimeout'] = $charon->docker_timeout;
-            $params['returnExtra'] = ['charon' => $charon->id];
-
-            if ($charon->grouping_id == null) {
-                Log::info('This charon is not a group work or is broken. Forwarding to tester.');
-                $this->gitCallbackService->saveCallbackForUser($user->username, $fullUrl, $repo, $callbackUrl, $params);
-                continue;
-            }
-
-            Log::debug('Charon has grouping id ' . $charon->grouping_id);
-            $usernames = $this->gitCallbackService->getGroupUsers($charon->grouping_id, $user->username);
-
-            if (empty($usernames)) {
-                Log::warning('Unable to find users in group. Forwarding to tester.');
-                $this->gitCallbackService->saveCallbackForUser($user->username, $fullUrl, $repo, $callbackUrl, $params);
-                continue;
-            }
-
-            $params['returnExtra']['usernames'] = $usernames;
-            $this->gitCallbackService->saveCallbackForUser($user->username, $fullUrl, $repo, $callbackUrl, $params);
-        }
-
-        return 'SUCCESS';
+        return $this->gitCallbackService->saveFromCallback($user->username, $fullUrl, $repo, $callbackUrl,
+            $params, $request->input('commits', []));
     }
 
     /**
@@ -206,74 +128,7 @@ class GitCallbackController extends Controller
             $params['email'] = $request->input('commits.0.author.email');
         }
 
-        $course = $this->gitCallbackService->getCourse($repo);
-
-        if (is_null($course)) {
-            Log::warning('No course discovered, maybe git repo address is not in valid format.');
-            $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-            return 'NO COURSE';
-        }
-
-        Log::debug('Found course: "' . $course->shortname . '" with ID ' . $course->id);
-
-        /** @var CourseSettings $settings */
-        $settings = $this->courseSettingsRepository->getCourseSettingsByCourseId($course->id);
-
-        $params['gitTestRepo'] = '';
-        $params['testingPlatform'] = '';
-
-        if ($settings && $settings->unittests_git) {
-            Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
-            $params['gitTestRepo'] = $settings->unittests_git;
-        }
-
-        if ($settings && $settings->testerType) {
-            Log::info("TesterType found from CourseSettings: '" . $settings->testerType->name . "'");
-            $params['testingPlatform'] = $settings->testerType->name;
-        }
-
-        $modifiedFiles = $this->gitCallbackService->getModifiedFiles($request->input('commits', []));
-        Log::debug('Found modified files: ', $modifiedFiles);
-
-        $charons = $this->gitCallbackService->findCharons($modifiedFiles, $course->id);
-
-        if (empty($charons)) {
-            Log::warning('No matching Charons were found. Forwarding to tester.');
-            $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-            return 'NO MATCHING CHARONS';
-        }
-
-        foreach ($charons as $charon) {
-            Log::debug("Found charon with id: " . $charon->id);
-
-            $params['slugs'] = [$charon->project_folder];
-            $params['testingPlatform'] = $charon->testerType->name;
-            $params['systemExtra'] = explode(',', $charon->system_extra);
-            $params['dockerExtra'] = $charon->tester_extra;
-            $params['dockerTestRoot'] = $charon->docker_test_root;
-            $params['dockerContentRoot'] = $charon->docker_content_root;
-            $params['dockerTimeout'] = $charon->docker_timeout;
-            $params['returnExtra'] = ['charon' => $charon->id];
-
-            if ($charon->grouping_id == null) {
-                Log::info('This charon is not a group work or is broken. Forwarding to tester.');
-                $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-                continue;
-            }
-
-            Log::debug('Charon has grouping id ' . $charon->grouping_id);
-            $usernames = $this->gitCallbackService->getGroupUsers($charon->grouping_id, $initialUser);
-
-            if (empty($usernames)) {
-                Log::warning('Unable to find users in group. Forwarding to tester.');
-                $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-                continue;
-            }
-
-            $params['returnExtra']['usernames'] = $usernames;
-            $this->gitCallbackService->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
-        }
-
-        return 'SUCCESS';
+        return $this->gitCallbackService->saveFromCallback($initialUser, $fullUrl, $repo, $callbackUrl,
+        $params, $request->input('commits', []));
     }
 }
