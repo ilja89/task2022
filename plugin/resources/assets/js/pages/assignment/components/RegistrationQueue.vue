@@ -8,17 +8,18 @@
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
-
-            <v-card-title>
-              {{ translate('labTeachersText') }}
-            </v-card-title>
-            <v-data-table
-              :headers="defendingTeachersHeaders"
-              :items="defendingTeachers"
-              :hide-default-footer="true"
-              @update:items="dataUpdate"
-            >
-            </v-data-table>
+            <div v-if="Date.parse(this.lab_start) <= Date.now()">
+              <v-card-title>
+                {{ translate('labTeachersText') }}
+              </v-card-title>
+              <v-data-table
+                :headers="defendingTeachersHeaders"
+                :items="defendingTeachers"
+                :hide-default-footer="true"
+                @update:items="dataUpdate"
+              >
+              </v-data-table>
+            </div>
 
             <v-card-title>
               {{ translate('studentsLiveQueueText') }}
@@ -28,7 +29,6 @@
               :items="studentsQueue"
               @update:items="dataUpdate"
             >
-
             </v-data-table>
           </v-flex>
         </v-layout>
@@ -45,6 +45,7 @@ export default {
   name: "registration-queue",
 
   props: {
+    lab_start: {required: true},
     items: {required: true},
     defenseLabId: {required: true}
   },
@@ -55,7 +56,7 @@ export default {
     return {
       defendingTeachers: [],
       defendingTeachersHeaders: [
-        {text: this.translate("teacherText"), value: 'teacher'},
+        {text: this.translate("teacherText"), value: 'teacher_name'},
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
@@ -72,7 +73,7 @@ export default {
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
     this.studentsQueue = this.items.registrations;
-    this.defendingTeachers = this.items.teachers
+    this.defendingTeachers = this.items.teachers;
   },
   methods: {
     dataUpdate(){

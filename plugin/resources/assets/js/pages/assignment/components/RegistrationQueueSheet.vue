@@ -17,7 +17,7 @@
       </v-toolbar>
 
       <v-sheet height="80vh" class="pt-4 px-4">
-        <registration-queue :items="this.queueStatus" :defenseLabId="this.labData.defense_lab_id"></registration-queue>
+        <registration-queue :lab_start="this.labData.lab_start" :items="this.queueStatus" :defenseLabId="this.labData.defense_lab_id"></registration-queue>
       </v-sheet>
     </div>
   </v-bottom-sheet>
