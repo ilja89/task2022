@@ -26,11 +26,6 @@ class TesterCallbackRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'required',
-            'uniid' => 'required',
-            'timestamp' => 'required',
-            'hash' => 'required',
-            'commitMessage' => 'required',
         ];
     }
 
