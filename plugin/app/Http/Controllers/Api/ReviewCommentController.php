@@ -56,4 +56,16 @@ class ReviewCommentController extends Controller
         $reviewCommentIds = $request->input('reviewCommentIds');
         $this->reviewCommentService->clearNotifications($reviewCommentIds);
     }
+
+    /**
+     * Get all reviewComments for the specific charon and from the specific student.
+     * @param Request $request
+     * @return array
+     */
+    public function getReviewCommentsForCharon(Request $request): array
+    {
+        $charonId = $request->route('charon');
+        $studentId = $request->route('student');
+        return $this->reviewCommentService->getReviewCommentsForCharon($charonId, $studentId);
+    }
 }

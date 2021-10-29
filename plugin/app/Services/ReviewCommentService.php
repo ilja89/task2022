@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Dto\FileReviewCommentsDTO;
+use TTU\Charon\Dto\ReviewCommentDTO;
 use TTU\Charon\Exceptions\ReviewCommentException;
 use TTU\Charon\Repositories\ReviewCommentRepository;
 use Zeizig\Moodle\Globals\User;
@@ -66,5 +68,43 @@ class ReviewCommentService
     public function clearNotifications($reviewCommentIds): void
     {
         $this->reviewCommentRepository->clearNotification($reviewCommentIds);
+    }
+
+    /**
+     * Get all reviewComments for the specific charon and from the specific student.
+     *
+     * @param $charonId
+     * @param $studentId
+     * @return array
+     */
+    public function getReviewCommentsForCharon($charonId, $studentId): array
+    {
+        $fileReviewCommentsDTOs = [];
+        $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharon($charonId, $studentId);
+        $fileId = null;
+        $fileReviewCommentsDTO = null;
+        foreach($rawResults as $rawResult)
+        {
+            if($rawResult->file_id === $fileId)
+            {
+                $reviewComment = new ReviewCommentDTO();
+                $reviewComment->commentedById = $rawResult->commented_by_id;
+                $reviewComment->commentedByFirstName = $rawResult->commented_by_firstname;
+                $reviewComment->commentedByLastName = $rawResult->commented_by_lastname;
+                $reviewComment->id = $rawResult->commented_by_id;
+                $reviewComment->commentedById = $rawResult->commented_by_id;
+                $reviewComment->commentedById = $rawResult->commented_by_id;
+                array_push($fileReviewCommentsDTO->reviewComments, $reviewComment);
+            }
+            else {
+                array_push($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
+                $fileReviewCommentsDTO = new FileReviewCommentsDTO();
+                $fileReviewCommentsDTO->fileId = $rawResult->file_id;
+                $fileReviewCommentsDTO->submissionId = $rawResult->submission_id;
+                $fileReviewCommentsDTO->studentId = $rawResult->student_id;
+                $fileReviewCommentsDTO->path = $rawResult->path;
+            }
+        }
+        return $fileReviewCommentsDTOs;
     }
 }

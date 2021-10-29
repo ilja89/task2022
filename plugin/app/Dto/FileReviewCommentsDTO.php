@@ -1,0 +1,26 @@
+<?php
+
+namespace TTU\Charon\Dto;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * DTO helper for ReviewComment listing under submission file.
+ */
+class FileReviewCommentsDTO
+{
+    /** @var integer */
+    public $studentId;
+
+    /** @var integer */
+    public $submissionId;
+
+    /** @var integer */
+    public $fileId;
+
+    /** @var string */
+    public $path;
+
+    /** @var array */
+    public $reviewComments = [];
+}

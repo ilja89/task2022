@@ -121,17 +121,25 @@ export default {
 
 	mounted() {
 		this.testerType = window.testerType
-		this.getFiles()
-		VueEvent.$on("student-refresh-submissions", this.getFiles);
+		this.getFilesForThisSubmission()
+		VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
 	},
 
 	methods: {
-		getFiles() {
+		getFilesForThisSubmission() {
 			File.findBySubmission(this.submission.id, files => {
 				this.files = files
 				this.checkComments();
 			})
 		},
+
+        getFilesForAllSubmissions($charonId, $studentId) {
+            ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, files => {
+                this.files = files
+                this.checkComments();
+
+            })
+        },
 
 		checkComments() {
 			this.files.forEach(file => {
