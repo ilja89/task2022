@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
@@ -200,25 +201,13 @@ class DefenceRegistrationService
      */
     public function validateRegistration(int $studentId, int $charonId, Lab $lab)
     {
-        $charonDuration = $this->charonRepository
-            ->getCharonById($charonId)
-            ->defense_duration;
+        $charon = $this->charonRepository->getCharonById($charonId);
 
-        if ($charonDuration == null || $charonDuration <= 0) {
+        if ($charon->defense_duration == null || $charon->defense_duration <= 0) {
             throw new RegistrationException('invalid_setup');
         }
 
-        $registrations = $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id);
-        $totalOfDefenses = 0;
-        $labDurationInterval = $lab->start->diff($lab->end);
-        $labDuration = $labDurationInterval->h * 60 + $labDurationInterval->i;
-
-        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
-        foreach ($registrations as $registration) {
-            $totalOfDefenses += $registration->defense_duration;
-        }
-
-        if ($labDuration * $teacherCount < $totalOfDefenses + $charonDuration) {
+        if ($this->getEstimateTimeForNewRegistration($lab, $charon) === null) {
             throw new RegistrationException("not_enough_time");
         }
 
@@ -383,5 +372,84 @@ class DefenceRegistrationService
         );
 
         return 'inserted';
+    }
+
+    /**
+     * Give registrations their approximate starting time and sort them by it.
+     *
+     * @param array $registrations
+     * @param int $teacherCount
+     * @param Carbon $labStart
+     *
+     * @return array
+     */
+    public function attachEstimatedTimesToDefenceRegistrations(
+        array $registrations,
+        int $teacherCount,
+        Carbon $labStart
+    ): array {
+        $queuePresumption = array_fill(0, $teacherCount, 0);
+
+        for ($i = 0; $i < count($registrations); $i++) {
+            $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
+
+            $registrations[$i]->estimated_start =
+                $labStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+
+            $queuePresumption[$teacherNr] += $registrations[$i]->defense_duration;
+        }
+
+        usort(
+            $registrations,
+            function ($r1, $r2) {
+                return $r1->estimated_start > $r2->estimated_start;
+            }
+        );
+
+        return $registrations;
+    }
+
+    /**
+     * Calculate estimated starting time for a new defence registration.
+     *
+     * @param Lab $lab
+     * @param Charon $charon
+     *
+     * @return Carbon|null
+     */
+    public function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
+    {
+        $capacity = $lab->end->diff($lab->start)->i;
+        $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
+
+        $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
+            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
+            $teacherCount,
+            $lab->start
+        );
+
+        if (count($registrations) >= $teacherCount) {
+
+            $latestRegistrations = array_slice($registrations, count($registrations) - $teacherCount);
+
+            $shortestWaitingTimeRegistration = array_reduce(
+                $latestRegistrations,
+                function ($r1, $r2) {
+                    return $r1 !== null && $r1->estimated_start < $r2->estimated_start
+                        ? $r1
+                        : $r2;
+                }
+            );
+
+            $shortestWaitingTime = $shortestWaitingTimeRegistration->estimated_start
+                ->addMinutes($shortestWaitingTimeRegistration->defense_duration);
+
+        } else {
+            $shortestWaitingTime = $lab->start;
+        }
+
+        return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
+            ? $shortestWaitingTime
+            : null;
     }
 }

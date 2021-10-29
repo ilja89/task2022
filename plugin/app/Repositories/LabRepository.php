@@ -296,7 +296,6 @@ class LabRepository
     public function getAvailableLabsByCharonId(int $charonId)
     {
         return Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->leftJoin('charon_defenders', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->where('charon_defense_lab.charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
             ->select(
@@ -306,7 +305,6 @@ class LabRepository
                 'charon_lab.end',
                 'charon_lab.name',
                 'charon_lab.course_id')
-            ->groupBy('id')
             ->get()
             ->all();
     }

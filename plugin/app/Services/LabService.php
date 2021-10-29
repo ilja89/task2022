@@ -3,7 +3,6 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -25,6 +24,9 @@ class LabService
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var DefenceRegistrationService */
+    private $defenceRegistrationService;
+
     /**
      * LabService constructor.
      *
@@ -32,17 +34,20 @@ class LabService
      * @param LabTeacherRepository $labTeacherRepository
      * @param LabRepository $labRepository,
      * @param CharonRepository $charonRepository
+     * @param DefenceRegistrationService $defenceRegistrationService
      */
     public function __construct(
         DefenseRegistrationRepository $defenseRegistrationRepository,
         LabTeacherRepository $labTeacherRepository,
         LabRepository $labRepository,
-        CharonRepository $charonRepository
+        CharonRepository $charonRepository,
+        DefenceRegistrationService $defenceRegistrationService
     ) {
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->labRepository = $labRepository;
         $this->charonRepository = $charonRepository;
+        $this->defenceRegistrationService = $defenceRegistrationService;
     }
 
     /**
@@ -70,7 +75,7 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
-        $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
+        $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
             $this->labTeacherRepository->countLabTeachers($lab->id),
             Carbon::parse($lab->start)
@@ -108,89 +113,11 @@ class LabService
         $charon = $this->charonRepository->getCharonById($charonId);
 
         foreach ($labs as $lab) {
-            $lab->new_defence_start = $this->getEstimateTimeForNewRegistration($lab, $charon);
+            $lab->new_defence_start = $this->defenceRegistrationService
+                ->getEstimateTimeForNewRegistration($lab, $charon);
             $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
         }
 
         return $labs;
-    }
-
-    /**
-     * Give registrations their approximate starting time and sort them by it.
-     *
-     * @param array $registrations
-     * @param int $teacherCount
-     * @param Carbon $labStart
-     *
-     * @return array
-     */
-    private function attachEstimatedTimesToDefenceRegistrations(
-        array $registrations,
-        int $teacherCount,
-        Carbon $labStart
-    ): array {
-        $queuePresumption = array_fill(0, $teacherCount, 0);
-
-        for ($i = 0; $i < count($registrations); $i++) {
-            $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
-
-            $registrations[$i]->estimated_start =
-                $labStart->copy()->addMinutes($queuePresumption[$teacherNr]);
-
-            $queuePresumption[$teacherNr] += $registrations[$i]->defense_duration;
-        }
-
-        usort(
-            $registrations,
-            function ($r1, $r2) {
-                return $r1->estimated_start > $r2->estimated_start;
-            }
-        );
-
-        return $registrations;
-    }
-
-    /**
-     * Calculate estimated starting time for a new defence registration.
-     *
-     * @param Lab $lab
-     * @param Charon $charon
-     *
-     * @return Carbon|null
-     */
-    private function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
-    {
-        $capacity = $lab->end->diff($lab->start)->i;
-        $teacherCount = $this->labTeacherRepository->countLabTeachers($lab->id);
-
-        $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
-            $teacherCount,
-            $lab->start
-        );
-
-        if (count($registrations) >= $teacherCount) {
-
-            $latestRegistrations = array_slice($registrations, count($registrations) - $teacherCount);
-
-            $shortestWaitingTimeRegistration = array_reduce(
-                $latestRegistrations,
-                function ($r1, $r2) {
-                    return $r1 !== null && $r1->estimated_start < $r2->estimated_start
-                        ? $r1
-                        : $r2;
-                }
-            );
-
-            $shortestWaitingTime = $shortestWaitingTimeRegistration->estimated_start
-                ->addMinutes($shortestWaitingTimeRegistration->defense_duration);
-
-        } else {
-            $shortestWaitingTime = $lab->start;
-        }
-
-        return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
-            ? $shortestWaitingTime
-            : null;
     }
 }
