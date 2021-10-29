@@ -1,16 +1,12 @@
 <template>
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
-      <div v-if="hasLoaded">
-        <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
-          <img  alt="queue" height="24px" src="pix/line.png" width="24px">
-        </v-btn>
-      </div>
-      <div v-else>
-        <img alt="queue loading" height="24px" src="pix/refreshBlack.png"
+      <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
+        <img v-if="hasLoaded" alt="queue" height="24px" src="pix/line.png" width="24px">
+        <img v-else alt="queue loading" height="24px" src="pix/refreshBlack.png"
              v-bind:class="'rotating'"
              width="24px">
-      </div>
+      </v-btn>
     </template>
     <div v-if="hasLoaded">
       <v-toolbar color="success" dark>

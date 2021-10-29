@@ -110,6 +110,10 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
+        if (Carbon::now() > $lab->end){
+            return [];
+        }
+
         $queueStatus = [];
 
         // Get teachers per lab
