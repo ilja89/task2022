@@ -62,13 +62,26 @@ class DefenseRegistrationController extends Controller
     /**
      * @throws RegistrationException
      */
-    public function registerDefence(Request $request): string
+    public function registerDefenceByStudent(Request $request): string
     {
         return $this->registrationService->registerDefence(
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            $request->input('submission_id'),
+            $request->input('submission_id')
+        );
+    }
+
+    /**
+     * @throws RegistrationException
+     */
+    public function registerDefenceByTeacher(Request $request): string
+    {
+        return $this->registrationService->registerDefence(
+            $request->input("user_id"),
+            $request->input("charon_id"),
+            $request->input("defense_lab_id"),
+            null,
             $request->input("progress")
         );
     }

@@ -27,11 +27,10 @@ class Defense {
             })
     }
 
-    static register(charonId, studentId, defenseLabId, submissionId, progress, then) {
-        axios.post(`/mod/charon/api/charons/${charonId}/submission?user_id=${studentId}`, {
+    static registerByTeacher(charonId, studentId, defenseLabId, progress, then) {
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/register/teacher?user_id=${studentId}`, {
             charon_id: charonId,
             defense_lab_id: defenseLabId,
-            submission_id: submissionId,
             progress: progress,
         }).then(response => {
             then(response.data);
@@ -40,7 +39,22 @@ class Defense {
                 error.response && error.response.data && error.response.data.title
                     ? error.response.data.title + ' ' + error.response.data.detail
                     : 'Error creating a new defense registration.\n' + error, 'danger');
-            if (progress === null) VueEvent.$emit('student-register-end-loading');
+        });
+    }
+
+    static registerByStudent(charonId, studentId, defenseLabId, submissionId, then) {
+        axios.post(`/mod/charon/api/charons/${charonId}/submissions/register/student?user_id=${studentId}`, {
+            charon_id: charonId,
+            defense_lab_id: defenseLabId,
+            submission_id: submissionId,
+        }).then(response => {
+            then(response.data);
+        }).catch(error => {
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error creating a new defense registration.\n' + error, 'danger');
+            VueEvent.$emit('student-register-end-loading');
         });
     }
 

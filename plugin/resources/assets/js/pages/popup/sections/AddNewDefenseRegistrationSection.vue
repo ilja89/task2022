@@ -87,8 +87,8 @@
 
       save() {
         if (this.item && this.item.lab && this.item.student && this.item.charon && this.progress) {
-          Defense.register(this.item.charon.id, this.item.student.id, this.item.lab.defense_lab_id,
-            null, this.progress, () => {
+          Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.defense_lab_id,
+              this.progress, () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
               router.push('defenseRegistrations');
               VueEvent.$emit('refresh-page');
