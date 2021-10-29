@@ -100,11 +100,14 @@ export default {
 		},
 
 		deleteReg(defense_lab_item) {
-			Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'], defense_lab_item['submission_id'], (xs) => {
+			Defense.deleteStudentRegistration(this.charon.id, this.student_id, defense_lab_item['defense_lab_id'],
+				defense_lab_item['submission_id'], success => {
+
 				const index = this.registrations.indexOf(defense_lab_item);
 				if (index > -1) {
 					this.registrations.splice(index, 1)
-					VueEvent.$emit('show-notification', 'Deleted ' + xs + ' items successfully!', 'primary')
+					VueEvent.$emit('show-notification',
+						'Deleted ' + success ? 1 : 0 + ' item(s) successfully!', 'primary')
 				}
 				this.dialog = false
 			})
