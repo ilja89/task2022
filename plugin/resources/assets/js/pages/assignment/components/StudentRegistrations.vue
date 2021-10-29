@@ -119,11 +119,7 @@ export default {
 				return false;
 			}
 
-			const dateNow = new Date();
-			let dateEnd = lab_end.split(" ");
-			dateEnd = dateEnd[0].split("-").concat(dateEnd[1].split("-"));
-			dateEnd = new Date( dateEnd[0],dateEnd[1]-1,dateEnd[2],dateEnd[3].split(":")[0],dateEnd[3].split(":")[1]);
-			return dateNow.getTime() <= dateEnd.getTime();
+			return (new Date()).getTime() <= (new Date(lab_end)).getTime();
 		}
 	},
 
