@@ -125,6 +125,7 @@
         availabilityText: "{{ translate('availability') }}",
         labTeachersText: "{{ translate('lab_teachers') }}",
         studentsLiveQueueText: "{{ translate('students_live_queue') }}",
+        labEndedText: "{{ translate('lab_end') }}",
     };
 </script>
 

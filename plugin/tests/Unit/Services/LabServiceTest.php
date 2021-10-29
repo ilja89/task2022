@@ -89,6 +89,7 @@ class LabServiceTest extends TestCase
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime('+1 day');
+        $this->lab->end = date_modify(new \DateTime('+1 day'), '+1 hour');
 
         $reg1 = new \stdClass();
         $reg1->charon_name = 'EX01';
@@ -145,9 +146,7 @@ class LabServiceTest extends TestCase
             ->with(401)
             ->andReturn($teachers);
         $this->defenseRegistrationRepository->shouldReceive('getTeacherAndDefendingCharonByLab')
-            ->once()
-            ->with(401)
-            ->andReturn([]);
+            ->never();
 
         $result = $this->service->labQueueStatus($user, $this->lab);
 
@@ -214,6 +213,7 @@ class LabServiceTest extends TestCase
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime('-30 minutes');
+        $this->lab->end = date_modify(new \DateTime(), '+1 hour');
 
         $reg1 = new \stdClass();
         $reg1->charon_name = 'EX01';
@@ -315,6 +315,7 @@ class LabServiceTest extends TestCase
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime();
+        $this->lab->end = date_modify(new \DateTime(), '+1 hour');
 
         $teacher1 = new \stdClass();
         $teacher1->firstname = 'Mari';

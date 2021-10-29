@@ -206,3 +206,4 @@ $string['student'] = 'Üliõpilane';
 $string['availability'] = 'Kättesaadavus';
 $string['lab_teachers'] = 'Praktikumi õpetajad';
 $string['students_live_queue'] = 'Õpilaste kaitsmise elav järjekord';
+$string['lab_end'] = 'Praktikum on lõppenud';

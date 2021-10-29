@@ -7,7 +7,12 @@
         </v-card-title>
 
         <v-layout column style="height: 125vh">
-          <v-flex md6 style="overflow: auto">
+          <v-flex v-if="checkLabEnded">
+            <v-card-title>
+              {{ translate('labEndedText') }}
+            </v-card-title>
+          </v-flex>
+          <v-flex v-else md6 style="overflow: auto">
             <div v-if="checkLabStarted">
               <v-card-title>
                 {{ translate('labTeachersText') }}
@@ -46,6 +51,7 @@ export default {
 
   props: {
     lab_start: {required: true},
+    lab_end: {required: true},
     items: {required: true},
     defenseLabId: {required: true}
   },
@@ -68,13 +74,18 @@ export default {
       defendingTeachers: [],
       studentsQueue: [],
       timer: '',
-      labStarted: Date.parse(this.lab_start) <= Date.now()
+      labStarted: Date.parse(this.lab_start) <= Date.now(),
+      labEnded: Date.parse(this.lab_end) <= Date.now()
     }
   },
 
   computed: {
-    checkLabStarted(){
+    checkLabStarted() {
       return this.labStarted;
+    },
+
+    checkLabEnded() {
+      return this.labEnded;
     }
   },
 
@@ -90,6 +101,7 @@ export default {
         this.studentsQueue = items.registrations;
         this.defendingTeachers = items.teachers;
         this.labStarted = Date.parse(this.lab_start) <= Date.now();
+        this.labEnded = Date.parse(this.lab_end) <= Date.now();
       });
     },
 
