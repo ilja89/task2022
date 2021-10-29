@@ -1,6 +1,6 @@
 // return string showing main info about lab
 
-export default function getLabList({start, name, defenders_num, estimated_start_time}) {
+export default function getLabList({start, name, defenders_num, new_defence_start}) {
 
     let date = new Date(start);
     let locales = "et";
@@ -8,8 +8,8 @@ export default function getLabList({start, name, defenders_num, estimated_start_
 
     return date.toLocaleDateString(locales) + " " + date.toLocaleTimeString(locales, timeOptions) +
         (name ? " " + name : "") + " - " +
-        (estimated_start_time
+        (new_defence_start
             ? defenders_num + " defences in queue - est. defence time: " +
-                new Date(estimated_start_time).toLocaleTimeString(locales, timeOptions)
+                new Date(new_defence_start).toLocaleTimeString(locales, timeOptions)
             : "Not enough time left in lab queue");
 }

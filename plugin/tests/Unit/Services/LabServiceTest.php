@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -55,12 +56,18 @@ class LabServiceTest extends TestCase
 
         $lab1 = Mockery::mock(Lab::class)->makePartial();
         $lab1->id = 1;
+        $lab1->start = Carbon::now()->addDays(30);
+        $lab1->end = Carbon::now()->addDays(30)->addHours(3);
 
         $lab2 = Mockery::mock(Lab::class)->makePartial();
         $lab2->id = 2;
+        $lab2->start = Carbon::now()->addDays(60);
+        $lab2->end = Carbon::now()->addDays(60)->addHour();
 
         $lab4 = Mockery::mock(Lab::class)->makePartial();
         $lab4->id = 3;
+        $lab4->start = Carbon::now()->addDays(90);
+        $lab4->end = Carbon::now()->addDays(90)->addHours(2);
 
         $labs = array($lab1, $lab2, $lab4);
 
@@ -84,6 +91,11 @@ class LabServiceTest extends TestCase
                 ->once()
                 ->with($lab->id)
                 ->andReturn([]);
+
+            $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
+                ->once()
+                ->with($lab->id)
+                ->andReturn(0);
         }
 
         $result = $this->service->findAvailableLabsByCharon($charon->id);
@@ -150,37 +162,37 @@ class LabServiceTest extends TestCase
         $expectedReg1->charon_name = 'EX01';
         $expectedReg1->student_name = '';
         $expectedReg1->queue_pos = 1;
-        $expectedReg1->approx_start_time = '14.07.2033 21:30';
+        $expectedReg1->estimated_start = '14.07.2033 21:30';
         $expectedReg2 = new \stdClass();
         $expectedReg2->charon_name = 'EX02';
         $expectedReg2->student_name = 'Tom Jackson';
         $expectedReg2->queue_pos = 2;
-        $expectedReg2->approx_start_time = '14.07.2033 21:30';
+        $expectedReg2->estimated_start = '14.07.2033 21:30';
         $expectedReg3 = new \stdClass();
         $expectedReg3->charon_name = 'EX01';
         $expectedReg3->student_name = '';
         $expectedReg3->queue_pos = 3;
-        $expectedReg3->approx_start_time = '14.07.2033 21:30';
+        $expectedReg3->estimated_start = '14.07.2033 21:30';
         $expectedReg4 = new \stdClass();
         $expectedReg4->charon_name = 'EX06';
         $expectedReg4->student_name = '';
         $expectedReg4->queue_pos = 4;
-        $expectedReg4->approx_start_time = '14.07.2033 21:35';
+        $expectedReg4->estimated_start = '14.07.2033 21:35';
         $expectedReg5 = new \stdClass();
         $expectedReg5->charon_name = 'EX06';
         $expectedReg5->student_name = '';
         $expectedReg5->queue_pos = 5;
-        $expectedReg5->approx_start_time = '14.07.2033 21:35';
+        $expectedReg5->estimated_start = '14.07.2033 21:35';
         $expectedReg6 = new \stdClass();
         $expectedReg6->charon_name = 'EX08';
         $expectedReg6->student_name = '';
         $expectedReg6->queue_pos = 6;
-        $expectedReg6->approx_start_time = '14.07.2033 21:35';
+        $expectedReg6->estimated_start = '14.07.2033 21:35';
         $expectedReg7 = new \stdClass();
         $expectedReg7->charon_name = 'EX01';
         $expectedReg7->student_name = 'Tom Jackson';
         $expectedReg7->queue_pos = 7;
-        $expectedReg7->approx_start_time = '14.07.2033 21:40';
+        $expectedReg7->estimated_start = '14.07.2033 21:40';
 
         $expectedResult = array($expectedReg1, $expectedReg2, $expectedReg3, $expectedReg4, $expectedReg5, $expectedReg6, $expectedReg7);
 

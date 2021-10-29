@@ -39,7 +39,7 @@
                 </div>
 
                 <v-row class="mt-4">
-                    <v-btn :disabled="!value || value && !value['estimated_start_time']"
+                    <v-btn :disabled="!value || value && !value['new_defence_start']"
                         class="ml-4" color="primary" dense outlined text @click="sendData()">
                         {{ translate('registerText') }}
                     </v-btn>
@@ -168,6 +168,12 @@ export default {
 
         this.hasPoints = getSubmissionWeightedScore(this.submission) >= this.charon['defense_threshold'];
         VueEvent.$on('student-register-end-loading', this.endLoading);
+
+        this.labs.forEach(lab => {
+            if (!lab['new_defence_start']) {
+                lab['$isDisabled'] = true;
+            }
+        });
     },
 
     beforeDestroy() {

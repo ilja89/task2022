@@ -98,12 +98,6 @@ export default {
 						tb = new Date(b.start);
 					return ta - tb;
 				});
-
-				this.$store.state.labs.forEach(lab => {
-					if (!lab['estimated_start_time']) {
-						lab['$isDisabled'] = true;
-					}
-				});
 			});
 		},
 
