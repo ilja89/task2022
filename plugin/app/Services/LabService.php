@@ -110,20 +110,55 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
-        //get list of registrations. If lab started, then only waiting
+        $queueStatus = [];
+
+        // Get teachers per lab
+        $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
+
+        $teachersCount = count($teachersList);
+
+        // Get list of registrations. If lab started, then only waiting status
+        // registrations and add teachers and defending charons per teacher
         if (Carbon::now() >= $lab->start){
             $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
             $queueFirstDefenseTime = strtotime(Carbon::now());
+
+            // Get defending charon per teacher
+            $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
+
+            foreach ($teachersList as $key => $teacher) {
+
+                $teacher->teacher_name = $teacher->firstname . ' ' . $teacher->lastname;
+                $teacher->charon = '';
+
+                // Check if teacher is defending some charon or not
+                foreach ($teachersDefences as $teachersDefence) {
+                    if ($teacher->charon === '' && $teachersDefence->teacher_id === $teacher->id){
+                        $teacher->charon = $teachersDefence->charon;
+                    }
+                }
+
+                // Add defending or not status
+                if ($teacher->charon){
+                    $teacher->availability = 'Defending';
+                } else {
+                    $teacher->availability = 'Free';
+                }
+
+                // Unset unuseful data
+                unset($teacher->id);
+                unset($teacher->firstname);
+                unset($teacher->lastname);
+            }
+
+            $queueStatus['teachers'] = $teachersList;
         } else {
             $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
             $queueFirstDefenseTime = strtotime($lab->start);
         }
 
-        // Get teachers per lab
-        $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
-
         //Get lab start time and format date to timestamp
-        $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, count($teachersList));
+        $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachersCount);
 
         foreach ($registrations as $key => $reg) {
             if($reg->student_id == $user->id) {
@@ -143,39 +178,7 @@ class LabService
             unset($reg->student_id);
         }
 
-        $queueStatus = [];
-
         $queueStatus['registrations'] = $registrations;
-
-        // Get defending charon per teacher
-        $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
-
-        foreach ($teachersList as $key => $teacher) {
-
-            $teacher->teacher_name = $teacher->firstname . ' ' . $teacher->lastname;
-            $teacher->charon = '';
-
-            // Check if teacher is defending some charon or not
-            foreach ($teachersDefences as $teachersDefence) {
-                if ($teacher->charon === '' && $teachersDefence->teacher_id === $teacher->id){
-                    $teacher->charon = $teachersDefence->charon;
-                }
-            }
-
-            // Add defending or not status
-            if ($teacher->charon){
-                $teacher->availability = 'Defending';
-            } else {
-                $teacher->availability = 'Free';
-            }
-
-            // Unset unuseful data
-            unset($teacher->id);
-            unset($teacher->firstname);
-            unset($teacher->lastname);
-        }
-
-        $queueStatus['teachers'] = $teachersList;
 
         return $queueStatus;
     }

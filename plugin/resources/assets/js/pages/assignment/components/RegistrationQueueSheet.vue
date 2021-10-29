@@ -1,11 +1,18 @@
 <template>
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
-        <img alt="queue" height="24px" src="pix/line.png" width="24px">
-      </v-btn>
+      <div v-if="hasLoaded">
+        <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
+          <img  alt="queue" height="24px" src="pix/line.png" width="24px">
+        </v-btn>
+      </div>
+      <div v-else>
+        <img alt="queue loading" height="24px" src="pix/refreshBlack.png"
+             v-bind:class="'rotating'"
+             width="24px">
+      </div>
     </template>
-    <div>
+    <div v-if="hasLoaded">
       <v-toolbar color="success" dark>
         <span class="headline">{{ translate('queueStatusText') }}</span>
 
@@ -44,27 +51,48 @@ export default {
   data() {
     return {
       sheet: false,
+      queueStatus: null
     };
   },
 
-    methods: {
-      getQueueStatus: function (){
-        this.queueStatus = [];
-        Lab.getLabQueueStatus(this.$store.state.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
-          this.queueStatus = queueStatus;
-        });
-        return this.queueStatus;
-      }
-    },
+  computed: {
+    hasLoaded(){
+      return !!this.queueStatus;
+    }
+  },
 
-    beforeMount(){
-      this.getQueueStatus()
-    },
+  methods: {
+    getQueueStatus: function (){
+      Lab.getLabQueueStatus(this.$store.state.charon.id, this.labData.defense_lab_id, this.$store.state.student_id,  (queueStatus)=>{
+        this.queueStatus = queueStatus;
+      });
+    }
+  },
+
+  beforeMount(){
+    this.getQueueStatus()
+  },
 
 }
 
 </script>
 
 <style scoped>
+
+.rotating {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
 
 </style>

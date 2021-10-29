@@ -8,7 +8,7 @@
 
         <v-layout column style="height: 125vh">
           <v-flex md6 style="overflow: auto">
-            <div v-if="Date.parse(this.lab_start) <= Date.now()">
+            <div v-if="checkLabStarted">
               <v-card-title>
                 {{ translate('labTeachersText') }}
               </v-card-title>
@@ -54,7 +54,6 @@ export default {
 
   data() {
     return {
-      defendingTeachers: [],
       defendingTeachersHeaders: [
         {text: this.translate("teacherText"), value: 'teacher_name'},
         {text: this.translate("charonText"), value: 'charon'},
@@ -66,20 +65,31 @@ export default {
         {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
+      defendingTeachers: [],
+      studentsQueue: [],
       timer: '',
-      studentsQueue: []
+      labStarted: Date.parse(this.lab_start) <= Date.now()
     }
   },
+
+  computed: {
+    checkLabStarted(){
+      return this.labStarted;
+    }
+  },
+
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
     this.studentsQueue = this.items.registrations;
     this.defendingTeachers = this.items.teachers;
   },
+
   methods: {
     dataUpdate(){
       Lab.getLabQueueStatus(this.$store.state.charon.id, this.defenseLabId, this.$store.state.student_id,  (items)=>{
         this.studentsQueue = items.registrations;
         this.defendingTeachers = items.teachers;
+        this.labStarted = Date.parse(this.lab_start) <= Date.now();
       });
     },
 
