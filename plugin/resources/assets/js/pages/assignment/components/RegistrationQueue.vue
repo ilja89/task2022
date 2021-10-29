@@ -102,6 +102,9 @@ export default {
         this.defendingTeachers = items.teachers;
         this.labStarted = Date.parse(this.lab_start) <= Date.now();
         this.labEnded = Date.parse(this.lab_end) <= Date.now();
+        if (this.labEnded) {
+          this.cancelAutoUpdate()
+        }
       });
     },
 
