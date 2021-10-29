@@ -160,8 +160,6 @@ class LabServiceTest extends TestCase
             ->with(401)
             ->andReturn($teacherCount);
 
-        var_dump($this->lab->start);
-
         $this->defenceRegistrationService->shouldReceive('attachEstimatedTimesToDefenceRegistrations')
             ->once()
             ->with($registrations, $teacherCount, $this->lab->start)
