@@ -6,8 +6,8 @@
         </template>
 
         <v-card-title v-if="value">
-          <graph :title="graphTitleEveryDay" :options="optionsEveryDay" :series="seriesEveryDay"></graph>
-          <graph :title="graphTitleToday" :options="optionsToday" :series="seriesToday"></graph>
+          <graph :title="graphTitleEveryDay" :options="graphSubmissionsEveryDayOptions" :series="graphSubmissionsEveryDaySeries"></graph>
+          <graph :title="graphTitleToday" :options="graphSubmissionsTodayOptions" :series="graphSubmissionsTodaySeries"></graph>
         </v-card-title>
         <v-card-title v-else>
             {{ empty }}
@@ -47,7 +47,7 @@
         },
 
         computed: {
-          optionsEveryDay() {
+          graphSubmissionsEveryDayOptions() {
             return {
               xaxis: {
                 categories: this.graphDataEveryDay.map(sub => sub.dateRow)
@@ -55,22 +55,22 @@
             }
           },
 
-          seriesEveryDay() {
+          graphSubmissionsEveryDaySeries() {
             return [{
                 name: 'submissions',
                 data: this.graphDataEveryDay.map(sub => sub.count)
               }]
           },
 
-          optionsToday() {
+          graphSubmissionsTodayOptions() {
             return {
               xaxis: {
-                categories: this.graphDataToday.map(sub => sub.time)
+                categories: this.graphDataToday.map(sub => sub.time.slice(0, sub.time.lastIndexOf(":")))
               }
             }
           },
 
-          seriesToday() {
+          graphSubmissionsTodaySeries() {
             return [{
               name: 'submissions',
               data: this.graphDataToday.map(sub => sub.count)

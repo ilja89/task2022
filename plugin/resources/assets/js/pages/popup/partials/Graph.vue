@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "GraphEveryDay",
+  name: "Graph",
   props: {
     title: {
       required: false,

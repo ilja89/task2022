@@ -45,6 +45,4 @@ class CharonDashboardController extends Controller
         global $PAGE;
         $PAGE->set_url('/mod/charon/courses/' . $courseId . '/charons/' . $charonId . '/dashboard', []);
     }
-
-
 }

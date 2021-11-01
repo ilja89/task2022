@@ -5,6 +5,7 @@ namespace TTU\Charon\Repositories;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 use TTU\Charon\Facades\MoodleConfig;
 
@@ -40,7 +41,7 @@ class StatisticsRepository
     {
         $prefix = $this->moodleConfig->prefix;
 
-        $lastYear = date("Y-12-31", strtotime("-1 years"));
+        $lastYear = date("Y-m-d", strtotime("-1 years"));
         $lastYearDateTime = new DateTime($lastYear);
 
         $firstSubmission = DB::table('charon_submission')
@@ -63,10 +64,13 @@ class StatisticsRepository
             ->first();
 
         $date2 = $lastSubmission->created_at;
+
         $lastSubmissionDate = new DateTime($date2);
 
         $firstSubmissionDays = (int) date_diff($lastYearDateTime, $firstSubmissionDate)->format('%a');
         $lastSubmissionDays = $firstSubmissionDays + (int) date_diff($firstSubmissionDate, $lastSubmissionDate)->format('%a');
+        Log::debug($firstSubmissionDays);
+        Log::debug($lastSubmissionDays);
         return DB::select(DB::raw(
             "(SELECT DATE(created_at) AS dateRow, COUNT(DATE(created_at)) AS count
             FROM " . $prefix . "charon_submission
@@ -146,7 +150,7 @@ class StatisticsRepository
         $defenseGradeItemIds = $this->findDefenseGradeItemIds($categoryId, $defenseItemNumber);
         $studentsStarted = $this->findStudentsStartedAmount($charonId);
         $studentsDefended = $this->findStudentsDefendedAmount($charonId);
-        $avgDefenseGrade = $this->findAverageDefenseGrade($defenseGradeItemIds);
+        $avgDefenseGrade = $this->findAverageDefenseGrade($charonId, $defenseGradeItemIds);
 
         $generalInformation->studentsStarted = $studentsStarted;
         $generalInformation->studentsDefended = $studentsDefended;
@@ -165,7 +169,6 @@ class StatisticsRepository
     function findDefenseGradeItemIds($categoryId, $defenseItemNumber)
     {
         return DB::table('grade_items')
-            ->select('id')
             ->whereNotNull('categoryid')
             ->where('categoryid', $categoryId)
             ->where('itemnumber', $defenseItemNumber)
@@ -180,11 +183,12 @@ class StatisticsRepository
             ->count('user_id');
     }
 
-    function findConfirmedSubmissions()
+    function findConfirmedSubmissions($charonId)
     {
         return DB::table('charon_submission')
             ->select('user_id')
-            ->where('confirmed', '=', 1);
+            ->where('confirmed', '=', 1)
+            ->where('charon_id', '=', $charonId);
 
     }
 
@@ -196,15 +200,16 @@ class StatisticsRepository
             ->count();
     }
 
-    function findAverageDefenseGrade($defenseGradeItemIds)
+    function findAverageDefenseGrade($charonId, $defenseGradeItemIds)
     {
-        $confirmedSubmissions = $this->findConfirmedSubmissions();
+        $confirmedSubmissions = $this->findConfirmedSubmissions($charonId);
         return DB::table('grade_grades')
             ->joinSub($confirmedSubmissions, 'confirmed_subs', function ($join) {
                 $join->on('grade_grades.userid', '=', 'confirmed_subs.user_id');
             })
             ->whereIn('grade_grades.itemid', $defenseGradeItemIds)
+            ->distinct()
             ->whereNotNull('grade_grades.finalgrade')
-            ->avg('finalgrade');
+            ->avg('grade_grades.finalgrade');
     }
 }

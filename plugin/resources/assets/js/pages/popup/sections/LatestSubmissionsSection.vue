@@ -3,7 +3,7 @@
                    subtitle="Here are the latest submissions for all tasks in this course">
         <div class="latest-submissions">
             <transition-group name="list">
-                <div v-for="submissionChunk in latestSubmissionsChunks" v-bind:key="submissionChunk.id" class="columns">
+                <div v-for="submissionChunk in submissionChunks" v-bind:key="submissionChunk.id" class="columns">
                     <div v-for="submission in submissionChunk.subs" v-bind:key="submission.id" class="column">
                       <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
@@ -14,7 +14,7 @@
                                     {{ submission.charon.name }}
                                     <span class="timestamp-separator">|</span>
                                 </span><span class="submission-line">
-                                    {{ formatStudentResults(submission) }}
+                                    {{ formatResults(submission) }}
                                 </span>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import {PopupSection} from '../layouts/index'
     import {Submission} from '../../../api/index'
-    import {formatName} from '../helpers/formatting'
+    import {latestSubmissionsChunks, formatStudentResults} from "../helpers/helpers";
 
     export default {
         name: "latest-submissions-section",
@@ -49,33 +49,8 @@
                 'submissionLink',
             ]),
 
-            latestSubmissionsChunks() {
-                const chunkSize = 2
-                let chunkIndex = 0
-
-                let chunks = []
-                let chunk = {
-                  id: chunkIndex,
-                  subs: []
-                }
-                this.latestSubmissions.forEach(submission => {
-                    if (chunk.subs.length < chunkSize) {
-                        chunk.subs.push(submission)
-                    } else {
-                        chunkIndex++
-                        chunks.push(chunk)
-                        chunk = {
-                          id: chunkIndex,
-                          subs: [submission]
-                        }
-                    }
-                })
-
-                if (chunk.subs.length) {
-                    chunks.push(chunk)
-                }
-
-                return chunks
+            submissionChunks() {
+                return this.latestSubmissions ? latestSubmissionsChunks(this.latestSubmissions) : []
             },
         },
 
@@ -100,17 +75,9 @@
                 this.$router.push(this.submissionLink(submission.id))
             },
 
-            formatStudentResults(submission) {
-                return submission.users.map(user => {
-                    let results = submission.results
-                        .filter(result => result.user_id === user.id)
-                        .sort((a, b) => a.grade_type_code - b.grade_type_code)
-                        .map(result => result.calculated_result)
-                        .join(', ');
-
-                    return formatName(user) + ' ('  + results + ')';
-                }).join(' | ');
-            },
+            formatResults(submission) {
+                return formatStudentResults(submission)
+            }
         },
 
         created() {

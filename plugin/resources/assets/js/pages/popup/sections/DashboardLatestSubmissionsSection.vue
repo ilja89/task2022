@@ -2,7 +2,7 @@
   <popup-section title="Latest submissions">
     <div v-if="latestSubmissions.length" class="latest-submissions">
       <transition-group name="list">
-        <div v-for="submissionChunk in latestSubmissionsChunks" :key="submissionChunk.id" class="columns">
+        <div v-for="submissionChunk in submissionChunks(latestSubmissions)" :key="submissionChunk.id" class="columns">
           <div v-for="submission in submissionChunk.subs" class="column">
             <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
               <div>
@@ -10,7 +10,7 @@
                 <wbr>
                 {{ submission.charon.name }} <span class="timestamp-separator">|</span>
                 <wbr>
-                {{ formatStudentResults(submission) }}
+                {{ formatResults(submission) }}
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
 import moment from 'moment'
 import {mapGetters, mapActions} from 'vuex'
 import {PopupSection} from '../layouts/index'
-import {formatName} from '../helpers/formatting'
+import {latestSubmissionsChunks, formatStudentResults} from "../helpers/helpers";
 
 export default {
   name: "latest-submissions-section",
@@ -50,38 +50,8 @@ export default {
 
   computed: {
     ...mapGetters([
-      'courseId',
       'submissionLink',
     ]),
-
-    latestSubmissionsChunks() {
-      const chunkSize = 2
-      let chunkIndex = 0
-
-      let chunks = []
-      let chunk = {
-        id: chunkIndex,
-        subs: []
-      }
-      this.latestSubmissions.forEach(submission => {
-        if (chunk.subs.length < chunkSize) {
-          chunk.subs.push(submission)
-        } else {
-          chunkIndex++
-          chunks.push(chunk)
-          chunk = {
-            id: chunkIndex,
-            subs: [submission]
-          }
-        }
-      })
-
-      if (chunk.subs.length) {
-        chunks.push(chunk)
-      }
-
-      return chunks
-    },
   },
 
   filters: {
@@ -90,27 +60,19 @@ export default {
     },
   },
 
-  methods: {
-    ...mapActions([
-      'fetchStudent',
-    ]),
+    methods: {
+        submissionSelected(submission) {
+          this.$router.push(this.submissionLink(submission.id))
+        },
 
-    submissionSelected(submission) {
-      this.$router.push(this.submissionLink(submission.id))
+        submissionChunks(latestSubmissions) {
+            return latestSubmissionsChunks(latestSubmissions)
+        },
+
+        formatResults(submission) {
+            return formatStudentResults(submission)
+        }
     },
-
-    formatStudentResults(submission) {
-      return submission.users.map(user => {
-        let results = submission.results
-            .filter(result => result.user_id === user.id)
-            .sort((a, b) => a.grade_type_code - b.grade_type_code)
-            .map(result => result.calculated_result)
-            .join(', ');
-
-        return formatName(user) + ' ('  + results + ')';
-      }).join(' | ');
-    },
-  },
 }
 </script>
 

@@ -152,18 +152,6 @@ class SubmissionsController extends Controller
     }
 
     /**
-     * Find the latest submissions in the given course.
-     *
-     * @param int $charonId
-     *
-     * @return Submission[]
-     */
-    public function findLatestByCharonId(int $charonId)
-    {
-        return $this->submissionsRepository->findLatestSubmissionsForCharon($charonId);
-    }
-
-    /**
      * Find all confirmed submissions for user.
      *
      * @param Course $course

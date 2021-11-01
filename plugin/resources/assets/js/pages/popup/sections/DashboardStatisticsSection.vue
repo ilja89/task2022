@@ -12,15 +12,14 @@
     <v-data-table
         v-if="submissionsExist"
         :headers="submission_count_headers"
-        :items="submission_counts">
+        :items="submission_counts"
+        hide-default-footer>
     </v-data-table>
 
   </popup-section>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {Submission} from '../../../api/index'
 import {PopupSection} from '../layouts/index'
 
 export default {
@@ -49,10 +48,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'courseId',
-    ]),
-
     submissionsExist() {
       return !!(this.submission_counts.length && this.submission_counts[0].tot_subs !== 0);
     }

@@ -25,7 +25,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
-            ->get('courses/{course}/students', 'StudentsController@getStudentsCount');
+            ->get('courses/{course}/students/count', 'StudentsController@getStudentsCount');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
@@ -89,8 +89,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/submissions/submissions-report/{page}/{perPage}/{sortField}/{sortType}/{firstName?}/' .
             '{lastName?}/{exerciseName?}/{isConfirmed?}/{gitTimestampForStartDate?}/{gitTimestampForEndDate?}',
             'SubmissionsController@findAllSubmissionsForReport');
-    Route::middleware('auth.course.managing.require')
-        ->get('charons/{charon}/submissions/all', 'SubmissionsController@findLatestByCharonId');
 
     // LABS
 
@@ -170,9 +168,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
-    // CHARON TEMPLATES
-    Route::middleware('auth.course_module.enrolment.require')
-        ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')
         ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id

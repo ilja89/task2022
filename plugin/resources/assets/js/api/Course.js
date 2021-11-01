@@ -14,7 +14,7 @@ class Course {
     }
 
     static getCourseStudentCount(courseId, then) {
-        window.axios.get(Course.getRoot() + '/courses/' + courseId + '/students')
+        window.axios.get(Course.getRoot() + '/courses/' + courseId + '/students/count')
             .then(response => {
                 then(response.data)
             }).catch(error => {

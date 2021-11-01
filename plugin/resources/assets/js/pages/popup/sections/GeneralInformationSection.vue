@@ -57,7 +57,6 @@ export default {
   computed: {
     ...mapState([
       "charon",
-      "course",
     ]),
 
     ...mapGetters([
@@ -70,32 +69,31 @@ export default {
     },
 
     maxPoints() {
-      if (this.$store.state.charons) {
-        let thisCharon = this.getThisCharon();
-        if (thisCharon['grademaps']) {
-          let maxPoints = thisCharon['grademaps']['0']['grade_item']['grademax'];
-          return parseFloat(maxPoints).toFixed(2);
+        if (this.charon && this.charon['grademaps']) {
+            let maxPoints = this.charon['grademaps']['0']['grade_item']['grademax'];
+            return parseFloat(maxPoints).toFixed(2);
         }
-      }
-      return ''
+
+        return 'Unable to display points'
     },
 
     firstDeadline() {
-      if (this.$store.state.charons){
-        let deadline = null;
-        let thisCharon = this.getThisCharon();
-        if (thisCharon.deadlines){
-          thisCharon.deadlines.forEach(newDeadline =>{
-            if (deadline === null || newDeadline.deadline_time < deadline) {
-              deadline = newDeadline.deadline_time;
+        if (this.charon) {
+            let deadline = null;
+            if (this.charon.deadlines) {
+                this.charon.deadlines.forEach(newDeadline => {
+                if (deadline === null || newDeadline.deadline_time < deadline) {
+                    deadline = newDeadline.deadline_time;
+                    }
+                })
+            } else if (this.charon.defense_deadline) {
+                deadline = this.charon.defense_deadline
             }
-          })
+            return deadline ? this.formatDate(deadline) : 'No deadline for this charon';
         }
-        return deadline ? this.formatDate(deadline) : 'No deadline for this charon';
-      }
-      return 'Unable to display deadline';
-    }
-  },
+        return 'Unable to display deadline';
+        }
+    },
 
   methods: {
     fetchAllDefenses() {
@@ -120,15 +118,8 @@ export default {
       }
     },
 
-    getThisCharon(){
-      let thisCharon = {};
-      const charons = this.$store.state.charons;
-      for (let charonIndex in charons) {
-        if (charons[charonIndex].id === parseInt(this.$route.params.charon_id)) {
-          thisCharon = charons[charonIndex];
-        }
-      }
-      return thisCharon;
+    getThisCharon() {
+        return this.charon
     },
 
     formatDate(date) {

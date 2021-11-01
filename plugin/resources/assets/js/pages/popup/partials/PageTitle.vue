@@ -49,7 +49,7 @@
 
                 </v-row>
             </template>
-            <v-card-title v-if="this.$route.name === 'activity-dashboard'">
+            <v-card-title v-if="this.editCharonSettings">
                 <v-btn class="ma-2" small tile outlined color="primary" @click="editClicked()">Edit
                 </v-btn>
             </v-card-title>
@@ -76,6 +76,10 @@
             title: {
                 required: false,
                 default: ""
+            },
+            editCharonSettings: {
+                required: false,
+                default: false
             }
         },
 
@@ -113,9 +117,6 @@
         },
 
         methods: {
-            ...mapActions(["updateCharon"]),
-            ...mapActions(['resetStudent']),
-
             createBadgeName(groupId) {
                 return "group_badge_" + groupId;
             },
