@@ -813,7 +813,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021092901) {
+    if ($oldversion < 2021110101) {
         $table = new xmldb_table("charon_defenders");
 
         $index = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
@@ -837,6 +837,9 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1");
         $dbManager->change_field_notnull($table, $field);
+
+        $field = new xmldb_field("defense_start", XMLDB_TYPE_DATETIME);
+        $dbManager->add_field($table, $field);
     }
 
     return true;

@@ -100,6 +100,7 @@ class DefenceRegistrationService
             'defense_lab_id' => $defenseLabId,
             'progress' => $progress != null ? $progress : "Waiting",
             'charon_id' => $charonId,
+            'defense_start' => $progress == 'Defending' ? Carbon::now() : null
         ]);
 
         Log::info(json_encode([

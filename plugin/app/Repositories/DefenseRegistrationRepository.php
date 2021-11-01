@@ -280,6 +280,9 @@ class DefenseRegistrationRepository
         $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
+        if ($newProgress == 'Defending'){
+            $defense->defense_start = Carbon::now();
+        }
         $defense->update();
         return $defense;
     }
