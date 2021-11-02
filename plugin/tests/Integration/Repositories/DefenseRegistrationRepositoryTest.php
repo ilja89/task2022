@@ -7,9 +7,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
-use TTU\Charon\Models\Defenders;
 use TTU\Charon\Models\Lab;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use Tests\TestCase;
 use TTU\Charon\Repositories\LabTeacherRepository;
@@ -61,15 +60,15 @@ class DefenseRegistrationRepositoryTest extends TestCase
             'defense_lab_id' => $defenseLab->id,
         ];
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'progress' => 'Done'
         ]);
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'progress' => 'Defending'
         ]);
 
@@ -101,32 +100,36 @@ class DefenseRegistrationRepositoryTest extends TestCase
         /** @var Carbon $time */
         $time = Carbon::parse('2020-12-15 22:10:00');
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => $teacher->id,
             'choosen_time' => $time->clone()->addMinutes(10),
             'student_id' => factory(User::class)->create()->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => $teacher->id,
             'choosen_time' => $time->clone()->addMinutes(20),
             'student_id' => factory(User::class)->create()->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => $teacher->id,
             'choosen_time' => $time->clone()->addDays(1),
             'student_id' => factory(User::class)->create()->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(20),
             'student_id' => factory(User::class)->create()->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
         $actual = $this->repository->getChosenTimesForTeacherAt($teacher->id, $time->format('Y-m-d H'));
@@ -155,43 +158,48 @@ class DefenseRegistrationRepositoryTest extends TestCase
         /** @var Carbon $time */
         $time = Carbon::parse('2020-12-15 22:10:00');
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(10),
             'student_id' => factory(User::class)->create()->id,
             'defense_lab_id' => $defenseLab->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(10),
             'student_id' => factory(User::class)->create()->id,
             'defense_lab_id' => $defenseLab->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addMinutes(10),
             'student_id' => factory(User::class)->create()->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addDays(2),
             'student_id' => factory(User::class)->create()->id,
             'defense_lab_id' => $defenseLab->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
-        factory(Registration::class)->create([
+        factory(Defender::class)->create([
             'teacher_id' => factory(User::class)->create()->id,
             'choosen_time' => $time->clone()->addDays(2),
             'student_id' => factory(User::class)->create()->id,
             'defense_lab_id' => $defenseLab->id,
-            'charon_id' => $charon->id
+            'charon_id' => $charon->id,
+            'progress' => 'Waiting'
         ]);
 
         $actual = $this->repository->getChosenTimesForLabTeachers($time->format('Y-m-d H'), $lab->id);
@@ -221,20 +229,34 @@ class DefenseRegistrationRepositoryTest extends TestCase
         $charonDefenseLab3 = factory(CharonDefenseLab::class)->create(['lab_id' => $lab1->id]);
 
 
-        /** @var Defenders $charonDefenders1 */
-        $charonDefenders1 = factory(Defenders::class)
-            ->create(['charon_id' => $charon1->id ,'defense_lab_id' => $charonDefenseLab1->id,
-                'student_id' => 1, 'progress' => 'Done']);
-        /** @var Defenders $charonDefenders2 */
-        $charonDefenders2 = factory(Defenders::class)
-            ->create(['charon_id' => $charon2->id ,'defense_lab_id' => $charonDefenseLab1->id, 'student_id' => 2]);
-        /** @var Defenders $charonDefenders3 */
-        $charonDefenders3 = factory(Defenders::class)
-            ->create(['charon_id' => $charon2->id ,'defense_lab_id' => $charonDefenseLab2->id, 'student_id' => 3,
-                'progress' => 'Defending']);
-        /** @var Defenders $charonDefenders4 */
-        $charonDefenders4 = factory(Defenders::class)
-            ->create(['charon_id' => $charon1->id ,'defense_lab_id' => $charonDefenseLab3->id, 'student_id' => 4]);
+        /** @var Defender $charonDefenders1 */
+        $charonDefenders1 = factory(Defender::class)->create([
+            'charon_id' => $charon1->id ,
+            'defense_lab_id' => $charonDefenseLab1->id,
+            'student_id' => 1,
+            'progress' => 'Done'
+        ]);
+        /** @var Defender $charonDefenders2 */
+        $charonDefenders2 = factory(Defender::class)->create([
+            'charon_id' => $charon2->id ,
+            'defense_lab_id' => $charonDefenseLab1->id,
+            'student_id' => 2,
+            'progress' => 'Waiting'
+        ]);
+        /** @var Defender $charonDefenders3 */
+        $charonDefenders3 = factory(Defender::class)->create([
+            'charon_id' => $charon2->id ,
+            'defense_lab_id' => $charonDefenseLab2->id,
+            'student_id' => 3,
+            'progress' => 'Defending'
+        ]);
+        /** @var Defender $charonDefenders4 */
+        $charonDefenders4 = factory(Defender::class)->create([
+            'charon_id' => $charon1->id ,
+            'defense_lab_id' => $charonDefenseLab3->id,
+            'student_id' => 4,
+            'progress' => 'Waiting'
+        ]);
 
 
         $registrationsAllLab1 = $this->repository->getLabRegistrationsByLabId($lab1->id);
@@ -294,25 +316,41 @@ class DefenseRegistrationRepositoryTest extends TestCase
         $charonDefenseLab3 = factory(CharonDefenseLab::class)->create(['lab_id' => $lab1->id]);
 
 
-        /** @var Defenders $charonDefenders1 */
-        $charonDefenders1 = factory(Defenders::class)
-            ->create(['charon_id' => $charon1->id ,'defense_lab_id' => $charonDefenseLab1->id,
-                'teacher_id' => 1, 'progress' => 'Defending']);
-        /** @var Defenders $charonDefenders2 */
-        $charonDefenders2 = factory(Defenders::class)
-            ->create(['charon_id' => $charon1->id ,'defense_lab_id' => $charonDefenseLab1->id,
-                'teacher_id' => 2, 'progress' => 'Defending']);
-        /** @var Defenders $charonDefenders3 */
-        $charonDefenders3 = factory(Defenders::class)
-            ->create(['charon_id' => $charon2->id ,'defense_lab_id' => $charonDefenseLab2->id,
-                'teacher_id' => 3, 'progress' => 'Defending']);
-        /** @var Defenders $charonDefenders4 */
-        $charonDefenders4 = factory(Defenders::class)
-            ->create(['charon_id' => $charon2->id ,'defense_lab_id' => $charonDefenseLab3->id, 'teacher_id' => 2]);
-        /** @var Defenders $charonDefenders4 */
-        $charonDefenders4 = factory(Defenders::class)
-            ->create(['charon_id' => $charon1->id ,'defense_lab_id' => $charonDefenseLab3->id,
-                'teacher_id' => 3, 'progress' => 'Done']);
+        /** @var Defender $charonDefenders1 */
+        $charonDefenders1 = factory(Defender::class)->create([
+            'charon_id' => $charon1->id ,
+            'defense_lab_id' => $charonDefenseLab1->id,
+            'teacher_id' => 1,
+            'progress' => 'Defending'
+        ]);
+        /** @var Defender $charonDefenders2 */
+        $charonDefenders2 = factory(Defender::class)->create([
+            'charon_id' => $charon1->id,
+            'defense_lab_id' => $charonDefenseLab1->id,
+            'teacher_id' => 2,
+            'progress' => 'Defending'
+        ]);
+        /** @var Defender $charonDefenders3 */
+        $charonDefenders3 = factory(Defender::class)->create([
+            'charon_id' => $charon2->id,
+            'defense_lab_id' => $charonDefenseLab2->id,
+            'teacher_id' => 3,
+            'progress' => 'Defending'
+        ]);
+        /** @var Defender $charonDefenders4 */
+        $charonDefenders4 = factory(Defender::class)->create([
+            'charon_id' => $charon2->id,
+            'defense_lab_id' => $charonDefenseLab3->id,
+            'teacher_id' => 2,
+            'progress' => 'Waiting'
+        ]);
+        /** @var Defender $charonDefenders4 */
+        $charonDefenders4 = factory(Defender::class)->create([
+            'charon_id' => $charon1->id,
+            'defense_lab_id' => $charonDefenseLab3->id,
+            'teacher_id' => 3,
+            'progress' => 'Done'
+        ]);
 
 
         $actualLab1 = $this->repository->getTeacherAndDefendingCharonByLab($lab1->id);

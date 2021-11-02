@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -37,21 +37,21 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @return Builder|Registration
+     * @return Builder|Defender
      */
     public function query()
     {
-        return Registration::query();
+        return Defender::query();
     }
 
     /**
      * @param array $fields
      *
-     * @return Registration
+     * @return Defender
      */
     public function create($fields = [])
     {
-        return Registration::create($fields);
+        return Defender::create($fields);
     }
 
     /**
@@ -75,7 +75,7 @@ class DefenseRegistrationRepository
     /**
      * @param int $labId
      *
-     * @return Collection|Registration[]
+     * @return Collection|Defender[]
      */
     public function getDefenseRegistrationDurationsByLab(int $labId): array
     {
@@ -168,7 +168,7 @@ class DefenseRegistrationRepository
     /**
      * Get defense registrations by course.
      * @param $courseId
-     * @return Collection|Registration[]
+     * @return Collection|Defender[]
      */
     public function getDefenseRegistrationsByCourse($courseId)
     {
@@ -198,7 +198,7 @@ class DefenseRegistrationRepository
      * @param $before
      * @param $teacher_id
      * @param $progress
-     * @return Collection|Registration[]
+     * @return Collection|Defender[]
      */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
@@ -272,11 +272,11 @@ class DefenseRegistrationRepository
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
-     * @return Registration
+     * @return Defender
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
-        $defense = Registration::find($defenseId);
+        $defense = Defender::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
         $defense->update();

@@ -4,7 +4,6 @@ use Carbon\Carbon;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\Defenders;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\CourseModule;
 use Zeizig\Moodle\Models\GradeCategory;
@@ -145,19 +144,5 @@ $factory->define(Group::class, function (Generator $faker) {
         'courseid' => $faker->randomDigitNotNull,
         'name' => $faker->word,
         'description' => $faker->sentence,
-    ];
-});
-
-$factory->define(Defenders::class, function (Generator $faker) {
-    return [
-        'student_id' => $faker->randomDigitNotNull,
-        'charon_id' => $faker->randomDigitNotNull,
-        'student_name' => $faker->word,
-        'submission_id' => $faker->randomDigitNotNull,
-        'choosen_time' => null,
-        'my_teacher' => $faker->randomNumber([1,2,3,4,5,6,7,8,9]),
-        'teacher_id' => $faker->randomDigitNotNull,
-        'defense_lab_id' => $faker->randomDigitNotNull,
-        'progress' => 'Waiting'
     ];
 });
