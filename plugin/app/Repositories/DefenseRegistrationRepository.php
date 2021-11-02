@@ -307,7 +307,8 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Returns all lab registrations. If $waitingStatus is true, then only labs with progress 'waiting'.
+     * Returns all lab registrations. If given progresses, then returns registrations only
+     * where progress is in progresses list.
      *
      * @param int $labId
      * @param bool $waitingStatus
@@ -341,7 +342,8 @@ class DefenseRegistrationRepository
      * @param int $labId
      * @return mixed
      */
-    public function getTeacherAndDefendingCharonByLab(int $labId){
+    public function getTeacherAndDefendingCharonByLab(int $labId)
+    {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('charon', 'charon.id', 'charon_defenders.charon_id')

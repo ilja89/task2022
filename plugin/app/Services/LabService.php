@@ -137,7 +137,7 @@ class LabService
 
                 // Check if teacher is defending some charon or not
                 foreach ($teachersDefences as $teachersDefence) {
-                    if ($teacher->charon === '' && $teachersDefence->teacher_id === $teacher->id){
+                    if ($teachersDefence->teacher_id === $teacher->id){
                         $teacher->charon = $teachersDefence->charon;
                     }
                 }

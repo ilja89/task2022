@@ -18,8 +18,8 @@
                 {{ translate('labTeachersText') }}
               </v-card-title>
               <v-data-table
-                :headers="defendingTeachersHeaders"
-                :items="defendingTeachers"
+                :headers="labTeachersHeaders"
+                :items="labTeachers"
                 :hide-default-footer="true"
                 @update:items="dataUpdate"
               >
@@ -60,7 +60,7 @@ export default {
 
   data() {
     return {
-      defendingTeachersHeaders: [
+      labTeachersHeaders: [
         {text: this.translate("teacherText"), value: 'teacher_name'},
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
@@ -71,7 +71,7 @@ export default {
         {text: this.translate("estimatedStartTimeText"), value: 'approx_start_time', sortable: false},
         {text: this.translate("studentText"), value: 'student_name', sortable: false},
       ],
-      defendingTeachers: [],
+      labTeachers: [],
       studentsQueue: [],
       timer: '',
       labStarted: Date.parse(this.lab_start) <= Date.now(),
@@ -92,14 +92,14 @@ export default {
   created () {
     this.timer = setInterval(this.dataUpdate, 15000);
     this.studentsQueue = this.items.registrations;
-    this.defendingTeachers = this.items.teachers;
+    this.labTeachers = this.items.teachers;
   },
 
   methods: {
     dataUpdate(){
       Lab.getLabQueueStatus(this.$store.state.charon.id, this.defenseLabId, this.$store.state.student_id,  (items)=>{
         this.studentsQueue = items.registrations;
-        this.defendingTeachers = items.teachers;
+        this.labTeachers = items.teachers;
         this.labStarted = Date.parse(this.lab_start) <= Date.now();
         this.labEnded = Date.parse(this.lab_end) <= Date.now();
         if (this.labEnded) {

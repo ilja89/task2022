@@ -338,11 +338,8 @@ class LabServiceTest extends TestCase
         $defence2 = new \stdClass();
         $defence2->teacher_id = 102;
         $defence2->charon = 'EX02';
-        $defence3 = new \stdClass();
-        $defence3->teacher_id = 101;
-        $defence3->charon = 'EX02';
 
-        $teachersDefences = array($defence1, $defence2, $defence3);
+        $teachersDefences = array($defence1, $defence2);
 
         $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
