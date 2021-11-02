@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 class FileReviewCommentsDTO
 {
     /** @var integer */
+    public $fileId;
+
+    /** @var integer */
     public $studentId;
 
     /** @var integer */
     public $submissionId;
-
-    /** @var integer */
-    public $fileId;
 
     /** @var string */
     public $path;

@@ -12,16 +12,7 @@ class ReviewCommentDTO
     public $id;
 
     /** @var integer */
-    public $reviewCommentId;
-
-    /** @var integer */
-    public $commentCreation;
-
-    /** @var integer */
-    public $notify;
-
-    /** @var string */
-    public $review_comment;
+    public $commentedById;
 
     /** @var integer */
     public $codeRowNoStart;
@@ -29,8 +20,20 @@ class ReviewCommentDTO
     /** @var integer */
     public $codeRowNoEnd;
 
+    /** @var string */
+    public $reviewComment;
+
     /** @var integer */
-    public $commentedById;
+    public $notify;
+
+    /** @var integer */
+    public $commentCreation;
+
+
+
+
+
+
 
     /** @var string */
     public $commentedByFirstName;

@@ -82,29 +82,46 @@ class ReviewCommentService
         $fileReviewCommentsDTOs = [];
         $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharon($charonId, $studentId);
         $fileId = null;
-        $fileReviewCommentsDTO = null;
+        $counter = null;
         foreach($rawResults as $rawResult)
         {
-            if($rawResult->file_id === $fileId)
+            $counter++;
+            if ($rawResult->file_id !== $fileId)
             {
-                $reviewComment = new ReviewCommentDTO();
-                $reviewComment->commentedById = $rawResult->commented_by_id;
-                $reviewComment->commentedByFirstName = $rawResult->commented_by_firstname;
-                $reviewComment->commentedByLastName = $rawResult->commented_by_lastname;
-                $reviewComment->id = $rawResult->commented_by_id;
-                $reviewComment->commentedById = $rawResult->commented_by_id;
-                $reviewComment->commentedById = $rawResult->commented_by_id;
-                array_push($fileReviewCommentsDTO->reviewComments, $reviewComment);
-            }
-            else {
-                array_push($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
+                $fileId = $rawResult->file_id;
                 $fileReviewCommentsDTO = new FileReviewCommentsDTO();
                 $fileReviewCommentsDTO->fileId = $rawResult->file_id;
                 $fileReviewCommentsDTO->submissionId = $rawResult->submission_id;
                 $fileReviewCommentsDTO->studentId = $rawResult->student_id;
                 $fileReviewCommentsDTO->path = $rawResult->path;
+                $reviewComment = $this->createReviewComment($rawResult);
+                array_push($fileReviewCommentsDTO->reviewComments, $reviewComment);
+                array_unshift($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
+            }
+            else
+            {
+                array_push($fileReviewCommentsDTOs[0]->reviewComments, $this->createReviewComment($rawResult));
             }
         }
         return $fileReviewCommentsDTOs;
+    }
+
+    /**
+     * @param $rawResult
+     * @return ReviewCommentDTO
+     */
+    public function createReviewComment($rawResult): ReviewCommentDTO
+    {
+        $reviewComment = new ReviewCommentDTO();
+        $reviewComment->id = $rawResult->review_comment_id;
+        $reviewComment->commentedById = $rawResult->commented_by_id;
+        $reviewComment->commentedByFirstName = $rawResult->commented_by_firstname;
+        $reviewComment->commentedByLastName = $rawResult->commented_by_lastname;
+        $reviewComment->codeRowNoStart = $rawResult->code_row_no_start;
+        $reviewComment->codeRowNoEnd = $rawResult->code_row_no_end;
+        $reviewComment->reviewComment = $rawResult->review_comment;
+        $reviewComment->notify = $rawResult->notify;
+        $reviewComment->commentCreation = $rawResult->comment_creation;
+        return $reviewComment;
     }
 }

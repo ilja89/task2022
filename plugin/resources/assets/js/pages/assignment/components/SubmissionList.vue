@@ -68,7 +68,7 @@
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
-import {File, Submission} from "../../../api";
+import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
 import SubmissionModal from "./SubmissionModal";
 import {mapState} from "vuex";
@@ -113,7 +113,8 @@ export default {
 			'registrations',
 			'student_id',
 			'charon',
-			'labs'
+			'labs',
+            'charon_id',
 		]),
 
 		submissionsTable() {
@@ -130,6 +131,7 @@ export default {
 			submission.latestAdded = true;
 			this.$store.state.submissions.unshift(submission);
 		});
+        this.getFilesWithCommentsForAllSubmissions(this.charon_id, this.student_id);
 	},
 
 	methods: {
@@ -232,6 +234,12 @@ export default {
 				this.canLoadMore = false;
 			}
 		},
+
+        getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
+            ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
+                this.$store.state.filesWithReviewComments = data;
+            })
+        },
 	},
 
 	watch: {
@@ -241,12 +249,6 @@ export default {
 	},
 }
 </script>
-
-<style>
-.latest {
-  background-color: #E8F3FA;
-}
-</style>
 
 <style scoped>
 
