@@ -289,6 +289,8 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Get defences registered to a lab with given id.
+     *
      * @param int $labId
      *
      * @return array

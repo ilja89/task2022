@@ -399,13 +399,6 @@ class DefenceRegistrationService
             $queuePresumption[$teacherNr] += $registrations[$i]->defense_duration;
         }
 
-        usort(
-            $registrations,
-            function ($r1, $r2) {
-                return $r1->estimated_start > $r2->estimated_start;
-            }
-        );
-
         return $registrations;
     }
 
