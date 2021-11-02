@@ -27,7 +27,7 @@
             </div>
 
             <v-card-title>
-              {{ translate('studentsLiveQueueText') }}
+              {{ translate('labQueueText') }}
             </v-card-title>
             <v-data-table
               :headers="studentsQueueHeaders"
