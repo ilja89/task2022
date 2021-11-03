@@ -1,6 +1,6 @@
 <template>
     <!--Moodle drawer has z-index under 1000-->
-    <v-bottom-sheet v-model="sheet" inset persistent style="position: relative; z-index: 1000">
+    <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
         <template v-slot:activator="{ on, attrs }">
             <v-btn v-if="hasPoints && submissionStyleOK" v-bind="attrs" v-on="on" icon @click="sheet=true">
                 <img alt="shield" height="24px" src="pix/shield.png" width="24px">
