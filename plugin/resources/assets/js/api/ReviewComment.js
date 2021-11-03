@@ -8,10 +8,7 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error adding review comment.\n' + error, 'danger')
+            this.throwError(error, 'Error adding review comment.\n');
         })
 
     }
@@ -21,10 +18,7 @@ class ReviewComment {
         ).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error deleting review comment.\n' + error, 'danger')
+            this.throwError(error, 'Error deleting review comment.\n');
         });
     }
 
@@ -34,11 +28,15 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error clearing review comments\' notifications.\n' + error, 'danger')
+            this.throwError(error, 'Error clearing review comments\' notifications.\n');
         });
+    }
+
+    static throwError(error, errorText) {
+        VueEvent.$emit('show-notification',
+            error.response && error.response.data && error.response.data.title
+                ? error.response.data.title + ' ' + error.response.data.detail
+                : errorText + error, 'danger')
     }
 }
 

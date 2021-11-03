@@ -2,7 +2,7 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon :color="notifyColor" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
+                <v-btn icon :class="{ signal: notifyColor }" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
 				<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
 			</v-btn>
 		</template>
@@ -105,7 +105,7 @@ export default {
 		},
 
 		notifyColor() {
-			return this.reviewCommentIdsWithNotify.length ? '#f00' : undefined;
+			return !!this.reviewCommentIdsWithNotify.length;
 		}
 	},
 
@@ -221,6 +221,10 @@ input:checked + .slider:before {
 
 .message {
 	padding: 10px;
+}
+
+.signal {
+    color: #f00!important;
 }
 
 </style>

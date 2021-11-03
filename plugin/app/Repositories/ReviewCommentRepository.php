@@ -49,19 +49,6 @@ class ReviewCommentRepository
     }
 
     /**
-     * Find multiple comments with given array of identifiers.
-     *
-     * @param $reviewCommentIds
-     * @return ReviewComment[]|Collection
-     */
-    public function getMany($reviewCommentIds): array
-    {
-        return ReviewComment::whereIn('id', $reviewCommentIds)
-            ->get()
-            ->all();
-    }
-
-    /**
      * Remove a review comment by id.
      *
      * @param $reviewCommentId
@@ -77,12 +64,12 @@ class ReviewCommentRepository
     /**
      * Remove notification setting from a given review comment.
      *
-     * @param ReviewComment $reviewComment
+     * @param $reviewCommentIds
      * @return bool
      */
-    public function clearNotification(ReviewComment $reviewComment): bool
+    public function clearNotification($reviewCommentIds): bool
     {
-        $reviewComment->notify = 0;
-        return $reviewComment->update();
+        return DB::table('charon_review_comment')
+            ->whereIn('id', $reviewCommentIds)->update(['notify' => 0]);
     }
 }

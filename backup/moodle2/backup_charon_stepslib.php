@@ -25,10 +25,11 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
         // Define each element separated
 
         $charon = new backup_nested_element('charon', ['id'], [
-            'category_id', 'name', 'description', 'project_folder',
-            'tester_extra', 'system_extra', 'created_at', 'updated_at',
+            'category_id', 'name', 'description', 'project_folder', 'tester_extra',
+            'system_extra', 'created_at', 'updated_at', 'defense_threshold',
             'tester_type_code', 'grading_method_code', 'intro', 'introformat',
-            'timemodified', 'calculation_formula', 'grademax', 'unittests_git'
+            'timemodified', 'calculation_formula', 'grademax', 'unittests_git',
+            'allow_submission'
         ]);
 
 
@@ -74,6 +75,10 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
             'user_id', 'code_row_no_start', 'code_row_no_end', 'review_comment', 'notify', 'created_at'
         ]);
 
+        $templates = new backup_nested_element('templates');
+        $template = new backup_nested_element('template', ['id'], [
+            'path', 'contents', 'created_at'
+        ]);
 
         // 2. Connect these instances into a hierarchy using their add_child()
         //    method
@@ -91,6 +96,9 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
 
         $charon->add_child($submissions);
         $submissions->add_child($submission);
+
+        $charon->add_child($templates);
+        $templates->add_child($template);
 
         $submission->add_child($submissionFiles);
         $submissionFiles->add_child($submissionFile);
@@ -125,6 +133,8 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
         $deadline->set_source_table('charon_deadline', ['charon_id' => backup::VAR_PARENTID]);
 
         $grademap->set_source_table('charon_grademap', ['charon_id' => backup::VAR_PARENTID]);
+
+        $template->set_source_table('charon_template', ['charon_id' => backup::VAR_PARENTID]);
 
         if ($userinfo) {
             $teacherComment->set_source_table('charon_teacher_comment', ['charon_id' => backup::VAR_PARENTID]);
