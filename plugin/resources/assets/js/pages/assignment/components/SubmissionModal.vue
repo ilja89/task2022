@@ -145,7 +145,6 @@ export default {
         },*/
 
         getFilesWithReviewComments() {
-            console.log(this.filesWithReviewComments)
             if (this.toggleShowAllSubmissions) {
                 return this.filesWithReviewComments;
             }

@@ -98,12 +98,19 @@ export default {
     background-color: #f2f3f4!important;
     margin: 0.5em;
 }
+
 p {
     margin-bottom: 0!important;
 }
 .review-comments {
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
+}
+button {
+    float: right;
+}
+img {
+    padding-bottom:1.5em;
 }
 
 </style>
