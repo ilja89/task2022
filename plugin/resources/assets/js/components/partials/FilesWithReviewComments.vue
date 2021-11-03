@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style scoped>
+
 .header {
     text-align: center;
     line-height: 2;
@@ -101,6 +102,7 @@ export default {
 p {
     margin-bottom: 0!important;
 }
+
 .review-comments {
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;

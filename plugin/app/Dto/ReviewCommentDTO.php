@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Dto;
 
-
 /**
  * DTO helper for ReviewComment.
  */
@@ -28,12 +27,6 @@ class ReviewCommentDTO
 
     /** @var integer */
     public $commentCreation;
-
-
-
-
-
-
 
     /** @var string */
     public $commentedByFirstName;
