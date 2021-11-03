@@ -46,7 +46,7 @@
         props: {submission: {required: true}},
 
         data() {
-          return {
+             return {
                  previous_param: null,
                  current_param: null,
                  previous_table_id: null,
