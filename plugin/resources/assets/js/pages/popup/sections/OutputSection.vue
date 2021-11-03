@@ -31,12 +31,12 @@
 
             <charon-tab name="Feedback">
 
-                <v-card >
+                <v-card class="main-container">
                     <div v-if="!toggleShowAllSubmissions">
-                        <h3>Feedback for this submission</h3>
+                        <h2>Feedback for this submission</h2>
                     </div>
                     <div v-else>
-                        <h3>Feedback for all submissions for this charon</h3>
+                        <h2>Feedback for all submissions for this charon</h2>
                     </div>
                     <label class="switch">
                         <input type="checkbox" v-model="toggleShowAllSubmissions">
@@ -45,7 +45,7 @@
 
                     <files-with-review-comments v-if="hasReviewComments"
                                    :filesWithReviewComments="this.getFilesWithReviewComments()" view="teacher"/>
-                    <v-card v-else class="message">
+                    <v-card v-else class="no-submission-message">
                         When a teacher adds feedback for the submission, it will be visible here.
                     </v-card>
                 </v-card>
@@ -65,16 +65,15 @@
 <script>
 
 import {mapState, mapActions} from "vuex";
-import {CharonTabs, CharonTab, FilesComponent, ReviewCommentComponent, FilesWithReviewComments} from '../../../components/partials/index';
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments} from '../../../components/partials/index';
 import {PopupSection} from '../layouts/index';
 import {OutputComponent} from '../partials/index';
 import {ReviewComment, Submission} from "../../../api";
-import {File} from "../../../api";
 
 export default {
 
     components: {
-        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, ReviewCommentComponent, FilesWithReviewComments
+        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, FilesWithReviewComments
     },
 
     data() {
@@ -97,15 +96,6 @@ export default {
             }
             return false;
         },
-
-        /*hasReviewComments() {
-            for (let i = 0; i < this.submission.files.length; i++) {
-                if (this.submission.files[i].review_comments.length > 0) {
-                    return true;
-                }
-            }
-            return false;
-        },*/
 
         hasMail() {
             return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
@@ -145,14 +135,12 @@ export default {
         VueEvent.$on('update-from-review-comment', this.updateOutputSection)
     },
 
-    mounted: function () {
-        this.$root.$on('refresh_submission_files', () => {
-
-            File.findBySubmission(this.submission.id, newFile => {
-                this.submission.files = newFile
-            })
+    mounted() {
+        this.$root.$on('refresh-review-comments', () => {
+            this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id);
         })
     },
+
     watch: {
         submission() {
             this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id)
@@ -163,7 +151,80 @@ export default {
 
 <style scoped>
 
-.message {
-    padding: 10px;
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 1em;
 }
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.no-submission-message {
+    background-color: #f2f3f4!important;
+    margin: 1em 0.5em 0.5em;
+    padding: 0.5em;
+    font-size: 1.2em;
+}
+
+h2 {
+    padding: 0.5em;
+    font-size: 1.5em;
+}
+
 </style>

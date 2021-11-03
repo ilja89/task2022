@@ -57,7 +57,6 @@
                         <span class="slider round"></span>
                     </label>
                     <files-with-review-comments v-if="this.filesWithReviewComments.length > 0" view="student" :filesWithReviewComments="this.getFilesWithReviewComments()"></files-with-review-comments>
-<!--					<review-comment-component v-if="reviewCommentsExist" :files="files" view="student"></review-comment-component>-->
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -72,7 +71,6 @@ import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
 import {ReviewComment} from "../../../api";
-import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
 import {mapState} from "vuex";
 import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 
@@ -82,13 +80,12 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable, FilesWithReviewComments
+		FilesComponentWithoutTree, SubmissionTable, FilesWithReviewComments
 	},
 
 	props: {
 		submission: {required: true},
 		color: {required: true},
-
 	},
 
 	data() {
@@ -125,24 +122,16 @@ export default {
 
     mounted() {
         this.testerType = window.testerType
-        //this.getFilesForThisSubmission()
-        //VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
+        VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
     },
 
     methods: {
-		/*getFilesForThisSubmission() {
+		getFilesForThisSubmission() {
 			File.findBySubmission(this.submission.id, files => {
 				this.files = files
 				this.checkComments();
 			})
-		},*/
-
-        /*getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
-            console.log("IN_MAIN_FETCH_computed")
-            ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
-                this.filesWithReviewComments = data;
-            })
-        },*/
+		},
 
         getFilesWithReviewComments() {
             if (this.toggleShowAllSubmissions) {
@@ -157,7 +146,7 @@ export default {
             return $reviewComments;
         },
 
-		/*checkComments() {
+		checkComments() {
 			this.files.forEach(file => {
 				if (file.review_comments.length > 0) {
 					this.reviewCommentsExist = true;
@@ -168,7 +157,7 @@ export default {
 					});
 				}
 			});
-		},*/
+		},
 
 		onClickSubmissionInformation() {
 			this.isActive = true;

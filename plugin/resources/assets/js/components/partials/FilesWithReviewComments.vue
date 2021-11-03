@@ -8,26 +8,22 @@
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
-                        <span class="review-comment-author">
+                            <span class="review-comment-author">
                                 {{ reviewComment.commentedByFirstName }} {{ reviewComment.commentedByLastName }}
-                        </span>
+                            </span>
                             <span class="review-comment-date">
-                        {{ reviewComment.commentCreation }}
-                    </span>
-                        </div>
-                        <div class="review-comment-actions">
-                            <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteReviewComment">
+                                {{ reviewComment.commentCreation }}
+                            </span>
+                            <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteReviewComment(reviewComment.id, file.charonId)">
                                 <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
                             </v-btn>
                         </div>
                     </div>
-
                     <div class="review-comment-body">
                         <p>
                             {{ reviewComment.reviewComment }}
                         </p>
                     </div>
-
                 </v-card>
             </div>
         </v-card>
@@ -35,6 +31,8 @@
 </template>
 
 <script>
+
+import {ReviewComment} from "../../api";
 
 export default {
     name: "FilesWithReviewComments",
@@ -44,12 +42,12 @@ export default {
     },
 
     methods: {
-        deleteReviewComment() {
-            if (this.reviewComment === null) {
+        deleteReviewComment(reviewCommentId, charonId) {
+            if (reviewCommentId === null) {
                 return;
             }
 
-            ReviewComment.delete(this.reviewComment.id, this.charon.id,() => {
+            ReviewComment.delete(reviewCommentId, charonId,() => {
                 VueEvent.$emit('update-from-review-comment');
                 VueEvent.$emit('show-notification', 'Review comment deleted!')
             });
@@ -77,6 +75,7 @@ export default {
     font-family: Roboto, sans-serif;
     letter-spacing: .0071428571em;
     font-size: 1em;
+    white-space: pre-line;
 }
 
 .review-comment-heading {
@@ -105,12 +104,11 @@ p {
 .review-comments {
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
+    margin-top: 1em;
 }
-button {
+
+.remove-button {
     float: right;
-}
-img {
-    padding-bottom:1.5em;
 }
 
 </style>

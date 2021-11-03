@@ -91,6 +91,7 @@ class ReviewCommentService
                 $fileId = $rawResult->file_id;
                 $fileReviewCommentsDTO = new FileReviewCommentsDTO();
                 $fileReviewCommentsDTO->fileId = $rawResult->file_id;
+                $fileReviewCommentsDTO->charonId = $rawResult->charon_id;
                 $fileReviewCommentsDTO->submissionId = $rawResult->submission_id;
                 $fileReviewCommentsDTO->studentId = $rawResult->student_id;
                 $fileReviewCommentsDTO->path = $rawResult->path;

@@ -13,6 +13,9 @@ class FileReviewCommentsDTO
     public $fileId;
 
     /** @var integer */
+    public $charonId;
+
+    /** @var integer */
     public $studentId;
 
     /** @var integer */
