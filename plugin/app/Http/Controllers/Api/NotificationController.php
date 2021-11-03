@@ -3,8 +3,11 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\NotificationService;
+use Zeizig\Moodle\Globals\User;
 
 class NotificationController extends Controller
 {
@@ -21,13 +24,29 @@ class NotificationController extends Controller
         $this->notificationService = $notificationService;
     }
 
-    public function sendNotificationFromTeacherToStudent() {
+    /**
+     * Send a notification to the student from teacher.
+     *
+     * @param Request $request
+     * @param Charon $charon
+     *
+     * @return void
+     */
+    public function sendNotificationFromTeacherToStudent(Request $request, Charon $charon) {
+        Log::info("Sending a submission comment notification to student with following parameters", [
+            "studentId" => $request->input('student_id'),
+            "teacherId" => app(User::class)->currentUserId(),
+            "subject" => $request->input('subject'),
+            "message text" => $request->input('message_text'),
+            "file path" => $request->input('file_path'),
+            "charonId" => $charon->name
+        ]);
         $this->notificationService->sendNotificationFromTeacherToStudent(
-            $this->request->input('student_id'),
-            $this->request->input('subject'),
-            $this->request->input('message_text'),
-            $this->request->input('file_path'),
-            $this->request->input('charon_id')
+            $request->input('student_id'),
+            $request->input('subject'),
+            $request->input('message_text'),
+            $request->input('file_path'),
+            $charon
         );
     }
 }
