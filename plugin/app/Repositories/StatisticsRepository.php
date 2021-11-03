@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use DateTime;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use stdClass;
@@ -67,8 +68,8 @@ class StatisticsRepository
 
         $lastSubmissionDate = new DateTime($date2);
 
-        $firstSubmissionDays = (int) date_diff($lastYearDateTime, $firstSubmissionDate)->format('%a');
-        $lastSubmissionDays = $firstSubmissionDays + (int) date_diff($firstSubmissionDate, $lastSubmissionDate)->format('%a');
+        $firstSubmissionDays = (int)date_diff($lastYearDateTime, $firstSubmissionDate)->format('%a');
+        $lastSubmissionDays = $firstSubmissionDays + (int)date_diff($firstSubmissionDate, $lastSubmissionDate)->format('%a');
         Log::debug($firstSubmissionDays);
         Log::debug($lastSubmissionDays);
         return DB::select(DB::raw(
@@ -144,37 +145,57 @@ class StatisticsRepository
     public function getCharonGeneralInformation(int $charonId)
     {
         $generalInformation = new stdClass();
-        $defenseItemNumber = 1001;
 
         $categoryId = $this->findCharonCategoryId($charonId);
-        $defenseGradeItemIds = $this->findDefenseGradeItemIds($categoryId, $defenseItemNumber);
+        $categoryGradeItemIds = $this->findCategoryGradeItemId($categoryId);
+
         $studentsStarted = $this->findStudentsStartedAmount($charonId);
         $studentsDefended = $this->findStudentsDefendedAmount($charonId);
-        $avgDefenseGrade = $this->findAverageDefenseGrade($charonId, $defenseGradeItemIds);
+        $avgCategoryGrade = $this->findAverageCategoryGrade($charonId, $categoryGradeItemIds);
+        $maxPoints = $this->findCharonMaxPoints($categoryId);
+        $deadlines = $this->findCharonDeadlinesWithPercentages($charonId);
+        $highestScore = $this->findHighestScoreForCharon($charonId);
 
         $generalInformation->studentsStarted = $studentsStarted;
         $generalInformation->studentsDefended = $studentsDefended;
-        $generalInformation->avgDefenseGrade = $avgDefenseGrade;
+        $generalInformation->avgDefenseGrade = $avgCategoryGrade;
+        $generalInformation->maxPoints = $maxPoints;
+        $generalInformation->deadlines = $deadlines;
+        $generalInformation->highestScore = $highestScore;
 
         return json_encode($generalInformation);
     }
 
-    function findCharonCategoryId($charonId)
+    /**
+     * Finds category id of charon
+     * @param $charonId
+     * @return int
+     */
+    function findCharonCategoryId($charonId): int
     {
         return DB::table('charon')
             ->where('id', $charonId)
             ->value('category_id');
     }
 
-    function findDefenseGradeItemIds($categoryId, $defenseItemNumber)
+    /**
+     * Finds grade item ids for given charon category id
+     * @param $categoryId
+     * @return int
+     */
+    function findCategoryGradeItemId($categoryId): int
     {
         return DB::table('grade_items')
-            ->whereNotNull('categoryid')
-            ->where('categoryid', $categoryId)
-            ->where('itemnumber', $defenseItemNumber)
-            ->pluck('id');
+            ->where('iteminstance', $categoryId)
+            ->where('itemtype', 'category')
+            ->value('id');
     }
 
+    /**
+     * Finds amount of students started with charon
+     * @param $charonId
+     * @return int
+     */
     function findStudentsStartedAmount($charonId): int
     {
         return DB::table('charon_submission')
@@ -183,16 +204,26 @@ class StatisticsRepository
             ->count('user_id');
     }
 
-    function findConfirmedSubmissions($charonId)
+    /**
+     * Find user ids that have confirmed submission on given charon
+     * @param $charonId
+     * @return Collection
+     *
+     */
+    function findUserIdsWithConfirmedSubmissions($charonId): Collection
     {
         return DB::table('charon_submission')
-            ->select('user_id')
             ->where('confirmed', '=', 1)
-            ->where('charon_id', '=', $charonId);
-
+            ->where('charon_id', '=', $charonId)
+            ->pluck('user_id');
     }
 
-    function findStudentsDefendedAmount($charonId)
+    /**
+     * Find amount of students that have defended
+     * @param $charonId
+     * @return int
+     */
+    function findStudentsDefendedAmount($charonId): int
     {
         return DB::table('charon_submission')
             ->where('charon_id', $charonId)
@@ -200,16 +231,78 @@ class StatisticsRepository
             ->count();
     }
 
-    function findAverageDefenseGrade($charonId, $defenseGradeItemIds)
+    /**
+     * Find average category grade for charon
+     * @param $charonId
+     * @param $categoryGradeItemIds
+     * @return mixed|null
+     */
+    function findAverageCategoryGrade($charonId, $categoryGradeItemIds)
     {
-        $confirmedSubmissions = $this->findConfirmedSubmissions($charonId);
+        $confirmedUserIds = $this->findUserIdsWithConfirmedSubmissions($charonId);
         return DB::table('grade_grades')
-            ->joinSub($confirmedSubmissions, 'confirmed_subs', function ($join) {
-                $join->on('grade_grades.userid', '=', 'confirmed_subs.user_id');
-            })
-            ->whereIn('grade_grades.itemid', $defenseGradeItemIds)
-            ->distinct()
-            ->whereNotNull('grade_grades.finalgrade')
-            ->avg('grade_grades.finalgrade');
+            ->whereIn('userid', $confirmedUserIds)
+            ->where('itemid', $categoryGradeItemIds)
+            ->avg('finalgrade');
+    }
+
+    /**
+     * Find category max points for charon
+     * @param $categoryId
+     * @return mixed|null
+     */
+    function findCharonMaxPoints($categoryId)
+    {
+        return DB::table('grade_items')
+            ->where('iteminstance', $categoryId)
+            ->where('itemtype', 'category')
+            ->value('grademax');
+    }
+
+    /**
+     * Find all charon deadlines with percentages
+     * @param $charonId
+     * @return Collection
+     */
+    function findCharonDeadlinesWithPercentages($charonId)
+    {
+        return DB::table('charon_deadline')
+            ->where('charon_id', $charonId)
+            ->select('deadline_time', 'percentage')
+            ->get();
+    }
+
+    /**
+     * Find grade item for a specific grade (test, style, defense)
+     * This is not meant for category grade!
+     * Valid itemnumber values are 1, 101, 1001 (tests, style, defense)
+     * @param $categoryId
+     * @param $itemNumber
+     * @return Object|null
+     */
+    function findGradeItemSubcategory($categoryId, $itemNumber)
+    {
+        if (!in_array($itemNumber, ['1', '101', '1001'])) {
+            return null;
+        }
+        return DB::table('grade_items')
+            ->where('categoryid', $categoryId)
+            ->where('itemnumber', $itemNumber)
+            ->first();
+    }
+
+    /**
+     * Find highest score (tests) so far for given charon
+     * @param $charonId
+     * @return mixed
+     */
+    function findHighestScoreForCharon($charonId)
+    {
+        $testsItemNumber = 1;
+        $categoryId = $this->findCharonCategoryId($charonId);
+        $gradeItemTests = $this->findGradeItemSubcategory($categoryId, $testsItemNumber);
+        return DB::table('grade_grades')
+            ->where('itemid', $gradeItemTests->id)
+            ->max('finalgrade');
     }
 }
