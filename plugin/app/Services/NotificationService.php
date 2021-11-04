@@ -48,9 +48,6 @@ class NotificationService
 
         $students = $this->submissionsRepository->findAllUsersAssociated($submissionId);
 
-        Log::info("associated users", [$students]);
-        Log::info("submissionss", [$submission]);
-
         $cm_id = $charon->courseModule()->id;
         $url = '/mod/charon/view.php?id=' . $cm_id;
 
@@ -63,14 +60,10 @@ $submission->created_at</b><br>
 <p style="white-space: pre-wrap">$messageText</p>
 EOT;
 
-            Log::info("newurl", [$url]);
+        foreach ($students as $studentClass) {
 
-        foreach ($students as $studentId) {
-
-            Log::info("studentid", [$studentId]);
-            $student = \DB::table('user')->where('id', $studentId)
+            $student = \DB::table('user')->where('id', $studentClass->user_id)
                 ->first();
-            Log::info("student", [$student]);
 
             $this->sendNotification(
                 $teacher,

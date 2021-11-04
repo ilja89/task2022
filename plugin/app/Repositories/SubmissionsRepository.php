@@ -629,14 +629,14 @@ class SubmissionsRepository
      *
      * @param int $submissionId
      *
-     * @return array
+     * @return Collection
      */
-    public function findAllUsersAssociated(int $submissionId): array
+    public function findAllUsersAssociated(int $submissionId): Collection
     {
         return DB::table('charon_submission_user')
             ->select('user_id')
             ->where('submission_id', $submissionId)
-            ->getBindings();
+            ->get();
     }
 
     /**
