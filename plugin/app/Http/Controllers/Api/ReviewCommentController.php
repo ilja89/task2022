@@ -2,8 +2,10 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\ReviewCommentException;
 use TTU\Charon\Http\Controllers\Controller;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\ReviewCommentService;
 
 /**
@@ -34,12 +36,21 @@ class ReviewCommentController extends Controller
     /**
      * @throws ReviewCommentException
      */
-    public function add(Request $request): void
+    public function add(Request $request, Charon $charon): void
     {
+        Log::info("New comment was added: ", [
+            "charonId" => $charon->id,
+            "submissionFileId" => $request->input('submission_file_id'),
+            "comment" => $request->input('review_comment'),
+            "notify" => $request->input('notify'),
+            "submissionId" => $request->input('submission_id'),
+            "commentedFilePath" => $request->input('file_path')]);
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-        $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify);
+        $submissionId = $request->input('submission_id');
+        $filePath = $request->input('file_path');
+        $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify, $charon, $submissionId, $filePath);
     }
 
     /**

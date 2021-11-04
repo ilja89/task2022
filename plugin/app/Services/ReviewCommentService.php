@@ -16,14 +16,21 @@ class ReviewCommentService
     /** @var ReviewCommentRepository */
     private $reviewCommentRepository;
 
+    /** @var NotificationService */
+    private $notificationService;
+
     /**
      * ReviewCommentService constructor.
      *
      * @param ReviewCommentRepository $reviewCommentRepository
+     * @param NotificationService $notificationService
      */
-    public function __construct(ReviewCommentRepository $reviewCommentRepository)
-    {
+    public function __construct(
+        ReviewCommentRepository $reviewCommentRepository,
+        NotificationService $notificationService
+    ) {
         $this->reviewCommentRepository = $reviewCommentRepository;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -32,14 +39,20 @@ class ReviewCommentService
      * @param $submissionFileId
      * @param $reviewComment
      * @param $notify
+     * @param $charon
+     * @param $submissionId
+     * @param $filePath
      * @throws ReviewCommentException
      */
-    public function add($submissionFileId, $reviewComment, $notify): void
+    public function add($submissionFileId, $reviewComment, $notify, $charon, $submissionId, $filePath): void
     {
         if (strlen($reviewComment) > 10000) {
             throw new ReviewCommentException("review_comment_over_limit");
         }
         $userId = app(User::class)->currentUserId();
+        if ($notify) {
+            $this->notificationService->sendNotificationToStudent($submissionId, $reviewComment, $charon, $filePath);
+        }
         $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
     }
 

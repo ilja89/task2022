@@ -174,9 +174,4 @@ Route::group(['namespace' => 'Api'], function () {
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')
         ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
-
-    // NOTIFICATIONS
-
-    Route::middleware('auth.charon.managing.require')
-        ->post('charons/{charon}/notification/notifyStudent', 'NotificationController@sendNotificationFromTeacherToStudent');
 });

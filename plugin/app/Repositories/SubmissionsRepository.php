@@ -627,6 +627,21 @@ class SubmissionsRepository
     /**
      * Build a query for submissions by user in many-to-many table
      *
+     * @param int $submissionId
+     *
+     * @return array
+     */
+    public function findAllUsersAssociated(int $submissionId): array
+    {
+        return DB::table('charon_submission_user')
+            ->select('user_id')
+            ->where('submission_id', $submissionId)
+            ->getBindings();
+    }
+
+    /**
+     * Build a query for submissions by user in many-to-many table
+     *
      * @param int $userId
      *
      * @return Builder

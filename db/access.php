@@ -26,10 +26,4 @@ $capabilities = array(
         )
     ),
 
-    'mod/charon:emailcommentsubmission' => array(
-        'captype'      => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes'   => []
-    ),
-
 );

@@ -47,7 +47,7 @@
 <script>
 
     import FileTree from './FileTree'
-    import {ReviewComment, Notification} from "../../api";
+    import {ReviewComment} from "../../api";
     import {mapState} from "vuex";
 
     export default {
@@ -76,7 +76,6 @@
         computed: {
             ...mapState([
                 'charon',
-                'course'
             ]),
 
             activeFile() {
@@ -206,32 +205,20 @@
                 }
             },
 
-            sendCommentNotification(subject, message, file_path) {
-              Notification.notifyStudentWhenTeacherComments(
-                  this.submission.user_id,
-                  subject,
-                  message,
-                  file_path,
-                  this.charon.id,
-                  () => {
-                  }
-              )
-            },
-
             addReviewComment() {
                 if (!this.newReviewComment || !this.newReviewComment.trim().length) {
                     VueEvent.$emit('show-notification', 'Please add content to the comment.')
                     return
                 }
 
-                ReviewComment.add(this.newReviewComment.trim(), this.activeFileId, this.charon.id, this.notify, () => {
-                    if (this.notify) {
-                      if (!this.submission) {
-                        VueEvent.$emit('show-notification', 'Submission file not yet loaded. Unable to retrive user id!')
-                      } else {
-                        this.sendCommentNotification(this.charon.name, this.newReviewComment.trim(), this.activeFile.path)
-                      }
-                    }
+                ReviewComment.add(
+                    this.newReviewComment.trim(),
+                    this.activeFileId,
+                    this.charon.id,
+                    this.notify,
+                    this.submission.id,
+                    this.activeFile.path,
+                    () => {
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment added!')
                     this.$root.$emit('refresh_submission_files')
