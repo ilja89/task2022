@@ -103,6 +103,11 @@ class ReviewCommentService
                 array_push($fileReviewCommentsDTOs[0]->reviewComments, $this->createReviewComment($rawResult));
             }
         }
+        foreach($fileReviewCommentsDTOs as $fileReviewCommentDTO)
+        {
+            $reversed = array_reverse($fileReviewCommentDTO->reviewComments);
+            $fileReviewCommentDTO->reviewComments = $reversed;
+        }
         return $fileReviewCommentsDTOs;
     }
 
