@@ -82,10 +82,9 @@ class ReviewCommentService
         $fileReviewCommentsDTOs = [];
         $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharon($charonId, $studentId);
         $fileId = null;
-        $counter = null;
         foreach($rawResults as $rawResult)
         {
-            $counter++;
+
             if ($rawResult->file_id !== $fileId)
             {
                 $fileId = $rawResult->file_id;

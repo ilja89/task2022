@@ -46,17 +46,17 @@
 				</files-component-without-tree>
 
 				<div class="review-comments">
-                    <div v-if="!toggleShowAllSubmissions">
-                        <h3>{{ translate('feedbackTextThisSubmission') }}</h3>
-                    </div>
-                    <div v-else>
-                        <h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" v-model="toggleShowAllSubmissions">
-                        <span class="slider round"></span>
-                    </label>
-                    <files-with-review-comments v-if="this.filesWithReviewComments.length > 0" view="student" :filesWithReviewComments="this.getFilesWithReviewComments()"></files-with-review-comments>
+					<div v-if="!toggleShowAllSubmissions">
+						<h3>{{ translate('feedbackTextThisSubmission') }}</h3>
+					</div>
+					<div v-else>
+						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
+					</div>
+					<label class="switch">
+						<input type="checkbox" v-model="toggleShowAllSubmissions">
+						<span class="slider round"></span>
+					</label>
+					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0" view="student" :filesWithReviewComments="this.getFilesWithReviewComments()"></files-with-review-comments>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -104,7 +104,7 @@ export default {
 		...mapState([
 			'charon_id',
 			'student_id',
-            'filesWithReviewComments',
+			'filesWithReviewComments',
 		]),
 
 		hasCommitMessage() {
@@ -125,7 +125,7 @@ export default {
         VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
     },
 
-    methods: {
+	methods: {
 		getFilesForThisSubmission() {
 			File.findBySubmission(this.submission.id, files => {
 				this.files = files
@@ -133,18 +133,18 @@ export default {
 			})
 		},
 
-        getFilesWithReviewComments() {
-            if (this.toggleShowAllSubmissions) {
-                return this.filesWithReviewComments;
-            }
-            let $reviewComments = [];
-            this.filesWithReviewComments.forEach(reviewComment => {
-                if (reviewComment.submissionId === this.submission.id) {
-                    $reviewComments.push(reviewComment);
-                }
-            })
-            return $reviewComments;
-        },
+		getFilesWithReviewComments() {
+			if (this.toggleShowAllSubmissions) {
+				return this.filesWithReviewComments;
+			}
+			let $reviewComments = [];
+			this.filesWithReviewComments.forEach(reviewComment => {
+				if (reviewComment.submissionId === this.submission.id) {
+					$reviewComments.push(reviewComment);
+				}
+			})
+			return $reviewComments;
+			},
 
 		checkComments() {
 			this.files.forEach(file => {
