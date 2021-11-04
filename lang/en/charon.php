@@ -212,5 +212,5 @@ $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
 $string['availability'] = 'Availability';
 $string['lab_teachers'] = 'Lab teachers';
-$string['lab_queue'] = 'Defense queue';
+$string['lab_queue'] = 'Defence queue';
 $string['lab_end'] = 'Lab ended';
