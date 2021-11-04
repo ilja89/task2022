@@ -22,8 +22,8 @@
             </charon-tab>
 
             <charon-tab name="Mail">
-                <h3 class="toggle-text" v-if="toggleOn">Showing table</h3>
-                <h3 class="toggle-text" v-else>Showing mail</h3>
+                <h3 v-if="toggleOn">Showing table</h3>
+                <h3 v-else>Showing mail</h3>
 
                 <label class="switch">
                   <input type="checkbox" v-model="toggleOn">
@@ -200,10 +200,6 @@ input:checked + .slider:before {
 
 .mx-auto {
   margin-top: 10px;
-}
-
-.toggle-text {
-  margin-bottom: 5px;
 }
 
 </style>
