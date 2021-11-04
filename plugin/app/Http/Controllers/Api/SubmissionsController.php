@@ -86,6 +86,7 @@ class SubmissionsController extends Controller
         $submission->charon_order_nr = $this->submissionsRepository->getSubmissionCharonOrderNumber($submission, $studentId);
         $submission->files = $this->filesController->index($submission);
         $submission->user_id = $studentId;
+        $submission->test_suites = $this->submissionsRepository->getTestSuites($submission->id);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }

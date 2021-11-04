@@ -35,7 +35,7 @@
                 </v-card>
 
                 <div v-if="toggleOn">
-                    <submission-table :submission="submission"></submission-table>
+                    <submission-table :testSuites="submission['test_suites']"></submission-table>
                 </div>
 
             </charon-tab>
@@ -69,7 +69,7 @@
     import {OutputComponent} from '../partials/index';
     import {Submission} from "../../../api";
     import {File} from "../../../api";
-    import SubmissionTable from "./SubmissionTable"
+    import SubmissionTable from "../../assignment/components/SubmissionTable"
 
     export default {
 

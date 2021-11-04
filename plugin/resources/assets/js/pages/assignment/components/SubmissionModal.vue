@@ -37,7 +37,7 @@
 					<pre v-html="submission.mail"></pre>
 				</div>
 				<div v-if="toggleOn">
-					<submission-table :submission="submission"></submission-table>
+					<submission-table :testSuites="submission['test_suites']"></submission-table>
 				</div>
 
 				<h3>{{ translate('filesText') }}</h3>
