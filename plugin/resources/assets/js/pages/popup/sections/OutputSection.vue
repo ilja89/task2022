@@ -22,21 +22,21 @@
             </charon-tab>
 
             <charon-tab name="Mail">
-                <h3 v-if="toggleOn">Showing table</h3>
-                <h3 v-else>Showing mail</h3>
+                <h3 class="toggle-text" v-if="toggleOn">Showing table</h3>
+                <h3 class="toggle-text" v-else>Showing mail</h3>
 
                 <label class="switch">
                   <input type="checkbox" v-model="toggleOn">
                   <span class="slider round"></span>
                 </label>
 
-                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="hasMail && !toggleOn">
-                    <pre style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
-                </v-card>
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised >
+                    <pre v-if="hasMail && !toggleOn" style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
 
-                <div v-if="toggleOn">
-                    <submission-table :testSuites="submission['test_suites']"></submission-table>
-                </div>
+                    <pre v-if="toggleOn" style="max-height: 900px;overflow: auto">
+                        <submission-table :testSuites="submission['test_suites']"></submission-table>
+                    </pre>
+                </v-card>
 
             </charon-tab>
 
@@ -196,6 +196,14 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.mx-auto {
+  margin-top: 10px;
+}
+
+.toggle-text {
+  margin-bottom: 5px;
 }
 
 </style>
