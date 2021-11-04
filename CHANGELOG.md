@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #678 Added logging when an exception is thrown when charon is being deleted by moodle
 - #681 updated composer/composer to 2.1.9
 - #567 Activity completion for charon
+- #690 Submissions in assignment view show how many review comments they have
 
 ## [1.5.4] - 2021-10-11
 

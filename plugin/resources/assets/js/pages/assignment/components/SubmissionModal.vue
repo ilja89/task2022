@@ -2,12 +2,11 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-badge
-				:value="reviewCommentCount > 0"
-				:content="reviewCommentCount"
-				overlap
-				left
-				offset-x="20"
+			<v-badge :value="reviewCommentCount"
+					 :content="reviewCommentCount"
+					 overlap
+					 left
+					 offset-x="20"
 			>
 				<v-btn icon
 					   :class="{ signal: notifyColor }"
