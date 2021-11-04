@@ -66,8 +66,12 @@ EOT;
             Log::info("newurl", [$url]);
 
         foreach ($students as $studentId) {
+
+            Log::info("studentid", [$studentId]);
             $student = \DB::table('user')->where('id', $studentId)
                 ->first();
+            Log::info("student", [$student]);
+
             $this->sendNotification(
                 $teacher,
                 $student,
