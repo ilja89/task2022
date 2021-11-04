@@ -8,9 +8,12 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\User;
 
+/**
+ * Class NotificationService.
+ *
+ * @package TTU\Charon\Services
+ */
 class NotificationService
-
-
 {
     /**
      * @var SubmissionsRepository

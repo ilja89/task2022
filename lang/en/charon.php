@@ -211,4 +211,3 @@ $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, 
 \*------------------------*/
 
 $string['messageprovider:comment'] = 'Notification of a comment for charon submission';
-$string['charon:emailcommentsubmission'] = 'Receive notification of a comment for charon submission';

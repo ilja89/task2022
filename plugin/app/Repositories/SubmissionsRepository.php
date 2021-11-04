@@ -625,7 +625,7 @@ class SubmissionsRepository
     }
 
     /**
-     * Build a query for submissions by user in many-to-many table
+     * Query for all users associated to the submission
      *
      * @param int $submissionId
      *

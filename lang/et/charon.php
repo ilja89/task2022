@@ -204,4 +204,3 @@ $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisi
 \*------------------------*/
 
 $string['messageprovider:comment'] = 'Teavitus kommentaarist charoni katsele';
-$string['charon:emailcommentsubmission'] = 'Tuvasta teavitus kommentaarist charoni katsele';
