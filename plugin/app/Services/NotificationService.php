@@ -48,6 +48,9 @@ class NotificationService
 
         $students = $this->submissionsRepository->findAllUsersAssociated($submissionId);
 
+        Log::info("associated users", [$students]);
+        Log::info("submissionss", [$submission]);
+
         $cm_id = $charon->courseModule()->id;
         $url = '/mod/charon/view.php?id=' . $cm_id;
 
@@ -59,6 +62,8 @@ $submission->created_at</b><br>
 <b>File that was commented: $filePath</b><br><br>
 <p style="white-space: pre-wrap">$messageText</p>
 EOT;
+
+            Log::info("newurl", [$url]);
 
         foreach ($students as $studentId) {
             $student = \DB::table('user')->where('id', $studentId)
