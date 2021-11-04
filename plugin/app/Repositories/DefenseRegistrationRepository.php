@@ -311,7 +311,8 @@ class DefenseRegistrationRepository
      * where progress is in progresses list.
      *
      * @param int $labId
-     * @param bool $waitingStatus
+     * @param string[] $progresses
+     *
      * @return array
      */
     public function getLabRegistrationsByLabId(int $labId, array $progresses = ['Waiting', 'Defending', 'Done']): array
