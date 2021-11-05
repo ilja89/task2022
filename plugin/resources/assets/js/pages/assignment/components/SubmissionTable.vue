@@ -46,13 +46,13 @@
         props: {testSuites: {required: true}},
 
         data() {
-          return {
+            return {
                  previous_param: null,
                  current_param: null,
                  previous_table_id: null,
                  current_table_id: null,
                  show_stack_trace: false
-             }
+            }
         },
 
         methods: {
