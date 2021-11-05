@@ -42,10 +42,7 @@ class NotificationService
         Charon $charon,
         string $filePath
     ) {
-        $teacherId = app(User::class)->currentUserId();
-
-        $teacher = \DB::table('user')->where('id', $teacherId)
-            ->first();
+        $teacher = app(User::class)->currentUser();
 
         $submission = $this->submissionsRepository->find($submissionId);
 
@@ -58,16 +55,12 @@ class NotificationService
 <h4>$charon->name</h4><br>
 <b>You've got a new comment for the submission that was submitted at 
 $submission->created_at</b><br>
-<b>Auhtor: $teacher->firstname $teacher->lastname</b><br>
+<b>Author: $teacher->firstname $teacher->lastname</b><br>
 <b>File that was commented: $filePath</b><br><br>
 <p style="white-space: pre-wrap">$messageText</p>
 EOT;
 
-        foreach ($students as $studentClass) {
-
-            $student = \DB::table('user')->where('id', $studentClass->user_id)
-                ->first();
-
+        foreach ($students as $student) {
             $this->sendNotification(
                 $teacher,
                 $student,
@@ -84,7 +77,7 @@ EOT;
     /**
      * Send a notification to user.
      *
-     * @param stdClass $userFrom
+     * @param \Zeizig\Moodle\Models\User $userFrom
      * @param stdClass $userTo
      * @param string $notificationName
      * @param string $notificationSubject
@@ -94,7 +87,7 @@ EOT;
      * @param string $urlNameToDirect
      */
     private function sendNotification(
-        stdClass $userFrom,
+        \Zeizig\Moodle\Models\User $userFrom,
         stdClass $userTo,
         string $notificationName,
         string $notificationSubject,
@@ -121,8 +114,8 @@ EOT;
 
         $messageId = message_send($message);
 
-        if (is_int($messageId)) {
-            Log::info("Notification was delivered successfully");
+        if (!$messageId) {
+            Log::warning("Notification was not delivered");
         }
     }
 }

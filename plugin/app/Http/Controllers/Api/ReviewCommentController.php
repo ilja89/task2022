@@ -41,9 +41,7 @@ class ReviewCommentController extends Controller
         $submissionFileId = $request->input('submission_file_id');
         $reviewComment = $request->input('review_comment');
         $notify = $request->input('notify');
-        $submissionId = $request->input('submission_id');
-        $filePath = $request->input('file_path');
-        $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify, $charon, $submissionId, $filePath);
+        $this->reviewCommentService->add($submissionFileId, $reviewComment, $notify, $charon);
     }
 
     /**

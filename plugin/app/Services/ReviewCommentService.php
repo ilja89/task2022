@@ -3,7 +3,9 @@
 namespace TTU\Charon\Services;
 
 use TTU\Charon\Exceptions\ReviewCommentException;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\ReviewCommentRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Globals\User;
 
 /**
@@ -19,41 +21,56 @@ class ReviewCommentService
     /** @var NotificationService */
     private $notificationService;
 
+    /** @var SubmissionsRepository */
+    private $submissionRepository;
+
     /**
      * ReviewCommentService constructor.
      *
      * @param ReviewCommentRepository $reviewCommentRepository
      * @param NotificationService $notificationService
+     * @param SubmissionsRepository $submissionRespository
      */
     public function __construct(
         ReviewCommentRepository $reviewCommentRepository,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        SubmissionsRepository $submissionRespository
     ) {
         $this->reviewCommentRepository = $reviewCommentRepository;
         $this->notificationService = $notificationService;
+        $this->submissionRepository = $submissionRespository;
     }
 
     /**
      * Get logged-in user's identifier and save their review comment.
      *
-     * @param $submissionFileId
-     * @param $reviewComment
-     * @param $notify
-     * @param $charon
-     * @param $submissionId
-     * @param $filePath
+     * @param int $submissionFileId
+     * @param string $reviewComment
+     * @param bool $notify
+     * @param Charon $charon
      * @throws ReviewCommentException
      */
-    public function add($submissionFileId, $reviewComment, $notify, $charon, $submissionId, $filePath): void
-    {
+    public function add(
+        int $submissionFileId,
+        string $reviewComment,
+        bool $notify,
+        Charon $charon
+    ) {
         if (strlen($reviewComment) > 10000) {
             throw new ReviewCommentException("review_comment_over_limit");
         }
         $userId = app(User::class)->currentUserId();
-        if ($notify) {
-            $this->notificationService->sendNotificationToStudent($submissionId, $reviewComment, $charon, $filePath);
+        $comment = $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
+        if ($comment && $notify) {
+            $submissionFile = $this->submissionRepository->getSubmissionFileById($submissionFileId);
+            if ($submissionFile) {
+                $this->notificationService->sendNotificationToStudent(
+                    $submissionFile->submission_id,
+                    $reviewComment,
+                    $charon,
+                    $submissionFile->path);
+            }
         }
-        $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
     }
 
     /**

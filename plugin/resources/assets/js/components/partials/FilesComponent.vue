@@ -216,8 +216,6 @@
                     this.activeFileId,
                     this.charon.id,
                     this.notify,
-                    this.submission.id,
-                    this.activeFile.path,
                     () => {
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment added!')
