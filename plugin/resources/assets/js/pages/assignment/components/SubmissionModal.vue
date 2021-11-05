@@ -3,7 +3,7 @@
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
 			<v-badge :value="reviewCommentCount"
-					 :content="reviewCommentCount"
+					 :content="reviewCommentCount < 10 ? reviewCommentCount : '9+'"
 					 overlap
 					 left
 					 offset-x="20"
