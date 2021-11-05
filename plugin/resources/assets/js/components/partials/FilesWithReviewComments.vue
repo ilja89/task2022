@@ -38,7 +38,7 @@ export default {
     name: "FilesWithReviewComments",
     props: {
         filesWithReviewComments: { required: true },
-        view: {required: true }
+        view: { required: true }
     },
 
     methods: {

@@ -114,7 +114,7 @@ export default {
 			'student_id',
 			'charon',
 			'labs',
-            'charon_id',
+      'charon_id',
 		]),
 
 		submissionsTable() {
@@ -131,7 +131,7 @@ export default {
 			submission.latestAdded = true;
 			this.$store.state.submissions.unshift(submission);
 		});
-        this.getFilesWithCommentsForAllSubmissions(this.charon_id, this.student_id);
+    this.getFilesWithCommentsForAllSubmissions(this.charon_id, this.student_id);
 	},
 
 	methods: {
@@ -235,11 +235,11 @@ export default {
 			}
 		},
 
-        getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
-            ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
-                this.$store.state.filesWithReviewComments = data;
-            })
-        },
+    getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
+      ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
+          this.$store.state.filesWithReviewComments = data;
+      })
+    },
 	},
 
 	watch: {

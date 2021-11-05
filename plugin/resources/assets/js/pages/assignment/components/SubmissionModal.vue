@@ -120,10 +120,10 @@ export default {
 		},
 	},
 
-    mounted() {
-        this.testerType = window.testerType
-        VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
-    },
+  mounted() {
+    this.testerType = window.testerType
+    VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
+  },
 
 	methods: {
 		getFilesForThisSubmission() {
@@ -140,11 +140,11 @@ export default {
 			let $reviewComments = [];
 			this.filesWithReviewComments.forEach(reviewComment => {
 				if (reviewComment.submissionId === this.submission.id) {
-					$reviewComments.push(reviewComment);
+        $reviewComments.push(reviewComment);
 				}
 			})
 			return $reviewComments;
-			},
+    },
 
 		checkComments() {
 			this.files.forEach(file => {
