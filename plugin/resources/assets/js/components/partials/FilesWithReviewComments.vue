@@ -12,7 +12,10 @@
                                 {{ reviewComment.commentedByFirstName }} {{ reviewComment.commentedByLastName }}
                             </span>
                             <span class="review-comment-date">
-                                {{ reviewComment.commentCreation }}
+                                Comment created: {{ reviewComment.commentCreation }}
+                            </span>
+                            <span class="review-comment-submission">
+                                Submission: {{ file.submissionCreation }}
                             </span>
                             <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteReviewComment(reviewComment.id, file.charonId)">
                                 <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
@@ -111,6 +114,13 @@ p {
 
 .remove-button {
     float: right;
+}
+
+.review-comment-submission {
+    color: #448aff;
+    padding-right: 0.5em;
+    font-weight: normal;
+    margin-left: 1em;
 }
 
 </style>

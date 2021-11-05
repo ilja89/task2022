@@ -89,8 +89,8 @@ class ReviewCommentService
             {
                 $fileId = $rawResult->file_id;
                 $fileReviewCommentsDTO = new FileReviewCommentsDTO($rawResult->file_id,
-                    $rawResult->charon_id, $rawResult->submission_id, $rawResult->student_id, $rawResult->path,
-                    $this->createReviewComment($rawResult));
+                    $rawResult->charon_id, $rawResult->submission_id, $rawResult->created_at, $rawResult->student_id,
+                    $rawResult->path, $this->createReviewComment($rawResult));
                 array_unshift($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
             }
             else
