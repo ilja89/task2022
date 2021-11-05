@@ -116,59 +116,59 @@ export default {
 		},
 
 		notifyColor() {
-			return !!this.reviewCommentIdsWithNotify.length;
-		},
-	},
-
-  mounted() {
-    this.testerType = window.testerType
-    VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
-  },
-
-	methods: {
-		getFilesForThisSubmission() {
-			File.findBySubmission(this.submission.id, files => {
-				this.files = files
-				this.checkComments();
-			})
-		},
-
-		getFilesWithReviewComments() {
-			if (this.toggleShowAllSubmissions) {
-				return this.filesWithReviewComments;
-			}
-			let $reviewComments = [];
-			this.filesWithReviewComments.forEach(reviewComment => {
-				if (reviewComment.submissionId === this.submission.id) {
-        $reviewComments.push(reviewComment);
-				}
-			})
-			return $reviewComments;
+            return !!this.reviewCommentIdsWithNotify.length;
+        },
     },
 
-		checkComments() {
-			this.files.forEach(file => {
-				if (file.review_comments.length > 0) {
-					this.reviewCommentsExist = true;
-					file.review_comments.forEach(reviewComment => {
-						if (reviewComment.notify) {
-							this.reviewCommentIdsWithNotify.push(reviewComment.id);
-						}
-					});
-				}
-			});
-		},
+    mounted() {
+        this.testerType = window.testerType
+        VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
+    },
 
-		onClickSubmissionInformation() {
-			this.isActive = true;
-			if (this.reviewCommentIdsWithNotify.length) {
-				ReviewComment.clearNotifications(
-					this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
-						this.reviewCommentIdsWithNotify = [];
-					});
-			}
-		}
-	},
+    methods: {
+        getFilesForThisSubmission() {
+            File.findBySubmission(this.submission.id, files => {
+                this.files = files
+                this.checkComments();
+            })
+        },
+
+        getFilesWithReviewComments() {
+            if (this.toggleShowAllSubmissions) {
+                return this.filesWithReviewComments;
+            }
+            let $reviewComments = [];
+            this.filesWithReviewComments.forEach(reviewComment => {
+                if (reviewComment.submissionId === this.submission.id) {
+                    $reviewComments.push(reviewComment);
+                }
+            })
+            return $reviewComments;
+        },
+
+        checkComments() {
+            this.files.forEach(file => {
+                if (file.review_comments.length > 0) {
+                    this.reviewCommentsExist = true;
+                    file.review_comments.forEach(reviewComment => {
+                        if (reviewComment.notify) {
+                            this.reviewCommentIdsWithNotify.push(reviewComment.id);
+                        }
+                    });
+                }
+            });
+        },
+
+        onClickSubmissionInformation() {
+            this.isActive = true;
+            if (this.reviewCommentIdsWithNotify.length) {
+                ReviewComment.clearNotifications(
+                    this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
+                        this.reviewCommentIdsWithNotify = [];
+                    });
+            }
+        }
+    },
 }
 </script>
 <style scoped>
