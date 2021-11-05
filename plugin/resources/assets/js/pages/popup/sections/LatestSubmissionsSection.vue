@@ -2,11 +2,31 @@
     <popup-section title="Latest submissions"
                    subtitle="Here are the latest submissions for all tasks in this course">
         <div class="latest-submissions">
-            <transition-group name="list">
-                <div v-for="submissionChunk in submissionChunks" v-bind:key="submissionChunk.id" class="columns">
-                    <div v-for="submission in submissionChunk.subs" v-bind:key="submission.id" class="column">
-                      <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
-                            <div>
+
+            <div v-if="isCharonDashboard">
+                <transition-group name="list">
+                    <div v-for="submissionChunk in submissionChunks" :key="submissionChunk.id" class="columns">
+                        <div v-for="submission in submissionChunk.subs" class="column">
+                            <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                                <div>
+                                    {{ submission | submissionTime }} <span class="timestamp-separator">|</span>
+                                    <wbr>
+                                    {{ submission.charon.name }} <span class="timestamp-separator">|</span>
+                                    <wbr>
+                                    {{ formatResults(submission) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </transition-group>
+            </div>
+
+            <div v-else>
+                <transition-group name="list">
+                    <div v-for="submissionChunk in submissionChunks" v-bind:key="submissionChunk.id" class="columns">
+                        <div v-for="submission in submissionChunk.subs" v-bind:key="submission.id" class="column">
+                            <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                                <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
                                     <span class="timestamp-separator">|</span>
@@ -16,11 +36,12 @@
                                 </span><span class="submission-line">
                                     {{ formatResults(submission) }}
                                 </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </transition-group>
+                </transition-group>
+            </div>
         </div>
     </popup-section>
 </template>
@@ -43,6 +64,22 @@
             }
         },
 
+        props: {
+            isCharonDashboard: {
+                required: false,
+                default: false,
+                type: Boolean
+            },
+
+            charonLatestSubmissions: {
+                required: false,
+                default() {
+                    return []
+                },
+                type: Array
+            }
+        },
+
         computed: {
             ...mapGetters([
                 'courseId',
@@ -50,7 +87,8 @@
             ]),
 
             submissionChunks() {
-                return this.latestSubmissions ? latestSubmissionsChunks(this.latestSubmissions) : []
+
+                return this.isCharonDashboard ? latestSubmissionsChunks(this.charonLatestSubmissions) : latestSubmissionsChunks(this.latestSubmissions)
             },
         },
 
@@ -66,9 +104,12 @@
             ]),
 
             fetchLatestSubmissions() {
-                Submission.findLatest(this.courseId, submissions => {
-                    this.latestSubmissions = submissions
-                })
+                if (!this.isCharonDashboard) {
+                    console.log("true")
+                    Submission.findLatest(this.courseId, submissions => {
+                        this.latestSubmissions = submissions
+                    })
+                }
             },
 
             submissionSelected(submission) {

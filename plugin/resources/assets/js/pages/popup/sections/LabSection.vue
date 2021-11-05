@@ -57,7 +57,7 @@
     </v-card-title>
 
     <v-card-title v-else>
-      No Labs for this course!
+      No Labs to display!
     </v-card-title>
 
     <v-data-table

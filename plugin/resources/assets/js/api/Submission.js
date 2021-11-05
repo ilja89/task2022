@@ -95,6 +95,16 @@ class Submission {
         })
     }
 
+    static findLatestForCharon(charonId, then) {
+        window.axiosNoLoading.get(`/mod/charon/api/charons/${charonId}/submissions/latest`)
+            .then(({data}) => {
+                Submission.nextUrl = data.next_page_url
+                then(data.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving latest submissions.\n' + error, 'danger')
+        })
+    }
+
     static findSubmissionCounts(courseId, then) {
         window.axiosNoLoading.get(`/mod/charon/api/courses/${courseId}/submissions/counts`)
             .then(({data}) => {

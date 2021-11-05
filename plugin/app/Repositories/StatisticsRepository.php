@@ -269,6 +269,7 @@ class StatisticsRepository
         return DB::table('charon_deadline')
             ->where('charon_id', $charonId)
             ->select('deadline_time', 'percentage')
+            ->orderBy('deadline_time')
             ->get();
     }
 

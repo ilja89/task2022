@@ -2,8 +2,8 @@
   <div>
 
     <popup-section
-        title="Code showing registrations"
-        subtitle="Here are all the registrations for code showing. Select your name in the 'Teacher name' and press start session - then progress will be automatically updated"
+        title="Defense registrations"
+        subtitle="Here are all the registrations for defenses. Select your name in the 'Teacher name' and press start session - then progress will be automatically updated"
     >
 
       <v-card class="mx-auto" outlined light raised>

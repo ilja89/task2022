@@ -664,4 +664,32 @@ class SubmissionsRepository
                 return 'git_timestamp';
         }
     }
+
+    /**
+     * Find latest 10 charon submissions
+     * @param $charonId
+     * @return Paginator
+     */
+    public function findLatestSubmissionsForCharon($charonId)
+    {
+        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
+        ->where('charon_id', $charonId)
+        ->with([
+            'users' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+            'user' => function ($query) {
+                $query->select(['id', 'firstname', 'lastname']);
+            },
+            'charon' => function ($query) {
+                $query->select(['id', 'name']);
+            },
+            'results' => function ($query) {
+                $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
+                $query->orderBy('grade_type_code');
+            },
+        ])
+        ->latest()
+        ->simplePaginate(10);
+    }
 }

@@ -15,7 +15,6 @@ import TesterTypeSection from "./TesterTypeSection";
 import TeacherSection from "./TeacherSection";
 import GeneralInformationSection from "./GeneralInformationSection";
 import DashboardStatisticsSection from "./DashboardStatisticsSection";
-import DashboardLatestSubmissionsSection from "./DashboardLatestSubmissionsSection";
 import CharonDefenseRegistrationsSection from "./CharonDefenseRegistrationsSection";
 import SubmissionGraphSection from "./SubmissionGraphSection";
 
@@ -26,5 +25,5 @@ export {
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
     LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, GeneralInformationSection,
-    DashboardStatisticsSection, DashboardLatestSubmissionsSection, CharonDefenseRegistrationsSection, SubmissionGraphSection
+    DashboardStatisticsSection, CharonDefenseRegistrationsSection, SubmissionGraphSection
 }

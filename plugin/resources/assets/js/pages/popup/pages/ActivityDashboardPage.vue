@@ -5,8 +5,8 @@
 
         <general-information-section :general_information="general_information"></general-information-section>
 
-        <dashboard-latest-submissions-section
-            :latest-submissions="latestSubmissions"></dashboard-latest-submissions-section>
+        <latest-submissions-section
+            :charonLatestSubmissions="latestSubmissions" :is-charon-dashboard="true"></latest-submissions-section>
 
         <dashboard-statistics-section :submission_counts="submission_counts"></dashboard-statistics-section>
 
@@ -26,7 +26,7 @@
 import {mapGetters, mapState} from 'vuex'
 import {
     DashboardStatisticsSection,
-    DashboardLatestSubmissionsSection,
+    LatestSubmissionsSection,
     GeneralInformationSection,
     CharonDefenseRegistrationsSection,
     SubmissionGraphSection
@@ -42,7 +42,7 @@ export default {
 
     components: {
         LabSection,
-        DashboardStatisticsSection, DashboardLatestSubmissionsSection, GeneralInformationSection,
+        DashboardStatisticsSection, LatestSubmissionsSection, GeneralInformationSection,
         CharonDefenseRegistrationsSection, SubmissionGraphSection, PageTitle
     },
 
@@ -167,8 +167,8 @@ export default {
         },
 
         fetchLatestSubmissions() {
-            Submission.findLatest(this.courseId, submissions => {
-                this.latestSubmissions = submissions.filter(submission => submission.charon.id === this.routeCharonId)
+            Submission.findLatestForCharon(this.routeCharonId, submissions => {
+                this.latestSubmissions = submissions
             })
         },
 
