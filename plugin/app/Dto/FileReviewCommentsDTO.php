@@ -26,4 +26,14 @@ class FileReviewCommentsDTO
 
     /** @var array */
     public $reviewComments = [];
+
+    function __construct($fileId, $charonId, $submissionId, $studentId, $path, $reviewComment)
+    {
+        $this->fileId = $fileId;
+        $this->charonId = $charonId;
+        $this->submissionId = $submissionId;
+        $this->studentId = $studentId;
+        $this->path = $path;
+        array_push($this->reviewComments, $reviewComment);
+    }
 }

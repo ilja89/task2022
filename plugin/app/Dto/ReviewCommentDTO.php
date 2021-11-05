@@ -13,6 +13,12 @@ class ReviewCommentDTO
     /** @var integer */
     public $commentedById;
 
+    /** @var string */
+    public $commentedByFirstName;
+
+    /** @var string */
+    public $commentedByLastName;
+
     /** @var integer */
     public $codeRowNoStart;
 
@@ -28,9 +34,16 @@ class ReviewCommentDTO
     /** @var integer */
     public $commentCreation;
 
-    /** @var string */
-    public $commentedByFirstName;
-
-    /** @var string */
-    public $commentedByLastName;
+    function __construct($id, $commentedById, $firstName, $lastName, $start, $end, $reviewComment, $notify, $created)
+    {
+        $this->id = $id;
+        $this->commentedById = $commentedById;
+        $this->commentedByFirstName = $firstName;
+        $this->commentedByLastName = $lastName;
+        $this->codeRowNoStart = $start;
+        $this->codeRowNoEnd = $end;
+        $this->reviewComment = $reviewComment;
+        $this->notify = $notify;
+        $this->commentCreation = $created;
+    }
 }
