@@ -56,7 +56,10 @@
 						<input type="checkbox" v-model="toggleShowAllSubmissions">
 						<span class="slider round"></span>
 					</label>
-					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0" view="student" :filesWithReviewComments="this.getFilesWithReviewComments()"></files-with-review-comments>
+					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
+												view="student"
+												:filesWithReviewComments="this.getFilesWithReviewComments()"
+					></files-with-review-comments>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -96,7 +99,7 @@ export default {
 			files: [],
 			reviewCommentsExist: false,
 			reviewCommentIdsWithNotify: [],
-            toggleShowAllSubmissions: false,
+			toggleShowAllSubmissions: false,
 		}
 	},
 
@@ -116,59 +119,59 @@ export default {
 		},
 
 		notifyColor() {
-            return !!this.reviewCommentIdsWithNotify.length;
-        },
-    },
+			return !!this.reviewCommentIdsWithNotify.length;
+		},
+	},
 
-    mounted() {
-        this.testerType = window.testerType
-        VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
-    },
+	mounted() {
+		this.testerType = window.testerType
+		VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
+	},
 
-    methods: {
-        getFilesForThisSubmission() {
-            File.findBySubmission(this.submission.id, files => {
-                this.files = files
-                this.checkComments();
-            })
-        },
+	methods: {
+		getFilesForThisSubmission() {
+			File.findBySubmission(this.submission.id, files => {
+				this.files = files
+				this.checkComments();
+			})
+		},
 
-        getFilesWithReviewComments() {
-            if (this.toggleShowAllSubmissions) {
-                return this.filesWithReviewComments;
-            }
-            let $reviewComments = [];
-            this.filesWithReviewComments.forEach(reviewComment => {
-                if (reviewComment.submissionId === this.submission.id) {
-                    $reviewComments.push(reviewComment);
-                }
-            })
-            return $reviewComments;
-        },
+		getFilesWithReviewComments() {
+			if (this.toggleShowAllSubmissions) {
+				return this.filesWithReviewComments;
+			}
+			let reviewComments = [];
+			this.filesWithReviewComments.forEach(reviewComment => {
+				if (reviewComment.submissionId === this.submission.id) {
+					reviewComments.push(reviewComment);
+				}
+			})
+			return reviewComments;
+		},
 
-        checkComments() {
-            this.files.forEach(file => {
-                if (file.review_comments.length > 0) {
-                    this.reviewCommentsExist = true;
-                    file.review_comments.forEach(reviewComment => {
-                        if (reviewComment.notify) {
-                            this.reviewCommentIdsWithNotify.push(reviewComment.id);
-                        }
-                    });
-                }
-            });
-        },
+		checkComments() {
+			this.files.forEach(file => {
+				if (file.review_comments.length > 0) {
+					this.reviewCommentsExist = true;
+					file.review_comments.forEach(reviewComment => {
+						if (reviewComment.notify) {
+							this.reviewCommentIdsWithNotify.push(reviewComment.id);
+						}
+					});
+				}
+			});
+		},
 
-        onClickSubmissionInformation() {
-            this.isActive = true;
-            if (this.reviewCommentIdsWithNotify.length) {
-                ReviewComment.clearNotifications(
-                    this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
-                        this.reviewCommentIdsWithNotify = [];
-                    });
-            }
-        }
-    },
+		onClickSubmissionInformation() {
+			this.isActive = true;
+			if (this.reviewCommentIdsWithNotify.length) {
+				ReviewComment.clearNotifications(
+					this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
+						this.reviewCommentIdsWithNotify = [];
+					});
+			}
+		}
+	},
 }
 </script>
 <style scoped>
