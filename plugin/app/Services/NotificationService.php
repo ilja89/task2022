@@ -50,7 +50,7 @@ class NotificationService
 
         $cm_id = $charon->courseModule()->id;
         $url = '/mod/charon/view.php?id=' . $cm_id;
-        $messageText = strip_tags($messageText);
+        $messageText = htmlspecialchars($messageText);
         $messageTextHtml = <<<EOT
 <h4>$charon->name</h4><br>
 <b>You've got a new comment for the submission that was submitted at 
