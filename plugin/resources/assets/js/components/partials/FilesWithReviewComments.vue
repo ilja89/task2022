@@ -2,9 +2,9 @@
     <div>
         <v-card v-for="file in this.filesWithReviewComments" :key="file.fileId">
             <div class="review-comments">
-            <span class="header">
-                {{ file.path }}
-            </span>
+                <span class="header">
+                    {{ file.path }}
+                </span>
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
@@ -17,7 +17,11 @@
                             <span class="review-comment-submission">
                                 Submission: {{ file.submissionCreation }}
                             </span>
-                            <v-btn v-if="view==='teacher'" icon class="remove-button" @click="deleteReviewComment(reviewComment.id, file.charonId)">
+                            <v-btn v-if="view==='teacher'"
+                                   icon
+                                   class="remove-button"
+                                   @click="deleteReviewComment(reviewComment.id, file.charonId)"
+                            >
                                 <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
                             </v-btn>
                         </div>

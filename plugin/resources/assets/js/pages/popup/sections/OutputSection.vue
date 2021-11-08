@@ -105,17 +105,17 @@ export default {
             if (this.toggleShowAllSubmissions) {
                 return this.filesWithReviewComments;
             }
-            let $reviewComments = [];
+            let reviewComments = [];
             this.filesWithReviewComments.forEach(reviewComment => {
                 if (reviewComment.submissionId === this.submission.id) {
-                    $reviewComments.push(reviewComment);
+                    reviewComments.push(reviewComment);
                 }
             })
-            return $reviewComments;
+            return reviewComments;
         },
 
-        getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
-            ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
+        getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+            ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
                 this.$store.state.filesWithReviewComments = data;
             })
         },
