@@ -65,7 +65,8 @@ class ReviewCommentController extends Controller
     public function getReviewCommentsForCharonAndStudent(Request $request): array
     {
         $charonId = $request->route('charon');
-        $studentId = $request->route('student');
+        //$studentId = $request->route('student');
+        $studentId = $request->input('user_id');
         return $this->reviewCommentService->getReviewCommentsForCharonAndStudent($charonId, $studentId);
     }
 }

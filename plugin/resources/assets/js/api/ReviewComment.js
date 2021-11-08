@@ -40,7 +40,7 @@ class ReviewComment {
     }
 
     static getReviewCommentsForCharonAndUser(charonId, studentId, then) {
-        return axios.get('/mod/charon/api/charons/' + charonId + '/reviewComments/students/' + studentId)
+        return axios.get('/mod/charon/api/charons/' + charonId + '/reviewComments/student?user_id=' + studentId)
             .then(response => {
                 then(response.data)
             }).catch(error => {

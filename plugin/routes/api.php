@@ -52,7 +52,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.submissions.view.require') // clear review comments' notifications
         ->put('charons/{charon}/reviewComments/clear', 'ReviewCommentController@clearNotifications');
     Route::middleware('auth.charon.submissions.view.require')
-        ->get('charons/{charon}/reviewComments/students/{student}', 'ReviewCommentController@getReviewCommentsForCharonAndStudent');
+        ->get('charons/{charon}/reviewComments/student', 'ReviewCommentController@getReviewCommentsForCharonAndStudent');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');
