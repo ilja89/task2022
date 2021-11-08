@@ -74,13 +74,13 @@ class ReviewCommentRepository
     }
 
     /**
-     * Get all reviewComments for the specific charon and from the specific student.
+     * Get all reviewComments for the specific charon and for the specific student.
      *
      * @param $charonId
      * @param $studentId
      * @return array
      */
-    public function getReviewCommentsForCharon($charonId, $studentId): array
+    public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
         return DB::table('charon_submission')
             ->where('charon_submission.charon_id', $charonId)

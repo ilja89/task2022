@@ -58,14 +58,14 @@ class ReviewCommentController extends Controller
     }
 
     /**
-     * Get all reviewComments for the specific charon and from the specific student.
+     * Get all reviewComments for the specific charon and for the specific student.
      * @param Request $request
      * @return array
      */
-    public function getReviewCommentsForCharon(Request $request): array
+    public function getReviewCommentsForCharonAndStudent(Request $request): array
     {
         $charonId = $request->route('charon');
         $studentId = $request->route('student');
-        return $this->reviewCommentService->getReviewCommentsForCharon($charonId, $studentId);
+        return $this->reviewCommentService->getReviewCommentsForCharonAndStudent($charonId, $studentId);
     }
 }

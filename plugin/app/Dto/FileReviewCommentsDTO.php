@@ -2,8 +2,6 @@
 
 namespace TTU\Charon\Dto;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * DTO helper for ReviewComment listing under submission file.
  */

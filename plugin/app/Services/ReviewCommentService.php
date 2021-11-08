@@ -71,16 +71,16 @@ class ReviewCommentService
     }
 
     /**
-     * Get all reviewComments for the specific charon and from the specific student.
+     * Get all reviewComments for the specific charon and for the specific student.
      *
      * @param $charonId
      * @param $studentId
      * @return array
      */
-    public function getReviewCommentsForCharon($charonId, $studentId): array
+    public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
         $fileReviewCommentsDTOs = [];
-        $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharon($charonId, $studentId);
+        $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
         $fileId = null;
         foreach ($rawResults as $rawResult) {
 

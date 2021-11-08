@@ -115,9 +115,9 @@
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
         resetToTemplates: "{{ translate('reset_to_templates') }}",
-        feedbackTextThisSubmission: "{{ translate('feedback-text-this') }}",
+        feedbackTextSingleSubmission: "{{ translate('feedback-text-single-submission') }}",
         noFeedbackInfo: "{{ translate('no-feedback-info') }}",
-        feedbackTextAllSubmissions: "{{ translate('feedback-text-all') }}",
+        feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
     };
 </script>
 

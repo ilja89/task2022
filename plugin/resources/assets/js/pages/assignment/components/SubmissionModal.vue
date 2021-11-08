@@ -47,7 +47,7 @@
 
 				<div class="review-comments">
 					<div v-if="!toggleShowAllSubmissions">
-						<h3>{{ translate('feedbackTextThisSubmission') }}</h3>
+						<h3>{{ translate('feedbackTextSingleSubmission') }}</h3>
 					</div>
 					<div v-else>
 						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>

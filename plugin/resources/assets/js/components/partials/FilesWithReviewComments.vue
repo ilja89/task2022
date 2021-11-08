@@ -108,6 +108,7 @@ export default {
 
 p {
     margin-bottom: 0!important;
+    overflow-wrap: anywhere;
 }
 
 .review-comments {
