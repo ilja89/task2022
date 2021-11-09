@@ -34,7 +34,7 @@
                     <pre v-if="hasMail && !toggleOn" style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
 
                     <pre v-if="toggleOn" style="max-height: 900px;overflow: auto">
-                        <submission-table :testSuites="submission['test_suites']"></submission-table>
+                        <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
                     </pre>
                 </v-card>
 
@@ -69,12 +69,13 @@
     import {OutputComponent} from '../partials/index';
     import {Submission} from "../../../api";
     import {File} from "../../../api";
-    import SubmissionTable from "../../assignment/components/SubmissionTable"
+    import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent"
 
     export default {
 
         components: {
-            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, ReviewCommentComponent, SubmissionTable
+            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
+          ReviewCommentComponent, SubmissionTableComponent
         },
 
         data() {

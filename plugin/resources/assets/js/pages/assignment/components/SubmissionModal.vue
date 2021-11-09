@@ -37,7 +37,7 @@
 					<pre v-html="submission.mail"></pre>
 				</div>
 				<div v-if="toggleOn">
-					<submission-table :testSuites="submission['test_suites']"></submission-table>
+					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
 				</div>
 
 				<h3>{{ translate('filesText') }}</h3>
@@ -60,7 +60,7 @@
 <script>
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
-import SubmissionTable from "./SubmissionTable";
+import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
 import {File, ReviewComment} from "../../../api";
 import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
 import {mapState} from "vuex";
@@ -71,7 +71,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable
+		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTableComponent
 	},
 
 	props: {
