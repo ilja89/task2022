@@ -64,10 +64,13 @@ class ReviewCommentService
      * Remove notification setting from review comments got by given identifiers.
      *
      * @param $reviewCommentIds
+     * @throws ReviewCommentException
      */
     public function clearNotifications($reviewCommentIds): void
     {
-        $this->reviewCommentRepository->clearNotification($reviewCommentIds);
+        if (!$this->reviewCommentRepository->clearNotification($reviewCommentIds)) {
+            throw new ReviewCommentException("delete_process_failed");
+        }
     }
 
     /**

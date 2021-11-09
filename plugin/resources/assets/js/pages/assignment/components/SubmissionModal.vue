@@ -96,8 +96,8 @@ export default {
 			isActive: false,
 			testerType: '',
 			toggleShowTable: false,
-			files: [],
-			reviewCommentsExist: false,
+			//files: [],
+			//reviewCommentsExist: false,
 			reviewCommentIdsWithNotify: [],
 			toggleShowAllSubmissions: false,
 		}
@@ -125,42 +125,35 @@ export default {
 
 	mounted() {
 		this.testerType = window.testerType
-		VueEvent.$on("student-refresh-submissions", this.getFilesForThisSubmission);
+        this.checkNewComments();
+        VueEvent.$on("student-refresh-submissions", this.checkNewComments);
 	},
 
 	methods: {
-		getFilesForThisSubmission() {
-			File.findBySubmission(this.submission.id, files => {
-				this.files = files
-				this.checkComments();
-			})
-		},
-
 		getFilesWithReviewComments() {
 			if (this.toggleShowAllSubmissions) {
 				return this.filesWithReviewComments;
 			}
-			let reviewComments = [];
-			this.filesWithReviewComments.forEach(reviewComment => {
-				if (reviewComment.submissionId === this.submission.id) {
-					reviewComments.push(reviewComment);
+			let files = [];
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					files.push(file);
 				}
 			})
-			return reviewComments;
+			return files;
 		},
 
-		checkComments() {
-			this.files.forEach(file => {
-				if (file.review_comments.length > 0) {
-					this.reviewCommentsExist = true;
-					file.review_comments.forEach(reviewComment => {
-						if (reviewComment.notify) {
-							this.reviewCommentIdsWithNotify.push(reviewComment.id);
-						}
-					});
-				}
-			});
-		},
+        checkNewComments() {
+            this.filesWithReviewComments.forEach(file => {
+                if (file.submissionId === this.submission.id) {
+                    file.reviewComments.forEach((reviewComment) => {
+                        if (reviewComment.notify) {
+                            this.reviewCommentIdsWithNotify.push(reviewComment.id)
+                        }
+                    });
+                }
+            })
+        },
 
 		onClickSubmissionInformation() {
 			this.isActive = true;

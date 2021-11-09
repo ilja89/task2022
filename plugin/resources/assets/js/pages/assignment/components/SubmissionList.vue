@@ -131,7 +131,6 @@ export default {
 			submission.latestAdded = true;
 			this.$store.state.submissions.unshift(submission);
 		});
-		this.getFilesWithCommentsForAllSubmissions(this.charon_id, this.student_id);
 	},
 
 	methods: {
@@ -218,9 +217,7 @@ export default {
 					VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
 				}
 				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				VueEvent.$emit("student-refresh-submissions");
-				this.refreshing = false;
+                this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
 			});
 		},
 
@@ -235,9 +232,12 @@ export default {
 			}
 		},
 
-		getFilesWithCommentsForAllSubmissions($charonId, $studentId) {
-			ReviewComment.getReviewCommentsForCharonAndUser($charonId, $studentId, data => {
+		getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+			ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
 				this.$store.state.filesWithReviewComments = data;
+                VueEvent.$emit("student-refresh-submissions");
+                this.refreshing = false;
+                this.canLoadMore = Submission.canLoadMore();
 			})
 		},
 	},
