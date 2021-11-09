@@ -68,55 +68,44 @@ class StudentsRepository
         }
     }
 
-    public function getPossiblePointsForCourseFromCharons(int $courseId, int $userId)
-    {
-        $gradeItemIds = GradeItem::where(array('courseid' => $courseId, 'itemtype' => 'category'))->pluck('id');
-        $potentialMaxGrades = GradeGrade::where('userid', $userId)
-            ->whereIn('itemid', $gradeItemIds)
-            ->sum('rawgrademax');
-
-        $finalGrades = GradeGrade::where('userid', $userId)
-            ->whereIn('itemid', $gradeItemIds)
-            ->sum('finalgrade');
-
-        return $potentialMaxGrades - $finalGrades;
-    }
-
     public function getUserCharonsDetails($courseId, $userId)
     {
-        return DB::select("
-        SELECT
-            c.id AS charonId,
-            c.name AS charonName,
-            c.defense_threshold as defThreshold,
-            (
-                SELECT gg.finalgrade
-                FROM mdl_grade_grades gg
-                JOIN mdl_grade_items gi
-                ON gi.id = gg.itemid
-                WHERE gg.userid = ?
-                AND gi.itemnumber < 100
-                AND gi.iteminstance = charonId
-            ) AS studentPoints,
-            (
-                SELECT gi.grademax
-                FROM mdl_grade_items gi
-                INNER JOIN mdl_charon c
-                ON c.category_id = gi.categoryid
-                WHERE gi.itemnumber = 1
-                AND gi.iteminstance = charonId
-            ) AS maxPoints,
-            ' ' AS points,
-            (
-            SELECT COUNT(confirmed)
-            FROM mdl_charon_submission cs
-            WHERE cs.user_id = ?
-            AND cs.charon_id = charonId
-            AND cs.confirmed = 1
-            ) AS defended
-        FROM mdl_charon c
-        WHERE c.course = ?
-        ", [$userId, $userId, $courseId]);
+        $charonDetails = [];
+        $charons = DB::table('charon')
+            ->where('course', $courseId)
+            ->get();
+
+        foreach ($charons as $charon) {
+            $studentPoints = DB::table('grade_grades as gg')
+                ->join('grade_items as gi', 'gg.itemid', '=', 'gi.id')
+                ->where('gi.itemtype', 'category')
+                ->where('gi.iteminstance', $charon->category_id)
+                ->where('gg.userid', $userId)
+                ->value('gg.finalgrade');
+
+            $maxPoints = DB::table('grade_items')
+                ->where('itemtype', 'category')
+                ->where('iteminstance', $charon->category_id)
+                ->value('grademax');
+
+            $defended = DB::table('charon_submission')
+                ->where('user_id', $userId)
+                ->where('charon_id', $charon->id)
+                ->where('confirmed', '1')
+                ->count('confirmed');
+
+            $detailObject = new \stdClass();
+            $detailObject->charonId = $charon->id;
+            $detailObject->charonName = $charon->name;
+            $detailObject->defThreshold = $charon->defense_threshold;
+            $detailObject->studentPoints = $studentPoints;
+            $detailObject->maxPoints = $maxPoints;
+            $detailObject->points = ' ';
+            $detailObject->defended = $defended;
+            array_push($charonDetails, $detailObject);
+        }
+
+        return $charonDetails;
     }
 
     /**

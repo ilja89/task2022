@@ -74,22 +74,11 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Student statistics
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent'); // get total points for student so far
+        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointsFromAllCharonsForStudent'); // get total points for student so far
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse'); // get count of submissions for student
+        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@countAllUserSubmissionsInCourse'); // get count of submissions for student
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions'); // get count of charons that have submissions
-    Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints'); // get potential points for student
-
-
-    // Student statistics
-    Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/all-points/{user}', 'StudentsController@getPointFromAllCharonsForStudent'); // get total points for student so far
-    Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/submissions/all', 'SubmissionsController@getAllForUserInCourse'); // get count of submissions for student
-    Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@charonsWithSubmissions'); // get count of charons that have submissions
+        ->get('courses/{course}/users/{user}/charons-with-submissions', 'SubmissionsController@countCharonsWithSubmissions'); // get count of charons that have submissions
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/possible-points', 'StudentsController@possiblePoints'); // get potential points for student
 

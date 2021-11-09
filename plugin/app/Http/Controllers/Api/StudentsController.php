@@ -67,38 +67,13 @@ class StudentsController extends Controller
     }
 
     /**
-     * Get active result for the given charon and user. Takes the value
-     * from gradebook.
-     *
-     * @param Charon $charon
+     * Find sum of all charon points for user
+     * @param Course $course
      * @param User $user
-     *
-     * @return float
+     * @return float|int
      */
-    public function getStudentActiveResultForCharon(Charon $charon, User $user)
-    {
-        $categoryGradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-        $categoryGradeGrade = $this->gradebookService->getGradeForGradeItemAndUser($categoryGradeItem->id, $user->id);
-
-        if ($categoryGradeGrade !== null) {
-            return $categoryGradeGrade->finalgrade;
-        } else {
-            return 0;
-        }
-    }
-
-    public function getPointFromAllCharonsForStudent(Course $course, User $user) {
-        $charons = Charon::where('course', $course->id)
-            ->select('category_id')
-            ->get();
-        $result = 0;
-
-        foreach ($charons as $charon) {
-            if (!is_null($this->getStudentActiveResultForCharon($charon, $user))) {
-                $result += $this->getStudentActiveResultForCharon($charon, $user);
-            }
-        }
-        return $result;
+    public function getPointsFromAllCharonsForStudent(Course $course, User $user) {
+        return $this->gradebookService->getPointsFromAllCharonsForStudent($course->id, $user->id);
     }
 
     public function getStudentReportTable(Course $course, User $user)
@@ -234,7 +209,7 @@ class StudentsController extends Controller
 
     public function possiblePoints(Course $course, User $user)
     {
-        return $this->studentsRepository->getPossiblePointsForCourseFromCharons($course->id, $user->id);
+        return $this->gradebookService->getPossiblePointsForCourseFromCharons($course->id, $user->id);
     }
     
     /**

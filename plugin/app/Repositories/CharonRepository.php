@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\CharonNotFoundException;
@@ -51,11 +52,11 @@ class CharonRepository
      * @param LabRepository $labRepository
      */
     public function __construct(
-        ModuleService $moduleService,
-        FileUploadService $fileUploadService,
-        GradebookService $gradebookService,
+        ModuleService              $moduleService,
+        FileUploadService          $fileUploadService,
+        GradebookService           $gradebookService,
         CharonDefenseLabRepository $charonDefenseLabRepository,
-        LabRepository $labRepository
+        LabRepository              $labRepository
     )
     {
         $this->moduleService = $moduleService;
@@ -401,5 +402,16 @@ class CharonRepository
         }
 
         return $charon;
+    }
+
+    /**
+     * @param int $courseId
+     * @return \Illuminate\Support\Collection
+     */
+    public function findCharonCategoryIds(int $courseId): \Illuminate\Support\Collection
+    {
+        return DB::table('charon')
+            ->where('course', $courseId)
+            ->pluck('category_id');
     }
 }

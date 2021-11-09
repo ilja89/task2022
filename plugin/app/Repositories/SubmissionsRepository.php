@@ -483,14 +483,15 @@ class SubmissionsRepository
      * @param int $courseId
      * @param int $userId
      *
-     * @return array
+     * @return Collection
      */
     public function findLatestSubmissionsByUser(int $courseId, int $userId)
     {
-        return DB::table('charon_submission')
-            ->join('charon', 'charon_submission.charon_id', '=', 'charon.id')
-            ->select('charon_submission.created_at', 'charon_submission.id', 'charon.name')
-            ->where([['charon_submission.user_id', '=', $userId], ['charon.course', '=', $courseId]])
+        return DB::table('charon_submission as cs')
+            ->join('charon as c', 'cs.charon_id', '=', 'c.id')
+            ->select('cs.created_at', 'cs.id', 'c.name')
+            ->where('cs.user_id', $userId)
+            ->where('c.course', $courseId)
             ->latest()
             ->take(10)
             ->get();
@@ -691,12 +692,12 @@ class SubmissionsRepository
      *
      * @return int
      */
-    public function getAllForUser(int $courseId, int $userId)
+    public function countAllUserSubmissions(int $courseId, int $userId)
     {
-        $charons_ids = Charon::where('course', $courseId)
+        $charonIds = Charon::where('course', $courseId)
             ->pluck('id');
 
-        return Submission::whereIn('charon_id', $charons_ids)
+        return Submission::whereIn('charon_id', $charonIds)
             ->where('user_id', $userId)
             ->count();
     }

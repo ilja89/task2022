@@ -96,10 +96,6 @@
             };
         },
 
-        created() {
-            this.getSubmission()
-        },
-
         watch: {
             submission() {
                 this.getTotalResult();
