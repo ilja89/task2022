@@ -69,7 +69,7 @@ class ReviewCommentService
     public function clearNotifications($reviewCommentIds): void
     {
         if (!$this->reviewCommentRepository->clearNotification($reviewCommentIds)) {
-            throw new ReviewCommentException("delete_process_failed");
+            throw new ReviewCommentException("notification_removal_failed");
         }
     }
 

@@ -96,8 +96,6 @@ export default {
 			isActive: false,
 			testerType: '',
 			toggleShowTable: false,
-			//files: [],
-			//reviewCommentsExist: false,
 			reviewCommentIdsWithNotify: [],
 			toggleShowAllSubmissions: false,
 		}
@@ -125,8 +123,8 @@ export default {
 
 	mounted() {
 		this.testerType = window.testerType
-        this.checkNewComments();
-        VueEvent.$on("student-refresh-submissions", this.checkNewComments);
+		this.checkNewComments();
+		VueEvent.$on("student-refresh-submissions", this.checkNewComments);
 	},
 
 	methods: {
@@ -143,17 +141,17 @@ export default {
 			return files;
 		},
 
-        checkNewComments() {
-            this.filesWithReviewComments.forEach(file => {
-                if (file.submissionId === this.submission.id) {
-                    file.reviewComments.forEach((reviewComment) => {
-                        if (reviewComment.notify) {
-                            this.reviewCommentIdsWithNotify.push(reviewComment.id)
-                        }
-                    });
-                }
-            })
-        },
+		checkNewComments() {
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					file.reviewComments.forEach((reviewComment) => {
+						if (reviewComment.notify) {
+							this.reviewCommentIdsWithNotify.push(reviewComment.id)
+						}
+					});
+				}
+			})
+		},
 
 		onClickSubmissionInformation() {
 			this.isActive = true;

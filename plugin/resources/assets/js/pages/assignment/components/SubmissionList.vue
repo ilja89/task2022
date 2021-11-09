@@ -114,7 +114,6 @@ export default {
 			'student_id',
 			'charon',
 			'labs',
-			'charon_id',
 		]),
 
 		submissionsTable() {
@@ -217,7 +216,7 @@ export default {
 					VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
 				}
 				this.$store.state.submissions = submissions;
-                this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
+				this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
 			});
 		},
 
@@ -235,9 +234,9 @@ export default {
 		getFilesWithCommentsForAllSubmissions(charonId, studentId) {
 			ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
 				this.$store.state.filesWithReviewComments = data;
-                VueEvent.$emit("student-refresh-submissions");
-                this.refreshing = false;
-                this.canLoadMore = Submission.canLoadMore();
+				VueEvent.$emit("student-refresh-submissions");
+				this.refreshing = false;
+				this.canLoadMore = Submission.canLoadMore();
 			})
 		},
 	},
