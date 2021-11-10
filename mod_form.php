@@ -74,4 +74,33 @@ class mod_charon_mod_form extends moodleform_mod
         // If Moodle fixes its code this can be removed.
         set_error_handler(null);
     }
+
+    /**
+     * Add elements for setting the custom completion rules.
+     *
+     * @category completion
+     * @return array List of added element names, or names of wrapping group elements.
+     */
+    public function add_completion_rules() {
+
+        $mform = $this->_form;
+
+        $group = [
+            $mform->createElement('text', 'defense_threshold', ' ', 'Threshold (%)'),
+        ];
+        $mform->setType('defense_threshold', PARAM_INT);
+        $mform->addGroup($group, 'completionthresholdgroup', 'Enable activity completion on threshold (0-100%)', [' '], false);
+
+        return ['completionthresholdgroup'];
+    }
+
+    /**
+     * Called during validation to see whether some module-specific completion rules are selected.
+     *
+     * @param array $data Input data not yet validated.
+     * @return bool True if one or more rules is enabled, false if none are.
+     */
+    public function completion_rule_enabled($data) {
+        return (!empty($data['defense_threshold']) && $data['defense_threshold'] >= 0 && $data['defense_threshold'] <= 100);
+    }
 }
