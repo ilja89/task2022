@@ -12,6 +12,7 @@ use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\Grouping;
 use Zeizig\Moodle\Models\User;
@@ -27,17 +28,24 @@ class GitCallbackService
     /** @var CourseSettingsRepository */
     private $courseSettingsRepository;
 
+    /** @var UserRepository */
+    private $userRepository;
+
     /**
      * GitCallbackService constructor.
      *
      * @param GitCallbacksRepository $gitCallbacksRepository
+     * @param CourseSettingsRepository $courseSettingsRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
         GitCallbacksRepository $gitCallbacksRepository,
-        CourseSettingsRepository $courseSettingsRepository
+        CourseSettingsRepository $courseSettingsRepository,
+        UserRepository $userRepository
     ) {
         $this->gitCallbacksRepository = $gitCallbacksRepository;
         $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -197,9 +205,95 @@ class GitCallbackService
             ->all();
     }
 
-    public function saveFromCallback(string $username, string $fullUrl, string $repo, string $callbackUrl, array $params,
-    array $commitFiles)
-    {
+    /**
+     * Prepare to handle the GitLHubCallback.
+     *
+     * @param $request
+     *
+     * @return string
+     */
+    public function handleGitHubCallbackPost($request) {
+        $repo = $request->input('repository')['ssh_url'];
+        $userEmail = $request->input('repository')['owner']['email'];
+        $callbackUrl = $request->getUriForPath('/api/tester_callback');
+        $fullUrl = $request->fullUrl();
+        $params = [];
+
+        Log::debug('Initial user has email: "' . $userEmail . '"');
+
+        $user = $this->userRepository->findByEmail($userEmail);
+
+        Log::debug('Initial user' , [$user]);
+
+        if (!$user) {
+            Log::debug('User not found with email' , [$userEmail]);
+            return 'NO USER';
+        }
+
+        $params['email'] = $userEmail;
+
+        $username = str_replace("@ttu.ee", '', $user->username);
+
+        return $this->handleCallback(
+            $username,
+            $fullUrl,
+            $repo,
+            $callbackUrl,
+            $params,
+            $request->input('commits', [])
+        );
+    }
+
+    /**
+     * Prepare to handle the GitLabCallback.
+     *
+     * @param $request
+     *
+     * @return string
+     */
+    public function handleGitLabCallbackPost($request) {
+        $repo = $request->input('repository')['git_ssh_url'];
+        $initialUser = $request->input('user_username');
+        $callbackUrl = $request->getUriForPath('/api/tester_callback');
+        $fullUrl = $request->fullUrl();
+        $params = [];
+
+        Log::debug('Initial user has username: "' . $initialUser . '"');
+
+        if ($request->input('commits')) {
+            $params['email'] = $request->input('commits.0.author.email');
+        }
+
+        return $this->handleCallback(
+            $initialUser,
+            $fullUrl,
+            $repo,
+            $callbackUrl,
+            $params,
+            $request->input('commits', [])
+        );
+    }
+
+    /**
+     * Handle callback and send it to tester.
+     *
+     * @param string $username
+     * @param string $fullUrl
+     * @param string $repo
+     * @param string $callbackUrl
+     * @param array $params
+     * @param array $commitFiles
+     *
+     * @return string
+     */
+    private function handleCallback(
+        string $username,
+        string $fullUrl,
+        string $repo,
+        string $callbackUrl,
+        array $params,
+        array $commitFiles
+    ) {
         $course = $this->getCourse($repo);
 
         if (is_null($course)) {

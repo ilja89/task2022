@@ -26,6 +26,11 @@ class TesterCallbackRequest extends FormRequest
     public function rules()
     {
         return [
+            'slug' => 'required',
+            'uniid' => 'required',
+            'timestamp' => 'required',
+            'hash' => 'required',
+            'commitMessage' => 'required',
         ];
     }
 
@@ -37,8 +42,7 @@ class TesterCallbackRequest extends FormRequest
         if ($validator->fails()) {
             Log::notice('Tester NEW callback with incorrect parameters.', [
                 'url' => $this->fullUrl(),
-                'attributes' => $this->attributes(),
-                'all'=> $this
+                'attributes' => $this->attributes()
             ]);
         }
     }
