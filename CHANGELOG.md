@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #505 Ability for teachers to register students for a defence
 - #518 Defence registration status showing before defence start wit approximated time.
+- #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense 
+  and disable the ability to choose full labs
 
 ## [1.5.4] - 2021-10-11
 

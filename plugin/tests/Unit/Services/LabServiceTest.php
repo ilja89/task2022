@@ -2,14 +2,17 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
 use Zeizig\Moodle\Models\User;
 
@@ -27,6 +30,12 @@ class LabServiceTest extends TestCase
     /** @var Mock|LabTeacherRepository */
     private $labTeacherRepository;
 
+    /** @var Mock|CharonRepository */
+    private $charonRepository;
+
+    /** @var Mock|DefenceRegistrationService */
+    private $defenceRegistrationService;
+
     /** @var Mock|Lab */
     private $lab;
 
@@ -39,43 +48,59 @@ class LabServiceTest extends TestCase
         $this->service = new LabService(
             $this->defenseRegistrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
             $this->labTeacherRepository = Mockery::mock(LabTeacherRepository::class),
-            $this->labRepository = Mockery::mock(LabRepository::class)
+            $this->labRepository = Mockery::mock(LabRepository::class),
+            $this->charonRepository = Mockery::mock(CharonRepository::class),
+            $this->defenceRegistrationService = Mockery::mock(DefenceRegistrationService::class)
         );
     }
 
-    public function testFindUpcomingOrActiveLabsByCharon()
+    public function testFindAvailableLabsByCharon()
     {
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 222;
 
         $lab1 = Mockery::mock(Lab::class)->makePartial();
-        $lab1->defense_lab_id = 1;
+        $lab1->id = 1;
+        $lab1->start = Carbon::now()->addDays(30);
+        $lab1->end = Carbon::now()->addDays(30)->addHours(3);
+
         $lab2 = Mockery::mock(Lab::class)->makePartial();
-        $lab2->defense_lab_id = 2;
+        $lab2->id = 2;
+        $lab2->start = Carbon::now()->addDays(60);
+        $lab2->end = Carbon::now()->addDays(60)->addHour();
+
         $lab4 = Mockery::mock(Lab::class)->makePartial();
-        $lab4->defense_lab_id = 3;
+        $lab4->id = 3;
+        $lab4->start = Carbon::now()->addDays(90);
+        $lab4->end = Carbon::now()->addDays(90)->addHours(2);
 
         $labs = array($lab1, $lab2, $lab4);
 
-        $this->labRepository->shouldReceive('getLabsWithStartAndEndTimes')
+        $this->labRepository->shouldReceive('getAvailableLabsByCharonId')
             ->once()
-            ->with(222)
+            ->with($charon->id)
             ->andReturn($labs);
 
-        foreach ($labs as $lab){
-            $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
-                ->with($lab->defense_lab_id)
+        $this->charonRepository->shouldReceive('getCharonById')
+            ->once()
+            ->with($charon->id)
+            ->andReturn($charon);
+
+        foreach ($labs as $lab) {
+            $this->defenceRegistrationService->shouldReceive('getEstimateTimeForNewRegistration')
                 ->once()
-                ->andReturn($lab->defense_lab_id);
+                ->with($lab, $charon)
+                ->andReturn($lab->start);
+
+            $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
+                ->once()
+                ->with($lab->id)
+                ->andReturn(0);
         }
 
-        $result = $this->service->findUpcomingOrActiveLabsByCharon($charon->id);
+        $result = $this->service->findAvailableLabsByCharon($charon->id);
 
-        $this->assertEquals(3, count($result));
-
-        foreach ($result as $key => $lab){
-            $this->assertEquals($key + 1, $lab->defenders_num); // as defense number is lab id + 1
-        }
+        $this->assertEquals(count($labs), count($result));
     }
 
     public function testStudentsQueueLabNotStarted()

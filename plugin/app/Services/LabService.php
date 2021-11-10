@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
@@ -11,34 +12,42 @@ use Zeizig\Moodle\Models\User;
 
 class LabService
 {
-    /**
-     * @var DefenseRegistrationRepository
-     */
+    /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
-    /**
-     * @var LabTeacherRepository
-     */
+    /** @var LabTeacherRepository */
     private $labTeacherRepository;
 
-    /**
-     * @var LabRepository
-     */
+    /** @var LabRepository */
     private $labRepository;
+
+    /** @var CharonRepository */
+    private $charonRepository;
+
+    /** @var DefenceRegistrationService */
+    private $defenceRegistrationService;
 
     /**
      * LabService constructor.
+     *
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param LabTeacherRepository $labTeacherRepository
+     * @param LabRepository $labRepository,
+     * @param CharonRepository $charonRepository
+     * @param DefenceRegistrationService $defenceRegistrationService
      */
     public function __construct(
         DefenseRegistrationRepository $defenseRegistrationRepository,
         LabTeacherRepository $labTeacherRepository,
-        LabRepository $labRepository
+        LabRepository $labRepository,
+        CharonRepository $charonRepository,
+        DefenceRegistrationService $defenceRegistrationService
     ) {
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->labRepository = $labRepository;
+        $this->charonRepository = $charonRepository;
+        $this->defenceRegistrationService = $defenceRegistrationService;
     }
 
     /**
@@ -99,13 +108,14 @@ class LabService
     }
 
     /**
-     *  Function to return list of defence registrations for lab with:
+     * Function to return list of defence registrations for lab with:
      *  - number in queue
      *  - approximate start time
      *  - student name, if student name equals to username of requested student
      *
      * @param User $user
      * @param Lab $lab
+     *
      * @return array
      */
     public function labQueueStatus(User $user, Lab $lab): array
@@ -185,13 +195,53 @@ class LabService
         $queueStatus['registrations'] = $registrations;
 
         return $queueStatus;
+
+
+
+
+        $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
+            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
+            $this->labTeacherRepository->countLabTeachers($lab->id),
+            Carbon::parse($lab->start)
+        );
+
+        for ($i = 0; $i < count($registrations); $i++) {
+
+            if ($registrations[$i]->student_id == $user->id) {
+                $registrations[$i]->student_name = $user->firstname . " " . $user->lastname;
+            } else {
+                $registrations[$i]->student_name = "";
+            }
+
+            $registrations[$i]->queue_pos = $i + 1;
+            $registrations[$i]->estimated_start = date("d.m.Y H:i", $registrations[$i]->estimated_start->timestamp);
+
+            unset($registrations[$i]->defense_duration);
+            unset($registrations[$i]->student_id);
+        }
+
+        return $registrations;
     }
 
-    public function findUpcomingOrActiveLabsByCharon(int $charonId){
-        $result = $this->labRepository->getLabsWithStartAndEndTimes($charonId);
-        foreach ($result as $lab){ //Getting all students-defenders who registered on defense lab
-            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->defense_lab_id);
+    /**
+     * Get ongoing and upcoming labs, including count of students registered
+     * and estimated start time of next available defence.
+     *
+     * @param int $charonId
+     *
+     * @return array
+     */
+    public function findAvailableLabsByCharon(int $charonId): array
+    {
+        $labs = $this->labRepository->getAvailableLabsByCharonId($charonId);
+        $charon = $this->charonRepository->getCharonById($charonId);
+
+        foreach ($labs as $lab) {
+            $lab->new_defence_start = $this->defenceRegistrationService
+                ->getEstimateTimeForNewRegistration($lab, $charon);
+            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
         }
-        return $result;
+
+        return $labs;
     }
 }

@@ -73,24 +73,6 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @param int $labId
-     *
-     * @return Collection|Defender[]
-     */
-    public function getDefenseRegistrationDurationsByLab(int $labId): array
-    {
-        return DB::table('charon_defenders')
-            ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
-            ->join('charon', 'charon.id', 'charon_submission.charon_id')
-            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
-            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-            ->where('charon_lab.id', $labId)
-            ->select('charon.defense_duration')
-            ->get()
-            ->all();
-    }
-
-    /**
      * @param int $teacherId
      * @param Carbon $time
      *
@@ -126,7 +108,6 @@ class DefenseRegistrationRepository
 
     /**
      * @param string $time
-     * @param int $teacherCount
      * @param int $labId
      *
      * @return array
@@ -323,19 +304,24 @@ class DefenseRegistrationRepository
             ->where("charon_defense_lab.lab_id", $labId)
             ->whereIn("charon_defenders.progress", $progresses)
             ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
+            ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id")
             ->get()
             ->all();
     }
 
     /**
+     * Find total defenders count for a lab by its identifier.
+     *
      * @param int $labId
-     * @return mixed
+     *
+     * @return int
      */
-    public function countDefendersByLab(int $labId)
+    public function countDefendersByLab(int $labId): int
     {
         return DB::table('charon_defenders')
-            ->where ('defense_lab_id', $labId) //where id of defense lab equals to id of lab sending by function
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
             ->count();
     }
 

@@ -93,8 +93,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     // LABS
 
-    Route::get('charons/{charon}/labs/available', 'LabController@findUpcomingOrActiveLabsByCharon');
     // get labs which are available for registration
+    Route::get('charons/{charon}/labs/available', 'LabController@findAvailableLabsByCharon');
     Route::middleware('auth.course.managing.require')  // save lab
         ->post('courses/{course}/labs', 'LabController@save');
     Route::middleware('auth.course.managing.require')  // get all labs for course
@@ -105,7 +105,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
         ->post('courses/{course}/labs/{lab}/update', 'LabController@update');
-    // get number of affected registrations when lab is being to deleted or modified
+    // number of affected registrations when lab is going to be deleted or modified
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/labs/{lab}/registrations', 'LabController@countRegistrations');
     Route::middleware('auth.charon.submissions.view.require') // get lab queue status
