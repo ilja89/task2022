@@ -90,7 +90,7 @@ class GitCallbackControllerTest extends TestCase
         $request->shouldReceive('input')->with('commits.0.author.email')->andReturn('user@email.com');
         $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $this->service->shouldReceive('saveFromCallback')->andReturn('NO COURSE');
+        $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('NO COURSE');
 
         $response = $this->controller->indexPost($request);
 
@@ -104,7 +104,7 @@ class GitCallbackControllerTest extends TestCase
         $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
         $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $this->service->shouldReceive('saveFromCallback')->andReturn('NO MATCHING CHARONS');
+        $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('NO MATCHING CHARONS');
 
         $response = $this->controller->indexPost($request);
 
@@ -118,7 +118,7 @@ class GitCallbackControllerTest extends TestCase
         $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
         $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
-        $this->service->shouldReceive('saveFromCallback')->andReturn('SUCCESS');
+        $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('SUCCESS');
 
         $response = $this->controller->indexPost($request);
 

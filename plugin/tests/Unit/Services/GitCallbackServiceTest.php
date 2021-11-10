@@ -10,6 +10,7 @@ use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 
@@ -27,7 +28,8 @@ class GitCallbackServiceTest extends TestCase
         $this->repository = Mockery::mock(GitCallbacksRepository::class);
         $this->service = new GitCallbackService(
             $this->repository,
-            Mockery::mock(CourseSettingsRepository::class));
+            Mockery::mock(CourseSettingsRepository::class),
+            Mockery::mock(UserRepository::class));
     }
 
     public function testGetModifiedFilesReturnsEmptyIfNoCommits()
@@ -147,7 +149,8 @@ class GitCallbackServiceTest extends TestCase
              ->once()
              ->andReturn($gitCallback)
              ->getMock(),
-            Mockery::mock(CourseSettingsRepository::class)
+            Mockery::mock(CourseSettingsRepository::class),
+            Mockery::mock(UserRepository::class)
         );
     }
 }
