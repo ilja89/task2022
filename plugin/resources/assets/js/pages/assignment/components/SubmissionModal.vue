@@ -155,10 +155,11 @@ export default {
 		},
 
 		checkNewComments() {
+			this.reviewCommentCount = 0;
 			this.filesWithReviewComments.forEach(file => {
 				if (file.submissionId === this.submission.id) {
 					file.reviewComments.forEach((reviewComment) => {
-					    this.reviewCommentCount++;
+						this.reviewCommentCount++;
 						if (reviewComment.notify) {
 							this.reviewCommentIdsWithNotify.push(reviewComment.id)
 						}
