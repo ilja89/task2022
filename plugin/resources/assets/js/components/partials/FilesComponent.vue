@@ -211,7 +211,12 @@
                     return
                 }
 
-                ReviewComment.add(this.newReviewComment.trim(), this.activeFileId, this.charon.id, this.notify, () => {
+                ReviewComment.add(
+                    this.newReviewComment.trim(),
+                    this.activeFileId,
+                    this.charon.id,
+                    this.notify,
+                    () => {
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment added!')
                     this.$root.$emit('refresh_submission_files')
