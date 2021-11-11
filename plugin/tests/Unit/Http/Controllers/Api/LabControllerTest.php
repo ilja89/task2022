@@ -49,10 +49,10 @@ class LabControllerTest extends TestCase
         $charon = Mockery::mock(Charon::class)->makePartial();
         $charon->id = 666;
 
-        $this->service->shouldReceive('findUpcomingOrActiveLabsByCharon')
+        $this->service->shouldReceive('findAvailableLabsByCharon')
             ->with(666)
             ->once();
 
-        $this->controller->findUpcomingOrActiveLabsByCharon($charon);
+        $this->controller->findAvailableLabsByCharon($charon);
     }
 }

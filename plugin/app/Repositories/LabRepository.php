@@ -287,20 +287,26 @@ class LabRepository
     }
 
     /**
-     * Get all ongoing and upcoming labs.
+     * Get all active (ongoing and upcoming) labs.
      *
      * @param int $charonId
      *
      * @return mixed
      */
-    public function getLabsByCharonId(int $charonId)
+    public function getAvailableLabsByCharonId(int $charonId)
     {
-        return \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_id', $charonId)
+        return Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_defense_lab.charon_id', $charonId)
             ->where('end', '>=', Carbon::now())
-            ->select('charon_lab.id', 'charon_defense_lab.id as defense_lab_id', 'start', 'end', 'name', 'course_id')
-            ->get();
+            ->select(
+                'charon_lab.id',
+                'charon_defense_lab.id as defense_lab_id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.name',
+                'charon_lab.course_id')
+            ->get()
+            ->all();
     }
 
     public function getCourse($courseId)
