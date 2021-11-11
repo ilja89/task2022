@@ -7,6 +7,7 @@ use TTU\Charon\Dto\AreteRequestDto;
 use TTU\Charon\Dto\SourceFileDTO;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
@@ -95,16 +96,14 @@ class TesterCommunicationService
     /**
      * Prepare AreteRequestDTO from students submission.
      *
-     * @param int $charonId
-     * @param int $userId
+     * @param Charon $charon
+     * @param User $user
      * @param array $sourceFiles
      *
      * @return AreteRequestDto
      */
-    public function prepareAreteRequest (int $charonId, User $user, array $sourceFiles): AreteRequestDto
+    public function prepareAreteRequest (Charon $charon, User $user, array $sourceFiles): AreteRequestDto
     {
-        $charon = $this->charonRepository->getCharonById($charonId);
-
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
 
         $username = strtok($user->username, "@");

@@ -4,9 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Fixed
+## [1.5.5] - 2021-10-22
 
 ### Added
 - #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
@@ -34,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #638 Added css so that when tester returns styled output, it will be displayed that way
 - #589 Added the ability for teachers to add feedback for students' submissions
 - #635 Backup and restore possibility for charon_review_comment table
+- \#671 Tester response and callback have more similar flow
 
 ## [1.5.3] - 2021-10-08
 
