@@ -51,7 +51,7 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => env('DB_TABLE_PREFIX', $moodle->prefix),
-            'strict' => false,
+            'strict' => true,
             'engine' => null,
         ],
 
