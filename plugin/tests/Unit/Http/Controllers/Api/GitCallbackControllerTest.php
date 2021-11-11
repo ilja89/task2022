@@ -11,6 +11,7 @@ use TTU\Charon\Http\Controllers\Api\GitCallbackController;
 use Tests\TestCase;
 use TTU\Charon\Http\Requests\GitCallbackPostRequest;
 use TTU\Charon\Http\Requests\GitCallbackRequest;
+use TTU\Charon\Http\Requests\GithubCallbackPostRequest;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
@@ -86,9 +87,6 @@ class GitCallbackControllerTest extends TestCase
     public function testIndexPostSavesNoCourse()
     {
         $request = $this->createCommonRequest();
-        $request->shouldReceive('input')->with('commits')->andReturn(true);
-        $request->shouldReceive('input')->with('commits.0.author.email')->andReturn('user@email.com');
-        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
         $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('NO COURSE');
 
@@ -97,12 +95,20 @@ class GitCallbackControllerTest extends TestCase
         $this->assertEquals('NO COURSE', $response);
     }
 
+    public function testGitHubIndexPostSavesNoCourse()
+    {
+        $request = $this->createCommonGitHubRequest();
+
+        $this->service->shouldReceive('handleGitHubCallbackPost')->andReturn('NO COURSE');
+
+        $response = $this->controller->gitHubIndexPost($request);
+
+        $this->assertEquals('NO COURSE', $response);
+    }
+
     public function testIndexPostSavesNoCharon()
     {
         $request = $this->createCommonRequest();
-        $request->shouldReceive('input')->with('commits')->andReturn(false);
-        $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
-        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
         $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('NO MATCHING CHARONS');
 
@@ -111,16 +117,35 @@ class GitCallbackControllerTest extends TestCase
         $this->assertEquals('NO MATCHING CHARONS', $response);
     }
 
+    public function testGitHubIndexPostSavesNoharon()
+    {
+        $request = $this->createCommonGitHubRequest();
+
+        $this->service->shouldReceive('handleGitHubCallbackPost')->andReturn('NO MATCHING CHARONS');
+
+        $response = $this->controller->gitHubIndexPost($request);
+
+        $this->assertEquals('NO MATCHING CHARONS', $response);
+    }
+
     public function testIndexPostSavesDifferentCharons()
     {
         $request = $this->createCommonRequest();
-        $request->shouldReceive('input')->with('commits')->andReturn(false);
-        $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
-        $request->shouldReceive('input')->with("commits", array())->andReturn([]);
 
         $this->service->shouldReceive('handleGitLabCallbackPost')->andReturn('SUCCESS');
 
         $response = $this->controller->indexPost($request);
+
+        $this->assertEquals('SUCCESS', $response);
+    }
+
+    public function testGitHubIndexPostSavesDifferentCharons()
+    {
+        $request = $this->createCommonGitHubRequest();
+
+        $this->service->shouldReceive('handleGitHubCallbackPost')->andReturn('SUCCESS');
+
+        $response = $this->controller->gitHubIndexPost($request);
 
         $this->assertEquals('SUCCESS', $response);
     }
@@ -130,12 +155,17 @@ class GitCallbackControllerTest extends TestCase
      */
     private function createCommonRequest()
     {
-        $request = Mockery::mock(GitCallbackPostRequest::class);
-        $request->shouldReceive('input')->with('repository')->andReturn(['git_ssh_url' => 'repository url']);
-        $request->shouldReceive('input')->with('user_username')->andReturn('username');
-        $request->shouldReceive('getUriForPath')->with('/api/tester_callback')->andReturn('callback url');
-        $request->shouldReceive('fullUrl')->andReturn('full url');
-        return $request;
+        return Mockery::mock(GitCallbackPostRequest::class);
     }
+
+    /**
+     * @return MockInterface|GithubCallbackPostRequest
+     */
+    private function createCommonGitHubRequest()
+    {
+        return Mockery::mock(GithubCallbackPostRequest::class);
+    }
+
+
 
 }
