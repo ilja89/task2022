@@ -141,12 +141,19 @@
             VueEvent.$off('refresh-page', this.fetchRegistrations)
         },
 
+        mounted() {
+            VueEvent.$on('refresh-defense-list', _ => {
+                this.apply();
+            })
+        },
+
         methods: {
             ...mapActions(["updateTeacher"]),
 
             apply() {
                 Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
                     this.defenseList = response
+                    VueEvent.$emit('stop-refresh-button')
                 })
             },
 

@@ -4,6 +4,11 @@
         <v-card-title v-if="defenseList.length">
             Registrations
             <v-spacer></v-spacer>
+            <v-btn class="ml-4" icon @click="refreshDefenseList()">
+                <img alt="refresh" height="24px" src="/mod/charon/pix/refresh.png"
+                     v-bind:class="refreshing ? 'rotating' : ''"
+                     width="24px">
+            </v-btn>
             <v-text-field
                 v-if="defenseList.length"
                 v-model="search"
@@ -14,6 +19,12 @@
             </v-text-field>
         </v-card-title>
         <v-card-title v-else>
+            <v-btn class="ml-4" icon @click="refreshDefenseList()">
+                <img alt="refresh" height="24px" src="/mod/charon/pix/refresh.png"
+                     v-bind:class="refreshing ? 'rotating' : ''"
+                     width="24px">
+            </v-btn>
+
             No Registrations for this course!
         </v-card-title>
 
@@ -24,7 +35,7 @@
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     Are you sure you want to delete this registration?
-                    ({{this.item.student_name}}, {{this.item.lab_name}})
+                    ({{ this.item.student_name }}, {{ this.item.lab_name }})
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
                     <md-icon>warning</md-icon>
@@ -115,11 +126,19 @@ export default {
                 {text: 'Progress', value: 'progress'},
                 {text: 'Actions', value: 'actions'},
             ],
+            refreshing: false,
         }
     }, props: {
         defenseList: {required: true},
         teachers: {required: true}
     },
+
+    mounted() {
+        VueEvent.$on('stop-refresh-button', _ => {
+            this.refreshing = false;
+        })
+    },
+
     methods: {
         getSubmissionRouting(submissionId) {
             return '/submissions/' + submissionId
@@ -194,7 +213,12 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        refreshDefenseList() {
+            this.refreshing = true;
+            VueEvent.$emit('refresh-defense-list');
+        },
     },
     computed: {
         ...mapState([
