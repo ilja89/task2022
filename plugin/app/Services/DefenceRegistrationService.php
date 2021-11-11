@@ -416,7 +416,7 @@ class DefenceRegistrationService
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
             $teacherCount,
             $lab->start
         );

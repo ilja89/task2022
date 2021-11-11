@@ -76,7 +76,7 @@ class LabService
     public function labQueueStatus(User $user, Lab $lab): array
     {
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
             $this->labTeacherRepository->countLabTeachers($lab->id),
             Carbon::parse($lab->start)
         );
@@ -115,7 +115,7 @@ class LabService
         foreach ($labs as $lab) {
             $lab->new_defence_start = $this->defenceRegistrationService
                 ->getEstimateTimeForNewRegistration($lab, $charon);
-            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
+            $lab->defenders_num = $this->defenseRegistrationRepository->countUndoneDefendersByLab($lab->id);
         }
 
         return $labs;

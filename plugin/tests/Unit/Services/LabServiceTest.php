@@ -92,7 +92,7 @@ class LabServiceTest extends TestCase
                 ->with($lab, $charon)
                 ->andReturn($lab->start);
 
-            $this->defenseRegistrationRepository->shouldReceive('countDefendersByLab')
+            $this->defenseRegistrationRepository->shouldReceive('countUndoneDefendersByLab')
                 ->once()
                 ->with($lab->id)
                 ->andReturn(0);
@@ -150,7 +150,7 @@ class LabServiceTest extends TestCase
         $registrations = array($reg1, $reg2, $reg3, $reg4, $reg5, $reg6, $reg7);
         $teacherCount = 3;
 
-        $this->defenseRegistrationRepository->shouldReceive('getListOfLabRegistrationsByLabId')
+        $this->defenseRegistrationRepository->shouldReceive('getListOfUndoneLabRegistrationsByLabId')
             ->once()
             ->with(401)
             ->andReturn($registrations);
