@@ -2,9 +2,21 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-                <v-btn icon :class="{ signal: notifyColor }" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
-				<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
-			</v-btn>
+			<v-badge :value="reviewCommentCount"
+					 :content="reviewCommentCount < 10 ? reviewCommentCount : '9+'"
+					 overlap
+					 left
+					 offset-x="20"
+			>
+				<v-btn icon
+					   :class="{ signal: notifyColor }"
+					   @click="onClickSubmissionInformation"
+					   v-bind="attrs"
+					   v-on="on"
+				>
+					<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
+				</v-btn>
+			</v-badge>
 		</template>
 
 		<v-card style="background-color: white; overflow-y: auto;">
@@ -47,7 +59,7 @@
 
 				<div class="review-comments">
 					<h3>{{ translate('feedbackText') }}</h3>
-					<review-comment-component v-if="reviewCommentsExist" :files="files" view="student"></review-comment-component>
+					<review-comment-component v-if="reviewCommentCount" :files="files" view="student"></review-comment-component>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -85,7 +97,7 @@ export default {
 			testerType: '',
 			toggleOn: false,
 			files: [],
-			reviewCommentsExist: false,
+			reviewCommentCount: 0,
 			reviewCommentIdsWithNotify: [],
 		}
 	},
@@ -124,10 +136,11 @@ export default {
 		},
 
 		checkComments() {
+			this.reviewCommentCount = 0;
 			this.files.forEach(file => {
 				if (file.review_comments.length > 0) {
-					this.reviewCommentsExist = true;
 					file.review_comments.forEach(reviewComment => {
+						this.reviewCommentCount++;
 						if (reviewComment.notify) {
 							this.reviewCommentIdsWithNotify.push(reviewComment.id);
 						}
