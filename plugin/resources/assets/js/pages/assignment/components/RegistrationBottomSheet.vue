@@ -1,6 +1,6 @@
 <template>
     <!--Moodle drawer has z-index under 1000-->
-    <v-bottom-sheet v-model="sheet" inset persistent style="position: relative; z-index: 1000">
+    <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
         <template v-slot:activator="{ on, attrs }">
             <v-btn v-if="hasPoints && submissionStyleOK" v-bind="attrs" v-on="on" icon @click="sheet=true">
                 <img alt="shield" height="24px" src="pix/shield.png" width="24px">
@@ -39,7 +39,8 @@
                 </div>
 
                 <v-row class="mt-4">
-                    <v-btn class="ml-4" color="primary" dense outlined text @click="sendData()">
+                    <v-btn :disabled="!value || value && !value['new_defence_start']"
+                        class="ml-4" color="primary" dense outlined text @click="sendData()">
                         {{ translate('registerText') }}
                     </v-btn>
 
@@ -145,7 +146,7 @@ export default {
             this.busy = false;
         },
 
-    //filter imported above, used as method too, because for "custom-label" function is required.
+    // filter imported above, used as method too, because for "custom-label" function is required.
     getLabList,
 
         onSelect(option) {
@@ -167,6 +168,12 @@ export default {
 
         this.hasPoints = getSubmissionWeightedScore(this.submission) >= this.charon['defense_threshold'];
         VueEvent.$on('student-register-end-loading', this.endLoading);
+
+        this.labs.forEach(lab => {
+            if (!lab['new_defence_start']) {
+                lab['$isDisabled'] = true;
+            }
+        });
     },
 
     beforeDestroy() {

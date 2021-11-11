@@ -261,7 +261,7 @@ class CharonRepository
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-            $charon->defense_labs = $this->labRepository->getLabsByCharonId($charon->id);
+            $charon->defense_labs = $this->labRepository->getAvailableLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(
