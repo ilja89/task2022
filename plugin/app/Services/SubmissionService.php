@@ -76,31 +76,21 @@ class SubmissionService
      * Saves the Submission from the given request.
      *
      * @param Request $submissionRequest
-     * @param GitCallback $gitCallback
+     * @param Charon $charon
      * @param int $authorId
-     * @param null $courseId
-     *
      * @return Submission
      */
-    public function saveSubmission(Request $submissionRequest,
-                                   GitCallback $gitCallback, int $authorId, $courseId = null): Submission
+    public function saveSubmission(Request $submissionRequest, Charon $charon, int $authorId): Submission
     {
-        if ($gitCallback->repo != null) {
-            $submission = $this->requestHandlingService->getSubmissionFromRequest(
-                $submissionRequest,
-                $gitCallback->repo,
-                $authorId
-            );
-        } else {
-            $submission = $this->requestHandlingService->getSubmissionFromRequest(
-                $submissionRequest,
-                '',
-                $authorId,
-                $courseId
-            );
-        }
+        $submission = $this->requestHandlingService->getSubmissionFromRequest(
+            $submissionRequest,
+            $charon,
+            $authorId
+        );
 
-        $submission->git_callback_id = $gitCallback->id;
+        if ($submissionRequest['gitCallBackId']) {
+            $submission->git_callback_id = $submissionRequest['gitCallBackId'];
+        }
         $submission->save();
 
         return $submission;

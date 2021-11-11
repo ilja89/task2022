@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\ResultRepository;
+use TTU\Charon\Services\AreteResponseParser;
 use TTU\Charon\Services\CharonGradingService;
+use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\TestSuiteService;
 use Zeizig\Moodle\Models\User;
@@ -33,25 +36,37 @@ class SaveTesterCallback
     /** @var TestSuiteService */
     private $testSuiteService;
 
+    /** @var AreteResponseParser */
+    private $areteResponseParser;
+
+    /** @var GitCallbackService */
+    private $gitCallbackService;
+
     /**
      * @param SubmissionService $submissionService
      * @param CharonGradingService $charonGradingService
      * @param UserService $userService
      * @param ResultRepository $resultRepository
      * @param TestSuiteService $testSuiteService
+     * @param AreteResponseParser $areteResponseParser
+     * @param GitCallbackService $gitCallbackService
      */
     public function __construct(
         SubmissionService $submissionService,
         CharonGradingService $charonGradingService,
         UserService $userService,
         ResultRepository $resultRepository,
-        TestSuiteService $testSuiteService
+        TestSuiteService $testSuiteService,
+        AreteResponseParser $areteResponseParser,
+        GitCallbackService $gitCallbackService
     ) {
         $this->submissionService = $submissionService;
         $this->charonGradingService = $charonGradingService;
         $this->userService = $userService;
         $this->resultRepository = $resultRepository;
         $this->testSuiteService = $testSuiteService;
+        $this->areteResponseParser = $areteResponseParser;
+        $this->gitCallbackService = $gitCallbackService;
     }
 
     /**
@@ -59,27 +74,22 @@ class SaveTesterCallback
      *
      * @param TesterCallbackRequest $request
      * @param User $user
-     * @param int $courseId
+     * @param Charon $charon
+     * @param array $usernames
      *
      * @return Submission
      * @throws Exception
      */
-    public function saveTestersSyncResponse(TesterCallbackRequest $request, User $user, int $courseId): Submission
+    public function saveTestersSyncResponse(TesterCallbackRequest $request, User $user, Charon $charon, array $usernames): Submission
     {
         $users = [];
-
-        if (!empty($request->input('returnExtra.usernames'))) {
-            $usernames = collect($request->input('returnExtra.usernames'))
-                ->map(function ($name) { return strtolower($name); })
-                ->unique()
-                ->values()
-                ->all();
+        if ($usernames) {
             $users = $this->getStudentsInvolved($usernames);
         }
 
         array_unshift($users, $user);
 
-        return $this->executeSave($request, new GitCallback(), $users, $courseId);
+        return $this->executeSave($request, $charon, $users);
     }
 
     /**
@@ -92,38 +102,34 @@ class SaveTesterCallback
      * @return Submission
      * @throws Exception
      */
-    public function saveTestersAsyncResponse(TesterCallbackRequest $request,GitCallback $gitCallback, array $usernames): Submission
+    public function saveTestersAsyncResponse(TesterCallbackRequest $request, GitCallback $gitCallback, array $usernames): Submission
     {
         $users = $this->getStudentsInvolved($usernames);
 
-        return $this->executeSave($request, $gitCallback, $users);
+        $request['gitCallBackId'] = $gitCallback->id;
+
+        $course = $this->gitCallbackService->getCourse($gitCallback->repo);
+        $charon = $this->areteResponseParser->getCharon($request, $course->id);
+
+        return $this->executeSave($request, $charon, $users);
     }
 
     /**
      * Save a new submission from tester data.
      *
      * @param TesterCallbackRequest $request
-     * @param GitCallback $gitCallback
+     * @param Charon $charon
      * @param array $users
-     * @param int|null $courseId
-     *
      * @return Submission
-     * @throws Exception
      */
-    private function executeSave(TesterCallbackRequest $request, GitCallback $gitCallback, array $users, int $courseId = null): Submission
+    private function executeSave(TesterCallbackRequest $request, Charon $charon, array $users): Submission
     {
         global $CFG;
         require_once ($CFG->dirroot . '/mod/charon/lib.php');
 
-        $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
+        $submission = $this->createNewSubmission($request, $charon, $users[0]->id);
 
-        if ($request['files']) {
-            $this->submissionService->saveFiles($submission->id, $request['files']);
-        } else if ($request->getContent() and
-            array_key_exists('files', json_decode($request->getContent(), true))) {
-            $this->submissionService
-                ->saveFiles($submission->id, json_decode($request->getContent(), true)['files']);
-        }
+        $this->submissionService->saveFiles($submission->id, $request['files']);
 
         $submission->users()->saveMany($users);
 
@@ -175,16 +181,13 @@ class SaveTesterCallback
      * Create a Submission, author is just to refer back to the student who pushed the code
      *
      * @param Request $request
-     * @param GitCallback $gitCallback
+     * @param Charon $charon
      * @param int $authorId
-     * @param int|null $courseId
-     *
      * @return Submission
-     * @throws Exception
      */
-    private function createNewSubmission(Request $request, GitCallback $gitCallback, int $authorId, int $courseId = null): Submission
+    private function createNewSubmission(Request $request, Charon $charon, int $authorId): Submission
     {
-        return $this->submissionService->saveSubmission($request, $gitCallback, $authorId, $courseId);
+        return $this->submissionService->saveSubmission($request, $charon, $authorId);
     }
 
     /**

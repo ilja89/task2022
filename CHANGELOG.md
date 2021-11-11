@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #638 Added css so that when tester returns styled output, it will be displayed that way
 - #589 Added the ability for teachers to add feedback for students' submissions
 - #635 Backup and restore possibility for charon_review_comment table
+- \#671 Tester response and callback have more similar flow
 
 ## [1.5.3] - 2021-10-08
 
