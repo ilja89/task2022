@@ -72,7 +72,7 @@ class LabService
      */
     public function findLabsByCharonIdLaterEqualToday(int $charonId)
     {
-        return $this->labRepository->getLabsByCharonIdLaterEqualToday($charonId);
+        return $this->labRepository->getAvailableLabsByCharonId($charonId);
     }
 
     /**
@@ -134,9 +134,6 @@ class LabService
         // Get list of registrations. If lab started, then only waiting status
         // registrations and add teachers and defending charons per teacher
         if (Carbon::now() >= $lab->start){
-            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
-            $queueFirstDefenseTime = strtotime(Carbon::now());
-
             // Get defending charon per teacher
             $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
 
@@ -166,42 +163,15 @@ class LabService
             }
 
             $queueStatus['teachers'] = $teachersList;
+
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
         } else {
-            $registrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
-            $queueFirstDefenseTime = strtotime($lab->start);
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
         }
-
-        //Get lab start time and format date to timestamp
-        $defenceTimes = $this->getEstimatedTimesToDefenceRegistrations($registrations, $teachersCount);
-
-        foreach ($registrations as $key => $reg) {
-            if($reg->student_id == $user->id) {
-                $reg->student_name = $user->firstname . ' ' . $user->lastname;
-            }
-            else {
-                $reg->student_name = "";
-            }
-            //show position in queue
-            $reg->queue_pos = $key+1;
-
-            //calculate estimated time
-            $reg->approx_start_time = date("d.m.Y H:i", $queueFirstDefenseTime + $defenceTimes[$key] * 60);
-
-            //delete not needed variables
-            unset($reg->charon_length);
-            unset($reg->student_id);
-        }
-
-        $queueStatus['registrations'] = $registrations;
-
-        return $queueStatus;
-
-
-
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfLabRegistrationsByLabId($lab->id),
-            $this->labTeacherRepository->countLabTeachers($lab->id),
+            $labRegistrations,
+            $teachersCount,
             Carbon::parse($lab->start)
         );
 
@@ -220,7 +190,9 @@ class LabService
             unset($registrations[$i]->student_id);
         }
 
-        return $registrations;
+        $queueStatus['registrations'] = $registrations;
+
+        return $queueStatus;
     }
 
     /**

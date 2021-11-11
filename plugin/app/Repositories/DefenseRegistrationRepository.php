@@ -303,7 +303,6 @@ class DefenseRegistrationRepository
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
             ->whereIn("charon_defenders.progress", $progresses)
-            ->select("charon.name as charon_name", "charon.defense_duration as charon_length", "charon_defenders.student_id")
             ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id")
             ->get()
