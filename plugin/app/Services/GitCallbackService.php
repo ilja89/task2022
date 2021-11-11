@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Events\GitCallbackReceived;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
+use TTU\Charon\Http\Requests\GitCallbackPostRequest;
+use TTU\Charon\Http\Requests\GithubCallbackPostRequest;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
@@ -208,11 +210,12 @@ class GitCallbackService
     /**
      * Prepare to handle the GitLHubCallback.
      *
-     * @param $request
+     * @param GithubCallbackPostRequest $request
      *
      * @return string
      */
-    public function handleGitHubCallbackPost($request) {
+    public function handleGitHubCallbackPost(GithubCallbackPostRequest $request): string
+    {
         $repo = $request->input('repository')['ssh_url'];
         $userEmail = $request->input('repository')['owner']['email'];
         $callbackUrl = $request->getUriForPath('/api/tester_callback');
@@ -245,11 +248,12 @@ class GitCallbackService
     /**
      * Prepare to handle the GitLabCallback.
      *
-     * @param $request
+     * @param GitCallbackPostRequest $request
      *
      * @return string
      */
-    public function handleGitLabCallbackPost($request) {
+    public function handleGitLabCallbackPost(GitCallbackPostRequest $request): string
+    {
         $repo = $request->input('repository')['git_ssh_url'];
         $initialUser = $request->input('user_username');
         $callbackUrl = $request->getUriForPath('/api/tester_callback');
