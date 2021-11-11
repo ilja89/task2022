@@ -24,8 +24,8 @@
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
 
-				<h3 v-if="toggleShowTable">Showing table</h3>
-				<h3 v-else>Showing mail</h3>
+				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
+				<h3 v-else>{{ translate('showingMail') }}</h3>
 
 				<label class="switch">
 					<input type="checkbox" v-model="toggleShowTable">

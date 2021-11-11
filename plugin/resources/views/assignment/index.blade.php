@@ -118,6 +118,8 @@
         feedbackTextSingleSubmission: "{{ translate('feedback-text-single-submission') }}",
         noFeedbackInfo: "{{ translate('no-feedback-info') }}",
         feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
+        showingTable: "{{ translate('showing-table') }}",
+        showingMail: "{{ translate('showing-mail') }}",
     };
 </script>
 

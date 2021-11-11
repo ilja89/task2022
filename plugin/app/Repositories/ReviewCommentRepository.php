@@ -3,6 +3,8 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use TTU\Charon\Dto\FileReviewCommentsDTO;
+use TTU\Charon\Dto\ReviewCommentDTO;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\ReviewComment;
@@ -82,7 +84,7 @@ class ReviewCommentRepository
      */
     public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
-        return DB::table('charon_submission')
+        $rawResults = DB::table('charon_submission')
             ->where('charon_submission.charon_id', $charonId)
             ->where('charon_submission.user_id', '=', $studentId)
             ->join('charon_submission_file','charon_submission.id', '=', 'charon_submission_file.submission_id' )
@@ -107,5 +109,59 @@ class ReviewCommentRepository
                 'user.lastname as commented_by_lastname')
         ->get()
         ->all();
+        return $this->convertToDTOs($rawResults);
+    }
+
+    /**
+     * Get all reviewComments for the specific charon and for the specific student.
+     *
+     * @param $rawResults
+     * @return array
+     */
+    private function convertToDTOs($rawResults): array
+    {
+        $fileReviewCommentsDTOs = [];
+        $fileId = null;
+        foreach ($rawResults as $rawResult) {
+
+            if ($rawResult->file_id !== $fileId) {
+                $fileId = $rawResult->file_id;
+                $fileReviewCommentsDTO = new FileReviewCommentsDTO(
+                    $rawResult->file_id,
+                    $rawResult->charon_id,
+                    $rawResult->submission_id,
+                    $rawResult->created_at,
+                    $rawResult->student_id,
+                    $rawResult->path,
+                    new ReviewCommentDTO(
+                        $rawResult->review_comment_id,
+                        $rawResult->commented_by_id,
+                        $rawResult->commented_by_firstname,
+                        $rawResult->commented_by_lastname,
+                        $rawResult->code_row_no_start,
+                        $rawResult->code_row_no_end,
+                        $rawResult->review_comment,
+                        $rawResult->notify,
+                        $rawResult->comment_creation
+                    )
+                );
+                array_unshift($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
+            } else {
+                array_unshift(
+                    $fileReviewCommentsDTOs[0]->reviewComments, new ReviewCommentDTO(
+                        $rawResult->review_comment_id,
+                        $rawResult->commented_by_id,
+                        $rawResult->commented_by_firstname,
+                        $rawResult->commented_by_lastname,
+                        $rawResult->code_row_no_start,
+                        $rawResult->code_row_no_end,
+                        $rawResult->review_comment,
+                        $rawResult->notify,
+                        $rawResult->comment_creation
+                    )
+                );
+            }
+        }
+        return $fileReviewCommentsDTOs;
     }
 }

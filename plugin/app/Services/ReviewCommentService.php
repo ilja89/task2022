@@ -82,49 +82,6 @@ class ReviewCommentService
      */
     public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
-        $fileReviewCommentsDTOs = [];
-        $rawResults = $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
-        $fileId = null;
-        foreach ($rawResults as $rawResult) {
-
-            if ($rawResult->file_id !== $fileId) {
-                $fileId = $rawResult->file_id;
-                $fileReviewCommentsDTO = new FileReviewCommentsDTO(
-                    $rawResult->file_id,
-                    $rawResult->charon_id,
-                    $rawResult->submission_id,
-                    $rawResult->created_at,
-                    $rawResult->student_id,
-                    $rawResult->path,
-                    $this->createReviewComment($rawResult)
-                );
-                array_unshift($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
-            } else {
-                array_unshift(
-                    $fileReviewCommentsDTOs[0]->reviewComments,
-                    $this->createReviewComment($rawResult)
-                );
-            }
-        }
-        return $fileReviewCommentsDTOs;
-    }
-
-    /**
-     * @param $rawResult
-     * @return ReviewCommentDTO
-     */
-    public function createReviewComment($rawResult): ReviewCommentDTO
-    {
-        return new ReviewCommentDTO(
-            $rawResult->review_comment_id,
-            $rawResult->commented_by_id,
-            $rawResult->commented_by_firstname,
-            $rawResult->commented_by_lastname,
-            $rawResult->code_row_no_start,
-            $rawResult->code_row_no_end,
-            $rawResult->review_comment,
-            $rawResult->notify,
-            $rawResult->comment_creation
-        );
+        return $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
     }
 }
