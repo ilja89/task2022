@@ -4,7 +4,7 @@ class ReviewComment {
         axios.post('/mod/charon/api/charons/' + charonId + '/reviewComments/add', {
             submission_file_id: submissionFileId,
             review_comment: reviewComment,
-            notify: notify,
+            notify: notify
         }).then(response => {
             then(response.data)
         }).catch(error => {

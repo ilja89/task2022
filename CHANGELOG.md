@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+
+### Added
+- #690 Submissions in assignment view show how many review comments they have
+- #609 Users will be notified if they receive a comment on their submission
+- #636 If charon does not have defences, the defence icon would not be shown submission list
+
+## [1.5.5] - 2021-10-22
+
 ### Added
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 

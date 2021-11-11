@@ -208,3 +208,9 @@ $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, 
 $string['feedback-text-all-submissions'] = 'Feedback for all submissions for this charon';
 $string['showing-mail'] = 'Showing mail';
 $string['showing-table'] = 'Showing table';
+
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Notification of a comment for charon submission';

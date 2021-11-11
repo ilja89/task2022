@@ -201,3 +201,9 @@ $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisi
 $string['feedback-text-all-submissions'] = 'Tagasiside kõigi selle charoni esituste kohta';
 $string['showing-mail'] = 'e-maili kuvamine';
 $string['showing-table'] = 'Tabeli kuvamine';
+
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Teavitus kommentaarist charoni katsele';

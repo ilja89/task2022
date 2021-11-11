@@ -2,9 +2,21 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-                <v-btn icon :class="{ signal: notifyColor }" @click="onClickSubmissionInformation" v-bind="attrs" v-on="on">
-				<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
-			</v-btn>
+			<v-badge :value="reviewCommentCount"
+					 :content="reviewCommentCount < 10 ? reviewCommentCount : '9+'"
+					 overlap
+					 left
+					 offset-x="20"
+			>
+				<v-btn icon
+					   :class="{ signal: notifyColor }"
+					   @click="onClickSubmissionInformation"
+					   v-bind="attrs"
+					   v-on="on"
+				>
+					<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
+				</v-btn>
+			</v-badge>
 		</template>
 
 		<v-card style="background-color: white; overflow-y: auto;">
@@ -96,6 +108,7 @@ export default {
 			isActive: false,
 			testerType: '',
 			toggleShowTable: false,
+			reviewCommentCount: 0,
 			reviewCommentIdsWithNotify: [],
 			toggleShowAllSubmissions: false,
 		}
@@ -145,6 +158,7 @@ export default {
 			this.filesWithReviewComments.forEach(file => {
 				if (file.submissionId === this.submission.id) {
 					file.reviewComments.forEach((reviewComment) => {
+					    this.reviewCommentCount++;
 						if (reviewComment.notify) {
 							this.reviewCommentIdsWithNotify.push(reviewComment.id)
 						}
