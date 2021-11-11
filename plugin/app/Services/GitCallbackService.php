@@ -223,8 +223,6 @@ class GitCallbackService
 
         $user = $this->userRepository->findByEmail($userEmail);
 
-        Log::debug('Initial user' , [$user]);
-
         if (!$user) {
             Log::debug('User not found with email' , [$userEmail]);
             return 'NO USER';
