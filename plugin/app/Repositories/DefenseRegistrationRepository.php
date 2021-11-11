@@ -237,10 +237,10 @@ class DefenseRegistrationRepository
         }
 
         if ($teacher_id != 'null') {
-            $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
+            $query->whereRaw('teacher_id = ?', [$teacher_id]);
         }
         if ($progress != 'null') {
-            $query->whereRaw('progress LIKE ?', [$progress]);
+            $query->whereRaw('progress = ?', [$progress]);
         }
 
         $defenseRegistrations = $query->get();
