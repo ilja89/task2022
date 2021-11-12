@@ -50,14 +50,17 @@ class NotificationService
 
         $cm_id = $charon->courseModule()->id;
         $url = '/mod/charon/view.php?id=' . $cm_id;
+
         $messageText = htmlspecialchars($messageText);
+        $messageText = nl2br($messageText);
+
         $messageTextHtml = <<<EOT
 <h4>$charon->name</h4><br>
 <b>You've got a new comment for the submission that was submitted at 
 $submission->created_at</b><br>
 <b>Author: $teacher->firstname $teacher->lastname</b><br>
 <b>File that was commented: $filePath</b><br><br>
-<p style="white-space: pre-wrap">$messageText</p>
+<p>$messageText</p>
 EOT;
 
         foreach ($students as $student) {
@@ -107,7 +110,7 @@ EOT;
         $message->userto = $userTo;
         $message->subject = $notificationSubject;
         $message->fullmessage = $messageText;
-        $message->fullmessageformat = FORMAT_HTML;
+        $message->fullmessageformat = FORMAT_MARKDOWN;
         $message->fullmessagehtml = $messageTextHtml;
         $message->smallmessage = $notificationSubject;
         $message->notification = 1; // Because this is a notification generated from Moodle, not a user-to-user message
