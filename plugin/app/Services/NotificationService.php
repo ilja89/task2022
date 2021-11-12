@@ -98,7 +98,7 @@ EOT;
     ) {
         $contextUrl = (new \moodle_url($urlToDirectTo))->out(false);
         $emailFooter = <<<EOT
-<p><a href="$contextUrl">Go to: $notificationSubject</a></p>
+<p><a href="$contextUrl">Go to: $notificationName</a></p>
 EOT;
         $message = new \core\message\message();
         $message->component = 'mod_charon'; // Your plugin's name
@@ -107,7 +107,7 @@ EOT;
         $message->userto = $userTo;
         $message->subject = $notificationSubject;
         $message->fullmessage = $messageText;
-        $message->fullmessageformat = FORMAT_MARKDOWN;
+        $message->fullmessageformat = FORMAT_PLAIN;
         $message->fullmessagehtml = $messageTextHtml;
         $message->smallmessage = $notificationSubject;
         $message->notification = 1; // Because this is a notification generated from Moodle, not a user-to-user message
