@@ -52,7 +52,7 @@ class NotificationService
         $url = '/mod/charon/view.php?id=' . $cm_id;
 
         $messageText = htmlspecialchars($messageText);
-        $messageText = nl2br($messageText);
+        $messageText = str_replace( "\n", '<br />', $messageText );
 
         $messageTextHtml = <<<EOT
 <h4>$charon->name</h4><br>
@@ -60,7 +60,7 @@ class NotificationService
 $submission->created_at</b><br>
 <b>Author: $teacher->firstname $teacher->lastname</b><br>
 <b>File that was commented: $filePath</b><br><br>
-<p>$messageText</p>
+<p style="white-space: pre-wrap">$messageText</p>
 EOT;
 
         foreach ($students as $student) {
