@@ -85,7 +85,7 @@
                 </v-container>
             </v-card>
 
-            <defense-registrations-section :defense-list="defenseList" :teachers="teachers"/>
+            <defense-registrations-section :defense-list="defenseList"/>
         </popup-section>
     </div>
 

@@ -445,4 +445,13 @@ class DefenceRegistrationService
             ? $shortestWaitingTime
             : null;
     }
+
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    {
+        $defenseRegistrations = $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        foreach ($defenseRegistrations as $defenseRegistration) {
+            $defenseRegistration->lab_teachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $defenseRegistration->lab_id);
+        }
+        return $defenseRegistrations;
+    }
 }

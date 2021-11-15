@@ -57,7 +57,7 @@
                     dense
                     single-line
                     return-object
-                    :items="teachers"
+                    :items="item.lab_teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
@@ -118,7 +118,6 @@ export default {
         }
     }, props: {
         defenseList: {required: true},
-        teachers: {required: true}
     },
     methods: {
         getSubmissionRouting(submissionId) {
