@@ -22,7 +22,7 @@ class ReviewCommentService
     private $notificationService;
 
     /** @var SubmissionsRepository */
-    private $submissionRepository;
+    private $submissionsRepository;
 
     /**
      * ReviewCommentService constructor.
@@ -38,7 +38,7 @@ class ReviewCommentService
     ) {
         $this->reviewCommentRepository = $reviewCommentRepository;
         $this->notificationService = $notificationService;
-        $this->submissionRepository = $submissionRespository;
+        $this->submissionsRepository = $submissionRespository;
     }
 
     /**
@@ -59,16 +59,42 @@ class ReviewCommentService
         if (strlen($reviewComment) > 10000) {
             throw new ReviewCommentException("review_comment_over_limit");
         }
-        $userId = app(User::class)->currentUserId();
-        $comment = $this->reviewCommentRepository->add($userId, $submissionFileId, $reviewComment, $notify);
+        $user = app(User::class)->currentUser();
+        $comment = $this->reviewCommentRepository->add($user->id, $submissionFileId, $reviewComment, $notify);
         if ($comment && $notify) {
-            $submissionFile = $this->submissionRepository->getSubmissionFileById($submissionFileId);
+            $submissionFile = $this->submissionsRepository->getSubmissionFileById($submissionFileId);
             if ($submissionFile) {
-                $this->notificationService->sendNotificationToStudent(
-                    $submissionFile->submission_id,
-                    $reviewComment,
-                    $charon,
-                    $submissionFile->path);
+                $submission = $this->submissionsRepository->find($submissionFile->submission_id);
+
+                $students = $this->submissionsRepository->findAllUsersAssociated($submission->id);
+
+                $cm_id = $charon->courseModule()->id;
+                $url = '/mod/charon/view.php?id=' . $cm_id;
+
+                $messageText = htmlspecialchars($reviewComment);
+                $messageText = str_replace( "\n", '<br />', $messageText );
+
+                $messageTextHtml = <<<EOT
+<h4>$charon->name</h4><br>
+<b>You've got a new comment for the submission that was submitted at 
+$submission->created_at</b><br>
+<b>Author: $user->firstname $user->lastname</b><br>
+<b>File that was commented: $submissionFile->path</b><br><br>
+<p style="white-space: pre-wrap">$messageText</p>
+EOT;
+
+                foreach ($students as $student) {
+                    $this->notificationService->sendNotification(
+                        $user,
+                        $student,
+                        'comment',
+                        "New comment: " . $charon->name,
+                        $messageText,
+                        $messageTextHtml,
+                        $url,
+                        $charon->name
+                    );
+                }
             }
         }
     }
