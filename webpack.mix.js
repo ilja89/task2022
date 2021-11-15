@@ -17,7 +17,6 @@ mix.js('plugin/resources/assets/js/pages/instanceForm/instanceForm.js', 'js')
   .js('plugin/resources/assets/js/pages/courseSettings/courseSettings.js', 'js')
   .js('plugin/resources/assets/js/pages/popup/popup.js', 'js')
   .js('plugin/resources/assets/js/pages/assignment/assignment.js', 'js')
-  .js('plugin/resources/assets/js/pages/charonDashboard/charonDashboard.js', 'js')
   .js('plugin/resources/assets/js/packageWrappers/highlightJs.js', 'plugin/public/js/highlight.js');
 
 let webpack = require('webpack');
