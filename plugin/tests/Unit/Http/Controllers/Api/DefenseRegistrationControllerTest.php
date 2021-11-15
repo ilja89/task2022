@@ -11,6 +11,7 @@ use Tests\TestCase;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -35,7 +36,8 @@ class DefenseRegistrationControllerTest extends TestCase
             Mockery::mock(DefenseRegistrationRepository::class),
             $this->registrationService = Mockery::mock(DefenceRegistrationService::class),
             Mockery::mock(LabService::class),
-            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class)
+            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class),
+            Mockery::mock(LabTeacherRepository::class)
         );
     }
 
