@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use http\Exception\RuntimeException;
 use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
@@ -151,5 +152,26 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
+    }
+
+    /**
+     * Compare given result with currently active result.
+     *
+     * @param Result $result
+     * @param int $studentId
+     *
+     * @return bool
+     */
+    public function gradeIsBetterThanActive(Result $result, int $studentId): bool
+    {
+        $grademap = $result->getGrademap();
+
+        if ($grademap === null) {
+            throw new RuntimeException("unknown exception");
+        }
+
+        $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
+
+        return $result->calculated_result > $gradeGrade->finalgrade;
     }
 }

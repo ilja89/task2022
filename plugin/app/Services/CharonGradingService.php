@@ -69,13 +69,19 @@ class CharonGradingService
             ->get();
 
         foreach ($results as $result) {
-            $this->gradingService->updateGrade(
-                $charon->course,
-                $charon->id,
-                $result->grade_type_code,
-                $userId,
-                $result->calculated_result
-            );
+            if (
+                !$charon->gradingMethod->isPreferBestEachGrade() ||
+                $charon->gradingMethod->isPreferBestEachGrade() &&
+                $this->submissionCalculatorService->gradeIsBetterThanActive($result, $userId)
+            ) {
+                $this->gradingService->updateGrade(
+                    $charon->course,
+                    $charon->id,
+                    $result->grade_type_code,
+                    $userId,
+                    $result->calculated_result
+                );
+            }
         }
     }
 
