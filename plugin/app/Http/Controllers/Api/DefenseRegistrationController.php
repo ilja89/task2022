@@ -10,6 +10,7 @@ use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -33,6 +34,9 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
+    /** @var LabTeacherRepository */
+    protected $labTeacherRepository;
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -49,7 +53,8 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         LabService $labService,
-        CharonDefenseLabRepository $defenseLabRepository
+        CharonDefenseLabRepository $defenseLabRepository,
+        LabTeacherRepository $labTeacherRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
@@ -57,6 +62,7 @@ class DefenseRegistrationController extends Controller
         $this->registrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->labTeacherRepository = $labTeacherRepository;
     }
 
     /**
@@ -141,7 +147,16 @@ class DefenseRegistrationController extends Controller
      */
     public function saveProgress(Course $course, Registration $registration)
     {
-        return $this->defenseRegistrationRepository->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        $teacherId = $this->request['teacher_id'];
+        $progress = $this->request['progress'];
+        if ($teacherId === null && $progress === 'Defending') {
+            $teacher = $this->labTeacherRepository->getTeacherByUserId(app(User::class)->currentUserId());
+            if (count($teacher) > 0) {
+                $teacherId = $teacher[0]->id;
+            }
+            Log::info(print_r($teacherId, true));
+        }
+        return $this->defenseRegistrationRepository->updateRegistration($registration->id, $progress, $teacherId);
     }
 
     public function delete(Request $request)
