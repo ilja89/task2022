@@ -29,7 +29,7 @@ class ReviewCommentService
      *
      * @param ReviewCommentRepository $reviewCommentRepository
      * @param NotificationService $notificationService
-     * @param SubmissionsRepository $submissionRespository
+     * @param SubmissionsRepository $submissionsRespository
      */
     public function __construct(
         ReviewCommentRepository $reviewCommentRepository,
