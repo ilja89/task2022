@@ -54,13 +54,31 @@ class NotificationService
         $messageText = htmlspecialchars($messageText);
         $messageText = str_replace( "\n", '<br />', $messageText );
 
+        $messageSplit = explode('<br />', $messageText);
+
+        $finalMessage = '';
+
+        foreach ($messageSplit as $row) {
+            $isFirstLetter = false;
+            $rowSplit = str_split($row);
+            foreach ($rowSplit as $char) {
+                if ($char == ' ' && !$isFirstLetter) {
+                    $finalMessage = $finalMessage . '&nbsp;';
+                } else {
+                    $isFirstLetter = true;
+                    $finalMessage = $finalMessage . $char;
+                }
+            }
+            $finalMessage = $finalMessage . '<br />';
+        }
+
         $messageTextHtml = <<<EOT
 <h4>$charon->name</h4><br>
 <b>You've got a new comment for the submission that was submitted at 
 $submission->created_at</b><br>
 <b>Author: $teacher->firstname $teacher->lastname</b><br>
 <b>File that was commented: $filePath</b><br><br>
-<p style="white-space: pre-wrap">$messageText</p>
+<p style="white-space: pre-wrap">$finalMessage</p>
 EOT;
 
         foreach ($students as $student) {
@@ -69,7 +87,7 @@ EOT;
                 $student,
                 'comment',
                 "New comment: " . $charon->name,
-                $messageText,
+                $finalMessage,
                 $messageTextHtml,
                 $url,
                 $charon->name
