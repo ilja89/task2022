@@ -134,7 +134,7 @@ class SubmissionServiceTest extends TestCase
         $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 7, 1, '');
         $this->submissionsRepository->shouldReceive('saveNewEmptyResult')->with(1, 7, 101, '');
         $this->charonGradingService->shouldReceive('gradesShouldBeUpdated')->with($this->submission, 7)->andReturn(true);
-        $this->charonGradingService->shouldReceive('updateGrade')->with($this->submission, 7);
+        $this->charonGradingService->shouldReceive('updateGrades')->with($this->submission, 7);
 
         /** @var Charon $charon */
         $charon = Mockery::mock(Charon::class, ['submissions' => $submissions])->makePartial();

@@ -138,7 +138,7 @@ class SubmissionService
         }
 
         if ($this->charonGradingService->gradesShouldBeUpdated($submission, $studentId)) {
-            $this->charonGradingService->updateGrade($submission, $studentId);
+            $this->charonGradingService->updateGrades($submission, $studentId);
         }
 
         return $submission;

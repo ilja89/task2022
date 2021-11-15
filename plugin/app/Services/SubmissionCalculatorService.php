@@ -172,6 +172,6 @@ class SubmissionCalculatorService
 
         $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
 
-        return $result->calculated_result > $gradeGrade->finalgrade;
+        return $gradeGrade === null || $result->calculated_result > $gradeGrade->finalgrade;
     }
 }
