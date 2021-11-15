@@ -34,11 +34,11 @@ class ReviewCommentService
     public function __construct(
         ReviewCommentRepository $reviewCommentRepository,
         NotificationService $notificationService,
-        SubmissionsRepository $submissionRespository
+        SubmissionsRepository $submissionsRespository
     ) {
         $this->reviewCommentRepository = $reviewCommentRepository;
         $this->notificationService = $notificationService;
-        $this->submissionsRepository = $submissionRespository;
+        $this->submissionsRepository = $submissionsRespository;
     }
 
     /**
