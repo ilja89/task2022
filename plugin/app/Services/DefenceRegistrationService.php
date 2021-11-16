@@ -13,6 +13,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -444,5 +445,16 @@ class DefenceRegistrationService
         return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
+    }
+
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    {
+        if ($newTeacherId === null && $newProgress === 'Defending') {
+            $teacher = $this->teacherRepository->getTeacherByUserId(app(User::class)->currentUserId());
+            if ($teacher != null) {
+                $newTeacherId = $teacher->id;
+            }
+        }
+        return $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
     }
 }
