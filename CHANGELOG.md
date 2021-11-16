@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - #701 Fix comment notification email message
-- #705 Upgraded doctrine/dbal to 3.1.5
 
 ## [1.5.6] - 2021-11-11
 
