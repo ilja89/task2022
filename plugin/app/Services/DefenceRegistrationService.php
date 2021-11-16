@@ -449,7 +449,7 @@ class DefenceRegistrationService
 
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
-        if ($newTeacherId === null && $newProgress === 'Defending') {
+        if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
             $teacher = $this->teacherRepository->getTeacherByUserId(app(User::class)->currentUserId());
             if ($teacher != null) {
                 $newTeacherId = $teacher->id;
