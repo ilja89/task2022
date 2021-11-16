@@ -172,7 +172,7 @@ class LabService
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $labRegistrations,
             $teachersCount,
-            Carbon::parse($lab->start)
+            $lab->start
         );
 
         for ($i = 0; $i < count($registrations); $i++) {

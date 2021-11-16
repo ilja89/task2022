@@ -13,9 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #505 Ability for teachers to register students for a defence
-- #518 Defence registration status showing before defence start wit approximated time.
+- #518 Defence registration status showing before defence start with approximated time.
 - #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense 
   and disable the ability to choose full labs
+- #521 Defence registration status showing after defence start.
 
 ## [1.5.4] - 2021-10-11
 

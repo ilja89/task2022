@@ -3,8 +3,6 @@
 namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
-use Carbon\Traits\Creator;
-use Illuminate\Support\Facades\Log;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -107,9 +105,6 @@ class LabServiceTest extends TestCase
 
     public function testStudentsQueueLabNotStarted()
     {
-
-        $this->markTestSkipped('Out of date, needs attention');
-
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
         $user->firstname = 'Tom';
@@ -180,20 +175,17 @@ class LabServiceTest extends TestCase
         $regWithTime7->charon_name = 'EX01';
         $regWithTime7->charon_length = 5;
         $regWithTime7->student_id = 1;
-        $regWithTime1->estimated_start = $this->lab->start->format('d.m.Y H:i');
-        $regWithTime2->estimated_start = $this->lab->start->format('d.m.Y H:i');
-        $regWithTime3->estimated_start = $this->lab->start->format('d.m.Y H:i');
+        $regWithTime1->estimated_start = $this->lab->start;
+        $regWithTime2->estimated_start = $this->lab->start;
+        $regWithTime3->estimated_start = $this->lab->start;
         $addFiveMinutes = $this->lab->start->modify('+5 minutes');
-        $regWithTime4->estimated_start = $addFiveMinutes->format('d.m.Y H:i');
-        $regWithTime5->estimated_start = $addFiveMinutes->format('d.m.Y H:i');
-        $regWithTime6->estimated_start = $addFiveMinutes->format('d.m.Y H:i');
-        $addFiveMinutes = $addFiveMinutes->modify('+5 minutes');
-        $regWithTime7->estimated_start = $addFiveMinutes->format('d.m.Y H:i');
+        $regWithTime4->estimated_start = $addFiveMinutes;
+        $regWithTime5->estimated_start = $addFiveMinutes;
+        $regWithTime6->estimated_start = $addFiveMinutes;
+        $addTenMinutes = $this->lab->start->modify('+10 minutes');
+        $regWithTime7->estimated_start = $addTenMinutes;
 
         $registrationsWithTimes = array($regWithTime1, $regWithTime2, $regWithTime3, $regWithTime4, $regWithTime5, $regWithTime6, $regWithTime7);
-
-        Log::info('1: ' . print_r($registrations, true));
-        Log::info('2: ' . print_r($registrationsWithTimes, true));
 
         $teacher1 = new \stdClass();
         $teacher1->firstname = 'Mari';
@@ -230,17 +222,20 @@ class LabServiceTest extends TestCase
         $expectedReg1->charon_name = 'EX01';
         $expectedReg1->student_name = '';
         $expectedReg1->queue_pos = 1;
-        $expectedReg1->approx_start_time = $this->lab->start->format('d.m.Y H:i');
+        $expectedReg1->charon_length = 5;
+        $expectedReg1->estimated_start = $this->lab->start->format('d.m.Y H:i');
         $expectedReg2 = new \stdClass();
         $expectedReg2->charon_name = 'EX02';
         $expectedReg2->student_name = 'Tom Jackson';
         $expectedReg2->queue_pos = 2;
-        $expectedReg2->approx_start_time = $this->lab->start->format('d.m.Y H:i');
+        $expectedReg2->charon_length = 5;
+        $expectedReg2->estimated_start = $this->lab->start->format('d.m.Y H:i');
         $expectedReg3 = new \stdClass();
         $expectedReg3->charon_name = 'EX01';
         $expectedReg3->student_name = '';
         $expectedReg3->queue_pos = 3;
-        $expectedReg3->approx_start_time = $this->lab->start->format('d.m.Y H:i');
+        $expectedReg3->charon_length = 5;
+        $expectedReg3->estimated_start = $this->lab->start->format('d.m.Y H:i');
 
         // add 5 minutes to time, as next registrations are 5 minutes later
         $labStartPlusFive = $this->lab->start->modify('+5 minutes');
@@ -249,26 +244,30 @@ class LabServiceTest extends TestCase
         $expectedReg4->charon_name = 'EX06';
         $expectedReg4->student_name = '';
         $expectedReg4->queue_pos = 4;
-        $expectedReg4->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
+        $expectedReg4->charon_length = 5;
+        $expectedReg4->estimated_start = $labStartPlusFive->format('d.m.Y H:i');
         $expectedReg5 = new \stdClass();
         $expectedReg5->charon_name = 'EX06';
         $expectedReg5->student_name = '';
         $expectedReg5->queue_pos = 5;
-        $expectedReg5->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
+        $expectedReg5->charon_length = 5;
+        $expectedReg5->estimated_start = $labStartPlusFive->format('d.m.Y H:i');
         $expectedReg6 = new \stdClass();
         $expectedReg6->charon_name = 'EX08';
         $expectedReg6->student_name = '';
         $expectedReg6->queue_pos = 6;
-        $expectedReg6->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
+        $expectedReg6->charon_length = 5;
+        $expectedReg6->estimated_start = $labStartPlusFive->format('d.m.Y H:i');
 
         // add 5 minutes to time, as next registration is 5 minutes later
-        $labStartPlusFive = $labStartPlusFive->modify('+5 minutes');
+        $labStartPlusTen = $this->lab->start->modify('+10 minutes');
 
         $expectedReg7 = new \stdClass();
         $expectedReg7->charon_name = 'EX01';
         $expectedReg7->student_name = 'Tom Jackson';
         $expectedReg7->queue_pos = 7;
-        $expectedReg7->approx_start_time = $labStartPlusFive->format('d.m.Y H:i');
+        $expectedReg7->charon_length = 5;
+        $expectedReg7->estimated_start = $labStartPlusTen->format('d.m.Y H:i');
 
         $expectedResult = array($expectedReg1, $expectedReg2, $expectedReg3, $expectedReg4, $expectedReg5, $expectedReg6, $expectedReg7);
 
@@ -280,9 +279,6 @@ class LabServiceTest extends TestCase
      */
     public function testStudentsQueueLabStarted()
     {
-
-        $this->markTestSkipped('Out of date, needs attention');
-
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
         $user->firstname = 'Tom';
@@ -292,7 +288,7 @@ class LabServiceTest extends TestCase
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime('-30 minutes');
-        $this->lab->end = date_modify(new \DateTime(), '+1 hour');
+        $this->lab->end = date_modify($this->lab->start, '+1 hour');
 
         $reg1 = new \stdClass();
         $reg1->charon_name = 'EX01';
@@ -317,6 +313,36 @@ class LabServiceTest extends TestCase
 
         $registrations = array($reg1, $reg2, $reg3, $reg4, $reg5);
 
+        $regWithTime1 = new \stdClass();
+        $regWithTime1->charon_name = 'EX01';
+        $regWithTime1->charon_length = 5;
+        $regWithTime1->student_id = 100;
+        $regWithTime2 = new \stdClass();
+        $regWithTime2->charon_name = 'EX02';
+        $regWithTime2->charon_length = 5;
+        $regWithTime2->student_id = 1;
+        $regWithTime3 = new \stdClass();
+        $regWithTime3->charon_name = 'EX01';
+        $regWithTime3->charon_length = 5;
+        $regWithTime3->student_id = 102;
+        $regWithTime4 = new \stdClass();
+        $regWithTime4->charon_name = 'EX06';
+        $regWithTime4->charon_length = 5;
+        $regWithTime4->student_id = 102;
+        $regWithTime5 = new \stdClass();
+        $regWithTime5->charon_name = 'EX06';
+        $regWithTime5->charon_length = 5;
+        $regWithTime5->student_id = 102;
+        $regWithTime1->estimated_start = $this->lab->start;
+        $regWithTime2->estimated_start = $this->lab->start;
+        $addFiveMinutes = $this->lab->start->modify('+5 minutes');
+        $regWithTime3->estimated_start = $addFiveMinutes;
+        $regWithTime4->estimated_start = $addFiveMinutes;
+        $addTenMinutes = $this->lab->start->modify('+10 minutes');
+        $regWithTime5->estimated_start = $addTenMinutes;
+
+        $registrationsWithTimes = array($regWithTime1, $regWithTime2, $regWithTime3, $regWithTime4, $regWithTime5);
+
         $teacher1 = new \stdClass();
         $teacher1->firstname = 'Mari';
         $teacher1->lastname = 'Mägi';
@@ -330,30 +356,35 @@ class LabServiceTest extends TestCase
 
         $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
-            ->with(401, true)
+            ->with($this->lab->id, true)
             ->andReturn($registrations);
         $this->labTeacherRepository->shouldReceive('getAllLabTeachersByLab')
             ->once()
-            ->with(401)
+            ->with($this->lab->id)
             ->andReturn($teachers);
         $this->defenseRegistrationRepository->shouldReceive('getTeacherAndDefendingCharonByLab')
             ->once()
-            ->with(401)
+            ->with($this->lab->id)
             ->andReturn([]);
+        $this->defenceRegistrationService->shouldReceive('attachEstimatedTimesToDefenceRegistrations')
+            ->once()
+            ->andReturn($registrationsWithTimes);
 
         $result = $this->service->labQueueStatus($user, $this->lab);
-        $queueTime = new \DateTime();
+        $queueTime = $this->lab->start;
 
         $expectedReg1 = new \stdClass();
         $expectedReg1->charon_name = 'EX01';
         $expectedReg1->student_name = '';
         $expectedReg1->queue_pos = 1;
-        $expectedReg1->approx_start_time = $queueTime->format('d.m.Y H:i');
+        $expectedReg1->charon_length = 5;
+        $expectedReg1->estimated_start = $queueTime->format('d.m.Y H:i');
         $expectedReg2 = new \stdClass();
         $expectedReg2->charon_name = 'EX02';
         $expectedReg2->student_name = 'Tom Jackson';
         $expectedReg2->queue_pos = 2;
-        $expectedReg2->approx_start_time = $queueTime->format('d.m.Y H:i');
+        $expectedReg2->charon_length = 5;
+        $expectedReg2->estimated_start = $queueTime->format('d.m.Y H:i');
 
         // add 5 minutes to time, as next registrations are 5 minutes later
         $queueTime = $queueTime->modify('+5 minutes');
@@ -362,12 +393,14 @@ class LabServiceTest extends TestCase
         $expectedReg3->charon_name = 'EX01';
         $expectedReg3->student_name = '';
         $expectedReg3->queue_pos = 3;
-        $expectedReg3->approx_start_time = $queueTime->format('d.m.Y H:i');
+        $expectedReg3->charon_length = 5;
+        $expectedReg3->estimated_start = $queueTime->format('d.m.Y H:i');
         $expectedReg4 = new \stdClass();
         $expectedReg4->charon_name = 'EX06';
         $expectedReg4->student_name = '';
         $expectedReg4->queue_pos = 4;
-        $expectedReg4->approx_start_time = $queueTime->format('d.m.Y H:i');
+        $expectedReg4->charon_length = 5;
+        $expectedReg4->estimated_start = $queueTime->format('d.m.Y H:i');
 
         // add 5 minutes to time, as next registration is 5 minutes later
         $queueTime = $queueTime->modify('+5 minutes');
@@ -376,7 +409,8 @@ class LabServiceTest extends TestCase
         $expectedReg5->charon_name = 'EX06';
         $expectedReg5->student_name = '';
         $expectedReg5->queue_pos = 5;
-        $expectedReg5->approx_start_time = $queueTime->format('d.m.Y H:i');
+        $expectedReg5->charon_length = 5;
+        $expectedReg5->estimated_start = $queueTime->format('d.m.Y H:i');
 
         $expectedResult = array($expectedReg1, $expectedReg2, $expectedReg3, $expectedReg4, $expectedReg5);
 
@@ -385,9 +419,6 @@ class LabServiceTest extends TestCase
 
     public function testTeachersList()
     {
-
-        $this->markTestSkipped('Out of date, needs attention');
-
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
         $user->firstname = 'Tom';
@@ -435,6 +466,9 @@ class LabServiceTest extends TestCase
             ->once()
             ->with(401)
             ->andReturn($teachersDefences);
+        $this->defenceRegistrationService->shouldReceive('attachEstimatedTimesToDefenceRegistrations')
+            ->once()
+            ->andReturn([]);
 
         $result = $this->service->labQueueStatus($user, $this->lab);
 
