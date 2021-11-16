@@ -88,8 +88,6 @@ class CharonGradingServiceTest extends TestCase
 
     public function testUpdateGradeUpdatesResultsFromSubmission()
     {
-        $this->markTestSkipped("temporarily skipped");
-
         CourseModule::unguard();
         Charon::unguard();
 
