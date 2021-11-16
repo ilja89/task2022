@@ -43,8 +43,6 @@ Route::middleware('auth.course.managing.require')
     ->post('courses/{course}/settings', 'CourseSettingsController@store');
 Route::middleware('auth.course.managing.require')
     ->get('courses/{course}/popup', 'PopupController@index');
-Route::middleware('auth.course.managing.require')
-    ->get('courses/{course}/charons/{charon}/dashboard', 'CharonDashboardController@index');
 
 // For handling Moodle requests before sending to controllers from lib.php. Might not need these!
 Route::get('course/modedit.php', function () {
