@@ -187,9 +187,9 @@ class SubmissionsController extends Controller
     {
         $submissions = $this->submissionsRepository->findLatestSubmissions($course->id);
 
-        foreach ($submissions as $submission) {
+/*        foreach ($submissions as $submission) {
             $submission->makeHidden(['charon_id', 'user_id']);
-        }
+        }*/
 
         return $submissions;
     }

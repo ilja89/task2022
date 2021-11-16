@@ -472,6 +472,9 @@ class SubmissionsRepository
                     $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
                     $query->orderBy('grade_type_code');
                 },
+                'files' => function ($query) {
+                    $query->select(['id', 'path', 'contents']);
+                }
             ])
             ->latest()
             ->simplePaginate(10);
