@@ -5,7 +5,7 @@
             <transition-group name="list">
                 <div v-for="(submissionChunk) in latestSubmissionsChunks" v-bind:key="submissionChunk.id" class="columns">
                     <div v-for="(submission, index) in submissionChunk" v-bind:key="index" class="column">
-                      <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                        <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
@@ -14,7 +14,7 @@
                                     {{ submission.charon.name }}
                                     <span class="timestamp-separator">|</span>
                                 </span><span class="submission-line">
-                                    {{ formatStudentResults(submission) }}
+                                    {{ formatStudentResults(submission) }} {{ submission.review_comments.length }}
                                 </span>
                             </div>
                         </div>

@@ -94,6 +94,11 @@ class Submission extends Model
         return $this->hasMany(TestSuite::class);
     }
 
+    public function reviewComments()
+    {
+        return $this->hasManyThrough(ReviewComment::class, SubmissionFile::class, 'charon_submission_file.submission_id', 'charon_review_comment.submission_file_id');
+    }
+
     public function getGitTimestampAttribute($gitTimestamp)
     {
         $gitTimestamp = Carbon::parse( $gitTimestamp, 'UTC');
