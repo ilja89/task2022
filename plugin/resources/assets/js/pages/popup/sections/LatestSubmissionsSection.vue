@@ -6,6 +6,11 @@
                 <div v-for="(submissionChunk) in latestSubmissionsChunks" v-bind:key="submissionChunk.id" class="columns">
                     <div v-for="(submission, index) in submissionChunk" v-bind:key="index" class="column">
                         <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                            <v-badge :value="submission.review_comments.length"
+                                     :content="submission.review_comments.length < 10 ? submission.review_comments.length : '9+'"
+                                     left
+                            >
+                            </v-badge>
                             <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
@@ -14,7 +19,7 @@
                                     {{ submission.charon.name }}
                                     <span class="timestamp-separator">|</span>
                                 </span><span class="submission-line">
-                                    {{ formatStudentResults(submission) }} {{ submission.review_comments.length }}
+                                    {{ formatStudentResults(submission) }}
                                 </span>
                             </div>
                         </div>
@@ -129,6 +134,7 @@
         margin-bottom: 0;
         padding-top: 30px;
         padding-bottom: 30px;
+        display: inherit;
 
         word-break: break-word;
         line-height: 1.5rem;
