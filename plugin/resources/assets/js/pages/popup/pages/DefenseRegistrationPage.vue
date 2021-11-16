@@ -141,6 +141,13 @@
             VueEvent.$off('refresh-page', this.fetchRegistrations)
         },
 
+        mounted() {
+            VueEvent.$on('refresh-defense-list', _ => {
+                this.apply();
+            })
+        },
+
+
         methods: {
             ...mapActions(["updateTeacher"]),
 
