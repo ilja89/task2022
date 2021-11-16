@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -69,12 +68,7 @@ class CharonGradingService
             ->whereIn('grade_type_code', $gradeTypeCodes)
             ->get();
 
-        foreach ($results as $result) if (
-            !$charon->gradingMethod->isPreferBestEachGrade() ||
-            $this->submissionCalculatorService->gradeIsBetterThanActive($result, $userId)
-        ) {
-            Log::debug("new boss grade", (array) $result);
-
+        foreach ($results as $result) {
             $this->gradingService->updateGrade(
                 $charon->course,
                 $charon->id,

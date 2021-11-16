@@ -23,4 +23,27 @@ class ResultRepository
             $result->save();
         }
     }
+
+    /**
+     * Finds a result by its 'grade_type_code' with the highest
+     * 'calculated_result' of a given user for given charon.
+     *
+     * @param int $gradeTypeCode
+     * @param int $charonId
+     * @param int $userId
+     *
+     * @return ?Result
+     */
+    public function findWithHighestCalculatedResultForUser(int $gradeTypeCode, int $charonId, int $userId): ?Result
+    {
+        $query = "CAST(calculated_result AS DECIMAL(3, 2)) DESC";
+
+        return Result::join("charon_submission", "charon_result.submission_id", "charon_submission.id")
+            ->where("charon_result.grade_type_code", $gradeTypeCode)
+            ->where("charon_submission.charon_id", $charonId)
+            ->where("charon_result.user_id", $userId)
+            ->select("charon_result.calculated_result", "charon_result.percentage")
+            ->orderByRaw($query)
+            ->first();
+    }
 }

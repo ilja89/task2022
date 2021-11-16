@@ -2,12 +2,12 @@
 
 namespace TTU\Charon\Services;
 
-use http\Exception\RuntimeException;
 use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\ResultRepository;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -21,14 +21,19 @@ class SubmissionCalculatorService
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var ResultRepository */
+    protected $resultRepository;
+
     /**
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
+     * @param ResultRepository $resultRepository
      */
-    public function __construct(GradebookService $gradebookService)
+    public function __construct(GradebookService $gradebookService, ResultRepository $resultRepository)
     {
         $this->gradebookService = $gradebookService;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
@@ -94,17 +99,34 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Calculate the score for the result considering the deadline and max points.
+     * Calculate the score for the result considering the deadline, max points, and grading method.
      *
-     * @param  Deadline $deadline
-     * @param  Result $result
-     * @param  float $maxPoints
+     * @param Deadline $deadline
+     * @param Result $result
+     * @param float $maxPoints
      *
      * @return float|int
      */
-    private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
+    private function calculateScoreFromResultAndDeadline(Deadline $deadline, Result $result, float $maxPoints)
     {
-        return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
+        if ($result->submission->charon->gradingMethod->isPreferBestEachTestGrade()) {
+
+            $submission = $result->submission;
+            $bestResult = $this->resultRepository->findWithHighestCalculatedResultForUser(
+                $result->grade_type_code,
+                $submission->charon_id,
+                $result->user_id
+            );
+
+            if ($bestResult !== null && $result->percentage >= $bestResult->percentage) {
+
+                $extra = round(($result->percentage - $bestResult->percentage), 2);
+
+                return $bestResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+            }
+        }
+
+        return $result->percentage * ($deadline->percentage / 100) * $maxPoints;
     }
 
     /**
@@ -152,26 +174,5 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
-    }
-
-    /**
-     * Compare given result with currently active result.
-     *
-     * @param Result $result
-     * @param int $studentId
-     *
-     * @return bool
-     */
-    public function gradeIsBetterThanActive(Result $result, int $studentId): bool
-    {
-        $grademap = $result->getGrademap();
-
-        if ($grademap === null) {
-            throw new RuntimeException("unknown exception");
-        }
-
-        $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
-
-        return $gradeGrade === null || $result->calculated_result > $gradeGrade->finalgrade;
     }
 }

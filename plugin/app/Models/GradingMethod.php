@@ -30,7 +30,7 @@ class GradingMethod extends Model
         return $this->code === 2;
     }
 
-    public function isPreferBestEachGrade()
+    public function isPreferBestEachTestGrade()
     {
         return $this->code === 3;
     }
