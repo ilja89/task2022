@@ -446,6 +446,14 @@ class DefenceRegistrationService
             : null;
     }
 
+    /**
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
+     * @return \Illuminate\Support\Collection|\TTU\Charon\Models\Registration[]
+     */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
         $defenseRegistrations = $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
