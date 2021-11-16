@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #518 Defence registration status showing before defence start wit approximated time.
 - #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense 
   and disable the ability to choose full labs
+- #699 Adding automatically teacher if changing status of registration which has no teacher
 
 ## [1.5.4] - 2021-10-11
 

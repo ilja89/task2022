@@ -447,6 +447,14 @@ class DefenceRegistrationService
             : null;
     }
 
+    /**
+     * If no teacher and status defending or done, then marking currently logged user as teacher.
+     *
+     * @param $defenseId
+     * @param $newProgress
+     * @param $newTeacherId
+     * @return \TTU\Charon\Models\Registration
+     */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
         if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
