@@ -473,10 +473,10 @@ class SubmissionsRepository
                     $query->orderBy('grade_type_code');
                 },
                 'files' => function ($query) {
-                    $query->select(['id', 'path', 'submission_id', 'contents']);
+                    $query->select(['id', 'submission_id']);
                 },
                 'reviewComments' => function ($query) {
-                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id', 'charon_review_comment.review_comment']);
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
             ->latest()
