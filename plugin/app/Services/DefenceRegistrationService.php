@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -447,18 +448,25 @@ class DefenceRegistrationService
     }
 
     /**
-     * @param $courseId
-     * @param $after
-     * @param $before
-     * @param $teacher_id
-     * @param $progress
-     * @return \Illuminate\Support\Collection|\TTU\Charon\Models\Registration[]
+     * @param int $courseId
+     * @param string $after
+     * @param string $before
+     * @param int $teacher_id
+     * @param string $progress
+     * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered(int $courseId, string $after, string $before, int $teacher_id, string $progress)
     {
-        $defenseRegistrations = $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        $defenseRegistrations = $this->defenseRegistrationRepository
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        $labId = null;
+        $labTeachers = [];
         foreach ($defenseRegistrations as $defenseRegistration) {
-            $defenseRegistration->lab_teachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $defenseRegistration->lab_id);
+            if ($labId === null || $labId !== $defenseRegistration->lab_id){
+                $labId = $defenseRegistration->lab_id;
+                $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
+            }
+            $defenseRegistration->lab_teachers = $labTeachers;
         }
         return $defenseRegistrations;
     }
