@@ -130,8 +130,8 @@ export default {
         sendData() {
             if (this.value !== null) {
                 this.busy = true;
-                Defense.register(this.charon.id, this.student_id, this.value['defense_lab_id'],
-                    this.submission.id, null, () => {
+                Defense.registerByStudent(this.charon.id, this.student_id, this.value['defense_lab_id'],
+                    this.submission.id, () => {
                         VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
                         this.isActive = false;
                         this.endLoading();

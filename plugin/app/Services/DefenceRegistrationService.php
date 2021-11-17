@@ -207,10 +207,6 @@ class DefenceRegistrationService
             throw new RegistrationException('invalid_setup');
         }
 
-        if ($this->getEstimateTimeForNewRegistration($lab, $charon) === null) {
-            throw new RegistrationException("not_enough_time");
-        }
-
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
             $studentId,
             $charonId,
@@ -219,6 +215,10 @@ class DefenceRegistrationService
 
         if ($pendingStudentDefences > 0) {
             throw new RegistrationException('user_in_db');
+        }
+
+        if ($this->getEstimateTimeForNewRegistration($lab, $charon) === null) {
+            throw new RegistrationException("not_enough_time");
         }
     }
 
@@ -416,7 +416,7 @@ class DefenceRegistrationService
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
             $teacherCount,
             $lab->start
         );

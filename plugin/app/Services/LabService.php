@@ -211,7 +211,7 @@ class LabService
         foreach ($labs as $lab) {
             $lab->new_defence_start = $this->defenceRegistrationService
                 ->getEstimateTimeForNewRegistration($lab, $charon);
-            $lab->defenders_num = $this->defenseRegistrationRepository->countDefendersByLab($lab->id);
+            $lab->defenders_num = $this->defenseRegistrationRepository->countUndoneDefendersByLab($lab->id);
         }
 
         return $labs;

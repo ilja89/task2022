@@ -49,7 +49,6 @@ class DefenseRegistrationControllerTest extends TestCase
             'submission_id' => 5,
             'charon_id' => 7,
             'defense_lab_id' => 13,
-            'progress' => null,
         ]);
 
         $lab = new Lab();
@@ -58,10 +57,10 @@ class DefenseRegistrationControllerTest extends TestCase
         $this->registrationService
             ->shouldReceive('registerDefence')
             ->once()
-            ->with(3, 7, 13, 5, null)
+            ->with(3, 7, 13, 5)
             ->andReturn('inserted');
 
-        $response = $this->controller->registerDefence($request);
+        $response = $this->controller->registerDefenceByStudent($request);
 
         $this->assertEquals('inserted', $response);
     }

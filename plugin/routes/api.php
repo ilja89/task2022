@@ -166,8 +166,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // save defense progress
         ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@saveProgress');
 
-    Route::middleware('auth.charon.submissions.view.require') // add registration by student/teacher
-        ->post('charons/{charon}/submission', 'DefenseRegistrationController@registerDefence');
+    Route::middleware('auth.charon.managing.require') // add registration by teacher
+        ->post('charons/{charon}/submissions/register/teacher', 'DefenseRegistrationController@registerDefenceByTeacher');
+    Route::middleware('auth.charon.submissions.view.require') // add registration by student
+        ->post('charons/{charon}/submissions/register/student', 'DefenseRegistrationController@registerDefenceByStudent');
 
     Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
         ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
