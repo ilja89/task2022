@@ -131,7 +131,7 @@
 </script>
 
 <style scoped>
-@import '../../../../css/toggleButton.css';
+@import '../../../../../../public/css/buttons/toggleButton.css';
 
 .mx-auto {
     margin-top: 10px;

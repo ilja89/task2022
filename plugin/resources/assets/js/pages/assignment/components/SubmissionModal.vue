@@ -151,7 +151,7 @@ export default {
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
-@import '../../../../css/toggleButton.css';
+@import '../../../../../../public/css/buttons/toggleButton.css';
 
 .review-comments {
 	padding-top: 10px;
