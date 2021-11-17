@@ -44,14 +44,15 @@
                             <v-select
                                     :disabled="isSessionActive"
                                     class="mx-auto"
-                                    dense
-                                    single-line
-                                    item-text="fullname"
-                                    item-value="id"
-                                    :items="teachers"
-                                    v-model="filter_teacher"
-                            ></v-select>
-                        </v-col>
+                                    clearable
+                                        dense
+                                        single-line
+                                        item-text="fullname"
+                                        item-value="id"
+                                        :items="teachers"
+                                        v-model="filter_teacher"
+                                ></v-select>
+                            </v-col>
 
                         <v-col cols="12" xs="12" sm="4" md="4" lg="2">
                             <div class="helper">
@@ -60,11 +61,12 @@
 
                             <v-select
                                     class="mx-auto"
-                                    dense
-                                    :items="all_progress_types"
-                                    v-model="filter_progress"
-                            ></v-select>
-                        </v-col>
+                                    clearable
+                                        dense
+                                        :items="all_progress_types"
+                                        v-model="filter_progress"
+                                ></v-select>
+                            </v-col>
 
                         <v-col cols="12" xs="12" sm="4" md="4" lg="2">
                             <v-btn class="ma-2" tile outlined color="primary" dense @click="apply">
@@ -93,7 +95,7 @@
 
 <script>
 
-    import {mapState, mapActions, mapGetters} from "vuex";
+    import { mapState, mapActions } from "vuex";
 
     import {PopupSection} from '../layouts/index'
     import DefenseRegistrationsSection from "../sections/DefenseRegistrationsSection";
@@ -111,7 +113,7 @@
                 all_progress_types: ['Waiting', 'Defending', 'Done'],
                 after: {time: `${moment().format("YYYY-MM-DD")} 00:00`},
                 before: {time: null},
-                filter_teacher: -1,
+                filter_teacher: null,
                 filter_progress: null,
                 defenseList: [],
                 countDown: 0,
