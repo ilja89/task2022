@@ -185,6 +185,9 @@ class UpdateCharonService
         ]);
 
         if ($recalculateGrades && ($oldMax != $newGrademap['max_points'] || $deadlinesWereUpdated)) {
+            if ($grademap->charon->gradingMethod->isPreferBestEachTestGrade()) {
+                $this->charonGradingService->resetGradesCalculatedResults($grademap);
+            }
             $this->charonGradingService->recalculateGrades($grademap);
         }
 

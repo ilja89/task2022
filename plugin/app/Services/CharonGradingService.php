@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradingService;
 
@@ -28,6 +29,9 @@ class CharonGradingService
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
+    /** @var ResultRepository */
+    private $resultRepository;
+
     /**
      * CharonGradingService constructor.
      *
@@ -35,17 +39,20 @@ class CharonGradingService
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param SubmissionCalculatorService $submissionCalculatorService
+     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradingService $gradingService,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculatorService $submissionCalculatorService,
-        DefenseRegistrationRepository $defenseRegistrationRepository
+        DefenseRegistrationRepository $defenseRegistrationRepository,
+        ResultRepository $resultRepository
     ) {
         $this->gradingService = $gradingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
@@ -218,5 +225,22 @@ class CharonGradingService
         }
 
         $this->defenseRegistrationRepository->updateRegistration($studentRegistration->id, $newProgress, $teacherId);
+    }
+
+    /**
+     * Reset grades' calculated results if one does not have a confirmed submission and is a test grade.
+     *
+     * @param Grademap $grademap
+     */
+    public function resetGradesCalculatedResults(Grademap $grademap)
+    {
+        $resultIds = $this->submissionsRepository->findResultsByCharonAndGradeType(
+            $grademap->charon_id,
+            $grademap->grade_type_code
+        )->filter(function ($result) use ($grademap) {
+            return !$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id) && $result->isTestsGrade();
+        })->pluck("id")->all();
+
+        $this->resultRepository->resetResultsCalculatedResults($resultIds);
     }
 }

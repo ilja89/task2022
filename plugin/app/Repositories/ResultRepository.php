@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Collection;
 use TTU\Charon\Models\Result;
 
 class ResultRepository
@@ -45,5 +46,16 @@ class ResultRepository
             ->select("charon_result.calculated_result", "charon_result.percentage")
             ->orderByRaw($query)
             ->first();
+    }
+
+    /**
+     * Reset all 'calculated_result's of results with given ids.
+     *
+     * @param Collection|int[] $resultIds
+     */
+    public function resetResultsCalculatedResults(array $resultIds)
+    {
+        Result::whereIn("id", $resultIds)
+            ->update(["calculated_result" => 0]);
     }
 }
