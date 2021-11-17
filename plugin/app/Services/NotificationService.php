@@ -50,7 +50,10 @@ class NotificationService
 
         $cm_id = $charon->courseModule()->id;
         $url = '/mod/charon/view.php?id=' . $cm_id;
+
         $messageText = htmlspecialchars($messageText);
+        $messageText = str_replace( "\n", '<br />', $messageText );
+
         $messageTextHtml = <<<EOT
 <h4>$charon->name</h4><br>
 <b>You've got a new comment for the submission that was submitted at 
@@ -96,6 +99,10 @@ EOT;
         string $urlToDirectTo,
         string $urlNameToDirect
     ) {
+        $contextUrl = (new \moodle_url($urlToDirectTo))->out(false);
+        $emailFooter = <<<EOT
+<p><a href="$contextUrl">Go to: $urlNameToDirect</a></p>
+EOT;
         $message = new \core\message\message();
         $message->component = 'mod_charon'; // Your plugin's name
         $message->name = $notificationName; // Your notification name from message.php
@@ -107,9 +114,9 @@ EOT;
         $message->fullmessagehtml = $messageTextHtml;
         $message->smallmessage = $notificationSubject;
         $message->notification = 1; // Because this is a notification generated from Moodle, not a user-to-user message
-        $message->contexturl = (new \moodle_url($urlToDirectTo))->out(false); // A relevant URL for the notification
+        $message->contexturl = $contextUrl; // A relevant URL for the notification
         $message->contexturlname = $urlNameToDirect; // Link title explaining where users get to for the contexturl
-        $content = array('*' => array('header' => ' test ', 'footer' => ' test ')); // Extra content for specific processor
+        $content = array('*' => array('footer' => $emailFooter)); // Extra content for specific processor
         $message->set_additional_content('email', $content);
 
         $messageId = message_send($message);
