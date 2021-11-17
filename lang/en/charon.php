@@ -205,3 +205,9 @@ $string['source_files'] = 'Source Files';
 $string['reset_to_templates'] = 'Reset templates';
 $string['feedback-text'] = 'Feedback';
 $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, it will be visible here.';
+
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Notification of a comment for charon submission';
