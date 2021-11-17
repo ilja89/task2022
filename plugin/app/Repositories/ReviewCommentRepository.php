@@ -120,7 +120,7 @@ class ReviewCommentRepository
      */
     private function convertToDTOs($rawResults): array
     {
-        asort($rawResults);
+        usort($rawResults, array($this, 'dtoSort'));
         $fileReviewCommentsDTOs = [];
         $fileId = null;
         foreach ($rawResults as $rawResult) {
@@ -163,5 +163,11 @@ class ReviewCommentRepository
             }
         }
         return $fileReviewCommentsDTOs;
+    }
+
+    function dtoSort($a, $b): int
+    {
+        if ($a->file_id == $b->file_id)return 0;
+        return ($a->file_id > $b->file_id)? -1 : 1;
     }
 }
