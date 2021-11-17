@@ -328,20 +328,23 @@ class DefenseRegistrationRepository
             ->all();
     }
 
+
     /**
-     * Find total defenders count for a lab by its identifier.
+     * Find the total count of unfinished defences by lab id.
      *
      * @param int $labId
      *
      * @return int
      */
-    public function countDefendersByLab(int $labId): int
+    public function countUndoneDefendersByLab(int $labId): int
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->where('charon_defense_lab.lab_id', $labId)
+            ->where('charon_defenders.progress', '!=', 'Done')
             ->count();
     }
+
 
     /**
      * @param int $labId
