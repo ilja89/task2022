@@ -10,7 +10,6 @@ use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;

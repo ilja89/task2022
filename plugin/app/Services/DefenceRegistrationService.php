@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -453,14 +454,17 @@ class DefenceRegistrationService
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
-     * @return \TTU\Charon\Models\Registration
+     * @return Registration
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
         if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
-            $teacher = $this->teacherRepository->getTeacherByUserId(app(User::class)->currentUserId());
-            if ($teacher != null) {
-                $newTeacherId = $teacher->id;
+            $userId = app(User::class)->currentUserId();
+            $labTeachers = $this->teacherRepository->getTeachersByDefense($defenseId);
+            foreach ($labTeachers as $labTeacher){
+                if ($labTeacher->teacher_id == $userId){
+                    $newTeacherId = $userId;
+                }
             }
         }
         return $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
