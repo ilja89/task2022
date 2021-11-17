@@ -120,12 +120,9 @@ class ReviewCommentRepository
      */
     private function convertToDTOs($rawResults): array
     {
-        usort($rawResults, array($this, 'dtoSort'));
         $fileReviewCommentsDTOs = [];
-        $fileId = null;
         foreach ($rawResults as $rawResult) {
-            if ($rawResult->file_id !== $fileId) {
-                $fileId = $rawResult->file_id;
+            if (!array_key_exists($rawResult->file_id, $fileReviewCommentsDTOs)) {
                 $fileReviewCommentsDTO = new FileReviewCommentsDTO(
                     $rawResult->file_id,
                     $rawResult->charon_id,
@@ -145,10 +142,9 @@ class ReviewCommentRepository
                         $rawResult->comment_creation
                     )
                 );
-                array_unshift($fileReviewCommentsDTOs, $fileReviewCommentsDTO);
+                $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
             } else {
-                array_unshift(
-                    $fileReviewCommentsDTOs[0]->reviewComments, new ReviewCommentDTO(
+                array_unshift($fileReviewCommentsDTOs[$rawResult->file_id]->reviewComments, new ReviewCommentDTO(
                         $rawResult->review_comment_id,
                         $rawResult->commented_by_id,
                         $rawResult->commented_by_firstname,
@@ -162,7 +158,7 @@ class ReviewCommentRepository
                 );
             }
         }
-        return $fileReviewCommentsDTOs;
+        return array_values($fileReviewCommentsDTOs);
     }
 
     function dtoSort($a, $b): int
