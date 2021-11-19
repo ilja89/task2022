@@ -36,6 +36,9 @@ class CharonGradingServiceTest extends TestCase
     /** @var Mock|DefenseRegistrationRepository */
     private $registrationRepository;
 
+    /** @var Mock|ResultRepository */
+    private $resultRepository;
+
     /** @var CharonGradingService */
     private $service;
 
@@ -48,7 +51,7 @@ class CharonGradingServiceTest extends TestCase
             $this->submissionsRepository = Mockery::mock(SubmissionsRepository::class),
             $this->calculatorService = Mockery::mock(SubmissionCalculatorService::class),
             $this->registrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
-            Mockery::mock(ResultRepository::class)
+            $this->resultRepository = Mockery::mock(ResultRepository::class)
         );
     }
 
@@ -252,7 +255,7 @@ class CharonGradingServiceTest extends TestCase
         $result2->submission = $submission;
         $result2->shouldReceive('save')->once();
 
-        $this->submissionsRepository
+        $this->resultRepository
             ->shouldReceive('findResultsByCharonAndGradeType')
             ->with(3, 5)
             ->once()
@@ -311,7 +314,7 @@ class CharonGradingServiceTest extends TestCase
         $result2->submission = $submission;
         $result2->calculated_result = 17;
 
-        $this->submissionsRepository
+        $this->resultRepository
             ->shouldReceive('findResultsByCharonAndGradeType')
             ->with(3, 5)
             ->once()
