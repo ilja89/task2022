@@ -42,26 +42,21 @@ class ResultRepository
     }
 
     /**
-     * Finds a result by its 'grade_type_code' with the highest
-     * 'calculated_result' of a given user for given charon.
+     * Finds the result previous to the given one that has the same grade type, user, and charon.
      *
-     * @param int $gradeTypeCode
-     * @param int $charonId
-     * @param int $userId
+     * @param Result $result
      *
      * @return ?Result
      */
-    public function findWithHighestCalculatedResultForUser(int $gradeTypeCode, int $charonId, int $userId): ?Result
+    public function findPreviousResultForUser(Result $result): ?Result
     {
-        $query = "CAST(calculated_result AS DECIMAL(3, 2)) DESC";
-
         return Result::join("charon_submission", "charon_result.submission_id", "charon_submission.id")
-            ->where("charon_result.grade_type_code", $gradeTypeCode)
-            ->where("charon_submission.charon_id", $charonId)
-            ->where("charon_result.user_id", $userId)
-            ->where("charon_result.calculated_result", ">", 0)
-            ->select("charon_result.calculated_result", "charon_result.percentage")
-            ->orderByRaw($query)
+            ->where("charon_result.grade_type_code", $result->grade_type_code)
+            ->where("charon_submission.charon_id", $result->submission->charon_id)
+            ->where("charon_result.user_id", $result->user_id)
+            ->where("charon_result.id", "<", $result->id)
+            ->select("charon_result.id", "charon_result.calculated_result", "charon_result.percentage")
+            ->orderBy("charon_result.id", "desc")
             ->first();
     }
 

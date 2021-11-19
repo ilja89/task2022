@@ -111,18 +111,13 @@ class SubmissionCalculatorService
     {
         if ($result->submission->charon->gradingMethod->isPreferBestEachTestGrade()) {
 
-            $submission = $result->submission;
-            $bestResult = $this->resultRepository->findWithHighestCalculatedResultForUser(
-                $result->grade_type_code,
-                $submission->charon_id,
-                $result->user_id
-            );
+            $previousResult = $this->resultRepository->findPreviousResultForUser($result);
 
-            if ($bestResult !== null && $result->percentage >= $bestResult->percentage) {
+            if ($previousResult !== null && $result->percentage >= $previousResult->percentage) {
 
-                $extra = number_format($result->percentage - $bestResult->percentage, 2);
+                $extra = round($result->percentage - $previousResult->percentage, 2);
 
-                return $bestResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+                return $previousResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
             }
         }
 
