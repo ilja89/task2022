@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- #701 Fix comment notification email message
 
+## [1.5.6] - 2021-11-11
 
 ### Added
 - #690 Submissions in assignment view show how many review comments they have
