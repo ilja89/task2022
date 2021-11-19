@@ -203,3 +203,8 @@ $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
 
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Teavitus kommentaarist charoni katsele';

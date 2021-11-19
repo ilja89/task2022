@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services\Flows;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
@@ -46,6 +47,9 @@ class TeacherModifiesSubmission
      */
     public function run(Submission $submission, $newResults)
     {
+        global $CFG;
+        require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
         $teacherId = $this->user->currentUserId();
 
         $this->updateResults($submission, $newResults);
@@ -58,6 +62,12 @@ class TeacherModifiesSubmission
             $this->submissionsRepository->confirmSubmission($submission, $teacherId);
 
             $this->charonGradingService->updateProgressByStudentId($submission->charon_id, $submission->id, $student->id, $teacherId, 'Done');
+
+            try {
+                update_charon_completion_state($submission, $student->id);
+            } catch (\Exception $exception) {
+                Log::error('Failed to update completion state. Likely culprit: course module. Error: ' . $exception->getMessage());
+            }
         }
 
         return $submission;

@@ -7,8 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- #701 Fix comment notification email message
+
+## [1.5.6] - 2021-11-11
 
 ### Added
+- #690 Submissions in assignment view show how many review comments they have
+- #609 Users will be notified if they receive a comment on their submission
+- #636 If charon does not have defences, the defence icon would not be shown submission list
+
+## [1.5.5] - 2021-10-22
+
+### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
+- #678 Added logging when an exception is thrown when charon is being deleted by moodle
+- #681 updated composer/composer to 2.1.9
+- #567 Activity completion for charon
 
 - #514 My registration shows the registration status
 - #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
