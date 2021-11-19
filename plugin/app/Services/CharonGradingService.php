@@ -238,7 +238,7 @@ class CharonGradingService
             $grademap->charon_id,
             $grademap->grade_type_code
         )->filter(function ($result) use ($grademap) {
-            return !$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id) && $result->isTestsGrade();
+            return !$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id);
         })->pluck("id")->all();
 
         $this->resultRepository->resetResultsCalculatedResults($resultIds);

@@ -13,6 +13,7 @@ use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use Tests\TestCase;
@@ -46,7 +47,8 @@ class CharonGradingServiceTest extends TestCase
             $this->gradingService = Mockery::mock(GradingService::class),
             $this->submissionsRepository = Mockery::mock(SubmissionsRepository::class),
             $this->calculatorService = Mockery::mock(SubmissionCalculatorService::class),
-            $this->registrationRepository = Mockery::mock(DefenseRegistrationRepository::class)
+            $this->registrationRepository = Mockery::mock(DefenseRegistrationRepository::class),
+            Mockery::mock(ResultRepository::class)
         );
     }
 
