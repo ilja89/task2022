@@ -26,6 +26,22 @@ class ResultRepository
     }
 
     /**
+     * @param $charonId
+     * @param $gradeTypeCode
+     *
+     * @return Result[]|Collection
+     */
+    public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
+    {
+        return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
+            $query->where('charon_id', $charonId);
+        })
+            ->where('grade_type_code', $gradeTypeCode)
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    /**
      * Finds a result by its 'grade_type_code' with the highest
      * 'calculated_result' of a given user for given charon.
      *
@@ -43,6 +59,7 @@ class ResultRepository
             ->where("charon_result.grade_type_code", $gradeTypeCode)
             ->where("charon_submission.charon_id", $charonId)
             ->where("charon_result.user_id", $userId)
+            ->where("charon_result.calculated_result", ">", 0)
             ->select("charon_result.calculated_result", "charon_result.percentage")
             ->orderByRaw($query)
             ->first();

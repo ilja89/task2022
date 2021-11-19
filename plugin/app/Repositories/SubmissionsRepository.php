@@ -4,7 +4,6 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -427,21 +426,6 @@ class SubmissionsRepository
             ->where('charon_submission.git_timestamp', '<', $submission->git_timestamp)
             ->where('charon_submission.charon_id', $submission->charon_id)
             ->count();
-    }
-
-    /**
-     * @param $charonId
-     * @param $gradeTypeCode
-     *
-     * @return Result[]|Collection
-     */
-    public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
-    {
-        return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
-            $query->where('charon_id', $charonId);
-        })
-            ->where('grade_type_code', $gradeTypeCode)
-            ->get();
     }
 
     /**

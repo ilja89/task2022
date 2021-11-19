@@ -166,7 +166,7 @@ class CharonGradingService
      */
     public function recalculateGrades(Grademap $grademap)
     {
-        $results = $this->submissionsRepository->findResultsByCharonAndGradeType(
+        $results = $this->resultRepository->findResultsByCharonAndGradeType(
             $grademap->charon_id,
             $grademap->grade_type_code
         );
@@ -234,7 +234,7 @@ class CharonGradingService
      */
     public function resetGradesCalculatedResults(Grademap $grademap)
     {
-        $resultIds = $this->submissionsRepository->findResultsByCharonAndGradeType(
+        $resultIds = $this->resultRepository->findResultsByCharonAndGradeType(
             $grademap->charon_id,
             $grademap->grade_type_code
         )->filter(function ($result) use ($grademap) {
