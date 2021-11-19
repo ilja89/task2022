@@ -118,11 +118,8 @@ class SubmissionCalculatorService
                 $result->user_id
             );
 
-            if (
-                $bestResult !== null &&
-                $bestResult->calculated_result > 0 &&
-                $result->percentage >= $bestResult->percentage
-            ) {
+            if ($bestResult !== null && $result->percentage >= $bestResult->percentage) {
+
                 $extra = number_format($result->percentage - $bestResult->percentage, 2);
 
                 return $bestResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
