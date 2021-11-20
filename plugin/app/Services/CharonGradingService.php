@@ -149,8 +149,8 @@ class CharonGradingService
      */
     private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
     {
-        $charon = $submission->charon;
-        if ($charon->gradingMethod->isPreferBest()) {
+        $gradingMethod = $submission->charon->gradingMethod;
+        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachTestGrade()) {
             return $this->submissionCalculatorService->submissionIsBetterThanLast($submission, $studentId);
         }
 
