@@ -159,6 +159,11 @@ class CharonGradingServiceTest extends TestCase
             ->once()
             ->andReturn(false);
 
+        $gradingMethod
+            ->shouldReceive('isPreferBestEachTestGrade')
+            ->once()
+            ->andReturn(false);
+
         $this->calculatorService->shouldNotReceive('submissionIsBetterThanLast');
 
         $actual = $this->service->gradesShouldBeUpdated($submission, 3);
