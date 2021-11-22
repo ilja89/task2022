@@ -210,3 +210,8 @@ $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
 
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Notification of a comment for charon submission';

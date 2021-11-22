@@ -107,7 +107,7 @@ export default {
 				if (index > -1) {
 					this.registrations.splice(index, 1)
 					VueEvent.$emit('show-notification',
-						'Deleted ' + success ? 1 : 0 + ' item(s) successfully!', 'primary')
+						'Deleted ' + (success ? 1 : 0) + ' item(s) successfully!', 'primary')
 				}
 				this.dialog = false
 			})
