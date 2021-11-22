@@ -448,14 +448,14 @@ class DefenceRegistrationService
     }
 
     /**
-     * @param int $courseId
-     * @param string $after
-     * @param string $before
-     * @param int $teacher_id
-     * @param string $progress
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(int $courseId, string $after, string $before, int $teacher_id, string $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
             ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);

@@ -196,14 +196,14 @@ class DefenseRegistrationRepository
 
     /**
      * Get defense registrations by course, filtered by after and before date.
-     * @param int $courseId
-     * @param string $after
-     * @param string $before
-     * @param int $teacher_id
-     * @param string $progress
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(int $courseId, string $after, string $before, int $teacher_id, string $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
         /** @var \Illuminate\Database\Query\Builder $query */
         $query = DB::table('charon_defenders')
