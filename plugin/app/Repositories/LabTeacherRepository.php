@@ -278,19 +278,21 @@ class LabTeacherRepository
     }
 
     /**
-     * Return teacher ids of lab which is connected with defense
+     * Method is used to check is user is a teacher and is a lab teacher. Lab teacher checking is made through defense.
      *
      * @param int $defenseId
-     * @return \Illuminate\Support\Collection
+     * @param int $userId
+     * @return object|null
      */
-    public function getTeachersByDefense(int $defenseId)
+    public function getTeacherByDefenseAndUser(int $defenseId, int $userId)
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('charon_lab_teacher', 'charon_lab_teacher.lab_id', 'charon_defense_lab.lab_id')
             ->where('charon_defenders.id', $defenseId)
+            ->where('charon_lab_teacher.teacher_id', $userId)
             ->select('charon_lab_teacher.teacher_id')
-            ->get();
+            ->first();
     }
 
 }
