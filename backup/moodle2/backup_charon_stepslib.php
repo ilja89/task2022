@@ -25,8 +25,8 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
         // Define each element separated
 
         $charon = new backup_nested_element('charon', ['id'], [
-            'category_id', 'name', 'description', 'project_folder',
-            'tester_extra', 'system_extra', 'created_at', 'updated_at',
+            'category_id', 'name', 'description', 'project_folder', 'tester_extra',
+            'system_extra', 'created_at', 'updated_at', 'defense_threshold',
             'tester_type_code', 'grading_method_code', 'intro', 'introformat',
             'timemodified', 'calculation_formula', 'grademax', 'unittests_git',
             'allow_submission'

@@ -74,6 +74,26 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Find all defence registration of a lab got with given identifier.
+     *
+     * @param int $labId
+     *
+     * @return Collection|Registration[]
+     */
+    public function getDefenceRegistrationsByLabId(int $labId): array
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_submission', 'charon_submission.id', 'charon_defenders.submission_id')
+            ->join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
+            ->where('charon_lab.id', $labId)
+            ->select('charon.defense_duration')
+            ->get()
+            ->all();
+    }
+
+    /**
      * @param int $teacherId
      * @param Carbon $time
      *
@@ -109,6 +129,7 @@ class DefenseRegistrationRepository
 
     /**
      * @param string $time
+     * @param int $teacherCount
      * @param int $labId
      *
      * @return array
@@ -200,27 +221,26 @@ class DefenseRegistrationRepository
             )->orderBy('lab_id'
             )->orderBy('charon_defenders.id');
 
-        /* currently breaks the query and awaits its destiny
         if ($after != 'null' && $before != 'null') {
-            $query->whereRaw('choosen_time BETWEEN ? AND ?', [
+            $query->whereRaw('end >= ? AND start <= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         } elseif ($after != 'null') {
-            $query->whereRaw('choosen_time >= ?', [
+            $query->whereRaw('end >= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
             ]);
         } elseif ($before != 'null') {
-            $query->whereRaw('choosen_time <= ?', [
+            $query->whereRaw('start <= ?', [
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
-        */
-        if ($teacher_id != -1) {
-            $query->whereRaw('teacher_id LIKE ?', [$teacher_id]);
+
+        if ($teacher_id != 'null') {
+            $query->whereRaw('teacher_id = ?', [$teacher_id]);
         }
         if ($progress != 'null') {
-            $query->whereRaw('progress LIKE ?', [$progress]);
+            $query->whereRaw('progress = ?', [$progress]);
         }
 
         $defenseRegistrations = $query->get();
