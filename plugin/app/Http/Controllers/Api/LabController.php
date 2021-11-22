@@ -28,8 +28,11 @@ class LabController extends Controller
      * @param LabRepository $labRepository
      * @param LabService $labService
      */
-    public function __construct(Request $request, LabRepository $labRepository, LabService $labService)
-    {
+    public function __construct(
+        Request $request,
+        LabRepository $labRepository,
+        LabService $labService
+    ) {
         parent::__construct($request);
         $this->labRepository = $labRepository;
         $this->labService = $labService;
@@ -152,13 +155,14 @@ class LabController extends Controller
         return ['groups' => $groups, 'groupings' => $result];
     }
 
-    /** Function what will return list of defense labs with lists of students - defenders registered for each lab
-     * @param Request $request
+    /**
+     * @param Charon $charon
+     *
      * @return mixed
      */
-    public function findUpcomingOrActiveLabsByCharon(Charon $charon)
+    public function findAvailableLabsByCharon(Charon $charon)
     {
-        return $this->labService->findUpcomingOrActiveLabsByCharon($charon->id);
+        return $this->labService->findAvailableLabsByCharon($charon->id);
     }
 
     /**

@@ -4,12 +4,14 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Models\TestSuite;
 use TTU\Charon\Models\UnitTest;
 
@@ -641,6 +643,33 @@ class SubmissionsRepository
         ));
 
         return array("rows" => $result, "totalRecords" => $resultRows[0]->totalRecords);
+    }
+
+    /**
+     * Query for all users associated to the submission
+     *
+     * @param int $submissionId
+     *
+     * @return Collection
+     */
+    public function findAllUsersAssociated(int $submissionId): Collection
+    {
+        return DB::table('user')
+            ->join('charon_submission_user', 'charon_submission_user.user_id', '=', 'user.id')
+            ->where('charon_submission_user.submission_id', $submissionId)
+            ->select('*')
+            ->get();
+    }
+
+    /**
+     * Find submission file by its id.
+     *
+     * @param int $fileId
+     * @return SubmissionFile
+     */
+    public function getSubmissionFileById(int $fileId): SubmissionFile
+    {
+        return SubmissionFile::find($fileId);
     }
 
     /**

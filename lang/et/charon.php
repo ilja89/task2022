@@ -165,7 +165,6 @@ $string['all_registrations'] = 'Minu kõik registreerimised';
 $string['no_registrations'] = 'Registreerimisi pole. Vajutage kilbi ikooni, et registreerida koodi ette näitamisele.';
 $string['table_no_registrations'] = 'Tühjus...';
 $string['registration_deletion_confirmation'] = 'Oled sa kindel, et tahad registreerimist tühistada?';
-$string['registration_before_error'] = 'Registreerimist ei saa tühistada 2 tundi enne algust!';
 $string['charon'] = 'Ülesanne';
 $string['time'] = 'Aeg';
 $string['lab_name'] = 'Praktikum';
@@ -203,4 +202,13 @@ $string['queue_status'] = 'Järjekorra olek';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
+$string['availability'] = 'Kättesaadavus';
+$string['lab_teachers'] = 'Praktikumi õpetajad';
+$string['lab_queue'] = 'Kaitsmise ootejärjekord';
+$string['lab_end'] = 'Praktikum on lõppenud';
 
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Teavitus kommentaarist charoni katsele';

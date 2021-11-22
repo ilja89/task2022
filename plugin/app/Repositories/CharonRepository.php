@@ -197,7 +197,7 @@ class CharonRepository
     public function update($oldCharon, $newCharon)
     {
         $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code',
-            'grouping_id', 'allow_submission'];
+            'grouping_id', 'allow_submission', 'defense_threshold'];
 
         if (array_key_exists('allow_submission', $newCharon) and $newCharon['allow_submission'] == 'true') {
             $newCharon['allow_submission'] = 1;
@@ -261,7 +261,7 @@ class CharonRepository
 
         foreach ($charons as $charon) {
             /** @var Charon $charon */
-            $charon->defense_labs = $this->labRepository->getLabsByCharonId($charon->id);
+            $charon->defense_labs = $this->labRepository->getAvailableLabsByCharonId($charon->id);
             $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
             $charon->calculation_formula = $gradeItem
                 ? $this->gradebookService->denormalizeCalculationFormula(

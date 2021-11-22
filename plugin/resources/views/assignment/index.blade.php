@@ -94,7 +94,6 @@
         noRegistrationsText: "{{ translate('no_registrations') }}",
         tableNoRegistrationsText: "{{ translate('table_no_registrations') }}",
         registrationDeletionConfirmationText: "{{ translate('registration_deletion_confirmation') }}",
-        registrationBeforeErrorText: "{{ translate('registration_before_error') }}",
         charonText: "{{ translate('charon') }}",
         labNameText: "{{ translate('lab_name') }}",
         timeText: "{{ translate('time') }}",
@@ -122,6 +121,10 @@
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
         studentText: "{{ translate('student') }}",
+        availabilityText: "{{ translate('availability') }}",
+        labTeachersText: "{{ translate('lab_teachers') }}",
+        labQueueText: "{{ translate('lab_queue') }}",
+        labEndedText: "{{ translate('lab_end') }}",
     };
 </script>
 

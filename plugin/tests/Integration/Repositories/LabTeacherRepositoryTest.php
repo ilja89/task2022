@@ -9,7 +9,7 @@ use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use Tests\TestCase;
@@ -63,17 +63,17 @@ class LabTeacherRepositoryTest extends TestCase
 
         $chosenTime = Carbon::now()->addMinutes(20);
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'choosen_time' => Carbon::now()->addMinutes(10),
             'teacher_id' => $teacher1->id
         ]);
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'choosen_time' => $chosenTime,
             'teacher_id' => $teacher2->id
         ]);
 
-        factory(Registration::class)->create($common + [
+        factory(Defender::class)->create($common + [
             'choosen_time' => Carbon::now()->addMinutes(30),
             'teacher_id' => $teacher3->id
         ]);

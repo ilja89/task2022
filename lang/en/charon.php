@@ -172,7 +172,6 @@ $string['all_registrations'] = 'All my registrations';
 $string['no_registrations'] = 'No Registrations! Press the shield icon to get started.';
 $string['table_no_registrations'] = 'Sorry, nothing to display here :(';
 $string['registration_deletion_confirmation'] = 'Are you sure you want to delete this item?';
-$string['registration_before_error'] = 'You can\'t delete a registration 2 hours before the start!';
 $string['charon'] = 'Exercise';
 $string['time'] = 'Time';
 $string['lab_name'] = 'Lab';
@@ -210,4 +209,13 @@ $string['queue_status'] = 'Queue status';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
 $string['student'] = 'Student';
+$string['availability'] = 'Availability';
+$string['lab_teachers'] = 'Lab teachers';
+$string['lab_queue'] = 'Defence queue';
+$string['lab_end'] = 'Lab ended';
 
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Notification of a comment for charon submission';

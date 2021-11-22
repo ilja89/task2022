@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
+
     'forbidden' => [
         'title'  => 'The request is unauthorized.',
         'detail' => 'You are not authorised to perform this action.'
@@ -67,6 +68,7 @@ return [
         'title' => 'Submission is not linked to a Git callback.',
         'detail' => 'Submission requires a Git callback so it can be retested.',
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Defense registration errors
@@ -89,9 +91,10 @@ return [
         'detail' => 'If you want to choose another time, then you should delete your previous time (My registrations button)',
     ],
 
-    'queue_full' => [
-        'title' => 'The lab you tried to register your defense to is full.',
-        'detail' => '',
+    'not_enough_time' => [
+        'title' => 'Not enough time left in lab queue.',
+        'detail' => 'The lab you tried to register your defense to ' .
+            'does not have enough time left to defend this charon.',
     ],
 
     'invalid_setup' => [
@@ -111,6 +114,23 @@ return [
 
     'no_submission' => [
         'title' => 'No eligible submission was found for registration.',
+        'detail' => '',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Review comment errors
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'review_comment_over_limit' => [
+        'title' => 'Review comment is too long.',
+        'detail' => 'Review comment\'s length should not exceed 10000 characters.',
+    ],
+
+    'review_comment_not_found' => [
+        'title'  => 'The review comment could not be found.',
         'detail' => '',
     ],
 

@@ -252,14 +252,6 @@
 						<span>Minimum percentage that a student can register for defense with</span>
 					</v-tooltip>
 				</v-col>
-				
-				<v-col cols="12" sm="6" md="6" lg="6">
-					<v-switch
-						dense
-						v-model="charon.choose_teacher"
-						label="Student can choose a teacher"
-					></v-switch>
-				</v-col>
 			</v-row>
 			
 			<v-row>
