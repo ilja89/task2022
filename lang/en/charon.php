@@ -213,3 +213,9 @@ $string['availability'] = 'Availability';
 $string['lab_teachers'] = 'Lab teachers';
 $string['lab_queue'] = 'Defence queue';
 $string['lab_end'] = 'Lab ended';
+
+/*------------------------*\
+   Messages
+\*------------------------*/
+
+$string['messageprovider:comment'] = 'Notification of a comment for charon submission';

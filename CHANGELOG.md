@@ -6,22 +6,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- #521 Defence registration status showing after defence start
+
 ### Fixed
+- #701 Fix comment notification email message
+
+## [1.5.6] - 2021-11-11
 
 ### Added
+- #690 Submissions in assignment view show how many review comments they have
+- #609 Users will be notified if they receive a comment on their submission
+- #636 If charon does not have defences, the defence icon would not be shown submission list
+
+## [1.5.5] - 2021-10-22
+
+### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
+- #678 Added logging when an exception is thrown when charon is being deleted by moodle
+- #681 updated composer/composer to 2.1.9
+- #567 Activity completion for charon
+
 - #514 My registration shows the registration status
 - #503 In teacher's defense registrations view the time of defense is replaced by the defense's number in queue
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #505 Ability for teachers to register students for a defence
-- #518 Defence registration status showing before defence start with approximated time.
-- #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense 
+- #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense
   and disable the ability to choose full labs
 - #577 Registration for defense gives errors on following situations to the student: invalid charon setup,
 - can not register twice submission for the same charon, can not register as lab is full
 - #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within
 - the search parameters.
 - #560 Removed the ability to change whether students are able to choose their own teacher or not in charon settings
-- #521 Defence registration status showing after defence start.
 
 ## [1.5.4] - 2021-10-11
 

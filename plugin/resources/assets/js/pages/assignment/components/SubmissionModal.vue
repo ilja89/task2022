@@ -2,9 +2,21 @@
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
 			  transition="dialog-bottom-transition">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon @click="isActive=true" v-bind="attrs" v-on="on">
-				<img alt="eye" height="24px" src="pix/eye.png" width="24px">
-			</v-btn>
+			<v-badge :value="reviewCommentCount"
+					 :content="reviewCommentCount < 10 ? reviewCommentCount : '9+'"
+					 overlap
+					 left
+					 offset-x="20"
+			>
+				<v-btn icon
+					   :class="{ signal: notifyColor }"
+					   @click="onClickSubmissionInformation"
+					   v-bind="attrs"
+					   v-on="on"
+				>
+					<v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
+				</v-btn>
+			</v-badge>
 		</template>
 
 		<v-card style="background-color: white; overflow-y: auto;">
@@ -47,7 +59,7 @@
 
 				<div class="review-comments">
 					<h3>{{ translate('feedbackText') }}</h3>
-					<review-comment-component v-if="reviewCommentsExist" :submission="submission" view="student"></review-comment-component>
+					<review-comment-component v-if="reviewCommentCount" :files="files" view="student"></review-comment-component>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -61,8 +73,9 @@
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import SubmissionTable from "./SubmissionTable";
-import {File} from "../../../api";
+import {File, ReviewComment} from "../../../api";
 import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
+import {mapState} from "vuex";
 
 export default {
 	name: "submission-modal",
@@ -84,11 +97,17 @@ export default {
 			testerType: '',
 			toggleOn: false,
 			files: [],
-			reviewCommentsExist: false
+			reviewCommentCount: 0,
+			reviewCommentIdsWithNotify: [],
 		}
 	},
 
 	computed: {
+		...mapState([
+			'charon_id',
+			'student_id',
+		]),
+
 		hasCommitMessage() {
 			return this.submission.git_commit_message !== null && this.submission.git_commit_message.length > 0
 		},
@@ -96,27 +115,48 @@ export default {
 		hasMail() {
 			return this.submission.mail !== null && this.submission.mail.length > 0
 		},
+
+		notifyColor() {
+			return !!this.reviewCommentIdsWithNotify.length;
+		}
 	},
 
 	mounted() {
 		this.testerType = window.testerType
 		this.getFiles()
+		VueEvent.$on("student-refresh-submissions", this.getFiles);
 	},
 
 	methods: {
 		getFiles() {
 			File.findBySubmission(this.submission.id, files => {
-				this.submission.files = files
-				this.hasComments();
+				this.files = files
+				this.checkComments();
 			})
 		},
 
-		hasComments() {
-			this.submission.files.forEach(file => {
+		checkComments() {
+			this.reviewCommentCount = 0;
+			this.files.forEach(file => {
 				if (file.review_comments.length > 0) {
-					this.reviewCommentsExist = true;
+					file.review_comments.forEach(reviewComment => {
+						this.reviewCommentCount++;
+						if (reviewComment.notify) {
+							this.reviewCommentIdsWithNotify.push(reviewComment.id);
+						}
+					});
 				}
 			});
+		},
+
+		onClickSubmissionInformation() {
+			this.isActive = true;
+			if (this.reviewCommentIdsWithNotify.length) {
+				ReviewComment.clearNotifications(
+					this.reviewCommentIdsWithNotify, this.charon_id, this.student_id, () => {
+						this.reviewCommentIdsWithNotify = [];
+					});
+			}
 		}
 	},
 }
@@ -194,6 +234,10 @@ input:checked + .slider:before {
 
 .message {
 	padding: 10px;
+}
+
+.signal {
+    color: #f00!important;
 }
 
 </style>
