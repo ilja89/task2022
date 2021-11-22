@@ -10,7 +10,6 @@
                                      :content="submission.review_comments.length < 10 ? submission.review_comments.length : '9+'"
                                      left
                             >
-                            </v-badge>
                             <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
@@ -21,7 +20,7 @@
                                 </span><span class="submission-line">
                                     {{ formatStudentResults(submission) }}
                                 </span>
-                            </div>
+                            </div></v-badge>
                         </div>
                     </div>
                 </div>
@@ -132,26 +131,34 @@
     .submission {
         margin-top: 0;
         margin-bottom: 0;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: 1em;
+        padding-bottom: 1em;
         display: inherit;
 
         word-break: break-word;
         line-height: 1.5rem;
 
         @include touch {
-            padding-bottom: 20px;
-            padding-left: 10px;
+            padding-bottom: 1em;
+            padding-left: 1em;
+            padding-right: 1em;
         }
     }
 
     .submission-line {
         display: inline-block;
+        padding-top: 0.5em;
     }
 
     .timestamp-separator {
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+    }
+
+    .div.card.hover-overlay.submission {
+        padding-top: 1em!important;
+        padding-bottom: 1em!important;
+        padding-right: 1em!important;
     }
 
 </style>

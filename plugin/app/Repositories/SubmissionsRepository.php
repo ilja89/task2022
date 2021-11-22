@@ -147,7 +147,7 @@ class SubmissionsRepository
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
-        $fields = [
+        $submissionFields = [
             'charon_submission.id',
             'charon_submission.charon_id',
             'charon_submission.confirmed',
@@ -159,7 +159,49 @@ class SubmissionsRepository
             'charon_submission.mail',
         ];
 
-        $submissions = $this->buildForUser($userId)
+        $submissions = Submission::select($submissionFields)
+            ->where('charon_id', $charon->id)
+            ->where('user_id', $userId)
+            ->with([
+                'results' => function ($query) {
+                    $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                    $query->orderBy('grade_type_code');
+                },
+                'testSuites' => function ($query) {
+                    $query->select(['*']);
+                },
+                'unitTests' => function ($query) {
+                    $query->select(['*']);
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id']);
+                },
+                'reviewComments' => function ($query) {
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
+                },
+            ])
+            ->latest()
+            ->simplePaginate(10);
+
+        foreach ($submissions as $submission) {
+            foreach ($submission->testSuites as $testSuite) {
+                $testSuite->unit_tests = [];
+            }
+        }
+        foreach ($submissions as $submission) {
+            foreach ($submission->unitTests as $unitTest) {
+                foreach ($submission->testSuites as $testSuite) {
+                    if ($unitTest->test_suite_id === $testSuite->id) {
+                        array_push($testSuite->unit_tests, $unitTest);
+                    }
+                }
+            }
+        }
+        foreach ($submissions as $submission) {
+            unset($submission->unitTests);
+        }
+
+        /*$submissions = $this->buildForUser($userId)
             ->where('charon_submission.charon_id', $charon->id)
             ->orderBy('charon_submission.created_at', 'desc')
             ->orderBy('charon_submission.git_timestamp', 'desc')
@@ -176,8 +218,7 @@ class SubmissionsRepository
                 ->orderBy('grade_type_code')
                 ->get();
             $submission->test_suites = $this->getTestSuites($submission->id);
-        }
-
+        }*/
         return $submissions;
     }
 
@@ -185,7 +226,7 @@ class SubmissionsRepository
      * @param $submissionId
      * @return TestSuite[]
      */
-    public function getTestSuites($submissionId)
+    /*public function getTestSuites($submissionId)
     {
         $testSuites = \DB::table('charon_test_suite')
             ->where('submission_id', $submissionId)
@@ -195,19 +236,19 @@ class SubmissionsRepository
             $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
         }
         return $testSuites;
-    }
+    }*/
 
     /**
      * @param $testSuiteId
      * @return UnitTest[]
      */
-    private function getUnitTestsResults($testSuiteId)
+    /*private function getUnitTestsResults($testSuiteId)
     {
         return \DB::table('charon_unit_test')
             ->where('test_suite_id', $testSuiteId)
             ->select('*')
             ->get();
-    }
+    }*/
 
     /**
      * Finds all submissions which are confirmed for given user and Charon.
@@ -664,7 +705,7 @@ class SubmissionsRepository
      *
      * @param int $userId
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     private function buildForUser(int $userId)
     {

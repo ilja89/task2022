@@ -1,10 +1,16 @@
 <template>
+
     <div
         class="card  hover-overlay  submission"
         :class="{ 'confirmed-submission': submission.confirmed === 1 }"
         @click="$emit('submission-was-selected')"
     >
-        <div class="submission-str">{{ submissionString }}</div>
+        <v-badge :value="submission.review_comments.length"
+                 :content="submission.review_comments.length < 10 ? submission.review_comments.length : '9+'"
+                 overlap
+                 left
+                 offset-x="-1"
+        ><div class="submission-str">{{ submissionString }}</div></v-badge>
 
         <div class="submission-timestamps">
             <span class='timestamp-info'>Git: </span>{{ this.submission.git_timestamp }}
