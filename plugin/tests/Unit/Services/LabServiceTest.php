@@ -202,7 +202,7 @@ class LabServiceTest extends TestCase
 
         $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
-            ->with(401)
+            ->with(401, ['Waiting', 'Defending'])
             ->andReturn($registrations);
         $this->labTeacherRepository->shouldReceive('getAllLabTeachersByLab')
             ->once()
