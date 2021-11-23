@@ -43,7 +43,7 @@
                 <v-btn v-if="showDeleteButton(item)" icon @click="deleteItem(item) ">
                   <img alt="eye" height="24px" src="pix/bin.png" width="24px">
                 </v-btn>
-                <registration-queue-sheet v-if="checkLabNotEnded(item)" :labData="item"/>
+                <registration-queue-sheet v-if="checkLabNotEnded(item) && checkCharonIdExistence" :labData="item"/>
               </template>
             </v-data-table>
           </v-flex>
@@ -129,6 +129,10 @@ export default {
 			'student_id',
 			'charon'
 		]),
+
+        checkCharonIdExistence() {
+            return this.$store.state.charon.id;
+        },
 	},
 
 }
