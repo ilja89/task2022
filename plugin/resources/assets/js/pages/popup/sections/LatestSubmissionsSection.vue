@@ -105,7 +105,6 @@
 
             fetchLatestSubmissions() {
                 if (!this.isCharonDashboard) {
-                    console.log("true")
                     Submission.findLatest(this.courseId, submissions => {
                         this.latestSubmissions = submissions
                     })

@@ -44,7 +44,7 @@
 
         metaInfo() {
             return {
-                title: `${'Charon dashboard - ' + window.course_name}`
+                title: this.title
             }
         },
     }

@@ -147,11 +147,11 @@ class StatisticsRepository
         $generalInformation = new stdClass();
 
         $categoryId = $this->findCharonCategoryId($charonId);
-        $categoryGradeItemIds = $this->findCategoryGradeItemId($categoryId);
+        $categoryGradeItemId = $this->findCategoryGradeItemId($categoryId);
 
         $studentsStarted = $this->findStudentsStartedAmount($charonId);
         $studentsDefended = $this->findStudentsDefendedAmount($charonId);
-        $avgCategoryGrade = $this->findAverageCategoryGrade($charonId, $categoryGradeItemIds);
+        $avgCategoryGrade = $this->findAverageCategoryGrade($charonId, $categoryGradeItemId);
         $maxPoints = $this->findCharonMaxPoints($categoryId);
         $deadlines = $this->findCharonDeadlinesWithPercentages($charonId);
         $highestScore = $this->findHighestScoreForCharon($charonId);
