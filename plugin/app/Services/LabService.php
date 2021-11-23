@@ -126,7 +126,7 @@ class LabService
 
             $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
         } else {
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
         }
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
