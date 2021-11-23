@@ -460,7 +460,7 @@ class DefenceRegistrationService
     {
         if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
             $userId = app(User::class)->currentUserId();
-            $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUser($defenseId, $userId);
+            $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
             if ($labTeacher !== null){
                 $newTeacherId = $userId;
             }

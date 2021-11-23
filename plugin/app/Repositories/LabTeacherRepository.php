@@ -278,13 +278,13 @@ class LabTeacherRepository
     }
 
     /**
-     * Method is used to check is user is a teacher and is a lab teacher. Lab teacher checking is made through defense.
+     * Method is used to check if user is a lab teacher. Lab teacher checking is made through defense.
      *
      * @param int $defenseId
      * @param int $userId
      * @return object|null
      */
-    public function getTeacherByDefenseAndUser(int $defenseId, int $userId)
+    public function getTeacherByDefenseAndUserId(int $defenseId, int $userId)
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
