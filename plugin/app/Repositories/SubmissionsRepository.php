@@ -143,7 +143,7 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return Paginator
+     * @return mixed
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
@@ -183,72 +183,8 @@ class SubmissionsRepository
             ->latest()
             ->simplePaginate(10);
 
-        foreach ($submissions as $submission) {
-            foreach ($submission->testSuites as $testSuite) {
-                $testSuite->unit_tests = [];
-            }
-        }
-        foreach ($submissions as $submission) {
-            foreach ($submission->unitTests as $unitTest) {
-                foreach ($submission->testSuites as $testSuite) {
-                    if ($unitTest->test_suite_id === $testSuite->id) {
-                        array_push($testSuite->unit_tests, $unitTest);
-                    }
-                }
-            }
-        }
-        foreach ($submissions as $submission) {
-            unset($submission->unitTests);
-        }
-
-        /*$submissions = $this->buildForUser($userId)
-            ->where('charon_submission.charon_id', $charon->id)
-            ->orderBy('charon_submission.created_at', 'desc')
-            ->orderBy('charon_submission.git_timestamp', 'desc')
-            ->select($fields)
-            ->simplePaginate(5);
-
-        $submissions->appends(['user_id' => $userId])->links();
-
-        foreach ($submissions as $submission) {
-            $submission->results = Result::where('submission_id', $submission->id)
-                ->where('user_id', $userId)
-                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
-                ->orderBy('grade_type_code')
-                ->get();
-            $submission->test_suites = $this->getTestSuites($submission->id);
-        }*/
-        return $submissions;
+        return $this->adjustFormat($submissions);
     }
-
-    /**
-     * @param $submissionId
-     * @return TestSuite[]
-     */
-    /*public function getTestSuites($submissionId)
-    {
-        $testSuites = \DB::table('charon_test_suite')
-            ->where('submission_id', $submissionId)
-            ->select('*')
-            ->get();
-        for ($i = 0; $i < count($testSuites); $i++) {
-            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
-        }
-        return $testSuites;
-    }*/
-
-    /**
-     * @param $testSuiteId
-     * @return UnitTest[]
-     */
-    /*private function getUnitTestsResults($testSuiteId)
-    {
-        return \DB::table('charon_unit_test')
-            ->where('test_suite_id', $testSuiteId)
-            ->select('*')
-            ->get();
-    }*/
 
     /**
      * Finds all submissions which are confirmed for given user and Charon.
@@ -738,5 +674,28 @@ class SubmissionsRepository
             default:
                 return 'git_timestamp';
         }
+    }
+
+    /**
+     * @param $submissions
+     * @return mixed
+     */
+    public function adjustFormat($submissions)
+    {
+        foreach ($submissions as $submission) {
+            foreach ($submission->testSuites as $testSuite) {
+                $unit_tests = [];
+                foreach ($submission->unitTests as $unitTest) {
+                    if ($unitTest->test_suite_id === $testSuite->id) {
+                        array_push($unit_tests, $unitTest);
+                    }
+                }
+                $testSuite->unit_tests = $unit_tests;
+            }
+        }
+        foreach ($submissions as $submission) {
+            unset($submission->unitTests);
+        }
+        return $submissions;
     }
 }
