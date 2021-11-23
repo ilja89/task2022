@@ -209,7 +209,8 @@ class LabServiceTest extends TestCase
             ->with(401)
             ->andReturn($teachers);
         $this->defenseRegistrationRepository->shouldReceive('getTeacherAndDefendingCharonByLab')
-            ->never();
+            ->once()
+            ->with($this->lab->id);
         $this->defenceRegistrationService->shouldReceive('attachEstimatedTimesToDefenceRegistrations')
             ->once()
             ->andReturn($registrationsWithTimes);

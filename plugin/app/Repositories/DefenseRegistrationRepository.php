@@ -326,7 +326,7 @@ class DefenseRegistrationRepository
             ->where("charon_defense_lab.lab_id", $labId)
             ->whereIn("charon_defenders.progress", $progresses)
             ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id",
-                "charon_defenders.defense_start")
+                "charon_defenders.defense_start", "charon_defenders.progress")
             ->orderBy("charon_defenders.id")
             ->get()
             ->all();
@@ -362,8 +362,8 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.lab_id', $labId)
             ->where('progress', 'Defending')
             ->whereNotNull('charon_defenders.teacher_id')
-            ->select('charon_defenders.teacher_id', 'charon.name as charon')
-            ->groupBy('teacher_id','charon')
+            ->select('charon_defenders.teacher_id', 'charon.name as charon', 'charon_defenders.defense_start', 'charon.defense_duration')
+            ->groupBy('teacher_id','charon','defense_start', 'defense_duration')
             ->get();
     }
 

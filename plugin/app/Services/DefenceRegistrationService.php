@@ -387,29 +387,53 @@ class DefenceRegistrationService
     public function attachEstimatedTimesToDefenceRegistrations(
         array $registrations,
         int $teacherCount,
-        Carbon $labStart
+        Carbon $labStart,
+        $teachersDefences
     ): array {
 
+        $labStarted = Carbon::now() >= $labStart;
 
-
-        Log::info(print_r($registrations));
-
-        foreach ($registrations as $registration){
-            unset($registration->defense_start);
+        if ($labStarted){
+            $queueStart = Carbon::now();
+        } else {
+            $queueStart = $labStart;
         }
 
         $queuePresumption = array_fill(0, $teacherCount, 0);
 
+        foreach ($teachersDefences as $teachersDefence){
+            $defenseStart = Carbon::parse($teachersDefence->defense_start);
+            $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
+
+            $defenceAndQueueStartDifference = $defenseStart->copy()->diffInMinutes($queueStart);
+
+            if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration){
+                $queuePresumption[$teacherNr] += $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
+            }
+        }
+
+        $queueRegistrations = [];
+
+
         for ($i = 0; $i < count($registrations); $i++) {
             $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
 
-            $registrations[$i]->estimated_start =
-                $labStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+            $registration = $registrations[$i];
 
-            $queuePresumption[$teacherNr] += $registrations[$i]->defense_duration;
+            if (!$labStarted || $registration->progress == "Waiting"){
+
+                $registration->estimated_start =
+                    $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+
+                $queuePresumption[$teacherNr] += $registration->defense_duration;
+
+                unset($registration->defense_start);
+                unset($registration->progress);
+                array_push($queueRegistrations, $registration);
+            }
         }
 
-        return $registrations;
+        return $queueRegistrations;
     }
 
     /**
@@ -428,7 +452,8 @@ class DefenceRegistrationService
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
-            $lab->start
+            $lab->start,
+            $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id)
         );
 
         if (count($registrations) >= $teacherCount) {
