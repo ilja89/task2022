@@ -75,11 +75,16 @@ class LabService
      */
     public function labQueueStatus(User $user, Lab $lab): array
     {
-        if (Carbon::now() > $lab->end){
-            return [];
-        }
-
         $queueStatus = [];
+
+        // Send lab start and end times.
+        // This is used if teacher changes lab time and to show correct tables to students in queue
+        $queueStatus['lab_start'] = $lab->start;
+        $queueStatus['lab_end'] = $lab->end;
+
+        if (Carbon::now() > $lab->end){
+            return $queueStatus;
+        }
 
         // Get teachers per lab
         $teachersList = $this->labTeacherRepository->getAllLabTeachersByLab($lab->id);
@@ -121,7 +126,7 @@ class LabService
 
             $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
         } else {
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id);
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
         }
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(

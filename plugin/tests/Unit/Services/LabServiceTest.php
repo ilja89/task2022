@@ -109,8 +109,6 @@ class LabServiceTest extends TestCase
         $user->id = 1;
         $user->firstname = 'Tom';
         $user->lastname = 'Jackson';
-        $charon = Mockery::mock(Charon::class)->makePartial();
-        $charon->id = 2;
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime('+1 day');
@@ -204,7 +202,7 @@ class LabServiceTest extends TestCase
 
         $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
-            ->with(401)
+            ->with(401, ['Waiting', 'Defending'])
             ->andReturn($registrations);
         $this->labTeacherRepository->shouldReceive('getAllLabTeachersByLab')
             ->once()
@@ -283,8 +281,6 @@ class LabServiceTest extends TestCase
         $user->id = 1;
         $user->firstname = 'Tom';
         $user->lastname = 'Jackson';
-        $charon = Mockery::mock(Charon::class)->makePartial();
-        $charon->id = 2;
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime('-30 minutes');
@@ -417,14 +413,12 @@ class LabServiceTest extends TestCase
         $this->assertEquals($expectedResult, $result['registrations']);
     }
 
-    public function testTeachersList()
+    public function testLabQueueTeacherList()
     {
         $user = Mockery::mock(User::class)->makePartial();
         $user->id = 1;
         $user->firstname = 'Tom';
         $user->lastname = 'Jackson';
-        $charon = Mockery::mock(Charon::class)->makePartial();
-        $charon->id = 2;
 
         $this->lab->id = 401;
         $this->lab->start = new \DateTime();

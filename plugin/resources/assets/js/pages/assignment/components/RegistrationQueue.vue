@@ -100,8 +100,8 @@ export default {
       Lab.getLabQueueStatus(this.$store.state.charon.id, this.defenseLabId, this.$store.state.student_id,  (items)=>{
         this.studentsQueue = items.registrations;
         this.labTeachers = items.teachers;
-        this.labStarted = Date.parse(this.lab_start) <= Date.now();
-        this.labEnded = Date.parse(this.lab_end) <= Date.now();
+        this.labStarted = Date.parse(items.lab_start) <= Date.now();
+        this.labEnded = Date.parse(items.lab_end) <= Date.now();
         if (this.labEnded) {
           this.cancelAutoUpdate()
         }
