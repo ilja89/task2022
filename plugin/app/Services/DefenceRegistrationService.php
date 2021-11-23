@@ -389,6 +389,15 @@ class DefenceRegistrationService
         int $teacherCount,
         Carbon $labStart
     ): array {
+
+
+
+        Log::info(print_r($registrations));
+
+        foreach ($registrations as $registration){
+            unset($registration->defense_start);
+        }
+
         $queuePresumption = array_fill(0, $teacherCount, 0);
 
         for ($i = 0; $i < count($registrations); $i++) {
