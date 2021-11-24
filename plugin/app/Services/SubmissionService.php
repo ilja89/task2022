@@ -302,13 +302,21 @@ class SubmissionService
         return $responseSubmission;
     }
 
+    /**
+     * Find user's submission with the best score.
+     *
+     * @param int $charonId
+     * @param int $userId
+     *
+     * @return ?Submission
+     */
     public function findUsersBestSubmission(int $charonId, int $userId): ?Submission
     {
         $bestSubmission = null;
         $bestTotal = -1;
 
         foreach ($this->submissionsRepository->findUserSubmissions($userId, $charonId) as $submission) {
-            $total = $this->calculateSubmissionTotalGrade($submission, $userId);
+            $total = $this->calculateSubmissionTotalGrade($submission, $userId, true);
 
             if ($total >= $bestTotal) {
                 $bestSubmission = $submission;
@@ -319,6 +327,14 @@ class SubmissionService
         return $bestSubmission;
     }
 
+    /**
+     * Find user's latest submission.
+     *
+     * @param int $charonId
+     * @param int $userId
+     *
+     * @return Submission|null
+     */
     public function findUsersLatestSubmission(int $charonId, int $userId): ?Submission
     {
         $submissions = $this->submissionsRepository->findUserSubmissions($userId, $charonId);

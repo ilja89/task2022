@@ -261,8 +261,14 @@ class UpdateCharonService
         return false;
     }
 
+    /**
+     * Update active submissions for students that are on given charon's course
+     *
+     * @param Charon $charon
+     */
     private function updateActiveSubmissions(Charon $charon): void
     {
+        $gradingMethod = $charon->gradingMethod;
         $students = $this->studentsRepository
             ->searchUsersByCourseKeywordAndRole($charon->course, null, ["student"])->all();
 
@@ -272,10 +278,13 @@ class UpdateCharonService
                 continue;
             }
 
-            // TODO: replace with better logic
-            $submission = $charon->gradingMethod->isPreferLast()
-                ? $this->submissionService->findUsersLatestSubmission($charon->id, $student->id)
-                : $this->submissionService->findUsersBestSubmission($charon->id, $student->id);
+            if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachTestGrade()) {
+                $submission = $this->submissionService->findUsersBestSubmission($charon->id, $student->id);
+            } else if ($gradingMethod->isPreferLast()) {
+                $submission = $this->submissionService->findUsersLatestSubmission($charon->id, $student->id);
+            } else {
+                throw new \RuntimeException("given charon has an unknown grading method");
+            }
 
             if ($submission !== null) {
                 $this->charonGradingService->updateGrades($submission, $student->id);
