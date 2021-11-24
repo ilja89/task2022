@@ -120,7 +120,7 @@ class SubmissionsRepository
     }
 
     /**
-     * Find users submission with given user id.
+     * Find user's submission with given user id.
      *
      * @param int $userId
      * @param ?int $charonId
