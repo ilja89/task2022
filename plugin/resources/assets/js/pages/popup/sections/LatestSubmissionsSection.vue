@@ -8,7 +8,9 @@
                         <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
                             <v-badge :value="submission.review_comments.length"
                                      :content="submission.review_comments.length < 10 ? submission.review_comments.length : '9+'"
+                                     overlap
                                      left
+                                     offset-x="-1"
                             >
                             <div>
                                 <span class="submission-line">
