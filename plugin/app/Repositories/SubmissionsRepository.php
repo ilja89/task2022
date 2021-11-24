@@ -120,14 +120,23 @@ class SubmissionsRepository
     }
 
     /**
+     * Find users submission with given user id.
+     *
      * @param int $userId
+     * @param ?int $charonId
      *
      * @return Collection|Submission[]
      */
-    public function findUserSubmissions(int $userId)
+    public function findUserSubmissions(int $userId, ?int $charonId = null): Collection
     {
-        $submissions = $this->buildForUser($userId)
-            ->select('charon_submission.*')
+        $query = $this->buildForUser($userId);
+
+        if ($charonId !== null) {
+            $query->where('charon_submission.charon_id', $charonId);
+        }
+
+        $submissions = $query->select('charon_submission.*')
+            ->orderBy('charon_submission.id', 'asc')
             ->get()
             ->toArray();
 

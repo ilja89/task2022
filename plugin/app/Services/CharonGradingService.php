@@ -131,7 +131,7 @@ class CharonGradingService
      *
      * @return bool
      */
-    private function hasConfirmedSubmission(int $charonId, int $userId)
+    public function hasConfirmedSubmission(int $charonId, int $userId)
     {
         return $this->submissionsRepository->charonHasConfirmedSubmissions(
             $charonId, $userId
@@ -187,14 +187,6 @@ class CharonGradingService
                 );
                 $result->save();
             }
-
-            $this->gradingService->updateGrade(
-                $grademap->charon->course,
-                $grademap->charon_id,
-                $result->grade_type_code,
-                $result->user_id,
-                $result->calculated_result
-            );
         }
     }
 

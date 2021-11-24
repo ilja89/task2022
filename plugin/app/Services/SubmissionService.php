@@ -5,7 +5,6 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
@@ -167,11 +166,16 @@ class SubmissionService
      *
      * @param Submission $submission
      * @param int $user_id
+     * @param bool $ignoreDefenceGrades
      *
      * @return float
      */
-    public function calculateSubmissionTotalGrade(Submission $submission, int $user_id): float
-    {
+    public function calculateSubmissionTotalGrade(
+        Submission $submission,
+        int $user_id,
+        bool $ignoreDefenceGrades = false
+    ): float {
+
         $charon = $submission->charon;
         $calculation = $charon->category->getGradeItem()->calculation;
 
@@ -184,6 +188,10 @@ class SubmissionService
             }
 
             return round($sum, 3);
+        }
+
+        if ($ignoreDefenceGrades) {
+            // alter calculation formula that defence grades are not included
         }
 
         $params = $this->grademapService->findFormulaParams(
@@ -292,5 +300,30 @@ class SubmissionService
             ->get();
         $responseSubmission['test_suites'] = $this->submissionsRepository->getTestSuites($submission->id);
         return $responseSubmission;
+    }
+
+    public function findUsersBestSubmission(int $charonId, int $userId): ?Submission
+    {
+        $bestSubmission = null;
+        $bestTotal = -1;
+
+        foreach ($this->submissionsRepository->findUserSubmissions($userId, $charonId) as $submission) {
+            $total = $this->calculateSubmissionTotalGrade($submission, $userId);
+
+            if ($total >= $bestTotal) {
+                $bestSubmission = $submission;
+                $bestTotal = $total;
+            }
+        }
+
+        return $bestSubmission;
+    }
+
+    public function findUsersLatestSubmission(int $charonId, int $userId): ?Submission
+    {
+        $submissions = $this->submissionsRepository->findUserSubmissions($userId, $charonId);
+        return !$submissions->isEmpty()
+            ? $submissions->last()
+            : null;
     }
 }
