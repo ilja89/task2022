@@ -191,7 +191,7 @@ class SubmissionService
         }
 
         if ($ignoreDefenceGrades) {
-            // alter calculation formula that defence grades are not included
+            // TODO: alter calculation formula so that defence grades are not included
         }
 
         $params = $this->grademapService->findFormulaParams(
