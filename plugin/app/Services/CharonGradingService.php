@@ -172,15 +172,7 @@ class CharonGradingService
         );
 
         foreach ($results as $result) {
-            if ($this->hasConfirmedSubmission($grademap->charon_id, $result->user_id)) {
-                $result = $this->submissionsRepository
-                    ->findConfirmedSubmissionsForUserAndCharon($result->user_id, $grademap->charon_id)
-                    ->first()
-                    ->results()
-                    ->where('grade_type_code', $result->grade_type_code)
-                    ->where('user_id', $result->user_id)
-                    ->first();
-            } else {
+            if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id)) {
                 $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                     $result,
                     $grademap->charon->deadlines
