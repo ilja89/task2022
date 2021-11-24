@@ -175,6 +175,8 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
 
+            $this->updateCharonService->updateActiveSubmissions($charon);
+
             // TODO: Plagiarism
         }
 

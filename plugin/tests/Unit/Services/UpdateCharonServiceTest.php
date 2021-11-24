@@ -10,9 +10,11 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\DeadlineService;
 use TTU\Charon\Services\GrademapService;
+use TTU\Charon\Services\SubmissionService;
 use TTU\Charon\Services\UpdateCharonService;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\CalendarService;
@@ -62,7 +64,9 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
             m::mock(CharonGradingService::class),
-            m::mock(CalendarService::class)
+            m::mock(CalendarService::class),
+            m::mock(StudentsRepository::class),
+            m::mock(SubmissionService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
@@ -88,7 +92,9 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
             m::mock(CharonGradingService::class),
-            m::mock(CalendarService::class)
+            m::mock(CalendarService::class),
+            m::mock(StudentsRepository::class),
+            m::mock(SubmissionService::class)
         );
 
         $updateCharonService->updateGrademaps($newGrademaps, $charon);
@@ -140,7 +146,9 @@ class UpdateCharonServiceTest extends TestCase
                 ->getMock(),
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
-            m::mock(CharonGradingService::class)
+            m::mock(CharonGradingService::class),
+            m::mock(StudentsRepository::class),
+            m::mock(SubmissionService::class)
         );
 
         $updateCharonService->updateCategoryCalculationAndMaxScore($charon, $request);

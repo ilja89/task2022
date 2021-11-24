@@ -106,8 +106,6 @@ class UpdateCharonService
                 );
             }
         }
-
-        $this->updateActiveSubmissions($charon);
     }
 
     /**
@@ -266,7 +264,7 @@ class UpdateCharonService
      *
      * @param Charon $charon
      */
-    private function updateActiveSubmissions(Charon $charon): void
+    public function updateActiveSubmissions(Charon $charon): void
     {
         $gradingMethod = $charon->gradingMethod;
         $students = $this->studentsRepository
