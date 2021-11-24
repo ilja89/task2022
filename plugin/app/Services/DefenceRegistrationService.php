@@ -391,14 +391,16 @@ class DefenceRegistrationService
         $teachersDefences
     ): array {
 
-        $labStarted = Carbon::now() >= $labStart;
-
-        if ($labStarted){
+        //If lab started, then queue starts from now
+        if (Carbon::now() >= $labStart){
             $queueStart = Carbon::now();
         } else {
             $queueStart = $labStart;
         }
 
+        if ($teacherCount < 1) {
+            $teacherCount = 1;
+        }
         $queuePresumption = array_fill(0, $teacherCount, 0);
 
         foreach ($teachersDefences as $teachersDefence){
@@ -420,17 +422,14 @@ class DefenceRegistrationService
 
             $registration = $registrations[$i];
 
-            if (!$labStarted || $registration->progress == "Waiting"){
+            $registration->estimated_start =
+                $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
 
-                $registration->estimated_start =
-                    $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+            $queuePresumption[$teacherNr] += $registration->defense_duration;
 
-                $queuePresumption[$teacherNr] += $registration->defense_duration;
-
-                unset($registration->defense_start);
-                unset($registration->progress);
-                array_push($queueRegistrations, $registration);
-            }
+            unset($registration->defense_start);
+            unset($registration->progress);
+            array_push($queueRegistrations, $registration);
         }
 
         return $queueRegistrations;
@@ -448,6 +447,11 @@ class DefenceRegistrationService
     {
         $capacity = $lab->end->diffInMinutes($lab->start);
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
+
+        if ($teacherCount === 0) {
+            // if lab has no teachers, then block registrations for this lab
+            return null;
+        }
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
@@ -476,7 +480,7 @@ class DefenceRegistrationService
             $shortestWaitingTime = $lab->start;
         }
 
-        return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
+        return $capacity >= $shortestWaitingTime->diffInMinutes($lab->start) + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
     }

@@ -124,10 +124,10 @@ class LabService
             }
 
             $queueStatus['teachers'] = $teachersList;
-
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
+        } else {
+            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
         }
-
-        $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $labRegistrations,
