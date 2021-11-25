@@ -276,4 +276,23 @@ class LabTeacherRepository
             )
             ->get();
     }
+
+    /**
+     * Get teachers ids which is connected with lab and not in given array.
+     *
+     * @param $labId
+     * @param $teachers
+     * @return array
+     */
+    public function getTeachersByLabWhichNotInList($labId, $teachers): array
+    {
+        return DB::table('charon_lab_teacher')
+            ->where('charon_lab_teacher.lab_id', $labId)
+            ->whereNotIn('charon_lab_teacher.teacher_id', $teachers)
+            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
+            ->select(
+                'user.id'
+            )->pluck('id')->toArray();
+    }
+
 }

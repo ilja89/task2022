@@ -344,4 +344,21 @@ class DefenseRegistrationRepository
             ->count();
     }
 
+    /**
+     * Remove teachers from registration teachers which have progress waiting or defending.
+     * If progress is defending, then change it to waiting.
+     *
+     * @param $labId
+     * @param $teachersToRemove
+     * @return int
+     */
+    public function removeTeachersFromWaitingAndDefendingRegistrations($labId, $teachersToRemove){
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('charon_defenders.progress', '!=', 'Done')
+            ->whereIn('charon_defenders.teacher_id', $teachersToRemove)
+            ->update(array('charon_defenders.teacher_id' => null, 'charon_defenders.progress' => 'Waiting'));
+    }
+
 }
