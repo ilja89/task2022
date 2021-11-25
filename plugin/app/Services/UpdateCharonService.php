@@ -75,18 +75,18 @@ class UpdateCharonService
      * This assumes that deadlines are updated before this so grades
      * can be recalculated if needed.
      *
-     * @param  array $newGrademaps
-     * @param  Charon $charon
-     * @param  bool $deadlinesWereUpdated
-     * @param  bool $recalculateGrades
+     * @param array $newGrademaps
+     * @param Charon $charon
+     * @param bool $deadlinesWereUpdated
+     * @param bool $recalculateGrades
      *
      * @return void
      */
     public function updateGrademaps(
-        $newGrademaps,
+        array $newGrademaps,
         Charon $charon,
-        $deadlinesWereUpdated = false,
-        $recalculateGrades = true
+        bool $deadlinesWereUpdated = false,
+        bool $recalculateGrades = false
     ) {
         $grademaps = $charon->grademaps;
 
@@ -105,6 +105,10 @@ class UpdateCharonService
                     $charon, $gradeType, $charon->course, $newGrademap
                 );
             }
+        }
+
+        if ($recalculateGrades) {
+            $this->updateActiveSubmissions($charon);
         }
     }
 
