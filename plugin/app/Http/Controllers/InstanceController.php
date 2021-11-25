@@ -172,7 +172,7 @@ class InstanceController extends Controller
                 $this->request->input('grademaps'),
                 $charon,
                 $deadlinesUpdated,
-                $this->request->input('recalculate_grades')
+                $this->request->input('recalculate_grades') ?? false // could be not set
             );
 
             // TODO: Plagiarism
