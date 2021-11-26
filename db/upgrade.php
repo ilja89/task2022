@@ -813,11 +813,5 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021111401) {
-        $sql = "ALTER TABLE ". $CFG->prefix . "charon_submission_file ADD CONSTRAINT FK_submission_file_submission FOREIGN KEY (submission_id) "
-            . "REFERENCES " . $CFG->prefix . "charon_submission (id) ON DELETE CASCADE ON UPDATE CASCADE";
-        $DB->execute($sql);
-    }
-
     return true;
 }

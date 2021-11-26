@@ -158,9 +158,9 @@
     }
 
     .div.card.hover-overlay.submission {
-        padding-top: 1em!important;
-        padding-bottom: 1em!important;
-        padding-right: 1em!important;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        padding-right: 1em;
     }
 
 </style>

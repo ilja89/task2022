@@ -183,7 +183,7 @@ class SubmissionsRepository
             ->latest()
             ->simplePaginate(10);
 
-        return $this->adjustFormat($submissions);
+        return $this->assignUnitTestsToTestSuites($submissions);
     }
 
     /**
@@ -680,7 +680,7 @@ class SubmissionsRepository
      * @param $submissions
      * @return mixed
      */
-    public function adjustFormat($submissions)
+    public function assignUnitTestsToTestSuites($submissions)
     {
         foreach ($submissions as $submission) {
             foreach ($submission->testSuites as $testSuite) {

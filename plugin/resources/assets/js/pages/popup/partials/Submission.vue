@@ -66,9 +66,9 @@
     }
 
     .submission {
-        padding-top: 1em!important;
-        padding-bottom: 1em!important;
-        padding-right: 1em!important;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        padding-right: 1em;
         margin-top: 1em;
         margin-bottom: 1em;
         flex-direction: unset;
