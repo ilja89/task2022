@@ -114,7 +114,7 @@ class GrademapService
             if ($result->user_id == $studentId) {
 
                 $grademap = $result->getGrademap();
-                // TODO: expect results without a grademap or a gradeitem?
+                // TODO: expect results that are not included in calculation formula?
                 if ($grademap === null || $grademap->gradeItem === null) {
                     continue;
                 }
