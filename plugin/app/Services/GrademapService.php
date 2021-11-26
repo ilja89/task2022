@@ -112,7 +112,14 @@ class GrademapService
         $params = [];
         foreach ($results as $result) {
             if ($result->user_id == $studentId) {
-                $params['gi' . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
+
+                $grademap = $result->getGrademap();
+                // TODO: expect results without a grademap or a gradeitem?
+                if ($grademap === null || $grademap->gradeItem === null) {
+                    continue;
+                }
+
+                $params['gi' . $grademap->gradeItem->id] = $result->calculated_result;
             }
         }
 
