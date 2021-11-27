@@ -55,13 +55,15 @@
                 <v-select
                     class="mx-auto"
                     dense
+                    clearable
                     single-line
                     return-object
                     :items="teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistration(item.id, item.progress, item.teacher.id)"
+                    @change="updateRegistrationTeacher(
+                        item.id, item.progress, item.teacher ? item.teacher.id : null)"
                 ></v-select>
             </template>
 
@@ -75,9 +77,9 @@
                 <v-select
                     class="mx-auto"
                     dense
-                    :items="all_progress_types"
+                    :items="getProgresses(item)"
                     v-model="item.progress"
-                    @change="updateRegistration(item.id, item.progress, item.teacher.id)"
+                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
                 ></v-select>
             </template>
 
@@ -104,7 +106,6 @@ export default {
             alert: false,
             item: Object,
             search: '',
-            all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
                 {text: 'Nr. in queue', value: 'queue_nr', align: 'start'},
                 {text: 'Lab', value: 'lab_name'},
@@ -123,6 +124,15 @@ export default {
     methods: {
         getSubmissionRouting(submissionId) {
             return '/submissions/' + submissionId
+        },
+
+        updateRegistrationTeacher(defenseId, progress, teacherId) {
+            if (teacherId == null && progress === 'Done'){
+                VueEvent.$emit('show-notification',
+                    "Teacher can't be removed from registration with progress `Done`", 'danger')
+            } else {
+                this.updateRegistration(defenseId, progress, teacherId);
+            }
         },
 
         updateRegistration(defense_id, state, teacher_id) {
@@ -194,7 +204,14 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        getProgresses(item) {
+            if (item.teacher === null){
+                return ['Waiting']
+            }
+            return ['Waiting', 'Defending', 'Done']
+        },
     },
     computed: {
         ...mapState([
