@@ -269,7 +269,7 @@ class InstanceController extends Controller
             'description' => $this->request->input('description')['text'],
             'project_folder' => $this->request->input('project_folder'),
             'tester_type_code' => $this->request->input('tester_type_code', 1),
-            'grading_method_code' => $this->request->input('grading_method', 1),
+            'grading_method_code' => $this->request->input('grading_method_code', 1),
             'grouping_id' => $this->request->input('grouping_id'),
             'defense_start_time' => $this->request->input('defense_start_time', Carbon::now()->format("Y-m-d")),
             'defense_deadline' => $this->request->input('defense_deadline', Carbon::now()->addDays(90)->format("Y-m-d")),
