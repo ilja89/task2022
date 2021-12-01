@@ -107,23 +107,23 @@ class InstanceTest extends TestCase
     private function getRandomRequest($courseId)
     {
         return [
-            'name'           => $this->faker->name,
-            'description'    => [
-                'text' => $this->faker->text
+            'name'                  => $this->faker->name,
+            'description'           => [
+                'text'                  => $this->faker->text
             ],
-            'tester_extra'   => 'stylecheck',
-            'project_folder' => $this->faker->word,
-            'tester_type'    => $this->faker->randomElement([1, 2, 3, 4]),
-            'grading_method' => $this->faker->randomElement([1, 2]),
-            'course'         => $courseId,
-            'grademaps'      => [
+            'tester_extra'          => 'stylecheck',
+            'project_folder'        => $this->faker->word,
+            'tester_type'           => $this->faker->randomElement([1, 2, 3, 4]),
+            'grading_method_code'   => $this->faker->randomElement([1, 2]),
+            'course'                => $courseId,
+            'grademaps'             => [
                 1 => [
-                    'grademap_name' => $this->faker->word,
-                    'max_points'    => 100,
-                    'id_number'     => $this->faker->word
+                    'grademap_name'     => $this->faker->word,
+                    'max_points'        => 100,
+                    'id_number'         => $this->faker->word
                 ]
             ],
-            'deadlines'      => [],
+            'deadlines'             => [],
         ];
     }
 }
