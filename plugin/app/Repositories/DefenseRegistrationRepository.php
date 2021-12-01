@@ -279,9 +279,13 @@ class DefenseRegistrationRepository
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
         $defense = Registration::find($defenseId);
+        if ($newTeacherId == null){
+            $newProgress = 'Waiting';
+        }
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
         $defense->update();
+        $defense->teacher = $this->labTeacherRepository->getTeacherByUserId($newTeacherId);
         return $defense;
     }
 

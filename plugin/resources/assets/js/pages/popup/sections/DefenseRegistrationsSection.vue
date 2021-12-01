@@ -55,6 +55,19 @@
                 <v-select
                     class="mx-auto"
                     dense
+                    v-if="item.progress === 'Done'"
+                    single-line
+                    return-object
+                    :items="teachers"
+                    item-text="fullname"
+                    item-value="teacher"
+                    v-model="item.teacher"
+                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
+                ></v-select>
+                <v-select
+                    class="mx-auto"
+                    dense
+                    v-else
                     clearable
                     single-line
                     return-object
@@ -62,8 +75,7 @@
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistrationTeacher(
-                        item.id, item.progress, item.teacher ? item.teacher.id : null)"
+                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
                 ></v-select>
             </template>
 
@@ -126,17 +138,16 @@ export default {
             return '/submissions/' + submissionId
         },
 
-        updateRegistrationTeacher(defenseId, progress, teacherId) {
-            if (teacherId == null && progress === 'Done'){
-                VueEvent.$emit('show-notification',
-                    "Teacher can't be removed from registration with progress `Done`", 'danger')
-            } else {
-                this.updateRegistration(defenseId, progress, teacherId);
-            }
-        },
-
         updateRegistration(defense_id, state, teacher_id) {
-            Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
+            Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, (registration) => {
+                if (teacher_id == null && state === 'Defending'){
+                    this.defenseList.forEach(defense => {
+                        if (defense.id === registration.id){
+                            defense.progress = registration.progress;
+                            defense.teacher = registration.teacher;
+                        }
+                    })
+                }
                 VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
             })
         },
@@ -207,7 +218,7 @@ export default {
         },
 
         getProgresses(item) {
-            if (item.teacher === null){
+            if (item.teacher === null || item.teacher.id === null){
                 return ['Waiting']
             }
             return ['Waiting', 'Defending', 'Done']
