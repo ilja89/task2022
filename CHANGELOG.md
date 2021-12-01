@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - #701 Fix comment notification email message
+- #702 Fix grading type saving in charon settings
 
 ## [1.5.6] - 2021-11-11
 
