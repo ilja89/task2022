@@ -122,7 +122,7 @@ export default {
 <style>
 
 .v-application--wrap {
-  min-height: 1vh !important;
+  min-height: 1vh;
 }
 
 </style>
