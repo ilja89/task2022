@@ -34,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
-- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -82,26 +81,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.0] - 2021-09-09
 - \#438 Update Laravel version
-
-## [1.4.0] - 2021-08-13
-
-### Added
-- \#454 Added posting to tester from inline submission
-- \#418 Charon footer shows Charon version in use and has a link to Changelog
-- \#431 Added charon total points in grading view
-- \#492 Integrated templates management frontend with backend endpoints
-- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
-- \#474 Added ability to make submitions from charon student view
-- \#542 Now a submission is made to tester, its response is handled and submissions are created.
-- \#522 Show code editor always if there is at least one template (student view)
-- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
-- \#539 Substitute Ace Editor with textarea
-
-
-### Fixed
-- \#528 In grading view show "Total points: 0" if there is no result for charon
-- \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
-- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.3.0] - 2021-07-19
 
