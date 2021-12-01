@@ -10,6 +10,7 @@ use Tests\TestCase;
 use Tests\Traits\MocksSubmission;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
+use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
@@ -196,11 +197,10 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     /**
      * Deadline with percentage 45 should match as lowest past due date with user group overlap
+     * Do not take into consideration submissions for a charon with grading method as 'prefer_best_each_test_grade'
      */
     public function testCalculateResultFromDeadlinesReturnsSmallestScoreFromPassedDeadlines()
     {
-        $this->markTestSkipped('Out of date, needs attention');
-
         Group::unguard();
 
         $deadlines = collect([
@@ -220,11 +220,14 @@ class SubmissionCalculatorServiceTest extends TestCase
         $userGroupBuilder->shouldReceive('groups->where')->with('courseid', 5)->andReturn($userGroupBuilder);
         $userGroupBuilder->shouldReceive('get')->andReturn($userGroups);
 
+        $charon = new Charon(['course' => 5]);
+        $charon->gradingMethod = new GradingMethod(['code' => rand(1, 2)]);
+
         /** @var Mock|Submission $submission */
         $submission = Mockery::spy($this->makeSubmissionAt(Carbon::now()));
         $submission->originalSubmission = null;
         $submission->user = $userGroupBuilder;
-        $submission->charon = new Charon(['course' => 5]);
+        $submission->charon = $charon;
 
         $grademap = new Grademap();
         $grademap->gradeItem = new GradeItem(['grademax' => 100]);
