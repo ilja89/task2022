@@ -63,7 +63,7 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
+        'name', 'description', 'project_folder', 'tester_extra', 'unittests_git', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
         'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold',
         'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size', 'allow_submission'

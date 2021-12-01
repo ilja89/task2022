@@ -16,6 +16,7 @@
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="unittests_git" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>

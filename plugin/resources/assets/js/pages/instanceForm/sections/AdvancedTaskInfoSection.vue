@@ -30,13 +30,13 @@
         </charon-text-input>
 
         <charon-text-input
-            name="system_extra"
-            :label="translate('system_extra_label')"
+            name="unittests_git"
+            :label="translate('unittests_git_label')"
             :required="false"
-            :value="form.fields.system_extra"
-            :helper_text="translate('system_extra_helper')"
+            :value="form.fields.unittests_git"
+            :helper_text="translate('unittests_git_helper')"
             :autocomplete="false"
-            @input-was-changed="onSystemExtraChanged">
+            @input-was-changed="onUnittestsGitChanged">
         </charon-text-input>
 
         <charon-select
