@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-
 - #641 New grading method 'prefer_best_each_test_grade', which lets students build up points for each grade
 - as long as grades' individual percentage stays the same or improves
 
