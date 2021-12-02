@@ -2,6 +2,8 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Dto\FileReviewCommentsDTO;
+use TTU\Charon\Dto\ReviewCommentDTO;
 use TTU\Charon\Exceptions\ReviewCommentException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\ReviewCommentRepository;
@@ -118,9 +120,24 @@ EOT;
      * Remove notification setting from review comments got by given identifiers.
      *
      * @param $reviewCommentIds
+     * @throws ReviewCommentException
      */
     public function clearNotifications($reviewCommentIds): void
     {
-        $this->reviewCommentRepository->clearNotification($reviewCommentIds);
+        if (!$this->reviewCommentRepository->clearNotification($reviewCommentIds)) {
+            throw new ReviewCommentException("notification_removal_failed");
+        }
+    }
+
+    /**
+     * Get all reviewComments for the specific charon and for the specific student.
+     *
+     * @param $charonId
+     * @param $studentId
+     * @return array
+     */
+    public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
+    {
+        return $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
     }
 }
