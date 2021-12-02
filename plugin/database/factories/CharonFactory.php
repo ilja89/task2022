@@ -10,7 +10,7 @@ use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Lab;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Models\Template;
 use TTU\Charon\Models\TesterType;
@@ -102,7 +102,7 @@ $factory->define(Lab::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(Registration::class, function (Generator $faker) {
+$factory->define(Defender::class, function (Generator $faker) {
     return [
         'student_id' => 0,
         'charon_id' => 0,

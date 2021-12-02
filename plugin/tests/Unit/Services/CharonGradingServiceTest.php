@@ -9,7 +9,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\GradingMethod;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -367,7 +367,7 @@ class CharonGradingServiceTest extends TestCase
 
     public function testUpdateProgressByStudentIdUpdatesFoundRegistration()
     {
-        Registration::unguard();
+        Defender::unguard();
 
         /** @var Mock|Builder $builder */
         $builder = Mockery::mock(Builder::class);
@@ -379,7 +379,7 @@ class CharonGradingServiceTest extends TestCase
         $builder->shouldReceive('where')->with('charon_id', 3)->once()->andReturn($builder);
         $builder->shouldReceive('select')->with('id')->once()->andReturn($builder);
         $builder->shouldReceive('orderBy')->with('choosen_time', 'desc')->once()->andReturn($builder);
-        $builder->shouldReceive('first')->once()->andReturn(new Registration(['id' => 11]));
+        $builder->shouldReceive('first')->once()->andReturn(new Defender(['id' => 11]));
 
         $this->registrationRepository->shouldReceive('updateRegistration')->with(11, 'Done', 13)->once();
 

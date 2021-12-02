@@ -412,11 +412,11 @@ class DefenceRegistrationService
      */
     public function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
     {
-        $capacity = $lab->end->diff($lab->start)->i;
+        $capacity = $lab->end->diffInMinutes($lab->start);
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
             $lab->start
         );
