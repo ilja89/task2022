@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Event;
 use Mockery;
 use Tests\TestCase;
 use TTU\Charon\Events\GitCallbackReceived;
+use TTU\Charon\Http\Requests\GithubCallbackPostRequest;
 use TTU\Charon\Models\GitCallback;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\GitCallbacksRepository;
+use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\GitCallbackService;
 use TTU\Charon\Exceptions\IncorrectSecretTokenException;
 
@@ -20,11 +23,18 @@ class GitCallbackServiceTest extends TestCase
     /** @var GitCallbacksRepository */
     private $repository;
 
+    /* @var UserRepository */
+    private $userRepository;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->repository = Mockery::mock(GitCallbacksRepository::class);
-        $this->service = new GitCallbackService($this->repository);
+        $this->userRepository = Mockery::mock(UserRepository::class);
+        $this->service = new GitCallbackService(
+            $this->repository,
+            Mockery::mock(CourseSettingsRepository::class),
+            $this->userRepository);
     }
 
     public function testGetModifiedFilesReturnsEmptyIfNoCommits()
@@ -135,6 +145,22 @@ class GitCallbackServiceTest extends TestCase
         $gitCallbackService->checkGitCallbackForToken('secret_token');
     }
 
+    public function testCheckGitHubCallbackReturnsUserNotFound() {
+
+        $request = Mockery::mock(GithubCallbackPostRequest::class);
+        $request->shouldReceive('input')->with('repository')->andReturn(
+            ['ssh_url' => 'repository url', 'owner' => ['email' => 'test@ttu.ee']]
+        );
+        $request->shouldReceive('getUriForPath')->with('/api/tester_callback')->andReturn('callback url');
+        $request->shouldReceive('fullUrl')->andReturn('full url');
+
+        $this->userRepository->shouldReceive('findByEmail')->with('test@ttu.ee')->andReturn(null);
+
+        $response = $this->service->handleGitHubCallbackPost($request);
+
+        $this->assertEquals('NO USER', $response);
+    }
+
     private function getGitCallbackService($secretToken, $gitCallback)
     {
         return new GitCallbackService(
@@ -143,7 +169,9 @@ class GitCallbackServiceTest extends TestCase
              ->with($secretToken)
              ->once()
              ->andReturn($gitCallback)
-             ->getMock()
+             ->getMock(),
+            Mockery::mock(CourseSettingsRepository::class),
+            Mockery::mock(UserRepository::class)
         );
     }
 }
