@@ -37,7 +37,6 @@ class ResultRepository
             $query->where('charon_id', $charonId);
         })
             ->where('grade_type_code', $gradeTypeCode)
-            ->orderBy('id', 'asc')
             ->get();
     }
 

@@ -136,7 +136,6 @@ class SubmissionsRepository
         }
 
         $submissions = $query->select('charon_submission.*')
-            ->orderBy('charon_submission.id', 'asc')
             ->get()
             ->toArray();
 
