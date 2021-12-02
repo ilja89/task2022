@@ -49,12 +49,12 @@
 					<pre v-html="submission.mail"></pre>
 				</div>
 				<div v-if="toggleShowTable">
-					<submission-table :submission="submission"></submission-table>
+					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
 				</div>
 
-				<h3>{{ translate('filesText') }}</h3>
+				<h3 v-if="submission.files.length > 0">{{ translate('filesText') }}</h3>
 
-				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
+				<files-component-without-tree v-if="submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
 				<div class="review-comments">
@@ -84,13 +84,10 @@
 <script>
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
-import SubmissionTable from "./SubmissionTable";
 import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
 import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
-import {File, ReviewComment} from "../../../api";
-import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
 
 export default {
 	name: "submission-modal",
@@ -98,7 +95,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		FilesComponentWithoutTree, SubmissionTable, FilesWithReviewComments, SubmissionTableComponent, ReviewCommentComponent
+		FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent
 	},
 
 	props: {
