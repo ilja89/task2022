@@ -59,7 +59,7 @@ class FilesController extends Controller
         foreach ($submission->files as $submissionFile) {
             foreach ($submissionFile->reviewComments as $reviewComment) {
                 // TODO: replace with finding any user with given id
-                $reviewComment->user = $this->labTeacherRepository->getTeacherByUserId($reviewComment->user_id)[0];
+                $reviewComment->user = $this->labTeacherRepository->getTeacherByUserId($reviewComment->user_id);
             }
 
             // legacy - for the case where "is_test" was not available

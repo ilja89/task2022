@@ -220,7 +220,7 @@ class LabTeacherRepository
         return DB::table('user')
             ->where('id', $userId)
             ->select('id', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"))
-            ->get();
+            ->first();
     }
 
     public function updateTeacher($lab, $teacher, $update)
