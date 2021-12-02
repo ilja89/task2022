@@ -5,6 +5,9 @@ namespace TTU\Charon\Services;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Type\Integer;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Result;
@@ -300,6 +303,22 @@ class SubmissionService
             ->get();
         $responseSubmission['test_suites'] = $this->submissionsRepository->getTestSuites($submission->id);
         return $responseSubmission;
+    }
+
+    /**
+     * Find the latest submissions in the given course.
+     *
+     * @param int $courseId
+     *
+     * @return Collection|Charon[]
+     */
+    public function findLatestSubmissions(int $courseId)
+    {
+        $submissions = $this->submissionsRepository->findLatestSubmissions($courseId);
+        foreach ($submissions as $submission) {
+            $submission->makeHidden(['charon_id', 'user_id']);
+        }
+        return $submissions;
     }
 
     /**

@@ -7,12 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #706 Adjust fetching of the submission file in student view
 - #641 New grading method 'prefer_best_each_test_grade', which lets students build up points for each grade
 - as long as grades' individual percentage stays the same or improves
 
 ### Fixed
-- #701 Fix comment notification email message
+- #696 Modify the general notifications service
 - #702 Fix grading type saving in charon settings
+
+## [1.5.7] - 2021-11-12
+
+### Fixed
+- #701 Fix comment notification email message
 
 ## [1.5.6] - 2021-11-11
 

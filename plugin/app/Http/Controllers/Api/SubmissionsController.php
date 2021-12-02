@@ -185,13 +185,7 @@ class SubmissionsController extends Controller
      */
     public function findLatest(Course $course)
     {
-        $submissions = $this->submissionsRepository->findLatestSubmissions($course->id);
-
-        foreach ($submissions as $submission) {
-            $submission->makeHidden(['charon_id', 'user_id']);
-        }
-
-        return $submissions;
+        return $this->submissionService->findLatestSubmissions($course->id);
     }
 
     public function findSubmissionCounts(Course $course)
