@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.7] - 2021-11-12
-
-### Fixed
-- #701 Fix comment notification email message
+## [Unreleased]
 
 ### Added
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
+
+## [1.5.7] - 2021-11-12
+
+### Fixed
+- #701 Fix comment notification email message
 
 ## [1.5.6] - 2021-11-11
 
