@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
+- #505 Ability for teachers to register students for a defence
+- #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense
+  and disable the ability to choose full labs
+- #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within
+- the search parameters.
+- #519 and #521 Live registration queue status showing.
+
 ## [1.5.7] - 2021-11-12
 
 ### Fixed
