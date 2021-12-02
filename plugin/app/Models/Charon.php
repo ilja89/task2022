@@ -20,6 +20,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string description
  * @property string project_folder
  * @property string tester_extra
+ * @property string unittests_git
  * @property string system_extra
  * @property integer tester_type_code
  * @property integer grading_method_code
