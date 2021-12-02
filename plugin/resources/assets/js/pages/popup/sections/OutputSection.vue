@@ -68,7 +68,7 @@
 <script>
 
 import {mapState, mapActions} from "vuex";
-import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments, ReviewCommentComponent} from '../../../components/partials/index';
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments} from '../../../components/partials/index';
 import {PopupSection} from '../layouts/index';
 import {OutputComponent} from '../partials/index';
 import {ReviewComment, Submission} from "../../../api";
@@ -77,7 +77,7 @@ import SubmissionTableComponent from "../../../components/partials/SubmissionTab
 export default {
     components: {
         PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
-        FilesWithReviewComments, ReviewCommentComponent, SubmissionTableComponent
+        FilesWithReviewComments, SubmissionTableComponent
     },
 
     data() {
