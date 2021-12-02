@@ -219,7 +219,7 @@
                     () => {
                     this.newReviewComment = ''
                     VueEvent.$emit('show-notification', 'Review comment added!')
-                    this.$root.$emit('refresh_submission_files')
+                    this.$root.$emit('refresh-review-comments')
                 });
             },
         },

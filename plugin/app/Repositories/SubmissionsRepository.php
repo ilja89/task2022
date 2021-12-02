@@ -143,11 +143,11 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return Paginator
+     * @return mixed
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
-        $fields = [
+        $submissionFields = [
             'charon_submission.id',
             'charon_submission.charon_id',
             'charon_submission.confirmed',
@@ -159,54 +159,31 @@ class SubmissionsRepository
             'charon_submission.mail',
         ];
 
-        $submissions = $this->buildForUser($userId)
-            ->where('charon_submission.charon_id', $charon->id)
-            ->orderBy('charon_submission.created_at', 'desc')
-            ->orderBy('charon_submission.git_timestamp', 'desc')
-            ->select($fields)
-            ->simplePaginate(5);
+        $submissions = Submission::select($submissionFields)
+            ->where('charon_id', $charon->id)
+            ->where('user_id', $userId)
+            ->with([
+                'results' => function ($query) {
+                    $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                    $query->orderBy('grade_type_code');
+                },
+                'testSuites' => function ($query) {
+                    $query->select(['*']);
+                },
+                'unitTests' => function ($query) {
+                    $query->select(['*']);
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id', 'path', 'contents', 'is_test']);
+                },
+                'reviewComments' => function ($query) {
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
+                },
+            ])
+            ->latest()
+            ->simplePaginate(10);
 
-        $submissions->appends(['user_id' => $userId])->links();
-
-        foreach ($submissions as $submission) {
-            $submission->results = Result::where('submission_id', $submission->id)
-                ->where('user_id', $userId)
-                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
-                ->orderBy('grade_type_code')
-                ->get();
-            $submission->test_suites = $this->getTestSuites($submission->id);
-        }
-
-        return $submissions;
-    }
-
-    /**
-     * @param $submissionId
-     * @return TestSuite[]
-     */
-    public function getTestSuites($submissionId)
-    {
-        $testSuites = \DB::table('charon_test_suite')
-            ->where('submission_id', $submissionId)
-            ->select('*')
-            ->get();
-        for ($i = 0; $i < count($testSuites); $i++) {
-            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
-        }
-        return $testSuites;
-    }
-
-    /**
-     * @param $testSuiteId
-     * @return UnitTest[]
-     */
-    private function getUnitTestsResults($testSuiteId)
-    {
-        return \DB::table('charon_unit_test')
-            ->where('test_suite_id', $testSuiteId)
-            ->select('*')
-            ->get();
+        return $this->assignUnitTestsToTestSuites($submissions);
     }
 
     /**
@@ -474,6 +451,12 @@ class SubmissionsRepository
                     $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
                     $query->orderBy('grade_type_code');
                 },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id']);
+                },
+                'reviewComments' => function ($query) {
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
+                },
             ])
             ->latest()
             ->simplePaginate(10);
@@ -658,7 +641,7 @@ class SubmissionsRepository
      *
      * @param int $userId
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     private function buildForUser(int $userId)
     {
@@ -691,5 +674,28 @@ class SubmissionsRepository
             default:
                 return 'git_timestamp';
         }
+    }
+
+    /**
+     * @param $submissions
+     * @return mixed
+     */
+    public function assignUnitTestsToTestSuites($submissions)
+    {
+        foreach ($submissions as $submission) {
+            foreach ($submission->testSuites as $testSuite) {
+                $unit_tests = [];
+                foreach ($submission->unitTests as $unitTest) {
+                    if ($unitTest->test_suite_id === $testSuite->id) {
+                        array_push($unit_tests, $unitTest);
+                    }
+                }
+                $testSuite->unit_tests = $unit_tests;
+            }
+        }
+        foreach ($submissions as $submission) {
+            unset($submission->unitTests);
+        }
+        return $submissions;
     }
 }

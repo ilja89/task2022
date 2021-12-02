@@ -1,24 +1,21 @@
 <template>
     <popup-section
-            title="Code, feedback and outputs"
-            subtitle="Output from the tester and mail sent to the student."
-            class="output-section"
+        title="Code, feedback and outputs"
+        subtitle="Output from the tester and mail sent to the student."
+        class="output-section"
     >
         <charon-tabs
-                v-if="submission"
-                class="card popup-tabs"
-                id="tabs"
-                :sticky="stickyTabs"
+            v-if="submission"
+            class="card popup-tabs"
+            id="tabs"
+            :sticky="stickyTabs"
         >
-
             <charon-tab name="Code" :selected="true">
-
                 <files-component
-                        :submission="submission"
-                        :testerType="charon ? charon.tester_type_name : ''"
-                        :isRound="false"
+                    :submission="submission"
+                    :testerType="charon ? charon.tester_type_name : ''"
+                    :isRound="false"
                 />
-
             </charon-tab>
 
             <charon-tab name="Mail">
@@ -29,110 +26,188 @@
                     <input type="checkbox" v-model="toggleOn">
                     <span class="slider round"></span>
                 </label>
-
-                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised >
-                    <pre v-if="hasMail && !toggleOn" style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
-
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="hasMail">
+                    <pre style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
                     <pre v-if="toggleOn" style="max-height: 900px;overflow: auto">
                         <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
                     </pre>
                 </v-card>
-
             </charon-tab>
 
             <charon-tab name="Feedback">
+                <v-card class="main-container">
+                    <div v-if="!toggleShowAllSubmissions">
+                        <h2>Feedback for this submission</h2>
+                    </div>
+                    <div v-else>
+                        <h2>Feedback for all submissions for this charon</h2>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" v-model="toggleShowAllSubmissions">
+                        <span class="slider round"></span>
+                    </label>
 
-                <review-comment-component v-if="hasReviewComments" :files="submission.files" view="teacher"/>
-
-                <v-card v-else class="message">
-                    When a teacher adds feedback for the submission, it will be visible here.
+                    <files-with-review-comments v-if="hasReviewComments"
+                                                :filesWithReviewComments="this.getFilesWithReviewComments()"
+                                                view="teacher"/>
+                    <v-card v-else class="no-submission-message">
+                        When a teacher adds feedback for the submission, it will be visible here.
+                    </v-card>
                 </v-card>
-
             </charon-tab>
 
             <charon-tab name="Outputs">
-
                 <output-component :submission="submission"/>
-
             </charon-tab>
-
         </charon-tabs>
-
     </popup-section>
 </template>
 
 <script>
 
-    import {mapState, mapActions} from "vuex";
-    import {CharonTabs, CharonTab, FilesComponent, ReviewCommentComponent} from '../../../components/partials/index';
-    import {PopupSection} from '../layouts/index';
-    import {OutputComponent} from '../partials/index';
-    import {Submission} from "../../../api";
-    import {File} from "../../../api";
-    import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent"
+import {mapState, mapActions} from "vuex";
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments, ReviewCommentComponent} from '../../../components/partials/index';
+import {PopupSection} from '../layouts/index';
+import {OutputComponent} from '../partials/index';
+import {ReviewComment, Submission} from "../../../api";
+import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent"
 
-    export default {
+export default {
+    components: {
+        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
+        FilesWithReviewComments, ReviewCommentComponent, SubmissionTableComponent
+    },
 
-        components: {
-            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
-          ReviewCommentComponent, SubmissionTableComponent
-        },
+    data() {
+        return {
+            stickyTabs: false,
+            toggleShowAllSubmissions: false,
+            toggleOn: false,
+        }
+    },
 
-        data() {
-            return {
-                stickyTabs: false,
-                toggleOn: false
+    computed: {
+        ...mapState([
+            'charon',
+            'submission',
+            'filesWithReviewComments',
+        ]),
+
+        hasReviewComments() {
+            if (this.filesWithReviewComments) {
+                return this.getFilesWithReviewComments().length > 0;
             }
+            return false;
         },
 
-        computed: {
-            ...mapState([
-                'charon',
-                'submission',
-            ]),
-
-            hasReviewComments() {
-                for (let i = 0; i < this.submission.files.length; i++) {
-                    if (this.submission.files[i].review_comments.length > 0) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-
-            hasMail() {
-                return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
-            },
+        hasMail() {
+            return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
         },
+    },
 
-        methods: {
-           ...mapActions(["updateSubmission"]),
+    methods: {
+        ...mapActions(["updateSubmission"]),
 
-            updateOutputSection() {
-                Submission.findById(this.submission.id, this.submission.user_id,  submission => {
-                    this.updateSubmission({submission});
-                })
-            }
-        },
-
-        created() {
-            VueEvent.$on('update-from-review-comment', this.updateOutputSection)
-        },
-
-        mounted: function () {
-            this.$root.$on('refresh_submission_files', () => {
-
-                File.findBySubmission(this.submission.id, newFile => {
-                    this.submission.files = newFile
-                })
+        updateOutputSection() {
+            Submission.findById(this.submission.id, this.submission.user_id, submission => {
+                this.updateSubmission({submission});
             })
+        },
+
+        getFilesWithReviewComments() {
+            if (this.toggleShowAllSubmissions) {
+                return this.filesWithReviewComments;
+            }
+            let reviewComments = [];
+            this.filesWithReviewComments.forEach(reviewComment => {
+                if (reviewComment.submissionId === this.submission.id) {
+                    reviewComments.push(reviewComment);
+                }
+            })
+            return reviewComments;
+        },
+
+        getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+            ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
+                this.$store.state.filesWithReviewComments = data;
+            })
+        },
+    },
+
+    created() {
+        VueEvent.$on('update-from-review-comment', this.updateOutputSection)
+    },
+
+    mounted() {
+        this.$root.$on('refresh-review-comments', () => {
+            this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id);
+        })
+    },
+
+    watch: {
+        submission() {
+            this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id)
         }
     }
+}
 </script>
 
 <style scoped>
 @import '../../../../../../public/css/buttons/toggleButton.css';
 
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 1em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 .mx-auto {
     margin-top: 10px;
 }

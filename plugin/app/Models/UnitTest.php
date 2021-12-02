@@ -36,4 +36,8 @@ class UnitTest extends Model
         'exception_message', 'stderr'
     ];
 
+    public function testSuite()
+    {
+        return $this->belongsTo(TestSuite::class, 'unitTest.test_suite_id', 'test_suite.id');
+    }
 }

@@ -36,20 +36,20 @@
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
 
-				<h3 v-if="toggleOn">Showing table</h3>
-				<h3 v-else>Showing mail</h3>
+				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
+				<h3 v-else>{{ translate('showingMail') }}</h3>
 
 				<label class="switch">
-					<input type="checkbox" v-model="toggleOn">
+					<input type="checkbox" v-model="toggleShowTable">
 					<span class="slider round"></span>
 				</label>
 
-				<div v-if="hasMail && !toggleOn">
+				<div v-if="hasMail && !toggleShowTable">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
 				</div>
-				<div v-if="toggleOn">
-					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
+				<div v-if="toggleShowTable">
+					<submission-table :submission="submission"></submission-table>
 				</div>
 
 				<h3>{{ translate('filesText') }}</h3>
@@ -58,8 +58,20 @@
 				</files-component-without-tree>
 
 				<div class="review-comments">
-					<h3>{{ translate('feedbackText') }}</h3>
-					<review-comment-component v-if="reviewCommentCount" :files="files" view="student"></review-comment-component>
+					<div v-if="!toggleShowAllSubmissions">
+						<h3>{{ translate('feedbackTextSingleSubmission') }}</h3>
+					</div>
+					<div v-else>
+						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
+					</div>
+					<label class="switch">
+						<input type="checkbox" v-model="toggleShowAllSubmissions">
+						<span class="slider round"></span>
+					</label>
+					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
+												view="student"
+												:filesWithReviewComments="this.getFilesWithReviewComments()"
+					></files-with-review-comments>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -72,10 +84,13 @@
 <script>
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
+import SubmissionTable from "./SubmissionTable";
+import {ReviewComment} from "../../../api";
+import {mapState} from "vuex";
+import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
 import {File, ReviewComment} from "../../../api";
 import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
-import {mapState} from "vuex";
 
 export default {
 	name: "submission-modal",
@@ -83,22 +98,22 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTableComponent
+		FilesComponentWithoutTree, SubmissionTable, FilesWithReviewComments, SubmissionTableComponent, ReviewCommentComponent
 	},
 
 	props: {
 		submission: {required: true},
-		color: {required: true}
+		color: {required: true},
 	},
 
 	data() {
 		return {
 			isActive: false,
 			testerType: '',
-			toggleOn: false,
-			files: [],
+			toggleShowTable: false,
 			reviewCommentCount: 0,
 			reviewCommentIdsWithNotify: [],
+			toggleShowAllSubmissions: false,
 		}
 	},
 
@@ -106,6 +121,7 @@ export default {
 		...mapState([
 			'charon_id',
 			'student_id',
+			'filesWithReviewComments',
 		]),
 
 		hasCommitMessage() {
@@ -118,35 +134,41 @@ export default {
 
 		notifyColor() {
 			return !!this.reviewCommentIdsWithNotify.length;
-		}
+		},
 	},
 
 	mounted() {
 		this.testerType = window.testerType
-		this.getFiles()
-		VueEvent.$on("student-refresh-submissions", this.getFiles);
+		this.checkNewComments();
+		VueEvent.$on("student-refresh-submissions", this.checkNewComments);
 	},
 
 	methods: {
-		getFiles() {
-			File.findBySubmission(this.submission.id, files => {
-				this.files = files
-				this.checkComments();
+		getFilesWithReviewComments() {
+			if (this.toggleShowAllSubmissions) {
+				return this.filesWithReviewComments;
+			}
+			let files = [];
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					files.push(file);
+				}
 			})
+			return files;
 		},
 
-		checkComments() {
+		checkNewComments() {
 			this.reviewCommentCount = 0;
-			this.files.forEach(file => {
-				if (file.review_comments.length > 0) {
-					file.review_comments.forEach(reviewComment => {
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					file.reviewComments.forEach((reviewComment) => {
 						this.reviewCommentCount++;
 						if (reviewComment.notify) {
-							this.reviewCommentIdsWithNotify.push(reviewComment.id);
+							this.reviewCommentIdsWithNotify.push(reviewComment.id)
 						}
 					});
 				}
-			});
+			})
 		},
 
 		onClickSubmissionInformation() {
