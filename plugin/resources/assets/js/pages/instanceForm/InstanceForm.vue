@@ -151,7 +151,7 @@ export default {
       this.form.fields.tester_type = tester_type
       this.form.fields.tester_type_code = tester_type
     });
-    VueEvent.$on('grading-method-was-changed', (grading_method) => this.form.fields.grading_method = grading_method);
+    VueEvent.$on('grading-method-was-changed', (grading_method_code) => this.form.fields.grading_method_code = grading_method_code);
     VueEvent.$on('grouping-was-changed', (grouping_id) => this.form.fields.grouping_id = grouping_id);
     VueEvent.$on('defense-deadline-was-changed', (defense_deadline) => this.form.fields.defense_deadline = defense_deadline);
     VueEvent.$on('defense-duration-was-changed', (defense_duration) => this.form.fields.defense_duration = defense_duration);

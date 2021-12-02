@@ -35,7 +35,7 @@
 
         </div>
 
-        <input type="hidden" name="grading_method" :value="form.fields.grading_method">
+        <input type="hidden" name="grading_method_code" :value="form.fields.grading_method_code">
         <input type="hidden" name="max_score" :value="form.fields.max_score">
         <input type="hidden" name="calculation_formula" :value="form.fields.calculation_formula">
         <div v-for="grademap in form.fields.grademaps">
