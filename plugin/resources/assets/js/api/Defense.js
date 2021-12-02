@@ -58,10 +58,10 @@ class Defense {
         });
     }
 
-    static updateRegistration(courseId, defenseId, progress, teacher_id, then) {
+    static updateRegistration(courseId, defenseId, progress, teacherId, then) {
         axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId, {
             progress: progress,
-            teacher_id: teacher_id
+            teacher_id: teacherId
         }).then(response => {
             then(response.data)
         }).catch(error => {

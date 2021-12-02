@@ -4,9 +4,11 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use TTU\Charon\Exceptions\IncorrectRegistrationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -444,5 +446,23 @@ class DefenceRegistrationService
         return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
+    }
+
+    /**
+     * Save defending progress.
+     * @param $defenseId
+     * @param $newProgress
+     * @param $newTeacherId
+     * @return Registration
+     * @throws IncorrectRegistrationException
+     */
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    {
+        if ($newTeacherId == null && $newProgress !== 'Waiting') {
+            throw new IncorrectRegistrationException("Registration without teacher and status: {$newProgress} can\'t be updated");
+        }
+        $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
+        $defense->teacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
+        return $defense;
     }
 }

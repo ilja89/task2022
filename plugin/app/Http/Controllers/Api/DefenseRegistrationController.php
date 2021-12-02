@@ -138,10 +138,11 @@ class DefenseRegistrationController extends Controller
      * @param Course $course
      * @param Registration $registration
      * @return Registration
+     * @throws \TTU\Charon\Exceptions\IncorrectRegistrationException
      */
     public function saveProgress(Course $course, Registration $registration)
     {
-        return $this->defenseRegistrationRepository->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
     public function delete(Request $request)

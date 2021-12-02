@@ -62,7 +62,7 @@
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
+                    @change="updateRegistration(item)"
                 ></v-select>
                 <v-select
                     class="mx-auto"
@@ -75,7 +75,7 @@
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
+                    @change="updateRegistration(item)"
                 ></v-select>
             </template>
 
@@ -89,9 +89,9 @@
                 <v-select
                     class="mx-auto"
                     dense
-                    :items="getProgresses(item)"
+                    :items="getProgresses(item.teacher)"
                     v-model="item.progress"
-                    @change="updateRegistration(item.id, item.progress, item.teacher ? item.teacher.id : null)"
+                    @change="updateRegistrationTeacher(item)"
                 ></v-select>
             </template>
 
@@ -138,17 +138,27 @@ export default {
             return '/submissions/' + submissionId
         },
 
-        updateRegistration(defense_id, state, teacher_id) {
-            Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, (registration) => {
-                if (teacher_id == null && state === 'Defending'){
-                    this.defenseList.forEach(defense => {
-                        if (defense.id === registration.id){
-                            defense.progress = registration.progress;
-                            defense.teacher = registration.teacher;
-                        }
-                    })
+        updateRegistrationTeacher(item) {
+            if ((item.progress === 'Defending' || item.progress === 'Done') && (item.teacher.length === 0)) {
+                item.progress = 'Waiting';
+                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+            } else {
+                this.updateRegistration(item);
+            }
+        },
+
+        updateRegistration(item) {
+            const teacher_id = item.teacher ? item.teacher.id : null;
+            let newProgress = item.progress;
+            if (item.progress === 'Defending' && teacher_id == null) {
+                newProgress = 'Waiting';
+            }
+            Defense.updateRegistration(this.course.id, item.id, newProgress, teacher_id, (registration) => {
+                if (teacher_id == null && item.progress === 'Defending'){
+                    item.teacher = registration.teacher;
+                    item.progress = registration.progress;
                 }
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
+                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
             })
         },
 
@@ -217,8 +227,8 @@ export default {
             }
         },
 
-        getProgresses(item) {
-            if (item.teacher === null || item.teacher.id === null){
+        getProgresses(teacher) {
+            if (teacher === null || teacher.id === null){
                 return ['Waiting']
             }
             return ['Waiting', 'Defending', 'Done']
