@@ -128,6 +128,7 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
+            this.$store.state.submissions.pop();
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
