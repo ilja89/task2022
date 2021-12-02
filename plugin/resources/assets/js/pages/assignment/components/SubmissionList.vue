@@ -222,9 +222,11 @@ export default {
 
 		loadMoreSubmissions() {
 			if (Submission.canLoadMore()) {
+                this.refreshing = true;
 				Submission.getNext(submissions => {
 					submissions.forEach(submission => this.$store.state.submissions.push(submission));
 					this.canLoadMore = Submission.canLoadMore();
+                    this.refreshing = false;
 				});
 			} else {
 				this.canLoadMore = false;

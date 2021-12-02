@@ -144,11 +144,10 @@ class SubmissionsController extends Controller
      *
      * @return Paginator
      */
-    public function getByCharon(Charon $charon)
+    public function getByCharon(Charon $charon, int $userId)
     {
         return $this->submissionsRepository->paginateSubmissionsByCharonUser(
-            $charon,
-            intval($this->request['user_id'])
+            $charon, $userId
         );
     }
 
