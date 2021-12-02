@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
 
+### Fixed
+- #696 Modify the general notifications service
+
 ## [1.5.7] - 2021-11-12
 
 ### Fixed
