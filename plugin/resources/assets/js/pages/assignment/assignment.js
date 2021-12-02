@@ -8,6 +8,7 @@ import CharonTab from "../../components/partials/CharonTab.vue";
 import GradesCheckboxes from "../../components/form/GradesCheckboxes.vue";
 import Vuetify from "vuetify";
 import store from './store'
+import router from './routes'
 import VueMaterial from 'vue-material'
 import light from "../popup/theme";
 import 'vuetify/dist/vuetify.min.css'
@@ -50,5 +51,6 @@ const app = new Vue({
         language: language,
     },
 
+    router,
     store
 });

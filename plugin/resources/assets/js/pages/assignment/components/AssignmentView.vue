@@ -15,6 +15,8 @@
       <submission-list
           :allow_submission="allow_submission">
       </submission-list>
+          <button @click="openPage">Nupp</button>
+          <submission-body/>
 
 			<v-row class="my-4">
 				<student-registration-sheet/>
@@ -32,6 +34,7 @@
 import {Translate} from '../../../mixins';
 import RegistrationDialog from "./RegistrationDialog";
 import SubmissionList from "./SubmissionList";
+import SubmissionBody from "./SubmissionBody";
 import {mapState} from "vuex";
 import StudentRegistrationSheet from "./StudentRegistrationSheet";
 
@@ -42,7 +45,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		SubmissionList, RegistrationDialog, StudentRegistrationSheet
+		SubmissionList, RegistrationDialog, StudentRegistrationSheet, SubmissionBody
 	},
 
   props: {
@@ -62,6 +65,10 @@ export default {
 	},
 
 	methods: {
+	    openPage() {
+	      console.log(this.$router)
+          this.$router.push('/submissionPage/177')
+        },
 		initializeEventListeners() {
 			VueEvent.$on('show-notification', (message, type = 'success', timeout = 2000) => {
 				this.showNotification(message, type, timeout)
