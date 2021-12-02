@@ -121,6 +121,18 @@ class ReviewCommentRepository
     {
         $fileReviewCommentsDTOs = [];
         foreach ($rawResults as $rawResult) {
+
+            if (!array_key_exists($rawResult->file_id, $fileReviewCommentsDTOs)) {
+                $fileReviewCommentsDTO = new FileReviewCommentsDTO(
+                    $rawResult->file_id,
+                    $rawResult->charon_id,
+                    $rawResult->submission_id,
+                    $rawResult->created_at,
+                    $rawResult->student_id,
+                    $rawResult->path
+                );
+                $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
+            }
             $reviewCommentDTO = new ReviewCommentDTO(
                 $rawResult->review_comment_id,
                 $rawResult->commented_by_id,
@@ -132,20 +144,7 @@ class ReviewCommentRepository
                 $rawResult->notify,
                 $rawResult->comment_creation
             );
-            if (!array_key_exists($rawResult->file_id, $fileReviewCommentsDTOs)) {
-                $fileReviewCommentsDTO = new FileReviewCommentsDTO(
-                    $rawResult->file_id,
-                    $rawResult->charon_id,
-                    $rawResult->submission_id,
-                    $rawResult->created_at,
-                    $rawResult->student_id,
-                    $rawResult->path,
-                    $reviewCommentDTO
-                );
-                $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
-            } else {
-                array_unshift($fileReviewCommentsDTOs[$rawResult->file_id]->reviewComments, $reviewCommentDTO);
-            }
+            array_unshift($fileReviewCommentsDTOs[$rawResult->file_id]->reviewComments, $reviewCommentDTO);
         }
         return array_values($fileReviewCommentsDTOs);
     }
