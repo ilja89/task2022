@@ -52,9 +52,9 @@
 					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
 				</div>
 
-				<h3 v-if="submission.files.length > 0">{{ translate('filesText') }}</h3>
+				<h3 v-if="submission.files && submission.files.length > 0">{{ translate('filesText') }}</h3>
 
-				<files-component-without-tree v-if="submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
+				<files-component-without-tree v-if="submission.files && submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
 				<div class="review-comments">
