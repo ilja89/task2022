@@ -73,6 +73,16 @@ const store = new Vuex.Store({
          * |null}
          */
         teacher: null,
+        /**
+         * @type {
+         *      {fileId: Number,
+         *      studentId: number,
+         *      submissionId: number,
+         *      path: String,
+         *      reviewComments: Array<Object>}
+         * |null}
+         */
+        filesWithReviewComments: null,
     },
     getters,
     mutations,
