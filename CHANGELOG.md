@@ -9,14 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - #701 Fix comment notification email message
 
+### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #706 Adjust fetching of the submission file in student view
+
 ## [1.5.6] - 2021-11-11
 
 ### Added
-- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #690 Submissions in assignment view show how many review comments they have
 - #609 Users will be notified if they receive a comment on their submission
 - #636 If charon does not have defences, the defence icon would not be shown submission list
-- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 
 ## [1.5.5] - 2021-10-22
 
