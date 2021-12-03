@@ -14,6 +14,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -413,11 +414,11 @@ class DefenceRegistrationService
      */
     public function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
     {
-        $capacity = $lab->end->diffInMinutes($lab->start);
+        $capacity = $lab->end->diff($lab->start)->i;
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
+            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
             $teacherCount,
             $lab->start
         );
@@ -469,5 +470,25 @@ class DefenceRegistrationService
             $defenseRegistration->lab_teachers = $labTeachers;
         }
         return $defenseRegistrations;
+    }
+
+    /**
+     * If no teacher and status defending or done, then marking currently logged user as teacher.
+     *
+     * @param $defenseId
+     * @param $newProgress
+     * @param $newTeacherId
+     * @return Registration
+     */
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    {
+        if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
+            $userId = app(User::class)->currentUserId();
+            $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
+            if ($labTeacher !== null){
+                $newTeacherId = $userId;
+            }
+        }
+        return $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
     }
 }

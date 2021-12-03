@@ -7,7 +7,7 @@ use Mockery;
 use Mockery\Mock;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
-use TTU\Charon\Models\Defender;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Services\Flows\TeacherModifiesSubmission;
@@ -84,8 +84,8 @@ class TeacherModifiesSubmissionTest extends TestCase
             'calculated_result' => 0,
         ]);
 
-        /** @var Defender $registration */
-        $registration = factory(Defender::class)->create([
+        /** @var Registration $registration */
+        $registration = factory(Registration::class)->create([
             'charon_id' => $charon->id,
             'submission_id' => $submission->id,
             'student_id' => $mainStudent->id,

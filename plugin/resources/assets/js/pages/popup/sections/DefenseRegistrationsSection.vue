@@ -126,7 +126,8 @@ export default {
 
         updateRegistration(defense_id, state, teacher_id) {
             Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
+                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                VueEvent.$emit('refresh-defense-list');
             })
         },
 
