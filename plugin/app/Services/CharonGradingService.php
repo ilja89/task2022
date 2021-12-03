@@ -117,6 +117,7 @@ class CharonGradingService
 
         $results = $submission->results;
         $previousResults = $charon->gradingMethod->isPreferBestEachTestGrade()
+            // TODO: replace with 1 query
             ? $this->submissionsRepository->findPreviousSubmission($submission)->results
             : null;
 
