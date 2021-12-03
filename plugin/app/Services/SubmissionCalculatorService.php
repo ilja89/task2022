@@ -39,19 +39,20 @@ class SubmissionCalculatorService
     /**
      * Calculate results for the given Result taking into account the given deadlines.
      *
-     * Currently this assumes that other students connected to this submission share the same
+     * Currently, this assumes that other students connected to this submission share the same
      * group deadlines as the author of the submission.
      *
-     * @param  Result $result
-     * @param  Deadline[]|Collection $deadlines
+     * @param Result $result
+     * @param Deadline[]|Collection $deadlines
+     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_test_grade'
      *
      * @return float
      */
-    public function calculateResultFromDeadlines(Result $result, $deadlines)
+    public function calculateResultFromDeadlines(Result $result, $deadlines, ?Result $previousResult = null): float
     {
         $grademap = $result->getGrademap();
         if ($grademap === null) {
-            return 0;
+            return 0.0;
         }
 
         if ($grademap->persistent) {
@@ -83,12 +84,12 @@ class SubmissionCalculatorService
         if ($deadlinesForUser->isEmpty() && $deadlines->isNotEmpty()) {
             // No deadlines for user - shouldn't get a grade
             // TODO: [Feature] Think of what should happen
-            return 0;
+            return 0.0;
         }
 
         foreach ($deadlinesForUser as $deadline) {
             if ($deadline->deadline_time->lt($submissionTime)) {
-                $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
+                $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints, $previousResult);
                 if ($smallestScore > $score) {
                     $smallestScore = $score;
                 }
@@ -104,21 +105,23 @@ class SubmissionCalculatorService
      * @param Deadline $deadline
      * @param Result $result
      * @param float $maxPoints
+     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_test_grade'
      *
      * @return float|int
      */
-    private function calculateScoreFromResultAndDeadline(Deadline $deadline, Result $result, float $maxPoints)
-    {
-        if ($result->submission->charon->gradingMethod->isPreferBestEachTestGrade()) {
-
-            $previousResult = $this->resultRepository->findPreviousResultForUser($result);
-
-            if ($previousResult !== null && $result->percentage >= $previousResult->percentage) {
-
-                $extra = round($result->percentage - $previousResult->percentage, 2);
-
-                return $previousResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
-            }
+    private function calculateScoreFromResultAndDeadline(
+        Deadline $deadline,
+        Result $result,
+        float $maxPoints,
+        ?Result $previousResult = null
+    ) {
+        if (
+            $result->submission->charon->gradingMethod->isPreferBestEachTestGrade() &&
+            $previousResult !== null &&
+            $result->percentage >= $previousResult->percentage
+        ) {
+            $extra = round($result->percentage - $previousResult->percentage, 2);
+            return $previousResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
         }
 
         return $result->percentage * ($deadline->percentage / 100) * $maxPoints;

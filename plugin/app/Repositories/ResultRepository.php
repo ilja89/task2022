@@ -41,25 +41,6 @@ class ResultRepository
     }
 
     /**
-     * Finds the result previous to the given one that has the same grade type, user, and charon.
-     *
-     * @param Result $result
-     *
-     * @return ?Result
-     */
-    public function findPreviousResultForUser(Result $result): ?Result
-    {
-        return Result::join("charon_submission", "charon_result.submission_id", "charon_submission.id")
-            ->where("charon_result.grade_type_code", $result->grade_type_code)
-            ->where("charon_submission.charon_id", $result->submission->charon_id)
-            ->where("charon_result.user_id", $result->user_id)
-            ->where("charon_result.id", "<", $result->id)
-            ->select("charon_result.id", "charon_result.calculated_result", "charon_result.percentage")
-            ->orderBy("charon_result.id", "desc")
-            ->first();
-    }
-
-    /**
      * Reset all 'calculated_result's of results with given ids.
      *
      * @param Collection|int[] $resultIds

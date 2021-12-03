@@ -114,11 +114,30 @@ class CharonGradingService
     public function calculateCalculatedResultsForNewSubmission(Submission $submission)
     {
         $charon = $submission->charon;
-        foreach ($submission->results as $result) {
+
+        $results = $submission->results;
+        $previousResults = $charon->gradingMethod->isPreferBestEachTestGrade()
+            ? $this->submissionsRepository->findPreviousSubmission($submission)->results
+            : null;
+
+        for ($i = 0; $i < count($results); $i++) {
+
+            $result = $results[$i];
+            $previousResult = null;
+
+            if ($previousResult !== null) foreach ($previousResults as $item) {
+                if ($result->grade_type_code === $item->grade_type_code) {
+                    $previousResult = $item;
+                    break;
+                }
+            }
+
             $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                 $result,
-                $charon->deadlines
+                $charon->deadlines,
+                $previousResult
             );
+
             $result->save();
         }
     }
@@ -171,12 +190,17 @@ class CharonGradingService
             $grademap->grade_type_code
         );
 
-        foreach ($results as $result) {
+        for ($i = 0; $i < count($results); $i++) {
+
+            $result = $results[$i];
             if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id)) {
+
                 $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                     $result,
-                    $grademap->charon->deadlines
+                    $grademap->charon->deadlines,
+                    $i > 0 ? $results[$i - 1] : null
                 );
+
                 $result->save();
             }
         }
