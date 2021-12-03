@@ -121,6 +121,10 @@
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
         studentText: "{{ translate('student') }}",
+        availabilityText: "{{ translate('availability') }}",
+        labTeachersText: "{{ translate('lab_teachers') }}",
+        labQueueText: "{{ translate('lab_queue') }}",
+        labEndedText: "{{ translate('lab_end') }}",
     };
 </script>
 

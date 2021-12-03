@@ -449,6 +449,30 @@ class DefenceRegistrationService
     }
 
     /**
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
+     * @return Registration[]
+     */
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    {
+        $defenseRegistrations = $this->defenseRegistrationRepository
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        $labId = null;
+        $labTeachers = [];
+        foreach ($defenseRegistrations as $defenseRegistration) {
+            if ($labId === null || $labId !== $defenseRegistration->lab_id){
+                $labId = $defenseRegistration->lab_id;
+                $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
+            }
+            $defenseRegistration->lab_teachers = $labTeachers;
+        }
+        return $defenseRegistrations;
+    }
+
+    /**
      * If no teacher and status defending or done, then marking currently logged user as teacher.
      *
      * @param $defenseId

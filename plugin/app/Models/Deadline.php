@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Models;
 
-use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Zeizig\Moodle\Models\Event;

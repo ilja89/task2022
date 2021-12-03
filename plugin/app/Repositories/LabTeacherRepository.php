@@ -278,6 +278,20 @@ class LabTeacherRepository
     }
 
     /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getAllLabTeachersByLab(int $labId)
+    {
+        return DB::table('charon_lab_teacher')
+            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
+            ->where('charon_lab_teacher.lab_id', $labId)
+            ->select('user.id', 'firstname', 'lastname')
+            ->groupBy('user.id', 'firstname', 'lastname')
+            ->get();
+    }
+
+    /**
      * Method is used to check if user is a lab teacher. Lab teacher checking is made through defense.
      *
      * @param int $defenseId
