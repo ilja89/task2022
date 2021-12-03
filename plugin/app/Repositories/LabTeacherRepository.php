@@ -278,6 +278,39 @@ class LabTeacherRepository
     }
 
     /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getAllLabTeachersByLab(int $labId)
+    {
+        return DB::table('charon_lab_teacher')
+            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
+            ->where('charon_lab_teacher.lab_id', $labId)
+            ->select('user.id', 'firstname', 'lastname')
+            ->groupBy('user.id', 'firstname', 'lastname')
+            ->get();
+    }
+
+    /**
+     * Method is used to check if user is a lab teacher. Lab teacher checking is made through defense.
+     *
+     * @param int $defenseId
+     * @param int $userId
+     * @return object|null
+     */
+    public function getTeacherByDefenseAndUserId(int $defenseId, int $userId)
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon_lab_teacher', 'charon_lab_teacher.lab_id', 'charon_defense_lab.lab_id')
+            ->where('charon_defenders.id', $defenseId)
+            ->where('charon_lab_teacher.teacher_id', $userId)
+            ->select('charon_lab_teacher.teacher_id')
+            ->first();
+    }
+
+
+    /**
      * Get teachers ids which is connected with lab and not in given array.
      *
      * @param $labId

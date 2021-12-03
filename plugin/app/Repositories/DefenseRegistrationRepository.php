@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
@@ -129,7 +128,6 @@ class DefenseRegistrationRepository
 
     /**
      * @param string $time
-     * @param int $teacherCount
      * @param int $labId
      *
      * @return array
@@ -309,19 +307,21 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Get ongoing and upcoming defences registered to a lab with given id.
+     * Returns all lab registrations. If given progresses, then returns registrations only
+     * where progress is in progresses list.
      *
      * @param int $labId
+     * @param string[] $progresses
      *
      * @return array
      */
-    public function getListOfUndoneLabRegistrationsByLabId(int $labId): array
+    public function getLabRegistrationsByLabId(int $labId, array $progresses = ['Waiting', 'Defending', 'Done']): array
     {
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
-            ->where('charon_defenders.progress', '!=', 'Done')
+            ->whereIn("charon_defenders.progress", $progresses)
             ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id")
             ->orderBy("charon_defenders.id")
             ->get()
@@ -342,6 +342,24 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.lab_id', $labId)
             ->where('charon_defenders.progress', '!=', 'Done')
             ->count();
+    }
+
+
+    /**
+     * @param int $labId
+     * @return mixed
+     */
+    public function getTeacherAndDefendingCharonByLab(int $labId)
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('progress', 'Defending')
+            ->whereNotNull('charon_defenders.teacher_id')
+            ->select('charon_defenders.teacher_id', 'charon.name as charon')
+            ->groupBy('teacher_id','charon')
+            ->get();
     }
 
     /**

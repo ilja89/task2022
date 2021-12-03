@@ -15,6 +15,8 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
+use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -449,17 +451,47 @@ class DefenceRegistrationService
     }
 
     /**
-     * Save defending progress.
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
+     * @return Registration[]
+     */
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    {
+        $defenseRegistrations = $this->defenseRegistrationRepository
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        $labId = null;
+        $labTeachers = [];
+        foreach ($defenseRegistrations as $defenseRegistration) {
+            if ($labId === null || $labId !== $defenseRegistration->lab_id){
+                $labId = $defenseRegistration->lab_id;
+                $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
+            }
+            $defenseRegistration->lab_teachers = $labTeachers;
+        }
+        return $defenseRegistrations;
+    }
+
+    /**
+     * TODO: update method and description
+     * If no teacher and status defending or done, then marking currently logged user as teacher.
+     *
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
      * @return Registration
-     * @throws IncorrectRegistrationException
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
         if ($newTeacherId == null && $newProgress !== 'Waiting') {
-            throw new IncorrectRegistrationException("Registration without teacher and status: {$newProgress} can\'t be updated");
+            $userId = app(User::class)->currentUserId();
+            $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
+            if ($labTeacher !== null){
+                $newTeacherId = $userId;
+            }
+//            throw new IncorrectRegistrationException("Registration without teacher and status: {$newProgress} can\'t be updated");
         }
         $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
         $defense->teacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);

@@ -71,7 +71,7 @@
                     clearable
                     single-line
                     return-object
-                    :items="teachers"
+                    :items="item.lab_teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
@@ -118,6 +118,7 @@ export default {
             alert: false,
             item: Object,
             search: '',
+            all_progress_types: ['Waiting', 'Defending', 'Done'],
             defense_list_headers: [
                 {text: 'Nr. in queue', value: 'queue_nr', align: 'start'},
                 {text: 'Lab', value: 'lab_name'},
@@ -131,7 +132,6 @@ export default {
         }
     }, props: {
         defenseList: {required: true},
-        teachers: {required: true}
     },
     methods: {
         getSubmissionRouting(submissionId) {
@@ -159,6 +159,7 @@ export default {
                     item.progress = registration.progress;
                 }
                 VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                // VueEvent.$emit('refresh-defense-list');
             })
         },
 

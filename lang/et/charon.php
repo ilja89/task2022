@@ -202,6 +202,10 @@ $string['queue_status'] = 'Järjekorra olek';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Eeldatav algusaeg';
 $string['student'] = 'Üliõpilane';
+$string['availability'] = 'Kättesaadavus';
+$string['lab_teachers'] = 'Praktikumi õpetajad';
+$string['lab_queue'] = 'Kaitsmise ootejärjekord';
+$string['lab_end'] = 'Praktikum on lõppenud';
 
 /*------------------------*\
    Messages
