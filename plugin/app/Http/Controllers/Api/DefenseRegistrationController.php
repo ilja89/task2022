@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
-use TTU\Charon\Models\Registration;
+use TTU\Charon\Models\Defender;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -112,7 +112,7 @@ class DefenseRegistrationController extends Controller
     /**
      * Get defense registrations by course.
      * @param Course $course
-     * @return Collection|Registration[]
+     * @return Collection|Defender[]
      */
     public function getDefenseRegistrationsByCourse(Course $course)
     {
@@ -126,7 +126,7 @@ class DefenseRegistrationController extends Controller
      * @param $before
      * @param $teacherId
      * @param $progress
-     * @return Collection|Registration[]
+     * @return Collection|Defender[]
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
@@ -136,10 +136,10 @@ class DefenseRegistrationController extends Controller
     /**
      * Save defense progress.
      * @param Course $course
-     * @param Registration $registration
-     * @return Registration
+     * @param Defender $registration
+     * @return Defender
      */
-    public function saveProgress(Course $course, Registration $registration)
+    public function saveProgress(Course $course, Defender $registration)
     {
         return $this->defenseRegistrationRepository->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
