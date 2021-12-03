@@ -67,18 +67,20 @@ class CharonGradingServiceTest extends TestCase
 
         $submission = new Submission();
         $submission->charon = Mockery::mock(Charon::class)->makePartial();
+        // TODO: separate test for grading method 'prefer_best_each_test_grade'
+        $submission->charon->gradingMethod = new GradingMethod(['code' => rand(1, 2)]);
         $submission->charon->deadlines = $deadlines;
         $submission->results = collect([$result1, $result2]);
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result1, $deadlines)
+            ->with($result1, $deadlines, null)
             ->once()
             ->andReturn(3);
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result2, $deadlines)
+            ->with($result2, $deadlines, null)
             ->once()
             ->andReturn(5);
 
@@ -274,13 +276,13 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result1, $deadlines)
+            ->with($result1, $deadlines, null)
             ->once()
             ->andReturn(13);
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result2, $deadlines)
+            ->with($result2, $deadlines, $result1)
             ->once()
             ->andReturn(17);
 

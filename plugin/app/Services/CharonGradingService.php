@@ -125,7 +125,7 @@ class CharonGradingService
             $result = $results[$i];
             $previousResult = null;
 
-            if ($previousResult !== null) foreach ($previousResults as $item) {
+            if ($previousResults !== null) foreach ($previousResults as $item) {
                 if ($result->grade_type_code === $item->grade_type_code) {
                     $previousResult = $item;
                     break;
