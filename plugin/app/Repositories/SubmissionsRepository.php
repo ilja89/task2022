@@ -703,9 +703,9 @@ class SubmissionsRepository
         return Submission
             ::where("charon_submission.charon_id", $submission->charon_id)
             ->where("charon_submission.user_id", $submission->user_id)
-            ->where("charon_submission.id", "<", $submission->id)
+            ->where("charon_submission.created_at", "<", $submission->created_at)
             ->select("charon_submission.id")
-            ->orderBy("charon_submission.id", "desc")
+            ->latest("charon_submission.created_at")
             ->first();
     }
 }
