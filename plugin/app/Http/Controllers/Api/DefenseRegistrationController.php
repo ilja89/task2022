@@ -130,7 +130,7 @@ class DefenseRegistrationController extends Controller
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->defenseRegistrationRepository->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
+        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -444,5 +445,29 @@ class DefenceRegistrationService
         return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
+    }
+
+    /**
+     * @param $courseId
+     * @param $after
+     * @param $before
+     * @param $teacher_id
+     * @param $progress
+     * @return Registration[]
+     */
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    {
+        $defenseRegistrations = $this->defenseRegistrationRepository
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+        $labId = null;
+        $labTeachers = [];
+        foreach ($defenseRegistrations as $defenseRegistration) {
+            if ($labId === null || $labId !== $defenseRegistration->lab_id){
+                $labId = $defenseRegistration->lab_id;
+                $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
+            }
+            $defenseRegistration->lab_teachers = $labTeachers;
+        }
+        return $defenseRegistrations;
     }
 }
