@@ -82,19 +82,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - 2021-09-09
 - \#438 Update Laravel version
 
-## [1.3.0] - 2021-07-19
+## [1.4.0] - 2021-08-13
 
 ### Added
 - \#454 Added posting to tester from inline submission
 - \#418 Charon footer shows Charon version in use and has a link to Changelog
 - \#431 Added charon total points in grading view
-- \#351 Confirming registration deletion alert shows additional information about the registration
-- \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
-- \#397 Ask confirmation if a Lab change would result in loss of active registrations
-- \#429 Option to connect a Lab with specific groups
-- \#392 Persistent grades marked with asterisk
-- \#210 Charon deadline events are visible in Moodle calendar
-- \#449 Tester url and token can be changed for specific course
 - \#492 Integrated templates management frontend with backend endpoints
 - \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
 - \#474 Added ability to make submitions from charon student view
@@ -106,6 +99,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
+- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
+
+## [1.3.0] - 2021-07-19
+
+### Added
+- \#351 Confirming registration deletion alert shows additional information about the registration
+- \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
+- \#397 Ask confirmation if a Lab change would result in loss of active registrations
+- \#429 Option to connect a Lab with specific groups
+- \#392 Persistent grades marked with asterisk
+- \#210 Charon deadline events are visible in Moodle calendar
+- \#449 Tester url and token can be changed for specific course
+
+### Fixed
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
@@ -114,7 +121,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
-- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.2.4] - 2021-05-19
 
