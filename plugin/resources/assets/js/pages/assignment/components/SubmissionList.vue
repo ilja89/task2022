@@ -68,7 +68,7 @@
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
-import {File, Submission} from "../../../api";
+import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
 import SubmissionModal from "./SubmissionModal";
 import {mapState} from "vuex";
@@ -113,7 +113,7 @@ export default {
 			'registrations',
 			'student_id',
 			'charon',
-			'labs'
+			'labs',
 		]),
 
 		submissionsTable() {
@@ -216,9 +216,7 @@ export default {
 					VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
 				}
 				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				VueEvent.$emit("student-refresh-submissions");
-				this.refreshing = false;
+				this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
 			});
 		},
 
@@ -232,6 +230,15 @@ export default {
 				this.canLoadMore = false;
 			}
 		},
+
+		getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+			ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
+				this.$store.state.filesWithReviewComments = data;
+				VueEvent.$emit("student-refresh-submissions");
+				this.refreshing = false;
+				this.canLoadMore = Submission.canLoadMore();
+			})
+		},
 	},
 
 	watch: {
@@ -241,12 +248,6 @@ export default {
 	},
 }
 </script>
-
-<style>
-.latest {
-  background-color: #E8F3FA;
-}
-</style>
 
 <style scoped>
 
