@@ -16,7 +16,6 @@ use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -482,16 +481,21 @@ class DefenceRegistrationService
      * @param $newProgress
      * @param $newTeacherId
      * @return Registration
+     * @throws IncorrectRegistrationException
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
+//        $userId = app(User::class)->currentUserId();
+//        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
+//        if ($labTeacher == null) {
+//            throw new IncorrectRegistrationException("Registration is able to change only lab teacher");
+//        }
         if ($newTeacherId == null && $newProgress !== 'Waiting') {
             $userId = app(User::class)->currentUserId();
             $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
             if ($labTeacher !== null){
                 $newTeacherId = $userId;
             }
-//            throw new IncorrectRegistrationException("Registration without teacher and status: {$newProgress} can\'t be updated");
         }
         $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
         $defense->teacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
