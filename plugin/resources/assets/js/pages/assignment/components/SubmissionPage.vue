@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h2>KAS MIND ON KUSKIL NÄHA</h2>
     <div v-if="submission !== null">
-      <p>Siit ma tulen</p>
-      <p>{{submission.created_at}}</p>
       <submission-component :submission="this.submission" :color="'light-blue darken-0'"/>
     </div>
   </div>

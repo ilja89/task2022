@@ -15,7 +15,6 @@
       <submission-list
           :allow_submission="allow_submission">
       </submission-list>
-          <button @click="openPage">Nupp</button>
           <submission-body/>
 
 			<v-row class="my-4">
