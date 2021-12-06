@@ -5,8 +5,9 @@ import FilesComponent from './FilesComponent.vue'
 import FilesComponentWithoutTree from './FilesComponentWithoutTree.vue'
 import FilesWithReviewComments from "./FilesWithReviewComments";
 import SubmissionTableComponent from "./SubmissionTableComponent";
+import ToggleButton from "./ToggleButton";
 
 export {
     CharonTab, CharonTabs, Datepicker, FilesComponent, FilesComponentWithoutTree,
-    FilesWithReviewComments, SubmissionTableComponent
+    FilesWithReviewComments, SubmissionTableComponent, ToggleButton
 }

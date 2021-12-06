@@ -40,7 +40,7 @@
 				<h3 v-else>{{ translate('showingMail') }}</h3>
 
 				<label class="switch">
-					<input type="checkbox" v-model="toggleShowTable">
+                    <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 					<span class="slider round"></span>
 				</label>
 
@@ -65,8 +65,8 @@
 						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
 					</div>
 					<label class="switch">
-						<input type="checkbox" v-model="toggleShowAllSubmissions">
-						<span class="slider round"></span>
+                        <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
+                        <span class="slider round"></span>
 					</label>
 					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
 												view="student"
@@ -88,6 +88,7 @@ import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
 import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
+import ToggleButton from "../../../components/partials/ToggleButton.vue";
 
 export default {
 	name: "submission-modal",
@@ -95,7 +96,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent
+		FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton
 	},
 
 	props: {
@@ -176,7 +177,15 @@ export default {
 						this.reviewCommentIdsWithNotify = [];
 					});
 			}
-		}
+		},
+
+        showTable(show) {
+            this.toggleShowTable = show;
+        },
+
+        showAllSubmissions(show) {
+            this.toggleShowAllSubmissions = show;
+        },
 	},
 }
 </script>
