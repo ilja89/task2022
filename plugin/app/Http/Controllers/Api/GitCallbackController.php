@@ -143,6 +143,8 @@ class GitCallbackController extends Controller
             } elseif ($settings && $settings->unittests_git) {
                 Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
                 $params['gitTestRepo'] = $settings->unittests_git;
+            } else {
+                return 'NO GIT TESTS REPOSITORY SET';
             }
 
             $params['slugs'] = [$charon->project_folder];
