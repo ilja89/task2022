@@ -87,7 +87,7 @@
                 </v-container>
             </v-card>
 
-            <defense-registrations-section :defense-list="defenseList" :teachers="teachers"/>
+            <defense-registrations-section :defense-list="defenseList"/>
         </popup-section>
     </div>
 
@@ -141,6 +141,12 @@
 
         beforeDestroy() {
             VueEvent.$off('refresh-page', this.fetchRegistrations)
+        },
+
+        mounted() {
+            VueEvent.$on('refresh-defense-list', _ => {
+                this.apply();
+            })
         },
 
         methods: {

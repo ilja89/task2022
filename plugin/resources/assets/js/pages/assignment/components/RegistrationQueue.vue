@@ -21,7 +21,6 @@
                 :headers="labTeachersHeaders"
                 :items="labTeachers"
                 :hide-default-footer="true"
-                @update:items="dataUpdate"
               >
               </v-data-table>
             </div>
@@ -32,7 +31,6 @@
             <v-data-table
               :headers="studentsQueueHeaders"
               :items="studentsQueue"
-              @update:items="dataUpdate"
             >
             </v-data-table>
           </v-flex>
@@ -122,7 +120,7 @@ export default {
 <style>
 
 .v-application--wrap {
-  min-height: 1vh !important;
+  min-height: 1vh;
 }
 
 </style>

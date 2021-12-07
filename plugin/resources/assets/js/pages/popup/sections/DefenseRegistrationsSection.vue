@@ -57,7 +57,7 @@
                     dense
                     single-line
                     return-object
-                    :items="teachers"
+                    :items="item.lab_teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
@@ -118,7 +118,6 @@ export default {
         }
     }, props: {
         defenseList: {required: true},
-        teachers: {required: true}
     },
     methods: {
         getSubmissionRouting(submissionId) {
@@ -127,7 +126,8 @@ export default {
 
         updateRegistration(defense_id, state, teacher_id) {
             Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger')
+                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                VueEvent.$emit('refresh-defense-list');
             })
         },
 

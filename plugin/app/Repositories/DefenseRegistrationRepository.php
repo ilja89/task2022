@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use TTU\Charon\Models\Defender;
+use TTU\Charon\Models\Registration;
 use Zeizig\Moodle\Services\ModuleService;
 
 /**
@@ -37,21 +37,21 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * @return Builder|Defender
+     * @return Builder|Registration
      */
     public function query()
     {
-        return Defender::query();
+        return Registration::query();
     }
 
     /**
      * @param array $fields
      *
-     * @return Defender
+     * @return Registration
      */
     public function create($fields = [])
     {
-        return Defender::create($fields);
+        return Registration::create($fields);
     }
 
     /**
@@ -77,7 +77,7 @@ class DefenseRegistrationRepository
      *
      * @param int $labId
      *
-     * @return Collection|Defender[]
+     * @return Collection|Registration[]
      */
     public function getDefenceRegistrationsByLabId(int $labId): array
     {
@@ -169,7 +169,7 @@ class DefenseRegistrationRepository
     /**
      * Get defense registrations by course.
      * @param $courseId
-     * @return Collection|Defender[]
+     * @return Collection|Registration[]
      */
     public function getDefenseRegistrationsByCourse($courseId)
     {
@@ -199,7 +199,7 @@ class DefenseRegistrationRepository
      * @param $before
      * @param $teacher_id
      * @param $progress
-     * @return Collection|Defender[]
+     * @return Collection|Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
@@ -272,11 +272,11 @@ class DefenseRegistrationRepository
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
-     * @return Defender
+     * @return Registration
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId)
     {
-        $defense = Defender::find($defenseId);
+        $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
         if ($newProgress == 'Defending'){

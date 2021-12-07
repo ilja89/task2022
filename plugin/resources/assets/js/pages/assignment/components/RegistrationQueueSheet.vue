@@ -2,13 +2,13 @@
   <v-bottom-sheet v-model="sheet" inset style="position: relative; z-index: 1000">
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" icon @click="sheet = true">
-        <img v-if="hasLoaded" alt="queue" height="24px" src="pix/line.png" width="24px">
+        <img v-if="queueStatus" alt="queue" height="24px" src="pix/line.png" width="24px">
         <img v-else alt="queue loading" height="24px" src="pix/refreshBlack.png"
              v-bind:class="'rotating'"
              width="24px">
       </v-btn>
     </template>
-    <div v-if="hasLoaded">
+    <div v-if="queueStatus">
       <v-toolbar color="success" dark>
         <span class="headline">{{ translate('queueStatusText') }}</span>
 
@@ -49,12 +49,6 @@ export default {
       sheet: false,
       queueStatus: null
     };
-  },
-
-  computed: {
-    hasLoaded(){
-      return !!this.queueStatus;
-    }
   },
 
   methods: {

@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package TTU\Charon\Model
  */
-class Defender extends Model {
+class Registration extends Model {
 
     /**
      * Fillable fields.
