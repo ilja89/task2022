@@ -193,7 +193,7 @@
             },
 
             fetchRegistrations() {
-                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
+                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
                     this.defenseList = response
                 })
             },
