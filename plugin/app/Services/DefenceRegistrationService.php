@@ -484,13 +484,13 @@ class DefenceRegistrationService
      * @return Registration
      * @throws IncorrectRegistrationException
      */
-    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
-//        $userId = app(User::class)->currentUserId();
-//        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
-//        if ($labTeacher == null) {
-//            throw new IncorrectRegistrationException("Registration is able to change only lab teacher");
-//        }
+        $userId = app(User::class)->currentUserId();
+        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
+        if ($labTeacher == null) {
+             throw new IncorrectRegistrationException("Registration is able to change only lab teacher");
+        }
         if ($newTeacherId == null && $newProgress !== 'Waiting') {
             $userId = app(User::class)->currentUserId();
             $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);

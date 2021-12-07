@@ -4,6 +4,7 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use TTU\Charon\Exceptions\IncorrectRegistrationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -137,7 +138,7 @@ class DefenseRegistrationController extends Controller
      * @param Course $course
      * @param Registration $registration
      * @return Registration
-     * @throws \TTU\Charon\Exceptions\IncorrectRegistrationException
+     * @throws IncorrectRegistrationException
      */
     public function saveProgress(Course $course, Registration $registration)
     {
