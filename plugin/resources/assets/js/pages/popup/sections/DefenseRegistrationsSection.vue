@@ -63,6 +63,7 @@
                     item-value="teacher"
                     v-model="item.teacher"
                     @change="updateRegistration(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
                 <v-select
                     class="mx-auto"
@@ -76,6 +77,7 @@
                     item-value="teacher"
                     v-model="item.teacher"
                     @change="updateRegistrationTeacher(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -92,6 +94,7 @@
                     :items="all_progress_types"
                     v-model="item.progress"
                     @change="updateRegistration(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -129,6 +132,8 @@ export default {
                 {text: 'Progress', value: 'progress'},
                 {text: 'Actions', value: 'actions'},
             ],
+            lastProgress: '',
+            lastTeacher: null,
         }
     }, props: {
         defenseList: {required: true},
@@ -149,7 +154,10 @@ export default {
         updateRegistration(item) {
             const teacher_id = item.teacher ? item.teacher.id : null;
             Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
-                if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')){
+                if (registration == null) {
+                    item.teacher = this.lastTeacher;
+                    item.progress = this.lastProgress;
+                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
                     item.teacher = registration.teacher;
                     item.progress = registration.progress;
                     VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
@@ -220,6 +228,11 @@ export default {
                     }
                 }
             }
+        },
+
+        saveLastTeacherAndProgress(teacher, progress) {
+            this.lastTeacher = teacher;
+            this.lastProgress = progress;
         },
     },
     computed: {

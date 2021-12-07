@@ -4,13 +4,13 @@ namespace TTU\Charon\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use TTU\Charon\Exceptions\IncorrectRegistrationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -34,6 +34,9 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
+    /** @var LabTeacherRepository */
+    private $teacherRepository;
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -43,6 +46,7 @@ class DefenseRegistrationController extends Controller
      * @param DefenceRegistrationService $registrationService
      * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
+     * @param LabTeacherRepository $teacherRepository
      */
     public function __construct(
         Request $request,
@@ -50,7 +54,8 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         LabService $labService,
-        CharonDefenseLabRepository $defenseLabRepository
+        CharonDefenseLabRepository $defenseLabRepository,
+        LabTeacherRepository $teacherRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
@@ -58,6 +63,7 @@ class DefenseRegistrationController extends Controller
         $this->registrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -134,14 +140,20 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Save defense progress.
+     * Decline registration updating if user is not lab teacher of lab in which registration contains
+     *
      * @param Course $course
      * @param Registration $registration
      * @return Registration
-     * @throws IncorrectRegistrationException
+     * @throws RegistrationException
      */
-    public function saveProgress(Course $course, Registration $registration)
+    public function updateRegistration(Course $course, Registration $registration): Registration
     {
+        $userId = app(User::class)->currentUserId();
+        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registration->id, $userId);
+        if ($labTeacher == null) {
+            throw new RegistrationException("Registration is able to change only lab teacher");
+        }
         return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 

@@ -4,7 +4,6 @@ namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Exceptions\IncorrectRegistrationException;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Lab;
@@ -475,22 +474,16 @@ class DefenceRegistrationService
     }
 
     /**
-     * TODO: update method and description
+     * Update registration progress or/and teacher.
      * If no teacher and status defending or done, then marking currently logged user as teacher.
      *
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
      * @return Registration
-     * @throws IncorrectRegistrationException
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
-        $userId = app(User::class)->currentUserId();
-        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
-        if ($labTeacher == null) {
-             throw new IncorrectRegistrationException("Registration is able to change only lab teacher");
-        }
         if ($newTeacherId == null && $newProgress !== 'Waiting') {
             $userId = app(User::class)->currentUserId();
             $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
