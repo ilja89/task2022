@@ -1,5 +1,8 @@
 <template>
-    <input type="checkbox" @click='clicked' v-model="buttonClick">
+    <label class="switch">
+        <input type="checkbox" @click='clicked' v-model="buttonClick">
+        <span class="slider round"></span>
+    </label>
 </template>
 
 <script>

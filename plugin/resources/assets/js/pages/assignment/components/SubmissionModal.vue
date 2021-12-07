@@ -39,12 +39,9 @@
 				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
 				<h3 v-else>{{ translate('showingMail') }}</h3>
 
-				<label class="switch">
-                    <toggle-button @buttonClicked="showTable($event)"></toggle-button>
-					<span class="slider round"></span>
-				</label>
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 
-				<div v-if="hasMail && !toggleShowTable">
+                <div v-if="hasMail && !toggleShowTable">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
 				</div>
@@ -64,10 +61,9 @@
 					<div v-else>
 						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
 					</div>
-					<label class="switch">
-                        <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
-                        <span class="slider round"></span>
-					</label>
+
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
+
 					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
 												view="student"
 												:filesWithReviewComments="this.getFilesWithReviewComments()"
@@ -82,13 +78,12 @@
 </template>
 
 <script>
-import {FilesComponentWithoutTree} from '../../../components/partials'
+import {FilesComponentWithoutTree, ToggleButton} from '../../../components/partials'
 import {Translate} from '../../../mixins'
 import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
 import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
-import ToggleButton from "../../../components/partials/ToggleButton.vue";
 
 export default {
 	name: "submission-modal",
@@ -179,12 +174,12 @@ export default {
 			}
 		},
 
-        showTable(show) {
-            this.toggleShowTable = show;
+        showTable(bool) {
+            this.toggleShowTable = bool;
         },
 
-        showAllSubmissions(show) {
-            this.toggleShowAllSubmissions = show;
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
         },
 	},
 }
@@ -192,7 +187,6 @@ export default {
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
-@import '../../../../../../public/css/buttons/toggleButton.css';
 
 .review-comments {
 	padding-top: 10px;

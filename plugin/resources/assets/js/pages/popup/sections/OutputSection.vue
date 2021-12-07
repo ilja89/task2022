@@ -19,14 +19,12 @@
             </charon-tab>
 
             <charon-tab name="Mail">
-                <h3 v-if="toggleOn">Showing table</h3>
+                <h3 v-if="toggleShowTable">Showing table</h3>
                 <h3 v-else>Showing mail</h3>
 
-                <label class="switch">
-                    <input type="checkbox" v-model="toggleOn">
-                    <span class="slider round"></span>
-                </label>
-                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="toggleOn">
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
+
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="toggleShowTable">
                     <pre style="max-height: 900px;overflow: auto">
                         <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
                     </pre>
@@ -44,10 +42,8 @@
                     <div v-else>
                         <h2>Feedback for all submissions for this charon</h2>
                     </div>
-                    <label class="switch">
-                        <input type="checkbox" v-model="toggleShowAllSubmissions">
-                        <span class="slider round"></span>
-                    </label>
+
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
 
                     <files-with-review-comments v-if="hasReviewComments"
                                                 :filesWithReviewComments="this.getFilesWithReviewComments()"
@@ -68,7 +64,8 @@
 <script>
 
 import {mapState, mapActions} from "vuex";
-import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments} from '../../../components/partials/index';
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments, ToggleButton}
+    from '../../../components/partials/index';
 import {PopupSection} from '../layouts/index';
 import {OutputComponent} from '../partials/index';
 import {ReviewComment, Submission} from "../../../api";
@@ -77,14 +74,14 @@ import SubmissionTableComponent from "../../../components/partials/SubmissionTab
 export default {
     components: {
         PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
-        FilesWithReviewComments, SubmissionTableComponent
+        FilesWithReviewComments, SubmissionTableComponent, ToggleButton
     },
 
     data() {
         return {
             stickyTabs: false,
             toggleShowAllSubmissions: false,
-            toggleOn: false,
+            toggleShowTable: false,
         }
     },
 
@@ -134,6 +131,14 @@ export default {
                 this.$store.state.filesWithReviewComments = data;
             })
         },
+
+        showTable(bool) {
+            this.toggleShowTable = bool;
+        },
+
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
+        },
     },
 
     created() {
@@ -155,7 +160,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../../../../public/css/buttons/toggleButton.css';
 
 .mx-auto {
     margin-top: 10px;
