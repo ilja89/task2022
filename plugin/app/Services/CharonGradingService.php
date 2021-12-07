@@ -116,9 +116,9 @@ class CharonGradingService
         $charon = $submission->charon;
 
         $results = $submission->results;
-        $previousResults = $charon->gradingMethod->isPreferBestEachTestGrade()
-            // TODO: replace with 1 query
-            ? $this->submissionsRepository->findPreviousSubmission($submission)->results
+        $previousSubmission = $charon->gradingMethod->isPreferBestEachTestGrade()
+            // TODO: replace with 1 query ($previousSubmission->results)
+            ? $this->submissionsRepository->findPreviousSubmission($submission)
             : null;
 
         for ($i = 0; $i < count($results); $i++) {
@@ -126,7 +126,7 @@ class CharonGradingService
             $result = $results[$i];
             $previousResult = null;
 
-            if ($previousResults !== null) foreach ($previousResults as $item) {
+            if ($previousSubmission !== null) foreach ($previousSubmission->results as $item) {
                 if ($result->grade_type_code === $item->grade_type_code) {
                     $previousResult = $item;
                     break;
