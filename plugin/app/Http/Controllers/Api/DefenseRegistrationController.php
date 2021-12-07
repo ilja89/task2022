@@ -81,9 +81,7 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null,
-            $request->input("progress")
-        );
+            null);
     }
 
     /**
@@ -126,11 +124,12 @@ class DefenseRegistrationController extends Controller
      * @param $before
      * @param $teacherId
      * @param $progress
-     * @return Collection|Registration[]
+     * @return Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
+        $session = filter_var($this->request['session'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $session);
     }
 
     /**

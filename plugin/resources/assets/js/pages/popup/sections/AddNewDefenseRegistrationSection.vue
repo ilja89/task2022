@@ -33,14 +33,6 @@
                             return-object
                   ></v-select>
                 </v-col>
-                <v-col>
-                  <div class="helper">Progress</div>
-                  <v-select placeholder="Progress"
-                            class="mx-auto"
-                            v-model="progress"
-                            :items="all_progress_types"
-                  ></v-select>
-                </v-col>
               </v-row>
               <v-row>
                 <v-btn class="ma-2" small tile outlined color="primary" @click="save">
@@ -67,8 +59,6 @@
 
     data: function () {
       return {
-        all_progress_types: ['Waiting', 'Defending', 'Done'],
-        progress: 'Waiting',
         labs: [],
         students: [],
         charons: [],
@@ -86,9 +76,9 @@
       },
 
       save() {
-        if (this.item && this.item.lab && this.item.student && this.item.charon && this.progress) {
+        if (this.item && this.item.lab && this.item.student && this.item.charon) {
           Defense.registerByTeacher(this.item.charon.id, this.item.student.id, this.item.lab.defense_lab_id,
-            this.progress, () => {
+              () => {
               VueEvent.$emit('show-notification', "Registration was successful!", 'primary');
               router.push('defenseRegistrations');
               VueEvent.$emit('refresh-page');

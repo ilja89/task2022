@@ -345,7 +345,7 @@ class DefenceRegistrationService
         int $charonId,
         int $defenseLabId,
         ?int $submissionId,
-        ?string $progress = null
+        string $progress = 'Waiting'
     ): string {
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
@@ -415,11 +415,11 @@ class DefenceRegistrationService
      */
     public function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
     {
-        $capacity = $lab->end->diff($lab->start)->i;
+        $capacity = $lab->end->diffInMinutes($lab->start);
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
             $lab->start
         );
@@ -444,7 +444,7 @@ class DefenceRegistrationService
             $shortestWaitingTime = $lab->start;
         }
 
-        return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
+        return $capacity >= $shortestWaitingTime->diffInMinutes($lab->start) + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
     }
@@ -455,12 +455,13 @@ class DefenceRegistrationService
      * @param $before
      * @param $teacher_id
      * @param $progress
+     * @param bool $session
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, bool $session)
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
-            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, $session);
         $labId = null;
         $labTeachers = [];
         foreach ($defenseRegistrations as $defenseRegistration) {

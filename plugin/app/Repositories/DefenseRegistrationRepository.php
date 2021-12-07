@@ -199,9 +199,10 @@ class DefenseRegistrationRepository
      * @param $before
      * @param $teacher_id
      * @param $progress
+     * @param bool $session
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, bool $session)
     {
         /** @var \Illuminate\Database\Query\Builder $query */
         $query = DB::table('charon_defenders')
@@ -234,7 +235,9 @@ class DefenseRegistrationRepository
             ]);
         }
 
-        if ($teacher_id != 'null') {
+        if ($teacher_id != 'null' && $session) {
+            $query->whereRaw('teacher_id = ?', [$teacher_id])->orWhereNull('teacher_id');
+        } else if ($teacher_id != 'null') {
             $query->whereRaw('teacher_id = ?', [$teacher_id]);
         }
         if ($progress != 'null') {

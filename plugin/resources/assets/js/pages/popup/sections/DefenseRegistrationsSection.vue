@@ -139,9 +139,7 @@ export default {
         },
 
         updateRegistrationTeacher(item) {
-            console.log(item.teacher)
             const teacher_id = item.teacher ? item.teacher.id : null;
-            console.log(teacher_id)
             if (item.progress === 'Defending' && teacher_id == null) {
                 item.progress = 'Waiting';
             }
