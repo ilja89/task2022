@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {SubmissionPage, SubmissionModal, SubmissionList} from "./components"
+import {SubmissionPage} from "./components"
 import Vuetify from "vuetify";
 
 Vue.use(VueRouter);
@@ -16,7 +16,6 @@ const routes = [
     {
         path: '/'
     },
-
 ]
 const router = new VueRouter({
     routes,

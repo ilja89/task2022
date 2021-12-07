@@ -140,7 +140,6 @@ export default {
       this.$router.push('/');
     },
     getFiles() {
-      console.log(this.submission);
       File.findBySubmission(this.submission.id, files => {
         this.files = files
         this.checkComments();

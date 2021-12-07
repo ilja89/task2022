@@ -15,8 +15,6 @@
                 </v-btn>
             </div>
         </div>
-      <button @click="openPage">Nupp1</button>
-      <button @click="openPage2">Nupp2</button>
         <div class="review-comment-body">
             <p>
                 {{ reviewComment.review_comment }}
@@ -45,12 +43,6 @@ export default {
     },
 
     methods: {
-        openPage() {
-          this.$router.push('/submissionPage/259');
-        },
-        openPage2() {
-          this.$router.push('/submissionPage/240');
-        },
         deleteReviewComment() {
             if (this.reviewComment === null) {
                 return;
