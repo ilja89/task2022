@@ -5,7 +5,13 @@
             <transition-group name="list">
                 <div v-for="(submissionChunk) in latestSubmissionsChunks" v-bind:key="submissionChunk.id" class="columns">
                     <div v-for="(submission, index) in submissionChunk" v-bind:key="index" class="column">
-                      <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                        <div class="card  hover-overlay  submission" @click="submissionSelected(submission)">
+                            <v-badge :value="submission.review_comments.length"
+                                     :content="submission.review_comments.length < 10 ? submission.review_comments.length : '9+'"
+                                     overlap
+                                     left
+                                     offset-x="-1"
+                            >
                             <div>
                                 <span class="submission-line">
                                     {{ submission | submissionTime }}
@@ -16,7 +22,7 @@
                                 </span><span class="submission-line">
                                     {{ formatStudentResults(submission) }}
                                 </span>
-                            </div>
+                            </div></v-badge>
                         </div>
                     </div>
                 </div>
@@ -127,25 +133,34 @@
     .submission {
         margin-top: 0;
         margin-bottom: 0;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        display: inherit;
 
         word-break: break-word;
         line-height: 1.5rem;
 
         @include touch {
-            padding-bottom: 20px;
-            padding-left: 10px;
+            padding-bottom: 1em;
+            padding-left: 1em;
+            padding-right: 1em;
         }
     }
 
     .submission-line {
         display: inline-block;
+        padding-top: 0.5em;
     }
 
     .timestamp-separator {
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+    }
+
+    .div.card.hover-overlay.submission {
+        padding-top: 1em;
+        padding-bottom: 1em;
+        padding-right: 1em;
     }
 
 </style>
