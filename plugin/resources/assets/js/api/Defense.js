@@ -78,6 +78,12 @@ class Defense {
         })
     }
 
+    static getByTeacher(course_id, teacher_id, lab_id, then) {
+        axios.get(`/mod/charon/api/courses/${course_id}/defenseRegistrations/teacher?teacher_id=${teacher_id}&lab_id=${lab_id}`).then(response => {
+            then(response.data)
+        })
+    }
+
 }
 
 export default Defense

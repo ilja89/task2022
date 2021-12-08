@@ -25,7 +25,7 @@ class DefenseRegistrationController extends Controller
     protected $studentsRepository;
 
     /** @var DefenceRegistrationService */
-    protected $registrationService;
+    protected $defenceRegistrationService;
 
     /** @var LabService */
     protected $labService;
@@ -54,7 +54,7 @@ class DefenseRegistrationController extends Controller
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
-        $this->registrationService = $registrationService;
+        $this->defenceRegistrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
     }
@@ -64,7 +64,7 @@ class DefenseRegistrationController extends Controller
      */
     public function registerDefenceByStudent(Request $request): string
     {
-        return $this->registrationService->registerDefence(
+        return $this->defenceRegistrationService->registerDefence(
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
@@ -77,7 +77,7 @@ class DefenseRegistrationController extends Controller
      */
     public function registerDefenceByTeacher(Request $request): string
     {
-        return $this->registrationService->registerDefence(
+        return $this->defenceRegistrationService->registerDefence(
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
@@ -100,7 +100,7 @@ class DefenseRegistrationController extends Controller
     {
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($request->input('lab_id'));
 
-        return $this->registrationService->getUsedDefenceTimes(
+        return $this->defenceRegistrationService->getUsedDefenceTimes(
             $request->input('time'),
             $request->input('charon_id'),
             $lab,
@@ -130,7 +130,7 @@ class DefenseRegistrationController extends Controller
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
+        return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
     }
 
     /**
@@ -141,7 +141,7 @@ class DefenseRegistrationController extends Controller
      */
     public function saveProgress(Course $course, Registration $registration)
     {
-        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->defenceRegistrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
     public function delete(Request $request)
@@ -168,8 +168,8 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
 
-    public function getLabTeacherActiveRegistrations($labId, $teacherId)
+    public function getLabTeacherActiveRegistrations(Request $request)
     {
-        return $this->registrationService->getLabTeacherActiveRegistrations($labId, $teacherId);
+        return $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $request->input('teacher_id'));
     }
 }
