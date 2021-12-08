@@ -87,7 +87,6 @@ export default {
   },
 
   created() {
-    console.log('created: ', [this.submission.id]);
     this.routeChanged = true;
   },
 
@@ -104,24 +103,16 @@ export default {
     hasMail() {
       return this.submission.mail !== null && this.submission.mail.length > 0
     },
-
-    notifyColor() {
-      return !!this.reviewCommentIdsWithNotify.length;
-    }
   },
 
   watch: {
     $route (to, from){
-      console.log('route changed : ', [this.submission.id,to.params.submission_id,from.params.submission_id]);
       if (this.submission.id === parseInt(to.params.submission_id)) {
-        console.log('olen siin ja saan midagi teha kui tahad.')
         this.routeChanged = true;
       }
     },
     routeChanged (newVal, val) {
-      console.log('value changed :', [this.submission.id, newVal, val]);
       if (newVal === true) {
-        console.log("proovin")
         this.isActive = true;
         this.routeChanged = false;
       }
@@ -130,9 +121,7 @@ export default {
 
   mounted() {
     this.testerType = window.testerType
-    this.getFiles()
-    VueEvent.$on("student-refresh-submissions", this.getFiles);
-    VueEvent.$on("activate-submission-dialog", this.onClickSubmissionInformation);
+    this.getFiles();
   },
 
   methods: {
@@ -169,91 +158,10 @@ export default {
             });
       }
     }
-  },
+  }
 }
 </script>
-<style scoped>
+<style src="../../../../../../public/css/submissionModal.css" scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
-
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.show{
-  position: relative;
-  z-index: 3000;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.review-comments {
-  padding-top: 10px;
-}
-
-.message {
-  padding: 10px;
-}
-
-.signal {
-  color: #f00!important;
-}
-
 </style>
