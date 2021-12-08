@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="testSuite in submission['test_suites']">
+        <div v-for="testSuite in testSuites">
             <h2>Test results for {{testSuite['name']}}</h2>
             <br>
             <table>
@@ -29,7 +29,7 @@
             Percentage: {{testSuite['grade']}}%<br>
             <br><br><br>
         </div>
-        <div v-if="submission['test_suites'].length > 1">
+        <div v-if="testSuites.length > 1">
             <h1>Overall</h1>
             Total number of tests: {{getTotalNumberOfTests()}}<br><br>
             Total passed tests: {{getTotalPassedNumberOfTests()}}<br><br>
@@ -43,16 +43,16 @@
 <script>
 
     export default {
-        props: {submission: {required: true}},
+        props: {testSuites: {required: true}},
 
         data() {
-             return {
+            return {
                  previous_param: null,
                  current_param: null,
                  previous_table_id: null,
                  current_table_id: null,
                  show_stack_trace: false
-             }
+            }
         },
 
         methods: {
@@ -106,16 +106,16 @@
             },
             getTotalNumberOfTests() {
                 let count = 0
-                for (let i = 0; i < this.submission['test_suites'].length; i++) {
-                    count += this.submission['test_suites'][i]['unit_tests'].length
+                for (let i = 0; i < this.testSuites.length; i++) {
+                    count += this.testSuites[i]['unit_tests'].length
                 }
                 return count
             },
             getTotalPassedNumberOfTests() {
                 let count = 0
-                for (let i = 0; i < this.submission['test_suites'].length; i++) {
-                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
-                        if (this.submission['test_suites'][i]['unit_tests'][j]['status'] === 'PASSED') {
+                for (let i = 0; i < this.testSuites.length; i++) {
+                    for (let j = 0; j < this.testSuites[i]['unit_tests'].length; j++) {
+                        if (this.testSuites[i]['unit_tests'][j]['status'] === 'PASSED') {
                             count++;
                         }
                     }
@@ -124,19 +124,19 @@
             },
             getTotalWeight() {
                 let weight = 0
-                for (let i = 0; i < this.submission['test_suites'].length; i++) {
-                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
-                        weight +=  this.submission['test_suites'][i]['unit_tests'][j]['weight']
+                for (let i = 0; i < this.testSuites.length; i++) {
+                    for (let j = 0; j < this.testSuites[i]['unit_tests'].length; j++) {
+                        weight +=  this.testSuites[i]['unit_tests'][j]['weight']
                     }
                 }
                 return weight
             },
             getTotalPassedWeight() {
                 let weight = 0
-                for (let i = 0; i < this.submission['test_suites'].length; i++) {
-                    for (let j = 0; j < this.submission['test_suites'][i]['unit_tests'].length; j++) {
-                        if (this.submission['test_suites'][i]['unit_tests'][j]['status'] === 'PASSED') {
-                            weight += this.submission['test_suites'][i]['unit_tests'][j]['weight']
+                for (let i = 0; i < this.testSuites.length; i++) {
+                    for (let j = 0; j < this.testSuites[i]['unit_tests'].length; j++) {
+                        if (this.testSuites[i]['unit_tests'][j]['status'] === 'PASSED') {
+                            weight += this.testSuites[i]['unit_tests'][j]['weight']
                         }
                     }
                 }
