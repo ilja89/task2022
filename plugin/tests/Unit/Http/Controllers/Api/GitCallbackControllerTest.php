@@ -294,6 +294,66 @@ class GitCallbackControllerTest extends TestCase
         $this->assertEquals('SUCCESS', $response);
     }
 
+    public function indexPostNoUnittestsSet() {
+        $request = $this->createCommonRequest();
+        $request->shouldReceive('input')->with('commits')->andReturn(false);
+        $request->shouldReceive('input')->with('commits', [])->andReturn(['commit files']);
+
+        $course = factory(Course::class)->make(['id' => 1, 'shortname' => 'course name']);
+
+        $this->service->shouldReceive('getCourse')->with('repository url')->andReturn($course);
+
+        /** @var CourseSettings $settings */
+        $settings = factory(CourseSettings::class)->make(['course_id' => 1]);
+        $settings->testerType = factory(TesterType::class)->make(['name' => 'tester name']);
+
+        $this->settingsRepository->shouldReceive('getCourseSettingsByCourseId')->with(1)->andReturn($settings);
+
+        $this->service->shouldReceive('getModifiedFiles')->with(['commit files'])->andReturn(['file/name']);
+
+        $charonParams = [
+            'project_folder' => 'folder',
+            'system_extra' => 'some,extras',
+            'tester_extra' => 'tester extra',
+            'docker_test_root' => 'test root',
+            'docker_content_root' => 'content root',
+            'docker_timeout' => 180,
+        ];
+
+        $charonWithoutUnittests = factory(Charon::class)->make(['id' => 3, 'unittests_git' => null] + $charonParams);
+
+        $charonWithoutUnittests->testerType = factory(TesterType::class)->make(['name' => 'other name']);
+
+        $this->service
+            ->shouldReceive('findCharons')
+            ->with(['file/name'], 1)
+            ->andReturn([$charonWithoutUnittests]);
+
+        $expectedParams = [
+            'gitTestRepo' => null,
+            'testingPlatform' => 'other name',
+            'slugs' => ['folder'],
+            'systemExtra' => ['some', 'extras'],
+            'dockerExtra' => 'tester extra',
+            'dockerTestRoot' => 'test root',
+            'dockerContentRoot' => 'content root',
+            'dockerTimeout' => 180,
+            'returnExtra' => ['charon' => 3]
+        ];
+
+        $this->service->shouldReceive('saveCallbackForUser')->with(
+            'username',
+            'full url',
+            'repository url',
+            'callback url',
+            $expectedParams
+        );
+
+        $response = $this->controller->indexPost($request);
+
+        $this->assertEquals('NO GIT TESTS REPOSITORY SET', $response);
+    }
+
     /**
      * @return MockInterface|GitCallbackPostRequest
      */

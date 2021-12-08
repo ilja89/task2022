@@ -144,6 +144,7 @@ class GitCallbackController extends Controller
                 Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
                 $params['gitTestRepo'] = $settings->unittests_git;
             } else {
+                Log::error('Git repo for unit tests not found. Repo was not included in neither charon nor course.');
                 return 'NO GIT TESTS REPOSITORY SET';
             }
 
