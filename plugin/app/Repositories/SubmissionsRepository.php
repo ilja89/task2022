@@ -709,6 +709,7 @@ class SubmissionsRepository
         return $submissions;
     }
 
+    // TODO: merge with findLatest() to reduce duplicated code
     /**
      * Find latest 10 charon submissions
      * @param $charonId
@@ -732,8 +733,14 @@ class SubmissionsRepository
                 $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
                 $query->orderBy('grade_type_code');
             },
+            'files' => function ($query) {
+                $query->select(['id', 'submission_id']);
+            },
+            'reviewComments' => function ($query) {
+                $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
+            },
         ])
-        ->latest()
-        ->simplePaginate(10);
+            ->latest()
+            ->simplePaginate(10);
     }
 }
