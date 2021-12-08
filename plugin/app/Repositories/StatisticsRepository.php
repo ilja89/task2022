@@ -2,12 +2,10 @@
 
 namespace TTU\Charon\Repositories;
 
-use DateTime;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use stdClass;
 use TTU\Charon\Facades\MoodleConfig;
 
 
@@ -34,44 +32,15 @@ class StatisticsRepository
      * Find all submission dates with counts for the charon with the given id.
      *
      * @param int $charonId
-     *
+     * @param $lastYear
+     * @param $firstSubmissionDays
+     * @param $lastSubmissionDays
      * @return array
-     * @throws Exception
      */
-    public function findSubmissionDatesCountsForCharon(int $charonId)
+    public function findSubmissionDatesCountsForCharon(int $charonId, $lastYear, $firstSubmissionDays, $lastSubmissionDays): array
     {
         $prefix = $this->moodleConfig->prefix;
 
-        $lastYear = date("Y-m-d", strtotime("-1 years"));
-        $lastYearDateTime = new DateTime($lastYear);
-
-        $firstSubmission = DB::table('charon_submission')
-            ->select('created_at')
-            ->where('charon_id', $charonId)
-            ->orderBy('created_at')
-            ->first();
-
-        if ($firstSubmission == null) {
-            return [];
-        }
-
-        $date1 = $firstSubmission->created_at;
-        $firstSubmissionDate = new DateTime($date1);
-
-        $lastSubmission = DB::table('charon_submission')
-            ->select('created_at')
-            ->where('charon_id', $charonId)
-            ->orderByDesc('created_at')
-            ->first();
-
-        $date2 = $lastSubmission->created_at;
-
-        $lastSubmissionDate = new DateTime($date2);
-
-        $firstSubmissionDays = (int)date_diff($lastYearDateTime, $firstSubmissionDate)->format('%a');
-        $lastSubmissionDays = $firstSubmissionDays + (int)date_diff($firstSubmissionDate, $lastSubmissionDate)->format('%a');
-        Log::debug($firstSubmissionDays);
-        Log::debug($lastSubmissionDays);
         return DB::select(DB::raw(
             "(SELECT DATE(created_at) AS dateRow, COUNT(DATE(created_at)) AS count
             FROM " . $prefix . "charon_submission
@@ -136,37 +105,6 @@ class StatisticsRepository
     }
 
     /**
-     * Find all required general information for given charon
-     *
-     * @param int $charonId
-     *
-     * @return false|string
-     */
-    public function getCharonGeneralInformation(int $charonId)
-    {
-        $generalInformation = new stdClass();
-
-        $categoryId = $this->findCharonCategoryId($charonId);
-        $categoryGradeItemId = $this->findCategoryGradeItemId($categoryId);
-
-        $studentsStarted = $this->findStudentsStartedAmount($charonId);
-        $studentsDefended = $this->findStudentsDefendedAmount($charonId);
-        $avgCategoryGrade = $this->findAverageCategoryGrade($charonId, $categoryGradeItemId);
-        $maxPoints = $this->findCharonMaxPoints($categoryId);
-        $deadlines = $this->findCharonDeadlinesWithPercentages($charonId);
-        $highestScore = $this->findHighestScoreForCharon($charonId);
-
-        $generalInformation->studentsStarted = $studentsStarted;
-        $generalInformation->studentsDefended = $studentsDefended;
-        $generalInformation->avgDefenseGrade = $avgCategoryGrade;
-        $generalInformation->maxPoints = $maxPoints;
-        $generalInformation->deadlines = $deadlines;
-        $generalInformation->highestScore = $highestScore;
-
-        return json_encode($generalInformation);
-    }
-
-    /**
      * Finds category id of charon
      * @param $charonId
      * @return int
@@ -180,13 +118,15 @@ class StatisticsRepository
 
     /**
      * Finds grade item ids for given charon category id
+     * @param $courseId
      * @param $categoryId
-     * @return int
+     * @return int|null
      */
-    function findCategoryGradeItemId($categoryId): int
+    function findCategoryGradeItemId($courseId, $categoryId): ?int
     {
         return DB::table('grade_items')
             ->where('iteminstance', $categoryId)
+            ->where('courseid', $courseId)
             ->where('itemtype', 'category')
             ->value('id');
     }
@@ -233,16 +173,20 @@ class StatisticsRepository
 
     /**
      * Find average category grade for charon
+     * In other words, finds average grade for defended students
      * @param $charonId
-     * @param $categoryGradeItemIds
+     * @param $categoryGradeItemId
      * @return mixed|null
      */
-    function findAverageCategoryGrade($charonId, $categoryGradeItemIds)
+    function findAverageCategoryGrade($charonId, $categoryGradeItemId)
     {
+        if ($categoryGradeItemId == null) {
+            return null;
+        }
         $confirmedUserIds = $this->findUserIdsWithConfirmedSubmissions($charonId);
         return DB::table('grade_grades')
             ->whereIn('userid', $confirmedUserIds)
-            ->where('itemid', $categoryGradeItemIds)
+            ->where('itemid', $categoryGradeItemId)
             ->avg('finalgrade');
     }
 
@@ -277,11 +221,12 @@ class StatisticsRepository
      * Find grade item for a specific grade (test, style, defense)
      * This is not meant for category grade!
      * Valid itemnumber values are 1, 101, 1001 (tests, style, defense)
+     * @param $courseId
      * @param $categoryId
      * @param $itemNumber
      * @return Object|null
      */
-    function findGradeItemSubcategory($categoryId, $itemNumber)
+    function findGradeItemSubcategory($courseId, $categoryId, $itemNumber)
     {
         if (!in_array($itemNumber, ['1', '101', '1001'])) {
             return null;
@@ -289,19 +234,27 @@ class StatisticsRepository
         return DB::table('grade_items')
             ->where('categoryid', $categoryId)
             ->where('itemnumber', $itemNumber)
+            ->where('courseid', $courseId)
             ->first();
     }
 
     /**
      * Find highest score (tests) so far for given charon
+     * @param $courseId
      * @param $charonId
      * @return mixed
      */
-    function findHighestScoreForCharon($charonId)
+    function findHighestScoreForCharon($courseId, $charonId)
     {
         $testsItemNumber = 1;
         $categoryId = $this->findCharonCategoryId($charonId);
-        $gradeItemTests = $this->findGradeItemSubcategory($categoryId, $testsItemNumber);
+
+        $gradeItemTests = $this->findGradeItemSubcategory($courseId, $categoryId, $testsItemNumber);
+
+        if (!$gradeItemTests) {
+            return null;
+        }
+
         return DB::table('grade_grades')
             ->where('itemid', $gradeItemTests->id)
             ->max('finalgrade');

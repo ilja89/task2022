@@ -480,10 +480,10 @@ class SubmissionsRepository
     /**
      * Provides overview stats for popup dashboard.
      *
-     * Currently only submission authors are taken into account.
+     * Currently, only submission authors are taken into account.
      *
-     * @param $courseId
-     * @return mixed
+     * @param int $courseId
+     * @return array
      */
     public function findSubmissionCounts(int $courseId)
     {
@@ -502,9 +502,9 @@ class SubmissionsRepository
                      INNER JOIN " . $prefix . "grade_items gi 
                      ON         gg.itemid = gi.id 
                      WHERE      gi.courseid = c.course 
-                     AND        gi.itemtype = 'category' 
+                     AND        gi.itemtype = 'category'
                      AND        gi.iteminstance = c.category_id
-                     AND        gg.finalgrade > 0
+                     AND        cs.confirmed = 1
           ) AS avg_defended_grade,
           ( 
                      SELECT     Count(DISTINCT gg.userid) 
@@ -553,11 +553,20 @@ class SubmissionsRepository
      * Find all Submissions for report table by given id.
      *
      * @param $courseId
-     *
-     * @return mixed
+     * @param $page
+     * @param $perPage
+     * @param $sortField
+     * @param $sortType
+     * @param $firstName
+     * @param $lastName
+     * @param $exerciseName
+     * @param $isConfirmed
+     * @param $gitTimestampForStartDate
+     * @param $gitTimestampForEndDate
+     * @return array
      */
     public function findAllSubmissionsForReport($courseId, $page, $perPage, $sortField, $sortType, $firstName, $lastName,
-                                                $exerciseName, $isConfirmed, $gitTimestampForStartDate, $gitTimestampForEndDate)
+                                                $exerciseName, $isConfirmed, $gitTimestampForStartDate, $gitTimestampForEndDate): array
     {
         // TODO: Convert to query builder?
         function escapeDoubleQuotes($string)
@@ -630,9 +639,9 @@ class SubmissionsRepository
      *
      * @param int $userId
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
-    private function buildForUser(int $userId)
+    private function buildForUser(int $userId): \Illuminate\Database\Query\Builder
     {
         return DB::table('charon_submission')->join('charon_submission_user', function ($join) use ($userId) {
             $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
@@ -670,7 +679,7 @@ class SubmissionsRepository
      * @param $charonId
      * @return Paginator
      */
-    public function findLatestSubmissionsForCharon($charonId)
+    public function findLatestSubmissionsForCharon($charonId): Paginator
     {
         return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
         ->where('charon_id', $charonId)
