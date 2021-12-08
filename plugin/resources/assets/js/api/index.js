@@ -9,9 +9,10 @@ import Lab from './Lab';
 import Defense from "./Defense";
 import Teacher from "./Teacher";
 import Statistics from "./Statistics";
+import ReviewComment from "./ReviewComment";
 
 export {default as Plagiarism} from './Plagiarism'
 
 export {
-    Charon, Comment, Course, File, Preset, Submission, User, Lab, Defense, Teacher, Statistics
+    Charon, Comment, Course, File, Preset, Submission, User, Lab, Defense, Teacher, Statistics, ReviewComment
 }

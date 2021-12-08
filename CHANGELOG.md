@@ -6,12 +6,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #706 Adjust fetching of the submission file in student view
+
+### Fixed
+- #696 Modify the general notifications service
+
+## [1.5.7] - 2021-11-12
+
+### Fixed
+- #701 Fix comment notification email message
+
+## [1.5.6] - 2021-11-11
+
+### Added
+- #690 Submissions in assignment view show how many review comments they have
+- #609 Users will be notified if they receive a comment on their submission
+- #636 If charon does not have defences, the defence icon would not be shown submission list
+
+## [1.5.5] - 2021-10-22
+
+### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
+- #678 Added logging when an exception is thrown when charon is being deleted by moodle
+- #681 updated composer/composer to 2.1.9
+- #567 Activity completion for charon
+
+## [1.5.4] - 2021-10-11
+
 ### Fixed
 - #618 Inline submission now only uses synchronous url and it is not set in course, it will take the moodles
   synchronous url
 - #632 Fixed submissions seeders
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
+- #610 Fixed most of the vue warnings which are shown in console
+- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -19,7 +52,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the button, while it makes the request and waits for a response
 - #604 Now only last "latest" submission will be highlighted
 - #638 Added css so that when tester returns styled output, it will be displayed that way
+- #589 Added the ability for teachers to add feedback for students' submissions
+- #635 Backup and restore possibility for charon_review_comment table
 
+## [1.5.3] - 2021-10-08
+
+### Fixed
+- #662 "Inline" submissions "user" is defined by currently logged user
 
 ## [1.5.2] - 2021-09-23
 

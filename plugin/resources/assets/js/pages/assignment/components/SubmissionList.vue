@@ -3,7 +3,7 @@
 		<v-data-table
 			:expanded.sync="expanded" :headers="submissionHeaders" :items="submissionsTable"
 			dense disable-filtering disable-pagination hide-default-footer item-key="id" show-expand single-expand
-      :item-class="itemRowBackground">
+			:item-class="itemRowBackground">
 
 			<template v-slot:footer>
 				<v-toolbar flat class="mt-4">
@@ -11,7 +11,7 @@
 						   @click="loadMoreSubmissions()">
 						{{ translate('loadMoreText') }}
 					</v-btn>
-					
+
 					<v-btn class="ml-4" icon @click="refreshSubmissions()">
 						<img alt="refresh" height="24px" src="pix/refresh.png"
 							 v-bind:class="refreshing ? 'rotating' : ''"
@@ -19,7 +19,7 @@
 					</v-btn>
 				</v-toolbar>
 			</template>
-			
+
 			<template v-slot:expanded-item="{ headers, item }">
 				<td :colspan="headers.length">
 					<v-container fluid>
@@ -44,7 +44,7 @@
 					</v-container>
 				</td>
 			</template>
-			
+
 			<template v-slot:item.string="{ item }">
 				<v-chip :color="getColor(item)" dark large ripple>
 					{{ submissionString(item) }}
@@ -54,10 +54,10 @@
 			<template v-slot:item.actions="{ item }">
 				<v-row>
 					<submission-modal :submission="item" :color="getColor(item)"/>
-          <v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
-            <img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
-          </v-btn>
-					<registration-bottom-sheet :submission="item" :color="getColor(item)"/>
+					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
+						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
+					</v-btn>
+					<registration-bottom-sheet v-if="labs.length > 0" :submission="item" :color="getColor(item)"/>
 				</v-row>
 			</template>
 		</v-data-table>
@@ -68,23 +68,23 @@
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
-import {File, Submission} from "../../../api";
+import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
 import SubmissionModal from "./SubmissionModal";
 import {mapState} from "vuex";
 
 export default {
 	name: "Submission-list",
-	
+
 	mixins: [Translate],
-	
+
 	components: {
 		RegistrationBottomSheet, SubmissionModal
 	},
 
-  props: {
-    allow_submission: {required: true}
-  },
+	props: {
+		allow_submission: {required: true}
+	},
 
 	data() {
 		return {
@@ -99,13 +99,13 @@ export default {
 			],
 		}
 	},
-	
+
 	filters: {
 		withoutTrailingZeroes(number) {
 			return number.replace(/000$/, '');
 		},
 	},
-	
+
 	computed: {
 		...mapState([
 			'submissions',
@@ -113,9 +113,9 @@ export default {
 			'registrations',
 			'student_id',
 			'charon',
-			'labs'
+			'labs',
 		]),
-		
+
 		submissionsTable() {
 			return this.submissions.map(submission => {
 				const container = {...submission};
@@ -125,25 +125,24 @@ export default {
 		}
 	},
 
-  mounted() {
-    VueEvent.$on('add-submission', (submission) => {
-      submission.latestAdded = true;
-      this.$store.state.submissions.unshift(submission);
-    });
-  },
+	mounted() {
+		VueEvent.$on('add-submission', (submission) => {
+			submission.latestAdded = true;
+			this.$store.state.submissions.unshift(submission);
+		});
+	},
 
 	methods: {
-
-	  itemRowBackground(item) {
-      return item.hasOwnProperty('latestAdded')
+		itemRowBackground(item) {
+			return item.hasOwnProperty('latestAdded')
           && item.id === this.$store.state.submissions[0].id ? 'latest' : '';
-    },
+		},
 
-    copyToEditor(item) {
-      File.findBySubmission(item.id, files => {
-        VueEvent.$emit('change-editor-content', files);
-      })
-    },
+		copyToEditor(item) {
+			File.findBySubmission(item.id, files => {
+				VueEvent.$emit('change-editor-content', files);
+			})
+		},
 
 		getColor(submission) {
 			if (this.defendedSubmission(submission)) return 'success'
@@ -155,11 +154,11 @@ export default {
 		getColorDarknessByPercentage(percentage, maxDarkness = 3) {
 			return maxDarkness - Math.floor(maxDarkness * percentage);
 		},
-		
+
 		pointsWithoutReduction(submission) {
 			return getSubmissionWeightedScore(submission) + "%"
 		},
-		
+
 		defendedSubmission(submission) {
 			try {
 				const last = submission.results[submission.results.length - 1];
@@ -168,11 +167,11 @@ export default {
 				return false
 			}
 		},
-		
+
 		formatDate(date) {
 			return moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
 		},
-		
+
 		registeredSubmission(submissionId) {
 			let test = this.registrations.find(x => x.submission_id === submissionId);
 			if (test != null) {
@@ -180,12 +179,12 @@ export default {
 				return submissionId === test;
 			}
 		},
-		
+
 		getCompletionPercentage(result) {
 			return (100 * result.calculated_result / this.getGrademapByResult(result).grade_item.grademax)
 				.toFixed(2);
 		},
-		
+
 		getGrademapByResult(result) {
 			let correctGrademap = null;
 			this.grademaps.forEach(grademap => {
@@ -195,7 +194,7 @@ export default {
 			});
 			return correctGrademap;
 		},
-		
+
 		submissionString(submission) {
 			let resultStr = '';
 			let prefix = '';
@@ -207,21 +206,20 @@ export default {
 			});
 			return resultStr;
 		},
-		
+
 		refreshSubmissions() {
 			this.refreshing = true;
 			Submission.findByUserCharon(this.student_id, this.charon.id, (submissions) => {
-			  if (submissions.length === 0) {
-          VueEvent.$emit('latest-submission-does-not-exist');
-        } else {
-          VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
-        }
-        this.$store.state.submissions = submissions;
-        this.canLoadMore = Submission.canLoadMore();
-        this.refreshing = false;
+				if (submissions.length === 0) {
+					VueEvent.$emit('latest-submission-does-not-exist');
+				} else {
+					VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
+				}
+				this.$store.state.submissions = submissions;
+				this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
 			});
 		},
-		
+
 		loadMoreSubmissions() {
 			if (Submission.canLoadMore()) {
 				Submission.getNext(submissions => {
@@ -232,8 +230,17 @@ export default {
 				this.canLoadMore = false;
 			}
 		},
+
+		getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+			ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
+				this.$store.state.filesWithReviewComments = data;
+				VueEvent.$emit("student-refresh-submissions");
+				this.refreshing = false;
+				this.canLoadMore = Submission.canLoadMore();
+			})
+		},
 	},
-	
+
 	watch: {
 		charon() {
 			this.refreshSubmissions();
@@ -241,12 +248,6 @@ export default {
 	},
 }
 </script>
-
-<style>
-.latest {
-  background-color: #E8F3FA;
-}
-</style>
 
 <style scoped>
 

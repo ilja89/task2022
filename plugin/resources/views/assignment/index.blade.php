@@ -114,7 +114,12 @@
         programmingLanguage: "{{ translate('language') }}",
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
-        resetToTemplates: "{{ translate('reset_to_templates') }}"
+        resetToTemplates: "{{ translate('reset_to_templates') }}",
+        feedbackTextSingleSubmission: "{{ translate('feedback-text-single-submission') }}",
+        noFeedbackInfo: "{{ translate('no-feedback-info') }}",
+        feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
+        showingTable: "{{ translate('showing-table') }}",
+        showingMail: "{{ translate('showing-mail') }}",
     };
 </script>
 

@@ -10,59 +10,67 @@
 </template>
 
 <script>
-    import {LabSection} from '../sections'
-    import {mapState} from "vuex";
-    import Lab from "../../../api/Lab";
+import {LabSection} from '../sections'
+import {mapState} from "vuex";
+import Lab from "../../../api/Lab";
 
-    export default {
-        name: "labs-page",
-        data() {
-            return {
-                labs: {},
-                labs_countdown: null
-            }
-        },
+export default {
+    name: "labs-page",
+    data() {
+        return {
+            labs: {},
+            labs_countdown: null
+        }
+    },
 
-        components: {LabSection},
-        created() {
-            Lab.all(this.course.id, response => {
-                this.formatLabs(response, (done) => {
-                    this.assignLabs(done)
-                })
+    components: {LabSection},
+    created() {
+        Lab.all(this.course.id, response => {
+            this.formatLabs(response, (done) => {
+                this.assignLabs(done)
             })
-        },
-        computed: {
+        })
+    },
+    computed: {
 
-            ...mapState([
-                'lab',
-                'course'
-            ]),
-        },
-        methods: {
-            formatLabs(labs, then) {
-                this.labs_countdown = labs.length
-                for (let i = 0; i < labs.length; i++) {
-                    let save_start = labs[i].start
-                    labs[i].start = {time: new Date(save_start)}
-                    let save_end = labs[i].end
-                    labs[i].end = {time: new Date(save_end)}
-                    then(labs)
-                }
-            },
-
-            assignLabs(futureLabs) {
-                this.labs_countdown--
-                if (!this.labs_countdown) {
-                    this.labs = futureLabs;
-                }
-            }
-
-        },
-
-        metaInfo() {
-            return {
-                title: `${'Charon labs - ' + window.course_name}`
+        ...mapState([
+            'lab',
+            'course'
+        ]),
+    },
+    methods: {
+        formatLabs(labs, then) {
+            this.labs_countdown = labs.length
+            for (let i = 0; i < labs.length; i++) {
+                let save_start = labs[i].start
+                labs[i].start = {time: new Date(save_start)}
+                let save_end = labs[i].end
+                labs[i].end = {time: new Date(save_end)}
+                then(labs)
             }
         },
+
+        assignLabs(futureLabs) {
+            this.labs_countdown--
+            if (!this.labs_countdown) {
+                this.labs = futureLabs;
+            }
+        }
+
+    },
+
+    metaInfo() {
+        return {
+            title: `${'Charon labs - ' + window.course_name}`
+        }
+    },
+
+    mounted: function () {
+        this.$root.$on('refresh_labs', () => {
+            Lab.all(this.course.id, labs => {
+                this.labs = labs;
+            })
+        })
     }
+}
 </script>
