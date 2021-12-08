@@ -126,7 +126,7 @@ class DefenseRegistrationController extends Controller
      * @param $before
      * @param $teacherId
      * @param $progress
-     * @return Collection|Registration[]
+     * @return Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
@@ -166,5 +166,10 @@ class DefenseRegistrationController extends Controller
         $studentId = $request->input('user_id');
 
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
+    }
+
+    public function getLabTeacherActiveRegistrations($labId, $teacherId)
+    {
+        return $this->registrationService->getLabTeacherActiveRegistrations($labId, $teacherId);
     }
 }
