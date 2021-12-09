@@ -39,22 +39,19 @@
 				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
 				<h3 v-else>{{ translate('showingMail') }}</h3>
 
-				<label class="switch">
-					<input type="checkbox" v-model="toggleShowTable">
-					<span class="slider round"></span>
-				</label>
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 
-				<div v-if="hasMail && !toggleShowTable">
+                <div v-if="hasMail && !toggleShowTable">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
 				</div>
 				<div v-if="toggleShowTable">
-					<submission-table :submission="submission"></submission-table>
+					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
 				</div>
 
-				<h3>{{ translate('filesText') }}</h3>
+				<h3 v-if="submission.files && submission.files.length > 0">{{ translate('filesText') }}</h3>
 
-				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
+				<files-component-without-tree v-if="submission.files && submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
 				<div class="review-comments">
@@ -64,10 +61,9 @@
 					<div v-else>
 						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
 					</div>
-					<label class="switch">
-						<input type="checkbox" v-model="toggleShowAllSubmissions">
-						<span class="slider round"></span>
-					</label>
+
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
+
 					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
 												view="student"
 												:filesWithReviewComments="this.getFilesWithReviewComments()"
@@ -84,7 +80,6 @@
 <script>
 import {FilesComponentWithoutTree} from '../../../components/partials'
 import {Translate} from '../../../mixins'
-import SubmissionTable from "./SubmissionTable";
 import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
 import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
@@ -95,7 +90,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		FilesComponentWithoutTree, SubmissionTable, FilesWithReviewComments
+		FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton
 	},
 
 	props: {
@@ -176,11 +171,28 @@ export default {
 						this.reviewCommentIdsWithNotify = [];
 					});
 			}
-		}
+		},
+
+        showTable(bool) {
+            this.toggleShowTable = bool;
+        },
+
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
+        },
 	},
 }
 </script>
-<style src="../../../../../../public/css/submissionModal.css" scoped>
+<style scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+.review-comments {
+	padding-top: 10px;
+}
+
+.signal {
+    color: #f00!important;
+}
+
 </style>

@@ -128,6 +128,7 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
+            this.$store.state.submissions.pop();
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
@@ -222,9 +223,11 @@ export default {
 
 		loadMoreSubmissions() {
 			if (Submission.canLoadMore()) {
+                this.refreshing = true;
 				Submission.getNext(submissions => {
 					submissions.forEach(submission => this.$store.state.submissions.push(submission));
 					this.canLoadMore = Submission.canLoadMore();
+                    this.refreshing = false;
 				});
 			} else {
 				this.canLoadMore = false;
