@@ -39,37 +39,6 @@
             </v-row>
         </v-alert>
 
-        <v-alert :value="updateAlert" border="left" color="error" outlined>
-            <v-row align="center" justify="space-between">
-                <v-col class="grow">
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    What to do with your already active registration for this lab:
-                    {{this.updateItem.name}} - {{this.updateItem.firstname}} {{this.updateItem.lastname}} - Progress: {{this.updateItem.progress}}
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                </v-col>
-            </v-row>
-            <v-row align="center" justify="space-between">
-                Move it to:
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error">Waiting
-                    </v-btn>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error">Done</v-btn>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error">Continue</v-btn>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error" @click="updateAlert=false">Cancel</v-btn>
-                </v-col>
-            </v-row>
-        </v-alert>
-
         <v-data-table
             v-if="defenseList.length"
             :headers="defense_list_headers"
@@ -109,6 +78,7 @@
                     :items="all_progress_types"
                     v-model="item.progress"
                     @change="updateRegistrationCheckDefenses(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -127,6 +97,7 @@ import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
 import Multiselect from "vue-multiselect";
 import Submission from "../../../api/Submission";
+import Swal from 'sweetalert2';
 
 export default {
     components: {Multiselect},
@@ -146,8 +117,8 @@ export default {
                 {text: 'Progress', value: 'progress'},
                 {text: 'Actions', value: 'actions'},
             ],
-            updateAlert: false,
-            updateItem: Object,
+            lastProgress: '',
+            lastTeacher: null,
         }
     }, props: {
         defenseList: {required: true},
@@ -161,8 +132,20 @@ export default {
             if (item.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, item.teacher.id, item.lab_id, (items) => {
                     if (items.length > 0) {
-                        this.updateItem = items[0]
-                        this.updateAlert = true
+                        Swal.fire({
+                            title: 'What to do with your already active registration?',
+                            showCancelButton: true,
+                            showConfirmButton: false,
+                            html: items[0].name + ' - ' + items[0].firstname + ' ' + items[0].lastname + ' - Progress: ' + items[0].progress +
+                                "<br>" +
+                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Waiting</v-btn>' +
+                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Done</v-btn>' +
+                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Continue</v-btn>',
+                        }).then((result) => {
+                            if (result.isDismissed) {
+                                item.progress = this.lastProgress;
+                            }
+                        })
                     } else {
                         this.updateRegistration(item.id, item.progress, item.teacher.id)
                     }
@@ -242,7 +225,12 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        saveLastTeacherAndProgress(teacher, progress) {
+            this.lastTeacher = teacher;
+            this.lastProgress = progress;
+        },
     },
     computed: {
         ...mapState([
@@ -267,5 +255,20 @@ export default {
 </script>
 
 <style>
+
+.customSwalBtn{
+    background-color: rgba(214,130,47,1.00);
+    border-left-color: rgba(214,130,47,1.00);
+    border-right-color: rgba(214,130,47,1.00);
+    border: 0;
+    border-radius: 3px;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 30px 5px 0px 5px;
+    padding: 10px 32px;
+}
 
 </style>
