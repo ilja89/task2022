@@ -15,7 +15,7 @@
       <submission-list
           :allow_submission="allow_submission">
       </submission-list>
-          <submission-body/>
+          <router-body/>
 
 			<v-row class="my-4">
 				<student-registration-sheet/>

@@ -19,30 +19,38 @@
           <p>{{ submission.git_commit_message }}</p>
         </div>
 
-        <h3 v-if="toggleOn">Showing table</h3>
-        <h3 v-else>Showing mail</h3>
+        <h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
+        <h3 v-else>{{ translate('showingMail') }}</h3>
 
-        <label class="switch">
-          <input type="checkbox" v-model="toggleOn">
-          <span class="slider round"></span>
-        </label>
+        <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 
-        <div v-if="hasMail && !toggleOn">
+        <div v-if="hasMail && !toggleShowTable">
           <h3>{{ translate('testerFeedbackText') }}</h3>
           <pre v-html="submission.mail"></pre>
         </div>
-        <div v-if="toggleOn">
-          <submission-table :submission="submission"></submission-table>
+        <div v-if="toggleShowTable">
+          <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
         </div>
 
-        <h3>{{ translate('filesText') }}</h3>
+        <h3 v-if="submission.files && submission.files.length > 0">{{ translate('filesText') }}</h3>
 
-        <files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
+        <files-component-without-tree v-if="submission.files && submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
         </files-component-without-tree>
 
         <div class="review-comments">
-          <h3>{{ translate('feedbackText') }}</h3>
-          <review-comment-component v-if="reviewCommentCount" :files="files" view="student"></review-comment-component>
+          <div v-if="!toggleShowAllSubmissions">
+            <h3>{{ translate('feedbackTextSingleSubmission') }}</h3>
+          </div>
+          <div v-else>
+            <h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
+          </div>
+
+          <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
+
+          <files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
+                                      view="student"
+                                      :filesWithReviewComments="this.getFilesWithReviewComments()"
+          ></files-with-review-comments>
           <v-card v-else class="message">
             {{ translate('noFeedbackInfo') }}
           </v-card>
@@ -53,11 +61,9 @@
 </template>
 
 <script>
-import {FilesComponentWithoutTree} from '../../../components/partials'
+import {FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton} from '../../../components/partials';
 import {Translate} from '../../../mixins'
-import SubmissionTable from "./SubmissionTable";
-import {File, ReviewComment} from "../../../api";
-import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
+import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
 
 export default {
@@ -66,7 +72,7 @@ export default {
   mixins: [Translate],
 
   components: {
-    ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable
+    FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton
   },
 
   props: {
@@ -79,10 +85,10 @@ export default {
       isActive: null,
       routeChanged: null,
       testerType: '',
-      toggleOn: false,
-      files: [],
+      toggleShowTable: false,
       reviewCommentCount: 0,
       reviewCommentIdsWithNotify: [],
+      toggleShowAllSubmissions: false,
     }
   },
 
@@ -94,6 +100,7 @@ export default {
     ...mapState([
       'charon_id',
       'student_id',
+      'filesWithReviewComments',
     ]),
 
     hasCommitMessage() {
@@ -121,32 +128,39 @@ export default {
 
   mounted() {
     this.testerType = window.testerType
-    this.getFiles();
+    this.checkNewComments();
   },
 
   methods: {
     close() {
       this.$router.push('/');
     },
-    getFiles() {
-      File.findBySubmission(this.submission.id, files => {
-        this.files = files
-        this.checkComments();
+
+    getFilesWithReviewComments() {
+      if (this.toggleShowAllSubmissions) {
+        return this.filesWithReviewComments;
+      }
+      let files = [];
+      this.filesWithReviewComments.forEach(file => {
+        if (file.submissionId === this.submission.id) {
+          files.push(file);
+        }
       })
+      return files;
     },
 
-    checkComments() {
+    checkNewComments() {
       this.reviewCommentCount = 0;
-      this.files.forEach(file => {
-        if (file.review_comments.length > 0) {
-          file.review_comments.forEach(reviewComment => {
+      this.filesWithReviewComments.forEach(file => {
+        if (file.submissionId === this.submission.id) {
+          file.reviewComments.forEach((reviewComment) => {
             this.reviewCommentCount++;
             if (reviewComment.notify) {
-              this.reviewCommentIdsWithNotify.push(reviewComment.id);
+              this.reviewCommentIdsWithNotify.push(reviewComment.id)
             }
           });
         }
-      });
+      })
     },
 
     onClickSubmissionInformation() {
@@ -157,11 +171,28 @@ export default {
               this.reviewCommentIdsWithNotify = [];
             });
       }
-    }
+    },
+
+    showTable(bool) {
+      this.toggleShowTable = bool;
+    },
+
+    showAllSubmissions(bool) {
+      this.toggleShowAllSubmissions = bool;
+    },
   }
 }
 </script>
 <style src="../../../../../../public/css/submissionModal.css" scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+.review-comments {
+  padding-top: 10px;
+}
+
+.signal {
+  color: #f00!important;
+}
+
 </style>

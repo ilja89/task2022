@@ -78,11 +78,10 @@
 </template>
 
 <script>
-import {FilesComponentWithoutTree} from '../../../components/partials'
+import {FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton} from '../../../components/partials';
 import {Translate} from '../../../mixins'
 import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
-import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
 
 export default {
 	name: "submission-modal",
