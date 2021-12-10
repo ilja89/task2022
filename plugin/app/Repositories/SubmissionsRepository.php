@@ -184,6 +184,8 @@ class SubmissionsRepository
             ->latest()
             ->simplePaginate(10);
 
+        $submissions->appends(['user_id' => $userId])->links();
+
         return $this->assignUnitTestsToTestSuites($submissions);
     }
 
