@@ -71,7 +71,7 @@ class ReviewCommentService
                 $students = $this->submissionsRepository->findAllUsersAssociated($submission->id);
 
                 $cm_id = $charon->courseModule()->id;
-                $url = '/mod/charon/view.php?id=' . $cm_id;
+                $url = '/mod/charon/view.php?id=' . $cm_id . '#/submissionPage/' . $submission->id;
 
                 $messageText = htmlspecialchars($reviewComment);
                 $messageText = str_replace( "\n", '<br />', $messageText );
@@ -84,17 +84,18 @@ $submission->created_at</b><br>
 <b>File that was commented: $submissionFile->path</b><br><br>
 <p style="white-space: pre-wrap">$messageText</p>
 EOT;
+                $submissionNotificationName = 'Submission('. $submission->created_at . ')';
 
                 foreach ($students as $student) {
                     $this->notificationService->sendNotification(
                         $user,
                         $student,
                         'comment',
-                        "New comment: " . $charon->name,
+                        "New comment: " . $submissionNotificationName,
                         $messageText,
                         $messageTextHtml,
                         $url,
-                        $charon->name
+                        $submissionNotificationName
                     );
                 }
             }
