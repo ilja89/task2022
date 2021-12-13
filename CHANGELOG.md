@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
+- #677 Submission feedback is now available in table view when clicking toggle, like from student view
 
 ### Fixed
 - #696 Modify the general notifications service
@@ -35,7 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #678 Added logging when an exception is thrown when charon is being deleted by moodle
 - #681 updated composer/composer to 2.1.9
 - #567 Activity completion for charon
-- #677 Submission feedback is now available in table view when clicking toggle, like from student view
 
 ## [1.5.4] - 2021-10-11
 
