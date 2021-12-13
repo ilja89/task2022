@@ -50,6 +50,7 @@
             ]),
 
             latestSubmissionsChunks() {
+                debugger;
                 const chunkSize = 2
 
                 let chunkIndex = 0
@@ -87,6 +88,7 @@
             ]),
 
             fetchLatestSubmissions() {
+                debugger;
                 Submission.findLatest(this.courseId, submissions => {
                     this.latestSubmissions = submissions
                 })
