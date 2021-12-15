@@ -5,6 +5,9 @@
                 <span class="header">
                     {{ file.path }}
                 </span>
+                <a class="button is-link header" @click="changeSubmissionUrl(file.submissionId);">
+                  Go to submission!
+                </a>
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
@@ -48,7 +51,11 @@ export default {
         view: { required: true }
     },
 
-    methods: {
+  methods: {
+        changeSubmissionUrl(submissionId) {
+          VueEvent.$emit('change-open-submission-url', submissionId);
+        },
+
         deleteReviewComment(reviewCommentId, charonId) {
             if (reviewCommentId === null) {
                 return;

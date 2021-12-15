@@ -183,7 +183,7 @@ export default {
   }
 }
 </script>
-<style src="../../../../../../public/css/submissionModal.css" scoped>
+<style scoped>
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 
