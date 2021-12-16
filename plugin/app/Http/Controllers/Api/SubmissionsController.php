@@ -86,6 +86,7 @@ class SubmissionsController extends Controller
         $submission->charon_order_nr = $this->submissionsRepository->getSubmissionCharonOrderNumber($submission, $studentId);
         $submission->files = $this->filesController->index($submission);
         $submission->user_id = $studentId;
+        $submission->test_suites = $this->submissionsRepository->getTestSuites($submission->id);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }
@@ -140,14 +141,14 @@ class SubmissionsController extends Controller
 
     /**
      * @param Charon $charon
+     * @param int $userId
      *
      * @return Paginator
      */
-    public function getByCharon(Charon $charon)
+    public function getByCharonAndUser(Charon $charon, int $userId): Paginator
     {
         return $this->submissionsRepository->paginateSubmissionsByCharonUser(
-            $charon,
-            intval($this->request['user_id'])
+            $charon, $userId
         );
     }
 

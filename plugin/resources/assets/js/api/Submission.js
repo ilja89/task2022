@@ -21,7 +21,7 @@ class Submission {
     }
 
     static findByUserCharon(userId, charonId, then) {
-        axios.get(`/mod/charon/api/charons/${charonId}/submissions`, {params: {user_id: userId}})
+        axios.get(`/mod/charon/api/charons/${charonId}/users/${userId}/submissions`)
             .then(({data}) => {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
