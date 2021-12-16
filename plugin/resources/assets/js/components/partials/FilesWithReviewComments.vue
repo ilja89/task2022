@@ -5,7 +5,10 @@
                 <span class="header">
                     {{ file.path }}
                 </span>
-                <a class="button is-link header" @click="changeSubmissionUrl(file.submissionId);">
+                <span class="review-comment-submission">
+                  Submission: {{ file.submissionCreation }}
+                </span>
+                <a class="button is-link" @click="changeSubmissionUrl(file.submissionId);" style="margin-top: 0.5em;margin-left: 1em;">
                   Go to submission!
                 </a>
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
@@ -17,7 +20,7 @@
                             <span class="review-comment-date">
                                 Comment created: {{ reviewComment.commentCreation }}
                             </span>
-                            <span class="review-comment-submission">
+                            <span class="review-comment-submission" style="color: red;">
                                 Submission: {{ file.submissionCreation }}
                             </span>
                             <v-btn v-if="view==='teacher'"
