@@ -5,6 +5,7 @@
 Silumise alustamiseks käivitage charoni kataloogis `xdebug/enable.sh`
 Kuna Apache restarditakse, suleb see mõnikord konteineri :( Praegu pole head lahendust, kuidas seda vältida. Lihtsalt käivitage charon-moodle konteiner uuesti. Sama võib juhtuda ka silumise lõpetamisel.
 ![enable](images/enable.PNG)
+
 Silumise sisselülitamine teeb php täitmise konteineris veelgi tuntavalt aeglasemaks. Kasutage ainult siis, kui tarvis. `xdebug/disable.sh` lülitab selle uuesti välja.
 
 ### PhpStormis
@@ -12,10 +13,12 @@ Silumise sisselülitamine teeb php täitmise konteineris veelgi tuntavalt aeglas
 Vaikimisi seaded peaksid olema alustamiseks ok.
 Konteineri silumise jälgimiseks piisab `Run -> Start listening for PHP debug connections`.
 ![silumine](images/listen.PNG)
+
 Esimesel silumissessioonil (õigemini esimesel Xdebug ühenduse tekkimisel) konfigureerib PhpStorm vastavuse lokaalsete ning konteineri php lähtefailide vahel. Kui kõik toimib, peaks kasutaja ainult valima silutava projektifaili. See peaks olema `index.php` teie charoni lokaalses põhikataloogis. `File path on server` peaks olema juba seatud väärtusega `/bitnami/moodle/mod/charon/index.php`.
 
 Vaikimisi seadetes on sisse lülitatud igakordne peatumine php skriptide alguses. Selle kohta on seadetes `PHP->Debug`  mitu sätet. Esimeseks testiks, et kas silumine põhimõtteliselt töötab, on see ok. Reaalseks tööks lülitage need välja.
 ![settings](images/settings.PNG)
+
 Silumiseks kasutage Charonit nagu tavaliselt, läbi oma veebilehitseja. Seadke vajalikud breakpointid ja jätkake silumist, kui täitmine nendeni jõuab.
 
 ### Võimalikud probleemid
