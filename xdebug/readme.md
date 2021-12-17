@@ -30,4 +30,5 @@ Viga `Could not connect to client` võib tähendada, et hosti, kus PhpStorm tö�
 
 Kui näete PhpStormi event logis teateid `Debug session was finished without being paused`, on ühendus konteineri ja PhpStormi vahel olemas. Kui sellest hoolimata täitmine ei peatunud breakpointis (ja olete kindel, et seda breakpointi oleks pidanud läbitama), kontrollige vastavust kliendi ja hosti lähtefailide vahel.
 ![path](images/addpath.PNG)
+
 PhpStormi seadetes `PHP->Servers` peaks `Project files` jaotises olema vastavuses Charoni kataloogid lokaalses arvutis ja konteineris. `Absolute path on the server` peaks olema väärtusega `bitnami/moodle/mod/charon`.
