@@ -377,7 +377,7 @@ class DefenseRegistrationRepository
             ->where('charon_defenders.teacher_id', $teacherId)
             ->where('charon_defenders.progress', 'Defending')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->select('charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname')
+            ->select('charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname')
             ->get()
             ->all();
     }

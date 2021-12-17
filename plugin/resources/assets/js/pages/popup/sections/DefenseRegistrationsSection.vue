@@ -17,6 +17,13 @@
             No Registrations for this course!
         </v-card-title>
 
+        <alert-box-component v-if="alertBox"
+                             :eventName="'alert-box-active-registrations'"
+                             :question="'What to do with your already active registrations?'"
+                             :text="defendingRegistrations"
+                             :buttonNames="buttonNames">
+        </alert-box-component>
+
         <v-alert :value="alert" border="left" color="error" outlined>
             <v-row align="center" justify="space-between">
                 <v-col class="grow">
@@ -97,10 +104,10 @@ import Defense from "../../../api/Defense";
 import {mapState} from "vuex";
 import Multiselect from "vue-multiselect";
 import Submission from "../../../api/Submission";
-import Swal from 'sweetalert2';
+import AlertBoxComponent from "../../../components/partials/AlertBoxComponent";
 
 export default {
-    components: {Multiselect},
+    components: {AlertBoxComponent, Multiselect},
     data() {
         return {
             alert: false,
@@ -119,8 +126,14 @@ export default {
             ],
             lastProgress: '',
             lastTeacher: null,
+            alertBox: false,
+            defendingRegistrations: "",
+            buttonNames: ["Waiting", "Done", "Skip", "Cancel"],
+            registrationToUpdate: Object,
         }
-    }, props: {
+    },
+
+    props: {
         defenseList: {required: true},
     },
     methods: {
@@ -128,30 +141,22 @@ export default {
             return '/submissions/' + submissionId
         },
 
-        updateRegistrationCheckDefenses(item) {
-            if (item.progress === 'Defending') {
-                Defense.getByTeacher(this.course.id, item.teacher.id, item.lab_id, (items) => {
-                    if (items.length > 0) {
-                        Swal.fire({
-                            title: 'What to do with your already active registration?',
-                            showCancelButton: true,
-                            showConfirmButton: false,
-                            html: items[0].name + ' - ' + items[0].firstname + ' ' + items[0].lastname + ' - Progress: ' + items[0].progress +
-                                "<br>" +
-                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Waiting</v-btn>' +
-                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Done</v-btn>' +
-                                '<button type="button" role="button" tabindex="0" class="ma-2 customSwalBtn">Continue</v-btn>',
-                        }).then((result) => {
-                            if (result.isDismissed) {
-                                item.progress = this.lastProgress;
+        updateRegistrationCheckDefenses(registration) {
+            if (registration.progress === 'Defending') {
+                Defense.getByTeacher(this.course.id, registration.teacher.id, registration.lab_id, (registrations) => {
+                    if (registrations.length > 0) {
+                        registrations.forEach((reg) => {
+                                this.defendingRegistrations += reg['name'] + " - " + reg['firstname'] + " " + reg['lastname'] + " - Progress: " + reg['progress'] + "\n\n"
                             }
-                        })
+                        )
+                        this.alertBox = true;
+                        this.registrationToUpdate = registration;
                     } else {
-                        this.updateRegistration(item.id, item.progress, item.teacher.id)
+                        this.updateRegistration(registration.id, registration.progress, registration.teacher.id)
                     }
                 })
             } else {
-                this.updateRegistration(item.id, item.progress, item.teacher.id)
+                this.updateRegistration(registration.id, registration.progress, registration.teacher.id)
             }
         },
 
@@ -250,6 +255,23 @@ export default {
                 return container;
             });
         }
+    },
+
+    mounted() {
+        VueEvent.$on("alert-box-active-registrations", (buttonName) => {
+            if (buttonName === "Waiting") {
+
+            } else if (buttonName === "Done") {
+
+            } else if (buttonName === "Skip"){
+
+            } else if (buttonName === "Cancel") {
+
+            }
+            this.updateRegistration(this.registrationToUpdate.id, this.registrationToUpdate.progress, this.registrationToUpdate.teacher.id);
+            this.defendingRegistrations = '';
+            this.alertBox = false;
+        });
     }
 }
 </script>
