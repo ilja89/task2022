@@ -172,4 +172,10 @@ class DefenseRegistrationController extends Controller
     {
         return $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $request->input('teacher_id'));
     }
+
+    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(Course $course, Registration $registration): Registration
+    {
+        $this->defenseRegistrationRepository->updateRegistrationsProgressByTeacherAndLab($this->request['lab_id'], $registration->teacher_id, $this->request['registrationsProgress']);
+        return $this->defenseRegistrationRepository->updateRegistrationProgress($registration->id, $this->request['registrationProgress']);
+    }
 }

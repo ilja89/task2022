@@ -69,6 +69,18 @@ class Defense {
         })
     }
 
+    static updateRegistrationAndUndefendRegistrationsByTeacher(courseId, defenseId, newRegistrationProgress, newRegistrationsProgress, lab_id, then) {
+        axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId + '/update/undefend', {
+            registrationsProgress: newRegistrationsProgress,
+            registrationProgress: newRegistrationProgress,
+            lab_id: lab_id
+        }).then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error saving defense progress.\n' + error, 'danger')
+        })
+    }
+
     static deleteStudentRegistration(charon_id, studentId, defense_lab_id, submission_id, then) {
         axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
             .then(response => {

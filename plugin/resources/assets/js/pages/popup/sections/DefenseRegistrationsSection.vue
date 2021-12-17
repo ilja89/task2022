@@ -130,6 +130,7 @@ export default {
             defendingRegistrations: "",
             buttonNames: ["Waiting", "Done", "Skip", "Cancel"],
             registrationToUpdate: Object,
+            teacherActiveRegistrations: []
         }
     },
 
@@ -145,6 +146,9 @@ export default {
             if (registration.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, registration.teacher.id, registration.lab_id, (registrations) => {
                     if (registrations.length > 0) {
+
+                        this.teacherActiveRegistrations = registrations;
+
                         registrations.forEach((reg) => {
                                 this.defendingRegistrations += reg['name'] + " - " + reg['firstname'] + " " + reg['lastname'] + " - Progress: " + reg['progress'] + "\n\n"
                             }
@@ -259,17 +263,21 @@ export default {
 
     mounted() {
         VueEvent.$on("alert-box-active-registrations", (buttonName) => {
-            if (buttonName === "Waiting") {
-
-            } else if (buttonName === "Done") {
-
-            } else if (buttonName === "Skip"){
-
-            } else if (buttonName === "Cancel") {
-
+            if (buttonName !== "Cancel") {
+                if (buttonName === "Waiting" || buttonName === "Done") {
+                    Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id, this.registrationToUpdate.id, this.registrationToUpdate.progress, buttonName, this.registrationToUpdate.lab_id, _=>{
+                        VueEvent.$emit('refresh-defense-list');
+                    })
+                } else {
+                    this.updateRegistration(this.registrationToUpdate.id, this.registrationToUpdate.progress, this.registrationToUpdate.teacher.id);
+                }
+                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+            } else {
+                VueEvent.$emit('refresh-defense-list');
             }
-            this.updateRegistration(this.registrationToUpdate.id, this.registrationToUpdate.progress, this.registrationToUpdate.teacher.id);
             this.defendingRegistrations = '';
+            this.teacherActiveRegistrations = [];
+            this.registrationToUpdate = Object;
             this.alertBox = false;
         });
     }
@@ -277,20 +285,5 @@ export default {
 </script>
 
 <style>
-
-.customSwalBtn{
-    background-color: rgba(214,130,47,1.00);
-    border-left-color: rgba(214,130,47,1.00);
-    border-right-color: rgba(214,130,47,1.00);
-    border: 0;
-    border-radius: 3px;
-    box-shadow: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: 500;
-    margin: 30px 5px 0px 5px;
-    padding: 10px 32px;
-}
 
 </style>

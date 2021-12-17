@@ -268,7 +268,7 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Save defending progress.
+     * Save defending progress and teacher.
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
@@ -380,6 +380,38 @@ class DefenseRegistrationRepository
             ->select('charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname')
             ->get()
             ->all();
+    }
+
+    /**
+     *
+     * @param int $labId
+     * @param int $teacherId
+     * @param string $progress
+     * @return int
+     */
+    public function updateRegistrationsProgressByTeacherAndLab(int $labId, int $teacherId, string $progress): int
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
+            ->join('user', 'user.id', 'charon_defenders.student_id')
+            ->where('charon_defenders.teacher_id', $teacherId)
+            ->where('charon_defenders.progress', 'Defending')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->update(array('charon_defenders.progress' => $progress));
+    }
+
+    /**
+     * Save defending progress.
+     * @param $defenseId
+     * @param $newProgress
+     * @return Registration
+     */
+    public function updateRegistrationProgress($defenseId, $newProgress): Registration
+    {
+        $defense = Registration::find($defenseId);
+        $defense->progress = $newProgress;
+        $defense->update();
+        return $defense;
     }
 
 }

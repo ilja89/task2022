@@ -11,7 +11,7 @@
 
         <v-row>
             <v-col v-for="name in buttonNames" :key="name">
-                <v-btn content-class="customBtn" v-text="name" @click="closeDialog(name)"></v-btn>
+                <v-btn class="customBtn" v-text="name" @click="closeDialog(name)"></v-btn>
             </v-col>
         </v-row>
     </v-dialog>
@@ -71,6 +71,21 @@ export default {
 
 .dialogBox v-row v-col v-btn {
     color: #2995e8;
+}
+
+.customBtn {
+    background-color: rgba(214,130,47,1.00);
+    border-left-color: rgba(214,130,47,1.00);
+    border-right-color: rgba(214,130,47,1.00);
+    border: 0;
+    border-radius: 3px;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 30px 5px 0px 5px;
+    padding: 10px 32px;
 }
 
 </style>
