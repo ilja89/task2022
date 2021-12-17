@@ -213,3 +213,12 @@ php composer.phar install
 **And make sure that your `.env.*` files are changed to `env.*`**   
 If you have both then delete the ones that match `.env.*`   
 To check which Laravel version you are running run: `php artisan --version`
+
+### MobileID test user
+
+Phone number +37200000566
+
+ID code 60001018800
+
+In order to test it you need to assign the phone number and ID code to the user. You can do it in the user profile (in Mobile phone and ID number fields, correspondingly).
+

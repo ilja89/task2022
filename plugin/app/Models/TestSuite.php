@@ -37,6 +37,10 @@ class TestSuite extends Model
         return $this->hasMany(UnitTest::class)->orderBy('id');
     }
 
+    public function submission()
+    {
+        return $this->belongsTo(Submission::class, 'submission_id', 'id');
+    }
 
     public function getDeadlineTimeAttribute($deadlineTime)
     {

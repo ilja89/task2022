@@ -20,8 +20,9 @@
 		"laravel/helpers": "^1.4",
 		"laravel/legacy-factories": "^1.1",
 		"laravel/tinker": "^2.0",
+		"league/flysystem": "^1.0",
 		"nesbot/carbon": "2.49.0",
-		"league/flysystem": "^1.0"
+		"sk-id-solutions/mobile-id-php-client": "1.0"
 	},
 	"require-dev": {
 		"filp/whoops": "~2.0",
