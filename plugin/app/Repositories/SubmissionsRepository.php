@@ -184,6 +184,9 @@ class SubmissionsRepository
                     ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
                 },
+                'users' => function ($query) {
+                    $query->select(['id', 'username']);
+                },
                 'testSuites' => function ($query) {
                     $query->select(['*']);
                 },
@@ -197,8 +200,8 @@ class SubmissionsRepository
                     $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
-            ->whereHas('results', function ($query) use ($userId) {
-                $query->where('user_id', '=', $userId);
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('id', '=', $userId);
             })
             ->latest()
             ->simplePaginate(10);
