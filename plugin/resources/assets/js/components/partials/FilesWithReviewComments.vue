@@ -24,9 +24,6 @@
                             <span class="review-comment-date">
                                 Comment created: {{ reviewComment.commentCreation }}
                             </span>
-                            <span class="review-comment-submission" style="color: red;">
-                                Submission: {{ file.submissionCreation }}
-                            </span>
                             <v-btn v-if="view==='teacher'"
                                    icon
                                    class="remove-button"
