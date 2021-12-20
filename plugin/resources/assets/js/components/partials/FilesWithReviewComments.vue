@@ -8,9 +8,13 @@
                 <span class="review-comment-submission">
                   Submission: {{ file.submissionCreation }}
                 </span>
-                <a class="button is-link" @click="changeSubmissionUrl(file.submissionId);" style="margin-top: 0.5em;margin-left: 1em;">
+                <a v-if="view==='student'" class="button is-link" @click="changeAssignmentSubmissionUrl(file.submissionId);" style="margin-top: 0.5em;margin-left: 1em;">
                   Go to submission!
                 </a>
+                <v-btn v-if="view==='teacher'" class="ma-2" tile outlined color="primary" @click="changePopupSubmissionUrl(file.submissionId);">
+                  Go to submission
+                </v-btn>
+
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
@@ -55,8 +59,12 @@ export default {
     },
 
   methods: {
-        changeSubmissionUrl(submissionId) {
-          VueEvent.$emit('change-open-submission-url', submissionId);
+        changeAssignmentSubmissionUrl(submissionId) {
+          VueEvent.$emit('change-assignment-submission-url', submissionId);
+        },
+
+        changePopupSubmissionUrl(submissionId) {
+          VueEvent.$emit('change-popup-submission-url', submissionId);
         },
 
         deleteReviewComment(reviewCommentId, charonId) {
