@@ -26,4 +26,5 @@ Vaadake konteineris faili `/tmp/xdebug.log`. Kui fail puudub, ei ole xdebug ming
 Viga `Could not connect to client` võib tähendada, et hosti, kus PhpStorm töötab, ei leitud kätte. Proovige failis `99-xdebug.ini` asendada `xdebug.remote-host` väärtus `host.docker.internal` oma arvuti lokaalse ip aadressiga. Pärast seda käivitage uuesti `xdebug/enable.sh`.
 
 Kui näete PhpStormi event logis teateid `Debug session was finished without being paused`, on ühendus konteineri ja PhpStormi vahel olemas. Kui sellest hoolimata täitmine ei peatunud breakpointis (ja olete kindel, et seda breakpointi oleks pidanud läbitama), kontrollige vastavust kliendi ja hosti lähtefailide vahel.
+
 PhpStormi seadetes `PHP->Servers` peaks `Project files` jaotises olema vastavuses Charoni kataloogid lokaalses arvutis ja konteineris. `Absolute path on the server` peaks olema väärtusega `bitnami/moodle/mod/charon`.

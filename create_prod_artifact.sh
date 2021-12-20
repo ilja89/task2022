@@ -18,6 +18,7 @@ rm env.*
 if [[ $1 == "master" || $1 == "release"* ]]; then
 	rm -rf coverage
 fi
+rm -rf xdebug
 #add more to remove
 
 mkdir charon
