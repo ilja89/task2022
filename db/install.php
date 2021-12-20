@@ -19,7 +19,10 @@ function xmldb_charon_install() {
         charon_installation_error("This plugin only supports MySQL/MariaDB databases.");
     }
     if (! function_exists('apache_get_modules') ){
-        charon_installation_error("This plugin needs apache to redirect requests.");
+        // There are no Apach modules, if running from cli
+        echo "Running from CLI";
+        return true;
+        // charon_installation_error("This plugin needs apache to redirect requests.");
     }
     if (! in_array('mod_rewrite', apache_get_modules())) {
         charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
@@ -29,15 +32,19 @@ function xmldb_charon_install() {
 
     echo "Seeding database\n";
 
-    require __DIR__ . '/../plugin/bootstrap/autoload.php';
-    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+    try {
+        require __DIR__ . '/../plugin/bootstrap/autoload.php';
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
-    $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
-    $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
-    $kernel->call('config:clear');
-    $kernel->call('cache:clear');
+        $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
+        $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
+        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
+        $kernel->call('config:clear');
+        $kernel->call('cache:clear');
+    } catch (Exception $e) {
+        echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
+    }
 
     return true;
 }
