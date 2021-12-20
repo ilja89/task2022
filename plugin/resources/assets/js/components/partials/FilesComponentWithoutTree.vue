@@ -1,12 +1,12 @@
 <template>
     <div>
 
-        <p class="control tabs-right select-container files-select" v-if="files.length > 0">
+        <p class="control tabs-right select-container files-select" v-if="submission.files.length > 0">
             <span class="select">
 
                 <select name="file"
                         v-model="activeFileId">
-                    <option v-for="file in files"
+                    <option v-for="file in submission.files"
                             :value="file.id">
                         {{ file.path }}
                     </option>
@@ -31,8 +31,6 @@
 
 <script>
 
-    import { File } from '../../api';
-
     export default {
 
         props: {
@@ -46,18 +44,17 @@
 
         data() {
             return {
-                files: [],
-                activeFileId: null,
+                activeFileId: this.submission.files[0].id,
             };
         },
 
         computed: {
             activeFile() {
-                if (this.files.length === 0) {
+                if (this.submission.files.length === 0) {
                     return null;
                 }
 
-                let file = this.files.find(file => {
+                let file = this.submission.files.find(file => {
                     return file.id === this.activeFileId;
                 });
 
@@ -68,30 +65,9 @@
                     numbers: file.contents.trim().split(/\r\n|\r|\n/).length,
                 }
             },
-
-        },
-
-        watch: {
-            submission() {
-                this.getFiles();
-            }
-        },
-
-        mounted() {
-            this.getFiles();
         },
 
         methods: {
-            getFiles() {
-                File.findBySubmission(this.submission.id, files => {
-                    this.files = files
-                    this.formattedFiles = []
-
-                    if (files.length > 0) {
-                        this.activeFileId = files[0].id
-                    }
-                })
-            },
 
             handleFileClicked(file) {
                 this.activeFileId = file.id

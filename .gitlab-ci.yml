@@ -30,6 +30,7 @@ security-advisories-vulnerabilities:
   tags:
     - docker
   stage: test
+  when: manual
   image: umutphp/php-docker-images-for-ci:7.4
   services:
     - name: docker:dind
