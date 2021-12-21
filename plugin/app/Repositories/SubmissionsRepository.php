@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -170,8 +171,9 @@ class SubmissionsRepository
             ->where('charon_id', $charon->id)
             ->where('user_id', $userId)
             ->with([
-                'results' => function ($query) {
-                    $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                'results' => function ($query) use ($charon) {
+                    $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+                    ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
                 },
                 'testSuites' => function ($query) {
@@ -189,6 +191,8 @@ class SubmissionsRepository
             ])
             ->latest()
             ->simplePaginate(10);
+
+        $submissions->appends(['user_id' => $userId])->links();
 
         return $this->assignUnitTestsToTestSuites($submissions);
     }
@@ -689,6 +693,34 @@ class SubmissionsRepository
             unset($submission->unitTests);
         }
         return $submissions;
+    }
+
+    /**
+     * @param $submissionId
+     * @return TestSuite[]
+     */
+    public function getTestSuites($submissionId)
+    {
+        $testSuites = \DB::table('charon_test_suite')
+            ->where('submission_id', $submissionId)
+            ->select('*')
+            ->get();
+        for ($i = 0; $i < count($testSuites); $i++) {
+            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
+        }
+        return $testSuites;
+    }
+
+    /**
+     * @param $testSuiteId
+     * @return UnitTest[]
+     */
+    private function getUnitTestsResults($testSuiteId)
+    {
+        return \DB::table('charon_unit_test')
+            ->where('test_suite_id', $testSuiteId)
+            ->select('*')
+            ->get();
     }
 
     /**

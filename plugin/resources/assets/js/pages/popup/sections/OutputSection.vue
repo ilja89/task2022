@@ -19,7 +19,17 @@
             </charon-tab>
 
             <charon-tab name="Mail">
-                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="hasMail">
+                <h3 v-if="toggleShowTable">Showing table</h3>
+                <h3 v-else>Showing mail</h3>
+
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
+
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="toggleShowTable">
+                    <pre style="max-height: 900px;overflow: auto">
+                        <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
+                    </pre>
+                </v-card>
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-else-if="hasMail">
                     <pre style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
                 </v-card>
             </charon-tab>
@@ -32,10 +42,8 @@
                     <div v-else>
                         <h2>Feedback for all submissions for this charon</h2>
                     </div>
-                    <label class="switch">
-                        <input type="checkbox" v-model="toggleShowAllSubmissions">
-                        <span class="slider round"></span>
-                    </label>
+
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
 
                     <files-with-review-comments v-if="hasReviewComments"
                                                 :filesWithReviewComments="this.getFilesWithReviewComments()"
@@ -56,20 +64,24 @@
 <script>
 
 import {mapState, mapActions} from "vuex";
-import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments} from '../../../components/partials/index';
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments, ToggleButton}
+    from '../../../components/partials/index';
 import {PopupSection} from '../layouts/index';
 import {OutputComponent} from '../partials/index';
 import {ReviewComment, Submission} from "../../../api";
+import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent"
 
 export default {
     components: {
-        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, FilesWithReviewComments
+        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
+        FilesWithReviewComments, SubmissionTableComponent, ToggleButton
     },
 
     data() {
         return {
             stickyTabs: false,
             toggleShowAllSubmissions: false,
+            toggleShowTable: false,
         }
     },
 
@@ -119,6 +131,14 @@ export default {
                 this.$store.state.filesWithReviewComments = data;
             })
         },
+
+        showTable(bool) {
+            this.toggleShowTable = bool;
+        },
+
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
+        },
     },
 
     created() {
@@ -141,68 +161,8 @@ export default {
 
 <style scoped>
 
-/* The switch - the box around the slider */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-left: 1em;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-/* The slider */
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
+.mx-auto {
+    margin-top: 10px;
 }
 
 .no-submission-message {
