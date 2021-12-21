@@ -2,11 +2,11 @@
     <v-dialog persistent content-class="dialogBox" v-model="alert" transition="dialog-bottom-transition">
 
         <div>
-            <p content-class="question" v-text="question"></p>
+            <p class="question" v-text="question"></p>
         </div>
 
         <div>
-            <p content-class="text" v-text="text"></p>
+            <p class="text" v-text="text"></p>
         </div>
 
         <v-row>
@@ -56,6 +56,7 @@ export default {
 
 .dialogBox div {
     alignment: center;
+    width: fit-content;
 }
 
 .dialogBox div p {
@@ -63,10 +64,15 @@ export default {
     font-size: larger;
 }
 
-.text {
+v-text {
     margin: auto;
     alignment: center;
     font-size: medium;
+    color: #1976d2;
+}
+
+.question {
+    font-weight: bold;
 }
 
 .dialogBox v-row v-col v-btn {
@@ -74,18 +80,24 @@ export default {
 }
 
 .customBtn {
-    background-color: rgba(214,130,47,1.00);
-    border-left-color: rgba(214,130,47,1.00);
-    border-right-color: rgba(214,130,47,1.00);
-    border: 0;
-    border-radius: 3px;
-    box-shadow: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: 500;
-    margin: 30px 5px 0px 5px;
-    padding: 10px 32px;
+    border: #1976d2;
+    margin: 2em 1em 0 1em;
+    color: #1976d2!important;
+    border: thin solid;
+    box-shadow: unset!important;
+    text-transform: uppercase;
+}
+
+div.v-dialog {
+    width: fit-content;
+    overflow-y: unset;
+    margin: unset;
+    padding: 1em;
+
+}
+
+v-btn {
+    box-shadow: unset;
 }
 
 </style>
