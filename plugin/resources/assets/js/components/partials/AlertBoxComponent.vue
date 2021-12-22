@@ -11,7 +11,7 @@
 
         <v-row>
             <v-col v-for="name in buttonNames" :key="name">
-                <v-btn class="customBtn" v-text="name" @click="closeDialog(name)"></v-btn>
+                <v-btn tile class="customBtn" v-text="name" @click="closeDialog(name)"></v-btn>
             </v-col>
         </v-row>
     </v-dialog>
@@ -81,7 +81,7 @@ v-text {
 
 .customBtn {
     border: #1976d2;
-    margin: 2em 1em 0 1em;
+    margin: 2em .3em 0 .3em;
     color: #1976d2!important;
     border: thin solid;
     box-shadow: unset!important;
