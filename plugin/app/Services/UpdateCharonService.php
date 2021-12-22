@@ -61,21 +61,17 @@ class UpdateCharonService
 
     /**
      * Update Grademaps with info from the request.
-     * This assumes that deadlines are updated before this so grades
-     * can be recalculated if needed.
      *
-     * @param  array $newGrademaps
-     * @param  Charon $charon
-     * @param  bool $deadlinesWereUpdated
-     * @param  bool $recalculateGrades
+     * @param array $newGrademaps
+     * @param Charon $charon
+     * @param bool $recalculateGrades
      *
      * @return void
      */
     public function updateGrademaps(
         $newGrademaps,
         Charon $charon,
-        $deadlinesWereUpdated = false,
-        $recalculateGrades = true
+        $recalculateGrades = false
     ) {
         $grademaps = $charon->grademaps;
 
@@ -84,14 +80,17 @@ class UpdateCharonService
             $newGrademap = $this->getGrademapByGradeType($newGrademaps, $grademap->grade_type_code);
 
             $newGrademaps[$grademap->grade_type_code]['checked'] = true;
-            $this->updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated, $recalculateGrades);
+            $this->updateExistingGrademap($grademap, $newGrademap, $recalculateGrades);
         }
 
         // Check the rest of the Grademaps.
         foreach ($newGrademaps as $gradeType => $newGrademap) {
-            if ( ! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
+            if (! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
                 $this->grademapService->createGrademapWithGradeItem(
-                    $charon, $gradeType, $charon->course, $newGrademap
+                    $charon,
+                    $gradeType,
+                    $charon->course,
+                    $newGrademap
                 );
             }
         }
@@ -158,14 +157,13 @@ class UpdateCharonService
      *
      * New grademap fields: grademap_name, max_points, id_number.
      *
-     * @param  Grademap $grademap
-     * @param  array $newGrademap
-     * @param  bool $deadlinesWereUpdated
-     * @param  bool $recalculateGrades
+     * @param Grademap $grademap
+     * @param array $newGrademap
+     * @param bool $recalculateGrades
      *
      * @return Grademap
      */
-    private function updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated, $recalculateGrades)
+    private function updateExistingGrademap($grademap, $newGrademap, $recalculateGrades)
     {
         if ($newGrademap === null) {
             $this->grademapService->deleteGrademap($grademap);
@@ -177,14 +175,13 @@ class UpdateCharonService
         $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && $newGrademap['persistent'] === '1';
         $grademap->save();
 
-        $oldMax = $grademap->gradeItem->grademax;
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],
             'grademax' => $newGrademap['max_points'],
             'idnumber' => $newGrademap['id_number'],
         ]);
 
-        if ($recalculateGrades && ($oldMax != $newGrademap['max_points'] || $deadlinesWereUpdated)) {
+        if ($recalculateGrades) {
             $this->charonGradingService->recalculateGrades($grademap);
         }
 
