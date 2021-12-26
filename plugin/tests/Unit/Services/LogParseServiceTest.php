@@ -20,26 +20,27 @@ class LogParseServiceTest extends TestCase
         $filesystem = new Filesystem($adapter);
         $contents = $filesystem->listContents('./', false);
 
-        $storage = Storage::spy();
-
         Config::shouldReceive('get')
             ->with('app.log_display_lines')
             ->andReturn(500);
 
-        $storage->shouldReceive('disk->listContents')
+        Storage::shouldReceive('disk->listContents')
             ->with('./')
             ->once()
             ->andReturn($contents);
+        Storage::partialMock();
 
-        $storage->shouldReceive('disk->path')
+        Storage::shouldReceive('disk->path')
             ->with('laravel-2020.10.20.log')
             ->once()
             ->andReturn(self::FIXTURE_PATH . '/laravel-2020.10.20.log');
+        Storage::partialMock();
 
-        $storage->shouldReceive('disk->path')
+        Storage::shouldReceive('disk->path')
             ->with('laravel-2020.10.23.log')
             ->once()
             ->andReturn(self::FIXTURE_PATH . '/laravel-2020.10.23.log');
+        Storage::partialMock();
 
         $service = new LogParseService;
 
