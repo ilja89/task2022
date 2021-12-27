@@ -27,7 +27,7 @@
                    class="red--text">
 
                 Warning: recalculating grades with grading method 'prefer_best_each_test_grade'
-                might take a lot of time to finish.
+                may take a lot of time to finish, depending on the count of submissions.
             </label>
 
         </div>
