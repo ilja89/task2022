@@ -15,7 +15,7 @@
       <submission-list
           :allow_submission="allow_submission">
       </submission-list>
-          <router-body/>
+          <assignment-body/>
 
 			<v-row class="my-4">
 				<student-registration-sheet/>
@@ -33,7 +33,7 @@
 import {Translate} from '../../../mixins';
 import RegistrationDialog from "./RegistrationDialog";
 import SubmissionList from "./SubmissionList";
-import RouterBody from "./RouterBody";
+import AssignmentBody from "./AssignmentBody";
 import {mapState} from "vuex";
 import StudentRegistrationSheet from "./StudentRegistrationSheet";
 
@@ -44,7 +44,7 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		SubmissionList, RegistrationDialog, StudentRegistrationSheet, RouterBody
+		SubmissionList, RegistrationDialog, StudentRegistrationSheet, AssignmentBody
 	},
 
   props: {

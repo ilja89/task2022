@@ -8,7 +8,7 @@
 
 <script>
 import {Submission} from "../../../api";
-import SubmissionComponent from "./SubmissionComponent";
+import SubmissionComponent from "../components/SubmissionComponent";
 import {getSubmissionWeightedScore} from "../helpers/submission";
 import {mapState} from "vuex";
 

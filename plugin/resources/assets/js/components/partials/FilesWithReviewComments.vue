@@ -8,11 +8,11 @@
                 <span class="review-comment-submission">
                   Submission: {{ file.submissionCreation }}
                 </span>
-                <a v-if="view==='student'" class="button is-link" @click="changeAssignmentSubmissionUrl(file.submissionId);" style="margin-top: 0.5em;margin-left: 1em;">
+                <a v-if="view==='student' && isSubmissionButtonAllowed(file.submissionId)" class="button is-link review-comment-submission-button" @click="changeAssignmentSubmissionUrl(file.submissionId);">
                   Go to submission!
                 </a>
-                <v-btn v-if="view==='teacher'" class="ma-2" tile outlined color="primary" @click="changePopupSubmissionUrl(file.submissionId);">
-                  Go to submission
+                <v-btn v-if="view==='teacher' && isSubmissionButtonAllowed(file.submissionId)" class="ma-2" tile outlined color="primary" @click="changePopupSubmissionUrl(file.submissionId);">
+                  Go to submission!
                 </v-btn>
 
                 <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
@@ -52,10 +52,15 @@ export default {
     name: "FilesWithReviewComments",
     props: {
         filesWithReviewComments: { required: true },
-        view: { required: true }
+        view: { required: true },
+        openSubmissionId: { required:true }
     },
 
   methods: {
+        isSubmissionButtonAllowed(submissionId) {
+          return submissionId !== this.openSubmissionId;
+        },
+
         changeAssignmentSubmissionUrl(submissionId) {
           VueEvent.$emit('change-assignment-submission-url', submissionId);
         },
@@ -79,6 +84,11 @@ export default {
 </script>
 
 <style scoped>
+
+.review-comment-submission-button {
+  margin-top: 0.5em;
+  margin-left: 1em;
+}
 
 .header {
     text-align: center;

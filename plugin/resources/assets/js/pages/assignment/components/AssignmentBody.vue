@@ -11,7 +11,7 @@
 export default {
   mounted() {
     VueEvent.$on('change-assignment-submission-url', (submissionId) => {
-      this.$router.push(`/submissionPage/${submissionId}`);
+      this.$router.push(`/submission-page/${submissionId}`);
     });
   },
 }

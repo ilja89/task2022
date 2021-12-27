@@ -50,6 +50,7 @@
           <files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
                                       view="student"
                                       :filesWithReviewComments="this.getFilesWithReviewComments()"
+                                      :openSubmissionId="this.submission.id"
           ></files-with-review-comments>
           <v-card v-else class="message">
             {{ translate('noFeedbackInfo') }}
