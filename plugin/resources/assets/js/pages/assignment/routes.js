@@ -12,10 +12,7 @@ const routes = [
         title: 'Submission Page',
         component: SubmissionPage,
         name: 'submission-page'
-    },
-    {
-        path: '/'
-    },
+    }
 ]
 const router = new VueRouter({
     routes,
