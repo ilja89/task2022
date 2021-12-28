@@ -21,30 +21,15 @@
                              :eventName="'alert-box-active-registrations'"
                              :question="'What to do with your already active registration?'"
                              :text="defendingRegistration"
-                             :buttonNames="buttonNames">
+                             :buttonNames="updateRegistrationButtonNames">
         </alert-box-component>
 
-        <v-alert :value="alert" border="left" color="error" outlined>
-            <v-row align="center" justify="space-between">
-                <v-col class="grow">
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    Are you sure you want to delete this registration?
-                    ({{this.item.student_name}}, {{this.item.lab_name}})
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error" @click="deleteRegistration">Yes
-                    </v-btn>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error" @click="alert=false">No</v-btn>
-                </v-col>
-            </v-row>
-        </v-alert>
+        <alert-box-component v-if="alert"
+                             :eventName="'delete-registration-in-popup'"
+                             :question="'Are you sure you want to delete this registration?'"
+                             :text="registrationToDeleteText"
+                             :buttonNames="deleteRegistrationButtonNames">
+        </alert-box-component>
 
         <v-data-table
             v-if="defenseList.length"
@@ -144,8 +129,10 @@ export default {
             lastTeacher: null,
             alertBox: false,
             defendingRegistration: "",
-            buttonNames: ["Waiting", "Done", "Cancel"],
+            updateRegistrationButtonNames: ["Waiting", "Done", "Cancel"],
             registrationToUpdate: Object,
+            registrationToDeleteText: "",
+            deleteRegistrationButtonNames: ["Yes", "No"],
         }
     },
 
@@ -218,6 +205,7 @@ export default {
         },
 
         promptDeletionAlert(item) {
+            this.registrationToDeleteText = item.student_name + ' - ' + item.lab_name;
             this.alert = true
             this.item = item
         },
@@ -304,14 +292,22 @@ export default {
             if (buttonName !== "Cancel") {
                 Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id,
                     this.registrationToUpdate.id, this.registrationToUpdate.progress, buttonName,
-                    this.registrationToUpdate.lab_id, this.registrationToUpdate.teacher ? this.registrationToUpdate.teacher.id : null, _=>{
-                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
-                })
+                    this.registrationToUpdate.lab_id, this.registrationToUpdate.teacher ? this.registrationToUpdate.teacher.id : null, _ => {
+                        VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                    })
             }
             VueEvent.$emit('refresh-defense-list');
             this.defendingRegistration = '';
             this.registrationToUpdate = Object;
             this.alertBox = false;
+        });
+
+        VueEvent.$on("delete-registration-in-popup", (buttonName) => {
+            if (buttonName === "Yes") {
+                this.deleteRegistration();
+            } else {
+                this.alert = false;
+            }
         });
     }
 }
