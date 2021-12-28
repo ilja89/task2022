@@ -383,7 +383,7 @@ class DefenceRegistrationService
      * @param array $registrations
      * @param int $teacherCount
      * @param Carbon $labStart
-     *
+     * @param $teachersDefences
      * @return array
      */
     public function attachEstimatedTimesToDefenceRegistrations(
@@ -455,6 +455,7 @@ class DefenceRegistrationService
             return null;
         }
 
+        Log::info('1111');
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
