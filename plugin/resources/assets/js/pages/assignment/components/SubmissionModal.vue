@@ -36,30 +36,38 @@
 					<p>{{ submission.git_commit_message }}</p>
 				</div>
 
-				<h3 v-if="toggleOn">Showing table</h3>
-				<h3 v-else>Showing mail</h3>
+				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
+				<h3 v-else>{{ translate('showingMail') }}</h3>
 
-				<label class="switch">
-					<input type="checkbox" v-model="toggleOn">
-					<span class="slider round"></span>
-				</label>
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 
-				<div v-if="hasMail && !toggleOn">
+                <div v-if="hasMail && !toggleShowTable">
 					<h3>{{ translate('testerFeedbackText') }}</h3>
 					<pre v-html="submission.mail"></pre>
 				</div>
-				<div v-if="toggleOn">
-					<submission-table :submission="submission"></submission-table>
+				<div v-if="toggleShowTable">
+					<submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
 				</div>
 
-				<h3>{{ translate('filesText') }}</h3>
+				<h3 v-if="submission.files && submission.files.length > 0">{{ translate('filesText') }}</h3>
 
-				<files-component-without-tree :submission="submission" :testerType="testerType" :isRound="true">
+				<files-component-without-tree v-if="submission.files && submission.files.length > 0" :submission="submission" :testerType="testerType" :isRound="true">
 				</files-component-without-tree>
 
 				<div class="review-comments">
-					<h3>{{ translate('feedbackText') }}</h3>
-					<review-comment-component v-if="reviewCommentCount" :files="files" view="student"></review-comment-component>
+					<div v-if="!toggleShowAllSubmissions">
+						<h3>{{ translate('feedbackTextSingleSubmission') }}</h3>
+					</div>
+					<div v-else>
+						<h3>{{ translate('feedbackTextAllSubmissions') }}</h3>
+					</div>
+
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
+
+					<files-with-review-comments v-if="this.filesWithReviewComments.length > 0"
+												view="student"
+												:filesWithReviewComments="this.getFilesWithReviewComments()"
+					></files-with-review-comments>
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
@@ -70,12 +78,12 @@
 </template>
 
 <script>
-import {FilesComponentWithoutTree} from '../../../components/partials'
+import {FilesComponentWithoutTree, ToggleButton} from '../../../components/partials'
 import {Translate} from '../../../mixins'
-import SubmissionTable from "./SubmissionTable";
-import {File, ReviewComment} from "../../../api";
-import ReviewCommentComponent from "../../../components/partials/ReviewCommentComponent";
+import {ReviewComment} from "../../../api";
 import {mapState} from "vuex";
+import FilesWithReviewComments from "../../../components/partials/FilesWithReviewComments";
+import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent";
 
 export default {
 	name: "submission-modal",
@@ -83,22 +91,22 @@ export default {
 	mixins: [Translate],
 
 	components: {
-		ReviewCommentComponent, FilesComponentWithoutTree, SubmissionTable
+		FilesComponentWithoutTree, FilesWithReviewComments, SubmissionTableComponent, ToggleButton
 	},
 
 	props: {
 		submission: {required: true},
-		color: {required: true}
+		color: {required: true},
 	},
 
 	data() {
 		return {
 			isActive: false,
 			testerType: '',
-			toggleOn: false,
-			files: [],
+			toggleShowTable: false,
 			reviewCommentCount: 0,
 			reviewCommentIdsWithNotify: [],
+			toggleShowAllSubmissions: false,
 		}
 	},
 
@@ -106,6 +114,7 @@ export default {
 		...mapState([
 			'charon_id',
 			'student_id',
+			'filesWithReviewComments',
 		]),
 
 		hasCommitMessage() {
@@ -118,35 +127,41 @@ export default {
 
 		notifyColor() {
 			return !!this.reviewCommentIdsWithNotify.length;
-		}
+		},
 	},
 
 	mounted() {
 		this.testerType = window.testerType
-		this.getFiles()
-		VueEvent.$on("student-refresh-submissions", this.getFiles);
+		this.checkNewComments();
+		VueEvent.$on("student-refresh-submissions", this.checkNewComments);
 	},
 
 	methods: {
-		getFiles() {
-			File.findBySubmission(this.submission.id, files => {
-				this.files = files
-				this.checkComments();
+		getFilesWithReviewComments() {
+			if (this.toggleShowAllSubmissions) {
+				return this.filesWithReviewComments;
+			}
+			let files = [];
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					files.push(file);
+				}
 			})
+			return files;
 		},
 
-		checkComments() {
+		checkNewComments() {
 			this.reviewCommentCount = 0;
-			this.files.forEach(file => {
-				if (file.review_comments.length > 0) {
-					file.review_comments.forEach(reviewComment => {
+			this.filesWithReviewComments.forEach(file => {
+				if (file.submissionId === this.submission.id) {
+					file.reviewComments.forEach((reviewComment) => {
 						this.reviewCommentCount++;
 						if (reviewComment.notify) {
-							this.reviewCommentIdsWithNotify.push(reviewComment.id);
+							this.reviewCommentIdsWithNotify.push(reviewComment.id)
 						}
 					});
 				}
-			});
+			})
 		},
 
 		onClickSubmissionInformation() {
@@ -157,7 +172,15 @@ export default {
 						this.reviewCommentIdsWithNotify = [];
 					});
 			}
-		}
+		},
+
+        showTable(bool) {
+            this.toggleShowTable = bool;
+        },
+
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
+        },
 	},
 }
 </script>
@@ -165,75 +188,8 @@ export default {
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css");
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 
-/* The switch - the box around the slider */
-.switch {
-	position: relative;
-	display: inline-block;
-	width: 60px;
-	height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-	opacity: 0;
-	width: 0;
-	height: 0;
-}
-
-/* The slider */
-.slider {
-	position: absolute;
-	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #ccc;
-	-webkit-transition: .4s;
-	transition: .4s;
-}
-
-.slider:before {
-	position: absolute;
-	content: "";
-	height: 26px;
-	width: 26px;
-	left: 4px;
-	bottom: 4px;
-	background-color: white;
-	-webkit-transition: .4s;
-	transition: .4s;
-}
-
-input:checked + .slider {
-	background-color: #2196F3;
-}
-
-input:focus + .slider {
-	box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-	-webkit-transform: translateX(26px);
-	-ms-transform: translateX(26px);
-	transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-	border-radius: 34px;
-}
-
-.slider.round:before {
-	border-radius: 50%;
-}
-
 .review-comments {
 	padding-top: 10px;
-}
-
-.message {
-	padding: 10px;
 }
 
 .signal {
