@@ -101,25 +101,38 @@ class GrademapService
     }
 
     /**
+     * Find values for grades needed to calculate total grade with given calculation formula.
+     * Has an ability to ignore defence grades in order to find the best potential total result.
+     *
      * @param string $calculationFormula
      * @param Result[]|Collection $results
      * @param int $studentId
+     * @param bool $ignoreDefenceGrades
      *
      * @return array
      */
-    public function findFormulaParams(string $calculationFormula, $results, int $studentId): array
-    {
+    public function findFormulaParams(
+        string $calculationFormula,
+        Collection $results,
+        int $studentId,
+        bool $ignoreDefenceGrades = false
+    ): array {
+
         $params = [];
         foreach ($results as $result) {
             if ($result->user_id == $studentId) {
 
                 $grademap = $result->getGrademap();
+
                 // TODO: expect results that are not included in calculation formula?
                 if ($grademap === null || $grademap->gradeItem === null) {
                     continue;
                 }
 
-                $params['gi' . $grademap->gradeItem->id] = $result->calculated_result;
+                // TODO: ignore custom AND style grades?
+                $params['gi' . $grademap->gradeItem->id] = $ignoreDefenceGrades && $grademap->isCustomGrade()
+                    ? 1
+                    : $result->calculated_result;
             }
         }
 
@@ -146,7 +159,12 @@ class GrademapService
                 continue;
             }
 
-            $params['gi' . $gradeItem->id] = intval(isset($grade->finalgrade) ? $grade->finalgrade : $grade->rawgrade);
+            // TODO: what will happen to grades that are included in the calculation but not with the submission?
+            $params['gi' . $gradeItem->id] = $ignoreDefenceGrades && $gradeItem->itemnumber > 1000
+                ? 1
+                : intval(isset($grade->finalgrade))
+                    ? $grade->finalgrade
+                    : $grade->rawgrade;
         }
 
         return $params;

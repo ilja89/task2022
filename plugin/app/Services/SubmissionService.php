@@ -191,14 +191,11 @@ class SubmissionService
             return round($sum, 3);
         }
 
-        if ($ignoreDefenceGrades) {
-            // TODO: alter calculation formula so that defence grades are not included
-        }
-
         $params = $this->grademapService->findFormulaParams(
             $calculation,
             $submission->results,
-            $user_id
+            $user_id,
+            $ignoreDefenceGrades
         );
 
         return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
