@@ -43,7 +43,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         );
     }
 
-    public function testSubmissionIsBetterThanLastDetectsWorse()
+    public function testSubmissionIsBetterThanActiveDetectsWorse()
     {
         $results = collect([
             $this->makeResult(0.5, 1, 1),
@@ -58,12 +58,12 @@ class SubmissionCalculatorServiceTest extends TestCase
             ->once()
             ->andReturn($results);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
+        $actual = $this->service->submissionIsBetterThanActive($submission, 3);
 
         $this->assertFalse($actual);
     }
 
-    public function testSubmissionIsBetterThanLastDetectsBetter()
+    public function testSubmissionIsBetterThanActiveDetectsBetter()
     {
         $results = collect([
             $this->makeResult(1, 0.5, 1),
@@ -77,12 +77,12 @@ class SubmissionCalculatorServiceTest extends TestCase
             ->once()
             ->andReturn($results);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
+        $actual = $this->service->submissionIsBetterThanActive($submission, 3);
 
         $this->assertTrue($actual);
     }
 
-    public function testSubmissionIsBetterThanLastIgnoresResultsWithoutGrademap()
+    public function testSubmissionIsBetterThanActiveIgnoresResultsWithoutGrademap()
     {
         /** @var Mock|Result $withoutGrademap */
         $withoutGrademap = $this->makeResult(2, 1, 5);
@@ -101,7 +101,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             ->once()
             ->andReturn($results);
 
-        $actual = $this->service->submissionIsBetterThanLast($submission, 3);
+        $actual = $this->service->submissionIsBetterThanActive($submission, 3);
 
         $this->assertFalse($actual);
     }

@@ -177,12 +177,12 @@ class SubmissionService
         bool $ignoreDefenceGrades = false
     ): float {
 
-        $charon = $submission->charon;
-        $calculation = $charon->category->getGradeItem()->calculation;
+        $calculation = $submission->charon->category->getGradeItem()->calculation;
+        $results = $submission->results;
 
         if ($calculation == null) {
             $sum = 0;
-            foreach ($submission->results as $result) {
+            foreach ($results as $result) {
                 if ($result->user_id == $user_id) {
                     $sum += $result->calculated_result;
                 }
@@ -193,7 +193,7 @@ class SubmissionService
 
         $params = $this->grademapService->findFormulaParams(
             $calculation,
-            $submission->results,
+            $results,
             $user_id,
             $ignoreDefenceGrades
         );

@@ -135,7 +135,7 @@ class SubmissionCalculatorService
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast(Submission $submission, int $studentId): bool
+    public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
         $submissionSum = 0;
         $activeSubmissionSum = 0;
@@ -160,7 +160,7 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Get the currently active grades for the given charon and user.
+     * Get the currently active grade for the given charon and user.
      *
      * @param Charon $charon
      * @param int $userId
