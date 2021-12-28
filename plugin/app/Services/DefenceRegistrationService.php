@@ -105,6 +105,7 @@ class DefenceRegistrationService
             'defense_lab_id' => $defenseLabId,
             'progress' => $progress != null ? $progress : "Waiting",
             'charon_id' => $charonId,
+            'defense_start' => $progress == 'Defending' ? Carbon::now() : null
         ]);
 
         Log::info(json_encode([
@@ -344,7 +345,7 @@ class DefenceRegistrationService
         int $charonId,
         int $defenseLabId,
         ?int $submissionId,
-        ?string $progress = null
+        string $progress = 'Waiting'
     ): string {
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
@@ -388,20 +389,52 @@ class DefenceRegistrationService
     public function attachEstimatedTimesToDefenceRegistrations(
         array $registrations,
         int $teacherCount,
-        Carbon $labStart
+        Carbon $labStart,
+        $teachersDefences
     ): array {
+
+        //If lab started, then queue starts from now
+        if (Carbon::now() >= $labStart){
+            $queueStart = Carbon::now();
+        } else {
+            $queueStart = $labStart;
+        }
+
+        if ($teacherCount < 1) {
+            $teacherCount = 1;
+        }
         $queuePresumption = array_fill(0, $teacherCount, 0);
+
+        foreach ($teachersDefences as $teachersDefence){
+            $defenseStart = Carbon::parse($teachersDefence->defense_start);
+            $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
+
+            $defenceAndQueueStartDifference = $defenseStart->copy()->diffInMinutes($queueStart);
+
+            if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration){
+                $queuePresumption[$teacherNr] += $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
+            }
+        }
+
+        $queueRegistrations = [];
+
 
         for ($i = 0; $i < count($registrations); $i++) {
             $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
 
-            $registrations[$i]->estimated_start =
-                $labStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+            $registration = $registrations[$i];
 
-            $queuePresumption[$teacherNr] += $registrations[$i]->defense_duration;
+            $registration->estimated_start =
+                $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+
+            $queuePresumption[$teacherNr] += $registration->defense_duration;
+
+            unset($registration->defense_start);
+            unset($registration->progress);
+            array_push($queueRegistrations, $registration);
         }
 
-        return $registrations;
+        return $queueRegistrations;
     }
 
     /**
@@ -414,13 +447,19 @@ class DefenceRegistrationService
      */
     public function getEstimateTimeForNewRegistration(Lab $lab, Charon $charon): ?Carbon
     {
-        $capacity = $lab->end->diff($lab->start)->i;
+        $capacity = $lab->end->diffInMinutes($lab->start);
         $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
 
+        if ($teacherCount === 0) {
+            // if lab has no teachers, then block registrations for this lab
+            return null;
+        }
+
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ["Waiting", "Defending"]),
+            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
-            $lab->start
+            $lab->start,
+            $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id)
         );
 
         if (count($registrations) >= $teacherCount) {
@@ -443,7 +482,7 @@ class DefenceRegistrationService
             $shortestWaitingTime = $lab->start;
         }
 
-        return $capacity >= $shortestWaitingTime->diff($lab->start)->i + $charon->defense_duration
+        return $capacity >= $shortestWaitingTime->diffInMinutes($lab->start) + $charon->defense_duration
             ? $shortestWaitingTime
             : null;
     }
@@ -454,12 +493,13 @@ class DefenceRegistrationService
      * @param $before
      * @param $teacher_id
      * @param $progress
+     * @param bool $session
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, bool $session)
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
-            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, $session);
         $labId = null;
         $labTeachers = [];
         foreach ($defenseRegistrations as $defenseRegistration) {
@@ -473,22 +513,52 @@ class DefenceRegistrationService
     }
 
     /**
+     * Update registration progress or/and teacher.
      * If no teacher and status defending or done, then marking currently logged user as teacher.
      *
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
      * @return Registration
+     * @throws RegistrationException
      */
-    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
-        if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
+        $this->checkIfCurrentUserIsLabTeacher($defenseId);
+        if ($newTeacherId == null && $newProgress !== 'Waiting') {
             $userId = app(User::class)->currentUserId();
             $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
             if ($labTeacher !== null){
                 $newTeacherId = $userId;
             }
         }
-        return $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
+        $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
+        $defense->teacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
+        return $defense;
+    }
+
+    /**
+     * @throws RegistrationException
+     */
+    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(Registration $registration, $teacherId,  int $labId, string $registrationsProgress, string $registrationProgress): Registration
+    {
+        $this->checkIfCurrentUserIsLabTeacher($registration->id);
+        if ($teacherId == null) {
+            $teacherId = app(User::class)->currentUserId();
+        }
+        $this->defenseRegistrationRepository->updateRegistrationsProgressByTeacherAndLab($labId, $teacherId, $registrationsProgress);
+        return $this->defenseRegistrationRepository->updateRegistrationProgress($registration->id, $teacherId, $registrationProgress);
+    }
+
+    /**
+     * @throws RegistrationException
+     */
+    public function checkIfCurrentUserIsLabTeacher($registrationId)
+    {
+        $userId = app(User::class)->currentUserId();
+        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registrationId, $userId);
+        if ($labTeacher == null) {
+            throw new RegistrationException("Registration is able to change only lab teacher");
+        }
     }
 }

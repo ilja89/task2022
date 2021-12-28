@@ -366,7 +366,7 @@ class DefenseRegistrationRepository
      *
      * @param int $labId
      * @param int $teacherId
-     * @return Collection|Registration[]
+     * @return array
      */
     public function getLabTeacherActiveRegistrations(int $labId, int $teacherId): array
     {
@@ -377,7 +377,7 @@ class DefenseRegistrationRepository
             ->where('charon_defenders.teacher_id', $teacherId)
             ->where('charon_defenders.progress', 'Defending')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->select('charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname')
+            ->select('charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id')
             ->get()
             ->all();
     }
@@ -406,9 +406,10 @@ class DefenseRegistrationRepository
      * @param $newProgress
      * @return Registration
      */
-    public function updateRegistrationProgress($defenseId, $newProgress): Registration
+    public function updateRegistrationProgress($defenseId, $teacherId, $newProgress): Registration
     {
         $defense = Registration::find($defenseId);
+        $defense->teacher_id = $teacherId;
         $defense->progress = $newProgress;
         $defense->update();
         return $defense;

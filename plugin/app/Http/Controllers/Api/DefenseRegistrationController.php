@@ -10,6 +10,7 @@ use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -33,6 +34,9 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
+    /** @var LabTeacherRepository */
+    private $teacherRepository;
+
     /**
      * DefenseRegistrationController constructor.
      *
@@ -49,7 +53,8 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         LabService $labService,
-        CharonDefenseLabRepository $defenseLabRepository
+        CharonDefenseLabRepository $defenseLabRepository,
+        LabTeacherRepository $teacherRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
@@ -57,6 +62,7 @@ class DefenseRegistrationController extends Controller
         $this->defenceRegistrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
+        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -81,9 +87,7 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null,
-            $request->input("progress")
-        );
+            null);
     }
 
     /**
@@ -130,16 +134,19 @@ class DefenseRegistrationController extends Controller
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
+        $session = filter_var($this->request['session'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $session);
     }
 
     /**
-     * Save defense progress.
+     * Decline registration updating if user is not lab teacher of lab in which registration contains
+     *
      * @param Course $course
      * @param Registration $registration
      * @return Registration
+     * @throws RegistrationException
      */
-    public function saveProgress(Course $course, Registration $registration)
+    public function updateRegistration(Course $course, Registration $registration): Registration
     {
         return $this->defenceRegistrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
@@ -161,7 +168,7 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
     }
 
-    public function getStudentRegistrations(Request $request)
+    public function getStudentRegistrations(Request $request): Collection
     {
         $studentId = $request->input('user_id');
 
@@ -170,12 +177,18 @@ class DefenseRegistrationController extends Controller
 
     public function getLabTeacherActiveRegistrations(Request $request)
     {
-        return $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $request->input('teacher_id'));
+        $teacher = $request->input('teacher_id');
+        if ($teacher == "null") {
+            $teacher = app(User::class)->currentUserId();
+        }
+        return $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $teacher);
     }
 
+    /**
+     * @throws RegistrationException
+     */
     public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(Course $course, Registration $registration): Registration
     {
-        $this->defenseRegistrationRepository->updateRegistrationsProgressByTeacherAndLab($this->request['lab_id'], $registration->teacher_id, $this->request['registrationsProgress']);
-        return $this->defenseRegistrationRepository->updateRegistrationProgress($registration->id, $this->request['registrationProgress']);
+        return $this->defenceRegistrationService->updateRegistrationProgressAndUnDefendRegistrationsByTeacher($registration, $this->request['teacher_id'], $this->request['lab_id'], $this->request['registrationsProgress'], $this->request['registrationProgress']);
     }
 }

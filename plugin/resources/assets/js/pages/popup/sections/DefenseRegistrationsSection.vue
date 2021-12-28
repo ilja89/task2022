@@ -19,8 +19,8 @@
 
         <alert-box-component v-if="alertBox"
                              :eventName="'alert-box-active-registrations'"
-                             :question="'What to do with your already active registrations?'"
-                             :text="defendingRegistrations"
+                             :question="'What to do with your already active registration?'"
+                             :text="defendingRegistration"
                              :buttonNames="buttonNames">
         </alert-box-component>
 
@@ -62,13 +62,29 @@
                 <v-select
                     class="mx-auto"
                     dense
+                    v-if="item.progress === 'Done'"
                     single-line
                     return-object
                     :items="item.lab_teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistration(item.id, item.progress, item.teacher.id)"
+                    @change="updateRegistration(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                ></v-select>
+                <v-select
+                    class="mx-auto"
+                    dense
+                    v-else
+                    clearable
+                    single-line
+                    return-object
+                    :items="item.lab_teachers"
+                    item-text="fullname"
+                    item-value="teacher"
+                    v-model="item.teacher"
+                    @change="updateRegistrationTeacher(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -107,7 +123,7 @@ import Submission from "../../../api/Submission";
 import AlertBoxComponent from "../../../components/partials/AlertBoxComponent";
 
 export default {
-    components: {AlertBoxComponent, Multiselect},
+    components: {Multiselect, AlertBoxComponent},
     data() {
         return {
             alert: false,
@@ -127,10 +143,9 @@ export default {
             lastProgress: '',
             lastTeacher: null,
             alertBox: false,
-            defendingRegistrations: "",
-            buttonNames: ["Waiting", "Done", "Skip", "Cancel"],
+            defendingRegistration: "",
+            buttonNames: ["Waiting", "Done", "Cancel"],
             registrationToUpdate: Object,
-            teacherActiveRegistrations: []
         }
     },
 
@@ -142,33 +157,56 @@ export default {
             return '/submissions/' + submissionId
         },
 
-        updateRegistrationCheckDefenses(registration) {
-            if (registration.progress === 'Defending') {
-                Defense.getByTeacher(this.course.id, registration.teacher.id, registration.lab_id, (registrations) => {
-                    if (registrations.length > 0) {
-
-                        this.teacherActiveRegistrations = registrations;
-
-                        registrations.forEach((reg) => {
-                                this.defendingRegistrations += reg['name'] + " - " + reg['firstname'] + " " + reg['lastname'] + " - Progress: " + reg['progress'] + "\n\n"
-                            }
-                        )
+        updateRegistrationTeacher(item) {
+            const teacher_id = item.teacher ? item.teacher.id : null;
+            if (item.progress === 'Defending' && teacher_id == null) {
+                item.progress = 'Waiting';
+                this.updateRegistration(item);
+            } else if (item.progress === 'Defending') {
+                Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
+                    if (registration.length > 0) {
+                        this.defendingRegistration += registration[0].name + " - " + registration[0].firstname +
+                            " " + registration[0].lastname + " - Progress: " + registration[0].progress
                         this.alertBox = true;
-                        this.registrationToUpdate = registration;
+                        this.registrationToUpdate = item;
                     } else {
-                        this.updateRegistration(registration.id, registration.progress, registration.teacher.id)
+                        this.updateRegistration(item);
                     }
                 })
             } else {
-                this.updateRegistration(registration.id, registration.progress, registration.teacher.id)
+                this.updateRegistration(item);
             }
         },
 
-        updateRegistration(defense_id, state, teacher_id) {
-            Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
-                VueEvent.$emit('refresh-defense-list');
+        updateRegistration(item) {
+            const teacher_id = item.teacher ? item.teacher.id : null;
+            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
+                if (registration == null) {
+                    item.teacher = this.lastTeacher;
+                    item.progress = this.lastProgress;
+                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
+                    item.teacher = registration.teacher;
+                    item.progress = registration.progress;
+                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                }
             })
+        },
+
+        updateRegistrationCheckDefenses(item) {
+            if (item.progress === 'Defending') {
+                Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
+                    if (registration.length > 0) {
+                        this.defendingRegistration += registration[0].name + " - " + registration[0].firstname +
+                            " " + registration[0].lastname + " - Progress: " + registration[0].progress
+                        this.alertBox = true;
+                        this.registrationToUpdate = item;
+                    } else {
+                        this.updateRegistration(item);
+                    }
+                })
+            } else {
+                this.updateRegistration(item);
+            }
         },
 
         submissionClicked(submission) {
@@ -176,7 +214,6 @@ export default {
                 Defense.updateRegistration(this.course.id, submission.id, 'Defending', submission.teacher.id, () => {
                 })
             }
-
             this.$router.push(this.getSubmissionRouting(submission.submission_id))
         },
 
@@ -186,7 +223,8 @@ export default {
         },
 
         deleteRegistration() {
-            Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id, this.item.charon_defense_lab_id, this.item.submission_id, () => {
+            Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id,
+                this.item.charon_defense_lab_id, this.item.submission_id, () => {
                 VueEvent.$emit('show-notification', "Registration successfully deleted", 'danger')
                 this.alert = false
                 const index = this.findWithAttr(this.defenseList, "id", this.item.id);
@@ -264,19 +302,14 @@ export default {
     mounted() {
         VueEvent.$on("alert-box-active-registrations", (buttonName) => {
             if (buttonName !== "Cancel") {
-                if (buttonName === "Waiting" || buttonName === "Done") {
-                    Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id, this.registrationToUpdate.id, this.registrationToUpdate.progress, buttonName, this.registrationToUpdate.lab_id, _=>{
-                        VueEvent.$emit('refresh-defense-list');
-                    })
-                } else {
-                    this.updateRegistration(this.registrationToUpdate.id, this.registrationToUpdate.progress, this.registrationToUpdate.teacher.id);
-                }
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
-            } else {
-                VueEvent.$emit('refresh-defense-list');
+                Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id,
+                    this.registrationToUpdate.id, this.registrationToUpdate.progress, buttonName,
+                    this.registrationToUpdate.lab_id, this.registrationToUpdate.teacher ? this.registrationToUpdate.teacher.id : null, _=>{
+                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                })
             }
-            this.defendingRegistrations = '';
-            this.teacherActiveRegistrations = [];
+            VueEvent.$emit('refresh-defense-list');
+            this.defendingRegistration = '';
             this.registrationToUpdate = Object;
             this.alertBox = false;
         });
