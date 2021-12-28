@@ -91,11 +91,12 @@ class LabService
 
         $teachersCount = count($teachersList);
 
+        // Get defending charon per teacher
+        $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
+
         // Get list of registrations. If lab started, then only waiting status
         // registrations and add teachers and defending charons per teacher
         if (Carbon::now() >= $lab->start){
-            // Get defending charon per teacher
-            $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
 
             foreach ($teachersList as $key => $teacher) {
 
@@ -132,7 +133,8 @@ class LabService
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $labRegistrations,
             $teachersCount,
-            $lab->start
+            $lab->start,
+            $teachersDefences
         );
 
         for ($i = 0; $i < count($registrations); $i++) {
