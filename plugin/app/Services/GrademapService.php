@@ -131,7 +131,7 @@ class GrademapService
 
                 // TODO: ignore custom AND style grades?
                 $params['gi' . $grademap->gradeItem->id] = $ignoreDefenceGrades && $grademap->isCustomGrade()
-                    ? 1
+                    ? $grademap->gradeItem->grademax
                     : $result->calculated_result;
             }
         }
@@ -161,7 +161,7 @@ class GrademapService
 
             // TODO: what will happen to grades that are included in the calculation but not with the submission?
             $params['gi' . $gradeItem->id] = $ignoreDefenceGrades && $gradeItem->itemnumber > 1000
-                ? 1
+                ? $gradeItem->grademax
                 : intval($grade->finalgrade ?? $grade->rawgrade);
         }
 
