@@ -113,7 +113,7 @@ class GrademapService
      */
     public function findFormulaParams(
         string $calculationFormula,
-        Collection $results,
+        $results,
         int $studentId,
         bool $ignoreDefenceGrades = false
     ): array {

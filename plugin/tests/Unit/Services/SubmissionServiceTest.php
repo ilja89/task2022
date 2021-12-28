@@ -164,7 +164,7 @@ class SubmissionServiceTest extends TestCase
 
         $this->grademapService
             ->shouldReceive('findFormulaParams')
-            ->with('=##gi3## * ##gi5##', $this->submission->results, 7)
+            ->with('=##gi3## * ##gi5##', $this->submission->results, 7, false)
             ->once()
             ->andReturn(['gi3' => 0.5, 'gi5' => 1]);
 
