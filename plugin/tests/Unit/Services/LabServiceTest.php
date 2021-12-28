@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -362,7 +363,7 @@ class LabServiceTest extends TestCase
         $this->defenseRegistrationRepository->shouldReceive('getTeacherAndDefendingCharonByLab')
             ->once()
             ->with($this->lab->id)
-            ->andReturn([]);
+            ->andReturn(new Collection());
         $this->defenceRegistrationService->shouldReceive('attachEstimatedTimesToDefenceRegistrations')
             ->once()
             ->andReturn($registrationsWithTimes);
@@ -447,7 +448,9 @@ class LabServiceTest extends TestCase
         $defence2->teacher_id = 102;
         $defence2->charon = 'EX02';
 
-        $teachersDefences = array($defence1, $defence2);
+        $teachersDefences = new Collection();
+        $teachersDefences->add($defence1);
+        $teachersDefences->add($defence2);
 
         $this->defenseRegistrationRepository->shouldReceive('getLabRegistrationsByLabId')
             ->once()
