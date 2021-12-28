@@ -383,6 +383,7 @@ class DefenceRegistrationService
      * @param array $registrations
      * @param int $teacherCount
      * @param Carbon $labStart
+     * @param $teachersDefences
      *
      * @return array
      */
@@ -456,7 +457,7 @@ class DefenceRegistrationService
         }
 
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
-            $this->defenseRegistrationRepository->getListOfUndoneLabRegistrationsByLabId($lab->id),
+            $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
             $lab->start,
             $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id)
@@ -493,9 +494,10 @@ class DefenceRegistrationService
      * @param $before
      * @param $teacher_id
      * @param $progress
+     *
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress): array
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
             ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
@@ -516,10 +518,11 @@ class DefenceRegistrationService
      *
      * @param $defenseId
      * @param $newProgress
-     * @param $newTeacherId
+     * @param $newTeacherId\
+     *
      * @return Registration
      */
-    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
         if ($newTeacherId === null && ($newProgress === 'Defending' || $newProgress === 'Done')) {
             $userId = app(User::class)->currentUserId();

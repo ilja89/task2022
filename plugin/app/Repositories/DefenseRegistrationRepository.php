@@ -332,7 +332,6 @@ class DefenseRegistrationRepository
             ->all();
     }
 
-
     /**
      * Find the total count of unfinished defences by lab id.
      *
@@ -349,12 +348,11 @@ class DefenseRegistrationRepository
             ->count();
     }
 
-
     /**
      * @param int $labId
-     * @return mixed
+     * @return Collection
      */
-    public function getTeacherAndDefendingCharonByLab(int $labId)
+    public function getTeacherAndDefendingCharonByLab(int $labId): Collection
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -366,5 +364,4 @@ class DefenseRegistrationRepository
             ->groupBy('teacher_id','charon','defense_start', 'defense_duration')
             ->get();
     }
-
 }
