@@ -17,14 +17,21 @@
             No Registrations for this course!
         </v-card-title>
 
-        <alert-box-component v-if="alertBox"
+        <alert-box-component v-if="updateAlert"
                              :eventName="'alert-box-active-registrations'"
                              :question="'What to do with your already active registration?'"
                              :text="defendingRegistration"
                              :buttonNames="updateRegistrationButtonNames">
         </alert-box-component>
 
-        <alert-box-component v-if="alert"
+        <alert-box-component v-if="sessionUpdateAlert"
+                             :eventName="'alert-box-active-registrations-session'"
+                             :question="'What to do with your already active registration?'"
+                             :text="defendingRegistration"
+                             :buttonNames="updateRegistrationButtonNames">
+        </alert-box-component>
+
+        <alert-box-component v-if="deleteAlert"
                              :eventName="'delete-registration-in-popup'"
                              :question="'Are you sure you want to delete this registration?'"
                              :text="registrationToDeleteText"
@@ -111,7 +118,7 @@ export default {
     components: {Multiselect, AlertBoxComponent},
     data() {
         return {
-            alert: false,
+            deleteAlert: false,
             item: Object,
             search: '',
             all_progress_types: ['Waiting', 'Defending', 'Done'],
@@ -127,12 +134,13 @@ export default {
             ],
             lastProgress: '',
             lastTeacher: null,
-            alertBox: false,
+            updateAlert: false,
             defendingRegistration: "",
             updateRegistrationButtonNames: ["Waiting", "Done", "Cancel"],
             registrationToUpdate: Object,
             registrationToDeleteText: "",
             deleteRegistrationButtonNames: ["Yes", "No"],
+            sessionUpdateAlert: false,
         }
     },
 
@@ -155,7 +163,7 @@ export default {
                     if (reg) {
                         this.defendingRegistration += reg.name + " - " + reg.firstname +
                             " " + reg.lastname + " - Progress: " + reg.progress
-                        this.alertBox = true;
+                        this.updateAlert = true;
                         this.registrationToUpdate = item;
                     } else {
                         this.updateRegistration(item);
@@ -187,7 +195,7 @@ export default {
                     if (reg) {
                         this.defendingRegistration += reg.name + " - " + reg.firstname +
                             " " + reg.lastname + " - Progress: " + reg.progress
-                        this.alertBox = true;
+                        this.updateAlert = true;
                         this.registrationToUpdate = item;
                     } else {
                         this.updateRegistration(item);
@@ -198,17 +206,29 @@ export default {
             }
         },
 
-        submissionClicked(submission) {
-            if (submission.progress === 'Waiting' && this.isSessionActive) {
-                Defense.updateRegistration(this.course.id, submission.id, 'Defending', submission.teacher.id, () => {
+        submissionClicked(registration) {
+            if (registration.progress === 'Waiting' && this.isSessionActive) {
+                Defense.getByTeacher(this.course.id, registration.teacher ? registration.teacher.id: null, registration.lab_id, (data) => {
+                    const reg = data.registration;
+                    if (reg) {
+                        this.defendingRegistration += reg.name + " - " + reg.firstname +
+                            " " + reg.lastname + " - Progress: " + reg.progress
+                        this.sessionUpdateAlert = true;
+                        this.registrationToUpdate = registration;
+                    } else {
+                        Defense.updateRegistration(this.course.id, registration.id, 'Defending', registration.teacher.id, () => {
+                        })
+                        this.$router.push(this.getSubmissionRouting(registration.submission_id))
+                    }
                 })
+            } else {
+                this.$router.push(this.getSubmissionRouting(registration.submission_id))
             }
-            this.$router.push(this.getSubmissionRouting(submission.submission_id))
         },
 
         promptDeletionAlert(item) {
             this.registrationToDeleteText = item.student_name + ' - ' + item.lab_name;
-            this.alert = true
+            this.deleteAlert = true
             this.item = item
         },
 
@@ -216,7 +236,7 @@ export default {
             Defense.deleteStudentRegistration(this.item.charon_id, this.item.student_id,
                 this.item.charon_defense_lab_id, this.item.submission_id, () => {
                 VueEvent.$emit('show-notification', "Registration successfully deleted", 'danger')
-                this.alert = false
+                this.deleteAlert = false
                 const index = this.findWithAttr(this.defenseList, "id", this.item.id);
                 if (index > -1) {
                     this.defenseList.splice(index, 1);
@@ -301,14 +321,27 @@ export default {
             VueEvent.$emit('refresh-defense-list');
             this.defendingRegistration = '';
             this.registrationToUpdate = Object;
-            this.alertBox = false;
+            this.updateAlert = false;
+        });
+
+        VueEvent.$on("alert-box-active-registrations-session", (buttonName) => {
+            if (buttonName !== "Cancel") {
+                Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id,
+                    this.registrationToUpdate.id, 'Defending', buttonName,
+                    this.registrationToUpdate.lab_id, this.registrationToUpdate.teacher ? this.registrationToUpdate.teacher.id : null, _ => {
+                        this.$router.push(this.getSubmissionRouting(this.registrationToUpdate.submission_id))
+                    })
+            }
+            this.defendingRegistration = '';
+            this.registrationToUpdate = Object;
+            this.sessionUpdateAlert = false;
         });
 
         VueEvent.$on("delete-registration-in-popup", (buttonName) => {
             if (buttonName === "Yes") {
                 this.deleteRegistration();
             } else {
-                this.alert = false;
+                this.deleteAlert = false;
             }
         });
     }
