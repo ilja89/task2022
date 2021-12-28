@@ -167,14 +167,14 @@ class SubmissionService
      *
      * @param Submission $submission
      * @param int $user_id
-     * @param bool $ignoreDefenceGrades
+     * @param bool $testGradesOnly
      *
      * @return float
      */
     public function calculateSubmissionTotalGrade(
         Submission $submission,
         int $user_id,
-        bool $ignoreDefenceGrades = false
+        bool $testGradesOnly = false
     ): float {
 
         $calculation = $submission->charon->category->getGradeItem()->calculation;
@@ -195,7 +195,7 @@ class SubmissionService
             $calculation,
             $results,
             $user_id,
-            $ignoreDefenceGrades
+            $testGradesOnly
         );
 
         return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);

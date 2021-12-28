@@ -107,7 +107,7 @@ class GrademapService
      * @param string $calculationFormula
      * @param Result[]|Collection $results
      * @param int $studentId
-     * @param bool $ignoreDefenceGrades
+     * @param bool $testGradesOnly
      *
      * @return array
      */
@@ -115,7 +115,7 @@ class GrademapService
         string $calculationFormula,
         $results,
         int $studentId,
-        bool $ignoreDefenceGrades = false
+        bool $testGradesOnly = false
     ): array {
 
         $params = [];
@@ -130,7 +130,7 @@ class GrademapService
                 }
 
                 // TODO: ignore custom AND style grades?
-                $params['gi' . $grademap->gradeItem->id] = $ignoreDefenceGrades && $grademap->isCustomGrade()
+                $params['gi' . $grademap->gradeItem->id] = $testGradesOnly && !$grademap->isTestsGrade()
                     ? $grademap->gradeItem->grademax
                     : $result->calculated_result;
             }
@@ -160,7 +160,7 @@ class GrademapService
             }
 
             // TODO: what will happen to grades that are included in the calculation but not with the submission?
-            $params['gi' . $gradeItem->id] = $ignoreDefenceGrades && $gradeItem->itemnumber > 1000
+            $params['gi' . $gradeItem->id] = $testGradesOnly && $gradeItem->itemnumber > 100
                 ? $gradeItem->grademax
                 : intval($grade->finalgrade ?? $grade->rawgrade);
         }
