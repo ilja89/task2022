@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #706 Adjust fetching of the submission file in student view
+- #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #501 Removed the ability to choose time-slots for defense registration and disabled 'My teacher' functionality
 - #505 Ability for teachers to register students for a defence
 - #513 Add estimated defence time or "fully booked" to lab labels when registering for a defense
@@ -14,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #553 Filtering in popup defense registrations includes all defences from labs where at least part of the lab is within
 - the search parameters.
 - #519 and #521 Live registration queue status showing.
+
+### Fixed
+- #696 Modify the general notifications service
+- #724 Supported users, logged in using Mobile-Id
 
 ## [1.5.7] - 2021-11-12
 
@@ -191,7 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
 
 ## [1.1.3] - 2021-03-16
 
@@ -226,7 +234,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score %
+- \#394 Submission result colors in Student view are less random and reflect score % 
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber

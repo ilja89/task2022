@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharonAndUser');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
@@ -51,6 +51,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('charons/{charon}/reviewComments/{reviewComment}/delete', 'ReviewCommentController@delete');
     Route::middleware('auth.charon.submissions.view.require') // clear review comments' notifications
         ->put('charons/{charon}/reviewComments/clear', 'ReviewCommentController@clearNotifications');
+    Route::middleware('auth.charon.submissions.view.require')
+        ->get('charons/{charon}/reviewComments/student', 'ReviewCommentController@getReviewCommentsForCharonAndStudent');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');
