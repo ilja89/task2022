@@ -151,9 +151,10 @@ export default {
                 this.updateRegistration(item);
             } else if (item.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
-                    if (registration.length > 0) {
-                        this.defendingRegistration += registration[0].name + " - " + registration[0].firstname +
-                            " " + registration[0].lastname + " - Progress: " + registration[0].progress
+                    const reg = registration.registration;
+                    if (reg) {
+                        this.defendingRegistration += reg.name + " - " + reg.firstname +
+                            " " + reg.lastname + " - Progress: " + reg.progress
                         this.alertBox = true;
                         this.registrationToUpdate = item;
                     } else {
@@ -182,9 +183,10 @@ export default {
         updateRegistrationCheckDefenses(item) {
             if (item.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
-                    if (registration.length > 0) {
-                        this.defendingRegistration += registration[0].name + " - " + registration[0].firstname +
-                            " " + registration[0].lastname + " - Progress: " + registration[0].progress
+                    const reg = registration.registration;
+                    if (reg) {
+                        this.defendingRegistration += reg.name + " - " + reg.firstname +
+                            " " + reg.lastname + " - Progress: " + reg.progress
                         this.alertBox = true;
                         this.registrationToUpdate = item;
                     } else {

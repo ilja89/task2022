@@ -10,7 +10,6 @@ use TTU\Charon\Models\Registration;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -34,9 +33,6 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
-    /** @var LabTeacherRepository */
-    private $teacherRepository;
-
     /**
      * DefenseRegistrationController constructor.
      *
@@ -53,8 +49,7 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         LabService $labService,
-        CharonDefenseLabRepository $defenseLabRepository,
-        LabTeacherRepository $teacherRepository
+        CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
@@ -62,7 +57,6 @@ class DefenseRegistrationController extends Controller
         $this->defenceRegistrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
-        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -175,13 +169,13 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
 
-    public function getLabTeacherActiveRegistrations(Request $request)
+    public function getLabTeacherActiveRegistration(Request $request): array
     {
         $teacher = $request->input('teacher_id');
         if ($teacher == "null") {
             $teacher = app(User::class)->currentUserId();
         }
-        return $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $teacher);
+        return array('registration' => $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $teacher));
     }
 
     /**

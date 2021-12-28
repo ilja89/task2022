@@ -366,9 +366,9 @@ class DefenseRegistrationRepository
      *
      * @param int $labId
      * @param int $teacherId
-     * @return array
+     * @return object
      */
-    public function getLabTeacherActiveRegistrations(int $labId, int $teacherId): array
+    public function getLabTeacherActiveRegistrations(int $labId, int $teacherId)
     {
         return DB::table('charon_defenders')
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
@@ -377,9 +377,7 @@ class DefenseRegistrationRepository
             ->where('charon_defenders.teacher_id', $teacherId)
             ->where('charon_defenders.progress', 'Defending')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->select('charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id')
-            ->get()
-            ->all();
+            ->first(['charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id']);
     }
 
     /**
