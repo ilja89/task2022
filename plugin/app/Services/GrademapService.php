@@ -162,9 +162,7 @@ class GrademapService
             // TODO: what will happen to grades that are included in the calculation but not with the submission?
             $params['gi' . $gradeItem->id] = $ignoreDefenceGrades && $gradeItem->itemnumber > 1000
                 ? 1
-                : intval(isset($grade->finalgrade))
-                    ? $grade->finalgrade
-                    : $grade->rawgrade;
+                : intval($grade->finalgrade ?? $grade->rawgrade);
         }
 
         return $params;
