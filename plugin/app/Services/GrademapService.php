@@ -136,6 +136,16 @@ class GrademapService
             }
         }
 
+        return $this->findFormulaParamsFromGradebook($calculationFormula, $params, $studentId, $testGradesOnly);
+    }
+
+    public function findFormulaParamsFromGradebook(
+        string $calculationFormula,
+        array $params,
+        int $userId,
+        bool $testGradesOnly
+    ): array {
+
         $gradeIds = [];
         preg_match_all('/##gi(\d+)##/', $calculationFormula, $gradeIds);
 
@@ -154,7 +164,7 @@ class GrademapService
             }
 
             /** @var GradeGrade $grade */
-            $grade = $gradeItem->gradesForUser($studentId);
+            $grade = $gradeItem->gradesForUser($userId);
             if ($grade == null) {
                 continue;
             }
