@@ -191,18 +191,31 @@ class CharonGradingService
             $grademap->grade_type_code
         );
 
-        for ($i = 0; $i < count($results); $i++) {
+        $studentsResults = [];
+        foreach ($results as $result) {
+            if (array_key_exists($result->user_id, $studentsResults)) {
+                array_push($studentsResults[$result->user_id], $result);
+            } else {
+                $studentsResults[$result->user_id] = [$result];
+            }
+        }
 
-            $result = $results[$i];
-            if (!$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id)) {
+        foreach ($studentsResults as $studentId => $studentResults) {
 
-                $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
-                    $result,
-                    $grademap->charon->deadlines,
-                    $i > 0 ? $results[$i - 1] : null
-                );
+            if (!$this->hasConfirmedSubmission($grademap->charon_id, $studentId)) {
 
-                $result->save();
+                for ($i = 0; $i < count($studentResults); $i++) {
+                    $studentResult = $studentResults[$i];
+
+                    $studentResult->calculated_result =
+                        $this->submissionCalculatorService->calculateResultFromDeadlines(
+                            $studentResult,
+                            $grademap->charon->deadlines,
+                            $i > 0 ? $studentResults[$i - 1] : null
+                        );
+
+                    $studentResult->save();
+                }
             }
         }
     }
