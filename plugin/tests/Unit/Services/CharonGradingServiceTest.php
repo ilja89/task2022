@@ -271,7 +271,7 @@ class CharonGradingServiceTest extends TestCase
         $this->submissionsRepository
             ->shouldReceive('charonHasConfirmedSubmissions')
             ->with(3, 11)
-            ->twice()
+            ->once()
             ->andReturn(false);
 
         $this->calculatorService
