@@ -203,10 +203,17 @@
             },
 
             fetchRegistrations() {
-                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
-                    this.defenseList = response;
-                    this.recheckTeachers();
-                })
+                if (this.$store.state.teacher != null){
+                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, true, response => {
+                        this.defenseList = response;
+                        this.recheckTeachers();
+                    })
+                } else {
+                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
+                        this.defenseList = response;
+                        this.recheckTeachers();
+                    })
+                }
             },
 
             addRegistration() {
