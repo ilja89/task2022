@@ -167,7 +167,7 @@ class GrademapService
 
     /**
      * Get missing parameters needed for $calculationFormula that are not included in $params.
-     * Do nothing and return $params if there is no parameters missing.
+     * Do nothing and return $params if there are no parameters missing.
      *
      * @param string $calculationFormula
      * @param array $params
