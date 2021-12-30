@@ -102,6 +102,9 @@ class GrademapService
 
     /**
      * Find values for grades needed to calculate total grade with given calculation formula.
+     * First try to get needed values from given results. If given results do not consist of
+     * all the needed results, then continue to get the rest from gradebook.
+     *
      * Has an ability to ignore defence grades in order to find the best potential total result.
      *
      * @param string $calculationFormula
@@ -126,6 +129,15 @@ class GrademapService
         );
     }
 
+    /**
+     * Get all grade values from given results.
+     *
+     * @param $results
+     * @param int $userId
+     * @param bool $testGradesOnly
+     *
+     * @return array
+     */
     public function findFormulaParamsFromResults(
         $results,
         int $userId,
@@ -153,6 +165,17 @@ class GrademapService
         return $params;
     }
 
+    /**
+     * Get missing parameters needed for $calculationFormula that are not included in $params.
+     * Do nothing and return $params if there is no parameters missing.
+     *
+     * @param string $calculationFormula
+     * @param array $params
+     * @param int $userId
+     * @param bool $testGradesOnly
+     *
+     * @return array
+     */
     public function findFormulaParamsFromGradebook(
         string $calculationFormula,
         array $params,
