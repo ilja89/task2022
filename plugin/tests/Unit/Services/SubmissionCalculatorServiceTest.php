@@ -11,7 +11,6 @@ use Tests\Traits\MocksSubmission;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\GradingMethod;
-use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Models\Grademap;
@@ -29,9 +28,6 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     /** @var Mock|GradebookService */
     protected $gradebookService;
-
-    /** @var Mock|ResultRepository */
-    protected $resultRepository;
 
     /** @var SubmissionCalculatorService */
     protected $service;
