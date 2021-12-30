@@ -135,7 +135,8 @@ export default {
             lastProgress: '',
             lastTeacher: null,
         }
-    }, props: {
+    },
+    props: {
         defenseList: {required: true},
     },
     methods: {

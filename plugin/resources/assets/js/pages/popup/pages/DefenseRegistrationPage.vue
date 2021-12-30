@@ -155,13 +155,23 @@
             apply() {
                 if (this.$store.state.teacher != null){
                     Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, true, response => {
-                        this.defenseList = response
+                        this.defenseList = response;
+                        this.recheckTeachers();
                     })
                 } else {
                     Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
-                        this.defenseList = response
+                        this.defenseList = response;
+                        this.recheckTeachers();
                     })
                 }
+            },
+
+            recheckTeachers() {
+                this.defenseList.forEach(def => {
+                    if (def.teacher && def.teacher.id && !def.lab_teachers.indexOf(def.teacher) >= 0) {
+                        def.lab_teachers.push(def.teacher);
+                    }
+                })
             },
 
             startSession() {
@@ -194,7 +204,8 @@
 
             fetchRegistrations() {
                 Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
-                    this.defenseList = response
+                    this.defenseList = response;
+                    this.recheckTeachers();
                 })
             },
 
