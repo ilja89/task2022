@@ -260,7 +260,7 @@ class GitCallbackService
             $gitCallback->first_response_time = Carbon::now();
             $gitCallback->save();
         } else if ($gitCallback->first_response_time->diffInMinutes(Carbon::now()) > 3) {
-            // throw new IncorrectSecretTokenException('incorrect_secret_token', $gitCallback->secret_token);
+            throw new IncorrectSecretTokenException('incorrect_secret_token', $gitCallback->secret_token);
         }
     }
 }
