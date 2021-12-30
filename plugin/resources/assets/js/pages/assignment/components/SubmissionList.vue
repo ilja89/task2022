@@ -46,18 +46,18 @@
 			</template>
 
 			<template v-slot:item.string="{ item }">
-				<v-chip :color="getColor(item)" dark large ripple>
+				<v-chip :color="getColor(item, registrations)" dark large ripple>
 					{{ submissionString(item) }}
 				</v-chip>
 			</template>
 
 			<template v-slot:item.actions="{ item }">
 				<v-row>
-					<submission-modal :submission="item" :color="getColor(item)"/>
+					<submission-modal :submission="item" :color="getColor(item, registrations)"/>
 					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
 						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
 					</v-btn>
-					<registration-bottom-sheet v-if="labs.length > 0" :submission="item" :color="getColor(item)"/>
+					<registration-bottom-sheet v-if="labs.length > 0" :submission="item" :color="getColor(item, registrations)"/>
 				</v-row>
 			</template>
 		</v-data-table>
@@ -67,6 +67,7 @@
 <script>
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
+import {getColor} from "../helpers/modalformatting";
 import {Translate} from "../../../mixins";
 import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
@@ -134,6 +135,8 @@ export default {
 	},
 
 	methods: {
+	    getColor,
+
 		itemRowBackground(item) {
 			return item.hasOwnProperty('latestAdded')
           && item.id === this.$store.state.submissions[0].id ? 'latest' : '';
@@ -145,40 +148,12 @@ export default {
 			})
 		},
 
-		getColor(submission) {
-			if (this.defendedSubmission(submission)) return 'success'
-			else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
-			else if (this.registeredSubmission(submission.id)) return 'teal';
-			else return `light-blue darken-${this.getColorDarknessByPercentage(getSubmissionWeightedScore(submission) / 100)}`;
-		},
-
-		getColorDarknessByPercentage(percentage, maxDarkness = 3) {
-			return maxDarkness - Math.floor(maxDarkness * percentage);
-		},
-
 		pointsWithoutReduction(submission) {
 			return getSubmissionWeightedScore(submission) + "%"
 		},
 
-		defendedSubmission(submission) {
-			try {
-				const last = submission.results[submission.results.length - 1];
-				return parseFloat(last['calculated_result']) !== 0.0 && last['grade_type_code'] === 1001;
-			} catch (e) {
-				return false
-			}
-		},
-
 		formatDate(date) {
 			return moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
-		},
-
-		registeredSubmission(submissionId) {
-			let test = this.registrations.find(x => x.submission_id === submissionId);
-			if (test != null) {
-				test = test['submission_id'];
-				return submissionId === test;
-			}
 		},
 
 		getCompletionPercentage(result) {
