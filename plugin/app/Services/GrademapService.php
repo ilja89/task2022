@@ -141,7 +141,7 @@ class GrademapService
     public function findFormulaParamsFromResults(
         $results,
         int $userId,
-        bool $testGradesOnly
+        bool $testGradesOnly = false
     ): array {
 
         $params = [];
@@ -180,7 +180,7 @@ class GrademapService
         string $calculationFormula,
         array $params,
         int $userId,
-        bool $testGradesOnly
+        bool $testGradesOnly = false
     ): array {
 
         $gradeIds = [];
