@@ -24,16 +24,24 @@ class SubmissionCalculatorService
     /** @var ResultRepository */
     protected $resultRepository;
 
+    /** @var GrademapService */
+    protected $grademapService;
+
     /**
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
      * @param ResultRepository $resultRepository
+     * @param GrademapService $grademapService
      */
-    public function __construct(GradebookService $gradebookService, ResultRepository $resultRepository)
-    {
+    public function __construct(
+        GradebookService $gradebookService,
+        ResultRepository $resultRepository,
+        GrademapService $grademapService
+    ) {
         $this->gradebookService = $gradebookService;
         $this->resultRepository = $resultRepository;
+        $this->grademapService = $grademapService;
     }
 
     /**
@@ -137,26 +145,19 @@ class SubmissionCalculatorService
      */
     public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
-        $submissionSum = 0;
-        $activeSubmissionSum = 0;
-        $results = $submission->results()->where('user_id', $studentId)->get();
+        $calculationFormula = $submission->charon->category->getGradeItem()->calculation;
 
-        foreach ($results as $result) {
-            $grademap = $result->getGrademap();
-            if ($grademap === null) {
-                continue;
-            }
+        $thisResult = $this->gradebookService->calculateResultWithFormulaParams(
+            $calculationFormula,
+            $this->grademapService->findFormulaParams($calculationFormula, $submission->results, $studentId, true)
+        );
 
-            $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
+        $activeResult = $this->gradebookService->calculateResultWithFormulaParams(
+            $calculationFormula,
+            $this->grademapService->findFormulaParamsFromGradebook($calculationFormula, [], $studentId, true)
+        );
 
-            if ($gradeGrade !== null) {
-                $activeSubmissionSum += $gradeGrade->finalgrade;
-            }
-
-            $submissionSum += $result->calculated_result;
-        }
-
-        return $submissionSum >= $activeSubmissionSum;
+        return $thisResult > $activeResult;
     }
 
     /**

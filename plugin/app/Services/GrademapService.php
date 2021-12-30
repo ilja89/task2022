@@ -118,9 +118,23 @@ class GrademapService
         bool $testGradesOnly = false
     ): array {
 
+        return $this->findFormulaParamsFromGradebook(
+            $calculationFormula,
+            $this->findFormulaParamsFromResults($results, $studentId, $testGradesOnly),
+            $studentId,
+            $testGradesOnly
+        );
+    }
+
+    public function findFormulaParamsFromResults(
+        $results,
+        int $userId,
+        bool $testGradesOnly
+    ): array {
+
         $params = [];
         foreach ($results as $result) {
-            if ($result->user_id == $studentId) {
+            if ($result->user_id == $userId) {
 
                 $grademap = $result->getGrademap();
 
@@ -136,7 +150,7 @@ class GrademapService
             }
         }
 
-        return $this->findFormulaParamsFromGradebook($calculationFormula, $params, $studentId, $testGradesOnly);
+        return $params;
     }
 
     public function findFormulaParamsFromGradebook(
@@ -172,7 +186,7 @@ class GrademapService
             // TODO: what will happen to grades that are included in the calculation but not with the submission?
             $params['gi' . $gradeItem->id] = $testGradesOnly && $gradeItem->itemnumber > 100
                 ? $gradeItem->grademax
-                : intval($grade->finalgrade ?? $grade->rawgrade);
+                : $grade->finalgrade ?? $grade->rawgrade;
         }
 
         return $params;
