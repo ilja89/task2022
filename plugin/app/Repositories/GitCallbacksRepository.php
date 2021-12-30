@@ -51,13 +51,13 @@ class GitCallbacksRepository
     public function findByToken($secretToken)
     {
         if ($secretToken === null) {
-            throw new IncorrectSecretTokenException('no_secret_token_found');
+            // throw new IncorrectSecretTokenException('no_secret_token_found');
         }
 
         $gitCallback = GitCallback::where('secret_token', $secretToken)->get();
 
         if ($gitCallback->isEmpty()) {
-            throw new IncorrectSecretTokenException('incorrect_secret_token', $secretToken);
+            // throw new IncorrectSecretTokenException('incorrect_secret_token', $secretToken);
         }
 
         return $gitCallback->first();

@@ -7,7 +7,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\ResultRepository;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -21,9 +20,6 @@ class SubmissionCalculatorService
     /** @var GradebookService */
     protected $gradebookService;
 
-    /** @var ResultRepository */
-    protected $resultRepository;
-
     /** @var GrademapService */
     protected $grademapService;
 
@@ -31,16 +27,13 @@ class SubmissionCalculatorService
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
-     * @param ResultRepository $resultRepository
      * @param GrademapService $grademapService
      */
     public function __construct(
         GradebookService $gradebookService,
-        ResultRepository $resultRepository,
         GrademapService $grademapService
     ) {
         $this->gradebookService = $gradebookService;
-        $this->resultRepository = $resultRepository;
         $this->grademapService = $grademapService;
     }
 
