@@ -309,6 +309,23 @@ class LabTeacherRepository
             ->first();
     }
 
+    /**
+     * Method is used to check if user is a lab teacher. Lab teacher checking is made through defense lab.
+     *
+     * @param int $defenseLabId
+     * @param int $userId
+     * @return object|null
+     */
+    public function getTeacherByDefenseLabAndUserId(int $defenseLabId, int $userId)
+    {
+        return DB::table('charon_defense_lab')
+            ->join('charon_lab_teacher', 'charon_lab_teacher.lab_id', 'charon_defense_lab.lab_id')
+            ->where('charon_defense_lab.id', $defenseLabId)
+            ->where('charon_lab_teacher.teacher_id', $userId)
+            ->select('charon_lab_teacher.teacher_id')
+            ->first();
+    }
+
 
     /**
      * Get teachers ids which is connected with lab and not in given array.

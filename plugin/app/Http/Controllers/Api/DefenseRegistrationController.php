@@ -157,11 +157,20 @@ class DefenseRegistrationController extends Controller
         return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
+    /**
+     * @throws RegistrationException
+     */
     public function delete(Request $request)
     {
         $studentId = $request->input('user_id');
         $defenseLabId = $request->input('defLab_id');
         $submissionId = $request->input('submission_id');
+
+        $userId = app(User::class)->currentUserId();
+        $labTeacher = $this->teacherRepository->getTeacherByDefenseLabAndUserId($defenseLabId, $userId);
+        if ($labTeacher == null) {
+            throw new RegistrationException("Registration is able to change only lab teacher");
+        }
 
         Log::warning(json_encode([
             'event' => 'registration_deletion',
