@@ -327,7 +327,8 @@ class DefenseRegistrationRepository
             ->whereIn("charon_defenders.progress", $progresses)
             ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id",
                 "charon_defenders.defense_start", "charon_defenders.progress")
-            ->orderBy("charon_defenders.id")
+            ->orderBy("charon_defenders.defense_start")
+            ->orderBy('charon_defenders.id')
             ->get()
             ->all();
     }
