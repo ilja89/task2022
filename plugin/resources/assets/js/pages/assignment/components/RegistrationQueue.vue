@@ -23,16 +23,26 @@
                 :hide-default-footer="true"
               >
               </v-data-table>
+              <v-card-title>
+                {{ translate('labQueueText') }}
+              </v-card-title>
+              <v-data-table
+                :headers="studentsQueueHeadersLabStarted"
+                :items="studentsQueue"
+              >
+              </v-data-table>
+            </div>
+            <div v-else>
+              <v-card-title>
+                {{ translate('labQueueText') }}
+              </v-card-title>
+              <v-data-table
+                :headers="studentsQueueHeadersLabNotStarted"
+                :items="studentsQueue"
+              >
+              </v-data-table>
             </div>
 
-            <v-card-title>
-              {{ translate('labQueueText') }}
-            </v-card-title>
-            <v-data-table
-              :headers="studentsQueueHeaders"
-              :items="studentsQueue"
-            >
-            </v-data-table>
           </v-flex>
         </v-layout>
       </v-container>
@@ -63,7 +73,14 @@ export default {
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
-      studentsQueueHeaders: [
+      studentsQueueHeadersLabStarted: [
+        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
+        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
+        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},
+        {text: this.translate("timeLeftText"), value: 'time_left', sortable: false},
+        {text: this.translate("studentText"), value: 'student_name', sortable: false},
+      ],
+      studentsQueueHeadersLabNotStarted: [
         {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'charon_name', sortable: false},
         {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},

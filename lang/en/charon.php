@@ -211,6 +211,7 @@ $string['showing-table'] = 'Showing table';
 $string['queue_status'] = 'Queue status';
 $string['nr_in_queue'] = 'Nr';
 $string['estimated_start_time'] = 'Estimated start time';
+$string['time_left'] = 'Time left';
 $string['student'] = 'Student';
 $string['availability'] = 'Availability';
 $string['lab_teachers'] = 'Lab teachers';

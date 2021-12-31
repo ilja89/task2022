@@ -427,6 +427,12 @@ class DefenceRegistrationService
 
             $registration->estimated_start =
                 $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+            $timeLeft = $registration->estimated_start->diff(Carbon::now());
+            if ($timeLeft->h > 0) {
+                $registration->time_left = '>60 min';
+            } else {
+                $registration->time_left = $timeLeft->format('%i min');
+            }
 
             $queuePresumption[$teacherNr] += $registration->defense_duration;
 
@@ -497,7 +503,7 @@ class DefenceRegistrationService
      *
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress): array
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
             ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress);
