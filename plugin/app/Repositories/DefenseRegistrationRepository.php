@@ -193,16 +193,15 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Get defense registrations by course, filtered by after and before date. $sessionStarted is used to filter out
-     * others teachers' registrations to get only free registrations and registration by $teacherId,
-     * if $sessionStarted parameter is true.
+     * Get defense registrations by course. The needed is only $courseId, other parameters are used only for filtering.
      *
      * @param $courseId
-     * @param $after
-     * @param $before
-     * @param $teacher_id
-     * @param $progress
-     * @param bool $sessionStarted
+     * @param $after - is used to get registrations where lab starts after this time
+     * @param $before - is used to get registrations where lab ends before this time
+     * @param $teacherId - teacher, who defends registration
+     * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done
+     * @param bool $sessionStarted - is used to filter out others teachers' registrations to get only free
+     * registrations and registration by $teacherId, if $sessionStarted parameter is true.
      * @return Collection|Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacherId, $progress, bool $sessionStarted)
