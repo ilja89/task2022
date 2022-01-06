@@ -193,16 +193,19 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Get defense registrations by course, filtered by after and before date.
+     * Get defense registrations by course, filtered by after and before date. $sessionStarted is used to filter out
+     * others teachers' registrations to get only free registrations and registration by $teacherId,
+     * if $sessionStarted parameter is true.
+     *
      * @param $courseId
      * @param $after
      * @param $before
      * @param $teacher_id
      * @param $progress
-     * @param bool $session
+     * @param bool $sessionStarted
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, bool $session)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacherId, $progress, bool $sessionStarted)
     {
         /** @var \Illuminate\Database\Query\Builder $query */
         $query = DB::table('charon_defenders')
@@ -235,10 +238,10 @@ class DefenseRegistrationRepository
             ]);
         }
 
-        if ($teacher_id != 'null' && $session) {
-            $query->whereRaw('teacher_id = ?', [$teacher_id])->orWhereNull('teacher_id');
-        } else if ($teacher_id != 'null') {
-            $query->whereRaw('teacher_id = ?', [$teacher_id]);
+        if ($teacherId != 'null' && $sessionStarted) {
+            $query->whereRaw('teacher_id = ?', [$teacherId])->orWhereNull('teacher_id');
+        } else if ($teacherId != 'null') {
+            $query->whereRaw('teacher_id = ?', [$teacherId]);
         }
         if ($progress != 'null') {
             $query->whereRaw('progress = ?', [$progress]);

@@ -7,10 +7,8 @@ use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
-use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
@@ -34,9 +32,6 @@ class DefenseRegistrationController extends Controller
     /** @var CharonDefenseLabRepository */
     protected $defenseLabRepository;
 
-    /** @var LabTeacherRepository */
-    private $teacherRepository;
-
     /**
      * DefenseRegistrationController constructor.
      *
@@ -46,7 +41,6 @@ class DefenseRegistrationController extends Controller
      * @param DefenceRegistrationService $registrationService
      * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
-     * @param LabTeacherRepository $teacherRepository
      */
     public function __construct(
         Request $request,
@@ -54,8 +48,7 @@ class DefenseRegistrationController extends Controller
         DefenseRegistrationRepository $defenseRegistrationRepository,
         DefenceRegistrationService $registrationService,
         LabService $labService,
-        CharonDefenseLabRepository $defenseLabRepository,
-        LabTeacherRepository $teacherRepository
+        CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
@@ -63,7 +56,6 @@ class DefenseRegistrationController extends Controller
         $this->registrationService = $registrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
-        $this->teacherRepository = $teacherRepository;
     }
 
     /**
@@ -135,8 +127,8 @@ class DefenseRegistrationController extends Controller
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        $session = filter_var($this->request['session'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $session);
+        $sessionStarted = filter_var($this->request['session']);
+        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $sessionStarted);
     }
 
     /**
@@ -149,12 +141,8 @@ class DefenseRegistrationController extends Controller
      */
     public function updateRegistration(Course $course, Registration $registration): Registration
     {
-        $userId = app(User::class)->currentUserId();
-        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registration->id, $userId);
-        if ($labTeacher == null) {
-            throw new RegistrationException("Only the lab teacher is able to change the registration");
-        }
-        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'],
+            $this->request['teacher_id'], app(User::class)->currentUserId());
     }
 
     /**
@@ -162,25 +150,8 @@ class DefenseRegistrationController extends Controller
      */
     public function delete(Request $request)
     {
-        $studentId = $request->input('user_id');
-        $defenseLabId = $request->input('defLab_id');
-        $submissionId = $request->input('submission_id');
-
-        $userId = app(User::class)->currentUserId();
-        $labTeacher = $this->teacherRepository->getTeacherByDefenseLabAndUserId($defenseLabId, $userId);
-        if ($labTeacher == null) {
-            throw new RegistrationException("Only the lab teacher is able to change the registration");
-        }
-
-        Log::warning(json_encode([
-            'event' => 'registration_deletion',
-            'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
-            'submission_id' => $submissionId
-        ]));
-
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+        return $this->registrationService->delete($request->input('user_id'), $request->input('defLab_id'),
+            $request->input('submission_id'), app(User::class)->currentUserId());
     }
 
     public function getStudentRegistrations(Request $request)
