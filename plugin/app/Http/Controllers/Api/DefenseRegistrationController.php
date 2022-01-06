@@ -152,7 +152,7 @@ class DefenseRegistrationController extends Controller
         $userId = app(User::class)->currentUserId();
         $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registration->id, $userId);
         if ($labTeacher == null) {
-            throw new RegistrationException("Registration is able to change only lab teacher");
+            throw new RegistrationException("Only the lab teacher is able to change the registration");
         }
         return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
@@ -169,7 +169,7 @@ class DefenseRegistrationController extends Controller
         $userId = app(User::class)->currentUserId();
         $labTeacher = $this->teacherRepository->getTeacherByDefenseLabAndUserId($defenseLabId, $userId);
         if ($labTeacher == null) {
-            throw new RegistrationException("Registration is able to change only lab teacher");
+            throw new RegistrationException("Only the lab teacher is able to change the registration");
         }
 
         Log::warning(json_encode([
