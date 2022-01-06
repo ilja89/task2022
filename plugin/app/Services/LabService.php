@@ -60,7 +60,7 @@ class LabService
      * @param Lab $lab
      * @return Lab
      */
-    public function update(Request $request, Course $course, Lab $lab): Lab
+    public function update(Request $request, Lab $lab): Lab
     {
         $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($lab->id, $request['teachers']);
         $updatedLab = $this->labRepository->update(
