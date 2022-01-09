@@ -571,8 +571,10 @@ class DefenceRegistrationService
         if ($teacherId == null) {
             $teacherId = app(User::class)->currentUserId();
         }
+        // Undefend all teacher registrations
         $this->defenseRegistrationRepository
             ->updateAllRegistrationsProgressByTeacherAndLab($labId, $teacherId, $activeRegistrationsProgress);
+        // Update registration new progress
         return $this->defenseRegistrationRepository
             ->updateRegistrationProgress($registration->id, $teacherId, $registrationNewProgress);
     }
