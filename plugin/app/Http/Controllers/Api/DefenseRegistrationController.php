@@ -145,6 +145,10 @@ class DefenseRegistrationController extends Controller
         return $this->defenceRegistrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
     }
 
+    /**
+     * @param Request $request
+     * @return int
+     */
     public function delete(Request $request)
     {
         $studentId = $request->input('user_id');
@@ -162,6 +166,10 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
     }
 
+    /**
+     * @param Request $request
+     * @return Collection
+     */
     public function getStudentRegistrations(Request $request): Collection
     {
         $studentId = $request->input('user_id');
@@ -169,20 +177,42 @@ class DefenseRegistrationController extends Controller
         return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
     }
 
+    /**
+     * Return teacher' registration with progress 'Waiting'
+     *
+     * @param Request $request
+     * @return array
+     */
     public function getLabTeacherActiveRegistration(Request $request): array
     {
         $teacher = $request->input('teacher_id');
         if ($teacher == "null") {
             $teacher = app(User::class)->currentUserId();
         }
-        return array('registration' => $this->defenseRegistrationRepository->getLabTeacherActiveRegistrations($request->input('lab_id'), $teacher));
+        return array('registration' => $this->defenseRegistrationRepository->getLabTeacherActiveRegistration($request->input('lab_id'), $teacher));
     }
 
     /**
+     * Searches for all teacher' registrations with status 'Defending' and
+     * puts them new progress (request['activeRegistrationsProgress']). Then updates given registration with
+     * new progress ($this->request['registrationNewProgress']).
+     *
+     * @param Course $course
+     * @param Registration $registration
+     * @return Registration
      * @throws RegistrationException
      */
-    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(Course $course, Registration $registration): Registration
+    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(
+        Course $course,
+        Registration $registration
+    ): Registration
     {
-        return $this->defenceRegistrationService->updateRegistrationProgressAndUnDefendRegistrationsByTeacher($registration, $this->request['teacher_id'], $this->request['lab_id'], $this->request['registrationsProgress'], $this->request['registrationProgress']);
+        return $this->defenceRegistrationService->updateRegistrationProgressAndUnDefendRegistrationsByTeacher(
+            $registration,
+            $this->request['teacher_id'],
+            $this->request['lab_id'],
+            $this->request['activeRegistrationsProgress'],
+            $this->request['registrationNewProgress']
+        );
     }
 }

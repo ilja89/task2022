@@ -412,7 +412,8 @@ class DefenceRegistrationService
             $defenceAndQueueStartDifference = $defenseStart->copy()->diffInMinutes($queueStart);
 
             if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration){
-                $queuePresumption[$teacherNr] += $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
+                $queuePresumption[$teacherNr] +=
+                    $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
             }
         }
 
@@ -497,7 +498,14 @@ class DefenceRegistrationService
      * @param bool $session
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, bool $session)
+    public function getDefenseRegistrationsByCourseFiltered(
+        $courseId,
+        $after,
+        $before,
+        $teacher_id,
+        $progress,
+        bool $session
+    )
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
             ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, $session);
@@ -506,7 +514,8 @@ class DefenceRegistrationService
         foreach ($defenseRegistrations as $defenseRegistration) {
             if ($labId === null || $labId !== $defenseRegistration->lab_id){
                 $labId = $defenseRegistration->lab_id;
-                $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
+                $labTeachers = $this->teacherRepository
+                    ->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
             }
             $defenseRegistration->lab_teachers = $labTeachers;
         }
@@ -539,16 +548,33 @@ class DefenceRegistrationService
     }
 
     /**
+     * Searches for all teacher' registrations with status 'Defending' and
+     * puts them new progress ($activeRegistrationsProgress). Then updates given registration with
+     * new progress ($registrationNewProgress).
+     *
+     * @param Registration $registration
+     * @param $teacherId
+     * @param int $labId
+     * @param string $acticeRegistrationsProgress
+     * @param string $registrationNewProgress
+     * @return Registration
      * @throws RegistrationException
      */
-    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(Registration $registration, $teacherId,  int $labId, string $registrationsProgress, string $registrationProgress): Registration
+    public function updateRegistrationProgressAndUnDefendRegistrationsByTeacher(
+        Registration $registration,
+        $teacherId, int $labId,
+        string $activeRegistrationsProgress,
+        string $registrationNewProgress
+    ): Registration
     {
         $this->checkIfCurrentUserIsLabTeacher($registration->id);
         if ($teacherId == null) {
             $teacherId = app(User::class)->currentUserId();
         }
-        $this->defenseRegistrationRepository->updateRegistrationsProgressByTeacherAndLab($labId, $teacherId, $registrationsProgress);
-        return $this->defenseRegistrationRepository->updateRegistrationProgress($registration->id, $teacherId, $registrationProgress);
+        $this->defenseRegistrationRepository
+            ->updateAllRegistrationsProgressByTeacherAndLab($labId, $teacherId, $activeRegistrationsProgress);
+        return $this->defenseRegistrationRepository
+            ->updateRegistrationProgress($registration->id, $teacherId, $registrationNewProgress);
     }
 
     /**

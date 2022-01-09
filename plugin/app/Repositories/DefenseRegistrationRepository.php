@@ -363,12 +363,13 @@ class DefenseRegistrationRepository
     }
 
     /**
+     * Return teacher' registration with progress 'Waiting'.
      *
      * @param int $labId
      * @param int $teacherId
      * @return object
      */
-    public function getLabTeacherActiveRegistrations(int $labId, int $teacherId)
+    public function getLabTeacherActiveRegistration(int $labId, int $teacherId)
     {
         return DB::table('charon_defenders')
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
@@ -387,7 +388,7 @@ class DefenseRegistrationRepository
      * @param string $progress
      * @return int
      */
-    public function updateRegistrationsProgressByTeacherAndLab(int $labId, int $teacherId, string $progress): int
+    public function updateAllRegistrationsProgressByTeacherAndLab(int $labId, int $teacherId, string $progress): int
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')

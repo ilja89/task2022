@@ -69,10 +69,10 @@ class Defense {
         })
     }
 
-    static updateRegistrationAndUndefendRegistrationsByTeacher(courseId, defenseId, newRegistrationProgress, newRegistrationsProgress, lab_id, teacher_id, then) {
+    static updateRegistrationAndUndefendRegistrationsByTeacher(courseId, defenseId, registrationNewProgress, activeRegistrationsProgress, lab_id, teacher_id, then) {
         axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId + '/update/undefend', {
-            registrationsProgress: newRegistrationsProgress,
-            registrationProgress: newRegistrationProgress,
+            activeRegistrationsProgress: activeRegistrationsProgress,
+            registrationNewProgress: registrationNewProgress,
             lab_id: lab_id,
             teacher_id: teacher_id
         }).then(response => {
