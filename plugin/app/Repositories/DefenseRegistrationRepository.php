@@ -193,15 +193,18 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Get defense registrations by course, filtered by after and before date.
+     * Get defense registrations by course. The needed is only $courseId, other parameters are used only for filtering.
+     *
      * @param $courseId
-     * @param $after
-     * @param $before
-     * @param $teacher_id
-     * @param $progress
+     * @param $after - is used to get registrations where lab starts after this time
+     * @param $before - is used to get registrations where lab ends before this time
+     * @param $teacherId - teacher, who defends registration
+     * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done
+     * @param bool $sessionStarted - is used to filter out others teachers' registrations to get only free
+     * registrations and registration by $teacherId, if $sessionStarted parameter is true.
      * @return Collection|Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress)
+    public function getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacherId, $progress, bool $sessionStarted)
     {
         /** @var \Illuminate\Database\Query\Builder $query */
         $query = DB::table('charon_defenders')
@@ -235,8 +238,10 @@ class DefenseRegistrationRepository
             ]);
         }
 
-        if ($teacher_id != 'null') {
-            $query->whereRaw('teacher_id = ?', [$teacher_id]);
+        if ($teacherId != 'null' && $sessionStarted) {
+            $query->whereRaw('teacher_id = ?', [$teacherId])->orWhereNull('teacher_id');
+        } else if ($teacherId != 'null') {
+            $query->whereRaw('teacher_id = ?', [$teacherId]);
         }
         if ($progress != 'null') {
             $query->whereRaw('progress = ?', [$progress]);
@@ -366,4 +371,22 @@ class DefenseRegistrationRepository
             ->groupBy('teacher_id','charon','defense_start', 'defense_duration')
             ->get();
     }
+
+    /**
+     * Remove teachers from registration teachers which have progress waiting or defending.
+     * If progress is defending, then change it to waiting.
+     *
+     * @param $labId
+     * @param $teachersToRemove
+     * @return int
+     */
+    public function removeTeachersFromWaitingAndDefendingRegistrations($labId, $teachersToRemove){
+        return DB::table('charon_defenders')
+            ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
+            ->where('charon_defense_lab.lab_id', $labId)
+            ->where('charon_defenders.progress', '!=', 'Done')
+            ->whereIn('charon_defenders.teacher_id', $teachersToRemove)
+            ->update(array('charon_defenders.teacher_id' => null, 'charon_defenders.progress' => 'Waiting'));
+    }
+
 }

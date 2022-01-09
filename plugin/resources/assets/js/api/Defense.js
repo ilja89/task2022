@@ -9,11 +9,11 @@ class Defense {
         })
     }
 
-    static filtered(courseId, after, before, teacher_id, progress, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/defenseRegistrations/' + after + '/' + before + '/' + teacher_id + '/' + progress)
+    static filtered(courseId, after, before, teacher_id, progress, session, then) {
+        axios.get(`/mod/charon/api/courses/${courseId}/defenseRegistrations/${after}/${before}/${teacher_id}/${progress}?session=${session}`)
             .then(response => {
-                then(response.data)
-            }).catch(error => {
+            then(response.data)
+        }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving filtered defense registrations.\n' + error, 'danger')
         })
     }
@@ -27,11 +27,10 @@ class Defense {
             })
     }
 
-    static registerByTeacher(charonId, studentId, defenseLabId, progress, then) {
+    static registerByTeacher(charonId, studentId, defenseLabId, then) {
         axios.post(`/mod/charon/api/charons/${charonId}/submissions/register/teacher?user_id=${studentId}`, {
             charon_id: charonId,
             defense_lab_id: defenseLabId,
-            progress: progress,
         }).then(response => {
             then(response.data);
         }).catch(error => {
@@ -58,14 +57,15 @@ class Defense {
         });
     }
 
-    static updateRegistration(courseId, defenseId, progress, teacher_id, then) {
+    static updateRegistration(courseId, defenseId, progress, teacherId, then) {
         axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId, {
             progress: progress,
-            teacher_id: teacher_id
+            teacher_id: teacherId
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving defense progress.\n' + error, 'danger')
+            VueEvent.$emit('show-notification', 'Error updating defense registration.\n' + error, 'danger')
+            then(null)
         })
     }
 

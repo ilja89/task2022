@@ -55,13 +55,29 @@
                 <v-select
                     class="mx-auto"
                     dense
+                    v-if="item.progress === 'Done'"
                     single-line
                     return-object
                     :items="item.lab_teachers"
                     item-text="fullname"
                     item-value="teacher"
                     v-model="item.teacher"
-                    @change="updateRegistration(item.id, item.progress, item.teacher.id)"
+                    @change="updateRegistration(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                ></v-select>
+                <v-select
+                    class="mx-auto"
+                    dense
+                    v-else
+                    clearable
+                    single-line
+                    return-object
+                    :items="item.lab_teachers"
+                    item-text="fullname"
+                    item-value="teacher"
+                    v-model="item.teacher"
+                    @change="updateRegistrationTeacher(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -77,7 +93,8 @@
                     dense
                     :items="all_progress_types"
                     v-model="item.progress"
-                    @change="updateRegistration(item.id, item.progress, item.teacher.id)"
+                    @change="updateRegistration(item)"
+                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -115,8 +132,11 @@ export default {
                 {text: 'Progress', value: 'progress'},
                 {text: 'Actions', value: 'actions'},
             ],
+            lastProgress: '',
+            lastTeacher: null,
         }
-    }, props: {
+    },
+    props: {
         defenseList: {required: true},
     },
     methods: {
@@ -124,10 +144,25 @@ export default {
             return '/submissions/' + submissionId
         },
 
-        updateRegistration(defense_id, state, teacher_id) {
-            Defense.updateRegistration(this.course.id, defense_id, state, teacher_id, () => {
-                VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
-                VueEvent.$emit('refresh-defense-list');
+        updateRegistrationTeacher(item) {
+            const teacher_id = item.teacher ? item.teacher.id : null;
+            if (item.progress === 'Defending' && teacher_id == null) {
+                item.progress = 'Waiting';
+            }
+            this.updateRegistration(item);
+        },
+
+        updateRegistration(item) {
+            const teacher_id = item.teacher ? item.teacher.id : null;
+            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
+                if (registration == null) {
+                    item.teacher = this.lastTeacher;
+                    item.progress = this.lastProgress;
+                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
+                    item.teacher = registration.teacher;
+                    item.progress = registration.progress;
+                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                }
             })
         },
 
@@ -194,7 +229,12 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        saveLastTeacherAndProgress(teacher, progress) {
+            this.lastTeacher = teacher;
+            this.lastProgress = progress;
+        },
     },
     computed: {
         ...mapState([

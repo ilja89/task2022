@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
@@ -81,9 +80,7 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null,
-            $request->input("progress")
-        );
+            null);
     }
 
     /**
@@ -126,39 +123,35 @@ class DefenseRegistrationController extends Controller
      * @param $before
      * @param $teacherId
      * @param $progress
-     * @return Collection|Registration[]
+     * @return Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress);
+        $sessionStarted = filter_var($this->request['session']);
+        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $sessionStarted);
     }
 
     /**
-     * Save defense progress.
+     * Decline registration updating if user is not lab teacher of lab in which registration contains
+     *
      * @param Course $course
      * @param Registration $registration
      * @return Registration
+     * @throws RegistrationException
      */
-    public function saveProgress(Course $course, Registration $registration)
+    public function updateRegistration(Course $course, Registration $registration): Registration
     {
-        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'],
+            $this->request['teacher_id'], app(User::class)->currentUserId());
     }
 
+    /**
+     * @throws RegistrationException
+     */
     public function delete(Request $request)
     {
-        $studentId = $request->input('user_id');
-        $defenseLabId = $request->input('defLab_id');
-        $submissionId = $request->input('submission_id');
-
-        Log::warning(json_encode([
-            'event' => 'registration_deletion',
-            'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
-            'submission_id' => $submissionId
-        ]));
-
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+        return $this->registrationService->delete($request->input('user_id'), $request->input('defLab_id'),
+            $request->input('submission_id'), app(User::class)->currentUserId());
     }
 
     public function getStudentRegistrations(Request $request)
