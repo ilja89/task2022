@@ -64,7 +64,10 @@ class Defense {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating defense registration.\n' + error, 'danger')
+            VueEvent.$emit('show-notification',
+                error.response && error.response.data && error.response.data.title
+                    ? error.response.data.title + ' ' + error.response.data.detail
+                    : 'Error creating a new defense registration.\n' + error, 'danger');
             then(null)
         })
     }

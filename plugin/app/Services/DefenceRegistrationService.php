@@ -491,7 +491,7 @@ class DefenceRegistrationService
     {
         $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
         if ($labTeacher == null) {
-            throw new RegistrationException("Only lab teacher is able to change the registration");
+            throw new RegistrationException("invalid_lab_teacher");
         }
         if ($newTeacherId == null && $newProgress !== 'Waiting') {
             $userId = app(User::class)->currentUserId();
@@ -519,7 +519,7 @@ class DefenceRegistrationService
     {
         $labTeacher = $this->teacherRepository->getTeacherByDefenseLabAndUserId($defenseLabId, $userId);
         if ($labTeacher == null) {
-            throw new RegistrationException("Only lab teacher is able to change the registration");
+            throw new RegistrationException("invalid_lab_teacher");
         }
 
         Log::warning(json_encode([
