@@ -72,7 +72,7 @@ class LabService
             $request['charons'],
             $request['groups']
         );
-        if (count($removedTeachers) > 0){
+        if (count($removedTeachers) > 0) {
             $this->defenseRegistrationRepository->removeTeachersFromWaitingAndDefendingRegistrations($lab->id, $removedTeachers);
         }
         return $updatedLab;

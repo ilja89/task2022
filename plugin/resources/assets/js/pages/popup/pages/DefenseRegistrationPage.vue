@@ -153,7 +153,7 @@
             ...mapActions(["updateTeacher"]),
 
             apply() {
-                if (this.$store.state.teacher != null){
+                if (this.$store.state.teacher != null) {
                     Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, true, response => {
                         this.defenseList = response;
                         this.recheckTeachers();

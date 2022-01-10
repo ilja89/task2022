@@ -80,7 +80,8 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null);
+            null
+        );
     }
 
     /**
