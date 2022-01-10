@@ -63,7 +63,7 @@
                     item-value="teacher"
                     v-model="item.teacher"
                     @change="updateRegistration(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
                 <v-select
                     class="mx-auto"
@@ -77,7 +77,8 @@
                     item-value="teacher"
                     v-model="item.teacher"
                     @change="updateRegistrationTeacher(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click:clear="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -94,7 +95,7 @@
                     :items="all_progress_types"
                     v-model="item.progress"
                     @change="updateRegistration(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
