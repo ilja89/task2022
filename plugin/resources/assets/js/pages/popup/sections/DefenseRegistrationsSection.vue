@@ -55,21 +55,7 @@
                 <v-select
                     class="mx-auto"
                     dense
-                    v-if="item.progress === 'Done'"
-                    single-line
-                    return-object
-                    :items="item.lab_teachers"
-                    item-text="fullname"
-                    item-value="teacher"
-                    v-model="item.teacher"
-                    @change="updateRegistration(item)"
-                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
-                ></v-select>
-                <v-select
-                    class="mx-auto"
-                    dense
-                    v-else
-                    clearable
+                    :clearable="item.progress !== 'Done'"
                     single-line
                     return-object
                     :items="item.lab_teachers"

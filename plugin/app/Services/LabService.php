@@ -60,20 +60,21 @@ class LabService
      * @param Lab $lab
      * @return Lab
      */
-    public function update(Request $request, Lab $lab): Lab
+    public function update($labId, $startDateTime, $endDateTime, $labName, $teachers, $charons, $groups): Lab
     {
-        $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($lab->id, $request['teachers']);
+        $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($labId, $teachers);
         $updatedLab = $this->labRepository->update(
-            $lab->id,
-            $request['start'],
-            $request['end'],
-            $request['name'],
-            $request['teachers'],
-            $request['charons'],
-            $request['groups']
+            $labId,
+            $startDateTime,
+            $endDateTime,
+            $labName,
+            $teachers,
+            $charons,
+            $groups
         );
         if (count($removedTeachers) > 0) {
-            $this->defenseRegistrationRepository->removeTeachersFromWaitingAndDefendingRegistrations($lab->id, $removedTeachers);
+            $this->defenseRegistrationRepository
+                ->removeTeachersFromWaitingAndDefendingRegistrations($labId, $removedTeachers);
         }
         return $updatedLab;
     }
@@ -152,9 +153,11 @@ class LabService
 
             $queueStatus['teachers'] = $teachersList;
 
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
+            $labRegistrations = $this->defenseRegistrationRepository
+                ->getLabRegistrationsByLabId($lab->id, ['Waiting']);
         } else {
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
+            $labRegistrations = $this->defenseRegistrationRepository
+                ->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
         }
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
@@ -172,7 +175,10 @@ class LabService
             }
 
             $registrations[$i]->queue_pos = $i + 1;
-            $registrations[$i]->estimated_start = date("d.m.Y H:i", $registrations[$i]->estimated_start->timestamp);
+            $registrations[$i]->estimated_start = date(
+                "d.m.Y H:i",
+                $registrations[$i]->estimated_start->timestamp
+            );
 
             unset($registrations[$i]->defense_duration);
             unset($registrations[$i]->student_id);

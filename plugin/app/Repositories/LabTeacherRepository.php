@@ -303,9 +303,11 @@ class LabTeacherRepository
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('charon_lab_teacher', 'charon_lab_teacher.lab_id', 'charon_defense_lab.lab_id')
+            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
             ->where('charon_defenders.id', $defenseId)
             ->where('charon_lab_teacher.teacher_id', $userId)
-            ->select('charon_lab_teacher.teacher_id')
+            ->select('user.id', 'user.firstname', 'user.lastname',
+                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname"))
             ->first();
     }
 
