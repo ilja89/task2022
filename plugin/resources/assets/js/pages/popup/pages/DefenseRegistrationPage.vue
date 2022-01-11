@@ -155,15 +155,6 @@
             apply() {
                 Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, this.$store.state.teacher != null, response => {
                     this.defenseList = response;
-                    this.recheckTeachers();
-                })
-            },
-
-            recheckTeachers() {
-                this.defenseList.forEach(def => {
-                    if (def.teacher && def.teacher.id && !def.lab_teachers.indexOf(def.teacher) >= 0) {
-                        def.lab_teachers.push(def.teacher);
-                    }
                 })
             },
 

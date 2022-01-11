@@ -55,7 +55,7 @@ class LabTeacherController extends Controller
      */
     public function getByCharonAndLab(Charon $charon, CharonDefenseLab $charonDefenseLab)
     {
-        return $this->labTeacherRepository->getTeachersByCharonAndLab($charon->id, $charonDefenseLab->lab_id);
+        return $this->labTeacherRepository->getTeachersByCharonAndLabWithLocation($charon->id, $charonDefenseLab->lab_id);
     }
 
     /**

@@ -304,7 +304,7 @@ class DefenceRegistrationService
      */
     private function getTeachersByCharonAndLab($charonId, $labId, Carbon $studentTime): int
     {
-        $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($charonId, $labId);
+        $labTeachers = $this->teacherRepository->getTeachersByCharonAndLabWithLocation($charonId, $labId);
         if ($labTeachers->isEmpty()) {
             throw new RegistrationException('no_teacher_available');
         }
@@ -471,7 +471,11 @@ class DefenceRegistrationService
                 $labId = $defenseRegistration->lab_id;
                 $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
             }
-            $defenseRegistration->lab_teachers = $labTeachers;
+            $defenseLabTeachers = $labTeachers->toArray();
+            if ($defenseRegistration->teacher['id'] && !in_array((object) $defenseRegistration->teacher, $defenseLabTeachers)) {
+                array_push($defenseLabTeachers, $defenseRegistration->teacher);
+            }
+            $defenseRegistration->lab_teachers = $defenseLabTeachers;
         }
         return $defenseRegistrations;
     }
