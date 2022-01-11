@@ -145,10 +145,13 @@ export default {
                 if (registration == null) {
                     item.teacher = this.lastTeacher;
                     item.progress = this.lastProgress;
-                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
-                    item.teacher = registration.teacher;
-                    item.progress = registration.progress;
-                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                } else {
+                    if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
+                        item.teacher = registration.teacher;
+                        item.progress = registration.progress;
+                        VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                    }
+                    item.lab_teachers = registration.lab_teachers;
                 }
             })
         },

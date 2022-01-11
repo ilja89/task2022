@@ -511,6 +511,13 @@ class DefenceRegistrationService
 
         $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
         $defense->teacher = $updatedDefenseTeacher;
+        $labTeachers = $this->teacherRepository->getTeachersByCharonAndDefenseLab($defense->charon_id, $defense->defense_lab_id);
+
+        if ($defense->teacher && $defense->teacher->id && !$labTeachers->contains($defense->teacher)) {
+            $labTeachers->push($defense->teacher);
+        }
+        $defense->lab_teachers = $labTeachers;
+
         return $defense;
     }
 
