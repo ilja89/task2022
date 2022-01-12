@@ -304,7 +304,7 @@ class DefenceRegistrationService
      */
     private function getTeachersByCharonAndLab($charonId, $labId, Carbon $studentTime): int
     {
-        $labTeachers = $this->teacherRepository->getTeachersByCharonAndLabWithLocation($charonId, $labId);
+        $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($charonId, $labId);
         if ($labTeachers->isEmpty()) {
             throw new RegistrationException('no_teacher_available');
         }
@@ -497,7 +497,7 @@ class DefenceRegistrationService
         $userId = app(User::class)->currentUserId();
 
         $labTeacher = $this->teacherRepository
-            ->getTeacherByDefenseAndUserId($defenseId, app(User::class)->currentUserId());
+            ->getTeacherByDefenseAndUserId($defenseId, $userId);
         if ($labTeacher == null) {
             throw new RegistrationException("invalid_lab_teacher");
         } else if ($newTeacherId == null && $newProgress !== 'Waiting') {

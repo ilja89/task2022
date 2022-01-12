@@ -196,8 +196,8 @@ class DefenseRegistrationRepository
      * Get defense registrations by course. The needed is only $courseId, other parameters are used only for filtering.
      *
      * @param $courseId
-     * @param $after - is used to get registrations where lab ends after this time
-     * @param $before - is used to get registrations where lab starts before this time
+     * @param $after - is used to get registrations where lab is active after this time
+     * @param $before - is used to get registrations where lab is active before this time
      * @param $teacherId
      * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done'
      * @param bool $sessionStarted - is used to filter out others teachers' registrations to get only free

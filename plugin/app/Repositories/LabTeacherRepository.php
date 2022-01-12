@@ -60,28 +60,6 @@ class LabTeacherRepository
      *
      * @return Collection
      */
-    public function getTeachersByCharonAndLabWithLocation($charonId, $labId)
-    {
-        return DB::table('charon_lab_teacher')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab_teacher.lab_id')
-            ->where('charon_defense_lab.charon_id', $charonId)
-            ->where('charon_defense_lab.lab_id', $labId)
-            ->join('user', 'user.id', 'charon_lab_teacher.teacher_id')
-            ->select(
-                'user.id',
-                'user.firstname',
-                'user.lastname',
-                'charon_lab_teacher.teacher_location',
-                DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
-            )->get();
-    }
-
-    /**
-     * @param $charonId
-     * @param $labId
-     *
-     * @return Collection
-     */
     public function getTeachersByCharonAndLab($charonId, $labId)
     {
         return DB::table('charon_lab_teacher')
@@ -93,6 +71,7 @@ class LabTeacherRepository
                 'user.id',
                 'user.firstname',
                 'user.lastname',
+                'charon_lab_teacher.teacher_location',
                 DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
             )->get();
     }

@@ -3,13 +3,11 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
-use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
 
 class LabService
@@ -55,9 +53,13 @@ class LabService
     /**
      * Update lab.
      *
-     * @param Request $request
-     * @param Course $course
-     * @param Lab $lab
+     * @param $labId
+     * @param $startDateTime
+     * @param $endDateTime
+     * @param $labName
+     * @param $teachers
+     * @param $charons
+     * @param $groups
      * @return Lab
      */
     public function update($labId, $startDateTime, $endDateTime, $labName, $teachers, $charons, $groups): Lab
@@ -74,7 +76,7 @@ class LabService
         );
         if (count($removedTeachers) > 0) {
             $this->defenseRegistrationRepository
-                ->removeTeachersFromWaitingAndDefendingRegistrations($labId, $removedTeachers);
+                ->removeTeachersFromUndoneRegistrations($labId, $removedTeachers);
         }
         return $updatedLab;
     }

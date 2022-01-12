@@ -149,9 +149,9 @@ export default {
                     if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
                         item.teacher = registration.teacher;
                         item.progress = registration.progress;
-                        VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
                     }
                     item.lab_teachers = registration.lab_teachers;
+                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
                 }
             })
         },

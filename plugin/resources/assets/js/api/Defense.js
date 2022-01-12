@@ -34,10 +34,7 @@ class Defense {
         }).then(response => {
             then(response.data);
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error creating a new defense registration.\n' + error, 'danger');
+            this.throwError(error, 'Error creating a new defense registration.\n');
         });
     }
 
@@ -49,10 +46,7 @@ class Defense {
         }).then(response => {
             then(response.data);
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error creating a new defense registration.\n' + error, 'danger');
+            this.throwError(error, 'Error creating a new defense registration.\n');
             VueEvent.$emit('student-register-end-loading');
         });
     }
@@ -64,10 +58,7 @@ class Defense {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error creating a new defense registration.\n' + error, 'danger');
+            this.throwError(error, 'Error updating defense registration.\n');
             then(null)
         })
     }
@@ -77,11 +68,15 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification',
-                error.response && error.response.data && error.response.data.title
-                    ? error.response.data.title + ' ' + error.response.data.detail
-                    : 'Error creating a new defense registration.\n' + error, 'danger');
+                this.throwError(error, 'Error deleting defense registration.\n');
             })
+    }
+
+    static throwError(error, errorText) {
+        VueEvent.$emit('show-notification',
+            error.response && error.response.data && error.response.data.title
+                ? error.response.data.title + ' ' + error.response.data.detail
+                : errorText + error, 'danger');
     }
 
 }
