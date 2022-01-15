@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class User {
 
     static allStudents(courseId, then) {
@@ -5,7 +7,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving students with course id.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving students with course id.\n')
             })
     }
 
@@ -14,7 +16,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving user.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving user.\n')
             })
     }
 
@@ -23,7 +25,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving report table.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving report table.\n')
             })
     }
 
@@ -33,7 +35,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving active students.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving active students.\n')
             })
     }
 
@@ -42,7 +44,7 @@ class User {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving distribution of students.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving distribution of students.\n')
             })
     }
 
@@ -51,7 +53,7 @@ class User {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving teachers.\n')
         })
     }
 }

@@ -472,8 +472,16 @@ class DefenceRegistrationService
                 $labTeachers = $this->teacherRepository->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
             }
             $defenseLabTeachers = $labTeachers->toArray();
-            if ($defenseRegistration->teacher['id'] && !in_array((object) $defenseRegistration->teacher, $defenseLabTeachers)) {
-                array_push($defenseLabTeachers, $defenseRegistration->teacher);
+            if ($defenseRegistration->teacher['id']) {
+                $teacherExists = false;
+                foreach ($defenseLabTeachers as $defenseLabTeacher) {
+                    if ($defenseLabTeacher->id == $defenseRegistration->teacher['id']) {
+                        $teacherExists = true;
+                    }
+                }
+                if (!$teacherExists) {
+                    array_push($defenseLabTeachers, $defenseRegistration->teacher);
+                }
             }
             $defenseRegistration->lab_teachers = $defenseLabTeachers;
         }

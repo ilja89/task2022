@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class File {
 
     static findBySubmission(submissionId, then) {
@@ -5,7 +7,7 @@ class File {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving files.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving files.\n')
             })
     }
 }

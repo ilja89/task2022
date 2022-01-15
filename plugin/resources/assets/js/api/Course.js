@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class Course {
 
     static getRoot() {
@@ -9,8 +11,8 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving course.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving course.\n')
+            })
     }
 
     static getTesterTypes(courseId, then) {
@@ -18,8 +20,8 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving tester types.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving tester types.\n')
+            })
     }
 
     static addTesterType(courseId, name, then) {
@@ -27,8 +29,8 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error adding a tester type.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error adding a tester type.\n')
+            })
     }
 
     static removeTesterType(courseId, name, then) {
@@ -36,8 +38,8 @@ class Course {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error removing a tester type.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error removing a tester type.\n')
+            })
     }
 
 }

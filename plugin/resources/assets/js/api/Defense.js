@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class Defense {
 
     static all(courseId, then) {
@@ -5,17 +7,17 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving defense registrations.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving defense registrations.\n')
+            })
     }
 
     static filtered(courseId, after, before, teacher_id, progress, session, then) {
         axios.get(`/mod/charon/api/courses/${courseId}/defenseRegistrations/${after}/${before}/${teacher_id}/${progress}?session=${session}`)
             .then(response => {
-            then(response.data)
-        }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving filtered defense registrations.\n' + error, 'danger')
-        })
+                then(response.data)
+            }).catch(error => {
+                Error.throw(error, 'Error retrieving filtered defense registrations.\n')
+            })
     }
 
     static getTeacherForStudent(courseId, studentId, then) {
@@ -23,7 +25,7 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving student teacher.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving student teacher.\n')
             })
     }
 
@@ -34,7 +36,7 @@ class Defense {
         }).then(response => {
             then(response.data);
         }).catch(error => {
-            this.throwError(error, 'Error creating a new defense registration.\n');
+            Error.throwWithCheck(error, 'Error creating a new defense registration.\n');
         });
     }
 
@@ -46,7 +48,7 @@ class Defense {
         }).then(response => {
             then(response.data);
         }).catch(error => {
-            this.throwError(error, 'Error creating a new defense registration.\n');
+            Error.throwWithCheck(error, 'Error creating a new defense registration.\n');
             VueEvent.$emit('student-register-end-loading');
         });
     }
@@ -58,8 +60,8 @@ class Defense {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            this.throwError(error, 'Error updating defense registration.\n');
-            then(null)
+            Error.throwWithCheck(error, 'Error updating defense registration.\n');
+            then(error)
         })
     }
 
@@ -68,15 +70,8 @@ class Defense {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                this.throwError(error, 'Error deleting defense registration.\n');
+                Error.throwWithCheck(error, 'Error deleting defense registration.\n');
             })
-    }
-
-    static throwError(error, errorText) {
-        VueEvent.$emit('show-notification',
-            error.response && error.response.data && error.response.data.title
-                ? error.response.data.title + ' ' + error.response.data.detail
-                : errorText + error, 'danger');
     }
 
 }

@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class ReviewComment {
 
     static add(reviewComment, submissionFileId, charonId, notify, then) {
@@ -8,7 +10,7 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            this.throwError(error, 'Error adding review comment.\n');
+            Error.throwWithCheck(error, 'Error adding review comment.\n');
         })
 
     }
@@ -18,7 +20,7 @@ class ReviewComment {
         ).then(response => {
             then(response.data)
         }).catch(error => {
-            this.throwError(error, 'Error deleting review comment.\n');
+            Error.throwWithCheck(error, 'Error deleting review comment.\n');
         });
     }
 
@@ -28,15 +30,8 @@ class ReviewComment {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            this.throwError(error, 'Error clearing review comments\' notifications.\n');
+            Error.throwWithCheck(error, 'Error clearing review comments\' notifications.\n');
         });
-    }
-
-    static throwError(error, errorText) {
-        VueEvent.$emit('show-notification',
-            error.response && error.response.data && error.response.data.title
-                ? error.response.data.title + ' ' + error.response.data.detail
-                : errorText + error, 'danger')
     }
 }
 

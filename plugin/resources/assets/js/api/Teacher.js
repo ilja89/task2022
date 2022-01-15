@@ -1,4 +1,4 @@
-import Submission from "./Submission";
+import {Error} from "./index";
 
 class Teacher {
 
@@ -11,7 +11,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teachers.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving teachers.\n')
         })
     }
 
@@ -20,7 +20,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher report.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving teacher report.\n')
         })
     }
 
@@ -29,7 +29,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving lab teachers.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving lab teachers.\n')
         })
     }
 
@@ -38,7 +38,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving teacher.\n')
         })
     }
 
@@ -47,7 +47,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving teacher aggregated data.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving teacher aggregated data.\n')
         })
     }
 
@@ -56,7 +56,7 @@ class Teacher {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating teacher.\n' + error, 'danger')
+                Error.throw(error, 'Error updating teacher.\n')
         })
     }
 
