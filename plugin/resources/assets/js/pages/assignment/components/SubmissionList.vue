@@ -53,7 +53,7 @@
 
 			<template v-slot:item.actions="{ item }">
 				<v-row>
-					<submission-modal :submission="item" :color="getColor(item, registrations)"/>
+					<submission-modal :submission="item" :color="getColor(item, registrations)" :is-link="false"/>
 					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
 						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
 					</v-btn>

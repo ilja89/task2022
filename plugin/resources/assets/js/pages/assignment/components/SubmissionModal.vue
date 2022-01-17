@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="isActive" width="80%" style="position: relative; z-index: 3000"
-			  transition="dialog-bottom-transition">
-		<template v-slot:activator="{ on, attrs }">
+			  transition="dialog-bottom-transition" @click:outside="close">
+		<template v-if="isLink === false" v-slot:activator="{ on, attrs }">
 			<v-badge :value="reviewCommentCount"
 					 :content="reviewCommentCount < 10 ? reviewCommentCount : '9+'"
 					 overlap
@@ -25,7 +25,7 @@
 
 				<v-spacer></v-spacer>
 
-				<v-btn color="error" @click="isActive = false">
+				<v-btn color="error" @click="close">
 					{{ translate('closeText') }}
 				</v-btn>
 			</v-toolbar>
@@ -96,11 +96,13 @@ export default {
 	props: {
 		submission: {required: true},
 		color: {required: true},
+        isLink: {required: true}
 	},
 
 	data() {
 		return {
 			isActive: false,
+            routeCreated: false,
 			testerType: '',
 			toggleShowTable: false,
 			reviewCommentCount: 0,
@@ -108,6 +110,25 @@ export default {
 			toggleShowAllSubmissions: false,
 		}
 	},
+
+    created() {
+	  if (this.isLink === true) {
+	    this.routeCreated = true;
+      }
+    },
+
+    watch: {
+        $route (to, from){
+          if (this.isLink === true && this.submission.id === parseInt(to.params.submission_id)) {
+            this.isActive = true;
+          }
+        },
+        routeCreated (newVal, val) {
+          if (newVal === true) {
+            this.isActive = true;
+          }
+        }
+      },
 
 	computed: {
 		...mapState([
@@ -136,6 +157,13 @@ export default {
 	},
 
 	methods: {
+        close() {
+          this.isActive = false;
+          if (this.isLink === true) {
+            this.$router.push('/');
+          }
+        },
+
 		getFilesWithReviewComments() {
 			if (this.toggleShowAllSubmissions) {
 				return this.filesWithReviewComments;
