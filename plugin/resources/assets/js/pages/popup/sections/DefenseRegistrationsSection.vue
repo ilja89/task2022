@@ -141,8 +141,13 @@ export default {
 
         updateRegistration(item) {
             const teacher_id = item.teacher ? item.teacher.id : null;
-            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
-                if (registration instanceof Error) {
+            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, async (registration) => {
+                const errorThrown = await registration.then(function (_) {
+                    return false;
+                }, function (_) {
+                    return true;
+                });
+                if (errorThrown) {
                     item.teacher = this.lastTeacher;
                     item.progress = this.lastProgress;
                 } else {
