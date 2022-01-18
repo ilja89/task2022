@@ -92,6 +92,11 @@ class Charon extends Model
         return $this->hasMany(CharonDefenseLab::class)->orderBy('id');
     }
 
+    public function labs()
+    {
+        return $this->belongsToMany(Lab::class, "charon_defense_lab", "charon_id", "lab_id");
+    }
+
     public function deadlines()
     {
         return $this->hasMany(Deadline::class)->orderBy('deadline_time');
@@ -120,6 +125,13 @@ class Charon extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
+    }
+
+    public function gradeItem()
+    {
+        return $this->belongsTo(GradeCategory::class, 'category_id')
+            ->join('grade_items', 'grade_categories.id', '=', 'grade_items.iteminstance')
+            ->where('grade_items.itemtype', 'category');
     }
 
     /**
