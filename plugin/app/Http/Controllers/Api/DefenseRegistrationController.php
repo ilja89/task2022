@@ -12,7 +12,6 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class DefenseRegistrationController extends Controller
@@ -80,7 +79,8 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null);
+            null
+        );
     }
 
     /**
@@ -128,11 +128,19 @@ class DefenseRegistrationController extends Controller
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
         $sessionStarted = filter_var($this->request['session']);
-        return $this->registrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $sessionStarted);
+        return $this->registrationService->getDefenseRegistrationsByCourseFiltered(
+            $course->id,
+            $after,
+            $before,
+            $teacherId,
+            $progress,
+            $sessionStarted
+        );
     }
 
     /**
-     * Decline registration updating if user is not lab teacher of lab in which registration contains
+     * Updates registration.
+     * Decline registration updating if user is not lab teacher of lab in which registration belongs to.
      *
      * @param Course $course
      * @param Registration $registration
@@ -141,8 +149,11 @@ class DefenseRegistrationController extends Controller
      */
     public function updateRegistration(Course $course, Registration $registration): Registration
     {
-        return $this->registrationService->updateRegistration($registration->id, $this->request['progress'],
-            $this->request['teacher_id'], app(User::class)->currentUserId());
+        return $this->registrationService->updateRegistration(
+            $registration->id,
+            $this->request['progress'],
+            $this->request['teacher_id']
+        );
     }
 
     /**
@@ -150,8 +161,11 @@ class DefenseRegistrationController extends Controller
      */
     public function delete(Request $request)
     {
-        return $this->registrationService->delete($request->input('user_id'), $request->input('defLab_id'),
-            $request->input('submission_id'), app(User::class)->currentUserId());
+        return $this->registrationService->delete(
+            $request->input('user_id'),
+            $request->input('defLab_id'),
+            $request->input('submission_id')
+        );
     }
 
     public function getStudentRegistrations(Request $request)

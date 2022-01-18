@@ -196,10 +196,10 @@ class DefenseRegistrationRepository
      * Get defense registrations by course. The needed is only $courseId, other parameters are used only for filtering.
      *
      * @param $courseId
-     * @param $after - is used to get registrations where lab starts after this time
-     * @param $before - is used to get registrations where lab ends before this time
-     * @param $teacherId - teacher, who defends registration
-     * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done
+     * @param $after - is used to get registrations where lab is active after this time
+     * @param $before - is used to get registrations where lab is active before this time
+     * @param $teacherId
+     * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done'
      * @param bool $sessionStarted - is used to filter out others teachers' registrations to get only free
      * registrations and registration by $teacherId, if $sessionStarted parameter is true.
      * @return Collection|Registration[]
@@ -380,7 +380,8 @@ class DefenseRegistrationRepository
      * @param $teachersToRemove
      * @return int
      */
-    public function removeTeachersFromWaitingAndDefendingRegistrations($labId, $teachersToRemove){
+    public function removeTeachersFromUndoneRegistrations($labId, $teachersToRemove)
+    {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->where('charon_defense_lab.lab_id', $labId)

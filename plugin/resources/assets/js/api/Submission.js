@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class Submission {
 
     static getTemplates(charonId, then) {
@@ -5,7 +7,7 @@ class Submission {
             .then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+            Error.throw(error, 'Error getting templates.\n')
         })
     }
 
@@ -16,7 +18,7 @@ class Submission {
                 then(response.data)
             }).catch(error => {
                 VueEvent.$emit('reset-submit-button')
-                VueEvent.$emit('show-notification', 'Error saving submission.\n' + error, 'danger')
+                Error.throw(error, 'Error saving submission.\n')
             })
     }
 
@@ -26,8 +28,8 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving submissions.\n')
+            })
     }
 
     static getNext(then) {
@@ -36,8 +38,8 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving submissions.\n')
+            })
     }
 
     static update(charonId, submission, then) {
@@ -45,8 +47,8 @@ class Submission {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating submission.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error updating submission.\n')
+            })
     }
 
     static findById(submissionId, userId, then) {
@@ -54,8 +56,8 @@ class Submission {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submission.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving submission.\n')
+            })
     }
 
     static addNewEmpty(charonId, studentId, then) {
@@ -63,8 +65,8 @@ class Submission {
             .then(response => {
                 then(response)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error adding new submission.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error adding new submission.\n')
+            })
     }
 
     static canLoadMore() {
@@ -91,8 +93,8 @@ class Submission {
                 Submission.nextUrl = data.next_page_url
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving latest submissions.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving latest submissions.\n')
+            })
     }
 
     static findSubmissionCounts(courseId, then) {
@@ -100,8 +102,8 @@ class Submission {
             .then(({data}) => {
                 then(data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Submission submission counts.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving Submission submission counts.\n')
+            })
     }
 
     static findByUser(courseId, userId, then) {
@@ -109,8 +111,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving submissions by user.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving submissions by user.\n')
+            })
     }
 
     static findBestAverageCourseSubmissions(courseId, then) {
@@ -118,8 +120,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving course average submissions.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving course average submissions.\n')
+            })
     }
 
     static findAllSubmissionsForReport(courseId, serverParams, columnFilters, then) {
@@ -136,8 +138,8 @@ class Submission {
             .then(data => {
                 then(data.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving Submission submissions for report.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving Submission submissions for report.\n')
+            })
     }
 
 }

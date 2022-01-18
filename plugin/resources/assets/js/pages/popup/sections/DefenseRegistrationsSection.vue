@@ -55,21 +55,7 @@
                 <v-select
                     class="mx-auto"
                     dense
-                    v-if="item.progress === 'Done'"
-                    single-line
-                    return-object
-                    :items="item.lab_teachers"
-                    item-text="fullname"
-                    item-value="teacher"
-                    v-model="item.teacher"
-                    @change="updateRegistration(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
-                ></v-select>
-                <v-select
-                    class="mx-auto"
-                    dense
-                    v-else
-                    clearable
+                    :clearable="item.progress !== 'Done'"
                     single-line
                     return-object
                     :items="item.lab_teachers"
@@ -77,7 +63,8 @@
                     item-value="teacher"
                     v-model="item.teacher"
                     @change="updateRegistrationTeacher(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click:clear="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -94,7 +81,7 @@
                     :items="all_progress_types"
                     v-model="item.progress"
                     @change="updateRegistration(item)"
-                    @focus="saveLastTeacherAndProgress(item.teacher, item.progress)"
+                    @click="saveLastTeacherAndProgress(item.teacher, item.progress)"
                 ></v-select>
             </template>
 
@@ -154,14 +141,20 @@ export default {
 
         updateRegistration(item) {
             const teacher_id = item.teacher ? item.teacher.id : null;
-            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
-                if (registration == null) {
+            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, async (registration) => {
+                const registrationData = await registration.then(function (response) {
+                    return response.data;
+                }, function (_) {
+                    return null;
+                });
+                if (registrationData) {
+                    item.teacher = registrationData.teacher;
+                    item.progress = registrationData.progress;
+                    item.lab_teachers = registrationData.lab_teachers;
+                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
+                } else {
                     item.teacher = this.lastTeacher;
                     item.progress = this.lastProgress;
-                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
-                    item.teacher = registration.teacher;
-                    item.progress = registration.progress;
-                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
                 }
             })
         },

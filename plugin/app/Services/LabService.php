@@ -3,13 +3,11 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use TTU\Charon\Models\Lab;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
-use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
 
 class LabService
@@ -55,25 +53,30 @@ class LabService
     /**
      * Update lab.
      *
-     * @param Request $request
-     * @param Course $course
-     * @param Lab $lab
+     * @param $labId
+     * @param $startDateTime
+     * @param $endDateTime
+     * @param $labName
+     * @param $teachers
+     * @param $charons
+     * @param $groups
      * @return Lab
      */
-    public function update(Request $request, Lab $lab): Lab
+    public function update($labId, $startDateTime, $endDateTime, $labName, $teachers, $charons, $groups): Lab
     {
-        $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($lab->id, $request['teachers']);
+        $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($labId, $teachers);
         $updatedLab = $this->labRepository->update(
-            $lab->id,
-            $request['start'],
-            $request['end'],
-            $request['name'],
-            $request['teachers'],
-            $request['charons'],
-            $request['groups']
+            $labId,
+            $startDateTime,
+            $endDateTime,
+            $labName,
+            $teachers,
+            $charons,
+            $groups
         );
-        if (count($removedTeachers) > 0){
-            $this->defenseRegistrationRepository->removeTeachersFromWaitingAndDefendingRegistrations($lab->id, $removedTeachers);
+        if (count($removedTeachers) > 0) {
+            $this->defenseRegistrationRepository
+                ->removeTeachersFromUndoneRegistrations($labId, $removedTeachers);
         }
         return $updatedLab;
     }
@@ -152,9 +155,12 @@ class LabService
             }
 
             $queueStatus['teachers'] = $teachersList;
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting']);
+
+            $labRegistrations = $this->defenseRegistrationRepository
+                ->getLabRegistrationsByLabId($lab->id, ['Waiting']);
         } else {
-            $labRegistrations = $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
+            $labRegistrations = $this->defenseRegistrationRepository
+                ->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']);
         }
 
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(

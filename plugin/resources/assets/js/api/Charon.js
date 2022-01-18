@@ -1,4 +1,5 @@
 import CharonFormat from "../helpers/CharonFormat";
+import {Error} from "./index";
 
 class Charon {
 
@@ -11,7 +12,7 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error getting templates.\n' + error, 'danger')
+                Error.throw(error, 'Error getting templates.\n')
             })
     }
 
@@ -20,8 +21,8 @@ class Charon {
             .then(response => {
                 then(CharonFormat.formatCharons(response.data))
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving Charons.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving Charons.\n')
+            })
     }
 
     static getTesterLanguage(testerTypeCode, courseId) {
@@ -29,7 +30,7 @@ class Charon {
             .then(response => {
                 return response.data.testerType;
             }).catch(error  => {
-                VueEvent.$emit('show-notification', 'Error getting editor language.\n' + error, 'danger')
+                Error.throw(error, 'Error getting editor language.\n')
         })
 
     }
@@ -39,16 +40,16 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting a Charon.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error deleting a Charon.\n')
+            })
     }
 
     static fetchLatestLogs(courseId, then) {
         window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/logs').then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error fetching logs.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error fetching logs.\n')
+            })
     }
 
     static getResultForStudent(charonId, userId, then) {
@@ -56,15 +57,15 @@ class Charon {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving results.\n')
+            })
     }
 
     static saveCharon(charon, then) {
         axios.post(Charon.getRoot() + '/charons/' + charon.id, charon).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving Charon.\n' + error, 'danger')
+            Error.throw(error, 'Error saving Charon.\n')
         })
     }
 
@@ -72,7 +73,7 @@ class Charon {
         window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/retest').then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
+            Error.throw(error, 'Error retrieving results.\n')
         });
     }
 }

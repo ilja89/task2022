@@ -63,7 +63,7 @@ export default {
 
 	methods: {
 		initializeEventListeners() {
-			VueEvent.$on('show-notification', (message, type = 'success', timeout = 2000) => {
+			VueEvent.$on('show-notification', (message, type = 'success', timeout = 5000) => {
 				this.showNotification(message, type, timeout)
 			});
 			VueEvent.$on('close-notification', _ => this.notification.show = false)

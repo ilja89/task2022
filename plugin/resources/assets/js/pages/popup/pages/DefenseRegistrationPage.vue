@@ -132,15 +132,15 @@
         },
 
         created() {
-            this.fetchRegistrations()
-            VueEvent.$on('refresh-page', this.fetchRegistrations)
+            this.apply()
+            VueEvent.$on('refresh-page', this.apply)
             Teacher.getAllTeachers(this.course.id, response => {
                 this.teachers = response
             })
         },
 
         beforeDestroy() {
-            VueEvent.$off('refresh-page', this.fetchRegistrations)
+            VueEvent.$off('refresh-page', this.apply)
         },
 
         mounted() {
@@ -153,24 +153,8 @@
             ...mapActions(["updateTeacher"]),
 
             apply() {
-                if (this.$store.state.teacher != null){
-                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, true, response => {
-                        this.defenseList = response;
-                        this.recheckTeachers();
-                    })
-                } else {
-                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
-                        this.defenseList = response;
-                        this.recheckTeachers();
-                    })
-                }
-            },
-
-            recheckTeachers() {
-                this.defenseList.forEach(def => {
-                    if (def.teacher && def.teacher.id && !def.lab_teachers.indexOf(def.teacher) >= 0) {
-                        def.lab_teachers.push(def.teacher);
-                    }
+                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, this.$store.state.teacher != null, response => {
+                    this.defenseList = response;
                 })
             },
 
@@ -200,20 +184,6 @@
                     }
                 }
                 return -1;
-            },
-
-            fetchRegistrations() {
-                if (this.$store.state.teacher != null){
-                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, true, response => {
-                        this.defenseList = response;
-                        this.recheckTeachers();
-                    })
-                } else {
-                    Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, false, response => {
-                        this.defenseList = response;
-                        this.recheckTeachers();
-                    })
-                }
             },
 
             addRegistration() {

@@ -263,6 +263,8 @@
                 <FIELD NAME="my_teacher" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="false"/>
                 <FIELD NAME="teacher_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="defense_lab_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+<!--                progress is used to hold status of the registration.-->
+<!--                As planned, there can be 3 statuses- Waiting, Defending, Done.-->
                 <FIELD NAME="progress" SEQUENCE="false" TYPE="text" NOTNULL="true" LENGTH="255" DEFAULT="Waiting"/>
                 <FIELD NAME="defense_start" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
             </FIELDS>
