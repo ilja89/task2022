@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class Comment {
 
     static all(charonId, studentId, then) {
@@ -5,7 +7,7 @@ class Comment {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving comments.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving comments.\n')
             })
     }
 
@@ -16,7 +18,7 @@ class Comment {
         }).then(response => {
             then(response.data.comment)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving comment.\n' + error, 'danger')
+            Error.throw(error, 'Error saving comment.\n')
         })
     }
 }

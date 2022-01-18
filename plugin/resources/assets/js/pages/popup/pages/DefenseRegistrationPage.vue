@@ -132,15 +132,15 @@
         },
 
         created() {
-            this.fetchRegistrations()
-            VueEvent.$on('refresh-page', this.fetchRegistrations)
+            this.apply()
+            VueEvent.$on('refresh-page', this.apply)
             Teacher.getAllTeachers(this.course.id, response => {
                 this.teachers = response
             })
         },
 
         beforeDestroy() {
-            VueEvent.$off('refresh-page', this.fetchRegistrations)
+            VueEvent.$off('refresh-page', this.apply)
         },
 
         mounted() {
@@ -153,8 +153,8 @@
             ...mapActions(["updateTeacher"]),
 
             apply() {
-                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
-                    this.defenseList = response
+                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, this.$store.state.teacher != null, response => {
+                    this.defenseList = response;
                 })
             },
 
@@ -184,12 +184,6 @@
                     }
                 }
                 return -1;
-            },
-
-            fetchRegistrations() {
-                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
-                    this.defenseList = response
-                })
             },
 
             addRegistration() {

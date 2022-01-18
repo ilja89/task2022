@@ -172,6 +172,7 @@ class LabRepository
      * @param Number $oldLabId
      * @param Carbon $newStart
      * @param Carbon $newEnd
+     * @param $name
      * @param $newTeachers
      * @param $newCharons
      * @param $newGroups

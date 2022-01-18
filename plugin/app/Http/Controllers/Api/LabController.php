@@ -89,7 +89,7 @@ class LabController extends Controller
      */
     public function update(Course $course, Lab $lab)
     {
-        return $this->labRepository->update(
+        return $this->labService->update(
             $lab->id,
             $this->request['start'],
             $this->request['end'],

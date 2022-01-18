@@ -1,3 +1,5 @@
+import {Error} from "./index";
+
 class Preset {
 
     static save(preset, courseId, then) {
@@ -6,7 +8,7 @@ class Preset {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving preset.\n' + error, 'danger')
+            Error.throw(error, 'Error saving preset.\n')
         })
     }
 
@@ -16,7 +18,7 @@ class Preset {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating preset.\n' + error, 'danger')
+            Error.throw(error, 'Error updating preset.\n')
         })
     }
 }

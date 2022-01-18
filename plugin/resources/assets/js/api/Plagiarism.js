@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Error} from "./index";
 
 class Plagiarism {
     static getRoot() {
@@ -11,7 +12,7 @@ class Plagiarism {
                 then(response.data)
             })
             .catch(error => {
-                VueEvent.$emit('show-notification', 'Error running plagiarism checksuite.\n' + error, 'danger')
+                Error.throw(error, 'Error running plagiarism checksuite.\n')
             })
     }
 
@@ -21,7 +22,7 @@ class Plagiarism {
                 then(response.data)
             })
             .catch(error => {
-                VueEvent.$emit('show-notification', 'Error fetching plagiarism similarities.\n' + error, 'danger')
+                Error.throw(error, 'Error fetching plagiarism similarities.\n')
             })
     }
 }

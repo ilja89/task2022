@@ -117,6 +117,12 @@ return [
         'detail' => '',
     ],
 
+    'invalid_lab_teacher' => [
+        'title' => 'Only lab teacher is able to change the registration.',
+        'detail' => 'Registration can be changed only by teacher' .
+            ' who is lab teacher of lab in which registration belongs to.',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Review comment errors
