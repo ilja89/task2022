@@ -138,13 +138,9 @@ class SubmissionCalculatorService
      */
     public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
+        $thisResult = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
+
         $calculationFormula = $submission->charon->category->getGradeItem()->calculation;
-
-        $thisResult = $this->gradebookService->calculateResultWithFormulaParams(
-            $calculationFormula,
-            $this->grademapService->findFormulaParams($calculationFormula, $submission->results, $studentId, true)
-        );
-
         $activeResult = $this->gradebookService->calculateResultWithFormulaParams(
             $calculationFormula,
             $this->grademapService->findFormulaParamsFromGradebook($calculationFormula, [], $studentId, true)
@@ -166,5 +162,62 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
+    }
+
+    /**
+     * Calculates the total grade for all Submission students
+     *
+     * @param Submission $submission
+     *
+     * @return array
+     */
+    public function calculateSubmissionTotalGrades(Submission $submission): array
+    {
+        $grades = [];
+
+        foreach ($submission->users as $user) {
+            $grades[$user->id] = $this->calculateSubmissionTotalGrade($submission, $user->id);
+        }
+
+        return $grades;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param Submission $submission
+     * @param int $user_id
+     * @param bool $testGradesOnly
+     *
+     * @return float
+     */
+    public function calculateSubmissionTotalGrade(
+        Submission $submission,
+        int $user_id,
+        bool $testGradesOnly = false
+    ): float {
+
+        $calculation = $submission->charon->category->getGradeItem()->calculation;
+        $results = $submission->results;
+
+        if ($calculation == null) {
+            $sum = 0;
+            foreach ($results as $result) {
+                if ($result->user_id == $user_id) {
+                    $sum += $result->calculated_result;
+                }
+            }
+
+            return round($sum, 3);
+        }
+
+        $params = $this->grademapService->findFormulaParams(
+            $calculation,
+            $results,
+            $user_id,
+            $testGradesOnly
+        );
+
+        return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
     }
 }

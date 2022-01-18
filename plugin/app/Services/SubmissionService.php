@@ -22,9 +22,6 @@ use Zeizig\Moodle\Services\GradebookService;
  */
 class SubmissionService
 {
-    /** @var GradebookService */
-    private $gradebookService;
-
     /** @var CharonGradingService */
     private $charonGradingService;
 
@@ -40,36 +37,33 @@ class SubmissionService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var GrademapService */
-    private $grademapService;
+    /** @var SubmissionCalculatorService */
+    private $submissionCalculatorService;
 
     /**
      * SubmissionService constructor.
      *
-     * @param GradebookService $gradebookService
      * @param CharonGradingService $charonGradingService
      * @param AreteResponseParser $requestHandlingService
      * @param SubmissionsRepository $submissionsRepository
-     * @param UserRepository $userRepository
-     * @param GrademapService $grademapService
      * @param CharonRepository $charonRepository
+     * @param UserRepository $userRepository
+     * @param SubmissionCalculatorService $submissionCalculatorService
      */
     public function __construct(
-        GradebookService $gradebookService,
         CharonGradingService $charonGradingService,
         AreteResponseParser $requestHandlingService,
         SubmissionsRepository $submissionsRepository,
+        CharonRepository $charonRepository,
         UserRepository $userRepository,
-        GrademapService $grademapService,
-        CharonRepository $charonRepository
+        SubmissionCalculatorService $submissionCalculatorService
     ) {
-        $this->gradebookService = $gradebookService;
         $this->charonGradingService = $charonGradingService;
         $this->requestHandlingService = $requestHandlingService;
         $this->submissionsRepository = $submissionsRepository;
-        $this->userRepository = $userRepository;
-        $this->grademapService = $grademapService;
         $this->charonRepository = $charonRepository;
+        $this->userRepository = $userRepository;
+        $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
     /**
@@ -142,63 +136,6 @@ class SubmissionService
         }
 
         return $submission;
-    }
-
-    /**
-     * Calculates the total grade for all Submission students
-     *
-     * @param Submission $submission
-     *
-     * @return array
-     */
-    public function calculateSubmissionTotalGrades(Submission $submission): array
-    {
-        $grades = [];
-
-        foreach ($submission->users as $user) {
-            $grades[$user->id] = $this->calculateSubmissionTotalGrade($submission, $user->id);
-        }
-
-        return $grades;
-    }
-
-    /**
-     * Calculates the total grade for the given submission.
-     *
-     * @param Submission $submission
-     * @param int $user_id
-     * @param bool $testGradesOnly
-     *
-     * @return float
-     */
-    public function calculateSubmissionTotalGrade(
-        Submission $submission,
-        int $user_id,
-        bool $testGradesOnly = false
-    ): float {
-
-        $calculation = $submission->charon->category->getGradeItem()->calculation;
-        $results = $submission->results;
-
-        if ($calculation == null) {
-            $sum = 0;
-            foreach ($results as $result) {
-                if ($result->user_id == $user_id) {
-                    $sum += $result->calculated_result;
-                }
-            }
-
-            return round($sum, 3);
-        }
-
-        $params = $this->grademapService->findFormulaParams(
-            $calculation,
-            $results,
-            $user_id,
-            $testGradesOnly
-        );
-
-        return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
     }
 
     /**
@@ -330,7 +267,7 @@ class SubmissionService
         $bestTotal = -1;
 
         foreach ($this->submissionsRepository->findUserSubmissions($userId, $charonId) as $submission) {
-            $total = $this->calculateSubmissionTotalGrade($submission, $userId, true);
+            $total = $this->submissionCalculatorService->calculateSubmissionTotalGrade($submission, $userId, true);
 
             if ($total >= $bestTotal) {
                 $bestSubmission = $submission;
