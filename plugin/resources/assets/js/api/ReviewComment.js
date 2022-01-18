@@ -39,8 +39,8 @@ class ReviewComment {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-                Error.throwError(error, 'Error getting templates.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error getting templates.\n')
+            })
     }
 }
 
