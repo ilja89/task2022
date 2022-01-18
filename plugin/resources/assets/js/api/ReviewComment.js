@@ -33,6 +33,15 @@ class ReviewComment {
             Error.throwWithCheck(error, 'Error clearing review comments\' notifications.\n');
         });
     }
+
+    static getReviewCommentsForCharonAndUser(charonId, studentId, then) {
+        return axios.get('/mod/charon/api/charons/' + charonId + '/reviewComments/student?user_id=' + studentId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                Error.throwError(error, 'Error getting templates.\n' + error, 'danger')
+        })
+    }
 }
 
 export default ReviewComment

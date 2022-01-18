@@ -28,4 +28,9 @@ class ReviewComment extends Model
         'user_id', 'submission_file_id',
         'code_row_no_start', 'code_row_no_end', 'review_comment', 'notify', 'created_at'
     ];
+
+    public function file()
+    {
+        return $this->belongsTo(SubmissionFile::class, 'reviewComment.submission_file_id', 'submission_file.id');
+    }
 }
