@@ -58,7 +58,7 @@ class Defense {
             progress: progress,
             teacher_id: teacherId
         }).then(response => {
-            then(Promise.resolve(response.data))
+            then(Promise.resolve(response))
         }).catch(error => {
             Error.throwWithCheck(error, 'Error updating defense registration.\n');
             then(Promise.reject(error))
