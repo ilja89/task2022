@@ -170,10 +170,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // get teacher for student
         ->get('courses/{course}/defenseRegistrations/student/{user}/teacher', 'LabTeacherController@getTeacherForStudent');
 
-    Route::middleware('auth.course.managing.require')  // save defense progress
+    Route::middleware('auth.course.managing.require')  // update defense registration
         ->put('courses/{course}/registration/{registration}', 'DefenseRegistrationController@updateRegistration');
 
-    Route::middleware('auth.course.managing.require')  // save registration progress and undefend others registrations
+    Route::middleware('auth.course.managing.require')  // update registration progress and undefend others registrations
         ->put('courses/{course}/registration/{registration}/update/undefend', 'DefenseRegistrationController@updateRegistrationProgressAndUnDefendRegistrationsByTeacher');
 
     Route::middleware('auth.charon.managing.require') // add registration by teacher

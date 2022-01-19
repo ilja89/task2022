@@ -366,6 +366,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2020080701) {
+        // progress is used to hold status of the registration.
+        // As planned, there can be 3 statuses- Waiting, Defending, Done.
         $sql = "ALTER TABLE mdl_charon_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
         $DB->execute($sql);
     }

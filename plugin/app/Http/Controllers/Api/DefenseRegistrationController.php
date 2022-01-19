@@ -81,7 +81,8 @@ class DefenseRegistrationController extends Controller
             $request->input("user_id"),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
-            null);
+            null
+        );
     }
 
     /**
@@ -128,12 +129,20 @@ class DefenseRegistrationController extends Controller
      */
     public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
     {
-        $session = filter_var($this->request['session'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered($course->id, $after, $before, $teacherId, $progress, $session);
+        $sessionStarted = filter_var($this->request['session']);
+        return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered(
+            $course->id,
+            $after,
+            $before,
+            $teacherId,
+            $progress,
+            $sessionStarted
+        );
     }
 
     /**
-     * Decline registration updating if user is not lab teacher of lab in which registration contains
+     * Updates registration.
+     * Decline registration updating if user is not lab teacher of lab in which registration belongs to.
      *
      * @param Course $course
      * @param Registration $registration
@@ -142,7 +151,11 @@ class DefenseRegistrationController extends Controller
      */
     public function updateRegistration(Course $course, Registration $registration): Registration
     {
-        return $this->defenceRegistrationService->updateRegistration($registration->id, $this->request['progress'], $this->request['teacher_id']);
+        return $this->defenceRegistrationService->updateRegistration(
+            $registration->id,
+            $this->request['progress'],
+            $this->request['teacher_id']
+        );
     }
 
     /**

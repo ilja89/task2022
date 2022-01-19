@@ -1,4 +1,5 @@
 import CharonFormat from "../helpers/CharonFormat";
+import {Error} from "./index";
 
 class Lab {
 
@@ -9,7 +10,7 @@ class Lab {
                 CharonFormat.getNamesForLabs(labs)
                 then(labs)
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
+                Error.throw(error, 'Error retrieving labs.\n')
             })
     }
 
@@ -25,7 +26,7 @@ class Lab {
         }).then(response => {
             then(response.data)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error saving lab.\n' + error, 'danger')
+            Error.throw(error, 'Error saving lab.\n')
         })
     }
 
@@ -34,7 +35,7 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error deleting lab.\n' + error, 'danger')
+            Error.throw(error, 'Error deleting lab.\n')
         })
     }
 
@@ -49,7 +50,7 @@ class Lab {
         }).then(response => {
             then(response)
         }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error updating lab.\n' + error, 'danger')
+            Error.throw(error, 'Error updating lab.\n')
         })
     }
 
@@ -58,8 +59,8 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs for Charon.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving labs for Charon.\n')
+            })
     }
 
     static getByLabId(labId, then) {
@@ -67,8 +68,8 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving labs.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error retrieving labs.\n')
+            })
     }
 
     static checkRegistrations(courseId, labId, filters, then) {
@@ -76,8 +77,8 @@ class Lab {
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error getting registrations.\n' + error, 'danger')
-        })
+                Error.throw(error, 'Error getting registrations.\n')
+            })
     }
 
     static getGroups(courseId, then) {
@@ -85,8 +86,8 @@ class Lab {
             .then(response => {
                 then(response.data);
             }).catch(error => {
-                VueEvent.$emit('show-notification', 'Error retrieving groups.\n' + error, 'danger');
-        });
+                Error.throw(error, 'Error retrieving groups.\n')
+            });
     }
 
     static getLabQueueStatus(charonId, defLabId, studentId, then) {
@@ -94,8 +95,8 @@ class Lab {
             .then(response => {
                 then(response.data);
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error retrieving queue status.\n' + error, 'danger');
-        });
+                Error.throw(error, 'Error retrieving queue status.\n')
+            });
     }
 }
 

@@ -105,7 +105,7 @@ class DefenceRegistrationService
             'defense_lab_id' => $defenseLabId,
             'progress' => $progress != null ? $progress : "Waiting",
             'charon_id' => $charonId,
-            'defense_start' => $progress == 'Defending' ? Carbon::now() : null
+            //'defense_start' => $progress == 'Defending' ? Carbon::now() : null
         ]);
 
         Log::info(json_encode([
@@ -456,7 +456,6 @@ class DefenceRegistrationService
             return null;
         }
 
-        Log::info('1111');
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
@@ -490,12 +489,15 @@ class DefenceRegistrationService
     }
 
     /**
+     * Get defense registrations by course. The needed is only $courseId, other parameters are used only for filtering.
+     *
      * @param $courseId
-     * @param $after
-     * @param $before
+     * @param $after - is used to get registrations where lab ends after this time
+     * @param $before - is used to get registrations where lab starts before this time
      * @param $teacher_id
-     * @param $progress
-     * @param bool $session
+     * @param $progress - status of the registration - 'Waiting', 'Defending' or 'Done'
+     * @param bool $sessionStarted - is used to filter out others teachers' registrations to get only free
+     * registrations and registration by $teacherId, if $sessionStarted parameter is true.
      * @return Registration[]
      */
     public function getDefenseRegistrationsByCourseFiltered(
@@ -504,11 +506,11 @@ class DefenceRegistrationService
         $before,
         $teacher_id,
         $progress,
-        bool $session
+        bool $sessionStarted
     )
     {
         $defenseRegistrations = $this->defenseRegistrationRepository
-            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, $session);
+            ->getDefenseRegistrationsByCourseFiltered($courseId, $after, $before, $teacher_id, $progress, $sessionStarted);
         $labId = null;
         $labTeachers = [];
         foreach ($defenseRegistrations as $defenseRegistration) {
@@ -517,14 +519,28 @@ class DefenceRegistrationService
                 $labTeachers = $this->teacherRepository
                     ->getTeachersByCharonAndLab($defenseRegistration->charon_id, $labId);
             }
-            $defenseRegistration->lab_teachers = $labTeachers;
+            $defenseLabTeachers = $labTeachers->toArray();
+            if ($defenseRegistration->teacher['id']) {
+                $teacherExists = false;
+                foreach ($defenseLabTeachers as $defenseLabTeacher) {
+                    if ($defenseLabTeacher->id == $defenseRegistration->teacher['id']) {
+                        $teacherExists = true;
+                    }
+                }
+                if (!$teacherExists) {
+                    array_push($defenseLabTeachers, $defenseRegistration->teacher);
+                }
+            }
+            $defenseRegistration->lab_teachers = $defenseLabTeachers;
         }
         return $defenseRegistrations;
     }
 
     /**
      * Update registration progress or/and teacher.
-     * If no teacher and status defending or done, then marking currently logged user as teacher.
+     * Check if current user is lab teacher of lab, in which registration belongs,
+     * so has rights to manage this registration.
+     * If no teacher given and progress 'Defending' or 'Done', then marking currently logged user as teacher.
      *
      * @param $defenseId
      * @param $newProgress
@@ -534,16 +550,30 @@ class DefenceRegistrationService
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
-        $this->checkIfCurrentUserIsLabTeacher($defenseId);
-        if ($newTeacherId == null && $newProgress !== 'Waiting') {
-            $userId = app(User::class)->currentUserId();
-            $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($defenseId, $userId);
-            if ($labTeacher !== null){
-                $newTeacherId = $userId;
-            }
+        $userId = app(User::class)->currentUserId();
+
+        $labTeacher = $this->teacherRepository
+            ->getTeacherByDefenseAndUserId($defenseId, $userId);
+        if ($labTeacher == null) {
+            throw new RegistrationException("invalid_lab_teacher");
+        } else if ($newTeacherId == null && $newProgress !== 'Waiting') {
+            $newTeacherId = $userId;
+            $updatedDefenseTeacher = $labTeacher;
+        } else if ($newTeacherId == null) {
+            $updatedDefenseTeacher = null;
+        } else {
+            $updatedDefenseTeacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
         }
+
         $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
-        $defense->teacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
+        $defense->teacher = $updatedDefenseTeacher;
+        $labTeachers = $this->teacherRepository->getTeachersByCharonAndDefenseLab($defense->charon_id, $defense->defense_lab_id);
+
+        if ($defense->teacher && $defense->teacher->id && !$labTeachers->contains($defense->teacher)) {
+            $labTeachers->push($defense->teacher);
+        }
+        $defense->lab_teachers = $labTeachers;
+
         return $defense;
     }
 
@@ -577,6 +607,36 @@ class DefenceRegistrationService
         // Update registration new progress
         return $this->defenseRegistrationRepository
             ->updateRegistrationProgress($registration->id, $teacherId, $registrationNewProgress);
+    }
+
+    /**
+     * Deletes registration, also checks that teacher has rights on this.
+     *
+     * @param $studentId
+     * @param $defenseLabId
+     * @param $submissionId
+     * @param $userId
+     * @return int
+     * @throws RegistrationException
+     */
+    public function delete($studentId, $defenseLabId, $submissionId)
+    {
+        // Check if current user is lab teacher of lab, in which registration belongs
+        $labTeacher = $this->teacherRepository
+            ->getTeacherByDefenseLabAndUserId($defenseLabId, app(User::class)->currentUserId());
+        if ($labTeacher == null) {
+            throw new RegistrationException("invalid_lab_teacher");
+        }
+
+        Log::warning(json_encode([
+            'event' => 'registration_deletion',
+            'by_user_id' => app(User::class)->currentUserId(),
+            'for_user_id' => $studentId,
+            'defense_lab_id' => $defenseLabId,
+            'submission_id' => $submissionId
+        ]));
+        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+
     }
 
     /**
