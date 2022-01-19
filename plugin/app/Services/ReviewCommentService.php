@@ -145,7 +145,9 @@ EOT;
         usort(
             $fileReviewComments,
             function ($reviewComments1, $reviewComments2) {
-                return $reviewComments1->submissionCreation < $reviewComments2->submissionCreation;
+                return $reviewComments1->submissionCreation === $reviewComments2->submissionCreation
+                    ? $reviewComments1->fileId > $reviewComments2->fileId
+                    : $reviewComments1->submissionCreation < $reviewComments2->submissionCreation;
             }
         );
 
