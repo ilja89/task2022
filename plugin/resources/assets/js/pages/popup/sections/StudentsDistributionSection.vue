@@ -1,12 +1,19 @@
 <template>
     <popup-section title="Students distribution"
                    subtitle="Distribution of students over their max grade for this course.">
+        <template slot="header-right">
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentsDistribution">Load distribution
+            </v-btn>
+        </template>
 
-        <v-data-table
-                hide-default-footer
-                :headers="student_distribution_headers"
-                :items="distributions">
+        <v-data-table v-if="student_distribution.length > 0"
+                      hide-default-footer
+                      :headers="student_distribution_headers"
+                      :items="distributions">
         </v-data-table>
+        <v-card-title v-else>
+            {{ empty }}
+        </v-card-title>
 
     </popup-section>
 </template>
@@ -23,6 +30,7 @@
 
         data() {
             return {
+                empty: 'Press load distribution to get started',
                 student_distribution: [],
                 student_distribution_headers: [
                     {text: 'Points', value: 'interval', align: 'start'},
@@ -72,8 +80,8 @@
             },
         },
 
-        created() {
+/*        created() {
             this.fetchStudentsDistribution()
-        },
+        },*/
     }
 </script>
