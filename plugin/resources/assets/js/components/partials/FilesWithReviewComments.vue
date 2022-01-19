@@ -5,7 +5,11 @@
                 <span class="header">
                     {{ file.path }}
                 </span>
-                <v-card v-for="reviewComment in file.reviewComments" :key="reviewComment.id" class="review-comment">
+                <v-card v-for="reviewComment in file.reviewComments"
+                        :key="reviewComment.id"
+                        class="review-comment"
+                        :class="{ notify: view === 'student' && reviewComment.notify > 0 }"
+                >
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
                             <span class="review-comment-author">
@@ -126,6 +130,10 @@ p {
     padding-right: 0.5em;
     font-weight: normal;
     margin-left: 1em;
+}
+
+.notify {
+    background-color: #e6f0ff!important;
 }
 
 </style>
