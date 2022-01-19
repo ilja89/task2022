@@ -162,28 +162,6 @@ export default {
 
         updateRegistration(item) {
             const teacher_id = item.teacher ? item.teacher.id : null;
-            Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, (registration) => {
-                if (registration == null) {
-                    item.teacher = this.lastTeacher;
-                    item.progress = this.lastProgress;
-                } else if (teacher_id == null && (item.progress === 'Defending' || item.progress === 'Done')) {
-                    item.teacher = registration.teacher;
-                    item.progress = registration.progress;
-                    VueEvent.$emit('show-notification', "Registration successfully updated", 'danger');
-                }
-            })
-        },
-
-        updateRegistrationTeacher(item) {
-            const teacher_id = item.teacher ? item.teacher.id : null;
-            if (item.progress === 'Defending' && teacher_id == null) {
-                item.progress = 'Waiting';
-            }
-            this.updateRegistration(item);
-        },
-
-        updateRegistration(item) {
-            const teacher_id = item.teacher ? item.teacher.id : null;
             Defense.updateRegistration(this.course.id, item.id, item.progress, teacher_id, async (registration) => {
                 const registrationData = await registration.then(function (response) {
                     return response.data;
