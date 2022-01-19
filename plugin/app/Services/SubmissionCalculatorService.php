@@ -129,7 +129,7 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Check if the current submission is better than the last active one.
+     * Check if the current submission is better than the active one.
      *
      * @param Submission $submission
      * @param int $studentId
@@ -187,14 +187,16 @@ class SubmissionCalculatorService
      *
      * @param Submission $submission
      * @param int $user_id
-     * @param bool $testGradesOnly
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
      *
      * @return float
      */
     public function calculateSubmissionTotalGrade(
         Submission $submission,
         int $user_id,
-        bool $testGradesOnly = false
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
     ): float {
 
         $calculation = $submission->charon->category->getGradeItem()->calculation;
@@ -215,7 +217,8 @@ class SubmissionCalculatorService
             $calculation,
             $results,
             $user_id,
-            $testGradesOnly
+            $ignoreCustom,
+            $ignoreStyle
         );
 
         return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);

@@ -16,6 +16,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\Flows\TeacherModifiesSubmission;
+use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Services\SubmissionService;
 
 class SubmissionControllerTest extends TestCase
@@ -39,7 +40,8 @@ class SubmissionControllerTest extends TestCase
             Mockery::mock(SubmissionsRepository::class),
             Mockery::mock(CharonRepository::class),
             Mockery::mock(FilesController::class),
-            $this->teacherModifiesSubmission = Mockery::mock(TeacherModifiesSubmission::class)
+            $this->teacherModifiesSubmission = Mockery::mock(TeacherModifiesSubmission::class),
+            Mockery::mock(SubmissionCalculatorService::class)
         );
     }
 

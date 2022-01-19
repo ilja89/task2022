@@ -63,6 +63,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         /** @var Mock|GradeCategory $category */
         $category = Mockery::mock(GradeCategory::class);
         $category->shouldReceive("getGradeItem")
+            ->twice()
             ->andReturn(new GradeItem(["calculation" => $calculation]));
 
         $charon = new Charon();
@@ -73,7 +74,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $submission->results = $results;
 
         $this->grademapService->shouldReceive("findFormulaParams")
-            ->with($calculation, $results, $studentId, true)
+            ->with($calculation, $results, $studentId, true, false)
             ->once()
             ->andReturn($newSubmissionParams);
 
@@ -116,6 +117,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         /** @var Mock|GradeCategory $category */
         $category = Mockery::mock(GradeCategory::class);
         $category->shouldReceive("getGradeItem")
+            ->twice()
             ->andReturn(new GradeItem(["calculation" => $calculation]));
 
         $charon = new Charon();
@@ -126,7 +128,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $submission->results = $results;
 
         $this->grademapService->shouldReceive("findFormulaParams")
-            ->with($calculation, $results, $studentId, true)
+            ->with($calculation, $results, $studentId, true, false)
             ->once()
             ->andReturn($newSubmissionParams);
 
@@ -346,5 +348,76 @@ class SubmissionCalculatorServiceTest extends TestCase
         $submission->setDateFormat('Y-m-d H:i:s');
         $submission->created_at = $createdAt;
         return $submission;
+    }
+
+    public function testCalculateSubmissionTotalGradeIfFormulaPresent()
+    {
+        GradeItem::unguard();
+
+        $gradeItem = new GradeItem(['calculation' => '=##gi3## * ##gi5##']);
+
+        /** @var Charon $charon */
+        $charon = Mockery::mock('Charon');
+        $charon->category = Mockery::mock('Category', ['getGradeItem' => $gradeItem]);
+
+        $submission = new Submission();
+        $submission->charon = $charon;
+        $submission->user_id = 7;
+        $submission->results = [
+            $this->makeResult('Tests', 0.5, 3),
+            $this->makeResult('Style', 1, 5),
+        ];
+
+        $this->grademapService
+            ->shouldReceive('findFormulaParams')
+            ->with('=##gi3## * ##gi5##', $submission->results, 7, false, false)
+            ->once()
+            ->andReturn(['gi3' => 0.5, 'gi5' => 1]);
+
+        $this->gradebookService
+            ->shouldReceive('calculateResultWithFormulaParams')
+            ->with('=##gi3## * ##gi5##', ['gi3' => 0.5, 'gi5' => 1])
+            ->andReturn(0.5009);
+
+        $result = $this->service->calculateSubmissionTotalGrade($submission, 7);
+
+        $this->assertEquals(0.501, $result);
+    }
+
+    public function testCalculateSubmissionTotalGradeIfFormulaMissing()
+    {
+        GradeItem::unguard();
+
+        $gradeItem = new GradeItem();
+
+        /** @var Charon $charon */
+        $charon = Mockery::mock('Charon');
+        $charon->category = Mockery::mock('Category', ['getGradeItem' => $gradeItem]);
+
+        $submission = new Submission();
+        $submission->charon = $charon;
+        $submission->results = [
+            $this->makeResult('Tests', 0.5009, 0, 7),
+            $this->makeResult('Tests', 0.9, 0, 0),
+            $this->makeResult('Style', 1.004, 0, 7),
+        ];
+
+        $result = $this->service->calculateSubmissionTotalGrade($submission, 7);
+
+        $this->assertEquals(1.505, $result);
+    }
+
+    private function makeResult($identifier, $calculatedResult, $gradeItemId = 1, $userId = 0)
+    {
+        $gradeItem = new GradeItem(['idnumber' => $identifier]);
+        $gradeItem->id = $gradeItemId;
+        $grademap = new Grademap(['gradeItem' => $gradeItem]);
+
+        /** @var Mock|Result $result */
+        $result = Mockery::mock('Result', ['getGrademap' => $grademap]);
+        $result->calculated_result = $calculatedResult;
+        $result->user_id = $userId;
+
+        return $result;
     }
 }
