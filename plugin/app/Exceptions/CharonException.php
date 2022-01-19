@@ -67,8 +67,10 @@ abstract class CharonException extends \Exception
 
         $error = config('errors.' . $this->slug);
 
-        $this->title  = $error['title'];
-        $this->detail = vsprintf($error['detail'], $args);
+        if($error) {
+            $this->title  = $error['title'];
+            $this->detail = vsprintf($error['detail'], $args);
+        }
 
         return $this->detail;
     }
