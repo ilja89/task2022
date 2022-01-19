@@ -223,27 +223,27 @@ class DefenseRegistrationRepository
             ->orderBy("charon_defenders.defense_start")
             ->orderBy('charon_defenders.id');
 
-        if ($after != 'null' && $before != 'null') {
+        if (!is_null($after) && !is_null($before)) {
             $query->whereRaw('end >= ? AND start <= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
-        } elseif ($after != 'null') {
+        } elseif (!is_null($after)) {
             $query->whereRaw('end >= ?', [
                 Carbon::parse($after)->format('Y-m-d H:i:s'),
             ]);
-        } elseif ($before != 'null') {
+        } elseif (!is_null($before)) {
             $query->whereRaw('start <= ?', [
                 Carbon::parse($before)->format('Y-m-d H:i:s')
             ]);
         }
 
-        if ($teacherId != 'null' && $sessionStarted) {
+        if (!is_null($teacherId) && $sessionStarted) {
             $query->whereRaw('teacher_id = ?', [$teacherId])->orWhereNull('teacher_id');
-        } else if ($teacherId != 'null') {
+        } else if (!is_null($teacherId)) {
             $query->whereRaw('teacher_id = ?', [$teacherId]);
         }
-        if ($progress != 'null') {
+        if (!is_null($progress)) {
             $query->whereRaw('progress = ?', [$progress]);
         }
 
