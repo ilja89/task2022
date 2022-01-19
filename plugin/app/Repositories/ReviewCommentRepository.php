@@ -105,8 +105,8 @@ class ReviewCommentRepository
                 'charon_review_comment.user_id as commented_by_id',
                 'user.firstname as commented_by_firstname',
                 'user.lastname as commented_by_lastname')
-        ->get()
-        ->all();
+            ->get()
+            ->all();
         return $this->convertToDTOs($rawResults);
     }
 
@@ -131,22 +131,7 @@ class ReviewCommentRepository
                     $rawResult->path
                 );
 
-                $i = 0;
-                foreach ($fileReviewCommentsDTOs as $fileId => $DTO) {
-
-                    if ($fileReviewCommentsDTO->submissionCreation > $DTO->submissionCreation) {
-
-                        $fileReviewCommentsDTOs = array_slice($fileReviewCommentsDTOs, 0, $i, true) +
-                            [$rawResult->file_id => $fileReviewCommentsDTO] +
-                            array_slice($fileReviewCommentsDTOs, $i, null, true);
-                        break;
-                    }
-                    $i++;
-                }
-
-                if ($i === count($fileReviewCommentsDTOs)) {
-                    $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
-                }
+                $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
             }
 
             $reviewCommentDTO = new ReviewCommentDTO(

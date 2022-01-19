@@ -130,7 +130,8 @@ EOT;
     }
 
     /**
-     * Get all reviewComments for the specific charon and for the specific student.
+     * Get all review comments for the specific charon and for the specific student.
+     * Also group review comments by their files and sort by files' creation time (descending).
      *
      * @param $charonId
      * @param $studentId
@@ -138,6 +139,16 @@ EOT;
      */
     public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
-        return $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
+        $fileReviewComments =
+            $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
+
+        usort(
+            $fileReviewComments,
+            function ($reviewComments1, $reviewComments2) {
+                return $reviewComments1->submissionCreation < $reviewComments2->submissionCreation;
+            }
+        );
+
+        return $fileReviewComments;
     }
 }
