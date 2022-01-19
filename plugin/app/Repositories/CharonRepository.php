@@ -35,9 +35,6 @@ class CharonRepository
     /** @var FileUploadService */
     private $fileUploadService;
 
-//    /** @var CharonDefenseLabRepository */
-//    private $charonDefenseLabRepository;
-
     /** @var LabRepository */
     private $labRepository;
 
@@ -61,7 +58,6 @@ class CharonRepository
         $this->moduleService = $moduleService;
         $this->fileUploadService = $fileUploadService;
         $this->gradebookService = $gradebookService;
-//        $this->charonDefenseLabRepository = $charonDefenseLabRepository;
         $this->labRepository = $labRepository;
     }
 
@@ -322,68 +318,7 @@ class CharonRepository
             unset($charon->labs);
             unset($charon->gradeItem);
         }
-
-        /*$moduleId = $this->moduleService->getModuleId();
-
-        $charons = \DB::table('charon')
-            ->leftJoin('course_modules', 'course_modules.instance', 'charon.id')
-            ->join('charon_tester_type', 'charon.tester_type_code', 'charon_tester_type.code')
-            ->where('charon.course', $courseId)
-            ->where('course_modules.module', $moduleId)
-            ->orWhereNull('course_modules.module')
-            ->select(
-                'charon.id',
-                'charon.name',
-                'charon_tester_type.name AS tester_type_name',
-                'charon_tester_type.code AS tester_type_code',
-                'charon.project_folder',
-                'course_modules.id AS course_module_id',
-                'charon.category_id',
-                'charon.grouping_id',
-                'charon.course',
-                'charon.defense_deadline',
-                'charon.defense_start_time',
-                'charon.defense_duration',
-                'charon.choose_teacher',
-                'charon.defense_threshold',
-                'charon.docker_timeout',
-                'charon.docker_content_root',
-                'charon.docker_test_root',
-                'charon.group_size',
-                'charon.tester_extra',
-                'charon.system_extra'
-            )
-            ->orderBy('charon.name')
-            ->get();
-
-        foreach ($charons as $charon) {
-            $charon->defense_labs = $this->charonDefenseLabRepository->getDefenseLabsByCharonId($charon->id);
-            $gradeItem = $this->gradebookService->getGradeItemByCategoryId($charon->category_id);
-            $charon->calculation_formula = $gradeItem
-                ? $this->gradebookService->denormalizeCalculationFormula(
-                    $gradeItem->calculation,
-                    $courseId
-                )
-                : '';
-
-            $charon->grademaps = Grademap::with([
-                'gradeItem' => function ($query) {
-                    $query->select(['id', 'grademax']);
-                },
-            ])
-                ->where('charon_id', $charon->id)
-                ->get(['id', 'charon_id', 'grade_item_id', 'grade_type_code', 'name', 'persistent']);
-            $charon->deadlines = Deadline::with([
-                'group' => function ($query) {
-                    $query->select(['id', 'name']);
-                }
-            ])
-                ->where('charon_id', $charon->id)
-                ->get();
-        }*/
-
         return $charons;
-
     }
 
     /**

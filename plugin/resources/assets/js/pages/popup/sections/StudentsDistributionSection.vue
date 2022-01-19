@@ -78,10 +78,6 @@
                 const helper = Math.pow(10, precision)
                 return Math.round(nr * helper) / helper
             },
-        },
-
-/*        created() {
-            this.fetchStudentsDistribution()
-        },*/
+        }
     }
 </script>
