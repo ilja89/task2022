@@ -185,9 +185,7 @@ class DefenseRegistrationController extends Controller
      */
     public function getStudentRegistrations(Request $request): Collection
     {
-        $studentId = $request->input('user_id');
-
-        return $this->defenseRegistrationRepository->getStudentRegistrations($studentId);
+        return $this->defenseRegistrationRepository->getStudentRegistrations($request->input('user_id'));
     }
 
     /**
@@ -207,8 +205,8 @@ class DefenseRegistrationController extends Controller
 
     /**
      * Searches for all teacher' registrations with status 'Defending' and
-     * puts them new progress (request['activeRegistrationsProgress']). Then updates given registration with
-     * new progress ($this->request['registrationNewProgress']).
+     * puts them new progress (activeRegistrationsProgress). Then updates given registration with
+     * new progress (registrationNewProgress).
      *
      * @param Course $course
      * @param Registration $registration

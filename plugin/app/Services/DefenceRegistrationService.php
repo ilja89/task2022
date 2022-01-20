@@ -378,7 +378,8 @@ class DefenceRegistrationService
     }
 
     /**
-     * Give registrations their approximate starting time and sort them by it.
+     * Give registrations their approximate starting time and sort them by it. If no teachers,
+     * then show ordered registrations.
      *
      * @param array $registrations
      * @param int $teacherCount
@@ -585,7 +586,7 @@ class DefenceRegistrationService
      * @param Registration $registration
      * @param $teacherId
      * @param int $labId
-     * @param string $acticeRegistrationsProgress
+     * @param string $activeRegistrationsProgress
      * @param string $registrationNewProgress
      * @return Registration
      * @throws RegistrationException
@@ -615,7 +616,6 @@ class DefenceRegistrationService
      * @param $studentId
      * @param $defenseLabId
      * @param $submissionId
-     * @param $userId
      * @return int
      * @throws RegistrationException
      */

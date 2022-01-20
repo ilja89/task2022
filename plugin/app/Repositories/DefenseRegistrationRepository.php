@@ -374,7 +374,7 @@ class DefenseRegistrationRepository
      * @param $teachersToRemove
      * @return int
      */
-    public function removeTeachersFromUndoneRegistrations($labId, $teachersToRemove)
+    public function removeTeachersFromUndoneRegistrations($labId, $teachersToRemove): int
     {
         return DB::table('charon_defenders')
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
@@ -400,10 +400,12 @@ class DefenseRegistrationRepository
             ->where('charon_defenders.teacher_id', $teacherId)
             ->where('charon_defenders.progress', 'Defending')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->first(['charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname', 'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id']);
+            ->first(['charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname',
+                'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id']);
     }
 
     /**
+     * Updates only defending registrations to block having multiple defending registrations.
      *
      * @param int $labId
      * @param int $teacherId
@@ -418,12 +420,13 @@ class DefenseRegistrationRepository
             ->where('charon_defenders.teacher_id', $teacherId)
             ->where('charon_defenders.progress', 'Defending')
             ->where('charon_defense_lab.lab_id', $labId)
-            ->update(array('charon_defenders.progress' => $progress));
+            ->update(['charon_defenders.progress' => $progress]);
     }
 
     /**
      * Save defending progress.
      * @param $defenseId
+     * @param $teacherId
      * @param $newProgress
      * @return Registration
      */
