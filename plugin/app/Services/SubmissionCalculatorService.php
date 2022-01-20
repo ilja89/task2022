@@ -235,7 +235,7 @@ class SubmissionCalculatorService
         int $userId,
         bool $ignoreCustom = false,
         bool $ignoreStyle = false
-    ) {
+    ): float {
         $calculationFormula = $charon->category->getGradeItem()->calculation;
         $total = $this->gradebookService->calculateResultWithFormulaParams(
             $calculationFormula,

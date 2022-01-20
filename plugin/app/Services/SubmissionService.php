@@ -13,7 +13,6 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
-use Zeizig\Moodle\Services\GradebookService;
 
 /**
  * Class SubmissionService.
