@@ -395,7 +395,7 @@ class DefenceRegistrationService
     ): array {
 
         //If lab started, then queue starts from now
-        if (Carbon::now() >= $labStart){
+        if (Carbon::now() >= $labStart) {
             $queueStart = Carbon::now();
         } else {
             $queueStart = $labStart;
@@ -406,13 +406,13 @@ class DefenceRegistrationService
         }
         $queuePresumption = array_fill(0, $teacherCount, 0);
 
-        foreach ($teachersDefences as $teachersDefence){
+        foreach ($teachersDefences as $teachersDefence) {
             $defenseStart = Carbon::parse($teachersDefence->defense_start);
             $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
 
             $defenceAndQueueStartDifference = $defenseStart->copy()->diffInMinutes($queueStart);
 
-            if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration){
+            if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration) {
                 $queuePresumption[$teacherNr] += $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
             }
         }

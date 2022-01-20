@@ -285,7 +285,7 @@ class DefenseRegistrationRepository
         $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
-        if ($newProgress == 'Defending'){
+        if ($newProgress == 'Defending') {
             $defense->defense_start = Carbon::now();
         }
         $defense->update();
@@ -331,8 +331,13 @@ class DefenseRegistrationRepository
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
             ->where("charon_defense_lab.lab_id", $labId)
             ->whereIn("charon_defenders.progress", $progresses)
-            ->select("charon.name as charon_name", "charon.defense_duration", "charon_defenders.student_id",
-                "charon_defenders.defense_start", "charon_defenders.progress")
+            ->select(
+                "charon.name as charon_name",
+                "charon.defense_duration",
+                "charon_defenders.student_id",
+                "charon_defenders.defense_start",
+                "charon_defenders.progress"
+            )
             ->orderBy("charon_defenders.defense_start")
             ->orderBy('charon_defenders.id')
             ->get()
@@ -367,8 +372,13 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.lab_id', $labId)
             ->where('progress', 'Defending')
             ->whereNotNull('charon_defenders.teacher_id')
-            ->select('charon_defenders.teacher_id', 'charon.name as charon', 'charon_defenders.defense_start', 'charon.defense_duration')
-            ->groupBy('teacher_id','charon','defense_start', 'defense_duration')
+            ->select(
+                'charon_defenders.teacher_id',
+                'charon.name as charon',
+                'charon_defenders.defense_start',
+                'charon.defense_duration'
+            )
+            ->groupBy('teacher_id', 'charon', 'defense_start', 'defense_duration')
             ->get();
     }
 

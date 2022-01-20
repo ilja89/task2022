@@ -130,10 +130,10 @@ class DefenseRegistrationController extends Controller
         $sessionStarted = filter_var($this->request['session']);
         return $this->registrationService->getDefenseRegistrationsByCourseFiltered(
             $course->id,
-            $after === 'null' ? null: $after,
-            $before === 'null' ? null: $before,
-            $teacherId === 'null' ? null: $teacherId,
-            $progress === 'null' ? null: $progress,
+            $after === 'null' ? null : $after,
+            $before === 'null' ? null : $before,
+            $teacherId === 'null' ? null : $teacherId,
+            $progress === 'null' ? null : $progress,
             $sessionStarted
         );
     }
