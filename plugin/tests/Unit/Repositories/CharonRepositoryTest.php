@@ -82,7 +82,6 @@ class CharonRepositoryTest extends TestCase
 
     public function testSaveCharonSkipsLabsWhenNoKey()
     {
-
         Event::fake();
 
         $charon = Mockery::spy(Charon::class);
