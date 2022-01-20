@@ -117,8 +117,8 @@ class TemplateServiceTest extends TestCase
         );
 
         $this->repository->shouldReceive('deleteAllTemplates')->with(1)->once();
-        $this->repository->shouldReceive('saveTemplate')->with(1, $template1['path'], $template1['templateContents']);
-        $this->repository->shouldReceive('saveTemplate')->with(1, $template2['path'], $template2['templateContents']);
+        $this->repository->shouldReceive('saveTemplate')->with(1, $template1['path'], $template1['templateContents'])->once();
+        $this->repository->shouldReceive('saveTemplate')->with(1, $template2['path'], $template2['templateContents'])->once();
 
         $this->service->updateTemplates(1, $templates);
     }
