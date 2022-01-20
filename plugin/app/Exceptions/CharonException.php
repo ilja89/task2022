@@ -70,6 +70,9 @@ abstract class CharonException extends \Exception
         if($error) {
             $this->title  = $error['title'];
             $this->detail = vsprintf($error['detail'], $args);
+        } else {
+            $this->title = 'Could not find correct error';
+            $this->detail = '';
         }
 
         return $this->detail;
