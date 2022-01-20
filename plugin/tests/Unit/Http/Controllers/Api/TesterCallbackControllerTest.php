@@ -74,7 +74,11 @@ class TesterCallbackControllerTest extends TestCase
             ->andReturn($submission);
 
         $this->saveCallbackFlow
-            ->shouldReceive('hideUnneededFields')->with($submission)->passthru();
+            ->shouldReceive('hideUnneededFields')
+            ->with($submission)
+            ->once()
+            ->andReturn($submission)->passthru();
+
 
         $this->controller->index($request);
     }
