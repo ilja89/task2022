@@ -138,13 +138,8 @@ class SubmissionCalculatorService
      */
     public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
-        $thisResult = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
-
-        $calculationFormula = $submission->charon->category->getGradeItem()->calculation;
-        $activeResult = $this->gradebookService->calculateResultWithFormulaParams(
-            $calculationFormula,
-            $this->grademapService->findFormulaParamsFromGradebook($calculationFormula, [], $studentId, true)
-        );
+        $thisResult   = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
+        $activeResult = $this->calculateActiveSubmissionTotalGrade($submission->charon, $studentId, true);
 
         return $thisResult > $activeResult;
     }
@@ -222,5 +217,37 @@ class SubmissionCalculatorService
         );
 
         return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
+    }
+
+    /**
+     * Calculate total grade for given charon and user with grades got from gradebook.
+     *
+     * It is available to ignore custom/style grades in order to get potential total grade.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     * @return float
+     */
+    private function calculateActiveSubmissionTotalGrade(
+        Charon $charon,
+        int $userId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ) {
+        $calculationFormula = $charon->category->getGradeItem()->calculation;
+        $total = $this->gradebookService->calculateResultWithFormulaParams(
+            $calculationFormula,
+            $this->grademapService->findFormulaParamsFromGradebook(
+                $calculationFormula,
+                [],
+                $userId,
+                $ignoreCustom,
+                $ignoreStyle
+            )
+        );
+
+        return round($total, 3);
     }
 }

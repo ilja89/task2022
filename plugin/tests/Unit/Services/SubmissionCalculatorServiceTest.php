@@ -84,7 +84,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             ->andReturn($newSubmissionPotentialTotal);
 
         $this->grademapService->shouldReceive("findFormulaParamsFromGradebook")
-            ->with($calculation, [], $studentId, true)
+            ->with($calculation, [], $studentId, true, false)
             ->once()
             ->andReturn($activeSubmissionParams);
 
@@ -138,7 +138,7 @@ class SubmissionCalculatorServiceTest extends TestCase
             ->andReturn($newSubmissionPotentialTotal);
 
         $this->grademapService->shouldReceive("findFormulaParamsFromGradebook")
-            ->with($calculation, [], $studentId, true)
+            ->with($calculation, [], $studentId, true, false)
             ->once()
             ->andReturn($activeSubmissionParams);
 
