@@ -288,9 +288,9 @@ class UpdateCharonService
                 throw new \RuntimeException("given charon has an unknown grading method");
             }
 
-            if ($submission !== null) {
-                $this->charonGradingService->updateGrades($submission, $student->id);
-            }
+            $submission !== null
+                ? $this->charonGradingService->updateGrades($submission, $student->id)
+                : $this->charonGradingService->resetGrades($charon, $student->id);
         }
     }
 }
