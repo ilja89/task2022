@@ -100,4 +100,26 @@ class TemplateServiceTest extends TestCase
 
         $this->service->addTemplates($charon->id, $templates);
     }
+
+    public function testUpdateTemplatesSuccessful()
+    {
+        $template1 = array(
+            'path' => 'EX01/Dog.php',
+            'templateContents' => 'auh'
+        );
+        $template2 = array(
+            'path' => 'EX01/Cat.php',
+            'templateContents' => 'meow'
+        );
+        $templates = array(
+            $template1,
+            $template2
+        );
+
+        $this->repository->shouldReceive('deleteAllTemplates')->with(1)->once();
+        $this->repository->shouldReceive('saveTemplate')->with(1, $template1['path'], $template1['templateContents']);
+        $this->repository->shouldReceive('saveTemplate')->with(1, $template2['path'], $template2['templateContents']);
+
+        $this->service->updateTemplates(1, $templates);
+    }
 }
