@@ -153,9 +153,17 @@
             ...mapActions(["updateTeacher"]),
 
             apply() {
-                Defense.filtered(this.course.id, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, this.$store.state.teacher != null, response => {
+                Defense.filtered(
+                    this.course.id,
+                    this.after.time,
+                    this.before.time,
+                    this.filter_teacher,
+                    this.filter_progress,
+                    this.$store.state.teacher != null,
+                    response => {
                     this.defenseList = response;
-                })
+                    }
+                )
             },
 
             startSession() {
