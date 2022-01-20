@@ -6,10 +6,10 @@
         </div>
 
         <div>
-            <p class="text" v-text="text"></p>
+            <p class="charon-info" v-text="text"></p>
         </div>
 
-        <v-row>
+        <v-row class="alertBox-buttons">
             <v-col v-for="name in buttonNames" :key="name">
                 <v-btn tile class="customBtn" v-text="name" @click="closeDialog(name)"></v-btn>
             </v-col>
@@ -40,9 +40,8 @@ export default {
             VueEvent.$emit(this.eventName, buttonName);
         }
     },
-
-
 }
+
 </script>
 
 <style>
@@ -52,11 +51,7 @@ export default {
     position: relative;
     z-index: 2000;
     background-color: whitesmoke;
-}
-
-.dialogBox div {
     alignment: center;
-    width: fit-content;
 }
 
 .dialogBox div p {
@@ -73,6 +68,8 @@ v-text {
 
 .question {
     font-weight: bold;
+    text-align: center;
+    inline-size:30em;
 }
 
 .dialogBox v-row v-col v-btn {
@@ -93,7 +90,19 @@ div.v-dialog {
     overflow-y: unset;
     margin: unset;
     padding: 1em;
+}
 
+.charon-info {
+    text-align: center;
+}
+
+div.row.alertBox-buttons .col{
+    flex-grow: unset;
+}
+
+div.row.alertBox-buttons {
+    justify-content: center;
+    align-items: center;
 }
 
 v-btn {
