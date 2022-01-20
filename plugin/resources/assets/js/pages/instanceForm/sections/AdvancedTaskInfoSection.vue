@@ -31,10 +31,10 @@
 
         <charon-text-input
             name="unittests_git"
-            :label="translate('unittests_git_label')"
+            :label="translate('unittests_git_charon_label')"
             :required="false"
-            :value="form.fields.unittests_git"
-            :helper_text="translate('unittests_git_helper')"
+            :value="form.fields.unittests_git_charon"
+            :helper_text="translate('unittests_git_charon_helper')"
             :autocomplete="false"
             @input-was-changed="onUnittestsGitChanged">
         </charon-text-input>

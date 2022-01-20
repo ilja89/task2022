@@ -132,7 +132,7 @@ export default class InstanceFormForm {
                 : (courseSettings['tester_type_code'] ? courseSettings['tester_type_code'] : 1),
             project_folder: instance['project_folder'] ? instance['project_folder'] : '',
             tester_extra: instance['tester_extra'] ? instance['tester_extra'] : '',
-            unittests_git: instance['unittests_git'] ? instance['unittests_git']
+            unittests_git_charon: instance['unittests_git'] ? instance['unittests_git']
                 : (courseSettings['unittests_git'] ? courseSettings['unittests_git'] : ''),
             system_extra: instance['system_extra'] ? instance['system_extra'] : '',
             docker_timeout: instance['docker_timeout'] ? instance['docker_timeout'] : 120,
