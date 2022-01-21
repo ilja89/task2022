@@ -815,7 +815,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021092901) {
+    if ($oldversion < 2022012101) {
         $table = new xmldb_table("charon_defenders");
 
         $index = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);

@@ -120,8 +120,6 @@
         feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
         showingTable: "{{ translate('showing-table') }}",
         showingMail: "{{ translate('showing-mail') }}",
-        feedbackText: "{{ translate('feedback-text') }}",
-        noFeedbackInfo: "{{ translate('no-feedback-info') }}",
         queueStatusText: "{{ translate('queue_status') }}",
         nrInQueueText: "{{ translate('nr_in_queue') }}",
         estimatedStartTimeText: "{{ translate('estimated_start_time') }}",
