@@ -44,14 +44,12 @@ class CharonRepository
      * @param ModuleService $moduleService
      * @param FileUploadService $fileUploadService
      * @param GradebookService $gradebookService
-     * @param CharonDefenseLabRepository $charonDefenseLabRepository
      * @param LabRepository $labRepository
      */
     public function __construct(
         ModuleService $moduleService,
         FileUploadService $fileUploadService,
         GradebookService $gradebookService,
-        CharonDefenseLabRepository $charonDefenseLabRepository,
         LabRepository $labRepository
     )
     {
@@ -263,12 +261,13 @@ class CharonRepository
             ->select($charonFields)
             ->with([
                 'labs' => function ($query) {
-                    $query->select([
+                    $query->select(
                         'charon_lab.id',
                         "charon_lab.start",
                         "charon_lab.end",
                         "charon_lab.course_id",
-                        "charon_lab.name"]);
+                        "charon_lab.name"
+                    );
                 },
                 'gradeItem' => function ($query) {
                     $query->select(
@@ -287,7 +286,8 @@ class CharonRepository
                         'gradeItem' => function ($query) {
                             $query->select(['id', 'grademax']);
                         }
-                    ])->select(
+                    ])
+                    ->select(
                         'charon_grademap.id',
                         'charon_grademap.charon_id',
                         'charon_grademap.grade_item_id',
