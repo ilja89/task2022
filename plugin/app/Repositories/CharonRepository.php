@@ -258,7 +258,6 @@ class CharonRepository
             ->where('charon.course', $courseId)
             ->where('course_modules.module', $moduleId)
             ->orWhereNull('course_modules.module')
-            ->select($charonFields)
             ->with([
                 'labs' => function ($query) {
                     $query->select(
