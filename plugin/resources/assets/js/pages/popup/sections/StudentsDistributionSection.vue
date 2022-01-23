@@ -1,8 +1,11 @@
 <template>
     <popup-section title="Students distribution"
                    subtitle="Distribution of students over their max grade for this course.">
+
         <template slot="header-right">
-            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentsDistribution">Load distribution
+            <loader :visible="isLoading"></loader>
+            <v-btn class="ma-2" :disabled="isLoading" tile outlined color="primary" @click="fetchStudentsDistribution">
+                Load distribution
             </v-btn>
         </template>
 
@@ -22,14 +25,16 @@
     import {mapGetters} from 'vuex'
     import {PopupSection} from '../layouts'
     import {User} from '../../../api'
+    import Loader from "../partials/Loader";
 
     export default {
         name: "students-by-total-points-section",
 
-        components: {PopupSection},
+        components: {PopupSection, Loader},
 
         data() {
             return {
+                isLoading: false,
                 empty: 'Press load distribution to get started',
                 student_distribution: [],
                 student_distribution_headers: [
@@ -69,8 +74,10 @@
 
         methods: {
             fetchStudentsDistribution() {
+                this.isLoading = true;
                 User.getStudentsDistribution(this.courseId, student_distribution => {
                     this.student_distribution = student_distribution
+                    this.isLoading = false;
                 })
             },
 

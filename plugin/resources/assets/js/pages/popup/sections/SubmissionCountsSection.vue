@@ -3,7 +3,10 @@
                    subtitle="Submission counts and averages for Charons.">
 
         <template slot="header-right">
-          <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissionCounts">Load counts</v-btn>
+            <loader :visible="isLoading"></loader>
+            <v-btn class="ma-2" :disabled="isLoading" tile outlined color="primary" @click="fetchSubmissionCounts">Load
+                counts
+            </v-btn>
         </template>
 
         <v-card-title v-if="submission_counts.length">
@@ -41,14 +44,16 @@
     import {mapGetters} from 'vuex'
     import {Submission} from '../../../api/index'
     import {PopupSection} from '../layouts/index'
+    import Loader from "../partials/Loader";
 
     export default {
         name: 'submission-counts-section',
 
-        components: {PopupSection},
+        components: {PopupSection, Loader},
 
         data() {
             return {
+                isLoading: false,
                 search: '',
                 empty: 'Press load counts to get started',
                 submission_counts: [],
@@ -72,11 +77,11 @@
 
         methods: {
             fetchSubmissionCounts() {
+                this.isLoading = true;
                 Submission.findSubmissionCounts(this.courseId, counts => {
                     this.empty = 'No Charons for this course!';
                     this.submission_counts = counts.map(item => {
                         const container = {};
-
                         container['project_folder'] = item.project_folder;
                         container['diff_users'] = item.diff_users;
                         container['tot_subs'] = item.tot_subs;
@@ -84,7 +89,7 @@
                         container['avg_defended_grade'] = parseFloat(item.avg_defended_grade).toPrecision(2);
                         container['avg_raw_grade'] = parseFloat(item.avg_raw_grade).toPrecision(2);
                         container['undefended'] = parseInt(item.diff_users) - parseInt(item.defended_amount);
-
+                        this.isLoading = false;
                         return container;
                     });
                 })
