@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
-- #641 New grading method 'prefer_best_each_test_grade', which lets students build up points for each grade
+- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
 - as long as grades' individual percentage stays the same or improves
 - #711 Warn user of the possibly long waiting time for recalculating grades if 'Recalculate' is checked
 - and Charon's grading method is 'prefer_best_each_test_grade'

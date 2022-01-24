@@ -330,12 +330,12 @@ class SubmissionService
     public function findUsersBestSubmission(int $charonId, int $userId): ?Submission
     {
         $bestSubmission = null;
-        $bestTotal = -1;
+        $bestTotal = 0;
 
         foreach ($this->submissionsRepository->findUserSubmissions($userId, $charonId) as $submission) {
             $total = $this->calculateSubmissionTotalGrade($submission, $userId, true);
 
-            if ($total >= $bestTotal) {
+            if ($total > $bestTotal) {
                 $bestSubmission = $submission;
                 $bestTotal = $total;
             }

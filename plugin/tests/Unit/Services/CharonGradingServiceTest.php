@@ -67,7 +67,7 @@ class CharonGradingServiceTest extends TestCase
 
         $submission = new Submission();
         $submission->charon = Mockery::mock(Charon::class)->makePartial();
-        // TODO: separate test for grading method 'prefer_best_each_test_grade'
+        // TODO: separate test for grading method 'prefer_best_each_grade'
         $submission->charon->gradingMethod = new GradingMethod(['code' => rand(1, 2)]);
         $submission->charon->deadlines = $deadlines;
         $submission->results = collect([$result1, $result2]);
@@ -162,7 +162,7 @@ class CharonGradingServiceTest extends TestCase
             ->andReturn(false);
 
         $gradingMethod
-            ->shouldReceive('isPreferBestEachTestGrade')
+            ->shouldReceive('isPreferBestEachGrade')
             ->once()
             ->andReturn(false);
 
@@ -271,7 +271,7 @@ class CharonGradingServiceTest extends TestCase
         $this->submissionsRepository
             ->shouldReceive('charonHasConfirmedSubmissions')
             ->with(3, 11)
-            ->twice()
+            ->once()
             ->andReturn(false);
 
         $this->calculatorService

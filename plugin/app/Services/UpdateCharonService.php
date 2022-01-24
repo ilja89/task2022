@@ -200,7 +200,7 @@ class UpdateCharonService
         ]);
 
         if ($recalculateGrades && ($oldMax != $newGrademap['max_points'] || $deadlinesWereUpdated)) {
-            if ($grademap->isTestsGrade() && $grademap->charon->gradingMethod->isPreferBestEachTestGrade()) {
+            if ($grademap->isTestsGrade() && $grademap->charon->gradingMethod->isPreferBestEachGrade()) {
                 $this->charonGradingService->resetGradesCalculatedResults($grademap);
             }
             $this->charonGradingService->recalculateGrades($grademap);
@@ -280,7 +280,7 @@ class UpdateCharonService
                 continue;
             }
 
-            if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachTestGrade()) {
+            if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
                 $submission = $this->submissionService->findUsersBestSubmission($charon->id, $student->id);
             } else if ($gradingMethod->isPreferLast()) {
                 $submission = $this->submissionService->findUsersLatestSubmission($charon->id, $student->id);
@@ -288,9 +288,9 @@ class UpdateCharonService
                 throw new \RuntimeException("given charon has an unknown grading method");
             }
 
-            if ($submission !== null) {
-                $this->charonGradingService->updateGrades($submission, $student->id);
-            }
+            $submission !== null
+                ? $this->charonGradingService->updateGrades($submission, $student->id)
+                : $this->charonGradingService->resetGrades($charon, $student->id);
         }
     }
 }
