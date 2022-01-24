@@ -4,8 +4,8 @@
 
         <template slot="header-right">
             <loader :visible="isLoading"></loader>
-            <v-btn class="ma-2" :disabled="isLoading" tile outlined color="primary" @click="fetchSubmissionCounts">Load
-                counts
+            <v-btn class="ma-2" :disabled="isLoading" tile outlined color="primary" @click="fetchSubmissionCounts">
+                Load counts
             </v-btn>
         </template>
 
