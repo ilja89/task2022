@@ -138,7 +138,7 @@ class CharonGradingService
         $charon = $submission->charon;
 
         $results = $submission->results;
-        $previousSubmission = $charon->gradingMethod->isPreferBestEachTestGrade()
+        $previousSubmission = $charon->gradingMethod->isPreferBestEachGrade()
             // TODO: replace with 1 query ($previousSubmission->results)
             ? $this->submissionsRepository->findPreviousSubmission($submission)
             : null;
@@ -192,7 +192,7 @@ class CharonGradingService
     private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
     {
         $gradingMethod = $submission->charon->gradingMethod;
-        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachTestGrade()) {
+        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
             return $this->submissionCalculatorService->submissionIsBetterThanLast($submission, $studentId);
         }
 
