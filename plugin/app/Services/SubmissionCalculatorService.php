@@ -45,7 +45,7 @@ class SubmissionCalculatorService
      *
      * @param Result $result
      * @param Deadline[]|Collection $deadlines
-     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_test_grade'
+     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_grade'
      *
      * @return float
      */
@@ -106,7 +106,7 @@ class SubmissionCalculatorService
      * @param Deadline $deadline
      * @param Result $result
      * @param float $maxPoints
-     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_test_grade'
+     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_grade'
      *
      * @return float|int
      */
@@ -117,7 +117,7 @@ class SubmissionCalculatorService
         ?Result $previousResult = null
     ) {
         if (
-            $result->submission->charon->gradingMethod->isPreferBestEachTestGrade() &&
+            $result->submission->charon->gradingMethod->isPreferBestEachGrade() &&
             $previousResult !== null &&
             $result->percentage >= $previousResult->percentage
         ) {

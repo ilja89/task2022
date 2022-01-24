@@ -269,7 +269,7 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     /**
      * Deadline with percentage 45 should match as lowest past due date with user group overlap
-     * Do not take into consideration submissions for a charon with grading method as 'prefer_best_each_test_grade'
+     * Do not take into consideration submissions for a charon with grading method as 'prefer_best_each_grade'
      */
     public function testCalculateResultFromDeadlinesReturnsSmallestScoreFromPassedDeadlines()
     {

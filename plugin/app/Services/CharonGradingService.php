@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
@@ -56,7 +57,7 @@ class CharonGradingService
     }
 
     /**
-     * Update the grade for the user.
+     * Update grades for the user.
      *
      * TODO: Send commit hash info to tester! Grade will now be updated!
      *
@@ -82,6 +83,27 @@ class CharonGradingService
                 $result->grade_type_code,
                 $userId,
                 $result->calculated_result
+            );
+        }
+    }
+
+    /**
+     * Reset grades for the user.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     *
+     * @return void
+     */
+    public function resetGrades(Charon $charon, int $userId): void
+    {
+        foreach ($charon->getGradeTypeCodes()->all() as $gradeTypeCode) {
+            $this->gradingService->updateGrade(
+                $charon->course,
+                $charon->id,
+                $gradeTypeCode,
+                $userId,
+                0
             );
         }
     }
@@ -116,7 +138,7 @@ class CharonGradingService
         $charon = $submission->charon;
 
         $results = $submission->results;
-        $previousSubmission = $charon->gradingMethod->isPreferBestEachTestGrade()
+        $previousSubmission = $charon->gradingMethod->isPreferBestEachGrade()
             // TODO: replace with 1 query ($previousSubmission->results)
             ? $this->submissionsRepository->findPreviousSubmission($submission)
             : null;
@@ -170,7 +192,7 @@ class CharonGradingService
     private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
     {
         $gradingMethod = $submission->charon->gradingMethod;
-        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachTestGrade()) {
+        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
             return $this->submissionCalculatorService->submissionIsBetterThanActive($submission, $studentId);
         }
 
