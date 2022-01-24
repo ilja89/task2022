@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
-- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
+- #736 Notifying review comments are highlighted to students
+- and all of charons' review comments are ordered by submission creation date time (descending)
 
 ### Fixed
 - #696 Modify the general notifications service
