@@ -16,7 +16,6 @@ class LogParseServiceTest extends TestCase
 
     public function testReadLogs()
     {
-        $this->markTestSkipped('Facade mocking not working with Laravel 8.75.0');
         $adapter = new Local(self::FIXTURE_PATH);
         $filesystem = new Filesystem($adapter);
         $contents = $filesystem->listContents('./', false);
@@ -25,17 +24,19 @@ class LogParseServiceTest extends TestCase
             ->with('app.log_display_lines')
             ->andReturn(500);
 
-        Storage::shouldReceive('disk->listContents')
+        $storage = Storage::spy();
+
+        $storage->shouldReceive('disk->listContents')
             ->with('./')
             ->once()
             ->andReturn($contents);
 
-        Storage::shouldReceive('disk->path')
+        $storage->shouldReceive('disk->path')
             ->with('laravel-2020.10.20.log')
             ->once()
             ->andReturn(self::FIXTURE_PATH . '/laravel-2020.10.20.log');
 
-        Storage::shouldReceive('disk->path')
+        $storage->shouldReceive('disk->path')
             ->with('laravel-2020.10.23.log')
             ->once()
             ->andReturn(self::FIXTURE_PATH . '/laravel-2020.10.23.log');

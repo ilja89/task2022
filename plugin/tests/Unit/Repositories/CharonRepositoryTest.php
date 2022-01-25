@@ -38,14 +38,12 @@ class CharonRepositoryTest extends TestCase
 
     public function testSaveCharonUpdatesLabs()
     {
-        $this->markTestSkipped('Mockery not working correctly with Laravel 8.75.0');
-
         Event::fake();
 
-        DB::spy();
-        DB::shouldReceive('table')->with('charon_defense_lab')->andReturnSelf();
-        DB::shouldReceive('where')->with('charon_id', 3)->andReturnSelf();
-        DB::shouldReceive('delete');
+        $db = DB::spy();
+        $db->shouldReceive('table')->with('charon_defense_lab')->andReturnSelf();
+        $db->shouldReceive('where')->with('charon_id', 3)->andReturnSelf();
+        $db->shouldReceive('delete');
 
         $charon = Mockery::spy(Charon::class);
         $charon->shouldReceive('setAttribute')->with('docker_test_root', '/test/root');
