@@ -162,7 +162,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
 
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
-        ->get('courses/{course}/defenseRegistrations/{after}/{before}/{teacher_id}/{progress}', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
+        ->get('courses/{course}/defenseRegistrations/filtered', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
 
     Route::middleware('auth.course.managing.require')  // get teacher for student
         ->get('courses/{course}/defenseRegistrations/student/{user}/teacher', 'LabTeacherController@getTeacherForStudent');
