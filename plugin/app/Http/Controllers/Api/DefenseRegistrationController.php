@@ -106,6 +106,7 @@ class DefenseRegistrationController extends Controller
         );
     }
 
+
     /**
      * Get defense registrations by course.
      * @param Course $course
@@ -117,24 +118,20 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Get defense registrations by course, filtered by before and after date.
+     * Get defense registrations by course filtered by time, teacher, progress.
+     * If session started, then return defense registrations which has no teacher or/and has current user as teacher.
      * @param Course $course
-     * @param $after
-     * @param $before
-     * @param $teacherId
-     * @param $progress
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
+    public function getDefenseRegistrationsByCourseFiltered(Course $course)
     {
-        $sessionStarted = filter_var($this->request['session']);
         return $this->registrationService->getDefenseRegistrationsByCourseFiltered(
             $course->id,
-            $after === 'null' ? null: $after,
-            $before === 'null' ? null: $before,
-            $teacherId === 'null' ? null: $teacherId,
-            $progress === 'null' ? null: $progress,
-            $sessionStarted
+            $this->request['after'] ? $this->request['after'] : null,
+            $this->request['before'] ? $this->request['before'] : null,
+            $this->request['teacher_id'] ? $this->request['teacher_id'] : null,
+            $this->request['progress'] ? $this->request['progress'] : null,
+            $this->request['session'] == 'true'
         );
     }
 
