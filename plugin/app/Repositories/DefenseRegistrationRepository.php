@@ -280,13 +280,13 @@ class DefenseRegistrationRepository
      * @param $newTeacherId
      * @return Registration
      */
-    public function updateRegistration($defenseId, $newProgress, $newTeacherId)
+    public function updateRegistration($defenseId, $newProgress, $newTeacherId, $defenseStart)
     {
         $defense = Registration::find($defenseId);
         $defense->progress = $newProgress;
         $defense->teacher_id = $newTeacherId;
-        if ($newProgress == 'Defending') {
-            $defense->defense_start = Carbon::now();
+        if (!is_null($defenseStart)) {
+            $defense->defense_start = $defenseStart;
         }
         $defense->update();
         return $defense;

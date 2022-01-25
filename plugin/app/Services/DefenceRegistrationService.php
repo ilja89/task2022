@@ -563,7 +563,12 @@ class DefenceRegistrationService
             $updatedDefenseTeacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
         }
 
-        $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
+        $defenseStart = null;
+        if ($newProgress == 'Defending') {
+            $defenseStart = Carbon::now();
+        }
+        $defense = $this->defenseRegistrationRepository
+            ->updateRegistration($defenseId, $newProgress, $newTeacherId, $defenseStart);
         $defense->teacher = $updatedDefenseTeacher;
         $labTeachers = $this->teacherRepository->getTeachersByCharonAndDefenseLab($defense->charon_id, $defense->defense_lab_id);
 

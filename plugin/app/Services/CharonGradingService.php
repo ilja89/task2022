@@ -217,6 +217,7 @@ class CharonGradingService
             return;
         }
 
-        $this->defenseRegistrationRepository->updateRegistration($studentRegistration->id, $newProgress, $teacherId);
+        $this->defenseRegistrationRepository
+            ->updateRegistration($studentRegistration->id, $newProgress, $teacherId, null);
     }
 }
