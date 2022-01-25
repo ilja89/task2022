@@ -3,7 +3,7 @@ import {Error} from "./index";
 class Defense {
 
     static all(courseId, then) {
-        axios.get(`/mod/charon/api/courses/'${courseId}'/defenseRegistrations`)
+        axios.get('/mod/charon/api/courses/' + courseId + '/defenseRegistrations')
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -12,16 +12,7 @@ class Defense {
     }
 
     static filtered(courseId, after, before, teacher_id, progress, session, then) {
-        axios.get(`/mod/charon/api/courses/${courseId}/defenseRegistrations/filtered`,
-            { params:
-                    {
-                        after: after,
-                        before: before,
-                        teacher_id: teacher_id,
-                        progress: progress,
-                        session: session
-                    }
-            })
+        axios.get(`/mod/charon/api/courses/${courseId}/defenseRegistrations/${after}/${before}/${teacher_id}/${progress}?session=${session}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -30,7 +21,7 @@ class Defense {
     }
 
     static getTeacherForStudent(courseId, studentId, then) {
-        axios.get(`/mod/charon/api/courses/'${courseId}'/defenseRegistrations/student/${studentId}/teacher`)
+        axios.get('/mod/charon/api/courses/' + courseId + '/defenseRegistrations/student/' + studentId + '/teacher')
             .then(response => {
                 then(response.data)
             }).catch(error => {
@@ -63,7 +54,7 @@ class Defense {
     }
 
     static updateRegistration(courseId, defenseId, progress, teacherId, then) {
-        axios.put(`/mod/charon/api/courses/${courseId}/registration/` + defenseId, {
+        axios.put('/mod/charon/api/courses/' + courseId + '/registration/' + defenseId, {
             progress: progress,
             teacher_id: teacherId
         }).then(response => {
@@ -75,7 +66,7 @@ class Defense {
     }
 
     static deleteStudentRegistration(charon_id, studentId, defense_lab_id, submission_id, then) {
-        axios.delete(`/mod/charon/api/charons/${charon_id}/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
+        axios.delete('/mod/charon/api/charons/' + charon_id + `/registration?user_id=${studentId}&defLab_id=${defense_lab_id}&submission_id=${submission_id}`)
             .then(response => {
                 then(response.data)
             }).catch(error => {
