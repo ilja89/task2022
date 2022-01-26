@@ -668,6 +668,10 @@ class SubmissionsRepository
         switch ($sortField) {
             case 'exerciseName':
                 return 'name';
+            case 'submissionTestsSum':
+                return 'submission_tests_sum';
+            case 'submissionTotal':
+                return 'finalgrade';
             case 'isConfirmed':
                 return 'confirmed';
             case 'firstName':
