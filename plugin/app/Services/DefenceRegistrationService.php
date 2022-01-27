@@ -279,9 +279,6 @@ class DefenceRegistrationService
             }
         }
 
-        $queueRegistrations = [];
-
-
         for ($i = 0; $i < count($registrations); $i++) {
             $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
 
@@ -300,10 +297,9 @@ class DefenceRegistrationService
 
             unset($registration->defense_start);
             unset($registration->progress);
-            array_push($queueRegistrations, $registration);
         }
 
-        return $queueRegistrations;
+        return $registrations;
     }
 
     /**
