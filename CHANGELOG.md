@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- #732 Group submissions in popup will have common line height also in case of a wrap.
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
