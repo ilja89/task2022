@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
+- #723 Update dependencies so security check does not fail & Laravel
 
 ### Fixed
 - #696 Modify the general notifications service
