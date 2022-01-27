@@ -203,6 +203,7 @@ class SubmissionsRepository
             ->whereHas('users', function ($query) use ($userId) {
                 $query->where('id', '=', $userId);
             })
+            ->orderByDesc('confirmed')
             ->latest()
             ->simplePaginate(10);
 
