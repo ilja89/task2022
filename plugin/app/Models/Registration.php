@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property string $student_name
  * @property integer $submission_id
- * @property Carbon $choosen_time
  * @property boolean $my_teacher
  * @property integer $student_id
  * @property integer $defense_lab_id
@@ -29,7 +27,7 @@ class Registration extends Model {
      * @var array
      */
     protected $fillable = [
-        'student_name', 'submission_id', 'choosen_time', 'my_teacher', 'student_id', 'defense_lab_id',
+        'student_name', 'submission_id', 'my_teacher', 'student_id', 'defense_lab_id',
         'progress', 'charon_id', 'teacher_id', 'defense_start'
     ];
 

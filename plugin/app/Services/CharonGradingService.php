@@ -210,7 +210,6 @@ class CharonGradingService
             ->where('submission_id', $submissionId)
             ->where('charon_id', $charonId)
             ->select('id')
-            ->orderBy('choosen_time', 'desc')
             ->first();
 
         if (is_null($studentRegistration)) {

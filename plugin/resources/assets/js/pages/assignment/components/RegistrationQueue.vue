@@ -7,13 +7,13 @@
         </v-card-title>
 
         <v-layout column style="height: 125vh">
-          <v-flex v-if="checkLabEnded">
+          <v-flex v-if="labEnded">
             <v-card-title>
               {{ translate('labEndedText') }}
             </v-card-title>
           </v-flex>
           <v-flex v-else md6 style="overflow: auto">
-            <div v-if="checkLabStarted">
+            <div v-if="labStarted">
               <v-card-title>
                 {{ translate('labTeachersText') }}
               </v-card-title>
@@ -23,21 +23,13 @@
                 :hide-default-footer="true"
               >
               </v-data-table>
-              <v-card-title>
-                {{ translate('labQueueText') }}
-              </v-card-title>
-              <v-data-table
-                :headers="studentsQueueHeadersLabStarted"
-                :items="studentsQueue"
-              >
-              </v-data-table>
             </div>
-            <div v-else>
+            <div>
               <v-card-title>
                 {{ translate('labQueueText') }}
               </v-card-title>
               <v-data-table
-                :headers="studentsQueueHeadersLabNotStarted"
+                :headers="getStudentsQueueHeaders"
                 :items="studentsQueue"
               >
               </v-data-table>
@@ -73,19 +65,6 @@ export default {
         {text: this.translate("charonText"), value: 'charon'},
         {text: this.translate("availabilityText"), value: 'availability'},
       ],
-      studentsQueueHeadersLabStarted: [
-        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
-        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
-        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},
-        {text: this.translate("timeLeftText"), value: 'time_left', sortable: false},
-        {text: this.translate("studentText"), value: 'student_name', sortable: false},
-      ],
-      studentsQueueHeadersLabNotStarted: [
-        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
-        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
-        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},
-        {text: this.translate("studentText"), value: 'student_name', sortable: false},
-      ],
       labTeachers: [],
       studentsQueue: [],
       timer: '',
@@ -95,12 +74,17 @@ export default {
   },
 
   computed: {
-    checkLabStarted() {
-      return this.labStarted;
-    },
-
-    checkLabEnded() {
-      return this.labEnded;
+    getStudentsQueueHeaders () {
+      let queue = [
+        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
+        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
+        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},
+        {text: this.translate("timeLeftText"), value: 'time_left', sortable: false}
+      ];
+      if (this.labStarted) {
+          queue.push({text: this.translate("studentText"), value: 'student_name', sortable: false});
+      }
+      return queue;
     }
   },
 
