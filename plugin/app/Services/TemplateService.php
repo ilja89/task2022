@@ -77,7 +77,7 @@ class TemplateService
             }
             $uniqueTemplatePaths = array_unique($templatePaths);
             if(sizeof($templatePaths) != sizeof($uniqueTemplatePaths)) {
-                throw new TemplatePathException();
+                throw new TemplatePathException('template_paths_need_to_be_unique');
             }
         }
     }

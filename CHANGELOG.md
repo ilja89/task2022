@@ -11,9 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
+- #723 Update dependencies so security check does not fail & Laravel
 
 ### Fixed
 - #696 Modify the general notifications service
+- #729 Fix the submissionRepository.php paginateSubmissionsByCharonUser to handle group submissions
+- #661 Assignment view code block padding fix
+- #708 Pointless scrollingbar for code blocks in assignment view
+- #735 Sorting in report does not work
+- #741 Confirmed submissions are not displayed if they do not exist in currently loaded submissions
+
+## [1.5.8] - 2021-12-14
+
+### Fixed
+- #714 Disable security check
 - #724 Supported users, logged in using Mobile-Id
 
 ## [1.5.7] - 2021-11-12
