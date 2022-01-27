@@ -72,6 +72,7 @@ $string['plagiarism_enabled'] = 'Plagiarismikontroll aktiivne';
 $string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
 $string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
+$string['unittests_git_charon'] = 'Charoni testide Git';
 
 $string['deadline'] = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -110,6 +111,7 @@ $string['plagiarism_resource_provider_private_key_helper'] = 'Privaatvõti, mida
     . 'ligipääsuks.';
 $string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, mida plagiaadikontroll kontrollib. '
     . 'Näiteks, regex ".*/EX13.*", kontrollib kõiki faile EX13 kaustades.';
+$string['unittests_git_charon_helper'] = 'Giti URL kus asuvad selle charoni testid.';
 
 $string['remove_button_text'] = 'Eemalda';
 $string['add_button_text'] = 'Lisa';
