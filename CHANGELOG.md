@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - #696 Modify the general notifications service
+
+## [1.5.8] - 2021-12-14
+
+### Fixed
+- #714 Disable security check
 - #724 Supported users, logged in using Mobile-Id
 
 ## [1.5.7] - 2021-11-12
