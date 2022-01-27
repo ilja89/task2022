@@ -454,11 +454,14 @@ class DefenceRegistrationService
      */
     public function delete($studentId, $defenseLabId, $submissionId)
     {
-        // Check if current user is lab teacher of lab, in which registration belongs
-        $labTeacher = $this->teacherRepository
-            ->getTeacherByDefenseLabAndUserId($defenseLabId, app(User::class)->currentUserId());
-        if ($labTeacher == null) {
-            throw new RegistrationException("invalid_lab_teacher");
+        $currentUser = app(User::class)->currentUserId();
+        if ($studentId != $currentUser) {
+            // Check if current user is lab teacher of lab, in which registration belongs
+            $labTeacher = $this->teacherRepository
+                ->getTeacherByDefenseLabAndUserId($defenseLabId, $currentUser);
+            if ($labTeacher == null) {
+                throw new RegistrationException("invalid_lab_teacher");
+            }
         }
 
         Log::warning(json_encode([
