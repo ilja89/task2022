@@ -385,7 +385,7 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Return teacher' registration with progress 'Waiting'.
+     * Return teacher' registration with progress 'Defending'.
      *
      * @param int $labId
      * @param int $teacherId

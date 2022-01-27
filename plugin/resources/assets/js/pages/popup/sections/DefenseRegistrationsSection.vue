@@ -145,10 +145,9 @@ export default {
                 this.updateRegistration(item);
             } else if (item.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
-                    const reg = registration.registration;
-                    if (reg) {
-                        this.defendingRegistration += reg.name + " - " + reg.firstname +
-                            " " + reg.lastname + " - Progress: " + reg.progress
+                    if (registration) {
+                        this.defendingRegistration += registration.name + " - " + registration.firstname +
+                            " " + registration.lastname + " - Progress: " + registration.progress
                         this.updateAlert = true;
                         this.registrationToUpdate = item;
                     } else {
@@ -183,10 +182,9 @@ export default {
         updateRegistrationCheckDefenses(item) {
             if (item.progress === 'Defending') {
                 Defense.getByTeacher(this.course.id, item.teacher ? item.teacher.id: null, item.lab_id, (registration) => {
-                    const reg = registration.registration;
-                    if (reg) {
-                        this.defendingRegistration += reg.name + " - " + reg.firstname +
-                            " " + reg.lastname + " - Progress: " + reg.progress
+                    if (registration) {
+                        this.defendingRegistration += registration.name + " - " + registration.firstname +
+                            " " + registration.lastname + " - Progress: " + registration.progress
                         this.updateAlert = true;
                         this.registrationToUpdate = item;
                     } else {
@@ -200,8 +198,7 @@ export default {
 
         submissionClicked(registration) {
             if (registration.progress === 'Waiting' && this.isSessionActive) {
-                Defense.getByTeacher(this.course.id, registration.teacher ? registration.teacher.id: null, registration.lab_id, (data) => {
-                    const reg = data.registration;
+                Defense.getByTeacher(this.course.id, registration.teacher ? registration.teacher.id: null, registration.lab_id, (reg) => {
                     if (reg) {
                         this.defendingRegistration += reg.name + " - " + reg.firstname +
                             " " + reg.lastname + " - Progress: " + reg.progress

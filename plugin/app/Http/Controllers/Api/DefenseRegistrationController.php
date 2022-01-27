@@ -39,7 +39,7 @@ class DefenseRegistrationController extends Controller
      * @param Request $request
      * @param StudentsRepository $studentsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
-     * @param DefenceRegistrationService $registrationService
+     * @param DefenceRegistrationService $defenceRegistrationService
      * @param LabService $labService
      * @param CharonDefenseLabRepository $defenseLabRepository
      */
@@ -47,14 +47,14 @@ class DefenseRegistrationController extends Controller
         Request $request,
         StudentsRepository $studentsRepository,
         DefenseRegistrationRepository $defenseRegistrationRepository,
-        DefenceRegistrationService $registrationService,
+        DefenceRegistrationService $defenceRegistrationService,
         LabService $labService,
         CharonDefenseLabRepository $defenseLabRepository
     ) {
         parent::__construct($request);
         $this->studentsRepository = $studentsRepository;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
-        $this->defenceRegistrationService = $registrationService;
+        $this->defenceRegistrationService = $defenceRegistrationService;
         $this->labService = $labService;
         $this->defenseLabRepository = $defenseLabRepository;
     }
@@ -168,7 +168,7 @@ class DefenseRegistrationController extends Controller
         $defenseLabId = $request->input('defLab_id');
         $submissionId = $request->input('submission_id');
 
-        Log::warning(json_encode([
+        Log::info(json_encode([
             'event' => 'registration_deletion',
             'by_user_id' => app(User::class)->currentUserId(),
             'for_user_id' => $studentId,
@@ -189,18 +189,18 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Return teacher' registration with progress 'Waiting'
+     * Return teacher' registration with progress 'Defending'
      *
      * @param Request $request
-     * @return array
+     * @return object
      */
-    public function getLabTeacherActiveRegistration(Request $request): array
+    public function getLabTeacherActiveRegistration(Request $request)
     {
         $teacher = $request->input('teacher_id');
         if ($teacher == "null") {
             $teacher = app(User::class)->currentUserId();
         }
-        return array('registration' => $this->defenseRegistrationRepository->getLabTeacherActiveRegistration($request->input('lab_id'), $teacher));
+        return $this->defenseRegistrationRepository->getLabTeacherActiveRegistration($request->input('lab_id'), $teacher);
     }
 
     /**
