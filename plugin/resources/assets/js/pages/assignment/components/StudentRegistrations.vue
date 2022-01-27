@@ -45,6 +45,10 @@
                 </v-btn>
                 <registration-queue-sheet v-if="checkLabNotEnded(item) && checkCharonIdExistence" :labData="item"/>
               </template>
+
+              <template v-slot:item.lab_start="{ item }">
+                <span>{{ new Date(item.lab_start).toLocaleTimeString(locales, timeOptions) }}</span>
+              </template>
             </v-data-table>
           </v-flex>
         </v-layout>
@@ -78,12 +82,15 @@ export default {
 			headers: [
 				{text: this.translate("charonText"), align: 'start', value: 'name'},
 				{text: this.translate("labNameText"), value: 'lab_name'},
+                {text: this.translate("labStartText"), value: 'lab_start'},
 				{text: this.translate("teacherText"), value: 'teacher'},
 				{text: this.translate("locationText"), value: 'teacher_location'},
 				{text: this.translate("commentText"), value: 'teacher_comment'},
 				{text: this.translate("progressText"), value: 'progress'},
 				{text: this.translate("actionsText"), value: 'actions', sortable: false},
-			]
+			],
+            locales: "et",
+            timeOptions: { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }
 		}
 	},
 

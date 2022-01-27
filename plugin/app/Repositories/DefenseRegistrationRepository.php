@@ -210,6 +210,7 @@ class DefenseRegistrationRepository
      * @param $defenseId
      * @param $newProgress
      * @param $newTeacherId
+     * @param $defenseStart
      * @return Registration
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId, $defenseStart)
@@ -242,7 +243,6 @@ class DefenseRegistrationRepository
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end', 'charon_defenders.teacher_id',
                 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name', 'charon_defenders.progress')
-                
             ->distinct()
             ->get();
     }

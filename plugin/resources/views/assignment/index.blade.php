@@ -96,7 +96,7 @@
         registrationDeletionConfirmationText: "{{ translate('registration_deletion_confirmation') }}",
         charonText: "{{ translate('charon') }}",
         labNameText: "{{ translate('lab_name') }}",
-        timeText: "{{ translate('time') }}",
+        labStartText: "{{ translate('lab_start') }}",
         teacherText: "{{ translate('teacher') }}",
         locationText: "{{ translate('location') }}",
         commentText: "{{ translate('comment') }}",
