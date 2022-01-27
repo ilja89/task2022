@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - #696 Modify the general notifications service
 - #729 Fix the submissionRepository.php paginateSubmissionsByCharonUser to handle group submissions
+- #661 Assignment view code block padding fix
+- #708 Pointless scrollingbar for code blocks in assignment view
 
 ## [1.5.8] - 2021-12-14
 
