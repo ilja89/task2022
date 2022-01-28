@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Repositories;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -95,25 +94,6 @@ class LabTeacherRepository
                 'user.lastname',
                 DB::raw("CONCAT(firstname, ' ', lastname) AS fullname")
             )->get();
-    }
-
-    /**
-     * @param array $teacherIds
-     * @param Carbon $time
-     *
-     * @return array
-     */
-    public function checkWhichTeachersBusyAt(array $teacherIds, Carbon $time): array
-    {
-        return DB::table('charon_defenders')
-            ->join('charon', 'charon.id', 'charon_defenders.charon_id')
-            ->select('charon_defenders.teacher_id')
-            ->whereDate('charon_defenders.choosen_time', '=', $time->format('Y-m-d'))
-            ->whereTime('charon_defenders.choosen_time', '<=', $time->toTimeString())
-            ->whereTime(DB::raw('choosen_time + INTERVAL defense_duration MINUTE'), '>', $time->toTimeString())
-            ->whereIn('charon_defenders.teacher_id', $teacherIds)
-            ->pluck('teacher_id')
-            ->all();
     }
 
     public function getTeachersByCourseId($courseId)

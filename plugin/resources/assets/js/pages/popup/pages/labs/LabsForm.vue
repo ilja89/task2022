@@ -163,7 +163,6 @@
     import Multiselect from "vue-multiselect";
     import CharonFormat from "../../../../helpers/CharonFormat";
     import _ from "lodash";
-    import moment from "moment";
 
     export default {
 
@@ -235,7 +234,7 @@
                         giveEnd = giveEnd.toString().slice(0, 24)
                     }
 
-                    let filter = this.detectChanges(this.labInitial, this.lab, chosen_charons, chosen_teachers);
+                    let filter = this.detectChanges(this.labInitial, chosen_charons, chosen_teachers);
 
                     // (registrations > 0) means that lost registrations 
                     // are already fetched for current lab and shown to user.
@@ -297,16 +296,8 @@
                     ('0' + dateObj.getMinutes()).slice(-2)
             },
 
-            detectChanges(old, current, charons, teachers) {
+            detectChanges(old, charons, teachers) {
                 let filter = {};
-
-                if (moment(current.start.time).isAfter(old.start.time)) {
-                    filter.start = moment(current.start.time).format();
-                }
-
-                if (moment(current.end.time).isBefore(old.end.time)) {
-                    filter.end = moment(current.end.time).format();
-                }
 
                 let missing = [];
                 for (let ch of old.charons) {

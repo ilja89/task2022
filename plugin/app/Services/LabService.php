@@ -122,11 +122,12 @@ class LabService
 
         $teachersCount = count($teachersList);
 
+        // Get defending charon per teacher
+        $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
+
         // Get list of registrations. If lab started, then only waiting status
         // registrations and add teachers and defending charons per teacher
         if (Carbon::now() >= $lab->start){
-            // Get defending charon per teacher
-            $teachersDefences = $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id);
 
             foreach ($teachersList as $key => $teacher) {
 
@@ -165,25 +166,25 @@ class LabService
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $labRegistrations,
             $teachersCount,
-            $lab->start
+            $lab->start,
+            $teachersDefences
         );
 
         for ($i = 0; $i < count($registrations); $i++) {
 
-            if ($registrations[$i]->student_id == $user->id) {
-                $registrations[$i]->student_name = $user->firstname . " " . $user->lastname;
+            $registration = $registrations[$i];
+
+            if ($registration->student_id == $user->id) {
+                $registration->student_name = $user->firstname . " " . $user->lastname;
             } else {
-                $registrations[$i]->student_name = "";
+                $registration->student_name = "";
             }
 
-            $registrations[$i]->queue_pos = $i + 1;
-            $registrations[$i]->estimated_start = date(
-                "d.m.Y H:i",
-                $registrations[$i]->estimated_start->timestamp
-            );
+            $registration->queue_pos = $i + 1;
+            $registration->estimated_start = date("d.m.Y H:i", $registration->estimated_start->timestamp);
 
-            unset($registrations[$i]->defense_duration);
-            unset($registrations[$i]->student_id);
+            unset($registration->defense_duration);
+            unset($registration->student_id);
         }
 
         $queueStatus['registrations'] = $registrations;
