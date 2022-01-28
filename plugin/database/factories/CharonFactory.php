@@ -111,7 +111,6 @@ $factory->define(Registration::class, function (Generator $faker) {
         'teacher_id' => 0,
         'defense_lab_id' => 0,
         'student_name' => $faker->firstName,
-        'choosen_time' => Carbon::now(),
         'progress' => $faker->randomElement(['Waiting', 'Defending', 'Done'])
     ];
 });

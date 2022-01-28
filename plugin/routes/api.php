@@ -162,7 +162,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/defenseRegistrations', 'DefenseRegistrationController@getDefenseRegistrationsByCourse');
 
     Route::middleware('auth.course.managing.require') // get all charon defense registrations for course
-        ->get('courses/{course}/defenseRegistrations/{after}/{before}/{teacher_id}/{progress}', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
+        ->get('courses/{course}/defenseRegistrations/filtered', 'DefenseRegistrationController@getDefenseRegistrationsByCourseFiltered');
 
     Route::middleware('auth.course.managing.require') // get teacher registration if exists with status 'defending'
         ->get('courses/{course}/defenseRegistrations/teacher', 'DefenseRegistrationController@getLabTeacherActiveRegistration');
@@ -180,9 +180,6 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('charons/{charon}/submissions/register/teacher', 'DefenseRegistrationController@registerDefenceByTeacher');
     Route::middleware('auth.charon.submissions.view.require') // add registration by student
         ->post('charons/{charon}/submissions/register/student', 'DefenseRegistrationController@registerDefenceByStudent');
-
-    Route::middleware('auth.charon.submissions.view.require') // reduce available student registration times
-        ->get('charons/{charon}/labs/unavailable', 'DefenseRegistrationController@getUsedDefenceTimes');
 
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')

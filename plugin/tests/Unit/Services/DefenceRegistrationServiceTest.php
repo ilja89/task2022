@@ -107,7 +107,6 @@ class DefenceRegistrationServiceTest extends TestCase
             ->with([
                 'student_name' => '1name 2name',
                 'submission_id' => 5,
-                'choosen_time' => '2020-12-15 22:20:00',
                 'my_teacher' => false,
                 'student_id' => 3,
                 'defense_lab_id' => 13,

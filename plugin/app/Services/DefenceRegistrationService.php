@@ -119,81 +119,6 @@ class DefenceRegistrationService
     }
 
     /**
-     * @param string $date
-     * @param int $charonId
-     * @param Lab $lab
-     * @param int $studentId
-     * @param bool $ownTeacher
-     *
-     * @return array
-     * @throws RegistrationException
-     */
-    public function getUsedDefenceTimes(string $date, int $charonId, Lab $lab, int $studentId, bool $ownTeacher): array
-    {
-        $charon = $this->charonRepository->getCharonById($charonId);
-        $duration = $charon->defense_duration;
-        $time = $lab->start->copy();
-        $labTimeslots = [];
-        $teacherCount = 1;
-
-        while ($time->isBefore($lab->end)) {
-            $labTimeslots[$time->format('H:i')] = $teacherCount;
-            $time = $time->copy()->addMinutes($duration);
-        }
-
-        if ($ownTeacher) {
-            $courseId = $charon->course;
-            $teacher = $this->teacherRepository->getTeacherForStudent($studentId, $courseId);
-            if ($teacher == null) {
-                throw new RegistrationException('invalid_setup');
-            }
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForTeacherAt($teacher->id, $date);
-        } else {
-            $teacherCount = $this->teacherRepository->countLabTeachers($lab->id);
-            if ($teacherCount == 0) {
-                throw new RegistrationException('invalid_setup');
-            }
-            $labs = $this->defenseRegistrationRepository->getChosenTimesForLabTeachers($date, $lab->id);
-        }
-
-        foreach ($labs as $taken) {
-            $time = Carbon::parse($taken->choosen_time);
-
-            if ($duration == $taken->defense_duration) {
-                if (isset($labTimeslots[$time->format('H:i')])) {
-                    $labTimeslots[$time->format('H:i')]--;
-                }
-            } else if ($duration < $taken->defense_duration) {
-                $end = $time->copy()->addMinutes($taken->defense_duration);
-                while ($time->isBefore($end)) {
-                    if (isset($labTimeslots[$time->format('H:i')])) {
-                        $labTimeslots[$time->format('H:i')]--;
-                    }
-                    $time->addMinutes($duration);
-                }
-            } else {
-                $diff = $time->diffInMinutes($lab->start);
-
-                $busy = $lab->start->copy()->addMinutes(intdiv($diff, $duration) * $duration);
-                if (isset($labTimeslots[$busy->format('H:i')])) {
-                    $labTimeslots[$busy->format('H:i')]--;
-                }
-
-                $end = $time->addMinutes($taken->defense_duration);
-                if ($busy->addMinutes($duration)->isBefore($end)) {
-                    if (isset($labTimeslots[$busy->format('H:i')])) {
-                        $labTimeslots[$busy->format('H:i')]--;
-                    }
-                }
-            }
-        }
-
-        return array_keys(array_filter($labTimeslots, function ($teachersRemaining) {
-            return $teachersRemaining < 1;
-        }));
-    }
-
-    /**
      * Throw if lab has not enough capacity left for charon registration
      *
      * @param int $studentId
@@ -378,13 +303,13 @@ class DefenceRegistrationService
     }
 
     /**
-     * Give registrations their approximate starting time and sort them by it. If no teachers,
-     * then show ordered registrations.
+     * Give registrations their approximate starting time and sort them by it.
      *
      * @param array $registrations
      * @param int $teacherCount
      * @param Carbon $labStart
      * @param $teachersDefences
+     *
      * @return array
      */
     public function attachEstimatedTimesToDefenceRegistrations(
@@ -395,7 +320,7 @@ class DefenceRegistrationService
     ): array {
 
         //If lab started, then queue starts from now
-        if (Carbon::now() >= $labStart){
+        if (Carbon::now() >= $labStart) {
             $queueStart = Carbon::now();
         } else {
             $queueStart = $labStart;
@@ -406,21 +331,6 @@ class DefenceRegistrationService
         }
         $queuePresumption = array_fill(0, $teacherCount, 0);
 
-        foreach ($teachersDefences as $teachersDefence){
-            $defenseStart = Carbon::parse($teachersDefence->defense_start);
-            $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
-
-            $defenceAndQueueStartDifference = $defenseStart->copy()->diffInMinutes($queueStart);
-
-            if ($defenceAndQueueStartDifference < $teachersDefence->defense_duration){
-                $queuePresumption[$teacherNr] +=
-                    $teachersDefence->defense_duration - $defenceAndQueueStartDifference;
-            }
-        }
-
-        $queueRegistrations = [];
-
-
         for ($i = 0; $i < count($registrations); $i++) {
             $teacherNr = array_keys($queuePresumption, min($queuePresumption))[0];
 
@@ -428,15 +338,20 @@ class DefenceRegistrationService
 
             $registration->estimated_start =
                 $queueStart->copy()->addMinutes($queuePresumption[$teacherNr]);
+            $timeLeft = $registration->estimated_start->diff(Carbon::now());
+            if ($timeLeft->h > 0) {
+                $registration->time_left = '>60 min';
+            } else {
+                $registration->time_left = $timeLeft->format('%i min');
+            }
 
             $queuePresumption[$teacherNr] += $registration->defense_duration;
 
             unset($registration->defense_start);
             unset($registration->progress);
-            array_push($queueRegistrations, $registration);
         }
 
-        return $queueRegistrations;
+        return $registrations;
     }
 
     /**
@@ -566,7 +481,12 @@ class DefenceRegistrationService
             $updatedDefenseTeacher = $this->teacherRepository->getTeacherByUserId($newTeacherId);
         }
 
-        $defense = $this->defenseRegistrationRepository->updateRegistration($defenseId, $newProgress, $newTeacherId);
+        $defenseStart = null;
+        if ($newProgress == 'Defending') {
+            $defenseStart = Carbon::now();
+        }
+        $defense = $this->defenseRegistrationRepository
+            ->updateRegistration($defenseId, $newProgress, $newTeacherId, $defenseStart);
         $defense->teacher = $updatedDefenseTeacher;
         $labTeachers = $this->teacherRepository->getTeachersByCharonAndDefenseLab($defense->charon_id, $defense->defense_lab_id);
 
@@ -621,11 +541,14 @@ class DefenceRegistrationService
      */
     public function delete($studentId, $defenseLabId, $submissionId)
     {
-        // Check if current user is lab teacher of lab, in which registration belongs
-        $labTeacher = $this->teacherRepository
-            ->getTeacherByDefenseLabAndUserId($defenseLabId, app(User::class)->currentUserId());
-        if ($labTeacher == null) {
-            throw new RegistrationException("invalid_lab_teacher");
+        $currentUser = app(User::class)->currentUserId();
+        if ($studentId != $currentUser) {
+            // Check if current user is lab teacher of lab, in which registration belongs
+            $labTeacher = $this->teacherRepository
+                ->getTeacherByDefenseLabAndUserId($defenseLabId, $currentUser);
+            if ($labTeacher == null) {
+                throw new RegistrationException("invalid_lab_teacher");
+            }
         }
 
         Log::warning(json_encode([

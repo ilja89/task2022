@@ -815,30 +815,38 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021092901) {
+    if ($oldversion < 2022010407) {
         $table = new xmldb_table("charon_defenders");
 
         $index = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
         if ($dbManager->index_exists($table, $index)) {
             $dbManager->drop_index($table, $index);
         }
-        $index = new xmldb_index("IXUNIQUE_choosen_time_and_student_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "student_id"]);
-        if ($dbManager->index_exists($table, $index)) {
-            $dbManager->drop_index($table, $index);
-        }
+
         $field = new xmldb_field("choosen_time", XMLDB_TYPE_DATETIME);
-        $dbManager->change_field_notnull($table, $field);
+        if ($dbManager->field_exists($table, $field)) {
+            $dbManager->drop_field($table, $field);
+        }
 
         $index = new xmldb_index("IXFK_charon_defenders_teacher", XMLDB_INDEX_NOTUNIQUE, ["teacher_id"]);
         if ($dbManager->index_exists($table, $index)) {
             $dbManager->drop_index($table, $index);
         }
+
         $field = new xmldb_field("teacher_id", XMLDB_TYPE_INTEGER, "10");
-        $dbManager->change_field_notnull($table, $field);
-        $dbManager->add_index($table, $index);
+        if ($dbManager->field_exists($table, $field)) {
+            $dbManager->change_field_notnull($table, $field);
+        }
 
         $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1");
-        $dbManager->change_field_notnull($table, $field);
+        if ($dbManager->field_exists($table, $field)) {
+            $dbManager->change_field_notnull($table, $field);
+        }
+
+        $field = new xmldb_field("defense_start", XMLDB_TYPE_DATETIME);
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
     }
 
     return true;

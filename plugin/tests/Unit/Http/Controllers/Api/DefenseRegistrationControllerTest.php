@@ -66,34 +66,4 @@ class DefenseRegistrationControllerTest extends TestCase
 
         $this->assertEquals('inserted', $response);
     }
-
-    public function testGetUsedDefenceTimesDelegates()
-    {
-        $request = new Request([
-            'time' => 3,
-            'charon_id' => 5,
-            'lab_id' => 7,
-            'user_id' => 11,
-            'my_teacher' => 'false'
-        ]);
-
-        $lab = new Lab();
-        $lab->id = 13;
-
-        $this->defenseLabRepository
-            ->shouldReceive('getLabByDefenseLabId')
-            ->with(7)
-            ->once()
-            ->andReturn($lab);
-
-        $this->registrationService
-            ->shouldReceive('getUsedDefenceTimes')
-            ->once()
-            ->with(3, 5, $lab, 11, false)
-            ->andReturn(['12:00']);
-
-        $response = $this->controller->getUsedDefenceTimes($request);
-
-        $this->assertEquals(['12:00'], $response);
-    }
 }

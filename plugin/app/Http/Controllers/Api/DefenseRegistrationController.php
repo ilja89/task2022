@@ -7,13 +7,11 @@ use Illuminate\Support\Collection;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class DefenseRegistrationController extends Controller
@@ -86,29 +84,6 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Currently the whole lab starts off as available, this endpoint reveals which slots have already been taken
-     *
-     * lab_id refers to CharonDefenseLab->id
-     *
-     * @param Request $request
-     *
-     * @return array
-     * @throws RegistrationException
-     */
-    public function getUsedDefenceTimes(Request $request): array
-    {
-        $lab = $this->defenseLabRepository->getLabByDefenseLabId($request->input('lab_id'));
-
-        return $this->defenceRegistrationService->getUsedDefenceTimes(
-            $request->input('time'),
-            $request->input('charon_id'),
-            $lab,
-            $request->input('user_id'),
-            $request->input('my_teacher') == 'true'
-        );
-    }
-
-    /**
      * Get defense registrations by course.
      * @param Course $course
      * @return Collection|Registration[]
@@ -119,24 +94,20 @@ class DefenseRegistrationController extends Controller
     }
 
     /**
-     * Get defense registrations by course, filtered by before and after date.
+     * Get defense registrations by course filtered by time, teacher, progress.
+     * If session started, then return defense registrations which has no teacher or/and has current user as teacher.
      * @param Course $course
-     * @param $after
-     * @param $before
-     * @param $teacherId
-     * @param $progress
      * @return Registration[]
      */
-    public function getDefenseRegistrationsByCourseFiltered(Course $course, $after, $before, $teacherId, $progress)
+    public function getDefenseRegistrationsByCourseFiltered(Course $course)
     {
-        $sessionStarted = filter_var($this->request['session']);
         return $this->defenceRegistrationService->getDefenseRegistrationsByCourseFiltered(
             $course->id,
-            $after,
-            $before,
-            $teacherId,
-            $progress,
-            $sessionStarted
+            $this->request['after'] ? $this->request['after'] : null,
+            $this->request['before'] ? $this->request['before'] : null,
+            $this->request['teacher_id'] ? $this->request['teacher_id'] : null,
+            $this->request['progress'] ? $this->request['progress'] : null,
+            $this->request['session'] == 'true'
         );
     }
 
