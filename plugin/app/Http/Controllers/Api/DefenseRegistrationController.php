@@ -2,8 +2,10 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -12,6 +14,7 @@ use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\StudentsRepository;
 use TTU\Charon\Services\DefenceRegistrationService;
 use TTU\Charon\Services\LabService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 class DefenseRegistrationController extends Controller
@@ -163,9 +166,9 @@ class DefenseRegistrationController extends Controller
      * Return teacher' registration with progress 'Defending'
      *
      * @param Request $request
-     * @return object
+     * @return JsonResponse|null
      */
-    public function getLabTeacherActiveRegistration(Request $request)
+    public function getLabTeacherActiveRegistration(Request $request): ?JsonResponse
     {
         $teacher = $request->input('teacher_id');
         if ($teacher == "null") {

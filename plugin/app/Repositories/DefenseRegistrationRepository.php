@@ -4,6 +4,7 @@ namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\Registration;
@@ -335,13 +336,13 @@ class DefenseRegistrationRepository
     /**
      * Return teacher' registration with progress 'Defending'.
      *
-     * @param int $labId
-     * @param int $teacherId
-     * @return object
+     * @param $labId
+     * @param $teacherId
+     * @return JsonResponse|null
      */
-    public function getLabTeacherActiveRegistration(int $labId, int $teacherId)
+    public function getLabTeacherActiveRegistration($labId, $teacherId): ?JsonResponse
     {
-        return DB::table('charon_defenders')
+        $registration = DB::table('charon_defenders')
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('user', 'user.id', 'charon_defenders.student_id')
@@ -350,6 +351,7 @@ class DefenseRegistrationRepository
             ->where('charon_defense_lab.lab_id', $labId)
             ->first(['charon_defenders.id','charon.name', 'charon_defenders.progress', 'user.firstname',
                 'user.lastname', 'charon_defense_lab.lab_id', 'charon_defenders.teacher_id']);
+        return $registration ? response()->json($registration): null;
     }
 
     /**

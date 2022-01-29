@@ -315,10 +315,11 @@ export default {
 
         VueEvent.$on("alert-box-active-registrations-session", (buttonName) => {
             if (buttonName !== "Cancel") {
+                const submissionId = this.registrationToUpdate.submission_id;
                 Defense.updateRegistrationAndUndefendRegistrationsByTeacher(this.course.id,
                     this.registrationToUpdate.id, 'Defending', buttonName,
                     this.registrationToUpdate.lab_id, this.registrationToUpdate.teacher ? this.registrationToUpdate.teacher.id : null, _ => {
-                        this.$router.push(this.getSubmissionRouting(this.registrationToUpdate.submission_id))
+                        this.$router.push(this.getSubmissionRouting(submissionId))
                     })
             }
             this.defendingRegistration = '';
