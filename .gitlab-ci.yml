@@ -56,6 +56,12 @@ build_dev:
     expire_in: 1 week
   only:
     - develop
+
+build_release:
+  extends: .builds
+  artifacts:
+    expire_in: never
+  only:
     - /^release.*/
 
 build_any:

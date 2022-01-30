@@ -32,6 +32,12 @@ We're currently using [Laravel 8.x](https://laravel.com/docs/8.x/releases)
 - [version.php](/version.php) < increase plugin version
 - [upgrade.php](/db/upgrade.php) < should include migrations per version
 
+#### Adding constraints to database table
+
+Moodle does not accept foreign keys in install.xml. If you need to add some to table, don't use install.xml for this. Add these in function apply_constraint() in [install.php](/db/install.php). Use existing records as sample.
+
+In [upgrade.php](/db/upgrade.php) foreign keys should be added same way as before
+
 ### Testing your code locally:
 
 - We are currently missing testing setup for javascript
