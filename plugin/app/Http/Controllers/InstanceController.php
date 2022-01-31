@@ -282,6 +282,7 @@ class InstanceController extends Controller
             'docker_content_root' => $this->request->input('docker_content_root', null),
             'docker_test_root' => $this->request->input('docker_test_root', null),
             'tester_extra' => $this->request->input('tester_extra', null),
+            'unittests_git' => $this->request->input('unittests_git_charon', null),
             'system_extra' => $this->request->input('system_extra', null),
             'docker_timeout' => $this->request->input('docker_timeout', 120),
             'allow_submission' => $this->request->input('allow_submission', false) === 'true',
