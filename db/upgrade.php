@@ -813,6 +813,15 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2021120203) {
+        $table = new xmldb_table("charon");
+        $field = new xmldb_field('unittests_git', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     if ($oldversion < 2022012401) {
         $tableName = "charon_grading_method";
         $record = ["code" => 3, "name" => "prefer_best_each_grade"];
