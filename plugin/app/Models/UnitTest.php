@@ -38,6 +38,6 @@ class UnitTest extends Model
 
     public function testSuite()
     {
-        return $this->belongsTo(TestSuite::class, 'unitTest.test_suite_id', 'test_suite.id');
+        return $this->belongsTo(TestSuite::class, 'charon_unit_test.test_suite_id', 'charon_test_suite.id');
     }
 }

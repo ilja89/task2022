@@ -86,10 +86,12 @@ class ReviewCommentRepository
     {
         $rawResults = DB::table('charon_submission')
             ->where('charon_submission.charon_id', $charonId)
-            ->where('charon_submission.user_id', '=', $studentId)
+//            ->where('charon_submission.user_id', '=', $studentId)
             ->join('charon_submission_file','charon_submission.id', '=', 'charon_submission_file.submission_id' )
             ->join('charon_review_comment', 'charon_submission_file.id', '=', 'charon_review_comment.submission_file_id')
-            ->join('user', 'charon_review_comment.user_id', 'user.id')
+            ->join('charon_submission_user', 'charon_submission_user.submission_id', '=', 'charon_submission.id')
+            ->join('user', 'charon_submission_user.user_id', '=', 'user.id')
+            ->where('user.id', '=', $studentId)
             ->select(
                 'charon_submission.user_id as student_id',
                 'charon_submission.charon_id as charon_id',

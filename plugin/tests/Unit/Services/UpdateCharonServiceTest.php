@@ -102,8 +102,6 @@ class UpdateCharonServiceTest extends TestCase
 
     public function testUpdatesDeadlines()
     {
-        $this->markTestSkipped('Out of date, needs attention');
-
         $charon = m::mock(Charon::class, ['load' => null])->makePartial();
         $charon->id = 1;
         $charon->deadlines = Collection::make([]);
@@ -121,23 +119,25 @@ class UpdateCharonServiceTest extends TestCase
                 ->getMock(),
             m::mock(DeadlinesRepository::class)
                 ->shouldReceive('deleteAllDeadlinesForCharon')->with($charon->id)->once()
+                ->shouldReceive('deleteAllCalendarEventsForCharon')->with($charon->id)->once()
                 ->getMock(),
-            m::mock(CharonGradingService::class)
+            m::mock(CharonGradingService::class),
+            m::mock(CalendarService::class),
+            m::mock(StudentsRepository::class),
+            m::mock(SubmissionService::class)
         );
 
-        $updateCharonService->updateDeadlines($request, $charon);
+        $updateCharonService->updateDeadlines($request, $charon, "99");
     }
 
     public function testUpdatesCategory()
     {
-        $this->markTestSkipped('Out of date, needs attention');
-
         $charon = m::mock(Charon::class)->makePartial();
         $charon->category_id = 1;
-        $request = ['calculation_formula' => '=[[test]] * [[style]]', 'max_score' => 1];
-        $gradeItem = m::mock(GradeItem::class)
-            ->shouldReceive('save')->once()
-            ->getMock()->makePartial();
+        $request = m::mock(\StdClass::class);
+        $request->calculation_formula = '=[[test]] * [[style]]';
+        $request->max_score = 1;
+        $gradeItem = m::mock(GradeItem::class);
 
         $updateCharonService = new UpdateCharonService(
             m::mock(GrademapService::class),
@@ -147,13 +147,13 @@ class UpdateCharonServiceTest extends TestCase
             m::mock(DeadlineService::class),
             m::mock(DeadlinesRepository::class),
             m::mock(CharonGradingService::class),
+            m::mock(CalendarService::class),
             m::mock(StudentsRepository::class),
             m::mock(SubmissionService::class)
         );
 
-        $updateCharonService->updateCategoryCalculationAndMaxScore($charon, $request);
+        $request->shouldReceive('has')->with('max_score')->once()->andReturn(false);
 
-        $this->assertEquals($request['calculation_formula'], $gradeItem->calculation);
-        $this->assertEquals($request['max_score'], $gradeItem->grademax);
+        $updateCharonService->updateCategoryCalculationAndMaxScore($charon, $request);
     }
 }
