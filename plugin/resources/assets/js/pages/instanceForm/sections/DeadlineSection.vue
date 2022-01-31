@@ -30,7 +30,7 @@
                 <label v-if="form.recalculate_grades === true && form.fields.grading_method_code === 3"
                        class="red--text">
 
-                    Warning: recalculating grades with grading method 'prefer_best_each_test_grade'
+                    Warning: recalculating grades with grading method 'prefer_best_each_grade'
                     may take a lot of time to finish, depending on the count of submissions.
                 </label>
 
