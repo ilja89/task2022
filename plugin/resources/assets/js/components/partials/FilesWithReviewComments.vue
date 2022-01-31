@@ -8,7 +8,7 @@
                 <v-card v-for="reviewComment in file.reviewComments"
                         :key="reviewComment.id"
                         class="review-comment"
-                        :class="{ notify: view === 'student' && reviewComment.notify > 0 }"
+                        :class="{ notify: view === 'student' && reviewComment.notify === 1 }"
                 >
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
