@@ -122,7 +122,9 @@ class UpdateCharonServiceTest extends TestCase
                 ->shouldReceive('deleteAllCalendarEventsForCharon')->with($charon->id)->once()
                 ->getMock(),
             m::mock(CharonGradingService::class),
-            m::mock(CalendarService::class)
+            m::mock(CalendarService::class),
+            m::mock(StudentsRepository::class),
+            m::mock(SubmissionService::class)
         );
 
         $updateCharonService->updateDeadlines($request, $charon, "99");
