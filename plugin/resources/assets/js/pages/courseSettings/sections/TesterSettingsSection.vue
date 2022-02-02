@@ -48,6 +48,14 @@
                     @input-was-changed="onTesterTokenChanged">
             </charon-text-input>
 
+            <charon-select
+                name="query_logging_code"
+                label="Query logging enabled"
+                :options="form.query_logging_types"
+                :value="form.fields.query_logging_code"
+                @input-was-changed="onQueryLoggingChanged">
+            </charon-select>
+
         </slot>
     </charon-fieldset>
 
@@ -85,6 +93,10 @@
 
             onTesterTokenChanged(testerToken) {
                 VueEvent.$emit('tester-token-was-changed', testerToken);
+            },
+
+            onQueryLoggingChanged(queryLoggingCode) {
+                VueEvent.$emit('query-logging-code-was-changed', queryLoggingCode);
             }
         }
     }

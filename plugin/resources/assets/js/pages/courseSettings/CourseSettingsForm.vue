@@ -50,6 +50,7 @@
             VueEvent.$on('tester-url-was-changed', tester_url => this.form.fields.tester_url = tester_url);
             VueEvent.$on('tester-sync-url-was-changed', tester_url => this.form.fields.tester_sync_url = tester_url);
             VueEvent.$on('tester-token-was-changed', tester_token => this.form.fields.tester_token = tester_token);
+            VueEvent.$on('query-logging-code-was-changed', query_logging_code => this.form.fields.query_logging_code = query_logging_code);
 
             VueEvent.$on('show-loader', () => this.loaderVisible++);
             VueEvent.$on('hide-loader', () => this.loaderVisible--);
