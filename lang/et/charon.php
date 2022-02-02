@@ -201,8 +201,9 @@ $string['reset_to_templates'] = 'Taasta mallid';
 $string['feedback-text-single-submission'] = 'Tagasiside selle esituse kohta';
 $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
 $string['feedback-text-all-submissions'] = 'Tagasiside kõigi selle charoni esituste kohta';
-$string['showing-mail'] = 'e-maili kuvamine';
+$string['showing-email'] = 'E-maili kuvamine';
 $string['showing-table'] = 'Tabeli kuvamine';
+$string['indicator_label_new'] = 'Uus';
 
 /*------------------------*\
    Messages

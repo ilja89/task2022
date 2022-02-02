@@ -37,7 +37,7 @@
 				</div>
 
 				<h3 v-if="toggleShowTable">{{ translate('showingTable') }}</h3>
-				<h3 v-else>{{ translate('showingMail') }}</h3>
+				<h3 v-else>{{ translate('showingEmail') }}</h3>
 
                 <toggle-button @buttonClicked="showTable($event)"></toggle-button>
 
