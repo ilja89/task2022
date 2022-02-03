@@ -20,7 +20,7 @@ unit_test:
     - php composer.phar install --dev
     - cp -p env.develop .env
     - php artisan key:generate
-    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml plugin/tests/Unit
+    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
