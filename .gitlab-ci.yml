@@ -132,8 +132,6 @@ integration_test_dev:
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  only:
-    - disabled
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
