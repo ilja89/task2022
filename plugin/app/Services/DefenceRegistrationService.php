@@ -11,6 +11,7 @@ use TTU\Charon\Models\Registration;
 use TTU\Charon\Repositories\CharonDefenseLabRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
@@ -48,6 +49,9 @@ class DefenceRegistrationService
     /** @var SubmissionsRepository */
     private $submissionRepository;
 
+    /** @var LabRepository */
+    private $labRepository;
+
     /**
      * DefenceRegistrationService constructor.
      *
@@ -59,6 +63,7 @@ class DefenceRegistrationService
      * @param CharonDefenseLabRepository $defenseLabRepository
      * @param CharonService $charonService
      * @param SubmissionsRepository $submissionRepository
+     * @param LabRepository $labRepository
      */
     public function __construct(
         CharonRepository $charonRepository,
@@ -68,7 +73,8 @@ class DefenceRegistrationService
         UserRepository $userRepository,
         CharonDefenseLabRepository $defenseLabRepository,
         CharonService $charonService,
-        SubmissionsRepository $submissionRepository
+        SubmissionsRepository $submissionRepository,
+        LabRepository $labRepository
     ) {
         $this->charonRepository = $charonRepository;
         $this->teacherRepository = $teacherRepository;
@@ -78,6 +84,7 @@ class DefenceRegistrationService
         $this->defenseLabRepository = $defenseLabRepository;
         $this->charonService = $charonService;
         $this->submissionRepository = $submissionRepository;
+        $this->labRepository = $labRepository;
     }
 
     /**
@@ -119,7 +126,11 @@ class DefenceRegistrationService
     }
 
     /**
-     * Throw if lab has not enough capacity left for charon registration
+     * Throws error:
+     * if lab configuration is invalid
+     * if lab has groups and student not belongs to any group
+     * if there is registration with same charon for this user
+     * if lab has not enough capacity left for charon registration
      *
      * @param int $studentId
      * @param int $charonId
@@ -133,6 +144,12 @@ class DefenceRegistrationService
 
         if ($charon->defense_duration == null || $charon->defense_duration <= 0) {
             throw new RegistrationException('invalid_setup');
+        }
+
+        $labGroupsStudents = $this->labRepository->getLabGroupStudentsIds($lab->id);
+
+        if (sizeof($labGroupsStudents) > 0 && !$labGroupsStudents->contains((object)["userid" => $studentId])) {
+            throw new RegistrationException('not_in_group');
         }
 
         $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(

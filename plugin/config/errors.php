@@ -123,6 +123,12 @@ return [
             ' who is lab teacher of lab in which registration belongs to.',
     ],
 
+    'not_in_group' => [
+        'title' => 'Only student in group can register for this registration.',
+        'detail' => 'To register for this registration, student should be in group, ' .
+            'which is allowed to register for this defense registration',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Review comment errors

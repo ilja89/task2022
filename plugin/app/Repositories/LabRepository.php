@@ -459,6 +459,21 @@ class LabRepository
     }
 
     /**
+     * If lab has groups connected to it, then return list of students who are connected with these groups.
+     *
+     * @param $labId
+     * @return mixed
+     */
+    public function getLabGroupStudentsIds($labId)
+    {
+        return \DB::table('charon_lab_group')
+            ->where('lab_id', $labId)
+            ->join('groups_members', 'groups_members.groupid', 'charon_lab_group.group_id')
+            ->select('groups_members.userid')
+            ->get();
+    }
+
+    /**
      * Validate lab times and teachers. Throw http exceptions when validation not passed.
      *
      * @param $teachers
