@@ -39,8 +39,6 @@ class TemplatesController extends Controller
      */
     public function get(Charon $charon)
     {
-        global $CFG;
-        require_once $CFG->dirroot . '/';
         $charonId = $charon->id;
 
         return $this->templatesRepository->getTemplates($charonId);
