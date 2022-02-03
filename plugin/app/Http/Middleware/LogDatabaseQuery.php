@@ -42,29 +42,32 @@ class LogDatabaseQuery
 
     public function terminate($request, $response)
     {
-        $this->log($request);
-    }
-
-    protected function log($request)
-    {
         $courseId = app(Course::class)->getCourseId();
         $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($courseId);
 
         if (!$courseSettings || !$courseSettings->query_logging) {
+            DB::disableQueryLog();
             return;
         }
+        $this->log($request, $courseId);
+    }
 
+    protected function log($request, $courseId)
+    {
         $totalTime = 0;
         $username = app(User::class)->currentUser()->username;
         $url = $request->fullUrl();
         $method = $request->method();
 
-        foreach (DB::getQueryLog() as $log) {
-            $time = $log['time'];
-            $totalTime += floatval($time);
-        }
+        $finalLog = "DB query log\nUser: {$username}\nCourse: {$courseId}\nMethod & Url: [{$method} {$url}]\n";
+        foreach (array_values(DB::getQueryLog()) as $i => $log) {
+            $time = fdiv($log['time'], 1000);
+            $totalTime += $time;
 
-        $log = "DB query log\nUser: {$username}\nCourse: {$courseId}\nMethod & Url: [{$method} {$url}]\nTime: {$totalTime}ms\n";
-        Log::channel('db')->debug($log);
+            $finalLog .= "[{$i}. SQL]: {$log['query']}\nTime: {$time}s\n";
+        }
+        $finalLog .= "Total time: {$totalTime}s\n";
+        Log::channel('db')->debug($finalLog);
+        DB::disableQueryLog();
     }
 }
