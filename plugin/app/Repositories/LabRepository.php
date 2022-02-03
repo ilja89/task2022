@@ -288,7 +288,7 @@ class LabRepository
     }
 
     /**
-     * Get all active (ongoing and upcoming) labs.
+     * Get all active (ongoing and upcoming) labs. Ended labs would be skipped.
      *
      * @param int $charonId
      *
@@ -298,6 +298,37 @@ class LabRepository
     {
         return Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
             ->where('charon_defense_lab.charon_id', $charonId)
+            ->where('end', '>=', Carbon::now())
+            ->select(
+                'charon_lab.id',
+                'charon_defense_lab.id as defense_lab_id',
+                'charon_lab.start',
+                'charon_lab.end',
+                'charon_lab.name',
+                'charon_lab.course_id')
+            ->get()
+            ->all();
+    }
+
+    /**
+     * Get all active (ongoing and upcoming) labs. Ended labs would be skipped.
+     * If lab has groups, then returns only labs in which groups this student belongs.
+     *
+     * @param int $charonId
+     * @param int $studentId
+     * @return mixed
+     */
+    public function getAvailableLabsByCharonIdCheckGroupMembership(int $charonId, int $studentId)
+    {
+        return Lab::join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
+            ->where('charon_defense_lab.charon_id', $charonId)
+            ->leftJoin('charon_lab_group', 'charon_lab_group.lab_id', 'charon_defense_lab.lab_id')
+            ->leftJoin('groups', 'groups.id', 'charon_lab_group.group_id')
+            ->leftJoin('groups_members', 'groups_members.groupid', 'groups.id')
+            ->where(function ($query) use ($studentId) {
+                $query->whereNull('charon_lab_group.id')
+                    ->orWhere('groups_members.userid', $studentId);
+            })
             ->where('end', '>=', Carbon::now())
             ->select(
                 'charon_lab.id',
@@ -446,8 +477,8 @@ class LabRepository
     /**
      * Gets all groupings for given course
      *
-     * @param int $courseId     The course identifier
-     * @return []               Groupings.
+     * @param int $courseId The course identifier
+     * @return mixed []               Groupings.
      */
     public function getAllGroupings($courseId)
     {
@@ -478,6 +509,8 @@ class LabRepository
      *
      * @param $teachers
      * @param $courseId
+     * @param $carbonStart
+     * @param $carbonEnd
      * @return void
      */
     private function validateLab($teachers, $courseId, $carbonStart, $carbonEnd)

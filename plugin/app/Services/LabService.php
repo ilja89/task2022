@@ -202,7 +202,7 @@ class LabService
      */
     public function findAvailableLabsByCharon(int $charonId): array
     {
-        $labs = $this->labRepository->getAvailableLabsByCharonId($charonId);
+        $labs = $this->labRepository->getAvailableLabsByCharonIdCheckGroupMembership($charonId, app(\Zeizig\Moodle\Globals\User::class)->currentUserId());
         $charon = $this->charonRepository->getCharonById($charonId);
 
         foreach ($labs as $lab) {
