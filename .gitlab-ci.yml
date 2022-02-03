@@ -26,6 +26,27 @@ unit_test:
       - $CI_PROJECT_DIR/coverage
     expire_in: 1 week
 
+integration_test_dev:
+  tags:
+    - docker
+  image: jaakkytt/ci-php-node:3.0
+  stage: integration test
+  services:
+    - name: docker:dind
+  before_script:
+    - service mysql start
+  script:
+    - touch .env
+    - php composer.phar install --dev
+    - cp -p env.develop .env
+    - cat $INTEGRATION_DB_VARIABLES >> .env
+    - php artisan key:generate
+    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/coverage
+    expire_in: 1 week
+
 security-advisories-vulnerabilities:
   tags:
     - docker
@@ -116,23 +137,4 @@ deploy_any:
     - /^release.*/
 
 # Currently not in use
-integration_test_dev:
-  tags:
-    - docker
-  image: jaakkytt/ci-php-node:3.0
-  stage: integration test
-  services:
-    - name: docker:dind
-  before_script:
-    - service mysql start
-  script:
-    - touch .env
-    - php composer.phar install --dev
-    - cp -p env.develop .env
-    - cat $INTEGRATION_DB_VARIABLES >> .env
-    - php artisan key:generate
-    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/coverage
-    expire_in: 1 week
+
