@@ -43,6 +43,7 @@ class DefenseRegistrationControllerTest extends TestCase
      */
     public function testStudentRegisterDefenceDelegates()
     {
+        echo getcwd();
         $request = new Request([
             'user_id' => 3,
             'submission_id' => 5,
