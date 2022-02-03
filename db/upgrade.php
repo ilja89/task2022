@@ -815,18 +815,19 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022010407) {
+    if ($oldversion < 2022012701) {
         $table = new xmldb_table("charon_defenders");
 
-        $index = new xmldb_index("IXUNIQUE_choosen_time_and_teacher_id", XMLDB_INDEX_UNIQUE, ["choosen_time", "teacher_id"]);
-        if ($dbManager->index_exists($table, $index)) {
-            $dbManager->drop_index($table, $index);
-        }
+        $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chostu_uix";
+        $DB->execute($sql);
 
         $field = new xmldb_field("choosen_time", XMLDB_TYPE_DATETIME);
         if ($dbManager->field_exists($table, $field)) {
             $dbManager->drop_field($table, $field);
         }
+
+        $sql = 'ALTER TABLE ' . $CFG->prefix . 'charon_defenders DROP CONSTRAINT IF EXISTS FK_charon_defenders_teacher';
+        $DB->execute($sql);
 
         $index = new xmldb_index("IXFK_charon_defenders_teacher", XMLDB_INDEX_NOTUNIQUE, ["teacher_id"]);
         if ($dbManager->index_exists($table, $index)) {
@@ -837,6 +838,10 @@ function xmldb_charon_upgrade($oldversion = 0)
         if ($dbManager->field_exists($table, $field)) {
             $dbManager->change_field_notnull($table, $field);
         }
+
+        $sql = ('ALTER TABLE ' . $CFG->prefix . 'charon_defenders ADD CONSTRAINT FK_charon_defenders_teacher ' .
+            'FOREIGN KEY (teacher_id) REFERENCES ' . $CFG->prefix . 'user(id) ON DELETE CASCADE ON UPDATE CASCADE');
+        $DB->execute($sql);
 
         $field = new xmldb_field("my_teacher", XMLDB_TYPE_INTEGER, "1");
         if ($dbManager->field_exists($table, $field)) {

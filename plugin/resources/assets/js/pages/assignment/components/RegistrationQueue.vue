@@ -31,6 +31,7 @@
               <v-data-table
                 :headers="getStudentsQueueHeaders"
                 :items="studentsQueue"
+                :item-class="currentUserRowBackground"
               >
               </v-data-table>
             </div>
@@ -61,9 +62,9 @@ export default {
   data() {
     return {
       labTeachersHeaders: [
-        {text: this.translate("teacherText"), value: 'teacher_name'},
-        {text: this.translate("charonText"), value: 'charon'},
-        {text: this.translate("availabilityText"), value: 'availability'},
+        {text: this.translate("teacherText"), value: 'teacher_name', align: 'center'},
+        {text: this.translate("charonText"), value: 'charon', align: 'center'},
+        {text: this.translate("availabilityText"), value: 'availability', align: 'center'},
       ],
       labTeachers: [],
       studentsQueue: [],
@@ -76,10 +77,10 @@ export default {
   computed: {
     getStudentsQueueHeaders () {
       let queue = [
-        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
-        {text: this.translate("charonText"), value: 'charon_name', sortable: false},
-        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', sortable: false},
-        {text: this.translate("timeLeftText"), value: 'time_left', sortable: false}
+        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', align: 'center', sortable: false},
+        {text: this.translate("charonText"), value: 'charon_name', align: 'center', sortable: false},
+        {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', align: 'center', sortable: false},
+        {text: this.translate("timeLeftText"), value: 'time_left', align: 'center', sortable: false}
       ];
       if (this.labStarted) {
           queue.push({text: this.translate("studentText"), value: 'student_name', sortable: false});
@@ -109,6 +110,10 @@ export default {
 
     cancelAutoUpdate () {
       clearInterval(this.timer);
+    },
+
+    currentUserRowBackground: function (item) {
+      return item.student_name ? 'user-row' : ''
     }
   },
 
@@ -122,6 +127,10 @@ export default {
 
 .v-application--wrap {
   min-height: 1vh;
+}
+
+.user-row {
+  background-color: rgba(180, 236, 200, 0.57)
 }
 
 </style>
