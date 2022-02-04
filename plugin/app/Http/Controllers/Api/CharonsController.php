@@ -63,6 +63,15 @@ class CharonsController extends Controller
     }
 
     /**
+     * @param int $courseId
+     * @return String
+     */
+    public function getQueryLogsById(int $courseId)
+    {
+        return $this->logParser->readLogs(true);
+    }
+
+    /**
      * @param Charon $charon
      * @return Charon
      */

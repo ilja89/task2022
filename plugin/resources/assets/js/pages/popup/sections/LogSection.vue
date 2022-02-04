@@ -1,6 +1,6 @@
 <template>
-    <popup-section title="Charon logs"
-                   subtitle="Here are the recent errors charon has had">
+    <popup-section :title="title"
+                   :subtitle="subtitle">
 
         <template slot="header-right">
             <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
@@ -10,41 +10,64 @@
             <v-list v-if="Array.isArray(logs)">
                 <log-entry v-for="(log, index) in logs" v-bind:key="index" v-bind:log="log"></log-entry>
             </v-list>
-          <pre v-else>{{ logs }}</pre>
+            <pre v-else>{{ logs }}</pre>
         </v-card>
 
     </popup-section>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import {Charon, Submission} from '../../../api/index'
-    import {PopupSection} from '../layouts/index'
-    import LogEntry from '../partials/LogEntry.vue'
+import {mapGetters} from 'vuex'
+import {Charon, Submission} from '../../../api/index'
+import {PopupSection} from '../layouts/index'
+import LogEntry from '../partials/LogEntry.vue'
 
-    export default {
-        name: 'log-section',
+export default {
+    name: 'log-section',
 
-        components: {PopupSection, LogEntry},
+    components: {PopupSection, LogEntry},
 
-        data() {
-            return {
-                logs: "Press get logs to get started",
-            }
+    props: {
+        title: {
+            required: false,
+            default: 'Charon logs'
         },
 
-        computed: {
-            ...mapGetters([
-                'courseId',
-            ]),
+        subtitle: {
+            required: false,
+            default: 'Here are the recent errors charon has had'
         },
 
-        methods: {
-            fetchLogs() {
+        logType: {
+            required: false,
+            default: false
+        }
+    },
+
+    data() {
+        return {
+            logs: "Press get logs to get started",
+        }
+    },
+
+    computed: {
+        ...mapGetters([
+            'courseId',
+        ]),
+    },
+
+    methods: {
+        fetchLogs() {
+            if (this.logType) {
+                Charon.fetchLatestQueryLogs(this.courseId, logs => {
+                    this.logs = logs
+                })
+            } else {
                 Charon.fetchLatestLogs(this.courseId, logs => {
                     this.logs = logs
                 })
-            },
+            }
         },
-    }
+    },
+}
 </script>

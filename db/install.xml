@@ -414,6 +414,7 @@
                 <FIELD NAME="tester_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_sync_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_token" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
+                <FIELD NAME="query_logging" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_course_settings" TYPE="primary" FIELDS="id"/>
