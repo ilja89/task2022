@@ -813,7 +813,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022020701) {
+    if ($oldversion < 2022020801) {
         $table = new xmldb_table("charon");
         $field = new xmldb_field('unittests_git', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
 
