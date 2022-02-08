@@ -822,7 +822,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022020202){
+    if ($oldversion < 2022020205){
         $table = new xmldb_table("charon_course_settings");
         $field = new xmldb_field("query_logging", XMLDB_TYPE_INTEGER, 10, null, XMLDB_NOTNULL, null, 0);
 
