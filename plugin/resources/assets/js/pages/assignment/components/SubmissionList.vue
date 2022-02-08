@@ -129,8 +129,8 @@ export default {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
 			if (this.submissions.length > 9) {
-                this.$store.state.submissions.pop();
-            }
+				this.$store.state.submissions.pop();
+			}
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
