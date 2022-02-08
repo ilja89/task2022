@@ -59,14 +59,15 @@ class LogDatabaseQuery
         $url = $request->fullUrl();
         $method = $request->method();
 
-        $finalLog = "DB query log\nUser: {$username}\nCourse: {$courseId}\nMethod & Url: [{$method} {$url}]\n";
+        $queryLog = "";
         foreach (array_values(DB::getQueryLog()) as $i => $log) {
             $time = fdiv($log['time'], 1000);
             $totalTime += $time;
 
-            $finalLog .= "[{$i}. SQL]: {$log['query']}\nTime: {$time}s\n";
+            $queryLog .= "[{$i}] {$log['query']}\nTime: {$time}s\n---\n";
         }
-        $finalLog .= "Total time: {$totalTime}s\n";
+        $finalLog = "User: {$username} | Total time: {$totalTime}s | Course: {$courseId} | Method & URL: [{$method} {$url}]\n";
+        $finalLog .= $queryLog;
         Log::channel('db')->debug($finalLog);
         DB::disableQueryLog();
     }
