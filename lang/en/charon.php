@@ -210,7 +210,7 @@ $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, 
 $string['feedback-text-all-submissions'] = 'Feedback for all submissions for this charon';
 $string['showing-email'] = 'Showing e-mail';
 $string['showing-table'] = 'Showing table';
-$string['indicator_label_new'] = 'New';
+$string['charon_label_new'] = 'New';
 
 /*------------------------*\
    Messages
