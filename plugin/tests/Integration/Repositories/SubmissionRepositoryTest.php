@@ -4,6 +4,7 @@ namespace Tests\Integration\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Facades\MoodleConfig;
@@ -209,5 +210,57 @@ class SubmissionRepositoryTest extends TestCase
         $actual = $this->repository->findLatestByCharon($charon->id);
 
         $this->assertEquals([$newSubmission->id, $oldSubmission->id], $actual);
+    }
+
+    public function testConfirmSubmissionUnconfirmSubmissionFindConfirmedSubmissionsForUserAndCharon()
+    {
+        /** @var User $user */
+        $user = User::create([
+            'firstname' => 'Jaan',
+            'lastname' => 'Juurikas',
+            'username' => 'jajuur@ttu.ee'
+        ]);
+
+        $charonId = 1;
+
+        /** @var Submission $submission */
+        $submission = Submission::create([
+            'charon_id' => $charonId,
+            'user_id' => $user->id,
+            'git_timestamp' => Carbon::now()
+        ]);
+
+        /** @var Submission $submission2 */
+        $submission2 = Submission::create([
+            'charon_id' => $charonId,
+            'user_id' => $user->id,
+            'git_timestamp' => Carbon::now()
+        ]);
+
+        DB::table('charon_submission_user')->insert(
+            [
+                'submission_id' => $submission->id,
+                'user_id' => $user->id
+            ]
+        );
+
+        DB::table('charon_submission_user')->insert(
+            [
+                'submission_id' => $submission2->id,
+                'user_id' => $user->id
+            ]
+        );
+
+        $this->repository->confirmSubmission($submission);
+        $this->repository->confirmSubmission($submission2);
+        $this->repository->unconfirmSubmission($submission2);
+
+        $result = $this->repository->findConfirmedSubmissionsForUserAndCharon($user->id, $charonId);
+
+        $this->assertEquals(1, sizeof($result));
+        $this->assertEquals($submission->id, $result[0]->id);
+        $this->assertEquals($charonId, $result[0]->charon_id);
+        $this->assertEquals($user->id, $result[0]->user_id);
+        $this->assertEquals($submission->confirmed, $result[0]->confirmed);
     }
 }
