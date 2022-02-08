@@ -274,14 +274,9 @@ class LabRepository
 
         for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($courseId, $labs[$i]->id);
-        }
-
-        for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->charons = $this->getCharonsForLab($courseId, $labs[$i]->id);
-        }
-
-        for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->groups = $this->getGroupsForLab($courseId, $labs[$i]->id);
+            $labs[$i]->groupings = [];
         }
 
         return $labs;
@@ -444,6 +439,17 @@ class LabRepository
         return LabGroup::where('lab_id', $labId)
             ->join('groups', 'groups.id', 'charon_lab_group.group_id')
             ->select('groups.id', 'groups.name')
+            ->get();
+    }
+
+    public function getGroupingsForLab($courseId, $labId)
+    {
+        return \DB::table('charon_lab_group')
+            ->where('lab_id', $labId)
+            ->join('groups', 'groups.id', 'charon_lab_group.group_id')
+            ->join('groupings_groups', 'groupings_groups.groupingid', 'groups.id')
+            ->join('groupings', 'groupings.id', 'groupings_groups.groupid')
+            ->select('groupings.id', 'groupings.name')
             ->get();
     }
 

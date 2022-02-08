@@ -9,7 +9,7 @@
 	    <div>
 	        <v-autocomplete v-if="grouping"
 	            v-model="group"
-	            :items="allGroupings"
+	            :items="courseGroupings"
 	            item-text="name"
 	            item-value="id"
 	            label="Select grouping"
@@ -18,7 +18,7 @@
 	        </v-autocomplete>
 	        <v-autocomplete v-else
 	            v-model="group"
-	            :items="allGroups"
+	            :items="courseGroups"
 	            item-text="name"
 	            item-value="id"
 	            label="Select group"
@@ -38,15 +38,11 @@
 </template>
 
 <script>
-    import Lab from "../../../../../api/Lab";
-    import _ from "lodash";
 
     export default {
 
         data() {
             return {
-                allGroups: [],
-                allGroupings: [],
                 group: {},
                 grouping: false,
             }
@@ -54,7 +50,8 @@
 
         props: {
             lab: {required: true},
-            course: {required: true},
+            courseGroups: {required: true},
+            courseGroupings: {required: true},
         },
 
         methods: {
@@ -87,15 +84,8 @@
 
         computed: {
             groupsSorted: function() {
-                return this.lab.groups.sort((a,b) => { return a.name.localeCompare(b.name); });
+              return this.lab.groups.sort((a,b) => { return a.name.localeCompare(b.name); });
             },
-        },
-
-        created() {
-            Lab.getGroups(this.course.id, (response) => {
-                this.allGroups = response["groups"] || [];
-                this.allGroupings = response["groupings"] || [];
-            });
         },
     }
 </script>

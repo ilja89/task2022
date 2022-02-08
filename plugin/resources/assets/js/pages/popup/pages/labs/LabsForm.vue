@@ -56,8 +56,8 @@
                                         >
                                         </v-slider>
                                     </div>
-                                  </v-col>
-                                  <v-col cols="12" sm="12" md="4" lg="4">
+                                </v-col>
+                                <v-col cols="12" sm="12" md="4" lg="4">
                                     <v-btn class="ma-2" tile outlined color="primary" @click="() => {timeButtonClicked(30)}">
                                         30 mins
                                     </v-btn>
@@ -79,7 +79,55 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="4" lg="4">
-                                    <add-groups-selector :lab="lab" :course="course"></add-groups-selector>
+
+                                    Registration type
+
+                                    <div>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn
+                                                    outlined
+                                                    @click="registrationToggle('everyone')"
+                                                    :class="[checkRegistrationType('everyone') ? 'grp-type-btn-active' : '' ]"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                >
+                                                    Single
+                                                </v-btn>
+                                            </template>
+                                            <span>Every student is allowed to register</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn
+                                                    outlined
+                                                    @click="registrationToggle('group')"
+                                                    :class="[checkRegistrationType('group') ? 'grp-type-btn-active' : '' ]"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                >
+                                                    Group
+                                                </v-btn>
+                                            </template>
+                                            <span>Every student from group is allowed to register</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn
+                                                    outlined
+                                                    @click="registrationToggle('teams')"
+                                                    :class="[checkRegistrationType('teams') ? 'grp-type-btn-active' : '' ]"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                >
+                                                    Teams
+                                                </v-btn>
+                                            </template>
+                                            <span>Registration is per team, team need to be in grouping</span>
+                                        </v-tooltip>
+                                    </div>
+                                    <add-groups-selector v-if="checkRegistrationType('group')" :lab="lab" :courseGroups="courseGroups" :courseGroupings="courseGroupings"></add-groups-selector>
+                                    <add-groupings-selector v-else-if="checkRegistrationType('teams')" :lab="lab" :courseGroupings="courseGroupings"></add-groupings-selector>
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="12" lg="12">
@@ -153,6 +201,7 @@
 <script>
     import {PopupSection} from '../../layouts/index'
     import AddMultipleLabsSection from "./sections/AddMultipleLabsSection";
+    import AddGroupingsSelector from "./sections/AddGroupingsSelector";
     import AddGroupsSelector from "./sections/AddGroupsSelector";
     import {mapState} from "vuex";
     import Lab from "../../../../api/Lab";
@@ -166,7 +215,7 @@
 
     export default {
 
-        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, AddGroupsSelector, PopupSection},
+        components: {Datepicker, CharonSelect, Multiselect, AddMultipleLabsSection, AddGroupsSelector, PopupSection, AddGroupingsSelector},
 
         data() {
             return {
@@ -176,6 +225,9 @@
                 filtered_charons: [],
                 labDuration: 0,
                 registrations: 0,
+                registrationType: 'everyone',
+                courseGroups: [],
+                courseGroupings: [],
             }
         },
 
@@ -202,17 +254,17 @@
                     return
                 }
 
-                let chosen_teachers = []
+                let chosenTeachers = []
                 if (this.lab.teachers !== undefined) {
                     for (let i = 0; i < this.lab.teachers.length; i++) {
-                        chosen_teachers.push(this.lab.teachers[i].id)
+                        chosenTeachers.push(this.lab.teachers[i].id)
                     }
                 }
 
-                let chosen_charons = []
+                let chosenCharons = []
                 if (this.lab.charons !== undefined) {
                     for (let i = 0; i < this.lab.charons.length; i++) {
-                        chosen_charons.push(this.lab.charons[i].id)
+                        chosenCharons.push(this.lab.charons[i].id)
                     }
                 }
 
@@ -234,32 +286,24 @@
                         giveEnd = giveEnd.toString().slice(0, 24)
                     }
 
-                    let filter = this.detectChanges(this.labInitial, chosen_charons, chosen_teachers);
+                    let filter = this.detectChanges(this.labInitial, chosenCharons, chosenTeachers);
 
                     // (registrations > 0) means that lost registrations 
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
-                        Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
-                            window.location = "popup#/labs";
-                            window.location.reload();
-                            VueEvent.$emit('show-notification', 'Lab updated!');
-                        });
+                        this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups);
                     } else {
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
                             this.registrations = result;
-                            if (result == 0) {
-                                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
-                                    window.location = "popup#/labs";
-                                    window.location.reload();
-                                    VueEvent.$emit('show-notification', 'Lab updated!');
-                                });
+                            if (result === 0) {
+                                this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups);
                             }
                         });
                     }
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers, chosenCharons, groups, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
@@ -320,6 +364,22 @@
                 }
 
                 return filter;
+            },
+
+            registrationToggle(type) {
+                this.registrationType = type;
+            },
+
+            checkRegistrationType(type) {
+                return this.registrationType === type;
+            },
+
+            updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups){
+                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosenTeachers, chosenCharons, groups, () => {
+                    window.location = "popup#/labs";
+                    window.location.reload();
+                    VueEvent.$emit('show-notification', 'Lab updated!');
+                });
             }
         },
         computed: {
@@ -347,6 +407,11 @@
                 this.filterCharons()
             })
 
+            Lab.getGroups(this.course.id, (response) => {
+                this.courseGroups = response["groups"] || [];
+                this.courseGroupings = response["groupings"] || [];
+            });
+
             this.labInitial = _.cloneDeep(this.lab);
         },
 
@@ -359,6 +424,11 @@
                         this.labInitial = _.cloneDeep(this.lab);
                     }
                 }
+            },
+
+            getRegistrationType() {
+                this.registrationType = this.lab.groups.length > 0 ? 'group':
+                    this.lab.groupings.length > 0 ? 'teams' : 'everyone'
             }
         }
 
@@ -377,6 +447,10 @@
     .lab-details-message div {
         margin-left: 10px;
         color: red;
+    }
+
+    .grp-type-btn-active {
+      color: #16d059 !important;
     }
 
 </style>
