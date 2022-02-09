@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #708 Pointless scrollingbar for code blocks in assignment view
 - #735 Sorting in report does not work
 - #741 Confirmed submissions are not displayed if they do not exist in currently loaded submissions
+- #754 ReviewComment does not show correct creator name
 
 ## [1.5.8] - 2021-12-14
 
