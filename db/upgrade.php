@@ -831,7 +831,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022080201) {
+    if ($oldversion < 2022020904) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_query_log_users(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    user_id BIGINT(10) NOT NULL," .

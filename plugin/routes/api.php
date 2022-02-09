@@ -36,6 +36,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
     Route::middleware('auth.submission.managing.require')
+        ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
+    Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}/files', 'FilesController@index');
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/submissions/add', 'SubmissionsController@addNewEmpty');
