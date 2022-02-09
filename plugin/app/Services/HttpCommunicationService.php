@@ -243,7 +243,7 @@ class HttpCommunicationService
         try {
             return $client->request(
                 $method,
-                "/{$uri}",
+                "",
                 ['json' => $data, 'headers' => $headers]
             );
         } catch (RequestException $e) {

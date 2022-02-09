@@ -81,4 +81,20 @@ class PlagiarismController extends Controller
             'similarities' => $similarities,
         ], 200);
     }
+
+    /**
+     * Fetch the matches for the given Charon.
+     *
+     * @param Charon $charon
+     *
+     * @return mixed []
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function fetchMatches(Charon $charon): array
+    {
+        $matches = $this->plagiarismService->getMatches($charon);
+
+        return $matches->results;
+    }
 }

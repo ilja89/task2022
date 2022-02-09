@@ -108,6 +108,25 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Get matches for the given charon.
+     *
+     * @param string $checksuiteId
+     *
+     * @return \StdClass
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMatches(Charon $charon)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "",
+            'get'
+        );
+
+        return json_decode((string) $response->getBody());
+    }
+
+    /**
      * Get the details for one check.
      *
      * @param int $checkId

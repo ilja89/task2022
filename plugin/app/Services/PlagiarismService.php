@@ -154,4 +154,19 @@ class PlagiarismService
 
         return $similarities;
     }
+
+    /**
+     * Get the matches for the given Charon from the plagiarism service.
+     *
+     *
+     * @param Charon $charon
+     *
+     * @return \StdClass
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMatches(Charon $charon)
+    {
+        return $this->plagiarismCommunicationService->getMatches($charon);
+    }
 }
