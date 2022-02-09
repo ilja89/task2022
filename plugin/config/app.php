@@ -231,4 +231,15 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Length of the list of Submissions for charon
+    |--------------------------------------------------------------------------
+    |
+    | Will determine how many submissions will be shown on one page
+    |
+    */
+
+    'page_size' => 10,
+
 ];
