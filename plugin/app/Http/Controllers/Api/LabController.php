@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -76,7 +75,8 @@ class LabController extends Controller
             $this->request['teachers'],
             $this->request['charons'],
             $this->request['groups'],
-            $this->request['weeks']
+            $this->request['weeks'],
+            $this->request['type']
         );
     }
 
@@ -96,7 +96,8 @@ class LabController extends Controller
             $this->request['name'],
             $this->request['teachers'],
             $this->request['charons'],
-            $this->request['groups']
+            $this->request['groups'],
+            $this->request['type']
         );
     }
 

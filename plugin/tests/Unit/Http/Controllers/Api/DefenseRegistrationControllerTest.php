@@ -36,8 +36,7 @@ class DefenseRegistrationControllerTest extends TestCase
             Mockery::mock(DefenseRegistrationRepository::class),
             $this->registrationService = Mockery::mock(DefenceRegistrationService::class),
             Mockery::mock(LabService::class),
-            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class),
-            Mockery::mock(LabTeacherRepository::class)
+            $this->defenseLabRepository = Mockery::mock(CharonDefenseLabRepository::class)
         );
     }
 

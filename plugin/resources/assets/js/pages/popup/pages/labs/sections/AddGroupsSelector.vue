@@ -84,7 +84,7 @@
 
         computed: {
             groupsSorted: function() {
-              return this.lab.groups.sort((a,b) => { return a.name.localeCompare(b.name); });
+                return this.lab.groups.sort((a,b) => { return a.name.localeCompare(b.name); });
             },
         },
     }

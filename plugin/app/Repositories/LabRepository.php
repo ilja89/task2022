@@ -59,7 +59,7 @@ class LabRepository
      *
      * @return boolean
      */
-    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $weeks)
+    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $weeks, $type)
     {
         $allCarbonStartDatesForLabs = array();
 
@@ -93,7 +93,8 @@ class LabRepository
                 'start' => $labStartDate->format('Y-m-d H:i:s'),
                 'end' => $labStartDate->copy()->add($labLength)->format('Y-m-d H:i:s'),
                 'name' => $name,
-                'course_id' => $courseId
+                'course_id' => $courseId,
+                'type' => $type
             ]);
 
             foreach ($teachers as $teacher) {
@@ -179,7 +180,7 @@ class LabRepository
      *
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups)
+    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups, $newType)
     {
         $newStartCarbon = Carbon::parse($newStart);
         $newEndCarbon = Carbon::parse($newEnd);
@@ -190,6 +191,7 @@ class LabRepository
         $oldLab->name = $name;
         $oldLab->start = $newStartCarbon->format('Y-m-d H:i:s');
         $oldLab->end = $newEndCarbon->format('Y-m-d H:i:s');
+        $oldLab->type = $newType;
 
         $oldLabTeachers = $this->labTeacherRepository->getTeachersByLabAndCourse($oldLab->course_id, $oldLabId);
         $oldLabCharons = $this->getCharonsForLab($oldLab->course_id, $oldLabId);
@@ -238,7 +240,7 @@ class LabRepository
             }
         }
 
-        $oldGroups = $this->getGroupsForLab($oldLab->course_id, $oldLabId)->pluck('id')->toArray();
+        $oldGroups = $this->getGroupsForLab($oldLabId)->pluck('id')->toArray();
         $toBeRemoved = array_diff($oldGroups, $newGroups);
         $toBeAdded = array_diff($newGroups, $oldGroups);
 
@@ -275,7 +277,7 @@ class LabRepository
         for ($i = 0; $i < count($labs); $i++) {
             $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($courseId, $labs[$i]->id);
             $labs[$i]->charons = $this->getCharonsForLab($courseId, $labs[$i]->id);
-            $labs[$i]->groups = $this->getGroupsForLab($courseId, $labs[$i]->id);
+            $labs[$i]->groups = $this->getGroupsForLab($labs[$i]->id);
             $labs[$i]->groupings = [];
         }
 
@@ -434,7 +436,7 @@ class LabRepository
      * @param int $labId        The lab identifier
      * @return []               Groups for lab.
      */
-    public function getGroupsForLab($courseId, $labId)
+    public function getGroupsForLab($labId)
     {
         return LabGroup::where('lab_id', $labId)
             ->join('groups', 'groups.id', 'charon_lab_group.group_id')

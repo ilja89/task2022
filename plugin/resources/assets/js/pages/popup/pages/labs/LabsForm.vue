@@ -126,8 +126,14 @@
                                             <span>Registration is per team, team need to be in grouping</span>
                                         </v-tooltip>
                                     </div>
-                                    <add-groups-selector v-if="checkRegistrationType('group')" :lab="lab" :courseGroups="courseGroups" :courseGroupings="courseGroupings"></add-groups-selector>
-                                    <add-groupings-selector v-else-if="checkRegistrationType('teams')" :lab="lab" :courseGroupings="courseGroupings"></add-groupings-selector>
+                                    <add-groups-selector v-if="checkRegistrationType('group')"
+                                                         :lab="lab" :courseGroups="courseGroups"
+                                                         :courseGroupings="courseGroupings"
+                                    ></add-groups-selector>
+                                    <add-groupings-selector v-else-if="checkRegistrationType('teams')"
+                                                            :lab="lab"
+                                                            :courseGroupings="courseGroupings"
+                                    ></add-groupings-selector>
                                 </v-col>
 
                                 <v-col cols="12" sm="12" md="12" lg="12">
@@ -144,7 +150,7 @@
                                 <v-col cols="12" sm="12" md="12" lg="8">
                                     <div class="labs-field is-flex-1">
                                         <p>Defendable Charons during this lab</p>
-                                        <multiselect v-model="lab.charons" :options="filtered_charons" :multiple="true"
+                                        <multiselect v-model="lab.charons" :options="filteredCharons" :multiple="true"
                                                      label="project_folder"
                                                      :close-on-select="false" placeholder="Select charons" trackBy="id"
                                                      :clear-on-select="true">
@@ -222,7 +228,7 @@
                 charons: [],
                 teachers: [],
                 show_info: true,
-                filtered_charons: [],
+                filteredCharons: [],
                 labDuration: 0,
                 registrations: 0,
                 registrationType: 'everyone',
@@ -233,19 +239,19 @@
 
         methods: {
             filterCharons() {
-                var filtered_charons = []
+                var filteredCharons = []
                 for (let i = 0; i < this.charons.length; i++) {
                     if (this.charons[i].defense_deadline == null || (new Date(this.charons[i].defense_deadline) >= new Date(this.lab.end.time))) { // .time is because vue-datepicker made it so.
                         if (this.charons[i].defense_start_time == null || (new Date(this.charons[i].defense_start_time) <= new Date(this.lab.start.time))) {
-                            filtered_charons.push(this.charons[i])
+                            filteredCharons.push(this.charons[i])
                         }
                     }
                 }
-                this.filtered_charons = filtered_charons
+                this.filteredCharons = filteredCharons
             },
 
             addAllCharons() {
-                this.lab.charons = this.filtered_charons.slice()
+                this.lab.charons = this.filteredCharons.slice()
             },
 
             saveClicked() {
@@ -272,9 +278,21 @@
                     this.lab.name = this.namePlaceholder;
                 }
 
-                let groups = _.map(this.lab.groups, "id");
+                let groups;
 
-                if (this.lab.id != null) {
+                if (this.registrationType === "teams") {
+                    groups = [];
+                    console.log(this.lab.groupings);
+                    this.lab.groupings.forEach(grouping => grouping.groups.forEach( function (group) {
+                        if (!groups.find( (g) => { return g.id == group.id; } )) {
+                            groups.push(group.id);
+                        }
+                    }));
+                } else {
+                    groups = _.map(this.lab.groups, "id");
+                }
+
+              if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
 
@@ -303,7 +321,8 @@
                         });
                     }
                 } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers, chosenCharons, groups, this.lab.weeks, () => {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers,
+                        chosenCharons, groups, this.registrationType, this.lab.weeks, () => {
                         window.location = "popup#/labs";
                         window.location.reload();
                         VueEvent.$emit('show-notification', 'Lab saved!');
@@ -375,7 +394,8 @@
             },
 
             updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups){
-                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosenTeachers, chosenCharons, groups, () => {
+                Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosenTeachers,
+                    chosenCharons, groups, this.registrationType, () => {
                     window.location = "popup#/labs";
                     window.location.reload();
                     VueEvent.$emit('show-notification', 'Lab updated!');
