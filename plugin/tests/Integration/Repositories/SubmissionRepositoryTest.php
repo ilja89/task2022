@@ -263,4 +263,36 @@ class SubmissionRepositoryTest extends TestCase
         $this->assertEquals($user->id, $result[0]->user_id);
         $this->assertEquals($submission->confirmed, $result[0]->confirmed);
     }
+
+    public function testCharonHasConfirmedSubmissions()
+    {
+        /** @var User $user */
+        $user = User::create([
+            'firstname' => 'Jaan',
+            'lastname' => 'Juurikas',
+            'username' => 'jajuur@ttu.ee'
+        ]);
+
+        $charonId = 1;
+
+        /** @var Submission $submission */
+        $submission = Submission::create([
+            'charon_id' => $charonId,
+            'user_id' => $user->id,
+            'git_timestamp' => Carbon::now()
+        ]);
+
+        DB::table('charon_submission_user')->insert(
+            [
+                'submission_id' => $submission->id,
+                'user_id' => $user->id
+            ]
+        );
+
+        $this->assertFalse($this->repository->charonHasConfirmedSubmissions($charonId, $user->id));
+
+        $this->repository->confirmSubmission($submission);
+
+        $this->assertTrue($this->repository->charonHasConfirmedSubmissions($charonId, $user->id));
+    }
 }
