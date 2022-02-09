@@ -1,3 +1,4 @@
+import CharonLabel from "./CharonLabel";
 import CharonTab from './CharonTab.vue'
 import CharonTabs from './CharonTabs.vue'
 import Datepicker from './Datepicker.vue'
@@ -8,6 +9,6 @@ import SubmissionTableComponent from "./SubmissionTableComponent";
 import ToggleButton from "./ToggleButton";
 
 export {
-    CharonTab, CharonTabs, Datepicker, FilesComponent, FilesComponentWithoutTree,
+    CharonLabel, CharonTab, CharonTabs, Datepicker, FilesComponent, FilesComponentWithoutTree,
     FilesWithReviewComments, SubmissionTableComponent, ToggleButton
 }

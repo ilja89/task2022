@@ -8,7 +8,7 @@
                 <v-card v-for="reviewComment in file.reviewComments"
                         :key="reviewComment.id"
                         class="review-comment"
-                        :class="{ notify: view === 'student' && reviewComment.notify === 1 }"
+                        :class="{ 'notify-review-comment': notify(reviewComment) }"
                 >
                     <div class="review-comment-heading">
                         <div class="review-comment-heading-info">
@@ -21,13 +21,24 @@
                             <span class="review-comment-submission">
                                 Submission: {{ file.submissionCreation }}
                             </span>
-                            <v-btn v-if="view==='teacher'"
-                                   icon
-                                   class="remove-button"
-                                   @click="deleteReviewComment(reviewComment.id, file.charonId)"
-                            >
-                                <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
-                            </v-btn>
+
+                            <div class="review-comment-heading-extra">
+
+                                <charon-label
+                                    v-if="notify(reviewComment)"
+                                    :name="translate('charonLabelNameNewComment')"
+                                    :description="translate('charonLabelDescriptionNewComment')"
+                                    :background-color="'red'"
+                                />
+
+                                <v-btn
+                                    v-if="view==='teacher'"
+                                    icon
+                                    @click="deleteReviewComment(reviewComment.id, file.charonId)"
+                                >
+                                    <img src="/mod/charon/pix/bin.png" alt="delete" width="24px">
+                                </v-btn>
+                            </div>
                         </div>
                     </div>
                     <div class="review-comment-body">
@@ -44,9 +55,13 @@
 <script>
 
 import {ReviewComment} from "../../api";
+import CharonLabel from "./CharonLabel";
+import {Translate} from "../../mixins";
 
 export default {
     name: "FilesWithReviewComments",
+    mixins: [Translate],
+    components: {CharonLabel},
     props: {
         filesWithReviewComments: { required: true },
         view: { required: true }
@@ -63,6 +78,10 @@ export default {
                 VueEvent.$emit('show-notification', 'Review comment deleted!')
             });
         },
+
+        notify(reviewComment) {
+            return this.view === "student" && reviewComment.notify === 1;
+        }
     }
 }
 </script>
@@ -121,7 +140,7 @@ p {
     margin-top: 1em;
 }
 
-.remove-button {
+.review-comment-heading-extra {
     float: right;
 }
 
@@ -132,8 +151,8 @@ p {
     margin-left: 1em;
 }
 
-.notify {
-    background-color: #e6f0ff!important;
+.notify-review-comment {
+    background-color: #f0f0ff!important;
 }
 
 </style>

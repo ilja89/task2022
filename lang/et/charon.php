@@ -203,7 +203,13 @@ $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisi
 $string['feedback-text-all-submissions'] = 'Tagasiside kõigi selle charoni esituste kohta';
 $string['showing-email'] = 'E-maili kuvamine';
 $string['showing-table'] = 'Tabeli kuvamine';
-$string['charon_label_new'] = 'Uus';
+
+/*------------------------*\
+   Charon Labels
+\*------------------------*/
+
+$string['charon_label_name_new_comment'] = 'Uus';
+$string['charon_label_description_new_comment'] = 'See on uus ja lugemata kommentaar';
 
 /*------------------------*\
    Messages
