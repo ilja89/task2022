@@ -16,6 +16,7 @@ use Zeizig\Moodle\Models\Group;
  * @property Carbon start
  * @property Carbon end
  * @property int course_id
+ * @property string type
  *
  * @property User[]|Collection teachers
  *
@@ -26,7 +27,7 @@ class Lab extends Model
     public $timestamps = false;
 
     protected $table = 'charon_lab';
-    protected $fillable = ['name', 'start', 'end', 'course_id'];
+    protected $fillable = ['name', 'start', 'end', 'course_id', 'type'];
     protected $dates = ['start', 'end',];
 
     public function teachers()

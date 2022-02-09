@@ -815,7 +815,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022012704) {
+    if ($oldversion < 2022012706) {
         $table = new xmldb_table("charon_defenders");
 
         $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chostu_uix";
@@ -853,12 +853,19 @@ function xmldb_charon_upgrade($oldversion = 0)
             $dbManager->add_field($table, $field);
         }
 
+        $field = new xmldb_field("progress", XMLDB_TYPE_TEXT);
+        if ($dbManager->field_exists($table, $field)) {
+            $dbManager->drop_field($table, $field);
+        }
+
+        $field = new xmldb_field("progress", XMLDB_TYPE_CHAR, "20", null, XMLDB_NOTNULL, null, 'Waiting');
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+
         $table = new xmldb_table("charon_lab");
 
-
-        $field = new xmldb_field("type", XMLDB_TYPE_TEXT);
-        $dbManager->drop_field($table, $field);
-        $field = new xmldb_field("type", XMLDB_TYPE_CHAR, "20");
+        $field = new xmldb_field("type", XMLDB_TYPE_CHAR, "20", null, XMLDB_NOTNULL, null, 'everyone');
 
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);

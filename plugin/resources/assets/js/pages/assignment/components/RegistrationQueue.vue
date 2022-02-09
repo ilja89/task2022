@@ -77,7 +77,7 @@ export default {
   computed: {
     getStudentsQueueHeaders () {
       let queue = [
-        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', align: 'center', sortable: false},
+        {text: this.translate("nrInQueueText"), value: 'queue_pos', align: 'start', sortable: false},
         {text: this.translate("charonText"), value: 'charon_name', align: 'center', sortable: false},
         {text: this.translate("estimatedStartTimeText"), value: 'estimated_start', align: 'center', sortable: false},
         {text: this.translate("timeLeftText"), value: 'time_left', align: 'center', sortable: false}

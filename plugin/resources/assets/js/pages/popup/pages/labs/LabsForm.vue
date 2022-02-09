@@ -292,7 +292,7 @@
                     groups = _.map(this.lab.groups, "id");
                 }
 
-              if (this.lab.id != null) {
+                if (this.lab.id != null) {
                     let giveStart = this.lab.start.time
                     let giveEnd = this.lab.end.time
 
@@ -306,7 +306,7 @@
 
                     let filter = this.detectChanges(this.labInitial, chosenCharons, chosenTeachers);
 
-                    // (registrations > 0) means that lost registrations 
+                    // (registrations > 0) means that lost registrations
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
@@ -320,14 +320,14 @@
                             }
                         });
                     }
-                } else {
-                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers,
-                        chosenCharons, groups, this.registrationType, this.lab.weeks, () => {
-                        window.location = "popup#/labs";
-                        window.location.reload();
-                        VueEvent.$emit('show-notification', 'Lab saved!');
-                    })
-                }
+                    } else {
+                        Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers,
+                            chosenCharons, groups, this.registrationType, this.lab.weeks, () => {
+                            window.location = "popup#/labs";
+                            window.location.reload();
+                            VueEvent.$emit('show-notification', 'Lab saved!');
+                        })
+                    }
             },
             cancelClicked() {
                 window.location = "popup#/labs";
@@ -440,7 +440,7 @@
                 deep: true,
                 handler() {
                     this.registrations = 0;
-                    if (this.lab.id != this.labInitial.id) {
+                    if (this.lab.id !== this.labInitial.id) {
                         this.labInitial = _.cloneDeep(this.lab);
                     }
                 }

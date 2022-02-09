@@ -134,12 +134,24 @@ class DefenceRegistrationService
      *
      * @param int $studentId
      * @param int $charonId
-     * @param Lab $lab
-     *
+     * @param int $defenseLabId
+     * @param int|null $submissionId
      * @throws RegistrationException
      */
-    public function validateRegistration(int $studentId, int $charonId, Lab $lab)
+    public function validateRegistration(int $studentId, int $charonId, int $defenseLabId, ?int $submissionId)
     {
+        if ($submissionId === null) {
+            throw new RegistrationException("no_submission");
+        }
+
+        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
+
+        if ($lab->type === 'teams' && !$this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId)) {
+            throw new RegistrationException("group_submission_needed");
+        } elseif ($lab->type !== 'teams' && $this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId)) {
+            throw new RegistrationException("group_submission_not_allowed");
+        }
+
         $charon = $this->charonRepository->getCharonById($charonId);
 
         if ($charon->defense_duration == null || $charon->defense_duration <= 0) {
@@ -289,24 +301,15 @@ class DefenceRegistrationService
         ?int $submissionId,
         string $progress = 'Waiting'
     ): string {
-
-        $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-
         if ($submissionId === null) {
-
             $submission = $this->submissionRepository->getLatestUngradedSubmission(
                 $this->charonService->getCharonById($charonId)->id,
                 $studentId
             );
-
-            if ($submission === null) {
-                throw new RegistrationException("no_submission");
-            }
-
-            $submissionId = $submission->id;
+            $submissionId = $submission ? $submission->id : null;
         }
 
-        $this->validateRegistration($studentId, $charonId, $lab);
+        $this->validateRegistration($studentId, $charonId, $defenseLabId, $submissionId);
 
         $this->registerDefenceTime(
             $studentId,
@@ -332,8 +335,7 @@ class DefenceRegistrationService
     public function attachEstimatedTimesToDefenceRegistrations(
         array $registrations,
         int $teacherCount,
-        Carbon $labStart,
-        $teachersDefences
+        Carbon $labStart
     ): array {
 
         //If lab started, then queue starts from now
@@ -392,8 +394,7 @@ class DefenceRegistrationService
         $registrations = $this->attachEstimatedTimesToDefenceRegistrations(
             $this->defenseRegistrationRepository->getLabRegistrationsByLabId($lab->id, ['Waiting', 'Defending']),
             $teacherCount,
-            $lab->start,
-            $this->defenseRegistrationRepository->getTeacherAndDefendingCharonByLab($lab->id)
+            $lab->start
         );
 
         if (count($registrations) >= $teacherCount) {

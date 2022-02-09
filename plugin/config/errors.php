@@ -126,7 +126,17 @@ return [
     'not_in_group' => [
         'title' => 'Only student in group can register for this registration.',
         'detail' => 'To register for this registration, student should be in group, ' .
-            'which is allowed to register for this defense registration',
+            'which is allowed to register for this defense registration.',
+    ],
+
+    'group_submission_needed' => [
+        'title' => 'Needed group submission for registration.',
+        'detail' => 'Submission should be group submission to register for this defense registration.',
+    ],
+
+    'group_submission_not_allowed' => [
+        'title' => 'Group submission not allowed for registration.',
+        'detail' => 'Submission can\'t be group submission to register for this defense registration.',
     ],
 
     /*

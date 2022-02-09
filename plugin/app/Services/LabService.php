@@ -167,8 +167,7 @@ class LabService
         $registrations = $this->defenceRegistrationService->attachEstimatedTimesToDefenceRegistrations(
             $labRegistrations,
             $teachersCount,
-            $lab->start,
-            $teachersDefences
+            $lab->start
         );
 
         for ($i = 0; $i < count($registrations); $i++) {

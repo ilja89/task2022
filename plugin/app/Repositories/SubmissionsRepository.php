@@ -2,9 +2,6 @@
 
 namespace TTU\Charon\Repositories;
 
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
@@ -747,6 +744,19 @@ class SubmissionsRepository
             ->where('test_suite_id', $testSuiteId)
             ->select('*')
             ->get();
+    }
+
+    /**
+     * If submission has more than 1 user connection, it is group submission.
+     *
+     * @param int $submissionId
+     * @return bool
+     */
+    public function checkSubmissionIsGroupSubmission(int $submissionId): bool
+    {
+        return \DB::table('charon_submission_user')
+            ->where('charon_submission_user.submission_id', $submissionId)
+            ->count() > 1;
     }
 
 }
