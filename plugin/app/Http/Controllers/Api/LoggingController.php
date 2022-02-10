@@ -26,4 +26,13 @@ class LoggingController
     {
         return $this->loggingService->userHasLoggingEnabled($userId);
     }
+
+    public function downloadQueryLogs()
+    {
+        $contents = $this->loggingService->getAllQueryLogsSingleFile();
+        $filename = 'download.txt';
+        return response()->steamDownload(function () use ($contents) {
+            echo $contents;
+        }, $filename);
+    }
 }
