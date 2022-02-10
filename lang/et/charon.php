@@ -208,8 +208,8 @@ $string['showing-table'] = 'Tabeli kuvamine';
    Charon Labels
 \*------------------------*/
 
-$string['charon_label_name_new_comment'] = 'Uus';
-$string['charon_label_description_new_comment'] = 'See on uus ja lugemata kommentaar';
+$string['label_name_new_comment'] = 'Uus';
+$string['label_description_new_comment'] = 'See on uus ja lugemata kommentaar';
 
 /*------------------------*\
    Messages

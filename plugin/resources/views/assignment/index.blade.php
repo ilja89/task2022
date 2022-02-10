@@ -120,8 +120,8 @@
         feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
         showingTable: "{{ translate('showing-table') }}",
         showingEmail: "{{ translate('showing-email') }}",
-        charonLabelNameNewComment: "{{ translate('charon_label_name_new_comment') }}",
-        charonLabelDescriptionNewComment: "{{ translate('charon_label_description_new_comment') }}",
+        labelNameNewComment: "{{ translate('label_name_new_comment') }}",
+        labelDescriptionNewComment: "{{ translate('label_description_new_comment') }}",
     };
 </script>
 

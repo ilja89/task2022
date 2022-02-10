@@ -7,7 +7,7 @@
             <span
                 v-bind="attrs"
                 v-on="on"
-                class="charon-label"
+                class="label-component"
                 v-bind:style="{ backgroundColor: backgroundColor }"
             >{{ name }}</span>
         </template>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-    name: "CharonLabel",
+    name: "LabelComponent",
 
     props: {
         name: { type: String, required: true, },
@@ -30,7 +30,7 @@ export default {
 </script>
 <style>
 
-.charon-label {
+.label-component {
     color: white;
     border-radius: 2em;
     width: auto;

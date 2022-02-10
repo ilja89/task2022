@@ -24,10 +24,10 @@
 
                             <div class="review-comment-heading-extra">
 
-                                <charon-label
+                                <label-component
                                     v-if="notify(reviewComment)"
-                                    :name="translate('charonLabelNameNewComment')"
-                                    :description="translate('charonLabelDescriptionNewComment')"
+                                    :name="translate('labelNameNewComment')"
+                                    :description="translate('labelDescriptionNewComment')"
                                     :background-color="'red'"
                                 />
 
@@ -55,13 +55,13 @@
 <script>
 
 import {ReviewComment} from "../../api";
-import CharonLabel from "./CharonLabel";
+import LabelComponent from "./LabelComponent";
 import {Translate} from "../../mixins";
 
 export default {
     name: "FilesWithReviewComments",
     mixins: [Translate],
-    components: {CharonLabel},
+    components: {LabelComponent},
     props: {
         filesWithReviewComments: { required: true },
         view: { required: true }

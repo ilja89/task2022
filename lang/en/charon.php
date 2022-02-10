@@ -215,8 +215,8 @@ $string['showing-table'] = 'Showing table';
    Charon Labels
 \*------------------------*/
 
-$string['charon_label_name_new_comment'] = 'New';
-$string['charon_label_description_new_comment'] = 'This is a new comment';
+$string['label_name_new_comment'] = 'New';
+$string['label_description_new_comment'] = 'This is a new comment';
 
 /*------------------------*\
    Messages
