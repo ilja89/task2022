@@ -128,7 +128,9 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
-            this.$store.state.submissions.pop();
+			if (this.submissions.length > 9) {
+				this.$store.state.submissions.pop();
+			}
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
@@ -251,6 +253,12 @@ export default {
 	},
 }
 </script>
+
+<style>
+.latest {
+	background-color: #E8F3FA;
+}
+</style>
 
 <style scoped>
 
