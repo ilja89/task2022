@@ -111,43 +111,13 @@ export default {
     }
   },
 
-  computed: {
-    isEditing() {
-      return window.isEditing;
-    },
-  },
-
-  methods: {
-    toggleAdvancedInfoSection(advanced_toggle) {
-      this.advanced_info_section_active = advanced_toggle;
-    },
-
-    toggleAdvancedGradingSection(advanced_toggle) {
-      this.advanced_grading_section_active = advanced_toggle;
-    },
-
-    toggleAdvancedPlagiarismSection(advanced_toggle) {
-      this.advanced_plagiarism_section_active = advanced_toggle;
-    },
-
-    showNotification(message, type, timeout = 5000) {
-      this.notification.text = message
-      this.notification.show = true
-      this.notification.timeout = timeout
-    },
-
-    hideNotification() {
-      this.notification.show = false
-    },
-  },
-
   mounted() {
 
     VueEvent.$on('name-was-changed', (name) => this.form.fields.name = name);
     VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
     VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
     VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);
-    VueEvent.$on('unittests-git-was-changed', (gitUrl) => this.form.fields.unittests_git = gitUrl);
+    VueEvent.$on('unittests-git-was-changed', (gitUrl) => this.form.fields.unittests_git_charon = gitUrl);
     VueEvent.$on('tester-type-was-changed', (tester_type) => {
       this.form.fields.tester_type = tester_type
       this.form.fields.tester_type_code = tester_type
@@ -211,6 +181,36 @@ export default {
     VueEvent.$on('plagiarism-excludes-was-changed', excludes => {
       this.form.fields.plagiarism_excludes = excludes
     })
+  },
+
+  computed: {
+    isEditing() {
+      return window.isEditing;
+    },
+  },
+
+  methods: {
+    toggleAdvancedInfoSection(advanced_toggle) {
+      this.advanced_info_section_active = advanced_toggle;
+    },
+
+    toggleAdvancedGradingSection(advanced_toggle) {
+      this.advanced_grading_section_active = advanced_toggle;
+    },
+
+    toggleAdvancedPlagiarismSection(advanced_toggle) {
+      this.advanced_plagiarism_section_active = advanced_toggle;
+    },
+
+    showNotification(message, type, timeout = 5000) {
+      this.notification.text = message
+      this.notification.show = true
+      this.notification.timeout = timeout
+    },
+
+    hideNotification() {
+      this.notification.show = false
+    },
   },
 }
 </script>
