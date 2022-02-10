@@ -366,8 +366,6 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2020080701) {
-        // progress is used to hold status of the registration.
-        // As planned, there can be 3 statuses- Waiting, Defending, Done.
         $sql = "ALTER TABLE mdl_charon_defenders ADD COLUMN progress VARCHAR(255) NOT NULL DEFAULT 'Waiting'";
         $DB->execute($sql);
     }
@@ -815,7 +813,16 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022012701) {
+    if ($oldversion < 2021120203) {
+        $table = new xmldb_table("charon");
+        $field = new xmldb_field('unittests_git', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2022013001) {
         $table = new xmldb_table("charon_defenders");
 
         $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chostu_uix";

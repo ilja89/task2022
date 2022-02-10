@@ -30,7 +30,6 @@ security-advisories-vulnerabilities:
   tags:
     - docker
   stage: test
-  when: manual
   image: umutphp/php-docker-images-for-ci:7.4
   services:
     - name: docker:dind
@@ -56,6 +55,12 @@ build_dev:
     expire_in: 1 week
   only:
     - develop
+
+build_release:
+  extends: .builds
+  artifacts:
+    expire_in: never
+  only:
     - /^release.*/
 
 build_any:
