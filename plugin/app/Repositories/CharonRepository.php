@@ -198,7 +198,7 @@ class CharonRepository
     public function update($oldCharon, $newCharon)
     {
         $modifiableFields = ['name', 'project_folder', 'tester_extra', 'system_extra', 'tester_type_code',
-            'grouping_id', 'allow_submission', 'defense_threshold'];
+            'grouping_id', 'allow_submission', 'defense_threshold', 'unittests_git'];
 
         if (array_key_exists('allow_submission', $newCharon) and $newCharon['allow_submission'] == 'true') {
             $newCharon['allow_submission'] = 1;

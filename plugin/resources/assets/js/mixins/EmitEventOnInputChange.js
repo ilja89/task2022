@@ -20,6 +20,10 @@ export default {
             VueEvent.$emit('system-extra-was-changed', extra);
         },
 
+        onUnittestsGitChanged(gitUrl) {
+            VueEvent.$emit('unittests-git-was-changed', gitUrl);
+        },
+
         onTesterTypeChanged(testerType) {
             VueEvent.$emit('tester-type-was-changed', testerType);
         },
