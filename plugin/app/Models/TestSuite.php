@@ -34,12 +34,13 @@ class TestSuite extends Model
 
     public function unitTests()
     {
-        return $this->hasMany(UnitTest::class)->orderBy('id');
+        return $this->hasMany(UnitTest::class, 'charon_unit_test.test_suite_id', 'id')
+            ->orderBy('id');
     }
 
     public function submission()
     {
-        return $this->belongsTo(Submission::class, 'submission_id', 'id');
+        return $this->belongsTo(Submission::class, 'charon_test_suite.submission_id', 'charon_submission.id');
     }
 
     public function getDeadlineTimeAttribute($deadlineTime)
