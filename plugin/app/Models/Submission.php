@@ -97,7 +97,8 @@ class Submission extends Model
     public function unitTests()
     {
         return $this->hasManyThrough(UnitTest::class, TestSuite::class,
-            'charon_test_suite.submission_id', 'charon_unit_test.test_suite_id');
+            'charon_test_suite.submission_id', 'charon_unit_test.test_suite_id',
+            'id', 'id');
     }
 
     public function reviewComments()

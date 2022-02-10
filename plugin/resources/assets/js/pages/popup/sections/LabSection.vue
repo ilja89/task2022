@@ -6,36 +6,13 @@
             <v-btn class="ma-2" tile outlined color="primary" v-on:click="addNewLabSessionClicked">Add new</v-btn>
         </template>
 
-        <v-alert :value="alert" border="left" color="error" outlined>
-            <v-row align="center" justify="space-between">
-                <v-col class="grow">
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    Are you sure you want to delete the lab?
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                    <md-icon>warning</md-icon>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error" @click="deleteLab">Yes</v-btn>
-                </v-col>
-                <v-col class="shrink">
-                    <v-btn class="ma-2" small tile outlined color="error" @click="alert=false">No</v-btn>
-                </v-col>
-            </v-row>
-            <v-row class="lab-overview-message">
-                <div v-if="registrations === -1">
-                    Checking if the Lab has registrations ...
-                </div>
-                <div v-else-if="registrations === 0" class="green-text">
-                    Lab has no registrations
-                </div>
-                <div v-else>
-                    Lab has {{registrations}} registrations
-                </div>
-            </v-row>
-        </v-alert>
+        <alert-box-component v-if="alert"
+                             :eventName="'delete-lab'"
+                             :question="'Are you sure you want to delete the lab?'"
+                             :text="labDeleteText"
+                             :buttonNames="deleteLabButtonNames">
+        </alert-box-component>
+
         <v-card-title v-if="labs.length">
             Labs
             <v-spacer></v-spacer>
@@ -107,11 +84,12 @@
     import moment from "moment";
     import Datepicker from "../../../components/partials/Datepicker";
     import _ from "lodash";
+    import AlertBoxComponent from "../../../components/partials/AlertBoxComponent";
 
     export default {
         name: "lab-section",
 
-        components: {PopupSection, Datepicker},
+        components: {PopupSection, Datepicker, AlertBoxComponent},
 
         props: {
             labs: {required: true}
@@ -121,7 +99,6 @@
             return {
                 alert: false,
                 lab_id: 0,
-                registrations: -1,
                 search: '',
                 start_date: {time: `${moment().format("YYYY-MM-DD")}`},
                 labs_headers: [
@@ -133,7 +110,9 @@
                     {text: 'Actions', value: 'actions'},
                 ],
                 previous_param: null,
-                current_param: null
+                current_param: null,
+                labDeleteText: "",
+                deleteLabButtonNames: ["Yes", "No"],
             }
         },
 
@@ -175,12 +154,16 @@
             },
 
             promptDeletionAlert(lab) {
-                this.alert = true
+                this.labDeleteText = 'Lab: ' + lab.name + '\nChecking if the Lab has registrations ...';
                 this.lab_id = lab.id
-                this.registrations = -1;
-                Lab.checkRegistrations(this.course.id, this.lab_id, {}, (result) => {
-                    this.registrations = result;
+                Lab.checkRegistrations(this.course.id, this.lab_id, {}, (registrations) => {
+                    if (registrations > 0){
+                        this.labDeleteText = 'Lab: ' + lab.name + '\nLab has ' + registrations + ' registrations';
+                    } else {
+                        this.labDeleteText = 'Lab: ' + lab.name + '\nLab has no registrations';
+                    }
                 });
+                this.alert = true;
             },
 
             deleteLab() {
@@ -190,6 +173,16 @@
                     VueEvent.$emit('show-notification', 'Lab deleted!')
                 })
             },
+        },
+
+        mounted() {
+            VueEvent.$on("delete-lab", (buttonName) => {
+                if (buttonName === "Yes") {
+                    this.deleteLab();
+                } else {
+                    this.alert = false;
+                }
+            });
         }
     }
 

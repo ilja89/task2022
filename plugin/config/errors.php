@@ -59,6 +59,11 @@ return [
         'detail' => 'Path are required when saving template.',
     ],
 
+    'template_paths_need_to_be_unique' => [
+        'title' => 'Template paths need to be unique.',
+        'detail' => 'Cannot create templates that have the same paths.',
+    ],
+
     'same_path' => [
         'title' => 'Two templates with the same path.',
         'detail' => 'Templates with same name: %s cannot be added.',
@@ -155,5 +160,4 @@ return [
         'title'  => 'The review comment could not be found.',
         'detail' => '',
     ],
-
 ];

@@ -156,20 +156,42 @@ class SubmissionsRepository
             'charon_submission.mail',
         ];
 
+        $unitTestFields = [
+            'charon_unit_test.id',
+            'charon_unit_test.test_suite_id',
+            'charon_unit_test.groups_depended_upon',
+            'charon_unit_test.status',
+            'charon_unit_test.weight',
+            'charon_unit_test.print_exception_message',
+            'charon_unit_test.print_stack_trace',
+            'charon_unit_test.time_elapsed',
+            'charon_unit_test.methods_depended_upon',
+            'charon_unit_test.stack_trace',
+            'charon_unit_test.name',
+            'charon_unit_test.stdout',
+            'charon_unit_test.exception_class',
+            'charon_unit_test.exception_message',
+            'charon_unit_test.stderr',
+
+        ];
+
         $submissions = Submission::select($submissionFields)
             ->where('charon_id', $charon->id)
-            ->where('user_id', $userId)
             ->with([
-                'results' => function ($query) use ($charon) {
+                'results' => function ($query) use ($charon, $userId) {
                     $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+                        ->where('user_id', $userId)
                     ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
+                },
+                'users' => function ($query) {
+                    $query->select(['id', 'username']);
                 },
                 'testSuites' => function ($query) {
                     $query->select(['*']);
                 },
-                'unitTests' => function ($query) {
-                    $query->select(['*']);
+                'unitTests' => function ($query) use ($unitTestFields) {
+                    $query->select($unitTestFields);
                 },
                 'files' => function ($query) {
                     $query->select(['id', 'submission_id', 'path', 'contents', 'is_test']);
@@ -178,6 +200,10 @@ class SubmissionsRepository
                     $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('id', '=', $userId);
+            })
+            ->orderByDesc('confirmed')
             ->latest()
             ->simplePaginate(10);
 
@@ -684,6 +710,10 @@ class SubmissionsRepository
         switch ($sortField) {
             case 'exerciseName':
                 return 'name';
+            case 'submissionTestsSum':
+                return 'submission_tests_sum';
+            case 'submissionTotal':
+                return 'finalgrade';
             case 'isConfirmed':
                 return 'confirmed';
             case 'firstName':

@@ -118,11 +118,6 @@ class GitCallbackController extends Controller
         $params['gitTestRepo'] = '';
         $params['testingPlatform'] = '';
 
-        if ($settings && $settings->unittests_git) {
-            Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
-            $params['gitTestRepo'] = $settings->unittests_git;
-        }
-
         if ($settings && $settings->testerType) {
             Log::info("TesterType found from CourseSettings: '" . $settings->testerType->name . "'");
             $params['testingPlatform'] = $settings->testerType->name;
@@ -141,6 +136,17 @@ class GitCallbackController extends Controller
 
         foreach ($charons as $charon) {
             Log::debug("Found charon with id: " . $charon->id);
+
+            if ($charon->unittests_git) {
+                Log::info("Unittests_git found from Charon: '" . $charon->unittests_git . "'");
+                $params['gitTestRepo'] = $charon->unittests_git;
+            } elseif ($settings && $settings->unittests_git) {
+                Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
+                $params['gitTestRepo'] = $settings->unittests_git;
+            } else {
+                Log::error('Git repo for unit tests not found. Repo was not included in neither charon nor course.');
+                return 'NO GIT TESTS REPOSITORY SET';
+            }
 
             $params['slugs'] = [$charon->project_folder];
             $params['testingPlatform'] = $charon->testerType->name;
