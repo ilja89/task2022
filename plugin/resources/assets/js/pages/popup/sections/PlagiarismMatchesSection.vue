@@ -7,19 +7,18 @@
       <charon-select/>
       <v-btn @click="fetchMatches()">Fetch Matches</v-btn>
     </template>
-
-    <v-data-table
-      :headers="headers"
-      :items="matches">
-      <template v-slot:item.actions="{ item }">
-        <v-row>
-          <v-btn icon @click="">
-            <v-icon aria-label="Submission Information" role="button" aria-hidden="false">mdi-eye</v-icon>
-          </v-btn>
-        </v-row>
-      </template>
-    </v-data-table>
-    <pre v-html="matches" style="max-height: 900px"></pre>
+    <div>
+      <v-data-table
+          :headers="headers"
+          :items="matches.results">
+        <template v-slot:item.actions="{ item }">
+          <v-row>
+            <plagiarism-match-modal :match="item"></plagiarism-match-modal>
+          </v-row>
+        </template>
+      </v-data-table>
+      <pre v-html="matches" style="max-height: 900px; width: 1000px"></pre>
+    </div>
 
   </popup-section>
 </template>
@@ -30,11 +29,12 @@ import { mapState } from 'vuex'
 import { PopupSection } from '../layouts'
 import { CharonSelect, PlagiarismSimilaritiesTabs } from '../partials'
 import { Plagiarism } from '../../../api'
+import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
 
 export default {
   name: 'plagiarism-matches-section',
 
-  components: { PopupSection, CharonSelect, PlagiarismSimilaritiesTabs },
+  components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs },
 
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
         {text: 'Percentage', value: 'percentage'},
         {text: 'Other Uni-ID', value: 'other_submission.gitlab_project.owner.uniid'},
         {text: 'Other Percentage', value: 'other_percentage'},
-        {text: 'Actions', value: 'actions'},
+        {text: 'Actions', value: 'actions', sortable: false},
       ]
     }
   },
@@ -64,6 +64,7 @@ export default {
         this.matches = response
       })
     },
+
   },
 }
 </script>

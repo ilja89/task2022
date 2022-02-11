@@ -87,14 +87,14 @@ class PlagiarismController extends Controller
      *
      * @param Charon $charon
      *
-     * @return mixed []
+     * @return \StdClass
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function fetchMatches(Charon $charon): array
+    public function fetchMatches(Charon $charon): \StdClass
     {
         $matches = $this->plagiarismService->getMatches($charon);
 
-        return $matches->results;
+        return $matches;
     }
 }
