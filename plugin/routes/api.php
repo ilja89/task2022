@@ -35,8 +35,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
-    Route::middleware('auth.submission.managing.require')
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/downloadQueryLogs', 'LoggingController@downloadQueryLogs');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}/files', 'FilesController@index');
     Route::middleware('auth.charon.managing.require')

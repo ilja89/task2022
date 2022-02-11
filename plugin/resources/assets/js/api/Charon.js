@@ -1,4 +1,5 @@
 import CharonFormat from "../helpers/CharonFormat";
+const FileDownload = require('js-file-download')
 
 class Charon {
 
@@ -59,10 +60,25 @@ class Charon {
         })
     }
 
+    static downloadQueryLogs(courseId) {
+        // window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/downloadQueryLogs').then(response => {
+        //     then(response)
+        // }).catch(error => {
+        //     VueEvent.$emit('show-notification', 'Error downloading query logs.\n' + error, 'danger')
+        // })
+        window.axios({
+            url: Charon.getRoot() + '/courses/' + courseId + '/downloadQueryLogs',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+
+        })
+    }
+
     static getResultForStudent(charonId, userId, then) {
         window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/results/' + userId)
             .then(response => {
-                then(response.data)
+                then(response)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
         })

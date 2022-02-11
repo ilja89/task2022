@@ -3,6 +3,7 @@
                    :subtitle="subtitle">
 
         <template slot="header-right">
+            <v-btn v-if="this.logType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs</v-btn>
             <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
         </template>
 
@@ -68,6 +69,12 @@ export default {
                 })
             }
         },
+
+        downloadLogs() {
+            Charon.downloadQueryLogs(this.courseId, response => {
+                console.log(response)
+            })
+        }
     },
 }
 </script>
