@@ -212,11 +212,10 @@ $string['showing-email'] = 'Showing e-mail';
 $string['showing-table'] = 'Showing table';
 
 /*------------------------*\
-   Charon Labels
+   Labels
 \*------------------------*/
 
-$string['label_name_new_comment'] = 'New';
-$string['label_description_new_comment'] = 'This is a new comment';
+$string['label_name_new_review_comment'] = 'New';
 
 /*------------------------*\
    Messages

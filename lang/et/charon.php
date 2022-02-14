@@ -205,11 +205,10 @@ $string['showing-email'] = 'E-maili kuvamine';
 $string['showing-table'] = 'Tabeli kuvamine';
 
 /*------------------------*\
-   Charon Labels
+   Labels
 \*------------------------*/
 
-$string['label_name_new_comment'] = 'Uus';
-$string['label_description_new_comment'] = 'See on uus ja lugemata kommentaar';
+$string['label_name_new_review_comment'] = 'Uus';
 
 /*------------------------*\
    Messages

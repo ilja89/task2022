@@ -26,8 +26,7 @@
 
                                 <label-component
                                     v-if="notify(reviewComment)"
-                                    :name="translate('labelNameNewComment')"
-                                    :description="translate('labelDescriptionNewComment')"
+                                    :name="translate('labelNameNewReviewComment')"
                                     :background-color="'red'"
                                 />
 
