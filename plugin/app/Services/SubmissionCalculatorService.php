@@ -93,20 +93,6 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Calculate the score for the result considering the deadline and max points.
-     *
-     * @param  Deadline $deadline
-     * @param  Result $result
-     * @param  float $maxPoints
-     *
-     * @return float|int
-     */
-    private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
-    {
-        return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
-    }
-
-    /**
      * Check if the current submission is better than the last active one.
      *
      * @param Submission $submission
@@ -151,5 +137,19 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
+    }
+
+    /**
+     * Calculate the score for the result considering the deadline and max points.
+     *
+     * @param  Deadline $deadline
+     * @param  Result $result
+     * @param  float $maxPoints
+     *
+     * @return float|int
+     */
+    private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
+    {
+        return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
     }
 }
