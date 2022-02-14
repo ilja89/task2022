@@ -71,9 +71,16 @@ export default {
         },
 
         downloadLogs() {
-            Charon.downloadQueryLogs(this.courseId, response => {
-                console.log(response)
-            })
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.logs))
+            element.setAttribute('download', 'queryLogs.txt')
+
+            element.style.display = 'none'
+            document.body.appendChild(element)
+
+            element.click()
+
+            document.body.removeChild(element)
         }
     },
 }

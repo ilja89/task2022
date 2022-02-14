@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Services\LoggingService;
 use Illuminate\Http\Request;
@@ -28,14 +29,5 @@ class LoggingController extends Controller
     public function userHasQueryLoggingEnabled($userId): bool
     {
         return $this->loggingService->userHasQueryLoggingEnabled($userId);
-    }
-
-    public function downloadQueryLogs()
-    {
-        $contents = $this->loggingService->getAllQueryLogsSingleFile();
-        $filename = 'download.txt';
-        return response()->streamDownload(function () use ($contents) {
-            echo $contents;
-        }, $filename);
     }
 }

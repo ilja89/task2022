@@ -22,13 +22,13 @@ class LoggingService
         $this->logParseService = $logParseService;
     }
 
-    public function userHasQueryLoggingEnabled(int $userid)
+    public function userHasQueryLoggingEnabled(int $userid): bool
     {
         $user = $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
         return (bool)$user;
     }
 
-    public function getAllQueryLogsSingleFile()
+    public function getAllQueryLogsSingleFile(): string
     {
         return $this->logParseService->readLogs(true);
     }
