@@ -140,9 +140,9 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return array
+     * @return mixed
      */
-    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId): array
+    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
         $submissionFields = [
             'charon_submission.id',
@@ -205,11 +205,11 @@ class SubmissionsRepository
             })
             ->orderByDesc('confirmed')
             ->latest()
-            ->simplePaginate(config('app.page_size'));
+            ->simplePaginate(10);
 
         $submissions->appends(['user_id' => $userId])->links();
 
-        return [$this->assignUnitTestsToTestSuites($submissions), config('app.page_size')];
+        return $this->assignUnitTestsToTestSuites($submissions);
     }
 
     /**

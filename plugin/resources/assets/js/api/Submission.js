@@ -25,9 +25,9 @@ class Submission {
     static findByUserCharon(userId, charonId, then) {
         axios.get(`/mod/charon/api/charons/${charonId}/submissions`, {params: {user_id: userId}})
             .then(({data}) => {
-                Submission.nextUrl = data[0].next_page_url
-                Vue.prototype.$submissionListLength = data[1];
-                then(data[0].data)
+                Submission.nextUrl = data.next_page_url
+                Vue.prototype.$submissionListLength = data.per_page;
+                then(data.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
         })
@@ -36,8 +36,8 @@ class Submission {
     static getNext(then) {
         axios.get(Submission.nextUrl)
             .then(({data}) => {
-                Submission.nextUrl = data[0].next_page_url
-                then(data[0].data)
+                Submission.nextUrl = data.next_page_url
+                then(data.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving submissions.\n' + error, 'danger')
         })
