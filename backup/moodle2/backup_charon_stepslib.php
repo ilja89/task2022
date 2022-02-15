@@ -41,7 +41,7 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
 
         $grademaps = new backup_nested_element('grademaps');
         $grademap = new backup_nested_element('grademap', ['id'], [
-            'name', 'grade_type_code', 'grade_item_id'
+            'name', 'grade_type_code', 'grade_item_id', 'persistent'
         ]);
 
 
@@ -61,7 +61,7 @@ class backup_charon_activity_structure_step extends \backup_activity_structure_s
 
         $results = new backup_nested_element('results');
         $result = new backup_nested_element('result', ['id'], [
-            'grade_type_code', 'percentage', 'calculated_result', 'stdout', 'stderr',
+            'grade_type_code', 'percentage', 'calculated_result', 'stdout', 'stderr', 'user_id'
         ]);
 
 

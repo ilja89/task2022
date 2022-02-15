@@ -174,6 +174,7 @@ class restore_charon_activity_structure_step extends restore_activity_structure_
         $data = (object) $data;
 
         $data->submission_id = $this->get_new_parentid('charon_submission');
+        $data->user_id = $this->get_mappingid('user', $data->user_id);
 
         $DB->insert_record('charon_result', $data);
     }
