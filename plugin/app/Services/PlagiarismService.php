@@ -81,6 +81,22 @@ class PlagiarismService
     }
 
     /**
+     * Run the checksuite for the given Charon and refresh its latest check id.
+     *
+     * @param Charon $charon
+     *
+     * @return Charon
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function runCheck(Charon $charon)
+    {
+        $this->plagiarismCommunicationService->runCheck($charon);
+
+        return $charon;
+    }
+
+    /**
      * Refresh the latest check id for the given Charon. If the Charon has a
      * checksuite, its info will be fetched from the plagiarism service and will
      * be parsed to find the latest check's id. This will be saved to the Charon

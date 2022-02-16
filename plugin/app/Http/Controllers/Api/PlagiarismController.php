@@ -81,4 +81,23 @@ class PlagiarismController extends Controller
             'similarities' => $similarities,
         ], 200);
     }
+
+    /**
+     * Run the checksuite for the given Charon. Send a request to run the
+     * checksuite to the plagiarism service.
+     *
+     * @param Charon $charon
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function runCheck(Charon $charon)
+    {
+        $this->plagiarismService->runCheck($charon);
+
+        return response()->json([
+            'message' => 'Plagiarism service has been notified to re-run the checksuite.',
+        ], 200);
+    }
 }

@@ -1,9 +1,15 @@
 <template>
     <div>
 
-        <page-title title="Plagiarism">
-            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run checksuite</v-btn>
-        </page-title>
+        <v-card class="mb-16 pl-4">
+          <v-card-title>
+            Plagiarism
+            <div style="float: right">
+              <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run plagiarism check</v-btn>
+              <charon-select/>
+            </div>
+          </v-card-title>
+        </v-card>
 
         <plagiarism-results-section></plagiarism-results-section>
 
@@ -13,14 +19,14 @@
 <script>
     import {mapState} from 'vuex'
 
-    import {PageTitle} from '../partials'
+    import {PageTitle, CharonSelect} from '../partials'
     import {PlagiarismResultsSection} from '../sections'
     import {Plagiarism} from '../../../api'
 
     export default {
         name: 'plagiarism-page',
 
-        components: {PageTitle, PlagiarismResultsSection},
+        components: {PageTitle, PlagiarismResultsSection, CharonSelect},
 
         computed: {
             ...mapState([
@@ -30,7 +36,7 @@
 
         methods: {
             handleRunPlagiarismClicked() {
-                Plagiarism.runPlagiarism(this.charon.id, response => {
+                Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                     window.VueEvent.$emit(
                         'show-notification',
                         response.message,

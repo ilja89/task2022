@@ -24,6 +24,16 @@ class Plagiarism {
                 VueEvent.$emit('show-notification', 'Error fetching plagiarism similarities.\n' + error, 'danger')
             })
     }
+
+    static runPlagiarismCheck(charonId, then) {
+        axios.post(`${this.getRoot()}/charons/${charonId}/plagiarism/run`)
+            .then(response => {
+                then(response.data)
+            })
+            .catch(error => {
+                VueEvent.$emit('show-notification', 'Error running plagiarism check.\n' + error, 'danger')
+            })
+    }
 }
 
 export default Plagiarism

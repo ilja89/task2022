@@ -89,6 +89,25 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Send a request to the plagiarism service to run the given checksuite.
+     *
+     * @param string $checksuiteId
+     *
+     * @return \StdClass
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function runCheck($charon)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/plagiarism/check",
+            'post'
+        );
+
+        return json_decode((string) $response->getBody());
+    }
+
+    /**
      * Get the details about one checksuite.
      *
      * @param string $checksuiteId
