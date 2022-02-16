@@ -135,43 +135,39 @@ class DefenceRegistrationService
      * @param int $studentId
      * @param int $charonId
      * @param int $defenseLabId
-     * @param int|null $submissionId
+     * @param int $submissionId
      * @throws RegistrationException
      */
-    public function validateRegistration(int $studentId, int $charonId, int $defenseLabId, ?int $submissionId)
+    public function validateRegistration(int $studentId, int $charonId, int $defenseLabId, int $submissionId)
     {
-        if ($submissionId === null) {
-            throw new RegistrationException("no_submission");
-        }
 
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
+        $groupSubmission = $this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId);
 
-        if ($lab->type === 'teams' && !$this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId)) {
+        if ($lab->type === 'teams' && !$groupSubmission) {
             throw new RegistrationException("group_submission_needed");
-        } elseif ($lab->type !== 'teams' && $this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId)) {
+        } elseif ($lab->type !== 'teams' && $groupSubmission) {
             throw new RegistrationException("group_submission_not_allowed");
+        }
+
+        $userRegistrations = $this->defenseRegistrationRepository
+            ->getUserRegistrations($studentId, $charonId);
+
+        Log::info(print_r($userRegistrations, true));
+
+        if (sizeof($userRegistrations) > 0) {
+            foreach ($userRegistrations as $registration)
+            if ($registration->lab_end > Carbon::now()) {
+                throw new RegistrationException('charon_registration_exists');
+            } elseif ($registration->progress == "Done") {
+                throw new RegistrationException('charon_defended');
+            }
         }
 
         $charon = $this->charonRepository->getCharonById($charonId);
 
         if ($charon->defense_duration == null || $charon->defense_duration <= 0) {
             throw new RegistrationException('invalid_setup');
-        }
-
-        $labGroupsStudents = $this->labRepository->getLabGroupStudentsIds($lab->id);
-
-        if (sizeof($labGroupsStudents) > 0 && !$labGroupsStudents->contains((object)["userid" => $studentId])) {
-            throw new RegistrationException('not_in_group');
-        }
-
-        $pendingStudentDefences = $this->defenseRegistrationRepository->getUserPendingRegistrationsCount(
-            $studentId,
-            $charonId,
-            $lab->id
-        );
-
-        if ($pendingStudentDefences > 0) {
-            throw new RegistrationException('user_in_db');
         }
 
         if ($this->getEstimateTimeForNewRegistration($lab, $charon) === null) {
@@ -306,7 +302,11 @@ class DefenceRegistrationService
                 $this->charonService->getCharonById($charonId)->id,
                 $studentId
             );
-            $submissionId = $submission ? $submission->id : null;
+            if ($submission) {
+                $submissionId = $submission->id;
+            } else {
+                throw new RegistrationException("no_submission");
+            }
         }
 
         $this->validateRegistration($studentId, $charonId, $defenseLabId, $submissionId);

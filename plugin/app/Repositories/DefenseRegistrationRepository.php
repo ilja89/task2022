@@ -76,25 +76,23 @@ class DefenseRegistrationRepository
     }
 
     /**
-     * Count registrations given student has with given charon on given lab.
+     * Get user registrations for charon
      *
-     * @param int $studentId
+     * @param int $userId
      * @param int $charonId
-     * @param int $labId
-     *
-     * @return int
+     * @return array
      */
-    public function getUserPendingRegistrationsCount(int $studentId, int $charonId, int $labId): int
+    public function getUserRegistrations(int $userId, int $charonId): array
     {
         return DB::table('charon_defenders')
+            ->join('charon_submission_user', 'charon_submission_user.submission_id', 'charon_defenders.submission_id')
+            ->where('charon_submission_user.user_id', $userId)
             ->join('charon_defense_lab', 'charon_defense_lab.id', 'charon_defenders.defense_lab_id')
             ->join('charon_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_defense_lab.charon_id', $charonId)
-            ->where('charon_defenders.student_id', $studentId)
-            ->where('charon_defenders.progress', '!=', 'Done')
-            ->where('charon_lab.id', $labId)
-            ->select('charon_lab.id')
-            ->count();
+            ->where('charon_defenders.charon_id', $charonId)
+            ->select('charon_defenders.id', 'charon_lab.end as lab_end', 'charon_defenders.progress')
+            ->get()
+            ->all();
     }
 
     /**
@@ -238,12 +236,14 @@ class DefenseRegistrationRepository
     public function getStudentRegistrations($studentId)
     {
         return DB::table('charon_defenders')
-            ->where('charon_defenders.student_id', $studentId)
+            ->join('charon_submission_user', 'charon_submission_user.submission_id', 'charon_defenders.submission_id')
+            ->where('charon_submission_user.user_id', $studentId)
             ->join('charon', 'charon.id', '=', 'charon_defenders.charon_id')
             ->join('charon_defense_lab', 'charon_defenders.defense_lab_id', 'charon_defense_lab.id')
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
-            ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end', 'charon_defenders.teacher_id',
-                'charon_defenders.submission_id', 'charon_defenders.defense_lab_id', 'charon_lab.name as lab_name', 'charon_defenders.progress')
+            ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end',
+                'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
+                'charon_lab.name as lab_name', 'charon_defenders.progress')
             ->distinct()
             ->get();
     }

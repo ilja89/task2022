@@ -91,9 +91,14 @@ return [
         'detail' => '',
     ],
 
-    'user_in_db' => [
-        'title' => 'You cannot register twice for one exercise.',
-        'detail' => 'If you want to choose another time, then you should delete your previous time (My registrations button)',
+    'charon_registration_exists' => [
+        'title' => 'You have already active registration.',
+        'detail' => 'One charon can be registered for defense only once.',
+    ],
+
+    'charon_defended' => [
+        'title' => 'You have already defended.',
+        'detail' => 'You cannot defend same charon second time.',
     ],
 
     'not_enough_time' => [
@@ -109,11 +114,6 @@ return [
 
     'invalid_chosen_time' => [
         'title' => 'Invalid chosen time!',
-        'detail' => '',
-    ],
-
-    'duplicate' => [
-        'title' => 'You already have an registration for this time!',
         'detail' => '',
     ],
 
