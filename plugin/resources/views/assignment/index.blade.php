@@ -120,6 +120,7 @@
         feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
         showingTable: "{{ translate('showing-table') }}",
         showingMail: "{{ translate('showing-mail') }}",
+        feedbackInfoInAll: "{{ translate('feedback-info-elsewhere') }}",
     };
 </script>
 

@@ -210,6 +210,7 @@ $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, 
 $string['feedback-text-all-submissions'] = 'Feedback for all submissions for this charon';
 $string['showing-mail'] = 'Showing mail';
 $string['showing-table'] = 'Showing table';
+$string['feedback-info-elsewhere'] = 'No feedback for this submission, there is some on others';
 
 /*------------------------*\
    Messages

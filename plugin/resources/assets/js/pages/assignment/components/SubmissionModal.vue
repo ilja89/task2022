@@ -68,9 +68,14 @@
 												view="student"
 												:filesWithReviewComments="this.getFilesWithReviewComments()"
 					></files-with-review-comments>
+
 					<v-card v-else class="message">
 						{{ translate('noFeedbackInfo') }}
 					</v-card>
+
+                    <v-card v-if="this.filesWithReviewComments.length > 0 && this.getFilesWithReviewComments().length === 0" class="message">
+                        {{ translate('feedbackInfoInAll') }}
+                    </v-card>
 				</div>
 			</v-card-text>
 		</v-card>
@@ -147,6 +152,7 @@ export default {
 					files.push(file);
 				}
 			})
+            console.log(files)
 			return files;
 		},
 
@@ -194,6 +200,10 @@ export default {
 
 .signal {
     color: #f00!important;
+}
+
+.message {
+    padding:0.8em;
 }
 
 </style>

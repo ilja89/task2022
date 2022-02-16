@@ -203,6 +203,7 @@ $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisi
 $string['feedback-text-all-submissions'] = 'Tagasiside kõigi selle charoni esituste kohta';
 $string['showing-mail'] = 'e-maili kuvamine';
 $string['showing-table'] = 'Tabeli kuvamine';
+$string['feedback-info-elsewhere'] = 'Sellel esitusel tagasisidet ei ole, kogu tagasiside on näha kõigi esituste vaates';
 
 /*------------------------*\
    Messages
