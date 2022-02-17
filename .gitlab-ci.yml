@@ -9,8 +9,6 @@ stages:
   - integration test
 
 unit_test:
-  when:
-    manual
   tags:
     - docker
   image: jaakkytt/ci-php-node:3.0
@@ -29,8 +27,6 @@ unit_test:
     expire_in: 1 week
 
 security-advisories-vulnerabilities:
-  when:
-    manual
   tags:
     - docker
   stage: test
@@ -128,8 +124,7 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
-    - service  --status-all
-    - service charon-db start
+    - service mysql start
   script:
     - touch .env
     - php composer.phar install --dev
@@ -137,6 +132,8 @@ integration_test_dev:
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
+  only:
+    - disabled
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
