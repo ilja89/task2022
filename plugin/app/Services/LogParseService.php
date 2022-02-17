@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use SplFileObject;
 
@@ -65,8 +66,7 @@ class LogParseService
 
             $allLogs = array_merge($allLogs, $currentFileLogs);
         }
-
-        return json_encode($allLogs);
+        return json_encode($allLogs, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -98,15 +98,9 @@ class LogParseService
     {
         $files = Storage::disk('logs')->listContents('./');
 
-        $logFiles = array_filter($files, function($file) {
-           return $file['extension'] === 'log' && substr($file['basename'], 0, 10) === 'dbQueries-';
+        return array_filter($files, function($file) {
+           return $file['extension'] === 'log' && $file['filename'] === 'dbQueries-' . date("Y-m-d");
         });
-
-        usort($logFiles, function($a, $b) {
-            return strcmp($b['basename'], $a['basename']);
-        });
-
-        return $logFiles;
     }
 
     /**

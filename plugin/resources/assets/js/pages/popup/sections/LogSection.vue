@@ -72,7 +72,7 @@ export default {
 
         downloadLogs() {
             const element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.logs))
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.formatQueryLogs(this.logs)))
             element.setAttribute('download', 'queryLogs.txt')
 
             element.style.display = 'none'
@@ -81,6 +81,19 @@ export default {
             element.click()
 
             document.body.removeChild(element)
+        },
+
+        formatQueryLogs(logsArray) {
+            const innerLogsArray = [];
+
+            // Loop through all logs. Logs are arrays consisting of inner logs. Join inner logs to a string with new line
+            // separator. After joining inner logs, add them to array and do the same for the rest of inner logs.
+            // Return all logs at the end joined by 2 new line separators for clean formatting.
+            for (const log of logsArray) {
+                innerLogsArray.push(log.join('\n'))
+            }
+
+            return innerLogsArray.join('\n\n')
         }
     },
 }
