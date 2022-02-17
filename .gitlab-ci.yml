@@ -124,7 +124,7 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
-    - service mysql start
+    - service charon-db start
   script:
     - touch .env
     - php composer.phar install --dev
