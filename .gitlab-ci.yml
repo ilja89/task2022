@@ -128,12 +128,11 @@ integration_test_dev:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p env.develop .env
-    - cat $INTEGRATION_DB_VARIABLES >> .env
+    - cp -p env.develop-tests .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  only:
-    - disabled
+  when:
+    manual
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
