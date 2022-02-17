@@ -63,8 +63,9 @@ class LogDatabaseQuery
         foreach (array_values(DB::getQueryLog()) as $i => $log) {
             $time = fdiv($log['time'], 1000);
             $totalTime += $time;
+            $index = $i+1;
 
-            $queryLog .= "[{$i}] {$log['query']}\nTime: {$time}s\n---\n";
+            $queryLog .= "[{$index}] {$log['query']}\nTime: {$time}s\n---\n";
         }
         $finalLog = "User: {$username} | Total time: {$totalTime}s | Course: {$courseId} | Method & URL: [{$method} {$url}]\n";
         $finalLog .= $queryLog;
