@@ -224,7 +224,7 @@ class DefenseRegistrationRepository
         return $defense;
     }
 
-    public function deleteRegistration($studentId, $defenseLabId, $submissionId)
+    public function deleteRegistration($studentId, $defenseLabId, $submissionId): int
     {
         return DB::table('charon_defenders')
             ->where('student_id', $studentId)
@@ -387,6 +387,17 @@ class DefenseRegistrationRepository
         $defense->progress = $newProgress;
         $defense->update();
         return $defense;
+    }
+
+    public function getRegistrationOwner($studentId, $defenseLabId, $submissionId)
+    {
+        return DB::table('charon_defenders')
+            ->join('charon_submission_user', 'charon_submission_user.submission_id', 'charon_defenders.submission_id')
+            ->where('charon_submission_user.user_id', $studentId)
+            ->where('charon_defenders.defense_lab_id', $defenseLabId)
+            ->where('charon_defenders.submission_id', $submissionId)
+            ->select('charon_defenders.student_id')
+            ->first();
     }
 
 }

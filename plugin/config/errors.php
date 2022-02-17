@@ -144,6 +144,11 @@ return [
         'detail' => 'Submission can\'t be group submission to register for this defense registration.',
     ],
 
+    'no_registration_manage_rights' => [
+        'title' => 'No rights to manage this registration.',
+        'detail' => 'Only lab teacher and submission authors is able to manage this registration.',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Review comment errors

@@ -5,7 +5,6 @@ namespace TTU\Charon\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\RegistrationException;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Registration;
@@ -135,22 +134,15 @@ class DefenseRegistrationController extends Controller
     /**
      * @param Request $request
      * @return int
+     * @throws RegistrationException
      */
-    public function delete(Request $request)
+    public function delete(Request $request): int
     {
         $studentId = $request->input('user_id');
         $defenseLabId = $request->input('defLab_id');
         $submissionId = $request->input('submission_id');
 
-        Log::info(json_encode([
-            'event' => 'registration_deletion',
-            'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
-            'submission_id' => $submissionId
-        ]));
-
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
+        return $this->defenceRegistrationService->deleteRegistration($studentId, $defenseLabId, $submissionId);
     }
 
     /**

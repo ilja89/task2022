@@ -15,7 +15,6 @@ use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Repositories\UserRepository;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\User as MoodleUser;
 
 class DefenceRegistrationService
@@ -328,8 +327,6 @@ class DefenceRegistrationService
      * @param array $registrations
      * @param int $teacherCount
      * @param Carbon $labStart
-     * @param $teachersDefences
-     *
      * @return array
      */
     public function attachEstimatedTimesToDefenceRegistrations(
@@ -484,7 +481,7 @@ class DefenceRegistrationService
      */
     public function updateRegistration($defenseId, $newProgress, $newTeacherId): Registration
     {
-        $userId = app(User::class)->currentUserId();
+        $userId = app(MoodleUser::class)->currentUserId();
 
         $labTeacher = $this->teacherRepository
             ->getTeacherByDefenseAndUserId($defenseId, $userId);
@@ -538,7 +535,7 @@ class DefenceRegistrationService
     {
         $this->checkIfCurrentUserIsLabTeacher($registration->id);
         if ($teacherId == null) {
-            $teacherId = app(User::class)->currentUserId();
+            $teacherId = app(MoodleUser::class)->currentUserId();
         }
         // Undefend all teacher registrations
         $this->defenseRegistrationRepository
@@ -549,7 +546,21 @@ class DefenceRegistrationService
     }
 
     /**
-     * Deletes registration, also checks that teacher has rights on this.
+     * @throws RegistrationException
+     */
+    public function checkIfCurrentUserIsLabTeacher($registrationId)
+    {
+        $userId = app(MoodleUser::class)->currentUserId();
+        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registrationId, $userId);
+        if ($labTeacher == null) {
+            throw new RegistrationException("Registration is able to change only lab teacher");
+        }
+    }
+
+    /**
+     * Search for registration author. If no author found, then block deleting, as no rights.
+     * Searches for author, so if group submission and user trying to delete is not an author but another
+     * submission author, then allow to delete registration.
      *
      * @param $studentId
      * @param $defenseLabId
@@ -557,38 +568,19 @@ class DefenceRegistrationService
      * @return int
      * @throws RegistrationException
      */
-    public function delete($studentId, $defenseLabId, $submissionId)
+    public function deleteRegistration($studentId, $defenseLabId, $submissionId): int
     {
-        $currentUser = app(User::class)->currentUserId();
-        if ($studentId != $currentUser) {
-            // Check if current user is lab teacher of lab, in which registration belongs
+        $currentUser = app(MoodleUser::class)->currentUserId();
+        $registrationOwner = $this->defenseRegistrationRepository->getRegistrationOwner($currentUser, $defenseLabId, $submissionId);
+
+        if (!$registrationOwner) {
             $labTeacher = $this->teacherRepository
                 ->getTeacherByDefenseLabAndUserId($defenseLabId, $currentUser);
             if ($labTeacher == null) {
-                throw new RegistrationException("invalid_lab_teacher");
+                throw new RegistrationException("no_registration_manage_rights");
             }
         }
 
-        Log::warning(json_encode([
-            'event' => 'registration_deletion',
-            'by_user_id' => app(User::class)->currentUserId(),
-            'for_user_id' => $studentId,
-            'defense_lab_id' => $defenseLabId,
-            'submission_id' => $submissionId
-        ]));
-        return $this->defenseRegistrationRepository->deleteRegistration($studentId, $defenseLabId, $submissionId);
-
-    }
-
-    /**
-     * @throws RegistrationException
-     */
-    public function checkIfCurrentUserIsLabTeacher($registrationId)
-    {
-        $userId = app(User::class)->currentUserId();
-        $labTeacher = $this->teacherRepository->getTeacherByDefenseAndUserId($registrationId, $userId);
-        if ($labTeacher == null) {
-            throw new RegistrationException("Registration is able to change only lab teacher");
-        }
+        return $this->defenseRegistrationRepository->deleteRegistration($registrationOwner->student_id, $defenseLabId, $submissionId);
     }
 }
