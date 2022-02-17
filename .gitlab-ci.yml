@@ -9,6 +9,8 @@ stages:
   - integration test
 
 unit_test:
+  when:
+    manual
   tags:
     - docker
   image: jaakkytt/ci-php-node:3.0
@@ -27,6 +29,8 @@ unit_test:
     expire_in: 1 week
 
 security-advisories-vulnerabilities:
+  when:
+    manual
   tags:
     - docker
   stage: test
@@ -124,6 +128,7 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
+    - service  --status-all
     - service charon-db start
   script:
     - touch .env
