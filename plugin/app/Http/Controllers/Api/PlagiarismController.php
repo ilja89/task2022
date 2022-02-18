@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -37,7 +38,7 @@ class PlagiarismController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function runChecksuite(Charon $charon)
     {
@@ -63,7 +64,7 @@ class PlagiarismController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function fetchSimilarities(Charon $charon)
     {
@@ -87,14 +88,12 @@ class PlagiarismController extends Controller
      *
      * @param Charon $charon
      *
-     * @return \StdClass
+     * @return array
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function fetchMatches(Charon $charon): \StdClass
+    public function fetchMatches(Charon $charon): array
     {
-        $matches = $this->plagiarismService->getMatches($charon);
-
-        return $matches;
+        return $this->plagiarismService->getMatches($charon);
     }
 }

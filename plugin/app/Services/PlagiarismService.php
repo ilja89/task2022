@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 
@@ -44,7 +45,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function createChecksuiteForCharon(Charon $charon, $plagiarismServices, $resourceProviders, $includes)
     {
@@ -70,7 +71,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function runChecksuite(Charon $charon)
     {
@@ -90,7 +91,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function refreshLatestCheckId(Charon $charon)
     {
@@ -121,7 +122,7 @@ class PlagiarismService
      * @return array - the similarities for each service (moss, jplag) if we
      *      have that data, otherwise show status (pending, error).
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getLatestSimilarities(Charon $charon)
     {
@@ -161,11 +162,11 @@ class PlagiarismService
      *
      * @param Charon $charon
      *
-     * @return \StdClass
+     * @return array
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function getMatches(Charon $charon)
+    public function getMatches(Charon $charon): array
     {
         return $this->plagiarismCommunicationService->getMatches($charon);
     }

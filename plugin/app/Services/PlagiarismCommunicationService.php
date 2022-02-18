@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
@@ -34,7 +35,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function createChecksuite(Charon $charon, $services, $providers, $includes)
     {
@@ -76,7 +77,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function runChecksuite($checksuiteId)
     {
@@ -95,7 +96,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getChecksuiteDetails($checksuiteId)
     {
@@ -110,20 +111,19 @@ class PlagiarismCommunicationService
     /**
      * Get matches for the given charon.
      *
-     * @param string $checksuiteId
+     * @param Charon $charon
+     * @return array
      *
-     * @return \StdClass
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function getMatches(Charon $charon)
+    public function getMatches(Charon $charon): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "",
-            'get'
+            'GET'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -133,7 +133,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getCheckDetails($checkId)
     {
