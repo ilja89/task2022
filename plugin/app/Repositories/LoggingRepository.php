@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\QueryLogUsers;
 use Zeizig\Moodle\Models\User;
 
@@ -14,6 +15,7 @@ class LoggingRepository
      */
     public function findUserWithQueryLoggingEnabled(int $userId)
     {
-        QueryLogUsers::find($userId)->user;
+        return QueryLogUsers::where('user_id', $userId)
+            ->first();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Services;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\LoggingRepository;
 
 class LoggingService
@@ -25,6 +26,7 @@ class LoggingService
     public function userHasQueryLoggingEnabled(int $userid): bool
     {
         $user = $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
+        Log::debug($user);
         return (bool)$user;
     }
 
