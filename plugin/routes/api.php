@@ -179,5 +179,5 @@ Route::group(['namespace' => 'Api'], function () {
 
     // DJANGO PLAGIARISM
     Route::middleware('auth.charon.managing.require')
-        ->get('charons/{charon}/matches', 'PlagiarismController@fetchMatches');
+        ->get('courses/{course}/charons/{charon}/matches', 'PlagiarismController@fetchMatches');
 });

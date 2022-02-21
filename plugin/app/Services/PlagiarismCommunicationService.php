@@ -111,15 +111,16 @@ class PlagiarismCommunicationService
     /**
      * Get matches for the given charon.
      *
-     * @param Charon $charon
+     * @param String $project_path
+     * @param String $course_shortname
      * @return array
      *
      * @throws GuzzleException
      */
-    public function getMatches(Charon $charon): array
+    public function getMatches(String $project_path, String $course_shortname): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "",
+            "course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
             'GET'
         );
 

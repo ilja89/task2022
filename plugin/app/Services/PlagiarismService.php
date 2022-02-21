@@ -5,6 +5,7 @@ namespace TTU\Charon\Services;
 use GuzzleHttp\Exception\GuzzleException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use Zeizig\Moodle\Models\Course;
 
 /**
  * Class PlagiarismService
@@ -166,8 +167,8 @@ class PlagiarismService
      *
      * @throws GuzzleException
      */
-    public function getMatches(Charon $charon): array
+    public function getMatches(Charon $charon, Course $course): array
     {
-        return $this->plagiarismCommunicationService->getMatches($charon);
+        return $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
     }
 }

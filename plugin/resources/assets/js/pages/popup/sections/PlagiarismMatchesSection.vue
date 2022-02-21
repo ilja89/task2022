@@ -41,9 +41,9 @@ export default {
       matches: [],
       headers: [
         {text: 'Matches', align: 'start', value: 'lines_matched'},
-        //{text: 'Uni-ID', value: 'submission.gitlab_project.owner.uniid'},
+        {text: 'Uni-ID', value: 'submission.gitlab_project.owner.uniid'},
         {text: 'Percentage', value: 'percentage'},
-        //{text: 'Other Uni-ID', value: 'other_submission.gitlab_project.owner.uniid'},
+        {text: 'Other Uni-ID', value: 'other_submission.gitlab_project.owner.uniid'},
         {text: 'Other Percentage', value: 'other_percentage'},
         {text: 'Status', value: 'status'},
         {text: 'Actions', value: 'actions', sortable: false},
@@ -54,6 +54,7 @@ export default {
   computed: {
     ...mapState([
       'charon',
+      'course'
     ]),
   },
 
@@ -61,7 +62,7 @@ export default {
     fetchMatches() {
       if (!this.charon) return
 
-      Plagiarism.fetchMatches(this.charon.id, response => {
+      Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
         this.matches = response
       })
     },

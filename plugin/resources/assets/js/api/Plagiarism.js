@@ -25,8 +25,8 @@ class Plagiarism {
             })
     }
 
-    static fetchMatches(charonId, then) {
-        axios.get(`${this.getRoot()}/charons/${charonId}/matches`)
+    static fetchMatches(courseId, charonId, then) {
+        axios.get(`${this.getRoot()}/courses/${courseId}/charons/${charonId}/matches`)
             .then(response => {
                 then(response.data)
             })

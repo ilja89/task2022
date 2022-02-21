@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\PlagiarismService;
+use Zeizig\Moodle\Models\Course;
 
 /**
  * Class PlagiarismController.
@@ -86,14 +87,15 @@ class PlagiarismController extends Controller
     /**
      * Fetch the matches for the given Charon.
      *
+     * @param Course $course
      * @param Charon $charon
      *
      * @return array
      *
      * @throws GuzzleException
      */
-    public function fetchMatches(Charon $charon): array
+    public function fetchMatches(Course $course, Charon $charon): array
     {
-        return $this->plagiarismService->getMatches($charon);
+        return $this->plagiarismService->getMatches($charon, $course);
     }
 }
