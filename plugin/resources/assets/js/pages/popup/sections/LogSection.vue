@@ -3,8 +3,29 @@
                    :subtitle="subtitle">
 
         <template slot="header-right">
-            <v-btn v-if="this.logType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs</v-btn>
             <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
+            <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs</v-btn>
+            <div v-if="queryLogType" class="ma-2">
+                <v-select
+                    class="mx-auto"
+                    dense
+                    single-line
+                    item-text="username"
+                    item-value="id"
+                    :items="users"
+                    @change="this.updateUser"
+                ></v-select>
+                <v-btn
+                    elevation="2"
+                    x-small
+                    @click="enableLoggingCurrentUser"
+                >Enable logging</v-btn>
+                <v-btn
+                    elevation="2"
+                    x-small
+                    @click="disableLoggingCurrentUser"
+                >Disable logging</v-btn>
+            </div>
         </template>
 
         <v-card class="mx-auto" max-height="900" max-width="80vw" style="overflow: auto;" outlined raised>
@@ -19,9 +40,11 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {Charon, Submission} from '../../../api/index'
+import {Charon} from '../../../api/index'
 import {PopupSection} from '../layouts/index'
-import LogEntry from '../partials/LogEntry.vue'
+import LogEntry from '../partials/LogEntry'
+import User from "../../../api/User";
+import Log from "../../../api/Log";
 
 export default {
     name: 'log-section',
@@ -39,7 +62,7 @@ export default {
             default: 'Here are the recent errors charon has had'
         },
 
-        logType: {
+        queryLogType: {
             required: false,
             default: false
         }
@@ -48,6 +71,9 @@ export default {
     data() {
         return {
             logs: "Press get logs to get started",
+            users: [],
+            currentUser: false,
+            currentUserLoggingEnabled: false,
         }
     },
 
@@ -57,9 +83,27 @@ export default {
         ]),
     },
 
+    created() {
+        this.fetchEnrolledUsers()
+    },
+
     methods: {
+        enableLoggingCurrentUser() {
+            if (this.currentUser && !this.currentUserLoggingEnabled) {
+                Log.enableLogging(this.courseId, this.currentUser, {})
+                this.currentUserLoggingEnabled = true
+            }
+        },
+
+        disableLoggingCurrentUser() {
+            if (this.currentUser && this.currentUserLoggingEnabled) {
+                Log.disableLogging(this.courseId, this.currentUser, {})
+                this.currentUserLoggingEnabled = false
+            }
+        },
+
         fetchLogs() {
-            if (this.logType) {
+            if (this.queryLogType) {
                 Charon.fetchLatestQueryLogs(this.courseId, logs => {
                     this.logs = logs
                 })
@@ -68,6 +112,21 @@ export default {
                     this.logs = logs
                 })
             }
+        },
+
+        fetchEnrolledUsers() {
+            User.getAllEnrolled(this.courseId, enrolledUsers => {
+                this.users = Object.keys(enrolledUsers).map(function (key) {
+                    return enrolledUsers[key]
+                });
+            })
+        },
+
+        updateUser(user) {
+            this.currentUser = user
+            Log.userHasLoggingEnabled(this.courseId, user, loggingEnabled => {
+                this.currentUserLoggingEnabled = loggingEnabled
+            })
         },
 
         downloadLogs() {

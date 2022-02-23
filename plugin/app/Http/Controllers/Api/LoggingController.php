@@ -24,10 +24,30 @@ class LoggingController extends Controller
     /**
      * @var $userId
      *
-     * @return bool
+     * @return int
      */
-    public function userHasQueryLoggingEnabled($userId): bool
+    public function userHasQueryLoggingEnabled($userId): int
     {
         return $this->loggingService->userHasQueryLoggingEnabled($userId);
+    }
+
+    /**
+     * Enables logging for the given user
+     * @param $userId
+     * @return void
+     */
+    public function enableLoggingForUser($userId)
+    {
+        $this->loggingService->enableLogging($userId);
+    }
+
+    /**
+     * Disables logging for the given user
+     * @param $userId
+     * @return void
+     */
+    public function disableLoggingForUser($userId)
+    {
+        $this->loggingService->disableLogging($userId);
     }
 }

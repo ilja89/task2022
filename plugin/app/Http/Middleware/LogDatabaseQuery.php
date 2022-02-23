@@ -39,12 +39,14 @@ class LogDatabaseQuery
         $user = app(User::class)->currentUser();
         $courseId = app(Course::class)->getCourseId();
         $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
-        Log::debug($userEnabled);
+
+        if ($userEnabled) {
+            DB::enableQueryLog();
+        }
 
         $response = $next($request);
 
         if ($userEnabled) {
-            DB::enableQueryLog();
             $this->log($request, $courseId, $user->username);
         }
 

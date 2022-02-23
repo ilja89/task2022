@@ -23,15 +23,23 @@ class LoggingService
         $this->logParseService = $logParseService;
     }
 
-    public function userHasQueryLoggingEnabled(int $userid): bool
-    {
-        $user = $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
-        Log::debug($user);
-        return (bool)$user;
-    }
-
     public function getAllQueryLogsSingleFile(): string
     {
         return $this->logParseService->readLogs(true);
+    }
+
+    public function userHasQueryLoggingEnabled(int $userid): int
+    {
+        return $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
+    }
+
+    public function enableLogging($userId)
+    {
+        $this->loggingRepository->addUserToLogging($userId);
+    }
+
+    public function disableLogging($userId)
+    {
+        $this->loggingRepository->RemoveUserFromLogging($userId);
     }
 }

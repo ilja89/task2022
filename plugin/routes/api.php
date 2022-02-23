@@ -23,6 +23,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->name('git_callback_post');
 
     Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/allEnrolled', 'StudentsController@findAllEnrolled');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
@@ -35,6 +37,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/enableLogging', 'LoggingController@enableLoggingForUser');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/disableLogging', 'LoggingController@disableLoggingForUser');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
     Route::middleware('auth.submission.managing.require')
