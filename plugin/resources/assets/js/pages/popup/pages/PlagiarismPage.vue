@@ -7,6 +7,8 @@
 
         <plagiarism-results-section></plagiarism-results-section>
 
+        <plagiarism-matches-section></plagiarism-matches-section>
+
     </div>
 </template>
 
@@ -14,13 +16,13 @@
     import {mapState} from 'vuex'
 
     import {PageTitle} from '../partials'
-    import {PlagiarismResultsSection} from '../sections'
+    import {PlagiarismResultsSection, PlagiarismMatchesSection} from '../sections'
     import {Plagiarism} from '../../../api'
 
     export default {
         name: 'plagiarism-page',
 
-        components: {PageTitle, PlagiarismResultsSection},
+        components: {PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection},
 
         computed: {
             ...mapState([
