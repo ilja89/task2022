@@ -41,9 +41,9 @@ export default {
       matches: [],
       headers: [
         {text: 'Matches', align: 'start', value: 'lines_matched'},
-        {text: 'Uni-ID', value: 'submission.gitlab_project.owner.uniid'},
+        {text: 'Uni-ID', value: 'uniid'},
         {text: 'Percentage', value: 'percentage'},
-        {text: 'Other Uni-ID', value: 'other_submission.gitlab_project.owner.uniid'},
+        {text: 'Other Uni-ID', value: 'other_uniid'},
         {text: 'Other Percentage', value: 'other_percentage'},
         {text: 'Status', value: 'status'},
         {text: 'Actions', value: 'actions', sortable: false},
