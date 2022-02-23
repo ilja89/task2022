@@ -11,14 +11,14 @@ class Log {
 
     static enableLogging(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/enableLogging')
-            .then().catch(error => {
+            .then(then).catch(error => {
                 VueEvent.$emit('show-notification', 'Error enabling logging for the user. \n' + error, 'danger')
         })
     }
 
     static disableLogging(courseId, userId, then) {
         axios.get('/mod/charon/api/courses/' + courseId + '/users/' + userId + '/disableLogging')
-            .then().catch(error => {
+            .then(then).catch(error => {
             VueEvent.$emit('show-notification', 'Error disabling logging for the user. \n' + error, 'danger')
         })
     }

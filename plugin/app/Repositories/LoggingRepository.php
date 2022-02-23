@@ -11,9 +11,9 @@ class LoggingRepository
      *
      * @return int
      */
-    public function findUserWithQueryLoggingEnabled(int $userId)
+    public function findUserWithQueryLoggingEnabled(int $userId): int
     {
-        return QueryLogUsers::where('user_id', $userId)->exists();
+        return QueryLogUsers::where('user_id', '=', $userId)->exists();
     }
 
     public function addUserToLogging(int $userId)

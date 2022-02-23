@@ -96,7 +96,7 @@ export default {
     methods: {
         enableLoggingCurrentUser() {
             if (this.currentUser && !this.currentUserLoggingEnabled) {
-                Log.enableLogging(this.courseId, this.currentUser, function () {
+                Log.enableLogging(this.courseId, this.currentUser,() => {
                     this.currentUserLoggingEnabled = true
                 })
             }
@@ -104,7 +104,7 @@ export default {
 
         disableLoggingCurrentUser() {
             if (this.currentUser && this.currentUserLoggingEnabled) {
-                Log.disableLogging(this.courseId, this.currentUser, function () {
+                Log.disableLogging(this.courseId, this.currentUser,() => {
                     this.currentUserLoggingEnabled = false
                 })
             }
