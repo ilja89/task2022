@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Fixed
+- #781 Remove code span padding-left from assignment.css
 
 
 ## [1.6.0] - 2022-02-10
