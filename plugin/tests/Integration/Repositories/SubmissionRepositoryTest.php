@@ -65,7 +65,6 @@ class SubmissionRepositoryTest extends TestCase
 
     public function testCarryPersistentResult()
     {
-        $this->markTestSkipped('Out of date, needs attention');
 
         $now = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -97,14 +96,16 @@ class SubmissionRepositoryTest extends TestCase
             'submission_id' => $matchingLatest->id,
             'grade_type_code' => 101,
             'percentage' => 0.75,
-            'calculated_result' => 0.75
+            'calculated_result' => 0.75,
+            'user_id' => $student->id
         ]);
 
         $previous = Result::create([
             'submission_id' => $matchingLatest->id,
             'grade_type_code' => 1001,
             'percentage' => 0.50,
-            'calculated_result' => 0.50
+            'calculated_result' => 0.50,
+            'user_id' => $student->id
         ]);
 
         /** @var Submission $matchingOld */
@@ -120,7 +121,8 @@ class SubmissionRepositoryTest extends TestCase
             'submission_id' => $matchingOld->id,
             'grade_type_code' => 1001,
             'percentage' => 0.99,
-            'calculated_result' => 0.99
+            'calculated_result' => 0.99,
+            'user_id' => $student->id
         ]);
 
         /** @var Submission $unconfirmed */
@@ -136,7 +138,8 @@ class SubmissionRepositoryTest extends TestCase
             'submission_id' => $unconfirmed->id,
             'grade_type_code' => 1001,
             'percentage' => 0.55,
-            'calculated_result' => 0.55
+            'calculated_result' => 0.55,
+            'user_id' => $student->id
         ]);
 
         /** @var Submission $notGraded */
@@ -151,9 +154,13 @@ class SubmissionRepositoryTest extends TestCase
             'submission_id' => $notGraded->id,
             'grade_type_code' => 1001,
             'percentage' => 0.99,
-            'calculated_result' => 0.99
+            'calculated_result' => 0.99,
+            'user_id' => $student->id
         ]);
-
+        foreach ($this->repository->findResultsByCharonAndGradeType($charon->id, 1001) as $i){
+            echo $i;
+            echo "\n";
+        }
         /** @var Submission $current */
         $current = factory(Submission::class)->create(['charon_id' => $charon->id]);
         $current->users()->save($student);
@@ -161,7 +168,7 @@ class SubmissionRepositoryTest extends TestCase
         $this->repository->carryPersistentResult($current->id, $student->id, $charon->id, 1001);
 
         $result = Result::where('submission_id', $current->id)->where('grade_type_code', 1001)->first();
-
+        echo $result;
         $this->assertEquals(0.50, $result->percentage);
         $this->assertEquals(0.50, $result->calculated_result);
         $this->assertEquals('Carried over from Result ' . $previous->id, $result->stdout);
