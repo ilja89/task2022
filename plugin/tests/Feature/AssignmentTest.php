@@ -17,7 +17,7 @@ class AssignmentTest extends TestCase
     /** @test */
     public function it_uses_correct_charon_instance()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because categories are not set for charon');
 
         /** @var Charon $charon */
         $charon = factory(Charon::class)->create();

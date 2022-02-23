@@ -13,7 +13,7 @@ class CourseSettingsFormTest extends TestCase
     /** @test */
     public function shows_correct_course_settings()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
 
         /** @var CourseSettings $courseSettings */
         $courseSettings = factory(CourseSettings::class)->create();

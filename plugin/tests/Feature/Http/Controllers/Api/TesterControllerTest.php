@@ -34,7 +34,7 @@ class TesterControllerTest extends TestCase
 
     public function testPostingFromInlineSubmission()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
 
         /** @var User $user */
         $user = User::create(['username' => 'Sally']);

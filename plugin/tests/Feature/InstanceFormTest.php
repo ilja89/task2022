@@ -15,13 +15,17 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function update_form_uses_correct_charon()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because view cant use translation functions');
 
+        $course = factory(Course::class)->create([
+            'shortname' => "featuretests"
+        ]);
         /** @var CourseModule $courseModule */
         /** @var Charon $charon */
         $courseModule = factory(CourseModule::class)->create([
             'instance' => factory(Charon::class)->create([
                 'category_id' => null,
+                'course' => $course->id
             ])->id,
         ]);
         $charon = Charon::find($courseModule->instance);
@@ -34,7 +38,7 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function create_form_shows_the_form()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because view cant use translation functions');
 
         $course = factory(Course::class)->create();
 
@@ -45,7 +49,7 @@ class InstanceFormTest extends TestCase
     /** @test */
     public function create_form_shows_previous_values_after_error()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because view cant use translation functions');
 
         $course = factory(Course::class)->create();
 

@@ -10,6 +10,7 @@ use TTU\Charon\Http\Controllers\InstanceController;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\CourseSettings;
 use Zeizig\Moodle\Models\CourseModule;
+use Zeizig\Moodle\Models\User;
 
 class InstanceTest extends TestCase
 {
@@ -18,7 +19,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function it_saves_new_charon()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
 
         /** @var CourseSettings $courseSettings */
         $courseSettings = factory(CourseSettings::class)->create();
@@ -41,7 +42,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function creating_a_charon_notifies_tester_of_the_new_charon()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
 
         /** @var CourseSettings $courseSettings */
         /** @var Charon $charon */
@@ -57,9 +58,18 @@ class InstanceTest extends TestCase
         });
     }
 
+    /** @test */
     public function charon_can_be_updated()
     {
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
         // TODO: Fix the test!
+
+        $user = User::create([
+            'username' => 'username@ttu.ee'
+        ]);
+
+        global $USER;
+        $USER = $user;
 
         /** @var CourseModule $courseModule */
         /** @var Charon $charon */
@@ -83,7 +93,7 @@ class InstanceTest extends TestCase
     /** @test */
     public function charon_can_be_deleted()
     {
-        $this->markTestSkipped('Out of date, needs attention');
+        $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
 
         $charon = factory(Charon::class)->create();
 
@@ -113,7 +123,7 @@ class InstanceTest extends TestCase
             ],
             'tester_extra'   => 'stylecheck',
             'project_folder' => $this->faker->word,
-            'tester_type'    => $this->faker->randomElement([1, 2, 3, 4]),
+            'tester_type_code'    => $this->faker->randomElement([1, 2, 3, 4]),
             'grading_method' => $this->faker->randomElement([1, 2]),
             'course'         => $courseId,
             'grademaps'      => [
