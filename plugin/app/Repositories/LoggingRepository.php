@@ -3,7 +3,6 @@
 namespace TTU\Charon\Repositories;
 
 use TTU\Charon\Models\QueryLogUsers;
-use Zeizig\Moodle\Models\User;
 
 class LoggingRepository
 {
@@ -14,9 +13,7 @@ class LoggingRepository
      */
     public function findUserWithQueryLoggingEnabled(int $userId)
     {
-        $user = QueryLogUsers::where('user_id', $userId)
-            ->first();
-        return $user ? 1 : 0;
+        return QueryLogUsers::where('user_id', $userId)->exists();
     }
 
     public function addUserToLogging(int $userId)

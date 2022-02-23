@@ -13,16 +13,18 @@
                     item-text="username"
                     item-value="id"
                     :items="users"
-                    @change="this.updateUser"
+                    @change="updateUser"
                 ></v-select>
                 <v-btn
                     elevation="2"
                     x-small
+                    :disabled="!currentUser || getCurrentUserWithLogging"
                     @click="enableLoggingCurrentUser"
                 >Enable logging</v-btn>
                 <v-btn
                     elevation="2"
                     x-small
+                    :disabled="!currentUser || !getCurrentUserWithLogging"
                     @click="disableLoggingCurrentUser"
                 >Disable logging</v-btn>
             </div>
@@ -81,6 +83,10 @@ export default {
         ...mapGetters([
             'courseId',
         ]),
+
+        getCurrentUserWithLogging() {
+            return this.currentUserLoggingEnabled
+        }
     },
 
     created() {
@@ -90,15 +96,17 @@ export default {
     methods: {
         enableLoggingCurrentUser() {
             if (this.currentUser && !this.currentUserLoggingEnabled) {
-                Log.enableLogging(this.courseId, this.currentUser, {})
-                this.currentUserLoggingEnabled = true
+                Log.enableLogging(this.courseId, this.currentUser, function () {
+                    this.currentUserLoggingEnabled = true
+                })
             }
         },
 
         disableLoggingCurrentUser() {
             if (this.currentUser && this.currentUserLoggingEnabled) {
-                Log.disableLogging(this.courseId, this.currentUser, {})
-                this.currentUserLoggingEnabled = false
+                Log.disableLogging(this.courseId, this.currentUser, function () {
+                    this.currentUserLoggingEnabled = false
+                })
             }
         },
 
@@ -123,9 +131,9 @@ export default {
         },
 
         updateUser(user) {
-            this.currentUser = user
             Log.userHasLoggingEnabled(this.courseId, user, loggingEnabled => {
-                this.currentUserLoggingEnabled = loggingEnabled
+                this.currentUserLoggingEnabled = !!loggingEnabled
+                this.currentUser = user
             })
         },
 
