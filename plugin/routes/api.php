@@ -177,7 +177,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course_module.enrolment.require')
         ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
 
-    // PLAGIARISM
+    // DJANGO PLAGIARISM
+    Route::middleware('auth.charon.managing.require')
+        ->get('courses/{course}/charons/{charon}/matches', 'PlagiarismController@fetchMatches');
+
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/plagiarism/run', 'PlagiarismController@runCheck');
 });

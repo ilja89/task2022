@@ -13,6 +13,8 @@
 
         <plagiarism-results-section></plagiarism-results-section>
 
+        <plagiarism-matches-section></plagiarism-matches-section>
+
     </div>
 </template>
 
@@ -20,13 +22,13 @@
     import {mapState} from 'vuex'
 
     import {PageTitle, CharonSelect} from '../partials'
-    import {PlagiarismResultsSection} from '../sections'
+    import {PlagiarismResultsSection, PlagiarismMatchesSection} from '../sections'
     import {Plagiarism} from '../../../api'
 
     export default {
         name: 'plagiarism-page',
 
-        components: {PageTitle, PlagiarismResultsSection, CharonSelect},
+        components: {PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection, CharonSelect},
 
         computed: {
             ...mapState([
