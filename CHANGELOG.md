@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- #771 Added matches fetching to popup from plagiarism api
+
 ### Fixed
 
 
