@@ -3,9 +3,9 @@
         title="Plagiarism overview">
 
         <div style="display: flex; justify-content: space-around;">
-            <apexcharts height="500px" width="800px" type="bar" :options="charts.barChart.chartOptions" :series="charts.barChart.series"></apexcharts>
+            <apexcharts height="500px" width="800px" type="bar" :options="barOptions" :series="barSeries"></apexcharts>
 
-            <apexcharts height="500px" width="500px" type="donut" :options="charts.donutChart.chartOptions" :series="charts.donutChart.series"></apexcharts>
+            <apexcharts height="500px" width="500px" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
         </div>
 
     </popup-section>
@@ -17,7 +17,7 @@ import VueApexCharts from "vue-apexcharts";
 
 export default {
     name: "PlagiarismOverviewSection",
-    components: {PopupSection, 'apexcharts':VueApexCharts},
+    components: {PopupSection, 'apexcharts': VueApexCharts},
     props: ['matches'],
     data() {
         return {
@@ -56,7 +56,7 @@ export default {
                         },
                         labels: ['Acceptable', 'New', 'Plagiarism'],
                     },
-                    series: [0, 0, 0],
+                    series: [0, 0, 0]
                 },
             }
         }
@@ -100,25 +100,22 @@ export default {
                 'new': 0,
                 'plagiarism': 0
             }
-
-            for (let match in newMatches) {
+            newMatches.forEach(match => {
                 let averagePercentage = (match.percentage + match.other_percentage) / 2
                 let status = match.status
-
-                for (let category in Object.keys(categories)) {
+                for (let category in categories) {
                     let range = category.split('-')
-                    let lower = range[0]
-                    let upper = range[1]
-
+                    let lower = parseInt(range[0])
+                    let upper = parseInt(range[1])
                     if (averagePercentage > lower && averagePercentage < upper) {
                         categories[category] += 1
                     }
                 }
 
                 labels[status] = labels[status] + 1
-            }
+            })
 
-            this.charts.barChart.series.data = Object.values(categories)
+            this.charts.barChart.series[0].data = Object.values(categories)
             this.charts.donutChart.series = Object.values(labels)
         }
     }
