@@ -118,7 +118,7 @@ export default {
                 labels[status] = labels[status] + 1
             }
 
-            this.charts.barChart.series = Object.values(categories)
+            this.charts.barChart.series.data = Object.values(categories)
             this.charts.donutChart.series = Object.values(labels)
         }
     }
