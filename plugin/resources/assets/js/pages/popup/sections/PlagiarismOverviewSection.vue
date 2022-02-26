@@ -8,6 +8,11 @@
 
             <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
                         :series="donutSeries"></apexcharts>
+
+            <d3-network
+                :net-nodes="networkNodes"
+                :net-links="networkLinks"
+                :options="networkOptions"></d3-network>
         </div>
 
     </popup-section>
@@ -16,11 +21,11 @@
 <script>
 import PopupSection from "../layouts/PopupSection";
 import VueApexCharts from "vue-apexcharts";
-import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER, valueToGroup} from '../theme'
+import D3Network from 'vue-d3-network'
 
 export default {
     name: "PlagiarismOverviewSection",
-    components: {PopupSection, 'apexcharts': VueApexCharts},
+    components: {PopupSection, 'apexcharts': VueApexCharts, 'd3-network': D3Network},
     props: ['matches'],
     data() {
         return {
@@ -64,51 +69,19 @@ export default {
 
                 networkChart: {
                     chartOptions: {
-                        edges: {
-                            width: 2,
-                        },
-                        physics: {
-                            stabilization: false,
-                        },
-                        groups: {
-                            [NEUTRAL]: {
-                                color: {
-                                    border: '#3E7DE2',
-                                    background: '#9FC2F7',
-                                    highlight: {background: '#8AC3FF', border: '#3E7DE2'},
-                                },
-                            },
-                            [INTERESTING]: {
-                                color: {
-                                    border: '#302CAB',
-                                    background: '#6B72F4',
-                                    highlight: {background: '#6970F4', border: '#302CAB'},
-                                },
-                            },
-                            [SUSPICIOUS]: {
-                                color: {
-                                    border: '#F3A83B',
-                                    background: '#F8F652',
-                                    highlight: {background: '#DAD84C', border: '#F3A83B'},
-                                },
-                            },
-                            [WARNING]: {
-                                color: {
-                                    border: '#BA812C',
-                                    background: '#F4AB3E',
-                                    highlight: {background: '#FAAE41', border: '#BA812C'},
-                                },
-                            },
-                            [DANGER]: {
-                                color: {
-                                    border: '#E43428',
-                                    background: '#EC8584',
-                                    highlight: {background: '#F54137', border: '#E43428'},
-                                },
-                            },
-                        },
-                    }
-                }
+                        force: 500,
+                        nodeSize: 15,
+                        nodeLabels: true,
+                        linkLabels: true,
+                        linkWidth: 5,
+                        size: {
+                            w: 500,
+                            h: 500
+                        }
+                    },
+                    chartNodes: [],
+                    chartLinks: []
+                },
             },
         }
     },
@@ -141,62 +114,21 @@ export default {
         },
 
         networkNodes() {
-            const nodes = []
-            const groups = {[NEUTRAL]: 0, [INTERESTING]: 0, [SUSPICIOUS]: 0, [WARNING]: 0, [DANGER]: 0}
-
-            if (this.matches) {
-                const nodesById = {}
-
-                for (let i = 0; i < this.matches.length; i++) {
-                    const match = this.matches[i]
-
-                    const oneSubmission = match.submission
-                    const otherSubmission = match.other_submission
-
-                    const one = oneSubmission.gitlab_project.owner.uniid
-                    const other = otherSubmission.gitlab_project.owner.uniid
-
-                    const colorValue = Math.max(match.percentage, match.other_percentage)
-                    nodesById[one] = {id: one, colorValue}
-                    nodesById[other] = {id: other, colorValue}
-                }
-
-                Object.values(nodesById).forEach((node) => {
-                    const group = valueToGroup(node.colorValue)
-                    if (group in groups) {
-                        groups[group] += 1
-                    } else {
-                        groups[group] = 1
-                    }
-                    nodes.push({
-                        id: node.id,
-                        label: node.id,
-                        shape: 'dot',
-                        group,
-                    });
-                });
-            }
-
-            return nodes
+            return this.charts.networkChart.chartNodes
         },
 
-        networkEdges() {
-            let links = []
-
-            if (this.matches) {
-                links = this.matches.map(match => ({
-                    from: match.submission.gitlab_project.owner.uniid,
-                    to: match.other_submission.gitlab_project.owner.uniid,
-                    label: `${Math.max(match.percentage, match.other_percentage)}`,
-                }))
-            }
-
-            return links
+        networkLinks() {
+            return this.charts.networkChart.chartLinks
         },
     },
 
     methods: {
         parseMatches(newMatches) {
+            this.parseBarDonutCharts(newMatches)
+            this.parseNetworkChart(newMatches)
+        },
+
+        parseBarDonutCharts(newMatches) {
             let categories = {
                 '0-19': 0,
                 '20-39': 0,
@@ -229,11 +161,71 @@ export default {
                 data: Object.values(categories)
             }]
             this.charts.donutChart.series = Object.values(labels)
-        }
+        },
+
+        parseNetworkChart(newMatches) {
+            const nodes = []
+            const links = []
+            const nodeIds = {}
+
+            for (let i = 0; i < newMatches.length; i++) {
+                const match = newMatches[i]
+                const percentage = Math.max(match.percentage, match.other_percentage)
+
+                const uniid = match.uniid
+                const other_uniid = match.other_uniid
+
+                if (!(uniid in nodeIds)) {
+                    const nodeValues = Object.values(nodeIds)
+                    nodeIds[uniid] = nodeValues.length ? Math.max(...nodeValues) + 1 : 0
+
+                    const firstNode = {
+                        id: nodeIds[uniid],
+                        name: uniid,
+                    }
+                    nodes.push(firstNode)
+                }
+
+                if (!(other_uniid in nodeIds)) {
+                    const nodeValues = Object.values(nodeIds)
+                    nodeIds[other_uniid] = nodeValues.length ? Math.max(...nodeValues) + 1 : 0
+
+                    const secondNode = {
+                        id: nodeIds[other_uniid],
+                        name: other_uniid,
+                    }
+                    nodes.push(secondNode)
+                }
+
+                const link = {
+                    sid: nodeIds[uniid],
+                    tid: nodeIds[other_uniid],
+                    _color: this.colorByPercentage(percentage)
+                }
+                links.push(link)
+            }
+
+            this.charts.networkChart.chartNodes = nodes
+            this.charts.networkChart.chartLinks = links
+        },
+
+        colorByPercentage(percentage) {
+            if (percentage < 20) {
+                return '#9FC2F7'
+            } else if (percentage < 40) {
+                return '#6B72F4'
+            } else if (percentage < 60) {
+                return '#F8F652'
+            } else if (percentage < 80) {
+                return '#F4AB3E'
+            } else {
+                return '#EC8584'
+            }
+        },
     }
 }
 </script>
 
-<style scoped>
+<style scoped src="vue-d3-network/dist/vue-d3-network.css">
 
 </style>
