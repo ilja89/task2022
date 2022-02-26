@@ -3,9 +3,11 @@
         title="Plagiarism overview">
 
         <div style="display: flex; justify-content: space-around;">
-            <apexcharts height="500px" width="800px" type="bar" :options="barOptions" :series="barSeries"></apexcharts>
+            <apexcharts height="500px" width="800px" type="bar" :options="charts.barChart.chartOptions"
+                        :series="charts.barChart.series"></apexcharts>
 
-            <apexcharts height="500px" width="500px" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
+            <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
+                        :series="donutSeries"></apexcharts>
         </div>
 
     </popup-section>
@@ -14,6 +16,7 @@
 <script>
 import PopupSection from "../layouts/PopupSection";
 import VueApexCharts from "vue-apexcharts";
+import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER, valueToGroup} from '../theme'
 
 export default {
     name: "PlagiarismOverviewSection",
@@ -58,7 +61,55 @@ export default {
                     },
                     series: [0, 0, 0]
                 },
-            }
+
+                networkChart: {
+                    chartOptions: {
+                        edges: {
+                            width: 2,
+                        },
+                        physics: {
+                            stabilization: false,
+                        },
+                        groups: {
+                            [NEUTRAL]: {
+                                color: {
+                                    border: '#3E7DE2',
+                                    background: '#9FC2F7',
+                                    highlight: {background: '#8AC3FF', border: '#3E7DE2'},
+                                },
+                            },
+                            [INTERESTING]: {
+                                color: {
+                                    border: '#302CAB',
+                                    background: '#6B72F4',
+                                    highlight: {background: '#6970F4', border: '#302CAB'},
+                                },
+                            },
+                            [SUSPICIOUS]: {
+                                color: {
+                                    border: '#F3A83B',
+                                    background: '#F8F652',
+                                    highlight: {background: '#DAD84C', border: '#F3A83B'},
+                                },
+                            },
+                            [WARNING]: {
+                                color: {
+                                    border: '#BA812C',
+                                    background: '#F4AB3E',
+                                    highlight: {background: '#FAAE41', border: '#BA812C'},
+                                },
+                            },
+                            [DANGER]: {
+                                color: {
+                                    border: '#E43428',
+                                    background: '#EC8584',
+                                    highlight: {background: '#F54137', border: '#E43428'},
+                                },
+                            },
+                        },
+                    }
+                }
+            },
         }
     },
 
@@ -83,6 +134,64 @@ export default {
 
         donutSeries() {
             return this.charts.donutChart.series
+        },
+
+        networkOptions() {
+            return this.charts.networkChart.chartOptions
+        },
+
+        networkNodes() {
+            const nodes = []
+            const groups = {[NEUTRAL]: 0, [INTERESTING]: 0, [SUSPICIOUS]: 0, [WARNING]: 0, [DANGER]: 0}
+
+            if (this.matches) {
+                const nodesById = {}
+
+                for (let i = 0; i < this.matches.length; i++) {
+                    const match = this.matches[i]
+
+                    const oneSubmission = match.submission
+                    const otherSubmission = match.other_submission
+
+                    const one = oneSubmission.gitlab_project.owner.uniid
+                    const other = otherSubmission.gitlab_project.owner.uniid
+
+                    const colorValue = Math.max(match.percentage, match.other_percentage)
+                    nodesById[one] = {id: one, colorValue}
+                    nodesById[other] = {id: other, colorValue}
+                }
+
+                Object.values(nodesById).forEach((node) => {
+                    const group = valueToGroup(node.colorValue)
+                    if (group in groups) {
+                        groups[group] += 1
+                    } else {
+                        groups[group] = 1
+                    }
+                    nodes.push({
+                        id: node.id,
+                        label: node.id,
+                        shape: 'dot',
+                        group,
+                    });
+                });
+            }
+
+            return nodes
+        },
+
+        networkEdges() {
+            let links = []
+
+            if (this.matches) {
+                links = this.matches.map(match => ({
+                    from: match.submission.gitlab_project.owner.uniid,
+                    to: match.other_submission.gitlab_project.owner.uniid,
+                    label: `${Math.max(match.percentage, match.other_percentage)}`,
+                }))
+            }
+
+            return links
         },
     },
 
@@ -115,7 +224,10 @@ export default {
                 labels[status] = labels[status] + 1
             })
 
-            this.charts.barChart.series[0].data = Object.values(categories)
+            this.charts.barChart.series = [{
+                name: 'matches',
+                data: Object.values(categories)
+            }]
             this.charts.donutChart.series = Object.values(labels)
         }
     }
