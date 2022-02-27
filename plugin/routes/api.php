@@ -31,7 +31,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/queryLogs', 'CharonsController@getQueryLogsById');
+        ->get('courses/{course}/queryLogs', 'CharonsController@getLatestQueryLogs');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
         ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharonAndUser');
     Route::middleware('auth.submission.managing.require')

@@ -3,8 +3,6 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\PresetsRepository;
@@ -85,11 +83,6 @@ class CourseSettingsFormController extends Controller
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
             'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
-            // TODO add query logging types preset and fetch from repository
-            'query_logging_types' => new Collection([
-                ['name' => 'True', 'code' => 1],
-                ['name' => 'False', 'code' => 0],
-            ]),
         ]);
     }
 

@@ -17,7 +17,6 @@ use Zeizig\Moodle\Models\Course;
  * @property String tester_url
  * @property String tester_sync_url
  * @property String tester_token
- * @property integer query_logging
  *
  * @package TTU\Charon\Models
  */
@@ -26,7 +25,7 @@ class CourseSettings extends Model
     public $timestamps = false;
     protected $table = 'charon_course_settings';
     protected $fillable = [
-        'course_id', 'unittests_git', 'tester_url', 'tester_token', 'tester_sync_url', 'query_logging'
+        'course_id', 'unittests_git', 'tester_url', 'tester_token', 'tester_sync_url'
     ];
 
     public function course()
