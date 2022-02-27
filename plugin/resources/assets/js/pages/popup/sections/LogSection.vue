@@ -7,15 +7,18 @@
             <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs
             </v-btn>
             <div v-if="queryLogType" class="ma-2">
-                <v-select
-                    class="mx-auto"
-                    dense
-                    single-line
-                    item-text="username"
-                    item-value="id"
-                    :items="users"
-                    @change="updateUser"
-                ></v-select>
+                <v-col cols="auto">
+                    <v-select
+                        class="mx-auto"
+                        dense
+                        single-line
+                        item-text="username"
+                        item-value="id"
+                        :items="users"
+                        label="Enrolled users"
+                        @change="updateUser"
+                    ></v-select>
+                </v-col>
                 <v-btn
                     elevation="2"
                     x-small
@@ -38,6 +41,7 @@
                     single-line
                     item-text="username"
                     item-value="id"
+                    label="Enabled users"
                     :items="usersWithLogging"
                 ></v-select>
             </v-col>
@@ -193,7 +197,5 @@ export default {
 </script>
 
 <style>
-.v-select__selections input {
-    display: none;
-}
+.v-select__selections input { width: 50px }
 </style>
