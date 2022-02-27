@@ -4,7 +4,8 @@
 
         <template slot="header-right">
             <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
-            <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs</v-btn>
+            <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs
+            </v-btn>
             <div v-if="queryLogType" class="ma-2">
                 <v-select
                     class="mx-auto"
@@ -20,15 +21,17 @@
                     x-small
                     :disabled="!currentUser || currentUserHasLogging"
                     @click="enableLoggingCurrentUser"
-                >Enable logging</v-btn>
+                >Enable logging
+                </v-btn>
                 <v-btn
                     elevation="2"
                     x-small
                     :disabled="!currentUser || !currentUserHasLogging"
                     @click="disableLoggingCurrentUser"
-                >Disable logging</v-btn>
+                >Disable logging
+                </v-btn>
             </div>
-            <v-col cols="auto">
+            <v-col v-if="queryLogType" cols="auto">
                 <v-select
                     class="mx-auto"
                     dense
@@ -106,13 +109,15 @@ export default {
     },
 
     created() {
-        this.fetchEnrolledUsers()
+        if (this.queryLogType) {
+            this.fetchEnrolledUsers()
+        }
     },
 
     methods: {
         enableLoggingCurrentUser() {
             if (this.currentUser && !this.currentUserHasLogging) {
-                Log.enableLogging(this.courseId, this.currentUser.id,() => {
+                Log.enableLogging(this.courseId, this.currentUser.id, () => {
                     this.currentUser.logging = true
                 })
             }
@@ -120,7 +125,7 @@ export default {
 
         disableLoggingCurrentUser() {
             if (this.currentUser && this.currentUserHasLogging) {
-                Log.disableLogging(this.courseId, this.currentUser.id,() => {
+                Log.disableLogging(this.courseId, this.currentUser.id, () => {
                     this.currentUser.logging = false
                 })
             }
