@@ -18,16 +18,27 @@
                 <v-btn
                     elevation="2"
                     x-small
-                    :disabled="!currentUser || getCurrentUserWithLogging"
+                    :disabled="!currentUser || currentUserHasLogging"
                     @click="enableLoggingCurrentUser"
                 >Enable logging</v-btn>
                 <v-btn
                     elevation="2"
                     x-small
-                    :disabled="!currentUser || !getCurrentUserWithLogging"
+                    :disabled="!currentUser || !currentUserHasLogging"
                     @click="disableLoggingCurrentUser"
                 >Disable logging</v-btn>
             </div>
+            <v-col cols="auto">
+                <v-select
+                    class="mx-auto"
+                    dense
+                    single-line
+                    item-text="username"
+                    item-value="id"
+                    :items="usersWithLogging"
+                ></v-select>
+            </v-col>
+
         </template>
 
         <v-card class="mx-auto" max-height="900" max-width="80vw" style="overflow: auto;" outlined raised>
@@ -74,8 +85,7 @@ export default {
         return {
             logs: "Press get logs to get started",
             users: [],
-            currentUser: false,
-            currentUserLoggingEnabled: false,
+            currentUser: null,
         }
     },
 
@@ -84,8 +94,14 @@ export default {
             'courseId',
         ]),
 
-        getCurrentUserWithLogging() {
-            return this.currentUserLoggingEnabled
+        currentUserHasLogging() {
+            return this.currentUser ? this.currentUser.logging : null
+        },
+
+        usersWithLogging() {
+            return this.users.filter(user => {
+                return user.logging
+            })
         }
     },
 
@@ -95,17 +111,17 @@ export default {
 
     methods: {
         enableLoggingCurrentUser() {
-            if (this.currentUser && !this.currentUserLoggingEnabled) {
-                Log.enableLogging(this.courseId, this.currentUser,() => {
-                    this.currentUserLoggingEnabled = true
+            if (this.currentUser && !this.currentUserHasLogging) {
+                Log.enableLogging(this.courseId, this.currentUser.id,() => {
+                    this.currentUser.logging = true
                 })
             }
         },
 
         disableLoggingCurrentUser() {
-            if (this.currentUser && this.currentUserLoggingEnabled) {
-                Log.disableLogging(this.courseId, this.currentUser,() => {
-                    this.currentUserLoggingEnabled = false
+            if (this.currentUser && this.currentUserHasLogging) {
+                Log.disableLogging(this.courseId, this.currentUser.id,() => {
+                    this.currentUser.logging = false
                 })
             }
         },
@@ -124,16 +140,24 @@ export default {
 
         fetchEnrolledUsers() {
             User.getAllEnrolled(this.courseId, enrolledUsers => {
-                this.users = Object.keys(enrolledUsers).map(function (key) {
+                let fetchedUsers = Object.keys(enrolledUsers).map(function (key) {
                     return enrolledUsers[key]
                 });
+                this.updateUsersWithLoggingEnabled(fetchedUsers)
             })
         },
 
-        updateUser(user) {
-            Log.userHasLoggingEnabled(this.courseId, user, loggingEnabled => {
-                this.currentUserLoggingEnabled = !!loggingEnabled
-                this.currentUser = user
+        updateUsersWithLoggingEnabled(users) {
+            Log.updateUsersWithLoggingEnabled(this.courseId, users, filteredUsers => {
+                this.users = filteredUsers
+            })
+        },
+
+        updateUser(newUser) {
+            this.users.forEach(user => {
+                if (user.id === newUser) {
+                    this.currentUser = user
+                }
             })
         },
 
@@ -153,9 +177,6 @@ export default {
         formatQueryLogs(logsArray) {
             const innerLogsArray = [];
 
-            // Loop through all logs. Logs are arrays consisting of inner logs. Join inner logs to a string with new line
-            // separator. After joining inner logs, add them to array and do the same for the rest of inner logs.
-            // Return all logs at the end joined by 2 new line separators for clean formatting.
             for (const log of logsArray) {
                 innerLogsArray.push(log.join('\n'))
             }
@@ -165,3 +186,9 @@ export default {
     },
 }
 </script>
+
+<style>
+.v-select__selections input {
+    display: none;
+}
+</style>

@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Services\LoggingService;
 use Illuminate\Http\Request;
@@ -51,5 +52,10 @@ class LoggingController extends Controller
     public function disableLoggingForUser($courseId, $userId)
     {
         $this->loggingService->disableLogging($userId);
+    }
+
+    public function updateUsersWithLoggingEnabled($courseId)
+    {
+        return $this->loggingService->updateUsersWithLogging($this->request['users']);
     }
 }

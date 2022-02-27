@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Repositories\LoggingRepository;
 
 class LoggingService
@@ -10,22 +9,12 @@ class LoggingService
     /** @var LoggingRepository */
     private $loggingRepository;
 
-    /** @var LogParseService */
-    private $logParseService;
-
     /**
      * @param LoggingRepository $loggingRepository
-     * @param LogParseService $logParseService
      */
-    public function __construct(LoggingRepository $loggingRepository, LogParseService $logParseService)
+    public function __construct(LoggingRepository $loggingRepository)
     {
         $this->loggingRepository = $loggingRepository;
-        $this->logParseService = $logParseService;
-    }
-
-    public function getAllQueryLogsSingleFile(): string
-    {
-        return $this->logParseService->readLogs(true);
     }
 
     public function userHasQueryLoggingEnabled(int $userid): int
@@ -41,5 +30,15 @@ class LoggingService
     public function disableLogging($userId)
     {
         $this->loggingRepository->RemoveUserFromLogging($userId);
+    }
+
+    public function updateUsersWithLogging($users)
+    {
+        $decodedUsers = array();
+        foreach ($users as $key => $user) {
+            $decodedUsers[$key] = json_decode($user);
+        }
+
+        return $this->loggingRepository->updateUsersWithLogging($decodedUsers);
     }
 }
