@@ -9,6 +9,7 @@ stages:
   - integration test
 
 unit_test:
+  when: manual
   tags:
     - docker
   image: jaakkytt/ci-php-node:3.0
@@ -27,6 +28,7 @@ unit_test:
     expire_in: 1 week
 
 security-advisories-vulnerabilities:
+  when: manual
   tags:
     - docker
   stage: test
@@ -123,8 +125,9 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
+    - name: mysql
   before_script:
-    - service php7.3-mysql start
+    - service mysql start
   script:
     - touch .env
     - php composer.phar install --dev
