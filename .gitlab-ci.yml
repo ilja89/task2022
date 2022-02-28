@@ -124,8 +124,7 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
-    - dpkg -l
-    - service mysql start
+    - service php7.3-mysql start
   script:
     - touch .env
     - php composer.phar install --dev
