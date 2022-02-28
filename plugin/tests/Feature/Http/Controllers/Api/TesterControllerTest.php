@@ -35,6 +35,8 @@ class TesterControllerTest extends TestCase
     public function testPostingFromInlineSubmission()
     {
         $this->markTestSkipped('Out of date, needs attention. Fails because it cant make connection to moodles functions');
+        // Maybe this test should not be called, because it makes a request to another api, which would mean this test
+        // would not pass all the time
 
         /** @var User $user */
         $user = User::create(['username' => 'Sally']);
