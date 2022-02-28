@@ -124,6 +124,7 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
+    - dpkg -l
     - service mysql start
   script:
     - touch .env
@@ -132,8 +133,8 @@ integration_test_dev:
     - cat $INTEGRATION_DB_VARIABLES >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  only:
-    - disabled
+  when:
+    manual
   artifacts:
     paths:
       - $CI_PROJECT_DIR/coverage
