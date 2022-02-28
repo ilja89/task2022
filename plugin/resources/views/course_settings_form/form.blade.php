@@ -12,7 +12,6 @@
         window.presets = {!! $presets->toJson() !!};
         window.grading_methods = {!! $grading_methods->toJson() !!};
         window.grade_name_prefixes = {!! $grade_name_prefixes->toJson() !!};
-        window.query_logging_types = {!! $query_logging_types->toJson() !!};
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",

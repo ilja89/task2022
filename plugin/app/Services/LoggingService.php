@@ -9,27 +9,31 @@ class LoggingService
     /** @var LoggingRepository */
     private $loggingRepository;
 
-    /** @var LogParseService */
-    private $logParseService;
-
     /**
      * @param LoggingRepository $loggingRepository
-     * @param LogParseService $logParseService
      */
-    public function __construct(LoggingRepository $loggingRepository, LogParseService $logParseService)
+    public function __construct(LoggingRepository $loggingRepository)
     {
         $this->loggingRepository = $loggingRepository;
-        $this->logParseService = $logParseService;
     }
 
-    public function userHasQueryLoggingEnabled(int $userid): bool
+    public function userHasQueryLoggingEnabled(int $userid): int
     {
-        $user = $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
-        return (bool)$user;
+        return $this->loggingRepository->findUserWithQueryLoggingEnabled($userid);
     }
 
-    public function getAllQueryLogsSingleFile(): string
+    public function enableLogging($userId)
     {
-        return $this->logParseService->readLogs(true);
+        $this->loggingRepository->addUserToLogging($userId);
+    }
+
+    public function disableLogging($userId)
+    {
+        $this->loggingRepository->RemoveUserFromLogging($userId);
+    }
+
+    public function findUsersWithLogging()
+    {
+        return $this->loggingRepository->findUsersWithLogging();
     }
 }

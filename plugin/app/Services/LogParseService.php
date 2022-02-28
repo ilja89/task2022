@@ -66,7 +66,7 @@ class LogParseService
 
             $allLogs = array_merge($allLogs, $currentFileLogs);
         }
-        return json_encode($allLogs, JSON_PRETTY_PRINT);
+        return json_encode($allLogs);
     }
 
     /**

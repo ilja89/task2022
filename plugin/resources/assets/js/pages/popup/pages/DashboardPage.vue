@@ -13,7 +13,7 @@
 
         <log-section></log-section>
 
-        <log-section :title="query_logs_title" :subtitle="query_logs_subtitle" :log-type="true"></log-section>
+        <log-section :title="query_logs_title" :subtitle="query_logs_subtitle" :query-log-type="true"></log-section>
 
     </div>
 </template>

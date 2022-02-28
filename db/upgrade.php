@@ -822,16 +822,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022020205){
-        $table = new xmldb_table("charon_course_settings");
-        $field = new xmldb_field("query_logging", XMLDB_TYPE_INTEGER, 10, null, XMLDB_NOTNULL, null, 0);
-
-        if (!$dbManager->field_exists($table, $field)) {
-            $dbManager->add_field($table, $field);
-        }
-    }
-
-    if ($oldversion < 2022020904) {
+    if ($oldversion < 2022022801) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_query_log_users(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    user_id BIGINT(10) NOT NULL," .

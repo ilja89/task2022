@@ -6,25 +6,25 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use TTU\Charon\Repositories\CourseSettingsRepository;
+use TTU\Charon\Services\LoggingService;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Globals\Course;
 
 class LogDatabaseQuery
 {
     /**
-     * @var CourseSettingsRepository
+     * @var LoggingService
      */
-    private $courseSettingsRepository;
+    private $loggingService;
 
     /**
      * LogDatabaseQuery constructor.
      *
-     * @param CourseSettingsRepository $courseSettingsRepository
+     * @param LoggingService $loggingService
      */
-    public function __construct(CourseSettingsRepository $courseSettingsRepository)
+    public function __construct(LoggingService $loggingService)
     {
-        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->loggingService = $loggingService;
     }
 
     /**
@@ -36,26 +36,26 @@ class LogDatabaseQuery
      */
     public function handle(Request $request, Closure $next)
     {
-        DB::enableQueryLog();
-        return $next($request);
-    }
-
-    public function terminate($request, $response)
-    {
+        $user = app(User::class)->currentUser();
         $courseId = app(Course::class)->getCourseId();
-        $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($courseId);
+        $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
 
-        if (!$courseSettings || !$courseSettings->query_logging) {
-            DB::disableQueryLog();
-            return;
+        if ($userEnabled) {
+            DB::enableQueryLog();
         }
-        $this->log($request, $courseId);
+
+        $response = $next($request);
+
+        if ($userEnabled) {
+            $this->log($request, $courseId, $user->username);
+        }
+
+        return $response;
     }
 
-    protected function log($request, $courseId)
+    protected function log($request, $courseId, $username)
     {
         $totalTime = 0;
-        $username = app(User::class)->currentUser()->username;
         $url = $request->fullUrl();
         $method = $request->method();
 

@@ -3,17 +3,44 @@
 namespace TTU\Charon\Repositories;
 
 use TTU\Charon\Models\QueryLogUsers;
-use Zeizig\Moodle\Models\User;
 
 class LoggingRepository
 {
     /**
      * @param int $userId
      *
-     * @return User
+     * @return int
      */
-    public function findUserWithQueryLoggingEnabled(int $userId)
+    public function findUserWithQueryLoggingEnabled(int $userId): int
     {
-        QueryLogUsers::find($userId)->user;
+        return QueryLogUsers::where('user_id', '=', $userId)->exists();
+    }
+
+    public function addUserToLogging(int $userId)
+    {
+        $queryLogUser = new QueryLogUsers;
+
+        $queryLogUser->user_id = $userId;
+
+        $queryLogUser->save();
+    }
+
+    public function removeUserFromLogging(int $userId)
+    {
+        $recordToDelete = QueryLogUsers::where('user_id', $userId);
+
+        $recordToDelete->delete();
+    }
+
+    public function findUsersWithLogging(): array
+    {
+        $usersWithLoggingEnabled = QueryLogUsers::all();
+
+        $enabledIds = array();
+        foreach ($usersWithLoggingEnabled as $key => $enabledUser) {
+            $enabledIds[$key] = $enabledUser->user_id;
+        }
+
+        return $enabledIds;
     }
 }

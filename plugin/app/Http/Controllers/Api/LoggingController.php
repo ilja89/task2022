@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Services\LoggingService;
 use Illuminate\Http\Request;
@@ -22,12 +21,45 @@ class LoggingController extends Controller
     }
 
     /**
-     * @var $userId
      *
-     * @return bool
+     * @param $courseId
+     * @param $userId
+     * @return int
      */
-    public function userHasQueryLoggingEnabled($userId): bool
+    public function userHasQueryLoggingEnabled($courseId, $userId): int
     {
         return $this->loggingService->userHasQueryLoggingEnabled($userId);
+    }
+
+    /**
+     * Enables logging for the given user
+     * @param $courseId
+     * @param $userId
+     * @return void
+     */
+    public function enableLoggingForUser($courseId, $userId)
+    {
+        $this->loggingService->enableLogging($userId);
+    }
+
+    /**
+     * Disables logging for the given user
+     * @param $courseId
+     * @param $userId
+     * @return void
+     */
+    public function disableLoggingForUser($courseId, $userId)
+    {
+        $this->loggingService->disableLogging($userId);
+    }
+
+    /**
+     * @param $courseId
+     * @return array
+     * Finds user ids who have logging enabled
+     */
+    public function findUsersWithLoggingEnabled($courseId)
+    {
+        return $this->loggingService->findUsersWithLogging();
     }
 }

@@ -3,8 +3,6 @@
 namespace TTU\Charon\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Models\Course;
@@ -48,7 +46,6 @@ class CourseSettingsController extends Controller
         $courseSettings->tester_url = $this->request['tester_url'];
         $courseSettings->tester_sync_url = $this->request['tester_sync_url'];
         $courseSettings->tester_token = $this->request['tester_token'];
-        $courseSettings->query_logging = $this->request['query_logging_code'] ? $this->request['query_logging_code'] : 0;
         $courseSettings->save();
 
         return app('redirect')->action('CourseSettingsFormController@index', ['course' => $course->id]);
