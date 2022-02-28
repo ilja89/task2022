@@ -32,13 +32,8 @@ class LoggingService
         $this->loggingRepository->RemoveUserFromLogging($userId);
     }
 
-    public function updateUsersWithLogging($users)
+    public function findUsersWithLogging()
     {
-        $decodedUsers = array();
-        foreach ($users as $key => $user) {
-            $decodedUsers[$key] = json_decode($user);
-        }
-
-        return $this->loggingRepository->updateUsersWithLogging($decodedUsers);
+        return $this->loggingRepository->findUsersWithLogging();
     }
 }

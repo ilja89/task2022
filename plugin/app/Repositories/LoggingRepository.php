@@ -2,7 +2,6 @@
 
 namespace TTU\Charon\Repositories;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\QueryLogUsers;
 
 class LoggingRepository
@@ -33,7 +32,7 @@ class LoggingRepository
         $recordToDelete->delete();
     }
 
-    public function updateUsersWithLogging($users)
+    public function findUsersWithLogging(): array
     {
         $usersWithLoggingEnabled = QueryLogUsers::all();
 
@@ -42,14 +41,6 @@ class LoggingRepository
             $enabledIds[$key] = $enabledUser->user_id;
         }
 
-        foreach ($users as $user) {
-            $userId = $user->id;
-            if (in_array($userId, $enabledIds)) {
-                $user->logging = true;
-            } else {
-                $user->logging = false;
-            }
-        }
-        return $users;
+        return $enabledIds;
     }
 }

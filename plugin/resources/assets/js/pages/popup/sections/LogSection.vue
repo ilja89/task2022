@@ -65,6 +65,7 @@ import {PopupSection} from '../layouts/index'
 import LogEntry from '../partials/LogEntry'
 import User from "../../../api/User";
 import Log from "../../../api/Log";
+import Vue from "vue";
 
 export default {
     name: 'log-section',
@@ -149,16 +150,19 @@ export default {
 
         fetchEnrolledUsers() {
             User.getAllEnrolled(this.courseId, enrolledUsers => {
-                let fetchedUsers = Object.keys(enrolledUsers).map(function (key) {
+                this.users = Object.keys(enrolledUsers).map(function (key) {
                     return enrolledUsers[key]
                 });
-                this.updateUsersWithLoggingEnabled(fetchedUsers)
+                this.updateUsersWithLoggingEnabled()
             })
         },
 
-        updateUsersWithLoggingEnabled(users) {
-            Log.updateUsersWithLoggingEnabled(this.courseId, users, filteredUsers => {
-                this.users = filteredUsers
+        updateUsersWithLoggingEnabled() {
+            Log.findUsersWithLoggingEnabled(this.courseId, enabledIds => {
+                this.users = this.users.map(user => {
+                    Vue.set(user, 'logging', !!enabledIds.includes(parseInt(user.id)))
+                    return user
+                })
             })
         },
 

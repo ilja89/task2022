@@ -42,7 +42,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/disableLogging', 'LoggingController@disableLoggingForUser');
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/updateUsersWithLoggingEnabled', 'LoggingController@updateUsersWithLoggingEnabled');
+        ->get('courses/{course}/users/findUsersWithLoggingEnabled', 'LoggingController@findUsersWithLoggingEnabled');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
     Route::middleware('auth.submission.managing.require')

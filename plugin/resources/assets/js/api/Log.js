@@ -23,12 +23,12 @@ class Log {
         })
     }
 
-    static updateUsersWithLoggingEnabled(courseId, usersToFilter, then) {
-        axios.get('/mod/charon/api/courses/' + courseId + '/users/updateUsersWithLoggingEnabled', { params: { users: usersToFilter }})
+    static findUsersWithLoggingEnabled(courseId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/users/findUsersWithLoggingEnabled')
             .then(response => {
                 then(response.data)
             }).catch(error => {
-            VueEvent.$emit('show-notification', 'Error filtering users for enabled logging.\n' + error, 'danger')
+            VueEvent.$emit('show-notification', 'Error fetching users with logging enabled.\n' + error, 'danger')
         })
     }
 }
