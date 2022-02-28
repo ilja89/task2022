@@ -125,15 +125,8 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
-    - name: mysql:5.7
-  variables:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_USER: bn_moodle
-    MYSQL_PASSWORD: dev
-    MYSQL_DATABASE: bitnami_moodle
-    DB_HOST: mysql
   script:
-    - service  --status-all
+    - cat $INTEGRATION_DB_VARIABLES
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
