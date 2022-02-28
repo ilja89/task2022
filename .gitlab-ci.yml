@@ -127,6 +127,7 @@ integration_test_dev:
     - name: docker:dind
     - name: mysql
   before_script:
+    - service  --status-all
     - service mysql start
   script:
     - touch .env
