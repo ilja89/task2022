@@ -317,11 +317,21 @@ class LabRepository
      */
     public function getLabsByCharonId($charonId)
     {
-        return \DB::table('charon_lab')
-            ->join('charon_defense_lab', 'charon_defense_lab.lab_id', 'charon_lab.id')
-            ->where('charon_id', $charonId)
-            ->select('charon_defense_lab.id', 'start', 'end', 'name', 'course_id')
+        $labs = \DB::table('charon_lab')
+            ->join('charon_defense_lab', 'charon_lab.id', '=', 'charon_defense_lab.lab_id')
+            ->where('charon_defense_lab.charon_id', $charonId)
+            ->select('charon_lab.id', 'charon_lab.start', 'charon_lab.end', 'charon_lab.name', 'charon_lab.course_id')
+            ->orderBy('charon_lab.start')
             ->get();
+
+        foreach ($labs as $lab) {
+            $lab->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($lab->course_id, $lab->id);
+            $lab->charons = $this->getCharonsForLab($lab->course_id, $lab->id);
+            $lab->groups = $this->getGroupsForLab($lab->course_id, $lab->id);
+        }
+        unset($lab);
+
+        return $labs;
     }
 
     /**

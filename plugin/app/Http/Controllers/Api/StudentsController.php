@@ -67,6 +67,18 @@ class StudentsController extends Controller
     }
 
     /**
+     * Get total student count for course.
+     *
+     * @param Course $course
+     *
+     * @return Collection
+     */
+    public function getStudentsCount(Course $course)
+    {
+        return $this->studentsRepository->getStudentsCount($course->id);
+    }
+
+    /**
      * Get active result for the given charon and user. Takes the value
      * from gradebook.
      *

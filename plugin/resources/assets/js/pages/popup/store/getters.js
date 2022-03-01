@@ -54,3 +54,17 @@ export const submissionLink = state => (submissionId = null) => {
 export const charonLink = state => state.charon ? `/mod/charon/view.php?id=${state.charon.course_module_id}` : null
 
 export const courseLink = state => state.course ? `/course/view.php?id=${state.course.id}` : null
+
+/**
+ * Get link to charon activity via id
+ * @returns {string}
+ * @param state {Object}
+ */
+export const activityLink = state => (activityId = null) => {
+    if (activityId) {
+        return `activities/charon/${activityId}`
+    }
+    if (state.charon.id) {
+        return `activities/charon/${state.charon.id}`
+    }
+}

@@ -54,6 +54,12 @@
             Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
         },
 
+        metaInfo() {
+            return {
+                title: `${'Charon grading - ' + window.course_name}`
+            }
+        },
+
         methods: {
             setCharons(charons) {
                 this.charons = charons;

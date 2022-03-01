@@ -25,6 +25,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
+            ->get('courses/{course}/students/count', 'StudentsController@getStudentsCount');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
@@ -86,6 +88,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/users/{user}/submissions', 'SubmissionsController@getByUser');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/latest', 'SubmissionsController@findLatest');
+    Route::middleware('auth.charon.managing.require')
+        ->get('charons/{charon}/submissions/latest', 'SubmissionsController@findLatestForCharon');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/submissions/counts', 'SubmissionsController@findSubmissionCounts');
     Route::middleware('auth.course.managing.require')
@@ -103,7 +107,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.course.managing.require')  // get all labs for course
         ->get('courses/{course}/labs', 'LabController@getByCourse');
     Route::middleware('auth.charon.managing.require')  // get all labs for charon
-        ->get('charons/{charon}/labs', 'CharonDefenseLabController@getByCharon');
+        ->get('charons/{charon}/labs', 'LabController@getByCharon');
     Route::middleware('auth.course.managing.require')  // delete lab
         ->delete('courses/{course}/labs/{lab}', 'LabController@delete');
     Route::middleware('auth.course.managing.require')  // update lab
@@ -176,4 +180,14 @@ Route::group(['namespace' => 'Api'], function () {
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')
         ->get('charons/{charon}/templates', 'TemplatesController@get'); // get templates by id
+
+    // STATISTICS
+    Route::middleware('auth.charon.submissions.view.require') // get all submission dates with counts for charon
+        ->get('courses/{course}/charons/{charon}/submissions-dates-counts', 'StatisticsController@getSubmissionDatesCountsForCharon');
+
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/charons/{charon}/submissions-counts-today', 'StatisticsController@getSubmissionCountsForCharonToday');
+
+    Route::middleware('auth.charon.managing.require')
+        ->get('courses/{course}/charons/{charon}/charon-general-information', 'StatisticsController@getCharonGeneralInformation');
 });

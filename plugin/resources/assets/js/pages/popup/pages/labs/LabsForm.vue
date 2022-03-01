@@ -242,8 +242,7 @@
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
                         Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
-                            window.location = "popup#/labs";
-                            window.location.reload();
+                            window.history.back();
                             VueEvent.$emit('show-notification', 'Lab updated!');
                         });
                     } else {
@@ -252,8 +251,7 @@
                             this.registrations = result;
                             if (result == 0) {
                                 Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosen_teachers, chosen_charons, groups, () => {
-                                    window.location = "popup#/labs";
-                                    window.location.reload();
+                                    window.history.back();
                                     VueEvent.$emit('show-notification', 'Lab updated!');
                                 });
                             }
@@ -261,14 +259,13 @@
                     }
                 } else {
                     Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosen_teachers, chosen_charons, groups, this.lab.weeks, () => {
-                        window.location = "popup#/labs";
-                        window.location.reload();
+                        window.history.back();
                         VueEvent.$emit('show-notification', 'Lab saved!');
                     })
                 }
             },
             cancelClicked() {
-                window.location = "popup#/labs";
+                window.history.back();
             },
             stylizedLabDuration() {
                 const mins = this.labDuration % 60;

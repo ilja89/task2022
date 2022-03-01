@@ -39,5 +39,11 @@
                 })
             },
         },
+
+        metaInfo() {
+            return {
+                title: `${'Charon plagiarism - ' + window.course_name}`
+            }
+        },
     }
 </script>

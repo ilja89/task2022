@@ -32,6 +32,14 @@
             ...mapGetters(["courseId"])
         },
 
+        watch: {
+            $route() {
+                if (typeof this.$route.params.submission_id !== "undefined") {
+                    this.getSubmission();
+                }
+            }
+        },
+
         created() {
             this.getSubmission();
 
@@ -56,14 +64,6 @@
                 }
             } else {
                 next();
-            }
-        },
-
-        watch: {
-            $route() {
-                if (typeof this.$route.params.submission_id !== "undefined") {
-                    this.getSubmission();
-                }
             }
         },
 

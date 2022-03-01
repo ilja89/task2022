@@ -189,6 +189,17 @@ class SubmissionsController extends Controller
         return $this->submissionService->findLatestSubmissions($course->id);
     }
 
+    /**
+     * Find 10 latest submissions for given charon
+     * @param Course $course
+     * @param int $charonId
+     * @return Paginator
+     */
+    public function findLatestForCharon(Course $course, int $charonId)
+    {
+        return $this->submissionsRepository->findLatestSubmissionsForCharon($charonId);
+    }
+
     public function findSubmissionCounts(Course $course)
     {
         return $this->submissionsRepository->findSubmissionCounts($course->id);

@@ -179,7 +179,13 @@
                     this.defenseList = response
                 })
             }
-        }
+        },
+
+        metaInfo() {
+            return {
+                title: `${'Charon defense registrations - ' + window.course_name}`
+            }
+        },
     }
 </script>
 

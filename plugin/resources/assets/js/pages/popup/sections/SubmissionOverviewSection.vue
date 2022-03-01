@@ -97,9 +97,9 @@
         },
 
         watch: {
-            submission() {
-                this.getTotalResult();
-            },
+          submission() {
+            this.getTotalResult();
+          },
         },
 
         computed: {
