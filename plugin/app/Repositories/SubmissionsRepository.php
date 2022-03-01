@@ -740,12 +740,13 @@ class SubmissionsRepository
     }
 
     // TODO: merge with findLatest() to reduce duplicated code
+
     /**
      * Find latest 10 charon submissions
      * @param $charonId
-     * @return Paginator
+     * @return mixed
      */
-    public function findLatestSubmissionsForCharon($charonId): Paginator
+    public function findLatestSubmissionsForCharon($charonId)
     {
         return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
         ->where('charon_id', $charonId)
