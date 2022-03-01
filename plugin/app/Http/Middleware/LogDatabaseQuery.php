@@ -37,7 +37,6 @@ class LogDatabaseQuery
     public function handle(Request $request, Closure $next)
     {
         $user = app(User::class)->currentUser();
-        $courseId = app(Course::class)->getCourseId();
         $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
 
         if ($userEnabled) {
@@ -45,6 +44,9 @@ class LogDatabaseQuery
         }
 
         $response = $next($request);
+
+
+        $courseId = app(Course::class)->getCourseId();
 
         if ($userEnabled) {
             $this->log($request, $courseId, $user->username);
