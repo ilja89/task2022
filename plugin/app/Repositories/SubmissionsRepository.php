@@ -690,10 +690,11 @@ class SubmissionsRepository
      */
     private function buildForUser(int $userId)
     {
-        return DB::table('charon_submission')->join('charon_submission_user', function ($join) use ($userId) {
-            $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
+        return DB::table('charon_submission')
+            ->join('charon_submission_user', function ($join) use ($userId) {
+                $join->on('charon_submission.id', '=', 'charon_submission_user.submission_id')
                 ->where('charon_submission_user.user_id', '=', $userId);
-        });
+            });
     }
 
     /**
@@ -777,16 +778,16 @@ class SubmissionsRepository
     }
 
     /**
-     * If submission has more than 1 user connection, it is group submission.
      *
      * @param int $submissionId
-     * @return bool
+     * @return mixed
      */
-    public function checkSubmissionIsGroupSubmission(int $submissionId): bool
+    public function getSubmissionUsers(int $submissionId)
     {
         return \DB::table('charon_submission_user')
             ->where('charon_submission_user.submission_id', $submissionId)
-            ->count() > 1;
+            ->select('user_id')
+            ->get();
     }
 
 }

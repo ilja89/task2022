@@ -137,15 +137,35 @@ class DefenceRegistrationService
      * @param int $submissionId
      * @throws RegistrationException
      */
-    public function validateRegistration(int $studentId, int $charonId, int $defenseLabId, int $submissionId)
+    private function validateRegistration(int $studentId, int $charonId, int $defenseLabId, int $submissionId)
     {
-
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
-        $groupSubmission = $this->submissionRepository->checkSubmissionIsGroupSubmission($submissionId);
+        $submissionUsers = $this->submissionRepository->getSubmissionUsers($submissionId);
 
-        if ($lab->type === 'teams' && !$groupSubmission) {
-            throw new RegistrationException("group_submission_needed");
-        } elseif ($lab->type !== 'teams' && $groupSubmission) {
+        if ($lab->type === 'teams') {
+            if (sizeof($submissionUsers) <= 1) {
+                throw new RegistrationException("group_submission_needed");
+            }
+            $groupFound = false;
+            $userGroupsConnectedToLab = $this->labRepository->getLabGroupStudentsIdsByGroup($lab->id);
+            $submissionUsersAsArray = [];
+            foreach ($submissionUsers as $user) {
+                $submissionUsersAsArray[] = $user->user_id;
+            }
+            foreach ($userGroupsConnectedToLab as $group) {
+                $groupMembers = [];
+                foreach ($group as $member) {
+                    $groupMembers[] = $member->userid;
+                }
+                if (!array_diff($submissionUsersAsArray, $groupMembers)) {
+                    $groupFound = true;
+                    break;
+                }
+            }
+            if (!$groupFound) {
+                throw new RegistrationException("wrong_group");
+            }
+        } elseif (sizeof($submissionUsers) > 1) {
             throw new RegistrationException("group_submission_not_allowed");
         }
 
@@ -571,16 +591,23 @@ class DefenceRegistrationService
     public function deleteRegistration($studentId, $defenseLabId, $submissionId): int
     {
         $currentUser = app(MoodleUser::class)->currentUserId();
-        $registrationOwner = $this->defenseRegistrationRepository->getRegistrationOwner($currentUser, $defenseLabId, $submissionId);
 
-        if (!$registrationOwner) {
-            $labTeacher = $this->teacherRepository
-                ->getTeacherByDefenseLabAndUserId($defenseLabId, $currentUser);
-            if ($labTeacher == null) {
-                throw new RegistrationException("no_registration_manage_rights");
-            }
+        $labTeacher = $this->teacherRepository
+            ->getTeacherByDefenseLabAndUserId($defenseLabId, $currentUser);
+
+        if ($labTeacher) {
+            $registrationOwner = $this->defenseRegistrationRepository
+                ->getRegistrationOwner($studentId, $defenseLabId, $submissionId);
+        } else {
+            $registrationOwner = $this->defenseRegistrationRepository
+                ->getRegistrationOwner($currentUser, $defenseLabId, $submissionId);
         }
 
-        return $this->defenseRegistrationRepository->deleteRegistration($registrationOwner->student_id, $defenseLabId, $submissionId);
+        if (!$registrationOwner) {
+            throw new RegistrationException("no_registration_manage_rights");
+        }
+
+        return $this->defenseRegistrationRepository
+            ->deleteRegistration($registrationOwner->student_id, $defenseLabId, $submissionId);
     }
 }

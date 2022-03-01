@@ -39,7 +39,7 @@ class Defense {
     }
 
     static registerByTeacher(charonId, studentId, defenseLabId, then) {
-        axios.post(`/mod/charon/api/charons/${charonId}/submissions/register/teacher?user_id=${studentId}`, {
+        axios.post(`/mod/charon/api/charons/${charonId}/defense/register/teacher?user_id=${studentId}`, {
             charon_id: charonId,
             defense_lab_id: defenseLabId,
         }).then(response => {
@@ -50,7 +50,7 @@ class Defense {
     }
 
     static registerByStudent(charonId, studentId, defenseLabId, submissionId, then) {
-        axios.post(`/mod/charon/api/charons/${charonId}/submissions/register/student?user_id=${studentId}`, {
+        axios.post(`/mod/charon/api/charons/${charonId}/defense/register/student?user_id=${studentId}`, {
             charon_id: charonId,
             defense_lab_id: defenseLabId,
             submission_id: submissionId,

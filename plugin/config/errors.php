@@ -103,7 +103,7 @@ return [
 
     'not_enough_time' => [
         'title' => 'Not enough time left in lab queue.',
-        'detail' => 'The lab you tried to register your defense to ' .
+        'detail' => 'The defense you tried to register your defense to ' .
             'does not have enough time left to defend this charon.',
     ],
 
@@ -142,6 +142,11 @@ return [
     'group_submission_not_allowed' => [
         'title' => 'Group submission not allowed for registration.',
         'detail' => 'Submission can\'t be group submission to register for this defense registration.',
+    ],
+
+    'wrong_group' => [
+        'title' => 'Your group cant register for this registration.',
+        'detail' => 'Your team is not in list for registration for this defense.',
     ],
 
     'no_registration_manage_rights' => [

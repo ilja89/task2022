@@ -822,9 +822,11 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022021001) {
+    if ($oldversion < 2022021101) {
         $table = new xmldb_table("charon_defenders");
 
+        $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chotea_uix";
+        $DB->execute($sql);
         $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chostu_uix";
         $DB->execute($sql);
 

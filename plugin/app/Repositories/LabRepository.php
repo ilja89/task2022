@@ -444,7 +444,7 @@ class LabRepository
             ->get();
     }
 
-    public function getGroupingsForLab($courseId, $labId)
+    public function getGroupingsForLab($labId)
     {
         return \DB::table('charon_lab_group')
             ->where('lab_id', $labId)
@@ -546,6 +546,16 @@ class LabRepository
         if ($labLength->hours >= 24) {
             throw new BadRequestHttpException("Lab has to be below 24 hours long.");
         }
+    }
+
+    public function getLabGroupStudentsIdsByGroup($labId)
+    {
+        return \DB::table('charon_lab_group')
+            ->where('lab_id', $labId)
+            ->join('groups_members', 'groups_members.groupid', 'charon_lab_group.group_id')
+            ->select('groups_members.groupid', 'groups_members.userid')
+            ->get()
+            ->groupBy('groupid');
     }
 
 }

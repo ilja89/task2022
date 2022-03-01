@@ -65,7 +65,7 @@ class DefenseRegistrationController extends Controller
     public function registerDefenceByStudent(Request $request): string
     {
         return $this->defenceRegistrationService->registerDefence(
-            $request->input("user_id"),
+            app(User::class)->currentUserId(),
             $request->input("charon_id"),
             $request->input("defense_lab_id"),
             $request->input('submission_id')

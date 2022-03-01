@@ -177,9 +177,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->put('courses/{course}/registration/{registration}/update/undefend', 'DefenseRegistrationController@updateRegistrationProgressAndUnDefendRegistrationsByTeacher');
 
     Route::middleware('auth.charon.managing.require') // add registration by teacher
-        ->post('charons/{charon}/submissions/register/teacher', 'DefenseRegistrationController@registerDefenceByTeacher');
+        ->post('charons/{charon}/defense/register/teacher', 'DefenseRegistrationController@registerDefenceByTeacher');
     Route::middleware('auth.charon.submissions.view.require') // add registration by student
-        ->post('charons/{charon}/submissions/register/student', 'DefenseRegistrationController@registerDefenceByStudent');
+        ->post('charons/{charon}/defense/register/student', 'DefenseRegistrationController@registerDefenceByStudent');
 
     // CHARON TEMPLATES
     Route::middleware('auth.course_module.enrolment.require')
