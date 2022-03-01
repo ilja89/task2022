@@ -103,7 +103,9 @@ class HttpCommunicationService
         ]);
 
         try {
-            $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
+            $response = Http::withHeaders(['Authorization' => $testerToken])
+                ->timeout(10)
+                ->post($testerUrl, $data);
             Log::info("Response" , ["status" => $response->status()
             , "body" => $response->json()]);
         } catch (RequestException $exception) {
