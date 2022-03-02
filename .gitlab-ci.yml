@@ -121,7 +121,7 @@ deploy_any:
 integration_test_dev:
   tags:
     - docker
-  image: moodlehq/moodle-php-apache:latest
+  image: moodlehq/moodle-php-apache:7.3
   stage: integration test
   services:
     - name: docker:dind
