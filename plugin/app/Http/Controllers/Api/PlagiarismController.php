@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Services\PlagiarismService;
 use Zeizig\Moodle\Models\Course;
 
@@ -100,21 +101,43 @@ class PlagiarismController extends Controller
     }
 
     /**
-     * Run the checksuite for the given Charon. Send a request to run the
-     * checksuite to the plagiarism service.
+     * Run the checks for the given Charon. Send a request to run the
+     * check to the plagiarism service.
      *
+     * @param Course $course
      * @param Charon $charon
      *
      * @return \Illuminate\Http\JsonResponse
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function runCheck(Charon $charon)
+    public function runCheck(Course $course, Charon $charon): \Illuminate\Http\JsonResponse
     {
-        $this->plagiarismService->runCheck($charon);
+        $check = $this->plagiarismService->runCheck($charon, $course, $this->request);
+
+        $status = ["charonName" => $charon->name, "created_at" => $check->created_at, "updated_at" => $check->updated_at, "status" => $check->status, "checkId" => $check->id];
 
         return response()->json([
             'message' => 'Plagiarism service has been notified to re-run the checksuite.',
+            'status' => $status
         ], 200);
+    }
+
+    /**
+     * Returns the status of the asked plagiarism check.
+     *
+     * @param Charon $charon
+     * @param PlagiarismCheck $plagiarismCheck
+     * @return array
+     */
+    public function getStatus(Charon $charon, PlagiarismCheck $plagiarismCheck): array
+    {
+        return [
+            "charonName" => $charon->name,
+            "created_at" => $plagiarismCheck->created_at,
+            "updated_at" => $plagiarismCheck->updated_at,
+            "status" => $plagiarismCheck->status,
+            "checkId" => $plagiarismCheck->id
+        ];
     }
 }

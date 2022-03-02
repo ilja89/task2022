@@ -35,13 +35,23 @@ class Plagiarism {
             })
     }
 
-    static runPlagiarismCheck(charonId, then) {
-        axios.post(`${this.getRoot()}/charons/${charonId}/plagiarism/run`)
+    static runPlagiarismCheck(courseId, charonId, then) {
+        axios.post(`${this.getRoot()}/courses/${courseId}/charons/${charonId}/plagiarism/run`)
             .then(response => {
                 then(response.data)
             })
             .catch(error => {
                 VueEvent.$emit('show-notification', 'Error running plagiarism check.\n' + error, 'danger')
+            })
+    }
+
+    static getLatestCheckStatus(charonId, checkId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/plagiarism-checks/${checkId}`)
+            .then(response => {
+                then(response.data)
+            })
+            .catch(error => {
+                VueEvent.$emit('show-notification', 'Error getting status of latest plagiarism check.\n' + error, 'danger')
             })
     }
 }

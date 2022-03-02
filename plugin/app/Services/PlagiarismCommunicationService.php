@@ -90,22 +90,24 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Send a request to the plagiarism service to run the given checksuite.
+     * Send a request to the plagiarism service to run check for the given charon.
      *
-     * @param string $checksuiteId
+     * @param String $project_path
+     * @param String $course_shortname
+     * @param String $returnUrl
+     * @return string
      *
-     * @return \StdClass
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function runCheck($charon)
+    public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/plagiarism/check",
-            'post'
+            "course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
+            'POST',
+            ["return_url" => $returnUrl]
         );
 
-        return json_decode((string) $response->getBody());
+        return $response->getBody()->getContents();
     }
 
     /**

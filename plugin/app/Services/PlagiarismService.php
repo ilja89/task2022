@@ -2,9 +2,14 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\PlagiarismRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -16,22 +21,29 @@ class PlagiarismService
 {
     /** @var PlagiarismCommunicationService */
     private $plagiarismCommunicationService;
+
     /** @var CharonRepository */
     private $charonRepository;
+
+    /** @var PlagiarismRepository */
+    private $plagiarismRepository;
 
     /**
      * PlagiarismService constructor.
      *
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      * @param CharonRepository $charonRepository
+     * @param PlagiarismRepository $plagiarismRepository
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository $charonRepository
+        CharonRepository $charonRepository,
+        PlagiarismRepository $plagiarismRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
+        $this->plagiarismRepository = $plagiarismRepository;
     }
 
 
@@ -83,19 +95,25 @@ class PlagiarismService
     }
 
     /**
-     * Run the checksuite for the given Charon and refresh its latest check id.
+     * Run the check for the given Charon and refresh its status.
      *
      * @param Charon $charon
+     * @param Course $course
+     * @param Request $request
+     * @return PlagiarismCheck
      *
-     * @return Charon
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function runCheck(Charon $charon)
+    public function runCheck(Charon $charon, Course $course, Request $request): PlagiarismCheck
     {
-        $this->plagiarismCommunicationService->runCheck($charon);
+        $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
+        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
 
-        return $charon;
+        $check->updated_at = Carbon::now();
+        $check->status = $response;
+        $check->save();
+
+        return $check;
     }
 
     /**
@@ -178,6 +196,7 @@ class PlagiarismService
      *
      *
      * @param Charon $charon
+     * @param Course $course
      *
      * @return array
      *
@@ -186,5 +205,18 @@ class PlagiarismService
     public function getMatches(Charon $charon, Course $course): array
     {
         return $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+    }
+
+    /**
+     * Update status of the plagiarism check.
+     *
+     * @param PlagiarismCheck $check
+     * @param array $response
+     */
+    public function updateCheck(PlagiarismCheck $check, array $response): void
+    {
+        $check->updated_at = Carbon::now();
+        $check->status = $response['status'];
+        $check->save();
     }
 }
