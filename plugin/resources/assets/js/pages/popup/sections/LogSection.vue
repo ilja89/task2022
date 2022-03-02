@@ -6,43 +6,31 @@
             <v-btn class="ma-2" tile outlined color="primary" @click="fetchLogs">Get Logs</v-btn>
             <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs
             </v-btn>
-            <div v-if="queryLogType" class="ma-2">
+            <div v-if="queryLogType" style="width: 360px">
                 <v-select
                     class="mx-auto"
-                    dense
-                    single-line
-                    item-text="username"
-                    item-value="id"
+                    v-model="enabledUsers"
                     :items="users"
-                    label="Enrolled users"
-                    @change="updateUser"
-                ></v-select>
-                <v-btn
-                    elevation="2"
-                    x-small
-                    :disabled="!currentUser || currentUserHasLogging"
-                    @click="enableLoggingCurrentUser"
-                >Enable logging
-                </v-btn>
-                <v-btn
-                    elevation="2"
-                    x-small
-                    :disabled="!currentUser || !currentUserHasLogging"
-                    @click="disableLoggingCurrentUser"
-                >Disable logging
-                </v-btn>
-            </div>
-            <v-col v-if="queryLogType" cols="auto">
-                <v-select
-                    class="mx-auto"
-                    dense
-                    single-line
                     item-text="username"
                     item-value="id"
-                    label="Enabled users"
-                    :items="usersWithLogging"
-                ></v-select>
-            </v-col>
+                    multiple
+                    chips
+                    hint="Select users to enable query logging"
+                    persistent-hint
+                >
+                    <template v-slot:selection="{ item, index }">
+                        <v-chip v-if="index === 0">
+                            <span>{{ item.username }}</span>
+                        </v-chip>
+                        <span
+                            v-if="index === 1"
+                            class="grey--text text-caption"
+                        >
+                            (+{{ enabledUsers.length - 1 }} others)
+                        </span>
+                    </template>
+                </v-select>
+            </div>
 
         </template>
 
@@ -91,7 +79,7 @@ export default {
         return {
             logs: "Press get logs to get started",
             users: [],
-            currentUser: null,
+            enabledUsers: []
         }
     },
 
@@ -100,38 +88,26 @@ export default {
             'courseId',
         ]),
 
-        currentUserHasLogging() {
-            return this.currentUser ? this.currentUser.logging : null
+        allEnabledUsers() {
+            return this.enabledUsers
         },
-
-        usersWithLogging() {
-            return this.users.filter(user => {
-                return user.logging
-            })
-        }
     },
 
     created() {
         if (this.queryLogType) {
-            this.fetchEnrolledUsers()
+            this.fetchUsers()
         }
     },
 
     methods: {
-        enableLoggingCurrentUser() {
-            if (this.currentUser && !this.currentUserHasLogging) {
-                Log.enableLogging(this.courseId, this.currentUser.id, () => {
-                    this.currentUser.logging = true
-                })
-            }
+        enableLoggingCurrentUser(userId) {
+            Log.enableLogging(this.courseId, userId, () => {
+            })
         },
 
-        disableLoggingCurrentUser() {
-            if (this.currentUser && this.currentUserHasLogging) {
-                Log.disableLogging(this.courseId, this.currentUser.id, () => {
-                    this.currentUser.logging = false
-                })
-            }
+        disableLoggingCurrentUser(userId) {
+            Log.disableLogging(this.courseId, userId, () => {
+            })
         },
 
         fetchLogs() {
@@ -146,29 +122,37 @@ export default {
             }
         },
 
-        fetchEnrolledUsers() {
+        fetchUsers() {
             User.getAllEnrolled(this.courseId, enrolledUsers => {
                 this.users = Object.keys(enrolledUsers).map(function (key) {
                     return enrolledUsers[key]
                 });
-                this.updateUsersWithLoggingEnabled()
+                this.fetchEnabledUsers()
             })
         },
 
-        updateUsersWithLoggingEnabled() {
+        fetchEnabledUsers() {
             Log.findUsersWithLoggingEnabled(this.courseId, enabledIds => {
-                this.users = this.users.map(user => {
-                    Vue.set(user, 'logging', !!enabledIds.includes(parseInt(user.id)))
-                    return user
-                })
-            })
-        },
+                this.enabledUsers = this.users
+                    .filter(user => {
+                        return enabledIds.includes(parseInt(user.id))
+                    })
+                    .map(user => {
+                        if (user.id) {
+                            return user.id
+                        }
+                        return user
+                    })
 
-        updateUser(newUser) {
-            this.users.forEach(user => {
-                if (user.id === newUser) {
-                    this.currentUser = user
-                }
+                this.$watch('allEnabledUsers', (newVal, oldVal) => {
+                    if (newVal.length > oldVal.length) {
+                        let addedUserId = newVal.filter(x => !oldVal.includes(x)).pop()
+                        this.enableLoggingCurrentUser(parseInt(addedUserId))
+                    } else {
+                        let removedUserId = oldVal.filter(x => !newVal.includes(x)).pop()
+                        this.disableLoggingCurrentUser(parseInt(removedUserId))
+                    }
+                })
             })
         },
 
@@ -199,7 +183,5 @@ export default {
 </script>
 
 <style>
-.v-select__selections input {
-    width: 50px
-}
+
 </style>
