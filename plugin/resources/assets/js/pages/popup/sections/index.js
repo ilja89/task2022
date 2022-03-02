@@ -15,6 +15,7 @@ import TesterTypeSection from "./TesterTypeSection";
 import TeacherSection from "./TeacherSection";
 import PlagiarismMatchesSection from "./PlagiarismMatchesSection";
 import PlagiarismOverviewSection from "./PlagiarismOverviewSection";
+import VisNetwork from "./VisNetwork";
 
 export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
@@ -23,5 +24,5 @@ export {
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
     SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
     LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, PlagiarismMatchesSection,
-    PlagiarismOverviewSection
+    PlagiarismOverviewSection, VisNetwork
 }

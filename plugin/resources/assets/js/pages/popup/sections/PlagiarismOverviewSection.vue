@@ -9,10 +9,7 @@
             <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
                         :series="donutSeries"></apexcharts>
 
-            <d3-network
-                :net-nodes="networkNodes"
-                :net-links="networkLinks"
-                :options="networkOptions"></d3-network>
+            <VisNetwork style="height: 400px; width: 400px" :nodes="networkNodes" :edges="networkEdges"></VisNetwork>
         </div>
 
     </popup-section>
@@ -21,11 +18,13 @@
 <script>
 import PopupSection from "../layouts/PopupSection";
 import VueApexCharts from "vue-apexcharts";
-import D3Network from 'vue-d3-network'
+import D3Network from 'vue-d3-network';
+import VisNetwork from "./VisNetwork";
+import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER, valueToGroup} from '../../../helpers/PlagiarismColors';
 
 export default {
     name: "PlagiarismOverviewSection",
-    components: {PopupSection, 'apexcharts': VueApexCharts, 'd3-network': D3Network},
+    components: {PopupSection, 'apexcharts': VueApexCharts, 'd3-network': D3Network, VisNetwork},
     props: ['matches'],
     data() {
         return {
@@ -68,19 +67,8 @@ export default {
                 },
 
                 networkChart: {
-                    chartOptions: {
-                        force: 500,
-                        nodeSize: 15,
-                        nodeLabels: true,
-                        linkLabels: true,
-                        linkWidth: 5,
-                        size: {
-                            w: 500,
-                            h: 500
-                        }
-                    },
                     chartNodes: [],
-                    chartLinks: []
+                    chartEdges: []
                 },
             },
         }
@@ -88,7 +76,12 @@ export default {
 
     watch: {
         matches: function (newMatches, oldMatches) {
-            this.parseMatches(newMatches)
+            if (this.matches) {
+                this.parseMatches(newMatches)
+            } else {
+                this.charts.networkChart.chartNodes = []
+                this.charts.networkChart.chartEdges = []
+            }
         }
     },
 
@@ -109,16 +102,12 @@ export default {
             return this.charts.donutChart.series
         },
 
-        networkOptions() {
-            return this.charts.networkChart.chartOptions
-        },
-
         networkNodes() {
             return this.charts.networkChart.chartNodes
         },
 
-        networkLinks() {
-            return this.charts.networkChart.chartLinks
+        networkEdges() {
+            return this.charts.networkChart.chartEdges
         },
     },
 
@@ -165,63 +154,47 @@ export default {
 
         parseNetworkChart(newMatches) {
             const nodes = []
-            const links = []
-            const nodeIds = {}
+            const groups = {[NEUTRAL]: 0, [INTERESTING]: 0, [SUSPICIOUS]: 0, [WARNING]: 0, [DANGER]: 0}
+            let edges = []
+
+            const nodesById = {}
 
             for (let i = 0; i < newMatches.length; i++) {
                 const match = newMatches[i]
-                const percentage = Math.max(match.percentage, match.other_percentage)
 
-                const uniid = match.uniid
-                const other_uniid = match.other_uniid
+                const one = match.uniid
+                const other = match.other_uniid
 
-                if (!(uniid in nodeIds)) {
-                    const nodeValues = Object.values(nodeIds)
-                    nodeIds[uniid] = nodeValues.length ? Math.max(...nodeValues) + 1 : 0
-
-                    const firstNode = {
-                        id: nodeIds[uniid],
-                        name: uniid,
-                    }
-                    nodes.push(firstNode)
-                }
-
-                if (!(other_uniid in nodeIds)) {
-                    const nodeValues = Object.values(nodeIds)
-                    nodeIds[other_uniid] = nodeValues.length ? Math.max(...nodeValues) + 1 : 0
-
-                    const secondNode = {
-                        id: nodeIds[other_uniid],
-                        name: other_uniid,
-                    }
-                    nodes.push(secondNode)
-                }
-
-                const link = {
-                    sid: nodeIds[uniid],
-                    tid: nodeIds[other_uniid],
-                    _color: this.colorByPercentage(percentage)
-                }
-                links.push(link)
+                const colorValue = Math.max(match.percentage, match.other_percentage)
+                nodesById[one] = {id: one, colorValue}
+                nodesById[other] = {id: other, colorValue}
             }
+
+            Object.values(nodesById).forEach((node) => {
+                const group = valueToGroup(node.colorValue)
+                if (group in groups) {
+                    groups[group] += 1
+                } else {
+                    groups[group] = 1
+                }
+                nodes.push({
+                    id: node.id,
+                    label: node.id,
+                    shape: 'dot',
+                    group,
+                })
+            })
+
+            edges = newMatches.map(match => ({
+                from: match.uniid,
+                to: match.other_uniid,
+                label: `${Math.max(match.percentage, match.other_percentage)}`,
+            }))
+
 
             this.charts.networkChart.chartNodes = nodes
-            this.charts.networkChart.chartLinks = links
-        },
-
-        colorByPercentage(percentage) {
-            if (percentage < 20) {
-                return '#9FC2F7'
-            } else if (percentage < 40) {
-                return '#6B72F4'
-            } else if (percentage < 60) {
-                return '#F8F652'
-            } else if (percentage < 80) {
-                return '#F4AB3E'
-            } else {
-                return '#EC8584'
-            }
-        },
+            this.charts.networkChart.chartEdges = edges
+        }
     }
 }
 </script>
