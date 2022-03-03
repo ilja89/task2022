@@ -17,7 +17,6 @@
                     chips
                     hint="Select users to enable query logging"
                     persistent-hint
-                    loading="true"
                     @focus="fetchUsers"
                 >
                     <template v-slot:selection="{ item, index }">
