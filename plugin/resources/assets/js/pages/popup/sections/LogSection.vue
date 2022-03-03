@@ -7,7 +7,7 @@
             <v-btn v-if="queryLogType" class="ma-2" tile outlined color="primary" @click="downloadLogs">Download logs
             </v-btn>
             <div v-if="queryLogType" style="width: 360px">
-                <v-select
+                <v-autocomplete
                     class="mx-auto"
                     v-model="enabledUsers"
                     :items="users"
@@ -17,6 +17,8 @@
                     chips
                     hint="Select users to enable query logging"
                     persistent-hint
+                    loading="true"
+                    @focus="fetchUsers"
                 >
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index === 0">
@@ -29,7 +31,7 @@
                             (+{{ enabledUsers.length - 1 }} others)
                         </span>
                     </template>
-                </v-select>
+                </v-autocomplete>
             </div>
 
         </template>
@@ -79,7 +81,8 @@ export default {
         return {
             logs: "Press get logs to get started",
             users: [],
-            enabledUsers: []
+            enabledUsers: [],
+            usersFetched: false
         }
     },
 
@@ -91,12 +94,6 @@ export default {
         allEnabledUsers() {
             return this.enabledUsers
         },
-    },
-
-    created() {
-        if (this.queryLogType) {
-            this.fetchUsers()
-        }
     },
 
     methods: {
@@ -123,12 +120,15 @@ export default {
         },
 
         fetchUsers() {
-            User.getAllEnrolled(this.courseId, enrolledUsers => {
-                this.users = Object.keys(enrolledUsers).map(function (key) {
-                    return enrolledUsers[key]
-                });
-                this.fetchEnabledUsers()
-            })
+            if (!this.usersFetched) {
+                User.getAllEnrolled(this.courseId, enrolledUsers => {
+                    this.users = Object.keys(enrolledUsers).map(function (key) {
+                        return enrolledUsers[key]
+                    });
+                    this.usersFetched = true
+                    this.fetchEnabledUsers()
+                })
+            }
         },
 
         fetchEnabledUsers() {
