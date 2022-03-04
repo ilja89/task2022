@@ -125,10 +125,8 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
-    db:
-      - name: mysql:latest
-      environment:
-        - MYSQL_ROOT_PASSWORD=some_password
+  before_script:
+    - docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
   script:
     - touch .env
     - php composer.phar install --dev
