@@ -128,9 +128,11 @@ integration_test_dev:
   before_script:
     - php -m
     - service  --status-all
+    - mysql
   script:
     - touch .env
     - cp -p env.develop .env
+    - cat $INTEGRATION_DB_VARIABLES >> .env
     - cat .env
   when:
     manual
