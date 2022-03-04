@@ -126,14 +126,12 @@ integration_test_dev:
   services:
     - name: docker:dind
   before_script:
+    - php -m
     - service  --status-all
   script:
     - touch .env
-    - php composer.phar install --dev
     - cp -p env.develop .env
-    - cat $INTEGRATION_DB_VARIABLES >> .env
-    - php artisan key:generate
-    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
+    - cat .env
   when:
     manual
   artifacts:
