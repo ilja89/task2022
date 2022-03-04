@@ -125,6 +125,11 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
+    - mysql:latest
+  variables:
+    # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+    MYSQL_DATABASE: $MYSQL_DATABASE
+    MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
   before_script:
     - php -m
     - service  --status-all
