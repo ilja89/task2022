@@ -126,20 +126,13 @@ integration_test_dev:
   services:
     - name: docker:dind
     - name: mysql:latest
-  variables:
-    # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
-    MYSQL_DATABASE: $MYSQL_DATABASE
-    MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-  before_script:
-    - php -m
-    - service  --status-all
-    - service mysql start
   script:
     - touch .env
+    - php composer.phar install --dev
     - cp -p env.develop .env
     - cat $INTEGRATION_DB_VARIABLES >> .env
-    - cat .env
-    - php artisan migrate
+    - php artisan key:generate
+    - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
   when:
     manual
   artifacts:
