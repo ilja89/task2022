@@ -133,6 +133,7 @@ integration_test_dev:
   before_script:
     - php -m
     - service  --status-all
+    - service mysql start
   script:
     - touch .env
     - cp -p env.develop .env
