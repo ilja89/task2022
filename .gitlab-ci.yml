@@ -128,7 +128,7 @@ integration_test_dev:
     db:
       - name: mysql:latest
       environment:
-        - MYSQL_ROOT_PASSWORD='some_password'
+        - MYSQL_ROOT_PASSWORD=some_password
   script:
     - touch .env
     - php composer.phar install --dev
