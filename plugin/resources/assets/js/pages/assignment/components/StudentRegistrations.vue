@@ -81,16 +81,17 @@ export default {
 			dialog: false,
 			headers: [
 				{text: this.translate("charonText"), align: 'start', value: 'name'},
-				{text: this.translate("labNameText"), value: 'lab_name'},
-                {text: this.translate("labStartText"), value: 'lab_start'},
+        {text: this.translate("labNameText"), value: 'lab_name'},
+        {text: this.translate("labTypeText"), value: 'type'},
+        {text: this.translate("labStartText"), value: 'lab_start'},
 				{text: this.translate("teacherText"), value: 'teacher'},
 				{text: this.translate("locationText"), value: 'teacher_location'},
 				{text: this.translate("commentText"), value: 'teacher_comment'},
 				{text: this.translate("progressText"), value: 'progress'},
 				{text: this.translate("actionsText"), value: 'actions', sortable: false},
 			],
-            locales: "et",
-            timeOptions: { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }
+      locales: "et",
+      timeOptions: { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }
 		}
 	},
 

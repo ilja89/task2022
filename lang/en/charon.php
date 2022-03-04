@@ -177,6 +177,7 @@ $string['registration_deletion_confirmation'] = 'Are you sure you want to delete
 $string['charon'] = 'Exercise';
 $string['lab_start'] = 'Lab start';
 $string['lab_name'] = 'Lab';
+$string['lab_type'] = 'Lab type';
 $string['teacher'] = 'Teacher';
 $string['location'] = 'Location';
 $string['comment'] = 'Comment';

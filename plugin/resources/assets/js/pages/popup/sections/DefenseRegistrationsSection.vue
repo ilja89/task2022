@@ -112,6 +112,7 @@ export default {
             defense_list_headers: [
                 {text: 'Nr. in queue', value: 'queue_nr', align: 'start'},
                 {text: 'Lab', value: 'lab_name'},
+                {text: 'Lab type', value: 'type'},
                 {text: 'Student name', value: 'student_name'},
                 {text: 'Duration', value: 'formatted_duration'},
                 {text: 'Teacher', value: 'teacher'},

@@ -142,7 +142,7 @@ class DefenceRegistrationService
         $lab = $this->defenseLabRepository->getLabByDefenseLabId($defenseLabId);
         $submissionUsers = $this->submissionRepository->getSubmissionUsers($submissionId);
 
-        if ($lab->type === 'teams') {
+        if ($lab->type === 'Teams') {
             if (sizeof($submissionUsers) <= 1) {
                 throw new RegistrationException("group_submission_needed");
             }

@@ -87,8 +87,8 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
                                                     outlined
-                                                    @click="registrationToggle('everyone')"
-                                                    :class="[checkRegistrationType('everyone') ? 'grp-type-btn-active' : '' ]"
+                                                    @click="registrationToggle('Everyone')"
+                                                    :class="[checkRegistrationType('Everyone') ? 'grp-type-btn-active' : '' ]"
                                                     v-bind="attrs"
                                                     v-on="on"
                                                 >
@@ -101,8 +101,8 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
                                                     outlined
-                                                    @click="registrationToggle('group')"
-                                                    :class="[checkRegistrationType('group') ? 'grp-type-btn-active' : '' ]"
+                                                    @click="registrationToggle('Group')"
+                                                    :class="[checkRegistrationType('Group') ? 'grp-type-btn-active' : '' ]"
                                                     v-bind="attrs"
                                                     v-on="on"
                                                 >
@@ -115,8 +115,8 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
                                                     outlined
-                                                    @click="registrationToggle('teams')"
-                                                    :class="[checkRegistrationType('teams') ? 'grp-type-btn-active' : '' ]"
+                                                    @click="registrationToggle('Teams')"
+                                                    :class="[checkRegistrationType('Teams') ? 'grp-type-btn-active' : '' ]"
                                                     v-bind="attrs"
                                                     v-on="on"
                                                 >
@@ -126,11 +126,11 @@
                                             <span>Registration is per team, team need to be in grouping</span>
                                         </v-tooltip>
                                     </div>
-                                    <add-groups-selector v-if="checkRegistrationType('group')"
+                                    <add-groups-selector v-if="checkRegistrationType('Group')"
                                                          :lab="lab" :courseGroups="courseGroups"
                                                          :courseGroupings="courseGroupings"
                                     ></add-groups-selector>
-                                    <add-groupings-selector v-else-if="checkRegistrationType('teams')"
+                                    <add-groupings-selector v-else-if="checkRegistrationType('Teams')"
                                                             :lab="lab"
                                                             :courseGroupings="courseGroupings"
                                     ></add-groupings-selector>
@@ -231,7 +231,7 @@
                 filteredCharons: [],
                 labDuration: 0,
                 registrations: 0,
-                registrationType: 'everyone',
+                registrationType: 'Everyone',
                 courseGroups: [],
                 courseGroupings: [],
             }
@@ -280,7 +280,7 @@
 
                 let groups;
 
-                if (this.registrationType === "teams") {
+                if (this.registrationType === "Teams") {
                     groups = [];
                     console.log(this.lab.groupings);
                     this.lab.groupings.forEach(grouping => grouping.groups.forEach( function (group) {
@@ -447,8 +447,8 @@
             },
 
             getRegistrationType() {
-                this.registrationType = this.lab.groups.length > 0 ? 'group':
-                    this.lab.groupings.length > 0 ? 'teams' : 'everyone'
+                this.registrationType = this.lab.groups.length > 0 ? 'Group':
+                    this.lab.groupings.length > 0 ? 'Teams' : 'Everyone'
             }
         }
 

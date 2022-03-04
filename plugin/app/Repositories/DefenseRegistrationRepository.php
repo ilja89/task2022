@@ -114,7 +114,7 @@ class DefenseRegistrationRepository
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
-                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name'
+                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name', 'charon_lab.type'
             )->orderBy('charon_lab.id')
             ->orderBy('charon_defenders.defense_start')
             ->orderBy('charon_defenders.id')
@@ -149,7 +149,8 @@ class DefenseRegistrationRepository
                 'charon_defenders.student_name', 'charon_submission.charon_id', 'charon.defense_duration',
                 'charon_defenders.my_teacher', 'charon_defenders.submission_id', 'charon_defenders.progress',
                 'charon_defense_lab.id as charon_defense_lab_id', 'charon_defenders.teacher_id',
-                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name', 'charon_lab.id as lab_id')
+                'user.firstname', 'user.lastname', 'charon_lab.name as lab_name', 'charon_lab.id as lab_id',
+                'charon_lab.type')
             ->orderBy('lab_id')
             ->orderBy('charon_defenders.defense_start')
             ->orderBy('charon_defenders.id');
@@ -243,7 +244,7 @@ class DefenseRegistrationRepository
             ->join('charon_lab', 'charon_lab.id', 'charon_defense_lab.lab_id')
             ->select('charon.name', 'charon_lab.start as lab_start', 'charon_lab.end as lab_end',
                 'charon_defenders.teacher_id', 'charon_defenders.submission_id', 'charon_defenders.defense_lab_id',
-                'charon_lab.name as lab_name', 'charon_defenders.progress')
+                'charon_lab.name as lab_name', 'charon_defenders.progress', 'charon_lab.type')
             ->distinct()
             ->get();
     }

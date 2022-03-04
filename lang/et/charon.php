@@ -170,6 +170,7 @@ $string['registration_deletion_confirmation'] = 'Oled sa kindel, et tahad regist
 $string['charon'] = 'Ülesanne';
 $string['lab_start'] = 'Praktikumi algus';
 $string['lab_name'] = 'Praktikum';
+$string['lab_type'] = 'Praktikumi tüüp';
 $string['teacher'] = 'Õpetaja';
 $string['location'] = 'Asukoht';
 $string['comment'] = 'Kommentaar';
