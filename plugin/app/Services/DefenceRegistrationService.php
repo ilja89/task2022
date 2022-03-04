@@ -483,6 +483,15 @@ class DefenceRegistrationService
                 }
             }
             $defenseRegistration->lab_teachers = $defenseLabTeachers;
+
+            if ($defenseRegistration->type == 'Teams') {
+                $submissionUsers = $this->submissionRepository->getSubmissionUsers($defenseRegistration->submission_id);
+                $groupStudentNames = '';
+                foreach ($submissionUsers as $submissionUser) {
+                    $groupStudentNames .= ', ' . $submissionUser->firstname . ' ' .  $submissionUser->lastname;
+                }
+                $defenseRegistration->student_name = substr($groupStudentNames, 1);
+            }
         }
         return $defenseRegistrations;
     }

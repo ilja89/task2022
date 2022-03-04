@@ -786,7 +786,8 @@ class SubmissionsRepository
     {
         return \DB::table('charon_submission_user')
             ->where('charon_submission_user.submission_id', $submissionId)
-            ->select('user_id')
+            ->join('user', 'user.id', 'charon_submission_user.user_id')
+            ->select('user.id', 'user.firstname', 'user.lastname')
             ->get();
     }
 

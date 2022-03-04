@@ -8,6 +8,7 @@ use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
 use TTU\Charon\Repositories\LabRepository;
 use TTU\Charon\Repositories\LabTeacherRepository;
+use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Models\User;
 
 class LabService
@@ -27,6 +28,9 @@ class LabService
     /** @var DefenceRegistrationService */
     private $defenceRegistrationService;
 
+    /** @var SubmissionsRepository */
+    private $submissionsRepository;
+
     /**
      * LabService constructor.
      *
@@ -35,19 +39,22 @@ class LabService
      * @param LabRepository $labRepository,
      * @param CharonRepository $charonRepository
      * @param DefenceRegistrationService $defenceRegistrationService
+     * @param SubmissionsRepository $submissionsRepository
      */
     public function __construct(
         DefenseRegistrationRepository $defenseRegistrationRepository,
         LabTeacherRepository $labTeacherRepository,
         LabRepository $labRepository,
         CharonRepository $charonRepository,
-        DefenceRegistrationService $defenceRegistrationService
+        DefenceRegistrationService $defenceRegistrationService,
+        SubmissionsRepository $submissionsRepository
     ) {
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
         $this->labTeacherRepository = $labTeacherRepository;
         $this->labRepository = $labRepository;
         $this->charonRepository = $charonRepository;
         $this->defenceRegistrationService = $defenceRegistrationService;
+        $this->submissionsRepository = $submissionsRepository;
     }
 
     /**
@@ -174,7 +181,14 @@ class LabService
 
             $registration = $registrations[$i];
 
-            if ($registration->student_id == $user->id) {
+            if ($registration->type == 'Teams') {
+                $submissionUsers = $this->submissionsRepository->getSubmissionUsers($registration->submission_id);
+                $groupStudentNames = '';
+                foreach ($submissionUsers as $submissionUser) {
+                    $groupStudentNames .= ', ' . $submissionUser->firstname . ' ' .  $submissionUser->lastname;
+                }
+                $registration->student_name = substr($groupStudentNames, 1);
+            } elseif ($registration->student_id == $user->id) {
                 $registration->student_name = $user->firstname . " " . $user->lastname;
             } else {
                 $registration->student_name = "";

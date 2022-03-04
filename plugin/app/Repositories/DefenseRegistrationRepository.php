@@ -263,14 +263,17 @@ class DefenseRegistrationRepository
         return DB::table('charon_defenders')
             ->join("charon", "charon.id", "charon_defenders.charon_id")
             ->join("charon_defense_lab","charon_defense_lab.id","charon_defenders.defense_lab_id")
-            ->where("charon_defense_lab.lab_id", $labId)
+            ->join("charon_lab","charon_lab.id","charon_defense_lab.lab_id")
+            ->where("charon_lab.id", $labId)
             ->whereIn("charon_defenders.progress", $progresses)
             ->select(
                 "charon.name as charon_name",
                 "charon.defense_duration",
                 "charon_defenders.student_id",
                 "charon_defenders.defense_start",
-                "charon_defenders.progress"
+                "charon_defenders.progress",
+                "charon_defenders.submission_id",
+                "charon_lab.type"
             )
             ->orderBy("charon_defenders.defense_start")
             ->orderBy('charon_defenders.id')
