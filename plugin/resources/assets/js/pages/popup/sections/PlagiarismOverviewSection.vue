@@ -2,15 +2,22 @@
     <popup-section
         title="Plagiarism overview">
 
-        <div style="display: flex; justify-content: space-around;">
-            <apexcharts height="500px" width="800px" type="bar" :options="charts.barChart.chartOptions"
-                        :series="charts.barChart.series"></apexcharts>
+        <v-row no-gutters>
+            <v-col cols="12" lg="4">
+                <apexcharts type="bar" :options="charts.barChart.chartOptions"
+                            :series="charts.barChart.series"></apexcharts>
+            </v-col>
 
-            <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
-                        :series="donutSeries"></apexcharts>
+            <v-col cols="12" lg="4">
+                <apexcharts type="donut" :options="donutOptions"
+                            :series="donutSeries"></apexcharts>
+            </v-col>
 
-            <VisNetwork style="height: 500px; width: 800px" :nodes="networkNodes" :edges="networkEdges"></VisNetwork>
-        </div>
+            <v-col cols="12" lg="4">
+                <VisNetwork :nodes="networkNodes"
+                            :edges="networkEdges"></VisNetwork>
+            </v-col>
+        </v-row>
 
     </popup-section>
 </template>
@@ -38,6 +45,8 @@ export default {
                         },
                         chart: {
                             type: 'bar',
+                            width: '100%',
+                            height: 500
                         },
                         xaxis: {
                             categories: ['0-19', '20-39', '40-59', '60-79', '80-100'],
@@ -59,6 +68,8 @@ export default {
                         },
                         chart: {
                             type: 'donut',
+                            width: '100%',
+                            height: 500
                         },
                         labels: ['Acceptable', 'New', 'Plagiarism'],
                     },
