@@ -9,7 +9,7 @@
             <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
                         :series="donutSeries"></apexcharts>
 
-            <VisNetwork style="height: 400px; width: 400px" :nodes="networkNodes" :edges="networkEdges"></VisNetwork>
+            <VisNetwork style="height: 500px; width: 800px" :nodes="networkNodes" :edges="networkEdges"></VisNetwork>
         </div>
 
     </popup-section>
@@ -18,13 +18,12 @@
 <script>
 import PopupSection from "../layouts/PopupSection";
 import VueApexCharts from "vue-apexcharts";
-import D3Network from 'vue-d3-network';
 import VisNetwork from "./VisNetwork";
 import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER, valueToGroup} from '../../../helpers/PlagiarismColors';
 
 export default {
     name: "PlagiarismOverviewSection",
-    components: {PopupSection, 'apexcharts': VueApexCharts, 'd3-network': D3Network, VisNetwork},
+    components: {PopupSection, 'apexcharts': VueApexCharts, VisNetwork},
     props: ['matches'],
     data() {
         return {
@@ -199,6 +198,6 @@ export default {
 }
 </script>
 
-<style scoped src="vue-d3-network/dist/vue-d3-network.css">
+<style scoped>
 
 </style>

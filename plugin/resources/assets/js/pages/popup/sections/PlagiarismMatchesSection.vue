@@ -17,7 +17,6 @@
                     </v-row>
                 </template>
             </v-data-table>
-            <pre v-html="matches" style="max-height: 900px; width: 1000px"></pre>
         </div>
 
     </popup-section>
