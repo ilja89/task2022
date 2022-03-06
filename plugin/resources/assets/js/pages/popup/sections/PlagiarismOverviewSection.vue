@@ -2,28 +2,44 @@
     <popup-section
         title="Plagiarism overview">
 
-        <v-row>
-            <v-spacer/>
-            <v-col cols="12" lg="4">
-                <apexcharts type="bar" :options="charts.barChart.chartOptions"
-                            :series="charts.barChart.series"></apexcharts>
-            </v-col>
+        <template slot="header-right">
+            <v-btn
+                class="ma-2"
+                tile
+                outlined
+                color="primary"
+                :disabled="!matchesExist || graphsLoaded"
+                @click="loadGraphs"
+            >
+                Load graphs
+            </v-btn>
+        </template>
 
-            <v-col cols="12" lg="4">
-                <apexcharts type="donut" :options="donutOptions"
-                            :series="donutSeries"></apexcharts>
-            </v-col>
-            <v-spacer/>
-        </v-row>
 
-        <v-row>
-            <v-spacer/>
-            <v-col cols="12" lg="6">
-                <VisNetwork :nodes="networkNodes"
-                            :edges="networkEdges"></VisNetwork>
-            </v-col>
-            <v-spacer/>
-        </v-row>
+        <div v-if="graphsLoaded">
+            <v-row justify="space-around" class="mt-5">
+                <v-col cols="12" md="6">
+                    <apexcharts type="bar" class="graph apexGraph" :options="charts.barChart.chartOptions"
+                                :series="charts.barChart.series"></apexcharts>
+                </v-col>
+
+                <v-col cols="12" md="4">
+                    <apexcharts type="donut" class="graph apexGraph" :options="donutOptions"
+                                :series="donutSeries"></apexcharts>
+                </v-col>
+            </v-row>
+
+            <v-row justify="center" class="mt-12">
+                <v-col cols="12" md="6">
+                    <VisNetwork class="graph" :nodes="networkNodes"
+                                :edges="networkEdges"></VisNetwork>
+                </v-col>
+            </v-row>
+        </div>
+
+        <div v-else>
+            {{ empty }}
+        </div>
 
     </popup-section>
 </template>
@@ -52,7 +68,8 @@ export default {
                         chart: {
                             type: 'bar',
                             width: 650,
-                            height: 450
+                            height: 450,
+                            background: '#f0ffff'
                         },
                         xaxis: {
                             categories: ['0-19', '20-39', '40-59', '60-79', '80-100'],
@@ -75,7 +92,7 @@ export default {
                         chart: {
                             type: 'donut',
                             width: 400,
-                            height: 400
+                            height: 400,
                         },
                         labels: ['Acceptable', 'New', 'Plagiarism'],
                     },
@@ -87,6 +104,9 @@ export default {
                     chartEdges: []
                 },
             },
+            empty: 'No graphs loaded',
+            loadGraphsTooltip: 'Fetch matches first',
+            graphsLoaded: false
         }
     },
 
@@ -125,6 +145,10 @@ export default {
         networkEdges() {
             return this.charts.networkChart.chartEdges
         },
+
+        matchesExist() {
+            return this.matches && this.matches.length
+        }
     },
 
     methods: {
@@ -210,11 +234,23 @@ export default {
 
             this.charts.networkChart.chartNodes = nodes
             this.charts.networkChart.chartEdges = edges
+        },
+
+        loadGraphs() {
+            this.graphsLoaded = true
         }
     }
 }
 </script>
 
 <style scoped>
+.graph {
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background: #f0ffff;
+}
 
+.apexGraph {
+    padding: 10px;
+}
 </style>
