@@ -2,15 +2,28 @@
     <popup-section
         title="Plagiarism overview">
 
-        <div style="display: flex; justify-content: space-around;">
-            <apexcharts height="500px" width="800px" type="bar" :options="charts.barChart.chartOptions"
-                        :series="charts.barChart.series"></apexcharts>
+        <v-row>
+            <v-spacer/>
+            <v-col cols="12" lg="4">
+                <apexcharts type="bar" :options="charts.barChart.chartOptions"
+                            :series="charts.barChart.series"></apexcharts>
+            </v-col>
 
-            <apexcharts height="500px" width="500px" type="donut" :options="donutOptions"
-                        :series="donutSeries"></apexcharts>
+            <v-col cols="12" lg="4">
+                <apexcharts type="donut" :options="donutOptions"
+                            :series="donutSeries"></apexcharts>
+            </v-col>
+            <v-spacer/>
+        </v-row>
 
-            <VisNetwork style="height: 500px; width: 800px" :nodes="networkNodes" :edges="networkEdges"></VisNetwork>
-        </div>
+        <v-row>
+            <v-spacer/>
+            <v-col cols="12" lg="6">
+                <VisNetwork :nodes="networkNodes"
+                            :edges="networkEdges"></VisNetwork>
+            </v-col>
+            <v-spacer/>
+        </v-row>
 
     </popup-section>
 </template>
@@ -38,6 +51,8 @@ export default {
                         },
                         chart: {
                             type: 'bar',
+                            width: 650,
+                            height: 450
                         },
                         xaxis: {
                             categories: ['0-19', '20-39', '40-59', '60-79', '80-100'],
@@ -59,6 +74,8 @@ export default {
                         },
                         chart: {
                             type: 'donut',
+                            width: 400,
+                            height: 400
                         },
                         labels: ['Acceptable', 'New', 'Plagiarism'],
                     },

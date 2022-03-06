@@ -1,5 +1,5 @@
 <template>
-    <div ref="visNetwork"></div>
+    <div ref="visNetwork" id="networkcanvas"></div>
 </template>
 
 <script>
@@ -57,6 +57,7 @@ export default {
             networkNodes: new DataSet(),
             networkEdges: new DataSet(),
             options: {
+                height: "400px",
                 edges: {
                     width: 2,
                 },
