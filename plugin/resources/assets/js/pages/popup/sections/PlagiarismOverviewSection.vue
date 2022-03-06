@@ -2,7 +2,8 @@
     <popup-section
         title="Plagiarism overview">
 
-        <v-row no-gutters>
+        <v-row>
+            <v-spacer/>
             <v-col cols="12" lg="4">
                 <apexcharts type="bar" :options="charts.barChart.chartOptions"
                             :series="charts.barChart.series"></apexcharts>
@@ -12,11 +13,16 @@
                 <apexcharts type="donut" :options="donutOptions"
                             :series="donutSeries"></apexcharts>
             </v-col>
+            <v-spacer/>
+        </v-row>
 
-            <v-col cols="12" lg="4">
+        <v-row>
+            <v-spacer/>
+            <v-col cols="12" lg="6">
                 <VisNetwork :nodes="networkNodes"
                             :edges="networkEdges"></VisNetwork>
             </v-col>
+            <v-spacer/>
         </v-row>
 
     </popup-section>
@@ -45,8 +51,8 @@ export default {
                         },
                         chart: {
                             type: 'bar',
-                            width: '100%',
-                            height: 500
+                            width: 650,
+                            height: 450
                         },
                         xaxis: {
                             categories: ['0-19', '20-39', '40-59', '60-79', '80-100'],
@@ -68,8 +74,8 @@ export default {
                         },
                         chart: {
                             type: 'donut',
-                            width: '100%',
-                            height: 500
+                            width: 400,
+                            height: 400
                         },
                         labels: ['Acceptable', 'New', 'Plagiarism'],
                     },
