@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #771 Added matches fetching to popup from plagiarism api
 
 ### Fixed
+- #781 Remove code span padding-left from assignment.css
+- #795 Restored Mobile-ID component
 
 
 ## [1.6.0] - 2022-02-10
