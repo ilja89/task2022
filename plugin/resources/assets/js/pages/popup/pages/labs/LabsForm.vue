@@ -101,8 +101,8 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
                                                     outlined
-                                                    @click="registrationToggle('Group')"
-                                                    :class="[checkRegistrationType('Group') ? 'grp-type-btn-active' : '' ]"
+                                                    @click="registrationToggle('Groups')"
+                                                    :class="[checkRegistrationType('Groups') ? 'grp-type-btn-active' : '' ]"
                                                     v-bind="attrs"
                                                     v-on="on"
                                                 >
@@ -126,7 +126,7 @@
                                             <span>Registration is per team, team need to be in grouping</span>
                                         </v-tooltip>
                                     </div>
-                                    <add-groups-selector v-if="checkRegistrationType('Group')"
+                                    <add-groups-selector v-if="checkRegistrationType('Groups')"
                                                          :lab="lab" :courseGroups="courseGroups"
                                                          :courseGroupings="courseGroupings"
                                     ></add-groups-selector>
@@ -231,7 +231,6 @@
                 filteredCharons: [],
                 labDuration: 0,
                 registrations: 0,
-                registrationType: 'Everyone',
                 courseGroups: [],
                 courseGroupings: [],
             }
@@ -278,17 +277,12 @@
                     this.lab.name = this.namePlaceholder;
                 }
 
-                let groups;
+                let groups = [];
+                let groupings = [];
 
-                if (this.registrationType === "Teams") {
-                    groups = [];
-                    console.log(this.lab.groupings);
-                    this.lab.groupings.forEach(grouping => grouping.groups.forEach( function (group) {
-                        if (!groups.find( (g) => { return g.id == group.id; } )) {
-                            groups.push(group.id);
-                        }
-                    }));
-                } else {
+                if (this.lab.type === "Teams") {
+                    groupings = _.map(this.lab.groupings, "id");
+                } else if (this.lab.type === "Groups") {
                     groups = _.map(this.lab.groups, "id");
                 }
 
@@ -310,24 +304,24 @@
                     // are already fetched for current lab and shown to user.
                     // Second click to Save confirms update on this case.
                     if (_.isEmpty(filter) || (this.registrations > 0)) {
-                        this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups);
+                        this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups, groupings);
                     } else {
                         this.registrations = -1;
                         Lab.checkRegistrations(this.course.id, this.lab.id, filter, (result) => {
                             this.registrations = result;
                             if (result === 0) {
-                                this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups);
+                                this.updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups, groupings);
                             }
                         });
                     }
-                    } else {
-                        Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers,
-                            chosenCharons, groups, this.registrationType, this.lab.weeks, () => {
-                            window.location = "popup#/labs";
-                            window.location.reload();
-                            VueEvent.$emit('show-notification', 'Lab saved!');
-                        })
-                    }
+                } else {
+                    Lab.save(this.course.id, this.lab.start.time, this.lab.end.time, this.lab.name, chosenTeachers,
+                        chosenCharons, groups, groupings, this.lab.type, this.lab.weeks, () => {
+                        window.location = "popup#/labs";
+                        window.location.reload();
+                        VueEvent.$emit('show-notification', 'Lab saved!');
+                    })
+                }
             },
             cancelClicked() {
                 window.location = "popup#/labs";
@@ -386,16 +380,16 @@
             },
 
             registrationToggle(type) {
-                this.registrationType = type;
+                this.lab.type = type;
             },
 
             checkRegistrationType(type) {
-                return this.registrationType === type;
+                return this.lab.type === type;
             },
 
-            updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups){
+            updateLab(giveStart, giveEnd, chosenTeachers, chosenCharons, groups, groupings){
                 Lab.update(this.course.id, this.lab.id, giveStart, giveEnd, this.lab.name, chosenTeachers,
-                    chosenCharons, groups, this.registrationType, () => {
+                    chosenCharons, groups, groupings, this.lab.type, () => {
                     window.location = "popup#/labs";
                     window.location.reload();
                     VueEvent.$emit('show-notification', 'Lab updated!');
@@ -417,7 +411,11 @@
             }
         },
 
-        created() {
+        mounted() {
+           console.log(this.lab)
+        },
+
+      created() {
             Teacher.getAllTeachers(this.course.id, (response) => {
                 this.teachers = response;
             })
@@ -447,7 +445,7 @@
             },
 
             getRegistrationType() {
-                this.registrationType = this.lab.groups.length > 0 ? 'Group':
+                this.lab.type = this.lab.groups.length > 0 ? 'Groups':
                     this.lab.groupings.length > 0 ? 'Teams' : 'Everyone'
             }
         }

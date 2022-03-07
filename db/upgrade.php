@@ -822,7 +822,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022021101) {
+    if ($oldversion < 2022030602) {
         $table = new xmldb_table("charon_defenders");
 
         $sql = "ALTER TABLE mdl_charon_defenders DROP INDEX IF EXISTS " . $CFG->prefix . "chardefe_chotea_uix";
@@ -878,6 +878,31 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);
+        }
+
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_lab_grouping(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    lab_id BIGINT(10) NOT NULL," .
+            "    grouping_id BIGINT(10) NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_charon_lab_grouping_charon_lab (lab_id)," .
+            "    CONSTRAINT UQ_charon_lab_lab_and_grouping UNIQUE (lab_id, grouping_id)," .
+            "    CONSTRAINT FK_charon_lab_grouping_charon_lab" .
+            "        FOREIGN KEY (lab_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon_lab(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE," .
+            "    CONSTRAINT FK_charon_lab_grouping_groupings" .
+            "        FOREIGN KEY (grouping_id)" .
+            "            REFERENCES " . $CFG->prefix . "groupings(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_lab_groupings");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
         }
     }
 

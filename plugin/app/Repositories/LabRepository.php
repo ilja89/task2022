@@ -7,6 +7,7 @@ use Carbon\CarbonInterval;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use TTU\Charon\Models\CharonDefenseLab;
 use TTU\Charon\Models\Lab;
+use TTU\Charon\Models\LabGrouping;
 use TTU\Charon\Models\LabTeacher;
 use TTU\Charon\Models\LabGroup;
 use Zeizig\Moodle\Services\ModuleService;
@@ -55,11 +56,12 @@ class LabRepository
      * @param $teachers
      * @param $charons
      * @param $groups
+     * @param $groupings
      * @param $weeks
-     *
+     * @param $type
      * @return boolean
      */
-    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $weeks, $type)
+    public function save($start, $end, $name, $courseId, $teachers, $charons, $groups, $groupings, $weeks, $type)
     {
         $allCarbonStartDatesForLabs = array();
 
@@ -111,11 +113,20 @@ class LabRepository
                 ])->save();
             }
 
-            foreach ($groups as $group) {
-                LabGroup::create([
-                    'lab_id' => $lab->id,
-                    'group_id' => $group
-                ])->save();
+            if ($type == 'Groups') {
+                foreach ($groups as $group) {
+                    LabGroup::create([
+                        'lab_id' => $lab->id,
+                        'group_id' => $group
+                    ])->save();
+                }
+            } elseif ($type == 'Teams') {
+                foreach ($groupings as $grouping) {
+                    LabGrouping::create([
+                        'lab_id' => $lab->id,
+                        'grouping_id' => $grouping
+                    ])->save();
+                }
             }
 
             $lab->save();
@@ -162,6 +173,8 @@ class LabRepository
 
         CharonDefenseLab::where('lab_id', $id)->delete();
         LabTeacher::where('lab_id', $id)->delete();
+        LabGroup::where('lab_id', $id)->delete();
+        LabGrouping::where('lab_id', $id)->delete();
 
         $lab->delete();
         return $lab;
@@ -177,10 +190,11 @@ class LabRepository
      * @param $newTeachers
      * @param $newCharons
      * @param $newGroups
-     *
+     * @param $newGroupings
+     * @param $newType
      * @return Lab
      */
-    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups, $newType)
+    public function update($oldLabId, $newStart, $newEnd, $name, $newTeachers, $newCharons, $newGroups, $newGroupings, $newType)
     {
         $newStartCarbon = Carbon::parse($newStart);
         $newEndCarbon = Carbon::parse($newEnd);
@@ -241,18 +255,45 @@ class LabRepository
         }
 
         $oldGroups = $this->getGroupsForLab($oldLabId)->pluck('id')->toArray();
-        $toBeRemoved = array_diff($oldGroups, $newGroups);
-        $toBeAdded = array_diff($newGroups, $oldGroups);
+        $oldGroupings = $this->getGroupingsForLab($oldLabId)->pluck('id')->toArray();
 
-        foreach ($toBeRemoved as $id) {
-            $this->deleteGroupForLab($oldLabId, $id);
-        }
+        if ($newType == 'Groups') {
+            $toBeRemoved = array_diff($oldGroups, $newGroups);
+            $toBeAdded = array_diff($newGroups, $oldGroups);
 
-        foreach ($toBeAdded as $id) {
-            LabGroup::create([
-                'lab_id' => $oldLabId,
-                'group_id' => $id
-            ])->save();
+            foreach ($toBeRemoved as $id) {
+                $this->deleteGroupForLab($oldLabId, $id);
+            }
+
+            foreach ($toBeAdded as $id) {
+                LabGroup::create([
+                    'lab_id' => $oldLabId,
+                    'group_id' => $id
+                ])->save();
+            }
+
+            $this->deleteAllLabGroupings($oldLabId);
+
+        } elseif ($newType == 'Teams') {
+            $toBeRemoved = array_diff($oldGroupings, $newGroupings);
+            $toBeAdded = array_diff($newGroupings, $oldGroupings);
+
+            foreach ($toBeRemoved as $id) {
+                $this->deleteGroupingForLab($oldLabId, $id);
+            }
+
+            foreach ($toBeAdded as $id) {
+                LabGrouping::create([
+                    'lab_id' => $oldLabId,
+                    'grouping_id' => $id
+                ])->save();
+            }
+
+            $this->deleteAllLabGroups($oldLabId);
+
+        } else {
+            $this->deleteAllLabGroupings($oldLabId);
+            $this->deleteAllLabGroups($oldLabId);
         }
 
         $oldLab->save();
@@ -270,15 +311,15 @@ class LabRepository
     {
         $labs = \DB::table('charon_lab')
             ->where('course_id', $courseId)
-            ->select('id', 'start', 'end', 'name', 'course_id')
+            ->select('id', 'start', 'end', 'name', 'course_id', 'type')
             ->orderBy('start')
             ->get();
 
-        for ($i = 0; $i < count($labs); $i++) {
-            $labs[$i]->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($courseId, $labs[$i]->id);
-            $labs[$i]->charons = $this->getCharonsForLab($courseId, $labs[$i]->id);
-            $labs[$i]->groups = $this->getGroupsForLab($labs[$i]->id);
-            $labs[$i]->groupings = [];
+        foreach ($labs as $lab) {
+            $lab->teachers = $this->labTeacherRepository->getTeachersByLabAndCourse($courseId, $lab->id);
+            $lab->charons = $this->getCharonsForLab($courseId, $lab->id);
+            $lab->groups = $this->getGroupsForLab($lab->id);
+            $lab->groupings = $this->getGroupingsForLab($lab->id);
         }
 
         return $labs;
@@ -432,9 +473,8 @@ class LabRepository
     /**
      * Gets the groups array for lab.
      *
-     * @param int $courseId     The course identifier
-     * @param int $labId        The lab identifier
-     * @return []               Groups for lab.
+     * @param $labId
+     * @return array Groups for lab.
      */
     public function getGroupsForLab($labId)
     {
@@ -444,13 +484,16 @@ class LabRepository
             ->get();
     }
 
+    /**
+     * Gets the groupings array for lab.
+     *
+     * @param $labId
+     * @return array Groupings for lab.
+     */
     public function getGroupingsForLab($labId)
     {
-        return \DB::table('charon_lab_group')
-            ->where('lab_id', $labId)
-            ->join('groups', 'groups.id', 'charon_lab_group.group_id')
-            ->join('groupings_groups', 'groupings_groups.groupingid', 'groups.id')
-            ->join('groupings', 'groupings.id', 'groupings_groups.groupid')
+        return LabGrouping::where('lab_id', $labId)
+            ->join('groupings', 'groupings.id', 'charon_lab_grouping.grouping_id')
             ->select('groupings.id', 'groupings.name')
             ->get();
     }
@@ -465,6 +508,41 @@ class LabRepository
     {
         LabGroup::where('lab_id', $labId)
             ->where('group_id', $groupId)
+            ->delete();
+    }
+
+    /**
+     * Deletes all groups from lab
+     *
+     * @param int $labId        The lab identifier
+     */
+    public function deleteAllLabGroups($labId)
+    {
+        LabGroup::where('lab_id', $labId)
+            ->delete();
+    }
+
+    /**
+     * Deletes grouping from lab
+     *
+     * @param int $labId        The lab identifier
+     * @param int groupId       The group identifier
+     */
+    public function deleteGroupingForLab($labId, $groupingId)
+    {
+        LabGrouping::where('lab_id', $labId)
+            ->where('grouping_id', $groupingId)
+            ->delete();
+    }
+
+    /**
+     * Deletes all groupings from lab
+     *
+     * @param int $labId        The lab identifier
+     */
+    public function deleteAllLabGroupings($labId)
+    {
+        LabGrouping::where('lab_id', $labId)
             ->delete();
     }
 

@@ -67,9 +67,11 @@ class LabService
      * @param $teachers
      * @param $charons
      * @param $groups
+     * @param $groupings
+     * @param $type
      * @return Lab
      */
-    public function update($labId, $startDateTime, $endDateTime, $labName, $teachers, $charons, $groups, $type): Lab
+    public function update($labId, $startDateTime, $endDateTime, $labName, $teachers, $charons, $groups, $groupings, $type): Lab
     {
         $removedTeachers = $this->labTeacherRepository->getTeachersByLabWhichNotInList($labId, $teachers);
         $updatedLab = $this->labRepository->update(
@@ -80,6 +82,7 @@ class LabService
             $teachers,
             $charons,
             $groups,
+            $groupings,
             $type
         );
         if (count($removedTeachers) > 0) {

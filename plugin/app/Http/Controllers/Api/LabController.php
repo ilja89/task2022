@@ -75,6 +75,7 @@ class LabController extends Controller
             $this->request['teachers'],
             $this->request['charons'],
             $this->request['groups'],
+            $this->request['groupings'],
             $this->request['weeks'],
             $this->request['type']
         );
@@ -97,6 +98,7 @@ class LabController extends Controller
             $this->request['teachers'],
             $this->request['charons'],
             $this->request['groups'],
+            $this->request['groupings'],
             $this->request['type']
         );
     }

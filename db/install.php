@@ -236,7 +236,13 @@ function apply_constraints() {
             "FOREIGN KEY (user_id) REFERENCES {user} (id) ON DELETE CASCADE ON UPDATE CASCADE",
 
         "ALTER TABLE {charon_review_comment} ADD CONSTRAINT FK_charon_review_comment_submission_file " . 
-            "FOREIGN KEY (submission_file_id) REFERENCES {charon_submission_file} (id) ON DELETE CASCADE ON UPDATE CASCADE"
+            "FOREIGN KEY (submission_file_id) REFERENCES {charon_submission_file} (id) ON DELETE CASCADE ON UPDATE CASCADE",
+
+        "ALTER TABLE {charon_lab_grouping} ADD CONSTRAINT FK_charon_lab_grouping_charon_lab " .
+        "FOREIGN KEY (lab_id) REFERENCES {charon_lab} (id) ON DELETE CASCADE ON UPDATE CASCADE",
+
+        "ALTER TABLE {charon_lab_grouping} ADD CONSTRAINT FK_charon_lab_grouping_groupings " .
+        "FOREIGN KEY (grouping_id) REFERENCES {groupings} (id) ON DELETE CASCADE ON UPDATE CASCADE",
     );
 
     foreach ($cmds as $cmd) {
