@@ -11,6 +11,7 @@
 
         <plagiarism-overview-section :matches="matches"></plagiarism-overview-section>
 
+        <PlagiarismStudentHistorySection></PlagiarismStudentHistorySection>
     </div>
 </template>
 
@@ -18,13 +19,13 @@
 import {mapState} from 'vuex'
 
 import {PageTitle} from '../partials'
-import {PlagiarismResultsSection, PlagiarismMatchesSection, PlagiarismOverviewSection} from '../sections'
+import {PlagiarismResultsSection, PlagiarismMatchesSection, PlagiarismOverviewSection, PlagiarismStudentHistorySection} from '../sections'
 import {Plagiarism} from '../../../api'
 
 export default {
     name: 'plagiarism-page',
 
-    components: {PlagiarismOverviewSection, PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection},
+    components: {PlagiarismOverviewSection, PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection, PlagiarismStudentHistorySection},
 
     data() {
         return {
