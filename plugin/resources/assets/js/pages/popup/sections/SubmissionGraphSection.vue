@@ -2,88 +2,106 @@
     <popup-section title="Submissions graphs" subtitle="Graphs showing the number of submissions data">
 
         <template slot="header-right">
-          <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissions">Load Data</v-btn>
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchSubmissions">Load Data</v-btn>
         </template>
 
-        <v-card-title v-if="value">
-          <graph :title="graphTitleEveryDay" :options="graphSubmissionsEveryDayOptions" :series="graphSubmissionsEveryDaySeries"></graph>
-          <graph :title="graphTitleToday" :options="graphSubmissionsTodayOptions" :series="graphSubmissionsTodaySeries"></graph>
-        </v-card-title>
-        <v-card-title v-else>
+        <div v-if="value">
+            <v-row>
+                <v-col>
+                    <span>{{ graphTitleEveryDay }}</span>
+                    <apexcharts type="line" :options="graphSubmissionsEveryDayOptions"
+                                :series="graphSubmissionsEveryDaySeries"></apexcharts>
+                </v-col>
+
+                <v-col>
+                    <span>{{ graphTitleToday }}</span>
+                    <apexcharts type="line" :options="graphSubmissionsTodayOptions"
+                                :series="graphSubmissionsTodaySeries"></apexcharts>
+                </v-col>
+            </v-row>
+        </div>
+
+        <div v-else>
             {{ empty }}
-        </v-card-title>
+        </div>
 
     </popup-section>
 </template>
 
 <script>
-    import {PopupSection} from '../layouts/index'
-    import VueApexCharts from "vue-apexcharts";
-    import {Graph} from "../partials";
+import {PopupSection} from '../layouts/index'
+import VueApexCharts from "vue-apexcharts";
+import {Graph} from "../partials";
 
-    export default {
+export default {
 
-        name: 'submission-graph-section',
-        components: {PopupSection, apexcharts: VueApexCharts, Graph},
+    name: 'submission-graph-section',
+    components: {PopupSection, apexcharts: VueApexCharts, Graph},
 
-        data() {
+    data() {
+        return {
+            value: false,
+            empty: 'Click on Load Data to show the data',
+            graphTitleEveryDay: 'Graph showing the number of submissions for every day',
+            graphTitleToday: 'Graph showing the number of submissions for today',
+        }
+    },
+
+    props: {
+        graphDataEveryDay: {
+            required: true,
+            default: []
+        },
+        graphDataToday: {
+            required: true,
+            default: []
+        }
+    },
+
+    computed: {
+        graphSubmissionsEveryDayOptions() {
             return {
-              value: false,
-              empty: 'Click on Load Data to show the data',
-              graphTitleEveryDay: 'Graph showing the number of submissions for every day',
-              graphTitleToday: 'Graph showing the number of submissions for today',
+                xaxis: {
+                    categories: this.graphDataEveryDay.map(sub => sub.dateRow)
+                },
+                chart: {
+                    height: 400
+                }
             }
         },
 
-        props: {
-          graphDataEveryDay: {
-            required: true,
-            default: []
-          },
-          graphDataToday: {
-            required: true,
-            default: []
-          }
-        },
-
-        computed: {
-          graphSubmissionsEveryDayOptions() {
-            return {
-              xaxis: {
-                categories: this.graphDataEveryDay.map(sub => sub.dateRow)
-              }
-            }
-          },
-
-          graphSubmissionsEveryDaySeries() {
+        graphSubmissionsEveryDaySeries() {
             return [{
                 name: 'submissions',
                 data: this.graphDataEveryDay.map(sub => sub.count)
-              }]
-          },
-
-          graphSubmissionsTodayOptions() {
-            return {
-              xaxis: {
-                categories: this.graphDataToday.map(sub => sub.time.slice(0, sub.time.lastIndexOf(":")))
-              }
-            }
-          },
-
-          graphSubmissionsTodaySeries() {
-            return [{
-              name: 'submissions',
-              data: this.graphDataToday.map(sub => sub.count)
             }]
-          }
         },
 
-        methods: {
-          fetchSubmissions() {
-              this.value = true;
-            },
+        graphSubmissionsTodayOptions() {
+            return {
+                xaxis: {
+                    categories: this.graphDataToday.map(sub => sub.time.slice(0, sub.time.lastIndexOf(":")))
+                },
+                chart: {
+                    height: 400
+                }
+            }
         },
-    }
+
+        graphSubmissionsTodaySeries() {
+            return [{
+                name: 'submissions',
+                data: this.graphDataToday.map(sub => sub.count)
+            }]
+        }
+    },
+
+    methods: {
+        fetchSubmissions() {
+            this.value = true;
+        },
+    },
+}
 </script>
 
 <style scoped>
