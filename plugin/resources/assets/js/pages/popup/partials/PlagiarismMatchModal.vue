@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="isActive" width="95vw" style="position: relative; z-index: 3000"
-              transition="dialog-bottom-transition">
+              transition="dialog-bottom-transition" scrollable>
         <template v-slot:activator="{ on, attrs }">
             <v-btn icon
                    :class="{ signal: 'green'}"
@@ -14,8 +14,7 @@
 
         <v-card style="background-color: white; overflow-y: hidden" height="90vh">
             <v-toolbar dark>
-                <span class="headline">({{ this.match.percentage }}%) - ({{ this.match.other_percentage }}%)</span>
-                <a v-bind:href="this.match.moss_url" target="_blank">Moss match url</a>
+                <a class="headline" v-bind:href="this.match.moss_url" target="_blank">Moss match</a>
                 <v-spacer></v-spacer>
 
                 <v-btn color="error" @click="isActive = false">
@@ -24,41 +23,57 @@
             </v-toolbar>
 
             <v-card-text class="pt-4" style="height: 95%">
-                <div style="width: 20%; max-height: 30%; overflow-y: auto;margin-left: auto; margin-right: auto">
-                    <v-simple-table dense>
-                        <template v-slot:default>
-                            <thead>
-                            <tr>
-                                <th style="text-align: center;">
-                                    {{ match.uniid }}
-                                </th>
-                                <th style="text-align: center;">
-                                    {{ match.other_uniid }}
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="similarity in similaritiesTable.similarities" :key="similarity.id">
-                                <td>
-                                    <div class="d-flex justify-center">
-                                        <v-btn :color="similarity.color"
-                                               @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines)">
-                                            {{ similarity.lines }}
-                                        </v-btn>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-center">
-                                        <v-btn :color="similarity.color"
-                                               @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines)">
-                                            {{ similarity.other_lines }}
-                                        </v-btn>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </template>
-                    </v-simple-table>
+                <div style="height: 25%;">
+                    <div class="info-field headline" style="text-align: center;">
+                        {{ match.uniid }} - {{ match.percentage }}%
+                        <v-btn href="https://gitlab.cs.ttu.ee/divahe/iti0102-2019/-/tree/f5245668a65471cf170b225cb0d4e30674b72cbd/ex11_order" target="_blank">
+                            GitLab
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                    </div>
+                    <div class="info-field" style="height: 100%;overflow-y: scroll">
+                        <v-simple-table dense style="overflow-y: auto;width: 100%; margin-left: auto; margin-right: auto">
+                            <template v-slot:default>
+<!--                                <thead>
+                                <tr>
+                                    <th style="text-align: center;">
+                                        {{ match.uniid }} - {{ match.percentage }}%
+                                    </th>
+                                    <th style="text-align: center;">
+                                        {{ match.other_uniid }} - {{ match.other_percentage }}%
+                                    </th>
+                                </tr>
+                                </thead>-->
+                                <tbody>
+                                <tr v-for="similarity in similaritiesTable.similarities" :key="similarity.id">
+                                    <td>
+                                        <div class="d-flex justify-center">
+                                            <v-btn :color="similarity.color"
+                                                   @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines)">
+                                                {{ similarity.lines }}
+                                            </v-btn>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-center">
+                                            <v-btn :color="similarity.color"
+                                                   @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines)">
+                                                {{ similarity.other_lines }}
+                                            </v-btn>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </template>
+                        </v-simple-table>
+                    </div>
+                    <div class="info-field headline" style="text-align: center">
+                        {{ match.other_uniid }} - {{ match.other_percentage }}%
+                        <v-btn v-bind:href="'#/grading/2'" target="_blank">
+                            Student overview
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                    </div>
                 </div>
                 <div class="field" style="height: 70%">
                     <AceEditor
@@ -70,7 +85,7 @@
                         :lang="testerType"
                         theme="crimson_editor"
                         width="100%"
-                        height="500px"
+                        height="100%"
                         :options="{
                     fontSize: 14,
                     enableSnippets: true,
@@ -92,7 +107,7 @@
                         :lang="testerType"
                         theme="crimson_editor"
                         width="100%"
-                        height="500px"
+                        height="100%"
                         :options="{
                     fontSize: 14,
                     enableSnippets: true,
@@ -272,6 +287,11 @@ export default {
 
 .field {
     width: 50%;
+    float: left;
+    padding: 5px;
+}
+.info-field {
+    width: 33.33%;
     float: left;
     padding: 5px;
 }
