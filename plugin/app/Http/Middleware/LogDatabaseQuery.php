@@ -37,16 +37,21 @@ class LogDatabaseQuery
     public function handle(Request $request, Closure $next)
     {
         $user = app(User::class)->currentUser();
+        $courseId = app(Course::class)->getCourseId();
         $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
+
+        if ($user) {
+            $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
+        } else {
+            $userEnabled = null;
+            Log::channel('db')->debug("Could not find the user making the request at URL: {$request->fullUrl()}");
+        }
 
         if ($userEnabled) {
             DB::enableQueryLog();
         }
 
         $response = $next($request);
-
-
-        $courseId = app(Course::class)->getCourseId();
 
         if ($userEnabled) {
             $this->log($request, $courseId, $user->username);
