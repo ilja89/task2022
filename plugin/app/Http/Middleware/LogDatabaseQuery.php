@@ -45,6 +45,13 @@ class LogDatabaseQuery
             $userEnabled = null;
         }
 
+        if ($user) {
+            $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
+        } else {
+            $userEnabled = null;
+            Log::channel('db')->debug("Could not find the user making the request at URL: {$request->fullUrl()}");
+        }
+
         if ($userEnabled) {
             DB::enableQueryLog();
         }
