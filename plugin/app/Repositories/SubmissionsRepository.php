@@ -2,14 +2,13 @@
 
 namespace TTU\Charon\Repositories;
 
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Models\TestSuite;
 use TTU\Charon\Models\UnitTest;
 
@@ -100,18 +99,18 @@ class SubmissionsRepository
 
         $submissions = DB::select(
             'SELECT DISTINCT cs1.id '
-            . 'FROM ' . $prefix . 'charon_submission AS cs1 '
-            . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
-            . 'JOIN ( '
-            . '    SELECT '
-            . '        csu2.user_id, '
-            . '        max(cs2.created_at) AS created_at '
-            . '    FROM ' . $prefix . 'charon_submission AS cs2 '
-            . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
-            . '    WHERE cs2.charon_id = ? '
-            . '    GROUP BY csu2.user_id '
-            . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
-            . 'WHERE cs1.charon_id = ?',
+                . 'FROM ' . $prefix . 'charon_submission AS cs1 '
+                . 'JOIN ' . $prefix . 'charon_submission_user AS csu1 ON cs1.id = csu1.submission_id '
+                . 'JOIN ( '
+                . '    SELECT '
+                . '        csu2.user_id, '
+                . '        max(cs2.created_at) AS created_at '
+                . '    FROM ' . $prefix . 'charon_submission AS cs2 '
+                . '    JOIN ' . $prefix . 'charon_submission_user AS csu2 ON cs2.id = csu2.submission_id '
+                . '    WHERE cs2.charon_id = ? '
+                . '    GROUP BY csu2.user_id '
+                . ') AS latest_per_user ON csu1.user_id = latest_per_user.user_id AND cs1.created_at = latest_per_user.created_at '
+                . 'WHERE cs1.charon_id = ?',
             [$charonId, $charonId]
         );
 
@@ -141,11 +140,11 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return Paginator
+     * @return mixed
      */
     public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
     {
-        $fields = [
+        $submissionFields = [
             'charon_submission.id',
             'charon_submission.charon_id',
             'charon_submission.confirmed',
@@ -157,54 +156,60 @@ class SubmissionsRepository
             'charon_submission.mail',
         ];
 
-        $submissions = $this->buildForUser($userId)
-            ->where('charon_submission.charon_id', $charon->id)
-            ->orderBy('charon_submission.created_at', 'desc')
-            ->orderBy('charon_submission.git_timestamp', 'desc')
-            ->select($fields)
-            ->simplePaginate(5);
+        $unitTestFields = [
+            'charon_unit_test.id',
+            'charon_unit_test.test_suite_id',
+            'charon_unit_test.groups_depended_upon',
+            'charon_unit_test.status',
+            'charon_unit_test.weight',
+            'charon_unit_test.print_exception_message',
+            'charon_unit_test.print_stack_trace',
+            'charon_unit_test.time_elapsed',
+            'charon_unit_test.methods_depended_upon',
+            'charon_unit_test.stack_trace',
+            'charon_unit_test.name',
+            'charon_unit_test.stdout',
+            'charon_unit_test.exception_class',
+            'charon_unit_test.exception_message',
+            'charon_unit_test.stderr',
+
+        ];
+
+        $submissions = Submission::select($submissionFields)
+            ->where('charon_id', $charon->id)
+            ->with([
+                'results' => function ($query) use ($charon, $userId) {
+                    $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+                        ->where('user_id', $userId)
+                    ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                    $query->orderBy('grade_type_code');
+                },
+                'users' => function ($query) {
+                    $query->select(['id', 'username']);
+                },
+                'testSuites' => function ($query) {
+                    $query->select(['*']);
+                },
+                'unitTests' => function ($query) use ($unitTestFields) {
+                    $query->select($unitTestFields);
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id', 'path', 'contents', 'is_test']);
+                },
+                'reviewComments' => function ($query) {
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
+                },
+            ])
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('id', '=', $userId);
+            })
+            ->orderByDesc('confirmed')
+            ->latest()
+            ->simplePaginate(10);
 
         $submissions->appends(['user_id' => $userId])->links();
 
-        foreach ($submissions as $submission) {
-            $submission->results = Result::where('submission_id', $submission->id)
-                ->where('user_id', $userId)
-                ->whereIn('grade_type_code', $charon->getGradeTypeCodes())
-                ->select(['id', 'submission_id', 'user_id', 'calculated_result', 'grade_type_code', 'percentage'])
-                ->orderBy('grade_type_code')
-                ->get();
-            $submission->test_suites = $this->getTestSuites($submission->id);
-        }
-
-        return $submissions;
-    }
-
-    /**
-     * @param $submissionId
-     * @return TestSuite[]
-     */
-    public function getTestSuites($submissionId)
-    {
-        $testSuites = \DB::table('charon_test_suite')
-            ->where('submission_id', $submissionId)
-            ->select('*')
-            ->get();
-        for ($i = 0; $i < count($testSuites); $i++) {
-            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
-        }
-        return $testSuites;
-    }
-
-    /**
-     * @param $testSuiteId
-     * @return UnitTest[]
-     */
-    private function getUnitTestsResults($testSuiteId)
-    {
-        return \DB::table('charon_unit_test')
-            ->where('test_suite_id', $testSuiteId)
-            ->select('*')
-            ->get();
+        return $this->assignUnitTestsToTestSuites($submissions);
     }
 
     /**
@@ -241,10 +246,10 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_gr.finalgrade'
-            . ' FROM ' . $prefix . 'charon ch'
-            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-            . ' WHERE ch.course = ? AND gr_gr.userid = ?',
+                . ' FROM ' . $prefix . 'charon ch'
+                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+                . ' WHERE ch.course = ? AND gr_gr.userid = ?',
             [$courseId, $userId]
         );
     }
@@ -264,11 +269,11 @@ class SubmissionsRepository
 
         return DB::select(
             'SELECT ch.id, ch.name, gr_it.grademax, AVG(gr_gr.finalgrade) AS course_average_finalgrade'
-            . ' FROM ' . $prefix . 'charon ch'
-            . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-            . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-            . ' WHERE ch.course = ?'
-            . ' GROUP BY ch.id, ch.name, gr_it.grademax',
+                . ' FROM ' . $prefix . 'charon ch'
+                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
+                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
+                . ' WHERE ch.course = ?'
+                . ' GROUP BY ch.id, ch.name, gr_it.grademax',
             [$courseId]
         );
     }
@@ -366,8 +371,7 @@ class SubmissionsRepository
         int $userId,
         int $charonId,
         int $gradeTypeCode
-    )
-    {
+    ) {
         /** @var Result $previous */
         $previous = $this->buildForUser($userId)
             ->join('charon_result', 'charon_submission.id', '=', 'charon_result.submission_id')
@@ -472,6 +476,12 @@ class SubmissionsRepository
                 'results' => function ($query) {
                     $query->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code']);
                     $query->orderBy('grade_type_code');
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id']);
+                },
+                'reviewComments' => function ($query) {
+                    $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
             ->latest()
@@ -646,11 +656,38 @@ class SubmissionsRepository
     }
 
     /**
+     * Query for all users associated to the submission
+     *
+     * @param int $submissionId
+     *
+     * @return Collection
+     */
+    public function findAllUsersAssociated(int $submissionId): Collection
+    {
+        return DB::table('user')
+            ->join('charon_submission_user', 'charon_submission_user.user_id', '=', 'user.id')
+            ->where('charon_submission_user.submission_id', $submissionId)
+            ->select('*')
+            ->get();
+    }
+
+    /**
+     * Find submission file by its id.
+     *
+     * @param int $fileId
+     * @return SubmissionFile
+     */
+    public function getSubmissionFileById(int $fileId): SubmissionFile
+    {
+        return SubmissionFile::find($fileId);
+    }
+
+    /**
      * Build a query for submissions by user in many-to-many table
      *
      * @param int $userId
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     private function buildForUser(int $userId)
     {
@@ -674,6 +711,10 @@ class SubmissionsRepository
         switch ($sortField) {
             case 'exerciseName':
                 return 'name';
+            case 'submissionTestsSum':
+                return 'submission_tests_sum';
+            case 'submissionTotal':
+                return 'finalgrade';
             case 'isConfirmed':
                 return 'confirmed';
             case 'firstName':
@@ -683,6 +724,57 @@ class SubmissionsRepository
             default:
                 return 'git_timestamp';
         }
+    }
+
+    /**
+     * @param $submissions
+     * @return mixed
+     */
+    public function assignUnitTestsToTestSuites($submissions)
+    {
+        foreach ($submissions as $submission) {
+            foreach ($submission->testSuites as $testSuite) {
+                $unit_tests = [];
+                foreach ($submission->unitTests as $unitTest) {
+                    if ($unitTest->test_suite_id === $testSuite->id) {
+                        array_push($unit_tests, $unitTest);
+                    }
+                }
+                $testSuite->unit_tests = $unit_tests;
+            }
+        }
+        foreach ($submissions as $submission) {
+            unset($submission->unitTests);
+        }
+        return $submissions;
+    }
+
+    /**
+     * @param $submissionId
+     * @return TestSuite[]
+     */
+    public function getTestSuites($submissionId)
+    {
+        $testSuites = \DB::table('charon_test_suite')
+            ->where('submission_id', $submissionId)
+            ->select('*')
+            ->get();
+        for ($i = 0; $i < count($testSuites); $i++) {
+            $testSuites[$i]->unit_tests = $this->getUnitTestsResults($testSuites[$i]->id);
+        }
+        return $testSuites;
+    }
+
+    /**
+     * @param $testSuiteId
+     * @return UnitTest[]
+     */
+    private function getUnitTestsResults($testSuiteId)
+    {
+        return \DB::table('charon_unit_test')
+            ->where('test_suite_id', $testSuiteId)
+            ->select('*')
+            ->get();
     }
 
     /**

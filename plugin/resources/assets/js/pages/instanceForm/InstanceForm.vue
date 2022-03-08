@@ -147,6 +147,7 @@ export default {
     VueEvent.$on('project-folder-was-changed', (projectFolder) => this.form.fields.project_folder = projectFolder);
     VueEvent.$on('tester-extra-was-changed', (extra) => this.form.fields.tester_extra = extra);
     VueEvent.$on('system-extra-was-changed', (extra) => this.form.fields.system_extra = extra);
+    VueEvent.$on('unittests-git-was-changed', (gitUrl) => this.form.fields.unittests_git_charon = gitUrl);
     VueEvent.$on('tester-type-was-changed', (tester_type) => {
       this.form.fields.tester_type = tester_type
       this.form.fields.tester_type_code = tester_type

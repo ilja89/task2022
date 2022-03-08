@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer|null code_row_no_end
  * @property string review_comment
  * @property integer notify
- * @property Carbon timestamp
+ * @property Carbon created_at
  *
  * @package TTU\Charon\Model
  */
@@ -26,6 +26,11 @@ class ReviewComment extends Model
     protected $table = 'charon_review_comment';
     protected $fillable = [
         'user_id', 'submission_file_id',
-        'code_row_no_start', 'code_row_no_end', 'review_comment'
+        'code_row_no_start', 'code_row_no_end', 'review_comment', 'notify', 'created_at'
     ];
+
+    public function file()
+    {
+        return $this->belongsTo(SubmissionFile::class, 'reviewComment.submission_file_id', 'submission_file.id');
+    }
 }

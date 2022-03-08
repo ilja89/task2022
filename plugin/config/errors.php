@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
+
     'forbidden' => [
         'title'  => 'The request is unauthorized.',
         'detail' => 'You are not authorised to perform this action.'
@@ -58,6 +59,11 @@ return [
         'detail' => 'Path are required when saving template.',
     ],
 
+    'template_paths_need_to_be_unique' => [
+        'title' => 'Template paths need to be unique.',
+        'detail' => 'Cannot create templates that have the same paths.',
+    ],
+
     'same_path' => [
         'title' => 'Two templates with the same path.',
         'detail' => 'Templates with same name: %s cannot be added.',
@@ -67,6 +73,7 @@ return [
         'title' => 'Submission is not linked to a Git callback.',
         'detail' => 'Submission requires a Git callback so it can be retested.',
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Defense registration errors
@@ -104,4 +111,20 @@ return [
         'detail' => '',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Review comment errors
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'review_comment_over_limit' => [
+        'title' => 'Review comment is too long.',
+        'detail' => 'Review comment\'s length should not exceed 10000 characters.',
+    ],
+
+    'review_comment_not_found' => [
+        'title'  => 'The review comment could not be found.',
+        'detail' => '',
+    ],
 ];

@@ -813,5 +813,14 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022021001) {
+        $table = new xmldb_table("charon");
+        $field = new xmldb_field('unittests_git', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

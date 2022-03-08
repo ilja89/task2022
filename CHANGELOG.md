@@ -6,9 +6,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
 ### Fixed
+- #781 Remove code span padding-left from assignment.css
+- #795 Restored Mobile-ID component
+
+
+## [1.6.0] - 2022-02-10
 
 ### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #706 Adjust fetching of the submission file in student view
+- #677 Submission feedback is now available in table view when clicking toggle, like from student view
+- #723 Update dependencies so security check does not fail & Laravel
+- #694 charon tests url
+
+### Fixed
+- #696 Modify the general notifications service
+- #729 Fix the submissionRepository.php paginateSubmissionsByCharonUser to handle group submissions
+- #661 Assignment view code block padding fix
+- #708 Pointless scrollingbar for code blocks in assignment view
+- #735 Sorting in report does not work
+- #741 Confirmed submissions are not displayed if they do not exist in currently loaded submissions
+- #754 ReviewComment does not show correct creator name
+
+## [1.5.8] - 2021-12-14
+
+### Fixed
+- #714 Disable security check
+- #724 Supported users, logged in using Mobile-Id
+
+## [1.5.7] - 2021-11-12
+
+### Fixed
+- #701 Fix comment notification email message
+
+## [1.5.6] - 2021-11-11
+
+### Added
+- #690 Submissions in assignment view show how many review comments they have
+- #609 Users will be notified if they receive a comment on their submission
+- #636 If charon does not have defences, the defence icon would not be shown submission list
+
+## [1.5.5] - 2021-10-22
+
+### Added
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+  red on the student's view. When submission is opened by the student, the red color will be removed again.
+- #678 Added logging when an exception is thrown when charon is being deleted by moodle
+- #681 updated composer/composer to 2.1.9
+- #567 Activity completion for charon
 
 ## [1.5.4] - 2021-10-11
 
@@ -19,7 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
-- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -82,7 +130,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
 
-
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
@@ -91,9 +138,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.0] - 2021-07-19
 
 ### Added
-- \#454 Added posting to tester from inline submission
-- \#418 Charon footer shows Charon version in use and has a link to Changelog
-- \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
@@ -101,17 +145,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
 - \#449 Tester url and token can be changed for specific course
-- \#492 Integrated templates management frontend with backend endpoints
-- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
-- \#474 Added ability to make submitions from charon student view
-- \#542 Now a submission is made to tester, its response is handled and submissions are created.
-- \#522 Show code editor always if there is at least one template (student view)
-- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
-- \#539 Substitute Ace Editor with textarea
 
 ### Fixed
-- \#528 In grading view show "Total points: 0" if there is no result for charon
-- \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
@@ -120,7 +155,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
-- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.2.4] - 2021-05-19
 
