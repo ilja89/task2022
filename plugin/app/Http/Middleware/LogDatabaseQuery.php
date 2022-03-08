@@ -43,12 +43,6 @@ class LogDatabaseQuery
             $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
         } else {
             $userEnabled = null;
-        }
-
-        if ($user) {
-            $userEnabled = $this->loggingService->userHasQueryLoggingEnabled($user->id);
-        } else {
-            $userEnabled = null;
             Log::channel('db')->debug("Could not find the user making the request at URL: {$request->fullUrl()}");
         }
 
@@ -60,9 +54,6 @@ class LogDatabaseQuery
 
         if ($userEnabled) {
             $this->log($request, $courseId, $user->username);
-        } else {
-            $log = "Could not find the user making the request at URL: {$request->fullUrl()}";
-            Log::channel('db')->debug($log);
         }
 
         return $response;
