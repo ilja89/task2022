@@ -7,13 +7,13 @@
 
         <div v-if="value">
             <v-row>
-                <v-col>
+                <v-col cols="12" md="6">
                     <span>{{ graphTitleEveryDay }}</span>
                     <apexcharts type="line" :options="graphSubmissionsEveryDayOptions"
                                 :series="graphSubmissionsEveryDaySeries"></apexcharts>
                 </v-col>
 
-                <v-col>
+                <v-col cols="12" md="6">
                     <span>{{ graphTitleToday }}</span>
                     <apexcharts type="line" :options="graphSubmissionsTodayOptions"
                                 :series="graphSubmissionsTodaySeries"></apexcharts>
@@ -65,6 +65,7 @@ export default {
                     categories: this.graphDataEveryDay.map(sub => sub.dateRow)
                 },
                 chart: {
+                    width: "100%",
                     height: 400
                 }
             }
@@ -83,6 +84,7 @@ export default {
                     categories: this.graphDataToday.map(sub => sub.time.slice(0, sub.time.lastIndexOf(":")))
                 },
                 chart: {
+                    width: "100%",
                     height: 400
                 }
             }
