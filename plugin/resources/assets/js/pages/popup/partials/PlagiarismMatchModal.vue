@@ -14,7 +14,6 @@
 
         <v-card style="background-color: white; overflow-y: hidden" height="90vh">
             <v-toolbar dark>
-                <a class="headline" v-bind:href="this.match.moss_url" target="_blank">Moss match</a>
                 <v-spacer></v-spacer>
 
                 <v-btn color="error" @click="isActive = false">
@@ -25,8 +24,17 @@
             <v-card-text class="pt-4" style="height: 95%">
                 <div style="height: 25%;">
                     <div class="info-field headline" style="text-align: center;">
-                        {{ match.uniid }} - {{ match.percentage }}%
-                        <v-btn href="https://gitlab.cs.ttu.ee/divahe/iti0102-2019/-/tree/f5245668a65471cf170b225cb0d4e30674b72cbd/ex11_order" target="_blank">
+                        {{ match.uniid }} - {{ match.percentage }}%<br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.commit_hash.slice(0, 8)}}</span><br>
+                        <v-btn :href="'#/grading/' + match.user_id" target="_blank">
+                            Student overview
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="'#/submissions/' + match.submission_id" target="_blank">
+                            Submission
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="match.gitlab_commit_at" target="_blank">
                             GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
@@ -34,16 +42,6 @@
                     <div class="info-field" style="height: 100%;overflow-y: scroll">
                         <v-simple-table dense style="overflow-y: auto;width: 100%; margin-left: auto; margin-right: auto">
                             <template v-slot:default>
-<!--                                <thead>
-                                <tr>
-                                    <th style="text-align: center;">
-                                        {{ match.uniid }} - {{ match.percentage }}%
-                                    </th>
-                                    <th style="text-align: center;">
-                                        {{ match.other_uniid }} - {{ match.other_percentage }}%
-                                    </th>
-                                </tr>
-                                </thead>-->
                                 <tbody>
                                 <tr v-for="similarity in similaritiesTable.similarities" :key="similarity.id">
                                     <td>
@@ -68,9 +66,18 @@
                         </v-simple-table>
                     </div>
                     <div class="info-field headline" style="text-align: center">
-                        {{ match.other_uniid }} - {{ match.other_percentage }}%
-                        <v-btn v-bind:href="'#/grading/2'" target="_blank">
+                        {{ match.other_uniid }} - {{ match.other_percentage }}%<br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.other_commit_hash.slice(0, 8)}}</span><br>
+                        <v-btn :href="'#/grading/' + match.other_user_id" target="_blank">
                             Student overview
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="'#/submissions/' + match.other_submission_id" target="_blank">
+                            Submission
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="match.other_gitlab_commit_at" target="_blank">
+                            GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
                     </div>

@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Services\UserService;
 
 /**
  * Class PlagiarismService
@@ -16,8 +17,15 @@ class PlagiarismService
 {
     /** @var PlagiarismCommunicationService */
     private $plagiarismCommunicationService;
+
     /** @var CharonRepository */
     private $charonRepository;
+
+    /** @var UserService */
+    private $userService;
+
+    /** @var SubmissionService */
+    private $submissionService;
 
     /**
      * PlagiarismService constructor.
@@ -27,11 +35,15 @@ class PlagiarismService
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository $charonRepository
+        CharonRepository $charonRepository,
+        UserService $userService,
+        SubmissionService $submissionService
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
+        $this->userService = $userService;
+        $this->submissionService = $submissionService;
     }
 
 
@@ -162,13 +174,32 @@ class PlagiarismService
      *
      *
      * @param Charon $charon
+     * @param Course $course
      *
      * @return array
-     *
      * @throws GuzzleException
      */
     public function getMatches(Charon $charon, Course $course): array
     {
-        return $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $result = [];
+        foreach ($matches as $match) {
+            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if ($submission and $otherSubmission) {
+                $match['user_id'] = $submission->user_id;
+                $match['other_user_id'] = $otherSubmission->user_id;
+                $match['submission_id'] = $submission->id;
+                $match['other_submission_id'] = $otherSubmission->id;
+            } else  {
+                $match['user_id'] = $this->userService->findUserByUniid($match['uniid'])->id;
+                $match['other_user_id'] = $this->userService->findUserByUniid($match['other_uniid'])->id;
+                $match['submission_id'] = 1;
+                $match['other_submission_id'] = 1;
+            }
+            $result[] = $match;
+        }
+
+        return $result;
     }
 }
