@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - #732 Group submissions in popup will have common line height also in case of a wrap.
+- #751 Add an option to access query logs and turn on query logging for specific users
 
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
@@ -23,7 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #723 Update dependencies so security check does not fail & Laravel
 - #694 charon tests url
-- #751 Add an option to access query logs and turn on query logging for specific users
 
 ### Fixed
 - #696 Modify the general notifications service
