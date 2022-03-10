@@ -4,6 +4,7 @@
     >
 
         <template slot="header-right">
+            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run plagiarism check</v-btn>
             <toggle-button @buttonClicked="showHistoryTable($event)"></toggle-button>
         </template>
         <div>
@@ -95,9 +96,8 @@ export default {
             'course'
         ]),
     },
-
-    mounted() {
-        VueEvent.$on('run-plagiarism-check', () => {
+    methods: {
+        handleRunPlagiarismClicked() {
             Plagiarism.runPlagiarismCheck(this.course.id, this.charon.id, response => {
                 this.latestCheck = response.status
                 window.VueEvent.$emit(
@@ -108,10 +108,7 @@ export default {
                 console.log(this.latestCheck)
             })
             this.refreshLatestStatus();
-        });
-    },
-
-    methods: {
+        },
         showHistoryTable(bool) {
             this.toggleShowHistoryTable = bool;
             if (this.toggleShowHistoryTable === true) {
