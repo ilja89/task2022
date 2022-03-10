@@ -192,8 +192,15 @@ class PlagiarismService
                 $match['submission_id'] = $submission->id;
                 $match['other_submission_id'] = $otherSubmission->id;
             } else  {
-                $match['user_id'] = $this->userService->findUserByUniid($match['uniid'])->id;
-                $match['other_user_id'] = $this->userService->findUserByUniid($match['other_uniid'])->id;
+                $user = $this->userService->findUserByUniid($match['uniid']);
+                $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
+                if ($user and $otherUser) {
+                    $match['user_id'] = $user->id;
+                    $match['other_user_id'] = $otherUser->id;
+                } else {
+                    $match['user_id'] = 2;
+                    $match['other_user_id'] = 2;
+                }
                 $match['submission_id'] = 1;
                 $match['other_submission_id'] = 1;
             }
