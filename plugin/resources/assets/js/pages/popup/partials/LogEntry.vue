@@ -11,7 +11,7 @@
             </v-list-item-content>
         </template>
 
-        <v-list-item v-for="child in children" :key="child">
+        <v-list-item v-for="(child, index) in children" :key="index">
             <v-list-item-content>
                 <v-list-item-title v-text="child"></v-list-item-title>
             </v-list-item-content>
@@ -30,7 +30,7 @@
     const pattern = /^\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\]\s\w+\.(\w+):\s/;
     const extractLevel = function (title) {
         let level = title.match(pattern);
-        if (level === undefined) {
+        if (level === undefined || level === null) {
             return 'info';
         }
         return level[1].toLowerCase();
