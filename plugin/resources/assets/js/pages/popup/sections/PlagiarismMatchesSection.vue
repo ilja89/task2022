@@ -8,16 +8,24 @@
             <v-btn @click="fetchMatches()">Fetch Matches</v-btn>
         </template>
         <div>
+            <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+            ></v-text-field>
             <v-data-table
+                class="center-table"
                 :headers="headers"
-                :items="matches">
+                :items="matches"
+                :search="search">
                 <template v-slot:item.actions="{ item }">
                     <v-row>
                         <plagiarism-match-modal :match="item"></plagiarism-match-modal>
                     </v-row>
                 </template>
             </v-data-table>
-            <pre v-html="matches" style="max-height: 900px; width: 1000px"></pre>
         </div>
 
     </popup-section>
@@ -38,6 +46,7 @@ export default {
 
     data() {
         return {
+            search: "",
             matches: [],
             headers: [
                 {text: 'Matches', align: 'start', value: 'lines_matched'},
@@ -46,7 +55,7 @@ export default {
                 {text: 'Other Uni-ID', value: 'other_uniid'},
                 {text: 'Other Percentage', value: 'other_percentage'},
                 {text: 'Status', value: 'status'},
-                {text: 'Actions', value: 'actions', sortable: false},
+                {text: 'Actions', value: 'actions', sortable: false, filterable: false},
             ]
         }
     },
@@ -70,3 +79,11 @@ export default {
     },
 }
 </script>
+<style>
+.center-table table td{
+    vertical-align: middle;
+}
+.center-table table th{
+    vertical-align: middle;
+}
+</style>

@@ -48,7 +48,7 @@
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
                                                    @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines_start)">
-                                                {{ similarity.lines_start }} - {{ similarity.lines_end }} ({{ similarity.section_size}})
+                                                {{ similarity.lines_start }} - {{ similarity.lines_end }} ({{ similarity.section_size}}/{{similarity.section_percentage}}%)
                                             </v-btn>
                                         </div>
                                     </td>
@@ -56,7 +56,7 @@
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
                                                    @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines_start)">
-                                                {{ similarity.other_lines_start }} - {{ similarity.other_lines_end }} ({{ similarity.other_section_size}})
+                                                {{ similarity.other_lines_start }} - {{ similarity.other_lines_end }} ({{ similarity.other_section_size}}/{{similarity.other_section_percentage}}%)
                                             </v-btn>
                                         </div>
                                     </td>
@@ -132,21 +132,14 @@
 </template>
 
 <script>
-import {Translate} from '../../../mixins'
 import {ToggleButton} from "../../../components/partials";
-import MatchFilesComponent from "../../../components/partials/MatchFilesComponent";
-import MatchSimilaritiesComponent from "../../../components/partials/MatchSimilaritiesComponent";
 import AceEditor from 'vuejs-ace-editor';
 
 export default {
     name: "plagiarism-match-modal",
 
-    mixins: [Translate],
-
     components: {
         AceEditor,
-        MatchSimilaritiesComponent,
-        MatchFilesComponent,
         ToggleButton
     },
 
@@ -178,6 +171,8 @@ export default {
                 similarity['color'] = this.similarityColors[counter % 5]
                 updatedSimilarities.push(similarity)
                 counter += 1;
+                similarity['section_percentage'] = (match.percentage * similarity.section_size / match.lines_matched).toFixed(1);
+                similarity['other_section_percentage'] = (match.other_percentage * similarity.other_section_size / match.lines_matched).toFixed(1);
             })
 
             return {
@@ -196,7 +191,7 @@ export default {
             let match = this.match
 
             return {
-                contents: match.other_code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                contents: match.other_code.trim(),
             }
         },
     },
