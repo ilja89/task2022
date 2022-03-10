@@ -2,7 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
-use TTU\Charon\Models\QueryLogUsers;
+use TTU\Charon\Models\QueryLogUser;
 
 class LoggingRepository
 {
@@ -13,12 +13,12 @@ class LoggingRepository
      */
     public function findUserWithQueryLoggingEnabled(int $userId): int
     {
-        return QueryLogUsers::where('user_id', '=', $userId)->exists();
+        return QueryLogUser::where('user_id', '=', $userId)->exists();
     }
 
     public function addUserToLogging(int $userId)
     {
-        $queryLogUser = new QueryLogUsers;
+        $queryLogUser = new QueryLogUser;
 
         $queryLogUser->user_id = $userId;
 
@@ -27,14 +27,14 @@ class LoggingRepository
 
     public function removeUserFromLogging(int $userId)
     {
-        $recordToDelete = QueryLogUsers::where('user_id', $userId);
+        $recordToDelete = QueryLogUser::where('user_id', $userId);
 
         $recordToDelete->delete();
     }
 
     public function findUsersWithLogging(): array
     {
-        $usersWithLoggingEnabled = QueryLogUsers::all();
+        $usersWithLoggingEnabled = QueryLogUser::all();
 
         $enabledIds = array();
         foreach ($usersWithLoggingEnabled as $key => $enabledUser) {

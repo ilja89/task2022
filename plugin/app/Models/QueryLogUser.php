@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int user_id
  */
-class QueryLogUsers extends Model
+class QueryLogUser extends Model
 {
-    protected $table = 'charon_query_log_users';
+    protected $table = 'charon_query_log_user';
 
     public $timestamps = false;
 
