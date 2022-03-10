@@ -112,3 +112,91 @@ Once the release is tested and deployed to live
 - Use your release number as the _Tag name_ and _Release title_
 - Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
 - Merge your release branch to master (and master also back to develop to get any changes there too)
+
+## Setting up Arete tester and its connections to Charon
+
+Get Arete tester running (Link to their documentation:[Arete pages](https://ained.pages.taltech.ee/it-doc/arete/main.html#setting-up)):
+- Most of the guide already exists in the given on its pages above, but here are somethings to clarify them better:
+  - Create a new folder (eg `arete`) and copy necessary files into the folder (`docker-compose-arete.yml`, `nginx.conf`)
+    - Create a new folder `/ssh` and new ssh keys into this folder `ssh-keygen`
+    - Create a file `.env` add, make sure that you do not show this to anyone else
+      ```
+      GIT_USERNAME={your usename}
+      GIT_PASSWORD={your password}
+      ```
+    - If you are running Arete parallel to Charon, makes sure to change Adminers `container_name` (just add 1 at the end of it)
+  and change port to something else (`"8191:8080"` should work)
+      ```
+      adminer:
+        container_name: adminer1
+        image: adminer
+        restart: unless-stopped
+        ports:
+          - "8191:8080"
+      ```
+    - In the end your arete folder should look something like:
+      ```
+      /arete
+        - /docker-compose-arete.yml
+        - /nginx.conf
+        - /.env
+        - /ssh
+          - id_rsa
+          - id_rsa.pub
+      ```
+  - Now if you open a terminal in your arete folder and run ```docker-compose -f docker-compose-arete.yml up -d``` 
+    everything should start up properly. To check open `http://localhost:8080/services/arete`
+  - Login as `username: admin` `password: admin` and create a new Tester type user:
+    - Go to `http://localhost:8080/services/arete/admin`
+    - `NEW ITEM` username and password should be taken from your `docker-compose-arete.yml`
+      `BACKEND_TOKEN: ${BACKEND_TOKEN:-{username} {password}}` and be sure to set the `Role` as `TESTER`
+  - Add your tests repository after you have set up your tests repository
+    - Open `http://localhost:8080/services/arete/submissions` and add your repositories `git ssh url` at `Updated tests`
+    - `git ssh url` should look something like `git@gitlab.cs.ttu.ee:charon/tests.git`
+      
+
+Setting up GitLab repository for tests:
+  - Create a project or ask permission to join `charon/tests` project
+    - If you create a project, make sure to add users `@autotester` `@autotester-mirror`
+  - To set up tests correctly the submitted files and testing files need to be set up corresponding to their folders and names.
+    - Tests repo should have a folder pathway the same as the files that are being tested
+    - Test files should be set up as `name_test.py` and the file that is being tested should be as `name.py` in this case
+    - Should look something like
+      ```
+      /EX01_assignment
+        - /name_test.py
+      ```
+
+Setting up Charon to be able to connect to tester:
+  - Inside Course's `Charon settings`
+    - Add your unittests repository to `Unittests Git`
+      - It is the same that you added to the tester `git ssh url`, it should look something like `https://gitlab.cs.ttu.ee/charon/tests.git`
+    - Make sure to set `Tester type` as your desired language
+    - Add `https://{your ip}/services/arete/api/v2/submission/:testAsync` to `Tester asynchronous URL`
+    - `Tester synchronous URL` is used for "Inline submissions", this is the same as the asynchronous URL, only ending with `:testSync` instead
+    - Add your generated Authentication Token to `Tester token`
+      - To generate your token run (This will token expires quite quick, so a new one is needed to be generated quite often):
+        ```
+          curl -X POST -H "Content-Type: application/json;charset=utf-8" -i "http://localhost:8080/services/arete/api/v2/user/auth" --data "{\"username\":\"admin\",\"password\":\"admin\"}
+        ```
+  
+Setting up GitLab and Charon to accept GitLab hooks for push events:
+  - Since GitLab does not allow to make requests to localhost, we need to use online request maker tools or cURL
+    - To get the necessary data Create a GitLab webhook towards dev-server, make a push and copy the request data.
+    - Make a POST request towards `http://localhost/mod/charon/api/git_callback`
+      - Add a header `Content-Type: application/json`
+      - Copy the hooks Request data to the body of the request
+  - If you want your files to be tested, they need to have test files in a "Tests Repository" and they need to be lodaded into the 
+    tester application
+    - And the pathway to the files that need to be tested should be associated with the charon project folder name
+      - ```
+        /{charon_project_folder}
+          - /assignment.py
+        ```
+    
+Setting up Gitlab webhooks towards dev-server for push events:
+  - Create a repository which name should be the same as the Course shortname you have in Moodle
+  - Got to `Settings` `Webhooks` and add a new webhook
+    - You only need to add URL `http://193.40.244.110/mod/charon/api/git_callback`
+  - You also need to have a user inside charon with the same username as the uniid you have in your GitLab username
+    - The username in Moodle can be of the following `uniid@ttu.ee` `uniid@taltech.ee` `uniid`
