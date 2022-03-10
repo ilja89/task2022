@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- #732 Group submissions in popup will have common line height also in case of a wrap.
 
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
