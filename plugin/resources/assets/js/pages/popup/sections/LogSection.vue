@@ -143,6 +143,8 @@ export default {
                         return user
                     })
 
+                this.users.sort(this.sortUsers)
+
                 this.$watch('allEnabledUsers', (newVal, oldVal) => {
                     if (newVal.length > oldVal.length) {
                         let addedUserId = newVal.filter(x => !oldVal.includes(x)).pop()
@@ -153,6 +155,23 @@ export default {
                     }
                 })
             })
+        },
+
+        userEnabled(userId) {
+            return this.enabledUsers.includes(userId)
+        },
+
+        sortUsers(a, b) {
+            if (this.userEnabled(a.id) < this.userEnabled(b.id)) {
+                return 1
+            }
+            if (this.userEnabled(a.id) && this.userEnabled(b.id)) {
+                return (a.username > b.username) ? 1 : 0
+            }
+            if (!this.userEnabled(a.id) && !this.userEnabled(b.id)) {
+                return (a.username > b.username) ? 1 : -1
+            }
+            return -1
         },
 
         downloadLogs() {
