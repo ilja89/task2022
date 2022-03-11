@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.6.1] - 2022-03-11
 
 ### Added
 - #732 Group submissions in popup will have common line height also in case of a wrap.
@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
 - #795 Restored Mobile-ID component
-
+- #745 Rounded student's percentage in Charon assignment grademap table up to 2 decimal points
 
 ## [1.6.0] - 2022-02-10
 
