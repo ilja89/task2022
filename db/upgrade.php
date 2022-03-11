@@ -822,5 +822,24 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022031001) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_query_log_user(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    user_id BIGINT(10) NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    CONSTRAINT FK_query_log_user_user" .
+            "        FOREIGN KEY (user_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_query_log_user");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
     return true;
 }

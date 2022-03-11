@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - #732 Group submissions in popup will have common line height also in case of a wrap.
+- #751 Add an option to access query logs and turn on query logging for specific users
 
 ### Fixed
 - #781 Remove code span padding-left from assignment.css

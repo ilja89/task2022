@@ -209,4 +209,9 @@ class StudentsController extends Controller
 
         return $studentsDistribution;
     }
+
+    function findAllEnrolled(int $courseId)
+    {
+        return $this->studentsRepository->getAllEnrolled($courseId);
+    }
 }
