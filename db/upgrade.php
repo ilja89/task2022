@@ -850,7 +850,7 @@ function xmldb_charon_upgrade($oldversion = 0)
             "   CONSTRAINT FK_charon_id" .
             "       FOREIGN KEY (charon_id)" .
             "       REFERENCES " . $CFG->prefix . "charon(id)" .
-            "   FK_next_charon FOREIGN KEY (next_chain) " .
+            "   CONSTRAINT FK_next_charon FOREIGN KEY (next_chain) " .
             " REFERENCES " . $CFG->prefix . "charon_chain(id) ON DELETE CASCADE" .
             ")";
 
