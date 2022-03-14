@@ -112,11 +112,7 @@ class InstanceController extends Controller
 
         $charon = $this->getCharonFromRequest();
 
-        $additionalCharons = $this->getAdditionalCharonsFromRequest();
 
-        if (!$additionalCharons->isEmpty()) {
-            $this->createCharonService->addCharonChain($charon, $additionalCharons);
-        }
 
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
@@ -144,6 +140,12 @@ class InstanceController extends Controller
                 $this->request->input('resource_providers'),
                 $this->request->input('plagiarism_includes')
             );
+        }
+
+        $additionalCharons = $this->getAdditionalCharonsFromRequest();
+
+        if (!$additionalCharons->isEmpty()) {
+            $this->createCharonService->addCharonChain($charon, $additionalCharons);
         }
 
         return $charon->id;

@@ -4,7 +4,12 @@
 <link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 <h1 class="title">{{ $charon->name }}</h1>
 @if($with_chain)
-    <a type="button" href="/mod/charon/view.php?id={{$course_module_id}}&subtask_id={{$next_chain_id}}">Next charon</a>
+    @if(!$last)
+        <a type="button" href="/mod/charon/view.php?id={{$course_module_id}}&subtask_id={{$next_chain_id}}">Next charon</a>
+    @endif
+    @if(!$first)
+        <a type="button" href="/mod/charon/view.php?id={{$course_module_id}}&subtask_id={{$previous_chain_id}}">Previous charon</a>
+    @endif
 @endif
 <div class="rows assignment-rows" id="app">
     <div class="columns assignment-columns">

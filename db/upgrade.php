@@ -841,32 +841,46 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022031305) {
+    if ($oldversion < 2022031401) {
+
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_chain(" .
             "   id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "   master_charon_id BIGINT(10) NOT NULL," .
             "   charon_id BIGINT(10) NOT NULL," .
-            "   next_chain BIGINT(10), " .
+            "   charon_nr INT NOT NULL," .
             "   PRIMARY KEY (id), ".
             "   CONSTRAINT FK_charon_id" .
             "       FOREIGN KEY (charon_id)" .
             "       REFERENCES " . $CFG->prefix . "charon(id)" .
-            "   CONSTRAINT FK_next_charon FOREIGN KEY (next_chain) " .
-            " REFERENCES " . $CFG->prefix . "charon_chain(id) ON DELETE CASCADE" .
+            "       ON DELETE CASCADE" .
+            "       ON UPDATE CASCADE," .
+            "   CONSTRAINT FK_master_charon FOREIGN KEY (master_charon_id) " .
+            " REFERENCES " . $CFG->prefix . "charon(id)" .
+            "       ON DELETE CASCADE" .
+            "       ON UPDATE CASCADE" .
             ")";
 
+
         $table = new xmldb_table("charon_chain");
-        if (!$dbManager->table_exists($table)) {
-            $DB->execute($sql);
+        if ($dbManager->table_exists($table)) {
 
-            $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD charon_chain BIGINT(10)";
-
-            $DB->execute($sql);
-
-            $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD CONSTRAINT FK_charon_chain FOREIGN KEY (charon_chain) "
-                . "REFERENCES " .$CFG->prefix . "charon_chain(id) ON DELETE CASCADE";
-
-            $DB->execute($sql);
+            $delete = "ALTER TABLE " .$CFG->prefix . "charon DROP CONSTRAINT FK_charon_chain";
+            $DB->execute($delete);
+            $delete = "ALTER TABLE " .$CFG->prefix . "charon DROP COLUMN charon_chain";
+            $DB->execute($delete);
+            $delete = "DROP TABLE " . $CFG->prefix . "charon_chain";
+            $DB->execute($delete);
         }
+        $DB->execute($sql);
+
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD charon_chain BIGINT(10)";
+
+        $DB->execute($sql);
+
+        $sql = "ALTER TABLE " . $CFG->prefix . "charon ADD CONSTRAINT FK_charon_chain FOREIGN KEY (charon_chain) "
+            . "REFERENCES " .$CFG->prefix . "charon_chain(id) ON DELETE CASCADE";
+
+        $DB->execute($sql);
 
     }
 

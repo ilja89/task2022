@@ -139,19 +139,19 @@ class CreateCharonService
     }
 
     public function addCharonChain($masterCharon, $additionalCharons) {
-        $previousCharon = null;
+        $i = 1;
         foreach ($additionalCharons as $additionalCharon) {
             $charonChain = new CharonChain;
             $charonChain->charon_id = $additionalCharon->id;
+            $charonChain->master_charon_id = $masterCharon->id;
+            $charonChain->charon_nr = $i;
             $charonChain->save();
-            if (!is_null($previousCharon)) {
-                $previousCharon->next_chain = $charonChain->id;
-                $previousCharon->save();
-            }
-            $previousCharon = $charonChain;
+
             if (is_null($masterCharon->charon_chain)) {
                 $masterCharon->charon_chain = $charonChain->id;
             }
+            $i += 1;
         }
+        $masterCharon->save();
     }
 }

@@ -94,36 +94,51 @@ class AssignmentController extends Controller
     {
         $charon = $this->getCharon($this->request->input('id'));
 
-        $with_chain = false;
+
 
         if ($charon->charon_chain != null) {
-            $with_chain = true;
             $current_chain = $this->request->input('subtask_id');
-            $chain = null;
-            if (!is_null($current_chain)) {
+            $first = false;
+            $last = false;
+            if (is_null($current_chain) || $current_chain == 'main') {
+                $subcharon = $charon;
+                $chain = $this->charonChainRepository->getCharonChainById($charon->charon_chain);
+                $next_chain_id = $chain->id;
+                $previous_chain_id = null;
+                $first = true;
+            } else {
                 $chain = $this->charonChainRepository->getCharonChainById($current_chain);
                 if (is_null($chain)) {
                     $chain = $this->charonChainRepository->getCharonChainById($charon->charon_chain);
                 }
-            } else {
-                $chain = $this->charonChainRepository->getCharonChainById($charon->charon_chain);
+                $next_chain = $this->charonChainRepository->getNextChain($chain);
+                if (is_null($next_chain)) {
+                    $last = true;
+                    $next_chain_id = null;
+                } else {
+                    $next_chain_id = $next_chain->id;
+                }
+
+                $previous_chain = $this->charonChainRepository->getPreviousChain($chain);
+                if (is_null($previous_chain)) {
+                    $previous_chain_id = 'main';
+                } else {
+                    $previous_chain_id = $previous_chain->id;
+                }
+                $subcharon = $this->charonRepository->getCharonById($chain->charon_id);
             }
 
-            $subcharon = $this->charonRepository->getCharonById($chain->charon_id);
             $this->initializePage($subcharon);
-
-            $next_chain = $chain->next_chain;
-            if (is_null($next_chain)) {
-                $next_chain = $chain->id;
-            }
-
 
             return view('assignment.index', [
                 'header' => $this->output->header(),
                 'footer' => $this->output->footer(),
                 'charon' => $subcharon,
                 'with_chain' => true,
-                'next_chain_id' => $next_chain,
+                'first' => $first,
+                'last' => $last,
+                'next_chain_id' => $next_chain_id,
+                'previous_chain_id' => $previous_chain_id,
                 'course_module_id' => $this->request->input('id'),
                 'can_edit' => $this->permissionsService->canManageCourse($subcharon->course),
                 'student_id' => $this->user->currentUserId(),
