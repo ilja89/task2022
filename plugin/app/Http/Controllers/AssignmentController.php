@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Repositories\CharonChainRepository;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Services\SubmissionCalculatorService;
 use Zeizig\Moodle\Globals\Output;
@@ -31,6 +32,9 @@ class AssignmentController extends Controller
 
     /** @var CharonRepository */
     private $charonRepository;
+
+    /** @var CharonChainRepository */
+    private $charonChainRepository;
 
     /** @var Output */
     private $output;
@@ -59,6 +63,7 @@ class AssignmentController extends Controller
     public function __construct(
         Request $request,
         CharonRepository $charonRepository,
+        CharonChainRepository $charonChainRepository,
         Output $output,
         Page $page,
         User $user,
@@ -74,6 +79,7 @@ class AssignmentController extends Controller
         $this->permissionsService = $permissionsService;
         $this->gradebookService = $gradebookService;
         $this->submissionCalculatorService = $submissionCalculatorService;
+        $this->charonChainRepository = $charonChainRepository;
     }
 
     /**
@@ -88,16 +94,53 @@ class AssignmentController extends Controller
     {
         $charon = $this->getCharon($this->request->input('id'));
 
-        $this->initializePage($charon);
+        $with_chain = false;
 
-        return view('assignment.index', [
-            'header' => $this->output->header(),
-            'footer' => $this->output->footer(),
-            'charon' => $charon,
-            'course_module_id' => $this->request->input('id'),
-            'can_edit' => $this->permissionsService->canManageCourse($charon->course),
-            'student_id' => $this->user->currentUserId(),
-        ]);
+        if ($charon->charon_chain != null) {
+            $with_chain = true;
+            $current_chain = $this->request->input('subtask_id');
+            $chain = null;
+            if (!is_null($current_chain)) {
+                $chain = $this->charonChainRepository->getCharonChainById($current_chain);
+                if (is_null($chain)) {
+                    $chain = $this->charonChainRepository->getCharonChainById($charon->charon_chain);
+                }
+            } else {
+                $chain = $this->charonChainRepository->getCharonChainById($charon->charon_chain);
+            }
+
+            $subcharon = $this->charonRepository->getCharonById($chain->charon_id);
+            $this->initializePage($subcharon);
+
+            $next_chain = $chain->next_chain;
+            if (is_null($next_chain)) {
+                $next_chain = $chain->id;
+            }
+
+
+            return view('assignment.index', [
+                'header' => $this->output->header(),
+                'footer' => $this->output->footer(),
+                'charon' => $subcharon,
+                'with_chain' => true,
+                'next_chain_id' => $next_chain,
+                'course_module_id' => $this->request->input('id'),
+                'can_edit' => $this->permissionsService->canManageCourse($subcharon->course),
+                'student_id' => $this->user->currentUserId(),
+            ]);
+        } else {
+            $this->initializePage($charon);
+
+            return view('assignment.index', [
+                'header' => $this->output->header(),
+                'footer' => $this->output->footer(),
+                'charon' => $charon,
+                'with_chain' => false,
+                'course_module_id' => $this->request->input('id'),
+                'can_edit' => $this->permissionsService->canManageCourse($charon->course),
+                'student_id' => $this->user->currentUserId(),
+            ]);
+        }
     }
 
     /**

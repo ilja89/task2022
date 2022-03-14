@@ -53,6 +53,7 @@ $string['naming'] = 'Nimetamine';
 $string['task_info'] = 'Ülesande andmed';
 $string['plagiarism_detection'] = 'Plagiarismikontroll';
 $string['task_name'] = 'Ülesande nimi';
+$string['existing_tasks'] = 'Lisa eelmised charonid';
 $string['project_folder_name'] = 'Projekti kausta nimi';
 $string['tester_extra'] = 'Ekstra parameetrid testerile';
 $string['system_extra'] = 'Ekstra parameetrid süsteemile';

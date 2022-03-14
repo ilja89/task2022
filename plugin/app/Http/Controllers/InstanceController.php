@@ -111,6 +111,13 @@ class InstanceController extends Controller
     {
 
         $charon = $this->getCharonFromRequest();
+
+        $additionalCharons = $this->getAdditionalCharonsFromRequest();
+
+        if (!$additionalCharons->isEmpty()) {
+            $this->createCharonService->addCharonChain($charon, $additionalCharons);
+        }
+
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
 
@@ -287,6 +294,21 @@ class InstanceController extends Controller
             'docker_timeout' => $this->request->input('docker_timeout', 120),
             'allow_submission' => $this->request->input('allow_submission', false) === 'true',
         ]);
+    }
+
+    private function getAdditionalCharonsFromRequest() {
+        $names = $this->request->input('existing_tasks');
+        $additionalCharons = collect([]);
+        if (!empty($names)) {
+            $str_arr = explode(",", $names);
+            foreach ($str_arr as $name) {
+                $additionalCharon = $this->charonRepository->getCharonByProjectFolder($name)->first();
+                if ($additionalCharon != null) {
+                    $additionalCharons->add($additionalCharon);
+                }
+            }
+        }
+        return $additionalCharons;
     }
 
     /**

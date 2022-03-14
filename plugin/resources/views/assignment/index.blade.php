@@ -3,7 +3,9 @@
 <link href="/mod/charon/plugin/public/css/assignment.css" rel="stylesheet">
 <link href="/mod/charon/plugin/public/css/instanceForm.css" rel="stylesheet">
 <h1 class="title">{{ $charon->name }}</h1>
-
+@if($with_chain)
+    <a type="button" href="/mod/charon/view.php?id={{$course_module_id}}&subtask_id={{$next_chain_id}}">Next charon</a>
+@endif
 <div class="rows assignment-rows" id="app">
     <div class="columns assignment-columns">
         <div class="column is-two-thirds assignment-content content" v-highlightjs>

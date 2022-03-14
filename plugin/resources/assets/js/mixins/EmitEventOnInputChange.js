@@ -12,6 +12,10 @@ export default {
             VueEvent.$emit('project-folder-was-changed', projectFolder);
         },
 
+        onExistingTaskChanged(tasks) {
+            VueEvent.$emit('existing-task-was-changed', tasks);
+        },
+
         onTesterExtraChanged(extra) {
             VueEvent.$emit('tester-extra-was-changed', extra);
         },

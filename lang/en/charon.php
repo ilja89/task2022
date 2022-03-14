@@ -54,6 +54,7 @@ $string['naming'] = 'Naming';
 $string['task_info'] = 'Task info';
 $string['plagiarism_detection'] = 'Plagiarism detection';
 $string['task_name'] = 'Task name';
+$string['existing_tasks'] = 'Include existing tasks';
 $string['project_folder_name'] = 'Project folder name';
 $string['tester_extra'] = 'Extra tester parameters';
 $string['system_extra'] = 'Extra system parameters';

@@ -1,5 +1,13 @@
 <template>
     <div>
+        <charon-text-input
+                name="existing_tasks"
+                :label="translate('existing_tasks_label')"
+                :required="false"
+                :value="form.fields.existing_tasks"
+                :helper_text="translate('existing_tasks_helper')"
+                @input-was-changed="onExistingTaskChanged">
+        </charon-text-input>
 
         <charon-text-input
                 name="name"

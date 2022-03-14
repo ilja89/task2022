@@ -7,6 +7,7 @@ use TTU\Charon\Events\CharonCreated;
 use TTU\Charon\Facades\MoodleConfig;
 use TTU\Charon\Listeners\AddDeadlinesToCalendar;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\CharonChain;
 use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -134,6 +135,23 @@ class CreateCharonService
 
         foreach ($request->defenseLabs as $defenseLab) {
             $this->charonDefenseLabService->createCharonDefenseLab($charon, $defenseLab);
+        }
+    }
+
+    public function addCharonChain($masterCharon, $additionalCharons) {
+        $previousCharon = null;
+        foreach ($additionalCharons as $additionalCharon) {
+            $charonChain = new CharonChain;
+            $charonChain->charon_id = $additionalCharon->id;
+            $charonChain->save();
+            if (!is_null($previousCharon)) {
+                $previousCharon->next_chain = $charonChain->id;
+                $previousCharon->save();
+            }
+            $previousCharon = $charonChain;
+            if (is_null($masterCharon->charon_chain)) {
+                $masterCharon->charon_chain = $charonChain->id;
+            }
         }
     }
 }

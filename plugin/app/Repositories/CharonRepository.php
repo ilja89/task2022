@@ -107,6 +107,10 @@ class CharonRepository
         return Charon::find($id);
     }
 
+    public function getCharonByProjectFolder($project_folder) {
+        return Charon::where('project_folder', $project_folder)->get();
+    }
+
     /**
      * Gets a Charon instance by course module id.
      * Returns null if no course module is found or if the given course module is not a Charon.

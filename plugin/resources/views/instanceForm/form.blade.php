@@ -19,6 +19,7 @@
         task_info_title: "{{ translate('task_info') }}",
         grading_title: "{{ translate('grading') }}",
 
+        existing_tasks_label: "{{ translate('existing_tasks') }}",
         task_name_label: "{{ translate('task_name') }}",
         project_folder_name_label: "{{ translate('project_folder_name') }}",
         tester_extra_label: "{{ translate('tester_extra') }}",
@@ -100,7 +101,6 @@
 <div id="app">
 
     {{ csrf_field() }}
-
     <instance-form
             :form="form">
     </instance-form>
