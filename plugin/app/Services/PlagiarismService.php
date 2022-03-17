@@ -9,6 +9,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\PlagiarismRepository;
+use TTU\Charon\Repositories\UserRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
@@ -28,6 +29,9 @@ class PlagiarismService
     /** @var PlagiarismRepository */
     private $plagiarismRepository;
 
+    /** @var UserRepository */
+    private $userRepository;
+
     /**
      * PlagiarismService constructor.
      *
@@ -38,12 +42,14 @@ class PlagiarismService
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
         CharonRepository $charonRepository,
-        PlagiarismRepository $plagiarismRepository
+        PlagiarismRepository $plagiarismRepository,
+        UserRepository $userRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
         $this->plagiarismRepository = $plagiarismRepository;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -100,11 +106,11 @@ class PlagiarismService
      * @param Charon $charon
      * @param Course $course
      * @param Request $request
-     * @return PlagiarismCheck
+     * @return array
      *
      * @throws GuzzleException
      */
-    public function runCheck(Charon $charon, Course $course, Request $request): PlagiarismCheck
+    public function runCheck(Charon $charon, Course $course, Request $request): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
         $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
@@ -112,8 +118,14 @@ class PlagiarismService
         $check->updated_at = Carbon::now();
         $check->status = $response;
         $check->save();
-
-        return $check;
+        return [
+            "charonName" => $charon->name,
+            "created_at" => $check->created_at,
+            "updated_at" => $check->updated_at,
+            "status" => $check->status,
+            "checkId" => $check->id,
+            "author" => $check->user->firstname . ' ' . $check->user->lastname
+        ];
     }
 
     /**
@@ -215,7 +227,15 @@ class PlagiarismService
      */
     public function getCheckHistory(Course $course): array
     {
-        return $this->plagiarismRepository->getChecksByCourseId($course->id);
+        $checks = $this->plagiarismRepository->getChecksByCourseId($course->id);
+
+        foreach ($checks as $check) {
+            $check->author = $check->firstname . ' ' . $check->lastname;
+            unset($check->firstname);
+            unset($check->lastname);
+        }
+
+        return $checks;
     }
 
     /**

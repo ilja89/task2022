@@ -44,8 +44,9 @@ class PlagiarismRepository
 
         return DB::table('charon_plagiarism_check')
             ->join('charon', 'charon_id', '=', 'charon.id')
+            ->join('user', 'user_id', '=', 'user.id')
+            ->select('charon_plagiarism_check.*', 'charon.name', 'user.firstname', 'user.lastname')
             ->where('charon.course', $courseId)
-            ->select('charon_plagiarism_check.*', 'charon.name')
             ->orderBy('updated_at', 'desc')
             ->get()
             ->toArray();

@@ -113,9 +113,7 @@ class PlagiarismController extends Controller
      */
     public function runCheck(Course $course, Charon $charon): \Illuminate\Http\JsonResponse
     {
-        $check = $this->plagiarismService->runCheck($charon, $course, $this->request);
-
-        $status = ["charonName" => $charon->name, "created_at" => $check->created_at, "updated_at" => $check->updated_at, "status" => $check->status, "checkId" => $check->id];
+        $status = $this->plagiarismService->runCheck($charon, $course, $this->request);
 
         return response()->json([
             'message' => 'Plagiarism service has been notified to re-run the checksuite.',
@@ -137,7 +135,8 @@ class PlagiarismController extends Controller
             "created_at" => $plagiarismCheck->created_at,
             "updated_at" => $plagiarismCheck->updated_at,
             "status" => $plagiarismCheck->status,
-            "checkId" => $plagiarismCheck->id
+            "checkId" => $plagiarismCheck->id,
+            "author" => $plagiarismCheck->user->firstname . ' ' . $plagiarismCheck->user->lastname
         ];
     }
 

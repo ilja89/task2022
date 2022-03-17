@@ -18,6 +18,9 @@
                                     Charon
                                 </th>
                                 <th class="text-left">
+                                    Author
+                                </th>
+                                <th class="text-left">
                                     Created at
                                 </th>
                                 <th class="text-left">
@@ -32,6 +35,9 @@
                             <tr>
                                 <td>
                                     {{latestCheck.charonName}}
+                                </td>
+                                <td>
+                                    {{latestCheck.author}}
                                 </td>
                                 <td>
                                     {{latestCheck.created_at}}
@@ -82,6 +88,7 @@ export default {
             latestCheck: [],
             headers: [
                 {text: 'Charon', align: 'start', value: 'name'},
+                {text: 'Author', value: 'author'},
                 {text: 'Created at', value: 'created_at'},
                 {text: 'Updated at', value: 'updated_at'},
                 {text: 'Status', value: 'status'},
