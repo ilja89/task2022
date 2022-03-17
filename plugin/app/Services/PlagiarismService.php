@@ -199,11 +199,11 @@ class PlagiarismService
                     $match['user_id'] = $user->id;
                     $match['other_user_id'] = $otherUser->id;
                 } else {
-                    $match['user_id'] = 2;
-                    $match['other_user_id'] = 2;
+                    $match['user_id'] = null;
+                    $match['other_user_id'] = null;
                 }
-                $match['submission_id'] = 1;
-                $match['other_submission_id'] = 1;
+                $match['submission_id'] = null;
+                $match['other_submission_id'] = null;
             }
             $result[] = $match;
         }

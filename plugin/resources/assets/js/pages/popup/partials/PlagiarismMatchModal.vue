@@ -42,13 +42,40 @@
                     <div class="info-field" style="height: 100%;overflow-y: scroll">
                         <v-simple-table dense style="overflow-y: auto;width: 100%; margin-left: auto; margin-right: auto">
                             <template v-slot:default>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                {{match.uniid}}'s blocks
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                Lines
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                {{match.other_uniid}}'s blocks
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 <tr v-for="similarity in similaritiesTable.similarities" :key="similarity.id">
                                     <td>
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
                                                    @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines_start)">
-                                                {{ similarity.lines_start }} - {{ similarity.lines_end }} ({{ similarity.section_size}}/{{similarity.section_percentage}}%)
+                                                {{ similarity.lines_start }} - {{ similarity.lines_end }} ({{similarity.section_percentage}}%)
+                                            </v-btn>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-center">
+                                            <v-btn :color="similarity.color"
+                                                   @click="goToLineBoth(similaritiesTable.matchId, similarity.lines_start, similarity.other_lines_start)">
+                                                {{ similarity.section_size}}
                                             </v-btn>
                                         </div>
                                     </td>
@@ -56,7 +83,7 @@
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
                                                    @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines_start)">
-                                                {{ similarity.other_lines_start }} - {{ similarity.other_lines_end }} ({{ similarity.other_section_size}}/{{similarity.other_section_percentage}}%)
+                                                {{ similarity.other_lines_start }} - {{ similarity.other_lines_end }} ({{similarity.other_section_percentage}}%)
                                             </v-btn>
                                         </div>
                                     </td>
@@ -197,6 +224,10 @@ export default {
     },
 
     methods: {
+        goToLineBoth(editorName, lines_start, other_lines_start) {
+            this.goToLine(editorName + "-0", lines_start)
+            this.goToLine(editorName + "-1", other_lines_start)
+        },
         goToLine(editorName, lines_start) {
             let editor = ace.edit(editorName);
 
