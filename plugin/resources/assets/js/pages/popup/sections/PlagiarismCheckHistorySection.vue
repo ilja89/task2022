@@ -4,7 +4,8 @@
     >
 
         <template slot="header-right">
-            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run plagiarism check</v-btn>
+            <charon-select></charon-select>
+            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked" :disabled="submitDisabled">Run plagiarism check</v-btn>
             <toggle-button @buttonClicked="showHistoryTable($event)"></toggle-button>
         </template>
         <div>
@@ -65,24 +66,22 @@ import {mapState} from 'vuex'
 import {PopupSection} from '../layouts';
 import ToggleButton from "../../../components/partials/ToggleButton";
 import {Plagiarism} from "../../../api";
+import CharonSelect from "../partials/CharonSelect";
 
 export default {
     name: 'plagiarism-check-history-section',
 
-    components: {ToggleButton,PopupSection},
+    components: {CharonSelect, ToggleButton,PopupSection},
 
     data() {
         return {
+            submitDisabled: false,
             sectionTitle: 'Latest check',
-            checkHistory: [{"charonName":"PR02_primes","created_at":"2022-03-07T14:49:59.000000Z","updated_at":"2022-03-07T14:50:00.000000Z","status":"Check started.","checkId":47},
-
-                {"charonName":"PR02_primes","created_at":"2022-03-07T14:49:03.000000Z","updated_at":"2022-03-07T14:49:03.000000Z","status":"Check started.","checkId":46},
-
-                {"charonName":"EX11_Order","created_at":"2022-03-02T12:23:36.000000Z","updated_at":"2022-03-02T12:23:53.000000Z","status":"Check successful","checkId":39}],
+            checkHistory: [],
             toggleShowHistoryTable: false,
             latestCheck: [],
             headers: [
-                {text: 'Charon', align: 'start', value: 'charonName'},
+                {text: 'Charon', align: 'start', value: 'name'},
                 {text: 'Created at', value: 'created_at'},
                 {text: 'Updated at', value: 'updated_at'},
                 {text: 'Status', value: 'status'},
@@ -96,36 +95,47 @@ export default {
             'course'
         ]),
     },
+
+    created() {
+    },
+
     methods: {
         handleRunPlagiarismClicked() {
             Plagiarism.runPlagiarismCheck(this.course.id, this.charon.id, response => {
-                this.latestCheck = response.status
+                if (response.status === 200) {
+                    this.latestCheck = response.data.status
+                    console.log(response)
+                    console.log(this.latestCheck.checkId)
+                    this.refreshLatestStatus(this.latestCheck.checkId, this.charon.id);
+                }
                 window.VueEvent.$emit(
                     'show-notification',
-                    response.message,
+                    response.data.message,
                     'success',
                 )
-                console.log(this.latestCheck)
             })
-            this.refreshLatestStatus();
         },
         showHistoryTable(bool) {
             this.toggleShowHistoryTable = bool;
             if (this.toggleShowHistoryTable === true) {
                 this.sectionTitle = "History of checks";
-                //Plagiarism.getCheckHistory()
+                Plagiarism.getCheckHistory(this.course.id, response => {
+                    this.checkHistory = response;
+                })
             } else {
                 this.sectionTitle = "Latest check";
             }
         },
-        refreshLatestStatus() {
-            this.interval = setInterval(this.getLatestStatus, 5000)
+        refreshLatestStatus(latestCheckId, charonId) {
+            this.submitDisabled = true;
+            this.interval = setInterval(this.getLatestStatus, 5000, latestCheckId, charonId)
         },
-        getLatestStatus() {
-            Plagiarism.getLatestCheckStatus(this.charon.id, this.latestCheck.checkId, response => {
-                this.latestCheck = response
-                if (this.latestCheck.status === "Check successful") {
+        getLatestStatus(latestCheckId, charonId) {
+            Plagiarism.getLatestCheckStatus(charonId, latestCheckId, response => {
+                if (this.latestCheck.status !== response.status) {
+                    this.latestCheck = response
                     clearInterval(this.interval)
+                    this.submitDisabled = false
                 }
             })
         }

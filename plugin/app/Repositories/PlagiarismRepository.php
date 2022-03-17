@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\PlagiarismCheck;
 
 /**
@@ -30,5 +31,23 @@ class PlagiarismRepository
             'updated_at' => Carbon::now(),
             'status'    => $status,
         ]);
+    }
+
+    /**
+     * Save the given plagiarism check and return it.
+     *
+     * @param int $courseId
+     * @return array
+     */
+    public function getChecksByCourseId(int $courseId): array
+    {
+
+        return DB::table('charon_plagiarism_check')
+            ->join('charon', 'charon_id', '=', 'charon.id')
+            ->where('charon.course', $courseId)
+            ->select('charon_plagiarism_check.*', 'charon.name')
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->toArray();
     }
 }

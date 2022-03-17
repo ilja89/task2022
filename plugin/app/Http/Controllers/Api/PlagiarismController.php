@@ -140,4 +140,15 @@ class PlagiarismController extends Controller
             "checkId" => $plagiarismCheck->id
         ];
     }
+
+    /**
+     * Returns a list of this courses plagiarism checks.
+     *
+     * @param Course $course
+     * @return array
+     */
+    public function getCheckHistory(Course $course): array
+    {
+        return $this->plagiarismService->getCheckHistory($course);
+    }
 }

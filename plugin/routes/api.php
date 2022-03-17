@@ -187,6 +187,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('/charons/{charon}/plagiarism-checks/{plagiarismCheck}', 'PlagiarismController@getStatus');
 
+    Route::middleware('auth.course.managing.require')
+        ->get('/courses/{course}/checks-history/', 'PlagiarismController@getCheckHistory');
+
     // DJANGO PLAGIARISM CALLBACK
     Route::post('plagiarism_callback/{plagiarismCheck}', 'PlagiarismCallbackController@index')
         ->name('plagiarism_callback');

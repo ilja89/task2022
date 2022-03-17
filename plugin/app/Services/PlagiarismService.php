@@ -194,7 +194,6 @@ class PlagiarismService
     /**
      * Get the matches for the given Charon from the plagiarism service.
      *
-     *
      * @param Charon $charon
      * @param Course $course
      *
@@ -205,6 +204,18 @@ class PlagiarismService
     public function getMatches(Charon $charon, Course $course): array
     {
         return $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+    }
+
+    /**
+     * Get a list of checks for given course.
+     *
+     * @param Course $course
+     *
+     * @return array
+     */
+    public function getCheckHistory(Course $course): array
+    {
+        return $this->plagiarismRepository->getChecksByCourseId($course->id);
     }
 
     /**
