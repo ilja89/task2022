@@ -3,10 +3,12 @@
 namespace TTU\Charon\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 use TTU\Charon\Http\Requests\CharonViewTesterCallbackRequest;
 use TTU\Charon\Http\Requests\TesterCallbackRequest;
 use TTU\Charon\Repositories\CourseSettingsRepository;
@@ -219,22 +221,27 @@ class HttpCommunicationService
      * @param string $uri
      * @param string $method - 'post'/'get' or any method Guzzle accepts.
      * @param array $data
-     *
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @param bool $authentication
+     * @return ResponseInterface
      *
      * @throws GuzzleException
      */
-    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [])
+    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [], bool $authentication = false): ?ResponseInterface
     {
         $plagiarismUrl = $this->settingsService->getSetting(
             'mod_charon',
             'plagiarism_service_url'
         );
-        $token = $this->settingsService->getSetting(
-            'mod_charon',
-            'plagiarism_service_auth_token'
-        );
-        $headers = ['Authorization' => "Bearer {$token}"];
+
+        if ($authentication) {
+            $headers = ['Authorization' => "Token 54c02cdd9ce1e859317174480bf84619fa090f39"];
+        } else {
+            $apiKey = $this->settingsService->getSetting(
+                'mod_charon',
+                'plagiarism_service_auth_token'
+            );
+            $headers = ['Authorization' => "Bearer {$apiKey}"];
+        }
 
         Log::info('Sending data to plagiarism service.', [
             'uri' => $plagiarismUrl . '/' . $uri,
@@ -248,14 +255,14 @@ class HttpCommunicationService
                 "/{$uri}",
                 ['json' => $data, 'headers' => $headers]
             );
-        } catch (RequestException $e) {
+        } catch (GuzzleException $e) {
             Log::error(
                 'Could not send info to the plagiarism service to the url "'
                 . $plagiarismUrl . '/' . $uri . '".',
                 ['error' => $e]
             );
 
-            throw $e;
+            return null;
         }
     }
 }

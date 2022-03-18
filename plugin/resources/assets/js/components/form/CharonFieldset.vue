@@ -1,20 +1,28 @@
 <template>
     <fieldset class="clearfix collapsible" id="id_modstandardelshdr_CF">
 
-        <legend class="ftoggler" v-on:click="open = !open">
+        <legend class="ftoggler" v-on:click="sectionOpen = !sectionOpen">
             <slot name="title"></slot>
         </legend>
 
-        <slot v-if="open"></slot>
+        <slot v-if="sectionOpen"></slot>
 
     </fieldset>
 </template>
 
 <script>
     export default {
+
+        props: {
+            open: {
+                required: false,
+                default: true
+            }
+        },
+
         data() {
             return {
-                open: true
+                sectionOpen: this.open
             };
         }
     }

@@ -83,5 +83,28 @@ export default {
         onPlagiarismExcludesChanged(excludes) {
             VueEvent.$emit('plagiarism-excludes-was-changed', excludes)
         },
+
+        onPlagiarismLangTypeChanged(langType) {
+            VueEvent.$emit('plagiarism-lang-type-was-changed', langType);
+        },
+        onGitlabGroupChanged(gitlabGroup) {
+            VueEvent.$emit('gitlab-group-was-changed', gitlabGroup);
+        },
+
+        onGitlabLocationTypeChanged(locationType) {
+            VueEvent.$emit('gitlab-location-type-was-changed', locationType);
+        },
+
+        onPlagiarismFileExtensionsChanged(fileExtension) {
+            VueEvent.$emit('plagiarism-file-extension-was-changed', fileExtension);
+        },
+
+        onPlagiarismMossMatchesChanged(mossMatches) {
+            VueEvent.$emit('plagiarism-moss-matches-was-changed', mossMatches);
+        },
+
+        onPlagiarismMossMatchesShownChanged(matchesShown) {
+            VueEvent.$emit('plagiarism-moss-matches-shown-was-changed', matchesShown)
+        }
     },
 };

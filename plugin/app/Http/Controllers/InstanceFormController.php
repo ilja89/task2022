@@ -9,8 +9,10 @@ use Illuminate\View\View;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\ClassificationsRepository;
+use TTU\Charon\Repositories\CourseRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\PresetsRepository;
+use TTU\Charon\Services\PlagiarismCommunicationService;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Services\SettingsService;
@@ -41,6 +43,9 @@ class InstanceFormController extends Controller
     /** @var SettingsService */
     private $settingsService;
 
+    /** @var PlagiarismCommunicationService  */
+    private $plagiarismCommunicationService;
+
     /**
      * InstanceFormController constructor.
      *
@@ -51,6 +56,7 @@ class InstanceFormController extends Controller
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param PresetsRepository $presetsRepository
      * @param SettingsService $settingsService
+     * @param PlagiarismCommunicationService $plagiarismCommunicationService
      */
     public function __construct(
         Request $request,
@@ -59,7 +65,8 @@ class InstanceFormController extends Controller
         GradebookService $gradebookService,
         CourseSettingsRepository $courseSettingsRepository,
         PresetsRepository $presetsRepository,
-        SettingsService $settingsService
+        SettingsService $settingsService,
+        PlagiarismCommunicationService $plagiarismCommunicationService
     ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
@@ -68,6 +75,7 @@ class InstanceFormController extends Controller
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->presetsRepository = $presetsRepository;
         $this->settingsService = $settingsService;
+        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
     }
 
     /**
@@ -100,7 +108,7 @@ class InstanceFormController extends Controller
             'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
             'groups' => $course->groups,
             'groupings' => $course->groupings,
-            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
+            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices()
             //'defense_labs' =>
         ]);
     }
@@ -111,6 +119,7 @@ class InstanceFormController extends Controller
      * @param Charon $charon
      *
      * @return Factory|View
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function edit($charon)
     {
@@ -127,9 +136,16 @@ class InstanceFormController extends Controller
         $groupings = $charon->moodleCourse->groupings;
         $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
+        $course = Course::where('id', $charon->course)->first();
+        $plagiarismSettings = [];
+        $plagiarismSettings['courseExists'] = $this->plagiarismCommunicationService->courseExists([
+            'courseName' => $course->shortname,
+            'courseId' => $course->id
+        ]);
+
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices'
+            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices', 'plagiarismSettings'
         ));
     }
 

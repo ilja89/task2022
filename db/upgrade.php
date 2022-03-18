@@ -9,6 +9,7 @@ require __DIR__ . '/../plugin/bootstrap/autoload.php';
  * @link https://github.com/moodle/moodle/blob/master/lib/db/upgrade.php
  * @param int $oldversion
  * @return bool
+ * @throws Exception
  */
 function xmldb_charon_upgrade($oldversion = 0)
 {
@@ -821,6 +822,88 @@ function xmldb_charon_upgrade($oldversion = 0)
             $dbManager->add_field($table, $field);
         }
     }
+
+    if ($oldversion < 2022031001) {
+
+        $table = new xmldb_table('charon_plagiarism_lang_type');
+        $table->add_field('code', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_key('PK_plagiarism_language_type', XMLDB_KEY_PRIMARY, ['code']);
+
+        if (!$dbManager->table_exists($table)) {
+            $dbManager->create_table($table);
+        }
+
+        $table = new xmldb_table('charon_gitlab_location_type');
+        $table->add_field('code', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_key('PK_gitlab_location_type', XMLDB_KEY_PRIMARY, ['code']);
+
+        if (!$dbManager->table_exists($table)) {
+            $dbManager->create_table($table);
+        }
+
+        $table = new xmldb_table('charon_course_settings');
+        $fields = [
+            new xmldb_field('plagiarism_language_type_code', XMLDB_TYPE_CHAR, '50', null, null, null, null, null),
+            new xmldb_field('plagiarism_gitlab_group', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
+            new xmldb_field('gitlab_location_type_code', XMLDB_TYPE_INTEGER, '2', null, null, null, null, null),
+            new xmldb_field('plagiarism_file_extensions', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
+            new xmldb_field('plagiarism_moss_passes', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '10', null),
+            new xmldb_field('plagiarism_moss_matches_shown', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '25', null)
+        ];
+
+        foreach ($fields as $field) {
+            if (!$dbManager->field_exists($table, $field)) {
+                $dbManager->add_field($table, $field);
+            }
+        }
+    }
+
+    if ($oldversion < 2022031201) {
+        $plagiarism_lang_types = [
+            (object)['code' => 'a8086', 'name' => '8086 Assembly'],
+            (object)['code' => 'ada', 'name' => 'Ada'],
+            (object)['code' => 'ascii', 'name' => 'ASCII'],
+            (object)['code' => 'c', 'name' => 'C'],
+            (object)['code' => 'cc', 'name' => 'C++'],
+            (object)['code' => 'csharp', 'name' => 'C#'],
+            (object)['code' => 'fortran', 'name' => 'Fortran'],
+            (object)['code' => 'haskell', 'name' => 'Haskell'],
+            (object)['code' => 'java', 'name' => 'Java'],
+            (object)['code' => 'javascript', 'name' => 'JavaScript'],
+            (object)['code' => 'lisp', 'name' => 'Lisp'],
+            (object)['code' => 'matlab', 'name' => 'MATLAB'],
+            (object)['code' => 'mips', 'name' => 'MIPS Assembly'],
+            (object)['code' => 'ml', 'name' => 'ML'],
+            (object)['code' => 'modula2', 'name' => 'Modula2'],
+            (object)['code' => 'pascal', 'name' => 'Pascal'],
+            (object)['code' => 'perl', 'name' => 'Perl'],
+            (object)['code' => 'plsql', 'name' => 'PL/SQL'],
+            (object)['code' => 'prolog', 'name' => 'Prolog'],
+            (object)['code' => 'python', 'name' => 'Python'],
+            (object)['code' => 'scheme', 'name' => 'Scheme'],
+            (object)['code' => 'spice', 'name' => 'Spice'],
+            (object)['code' => 'vb', 'name' => 'Visual Basic'],
+            (object)['code' => 'vhdl', 'name' => 'VHDL'],
+        ];
+
+        $gitlab_location_types = [
+            (object)['code' => 1, 'name' => 'Projects'],
+            (object)['code' => 2, 'name' => 'Shared projects']
+        ];
+
+        $records = $DB->get_records_select('charon_plagiarism_lang_type', "code = 'python'");
+        if (count($records) == 0) {
+            $DB->insert_records('charon_plagiarism_lang_type', $plagiarism_lang_types);
+        }
+
+        $records = $DB->get_records_select('charon_gitlab_location_type', 'code = 1');
+        if (count($records) == 0) {
+            $DB->insert_records('charon_gitlab_location_type', $gitlab_location_types);
+        }
+    }
+
 
     return true;
 }

@@ -42,7 +42,8 @@ const app = new Vue({
             presets,
             groups,
             groupings,
-            plagiarismServices
+            plagiarismServices,
+            plagiarismSettings
             // ...
         )
     }

@@ -2,7 +2,9 @@
 
 namespace TTU\Charon\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
 
@@ -34,7 +36,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function createChecksuite(Charon $charon, $services, $providers, $includes)
     {
@@ -66,7 +68,7 @@ class PlagiarismCommunicationService
             $data
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -76,7 +78,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function runChecksuite($checksuiteId)
     {
@@ -85,7 +87,7 @@ class PlagiarismCommunicationService
             'post'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -95,7 +97,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getChecksuiteDetails($checksuiteId)
     {
@@ -104,7 +106,7 @@ class PlagiarismCommunicationService
             'get'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -114,7 +116,7 @@ class PlagiarismCommunicationService
      *
      * @return \StdClass
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getCheckDetails($checkId)
     {
@@ -123,6 +125,79 @@ class PlagiarismCommunicationService
             'get'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
+    }
+
+    /**
+     * Get the GitLab groups of the superuser account which is configured in Moodle Plagiarism settings
+     * @return object[]|null
+     * @throws GuzzleException
+     */
+    public function fetchGitlabGroups(): ?array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/plagiarism/fetch-gitlab-groups",
+            "get",
+            [],
+            true
+        );
+
+        if ($response == null) {
+            return null;
+        }
+
+        $gitlab_groups = json_decode((string)$response->getBody());
+
+        return array_map(function ($group) {
+            return (object)array('code' => $group->label, 'name' => $group->label);
+        }, $gitlab_groups);
+    }
+
+    /**
+     * Send data to Plagiarism and create or update a course
+     * @throws GuzzleException
+     */
+    public function createOrUpdateCourse(array $courseSettings)
+    {
+        $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/courses/create-or-update-course/",
+            "post",
+            $courseSettings,
+            true
+        );
+    }
+
+    /**
+     * Send data to Plagiarism and create or update a course
+     * @throws GuzzleException
+     */
+    public function createOrUpdateAssignment(array $settings)
+    {
+        $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/courses/create-or-update-assignment/",
+            "post",
+            $settings,
+            true
+        );
+    }
+
+    /**
+     * @param $courseData
+     * @return bool
+     * @throws GuzzleException
+     */
+    public function courseExists($courseData)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/courses/course-exists/",
+            "get",
+            $courseData,
+            true
+        );
+
+        if ($response) {
+            $response = json_decode((string)$response->getBody());
+        }
+        return $response ?: false;
     }
 }

@@ -4,8 +4,10 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Models\GitlabLocationType;
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
+use TTU\Charon\Models\PlagiarismLangType;
 use TTU\Charon\Models\PlagiarismService;
 use TTU\Charon\Models\TesterType;
 
@@ -93,5 +95,25 @@ class ClassificationsRepository
     public function getAllPlagiarismServices()
     {
         return PlagiarismService::all();
+    }
+
+    /**
+     * Get all plagiarism language types.
+     *
+     * @return Collection|static[]
+     */
+    public function getAllPlagiarismLangTypes()
+    {
+        return PlagiarismLangType::all();
+    }
+
+    /**
+     * Get all gitlab location types.
+     *
+     * @return Collection|static[]
+     */
+    public function getAllGitlabLocationTypes()
+    {
+        return GitlabLocationType::all();
     }
 }

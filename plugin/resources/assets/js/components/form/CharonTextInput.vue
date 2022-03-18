@@ -9,7 +9,7 @@
                 <input class="form-control" :class="[ input_class ]"
                        :id="'id_' + name"
                        :name="name"
-                       type="text"
+                       :type="inputType"
                        :required="required"
                        :autocomplete="autocomplete ? 'on' : 'off'"
                        v-model="input_value"
@@ -28,6 +28,10 @@
 
         props: {
             autocomplete: { required: false, default: true },
+            inputType: {
+                required: false,
+                default: "text"
+            }
         }
     }
 </script>

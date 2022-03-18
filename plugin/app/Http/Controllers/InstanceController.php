@@ -7,13 +7,18 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\GitlabLocationType;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\CourseRepository;
+use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
+use TTU\Charon\Services\PlagiarismCommunicationService;
 use TTU\Charon\Services\PlagiarismService;
 use TTU\Charon\Services\TemplateService;
 use TTU\Charon\Services\UpdateCharonService;
+use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\FileUploadService;
 use Zeizig\Moodle\Services\GradebookService;
 use Zeizig\Moodle\Globals\User as MoodleUser;
@@ -58,6 +63,15 @@ class InstanceController extends Controller
     /** @var TemplateService */
     private $templatesService;
 
+    /** @var CourseSettingsRepository */
+    private $courseSettingsRepository;
+
+    /** @var CourseRepository */
+    private $courseRepository;
+
+    /** @var PlagiarismCommunicationService */
+    private $plagiarismCommunicationService;
+
     /**
      * InstanceController constructor.
      *
@@ -69,8 +83,12 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
-     * @param TemplateService $templatesService
      * @param DeadlinesRepository $deadlinesRepository
+     * @param MoodleUser $moodleUser
+     * @param TemplateService $templatesService
+     * @param CourseSettingsRepository $courseSettingsRepository
+     * @param CourseRepository $courseRepository
+     * @param PlagiarismCommunicationService $plagiarismCommunicationService
      */
     public function __construct(
         Request $request,
@@ -83,7 +101,10 @@ class InstanceController extends Controller
         PlagiarismService $plagiarismService,
         DeadlinesRepository $deadlinesRepository,
         Moodleuser $moodleUser,
-        TemplateService $templatesService
+        TemplateService $templatesService,
+        CourseSettingsRepository $courseSettingsRepository,
+        CourseRepository $courseRepository,
+        PlagiarismCommunicationService $plagiarismCommunicationService
     )
     {
         parent::__construct($request);
@@ -97,6 +118,9 @@ class InstanceController extends Controller
         $this->deadlinesRepository = $deadlinesRepository;
         $this->moodleUser = $moodleUser;
         $this->templatesService = $templatesService;
+        $this->courseSettingsRepository = $courseSettingsRepository;
+        $this->courseRepository = $courseRepository;
+        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
     }
 
     /**
@@ -153,6 +177,7 @@ class InstanceController extends Controller
      *
      * @throws \TTU\Charon\Exceptions\CharonNotFoundException
      * @throws \Exception
+     * @throws GuzzleException
      */
     public function update()
     {
@@ -175,7 +200,12 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
 
-            // TODO: Plagiarism
+            if ($this->request->input('plagiarism_create_update_charon') === 'true') {
+                $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
+                $plagiarismAssignmentCreationSettings = $this->getAllPlagiarismSettings($charon, $courseSettings);
+                $this->plagiarismCommunicationService->createOrUpdateAssignment($plagiarismAssignmentCreationSettings);
+            }
+
         }
 
         return "1";
@@ -304,5 +334,29 @@ class InstanceController extends Controller
             $charon->courseModule()->id
         );
         return $newDescription;
+    }
+
+    /**
+     * Find and return all plagiarism settings that are needed to create a new assignment in Plagiarism
+     * @param $charon
+     * @param $courseSettings
+     * @return array
+     */
+    private function getAllPlagiarismSettings($charon, $courseSettings): array
+    {
+        return [
+            'course' => [
+                'courseName' => $this->courseRepository->getShortnameById($charon->course)
+            ],
+
+            'charon' => [
+                'name' => $charon->name,
+                'charon_identifier' => $charon->id,
+                'directory_path' => $charon->project_folder,
+                'file_extensions' => '{' . $courseSettings->plagiarism_file_extensions . '}',
+                'max_passes' => $courseSettings->plagiarism_moss_passes,
+                'number_shown' => $courseSettings->plagiarism_moss_matches_shown
+            ]
+        ];
     }
 }

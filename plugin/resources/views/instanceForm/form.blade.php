@@ -11,6 +11,7 @@
     window.groups = {!! $groups->toJson() !!};
     window.groupings = {!! $groupings->toJson() !!};
     window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
+    window.plagiarismSettings = {!! json_encode($plagiarismSettings) !!}
     // ...
 
     window.translations = {
@@ -18,6 +19,7 @@
         plagiarism_detection: "{{ translate('plagiarism_detection') }}",
         task_info_title: "{{ translate('task_info') }}",
         grading_title: "{{ translate('grading') }}",
+        plagiarism_title: "{{ translate('instance_plagiarism_settings') }}",
 
         task_name_label: "{{ translate('task_name') }}",
         project_folder_name_label: "{{ translate('project_folder_name') }}",
@@ -48,6 +50,8 @@
         plagiarism_includes: "{{ translate('plagiarism_includes') }}",
         grouping: "{{ translate('grouping') }}",
         grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
+        plagiarism_course_found_label: "{{ translate('plagiarism_course_found_msg') }}",
+        plagiarism_course_not_found_label: "{{ translate('plagiarism_course_not_found_msg') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
