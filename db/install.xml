@@ -414,9 +414,9 @@
                 <FIELD NAME="tester_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_sync_url" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
                 <FIELD NAME="tester_token" SEQUENCE="false" TYPE="char" NOTNULL="false" LENGTH="255"/>
-                <FIELD NAME="plagiarism_language_type_code" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="plagiarism_language_type" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="plagiarism_gitlab_group" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="gitlab_location_type_code" TYPE="int" LENGTH="2" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="gitlab_location_type" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="plagiarism_file_extensions" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="plagiarism_moss_passes" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="10" SEQUENCE="false"/>
                 <FIELD NAME="plagiarism_moss_matches_shown" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="25" SEQUENCE="false"/>
@@ -427,10 +427,6 @@
                      REFTABLE="course" REFFIELDS="id"/>
                 <KEY NAME="FK_course_settings_tester_type" TYPE="foreign" FIELDS="tester_type_code"
                      REFTABLE="tester_type" REFFIELDS="code"/>
-                <KEY NAME="FK_course_settings_plagiarism_language_type" TYPE="foreign" FIELDS="plagiarism_language_type_code"
-                     REFTABLE="plagiarism_lang_type" REFFIELDS="code"/>
-                <KEY NAME="FK_course_settings_plagiarism_gitlab_location_type" TYPE="foreign" FIELDS="gitlab_location_type_code"
-                     REFTABLE="gitlab_location_type" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_course_settings_course" UNIQUE="false" FIELDS="course_id"/>
@@ -554,25 +550,6 @@
             <INDEXES>
                 <INDEX NAME="IXUNIQUE_submission_and_user" UNIQUE="true" FIELDS="submission_id,user_id"/>
             </INDEXES>
-        </TABLE>
-
-        <TABLE NAME="charon_plagiarism_lang_type" COMMENT="Plagiarism language types. Every plagiarism course has its own language type. Ie. Java, Python.">
-            <FIELDS>
-              <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-              <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-              <KEY NAME="PK_plagiarism_language_type" TYPE="primary" FIELDS="code"/>
-            </KEYS>
-        </TABLE>
-        <TABLE NAME="charon_gitlab_location_type" COMMENT="Gitlab project location. The project can be either located under 'Projects' or 'Shared projects'">
-            <FIELDS>
-              <FIELD NAME="code" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
-              <FIELD NAME="name" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-              <KEY NAME="PK_gitlab_location_type" TYPE="primary" FIELDS="code"/>
-            </KEYS>
         </TABLE>
 
         <!-- Code review comments -->

@@ -100,20 +100,51 @@ class ClassificationsRepository
     /**
      * Get all plagiarism language types.
      *
-     * @return Collection|static[]
+     * @return static[]
      */
-    public function getAllPlagiarismLangTypes()
+    public function getAllPlagiarismLangTypes(): array
     {
-        return PlagiarismLangType::all();
+        return [
+            (object)['code' => 'a8086', 'name' => '8086 Assembly'],
+            (object)['code' => 'ada', 'name' => 'Ada'],
+            (object)['code' => 'ascii', 'name' => 'ASCII'],
+            (object)['code' => 'c', 'name' => 'C'],
+            (object)['code' => 'cc', 'name' => 'C++'],
+            (object)['code' => 'csharp', 'name' => 'C#'],
+            (object)['code' => 'fortran', 'name' => 'Fortran'],
+            (object)['code' => 'haskell', 'name' => 'Haskell'],
+            (object)['code' => 'java', 'name' => 'Java'],
+            (object)['code' => 'javascript', 'name' => 'JavaScript'],
+            (object)['code' => 'lisp', 'name' => 'Lisp'],
+            (object)['code' => 'matlab', 'name' => 'MATLAB'],
+            (object)['code' => 'mips', 'name' => 'MIPS Assembly'],
+            (object)['code' => 'ml', 'name' => 'ML'],
+            (object)['code' => 'modula2', 'name' => 'Modula2'],
+            (object)['code' => 'pascal', 'name' => 'Pascal'],
+            (object)['code' => 'perl', 'name' => 'Perl'],
+            (object)['code' => 'plsql', 'name' => 'PL/SQL'],
+            (object)['code' => 'prolog', 'name' => 'Prolog'],
+            (object)['code' => 'python', 'name' => 'Python'],
+            (object)['code' => 'scheme', 'name' => 'Scheme'],
+            (object)['code' => 'spice', 'name' => 'Spice'],
+            (object)['code' => 'vb', 'name' => 'Visual Basic'],
+            (object)['code' => 'vhdl', 'name' => 'VHDL'],
+        ];
     }
 
     /**
      * Get all gitlab location types.
      *
-     * @return Collection|static[]
+     * @return static[]
      */
-    public function getAllGitlabLocationTypes()
+    public function getAllGitlabLocationTypes(): array
     {
-        return GitlabLocationType::all();
+        return [
+            ['name' => 'Projects',
+            'code' => 'Projects'],
+
+            ['name' => 'Shared Projects',
+            'code' => 'Shared Projects']
+        ];
     }
 }

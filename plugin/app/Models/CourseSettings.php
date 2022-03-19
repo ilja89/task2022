@@ -17,11 +17,9 @@ use Zeizig\Moodle\Models\Course;
  * @property String tester_url
  * @property String tester_sync_url
  * @property String tester_token
- * @property PlagiarismLangType plagiarismLangType
- * @property GitlabLocationType gitlabLocationType
- * @property String plagiarism_language_type_code
+ * @property String plagiarism_language_type
+ * @property String gitlab_location_type
  * @property String plagiarism_gitlab_group
- * @property integer gitlab_location_type_code
  * @property String plagiarism_file_extensions
  * @property integer plagiarism_moss_passes
  * @property integer plagiarism_moss_matches_shown
@@ -44,15 +42,5 @@ class CourseSettings extends Model
     public function testerType()
     {
         return $this->belongsTo(TesterType::class, 'tester_type_code', 'code');
-    }
-
-    public function plagiarismLangType()
-    {
-        return $this->belongsTo(PlagiarismLangType::class, 'plagiarism_language_type_code', 'code');
-    }
-
-    public function gitlabLocationType()
-    {
-        return $this->belongsTo(GitlabLocationType::class, 'gitlab_location_type_code', 'code');
     }
 }

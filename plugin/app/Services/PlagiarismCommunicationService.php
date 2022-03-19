@@ -138,8 +138,7 @@ class PlagiarismCommunicationService
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/plagiarism/fetch-gitlab-groups",
             "get",
-            [],
-            true
+            []
         );
 
         if ($response == null) {
@@ -162,8 +161,7 @@ class PlagiarismCommunicationService
         $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/courses/create-or-update-course/",
             "post",
-            $courseSettings,
-            true
+            $courseSettings
         );
     }
 
@@ -176,8 +174,7 @@ class PlagiarismCommunicationService
         $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/courses/create-or-update-assignment/",
             "post",
-            $settings,
-            true
+            $settings
         );
     }
 
@@ -191,8 +188,7 @@ class PlagiarismCommunicationService
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/courses/course-exists/",
             "get",
-            $courseData,
-            true
+            $courseData
         );
 
         if ($response) {

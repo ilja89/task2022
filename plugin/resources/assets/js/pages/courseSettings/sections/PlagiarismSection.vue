@@ -5,10 +5,10 @@
         <slot>
 
             <charon-select
-                name="plagiarism_language_type_code"
+                name="plagiarism_lang_type"
                 :required="true"
                 :options="form.plagiarism_lang_types"
-                :value="form.fields.plagiarism_language_type_code"
+                :value="form.fields.plagiarism_lang_type"
                 :label="translate('plagiarism_lang_label')"
                 @input-was-changed="onPlagiarismLangTypeChanged"
             ></charon-select>
@@ -23,10 +23,10 @@
             ></charon-select>
 
             <charon-select
-                name="gitlab_location_type_code"
+                name="gitlab_location_type"
                 :required="true"
                 :options="form.gitlab_location_types"
-                :value="form.fields.gitlab_location_type_code"
+                :value="form.fields.gitlab_location_type"
                 :label="translate('plagiarism_gitlab_location_label')"
                 @input-was-changed="onGitlabLocationTypeChanged"
             ></charon-select>

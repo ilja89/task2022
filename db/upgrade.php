@@ -571,8 +571,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2021011801) {
         $DB->execute(
             "INSERT IGNORE INTO " . $CFG->prefix . "charon_submission_user (submission_id, user_id)"
-                . " SELECT submission.id, submission.user_id"
-                . " FROM " . $CFG->prefix . "charon_submission AS submission"
+            . " SELECT submission.id, submission.user_id"
+            . " FROM " . $CFG->prefix . "charon_submission AS submission"
         );
     }
 
@@ -649,28 +649,28 @@ function xmldb_charon_upgrade($oldversion = 0)
                 // Add submission main authors as users in results table
                 $DB->execute(
                     "UPDATE {charon_result} AS cr "
-                        . "INNER JOIN {charon_submission} AS cs ON cr.submission_id = cs.id "
-                        . "SET cr.user_id = cs.user_id"
+                    . "INNER JOIN {charon_submission} AS cs ON cr.submission_id = cs.id "
+                    . "SET cr.user_id = cs.user_id"
                 );
                 // Add additional rows for every co-author
                 $DB->execute(
                     "INSERT INTO {charon_result}(submission_id, user_id, grade_type_code, percentage, calculated_result, stdout, stderr) "
-                        . "SELECT "
-                        . "cmu.submission_id, "
-                        . "cmu.user_id, "
-                        . "cr.grade_type_code, "
-                        . "cr.percentage, "
-                        . "cr.calculated_result, "
-                        . "cr.stdout, "
-                        . "cr.stderr "
-                        . "FROM {charon_submission_user} AS cmu "
-                        . "INNER JOIN {charon_submission} AS cs ON cmu.submission_id = cs.id "
-                        . "RIGHT JOIN {charon_result} AS cr ON cmu.submission_id = cr.submission_id "
-                        . "WHERE cmu.user_id != cs.user_id"
+                    . "SELECT "
+                    . "cmu.submission_id, "
+                    . "cmu.user_id, "
+                    . "cr.grade_type_code, "
+                    . "cr.percentage, "
+                    . "cr.calculated_result, "
+                    . "cr.stdout, "
+                    . "cr.stderr "
+                    . "FROM {charon_submission_user} AS cmu "
+                    . "INNER JOIN {charon_submission} AS cs ON cmu.submission_id = cs.id "
+                    . "RIGHT JOIN {charon_result} AS cr ON cmu.submission_id = cr.submission_id "
+                    . "WHERE cmu.user_id != cs.user_id"
                 );
 
                 $transaction->allow_commit();
-            } catch(Exception $exception) {
+            } catch (Exception $exception) {
                 $transaction->rollback($exception);
                 throw $exception;
             }
@@ -685,11 +685,11 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute("ALTER TABLE {charon_result} ADD INDEX IXFK_result_user_submission (user_id,submission_id)");
         $DB->execute(
             "ALTER TABLE {charon_result} ADD CONSTRAINT UK_charon_result_submission_user_grade_type_code "
-                . "UNIQUE (submission_id,user_id,grade_type_code)"
+            . "UNIQUE (submission_id,user_id,grade_type_code)"
         );
         $DB->execute(
             "ALTER TABLE {charon_result} ADD CONSTRAINT FK_result_user FOREIGN KEY (user_id) "
-                . "REFERENCES {user} (id)"
+            . "REFERENCES {user} (id)"
         );
     }
 
@@ -735,7 +735,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021071302){
+    if ($oldversion < 2021071302) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_template(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    charon_id BIGINT(10) NOT NULL," .
@@ -756,7 +756,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021081101){
+    if ($oldversion < 2021081101) {
         $table = new xmldb_table("charon");
         $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
 
@@ -765,7 +765,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021090901){
+    if ($oldversion < 2021090901) {
         $table = new xmldb_table("charon_course_settings");
         $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
 
@@ -774,7 +774,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021101101){
+    if ($oldversion < 2021101101) {
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
         $DB->execute($sql);
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
@@ -834,20 +834,11 @@ function xmldb_charon_upgrade($oldversion = 0)
             $dbManager->create_table($table);
         }
 
-        $table = new xmldb_table('charon_gitlab_location_type');
-        $table->add_field('code', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
-        $table->add_key('PK_gitlab_location_type', XMLDB_KEY_PRIMARY, ['code']);
-
-        if (!$dbManager->table_exists($table)) {
-            $dbManager->create_table($table);
-        }
-
         $table = new xmldb_table('charon_course_settings');
         $fields = [
-            new xmldb_field('plagiarism_language_type_code', XMLDB_TYPE_CHAR, '50', null, null, null, null, null),
+            new xmldb_field('plagiarism_language_type', XMLDB_TYPE_CHAR, '50', null, null, null, null, null),
             new xmldb_field('plagiarism_gitlab_group', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
-            new xmldb_field('gitlab_location_type_code', XMLDB_TYPE_INTEGER, '2', null, null, null, null, null),
+            new xmldb_field('gitlab_location_type', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
             new xmldb_field('plagiarism_file_extensions', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
             new xmldb_field('plagiarism_moss_passes', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '10', null),
             new xmldb_field('plagiarism_moss_matches_shown', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '25', null)
@@ -859,51 +850,6 @@ function xmldb_charon_upgrade($oldversion = 0)
             }
         }
     }
-
-    if ($oldversion < 2022031201) {
-        $plagiarism_lang_types = [
-            (object)['code' => 'a8086', 'name' => '8086 Assembly'],
-            (object)['code' => 'ada', 'name' => 'Ada'],
-            (object)['code' => 'ascii', 'name' => 'ASCII'],
-            (object)['code' => 'c', 'name' => 'C'],
-            (object)['code' => 'cc', 'name' => 'C++'],
-            (object)['code' => 'csharp', 'name' => 'C#'],
-            (object)['code' => 'fortran', 'name' => 'Fortran'],
-            (object)['code' => 'haskell', 'name' => 'Haskell'],
-            (object)['code' => 'java', 'name' => 'Java'],
-            (object)['code' => 'javascript', 'name' => 'JavaScript'],
-            (object)['code' => 'lisp', 'name' => 'Lisp'],
-            (object)['code' => 'matlab', 'name' => 'MATLAB'],
-            (object)['code' => 'mips', 'name' => 'MIPS Assembly'],
-            (object)['code' => 'ml', 'name' => 'ML'],
-            (object)['code' => 'modula2', 'name' => 'Modula2'],
-            (object)['code' => 'pascal', 'name' => 'Pascal'],
-            (object)['code' => 'perl', 'name' => 'Perl'],
-            (object)['code' => 'plsql', 'name' => 'PL/SQL'],
-            (object)['code' => 'prolog', 'name' => 'Prolog'],
-            (object)['code' => 'python', 'name' => 'Python'],
-            (object)['code' => 'scheme', 'name' => 'Scheme'],
-            (object)['code' => 'spice', 'name' => 'Spice'],
-            (object)['code' => 'vb', 'name' => 'Visual Basic'],
-            (object)['code' => 'vhdl', 'name' => 'VHDL'],
-        ];
-
-        $gitlab_location_types = [
-            (object)['code' => 1, 'name' => 'Projects'],
-            (object)['code' => 2, 'name' => 'Shared projects']
-        ];
-
-        $records = $DB->get_records_select('charon_plagiarism_lang_type', "code = 'python'");
-        if (count($records) == 0) {
-            $DB->insert_records('charon_plagiarism_lang_type', $plagiarism_lang_types);
-        }
-
-        $records = $DB->get_records_select('charon_gitlab_location_type', 'code = 1');
-        if (count($records) == 0) {
-            $DB->insert_records('charon_gitlab_location_type', $gitlab_location_types);
-        }
-    }
-
 
     return true;
 }

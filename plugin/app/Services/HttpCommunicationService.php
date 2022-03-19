@@ -221,27 +221,24 @@ class HttpCommunicationService
      * @param string $uri
      * @param string $method - 'post'/'get' or any method Guzzle accepts.
      * @param array $data
-     * @param bool $authentication
      * @return ResponseInterface
      *
      * @throws GuzzleException
      */
-    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = [], bool $authentication = false): ?ResponseInterface
+    public function sendPlagiarismServiceRequest(string $uri, string $method, array $data = []): ?ResponseInterface
     {
         $plagiarismUrl = $this->settingsService->getSetting(
             'mod_charon',
             'plagiarism_service_url'
         );
 
-        if ($authentication) {
-            $headers = ['Authorization' => "Token 54c02cdd9ce1e859317174480bf84619fa090f39"];
-        } else {
-            $apiKey = $this->settingsService->getSetting(
-                'mod_charon',
-                'plagiarism_service_auth_token'
-            );
-            $headers = ['Authorization' => "Bearer {$apiKey}"];
-        }
+
+        $authToken = $this->settingsService->getSetting(
+            'mod_charon',
+            'plagiarism_service_auth_token'
+        );
+        $headers = ['Authorization' => "Token {$authToken}"];
+
 
         Log::info('Sending data to plagiarism service.', [
             'uri' => $plagiarismUrl . '/' . $uri,

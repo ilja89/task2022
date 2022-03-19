@@ -54,9 +54,9 @@ export default {
         VueEvent.$on('tester-url-was-changed', tester_url => this.form.fields.tester_url = tester_url);
         VueEvent.$on('tester-sync-url-was-changed', tester_url => this.form.fields.tester_sync_url = tester_url);
         VueEvent.$on('tester-token-was-changed', tester_token => this.form.fields.tester_token = tester_token);
-        VueEvent.$on('plagiarism-lang-type-was-changed', langType => this.form.fields.plagiarism_lang_type_code = langType);
+        VueEvent.$on('plagiarism-lang-type-was-changed', langType => this.form.fields.plagiarism_lang_type = langType);
         VueEvent.$on('gitlab-group-was-changed', gitlabGroup => this.form.fields.plagiarism_gitlab_group = gitlabGroup);
-        VueEvent.$on('gitlab-location-type-was-changed', locationType => this.form.fields.gitlab_location_type_code = locationType);
+        VueEvent.$on('gitlab-location-type-was-changed', locationType => this.form.fields.gitlab_location_type = locationType);
         VueEvent.$on('plagiarism-file-extension-was-changed', fileExtension => this.form.fields.plagiarism_file_extensions = fileExtension);
         VueEvent.$on('plagiarism-moss-matches-was-changed', mossMatches => this.form.fields.plagiarism_moss_passes = mossMatches);
         VueEvent.$on('plagiarism-moss-matches-shown-was-changed', matchesShown => this.form.fields.plagiarism_moss_matches_shown = matchesShown);

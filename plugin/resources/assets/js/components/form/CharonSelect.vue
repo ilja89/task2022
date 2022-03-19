@@ -41,7 +41,7 @@
 
         data() {
             return {
-                input_value: this.value === '' ? this.options[0][this.key_field] : this.value,
+                input_value: (this.value === '' && this.options) ? this.options[0][this.key_field] : this.value,
             };
         },
     }

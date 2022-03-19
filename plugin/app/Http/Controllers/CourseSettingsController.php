@@ -58,9 +58,7 @@ class CourseSettingsController extends Controller
 
         $courseSettings = $this->addPlagiarismSettingsThatExist($courseSettings);
 
-        if ($this->allPlagiarismSettingsExist()) {
-            $this->createOrUpdateInPlagiarism($course, $courseSettings);
-        }
+        $this->createOrUpdateInPlagiarism($course);
 
         $courseSettings->save();
 
@@ -93,9 +91,9 @@ class CourseSettingsController extends Controller
     private function allPlagiarismSettingsExist(): bool
     {
         return (
-            $this->request['plagiarism_language_type_code'] &&
+            $this->request['plagiarism_lang_type'] &&
             $this->request['plagiarism_gitlab_group'] &&
-            $this->request['gitlab_location_type_code'] &&
+            $this->request['gitlab_location_type'] &&
             $this->request['plagiarism_file_extensions'] &&
             $this->request['plagiarism_moss_passes'] &&
             $this->request['plagiarism_moss_matches_shown']
@@ -109,14 +107,14 @@ class CourseSettingsController extends Controller
      */
     private function addPlagiarismSettingsThatExist($courseSettings)
     {
-        if ($this->request['plagiarism_language_type_code']) {
-            $courseSettings->plagiarism_language_type_code = $this->request['plagiarism_language_type_code'];
+        if ($this->request['plagiarism_lang_type']) {
+            $courseSettings->plagiarism_language_type = $this->request['plagiarism_lang_type'];
         }
         if ($this->request['plagiarism_gitlab_group']) {
             $courseSettings->plagiarism_gitlab_group = $this->request['plagiarism_gitlab_group'];
         }
-        if ($this->request['gitlab_location_type_code']) {
-            $courseSettings->gitlab_location_type_code = $this->request['gitlab_location_type_code'];
+        if ($this->request['gitlab_location_type']) {
+            $courseSettings->gitlab_location_type = $this->request['gitlab_location_type'];
         }
         if ($this->request['plagiarism_file_extensions']) {
             $courseSettings->plagiarism_file_extensions = $this->request['plagiarism_file_extensions'];
@@ -134,20 +132,22 @@ class CourseSettingsController extends Controller
      * Format data to fit Django model field names and structure
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function createOrUpdateInPlagiarism($course, $courseSettings)
+    private function createOrUpdateInPlagiarism($course)
     {
-        $projectsLocation = GitlabLocationType::where('code', $courseSettings->gitlab_location_type_code)->value('name');
-        $projectsLocation = str_replace(' ', '_', strtolower($projectsLocation));
+        if ($this->allPlagiarismSettingsExist()) {
+            $projectsLocation = $this->request['gitlab_location_type'];
+            $projectsLocation = str_replace(' ', '_', strtolower($projectsLocation));
 
-        $this->plagiarismCommunicationService->createOrUpdateCourse([
-            'name' => $course->shortname,
-            'charon_identifier' => $course->id,
-            'language' => $this->request['plagiarism_language_type_code'],
-            'group_name' => $this->request['plagiarism_gitlab_group'],
-            'projects_location' => $projectsLocation,
-            'file_extensions' => '{' . $this->request['plagiarism_file_extensions'] . '}',
-            'max_passes' => $this->request['plagiarism_moss_passes'],
-            'number_shown' => $this->request['plagiarism_moss_matches_shown']
-        ]);
+            $this->plagiarismCommunicationService->createOrUpdateCourse([
+                'name' => $course->shortname,
+                'charon_identifier' => $course->id,
+                'language' => $this->request['plagiarism_lang_type'],
+                'group_name' => $this->request['plagiarism_gitlab_group'],
+                'projects_location' => $projectsLocation,
+                'file_extensions' => '{' . $this->request['plagiarism_file_extensions'] . '}',
+                'max_passes' => $this->request['plagiarism_moss_passes'],
+                'number_shown' => $this->request['plagiarism_moss_matches_shown']
+            ]);
+        }
     }
 }
