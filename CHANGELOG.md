@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - #771 Added matches fetching to popup from plagiarism api
+- #787 Added better modal for matches, added search bar and fixed css
 
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
