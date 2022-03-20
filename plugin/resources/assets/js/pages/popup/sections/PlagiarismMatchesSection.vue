@@ -5,6 +5,14 @@
 
         <template slot="header-right">
             <charon-select/>
+            <popup-select
+                name="match"
+                :options="status_items"
+                value-key="status"
+                placeholder-key="status"
+                size="medium"
+                v-model="select"
+            />
             <v-btn @click="fetchMatches()">Fetch Matches</v-btn>
         </template>
         <div>
@@ -23,7 +31,21 @@
                 <template v-slot:item.actions="{ item }">
                     <v-row>
                         <plagiarism-match-modal :match="item"></plagiarism-match-modal>
+                        <plagiarism-toggle :chosenStatus="chosenStatus(item.id)" :originalStatus="item.status" :matchId="item.id"></plagiarism-toggle>
                     </v-row>
+                </template>
+                <template v-slot:body.append>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <v-btn @click="updateStatuses()">Confirm</v-btn>
+                        </td>
+                    </tr>
                 </template>
             </v-data-table>
         </div>
@@ -38,14 +60,24 @@ import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PopupSelect from "../partials/PopupSelect";
+import PlagiarismToggle from "../../../components/partials/PlagiarismToggle";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PopupSelect, PlagiarismToggle},
 
     data() {
         return {
+            addAccepted: [],
+            addPlagiarism: [],
+            select: 'New',
+            status_items: [
+                {status: 'New'},
+                {status: 'Plagiarism'},
+                {status: 'Accepted'}
+            ],
             search: "",
             matches: [],
             headers: [
@@ -65,9 +97,53 @@ export default {
             'charon',
             'course'
         ]),
+
+    },
+
+    mounted() {
+        VueEvent.$on('updateMatchStatus', (matchId, status) => {
+            this.updateStatus(matchId, status)
+        });
     },
 
     methods: {
+        chosenStatus(matchId) {
+            if (this.addAccepted.includes(matchId)) {
+                return 0;
+            }
+            if (this.addPlagiarism.includes(matchId)) {
+                return 1;
+            }
+
+            return undefined;
+        },
+        updateStatus(matchId, status) {
+            let accepted = this.addAccepted
+            let plagiarism = this.addPlagiarism
+            if (plagiarism.includes(matchId)) {
+                plagiarism = this.arrayRemove(plagiarism, matchId);
+                if (status === "acceptable") {
+                    accepted.push(matchId)
+                }
+            } else if (accepted.includes(matchId)) {
+                accepted = this.arrayRemove(accepted, matchId);
+                if (status === "plagiarism") {
+                    plagiarism.push(matchId)
+                }
+            } else {
+                if (status === "acceptable") {
+                    accepted.push(matchId);
+                } else {
+                    plagiarism.push(matchId)
+                }
+            }
+            this.addAccepted = accepted;
+            this.addPlagiarism = plagiarism;
+        },
+        updateStatuses() {
+            console.log(this.addAccepted)
+            console.log(this.addPlagiarism)
+        },
         fetchMatches() {
             if (!this.charon) return
 
@@ -76,10 +152,21 @@ export default {
             })
         },
 
+        arrayRemove(arr, value) {
+            return arr.filter(function(ele) {
+                return ele !== value;
+            });
+        }
     },
 }
 </script>
 <style>
+.plagiarism-button {
+    background-color: #f44336 !important;
+}
+.accepted-button {
+    background-color: #56a576 !important;
+}
 .center-table table td{
     vertical-align: middle;
 }
