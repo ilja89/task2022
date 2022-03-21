@@ -126,7 +126,7 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
-    - name: bitnami/mariadb:10.3
+    - name: mysql
   script:
     - service  --status-all
     - mysql -V
@@ -142,3 +142,12 @@ integration_test_dev:
     paths:
       - $CI_PROJECT_DIR/coverage
     expire_in: 1 week
+
+services:
+  - mysql
+
+connect:
+  image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
