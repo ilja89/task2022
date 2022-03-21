@@ -311,4 +311,17 @@ class SubmissionService
         }
         return $submissions;
     }
+
+    /**
+     * Find the submissions for the given commit hash.
+     *
+     * @param string $commitHash
+     *
+     * @return Submission|void|null
+     */
+    public function findSubmissionByHash(string $commitHash) {
+        if ($commitHash) {
+            return $this->submissionsRepository->findSubmissionByHash($commitHash);
+        }
+    }
 }

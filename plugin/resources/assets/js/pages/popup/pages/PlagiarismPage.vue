@@ -1,18 +1,13 @@
 <template>
     <div>
 
-        <v-card class="mb-16 pl-4">
-          <v-card-title>
-            Plagiarism
-            <div style="float: right">
-              <charon-select/>
-            </div>
-          </v-card-title>
-        </v-card>
+        <page-title title="Plagiarism">
+            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run checksuite</v-btn>
+        </page-title>
 
-        <plagiarism-matches-section></plagiarism-matches-section>
+        <plagiarism-matches-section @matchesFetched="passMatchesToOverview"></plagiarism-matches-section>
 
-        <plagiarism-overview-section></plagiarism-overview-section>
+        <plagiarism-overview-section :matches="matches"></plagiarism-overview-section>
 
         <plagiarism-check-history-section></plagiarism-check-history-section>
 
@@ -21,7 +16,7 @@
 
 <script>
 
-import {PageTitle, CharonSelect} from '../partials'
+import {PageTitle} from '../partials'
 import {PlagiarismResultsSection, PlagiarismMatchesSection, PlagiarismOverviewSection} from '../sections'
 import PlagiarismCheckHistorySection from "../sections/PlagiarismCheckHistorySection";
 
@@ -30,6 +25,6 @@ export default {
 
     components: {
         PlagiarismCheckHistorySection,
-        PlagiarismOverviewSection, PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection, CharonSelect},
+        PlagiarismOverviewSection, PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection},
 }
 </script>

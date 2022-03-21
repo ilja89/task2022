@@ -9,9 +9,8 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\PlagiarismRepository;
-use TTU\Charon\Repositories\UserRepository;
-use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Services\UserService;
 
 /**
  * Class PlagiarismService
@@ -29,8 +28,11 @@ class PlagiarismService
     /** @var PlagiarismRepository */
     private $plagiarismRepository;
 
-    /** @var UserRepository */
-    private $userRepository;
+    /** @var UserService */
+    private $userService;
+
+    /** @var SubmissionService */
+    private $submissionService;
 
     /**
      * PlagiarismService constructor.
@@ -42,14 +44,16 @@ class PlagiarismService
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
         CharonRepository $charonRepository,
-        PlagiarismRepository $plagiarismRepository,
-        UserRepository $userRepository
+        UserService $userService,
+        SubmissionService $submissionService,
+        PlagiarismRepository $plagiarismRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
         $this->plagiarismRepository = $plagiarismRepository;
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
+        $this->submissionService = $submissionService;
     }
 
 
@@ -205,17 +209,43 @@ class PlagiarismService
 
     /**
      * Get the matches for the given Charon from the plagiarism service.
+     * And associate matches submissions and users.
      *
      * @param Charon $charon
      * @param Course $course
      *
      * @return array
-     *
      * @throws GuzzleException
      */
     public function getMatches(Charon $charon, Course $course): array
     {
-        return $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $result = [];
+        foreach ($matches as $match) {
+            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if ($submission and $otherSubmission) {
+                $match['user_id'] = $submission->user_id;
+                $match['other_user_id'] = $otherSubmission->user_id;
+                $match['submission_id'] = $submission->id;
+                $match['other_submission_id'] = $otherSubmission->id;
+            } else  {
+                $user = $this->userService->findUserByUniid($match['uniid']);
+                $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
+                if ($user and $otherUser) {
+                    $match['user_id'] = $user->id;
+                    $match['other_user_id'] = $otherUser->id;
+                } else {
+                    $match['user_id'] = null;
+                    $match['other_user_id'] = null;
+                }
+                $match['submission_id'] = null;
+                $match['other_submission_id'] = null;
+            }
+            $result[] = $match;
+        }
+
+        return $result;
     }
 
     /**

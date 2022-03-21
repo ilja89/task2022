@@ -14,7 +14,6 @@
 
         <v-card style="background-color: white; overflow-y: hidden" height="90vh">
             <v-toolbar dark>
-                <a class="headline" v-bind:href="this.match.moss_url" target="_blank">Moss match</a>
                 <v-spacer></v-spacer>
 
                 <v-btn color="error" @click="isActive = false">
@@ -24,9 +23,18 @@
 
             <v-card-text class="pt-4" style="height: 95%">
                 <div style="height: 25%;">
-                    <div class="info-field headline" style="text-align: center;">
-                        {{ match.uniid }} - {{ match.percentage }}%
-                        <v-btn href="https://gitlab.cs.ttu.ee/divahe/iti0102-2019/-/tree/f5245668a65471cf170b225cb0d4e30674b72cbd/ex11_order" target="_blank">
+                    <div class="info-field headline" style="text-align: center;height: 100%; overflow-y: scroll;">
+                        {{ match.uniid }} - {{ match.percentage }}%<br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.commit_hash.slice(0, 8)}}</span><br>
+                        <v-btn :href="'#/grading/' + match.user_id" target="_blank">
+                            Student overview
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="'#/submissions/' + match.submission_id" target="_blank">
+                            Submission
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="match.gitlab_commit_at" target="_blank">
                             GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
@@ -34,31 +42,48 @@
                     <div class="info-field" style="height: 100%;overflow-y: scroll">
                         <v-simple-table dense style="overflow-y: auto;width: 100%; margin-left: auto; margin-right: auto">
                             <template v-slot:default>
-<!--                                <thead>
-                                <tr>
-                                    <th style="text-align: center;">
-                                        {{ match.uniid }} - {{ match.percentage }}%
-                                    </th>
-                                    <th style="text-align: center;">
-                                        {{ match.other_uniid }} - {{ match.other_percentage }}%
-                                    </th>
-                                </tr>
-                                </thead>-->
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                {{match.uniid}}'s blocks
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                Lines
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="d-flex justify-center">
+                                                {{match.other_uniid}}'s blocks
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 <tr v-for="similarity in similaritiesTable.similarities" :key="similarity.id">
                                     <td>
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
-                                                   @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines)">
-                                                {{ similarity.lines }}
+                                                   @click="goToLine(similaritiesTable.matchId + '-0', similarity.lines_start)">
+                                                {{ similarity.lines_start }} - {{ similarity.lines_end }} ({{similarity.section_percentage}}%)
                                             </v-btn>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-center">
                                             <v-btn :color="similarity.color"
-                                                   @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines)">
-                                                {{ similarity.other_lines }}
+                                                   @click="goToLineBoth(similaritiesTable.matchId, similarity.lines_start, similarity.other_lines_start)">
+                                                {{ similarity.section_size}}
+                                            </v-btn>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-center">
+                                            <v-btn :color="similarity.color"
+                                                   @click="goToLine(similaritiesTable.matchId + '-1', similarity.other_lines_start)">
+                                                {{ similarity.other_lines_start }} - {{ similarity.other_lines_end }} ({{similarity.other_section_percentage}}%)
                                             </v-btn>
                                         </div>
                                     </td>
@@ -67,10 +92,19 @@
                             </template>
                         </v-simple-table>
                     </div>
-                    <div class="info-field headline" style="text-align: center">
-                        {{ match.other_uniid }} - {{ match.other_percentage }}%
-                        <v-btn v-bind:href="'#/grading/2'" target="_blank">
+                    <div class="info-field headline" style="text-align: center;height: 100%; overflow-y: scroll;">
+                        {{ match.other_uniid }} - {{ match.other_percentage }}%<br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.other_commit_hash.slice(0, 8)}}</span><br>
+                        <v-btn :href="'#/grading/' + match.other_user_id" target="_blank">
                             Student overview
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="'#/submissions/' + match.other_submission_id" target="_blank">
+                            Submission
+                            <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
+                        </v-btn>
+                        <v-btn :href="match.other_gitlab_commit_at" target="_blank">
+                            GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
                     </div>
@@ -125,21 +159,14 @@
 </template>
 
 <script>
-import {Translate} from '../../../mixins'
 import {ToggleButton} from "../../../components/partials";
-import MatchFilesComponent from "../../../components/partials/MatchFilesComponent";
-import MatchSimilaritiesComponent from "../../../components/partials/MatchSimilaritiesComponent";
 import AceEditor from 'vuejs-ace-editor';
 
 export default {
     name: "plagiarism-match-modal",
 
-    mixins: [Translate],
-
     components: {
         AceEditor,
-        MatchSimilaritiesComponent,
-        MatchFilesComponent,
         ToggleButton
     },
 
@@ -171,6 +198,8 @@ export default {
                 similarity['color'] = this.similarityColors[counter % 5]
                 updatedSimilarities.push(similarity)
                 counter += 1;
+                similarity['section_percentage'] = (match.percentage * similarity.section_size / match.lines_matched).toFixed(1);
+                similarity['other_section_percentage'] = (match.other_percentage * similarity.other_section_size / match.lines_matched).toFixed(1);
             })
 
             return {
@@ -182,25 +211,28 @@ export default {
             let match = this.match;
 
             return {
-                contents: match.code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                contents: match.code.trim(),
             }
         },
         activeOtherFile() {
             let match = this.match
 
             return {
-                contents: match.other_code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+                contents: match.other_code.trim(),
             }
         },
     },
 
     methods: {
-        goToLine(editorName, lines) {
+        goToLineBoth(editorName, lines_start, other_lines_start) {
+            this.goToLine(editorName + "-0", lines_start)
+            this.goToLine(editorName + "-1", other_lines_start)
+        },
+        goToLine(editorName, lines_start) {
             let editor = ace.edit(editorName);
-            let linesSplit = lines.split('-');
 
             editor.resize(true);
-            editor.scrollToLine(parseInt(linesSplit[0]) - 1, true, true, function () {
+            editor.scrollToLine(lines_start, true, true, function () {
             })
         },
         sleep(ms) {
@@ -221,10 +253,8 @@ export default {
             let counter = 0
             this.match.similarities.forEach(similarity => {
                 let similarityClass = 'similarity-color-' + counter % 5;
-                let linesSplit = similarity.lines.split("-");
-                let otherLinesSplit = similarity.other_lines.split("-");
-                editor.session.addMarker(new Range(parseInt(linesSplit[0]) - 2, 0, parseInt(linesSplit[1]) - 1, 0), similarityClass, "line")
-                editor2.session.addMarker(new Range(parseInt(otherLinesSplit[0]) - 2, 0, parseInt(otherLinesSplit[1]) - 1, 0), similarityClass, "line")
+                editor.session.addMarker(new Range(similarity.lines_start - 1, 0, similarity.lines_end, 0), similarityClass, "line")
+                editor2.session.addMarker(new Range(similarity.other_lines_start - 1, 0, similarity.other_lines_end, 0), similarityClass, "line")
                 counter += 1
             })
         },
