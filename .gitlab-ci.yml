@@ -126,8 +126,8 @@ integration_test_dev:
   services:
     - name: docker:dind
     - name: bitnami/mariadb:10.3
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+  environment:
+    ALLOW_EMPTY_PASSWORD=yes
   script:
     - service  --status-all
     - mysql -V
