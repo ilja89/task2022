@@ -125,12 +125,28 @@ integration_test_dev:
   stage: integration test
   services:
     - name: docker:dind
+    mariadb:
+      image: 'bitnami/mariadb:10.3'
+      container_name: charon-db
+      environment:
+        - MARIADB_DATABASE=bitnami_moodle
+        - MARIADB_ROOT_USER=root
+        - MARIADB_ROOT_PASSWORD=root
+        - MARIADB_USER=bn_moodle
+        - MARIADB_PASSWORD=dev
+      volumes:
+        - 'mariadb_data:/bitnami/mariadb'
+      ports:
+        - "3306:3306"
   script:
     - mysql -V
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
-    - cat $INTEGRATION_DB_VARIABLES >> .env
+    - cat DB_DATABASE=bitnami_moodle
+          DB_USERNAME=bn_moodle
+          DB_PASSWORD=dev
+          DB_TABLE_PREFIX=mdl_ >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
   when:
