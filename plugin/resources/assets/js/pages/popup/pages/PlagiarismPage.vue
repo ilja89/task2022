@@ -2,7 +2,6 @@
     <div>
 
         <page-title title="Plagiarism">
-            <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked">Run checksuite</v-btn>
         </page-title>
 
         <plagiarism-matches-section @matchesFetched="passMatchesToOverview"></plagiarism-matches-section>
@@ -25,6 +24,22 @@ export default {
 
     components: {
         PlagiarismCheckHistorySection,
-        PlagiarismOverviewSection, PlagiarismMatchesSection, PageTitle, PlagiarismResultsSection},
+        PlagiarismOverviewSection,
+        PlagiarismMatchesSection,
+        PageTitle,
+        PlagiarismResultsSection
+    },
+
+    data() {
+        return {
+            matches: null
+        }
+    },
+
+    methods: {
+        passMatchesToOverview(matchesFromMoss) {
+            this.matches = matchesFromMoss
+        },
+    }
 }
 </script>

@@ -150,7 +150,9 @@ class PlagiarismCommunicationService
             "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
             'GET'
         );
-
+        if ($response instanceof GuzzleException) {
+            throw $response;
+        }
         return json_decode($response->getBody(), true);
     }
 

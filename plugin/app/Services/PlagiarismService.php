@@ -9,6 +9,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\PlagiarismRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\UserService;
 
@@ -39,6 +40,8 @@ class PlagiarismService
      *
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      * @param CharonRepository $charonRepository
+     * @param UserService $userService
+     * @param SubmissionService $submissionService
      * @param PlagiarismRepository $plagiarismRepository
      */
     public function __construct(
