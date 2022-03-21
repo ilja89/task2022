@@ -128,7 +128,7 @@ integration_test_dev:
   services:
     - name: docker:dind
     - name: mysql:latest
-      command: ["sudo", "systemctl", "start", "mysqld"]
+      command: ["systemctl", "start", "mysqld"]
   image: jaakkytt/ci-php-node:3.0
   stage: integration test
   script:
