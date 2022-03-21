@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - #771 Added matches fetching to popup from plagiarism api
+- #780 User can run plagiarism checks in popup and see the history of courses checks
 
 ### Fixed
 
