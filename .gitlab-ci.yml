@@ -130,6 +130,8 @@ integration_test_dev:
   services:
     - name: docker:dind
     - name: mysql:latest
+  before_script:
+    - bundle install
   script:
     - service  --status-all
     - mysql -V
