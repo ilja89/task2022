@@ -111,9 +111,9 @@ export default {
             Plagiarism.runPlagiarismCheck(this.course.id, this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
-                    console.log(response)
-                    console.log(this.latestCheck.checkId)
-                    this.refreshLatestStatus(this.latestCheck.checkId, this.charon.id);
+                    if (this.latestCheck.status === "Check started.") {
+                        this.refreshLatestStatus(this.latestCheck.checkId, this.charon.id);
+                    }
                 }
                 window.VueEvent.$emit(
                     'show-notification',

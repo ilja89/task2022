@@ -115,10 +115,18 @@ class PlagiarismController extends Controller
     {
         $status = $this->plagiarismService->runCheck($charon, $course, $this->request);
 
-        return response()->json([
-            'message' => 'Plagiarism service has been notified to re-run the checksuite.',
-            'status' => $status
-        ], 200);
+        if ($status['status'] == "Could not connect to Plagiarism application"
+            or $status['status'] == "Unexpected error") {
+            return response()->json([
+                'message' => 'Error when trying to connect to Plagiarism api',
+                'status' => $status
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Plagiarism service has been notified to re-run the checksuite.',
+                'status' => $status
+            ]);
+        }
     }
 
     /**

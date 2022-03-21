@@ -102,11 +102,17 @@ class PlagiarismCommunicationService
     public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
             'POST',
             ["return_url" => $returnUrl]
         );
-
+        if ($response instanceof GuzzleException) {
+            if (strval($response->getCode())[0] === "4") {
+                return "Could not connect to Plagiarism application";
+            } else {
+                return "Unexpected error";
+            }
+        }
         return $response->getBody()->getContents();
     }
 
@@ -141,7 +147,7 @@ class PlagiarismCommunicationService
     public function getMatches(String $project_path, String $course_shortname): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
             'GET'
         );
 
