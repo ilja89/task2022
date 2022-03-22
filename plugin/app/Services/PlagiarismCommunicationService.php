@@ -90,6 +90,33 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Send a request to the plagiarism service to run check for the given charon.
+     *
+     * @param String $project_path
+     * @param String $course_shortname
+     * @param String $returnUrl
+     * @return string
+     *
+     * @throws GuzzleException
+     */
+    public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
+            'POST',
+            ["return_url" => $returnUrl]
+        );
+        if ($response instanceof GuzzleException) {
+            if (strval($response->getCode())[0] === "4") {
+                return "Could not connect to Plagiarism application";
+            } else {
+                return "Unexpected error";
+            }
+        }
+        return $response->getBody()->getContents();
+    }
+
+    /**
      * Get the details about one checksuite.
      *
      * @param string $checksuiteId
@@ -120,10 +147,12 @@ class PlagiarismCommunicationService
     public function getMatches(String $project_path, String $course_shortname): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
             'GET'
         );
-
+        if ($response instanceof GuzzleException) {
+            throw $response;
+        }
         return json_decode($response->getBody(), true);
     }
 

@@ -2,9 +2,14 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\PlagiarismRepository;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Services\UserService;
 
@@ -21,6 +26,9 @@ class PlagiarismService
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var PlagiarismRepository */
+    private $plagiarismRepository;
+
     /** @var UserService */
     private $userService;
 
@@ -32,16 +40,21 @@ class PlagiarismService
      *
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      * @param CharonRepository $charonRepository
+     * @param UserService $userService
+     * @param SubmissionService $submissionService
+     * @param PlagiarismRepository $plagiarismRepository
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
         CharonRepository $charonRepository,
         UserService $userService,
-        SubmissionService $submissionService
+        SubmissionService $submissionService,
+        PlagiarismRepository $plagiarismRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
+        $this->plagiarismRepository = $plagiarismRepository;
         $this->userService = $userService;
         $this->submissionService = $submissionService;
     }
@@ -92,6 +105,34 @@ class PlagiarismService
         $charon = $this->refreshLatestCheckId($charon);
 
         return $charon;
+    }
+
+    /**
+     * Run the check for the given Charon and refresh its status.
+     *
+     * @param Charon $charon
+     * @param Course $course
+     * @param Request $request
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function runCheck(Charon $charon, Course $course, Request $request): array
+    {
+        $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
+        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+
+        $check->updated_at = Carbon::now();
+        $check->status = $response;
+        $check->save();
+        return [
+            "charonName" => $charon->name,
+            "created_at" => $check->created_at,
+            "updated_at" => $check->updated_at,
+            "status" => $check->status,
+            "checkId" => $check->id,
+            "author" => $check->user->firstname . ' ' . $check->user->lastname
+        ];
     }
 
     /**
@@ -173,7 +214,6 @@ class PlagiarismService
      * Get the matches for the given Charon from the plagiarism service.
      * And associate matches submissions and users.
      *
-     *
      * @param Charon $charon
      * @param Course $course
      *
@@ -209,5 +249,38 @@ class PlagiarismService
         }
 
         return $result;
+    }
+
+    /**
+     * Get a list of checks for given course.
+     *
+     * @param Course $course
+     *
+     * @return array
+     */
+    public function getCheckHistory(Course $course): array
+    {
+        $checks = $this->plagiarismRepository->getChecksByCourseId($course->id);
+
+        foreach ($checks as $check) {
+            $check->author = $check->firstname . ' ' . $check->lastname;
+            unset($check->firstname);
+            unset($check->lastname);
+        }
+
+        return $checks;
+    }
+
+    /**
+     * Update status of the plagiarism check.
+     *
+     * @param PlagiarismCheck $check
+     * @param array $response
+     */
+    public function updateCheck(PlagiarismCheck $check, array $response): void
+    {
+        $check->updated_at = Carbon::now();
+        $check->status = $response['status'];
+        $check->save();
     }
 }

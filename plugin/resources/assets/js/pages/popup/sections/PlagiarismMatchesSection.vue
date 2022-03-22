@@ -73,6 +73,7 @@ export default {
 
             Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
                 this.matches = response
+                this.$emit('matchesFetched', response)
             })
         },
 
