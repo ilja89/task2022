@@ -34,6 +34,7 @@
                 <FIELD NAME="docker_test_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="group_size" SEQUENCE="false" TYPE="int" LENGTH="4" NOTNULL="false"/>
                 <FIELD NAME="allow_submission" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="charon_chain" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
 
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
@@ -51,6 +52,8 @@
                 <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
                      REFTABLE="charon_grading_method" REFFIELDS="code"/>
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_chain" TYPE="foreign" FIELDS="charon_chain"
+                     REFTABLE="charon_chain" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXUNIQUE_project_folder_and_course" UNIQUE="true" FIELDS="project_folder,course"/>
@@ -59,6 +62,23 @@
                 <INDEX NAME="IXFX_charon_grading_method" UNIQUE="false" FIELDS="grading_method_code"/>
                 <INDEX NAME="IXFX_charon_grade_categories" UNIQUE="false" FIELDS="category_id"/>
             </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="charon_template" COMMENT="Code editor template for Charon.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="master_charon_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="charon_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="charon_nr" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_charon_chain" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_charon_id" TYPE="foreign" FIELDS="charon_id"
+                     REFTABLE="charon" REFFIELDS="id"/>
+                <KEY NAME="FK_master_charon_id" TYPE="foreign" FIELDS="master_charon_id"
+                     REFTABLE="charon" REFFIELDS="id"/>
+            </KEYS>
+
         </TABLE>
 
         <TABLE NAME="charon_template" COMMENT="Code editor template for Charon.">
