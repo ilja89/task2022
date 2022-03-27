@@ -823,33 +823,5 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022031001) {
-
-        $table = new xmldb_table('charon_plagiarism_lang_type');
-        $table->add_field('code', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('name', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
-        $table->add_key('PK_plagiarism_language_type', XMLDB_KEY_PRIMARY, ['code']);
-
-        if (!$dbManager->table_exists($table)) {
-            $dbManager->create_table($table);
-        }
-
-        $table = new xmldb_table('charon_course_settings');
-        $fields = [
-            new xmldb_field('plagiarism_language_type', XMLDB_TYPE_CHAR, '50', null, null, null, null, null),
-            new xmldb_field('plagiarism_gitlab_group', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
-            new xmldb_field('gitlab_location_type', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
-            new xmldb_field('plagiarism_file_extensions', XMLDB_TYPE_CHAR, '255', null, null, null, null, null),
-            new xmldb_field('plagiarism_moss_passes', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '10', null),
-            new xmldb_field('plagiarism_moss_matches_shown', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '25', null)
-        ];
-
-        foreach ($fields as $field) {
-            if (!$dbManager->field_exists($table, $field)) {
-                $dbManager->add_field($table, $field);
-            }
-        }
-    }
-
     return true;
 }

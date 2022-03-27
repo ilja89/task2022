@@ -105,6 +105,18 @@ export default {
 
         onPlagiarismMossMatchesShownChanged(matchesShown) {
             VueEvent.$emit('plagiarism-moss-matches-shown-was-changed', matchesShown)
+        },
+
+        onAssignmentFileExtensionsChanged(fileExtension) {
+            VueEvent.$emit('assignment-file-extension-was-changed', fileExtension)
+        },
+
+        onAssignmentMossPassesChanged(mossPasses) {
+            VueEvent.$emit('assignment-moss-passes-was-changed', mossPasses)
+        },
+
+        onAssignmentMatchesShownChanged(matchesShown) {
+            VueEvent.$emit('assignment-matches-shown-was-changed', matchesShown)
         }
     },
 };

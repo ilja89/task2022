@@ -12,6 +12,9 @@
                        :type="inputType"
                        :required="required"
                        :autocomplete="autocomplete ? 'on' : 'off'"
+                       :disabled="inputDisabled"
+                       :min="minValue"
+                       :max="maxValue"
                        v-model="input_value"
                        @keyup="onInputChanged">
             </div>
@@ -31,6 +34,18 @@
             inputType: {
                 required: false,
                 default: "text"
+            },
+            inputDisabled: {
+                required: false,
+                default: false
+            },
+            minValue: {
+                required: false,
+                default: false
+            },
+            maxValue: {
+                required: false,
+                default: false
             }
         }
     }

@@ -91,19 +91,19 @@ class InstanceController extends Controller
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      */
     public function __construct(
-        Request $request,
-        CharonRepository $charonRepository,
-        GradebookService $gradebookService,
-        GrademapService $grademapService,
-        CreateCharonService $createCharonService,
-        UpdateCharonService $updateCharonService,
-        FileUploadService $fileUploadService,
-        PlagiarismService $plagiarismService,
-        DeadlinesRepository $deadlinesRepository,
-        Moodleuser $moodleUser,
-        TemplateService $templatesService,
-        CourseSettingsRepository $courseSettingsRepository,
-        CourseRepository $courseRepository,
+        Request                        $request,
+        CharonRepository               $charonRepository,
+        GradebookService               $gradebookService,
+        GrademapService                $grademapService,
+        CreateCharonService            $createCharonService,
+        UpdateCharonService            $updateCharonService,
+        FileUploadService              $fileUploadService,
+        PlagiarismService              $plagiarismService,
+        DeadlinesRepository            $deadlinesRepository,
+        Moodleuser                     $moodleUser,
+        TemplateService                $templatesService,
+        CourseSettingsRepository       $courseSettingsRepository,
+        CourseRepository               $courseRepository,
         PlagiarismCommunicationService $plagiarismCommunicationService
     )
     {
@@ -133,7 +133,6 @@ class InstanceController extends Controller
      */
     public function store()
     {
-
         $charon = $this->getCharonFromRequest();
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
@@ -161,6 +160,10 @@ class InstanceController extends Controller
                 $this->request->input('resource_providers'),
                 $this->request->input('plagiarism_includes')
             );
+        }
+
+        if ($this->request->input('plagiarism_create_update_charon')) {
+            $this->plagiarismCreateOrUpdateCharon($charon);
         }
 
         return $charon->id;
@@ -200,12 +203,9 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
 
-            if ($this->request->input('plagiarism_create_update_charon') === 'true') {
-                $courseSettings = $this->courseSettingsRepository->getCourseSettingsByCourseId($charon->course);
-                $plagiarismAssignmentCreationSettings = $this->getAllPlagiarismSettings($charon, $courseSettings);
-                $this->plagiarismCommunicationService->createOrUpdateAssignment($plagiarismAssignmentCreationSettings);
+            if ($this->request->input('plagiarism_create_update_charon')) {
+                $this->plagiarismCreateOrUpdateCharon($charon);
             }
-
         }
 
         return "1";
@@ -337,26 +337,24 @@ class InstanceController extends Controller
     }
 
     /**
-     * Find and return all plagiarism settings that are needed to create a new assignment in Plagiarism
-     * @param $charon
-     * @param $courseSettings
-     * @return array
+     * Send payload to Plagiarism and created or updates charon, if the course exists
+     * @throws GuzzleException
      */
-    private function getAllPlagiarismSettings($charon, $courseSettings): array
+    private function plagiarismCreateOrUpdateCharon($charon)
     {
-        return [
-            'course' => [
-                'courseName' => $this->courseRepository->getShortnameById($charon->course)
-            ],
-
-            'charon' => [
+        if (
+            $this->request->input('assignment_file_extensions') &&
+            $this->request->input('assignment_moss_passes') &&
+            $this->request->input('assignment_moss_matches_shown')
+        ) {
+            $this->plagiarismCommunicationService->createOrUpdateAssignment([
                 'name' => $charon->name,
                 'charon_identifier' => $charon->id,
                 'directory_path' => $charon->project_folder,
-                'file_extensions' => '{' . $courseSettings->plagiarism_file_extensions . '}',
-                'max_passes' => $courseSettings->plagiarism_moss_passes,
-                'number_shown' => $courseSettings->plagiarism_moss_matches_shown
-            ]
-        ];
+                'file_extensions' => array_map('trim', explode(',', $this->request->input('assignment_file_extensions'))),
+                'max_passes' => $this->request->input('assignment_moss_passes'),
+                'number_shown' => $this->request->input('assignment_moss_matches_shown')
+            ], $this->courseRepository->getShortnameById($charon->course));
+        }
     }
 }

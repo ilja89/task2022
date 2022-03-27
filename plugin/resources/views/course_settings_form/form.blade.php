@@ -12,14 +12,15 @@
         window.presets = {!! $presets->toJson() !!};
         window.grading_methods = {!! $grading_methods->toJson() !!};
         window.grade_name_prefixes = {!! $grade_name_prefixes->toJson() !!};
-        window.plagiarism_lang_types = {!! json_encode($plagiarism_lang_types) !!};
-        window.gitlab_location_types = {!! json_encode($gitlab_location_types) !!};
-        window.gitlab_group_types = {!! json_encode($gitlab_group_types) !!};
+        window.plagiarism_settings = {!! json_encode($plagiarism_settings) !!}
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",
             presets_title: "{{ translate('presets') }}",
             plagiarism_title: "{{ translate('course_plagiarism_settings') }}",
+            plagiarism_create_course: "{{ translate('plagiarism_create_course') }}",
+            plagiarism_update_course: "{{ translate('plagiarism_update_course') }}",
+            plagiarism_no_connection: "{{ translate('plagiarism_no_connection') }}",
 
             unittests_git_label: "{{ translate('unittests_git') }}",
             tester_type_label: "{{ translate('tester_type') }}",

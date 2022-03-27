@@ -43,7 +43,7 @@ const app = new Vue({
             groups,
             groupings,
             plagiarismServices,
-            plagiarismSettings
+            plagiarismAssignment
             // ...
         )
     }

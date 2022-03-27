@@ -8,6 +8,7 @@ $string['plugin_settings'] = 'Charon settings';
 $string['pluginadministration'] = 'Charon administration';
 $string['modulenameplural'] = 'Charons';
 $string['capella:addinstance'] = 'Add a new Charon';
+$string['plagiarism_no_connection'] = 'Failed to connect to Plagiarism';
 
 /*------------------------*\
    Course settings form
@@ -54,8 +55,10 @@ $string['calculation_formula_cs_helper'] = 'Formula for calculating the resultin
     . 'formula syntax but instead of grade item ids specify which grade type '
     . 'is used. Eg. "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
 $string['plagiarism_file_extensions_helper'] = 'Multiple extensions must be separated by comma, for example: .java,.py';
-$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code.';
-$string['plagiarism_moss_matches_shown_helper'] = 'Number of matches Moss will provide. Lowering this will reduce wait times.';
+$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code. Acceptable range: 1-32767';
+$string['plagiarism_moss_matches_shown_helper'] = 'Number of matches Moss will provide. Lowering this will reduce wait times. Acceptable range: 1-50';
+$string['plagiarism_create_course'] = 'Course can be created in Plagiarism';
+$string['plagiarism_update_course'] = 'Course can be updated in Plagiarism';
 
 /*------------------------*\
    Instance form
@@ -137,8 +140,8 @@ $string['add_button_text'] = 'Add';
 $string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
 $string['grouping'] = "Grouping";
 
-$string['plagiarism_course_found_msg'] = 'Create or Update Charon in Plagiarism';
-$string['plagiarism_course_not_found_msg'] = 'Course not detected in Plagiarism. Check your connection to Plagiarism or make sure you have set all Plagiarism settings for this course';
+$string['plagiarism_create_charon'] = 'Create Charon in Plagiarism';
+$string['plagiarism_update_charon'] = 'Update Charon in Plagiarism';
 
 /*------------------------*\
    Labs form

@@ -82,6 +82,7 @@ class InstanceFormController extends Controller
      * Renders the instance form when creating a new instance.
      *
      * @return Factory|View
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index()
     {
@@ -108,8 +109,8 @@ class InstanceFormController extends Controller
             'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
             'groups' => $course->groups,
             'groupings' => $course->groupings,
-            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices()
-            //'defense_labs' =>
+            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
+            'plagiarismAssignment' => $this->plagiarismCommunicationService->getAssignmentDetails($course)
         ]);
     }
 
@@ -137,15 +138,11 @@ class InstanceFormController extends Controller
         $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
         $course = Course::where('id', $charon->course)->first();
-        $plagiarismSettings = [];
-        $plagiarismSettings['courseExists'] = $this->plagiarismCommunicationService->courseExists([
-            'courseName' => $course->shortname,
-            'courseId' => $course->id
-        ]);
+        $plagiarismAssignment = $this->plagiarismCommunicationService->getAssignmentDetails($course, $charon);
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices', 'plagiarismSettings'
+            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices', 'plagiarismAssignment'
         ));
     }
 

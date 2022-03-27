@@ -56,8 +56,6 @@ class CourseSettingsController extends Controller
         $courseSettings->tester_sync_url = $this->request['tester_sync_url'];
         $courseSettings->tester_token = $this->request['tester_token'];
 
-        $courseSettings = $this->addPlagiarismSettingsThatExist($courseSettings);
-
         $this->createOrUpdateInPlagiarism($course);
 
         $courseSettings->save();
@@ -66,7 +64,7 @@ class CourseSettingsController extends Controller
     }
 
     /**
-     * Get the course settings if exists or create new settings if doesn't.
+     * Get the Moodle course settings if exists or create new settings if not.
      *
      * @param Course $course
      *
@@ -135,16 +133,13 @@ class CourseSettingsController extends Controller
     private function createOrUpdateInPlagiarism($course)
     {
         if ($this->allPlagiarismSettingsExist()) {
-            $projectsLocation = $this->request['gitlab_location_type'];
-            $projectsLocation = str_replace(' ', '_', strtolower($projectsLocation));
-
             $this->plagiarismCommunicationService->createOrUpdateCourse([
                 'name' => $course->shortname,
                 'charon_identifier' => $course->id,
                 'language' => $this->request['plagiarism_lang_type'],
-                'group_name' => $this->request['plagiarism_gitlab_group'],
-                'projects_location' => $projectsLocation,
-                'file_extensions' => '{' . $this->request['plagiarism_file_extensions'] . '}',
+                'group_id' => $this->request['plagiarism_gitlab_group'],
+                'projects_location' => $this->request['gitlab_location_type'],
+                'file_extensions' => array_map('trim', explode(',', $this->request['plagiarism_file_extensions'])),
                 'max_passes' => $this->request['plagiarism_moss_passes'],
                 'number_shown' => $this->request['plagiarism_moss_matches_shown']
             ]);

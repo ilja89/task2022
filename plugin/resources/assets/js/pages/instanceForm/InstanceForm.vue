@@ -44,7 +44,7 @@
 
             <deadline-section :form="form"></deadline-section>
 
-            <simple-plagiarism-section v-if="isEditing" :form="form"></simple-plagiarism-section>
+            <simple-plagiarism-section :form="form"></simple-plagiarism-section>
 
             <grouping-section :form="form"></grouping-section>
 
@@ -211,6 +211,15 @@ export default {
         })
         VueEvent.$on('plagiarism-excludes-was-changed', excludes => {
             this.form.fields.plagiarism_excludes = excludes
+        })
+        VueEvent.$on('assignment-file-extension-was-changed', fileExtension => {
+            this.form.fields.assignment_file_extensions = fileExtension
+        })
+        VueEvent.$on('assignment-moss-passes-was-changed', mossPasses => {
+            this.form.fields.assignment_moss_passes = mossPasses
+        })
+        VueEvent.$on('assignment-matches-shown-was-changed', matchesShown => {
+            this.form.fields.assignment_moss_matches_shown = matchesShown
         })
     },
 }

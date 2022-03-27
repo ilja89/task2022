@@ -9,6 +9,7 @@ $string['plugin_settings'] = 'Charoni seaded';
 $string['pluginadministration'] = 'Charoni administreerimine';
 $string['modulenameplural'] = 'Charonid';
 $string['capella:addinstance'] = 'Lisa uus charon';
+$string['plagiarism_no_connection'] = 'Plagiarismiga ühendumine ebaõnnestus';
 
 /*------------------------*\
    Course settings form
@@ -53,8 +54,10 @@ $string['calculation_formula_cs_helper'] = 'Valem mille järgi ülesande kokkuv�
     . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '
     . 'Nt "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
 $string['plagiarism_file_extensions_helper'] = 'Kui laiendeid on mitu, siis peavad nad olema eraldatud komaga, näiteks: .java,.py';
-$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code.';
-$string['plagiarism_moss_matches_shown_helper'] = 'Mossi poolt maksimaalne tagastatavate seoste arv. Selle arvu vähendamine parandab ooteaegu';
+$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code. Aksepteeritav vahemik: 1-32767';
+$string['plagiarism_moss_matches_shown_helper'] = 'Mossi poolt maksimaalne tagastatavate seoste arv. Selle arvu vähendamine parandab ooteaegu. Aksepteeritav vahemik: 1-50';
+$string['plagiarism_create_course'] = 'Kursust saab luua Plagiarismis';
+$string['plagiarism_update_course'] = 'Kursust saab uuendada Plagiarismis';
 
 /*------------------------*\
    Instance form
@@ -130,8 +133,8 @@ $string['add_button_text'] = 'Lisa';
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
 
-$string['plagiarism_course_found_msg'] = 'Loo või uuenda kursust Plagiarismis';
-$string['plagiarism_course_not_found_msg'] = 'Kursus ei ole tuvastatud Plagiarismis. Kontrollige oma ühendust Plagiarismiga või veenduge, et olete määranud kõik Plagiarismi seaded selle kursuse kohta';
+$string['plagiarism_create_charon'] = 'Loo Charon Plagiarismis';
+$string['plagiarism_update_charon'] = 'Uuenda Charonit Plagiarismis';
 
 /*------------------------*\
         Labs form

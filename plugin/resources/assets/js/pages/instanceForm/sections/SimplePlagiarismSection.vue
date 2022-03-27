@@ -6,26 +6,55 @@
 
         <div class="fcontainer clearfix fitem">
 
-            <label v-if="form.plagiarismSettings.courseExists">
+            <div class="mb-6">
                 <input
                     type="checkbox"
                     name="plagiarism_create_update_charon"
                     v-model="form.plagiarism_create_update_charon"
                     :value="form.plagiarism_create_update_charon"
+                    :disabled="!form.fields.plagiarism_connection"
                 />
-                {{ translate('plagiarism_course_found_label') }}
-            </label>
+                {{ checkboxText }}
+            </div>
 
-            <label v-else>
-                <input
-                    type="checkbox"
-                    name="plagiarism_create_update_charon"
-                    v-model="form.plagiarism_create_update_charon"
-                    :value="form.plagiarism_create_update_charon"
-                    disabled
-                />
-                {{ translate('plagiarism_course_not_found_label') }}
-            </label>
+            <charon-text-input
+                name="assignment_file_extensions"
+                input_class="is-half"
+                :label="translate('plagiarism_file_extensions_label')"
+                :required="true"
+                :value="form.fields.assignment_file_extensions"
+                :helper_text="translate('plagiarism_file_extensions_helper')"
+                :input-disabled="!form.plagiarism_create_update_charon"
+                @input-was-changed="onAssignmentFileExtensionsChanged">
+            </charon-text-input>
+
+            <charon-text-input
+                name="assignment_moss_passes"
+                input_class="is-half"
+                input-type="number"
+                :label="translate('plagiarism_moss_passes_label')"
+                :required="true"
+                :value="form.fields.assignment_moss_passes"
+                :helper_text="translate('plagiarism_moss_passes_helper')"
+                :input-disabled="!form.plagiarism_create_update_charon"
+                :min-value="1"
+                :max-value="32767"
+                @input-was-changed="onAssignmentMossPassesChanged">
+            </charon-text-input>
+
+            <charon-text-input
+                name="assignment_moss_matches_shown"
+                input_class="is-half"
+                input-type="number"
+                :label="translate('plagiarism_moss_matches_shown_label')"
+                :required="true"
+                :value="form.fields.assignment_moss_matches_shown"
+                :helper_text="translate('plagiarism_moss_matches_shown_helper')"
+                :input-disabled="!form.plagiarism_create_update_charon"
+                :min-value="1"
+                :max-value="50"
+                @input-was-changed="onAssignmentMatchesShownChanged">
+            </charon-text-input>
 
         </div>
 
@@ -34,19 +63,27 @@
 </template>
 
 <script>
-import {Translate} from "../../../mixins";
+import {Translate, EmitEventOnInputChange} from "../../../mixins";
+import {CharonTextInput} from '../../../components/form';
 
 export default {
-    mixins: [ Translate ],
+    mixins: [Translate, EmitEventOnInputChange],
+
+    components: {CharonTextInput},
 
     props: {
         form: {required: true}
     },
 
-    data() {
-        return {
-            courseFoundMsg: 'Create or Update Charon in Plagiarism',
-            courseNotFoundMsg: 'Course not detected in Plagiarism. Check your connection to Plagiarism or make sure you have set all Plagiarism settings for this course'
+    computed: {
+        checkboxText() {
+            if (this.form.fields.plagiarism_connection) {
+                if (this.form.fields.assignment_exists) {
+                    return this.translate('plagiarism_update_charon')
+                }
+                return this.translate('plagiarism_create_charon')
+            }
+            return this.translate('plagiarism_no_connection')
         }
     }
 }
