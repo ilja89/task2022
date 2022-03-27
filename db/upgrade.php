@@ -12,6 +12,8 @@ require __DIR__ . '/../plugin/bootstrap/autoload.php';
  */
 function xmldb_charon_upgrade($oldversion = 0)
 {
+    clear_caches();
+
     global $DB;
     $dbManager = $DB->get_manager();
 
@@ -842,4 +844,16 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     return true;
+}
+
+function clear_caches() {
+    try {
+        require __DIR__ . '/../plugin/bootstrap/autoload.php';
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+        
+        $kernel->call('optimize:clear');
+    } catch (Exception $e) {
+        echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
+    }
 }

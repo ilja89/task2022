@@ -20,7 +20,10 @@ function xmldb_charon_install() {
     }
 
     apply_constraints();
-    
+
+/*
+    // TODO: maybe mod_rewrite should be checked on case of Apache?
+
     if (! function_exists('apache_get_modules') ){
         // There are no Apach modules, if running from cli
         echo "Running from CLI";
@@ -30,7 +33,8 @@ function xmldb_charon_install() {
     if (! in_array('mod_rewrite', apache_get_modules())) {
         charon_installation_error("Please enable mod_rewrite using the following command: sudo a2enmod rewrite");
     }
-
+*/
+    
     echo "</pre>";
 
     echo "Seeding database\n";
@@ -40,11 +44,10 @@ function xmldb_charon_install() {
         $app = require __DIR__ . '/../plugin/bootstrap/app.php';
         $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
-        $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder']);
-        $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
-        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
-        $kernel->call('config:clear');
-        $kernel->call('cache:clear');
+        $kernel->call('db:seed', ['--class' => 'ClassificationsSeeder', '--force' => true]);
+        $kernel->call('db:seed', ['--class' => 'PresetsSeeder', '--force' => true]);
+        $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder', '--force' => true]);
+        $kernel->call('optimize:clear');
     } catch (Exception $e) {
         echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
     }

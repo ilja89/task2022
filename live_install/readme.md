@@ -15,10 +15,9 @@
   - Set USER to match needed user:group for Apache
   - If needed, add additional steps into install script.
 - Run it as root:
-```sudo bash install.sh [-u] <charon>``` 
+```sudo bash install.sh <charon>``` 
 where
-  - <charon> is zip file, containing installable Charon plugin. Something like `charon_1.2.3.zip`.
-  - use flag -u for update, if older version is already installed
+  - `<charon>` is zip file, containing installable Charon plugin. Something like `charon_1.2.3.zip`.
 
 
 ## Troubleshooting
