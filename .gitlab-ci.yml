@@ -134,10 +134,11 @@ integration_test_dev:
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
-    - cat DB_DATABASE=hello_world_test >> .env
-    - cat DB_USERNAME=runner >> .env
-    - cat DB_PASSWORD=mysql >> .env
-    - cat DB_TABLE_PREFIX=mdl_ >> .env
+    - cat "DB_DATABASE=hello_world_test" >> .env
+    - cat "DB_USERNAME=runner" >> .env
+    - cat "DB_PASSWORD=mysql" >> .env
+    - cat "DB_TABLE_PREFIX=mdl_" >> .env
+    - cat .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
   when:
