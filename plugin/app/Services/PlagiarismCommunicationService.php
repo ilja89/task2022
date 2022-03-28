@@ -186,16 +186,15 @@ class PlagiarismCommunicationService
      */
     public function updateMatchStatus(int $matchId, string $newStatus): ?array
     {
-        $match = strval($matchId);
         $response = null;
         if ($newStatus == "plagiarism") {
             $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/plagiarism/match/{$match}/mark_plagiarism/",
+                "api/plagiarism/match/{$matchId}/mark_plagiarism/",
                 'put'
             );
         } else if ($newStatus == "acceptable") {
             $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/plagiarism/match/{$match}/mark_acceptable/",
+                "api/plagiarism/match/{$matchId}/mark_acceptable/",
                 'put'
             );
         }
