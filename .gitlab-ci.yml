@@ -128,11 +128,13 @@ integration_test_dev:
   services:
     - name: docker:dind
     - name: mysql:latest
+
   image: jaakkytt/ci-php-node:3.0
   stage: integration test
   script:
-    - service  --status-all
-    - mysql -V
+    - gitlab-runner help
+    - gitlab-runner list
+    - gitlab-runner status
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
