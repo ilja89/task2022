@@ -127,14 +127,18 @@ integration_test_dev:
     - docker
   services:
     - name: docker:dind
-    - name: mysql:latest
 
   image: jaakkytt/ci-php-node:3.0
   stage: integration test
   script:
-    - gitlab-runner help
-    - gitlab-runner list
-    - gitlab-runner status
+    - sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
+    - mysql -u root -p
+    - CREATE USER 'runner'@'localhost' IDENTIFIED BY 'root';
+    - CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET `utf8` \
+      COLLATE `utf8_unicode_ci`;
+    - GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, CREATE TEMPORARY TABLES, DROP, INDEX, ALTER, LOCK TABLES ON `mydb`.* TO 'runner'@'localhost';
+    - \q
+    - mysql -u runner -p -D mydb
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
