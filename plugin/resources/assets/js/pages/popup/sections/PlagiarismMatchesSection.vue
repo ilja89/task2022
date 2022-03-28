@@ -62,12 +62,11 @@ import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
 import PopupSelect from "../partials/PopupSelect";
-import PlagiarismToggle from "../../../components/partials/PlagiarismToggle";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PopupSelect, PlagiarismToggle},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PopupSelect},
 
     data() {
         return {
