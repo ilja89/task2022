@@ -193,19 +193,13 @@ class PlagiarismCommunicationService
                 "api/plagiarism/match/{$match}/mark_plagiarism/",
                 'put'
             );
-            return json_decode($response->getBody(), true);
         } else if ($newStatus == "acceptable") {
             $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
                 "api/plagiarism/match/{$match}/mark_acceptable/",
                 'put'
             );
-            return json_decode($response->getBody(), true);
         }
 
-        if ($response != null) {
-            return json_decode($response->getBody(), true);
-        } else {
-            return null;
-        }
+        return $response ? json_decode($response->getBody(), true) : null;
     }
 }
