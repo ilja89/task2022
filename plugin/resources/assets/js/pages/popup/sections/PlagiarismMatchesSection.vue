@@ -5,14 +5,6 @@
 
         <template slot="header-right">
             <charon-select/>
-            <popup-select
-                name="match"
-                :options="status_items"
-                value-key="status"
-                placeholder-key="status"
-                size="medium"
-                v-model="select"
-            />
             <v-btn @click="fetchMatches()">Fetch Matches</v-btn>
         </template>
         <div>
@@ -27,25 +19,34 @@
                 class="center-table"
                 :headers="headers"
                 :items="matches"
-                :search="search">
+                :search="search"
+            >
+                <template v-slot:header.status="{ item }">
+                    <v-select
+                    v-model="status"
+                    :items="selectItems"
+                    item-text="status"
+                    item-value="abbr"
+                    label="Select"
+                    single-line
+                    style="width: 200px"
+                    ></v-select>
+                </template>
+                <template v-slot:item.status="{ item }">
+                    <v-chip v-bind:class="item.status === 'acceptable' ? 'accepted-button': item.status === 'plagiarism' ? 'plagiarism-button' : ''">
+                        {{item.status}}
+                    </v-chip>
+                </template>
                 <template v-slot:item.actions="{ item }">
                     <v-row>
-                        <plagiarism-match-modal :match="item"></plagiarism-match-modal>
-                        <plagiarism-toggle :chosenStatus="chosenStatus(item.id)" :originalStatus="item.status" :matchId="item.id"></plagiarism-toggle>
+                        <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
+                        <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
+                            <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
+                        </v-btn>
+                        <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'" @click="updateStatus(item, 'plagiarism')" icon>
+                            <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">mdi-thumb-down-outline</v-icon>
+                        </v-btn>
                     </v-row>
-                </template>
-                <template v-slot:body.append>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <v-btn @click="updateStatuses()">Confirm</v-btn>
-                        </td>
-                    </tr>
                 </template>
             </v-data-table>
         </div>
@@ -70,29 +71,35 @@ export default {
 
     data() {
         return {
-            addAccepted: [],
-            addPlagiarism: [],
-            select: 'New',
-            status_items: [
-                {status: 'New'},
-                {status: 'Plagiarism'},
-                {status: 'Accepted'}
+            search: '',
+            status: '',
+            select: { status: 'All', abbr: ''},
+            selectItems: [
+                { status: 'All', abbr: ''},
+                { status: 'New', abbr: 'new'},
+                { status: 'Acceptable', abbr: 'acceptable'},
+                { status: 'Plagiarism', abbr: 'plagiarism'},
             ],
-            search: "",
-            matches: [],
-            headers: [
-                {text: 'Matches', align: 'start', value: 'lines_matched'},
-                {text: 'Uni-ID', value: 'uniid'},
-                {text: 'Percentage', value: 'percentage'},
-                {text: 'Other Uni-ID', value: 'other_uniid'},
-                {text: 'Other Percentage', value: 'other_percentage'},
-                {text: 'Status', value: 'status'},
-                {text: 'Actions', value: 'actions', sortable: false, filterable: false},
-            ]
+            matches: []
         }
     },
 
     computed: {
+        headers () {
+            return [
+                {text: 'Lines matched', align: 'start', value: 'lines_matched'},
+                {text: 'Uni-ID', value: 'uniid'},
+                {text: 'Percentage', value: 'percentage'},
+                {text: 'Other Uni-ID', value: 'other_uniid'},
+                {text: 'Other Percentage', value: 'other_percentage'},
+                {value: 'status', sortable: false, filter: value => {
+                        if (!this.status) return true
+
+                        return value === this.status
+                    }},
+                {text: 'Actions', value: 'actions', sortable: false, filterable: false},
+            ]
+        },
         ...mapState([
             'charon',
             'course'
@@ -101,54 +108,20 @@ export default {
     },
 
     mounted() {
-        VueEvent.$on('updateMatchStatus', (matchId, status) => {
-            this.updateStatus(matchId, status)
-        });
     },
 
     methods: {
-        chosenStatus(matchId) {
-            if (this.addAccepted.includes(matchId)) {
-                return 0;
-            }
-            if (this.addPlagiarism.includes(matchId)) {
-                return 1;
-            }
+        updateStatus(match, newStatus) {
+            Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, response => {
+                match.status = response.status;
+            })
+        },
 
-            return undefined;
-        },
-        updateStatus(matchId, status) {
-            let accepted = this.addAccepted
-            let plagiarism = this.addPlagiarism
-            if (plagiarism.includes(matchId)) {
-                plagiarism = this.arrayRemove(plagiarism, matchId);
-                if (status === "acceptable") {
-                    accepted.push(matchId)
-                }
-            } else if (accepted.includes(matchId)) {
-                accepted = this.arrayRemove(accepted, matchId);
-                if (status === "plagiarism") {
-                    plagiarism.push(matchId)
-                }
-            } else {
-                if (status === "acceptable") {
-                    accepted.push(matchId);
-                } else {
-                    plagiarism.push(matchId)
-                }
-            }
-            this.addAccepted = accepted;
-            this.addPlagiarism = plagiarism;
-        },
-        updateStatuses() {
-            console.log(this.addAccepted)
-            console.log(this.addPlagiarism)
-        },
         fetchMatches() {
-            if (!this.charon) return
+            if (!this.charon) return;
 
             Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
-                this.matches = response
+                this.matches = response;
             })
         },
 
@@ -156,10 +129,17 @@ export default {
             return arr.filter(function(ele) {
                 return ele !== value;
             });
-        }
+        },
+
+        getColor(status) {
+            if (status === 'plagiarism') return '#f44336'
+            else if (status === 'acceptable') return '#56a576';
+            else return '#8e8e8e';
+        },
     },
 }
 </script>
+
 <style>
 .plagiarism-button {
     background-color: #f44336 !important;

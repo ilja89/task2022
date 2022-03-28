@@ -98,4 +98,16 @@ class PlagiarismController extends Controller
     {
         return $this->plagiarismService->getMatches($charon, $course);
     }
+
+    /**
+     * Update the status for the given match.
+     *
+     * @param Request $request
+     * @return array
+     *
+     */
+    public function updateMatchStatus(Request $request): array
+    {
+        return $this->plagiarismService->updateMatchStatus($request->input('matchId'), $request->input('newStatus'));
+    }
 }
