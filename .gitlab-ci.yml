@@ -127,22 +127,17 @@ integration_test_dev:
     - docker
   services:
     - name: docker:dind
-
+    - name: mysql:latest
   image: jaakkytt/ci-php-node:3.0
   stage: integration test
   script:
-    - sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
-    - mysql -u root -p
-    - CREATE USER 'runner'@'localhost' IDENTIFIED BY 'root';
-    - CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET `utf8` \
-      COLLATE `utf8_unicode_ci`;
-    - GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, CREATE TEMPORARY TABLES, DROP, INDEX, ALTER, LOCK TABLES ON `mydb`.* TO 'runner'@'localhost';
-    - \q
-    - mysql -u runner -p -D mydb
     - touch .env
     - php composer.phar install --dev
     - cp -p env.develop .env
-    - cat $INTEGRATION_DB_VARIABLES >> .env
+    - cat DB_DATABASE=hello_world_test >> .env
+    - cat DB_USERNAME=runner >> .env
+    - cat DB_PASSWORD=mysql >> .env
+    - cat DB_TABLE_PREFIX=mdl_ >> .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
   when:
