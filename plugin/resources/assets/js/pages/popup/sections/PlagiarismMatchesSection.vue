@@ -61,12 +61,11 @@ import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
-import PopupSelect from "../partials/PopupSelect";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PopupSelect},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs},
 
     data() {
         return {
@@ -103,10 +102,6 @@ export default {
             'charon',
             'course'
         ]),
-
-    },
-
-    mounted() {
     },
 
     methods: {
@@ -121,6 +116,7 @@ export default {
 
             Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
                 this.matches = response;
+                this.$emit('matchesFetched', response)
             })
         },
 

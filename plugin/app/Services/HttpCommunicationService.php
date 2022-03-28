@@ -249,14 +249,13 @@ class HttpCommunicationService
                 $uri,
                 ['json' => $data, 'headers' => $headers]
             );
-        } catch (RequestException $e) {
+        } catch (GuzzleException $e) {
             Log::error(
                 'Could not send info to the plagiarism service to the url "'
                 . $plagiarismUrl . '/' . $uri . '".',
                 ['error' => $e]
             );
-
-            throw $e;
+            return $e;
         }
     }
 }

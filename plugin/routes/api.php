@@ -181,8 +181,20 @@ Route::group(['namespace' => 'Api'], function () {
     Route::middleware('auth.charon.managing.require')
         ->get('courses/{course}/charons/{charon}/matches', 'PlagiarismController@fetchMatches');
 
+    Route::middleware('auth.charon.managing.require')
+        ->post('courses/{course}/charons/{charon}/plagiarism/run', 'PlagiarismController@runCheck');
+
+    Route::middleware('auth.charon.managing.require')
+        ->get('/charons/{charon}/plagiarism-checks/{plagiarismCheck}', 'PlagiarismController@getStatus');
+
+    Route::middleware('auth.course.managing.require')
+        ->get('/courses/{course}/checks-history/', 'PlagiarismController@getCheckHistory');
+
     Route::middleware('auth.course.managing.require')
         ->post('courses/{course}/updateMatchStatus', 'PlagiarismController@updateMatchStatus');
 
+    // DJANGO PLAGIARISM CALLBACK
+    Route::post('plagiarism_callback/{plagiarismCheck}', 'PlagiarismCallbackController@index')
+        ->name('plagiarism_callback');
 
 });
