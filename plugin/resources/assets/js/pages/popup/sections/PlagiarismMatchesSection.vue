@@ -2,36 +2,41 @@
     <popup-section
         title="Plagiarism matches"
     >
-
         <template slot="header-right">
             <charon-select/>
             <v-btn @click="fetchMatches()">Fetch Matches</v-btn>
         </template>
+
         <div>
-            <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
+            <v-card-title>
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    style="width:80%;float: left;padding-right: 10px"
+                ></v-text-field>
+                <v-select
+                    v-model="status"
+                    :items="selectItems"
+                    item-text="status"
+                    item-value="abbr"
+                    label="Status"
+                    style="width:10%;padding-left: 10px"
+                ></v-select>
+            </v-card-title>
+        </div>
+
+        <div>
             <v-data-table
                 class="center-table"
                 :headers="headers"
                 :items="matches"
                 :search="search"
+                :footer-props="{
+                    'items-per-page-options': [10, 25, 50, -1]
+                }"
+                :items-per-page="25"
             >
-                <template v-slot:header.status="{ item }">
-                    <v-select
-                    v-model="status"
-                    :items="selectItems"
-                    item-text="status"
-                    item-value="abbr"
-                    label="Select"
-                    single-line
-                    style="width: 200px"
-                    ></v-select>
-                </template>
                 <template v-slot:item.status="{ item }">
                     <v-chip v-bind:class="item.status === 'acceptable' ? 'accepted-button': item.status === 'plagiarism' ? 'plagiarism-button' : ''">
                         {{item.status}}
@@ -90,7 +95,7 @@ export default {
                 {text: 'Percentage', value: 'percentage'},
                 {text: 'Other Uni-ID', value: 'other_uniid'},
                 {text: 'Other Percentage', value: 'other_percentage'},
-                {value: 'status', sortable: false, filter: value => {
+                {text: 'Status', value: 'status', filter: value => {
                         if (!this.status) return true
 
                         return value === this.status
