@@ -8,6 +8,7 @@ use TTU\Charon\Models\CourseSettings;
 use TTU\Charon\Models\GitlabLocationType;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use TTU\Charon\Services\PlagiarismCommunicationService;
+use TTU\Charon\Services\PlagiarismService;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -24,18 +25,23 @@ class CourseSettingsController extends Controller
     /** @var PlagiarismCommunicationService */
     private $plagiarismCommunicationService;
 
+    /** @var PlagiarismService  */
+    private $plagiarismService;
+
     /**
      * CourseSettingsController constructor.
      *
      * @param Request $request
      * @param CourseSettingsRepository $courseSettingsRepository
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
+     * @param PlagiarismService $plagiarismService
      */
-    public function __construct(Request $request, CourseSettingsRepository $courseSettingsRepository, PlagiarismCommunicationService $plagiarismCommunicationService)
+    public function __construct(Request $request, CourseSettingsRepository $courseSettingsRepository, PlagiarismCommunicationService $plagiarismCommunicationService, PlagiarismService $plagiarismService)
     {
         parent::__construct($request);
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
+        $this->plagiarismService = $plagiarismService;
     }
 
     /**
@@ -56,7 +62,7 @@ class CourseSettingsController extends Controller
         $courseSettings->tester_sync_url = $this->request['tester_sync_url'];
         $courseSettings->tester_token = $this->request['tester_token'];
 
-        $this->createOrUpdateInPlagiarism($course);
+        $this->plagiarismService->createOrUpdateCourse($course, $this->request);
 
         $courseSettings->save();
 
@@ -80,69 +86,5 @@ class CourseSettingsController extends Controller
         }
 
         return $courseSettings;
-    }
-
-    /**
-     * Check if plagiarism settings were set on the form
-     * @return bool
-     */
-    private function allPlagiarismSettingsExist(): bool
-    {
-        return (
-            $this->request['plagiarism_lang_type'] &&
-            $this->request['plagiarism_gitlab_group'] &&
-            $this->request['gitlab_location_type'] &&
-            $this->request['plagiarism_file_extensions'] &&
-            $this->request['plagiarism_moss_passes'] &&
-            $this->request['plagiarism_moss_matches_shown']
-        );
-    }
-
-    /**
-     * Check for settings that were set (are not null) and add them to course settings to be saved
-     * @param $courseSettings
-     * @return mixed
-     */
-    private function addPlagiarismSettingsThatExist($courseSettings)
-    {
-        if ($this->request['plagiarism_lang_type']) {
-            $courseSettings->plagiarism_language_type = $this->request['plagiarism_lang_type'];
-        }
-        if ($this->request['plagiarism_gitlab_group']) {
-            $courseSettings->plagiarism_gitlab_group = $this->request['plagiarism_gitlab_group'];
-        }
-        if ($this->request['gitlab_location_type']) {
-            $courseSettings->gitlab_location_type = $this->request['gitlab_location_type'];
-        }
-        if ($this->request['plagiarism_file_extensions']) {
-            $courseSettings->plagiarism_file_extensions = $this->request['plagiarism_file_extensions'];
-        }
-        if ($this->request['plagiarism_moss_passes']) {
-            $courseSettings->plagiarism_moss_passes = $this->request['plagiarism_moss_passes'];
-        }
-        if ($this->request['plagiarism_moss_matches_shown']) {
-            $courseSettings->plagiarism_moss_matches_shown = $this->request['plagiarism_moss_matches_shown'];
-        }
-        return $courseSettings;
-    }
-
-    /**
-     * Format data to fit Django model field names and structure
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    private function createOrUpdateInPlagiarism($course)
-    {
-        if ($this->allPlagiarismSettingsExist()) {
-            $this->plagiarismCommunicationService->createOrUpdateCourse([
-                'name' => $course->shortname,
-                'charon_identifier' => $course->id,
-                'language' => $this->request['plagiarism_lang_type'],
-                'group_id' => $this->request['plagiarism_gitlab_group'],
-                'projects_location' => $this->request['gitlab_location_type'],
-                'file_extensions' => array_map('trim', explode(',', $this->request['plagiarism_file_extensions'])),
-                'max_passes' => $this->request['plagiarism_moss_passes'],
-                'number_shown' => $this->request['plagiarism_moss_matches_shown']
-            ]);
-        }
     }
 }

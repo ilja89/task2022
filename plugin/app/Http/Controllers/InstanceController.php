@@ -348,13 +348,20 @@ class InstanceController extends Controller
             $this->request->input('assignment_moss_matches_shown')
         ) {
             $this->plagiarismCommunicationService->createOrUpdateAssignment([
-                'name' => $charon->name,
-                'charon_identifier' => $charon->id,
-                'directory_path' => $charon->project_folder,
-                'file_extensions' => array_map('trim', explode(',', $this->request->input('assignment_file_extensions'))),
-                'max_passes' => $this->request->input('assignment_moss_passes'),
-                'number_shown' => $this->request->input('assignment_moss_matches_shown')
-            ], $this->courseRepository->getShortnameById($charon->course));
+                'charon' =>
+                    [
+                        'name' => $charon->name,
+                        'charon_identifier' => $charon->id,
+                        'directory_path' => $charon->project_folder,
+                        'file_extensions' => array_map('trim', explode(',', $this->request->input('assignment_file_extensions'))),
+                        'max_passes' => $this->request->input('assignment_moss_passes'),
+                        'number_shown' => $this->request->input('assignment_moss_matches_shown')
+                    ],
+                'course' =>
+                    [
+                        'name' => $this->courseRepository->getShortnameById($charon->course)
+                    ]
+            ]);
         }
     }
 }

@@ -92,7 +92,9 @@ class CourseSettingsFormController extends Controller
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
             'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
-            'plagiarism_settings' => $this->plagiarismCommunicationService->getCourseDetails($course)
+            'plagiarism_settings' => $this->plagiarismCommunicationService->getCourseDetails([
+                'name' => $course->shortname
+            ])
         ]);
     }
 

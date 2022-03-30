@@ -135,9 +135,8 @@ class PlagiarismCommunicationService
      */
     public function createOrUpdateCourse(array $courseSettings)
     {
-        $courseShortname = str_replace(' ', '-', trim($courseSettings['name']));
         $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/" . $courseShortname . "/create-or-update/",
+            "api/charon/course/create-or-update/",
             "post",
             $courseSettings
         );
@@ -148,29 +147,25 @@ class PlagiarismCommunicationService
      * @param array $assignmentSettings array of settings needed to create or update an assignment in Plagiarism
      * @throws GuzzleException
      */
-    public function createOrUpdateAssignment(array $assignmentSettings, string $courseName)
+    public function createOrUpdateAssignment(array $assignmentSettings)
     {
-        $courseShortname = str_replace(' ', '-', trim($courseName));
-        $charonName = str_replace(' ', '-', trim($assignmentSettings['name']));
         $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/" . $courseShortname . "/assignmentPath/" . $charonName . "/create-or-update/",
+            "api/charon/assignment/create-or-update/",
             "post",
             $assignmentSettings
         );
     }
 
     /**
-     * @param Course $course
      * @return \stdClass
      * @throws GuzzleException
      */
-    public function getCourseDetails(Course $course): \stdClass
+    public function getCourseDetails($settings): \stdClass
     {
-        $courseShortname = str_replace(' ', '-', trim($course->shortname));
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/" . $courseShortname . "/course-details/",
+            "api/charon/course/details/",
             "get",
-            []
+            $settings
         );
 
         if ($response) {
@@ -186,20 +181,21 @@ class PlagiarismCommunicationService
 
     /**
      * Fetch the assignment details from Plagiarism. If Charon is being created, then we fetch the course details instead
-     * @param Course $course
+     * @param $course
      * @param null $charon
      * @return \stdClass
      * @throws GuzzleException
      */
-    public function getAssignmentDetails(Course $course, $charon = null): \stdClass
+    public function getAssignmentDetails($course, $charon = null): \stdClass
     {
-        $courseShortname = str_replace(' ', '-', trim($course->shortname));
         if ($charon) {
-            $charonName = str_replace(' ', '-', trim($charon->name));
             $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/charon/course/" . $courseShortname . "/assignmentPath/" . $charonName . "/assignment-details/",
+                "api/charon/assignment/details/",
                 "get",
-                []
+                [
+                    'course_name' => $course->shortname,
+                    'assignment_name' => $charon->name
+                ]
             );
 
             if ($response) {
@@ -214,9 +210,9 @@ class PlagiarismCommunicationService
         }
 
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/" . $courseShortname . "/course-details/",
+            "api/charon/course/details/",
             "get",
-            []
+            ['name' => $course->shortname]
         );
 
         if ($response) {

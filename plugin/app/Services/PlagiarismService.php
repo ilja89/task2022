@@ -25,7 +25,7 @@ class PlagiarismService
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository $charonRepository
+        CharonRepository               $charonRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -153,5 +153,42 @@ class PlagiarismService
         }
 
         return $similarities;
+    }
+
+    /**
+     * Check if plagiarism settings were set on the form
+     * @param $request
+     * @return bool
+     */
+    private function allPlagiarismSettingsExist($request): bool
+    {
+        return (
+            $request['plagiarism_lang_type'] &&
+            $request['plagiarism_gitlab_group'] &&
+            $request['gitlab_location_type'] &&
+            $request['plagiarism_file_extensions'] &&
+            $request['plagiarism_moss_passes'] &&
+            $request['plagiarism_moss_matches_shown']
+        );
+    }
+
+    /**
+     * Format data to fit Django model field names and structure
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createOrUpdateCourse($course, $request)
+    {
+        if ($this->allPlagiarismSettingsExist($request)) {
+            $this->plagiarismCommunicationService->createOrUpdateCourse([
+                'name' => $course->shortname,
+                'charon_identifier' => $course->id,
+                'language' => $request['plagiarism_lang_type'],
+                'group_id' => $request['plagiarism_gitlab_group'],
+                'projects_location' => $request['gitlab_location_type'],
+                'file_extensions' => array_map('trim', explode(',', $request['plagiarism_file_extensions'])),
+                'max_passes' => $request['plagiarism_moss_passes'],
+                'number_shown' => $request['plagiarism_moss_matches_shown']
+            ]);
+        }
     }
 }
