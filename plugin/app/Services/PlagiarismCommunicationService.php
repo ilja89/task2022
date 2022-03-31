@@ -174,4 +174,31 @@ class PlagiarismCommunicationService
 
         return json_decode((string) $response->getBody());
     }
+
+    /**
+     * Update the status of the given match and return the new status.
+     *
+     * @param int $matchId
+     * @param string $newStatus
+     * @return array|null
+     *
+     * @throws GuzzleException
+     */
+    public function updateMatchStatus(int $matchId, string $newStatus): ?array
+    {
+        $response = null;
+        if ($newStatus == "plagiarism") {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                'put'
+            );
+        } else if ($newStatus == "acceptable") {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                'put'
+            );
+        }
+
+        return $response ? json_decode($response->getBody(), true) : null;
+    }
 }

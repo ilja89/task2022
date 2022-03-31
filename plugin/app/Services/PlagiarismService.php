@@ -283,4 +283,18 @@ class PlagiarismService
         $check->status = $response['status'];
         $check->save();
     }
+
+    /**
+     * Update the given matches status to the one it is being changed.
+     * Makes a request to django api and gets the new status from there.
+     *
+     * @param int $matchId
+     * @param string $newStatus
+     * @return array
+     * @throws GuzzleException
+     */
+    public function updateMatchStatus(int $matchId, string $newStatus): array
+    {
+        return $this->plagiarismCommunicationService->updateMatchStatus($matchId, $newStatus);
+    }
 }

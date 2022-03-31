@@ -13,7 +13,7 @@
         </template>
 
         <v-card style="background-color: white; overflow-y: hidden" height="90vh">
-            <v-toolbar dark>
+            <v-toolbar :color="color" dark>
                 <v-spacer></v-spacer>
 
                 <v-btn color="error" @click="isActive = false">
@@ -171,7 +171,8 @@ export default {
     },
 
     props: {
-        match: {required: true}
+        match: {required: true},
+        color: {required: true}
     },
 
     data() {

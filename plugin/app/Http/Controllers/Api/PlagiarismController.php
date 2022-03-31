@@ -158,4 +158,17 @@ class PlagiarismController extends Controller
     {
         return $this->plagiarismService->getCheckHistory($course);
     }
+
+    /**
+     * Update the status for the given match.
+     *
+     * @param Request $request
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function updateMatchStatus(Request $request): array
+    {
+        return $this->plagiarismService->updateMatchStatus($request->input('matchId'), $request->input('newStatus'));
+    }
 }
