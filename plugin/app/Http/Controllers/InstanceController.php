@@ -137,7 +137,7 @@ class InstanceController extends Controller
         }
 
         if ($this->request->input('plagiarism_create_update_charon')) {
-            $assignmentId = $this->plagiarismService->plagiarismCreateOrUpdateCharon($charon, $this->request);
+            $assignmentId = $this->plagiarismService->createOrUpdateAssignment($charon, $this->request);
 
             if ($assignmentId) {
                 $charon->plagiarism_assignment_id = $assignmentId;
@@ -162,7 +162,6 @@ class InstanceController extends Controller
                 $this->request->input('plagiarism_includes')
             );
         }
-
         return $charon->id;
     }
 
@@ -185,7 +184,7 @@ class InstanceController extends Controller
         Log::info("Update charon", [$this->request->toArray()]);
 
         if ($this->request->input('plagiarism_create_update_charon')) {
-            $assignmentId = $this->plagiarismService->plagiarismCreateOrUpdateCharon($charon, $this->request);
+            $assignmentId = $this->plagiarismService->createOrUpdateAssignment($charon, $this->request);
 
             if ($assignmentId) {
                 $charon->plagiarism_assignment_id = $assignmentId;
@@ -207,9 +206,7 @@ class InstanceController extends Controller
                 $this->request->input('recalculate_grades')
             );
         }
-
         return "1";
-
     }
 
     /**

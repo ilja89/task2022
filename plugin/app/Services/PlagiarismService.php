@@ -51,7 +51,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function createChecksuiteForCharon(Charon $charon, $plagiarismServices, $resourceProviders, $includes)
     {
@@ -77,7 +77,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function runChecksuite(Charon $charon)
     {
@@ -97,7 +97,7 @@ class PlagiarismService
      *
      * @return Charon
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function refreshLatestCheckId(Charon $charon)
     {
@@ -128,7 +128,7 @@ class PlagiarismService
      * @return array - the similarities for each service (moss, jplag) if we
      *      have that data, otherwise show status (pending, error).
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getLatestSimilarities(Charon $charon)
     {
@@ -163,7 +163,7 @@ class PlagiarismService
     }
 
     /**
-     * Check if plagiarism settings were set on the form
+     * Check if all required plagiarism settings were set on the form
      * @param $request
      * @return bool
      */
@@ -180,8 +180,8 @@ class PlagiarismService
     }
 
     /**
-     * Format data to fit Django model field names and structure
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * Send payload to Plagiarism and create or update a course, if all fields were set
+     * @throws GuzzleException
      */
     public function createOrUpdateCourse($course, $request)
     {
@@ -200,10 +200,12 @@ class PlagiarismService
     }
 
     /**
-     * Send payload to Plagiarism and created or updates charon, if the course exists
+     * Send payload to Plagiarism and create or update an assignment, if all fields were set and the course exists.
+     * Returns the id of the assignment if everything succeeds. Returns null if the connection fails or all required
+     * form fields were not set.
      * @throws GuzzleException
      */
-    public function plagiarismCreateOrUpdateCharon($charon, $request)
+    public function createOrUpdateAssignment($charon, $request)
     {
         if (
             $request->input('assignment_file_extensions') &&

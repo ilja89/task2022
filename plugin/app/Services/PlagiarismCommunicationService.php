@@ -142,7 +142,7 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Send data to Plagiarism and create or update a course
+     * Send data to Plagiarism and create or update an assignment
      * @param array $assignmentSettings array of settings needed to create or update an assignment in Plagiarism
      * @throws GuzzleException
      */
@@ -161,6 +161,7 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Fetch the course details from Plagiarism. If a response is received, mark the connection as true
      * @param $settings
      * @return \stdClass
      * @throws GuzzleException
@@ -186,6 +187,7 @@ class PlagiarismCommunicationService
 
     /**
      * Fetch the assignment details from Plagiarism. If Charon is being created, then we fetch the course details instead
+     * If a response is received, mark the connection as true
      * @param $course
      * @param null $charon
      * @return \stdClass
