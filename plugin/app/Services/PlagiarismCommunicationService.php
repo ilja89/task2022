@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
-use Zeizig\Moodle\Models\Course;
 
 class PlagiarismCommunicationService
 {
@@ -149,14 +148,20 @@ class PlagiarismCommunicationService
      */
     public function createOrUpdateAssignment(array $assignmentSettings)
     {
-        $this->httpCommunicationService->sendPlagiarismServiceRequest(
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/assignment/create-or-update/",
             "post",
             $assignmentSettings
         );
+
+        if ($response && $response->getBody()) {
+            return json_decode($response->getBody());
+        }
+        return null;
     }
 
     /**
+     * @param $settings
      * @return \stdClass
      * @throws GuzzleException
      */

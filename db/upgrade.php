@@ -823,5 +823,14 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022033101) {
+        $table = new xmldb_table('charon');
+        $field = new xmldb_field('plagiarism_assignment_id', XMLDB_TYPE_INTEGER, 10, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }

@@ -2,8 +2,10 @@
 
 namespace TTU\Charon\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\CourseRepository;
 
 /**
  * Class PlagiarismService
@@ -16,20 +18,25 @@ class PlagiarismService
     private $plagiarismCommunicationService;
     /** @var CharonRepository */
     private $charonRepository;
+    /** @var CourseRepository */
+    private $courseRepository;
 
     /**
      * PlagiarismService constructor.
      *
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      * @param CharonRepository $charonRepository
+     * @param CourseRepository $courseRepository
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository               $charonRepository
+        CharonRepository               $charonRepository,
+        CourseRepository               $courseRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
+        $this->courseRepository = $courseRepository;
     }
 
 
@@ -190,5 +197,35 @@ class PlagiarismService
                 'number_shown' => $request['plagiarism_moss_matches_shown']
             ]);
         }
+    }
+
+    /**
+     * Send payload to Plagiarism and created or updates charon, if the course exists
+     * @throws GuzzleException
+     */
+    public function plagiarismCreateOrUpdateCharon($charon, $request)
+    {
+        if (
+            $request->input('assignment_file_extensions') &&
+            $request->input('assignment_moss_passes') &&
+            $request->input('assignment_moss_matches_shown')
+        ) {
+            return $this->plagiarismCommunicationService->createOrUpdateAssignment([
+                'charon' =>
+                    [
+                        'name' => $charon->name,
+                        'charon_identifier' => $charon->id,
+                        'directory_path' => $charon->project_folder,
+                        'file_extensions' => array_map('trim', explode(',', $request->input('assignment_file_extensions'))),
+                        'max_passes' => $request->input('assignment_moss_passes'),
+                        'number_shown' => $request->input('assignment_moss_matches_shown')
+                    ],
+                'course' =>
+                    [
+                        'name' => $this->courseRepository->getShortnameById($charon->course)
+                    ]
+            ]);
+        }
+        return null;
     }
 }
