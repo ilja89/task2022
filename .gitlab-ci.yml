@@ -1,11 +1,12 @@
 variables:
   DOCKER_DRIVER: overlay
   BOOTSTRAP_JS: "plugin/resources/assets/js/bootstrap.js"
-  MARIADB_DATABASE: bitnami_moodle
-  MARIADB_ROOT_USER: root
-  MARIADB_ROOT_PASSWORD: root
-  MARIADB_USER: bn_moodle
-  MARIADB_PASSWORD: dev
+  MARIADB_DATABASE: "bitnami_moodle"
+  MARIADB_ROOT_USER: "root"
+  MARIADB_ROOT_PASSWORD: "root"
+  MARIADB_USER: "bn_moodle"
+  MARIADB_PASSWORD: "dev"
+  MARIADB_PORT: "3306:3306"
 
 stages:
   - test
