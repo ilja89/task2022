@@ -7,6 +7,7 @@ variables:
   MARIADB_USER: "bn_moodle"
   MARIADB_PASSWORD: "dev"
   MARIADB_PORT: "3306:3306"
+  VOLUME: 'mariadb_data:/bitnami/mariadb'
 
 stages:
   - test
