@@ -91,6 +91,33 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Send a request to the plagiarism service to run check for the given charon.
+     *
+     * @param String $project_path
+     * @param String $course_shortname
+     * @param String $returnUrl
+     * @return string
+     *
+     * @throws GuzzleException
+     */
+    public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
+            'POST',
+            ["return_url" => $returnUrl]
+        );
+        if ($response instanceof GuzzleException) {
+            if (strval($response->getCode())[0] === "4") {
+                return "Could not connect to Plagiarism application";
+            } else {
+                return "Unexpected error";
+            }
+        }
+        return $response->getBody()->getContents();
+    }
+
+    /**
      * Get the details about one checksuite.
      *
      * @param string $checksuiteId
@@ -107,6 +134,27 @@ class PlagiarismCommunicationService
         );
 
         return json_decode((string)$response->getBody());
+    }
+
+    /**
+     * Get matches for the given charon.
+     *
+     * @param String $project_path
+     * @param String $course_shortname
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function getMatches(String $project_path, String $course_shortname): array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
+            'GET'
+        );
+        if ($response instanceof GuzzleException) {
+            throw $response;
+        }
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -232,5 +280,32 @@ class PlagiarismCommunicationService
         $response = new \stdClass();
         $response->plagiarismConnection = false;
         return $response;
+    }
+
+    /**
+     * Update the status of the given match and return the new status.
+     *
+     * @param int $matchId
+     * @param string $newStatus
+     * @return array|null
+     *
+     * @throws GuzzleException
+     */
+    public function updateMatchStatus(int $matchId, string $newStatus): ?array
+    {
+        $response = null;
+        if ($newStatus == "plagiarism") {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                'put'
+            );
+        } else if ($newStatus == "acceptable") {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                'put'
+            );
+        }
+
+        return $response ? json_decode($response->getBody(), true) : null;
     }
 }

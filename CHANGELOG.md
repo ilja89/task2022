@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- #771 Added matches fetching to popup from plagiarism api
+- #780 User can run plagiarism checks in popup and see the history of courses checks
+- #787 Added better modal for matches, added search bar and fixed css
+- #813 Added buttons to change status. Select box to filter between statuses. Added colors for the given status.
+
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
 - #795 Restored Mobile-ID component

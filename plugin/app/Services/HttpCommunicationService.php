@@ -237,19 +237,20 @@ class HttpCommunicationService
             'mod_charon',
             'plagiarism_service_auth_token'
         );
-        $headers = ['Authorization' => "Token {$authToken}"];
 
+        $headers = ['Authorization' => "Token {$authToken}"];
 
         Log::info('Sending data to plagiarism service.', [
             'uri' => $plagiarismUrl . '/' . $uri,
             'data' => $data,
+            'headers' => $headers
         ]);
 
         $client = new Client(['base_uri' => $plagiarismUrl]);
         try {
             return $client->request(
                 $method,
-                "/{$uri}",
+                $uri,
                 ['json' => $data, 'headers' => $headers]
             );
         } catch (GuzzleException $e) {
@@ -258,7 +259,7 @@ class HttpCommunicationService
                 . $plagiarismUrl . '/' . $uri . '".',
                 ['error' => $e]
             );
-
+            
             return null;
         }
     }

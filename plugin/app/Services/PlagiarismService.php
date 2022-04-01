@@ -2,10 +2,17 @@
 
 namespace TTU\Charon\Services;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
+use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
+use TTU\Charon\Repositories\PlagiarismRepository;
+use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Models\Course;
+use Zeizig\Moodle\Services\UserService;
 
 /**
  * Class PlagiarismService
@@ -16,29 +23,48 @@ class PlagiarismService
 {
     /** @var PlagiarismCommunicationService */
     private $plagiarismCommunicationService;
+
     /** @var CharonRepository */
     private $charonRepository;
+
     /** @var CourseRepository */
     private $courseRepository;
+
+    /** @var PlagiarismRepository */
+    private $plagiarismRepository;
+
+    /** @var UserService */
+    private $userService;
+
+    /** @var SubmissionService */
+    private $submissionService;
 
     /**
      * PlagiarismService constructor.
      *
      * @param PlagiarismCommunicationService $plagiarismCommunicationService
      * @param CharonRepository $charonRepository
+     * @param UserService $userService
+     * @param SubmissionService $submissionService
+     * @param PlagiarismRepository $plagiarismRepository
      * @param CourseRepository $courseRepository
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository               $charonRepository,
-        CourseRepository               $courseRepository
+        CharonRepository $charonRepository,
+        UserService $userService,
+        SubmissionService $submissionService,
+        PlagiarismRepository $plagiarismRepository,
+        CourseRepository $courseRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
+        $this->plagiarismRepository = $plagiarismRepository;
+        $this->userService = $userService;
+        $this->submissionService = $submissionService;
         $this->courseRepository = $courseRepository;
     }
-
 
     /**
      * Create a plagiarism checksuite for the given Charon and save the
@@ -85,6 +111,34 @@ class PlagiarismService
         $charon = $this->refreshLatestCheckId($charon);
 
         return $charon;
+    }
+
+    /**
+     * Run the check for the given Charon and refresh its status.
+     *
+     * @param Charon $charon
+     * @param Course $course
+     * @param Request $request
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function runCheck(Charon $charon, Course $course, Request $request): array
+    {
+        $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
+        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+
+        $check->updated_at = Carbon::now();
+        $check->status = $response;
+        $check->save();
+        return [
+            "charonName" => $charon->name,
+            "created_at" => $check->created_at,
+            "updated_at" => $check->updated_at,
+            "status" => $check->status,
+            "checkId" => $check->id,
+            "author" => $check->user->firstname . ' ' . $check->user->lastname
+        ];
     }
 
     /**
@@ -160,6 +214,93 @@ class PlagiarismService
         }
 
         return $similarities;
+    }
+
+    * Get the matches for the given Charon from the plagiarism service.
+    * And associate matches submissions and users.
+    *
+    * @param Charon $charon
+    * @param Course $course
+    *
+    * @return array
+    * @throws GuzzleException
+    */
+    public function getMatches(Charon $charon, Course $course): array
+    {
+        $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $result = [];
+        foreach ($matches as $match) {
+            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if ($submission and $otherSubmission) {
+                $match['user_id'] = $submission->user_id;
+                $match['other_user_id'] = $otherSubmission->user_id;
+                $match['submission_id'] = $submission->id;
+                $match['other_submission_id'] = $otherSubmission->id;
+            } else  {
+                $user = $this->userService->findUserByUniid($match['uniid']);
+                $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
+                if ($user and $otherUser) {
+                    $match['user_id'] = $user->id;
+                    $match['other_user_id'] = $otherUser->id;
+                } else {
+                    $match['user_id'] = null;
+                    $match['other_user_id'] = null;
+                }
+                $match['submission_id'] = null;
+                $match['other_submission_id'] = null;
+            }
+            $result[] = $match;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get a list of checks for given course.
+     *
+     * @param Course $course
+     *
+     * @return array
+     */
+    public function getCheckHistory(Course $course): array
+    {
+        $checks = $this->plagiarismRepository->getChecksByCourseId($course->id);
+
+        foreach ($checks as $check) {
+            $check->author = $check->firstname . ' ' . $check->lastname;
+            unset($check->firstname);
+            unset($check->lastname);
+        }
+
+        return $checks;
+    }
+
+    /**
+     * Update status of the plagiarism check.
+     *
+     * @param PlagiarismCheck $check
+     * @param array $response
+     */
+    public function updateCheck(PlagiarismCheck $check, array $response): void
+    {
+        $check->updated_at = Carbon::now();
+        $check->status = $response['status'];
+        $check->save();
+    }
+
+    /**
+     * Update the given matches status to the one it is being changed.
+     * Makes a request to django api and gets the new status from there.
+     *
+     * @param int $matchId
+     * @param string $newStatus
+     * @return array
+     * @throws GuzzleException
+     */
+    public function updateMatchStatus(int $matchId, string $newStatus): array
+    {
+        return $this->plagiarismCommunicationService->updateMatchStatus($matchId, $newStatus);
     }
 
     /**
