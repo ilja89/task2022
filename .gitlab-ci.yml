@@ -1,10 +1,11 @@
 variables:
   DOCKER_DRIVER: overlay
   BOOTSTRAP_JS: "plugin/resources/assets/js/bootstrap.js"
-  MYSQL_DATABASE: hello_world_test
-  MYSQL_ROOT_PASSWORD: mysql
-
-
+  MARIADB_DATABASE: bitnami_moodle
+  MARIADB_ROOT_USER: root
+  MARIADB_ROOT_PASSWORD: root
+  MARIADB_USER: bn_moodle
+  MARIADB_PASSWORD: dev
 
 stages:
   - test
@@ -127,7 +128,7 @@ integration_test_dev:
     - docker
   services:
     - name: docker:dind
-    - name: mysql:latest
+    - name: bitnami/mariadb:10.3
   image: jaakkytt/ci-php-node:3.0
   stage: integration test
   script:
