@@ -46,18 +46,18 @@
 			</template>
 
 			<template v-slot:item.string="{ item }">
-				<v-chip :color="getColor(item, registrations)" dark large ripple>
+				<v-chip :color="getColor(item)" dark large ripple>
 					{{ submissionString(item) }}
 				</v-chip>
 			</template>
 
 			<template v-slot:item.actions="{ item }">
 				<v-row>
-					<submission-modal :submission="item" :color="getColor(item, registrations)" :is-link="false"/>
+					<submission-modal :submission="item" :color="getColor(item)" :is-link="false"/>
 					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
 						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
 					</v-btn>
-					<registration-bottom-sheet v-if="labs.length > 0" :submission="item" :color="getColor(item, registrations)"/>
+					<registration-bottom-sheet v-if="labs.length > 0" :submission="item" :color="getColor(item)"/>
 				</v-row>
 			</template>
 		</v-data-table>
@@ -67,7 +67,6 @@
 <script>
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
-import {getColor} from "../helpers/modalformatting";
 import {Translate} from "../../../mixins";
 import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
@@ -129,14 +128,14 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
-            this.$store.state.submissions.pop();
+			if (this.submissions.length > 9) {
+				this.$store.state.submissions.pop();
+			}
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
 
 	methods: {
-	    getColor,
-
 		itemRowBackground(item) {
 			return item.hasOwnProperty('latestAdded')
           && item.id === this.$store.state.submissions[0].id ? 'latest' : '';
@@ -148,12 +147,40 @@ export default {
 			})
 		},
 
+		getColor(submission) {
+			if (this.defendedSubmission(submission)) return 'success'
+			else if (Number.parseFloat(getSubmissionWeightedScore(submission)) < 0.01) return 'red';
+			else if (this.registeredSubmission(submission.id)) return 'teal';
+			else return `light-blue darken-${this.getColorDarknessByPercentage(getSubmissionWeightedScore(submission) / 100)}`;
+		},
+
+		getColorDarknessByPercentage(percentage, maxDarkness = 3) {
+			return maxDarkness - Math.floor(maxDarkness * percentage);
+		},
+
 		pointsWithoutReduction(submission) {
 			return getSubmissionWeightedScore(submission) + "%"
 		},
 
+		defendedSubmission(submission) {
+			try {
+				const last = submission.results[submission.results.length - 1];
+				return parseFloat(last['calculated_result']) !== 0.0 && last['grade_type_code'] === 1001;
+			} catch (e) {
+				return false
+			}
+		},
+
 		formatDate(date) {
 			return moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm");
+		},
+
+		registeredSubmission(submissionId) {
+			let test = this.registrations.find(x => x.submission_id === submissionId);
+			if (test != null) {
+				test = test['submission_id'];
+				return submissionId === test;
+			}
 		},
 
 		getCompletionPercentage(result) {
@@ -229,7 +256,7 @@ export default {
 
 <style>
 .latest {
-  background-color: #E8F3FA;
+	background-color: #E8F3FA;
 }
 </style>
 
