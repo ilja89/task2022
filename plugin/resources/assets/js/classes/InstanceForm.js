@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services) {
-        this.initializeFields(instance, courseSettings);
+    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services, plagiarismAssignment) {
+        this.initializeFields(instance, courseSettings, plagiarismAssignment);
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
@@ -11,6 +11,7 @@ export default class InstanceFormForm {
         this.plagiarism_services = plagiarism_services;
         this.groups.unshift({id: null, name: 'All groups'});
         this.recalculate_grades = false;
+        this.plagiarism_create_update_charon = false;
     }
 
     activateGrademap(grade_type_code) {
@@ -117,7 +118,7 @@ export default class InstanceFormForm {
         });
     }
 
-    initializeFields(instance, courseSettings) {
+    initializeFields(instance, courseSettings, plagiarismAssignment) {
         this.fields = {
             // EDITOR
             course: courseSettings['course_id'],
@@ -162,6 +163,11 @@ export default class InstanceFormForm {
                 {repository: '', private_key: ''},
             ],
             plagiarism_includes: '',
+            assignment_file_extensions: plagiarismAssignment['file_extensions']?.join() ?? '',
+            assignment_moss_passes: plagiarismAssignment['moss_passes'] ?? 10,
+            assignment_moss_matches_shown: plagiarismAssignment['moss_matches_shown'] ?? 25,
+            assignment_exists: plagiarismAssignment['assignmentExists'] ?? false,
+            plagiarism_connection: plagiarismAssignment['plagiarismConnection'] ?? false,
 
             preset: null,
         };

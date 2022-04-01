@@ -17,6 +17,12 @@ use Zeizig\Moodle\Models\Course;
  * @property String tester_url
  * @property String tester_sync_url
  * @property String tester_token
+ * @property String plagiarism_language_type
+ * @property String gitlab_location_type
+ * @property String plagiarism_gitlab_group
+ * @property String plagiarism_file_extensions
+ * @property integer plagiarism_moss_passes
+ * @property integer plagiarism_moss_matches_shown
  *
  * @package TTU\Charon\Models
  */

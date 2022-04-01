@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
+use TTU\Charon\Repositories\CourseRepository;
 use TTU\Charon\Repositories\PlagiarismRepository;
 use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
@@ -26,6 +27,9 @@ class PlagiarismService
     /** @var CharonRepository */
     private $charonRepository;
 
+    /** @var CourseRepository */
+    private $courseRepository;
+
     /** @var PlagiarismRepository */
     private $plagiarismRepository;
 
@@ -43,13 +47,15 @@ class PlagiarismService
      * @param UserService $userService
      * @param SubmissionService $submissionService
      * @param PlagiarismRepository $plagiarismRepository
+     * @param CourseRepository $courseRepository
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
         CharonRepository $charonRepository,
         UserService $userService,
         SubmissionService $submissionService,
-        PlagiarismRepository $plagiarismRepository
+        PlagiarismRepository $plagiarismRepository,
+        CourseRepository $courseRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -57,8 +63,8 @@ class PlagiarismService
         $this->plagiarismRepository = $plagiarismRepository;
         $this->userService = $userService;
         $this->submissionService = $submissionService;
+        $this->courseRepository = $courseRepository;
     }
-
 
     /**
      * Create a plagiarism checksuite for the given Charon and save the
@@ -210,16 +216,15 @@ class PlagiarismService
         return $similarities;
     }
 
-    /**
-     * Get the matches for the given Charon from the plagiarism service.
-     * And associate matches submissions and users.
-     *
-     * @param Charon $charon
-     * @param Course $course
-     *
-     * @return array
-     * @throws GuzzleException
-     */
+    * Get the matches for the given Charon from the plagiarism service.
+    * And associate matches submissions and users.
+    *
+    * @param Charon $charon
+    * @param Course $course
+    *
+    * @return array
+    * @throws GuzzleException
+    */
     public function getMatches(Charon $charon, Course $course): array
     {
         $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
@@ -296,5 +301,74 @@ class PlagiarismService
     public function updateMatchStatus(int $matchId, string $newStatus): array
     {
         return $this->plagiarismCommunicationService->updateMatchStatus($matchId, $newStatus);
+    }
+
+    /**
+     * Check if all required plagiarism settings were set on the form
+     * @param $request
+     * @return bool
+     */
+    private function allPlagiarismSettingsExist($request): bool
+    {
+        return (
+            $request['plagiarism_lang_type'] &&
+            $request['plagiarism_gitlab_group'] &&
+            $request['gitlab_location_type'] &&
+            $request['plagiarism_file_extensions'] &&
+            $request['plagiarism_moss_passes'] &&
+            $request['plagiarism_moss_matches_shown']
+        );
+    }
+
+    /**
+     * Send payload to Plagiarism and create or update a course, if all fields were set
+     * @throws GuzzleException
+     */
+    public function createOrUpdateCourse($course, $request)
+    {
+        if ($this->allPlagiarismSettingsExist($request)) {
+            $this->plagiarismCommunicationService->createOrUpdateCourse([
+                'name' => $course->shortname,
+                'charon_identifier' => $course->id,
+                'language' => $request['plagiarism_lang_type'],
+                'group_id' => $request['plagiarism_gitlab_group'],
+                'projects_location' => $request['gitlab_location_type'],
+                'file_extensions' => array_map('trim', explode(',', $request['plagiarism_file_extensions'])),
+                'max_passes' => $request['plagiarism_moss_passes'],
+                'number_shown' => $request['plagiarism_moss_matches_shown']
+            ]);
+        }
+    }
+
+    /**
+     * Send payload to Plagiarism and create or update an assignment, if all fields were set and the course exists.
+     * Returns the id of the assignment if everything succeeds. Returns null if the connection fails or all required
+     * form fields were not set.
+     * @throws GuzzleException
+     */
+    public function createOrUpdateAssignment($charon, $request)
+    {
+        if (
+            $request->input('assignment_file_extensions') &&
+            $request->input('assignment_moss_passes') &&
+            $request->input('assignment_moss_matches_shown')
+        ) {
+            return $this->plagiarismCommunicationService->createOrUpdateAssignment([
+                'charon' =>
+                    [
+                        'name' => $charon->name,
+                        'charon_identifier' => $charon->id,
+                        'directory_path' => $charon->project_folder,
+                        'file_extensions' => array_map('trim', explode(',', $request->input('assignment_file_extensions'))),
+                        'max_passes' => $request->input('assignment_moss_passes'),
+                        'number_shown' => $request->input('assignment_moss_matches_shown')
+                    ],
+                'course' =>
+                    [
+                        'name' => $this->courseRepository->getShortnameById($charon->course)
+                    ]
+            ]);
+        }
+        return null;
     }
 }

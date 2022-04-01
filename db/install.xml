@@ -34,6 +34,7 @@
                 <FIELD NAME="docker_test_root" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="group_size" SEQUENCE="false" TYPE="int" LENGTH="4" NOTNULL="false"/>
                 <FIELD NAME="allow_submission" SEQUENCE="false" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="plagiarism_assignment_id" SEQUENCE="false" TYPE="int" LENGTH="10" NOTNULL="false"/>
 
                 <!-- Moodle requires these tables. -->
                 <FIELD NAME="intro" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>

@@ -53,6 +53,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string|null docker_test_root
  * @property int|null group_size
  * @property bool $allow_submission
+ * @property int|null plagiarism_assignment_id
  *
  * @package TTU\Charon\Model
  */
@@ -67,7 +68,7 @@ class Charon extends Model
         'name', 'description', 'project_folder', 'tester_extra', 'unittests_git', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
         'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold',
-        'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size', 'allow_submission'
+        'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size', 'allow_submission', 'plagiarism_assignment_id'
     ];
 
     /**

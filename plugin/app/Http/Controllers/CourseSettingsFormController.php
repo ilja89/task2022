@@ -5,6 +5,7 @@ namespace TTU\Charon\Http\Controllers;
 use Illuminate\Http\Request;
 use TTU\Charon\Repositories\ClassificationsRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
+use TTU\Charon\Services\PlagiarismCommunicationService;
 use TTU\Charon\Repositories\PresetsRepository;
 use Zeizig\Moodle\Globals\Output;
 use Zeizig\Moodle\Globals\Page;
@@ -33,6 +34,9 @@ class CourseSettingsFormController extends Controller
     /** @var PresetsRepository */
     private $presetsRepository;
 
+    /** @var PlagiarismCommunicationService */
+    private $plagiarismCommunicationService;
+
     /**
      * CourseSettingsFormController constructor.
      *
@@ -45,6 +49,8 @@ class CourseSettingsFormController extends Controller
      *
      * @param PresetsRepository $presetsRepository
      *
+     * @param PlagiarismCommunicationService $plagiarismCommunicationService
+     *
      * @internal param Page $page
      */
     public function __construct(
@@ -53,7 +59,8 @@ class CourseSettingsFormController extends Controller
         Page $page,
         CourseSettingsRepository $courseSettingsRepository,
         ClassificationsRepository $classificationsRepository,
-        PresetsRepository $presetsRepository
+        PresetsRepository $presetsRepository,
+        PlagiarismCommunicationService $plagiarismCommunicationService
     ) {
         parent::__construct($request);
         $this->output = $output;
@@ -61,6 +68,7 @@ class CourseSettingsFormController extends Controller
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->classificationsRepository = $classificationsRepository;
         $this->presetsRepository = $presetsRepository;
+        $this->plagiarismCommunicationService = $plagiarismCommunicationService;
     }
 
     /**
@@ -69,6 +77,7 @@ class CourseSettingsFormController extends Controller
      * @param Course $course
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index(Course $course)
     {
@@ -83,6 +92,9 @@ class CourseSettingsFormController extends Controller
             'grading_methods' => $this->classificationsRepository->getAllGradingMethods(),
             'grade_name_prefixes' => $this->classificationsRepository->getAllGradeNamePrefixes(),
             'presets' => $this->presetsRepository->getPresetsOnlyForCourse($course->id),
+            'plagiarism_settings' => $this->plagiarismCommunicationService->getCourseDetails([
+                'name' => $course->shortname
+            ])
         ]);
     }
 

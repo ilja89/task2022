@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
 
@@ -67,7 +68,7 @@ class PlagiarismCommunicationService
             $data
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -86,7 +87,7 @@ class PlagiarismCommunicationService
             'post'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -132,7 +133,7 @@ class PlagiarismCommunicationService
             'get'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 
     /**
@@ -172,7 +173,113 @@ class PlagiarismCommunicationService
             'get'
         );
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
+    }
+
+    /**
+     * Send data to Plagiarism and create or update a course
+     * @throws GuzzleException
+     */
+    public function createOrUpdateCourse(array $courseSettings)
+    {
+        $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/create-or-update/",
+            "post",
+            $courseSettings
+        );
+    }
+
+    /**
+     * Send data to Plagiarism and create or update an assignment
+     * @param array $assignmentSettings array of settings needed to create or update an assignment in Plagiarism
+     * @throws GuzzleException
+     */
+    public function createOrUpdateAssignment(array $assignmentSettings)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/assignment/create-or-update/",
+            "post",
+            $assignmentSettings
+        );
+
+        if ($response && $response->getBody()) {
+            return json_decode($response->getBody());
+        }
+        return null;
+    }
+
+    /**
+     * Fetch the course details from Plagiarism. If a response is received, mark the connection as true
+     * @param $settings
+     * @return \stdClass
+     * @throws GuzzleException
+     */
+    public function getCourseDetails($settings): \stdClass
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/details/",
+            "get",
+            $settings
+        );
+
+        if ($response) {
+            $response = json_decode((string)$response->getBody());
+            $response->plagiarism_connection = true;
+            return $response;
+        }
+
+        $response = new \stdClass();
+        $response->plagiarism_connection = false;
+        return $response;
+    }
+
+    /**
+     * Fetch the assignment details from Plagiarism. If Charon is being created, then we fetch the course details instead
+     * If a response is received, mark the connection as true
+     * @param $course
+     * @param null $charon
+     * @return \stdClass
+     * @throws GuzzleException
+     */
+    public function getAssignmentDetails($course, $charon = null): \stdClass
+    {
+        if ($charon) {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/charon/assignment/details/",
+                "get",
+                [
+                    'course_name' => $course->shortname,
+                    'assignment_name' => $charon->name
+                ]
+            );
+
+            if ($response) {
+                $response = json_decode((string)$response->getBody());
+                $response->plagiarismConnection = true;
+                return $response;
+            }
+
+            $response = new \stdClass();
+            $response->plagiarismConnection = false;
+            return $response;
+        }
+
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/details/",
+            "get",
+            ['name' => $course->shortname]
+        );
+
+        if ($response) {
+            $response = json_decode((string)$response->getBody());
+            $response->plagiarismConnection = true;
+            $response->assignmentExists = false;
+            return $response;
+        }
+
+        $response = new \stdClass();
+        $response->plagiarismConnection = false;
+        return $response;
     }
 
     /**

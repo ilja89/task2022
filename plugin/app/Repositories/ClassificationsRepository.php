@@ -4,8 +4,10 @@ namespace TTU\Charon\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use TTU\Charon\Models\GitlabLocationType;
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
+use TTU\Charon\Models\PlagiarismLangType;
 use TTU\Charon\Models\PlagiarismService;
 use TTU\Charon\Models\TesterType;
 

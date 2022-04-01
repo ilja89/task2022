@@ -9,9 +9,12 @@
                 <input class="form-control" :class="[ input_class ]"
                        :id="'id_' + name"
                        :name="name"
-                       type="text"
+                       :type="inputType"
                        :required="required"
                        :autocomplete="autocomplete ? 'on' : 'off'"
+                       :disabled="inputDisabled"
+                       :min="minValue"
+                       :max="maxValue"
                        v-model="input_value"
                        @keyup="onInputChanged">
             </div>
@@ -28,6 +31,22 @@
 
         props: {
             autocomplete: { required: false, default: true },
+            inputType: {
+                required: false,
+                default: "text"
+            },
+            inputDisabled: {
+                required: false,
+                default: false
+            },
+            minValue: {
+                required: false,
+                default: false
+            },
+            maxValue: {
+                required: false,
+                default: false
+            }
         }
     }
 </script>
