@@ -133,7 +133,7 @@ integration_test_dev:
   script:
     - touch .env
     - php composer.phar install --dev
-    - cp -p env.develop .env
+    - cp -p env.integration .env
     - cat .env
     - php artisan key:generate
     - php vendor/phpunit/phpunit/phpunit --coverage-text --colors=never --configuration phpunit.xml
