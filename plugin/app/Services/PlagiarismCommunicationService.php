@@ -147,14 +147,28 @@ class PlagiarismCommunicationService
      */
     public function getMatches(String $project_path, String $course_shortname): array
     {
-        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
+        $times = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-times/",
             'GET'
         );
-        if ($response instanceof GuzzleException) {
-            throw $response;
+
+        $times = json_decode($times->getBody(), true);
+
+        Log::info(print_r($times, true));
+
+        if (sizeof($times) > 0) {
+            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                "api/charon/run/{$times[0]['id']}/fetch-matches/",
+                'GET'
+            );
+
+            if ($response instanceof GuzzleException) {
+                throw $response;
+            }
+            return json_decode($response->getBody(), true);
         }
-        return json_decode($response->getBody(), true);
+
+        return [];
     }
 
     /**
