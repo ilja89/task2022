@@ -25,11 +25,11 @@ class PlagiarismRepository
     public function addPlagiarismCheck(int $charonId, int $userId, string $status): PlagiarismCheck
     {
         return PlagiarismCheck::create([
-            'charon_id'  => $charonId,
+            'charon_id' => $charonId,
             'user_id' => $userId,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'status'    => $status,
+            'status' => $status,
         ]);
     }
 
@@ -41,7 +41,6 @@ class PlagiarismRepository
      */
     public function getChecksByCourseId(int $courseId): array
     {
-
         return DB::table('charon_plagiarism_check')
             ->join('charon', 'charon_id', '=', 'charon.id')
             ->join('user', 'user_id', '=', 'user.id')
@@ -50,5 +49,17 @@ class PlagiarismRepository
             ->orderBy('updated_at', 'desc')
             ->get()
             ->toArray();
+    }
+
+    /**
+     * Fetch the plagiarism assignment id from a charon object that has the given id
+     * @param int $charonId
+     * @return int|null
+     */
+    public function getAssignmentIdByCharonId(int $charonId): ?int
+    {
+        return DB::table('charon')
+            ->where('id', $charonId)
+            ->value('plagiarism_assignment_id');
     }
 }

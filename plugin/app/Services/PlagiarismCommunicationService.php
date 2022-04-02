@@ -4,7 +4,6 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
 
@@ -93,17 +92,16 @@ class PlagiarismCommunicationService
     /**
      * Send a request to the plagiarism service to run check for the given charon.
      *
-     * @param String $project_path
-     * @param String $course_shortname
+     * @param int $assignmentId
      * @param String $returnUrl
      * @return string
      *
      * @throws GuzzleException
      */
-    public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
+    public function runCheck(int $assignmentId, string $returnUrl): string
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
+            "api/charon/assignment/{$assignmentId}/run-checksuite/",
             'POST',
             ["return_url" => $returnUrl]
         );
@@ -139,16 +137,15 @@ class PlagiarismCommunicationService
     /**
      * Get matches for the given charon.
      *
-     * @param String $project_path
-     * @param String $course_shortname
+     * @param int $assignmentId
      * @return array
      *
      * @throws GuzzleException
      */
-    public function getMatches(String $project_path, String $course_shortname): array
+    public function getMatches(int $assignmentId): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/fetch-matches/",
+            "api/charon/assignment/{$assignmentId}/fetch-matches/",
             'GET'
         );
         if ($response instanceof GuzzleException) {

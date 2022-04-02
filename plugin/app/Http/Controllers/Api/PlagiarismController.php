@@ -3,6 +3,7 @@
 namespace TTU\Charon\Http\Controllers\Api;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
@@ -38,7 +39,7 @@ class PlagiarismController extends Controller
      *
      * @param Charon $charon
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      * @throws GuzzleException
      */
@@ -64,7 +65,7 @@ class PlagiarismController extends Controller
      *
      * @param Charon $charon
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      * @throws GuzzleException
      */
@@ -88,32 +89,30 @@ class PlagiarismController extends Controller
     /**
      * Fetch the matches for the given Charon.
      *
-     * @param Course $course
      * @param Charon $charon
      *
      * @return array
      *
      * @throws GuzzleException
      */
-    public function fetchMatches(Course $course, Charon $charon): array
+    public function fetchMatches(Charon $charon): array
     {
-        return $this->plagiarismService->getMatches($charon, $course);
+        return $this->plagiarismService->getMatches($charon);
     }
 
     /**
      * Run the checks for the given Charon. Send a request to run the
      * check to the plagiarism service.
      *
-     * @param Course $course
      * @param Charon $charon
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      * @throws GuzzleException
      */
-    public function runCheck(Course $course, Charon $charon): \Illuminate\Http\JsonResponse
+    public function runCheck(Charon $charon): JsonResponse
     {
-        $status = $this->plagiarismService->runCheck($charon, $course, $this->request);
+        $status = $this->plagiarismService->runCheck($charon, $this->request);
 
         if ($status['status'] == "Could not connect to Plagiarism application"
             or $status['status'] == "Unexpected error") {
