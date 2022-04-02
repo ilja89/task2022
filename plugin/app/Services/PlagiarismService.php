@@ -139,19 +139,19 @@ class PlagiarismService
         foreach ($submissions as $submission) {
             if (sizeof($submission->files) != 0) {
                 $uniid = strtok($submission->user->username, "@");
-                $files = [];
+                $filesDto = [];
                 foreach($submission->files as $file) {
                     $fileDto = [
                         'file_name' => $file->path,
                         'file_content' => $file->contents
                     ];
-                    array_push($files, $fileDto);
+                    array_push($filesDto, $fileDto);
                 }
                 $dto = [
                     'username' => $uniid,
                     'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
                     'path_with_namespace' => $uniid . '/' . $course->shortname,
-                    'files' => $file
+                    'files' => $filesDto
                 ];
                 array_push($submissionsToSend, $dto);
             }
@@ -161,12 +161,13 @@ class PlagiarismService
 
 
         $templatesToSend = [];
+
         foreach($templates as $template) {
             $templateDto = [
                 'file_name' => $template->path,
                 'file_content' => $template->contents
             ];
-            array_push($templatesToSEnd, $templateDto);
+            array_push($templatesToSend, $templateDto);
         }
 
         $data = [
