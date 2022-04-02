@@ -120,9 +120,8 @@ class PlagiarismService
      */
     public function runCheck(Charon $charon, Request $request): array
     {
-        $plagiarismAssignmentId = $this->plagiarismRepository->getAssignmentIdByCharonId($charon->id);
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
-        $response = $this->plagiarismCommunicationService->runCheck($plagiarismAssignmentId, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
 
         $check->updated_at = Carbon::now();
         $check->status = $response;
@@ -223,8 +222,7 @@ class PlagiarismService
      */
     public function getMatches(Charon $charon): array
     {
-        $plagiarismAssignmentId = $this->plagiarismRepository->getAssignmentIdByCharonId($charon->id);
-        $matches = $this->plagiarismCommunicationService->getMatches($plagiarismAssignmentId);
+        $matches = $this->plagiarismCommunicationService->getMatches($charon->plagiarism_assignment_id);
         $result = [];
         foreach ($matches as $match) {
             $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);

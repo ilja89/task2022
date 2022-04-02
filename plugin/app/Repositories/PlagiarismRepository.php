@@ -50,16 +50,4 @@ class PlagiarismRepository
             ->get()
             ->toArray();
     }
-
-    /**
-     * Fetch the plagiarism assignment id from a charon object that has the given id
-     * @param int $charonId
-     * @return int|null
-     */
-    public function getAssignmentIdByCharonId(int $charonId): ?int
-    {
-        return DB::table('charon')
-            ->where('id', $charonId)
-            ->value('plagiarism_assignment_id');
-    }
 }
