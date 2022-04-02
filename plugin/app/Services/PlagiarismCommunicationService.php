@@ -100,12 +100,12 @@ class PlagiarismCommunicationService
      *
      * @throws GuzzleException
      */
-    public function runCheck(String $project_path, String $course_shortname, String $returnUrl): string
+    public function runCheck(String $project_path, String $course_shortname, array $data): string
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-checksuite/",
             'POST',
-            ["return_url" => $returnUrl]
+            $data
         );
         if ($response instanceof GuzzleException) {
             if (strval($response->getCode())[0] === "4") {

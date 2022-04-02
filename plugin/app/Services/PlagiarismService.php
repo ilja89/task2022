@@ -39,6 +39,9 @@ class PlagiarismService
     /** @var SubmissionService */
     private $submissionService;
 
+    /** @var TemplateService */
+    private $templateService;
+
     /**
      * PlagiarismService constructor.
      *
@@ -55,7 +58,8 @@ class PlagiarismService
         UserService $userService,
         SubmissionService $submissionService,
         PlagiarismRepository $plagiarismRepository,
-        CourseRepository $courseRepository
+        CourseRepository $courseRepository,
+        TemplateService $templateService
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -64,6 +68,7 @@ class PlagiarismService
         $this->userService = $userService;
         $this->submissionService = $submissionService;
         $this->courseRepository = $courseRepository;
+        $this->templateService = $templateService;
     }
 
     /**
@@ -126,7 +131,52 @@ class PlagiarismService
     public function runCheck(Charon $charon, Course $course, Request $request): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
-        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+
+        $submissions = $this->submissionService->getSubmissionForEachStudent($charon->id);
+
+        $submissionsToSend = [];
+
+        foreach ($submissions as $submission) {
+            if (sizeof($submission->files) != 0) {
+                $uniid = strtok($submission->user->username, "@");
+                $files = [];
+                foreach($submission->files as $file) {
+                    $fileDto = [
+                        'file_name' => $file->path,
+                        'file_content' => $file->contents
+                    ];
+                    array_push($files, $fileDto);
+                }
+                $dto = [
+                    'username' => $uniid,
+                    'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
+                    'path_with_namespace' => $uniid . '/' . $course->shortname,
+                    'files' => $file
+                ];
+                array_push($submissionsToSend, $dto);
+            }
+        }
+
+        $templates = $this->templateService->getTemplates($charon->id);
+
+
+        $templatesToSend = [];
+        foreach($templates as $template) {
+            $templateDto = [
+                'file_name' => $template->path,
+                'file_content' => $template->contents
+            ];
+            array_push($templatesToSEnd, $templateDto);
+        }
+
+        $data = [
+            'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
+            'given_files' => $submissionsToSend,
+            'base_files' => $templatesToSend
+        ];
+
+
+        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $data);
 
         $check->updated_at = Carbon::now();
         $check->status = $response;

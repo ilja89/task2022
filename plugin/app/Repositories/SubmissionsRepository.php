@@ -674,6 +674,55 @@ class SubmissionsRepository
     }
 
     /**
+     * Find submission and its files for each student for the given charon.
+     * Mainly used to get files for plagiarism check
+     *
+     * @param int $charonId
+     * @return Collection
+     */
+    public function getSubmissionForEachStudentAndGivenCharon(int $charonId)
+    {
+        $confirmed = Submission::select('id', 'git_hash', 'user_id')
+            ->where('charon_id', $charonId)
+            ->where('confirmed', 1)
+            ->with([
+                'user' => function ($query) {
+                    $query->select(['id', 'username']);
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id', 'path', 'contents']);
+                },
+            ])
+            ->orderByDesc('id')
+            ->get()
+            ->unique('user_id');
+
+        $confirmedUsers = [];
+
+        foreach ($confirmed as $item) {
+            array_push($confirmedUsers,$item->user_id);
+        }
+
+        $other = Submission::select('id', 'git_hash', 'user_id')
+            ->whereNotIn('user_id', $confirmedUsers)
+            ->where('charon_id', $charonId)
+            ->with([
+                'user' => function ($query) {
+                    $query->select(['id', 'username', 'firstname', 'lastname']);
+                },
+                'files' => function ($query) {
+                    $query->select(['id', 'submission_id', 'path', 'contents']);
+                },
+            ])
+            ->orderByDesc('id')
+            ->get()
+            ->unique('user_id');
+
+        return $confirmed->merge($other);
+
+    }
+
+    /**
      * Build a query for submissions by user in many-to-many table
      *
      * @param int $userId

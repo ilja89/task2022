@@ -324,4 +324,17 @@ class SubmissionService
             return $this->submissionsRepository->findSubmissionByHash($commitHash);
         }
     }
+
+    /**
+     * Find submission and its files for each student for the given charon.
+     * Mainly used to get files for plagiarism check
+     *
+     * @param int $charonId
+     *
+     * @return Collection
+     */
+    public function getSubmissionForEachStudent(int $charonId)
+    {
+        return $this->submissionsRepository->getSubmissionForEachStudentAndGivenCharon($charonId);
+    }
 }
