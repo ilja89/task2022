@@ -216,6 +216,7 @@ class PlagiarismService
         return $similarities;
     }
 
+    /**
     * Get the matches for the given Charon from the plagiarism service.
     * And associate matches submissions and users.
     *
