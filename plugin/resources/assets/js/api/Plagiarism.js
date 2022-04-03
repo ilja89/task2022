@@ -25,8 +25,8 @@ class Plagiarism {
             })
     }
 
-    static fetchMatches(courseId, charonId, then) {
-        axios.get(`${this.getRoot()}/courses/${courseId}/charons/${charonId}/matches`)
+    static fetchMatches(charonId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/matches`)
             .then(response => {
                 then(response.data)
             })
@@ -35,8 +35,8 @@ class Plagiarism {
             })
     }
 
-    static runPlagiarismCheck(courseId, charonId, then) {
-        axios.post(`${this.getRoot()}/courses/${courseId}/charons/${charonId}/plagiarism/run`)
+    static runPlagiarismCheck(charonId, then) {
+        axios.post(`${this.getRoot()}/charons/${charonId}/plagiarism/run`)
             .then(response => {
                 then(response)
             })

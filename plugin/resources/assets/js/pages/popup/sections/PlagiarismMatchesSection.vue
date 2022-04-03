@@ -119,7 +119,7 @@ export default {
         fetchMatches() {
             if (!this.charon) return;
 
-            Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
+            Plagiarism.fetchMatches(this.charon.id, response => {
                 this.matches = response;
                 this.$emit('matchesFetched', response)
             })

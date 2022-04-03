@@ -51,11 +51,11 @@ class PlagiarismService
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository $charonRepository,
-        UserService $userService,
-        SubmissionService $submissionService,
-        PlagiarismRepository $plagiarismRepository,
-        CourseRepository $courseRepository
+        CharonRepository               $charonRepository,
+        UserService                    $userService,
+        SubmissionService              $submissionService,
+        PlagiarismRepository           $plagiarismRepository,
+        CourseRepository               $courseRepository
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -88,12 +88,10 @@ class PlagiarismService
             $includes
         );
 
-        $charon = $this->charonRepository->updatePlagiarismChecksuiteId(
+        return $this->charonRepository->updatePlagiarismChecksuiteId(
             $charon,
             $response->id
         );
-
-        return $charon;
     }
 
     /**
@@ -108,25 +106,22 @@ class PlagiarismService
     public function runChecksuite(Charon $charon)
     {
         $this->plagiarismCommunicationService->runChecksuite($charon->plagiarism_checksuite_id);
-        $charon = $this->refreshLatestCheckId($charon);
-
-        return $charon;
+        return $this->refreshLatestCheckId($charon);
     }
 
     /**
      * Run the check for the given Charon and refresh its status.
      *
      * @param Charon $charon
-     * @param Course $course
      * @param Request $request
      * @return array
      *
      * @throws GuzzleException
      */
-    public function runCheck(Charon $charon, Course $course, Request $request): array
+    public function runCheck(Charon $charon, Request $request): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
-        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
 
         $check->updated_at = Carbon::now();
         $check->status = $response;
@@ -217,18 +212,17 @@ class PlagiarismService
     }
 
     /**
-    * Get the matches for the given Charon from the plagiarism service.
-    * And associate matches submissions and users.
-    *
-    * @param Charon $charon
-    * @param Course $course
-    *
-    * @return array
-    * @throws GuzzleException
-    */
-    public function getMatches(Charon $charon, Course $course): array
+     * Get the matches for the given Charon from the plagiarism service.
+     * And associate matches submissions and users.
+     *
+     * @param Charon $charon
+     *
+     * @return array
+     * @throws GuzzleException
+     */
+    public function getMatches(Charon $charon): array
     {
-        $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
+        $matches = $this->plagiarismCommunicationService->getMatches($charon->plagiarism_assignment_id);
         $result = [];
         foreach ($matches as $match) {
             $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
@@ -238,7 +232,7 @@ class PlagiarismService
                 $match['other_user_id'] = $otherSubmission->user_id;
                 $match['submission_id'] = $submission->id;
                 $match['other_submission_id'] = $otherSubmission->id;
-            } else  {
+            } else {
                 $user = $this->userService->findUserByUniid($match['uniid']);
                 $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
                 if ($user and $otherUser) {

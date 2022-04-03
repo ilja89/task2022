@@ -108,7 +108,7 @@ export default {
 
     methods: {
         handleRunPlagiarismClicked() {
-            Plagiarism.runPlagiarismCheck(this.course.id, this.charon.id, response => {
+            Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
                     if (this.latestCheck.status === "Check started.") {
