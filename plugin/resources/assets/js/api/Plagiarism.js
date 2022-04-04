@@ -35,6 +35,16 @@ class Plagiarism {
             })
     }
 
+    static fetchMatchesByRun(runId, charonId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/run-matches?run_id=` + runId)
+            .then(response => {
+                then(response.data)
+            })
+            .catch(error => {
+                VueEvent.$emit('show-notification', 'Error fetching plagiarism matches.\n' + error, 'danger')
+            })
+    }
+
     static runPlagiarismCheck(courseId, charonId, then) {
         axios.post(`${this.getRoot()}/courses/${courseId}/charons/${charonId}/plagiarism/run`)
             .then(response => {

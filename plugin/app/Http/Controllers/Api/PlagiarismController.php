@@ -87,6 +87,7 @@ class PlagiarismController extends Controller
 
     /**
      * Fetch the matches for the given Charon.
+     * Also returns times of plagiarism runs.
      *
      * @param Course $course
      * @param Charon $charon
@@ -98,6 +99,21 @@ class PlagiarismController extends Controller
     public function fetchMatches(Course $course, Charon $charon): array
     {
         return $this->plagiarismService->getMatches($charon, $course);
+    }
+
+    /**
+     * Fetch the matches for the given Charon by plagiarism run
+     *
+     * @param Request $request
+     * @param Charon $charon
+     *
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function fetchMatchesByRun(Request $request, Charon $charon): array
+    {
+        return $this->plagiarismService->getMatchesByRun($request->input('run_id'));
     }
 
     /**

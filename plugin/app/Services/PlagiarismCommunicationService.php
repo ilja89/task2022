@@ -137,7 +137,29 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Get matches for the given charon.
+     * Get matches by plagiarism run.
+     *
+     * @param String $run_id
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function getMatches(String $run_id): array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/run/{$run_id}/fetch-matches/",
+            'GET'
+        );
+
+        if ($response instanceof GuzzleException) {
+            throw $response;
+        }
+        return json_decode($response->getBody(), true);
+    }
+
+
+    /**
+     * Get matches history times, when plagiarism was run for the given charon.
      *
      * @param String $project_path
      * @param String $course_shortname
@@ -145,30 +167,17 @@ class PlagiarismCommunicationService
      *
      * @throws GuzzleException
      */
-    public function getMatches(String $project_path, String $course_shortname): array
+    public function getMatchesHistoryTimes(String $project_path, String $course_shortname): array
     {
-        $times = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/course/{$course_shortname}/assignmentPath/{$project_path}/run-times/",
             'GET'
         );
 
-        $times = json_decode($times->getBody(), true);
-
-        Log::info(print_r($times, true));
-
-        if (sizeof($times) > 0) {
-            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/charon/run/{$times[0]['id']}/fetch-matches/",
-                'GET'
-            );
-
-            if ($response instanceof GuzzleException) {
-                throw $response;
-            }
-            return json_decode($response->getBody(), true);
+        if ($response instanceof GuzzleException) {
+            throw $response;
         }
-
-        return [];
+        return json_decode($response->getBody(), true);
     }
 
     /**

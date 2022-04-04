@@ -182,6 +182,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->get('courses/{course}/charons/{charon}/matches', 'PlagiarismController@fetchMatches');
 
     Route::middleware('auth.charon.managing.require')
+        ->get('charons/{charon}/run-matches', 'PlagiarismController@fetchMatchesByRun');
+
+    Route::middleware('auth.charon.managing.require')
         ->post('courses/{course}/charons/{charon}/plagiarism/run', 'PlagiarismController@runCheck');
 
     Route::middleware('auth.charon.managing.require')
