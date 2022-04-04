@@ -79,12 +79,11 @@ import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
-import PopupSelect from "../partials/PopupSelect";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PopupSelect},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs},
 
     data() {
         return {
@@ -136,7 +135,7 @@ export default {
         fetchMatches() {
             if (!this.charon) return;
 
-            Plagiarism.fetchMatches(this.course.id, this.charon.id, response => {
+            Plagiarism.fetchMatches(this.charon.id, response => {
                 this.matches = response['matches'];
                 let times = response['times'];
                 times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
@@ -183,9 +182,5 @@ export default {
 }
 .center-table table th{
     vertical-align: middle;
-}
-
-.v-select .v-select-item--active {
-  background-color: green!important;
 }
 </style>
