@@ -105,13 +105,12 @@ class PlagiarismController extends Controller
      * Fetch the matches for the given Charon by plagiarism run
      *
      * @param Request $request
-     * @param Charon $charon
      *
      * @return array
      *
      * @throws GuzzleException
      */
-    public function fetchMatchesByRun(Request $request, Charon $charon): array
+    public function fetchMatchesByRun(Request $request): array
     {
         return $this->plagiarismService->getMatchesByRun($request->input('run_id'));
     }
