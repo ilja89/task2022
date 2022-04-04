@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+
+## [1.6.1] - 2022-03-11
+
+### Added
+- #732 Group submissions in popup will have common line height also in case of a wrap.
+- #751 Add an option to access query logs and turn on query logging for specific users
+
+### Fixed
+- #781 Remove code span padding-left from assignment.css
+- #795 Restored Mobile-ID component
+- #745 Rounded student's percentage in Charon assignment grademap table up to 2 decimal points
+
+## [1.6.0] - 2022-02-10
+
 ### Added
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
