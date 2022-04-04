@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-
+- #709 Added direct links to submissions, they can be opened from notifications and submissions modal
 
 ## [1.6.1] - 2022-03-11
 
@@ -22,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.6.0] - 2022-02-10
 
 ### Added
-- #709 Made submissions openeable by links for assignemnt view (students)
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
 - #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
 - #706 Adjust fetching of the submission file in student view
