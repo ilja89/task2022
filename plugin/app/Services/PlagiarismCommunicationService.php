@@ -135,19 +135,42 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Get matches for the given charon.
+     * Get matches by plagiarism run.
+     *
+     * @param String $run_id
+     * @return array
+     *
+     * @throws GuzzleException
+     */
+    public function getMatches(String $run_id): array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/run/{$run_id}/fetch-matches/",
+            'GET'
+        );
+
+        if ($response instanceof GuzzleException) {
+            throw $response;
+        }
+        return json_decode($response->getBody(), true);
+    }
+
+
+    /**
+     * Get matches history times, when plagiarism was run for the given charon.
      *
      * @param int $assignmentId
      * @return array
      *
      * @throws GuzzleException
      */
-    public function getMatches(int $assignmentId): array
+    public function getMatchesHistoryTimes(int $assignmentId): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/assignment/{$assignmentId}/fetch-matches/",
+            "api/charon/assignment/{$assignmentId}/run-times/",
             'GET'
         );
+
         if ($response instanceof GuzzleException) {
             throw $response;
         }

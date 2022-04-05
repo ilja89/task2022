@@ -13,8 +13,19 @@
                     v-model="search"
                     append-icon="mdi-magnify"
                     label="Search"
-                    style="width:80%;float: left;padding-right: 10px"
+                    style="width:60%;float: left;padding-right: 10px"
                 ></v-text-field>
+                <v-select
+                    @change="getMatchesByPlagiarismRun($event)"
+                    :items="historyTimes"
+                    label="Run times"
+                    v-model="selectedHistory"
+                    item-text="created_timestamp"
+                    item-value="id"
+                    return-object
+                    style="width:30%;padding-left: 10px"
+                >
+                </v-select>
                 <v-select
                     v-model="status"
                     :items="selectItems"
@@ -45,12 +56,14 @@
                 <template v-slot:item.actions="{ item }">
                     <v-row>
                         <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
-                        <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
-                            <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
-                        </v-btn>
-                        <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'" @click="updateStatus(item, 'plagiarism')" icon>
-                            <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">mdi-thumb-down-outline</v-icon>
-                        </v-btn>
+                        <div v-if="!selectedHistory">
+                            <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
+                                <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
+                            </v-btn>
+                            <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'" @click="updateStatus(item, 'plagiarism')" icon>
+                                <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">mdi-thumb-down-outline</v-icon>
+                            </v-btn>
+                        </div>
                     </v-row>
                 </template>
             </v-data-table>
@@ -83,7 +96,10 @@ export default {
                 { status: 'Acceptable', abbr: 'acceptable'},
                 { status: 'Plagiarism', abbr: 'plagiarism'},
             ],
-            matches: []
+            matches: [],
+            timeId: '',
+            selectedHistory: '',
+            historyTimes: [],
         }
     },
 
@@ -120,8 +136,13 @@ export default {
             if (!this.charon) return;
 
             Plagiarism.fetchMatches(this.charon.id, response => {
-                this.matches = response;
-                this.$emit('matchesFetched', response)
+                this.matches = response['matches'];
+                let times = response['times'];
+                times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
+                this.historyTimes = times;
+                this.selectedHistory = null;
+
+                this.$emit('matchesFetched', response['matches'])
             })
         },
 
@@ -136,6 +157,15 @@ export default {
             else if (status === 'acceptable') return '#56a576';
             else return '#8e8e8e';
         },
+
+        getMatchesByPlagiarismRun(run) {
+            this.selectedHistory = run
+
+            Plagiarism.fetchMatchesByRun(run.id, this.charon.id, response => {
+                this.matches = response;
+                this.$emit('matchesFetched', response)
+            })
+        }
     },
 }
 </script>
