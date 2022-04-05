@@ -857,5 +857,14 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022040201) {
+        $table = new xmldb_table("charon_plagiarism_check");
+        $field = new xmldb_field('run_id', XMLDB_TYPE_INTEGER, 10);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
     return true;
 }
