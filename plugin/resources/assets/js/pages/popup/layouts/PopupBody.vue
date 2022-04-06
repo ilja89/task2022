@@ -11,3 +11,15 @@
 
     </div>
 </template>
+
+<script>
+
+export default {
+  mounted() {
+    VueEvent.$on('change-popup-submission-url', (submissionId) => {
+      this.$router.push(`/submissions/${submissionId}`);
+    });
+  },
+}
+
+</script>

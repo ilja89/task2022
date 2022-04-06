@@ -71,7 +71,7 @@ class ReviewCommentService
                 $students = $this->submissionsRepository->findAllUsersAssociated($submission->id);
 
                 $cm_id = $charon->courseModule()->id;
-                $url = '/mod/charon/view.php?id=' . $cm_id;
+                $url = '/mod/charon/view.php?id=' . $cm_id . '#/submission-page/' . $submission->id;
 
                 $messageText = htmlspecialchars($reviewComment);
                 $messageText = str_replace( "\n", '<br />', $messageText );
@@ -94,7 +94,7 @@ EOT;
                         $messageText,
                         $messageTextHtml,
                         $url,
-                        $charon->name
+                        'Submission('. $submission->created_at . ')'
                     );
                 }
             }
