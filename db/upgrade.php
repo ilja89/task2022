@@ -123,6 +123,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     }
 
     if ($oldversion < 2017021600) {
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
         $kernel->call('db:seed', ['--class' => 'PresetsSeeder']);
     }

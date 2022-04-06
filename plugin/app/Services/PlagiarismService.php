@@ -123,7 +123,7 @@ class PlagiarismService
      *
      * @throws GuzzleException
      */
-    public function runCheck(Charon $charon, Request $request, bool $sendSubmissions): array
+    public function runCheck(Charon $charon, Request $request): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
 
@@ -170,6 +170,7 @@ class PlagiarismService
             'given_files' => $submissionsToSend,
             'base_files' => $templatesToSend
         ];
+
 
         $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
 
