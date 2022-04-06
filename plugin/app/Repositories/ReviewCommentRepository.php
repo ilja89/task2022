@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use TTU\Charon\Dto\FileReviewCommentsDTO;
 use TTU\Charon\Dto\ReviewCommentDTO;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\ReviewComment;
 
@@ -108,8 +107,8 @@ class ReviewCommentRepository
                 'charon_review_comment.user_id as commented_by_id',
                 'user.firstname as commented_by_firstname',
                 'user.lastname as commented_by_lastname')
-        ->get()
-        ->all();
+            ->get()
+            ->all();
         return $this->convertToDTOs($rawResults);
     }
 
@@ -133,8 +132,10 @@ class ReviewCommentRepository
                     $rawResult->student_id,
                     $rawResult->path
                 );
+
                 $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
             }
+
             $reviewCommentDTO = new ReviewCommentDTO(
                 $rawResult->review_comment_id,
                 $rawResult->commented_by_id,

@@ -23,11 +23,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
-- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #723 Update dependencies so security check does not fail & Laravel
 - #694 charon tests url
+- #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and
+- all of charons' review comments are ordered by submission creation date time (descending)
 
 ### Fixed
 - #696 Modify the general notifications service
@@ -59,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.5] - 2021-10-22
 
 ### Added
-- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn
   red on the student's view. When submission is opened by the student, the red color will be removed again.
 - #678 Added logging when an exception is thrown when charon is being deleted by moodle
 - #681 updated composer/composer to 2.1.9
@@ -205,7 +207,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
 
 ## [1.1.3] - 2021-03-16
 
@@ -240,7 +242,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score % 
+- \#394 Submission result colors in Student view are less random and reflect score %
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber

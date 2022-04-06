@@ -208,8 +208,14 @@ $string['reset_to_templates'] = 'Reset templates';
 $string['feedback-text-single-submission'] = 'Feedback for this submission';
 $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, it will be visible here.';
 $string['feedback-text-all-submissions'] = 'Feedback for all submissions for this charon';
-$string['showing-mail'] = 'Showing mail';
+$string['showing-email'] = 'Showing e-mail';
 $string['showing-table'] = 'Showing table';
+
+/*------------------------*\
+   Labels
+\*------------------------*/
+
+$string['label_name_new_review_comment'] = 'New';
 
 /*------------------------*\
    Messages
