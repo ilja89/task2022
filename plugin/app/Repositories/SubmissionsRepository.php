@@ -456,13 +456,14 @@ class SubmissionsRepository
      */
     public function findLatestSubmissions(int $courseId)
     {
-        /** @var Collection|Charon[] $charons */
-        $charons = Charon::where('course', $courseId)->get();
-
-        $charonIds = $charons->pluck('id');
-
-        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
-            ->whereIn('charon_id', $charonIds)
+        return Submission::join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->where('charon.course', $courseId)
+            ->select(
+                'charon_submission.id',
+                'charon_submission.charon_id',
+                'charon_submission.user_id',
+                'charon_submission.created_at'
+            )
             ->with([
                 'users' => function ($query) {
                     $query->select(['id', 'firstname', 'lastname']);
