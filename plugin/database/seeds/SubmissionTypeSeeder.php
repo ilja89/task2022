@@ -13,7 +13,7 @@ class SubmissionTypeSeeder extends Seeder
      * @var array
      */
     protected $submissionTypes = [
-        ['code' => 1, 'name' => 'git'],
+        ['code' => 1, 'name' => 'taltech gitlab'],
         ['code' => 2, 'name' => 'inline'],
     ];
 
