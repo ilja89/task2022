@@ -128,7 +128,7 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
-			if (this.submissions.length > 9) {
+			if (this.submissions.length > this.$submissionListLength - 1) {
 				this.$store.state.submissions.pop();
 			}
 			this.$store.state.submissions.unshift(submission);
