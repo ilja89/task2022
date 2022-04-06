@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - #709 Added direct links to submissions, they can be opened from notifications and submissions modal
+- #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and all of charons' review comments are ordered by submission creation date time (descending)
 
 ## [1.6.1] - 2022-03-11
 
@@ -28,8 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #723 Update dependencies so security check does not fail & Laravel
 - #694 charon tests url
-- #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and
-- all of charons' review comments are ordered by submission creation date time (descending)
 
 ### Fixed
 - #696 Modify the general notifications service

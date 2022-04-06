@@ -27,9 +27,6 @@
                             <span class="review-comment-date">
                                 Comment created: {{ reviewComment.commentCreation }}
                             </span>
-                            <span class="review-comment-submission">
-                                Submission: {{ file.submissionCreation }}
-                            </span>
 
                             <div class="review-comment-heading-extra">
 
