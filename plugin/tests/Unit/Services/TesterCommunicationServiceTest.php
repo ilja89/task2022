@@ -59,7 +59,7 @@ class TesterCommunicationServiceTest extends TestCase
             'regular' => 'param'
         ]);
 
-        $this->service->sendGitCallback($this->gitCallback, 'tester callback url', ['regular' => 'param' , 'submission_type_code' => 1]);
+        $this->service->sendGitCallback($this->gitCallback, 'tester callback url', ['regular' => 'param']);
     }
 
     public function testSendsGitCallbackWithExtra()
@@ -73,7 +73,7 @@ class TesterCommunicationServiceTest extends TestCase
         $this->service->sendGitCallback(
             $this->gitCallback,
             'tester callback url',
-            ['regular' => 'param', 'returnExtra' => ['extra' => 'param', 'submission_type_code' => 1]]
+            ['regular' => 'param', 'returnExtra' => ['extra' => 'param']]
         );
     }
 
