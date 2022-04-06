@@ -301,6 +301,7 @@
                 <FIELD NAME="git_callback_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="original_submission_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
                 <FIELD NAME="grader_id" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
+                <FIELD NAME="submission_type_code" SEQUENCE="false" TYPE="int" NOTNULL="false" LENGTH="10"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_submission" TYPE="primary" FIELDS="id"/>
@@ -584,6 +585,17 @@
             <INDEXES>
                 <INDEX NAME="IXFK_plagiarism_check_charon" UNIQUE="false" FIELDS="charon_id" />
             </INDEXES>
+        </TABLE>
+
+        <TABLE NAME="charon_submission_type"
+               COMMENT="Submission type. Ie. git, inline.">
+            <FIELDS>
+                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="50"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_submission_type" TYPE="primary" FIELDS="code"/>
+            </KEYS>
         </TABLE>
 
     </TABLES>

@@ -93,12 +93,10 @@ class PlagiarismService
             $includes
         );
 
-        $charon = $this->charonRepository->updatePlagiarismChecksuiteId(
+        return $this->charonRepository->updatePlagiarismChecksuiteId(
             $charon,
             $response->id
         );
-
-        return $charon;
     }
 
     /**
@@ -113,22 +111,19 @@ class PlagiarismService
     public function runChecksuite(Charon $charon)
     {
         $this->plagiarismCommunicationService->runChecksuite($charon->plagiarism_checksuite_id);
-        $charon = $this->refreshLatestCheckId($charon);
-
-        return $charon;
+        return $this->refreshLatestCheckId($charon);
     }
 
     /**
      * Run the check for the given Charon and refresh its status.
      *
      * @param Charon $charon
-     * @param Course $course
      * @param Request $request
      * @return array
      *
      * @throws GuzzleException
      */
-    public function runCheck(Charon $charon, Course $course, Request $request): array
+    public function runCheck(Charon $charon, Request $request, bool $sendSubmissions): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
 
@@ -176,8 +171,7 @@ class PlagiarismService
             'base_files' => $templatesToSend
         ];
 
-
-        $response = $this->plagiarismCommunicationService->runCheck($charon->project_folder, $course->shortname, $data);
+        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
 
         $check->updated_at = Carbon::now();
         $check->status = $response;
@@ -269,43 +263,34 @@ class PlagiarismService
 
     /**
     * Get the matches for the given Charon from the plagiarism service.
-    * And associate matches submissions and users.
+    * Also returns times of plagiarism runs.
     *
     * @param Charon $charon
-    * @param Course $course
     *
     * @return array
     * @throws GuzzleException
     */
-    public function getMatches(Charon $charon, Course $course): array
+    public function getMatches(Charon $charon): array
     {
-        $matches = $this->plagiarismCommunicationService->getMatches($charon->project_folder, $course->shortname);
-        $result = [];
-        foreach ($matches as $match) {
-            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
-            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
-            if ($submission and $otherSubmission) {
-                $match['user_id'] = $submission->user_id;
-                $match['other_user_id'] = $otherSubmission->user_id;
-                $match['submission_id'] = $submission->id;
-                $match['other_submission_id'] = $otherSubmission->id;
-            } else  {
-                $user = $this->userService->findUserByUniid($match['uniid']);
-                $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
-                if ($user and $otherUser) {
-                    $match['user_id'] = $user->id;
-                    $match['other_user_id'] = $otherUser->id;
-                } else {
-                    $match['user_id'] = null;
-                    $match['other_user_id'] = null;
-                }
-                $match['submission_id'] = null;
-                $match['other_submission_id'] = null;
-            }
-            $result[] = $match;
+        $times = $this->plagiarismCommunicationService->getMatchesHistoryTimes($charon->plagiarism_assignment_id);
+        $matches = [];
+        if (sizeof($times) > 0){
+            $matches = $this->plagiarismCommunicationService->getMatches($times[0]['id']);
         }
+        return ["matches" => $this->getMatchesWithSubmissions($matches), "times" => $times];
+    }
 
-        return $result;
+    /**
+     * Get the matches for the given Charon from the plagiarism service by plagiarism run.
+     *
+     * @param int $run_id
+     * @return array
+     * @throws GuzzleException
+     */
+    public function getMatchesByRun(int $run_id): array
+    {
+        $matches = $this->plagiarismCommunicationService->getMatches($run_id);
+        return $this->getMatchesWithSubmissions($matches);
     }
 
     /**
@@ -329,7 +314,7 @@ class PlagiarismService
     }
 
     /**
-     * Update status of the plagiarism check.
+     * Update status and run id of the plagiarism check.
      *
      * @param PlagiarismCheck $check
      * @param array $response
@@ -338,6 +323,7 @@ class PlagiarismService
     {
         $check->updated_at = Carbon::now();
         $check->status = $response['status'];
+        $check->run_id = $response['run_id'];
         $check->save();
     }
 
@@ -422,5 +408,40 @@ class PlagiarismService
             ]);
         }
         return null;
+    }
+
+    /**
+     * Associate matches submissions and users.
+     *
+     * @param array $matches
+     * @return array
+     */
+    private function getMatchesWithSubmissions(array $matches): array
+    {
+        $matchesWithSubmissions = [];
+        foreach ($matches as $match) {
+            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if ($submission and $otherSubmission) {
+                $match['user_id'] = $submission->user_id;
+                $match['other_user_id'] = $otherSubmission->user_id;
+                $match['submission_id'] = $submission->id;
+                $match['other_submission_id'] = $otherSubmission->id;
+            } else {
+                $user = $this->userService->findUserByUniid($match['uniid']);
+                $otherUser = $this->userService->findUserByUniid($match['other_uniid']);
+                if ($user and $otherUser) {
+                    $match['user_id'] = $user->id;
+                    $match['other_user_id'] = $otherUser->id;
+                } else {
+                    $match['user_id'] = null;
+                    $match['other_user_id'] = null;
+                }
+                $match['submission_id'] = null;
+                $match['other_submission_id'] = null;
+            }
+            $matchesWithSubmissions[] = $match;
+        }
+        return $matchesWithSubmissions;
     }
 }
