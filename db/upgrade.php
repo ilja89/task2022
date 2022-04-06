@@ -863,7 +863,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022021210) { # make sure to double check the version
+    if ($oldversion < 2022040601) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_submission_type(" .
             "    code BIGINT(10) NOT NULL," .
             "    name VARCHAR(50) NOT NULL," .
