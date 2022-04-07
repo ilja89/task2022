@@ -5,23 +5,6 @@
 
         <template slot="header-right">
             <charon-select></charon-select>
-            <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                    <div
-                        v-bind="attrs"
-                        v-on="on"
-                        style="padding-left: 5px;padding-right: 5px"
-                    >
-                        <input
-                            type="checkbox"
-                            v-model="sendFiles"
-                            id="sendFiles"
-                        >
-                        <label style="padding-left: 5px" for="sendFiles"> Send files from Moodle </label>
-                    </div>
-                </template>
-                <span>If left unchecked it will pull latest commits from gitlab instead sending files directly from moodle.</span>
-            </v-tooltip>
             <v-btn class="ma-2" tile outlined color="primary" @click="handleRunPlagiarismClicked" :disabled="submitDisabled">Run plagiarism check</v-btn>
             <toggle-button @buttonClicked="showHistoryTable($event)"></toggle-button>
         </template>
@@ -98,7 +81,6 @@ export default {
 
     data() {
         return {
-            sendFiles: false,
             submitDisabled: false,
             sectionTitle: 'Latest check',
             checkHistory: [],
@@ -126,9 +108,7 @@ export default {
 
     methods: {
         handleRunPlagiarismClicked() {
-            let bool = 0;
-            if (this.sendFiles === true) bool = 1;
-            Plagiarism.runPlagiarismCheck(this.charon.id, bool, response => {
+            Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
                     if (this.latestCheck.status === "Check started.") {

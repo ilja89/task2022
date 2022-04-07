@@ -131,7 +131,7 @@ class PlagiarismService
             'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
         ];
 
-        if ($request->input('send_files')) {
+        if ($charon->allow_submission) {
             $submissions = $this->submissionService->getSubmissionForEachStudent($charon->id);
 
             $submissionsToSend = [];
