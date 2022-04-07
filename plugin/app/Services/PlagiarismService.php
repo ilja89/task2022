@@ -150,7 +150,7 @@ class PlagiarismService
                     $dto = [
                         'username' => $uniid,
                         'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
-                        'path_with_namespace' => $uniid . '/' . $charon->moodleCourse->shortname,
+                        'path_with_namespace' => $uniid,
                         'files' => $filesDto
                     ];
                     array_push($submissionsToSend, $dto);
