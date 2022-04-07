@@ -116,12 +116,12 @@ In order to create a release for live deployment
   - Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
 
 - Go and edit the automatically created release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
-  - Add current date to the end of 'Release title'. The release title should end up like this: x.y.z (YYYY-MM-DD)
+  - Add current date to the end of _Release title_. The release title should end up like this: `x.y.z (YYYY-MM-DD)`
   - Add a link to the release for downloading its artifacts
     - Go to the [Branches](https://gitlab.cs.ttu.ee/ained/charon/-/branches) view and locate your release branch
     - Select branch's _Download_ option and copy the link of `build_release`
-    - Paste the link to the URL field in release editing view
-    - Also add link title: Release x.y.z artifacts
+    - Paste the link to the _URL_ field in release editing view
+    - Also add _Link title_: `Release x.y.z artifacts`
 
 - Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description
 - Ask project manager to deploy the release branch to pre-live environment for testing
