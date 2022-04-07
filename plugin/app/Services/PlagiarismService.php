@@ -426,8 +426,22 @@ class PlagiarismService
     {
         $matchesWithSubmissions = [];
         foreach ($matches as $match) {
-            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
-            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if (
+                array_key_exists('external_id', $match)
+                and array_key_exists('other_external_id', $match)
+            ) {
+                $submission = $this->submissionService->getSubmissionById($match['external_id']);
+                $otherSubmission = $this->submissionService->getSubmissionById($match['other_external_id']);
+            } else if (
+                array_key_exists('commit_hash', $match)
+                and array_key_exists('other_commit_hash', $match)
+            ) {
+                $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+                $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            } else {
+                $submission = null;
+                $otherSubmission = null;
+            }
             if ($submission and $otherSubmission) {
                 $match['user_id'] = $submission->user_id;
                 $match['other_user_id'] = $otherSubmission->user_id;

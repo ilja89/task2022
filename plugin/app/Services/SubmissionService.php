@@ -337,4 +337,15 @@ class SubmissionService
     {
         return $this->submissionsRepository->getSubmissionForEachStudentAndGivenCharon($charonId);
     }
+
+    /**
+     * Find submission by its id.
+     *
+     * @param int $submissionId
+     * @return Submission
+     */
+    public function getSubmissionById(int $submissionId)
+    {
+        return $this->submissionsRepository->find($submissionId);
+    }
 }

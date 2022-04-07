@@ -46,7 +46,7 @@ class Plagiarism {
     }
 
     static runPlagiarismCheck(charonId, then) {
-        axios.post(`${this.getRoot()}/charons/${charonId}/plagiarism/`)
+        axios.post(`${this.getRoot()}/charons/${charonId}/plagiarism/run`)
             .then(response => {
                 then(response)
             })
