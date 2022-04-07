@@ -127,30 +127,39 @@ class PlagiarismService
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
 
-        $submissions = $this->submissionService->getSubmissionForEachStudent($charon->id);
+        $data = [
+            'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
+        ];
 
-        $submissionsToSend = [];
+        if ($request->input('send_files')) {
+            $submissions = $this->submissionService->getSubmissionForEachStudent($charon->id);
 
-        foreach ($submissions as $submission) {
-            if (sizeof($submission->files) != 0) {
-                $uniid = strtok($submission->user->username, "@");
-                $filesDto = [];
-                foreach($submission->files as $file) {
-                    $fileDto = [
-                        'file_name' => $file->path,
-                        'file_content' => $file->contents
+            $submissionsToSend = [];
+
+            foreach ($submissions as $submission) {
+                if (sizeof($submission->files) != 0) {
+                    $uniid = strtok($submission->user->username, "@");
+                    $filesDto = [];
+                    foreach($submission->files as $file) {
+                        $fileDto = [
+                            'file_name' => $file->path,
+                            'file_content' => $file->contents
+                        ];
+                        array_push($filesDto, $fileDto);
+                    }
+                    $dto = [
+                        'username' => $uniid,
+                        'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
+                        'path_with_namespace' => $uniid . '/' . $charon->moodleCourse->shortname,
+                        'files' => $filesDto
                     ];
-                    array_push($filesDto, $fileDto);
+                    array_push($submissionsToSend, $dto);
                 }
-                $dto = [
-                    'username' => $uniid,
-                    'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
-                    'path_with_namespace' => $uniid . '/' . $course->shortname,
-                    'files' => $filesDto
-                ];
-                array_push($submissionsToSend, $dto);
             }
+
+            $data['given_files'] = $submissionsToSend;
         }
+
 
         $templates = $this->templateService->getTemplates($charon->id);
 
@@ -165,11 +174,7 @@ class PlagiarismService
             array_push($templatesToSend, $templateDto);
         }
 
-        $data = [
-            'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
-            'given_files' => $submissionsToSend,
-            'base_files' => $templatesToSend
-        ];
+        $data['base_files'] = $templatesToSend;
 
 
         $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
