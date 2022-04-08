@@ -153,6 +153,12 @@ class PlagiarismService
                         'files' => $filesDto,
                         'external_id' => $submission->id
                     ];
+
+                    if ($submission->submission_type_code != 2) {
+                        $dto['commit_hash'] = $submission->git_hash;
+                    } else {
+                        $dto['commit_hash'] = '';
+                    }
                     array_push($submissionsToSend, $dto);
                 }
             }

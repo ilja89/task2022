@@ -682,7 +682,7 @@ class SubmissionsRepository
      */
     public function getSubmissionForEachStudentAndGivenCharon(int $charonId)
     {
-        $confirmed = Submission::select('id', 'git_hash', 'user_id')
+        $confirmed = Submission::select('id', 'git_hash', 'user_id', 'submission_type_code')
             ->where('charon_id', $charonId)
             ->where('confirmed', 1)
             ->with([
@@ -703,7 +703,7 @@ class SubmissionsRepository
             array_push($confirmedUsers,$item->user_id);
         }
 
-        $other = Submission::select('id', 'git_hash', 'user_id')
+        $other = Submission::select('id', 'git_hash', 'user_id', 'submission_type_code')
             ->whereNotIn('user_id', $confirmedUsers)
             ->where('charon_id', $charonId)
             ->with([
