@@ -150,8 +150,8 @@ class PlagiarismService
                     $dto = [
                         'username' => $uniid,
                         'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
-                        'namespace' => $uniid,
-                        'files' => $filesDto
+                        'files' => $filesDto,
+                        'external_id' => $submission->id
                     ];
                     array_push($submissionsToSend, $dto);
                 }
@@ -160,22 +160,21 @@ class PlagiarismService
             $data['given_files'] = $submissionsToSend;
         }
 
-
         $templates = $this->templateService->getTemplates($charon->id);
 
+        if ($templates) {
+            $templatesToSend = [];
 
-        $templatesToSend = [];
+            foreach($templates as $template) {
+                $templateDto = [
+                    'file_name' => $template->path,
+                    'file_content' => $template->contents
+                ];
+                array_push($templatesToSend, $templateDto);
+            }
 
-        foreach($templates as $template) {
-            $templateDto = [
-                'file_name' => $template->path,
-                'file_content' => $template->contents
-            ];
-            array_push($templatesToSend, $templateDto);
+            $data['base_files'] = $templatesToSend;
         }
-
-        $data['base_files'] = $templatesToSend;
-
 
         $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
 
