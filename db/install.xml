@@ -187,6 +187,9 @@
             <KEYS>
                 <KEY NAME="PK_charon_test_suite" TYPE="primary" FIELDS="id"/>
             </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_test_suite_submission" UNIQUE="false" FIELDS="submission_id"/>
+            </INDEXES>
         </TABLE>
 
         <TABLE NAME="charon_unit_test" COMMENT="Unit test.">
