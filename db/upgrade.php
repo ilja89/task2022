@@ -843,6 +843,31 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022040801) {
+
+        $table = new xmldb_table("charon_test_suite");
+
+        $index = new xmldb_index("IXFK_charon_test_suite_submission", XMLDB_INDEX_NOTUNIQUE, ['submission_id']);
+
+        if (!$dbManager->index_exists($table, $index)) {
+            $dbManager->add_index($table, $index);
+        }
+
+        try {
+            $DB->execute(
+                "ALTER TABLE " . $CFG->prefix . "charon_test_suite DROP CONSTRAINT " .
+                 "IF EXISTS FK_charon_test_suite_submission"
+            );
+            $DB->execute("SET FOREIGN_KEY_CHECKS=0");
+            $DB->execute(
+                "ALTER TABLE {charon_test_suite} ADD CONSTRAINT FK_charon_test_suite_submission " .
+                "FOREIGN KEY (submission_id) REFERENCES {charon_submission} (id) ON DELETE CASCADE ON UPDATE CASCADE"
+            );
+        } finally {
+            $DB->execute("SET FOREIGN_KEY_CHECKS=1");
+        }
+    }
+
     return true;
 }
 
