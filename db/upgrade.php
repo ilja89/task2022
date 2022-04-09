@@ -843,7 +843,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022040801) {
+    if ($oldversion < 2022040900) {
 
         $table = new xmldb_table("charon_test_suite");
 
