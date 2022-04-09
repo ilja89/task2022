@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.6.2] - 2022-04-06
+## [1.6.2] - 2022-04-09
 
-###Added
+### Added
 - #709 Added direct links to submissions, they can be opened from notifications and submissions modal
 - #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and all of charons' review comments are ordered by submission creation date time (descending)
 - #734 Students distribution data query in popup now on demand, using button
