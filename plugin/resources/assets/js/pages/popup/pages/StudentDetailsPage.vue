@@ -83,7 +83,7 @@ export default {
                 'total_points_course': 0,
                 'total_submissions': 0,
                 'defended_charons': 0,
-                'upcoming_defences': 0,
+                'defence_registrations': 0,
                 'charons_with_submissions': 0,
                 'potential_points': 0
             },
@@ -143,7 +143,7 @@ export default {
             })
 
             Defense.all(this.courseId, result => {
-                this.student_summary['upcoming_defences'] = result.filter(defense => defense.student_id === parseInt(this.routeStudentId)).length
+                this.student_summary['defence_registrations'] = result.filter(defense => defense.student_id === parseInt(this.routeStudentId)).length
             })
         },
 

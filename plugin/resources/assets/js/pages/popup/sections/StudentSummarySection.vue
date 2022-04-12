@@ -28,7 +28,7 @@ export default {
         {text: 'Total number of submissions', value: 'total_submissions', align: 'center'},
         {text: 'Charons with submissions', value: 'charons_with_submissions', align: 'center'},
         {text: 'Defended charons', value: 'defended_charons', align: 'center'},
-        {text: 'Upcoming defences', value: 'upcoming_defences', align: 'center'}
+        {text: 'Defence registrations', value: 'defence_registrations', align: 'center'}
       ],
     }
   },
@@ -48,7 +48,7 @@ export default {
         total_submissions: this.student_summary_data.total_submissions, //
         charons_with_submissions: this.student_summary_data.charons_with_submissions,
         defended_charons: this.student_summary_data.defended_charons, //
-        upcoming_defences: this.student_summary_data.upcoming_defences, //
+        defence_registrations: this.student_summary_data.defence_registrations, //
       }];
     }
 
