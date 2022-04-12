@@ -211,6 +211,11 @@ class StudentsController extends Controller
         return $studentsDistribution;
     }
 
+    function findAllEnrolled(int $courseId)
+    {
+        return $this->studentsRepository->getAllEnrolled($courseId);
+    }
+
     /**
      * Find number of possible points for course from all charons
      *
@@ -223,7 +228,7 @@ class StudentsController extends Controller
     {
         return $this->gradebookService->getPossiblePointsForCourseFromCharons($courseId, $user->id);
     }
-    
+
     /**
      * Get data from all charons by user and course.
      *

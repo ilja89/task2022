@@ -45,6 +45,15 @@ class User {
         })
     }
 
+    static getAllEnrolled(courseId, then) {
+        axios.get('/mod/charon/api/courses/' + courseId + '/allEnrolled')
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+                VueEvent.$emit('show-notification', 'Error retrieving all enrolled users.\n' + error, 'danger')
+        })
+    }
+
     static getPossiblePointsForCourse(courseId, studentId, then) {
         axios.get(`/mod/charon/api/courses/${courseId}/users/${studentId}/possible-points`)
             .then(response => {

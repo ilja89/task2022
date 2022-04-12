@@ -3,6 +3,7 @@
 namespace TTU\Charon\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
@@ -66,6 +67,21 @@ class StudentsRepository
         } else {
             return 0;
         }
+    }
+
+    public function getAllEnrolled(int $courseId)
+    {
+        $context = \context_course::instance($courseId);
+        $users = get_enrolled_users($context);
+        return array_map(function ($user) {
+            $updatedUser = new \stdClass();
+            $updatedUser->id = $user->id;
+            $updatedUser->username = $user->username;
+            $updatedUser->firstname = $user->firstname;
+            $updatedUser->lastname = $user->lastname;
+
+            return $updatedUser;
+        }, $users);
     }
 
     public function getUserCharonsDetails($courseId, $userId)
