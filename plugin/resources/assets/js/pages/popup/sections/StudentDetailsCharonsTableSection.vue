@@ -18,6 +18,7 @@
         </v-card-title>
 
         <v-data-table
+            class="center-middle"
             v-if="table.length"
             :headers="table_headers"
             :items="table"
@@ -90,5 +91,10 @@ export default {
 </script>
 
 <style scoped>
-
+>>>.center-middle table th{
+    vertical-align: middle !important;
+}
+>>>.center-middle table td{
+    vertical-align: middle !important;
+}
 </style>

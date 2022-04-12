@@ -3,6 +3,7 @@
   <popup-section title="Student summary"
                  subtitle="Here is the summary from course for selected user">
     <v-data-table
+        class="center-middle"
         :headers="summary_headers"
         :items="summary_row"
         :disable-sort="true"
@@ -56,3 +57,12 @@ export default {
   components: {PopupSection},
 }
 </script>
+
+<style scoped>
+>>>.center-middle table th{
+    vertical-align: middle !important;
+}
+>>>.center-middle table td{
+    vertical-align: middle !important;
+}
+</style>
