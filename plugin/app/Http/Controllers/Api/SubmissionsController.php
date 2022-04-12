@@ -129,7 +129,7 @@ class SubmissionsController extends Controller
             }
         }
 
-        $this->teacherModifiesSubmission->run($submission, $results);
+        $this->teacherModifiesSubmission->run($submission, $charon, $results);
 
         return response()->json([
             'status' => 200,

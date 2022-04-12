@@ -101,7 +101,7 @@ class TeacherModifiesSubmissionTest extends TestCase
         $this->gradingService->shouldReceive('updateGrade')->once()->with(0, $charon->id, 1, $coStudent->id, 0.9);
         $this->gradingService->shouldReceive('updateGrade')->once()->with(0, $charon->id, 101, $coStudent->id, 1.0);
 
-        $this->flow->run($submission, [
+        $this->flow->run($submission, $charon, [
             ['id' => $testResult->id, 'calculated_result' => 0.9],
             ['id' => $styleResult->id, 'calculated_result' => 1.0],
         ]);
