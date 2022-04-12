@@ -55,8 +55,8 @@ export default {
             search: '',
             table_headers: [
                 {text: 'Charon', value: 'charonName', align: 'start'},
-                {text: 'Points', value: 'points'},
-                {text: 'Defended', value: 'defended'}
+                {text: 'Points', value: 'points', align: 'center'},
+                {text: 'Defended', value: 'defended', align: 'center'}
             ]
         }
     },
