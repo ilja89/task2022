@@ -128,7 +128,8 @@ export default {
     methods: {
         updateStatus(match, newStatus) {
             Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, response => {
-                match.status = response.status;
+                match.status = response.status
+                VueEvent.$emit('refresh-plagiarism-overview')
             })
         },
 

@@ -64,7 +64,14 @@ export default {
     name: "PlagiarismOverviewSection",
     components: {PopupSection, 'apexcharts': VueApexCharts, VisNetwork, ToggleButton},
     props: ['matches'],
-    data() {
+
+    created() {
+        VueEvent.$on('refresh-plagiarism-overview', () => {
+            this.parseMatches(this.matches)
+        })
+    },
+
+  data() {
         return {
             charts: {
                 barChart: {
