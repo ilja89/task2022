@@ -167,6 +167,7 @@ class PlagiarismController extends Controller
      *
      * @param Course $course
      * @return array
+     * @throws GuzzleException
      */
     public function getCheckHistory(Course $course): array
     {

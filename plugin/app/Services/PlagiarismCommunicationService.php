@@ -328,4 +328,19 @@ class PlagiarismCommunicationService
 
         return $response ? json_decode($response->getBody(), true) : null;
     }
+
+    /**
+     * Get plagiarism run check history by course slug
+     *
+     * @throws GuzzleException
+     */
+    public function getChecksByCourseSlug(string $courseSlug): ?array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/runs-history/",
+            "get",
+            ['course_name' => $courseSlug]
+        );
+        return $response ? json_decode($response->getBody(), true) : null;
+    }
 }

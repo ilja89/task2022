@@ -43,9 +43,6 @@
                                     {{latestCheck.created_at}}
                                 </td>
                                 <td>
-                                    {{latestCheck.updated_at}}
-                                </td>
-                                <td>
                                     {{latestCheck.status}}
                                 </td>
                             </tr>
@@ -87,10 +84,9 @@ export default {
             toggleShowHistoryTable: false,
             latestCheck: [],
             headers: [
-                {text: 'Charon', align: 'start', value: 'name'},
+                {text: 'Charon', align: 'start', value: 'assignment_name'},
                 {text: 'Author', value: 'author'},
-                {text: 'Created at', value: 'created_at'},
-                {text: 'Updated at', value: 'updated_at'},
+                {text: 'Created at', value: 'created_timestamp'},
                 {text: 'Status', value: 'status'},
             ]
         }
@@ -127,6 +123,7 @@ export default {
             if (this.toggleShowHistoryTable === true) {
                 this.sectionTitle = "History of checks";
                 Plagiarism.getCheckHistory(this.course.id, response => {
+                    response.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
                     this.checkHistory = response;
                 })
             } else {

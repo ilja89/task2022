@@ -249,18 +249,11 @@ class PlagiarismService
      * @param Course $course
      *
      * @return array
+     * @throws GuzzleException
      */
-    public function getCheckHistory(Course $course): array
+    public function getCheckHistory(Course $course): ?array
     {
-        $checks = $this->plagiarismRepository->getChecksByCourseId($course->id);
-
-        foreach ($checks as $check) {
-            $check->author = $check->firstname . ' ' . $check->lastname;
-            unset($check->firstname);
-            unset($check->lastname);
-        }
-
-        return $checks;
+        return $this->plagiarismCommunicationService->getChecksByCourseSlug($course->shortname);
     }
 
     /**
