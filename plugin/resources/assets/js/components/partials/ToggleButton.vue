@@ -1,5 +1,6 @@
 <template>
     <label class="switch">
+        <p>Text Here</p>
         <input type="checkbox" @click='clicked' v-model="buttonClick">
         <span class="slider round"></span>
     </label>
@@ -13,8 +14,12 @@
 
         data() {
             return {
-                buttonClick: false
+                buttonClick: this.buttonDefault ? this.buttonDefault : false
             }
+        },
+
+        props: {
+            buttonDefault: { required: false },
         },
 
         methods:{
