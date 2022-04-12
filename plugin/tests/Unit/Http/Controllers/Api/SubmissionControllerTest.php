@@ -72,7 +72,7 @@ class SubmissionControllerTest extends TestCase
 
         $this->teacherModifiesSubmission
             ->shouldReceive('run')
-            ->with($submission, $charon [['calculated_result' => 50]]);
+            ->with($submission, $charon, [['calculated_result' => 50]]);
 
         /** @var JsonResponse|Response $response */
         $response = $this->controller->saveSubmission($charon, $submission);
