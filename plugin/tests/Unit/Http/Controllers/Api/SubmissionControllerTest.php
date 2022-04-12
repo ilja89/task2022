@@ -68,13 +68,14 @@ class SubmissionControllerTest extends TestCase
             ->andReturn([['calculated_result' => 50]]);
 
         $submission = new Submission();
+        $charon = new Charon();
 
         $this->teacherModifiesSubmission
             ->shouldReceive('run')
-            ->with($submission, [['calculated_result' => 50]]);
+            ->with($submission, $charon [['calculated_result' => 50]]);
 
         /** @var JsonResponse|Response $response */
-        $response = $this->controller->saveSubmission(new Charon(), $submission);
+        $response = $this->controller->saveSubmission($charon, $submission);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Submission saved!', $response->getData()->data->message);
