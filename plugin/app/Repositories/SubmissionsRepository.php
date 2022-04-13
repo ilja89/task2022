@@ -687,7 +687,7 @@ class SubmissionsRepository
             ->where('confirmed', 1)
             ->with([
                 'user' => function ($query) {
-                    $query->select(['id', 'username']);
+                    $query->select(['id', 'username', 'firstname', 'lastname']);
                 },
                 'files' => function ($query) {
                     $query->select(['id', 'submission_id', 'path', 'contents']);
@@ -700,7 +700,7 @@ class SubmissionsRepository
         $confirmedUsers = [];
 
         foreach ($confirmed as $item) {
-            array_push($confirmedUsers,$item->user_id);
+            $confirmedUsers[] = $item->user_id;
         }
 
         $other = Submission::select('id', 'git_hash', 'user_id', 'submission_type_code')

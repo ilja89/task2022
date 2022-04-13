@@ -145,7 +145,7 @@ class PlagiarismService
                             'file_name' => $file->path,
                             'file_content' => $file->contents
                         ];
-                        array_push($filesDto, $fileDto);
+                        $filesDto[] = $fileDto;
                     }
                     $dto = [
                         'username' => $uniid,
@@ -159,7 +159,7 @@ class PlagiarismService
                     } else {
                         $dto['commit_hash'] = '';
                     }
-                    array_push($submissionsToSend, $dto);
+                    $submissionsToSend[] = $dto;
                 }
             }
 
@@ -176,7 +176,7 @@ class PlagiarismService
                     'file_name' => $template->path,
                     'file_content' => $template->contents
                 ];
-                array_push($templatesToSend, $templateDto);
+                $templatesToSend[] = $templateDto;
             }
 
             $data['base_files'] = $templatesToSend;
