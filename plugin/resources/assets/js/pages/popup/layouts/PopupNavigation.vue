@@ -46,6 +46,7 @@
                 items: [
                     {title: 'Dashboard', icon: "dashboard", route: () => '/'},
                     {title: 'Grading', icon: 'grading', route: this.gradingLink},
+                    {title: 'Activity overview', icon: 'edit', route: () => '/activities'},
                     {title: 'Student overview', icon: 'face', route: () => '/student-overview'},
                     {title: 'Plagiarism', icon: 'plagiarism', route: () => '/plagiarism'},
                     {title: 'Report & Statistics', icon: 'calculate', route: () => '/report-statistics'},
