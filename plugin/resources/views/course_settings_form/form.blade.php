@@ -12,10 +12,15 @@
         window.presets = {!! $presets->toJson() !!};
         window.grading_methods = {!! $grading_methods->toJson() !!};
         window.grade_name_prefixes = {!! $grade_name_prefixes->toJson() !!};
+        window.plagiarism_settings = {!! json_encode($plagiarism_settings) !!}
 
         window.translations = {
             tester_settings_title: "{{ translate('tester_settings') }}",
             presets_title: "{{ translate('presets') }}",
+            plagiarism_title: "{{ translate('course_plagiarism_settings') }}",
+            plagiarism_create_course: "{{ translate('plagiarism_create_course') }}",
+            plagiarism_update_course: "{{ translate('plagiarism_update_course') }}",
+            plagiarism_no_connection: "{{ translate('plagiarism_no_connection') }}",
 
             unittests_git_label: "{{ translate('unittests_git') }}",
             tester_type_label: "{{ translate('tester_type') }}",
@@ -31,6 +36,12 @@
             grade_name_postfix_label: "{{ translate('grade_name_postfix') }}",
             id_number_postfix_label: "{{ translate('id_number_postfix') }}",
             calculation_formula_label: "{{ translate('calculation_formula') }}",
+            plagiarism_lang_label: "{{ translate('plagiarism_language_type') }}",
+            plagiarism_gitlab_group_label: "{{ translate('plagiarism_gitlab_group') }}",
+            plagiarism_gitlab_location_label: "{{ translate('plagiarism_gitlab_location') }}",
+            plagiarism_file_extensions_label: "{{ translate('plagiarism_file_extensions') }}",
+            plagiarism_moss_passes_label: "{{ translate('plagiarism_moss_passes') }}",
+            plagiarism_moss_matches_shown_label: "{{ translate('plagiarism_moss_matches_shown') }}",
 
             save_preset: "{{ translate('save_preset') }}",
             update_preset: "{{ translate('update_preset') }}",
@@ -47,6 +58,10 @@
             max_points_grade_cs_helper: "{{ translate('max_points_grade_cs_helper') }}",
             id_number_postfix_helper: "{{ translate('id_number_postfix_helper') }}",
             calculation_formula_cs_helper: "{{ translate('calculation_formula_cs_helper') }}",
+            plagiarism_file_extensions_helper: "{{ translate('plagiarism_file_extensions_helper') }}",
+            plagiarism_moss_passes_helper: "{{ translate('plagiarism_moss_passes_helper') }}",
+            plagiarism_moss_matches_shown_helper: "{{ translate('plagiarism_moss_matches_shown_helper') }}"
+
         };
     </script>
 

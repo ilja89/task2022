@@ -1,5 +1,5 @@
 <template>
-    <div ref="visNetwork" id="networkcanvas"></div>
+    <div ref="visNetwork"></div>
 </template>
 
 <script>
@@ -43,7 +43,7 @@ export default {
         const container = document.getElementById("visNetwork");
 
         this.networkNodes.add(this.nodes)
-        this.networkNodes.add(this.edges)
+        this.networkEdges.add(this.edges)
         const data = {
             nodes: this.networkNodes,
             edges: this.networkEdges,
@@ -57,7 +57,7 @@ export default {
             networkNodes: new DataSet(),
             networkEdges: new DataSet(),
             options: {
-                height: "400px",
+                height: "500px",
                 edges: {
                     width: 2,
                 },

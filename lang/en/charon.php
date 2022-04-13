@@ -8,12 +8,14 @@ $string['plugin_settings'] = 'Charon settings';
 $string['pluginadministration'] = 'Charon administration';
 $string['modulenameplural'] = 'Charons';
 $string['capella:addinstance'] = 'Add a new Charon';
+$string['plagiarism_no_connection'] = 'Failed to connect to Plagiarism';
 
 /*------------------------*\
    Course settings form
 \*------------------------*/
 $string['tester_settings'] = 'Tester settings';
 $string['presets'] = 'Presets';
+$string['course_plagiarism_settings'] = 'Plagiarism settings';
 $string['unittests_git'] = 'Unittests Git';
 $string['edit_preset'] = 'Edit a preset';
 $string['preset_name'] = 'Preset name';
@@ -22,6 +24,12 @@ $string['grade_name_postfix'] = 'Grade name postfix';
 $string['id_number_postfix'] = 'ID number postfix';
 $string['save_preset'] = 'Save preset';
 $string['update_preset'] = 'Update preset';
+$string['plagiarism_language_type'] = 'Language type';
+$string['plagiarism_gitlab_group'] = 'GitLab group';
+$string['plagiarism_gitlab_location'] = 'GitLab project location type';
+$string['plagiarism_file_extensions'] = 'File extensions';
+$string['plagiarism_moss_passes'] = 'Number of Moss passes';
+$string['plagiarism_moss_matches_shown'] = 'Number of Moss matches shown';
 
 $string['unittests_git_helper'] = 'The Git URL in which there are tests for this course. Tests for each assignment '
     . 'should be in the "Project" directory specified in the new Charon form.';
@@ -46,6 +54,11 @@ $string['id_number_postfix_helper'] = 'ID number is a unique identifier used in 
 $string['calculation_formula_cs_helper'] = 'Formula for calculating the resulting grade. Use the usual Moodle '
     . 'formula syntax but instead of grade item ids specify which grade type '
     . 'is used. Eg. "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
+$string['plagiarism_file_extensions_helper'] = 'Multiple extensions must be separated by comma, for example: .java,.py';
+$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code. Acceptable range: 1-32767';
+$string['plagiarism_moss_matches_shown_helper'] = 'Number of matches Moss will provide. Lowering this will reduce wait times. Acceptable range: 1-50';
+$string['plagiarism_create_course'] = 'Course can be created in Plagiarism';
+$string['plagiarism_update_course'] = 'Course can be updated in Plagiarism';
 
 /*------------------------*\
    Instance form
@@ -74,6 +87,7 @@ $string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repo
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
 $string['plagiarism_includes'] = 'Plagiarism includes';
 $string['unittests_git_charon'] = 'Charon unittests Git';
+$string['instance_plagiarism_settings'] = 'Plagiarism settings';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -125,6 +139,9 @@ $string['add_button_text'] = 'Add';
 
 $string['grouping_selection_helper'] = 'Which grouping is used for student group grading';
 $string['grouping'] = "Grouping";
+
+$string['plagiarism_create_charon'] = 'Create Charon in Plagiarism';
+$string['plagiarism_update_charon'] = 'Update Charon in Plagiarism';
 
 /*------------------------*\
    Labs form

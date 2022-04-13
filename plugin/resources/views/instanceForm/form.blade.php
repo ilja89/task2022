@@ -11,6 +11,7 @@
     window.groups = {!! $groups->toJson() !!};
     window.groupings = {!! $groupings->toJson() !!};
     window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
+    window.plagiarismAssignment = {!! json_encode($plagiarismAssignment) !!};
     // ...
 
     window.translations = {
@@ -18,6 +19,10 @@
         plagiarism_detection: "{{ translate('plagiarism_detection') }}",
         task_info_title: "{{ translate('task_info') }}",
         grading_title: "{{ translate('grading') }}",
+        plagiarism_title: "{{ translate('instance_plagiarism_settings') }}",
+        plagiarism_create_charon: "{{ translate('plagiarism_create_charon') }}",
+        plagiarism_update_charon: "{{ translate('plagiarism_update_charon') }}",
+        plagiarism_no_connection: "{{ translate('plagiarism_no_connection') }}",
 
         task_name_label: "{{ translate('task_name') }}",
         project_folder_name_label: "{{ translate('project_folder_name') }}",
@@ -48,6 +53,9 @@
         plagiarism_includes: "{{ translate('plagiarism_includes') }}",
         grouping: "{{ translate('grouping') }}",
         grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
+        plagiarism_file_extensions_label: "{{ translate('plagiarism_file_extensions') }}",
+        plagiarism_moss_passes_label: "{{ translate('plagiarism_moss_passes') }}",
+        plagiarism_moss_matches_shown_label: "{{ translate('plagiarism_moss_matches_shown') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
@@ -76,6 +84,9 @@
         plagiarism_resource_provider_repository_helper: "{{ translate('plagiarism_resource_provider_repository_helper') }}",
         plagiarism_resource_provider_private_key_helper: "{{ translate('plagiarism_resource_provider_private_key_helper') }}",
         plagiarism_includes_helper: "{{ translate('plagiarism_includes_helper') }}",
+        plagiarism_file_extensions_helper: "{{ translate('plagiarism_file_extensions_helper') }}",
+        plagiarism_moss_passes_helper: "{{ translate('plagiarism_moss_passes_helper') }}",
+        plagiarism_moss_matches_shown_helper: "{{ translate('plagiarism_moss_matches_shown_helper') }}",
 
         remove: "{{ translate('remove_button_text') }}",
         add: "{{ translate('add_button_text') }}",

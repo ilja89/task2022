@@ -9,12 +9,14 @@ $string['plugin_settings'] = 'Charoni seaded';
 $string['pluginadministration'] = 'Charoni administreerimine';
 $string['modulenameplural'] = 'Charonid';
 $string['capella:addinstance'] = 'Lisa uus charon';
+$string['plagiarism_no_connection'] = 'Plagiarismiga ühendumine ebaõnnestus';
 
 /*------------------------*\
    Course settings form
 \*------------------------*/
 $string['tester_settings'] = 'Testeri seaded';
 $string['presets'] = 'Presetid';
+$string['course_plagiarism_settings'] = 'Plagiarismi seaded';
 $string['unittests_git'] = 'Testide Git';
 $string['edit_preset'] = 'Muuda preseti';
 $string['preset_name'] = 'Preseti nimi';
@@ -23,6 +25,12 @@ $string['grade_name_postfix'] = 'Hinde nime lõpp';
 $string['id_number_postfix'] = 'ID numbri lõpp';
 $string['save_preset'] = 'Salvesta preset';
 $string['update_preset'] = 'Uuenda preseti';
+$string['plagiarism_language_type'] = 'Programmeerimiskeele tüüp';
+$string['plagiarism_gitlab_group'] = 'GitLabi grupp';
+$string['plagiarism_gitlab_location'] = 'GitLabi projekti asukoht';
+$string['plagiarism_file_extensions'] = 'Failide laiendid';
+$string['plagiarism_moss_passes'] = 'Mossi maksimaalne koodiridade ignoreerimise arv';
+$string['plagiarism_moss_matches_shown'] = 'Mossi maksimaalne seoste tagastamise arv';
 
 $string['unittests_git_helper'] = 'Giti URL kus asuvad selle kursuse testid. Testid peavad olema sama nimega kaustas '
     . 'kuhu tudengid koodi panevad.';
@@ -45,6 +53,11 @@ $string['id_number_postfix_helper'] = 'ID number on unikaalne identifikaator mid
 $string['calculation_formula_cs_helper'] = 'Valem mille järgi ülesande kokkuvõttev hinne arvutatakse. Kasutab sama süntaksit '
     . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '
     . 'Nt "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
+$string['plagiarism_file_extensions_helper'] = 'Kui laiendeid on mitu, siis peavad nad olema eraldatud komaga, näiteks: .java,.py';
+$string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code. Aksepteeritav vahemik: 1-32767';
+$string['plagiarism_moss_matches_shown_helper'] = 'Mossi poolt maksimaalne tagastatavate seoste arv. Selle arvu vähendamine parandab ooteaegu. Aksepteeritav vahemik: 1-50';
+$string['plagiarism_create_course'] = 'Kursust saab luua Plagiarismis';
+$string['plagiarism_update_course'] = 'Kursust saab uuendada Plagiarismis';
 
 /*------------------------*\
    Instance form
@@ -73,6 +86,7 @@ $string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoo
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
 $string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
 $string['unittests_git_charon'] = 'Charoni testide Git';
+$string['instance_plagiarism_settings'] = 'Plagiarismi seaded';
 
 $string['deadline'] = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -118,6 +132,9 @@ $string['add_button_text'] = 'Lisa';
 
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
+
+$string['plagiarism_create_charon'] = 'Loo Charon Plagiarismis';
+$string['plagiarism_update_charon'] = 'Uuenda Charonit Plagiarismis';
 
 /*------------------------*\
         Labs form
