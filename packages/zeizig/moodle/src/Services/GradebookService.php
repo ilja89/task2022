@@ -4,6 +4,8 @@ namespace Zeizig\Moodle\Services;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Foundation\Application;
+use TTU\Charon\Models\Charon;
+use TTU\Charon\Repositories\CharonRepository;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
 
@@ -17,7 +19,6 @@ use Zeizig\Moodle\Models\GradeItem;
  */
 class GradebookService extends MoodleService
 {
-
     /**
      * GradebookService constructor.
      *
@@ -27,7 +28,6 @@ class GradebookService extends MoodleService
     {
         parent::__construct($application);
     }
-
 
     /**
      * Adds a grade item with given parameters.
@@ -182,13 +182,13 @@ class GradebookService extends MoodleService
      * Parameters array:
      *      [ Grade item id number => points, ... ]
      *
-     * @deprecated
-     *
      * @param string $formula normalized formula
      * @param array $params
      * @param int $courseId
      *
      * @return double
+     * @deprecated
+     *
      */
     public function calculateResultFromFormula($formula, $params, $courseId)
     {
@@ -278,5 +278,52 @@ class GradebookService extends MoodleService
         $object->delete('grade/report/grader/category');
 
         return true;
+    }
+
+    /**
+     * Find sum of all charon points for user
+     * @param int $courseId
+     * @param int $userId
+     * @return float|int
+     */
+    public function getPointsFromAllCharonsForStudent(int $courseId, int $userId)
+    {
+        $charonCategoryIds = Charon::where('course', $courseId)
+            ->pluck('category_id');
+
+        $result = 0;
+
+        foreach ($charonCategoryIds as $charonCategoryId) {
+            $categoryGradeItem = $this->getGradeItemByCategoryId($charonCategoryId);
+            $categoryGradeGrade = $this->getGradeForGradeItemAndUser($categoryGradeItem->id, $userId);
+            $result += $categoryGradeGrade ? $categoryGradeGrade->finalgrade : 0;
+        }
+        return $result;
+    }
+
+    /**
+     * Get points that student has not yet earned
+     * @param int $courseId
+     * @param int $userId
+     * @return float|int
+     */
+    public function getPossiblePointsForCourseFromCharons(int $courseId, int $userId)
+    {
+        $courseTotalPoints = $this->getGradeItemForCourse($courseId)->grademax;
+        $studentPoints = $this->getPointsFromAllCharonsForStudent($courseId, $userId);
+
+        return $courseTotalPoints - $studentPoints;
+    }
+
+    /**
+     * Get grade item of course
+     * @param int $courseId
+     * @return mixed
+     */
+    public function getGradeItemForCourse(int $courseId)
+    {
+        return GradeItem::where('courseid', $courseId)
+            ->where('itemtype', 'course')
+            ->first();
     }
 }

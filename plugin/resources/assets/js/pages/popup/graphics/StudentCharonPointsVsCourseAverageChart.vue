@@ -107,6 +107,14 @@
                     },*/
                     xaxis: {
                         categories: this.submissionNames,
+                        tickPlacement: 'between',
+                        labels: {
+                          show: true,
+                          hideOverlappingLabels: false,
+                          showDuplicates: true,
+                          rotateAlways: false,
+                          trim: true
+                        },
                         title: {
                             text: 'Exercises',
                             style: {

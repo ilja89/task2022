@@ -12,7 +12,22 @@ import DefenseRegistrationPage from "./DefenseRegistrationPage.vue";
 import TeachersPage from "./TeachersPage.vue"
 import ActivityOverviewPage from "./ActivityOverviewPage";
 import ActivityDashboardPage from "./ActivityDashboardPage";
+import StudentDetailsPage from "./StudentDetailsPage.vue";
+
 export {
-    GradingPage, NoStudentSelectedPage, SubmissionPage, StudentOverviewPage, DefenseRegistrationPage, TeachersPage,
-    DashboardPage, PlagiarismPage, ReportStatistics, LabsPage, CharonSettingsPage, CharonSettingsEditingPage, ActivityOverviewPage, ActivityDashboardPage
+    GradingPage,
+    NoStudentSelectedPage,
+    SubmissionPage,
+    StudentOverviewPage,
+    DefenseRegistrationPage,
+    TeachersPage,
+    DashboardPage,
+    PlagiarismPage,
+    ReportStatistics,
+    LabsPage,
+    CharonSettingsPage,
+    CharonSettingsEditingPage,
+    ActivityOverviewPage,
+    ActivityDashboardPage,
+    StudentDetailsPage
 }

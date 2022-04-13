@@ -17,6 +17,7 @@ import {
     TeachersPage,
     ActivityOverviewPage,
     ActivityDashboardPage,
+    StudentDetailsPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm.vue";
 
@@ -43,10 +44,16 @@ const routes = [
         name: 'grading',
     },
     {
-        path: '/student-overview/:student_id',
+        path: '/student-overview',
         title: 'Student overview',
         component: StudentOverviewPage,
         name: 'student-overview',
+    },
+    {
+        path: '/student-details/:student_id',
+        title: 'Student details',
+        component: StudentDetailsPage,
+        name: 'student-details',
     },
     {
         path: '/activities',

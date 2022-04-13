@@ -140,9 +140,9 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return mixed
+     * @return array
      */
-    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
+    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId): array
     {
         $submissionFields = [
             'charon_submission.id',
@@ -205,11 +205,11 @@ class SubmissionsRepository
             })
             ->orderByDesc('confirmed')
             ->latest()
-            ->simplePaginate(10);
+            ->simplePaginate(config('app.page_size'));
 
         $submissions->appends(['user_id' => $userId])->links();
 
-        return $this->assignUnitTestsToTestSuites($submissions);
+        return [$this->assignUnitTestsToTestSuites($submissions), config('app.page_size')];
     }
 
     /**
@@ -456,13 +456,14 @@ class SubmissionsRepository
      */
     public function findLatestSubmissions(int $courseId)
     {
-        /** @var Collection|Charon[] $charons */
-        $charons = Charon::where('course', $courseId)->get();
-
-        $charonIds = $charons->pluck('id');
-
-        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
-            ->whereIn('charon_id', $charonIds)
+        return Submission::join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->where('charon.course', $courseId)
+            ->select(
+                'charon_submission.id',
+                'charon_submission.charon_id',
+                'charon_submission.user_id',
+                'charon_submission.created_at'
+            )
             ->with([
                 'users' => function ($query) {
                     $query->select(['id', 'firstname', 'lastname']);
@@ -486,6 +487,26 @@ class SubmissionsRepository
             ])
             ->latest()
             ->simplePaginate(10);
+    }
+
+    /**
+     * Find the latest submissions for the course by user.
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return Collection
+     */
+    public function findLatestSubmissionsByUser(int $courseId, int $userId)
+    {
+        return DB::table('charon_submission as cs')
+            ->join('charon as c', 'cs.charon_id', '=', 'c.id')
+            ->select('cs.created_at', 'cs.id', 'c.name')
+            ->where('cs.user_id', $userId)
+            ->where('c.course', $courseId)
+            ->latest()
+            ->take(10)
+            ->get();
     }
 
     /**
@@ -801,5 +822,41 @@ class SubmissionsRepository
             ->where('test_suite_id', $testSuiteId)
             ->select('*')
             ->get();
+    }
+
+    /**
+     * Get all submissions for given user in given course
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return int
+     */
+    public function countAllUserSubmissions(int $courseId, int $userId)
+    {
+        return DB::table('charon_submission as cs')
+            ->join('charon as c', 'cs.charon_id', '=', 'c.id')
+            ->where('c.course', $courseId)
+            ->where('cs.user_id', $userId)
+            ->count();
+    }
+
+    /**
+     * Get number of charons with at least 1 submission in given course
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return mixed
+     */
+
+    public function getNumberOfCharonsWithSubmissions(int $courseId, int $userId)
+    {
+        return DB::table('charon_submission as cs')
+            ->join('charon as c', 'cs.charon_id', '=', 'c.id')
+            ->where('c.course', $courseId)
+            ->where('cs.user_id', $userId)
+            ->distinct('c.id')
+            ->count('c.id');
     }
 }

@@ -12,6 +12,8 @@ require __DIR__ . '/../plugin/bootstrap/autoload.php';
  */
 function xmldb_charon_upgrade($oldversion = 0)
 {
+    clear_caches();
+
     global $DB;
     $dbManager = $DB->get_manager();
 
@@ -822,5 +824,61 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022031101) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_query_log_user(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    user_id BIGINT(10) NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    CONSTRAINT FK_query_log_user_user" .
+            "        FOREIGN KEY (user_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            "            ON DELETE CASCADE" .
+            "            ON UPDATE CASCADE" .
+            ")";
+
+        $table = new xmldb_table("charon_query_log_user");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2022040900) {
+
+        $table = new xmldb_table("charon_test_suite");
+
+        $index = new xmldb_index("IXFK_charon_test_suite_submission", XMLDB_INDEX_NOTUNIQUE, ['submission_id']);
+
+        if (!$dbManager->index_exists($table, $index)) {
+            $dbManager->add_index($table, $index);
+        }
+
+        try {
+            $DB->execute(
+                "ALTER TABLE " . $CFG->prefix . "charon_test_suite DROP CONSTRAINT " .
+                 "IF EXISTS FK_charon_test_suite_submission"
+            );
+            $DB->execute("SET FOREIGN_KEY_CHECKS=0");
+            $DB->execute(
+                "ALTER TABLE {charon_test_suite} ADD CONSTRAINT FK_charon_test_suite_submission " .
+                "FOREIGN KEY (submission_id) REFERENCES {charon_submission} (id) ON DELETE CASCADE ON UPDATE CASCADE"
+            );
+        } finally {
+            $DB->execute("SET FOREIGN_KEY_CHECKS=1");
+        }
+    }
+
     return true;
+}
+
+function clear_caches() {
+    try {
+        require __DIR__ . '/../plugin/bootstrap/autoload.php';
+        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+        
+        $kernel->call('optimize:clear');
+    } catch (Exception $e) {
+        echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
+    }
 }

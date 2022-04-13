@@ -50,13 +50,14 @@ class SubmissionsController extends Controller
      * @param TeacherModifiesSubmission $teacherModificationFlow
      */
     public function __construct(
-        Request $request,
-        SubmissionService $submissionService,
-        SubmissionsRepository $submissionsRepository,
-        CharonRepository $charonRepository,
-        FilesController $filesController,
+        Request                   $request,
+        SubmissionService         $submissionService,
+        SubmissionsRepository     $submissionsRepository,
+        CharonRepository          $charonRepository,
+        FilesController           $filesController,
         TeacherModifiesSubmission $teacherModificationFlow
-    ) {
+    )
+    {
         parent::__construct($request);
         $this->submissionService = $submissionService;
         $this->submissionsRepository = $submissionsRepository;
@@ -142,9 +143,9 @@ class SubmissionsController extends Controller
     /**
      * @param Request $request
      * @param Charon $charon
-     * @return Paginator
+     * @return array
      */
-    public function getByCharonAndUser(Request $request, Charon $charon): Paginator
+    public function getByCharonAndUser(Request $request, Charon $charon): array
     {
         $userId = $request->input('user_id');
         return $this->submissionsRepository->paginateSubmissionsByCharonUser(
@@ -163,6 +164,19 @@ class SubmissionsController extends Controller
     public function getByUser(Course $course, User $user)
     {
         return $this->submissionsRepository->findGradedCharonsByUser($course->id, $user->id);
+    }
+
+    /**
+     * Find latest submissions for user.
+     *
+     * @param Course $course
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getLatestByUser(Course $course, User $user)
+    {
+        return $this->submissionsRepository->findLatestSubmissionsByUser($course->id, $user->id);
     }
 
     /**
@@ -224,17 +238,18 @@ class SubmissionsController extends Controller
      */
     public function findAllSubmissionsForReport(
         Course $course,
-        $page,
-        $perPage,
-        $sortField,
-        $sortType,
-        $firstName = null,
-        $lastName = null,
-        $exerciseName = null,
-        $isConfirmed = null,
-        $gitTimestampForStartDate = null,
-        $gitTimestampForEndDate = null
-    ) {
+               $page,
+               $perPage,
+               $sortField,
+               $sortType,
+               $firstName = null,
+               $lastName = null,
+               $exerciseName = null,
+               $isConfirmed = null,
+               $gitTimestampForStartDate = null,
+               $gitTimestampForEndDate = null
+    )
+    {
         return $this->submissionsRepository->findAllSubmissionsForReport(
             $course->id,
             $page,
@@ -257,7 +272,8 @@ class SubmissionsController extends Controller
      *
      * @return int
      */
-    private function getStudentId(Submission $submission) {
+    private function getStudentId(Submission $submission)
+    {
         if (!$this->request->input('user_id')) {
             return $submission->user_id;
         }
@@ -268,5 +284,32 @@ class SubmissionsController extends Controller
         }
 
         return $submission->user_id;
+    }
+
+    /**
+     * Find amount of all submissions for user in course
+     *
+     * @param User $user
+     * @param Course $course
+     *
+     * @return int
+     */
+    public function countAllUserSubmissionsInCourse(Course $course, User $user)
+    {
+        return $this->submissionsRepository->countAllUserSubmissions($course->id, $user->id);
+    }
+
+    /**
+     * Find number of charons with at least 1 submission
+     *
+     * @param Course $course
+     * @param User $user
+     *
+     * @return int
+     */
+
+    public function countCharonsWithSubmissions(Course $course, User $user)
+    {
+        return $this->submissionsRepository->getNumberOfCharonsWithSubmissions($course->id, $user->id);
     }
 }

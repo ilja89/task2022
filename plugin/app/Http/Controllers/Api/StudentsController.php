@@ -99,6 +99,16 @@ class StudentsController extends Controller
         }
     }
 
+    /**
+     * Find sum of all charon points for user
+     * @param int $courseId
+     * @param int $userId
+     * @return float|int
+     */
+    public function getPointsFromAllCharonsForStudent(int $courseId, int $userId) {
+        return $this->gradebookService->getPointsFromAllCharonsForStudent($courseId, $userId);
+    }
+
     public function getStudentReportTable(Course $course, User $user)
     {
         global $CFG; // grade/lib.php needs it
@@ -220,5 +230,40 @@ class StudentsController extends Controller
         }
 
         return $studentsDistribution;
+    }
+
+    function findAllEnrolled(int $courseId)
+    {
+        return $this->studentsRepository->getAllEnrolled($courseId);
+    }
+
+    /**
+     * Find number of possible points for course from all charons
+     *
+     * @param int $courseId
+     * @param User $user
+     * @return int
+     */
+
+    public function possiblePoints(int $courseId, User $user)
+    {
+        return $this->gradebookService->getPossiblePointsForCourseFromCharons($courseId, $user->id);
+    }
+
+    /**
+     * Get data from all charons by user and course.
+     *
+     * @param int $courseId
+     * @param int $userId
+     *
+     * @return array
+     */
+    public function getUserCharonsDetails($courseId, $userId)
+    {
+        return $this->studentsRepository->getUserCharonsDetails($courseId, $userId);
+    }
+
+    public function getAllStudents(Course $course) {
+        return $this->studentsRepository->getAllByCourse($course->id);
     }
 }

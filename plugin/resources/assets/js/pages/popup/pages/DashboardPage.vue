@@ -13,6 +13,8 @@
 
         <log-section></log-section>
 
+        <log-section :title="query_logs_title" :subtitle="query_logs_subtitle" :query-log-type="true"></log-section>
+
     </div>
 </template>
 
@@ -35,6 +37,18 @@
             ...mapState([
                 'is_mobile'
             ]),
+
+            page_name() {
+                return `Dashboard - ${window.course_name}`
+            },
+
+            query_logs_title() {
+                return 'Query logs'
+            },
+
+            query_logs_subtitle() {
+                return 'Here are some recent query logs'
+            }
         },
 
         components: {

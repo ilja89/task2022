@@ -138,10 +138,11 @@ export default {
     }
 }
 
-.submission-line {
-    display: inline-block;
-    padding-top: 0.5em;
-}
+    .submission-line {
+        display: inline-block;
+        //padding-top: 0.5em;
+        line-height: 1.4em;
+    }
 
 .timestamp-separator {
     padding-left: 0.2em;

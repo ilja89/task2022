@@ -1,9 +1,11 @@
 ## Prerequisites
 
-- Apache with `mod_rewrite` enabled and `AllowOverride` set to `All` for Moodle directory
+- Apache or Nginx web server installed
+  - on case of Apache, `mod_rewrite` need to be enabled and `AllowOverride` set to `All` for Moodle directory
+  - for Nginx, server configuration for Moodle should contain additional rules for Charon. Check more in `nginx.md` file.
 - Moodle, installed on root of http server
 - PHP need to be version 7.* (8 will not work!)
-- MySQL need to have privilege REFERENCES granted to Moodle user, besides usual ones
+- MySQL/MariaDB needs to have privilege `REFERENCES` granted to Moodle user, beside usual ones
 - `unzip` utility installed
 
 
@@ -15,10 +17,9 @@
   - Set USER to match needed user:group for Apache
   - If needed, add additional steps into install script.
 - Run it as root:
-```sudo bash install.sh [-u] <charon>``` 
+```sudo bash install.sh <charon>``` 
 where
-  - <charon> is zip file, containing installable Charon plugin. Something like `charon_1.2.3.zip`.
-  - use flag -u for update, if older version is already installed
+  - `<charon>` is zip file, containing installable Charon plugin. Something like `charon_1.2.3.zip`.
 
 
 ## Troubleshooting

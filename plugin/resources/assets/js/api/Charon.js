@@ -60,12 +60,30 @@ class Charon {
         })
     }
 
+    static async fetchLatestQueryLogs(courseId, then) {
+        await window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/queryLogs').then(response => {
+            then(response.data)
+        }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error fetching query logs.\n' + error, 'danger')
+        })
+    }
+
     static getResultForStudent(charonId, userId, then) {
         window.axios.get(Charon.getRoot() + '/charons/' + charonId + '/results/' + userId)
             .then(response => {
                 then(response.data)
             }).catch(error => {
             VueEvent.$emit('show-notification', 'Error retrieving results.\n' + error, 'danger')
+        })
+    }
+
+
+    static getAllPointsFromCourseForStudent(courseId, userId, then) {
+        window.axios.get(Charon.getRoot() + '/courses/' + courseId + '/all-points/' + userId)
+            .then(response => {
+                then(response.data)
+            }).catch(error => {
+            VueEvent.$emit('show-notification', 'Error removing a tester type.\n' + error, 'danger')
         })
     }
 

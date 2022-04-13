@@ -1,67 +1,99 @@
 <template>
     <div class="student-overview-container">
-        <page-title :student="student"></page-title>
 
-        <popup-section title="Grades report"
-                       subtitle="Grading report for the current student.">
+      <v-card class="mb-16 pl-4">
+        <v-card-title>Student overview</v-card-title>
+      </v-card>
 
-            <v-card class="mx-auto" outlined light raised>
-                <v-container class="spacing-playground pa-3" fluid>
-                    <div class="student-overview-card" v-html="table"></div>
-                </v-container>
-            </v-card>
+      <popup-section title="Students"
+                     subtitle="Here is a list of all students for this course.">
 
-        </popup-section>
+        <v-card-title v-if="students.length">
+          Students
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-if="students.length"
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details>
+          </v-text-field>
+        </v-card-title>
+        <v-card-title v-else>
+          No Students for this course!
+        </v-card-title>
+
+        <v-data-table
+            v-if="students.length"
+            :headers="students_headers"
+            :items="students"
+            :search="search">
+          <template v-slot:no-results>
+            <v-alert :value="true" color="primary" icon="warning">
+              Your search for "{{ search }}" found no results.
+            </v-alert>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-btn class="ma-2" small tile outlined color="primary" @click="studentDetails(item.id)">Details
+            </v-btn>
+          </template>
+        </v-data-table>
+
+      </popup-section>
+
     </div>
 </template>
 
 <script>
-    import {PageTitle} from '../partials'
-    import {mapState, mapGetters, mapActions} from 'vuex'
-    import {User} from '../../../api'
     import {PopupSection} from '../layouts'
+    import {User} from "../../../api";
+    import {mapGetters} from "vuex";
 
     export default {
 
-        components: {PopupSection, PageTitle},
+        components: {PopupSection},
 
         data() {
             return {
-                table: '',
+              alert: false,
+              search: '',
+              students: [],
+              students_headers: [
+                {text: 'Full name', value: 'fullname', align: 'start'},
+                {text: 'Uni-id', value: 'username'},
+                {text: 'Actions', value: 'actions'}
+              ]
             }
         },
 
         computed: {
-            ...mapState([
-                'student',
-            ]),
+        ...mapGetters([
+            'courseId',
+          ]),
 
-            ...mapGetters([
-                'courseId',
-            ]),
-
-            routeStudentId() {
-                return this.$route.params.student_id
-            },
+          studentName() {
+            return this.student ? this.student.firstname + ' ' + this.student.lastname : "Student"
+          }
         },
 
         methods: {
-            getStudentOverviewTable() {
-                User.getReportTable(this.courseId, this.routeStudentId, (table) => {
-                    this.table = table
-                })
-            },
+            studentDetails(id) {
+              this.$router.push({ name: 'student-details', params: {student_id: `${id}`} })
+            }
         },
 
         created() {
-            this.getStudentOverviewTable()
+            User.getStudentsInCourse(this.courseId, students => {
+              this.students = students;
+            })
         },
 
         metaInfo() {
-            return {
-                title: `${'Charon student overview - ' + window.course_name}`
-            }
-        },
+          return {
+            title: 'Student overview page'
+          }
+        }
     }
 </script>
 
