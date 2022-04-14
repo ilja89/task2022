@@ -38,12 +38,11 @@ export default {
 
     methods: {
         fetchStudentMatches() {
-            Plagiarism.fetchStudentMatches(this.courseId, this.student.uniid, (response) => {
+            Plagiarism.fetchStudentMatches(this.courseId, this.student.username, (response) => {
                 this.matches = response
             })
         }
     }
-
 }
 </script>
 

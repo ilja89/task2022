@@ -340,7 +340,7 @@ class PlagiarismCommunicationService
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/studentMatches",
             'get',
-            ["uniid" => $uniid]
+            ['uniid' => $uniid]
         );
 
         if ($response) {

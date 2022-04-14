@@ -401,8 +401,9 @@ class PlagiarismService
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentMatches(string $uniid)
+    public function getStudentMatches(string $username)
     {
+        $uniid = explode('@', $username)[0];
         return $this->plagiarismCommunicationService->getStudentMatches($uniid);
     }
 }
