@@ -9,6 +9,7 @@ require __DIR__ . '/../plugin/bootstrap/autoload.php';
  * @link https://github.com/moodle/moodle/blob/master/lib/db/upgrade.php
  * @param int $oldversion
  * @return bool
+ * @throws Exception
  */
 function xmldb_charon_upgrade($oldversion = 0)
 {
@@ -570,8 +571,8 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2021011801) {
         $DB->execute(
             "INSERT IGNORE INTO " . $CFG->prefix . "charon_submission_user (submission_id, user_id)"
-                . " SELECT submission.id, submission.user_id"
-                . " FROM " . $CFG->prefix . "charon_submission AS submission"
+            . " SELECT submission.id, submission.user_id"
+            . " FROM " . $CFG->prefix . "charon_submission AS submission"
         );
     }
 
@@ -648,28 +649,28 @@ function xmldb_charon_upgrade($oldversion = 0)
                 // Add submission main authors as users in results table
                 $DB->execute(
                     "UPDATE {charon_result} AS cr "
-                        . "INNER JOIN {charon_submission} AS cs ON cr.submission_id = cs.id "
-                        . "SET cr.user_id = cs.user_id"
+                    . "INNER JOIN {charon_submission} AS cs ON cr.submission_id = cs.id "
+                    . "SET cr.user_id = cs.user_id"
                 );
                 // Add additional rows for every co-author
                 $DB->execute(
                     "INSERT INTO {charon_result}(submission_id, user_id, grade_type_code, percentage, calculated_result, stdout, stderr) "
-                        . "SELECT "
-                        . "cmu.submission_id, "
-                        . "cmu.user_id, "
-                        . "cr.grade_type_code, "
-                        . "cr.percentage, "
-                        . "cr.calculated_result, "
-                        . "cr.stdout, "
-                        . "cr.stderr "
-                        . "FROM {charon_submission_user} AS cmu "
-                        . "INNER JOIN {charon_submission} AS cs ON cmu.submission_id = cs.id "
-                        . "RIGHT JOIN {charon_result} AS cr ON cmu.submission_id = cr.submission_id "
-                        . "WHERE cmu.user_id != cs.user_id"
+                    . "SELECT "
+                    . "cmu.submission_id, "
+                    . "cmu.user_id, "
+                    . "cr.grade_type_code, "
+                    . "cr.percentage, "
+                    . "cr.calculated_result, "
+                    . "cr.stdout, "
+                    . "cr.stderr "
+                    . "FROM {charon_submission_user} AS cmu "
+                    . "INNER JOIN {charon_submission} AS cs ON cmu.submission_id = cs.id "
+                    . "RIGHT JOIN {charon_result} AS cr ON cmu.submission_id = cr.submission_id "
+                    . "WHERE cmu.user_id != cs.user_id"
                 );
 
                 $transaction->allow_commit();
-            } catch(Exception $exception) {
+            } catch (Exception $exception) {
                 $transaction->rollback($exception);
                 throw $exception;
             }
@@ -684,11 +685,11 @@ function xmldb_charon_upgrade($oldversion = 0)
         $DB->execute("ALTER TABLE {charon_result} ADD INDEX IXFK_result_user_submission (user_id,submission_id)");
         $DB->execute(
             "ALTER TABLE {charon_result} ADD CONSTRAINT UK_charon_result_submission_user_grade_type_code "
-                . "UNIQUE (submission_id,user_id,grade_type_code)"
+            . "UNIQUE (submission_id,user_id,grade_type_code)"
         );
         $DB->execute(
             "ALTER TABLE {charon_result} ADD CONSTRAINT FK_result_user FOREIGN KEY (user_id) "
-                . "REFERENCES {user} (id)"
+            . "REFERENCES {user} (id)"
         );
     }
 
@@ -734,7 +735,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021071302){
+    if ($oldversion < 2021071302) {
         $sql = "CREATE TABLE " . $CFG->prefix . "charon_template(" .
             "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
             "    charon_id BIGINT(10) NOT NULL," .
@@ -755,7 +756,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021081101){
+    if ($oldversion < 2021081101) {
         $table = new xmldb_table("charon");
         $field = new xmldb_field("allow_submission", XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, 0);
 
@@ -764,7 +765,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021090901){
+    if ($oldversion < 2021090901) {
         $table = new xmldb_table("charon_course_settings");
         $field = new xmldb_field('tester_sync_url', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
 
@@ -773,7 +774,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2021101101){
+    if ($oldversion < 2021101101) {
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template DROP CONSTRAINT IF EXISTS FK_template_charon";
         $DB->execute($sql);
         $sql = "ALTER TABLE " . $CFG->prefix . "charon_template ADD CONSTRAINT FK_template_charon FOREIGN KEY (charon_id) "
@@ -816,6 +817,49 @@ function xmldb_charon_upgrade($oldversion = 0)
     if ($oldversion < 2022021001) {
         $table = new xmldb_table("charon");
         $field = new xmldb_field('unittests_git', XMLDB_TYPE_CHAR, 255, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2022021801) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_plagiarism_check(" .
+            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
+            "    charon_id BIGINT(10) NOT NULL," .
+            "    user_id BIGINT(10) NOT NULL," .
+            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "    status TEXT NOT NULL," .
+            "    PRIMARY KEY (id)," .
+            "    INDEX IXFK_plagiarism_check_charon (charon_id)," .
+            "    CONSTRAINT FK_plagiarism_check_charon" .
+            "        FOREIGN KEY (charon_id)" .
+            "            REFERENCES " . $CFG->prefix . "charon(id)," .
+            "    CONSTRAINT FK_plagiarism_check_user" .
+            "        FOREIGN KEY (user_id)" .
+            "            REFERENCES " . $CFG->prefix . "user(id)" .
+            ")";
+
+        $table = new xmldb_table("charon_plagiarism_check");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+        }
+    }
+
+    if ($oldversion < 2022033101) {
+        $table = new xmldb_table('charon');
+        $field = new xmldb_field('plagiarism_assignment_id', XMLDB_TYPE_INTEGER, 10, null, null, null, null, null, null);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2022040201) {
+        $table = new xmldb_table("charon_plagiarism_check");
+        $field = new xmldb_field('run_id', XMLDB_TYPE_INTEGER, 10);
 
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);

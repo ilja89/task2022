@@ -11,6 +11,7 @@
                         class="custom-select"
                         :id="'id_' + name"
                         v-model="input_value"
+                        :disabled="disabled"
                         @change="onInputChanged">
                     <option v-if="include_empty"></option>
                     <option
@@ -37,11 +38,12 @@
             key_field: { required: false, default: 'code' },
             helper_text: { required: false, default: null },
             include_empty: { required: false, default: false },
+            disabled: { required: false, default: false}
         },
 
         data() {
             return {
-                input_value: this.value === '' ? this.options[0][this.key_field] : this.value,
+                input_value: (this.value === '' && this.options.length) ? this.options[0][this.key_field] : this.value,
             };
         },
     }

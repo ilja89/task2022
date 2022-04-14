@@ -663,6 +663,17 @@ class SubmissionsRepository
     }
 
     /**
+     * Find submission by its git hash.
+     *
+     * @param string $commitHash
+     * @return Submission|null
+     */
+    public function findSubmissionByHash(string $commitHash): ?Submission
+    {
+        return Submission::where('git_hash', $commitHash)->get()->first();
+    }
+
+    /**
      * Build a query for submissions by user in many-to-many table
      *
      * @param int $userId

@@ -20,4 +20,15 @@ class CourseRepository
     {
         return Course::query();
     }
+
+    /**
+     * Get the shortname of the course by the id
+     * @param $courseId
+     * @return null
+     */
+    public function getShortnameById($courseId)
+    {
+        $courseShortname = Course::where('id', $courseId)->value('shortname');
+        return $courseShortname ?: null;
+    }
 }
