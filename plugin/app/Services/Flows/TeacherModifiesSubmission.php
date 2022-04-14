@@ -83,11 +83,20 @@ class TeacherModifiesSubmission
         }
 
         if ($charon->plagiarism_assignment_id and $submission->confirmed == 1 and $charon->allow_submission != 1) {
+            $sub_domains = preg_split('/[\/|\\\\]/m', $submission->gitCallback->repo);
+            $course_regex = '/.*\.git$/';
+            $repoName = '';
+            foreach ($sub_domains as $meta) {
+                if (preg_match($course_regex, $meta)) {
+                    $repoName = explode('.', $meta)[0];
+                }
+            }
             $dataToPlagiarism = [
                 'student_uniid' => strtok($submission->user->username, "@"),
                 'course_identifier' => $charon->course,
                 'assignment_identifier' => $charon->id,
-                'commit_sha' => $submission->git_hash
+                'commit_sha' => $submission->git_hash,
+                'repository_name' => $repoName
                 ];
             try {
                 $this->plagiarismCommunicationService->saveDefenseCommit($dataToPlagiarism);
