@@ -26,20 +26,32 @@
             <div v-if="showAcceptableNodes || showPlagiarismNodes || showNewNodes">
                 <v-row justify="space-around" class="mt-5">
                     <v-col cols="12" md="6">
-                        <apexcharts type="bar" class="graph apexGraph" :options="charts.barChart.chartOptions"
-                                    :series="charts.barChart.series"></apexcharts>
+                        <apexcharts
+                            type="bar"
+                            class="graph apexGraph"
+                            :options="charts.barChart.chartOptions"
+                            :series="charts.barChart.series">
+                        </apexcharts>
                     </v-col>
 
                     <v-col cols="12" md="4">
-                        <apexcharts type="donut" class="graph apexGraph" :options="donutOptions"
-                                    :series="donutSeries"></apexcharts>
+                        <apexcharts
+                            type="donut"
+                            class="graph apexGraph"
+                            :options="donutOptions"
+                            :series="donutSeries">
+                        </apexcharts>
                     </v-col>
                 </v-row>
 
                 <v-row justify="center" class="mt-12">
                     <v-col cols="12" md="6">
-                        <VisNetwork class="graph" :nodes="networkNodes"
-                                    :edges="networkEdges"></VisNetwork>
+                        <VisNetwork
+                            class="graph"
+                            :nodes="networkNodes"
+                            :edges="networkEdges"
+                            :matches="matches">
+                        </VisNetwork>
                     </v-col>
                 </v-row>
             </div>
@@ -253,9 +265,11 @@ export default {
             })
 
             edges = newMatches.map(match => ({
+                id: match.id,
                 from: match.uniid,
                 to: match.other_uniid,
                 label: `${Math.max(match.percentage, match.other_percentage)}`,
+                width: this.edgeWidth(match.percentage),
             }))
 
 
@@ -281,6 +295,15 @@ export default {
             this.showNewNodes = bool;
             this.parseMatches(this.matches)
         },
+
+        edgeWidth(percentage) {
+            if (percentage > 80) return 5
+            else if (percentage > 60) return 4
+            else if (percentage > 40) return 3
+            else if (percentage > 20) return 2
+            else if (percentage > 10) return 1.5
+            else return 1
+        }
     }
 }
 </script>

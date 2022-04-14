@@ -1,24 +1,42 @@
 <template>
-    <div ref="visNetwork"></div>
+    <div>
+        <div v-if="matchModal && getMatch()" >
+            <div class="select" :class="[ 'medium' ]">
+                <select
+                    name="match"
+                    v-model="selectedMatchId"
+                >
+                    <option
+                        v-for="match in matchesList"
+                        :value="match.id"
+                    >
+                      {{ match.uniid + ' - ' + match.percentage + '% - ' + match.other_uniid }}
+                    </option>
+                </select>
+            </div>
+            <plagiarism-match-modal :match="getMatch()"></plagiarism-match-modal>
+        </div>
+
+        <div ref="visNetwork"></div>
+    </div>
 </template>
 
 <script>
 import {Network} from "vis-network/peer/";
 import {DataSet} from "vis-data/peer/";
 import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER} from '../../../helpers/PlagiarismColors';
+import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PopupSelect from "../partials/PopupSelect";
 
 export default {
     name: "VisNetwork",
-    props: {
-        nodes: {
-            required: false,
-            default: []
-        },
 
-        edges: {
-            required: false,
-            default: []
-        }
+    components: {PlagiarismMatchModal, PopupSelect},
+
+    props: {
+        nodes: { required: false, default: [] },
+        edges: { required: false, default: [] },
+        matches: { required: true }
     },
 
     computed: {
@@ -27,7 +45,7 @@ export default {
                 nodes: this.nodes,
                 edges: this.edges
             }
-        }
+        },
     },
 
     watch: {
@@ -50,6 +68,35 @@ export default {
         };
 
         const network = new Network(this.$refs.visNetwork, data, this.options);
+
+        network.on('select', (data) => {
+            if (data.edges.length > 0) {
+                let matches = []
+                this.matches.forEach(match => {
+                    if (data.edges.includes(match.id)) {
+                        this.selectedMatchId = match.id
+                        matches.push(match)
+                    }
+                })
+                this.matchesList = matches
+                this.matchModal = true
+            } else {
+                this.matchModal = false
+            }
+        })
+
+    },
+
+    methods: {
+        getMatch() {
+            let matchById = null
+            this.matches.forEach(match => {
+                if (match.id === this.selectedMatchId) {
+                    matchById = match
+                }
+            })
+            return matchById
+        }
     },
 
     data() {
@@ -101,7 +148,10 @@ export default {
                         },
                     },
                 },
-            }
+            },
+            matchModal: false,
+            selectedMatchId: null,
+            matchesList: [],
         }
     }
 }

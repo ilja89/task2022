@@ -55,7 +55,7 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                     <v-row>
-                        <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
+                        <plagiarism-match-modal :match="item"></plagiarism-match-modal>
                         <div v-if="!selectedHistory">
                             <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
                                 <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
@@ -151,12 +151,6 @@ export default {
             return arr.filter(function(ele) {
                 return ele !== value;
             });
-        },
-
-        getColor(status) {
-            if (status === 'plagiarism') return '#f44336'
-            else if (status === 'acceptable') return '#56a576';
-            else return '#8e8e8e';
         },
 
         getMatchesByPlagiarismRun(run) {
