@@ -163,20 +163,20 @@ export default {
                         match.other_submission,
                         match.other_uniid
                     ] =
-                     [
-                         match.other_code,
-                         match.other_commit_hash,
-                         match.other_gitlab_commit_at,
-                         match.other_percentage,
-                         match.other_submission,
-                         match.other_uniid,
-                         match.code,
-                         match.commit_hash,
-                         match.gitlab_commit_at,
-                         match.percentage,
-                         match.submission,
-                         match.uniid,
-                     ]
+                        [
+                            match.other_code,
+                            match.other_commit_hash,
+                            match.other_gitlab_commit_at,
+                            match.other_percentage,
+                            match.other_submission,
+                            match.other_uniid,
+                            match.code,
+                            match.commit_hash,
+                            match.gitlab_commit_at,
+                            match.percentage,
+                            match.submission,
+                            match.uniid,
+                        ]
                 }
                 return match
             })
