@@ -338,8 +338,8 @@ class PlagiarismCommunicationService
     public function getStudentMatches(string $uniid)
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/studentMatches",
-            'get',
+            "api/charon/studentMatches/",
+            "get",
             ['uniid' => $uniid]
         );
 

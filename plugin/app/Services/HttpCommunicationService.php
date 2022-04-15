@@ -40,9 +40,9 @@ class HttpCommunicationService
      * @param GitCallbackService $gitCallbackService
      */
     public function __construct(
-        SettingsService $settingsService,
+        SettingsService          $settingsService,
         CourseSettingsRepository $courseSettingsRepository,
-        GitCallbackService $gitCallbackService)
+        GitCallbackService       $gitCallbackService)
     {
         $this->settingsService = $settingsService;
         $this->courseSettingsRepository = $courseSettingsRepository;
@@ -55,7 +55,7 @@ class HttpCommunicationService
      * @param array $data
      *
      */
-    public function  sendInfoToTester(array $data)
+    public function sendInfoToTester(array $data)
     {
         /**
          * @var String $testerUrl
@@ -108,8 +108,8 @@ class HttpCommunicationService
             $response = Http::withHeaders(['Authorization' => $testerToken])
                 ->timeout(10)
                 ->post($testerUrl, $data);
-            Log::info("Response" , ["status" => $response->status()
-            , "body" => $response->json()]);
+            Log::info("Response", ["status" => $response->status()
+                , "body" => $response->json()]);
         } catch (RequestException $exception) {
             $body = is_null($exception->getResponse()) ? '' : $exception->getResponse()->getBody();
             Log::error('Could not send info to tester to url ' . $testerUrl . ' with body:', [$body]);
@@ -124,7 +124,7 @@ class HttpCommunicationService
      * @return TesterCallbackRequest
      *
      */
-    public function sendInfoToTesterSync(array $data):TesterCallbackRequest
+    public function sendInfoToTesterSync(array $data): TesterCallbackRequest
     {
         /**
          * @var String $testerUrl
@@ -147,7 +147,7 @@ class HttpCommunicationService
         );
 
         $course = null;
-        if (isset($data['returnExtra']['course'])){
+        if (isset($data['returnExtra']['course'])) {
             $course = $data['returnExtra']['course'];
         }
 
@@ -172,7 +172,7 @@ class HttpCommunicationService
 
         try {
             $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
-            Log::info("Synchronous response" , ["status" => $response->status()
+            Log::info("Synchronous response", ["status" => $response->status()
                 , "body" => $response->json()]);
             if ($response->successful()) {
                 if (!empty($response->body())) {
@@ -209,7 +209,7 @@ class HttpCommunicationService
      * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
      *
      */
-    public function postToTesterSync(array $data):TesterCallbackRequest
+    public function postToTesterSync(array $data): TesterCallbackRequest
     {
         return $this->sendInfoToTesterSync($data);
     }
@@ -259,7 +259,7 @@ class HttpCommunicationService
                 . $plagiarismUrl . '/' . $uri . '".',
                 ['error' => $e]
             );
-            
+
             return null;
         }
     }
