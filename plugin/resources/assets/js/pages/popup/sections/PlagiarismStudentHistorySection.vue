@@ -105,6 +105,7 @@ export default {
         headers() {
             return [
                 {text: 'Created at', align: 'start', value: 'created_timestamp'},
+                {text: 'Charon', value: 'assignment_name'},
                 {text: 'Lines matched', value: 'lines_matched'},
                 {text: 'Uni-ID', value: 'uniid'},
                 {text: 'Percentage', value: 'percentage'},
@@ -132,7 +133,7 @@ export default {
 
     methods: {
         updateStatus(match, newStatus) {
-            Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, response => {
+            Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, response => {
                 match.status = response.status;
             })
         },
