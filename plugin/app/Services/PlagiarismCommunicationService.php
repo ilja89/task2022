@@ -93,26 +93,39 @@ class PlagiarismCommunicationService
      * Send a request to the plagiarism service to run check for the given charon.
      *
      * @param int $assignmentId
-     * @param String $returnUrl
-     * @return string
+     * @param array $data
+     * @return string|null
      *
      * @throws GuzzleException
      */
-    public function runCheck(int $assignmentId, string $returnUrl): string
+    public function runCheck(int $assignmentId, array $data): ?string
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/assignment/{$assignmentId}/run-checksuite/",
             'POST',
-            ["return_url" => $returnUrl]
+            $data
         );
-        if ($response instanceof GuzzleException) {
-            if (strval($response->getCode())[0] === "4") {
-                return "Could not connect to Plagiarism application";
-            } else {
-                return "Unexpected error";
-            }
+        if ($response && $response->getBody()) {
+            return $response->getBody()->getContents();
         }
-        return $response->getBody()->getContents();
+        return null;
+    }
+
+    /**
+     * Send a request to the plagiarism service to save a new defense commit.
+     *
+     * @param array $data
+     * @return void
+     *
+     * @throws GuzzleException
+     */
+    public function saveDefenseCommit(array $data)
+    {
+        $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/courses/commits/",
+            'POST',
+            $data
+        );
     }
 
     /**
