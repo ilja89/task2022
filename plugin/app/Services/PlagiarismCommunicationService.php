@@ -106,7 +106,7 @@ class PlagiarismCommunicationService
             $data
         );
         if ($response && $response->getBody()) {
-            return json_decode($response->getBody());
+            return $response->getBody()->getContents();
         }
         return null;
     }
