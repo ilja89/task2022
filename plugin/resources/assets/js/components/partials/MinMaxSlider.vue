@@ -238,6 +238,7 @@ template {
 }
 
 .track-btn{
+    border-radius: 50%;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
