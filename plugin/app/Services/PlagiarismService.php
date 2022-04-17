@@ -212,20 +212,22 @@ class PlagiarismService
     }
 
     /**
-    * Get the matches for the given Charon from the plagiarism service.
-    * Also returns times of plagiarism runs.
-    *
-    * @param Charon $charon
-    *
-    * @return array
-    * @throws GuzzleException
-    */
-    public function getMatches(Charon $charon): array
+     * Get the matches for the given Charon from the plagiarism service.
+     * Also returns times of plagiarism runs.
+     *
+     * @param Charon $charon
+     * @param $minPercentage
+     * @param $maxPercentage
+     * @param $percentageButton
+     * @return array
+     * @throws GuzzleException
+     */
+    public function getMatches(Charon $charon, $minPercentage, $maxPercentage, $percentageButton): array
     {
         $times = $this->plagiarismCommunicationService->getMatchesHistoryTimes($charon->plagiarism_assignment_id);
         $matches = [];
         if (sizeof($times) > 0){
-            $matches = $this->plagiarismCommunicationService->getMatches($times[0]['id']);
+            $matches = $this->plagiarismCommunicationService->getMatches($times[0]['id'], $minPercentage, $maxPercentage, $percentageButton);
         }
         return ["matches" => $this->getMatchesWithSubmissions($matches), "times" => $times];
     }
@@ -234,12 +236,15 @@ class PlagiarismService
      * Get the matches for the given Charon from the plagiarism service by plagiarism run.
      *
      * @param int $run_id
+     * @param $minPercentage
+     * @param $maxPercentage
+     * @param $percentageButton
      * @return array
      * @throws GuzzleException
      */
-    public function getMatchesByRun(int $run_id): array
+    public function getMatchesByRun(int $run_id, $minPercentage, $maxPercentage, $percentageButton): array
     {
-        $matches = $this->plagiarismCommunicationService->getMatches($run_id);
+        $matches = $this->plagiarismCommunicationService->getMatches($run_id, $minPercentage, $maxPercentage, $percentageButton);
         return $this->getMatchesWithSubmissions($matches);
     }
 

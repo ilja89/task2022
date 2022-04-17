@@ -4,9 +4,15 @@
         <page-title title="Plagiarism">
         </page-title>
 
-        <plagiarism-matches-section @matchesFetched="passMatchesToOverview"></plagiarism-matches-section>
+        <plagiarism-matches-section
+            @matchesFetched="passMatchesToOverview"
+            @filtrationOn="warnAboutFiltration"
+        ></plagiarism-matches-section>
 
-        <plagiarism-overview-section :matches="matches"></plagiarism-overview-section>
+        <plagiarism-overview-section
+            :filtrationOn="filtrationOn"
+            :matches="matches"
+        ></plagiarism-overview-section>
 
         <plagiarism-check-history-section></plagiarism-check-history-section>
 
@@ -32,13 +38,18 @@ export default {
 
     data() {
         return {
-            matches: null
+            matches: null,
+            filtrationOn: false,
         }
     },
 
     methods: {
         passMatchesToOverview(matchesFromMoss) {
             this.matches = matchesFromMoss
+        },
+
+        warnAboutFiltration(bool) {
+            this.filtrationOn = bool
         },
     }
 }

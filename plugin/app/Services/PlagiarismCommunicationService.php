@@ -135,18 +135,26 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Get matches by plagiarism run.
+     * Get matches by plagiarism run. Also send to request filtration parameters.
      *
      * @param String $run_id
+     * @param $minPercentage
+     * @param $maxPercentage
+     * @param $percentageButton
      * @return array
      *
      * @throws GuzzleException
      */
-    public function getMatches(String $run_id): array
+    public function getMatches(String $run_id, $minPercentage, $maxPercentage, $percentageButton): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/run/{$run_id}/fetch-matches/",
-            'GET'
+            'GET',
+            [
+                'min_percent' => $minPercentage,
+                'max_percent' => $maxPercentage,
+                'percentage_button' => $percentageButton
+            ]
         );
 
         if ($response instanceof GuzzleException) {

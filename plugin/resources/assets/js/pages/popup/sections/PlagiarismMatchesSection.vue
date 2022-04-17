@@ -13,7 +13,7 @@
                     v-model="search"
                     append-icon="mdi-magnify"
                     label="Search"
-                    style="width:60%;float: left;padding-right: 10px"
+                    style="width:50%;float: left;padding-right: 10px"
                 ></v-text-field>
                 <v-select
                     @change="getMatchesByPlagiarismRun($event)"
@@ -23,17 +23,28 @@
                     item-text="created_timestamp"
                     item-value="id"
                     return-object
-                    style="width:30%;padding-left: 10px"
-                >
-                </v-select>
+                    style="width:35%;padding-left: 10px"
+                ></v-select>
                 <v-select
                     v-model="status"
                     :items="selectItems"
                     item-text="status"
                     item-value="abbr"
                     label="Status"
-                    style="width:10%;padding-left: 10px"
+                    style="width:15%;padding-left: 10px"
                 ></v-select>
+            </v-card-title>
+            <v-card-title>
+                Filter both percentage fields:
+                <toggle-button
+                    :buttonDefault="percentageButtonClicked"
+                    @buttonClicked="clickPercentageButton($event)"
+                ></toggle-button>
+                <min-max-slider
+                    @minMaxChanged="passMinMaxValues"
+                    :text="'Percentage'"
+                    style="width:40%;padding-left: 30px"
+                ></min-max-slider>
             </v-card-title>
         </div>
 
@@ -79,11 +90,14 @@ import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import MinMaxSlider from "../../../components/partials/MinMaxSlider";
+import ToggleButton from "../../../components/partials/ToggleButton";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs,
+      MinMaxSlider, ToggleButton},
 
     data() {
         return {
@@ -100,6 +114,9 @@ export default {
             timeId: '',
             selectedHistory: '',
             historyTimes: [],
+            min_percentage: 0,
+            max_percentage: 100,
+            percentageButtonClicked: true,
         }
     },
 
@@ -136,15 +153,23 @@ export default {
         fetchMatches() {
             if (!this.charon) return;
 
-            Plagiarism.fetchMatches(this.charon.id, response => {
-                this.matches = response['matches'];
-                let times = response['times'];
-                times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
-                this.historyTimes = times;
-                this.selectedHistory = null;
+            this.checkFiltration()
 
-                this.$emit('matchesFetched', response['matches'])
-            })
+            Plagiarism.fetchMatches(
+                this.charon.id,
+                this.min_percentage,
+                this.max_percentage,
+                this.percentageButtonClicked,
+                response => {
+                    this.matches = response['matches'];
+                    let times = response['times'];
+                    times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
+                    this.historyTimes = times;
+                    this.selectedHistory = null;
+
+                    this.$emit('matchesFetched', response['matches'])
+                }
+            )
         },
 
         arrayRemove(arr, value) {
@@ -156,10 +181,45 @@ export default {
         getMatchesByPlagiarismRun(run) {
             this.selectedHistory = run
 
-            Plagiarism.fetchMatchesByRun(run.id, this.charon.id, response => {
-                this.matches = response;
-                this.$emit('matchesFetched', response)
-            })
+            this.checkFiltration()
+
+            Plagiarism.fetchMatchesByRun(
+                run.id, this.charon.id,
+                this.min_percentage,
+                this.max_percentage,
+                this.percentageButtonClicked,
+                response => {
+                    this.matches = response;
+                    this.$emit('matchesFetched', response)
+                }
+            )
+        },
+
+        passMinMaxValues(minValue, maxValue) {
+            this.min_percentage = minValue
+            this.max_percentage = maxValue
+            this.fetchMatchesAll()
+        },
+
+        clickPercentageButton(event) {
+            this.percentageButtonClicked = event
+            this.fetchMatchesAll()
+        },
+
+        fetchMatchesAll() {
+            if (this.selectedHistory) {
+                this.getMatchesByPlagiarismRun(this.selectedHistory)
+            } else {
+                this.fetchMatches()
+            }
+        },
+
+        checkFiltration() {
+            if (this.min_percentage !== 0 || this.max_percentage !== 100) {
+                this.$emit('filtrationOn', true)
+            } else {
+                this.$emit('filtrationOn', false)
+            }
         }
     },
 }
