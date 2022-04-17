@@ -39,6 +39,9 @@ class PlagiarismService
     /** @var SubmissionService */
     private $submissionService;
 
+    /** @var TemplateService */
+    private $templateService;
+
     /**
      * PlagiarismService constructor.
      *
@@ -51,11 +54,12 @@ class PlagiarismService
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository               $charonRepository,
-        UserService                    $userService,
-        SubmissionService              $submissionService,
-        PlagiarismRepository           $plagiarismRepository,
-        CourseRepository               $courseRepository
+        CharonRepository $charonRepository,
+        UserService $userService,
+        SubmissionService $submissionService,
+        PlagiarismRepository $plagiarismRepository,
+        CourseRepository $courseRepository,
+        TemplateService $templateService
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -64,6 +68,7 @@ class PlagiarismService
         $this->userService = $userService;
         $this->submissionService = $submissionService;
         $this->courseRepository = $courseRepository;
+        $this->templateService = $templateService;
     }
 
     /**
@@ -121,7 +126,63 @@ class PlagiarismService
     public function runCheck(Charon $charon, Request $request): array
     {
         $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
-        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $request->getUriForPath("/api/plagiarism_callback/" . $check->id));
+
+        $data = [
+            'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
+        ];
+
+        if ($charon->allow_submission) {
+            $submissions = $this->submissionService->getSubmissionForEachStudent($charon->id);
+
+            $submissionsToSend = [];
+
+            foreach ($submissions as $submission) {
+                if (sizeof($submission->files) != 0) {
+                    $uniid = strtok($submission->user->username, "@");
+                    $filesDto = [];
+                    foreach($submission->files as $file) {
+                        $fileDto = [
+                            'file_name' => $file->path,
+                            'file_content' => $file->contents
+                        ];
+                        $filesDto[] = $fileDto;
+                    }
+                    $dto = [
+                        'username' => $uniid,
+                        'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
+                        'files' => $filesDto,
+                        'external_id' => $submission->id
+                    ];
+
+                    if ($submission->submission_type_code != 2) {
+                        $dto['commit_hash'] = $submission->git_hash;
+                    } else {
+                        $dto['commit_hash'] = '';
+                    }
+                    $submissionsToSend[] = $dto;
+                }
+            }
+
+            $data['given_files'] = $submissionsToSend;
+        }
+
+        $templates = $this->templateService->getTemplates($charon->id);
+
+        if ($templates) {
+            $templatesToSend = [];
+
+            foreach($templates as $template) {
+                $templateDto = [
+                    'file_name' => $template->path,
+                    'file_content' => $template->contents
+                ];
+                $templatesToSend[] = $templateDto;
+            }
+
+            $data['base_files'] = $templatesToSend;
+        }
+
+        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
 
         $check->updated_at = Carbon::now();
         $check->status = $response;
@@ -375,8 +436,22 @@ class PlagiarismService
     {
         $matchesWithSubmissions = [];
         foreach ($matches as $match) {
-            $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
-            $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            if (
+                array_key_exists('external_id', $match)
+                and array_key_exists('other_external_id', $match)
+            ) {
+                $submission = $this->submissionService->getSubmissionById($match['external_id']);
+                $otherSubmission = $this->submissionService->getSubmissionById($match['other_external_id']);
+            } else if (
+                array_key_exists('commit_hash', $match)
+                and array_key_exists('other_commit_hash', $match)
+            ) {
+                $submission = $this->submissionService->findSubmissionByHash($match['commit_hash']);
+                $otherSubmission = $this->submissionService->findSubmissionByHash($match['other_commit_hash']);
+            } else {
+                $submission = null;
+                $otherSubmission = null;
+            }
             if ($submission and $otherSubmission) {
                 $match['user_id'] = $submission->user_id;
                 $match['other_user_id'] = $otherSubmission->user_id;
@@ -398,5 +473,17 @@ class PlagiarismService
             $matchesWithSubmissions[] = $match;
         }
         return $matchesWithSubmissions;
+    }
+
+    /**
+     * Returns matches for the given user
+     * @param string $uniid
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentMatches(string $username)
+    {
+        $uniid = explode('@', $username)[0];
+        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
     }
 }

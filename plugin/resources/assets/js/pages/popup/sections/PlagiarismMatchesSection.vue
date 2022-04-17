@@ -121,7 +121,7 @@ export default {
     },
 
     computed: {
-        headers () {
+        headers() {
             return [
                 {text: 'Lines matched', align: 'start', value: 'lines_matched'},
                 {text: 'Uni-ID', value: 'uniid'},

@@ -25,6 +25,7 @@ use Zeizig\Moodle\Models\User;
  * @property int git_callback_id
  * @property int original_submission_id
  * @property int grader_id
+ * @property int submission_type_code
  * @property Charon charon
  * @property User user
  * @property User[]|Collection users
@@ -42,7 +43,7 @@ class Submission extends Model
 
     protected $fillable = [
         'charon_id', 'user_id', 'git_hash', 'git_timestamp', 'mail', 'stdout', 'stderr', 'git_commit_message',
-        'created_at', 'updated_at', 'original_submission_id',
+        'created_at', 'updated_at', 'original_submission_id', 'submission_type_code',
     ];
 
     protected $dates = [

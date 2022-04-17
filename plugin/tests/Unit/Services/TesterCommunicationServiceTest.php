@@ -55,7 +55,7 @@ class TesterCommunicationServiceTest extends TestCase
     {
         $this->communicator->shouldReceive('postToTester')->with([
             'returnUrl' => 'tester callback url',
-            'returnExtra' => ['token' => 'Very secret token'],
+            'returnExtra' => ['token' => 'Very secret token', 'submission_type_code' => 1],
             'regular' => 'param'
         ]);
 
@@ -66,7 +66,7 @@ class TesterCommunicationServiceTest extends TestCase
     {
         $this->communicator->shouldReceive('postToTester')->with([
             'returnUrl' => 'tester callback url',
-            'returnExtra' => ['extra' => 'param', 'token' => 'Very secret token'],
+            'returnExtra' => ['extra' => 'param', 'token' => 'Very secret token', 'submission_type_code' => 1],
             'regular' => 'param'
         ]);
 
@@ -105,7 +105,7 @@ class TesterCommunicationServiceTest extends TestCase
             ->setTestingPlatform('python')
             ->setSlugs(['/path'])
             ->setSource([['path' => '/path/path', 'contents' => 'test']])
-            ->setReturnExtra(["course" => 2, "usernames" => []])
+            ->setReturnExtra(["course" => 2, "usernames" => [], 'submission_type_code' => 2])
             ->setUniid('user');
 
         $user = new User();
@@ -150,7 +150,7 @@ class TesterCommunicationServiceTest extends TestCase
             ->setTestingPlatform('python')
             ->setSlugs(['/path'])
             ->setSource([['path' => '/path/path', 'contents' => 'test']])
-            ->setReturnExtra(["course" => 2, "usernames" => [1 => 'teineuser@ttu.ee']])
+            ->setReturnExtra(["course" => 2, "usernames" => [1 => 'teineuser@ttu.ee'], 'submission_type_code' => 2])
             ->setUniid('user');
 
         $user = new User();

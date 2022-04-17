@@ -195,4 +195,16 @@ class PlagiarismController extends Controller
     {
         return $this->plagiarismService->updateMatchStatus($request->input('matchId'), $request->input('newStatus'));
     }
+
+    /**
+     * Returns matches for the given user
+     * @param Course $course
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function fetchStudentMatches(Course $course, string $username)
+    {
+        return $this->plagiarismService->getStudentMatches($username);
+    }
 }

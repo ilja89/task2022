@@ -2,8 +2,8 @@
 
 namespace TTU\Charon\Services;
 
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Exceptions\TemplatePathException;
+use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\TemplatesRepository;
 
 /**
@@ -26,6 +26,17 @@ class TemplateService
     )
     {
         $this->templatesRepository = $templatesRepository;
+    }
+
+    /**
+     * Return templates for charon id.
+     * @param int $charonId
+     *
+     * @return iterable|Template[]
+     */
+    public function getTemplates(int $charonId)
+    {
+        return $this->templatesRepository->getTemplates($charonId);
     }
 
     /**

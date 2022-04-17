@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ClassificationsSeeder::class,
             PlagiarismServicesSeeder::class,
             PresetsSeeder::class,
+            SubmissionTypeSeeder::class,
         ]);
     }
 }

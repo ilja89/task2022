@@ -76,6 +76,7 @@ class AreteResponseParser
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'original_submission_id' => $originalId,
+            'submission_type_code' => $request->input('returnExtra.submission_type_code')
         ]);
     }
 

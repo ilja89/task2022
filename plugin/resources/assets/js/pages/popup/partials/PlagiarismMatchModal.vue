@@ -25,7 +25,7 @@
                 <div style="height: 25%;">
                     <div class="info-field headline" style="text-align: center;height: 100%; overflow-y: scroll;">
                         {{ match.uniid }} - {{ match.percentage }}%<br>
-                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.commit_hash.slice(0, 8)}}</span><br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.commit_hash ? match.commit_hash.slice(0, 8) : 'No commit' }}</span><br>
                         <v-btn :href="'#/grading/' + match.user_id" target="_blank">
                             Student overview
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
@@ -34,7 +34,7 @@
                             Submission
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
-                        <v-btn :href="match.gitlab_commit_at" target="_blank">
+                        <v-btn v-if="match.gitlab_commit_at" :href="match.gitlab_commit_at" target="_blank">
                             GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="info-field headline" style="text-align: center;height: 100%; overflow-y: scroll;">
                         {{ match.other_uniid }} - {{ match.other_percentage }}%<br>
-                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.other_commit_hash.slice(0, 8)}}</span><br>
+                        <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.other_commit_hash ? match.other_commit_hash.slice(0, 8) : 'No commit' }}</span><br>
                         <v-btn :href="'#/grading/' + match.other_user_id" target="_blank">
                             Student overview
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
@@ -103,7 +103,7 @@
                             Submission
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
-                        <v-btn :href="match.other_gitlab_commit_at" target="_blank">
+                        <v-btn v-if="match.other_gitlab_commit_at" :href="match.other_gitlab_commit_at" target="_blank">
                             GitLab
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>

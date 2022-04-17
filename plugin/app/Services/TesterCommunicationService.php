@@ -66,9 +66,9 @@ class TesterCommunicationService
 
         $params['returnUrl'] = $testerCallbackUrl;
         if (isset($params['returnExtra'])) {
-            $params['returnExtra'] = array_merge($params['returnExtra'], ['token' => $secret_token]);
+            $params['returnExtra'] = array_merge($params['returnExtra'], ['token' => $secret_token, 'submission_type_code' => 1]);
         } else {
-            $params['returnExtra'] = ['token' => $secret_token];
+            $params['returnExtra'] = ['token' => $secret_token, 'submission_type_code' => 1];
         }
 
         $this->httpCommunicationService->postToTester($params);
@@ -133,7 +133,7 @@ class TesterCommunicationService
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)
             ->setSource($finalListofSource)
-            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers])
+            ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers, "submission_type_code" => 2])
             ->setUniid($username);
     }
 }
