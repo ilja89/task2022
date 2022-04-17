@@ -341,4 +341,25 @@ class PlagiarismCommunicationService
 
         return $response ? json_decode($response->getBody(), true) : null;
     }
+
+    /**
+     * Returns matches for the given user, if unable to respond returns empty object
+     * @param string $uniid
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentMatches(string $uniid)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/studentMatches/",
+            "get",
+            ['uniid' => $uniid]
+        );
+
+        if ($response) {
+            return json_decode((string)$response->getBody());
+        }
+
+        return new \stdClass();
+    }
 }

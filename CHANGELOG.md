@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- #806 Added tables and graph for student plagiarism history under Student Overview
 - #818 Integrated history changes from plagiarism
 - #811 Added form elements for plagiarism automated course and charon creation
 - #790 Added graphs for plagiarism matches visual representation

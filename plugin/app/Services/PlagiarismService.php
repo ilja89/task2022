@@ -469,4 +469,16 @@ class PlagiarismService
         }
         return $matchesWithSubmissions;
     }
+
+    /**
+     * Returns matches for the given user
+     * @param string $uniid
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentMatches(string $username)
+    {
+        $uniid = explode('@', $username)[0];
+        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
+    }
 }
