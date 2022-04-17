@@ -115,21 +115,17 @@ class PlagiarismCommunicationService
      * Send a request to the plagiarism service to save a new defense commit.
      *
      * @param array $data
-     * @return string|null
+     * @return void
      *
      * @throws GuzzleException
      */
-    public function saveDefenseCommit(array $data): ?string
+    public function saveDefenseCommit(array $data)
     {
-        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+        $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/courses/commits/",
             'POST',
             $data
         );
-        if ($response && $response->getBody()) {
-            return json_decode($response->getBody());
-        }
-        return null;
     }
 
     /**
