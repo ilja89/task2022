@@ -277,6 +277,7 @@ class PlagiarismService
      * Also returns times of plagiarism runs.
      *
      * @param Charon $charon
+     *
      * @return array
      * @throws GuzzleException
      */

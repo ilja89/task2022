@@ -91,6 +91,7 @@ class PlagiarismController extends Controller
      * Also returns times of plagiarism runs.
      *
      * @param Charon $charon
+     *
      * @return array
      *
      * @throws GuzzleException
@@ -111,9 +112,7 @@ class PlagiarismController extends Controller
      */
     public function fetchMatchesByRun(Request $request): array
     {
-        return $this->plagiarismService->getMatchesByRun(
-            $request->input('run_id'),
-        );
+        return $this->plagiarismService->getMatchesByRun($request->input('run_id'));
     }
 
     /**
