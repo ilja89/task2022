@@ -35,7 +35,9 @@
                 ></v-select>
             </v-card-title>
             <v-card-title>
-                Filter both percentage fields:
+                Filter percentage fields
+                <span v-if="percentageButtonClicked">: both</span>
+                <span v-else>: one</span>
                 <toggle-button
                     :buttonDefault="percentageButtonClicked"
                     @buttonClicked="clickPercentageButton($event)"
@@ -111,11 +113,12 @@ export default {
                 { status: 'Plagiarism', abbr: 'plagiarism'},
             ],
             matches: [],
+            allMatches: [],
             timeId: '',
             selectedHistory: '',
             historyTimes: [],
-            min_percentage: 0,
-            max_percentage: 100,
+            minPercentage: 0,
+            maxPercentage: 100,
             percentageButtonClicked: true,
         }
     },
@@ -153,20 +156,16 @@ export default {
         fetchMatches() {
             if (!this.charon) return;
 
-            this.checkFiltration()
-
             Plagiarism.fetchMatches(
                 this.charon.id,
-                this.min_percentage,
-                this.max_percentage,
-                this.percentageButtonClicked,
                 response => {
+                    this.allMatches = response['matches'];
                     this.matches = response['matches'];
                     let times = response['times'];
                     times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
                     this.historyTimes = times;
                     this.selectedHistory = null;
-
+                    this.filterMatchesByPercentage()
                     this.$emit('matchesFetched', response['matches'])
                 }
             )
@@ -181,45 +180,39 @@ export default {
         getMatchesByPlagiarismRun(run) {
             this.selectedHistory = run
 
-            this.checkFiltration()
-
             Plagiarism.fetchMatchesByRun(
                 run.id, this.charon.id,
-                this.min_percentage,
-                this.max_percentage,
-                this.percentageButtonClicked,
                 response => {
+                    this.allMatches = response;
                     this.matches = response;
                     this.$emit('matchesFetched', response)
+                    this.filterMatchesByPercentage()
                 }
             )
         },
 
         passMinMaxValues(minValue, maxValue) {
-            this.min_percentage = minValue
-            this.max_percentage = maxValue
-            this.fetchMatchesAll()
+            this.minPercentage = minValue
+            this.maxPercentage = maxValue
+            this.filterMatchesByPercentage()
         },
 
         clickPercentageButton(event) {
             this.percentageButtonClicked = event
-            this.fetchMatchesAll()
+            this.filterMatchesByPercentage()
         },
 
-        fetchMatchesAll() {
-            if (this.selectedHistory) {
-                this.getMatchesByPlagiarismRun(this.selectedHistory)
-            } else {
-                this.fetchMatches()
-            }
-        },
-
-        checkFiltration() {
-            if (this.min_percentage !== 0 || this.max_percentage !== 100) {
-                this.$emit('filtrationOn', true)
-            } else {
-                this.$emit('filtrationOn', false)
-            }
+        filterMatchesByPercentage() {
+            this.matches = []
+            const minPercentage = this.minPercentage
+            const maxPercentage = this.maxPercentage
+            const button = this.percentageButtonClicked
+            this.allMatches.forEach(match => {
+                if ((button && match.percentage >= minPercentage && match.percentage <= maxPercentage && match.other_percentage >= minPercentage && match.other_percentage <= maxPercentage) ||
+                    !button && ((match.percentage >= minPercentage && match.percentage <= maxPercentage) || (match.other_percentage >= minPercentage && match.other_percentage <= maxPercentage))) {
+                    this.matches.push(match)
+                }
+            })
         }
     },
 }

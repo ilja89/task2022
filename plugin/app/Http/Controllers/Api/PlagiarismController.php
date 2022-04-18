@@ -87,23 +87,17 @@ class PlagiarismController extends Controller
     }
 
     /**
-     * Fetch the matches for the given Charon. Get filtration fields from request.
+     * Fetch the matches for the given Charon.
      * Also returns times of plagiarism runs.
      *
      * @param Charon $charon
-     * @param Request $request
      * @return array
      *
      * @throws GuzzleException
      */
-    public function fetchMatches(Charon $charon, Request $request): array
+    public function fetchMatches(Charon $charon): array
     {
-        return $this->plagiarismService->getMatches(
-            $charon,
-            $request->input('min_percentage'),
-            $request->input('max_percentage'),
-            $request->input('percentage_button')
-        );
+        return $this->plagiarismService->getMatches($charon);
     }
 
     /**
@@ -119,9 +113,6 @@ class PlagiarismController extends Controller
     {
         return $this->plagiarismService->getMatchesByRun(
             $request->input('run_id'),
-            $request->input('min_percentage'),
-            $request->input('max_percentage'),
-            $request->input('percentage_button')
         );
     }
 

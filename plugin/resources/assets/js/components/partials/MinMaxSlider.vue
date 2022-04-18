@@ -77,6 +77,7 @@ export default {
         },
 
         mouseup() {
+            this.$emit('minMaxChanged', this.minValue, this.maxValue)
             if(!this.isDragging) return;
             this.isDragging = false
         },
@@ -88,10 +89,6 @@ export default {
         mousemove(ev, track) {
             if(!this.isDragging) return;
             this.moveTrack(track, ev)
-        },
-
-        mouseMoveEnd() {
-            this.$emit('minMaxChanged', this.minValue, this.maxValue)
         },
 
         touchmove(ev, track) {

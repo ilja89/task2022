@@ -25,8 +25,8 @@ class Plagiarism {
             })
     }
 
-    static fetchMatches(charonId, minPercentage, maxPercentage, percentageButtonClicked, then) {
-        axios.get(`${this.getRoot()}/charons/${charonId}/matches?min_percentage=` + minPercentage + `&max_percentage=` + maxPercentage + `&percentage_button=` + percentageButtonClicked)
+    static fetchMatches(charonId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/matches`)
             .then(response => {
                 then(response.data)
             })
@@ -35,8 +35,8 @@ class Plagiarism {
             })
     }
 
-    static fetchMatchesByRun(runId, charonId, minPercentage, maxPercentage, percentageButtonClicked, then) {
-        axios.get(`${this.getRoot()}/charons/${charonId}/run-matches?run_id=` + runId + `&min_percentage=` +  minPercentage + `&max_percentage=` + maxPercentage + `&percentage_button=` + percentageButtonClicked)
+    static fetchMatchesByRun(runId, charonId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/run-matches?run_id=` + runId)
             .then(response => {
                 then(response.data)
             })

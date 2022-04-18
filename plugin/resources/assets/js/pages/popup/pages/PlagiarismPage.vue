@@ -6,11 +6,9 @@
 
         <plagiarism-matches-section
             @matchesFetched="passMatchesToOverview"
-            @filtrationOn="warnAboutFiltration"
         ></plagiarism-matches-section>
 
         <plagiarism-overview-section
-            :filtrationOn="filtrationOn"
             :matches="matches"
         ></plagiarism-overview-section>
 
@@ -38,18 +36,15 @@ export default {
 
     data() {
         return {
+            allMatches: [],
             matches: null,
-            filtrationOn: false,
         }
     },
 
     methods: {
         passMatchesToOverview(matchesFromMoss) {
             this.matches = matchesFromMoss
-        },
-
-        warnAboutFiltration(bool) {
-            this.filtrationOn = bool
+            this.allMatches = matchesFromMoss
         },
     }
 }
