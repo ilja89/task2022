@@ -9,6 +9,7 @@ $string['plugin_settings'] = 'Charoni seaded';
 $string['pluginadministration'] = 'Charoni administreerimine';
 $string['modulenameplural'] = 'Charonid';
 $string['capella:addinstance'] = 'Lisa uus charon';
+$string['gradenoun'] = 'Hinne';
 
 /*------------------------*\
    Course settings form

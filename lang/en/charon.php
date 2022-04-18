@@ -8,6 +8,7 @@ $string['plugin_settings'] = 'Charon settings';
 $string['pluginadministration'] = 'Charon administration';
 $string['modulenameplural'] = 'Charons';
 $string['capella:addinstance'] = 'Add a new Charon';
+$string['gradenoun'] = 'Grade';
 
 /*------------------------*\
    Course settings form

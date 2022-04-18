@@ -206,3 +206,42 @@ function update_charon_completion_state($submission, $userId) {
 
     return $submission;
 }
+
+/**
+ * Return a small object with summary information about what a
+ * user has done with a given particular instance of this module.
+ * Used for user activity reports.
+ * $return->time = the time they did it
+ * $return->info = a short text description
+ *
+ * @param object $course
+ * @param object $user
+ * @param object $mod
+ * @param object $charon
+ * @return object|null
+ */
+function charon_user_outline($course, $user, $mod, $charon)
+{
+    global $CFG;
+    require_once $CFG->dirroot . '/lib/gradelib.php';
+    $grades = grade_get_grades($course->id, 'mod', $mod->modname, $charon->id, $user->id);
+
+    if (empty($grades->items[1]->grades)) {
+        return null;
+    } else {
+        $grade = reset($grades->items[1]->grades);
+    }
+
+    $result = new stdClass();
+    // If the user can't see hidden grades, don't return that information.
+    $gitem = grade_item::fetch(array('id' => $grades->items[1]->id));
+    if (!$gitem->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
+        $result->info = get_string('gradenoun') . ': ' . $grade->str_long_grade;
+    } else {
+        $result->info = get_string('gradenoun') . ': ' . get_string('hidden', 'grades');
+    }
+
+    $result->time = grade_get_date_for_user_grade($grade, $user);
+
+    return $result;
+}
