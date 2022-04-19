@@ -26,7 +26,7 @@
                     <div class="info-field headline" style="text-align: center;height: 100%; overflow-y: scroll;">
                         {{ match.uniid }} - {{ match.percentage }}%<br>
                         <span style="font-size: 14px;color: #0a0a0a">Commit hash: {{match.commit_hash ? match.commit_hash.slice(0, 8) : 'No commit' }}</span><br>
-                        <v-btn :href="'#/grading/' + match.user_id" target="_blank">
+                        <v-btn :href="'#/student-overview/' + match.user_id" target="_blank">
                             Student overview
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
@@ -99,7 +99,7 @@
                             Student overview
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
-                        <v-btn :href="'#/submissions/' + match.other_submission_id" target="_blank">
+                        <v-btn :href="'#/student-overview/' + match.other_submission_id" target="_blank">
                             Submission
                             <v-icon aria-label="Match information" role="button" aria-hidden="false">mdi-open-in-new</v-icon>
                         </v-btn>
