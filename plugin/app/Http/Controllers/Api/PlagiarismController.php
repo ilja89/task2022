@@ -187,14 +187,14 @@ class PlagiarismController extends Controller
     }
 
     /**
-     * Returns matches for the given user
+     * Returns active (latest) matches of all assignments for the given user
      * @param Course $course
      * @param string $username
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function fetchStudentMatches(Course $course, string $username)
+    public function fetchStudentActiveMatches(Course $course, string $username)
     {
-        return $this->plagiarismService->getStudentMatches($username);
+        return $this->plagiarismService->getStudentActiveMatches($course->id, $username);
     }
 }

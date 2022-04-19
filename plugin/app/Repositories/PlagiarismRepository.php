@@ -50,4 +50,13 @@ class PlagiarismRepository
             ->get()
             ->toArray();
     }
+
+    public function getAllPlagiarismAssignmentIds(int $courseId): array
+    {
+        return DB::table('charon')
+            ->where('course', $courseId)
+            ->whereNotNull('plagiarism_assignment_id')
+            ->pluck('plagiarism_assignment_id')
+            ->toArray();
+    }
 }

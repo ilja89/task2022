@@ -197,7 +197,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/updateMatchStatus', 'PlagiarismController@updateMatchStatus');
 
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{uniid}/matches', 'PlagiarismController@fetchStudentMatches');
+        ->get('courses/{course}/users/{username}/activeMatches', 'PlagiarismController@fetchStudentActiveMatches');
 
     // DJANGO PLAGIARISM CALLBACK
     Route::post('plagiarism_callback/{plagiarismCheck}', 'PlagiarismCallbackController@index')

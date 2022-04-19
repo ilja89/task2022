@@ -5,16 +5,21 @@
     >
 
         <template slot="header-right">
-            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentMatches()">{{
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentActiveMatches()">{{
                     showStudentHistoryText
                 }}
             </v-btn>
         </template>
 
-        <v-card v-if="matchesFetched">
+        <v-card v-if="activeMatchesFetched">
+            <v-switch
+                class="pa-4"
+                v-model="showAllHistory"
+                :label="showAllHistoryLabel"
+            ></v-switch>
             <v-card-title>
                 <v-text-field
-                    v-model="searchAllMatches"
+                    v-model="searchMatches"
                     append-icon="mdi-magnify"
                     label="Search"
                     style="width:60%;float: left;padding-right: 10px"
@@ -31,15 +36,15 @@
             </v-card-title>
             <v-data-table
                 class="center-table"
-                :headers="headersAllMatches"
-                :items="matches"
-                :search="searchAllMatches"
+                :headers="headersMatches"
+                :items="activeMatches"
+                :search="searchMatches"
                 :footer-props="{
                     'items-per-page-options': [10, 25, 50, -1]
                 }"
                 :items-per-page="25"
-                :sort-by.sync="sortForAllMatches"
-                :sort-desc.sync="sortDescForAllMatches"
+                :sort-by.sync="sortMatches"
+                :sort-desc.sync="sortMatchesDesc"
             >
                 <template v-slot:item.status="{ item }">
                     <v-chip
@@ -68,7 +73,7 @@
             </v-data-table>
         </v-card>
 
-        <v-card v-if="matchesFetched" class="mt-16">
+        <v-card v-if="activeMatchesFetched" class="mt-16">
             <v-data-table
                 class="center-table"
                 :headers="headersStatistics"
@@ -84,7 +89,7 @@
 
         <v-card class="mt-16">
             <apexcharts type="bar" height="500" :options="chartOptions" :series="chartSeries"
-                        v-show="matchesFetched"></apexcharts>
+                        v-show="activeMatchesFetched"></apexcharts>
         </v-card>
 
     </popup-section>
@@ -103,7 +108,7 @@ export default {
 
     data() {
         return {
-            searchAllMatches: '',
+            searchMatches: '',
             status: '',
             select: {status: 'All', abbr: ''},
             selectItems: [
@@ -112,20 +117,23 @@ export default {
                 {status: 'Acceptable', abbr: 'acceptable'},
                 {status: 'Plagiarism', abbr: 'plagiarism'},
             ],
-            matches: [],
+            activeMatches: [],
             statistics: [],
-            sortForAllMatches: 'created_timestamp',
+            sortMatches: 'created_timestamp',
             sortForStatistics: 'max_lines_matched',
-            sortDescForAllMatches: false,
+            sortMatchesDesc: false,
             sortDescForStatistics: true,
-            matchesFetched: false
+            activeMatchesFetched: false,
+            showAllHistory: false,
+            showAllHistoryLabel: 'Show all history'
         }
     },
 
     computed: {
-        headersAllMatches() {
+        headersMatches() {
             return [
                 {text: 'Created at', align: 'start', value: 'created_timestamp'},
+                {text: '', align: 'center', value: 'active'},
                 {text: 'Charon', align: 'center', value: 'assignment_name'},
                 {text: 'Lines matched', align: 'center', value: 'lines_matched'},
                 {text: 'Uni-ID', align: 'center', value: 'uniid'},
@@ -232,13 +240,13 @@ export default {
             })
         },
 
-        fetchStudentMatches() {
-            Plagiarism.fetchStudentMatches(this.courseId, this.student.username, (response) => {
-                this.matches = response
+        fetchStudentActiveMatches() {
+            Plagiarism.fetchStudentActiveMatches(this.courseId, this.student.username, (response) => {
+                this.activeMatches = response
 
-                if (this.matches.length) {
+                if (this.activeMatches.length) {
                     this.prepareData(response)
-                    this.matchesFetched = true
+                    this.activeMatchesFetched = true
                 }
             })
         },

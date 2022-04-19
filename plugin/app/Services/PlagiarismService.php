@@ -472,13 +472,15 @@ class PlagiarismService
 
     /**
      * Returns matches for the given user
-     * @param string $uniid
+     * @param int $courseId
+     * @param string $username
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentMatches(string $username)
+    public function getStudentActiveMatches(int $courseId, string $username)
     {
         $uniid = explode('@', $username)[0];
-        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
+        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
+        return $this->plagiarismCommunicationService->getStudentActiveMatches($uniid, $plagiarismAssignmentIds);
     }
 }

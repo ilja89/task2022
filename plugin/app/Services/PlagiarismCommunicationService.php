@@ -4,6 +4,7 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
 
@@ -343,20 +344,21 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Returns matches for the given user, if unable to respond returns empty object
+     * Returns matches for the given uniid, if unable to respond returns empty object
      * @param string $uniid
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentMatches(string $uniid)
+    public function getStudentActiveMatches(string $uniid, $plagiarismAssignmentIds)
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/studentMatches/",
+            "api/charon/studentActiveMatches/",
             "get",
-            ['uniid' => $uniid]
+            ['uniid' => $uniid, 'assignment_ids' => $plagiarismAssignmentIds]
         );
 
         if ($response) {
+            Log::debug(print_r($response, true));
             return json_decode((string)$response->getBody());
         }
 
