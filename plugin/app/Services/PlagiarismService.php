@@ -138,7 +138,6 @@ class PlagiarismService
 
             foreach ($submissions as $submission) {
                 if (sizeof($submission->files) != 0) {
-                    $uniid = strtok($submission->user->username, "@");
                     $filesDto = [];
                     foreach($submission->files as $file) {
                         $fileDto = [
@@ -147,9 +146,10 @@ class PlagiarismService
                         ];
                         $filesDto[] = $fileDto;
                     }
+                    $user = $submission->user;
                     $dto = [
-                        'username' => $uniid,
-                        'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
+                        'username' => $this->userService->getUniidIfTaltechUsername($user->username),
+                        'name' => $user->firstname . ' ' . $user->lastname,
                         'files' => $filesDto,
                         'external_id' => $submission->id
                     ];
@@ -478,7 +478,7 @@ class PlagiarismService
      */
     public function getStudentMatches(string $username)
     {
-        $uniid = explode('@', $username)[0];
-        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
+        $username = $this->userService->getUniidIfTaltechUsername($username);
+        return $this->plagiarismCommunicationService->getStudentMatches($username);
     }
 }
