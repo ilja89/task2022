@@ -95,6 +95,16 @@ class Plagiarism {
                 VueEvent.$emit('show-notification', 'Error fetching user plagiarism active matches.\n' + error, 'danger')
             })
     }
+
+    static fetchStudentInactiveMatches(courseId, username, then) {
+        axios.get(`${this.getRoot()}/courses/${courseId}/users/${username}/inactiveMatches`)
+            .then(response => {
+                then(response.data)
+            })
+            .catch(error => {
+                VueEvent.$emit('show-notification', 'Error fetching user plagiarism inactive matches.\n' + error, 'danger')
+            })
+    }
 }
 
 export default Plagiarism

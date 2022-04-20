@@ -5,7 +5,7 @@
     >
 
         <template slot="header-right">
-            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentActiveMatches()">{{
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentMatchesClicked()">{{
                     showStudentHistoryText
                 }}
             </v-btn>
@@ -16,6 +16,7 @@
                 class="pa-4"
                 v-model="showAllHistory"
                 :label="showAllHistoryLabel"
+                @change="showAllHistoryToggled"
             ></v-switch>
             <v-card-title>
                 <v-text-field
@@ -37,12 +38,12 @@
             <v-data-table
                 class="center-table"
                 :headers="headersMatches"
-                :items="activeMatches"
+                :items="getMatches"
                 :search="searchMatches"
                 :footer-props="{
                     'items-per-page-options': [10, 25, 50, -1]
                 }"
-                :items-per-page="25"
+                :items-per-page="10"
                 :sort-by.sync="sortMatches"
                 :sort-desc.sync="sortMatchesDesc"
             >
@@ -117,19 +118,24 @@ export default {
                 {status: 'Acceptable', abbr: 'acceptable'},
                 {status: 'Plagiarism', abbr: 'plagiarism'},
             ],
+            allMatches: [],
             activeMatches: [],
-            statistics: [],
             sortMatches: 'created_timestamp',
             sortForStatistics: 'max_lines_matched',
             sortMatchesDesc: false,
             sortDescForStatistics: true,
             activeMatchesFetched: false,
+            inactiveMatchesFetched: false,
             showAllHistory: false,
             showAllHistoryLabel: 'Show all history'
         }
     },
 
     computed: {
+        ...mapGetters([
+            'courseId',
+        ]),
+
         headersMatches() {
             return [
                 {text: 'Created at', align: 'start', value: 'created_timestamp'},
@@ -192,8 +198,8 @@ export default {
                 },
                 xaxis: {
                     type: 'category',
-                    categories: this.statistics.map(charon_statistics => {
-                        return charon_statistics.assignment_name
+                    categories: this.statistics.map(obj => {
+                        return obj.assignment_name
                     }),
                 },
                 legend: {
@@ -228,9 +234,16 @@ export default {
             ]
         },
 
-        ...mapGetters([
-            'courseId',
-        ]),
+        getMatches() {
+            if (this.showAllHistory) {
+                return this.allMatches
+            }
+            return this.activeMatches
+        },
+
+        statistics() {
+            return this.calculateStatistics(this.getMatches)
+        },
     },
 
     methods: {
@@ -240,13 +253,31 @@ export default {
             })
         },
 
+        calculateStatistics(matches) {
+            let matchesStatistics = {}
+            matches.map(match => {
+                this.addToStatistics(matchesStatistics, match)
+            })
+            return Object.values(matchesStatistics)
+        },
+
         fetchStudentActiveMatches() {
             Plagiarism.fetchStudentActiveMatches(this.courseId, this.student.username, (response) => {
                 this.activeMatches = response
-
-                if (this.activeMatches.length) {
-                    this.prepareData(response)
+                if (response.length) {
+                    let preparedData = this.prepareData(response)
+                    this.allMatches.push(...preparedData)
                     this.activeMatchesFetched = true
+                }
+            })
+        },
+
+        fetchStudentInactiveMatches() {
+            Plagiarism.fetchStudentInactiveMatches(this.courseId, this.student.username, (response) => {
+                if (response.length) {
+                    this.allMatches.push(...response)
+                    this.prepareData(this.allMatches)
+                    this.inactiveMatchesFetched = true
                 }
             })
         },
@@ -282,7 +313,7 @@ export default {
                 ]
         },
 
-        updateStatistics(matchesStatistics, match) {
+        addToStatistics(matchesStatistics, match) {
             let charon_name = match.assignment_name
             if (charon_name in matchesStatistics) {
                 if (match.lines_matched > matchesStatistics[charon_name]["max_lines_matched"]) {
@@ -316,18 +347,16 @@ export default {
             }
         },
 
-        prepareData(matchesFromResponse) {
-            let matchesStatistics = {}
-            matchesFromResponse.map(match => {
+        prepareData(matches) {
+            matches.map(match => {
                 match.created_timestamp = match.created_timestamp.split('.')[0]
 
                 if (match.other_uniid === this.student.username.split('@')[0]) {
                     this.swapStudents(match)
                 }
-                this.updateStatistics(matchesStatistics, match)
                 return match
             })
-            this.statistics = Object.values(matchesStatistics)
+            return matches
         },
 
         getColor(status) {
@@ -335,6 +364,18 @@ export default {
             else if (status === 'acceptable') return '#56a576';
             else return '#8e8e8e';
         },
+
+        showAllHistoryToggled(historyToggled) {
+            if (historyToggled && !this.inactiveMatchesFetched) {
+                this.fetchStudentInactiveMatches()
+            }
+        },
+
+        fetchStudentMatchesClicked() {
+            if (!this.activeMatchesFetched) {
+                this.fetchStudentActiveMatches()
+            }
+        }
     }
 }
 </script>

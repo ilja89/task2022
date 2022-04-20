@@ -483,4 +483,18 @@ class PlagiarismService
         $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
         return $this->plagiarismCommunicationService->getStudentActiveMatches($uniid, $plagiarismAssignmentIds);
     }
+
+    /**
+     * Returns matches for the given user
+     * @param int $courseId
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentInactiveMatches(int $courseId, string $username)
+    {
+        $uniid = explode('@', $username)[0];
+        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
+        return $this->plagiarismCommunicationService->getStudentInactiveMatches($uniid, $plagiarismAssignmentIds);
+    }
 }

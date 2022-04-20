@@ -197,4 +197,16 @@ class PlagiarismController extends Controller
     {
         return $this->plagiarismService->getStudentActiveMatches($course->id, $username);
     }
+
+    /**
+     * Returns active (latest) matches of all assignments for the given user
+     * @param Course $course
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function fetchStudentInactiveMatches(Course $course, string $username)
+    {
+        return $this->plagiarismService->getStudentInactiveMatches($course->id, $username);
+    }
 }

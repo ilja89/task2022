@@ -344,8 +344,9 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Returns matches for the given uniid, if unable to respond returns empty object
+     * Returns active matches for the given uniid, if unable to respond returns empty object
      * @param string $uniid
+     * @param $plagiarismAssignmentIds
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
@@ -353,6 +354,29 @@ class PlagiarismCommunicationService
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
             "api/charon/studentActiveMatches/",
+            "get",
+            ['uniid' => $uniid, 'assignment_ids' => $plagiarismAssignmentIds]
+        );
+
+        if ($response) {
+            Log::debug(print_r($response, true));
+            return json_decode((string)$response->getBody());
+        }
+
+        return new \stdClass();
+    }
+
+    /**
+     * Returns inactive matches for the given uniid, if unable to respond returns empty object
+     * @param string $uniid
+     * @param $plagiarismAssignmentIds
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentInactiveMatches(string $uniid, $plagiarismAssignmentIds)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/studentInactiveMatches/",
             "get",
             ['uniid' => $uniid, 'assignment_ids' => $plagiarismAssignmentIds]
         );
