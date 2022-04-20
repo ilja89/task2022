@@ -422,6 +422,18 @@ class PlagiarismService
     }
 
     /**
+     * Returns matches for the given user
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentMatches(string $username)
+    {
+        $username = $this->userService->getUniidIfTaltechUsername($username);
+        return $this->plagiarismCommunicationService->getStudentMatches($username);
+    }
+
+    /**
      * Associate matches submissions and users.
      *
      * @param array $matches
@@ -468,17 +480,5 @@ class PlagiarismService
             $matchesWithSubmissions[] = $match;
         }
         return $matchesWithSubmissions;
-    }
-
-    /**
-     * Returns matches for the given user
-     * @param string $uniid
-     * @return mixed|\stdClass
-     * @throws GuzzleException
-     */
-    public function getStudentMatches(string $username)
-    {
-        $username = $this->userService->getUniidIfTaltechUsername($username);
-        return $this->plagiarismCommunicationService->getStudentMatches($username);
     }
 }
