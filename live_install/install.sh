@@ -3,9 +3,9 @@
 # Run this file in Moodle server as root 
 
 
-MOODLE=/srv/moodle/public_html
+MOODLE=/var/www/html
 CHARON=$MOODLE/mod/charon
-USER=moodle:http
+USER=www-data:www-data
 
 
 die () {
@@ -15,24 +15,9 @@ die () {
 
 
 if [ "$#" = 0 ]; then
-    printf "Arguments: [-u] <charon file> "
+    printf "Arguments: <charon file> "
     die
 fi
-
-
-UPDATE=0
-
-while getopts ":u" opt; do
-    case ${opt} in
-        u ) 
-            UPDATE=1
-            shift
-            ;;
-        \? ) echo "Unknown option"
-            die
-            ;;
-    esac
-done
 
 
 SOURCE=$1
@@ -60,16 +45,3 @@ cd $MOODLE
 
 echo "y" | php admin/cli/upgrade.php # answer "y" to prompt
 php admin/cli/purge_caches.php
-cd mod/charon
-
-
-if [ $UPDATE = 1 ]; then
-
-    php artisan optimize:clear
-
-else
-
-    php artisan key:generate --force
-    php artisan db:seed --force
-
-fi
