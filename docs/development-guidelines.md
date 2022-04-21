@@ -92,30 +92,32 @@ After this in the same configuration dialog as above, set:
 ## Tags and releases
 
 In order to create a release for live deployment
-- Look up what the next release number ought to be (see [CHANGELOG](/CHANGELOG.md))
-- Create a new branch from `develop` following the pattern `release/x.y.z`
+1) Look up what the next release number ought to be (see [CHANGELOG](/CHANGELOG.md))
+2) Create a new branch from `develop` following the pattern `release/x.y.z`
   - If all upcoming changes are not in `develop` already, then merge them into the release branch
 
-- Review the changes and try to identify anything which should be kept in mind during the deployment, things like
+3) Review the changes and try to identify anything which should be kept in mind during the deployment, things like
   - are there non-trivial database structure changes or data modification migration which may prompt a need for a backup before deploying?
   - does the new version require any manual modifications to the live environment? (e.g. env variable, filesystem, PHP extension changes)
   - talk to the project manager if such things are found
 
-- Update [version](/version.php)
+4) Update [version](/version.php)
   - Use the date the release is being created
   - Make sure latest additions to `upgrade.php` also check the same version
 
-- Update [CHANGELOG](/CHANGELOG.md)
+5) Update [CHANGELOG](/CHANGELOG.md)
   - Below the `[Unreleased]` section add the version number and date
   - (temporarily skipped) Add a link to the version diff to previous version at the bottom of the file following previous examples
   - Add any missing descriptions of things _added/changed/fixed_ in the version currently being released
 
-- Create a new tag and release using the [Tags](https://gitlab.cs.ttu.ee/ained/charon/-/tags) view
+Note: If the release branch is updated with any commit and a tag for it was already created, then delete the created tag (its release is automatically deleted with it) and start over from here.
+
+6) Create a new tag and release using the [Tags](https://gitlab.cs.ttu.ee/ained/charon/-/tags) view
   - Pick your release branch for the _Create from_ field
   - Use your release number as the _Tag name_
   - Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
 
-- Go and edit the automatically created release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
+7) Go and edit the automatically created release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
   - Add current date to the end of _Release title_. The release title should end up like this: `x.y.z (YYYY-MM-DD)`
   - Add a link to the release for downloading its artifacts
     - Go to the [Branches](https://gitlab.cs.ttu.ee/ained/charon/-/branches) view and locate your release branch
@@ -123,7 +125,6 @@ In order to create a release for live deployment
     - Paste the link to the _URL_ field in release editing view
     - Also add _Link title_: `Release x.y.z artifacts`
 
-- Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description
-- Ask project manager to deploy the release branch to pre-live environment for testing
-  - If any issues are found: fix them and repeat this step
-- Merge your release branch to master (and master also back to develop to get any changes there too)
+8) Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description if it is not created already
+9) Ask project manager to deploy the release branch to pre-live environment for testing
+10) Merge your release branch to master (and master also back to develop to get any changes there too)
