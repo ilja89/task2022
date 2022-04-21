@@ -236,9 +236,9 @@ function charon_user_outline($course, $user, $mod, $charon)
     // If the user can't see hidden grades, don't return that information.
     $gitem = grade_item::fetch(array('id' => $grades->items[1]->id));
     if (!$gitem->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
-        $result->info = get_string('gradenoun') . ': ' . $grade->str_long_grade;
+        $result->info = get_string('gradenoun', 'charon') . ': ' . $grade->str_long_grade;
     } else {
-        $result->info = get_string('gradenoun') . ': ' . get_string('hidden', 'grades');
+        $result->info = get_string('gradenoun', 'charon') . ': ' . get_string('hidden', 'charon');
     }
 
     $result->time = grade_get_date_for_user_grade($grade, $user);
