@@ -6,17 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
+- as long as grades' individual percentage stays the same or improves
+
+### Fixed
+- #702 Fix grading type saving in charon settings
+
 ## [1.6.2] - 2022-04-14
 
 ### Added
 - #709 Added direct links to submissions, they can be opened from notifications and submissions modal
 - #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and all of charons' review comments are ordered by submission creation date time (descending)
 - #734 Students distribution data query in popup now on demand, using button
-- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
-- as long as grades' individual percentage stays the same or improves
-
-### Fixed
-- #702 Fix grading type saving in charon settings
 
 ## [1.6.1] - 2022-03-11
 
