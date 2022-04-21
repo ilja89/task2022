@@ -57,17 +57,19 @@
                     <v-row>
                         <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
                         <div>
-                            <v-btn class="accepted-button" v-if="item.status !== 'acceptable'"
-                                   @click="updateStatus(item, 'acceptable')" icon>
-                                <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline
-                                </v-icon>
-                            </v-btn>
-                            <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'"
-                                   @click="updateStatus(item, 'plagiarism')" icon>
-                                <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">
-                                    mdi-thumb-down-outline
-                                </v-icon>
-                            </v-btn>
+                            <plagiarism-update-status-modal
+                                v-if="item.status !== 'acceptable'"
+                                :match="item"
+                                new-status="acceptable"
+                                @updateStatus="updateStatus"
+                            ></plagiarism-update-status-modal>
+
+                            <plagiarism-update-status-modal
+                                v-if="item.status !== 'plagiarism'"
+                                :match="item"
+                                new-status="plagiarism"
+                                @updateStatus="updateStatus"
+                            ></plagiarism-update-status-modal>
                         </div>
                     </v-row>
                 </template>
@@ -98,13 +100,14 @@
 
 <script>
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
 import {PopupSection} from '../layouts';
 import {Plagiarism} from "../../../api";
 import {mapGetters} from "vuex";
 import VueApexCharts from 'vue-apexcharts';
 
 export default {
-    components: {PopupSection, PlagiarismMatchModal, 'apexcharts': VueApexCharts},
+    components: {PopupSection, PlagiarismMatchModal, PlagiarismUpdateStatusModal, 'apexcharts': VueApexCharts},
     props: ['student'],
 
     data() {
@@ -127,7 +130,7 @@ export default {
             activeMatchesFetched: false,
             inactiveMatchesFetched: false,
             showAllHistory: false,
-            showAllHistoryLabel: 'Show all history'
+            showAllHistoryLabel: 'Show all history',
         }
     },
 
@@ -247,7 +250,8 @@ export default {
     },
 
     methods: {
-        updateStatus(match, newStatus) {
+        updateStatus(match, newStatus, comment) {
+            this.isUpdateStatusModalVisible = false
             Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, response => {
                 match.status = response.status;
             })
@@ -375,20 +379,12 @@ export default {
             if (!this.activeMatchesFetched) {
                 this.fetchStudentActiveMatches()
             }
-        }
+        },
     }
 }
 </script>
 
 <style>
-.plagiarism-button {
-    background-color: #f44336 !important;
-}
-
-.accepted-button {
-    background-color: #56a576 !important;
-}
-
 .center-table table td {
     vertical-align: middle;
 }
