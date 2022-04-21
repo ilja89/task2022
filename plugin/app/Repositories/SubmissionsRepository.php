@@ -212,7 +212,7 @@ class SubmissionsRepository
                 $query->where('id', '=', $userId);
             })
             ->orderByDesc('confirmed')
-            ->latest()
+            ->orderByDesc('charon_submission.id')
             ->simplePaginate(config('app.page_size'));
 
         $submissions->appends(['user_id' => $userId])->links();
@@ -478,7 +478,7 @@ class SubmissionsRepository
                     $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
-            ->latest()
+            ->orderByDesc('charon_submission.id')
             ->simplePaginate(10);
     }
 
