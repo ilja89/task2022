@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- #721 Allow recalculation of Charon grades without any change in tests' max points or deadlines
+
 ## [1.6.2] - 2022-04-14
 
 ### Added
@@ -33,7 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #723 Update dependencies so security check does not fail & Laravel
 - #694 charon tests url
-- #721 Allow recalculation of Charon grades without any change in tests' max points or deadlines
 
 ### Fixed
 - #696 Modify the general notifications service
