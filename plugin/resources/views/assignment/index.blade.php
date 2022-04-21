@@ -119,7 +119,8 @@
         noFeedbackInfo: "{{ translate('no-feedback-info') }}",
         feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
         showingTable: "{{ translate('showing-table') }}",
-        showingMail: "{{ translate('showing-mail') }}",
+        showingEmail: "{{ translate('showing-email') }}",
+        labelNameNewReviewComment: "{{ translate('label_name_new_review_comment') }}",
     };
 </script>
 

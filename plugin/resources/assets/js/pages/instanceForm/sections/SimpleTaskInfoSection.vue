@@ -26,12 +26,18 @@
         </p>
 
         <p>
+          {{ translate('unittests_git_charon_label') }}:
+          {{ (form.fields.unittests_git_charon && (form.fields.unittests_git_charon.length > 0)) ? form.fields.unittests_git_charon : '(No unittests git url specified)' }}
+        </p>
+
+        <p>
             {{ translate('system_extra_label') }}:
             {{ (form.fields.system_extra && (form.fields.system_extra.length > 0)) ? form.fields.system_extra : '(No system extra specified)' }}
         </p>
 
         <input type="hidden" name="tester_extra" :value="form.fields.tester_extra">
         <input type="hidden" name="system_extra" :value="form.fields.system_extra">
+        <input type="hidden" name="unittests_git" :value="form.fields.unittests_git_charon">
         <input type="hidden" name="tester_type_code" :value="form.fields.tester_type_code">
 
     </div>

@@ -6,15 +6,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.2] - 2022-04-09
+
+### Added
+- #709 Added direct links to submissions, they can be opened from notifications and submissions modal
+- #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and all of charons' review comments are ordered by submission creation date time (descending)
+- #734 Students distribution data query in popup now on demand, using button
+- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
+- as long as grades' individual percentage stays the same or improves
+
+### Fixed
+- #702 Fix grading type saving in charon settings
+
+## [1.6.1] - 2022-03-11
+
+### Added
+- #732 Group submissions in popup will have common line height also in case of a wrap.
+- #751 Add an option to access query logs and turn on query logging for specific users
+
+### Fixed
+- #781 Remove code span padding-left from assignment.css
+- #795 Restored Mobile-ID component
+- #745 Rounded student's percentage in Charon assignment grademap table up to 2 decimal points
+
+## [1.6.0] - 2022-02-10
+
 ### Added
 - #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
-- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher.
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher
 - #706 Adjust fetching of the submission file in student view
 - #677 Submission feedback is now available in table view when clicking toggle, like from student view
 - #723 Update dependencies so security check does not fail & Laravel
 - #694 charon tests url
-- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
-- as long as grades' individual percentage stays the same or improves
 
 ### Fixed
 - #696 Modify the general notifications service
@@ -23,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #708 Pointless scrollingbar for code blocks in assignment view
 - #735 Sorting in report does not work
 - #741 Confirmed submissions are not displayed if they do not exist in currently loaded submissions
-- #702 Fix grading type saving in charon settings
+- #754 ReviewComment does not show correct creator name
 
 ## [1.5.8] - 2021-12-14
 
