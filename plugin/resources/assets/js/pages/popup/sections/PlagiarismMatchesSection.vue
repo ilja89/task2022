@@ -178,12 +178,6 @@ export default {
 </script>
 
 <style>
-.plagiarism-button {
-    background-color: #f44336 !important;
-}
-.accepted-button {
-    background-color: #56a576 !important;
-}
 .center-table table td{
     vertical-align: middle;
 }
