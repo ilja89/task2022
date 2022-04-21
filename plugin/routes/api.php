@@ -23,16 +23,28 @@ Route::group(['namespace' => 'Api'], function () {
         ->name('git_callback_post');
 
     Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/allEnrolled', 'StudentsController@findAllEnrolled');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/users/search', 'StudentsController@searchUsers');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/queryLogs', 'CharonsController@getLatestQueryLogs');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
         ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharonAndUser');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/enableLogging', 'LoggingController@enableLoggingForUser');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/disableLogging', 'LoggingController@disableLoggingForUser');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/findUsersWithLoggingEnabled', 'LoggingController@findUsersWithLoggingEnabled');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}/files', 'FilesController@index');
     Route::middleware('auth.charon.managing.require')

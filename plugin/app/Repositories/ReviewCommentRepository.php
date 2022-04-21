@@ -5,7 +5,6 @@ namespace TTU\Charon\Repositories;
 use Carbon\Carbon;
 use TTU\Charon\Dto\FileReviewCommentsDTO;
 use TTU\Charon\Dto\ReviewCommentDTO;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use TTU\Charon\Models\ReviewComment;
 
@@ -86,12 +85,12 @@ class ReviewCommentRepository
     {
         $rawResults = DB::table('charon_submission')
             ->where('charon_submission.charon_id', $charonId)
-//            ->where('charon_submission.user_id', '=', $studentId)
             ->join('charon_submission_file','charon_submission.id', '=', 'charon_submission_file.submission_id' )
             ->join('charon_review_comment', 'charon_submission_file.id', '=', 'charon_review_comment.submission_file_id')
             ->join('charon_submission_user', 'charon_submission_user.submission_id', '=', 'charon_submission.id')
-            ->join('user', 'charon_submission_user.user_id', '=', 'user.id')
-            ->where('user.id', '=', $studentId)
+            ->join('user as student', 'charon_submission_user.user_id', '=', 'student.id')
+            ->where('student.id', '=', $studentId)
+            ->join('user', 'charon_review_comment.user_id', '=', 'user.id')
             ->select(
                 'charon_submission.user_id as student_id',
                 'charon_submission.charon_id as charon_id',
@@ -108,8 +107,8 @@ class ReviewCommentRepository
                 'charon_review_comment.user_id as commented_by_id',
                 'user.firstname as commented_by_firstname',
                 'user.lastname as commented_by_lastname')
-        ->get()
-        ->all();
+            ->get()
+            ->all();
         return $this->convertToDTOs($rawResults);
     }
 
@@ -133,8 +132,10 @@ class ReviewCommentRepository
                     $rawResult->student_id,
                     $rawResult->path
                 );
+
                 $fileReviewCommentsDTOs[$rawResult->file_id] = $fileReviewCommentsDTO;
             }
+
             $reviewCommentDTO = new ReviewCommentDTO(
                 $rawResult->review_comment_id,
                 $rawResult->commented_by_id,

@@ -218,7 +218,6 @@ return [
         'Password'     => Illuminate\Support\Facades\Password::class,
         'Queue'        => Illuminate\Support\Facades\Queue::class,
         'Redirect'     => Illuminate\Support\Facades\Redirect::class,
-        'Redis'        => Illuminate\Support\Facades\Redis::class,
         'Request'      => Illuminate\Support\Facades\Request::class,
         'Response'     => Illuminate\Support\Facades\Response::class,
         'Route'        => Illuminate\Support\Facades\Route::class,
@@ -230,5 +229,16 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
 
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Length of the list of Submissions for charon
+    |--------------------------------------------------------------------------
+    |
+    | Will determine how many submissions will be shown on one page
+    |
+    */
+
+    'page_size' => 10,
 
 ];

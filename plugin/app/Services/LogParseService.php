@@ -21,9 +21,13 @@ class LogParseService
      *
      * @return String as json encoded array
      */
-    public function readLogs()
+    public function readLogs($queryLogs = false)
     {
-        $files = $this->getFiles();
+        if ($queryLogs) {
+            $files = $this->getQueryLogFiles();
+        } else {
+            $files = $this->getFiles();
+        }
         $limit = Config::get('app.log_display_lines');
         $allLogs = [];
 
@@ -61,7 +65,6 @@ class LogParseService
 
             $allLogs = array_merge($allLogs, $currentFileLogs);
         }
-
         return json_encode($allLogs);
     }
 
@@ -83,6 +86,20 @@ class LogParseService
         });
 
         return $logFiles;
+    }
+
+    /**
+     * Fetch laravel query log files sorted by the most recent first.
+     *
+     * @return array of log files
+     */
+    private function getQueryLogFiles()
+    {
+        $files = Storage::disk('logs')->listContents('./');
+
+        return array_filter($files, function($file) {
+           return $file['extension'] === 'log' && $file['filename'] === 'dbQueries-' . date("Y-m-d");
+        });
     }
 
     /**
