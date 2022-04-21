@@ -57,12 +57,19 @@
                     <v-row>
                         <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
                         <div v-if="!selectedHistory">
-                            <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
-                                <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
-                            </v-btn>
-                            <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'" @click="updateStatus(item, 'plagiarism')" icon>
-                                <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">mdi-thumb-down-outline</v-icon>
-                            </v-btn>
+                            <plagiarism-update-status-modal
+                                v-if="item.status !== 'acceptable'"
+                                :match="item"
+                                new-status="acceptable"
+                                @updateStatus="updateStatus"
+                            ></plagiarism-update-status-modal>
+
+                            <plagiarism-update-status-modal
+                                v-if="item.status !== 'plagiarism'"
+                                :match="item"
+                                new-status="plagiarism"
+                                @updateStatus="updateStatus"
+                            ></plagiarism-update-status-modal>
                         </div>
                     </v-row>
                 </template>
@@ -74,16 +81,16 @@
 
 <script>
 import {mapState} from 'vuex'
-
 import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs},
+    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs, PlagiarismUpdateStatusModal},
 
     data() {
         return {
@@ -126,7 +133,7 @@ export default {
     },
 
     methods: {
-        updateStatus(match, newStatus) {
+        updateStatus(match, newStatus, comment) {
             Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, response => {
                 match.status = response.status;
             })

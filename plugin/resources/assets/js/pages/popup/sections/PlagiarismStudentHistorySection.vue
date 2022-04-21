@@ -251,7 +251,6 @@ export default {
 
     methods: {
         updateStatus(match, newStatus, comment) {
-            this.isUpdateStatusModalVisible = false
             Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, response => {
                 match.status = response.status;
             })
