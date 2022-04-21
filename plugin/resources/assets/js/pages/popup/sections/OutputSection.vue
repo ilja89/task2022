@@ -47,6 +47,7 @@
 
                     <files-with-review-comments v-if="hasReviewComments"
                                                 :filesWithReviewComments="this.getFilesWithReviewComments()"
+                                                :openSubmissionId="submission.id"
                                                 view="teacher"/>
                     <v-card v-else class="no-submission-message">
                         When a teacher adds feedback for the submission, it will be visible here.

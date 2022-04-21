@@ -64,5 +64,10 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+        'db' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/dbQueries.log'),
+            'level' => 'debug'
+        ],
     ],
 ];

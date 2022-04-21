@@ -140,9 +140,9 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return mixed
+     * @return array
      */
-    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
+    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId): array
     {
         $submissionFields = [
             'charon_submission.id',
@@ -204,12 +204,12 @@ class SubmissionsRepository
                 $query->where('id', '=', $userId);
             })
             ->orderByDesc('confirmed')
-            ->latest()
-            ->simplePaginate(10);
+            ->orderByDesc('charon_submission.id')
+            ->simplePaginate(config('app.page_size'));
 
         $submissions->appends(['user_id' => $userId])->links();
 
-        return $this->assignUnitTestsToTestSuites($submissions);
+        return [$this->assignUnitTestsToTestSuites($submissions), config('app.page_size')];
     }
 
     /**
@@ -456,13 +456,14 @@ class SubmissionsRepository
      */
     public function findLatestSubmissions(int $courseId)
     {
-        /** @var Collection|Charon[] $charons */
-        $charons = Charon::where('course', $courseId)->get();
-
-        $charonIds = $charons->pluck('id');
-
-        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
-            ->whereIn('charon_id', $charonIds)
+        return Submission::join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->where('charon.course', $courseId)
+            ->select(
+                'charon_submission.id',
+                'charon_submission.charon_id',
+                'charon_submission.user_id',
+                'charon_submission.created_at'
+            )
             ->with([
                 'users' => function ($query) {
                     $query->select(['id', 'firstname', 'lastname']);
@@ -484,7 +485,7 @@ class SubmissionsRepository
                     $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
-            ->latest()
+            ->orderByDesc('charon_submission.id')
             ->simplePaginate(10);
     }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1cdb84511d7440aa0bee18c02b8f898",
+    "content-hash": "6fa70a2f106e328c8030b61bccbd7fd1",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1745,16 +1745,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c94a94f120803a18554c1805ef2e539f8285f9a2",
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2",
                 "shasum": ""
             },
             "require": {
@@ -1778,7 +1778,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -1840,7 +1840,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.2.1"
             },
             "funding": [
                 {
@@ -1856,7 +1856,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T17:43:30+00:00"
+            "time": "2022-03-20T21:55:58+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -3989,6 +3989,46 @@
                 "source": "https://github.com/Seldaek/phar-utils/tree/1.2.0"
             },
             "time": "2021-12-10T11:20:11+00:00"
+        },
+        {
+            "name": "sk-id-solutions/mobile-id-php-client",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SK-EID/mid-rest-php-client.git",
+                "reference": "a3255e82229478df7ec5f837624586d6f5d1eea1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SK-EID/mid-rest-php-client/zipball/a3255e82229478df7ec5f837624586d6f5d1eea1",
+                "reference": "a3255e82229478df7ec5f837624586d6f5d1eea1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sk\\Mid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Mobile-ID Relying Party PHP Api v5 client",
+            "support": {
+                "issues": "https://github.com/SK-EID/mid-rest-php-client/issues",
+                "source": "https://github.com/SK-EID/mid-rest-php-client/tree/v1.0"
+            },
+            "time": "2019-03-25T13:04:36+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

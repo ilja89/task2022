@@ -53,7 +53,7 @@
 
 			<template v-slot:item.actions="{ item }">
 				<v-row>
-					<submission-modal :submission="item" :color="getColor(item)"/>
+					<submission-modal :submission="item" :color="getColor(item)" :is-link="false"/>
 					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
 						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
 					</v-btn>
@@ -128,7 +128,9 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
-            this.$store.state.submissions.pop();
+			if (this.submissions.length > this.$submissionListLength - 1) {
+				this.$store.state.submissions.pop();
+			}
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
@@ -251,6 +253,12 @@ export default {
 	},
 }
 </script>
+
+<style>
+.latest {
+	background-color: #E8F3FA;
+}
+</style>
 
 <style scoped>
 
