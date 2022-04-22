@@ -24,7 +24,6 @@
 <script>
 import {Network} from "vis-network/peer/";
 import {DataSet} from "vis-data/peer/";
-import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER} from '../../../helpers/PlagiarismColors';
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
 import PopupSelect from "../partials/PopupSelect";
 
@@ -110,43 +109,6 @@ export default {
                 },
                 physics: {
                     stabilization: false,
-                },
-                groups: {
-                    [NEUTRAL]: {
-                        color: {
-                            border: '#3E7DE2',
-                            background: '#9FC2F7',
-                            highlight: {background: '#8AC3FF', border: '#3E7DE2'},
-                        },
-                    },
-                    [INTERESTING]: {
-                        color: {
-                            border: '#302CAB',
-                            background: '#6B72F4',
-                            highlight: {background: '#6970F4', border: '#302CAB'},
-                        },
-                    },
-                    [SUSPICIOUS]: {
-                        color: {
-                            border: '#F3A83B',
-                            background: '#F8F652',
-                            highlight: {background: '#DAD84C', border: '#F3A83B'},
-                        },
-                    },
-                    [WARNING]: {
-                        color: {
-                            border: '#BA812C',
-                            background: '#F4AB3E',
-                            highlight: {background: '#FAAE41', border: '#BA812C'},
-                        },
-                    },
-                    [DANGER]: {
-                        color: {
-                            border: '#E43428',
-                            background: '#EC8584',
-                            highlight: {background: '#F54137', border: '#E43428'},
-                        },
-                    },
                 },
             },
             matchModal: false,

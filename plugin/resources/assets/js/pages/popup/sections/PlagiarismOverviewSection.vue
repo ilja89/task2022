@@ -69,7 +69,6 @@
 import PopupSection from "../layouts/PopupSection";
 import VueApexCharts from "vue-apexcharts";
 import VisNetwork from "./VisNetwork";
-import {NEUTRAL, INTERESTING, SUSPICIOUS, WARNING, DANGER, valueToGroup} from '../../../helpers/PlagiarismColors';
 import ToggleButton from "../../../components/partials/ToggleButton";
 
 export default {
@@ -221,10 +220,10 @@ export default {
 
         parseNetworkChart(newMatches) {
             const nodes = []
-            const groups = {[NEUTRAL]: 0, [INTERESTING]: 0, [SUSPICIOUS]: 0, [WARNING]: 0, [DANGER]: 0}
             let edges = []
 
             const nodesById = {}
+            const userOccurrency = {}
 
             for (let i = 0; i < newMatches.length; i++) {
                 const match = newMatches[i]
@@ -234,6 +233,16 @@ export default {
                     (status === 'plagiarism' && this.showPlagiarismNodes)) {
                     const one = match.uniid
                     const other = match.other_uniid
+                    if (one in userOccurrency) {
+                        userOccurrency[one] += 1
+                    } else {
+                        userOccurrency[one] = 1
+                    }
+                    if (other in userOccurrency) {
+                      userOccurrency[other] += 1
+                    } else {
+                      userOccurrency[other] = 1
+                    }
 
                     const colorValue = Math.max(match.percentage, match.other_percentage)
                     nodesById[one] = {id: one, colorValue}
@@ -242,17 +251,11 @@ export default {
             }
 
             Object.values(nodesById).forEach((node) => {
-                const group = valueToGroup(node.colorValue)
-                if (group in groups) {
-                    groups[group] += 1
-                } else {
-                    groups[group] = 1
-                }
                 nodes.push({
                     id: node.id,
                     label: node.id,
                     shape: 'dot',
-                    group,
+                    color: this.nodeColorByConnectionNr(userOccurrency[node.id]),
                 })
             })
 
@@ -262,6 +265,7 @@ export default {
                 to: match.other_uniid,
                 label: `${Math.max(match.percentage, match.other_percentage)}`,
                 width: this.edgeWidth(match.percentage),
+                color: this.edgeColorByStatus(match.status)
             }))
 
 
@@ -289,12 +293,26 @@ export default {
         },
 
         edgeWidth(percentage) {
-            if (percentage > 80) return 5
-            else if (percentage > 60) return 4
-            else if (percentage > 40) return 3
-            else if (percentage > 20) return 2
-            else if (percentage > 10) return 1.5
+            if (percentage > 80) return 6
+            else if (percentage > 60) return 5
+            else if (percentage > 40) return 4
+            else if (percentage > 20) return 3
+            else if (percentage > 10) return 2
             else return 1
+        },
+
+        edgeColorByStatus(status) {
+            if (status === 'plagiarism') return '#d50000'
+            else if (status === 'acceptable') return '#0f7c00'
+            else return '#848484'
+        },
+
+        nodeColorByConnectionNr(nr) {
+          if (nr > 7) return '#750000'
+          else if (nr > 5) return '#da5e10'
+          else if (nr > 4) return '#eaa258'
+          else if (nr > 2) return '#a1dc0a'
+          else return '#3b8a02'
         }
     }
 }

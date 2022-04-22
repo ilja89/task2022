@@ -24,7 +24,7 @@
         methods:{
             clicked() {
                 this.buttonClick = !this.buttonClick;
-              this.$emit('buttonClicked', this.buttonClick );
+                this.$emit('buttonClicked', this.buttonClick );
             }
         }
     }

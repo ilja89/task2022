@@ -35,17 +35,21 @@
                 ></v-select>
             </v-card-title>
             <v-card-title>
-                Filter percentage fields
-                <span v-if="percentageButtonClicked">: both</span>
-                <span v-else>: one</span>
-                <toggle-button
-                    :buttonDefault="percentageButtonClicked"
-                    @buttonClicked="clickPercentageButton($event)"
-                ></toggle-button>
+                <div style="width:10%">
+                    <toggle-button
+                        :buttonDefault="percentageButtonClicked"
+                        @buttonClicked="clickPercentageButton($event)"
+                    ></toggle-button>
+                </div>
+                <div style="width:50%">
+                    Filter percentage for:
+                    <span v-if="percentageButtonClicked">both</span>
+                    <span v-else>at least one</span>
+                </div>
                 <min-max-slider
                     @minMaxChanged="passMinMaxValues"
                     :text="'Percentage'"
-                    style="width:40%;padding-left: 30px"
+                    style="width:40%"
                 ></min-max-slider>
             </v-card-title>
         </div>
