@@ -138,7 +138,6 @@ class PlagiarismService
 
             foreach ($submissions as $submission) {
                 if (sizeof($submission->files) != 0) {
-                    $uniid = strtok($submission->user->username, "@");
                     $filesDto = [];
                     foreach($submission->files as $file) {
                         $fileDto = [
@@ -147,9 +146,10 @@ class PlagiarismService
                         ];
                         $filesDto[] = $fileDto;
                     }
+                    $user = $submission->user;
                     $dto = [
-                        'username' => $uniid,
-                        'name' => $submission->user->firstname . ' ' . $submission->user->lastname,
+                        'username' => $this->userService->getUniidIfTaltechUsername($user->username),
+                        'name' => $user->firstname . ' ' . $user->lastname,
                         'files' => $filesDto,
                         'external_id' => $submission->id
                     ];
@@ -472,29 +472,13 @@ class PlagiarismService
 
     /**
      * Returns matches for the given user
-     * @param int $courseId
-     * @param string $username
+     * @param string $uniid
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentActiveMatches(int $courseId, string $username)
+    public function getStudentMatches(string $username)
     {
-        $uniid = explode('@', $username)[0];
-        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
-        return $this->plagiarismCommunicationService->getStudentActiveMatches($uniid, $plagiarismAssignmentIds);
-    }
-
-    /**
-     * Returns matches for the given user
-     * @param int $courseId
-     * @param string $username
-     * @return mixed|\stdClass
-     * @throws GuzzleException
-     */
-    public function getStudentInactiveMatches(int $courseId, string $username)
-    {
-        $uniid = explode('@', $username)[0];
-        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
-        return $this->plagiarismCommunicationService->getStudentInactiveMatches($uniid, $plagiarismAssignmentIds);
+        $uniid = $this->userService->getUniidIfTaltechUsername($username);
+        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
     }
 }

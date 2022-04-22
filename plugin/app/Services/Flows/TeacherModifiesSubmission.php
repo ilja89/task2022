@@ -10,6 +10,7 @@ use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\CharonGradingService;
 use TTU\Charon\Services\PlagiarismCommunicationService;
 use Zeizig\Moodle\Globals\User;
+use Zeizig\Moodle\Services\UserService;
 
 class TeacherModifiesSubmission
 {
@@ -25,6 +26,9 @@ class TeacherModifiesSubmission
     /** @var PlagiarismCommunicationService */
     private $plagiarismCommunicationService;
 
+    /** @var UserService */
+    private $userService;
+
     /**
      * @param CharonGradingService $charonGradingService
      * @param SubmissionsRepository $submissionsRepository
@@ -35,12 +39,14 @@ class TeacherModifiesSubmission
         CharonGradingService $charonGradingService,
         SubmissionsRepository $submissionsRepository,
         User $user,
-        PlagiarismCommunicationService $plagiarismCommunicationService
+        PlagiarismCommunicationService $plagiarismCommunicationService,
+        UserService $userService
     ) {
         $this->charonGradingService = $charonGradingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->user = $user;
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
+        $this->userService = $userService;
     }
 
     /**
@@ -92,7 +98,7 @@ class TeacherModifiesSubmission
                 }
             }
             $dataToPlagiarism = [
-                'student_uniid' => strtok($submission->user->username, "@"),
+                'student_uniid' => $this->userService->getUniidIfTaltechUsername($submission->user->username),
                 'course_identifier' => $charon->course,
                 'assignment_identifier' => $charon->id,
                 'commit_sha' => $submission->git_hash,
