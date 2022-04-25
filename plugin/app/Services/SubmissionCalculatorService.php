@@ -7,7 +7,6 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
-use TTU\Charon\Repositories\ResultRepository;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -21,19 +20,21 @@ class SubmissionCalculatorService
     /** @var GradebookService */
     protected $gradebookService;
 
-    /** @var ResultRepository */
-    protected $resultRepository;
+    /** @var GrademapService */
+    protected $grademapService;
 
     /**
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
-     * @param ResultRepository $resultRepository
+     * @param GrademapService $grademapService
      */
-    public function __construct(GradebookService $gradebookService, ResultRepository $resultRepository)
-    {
+    public function __construct(
+        GradebookService $gradebookService,
+        GrademapService $grademapService
+    ) {
         $this->gradebookService = $gradebookService;
-        $this->resultRepository = $resultRepository;
+        $this->grademapService = $grademapService;
     }
 
     /**
@@ -128,39 +129,23 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Check if the current submission is better than the last active one.
+     * Check if the current submission is better than the active one.
      *
      * @param Submission $submission
      * @param int $studentId
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast(Submission $submission, int $studentId): bool
+    public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
-        $submissionSum = 0;
-        $activeSubmissionSum = 0;
-        $results = $submission->results()->where('user_id', $studentId)->get();
+        $thisResult   = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
+        $activeResult = $this->calculateActiveSubmissionTotalGrade($submission->charon, $studentId, true);
 
-        foreach ($results as $result) {
-            $grademap = $result->getGrademap();
-            if ($grademap === null) {
-                continue;
-            }
-
-            $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
-
-            if ($gradeGrade !== null) {
-                $activeSubmissionSum += $gradeGrade->finalgrade;
-            }
-
-            $submissionSum += $result->calculated_result;
-        }
-
-        return $submissionSum >= $activeSubmissionSum;
+        return $thisResult > $activeResult;
     }
 
     /**
-     * Get the currently active grades for the given charon and user.
+     * Get the currently active grade for the given charon and user.
      *
      * @param Charon $charon
      * @param int $userId
@@ -172,5 +157,97 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
+    }
+
+    /**
+     * Calculates the total grade for all Submission students
+     *
+     * @param Submission $submission
+     *
+     * @return array
+     */
+    public function calculateSubmissionTotalGrades(Submission $submission): array
+    {
+        $grades = [];
+
+        foreach ($submission->users as $user) {
+            $grades[$user->id] = $this->calculateSubmissionTotalGrade($submission, $user->id);
+        }
+
+        return $grades;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param Submission $submission
+     * @param int $user_id
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     *
+     * @return float
+     */
+    public function calculateSubmissionTotalGrade(
+        Submission $submission,
+        int $user_id,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): float {
+
+        $calculation = $submission->charon->category->getGradeItem()->calculation;
+        $results = $submission->results;
+
+        if ($calculation == null) {
+            $sum = 0;
+            foreach ($results as $result) {
+                if ($result->user_id == $user_id) {
+                    $sum += $result->calculated_result;
+                }
+            }
+
+            return round($sum, 3);
+        }
+
+        $params = $this->grademapService->findFormulaParams(
+            $calculation,
+            $results,
+            $user_id,
+            $ignoreCustom,
+            $ignoreStyle
+        );
+
+        return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
+    }
+
+    /**
+     * Calculate total grade for given charon and user with grades got from gradebook.
+     *
+     * It is available to ignore custom/style grades in order to get potential total grade.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     * @return float
+     */
+    private function calculateActiveSubmissionTotalGrade(
+        Charon $charon,
+        int $userId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): float {
+        $calculationFormula = $charon->category->getGradeItem()->calculation;
+        $total = $this->gradebookService->calculateResultWithFormulaParams(
+            $calculationFormula,
+            $this->grademapService->findFormulaParamsFromGradebook(
+                $calculationFormula,
+                [],
+                $userId,
+                $ignoreCustom,
+                $ignoreStyle
+            )
+        );
+
+        return round($total, 3);
     }
 }

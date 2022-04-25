@@ -166,7 +166,7 @@ class CharonGradingServiceTest extends TestCase
             ->once()
             ->andReturn(false);
 
-        $this->calculatorService->shouldNotReceive('submissionIsBetterThanLast');
+        $this->calculatorService->shouldNotReceive('submissionIsBetterThanActive');
 
         $actual = $this->service->gradesShouldBeUpdated($submission, 3);
 
@@ -194,7 +194,7 @@ class CharonGradingServiceTest extends TestCase
             ->andReturn(true);
 
         $this->calculatorService
-            ->shouldReceive('submissionIsBetterThanLast')
+            ->shouldReceive('submissionIsBetterThanActive')
             ->with($submission, 3)
             ->andReturn(true);
 
@@ -224,7 +224,7 @@ class CharonGradingServiceTest extends TestCase
             ->andReturn(true);
 
         $this->calculatorService
-            ->shouldReceive('submissionIsBetterThanLast')
+            ->shouldReceive('submissionIsBetterThanActive')
             ->with($submission, 3)
             ->andReturn(false);
 
