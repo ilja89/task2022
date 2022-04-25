@@ -8,7 +8,7 @@
             <v-btn class="ma-2" tile outlined color="primary" @click="toggle()">{{ buttonText }}</v-btn>
         </template>
 
-        <apexcharts height="750" :options="options" :series="series" v-show="isOpen"></apexcharts>
+        <apexcharts height="750" :options="options" :series="series" v-show="isOpen" ref="chart"></apexcharts>
 
     </popup-section>
 </template>
@@ -32,6 +32,10 @@
                 courseMaximumGrades: [],
                 finalGrades: [],
             };
+        },
+
+        activated() {
+            this.$refs.chart.resetSeries()
         },
 
         computed: {
