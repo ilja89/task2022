@@ -129,6 +129,7 @@ class PlagiarismService
 
         $data = [
             'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
+            'uniid' => $this->userService->getUniidIfTaltechUsername(app(User::class)->currentUserId())
         ];
 
         if ($charon->allow_submission) {
