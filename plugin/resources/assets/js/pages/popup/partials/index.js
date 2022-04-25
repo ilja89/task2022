@@ -10,10 +10,12 @@ import Submission from './Submission'
 import PopupSelect from './PopupSelect'
 import TeacherSection from '../sections/TeacherSection'
 import PlagiarismUpdateStatusModal from "./PlagiarismUpdateStatusModal";
+import PlagiarismMatchCommentsModal from "./PlagiarismMatchCommentsModal";
 
 export {
     CharonSelect, ExtraOptions, Loader, OutputComponent, SubmissionsList,
-    SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect, TeacherSection, PlagiarismUpdateStatusModal
+    SubmissionInfoBit, SubmissionInfo, PageTitle, Submission, PopupSelect, TeacherSection, PlagiarismUpdateStatusModal,
+    PlagiarismMatchCommentsModal
 }
 
 export {default as PlagiarismSimilaritiesTabs} from './PlagiarismSimilaritiesTabs'

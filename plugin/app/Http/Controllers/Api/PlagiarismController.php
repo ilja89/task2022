@@ -9,6 +9,7 @@ use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Services\PlagiarismService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -183,7 +184,12 @@ class PlagiarismController extends Controller
      */
     public function updateMatchStatus(Request $request): array
     {
-        return $this->plagiarismService->updateMatchStatus($request->input('matchId'), $request->input('newStatus'));
+        return $this->plagiarismService->updateMatchStatus(
+            $request->input('matchId'),
+            $request->input('newStatus'),
+            $request->input('comment'),
+            app(User::class)->currentUserId()
+        );
     }
 
     /**

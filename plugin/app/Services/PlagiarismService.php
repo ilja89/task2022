@@ -54,12 +54,12 @@ class PlagiarismService
      */
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
-        CharonRepository $charonRepository,
-        UserService $userService,
-        SubmissionService $submissionService,
-        PlagiarismRepository $plagiarismRepository,
-        CourseRepository $courseRepository,
-        TemplateService $templateService
+        CharonRepository               $charonRepository,
+        UserService                    $userService,
+        SubmissionService              $submissionService,
+        PlagiarismRepository           $plagiarismRepository,
+        CourseRepository               $courseRepository,
+        TemplateService                $templateService
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
@@ -139,7 +139,7 @@ class PlagiarismService
             foreach ($submissions as $submission) {
                 if (sizeof($submission->files) != 0) {
                     $filesDto = [];
-                    foreach($submission->files as $file) {
+                    foreach ($submission->files as $file) {
                         $fileDto = [
                             'file_name' => $file->path,
                             'file_content' => $file->contents
@@ -171,7 +171,7 @@ class PlagiarismService
         if ($templates) {
             $templatesToSend = [];
 
-            foreach($templates as $template) {
+            foreach ($templates as $template) {
                 $templateDto = [
                     'file_name' => $template->path,
                     'file_content' => $template->contents
@@ -273,19 +273,19 @@ class PlagiarismService
     }
 
     /**
-    * Get the matches for the given Charon from the plagiarism service.
-    * Also returns times of plagiarism runs.
-    *
-    * @param Charon $charon
-    *
-    * @return array
-    * @throws GuzzleException
-    */
+     * Get the matches for the given Charon from the plagiarism service.
+     * Also returns times of plagiarism runs.
+     *
+     * @param Charon $charon
+     *
+     * @return array
+     * @throws GuzzleException
+     */
     public function getMatches(Charon $charon): array
     {
         $times = $this->plagiarismCommunicationService->getMatchesHistoryTimes($charon->plagiarism_assignment_id);
         $matches = [];
-        if (sizeof($times) > 0){
+        if (sizeof($times) > 0) {
             $matches = $this->plagiarismCommunicationService->getMatches($times[0]['id']);
         }
         return ["matches" => $this->getMatchesWithSubmissions($matches), "times" => $times];
@@ -344,12 +344,15 @@ class PlagiarismService
      *
      * @param int $matchId
      * @param string $newStatus
+     * @param string|null $comment
+     * @param int $authorId
      * @return array
      * @throws GuzzleException
      */
-    public function updateMatchStatus(int $matchId, string $newStatus): array
+    public function updateMatchStatus(int $matchId, string $newStatus, ?string $comment, int $authorId): array
     {
-        return $this->plagiarismCommunicationService->updateMatchStatus($matchId, $newStatus);
+        $author = $this->userService->findUserById($authorId);
+        return $this->plagiarismCommunicationService->updateMatchStatus($matchId, $newStatus, $comment, $author->username);
     }
 
     /**
@@ -472,13 +475,29 @@ class PlagiarismService
 
     /**
      * Returns matches for the given user
-     * @param string $uniid
+     * @param int $courseId
+     * @param string $username
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentMatches(string $username)
+    public function getStudentActiveMatches(int $courseId, string $username)
     {
         $uniid = $this->userService->getUniidIfTaltechUsername($username);
-        return $this->plagiarismCommunicationService->getStudentMatches($uniid);
+        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
+        return $this->plagiarismCommunicationService->getStudentActiveMatches($uniid, $plagiarismAssignmentIds);
+    }
+
+    /**
+     * Returns matches for the given user
+     * @param int $courseId
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentInactiveMatches(int $courseId, string $username)
+    {
+        $uniid = $this->userService->getUniidIfTaltechUsername($username);
+        $plagiarismAssignmentIds = $this->plagiarismRepository->getAllPlagiarismAssignmentIds($courseId);
+        return $this->plagiarismCommunicationService->getStudentInactiveMatches($uniid, $plagiarismAssignmentIds);
     }
 }

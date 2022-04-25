@@ -4,7 +4,6 @@ namespace TTU\Charon\Services;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\PlagiarismService;
 
@@ -321,25 +320,45 @@ class PlagiarismCommunicationService
      *
      * @param int $matchId
      * @param string $newStatus
+     * @param string|null $comment
+     * @param string $author
      * @return array|null
      *
      * @throws GuzzleException
      */
-    public function updateMatchStatus(int $matchId, string $newStatus): ?array
+    public function updateMatchStatus(int $matchId, string $newStatus, ?string $comment, string $author): ?array
     {
         $response = null;
         if ($newStatus == "plagiarism") {
-            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/plagiarism/match/{$matchId}/mark_plagiarism/",
-                'put'
-            );
-        } else if ($newStatus == "acceptable") {
-            $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-                "api/plagiarism/match/{$matchId}/mark_acceptable/",
-                'put'
-            );
-        }
+            if (!empty($comment)) {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                    'put',
+                    ['matchUpdate' => ['comment' => $comment, 'author' => $author]]
+                );
+            } else {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                    'put',
+                    ['matchUpdate' => null]
+                );
+            }
 
+        } else if ($newStatus == "acceptable") {
+            if (!empty($comment)) {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                    'put',
+                    ['matchUpdate' => ['comment' => $comment, 'author' => $author]]
+                );
+            } else {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                    'put',
+                    ['matchUpdate' => null]
+                );
+            }
+        }
         return $response ? json_decode($response->getBody(), true) : null;
     }
 
@@ -359,7 +378,6 @@ class PlagiarismCommunicationService
         );
 
         if ($response) {
-            Log::debug(print_r($response, true));
             return json_decode((string)$response->getBody());
         }
 
@@ -382,7 +400,6 @@ class PlagiarismCommunicationService
         );
 
         if ($response) {
-            Log::debug(print_r($response, true));
             return json_decode((string)$response->getBody());
         }
 

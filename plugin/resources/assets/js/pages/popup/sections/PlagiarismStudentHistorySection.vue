@@ -54,23 +54,54 @@
                     </v-chip>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-row>
-                        <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
-                        <div>
-                            <plagiarism-update-status-modal
-                                v-if="item.status !== 'acceptable'"
-                                :match="item"
-                                new-status="acceptable"
-                                @updateStatus="updateStatus"
-                            ></plagiarism-update-status-modal>
+                    <v-row no-gutters>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-comments-modal v-if="item.comments.length"
+                                                             :comments="item.comments"></plagiarism-match-comments-modal>
+                            <template v-else>
+                                <v-icon style="width: 36px; height: 36px">mdi-comment-off</v-icon>
+                            </template>
+                        </v-col>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-modal :match="item"
+                                                    :color="getColor(item.status)"></plagiarism-match-modal>
+                        </v-col>
+                        <v-col>
 
-                            <plagiarism-update-status-modal
-                                v-if="item.status !== 'plagiarism'"
-                                :match="item"
-                                new-status="plagiarism"
-                                @updateStatus="updateStatus"
-                            ></plagiarism-update-status-modal>
-                        </div>
+                            <v-row no-gutters v-if="item.status !== 'new'">
+                                <plagiarism-update-status-modal
+                                    v-if="item.status !== 'acceptable'"
+                                    :match="item"
+                                    new-status="acceptable"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+
+                                <plagiarism-update-status-modal
+                                    v-else
+                                    :match="item"
+                                    new-status="plagiarism"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+                            </v-row>
+
+                            <v-row no-gutters v-else>
+                                <v-btn
+                                    class="accepted-button"
+                                    @click="updateStatus(item, 'acceptable')"
+                                    icon>
+                                    <v-icon aria-label="Accepted" role="button" aria-hidden="false">
+                                        mdi-thumb-up-outline
+                                    </v-icon>
+                                </v-btn>
+
+                                <plagiarism-update-status-modal
+                                    :match="item"
+                                    new-status="plagiarism"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+                            </v-row>
+
+                        </v-col>
                     </v-row>
                 </template>
             </v-data-table>
@@ -87,7 +118,20 @@
                 :items-per-page="10"
                 :sort-by.sync="sortForStatistics"
                 :sort-desc.sync="sortDescForStatistics"
-            ></v-data-table>
+            >
+                <template v-slot:item.plagiarism_status="{ item }">
+                    <v-row no-gutters>
+                        <v-col>
+                            <template v-if="!item.plagiarism_status">
+                                <v-icon style="width: 36px; height: 36px">mdi-check</v-icon>
+                            </template>
+                            <template v-else>
+                                <v-icon style="width: 36px; height: 36px">mdi-close</v-icon>
+                            </template>
+                        </v-col>
+                    </v-row>
+                </template>
+            </v-data-table>
         </v-card>
 
         <v-card class="mt-16">
@@ -101,13 +145,17 @@
 <script>
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
 import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
+import PlagiarismMatchCommentsModal from "../partials/PlagiarismMatchCommentsModal";
 import {PopupSection} from '../layouts';
 import {Plagiarism} from "../../../api";
 import {mapGetters} from "vuex";
 import VueApexCharts from 'vue-apexcharts';
 
 export default {
-    components: {PopupSection, PlagiarismMatchModal, PlagiarismUpdateStatusModal, 'apexcharts': VueApexCharts},
+    components: {
+        PopupSection, PlagiarismMatchModal, PlagiarismUpdateStatusModal, PlagiarismMatchCommentsModal,
+        'apexcharts': VueApexCharts
+    },
     props: ['student'],
 
     data() {
@@ -163,6 +211,7 @@ export default {
         headersStatistics() {
             return [
                 {text: 'Charon', align: 'start', value: 'assignment_name'},
+                {text: 'Plagiarism status', align: 'center', value: 'plagiarism_status'},
                 {text: 'Max lines matched', align: 'center', value: 'max_lines_matched'},
                 {text: 'Max percentage', align: 'center', value: 'max_percentage'},
                 {text: 'Max other percentage', align: 'center', value: 'max_other_percentage'},
@@ -250,9 +299,12 @@ export default {
     },
 
     methods: {
-        updateStatus(match, newStatus, comment) {
-            Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, response => {
+        updateStatus(match, newStatus, comment = null) {
+            Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, comment, response => {
                 match.status = response.status;
+                if (response.comments) {
+                    match.comments = response.comments
+                }
             })
         },
 
@@ -260,6 +312,9 @@ export default {
             let matchesStatistics = {}
             matches.map(match => {
                 this.addToStatistics(matchesStatistics, match)
+            })
+            Object.keys(matchesStatistics).forEach(assignmentName => {
+                matchesStatistics[assignmentName]['plagiarism_status'] = !!matchesStatistics[assignmentName]['plagiarism_amount'];
             })
             return Object.values(matchesStatistics)
         },
@@ -352,7 +407,7 @@ export default {
 
         prepareData(matches) {
             matches.map(match => {
-                match.created_timestamp = match.created_timestamp.split('.')[0]
+                match.created_timestamp = new Date(match.created_timestamp).toLocaleString()
 
                 if (match.other_uniid === this.student.username.split('@')[0]) {
                     this.swapStudents(match)
@@ -384,6 +439,14 @@ export default {
 </script>
 
 <style>
+.plagiarism-button {
+    background-color: #f44336 !important;
+}
+
+.accepted-button {
+    background-color: #56a576 !important;
+}
+
 .center-table table td {
     vertical-align: middle;
 }

@@ -75,10 +75,11 @@ class Plagiarism {
             })
     }
 
-    static updateMatchStatus(courseId, matchId, newStatus, then) {
+    static updateMatchStatus(courseId, matchId, newStatus, comment, then) {
         axios.post(`${this.getRoot()}/courses/${courseId}/updateMatchStatus`, {
             matchId: matchId,
-            newStatus: newStatus
+            newStatus: newStatus,
+            comment: comment,
         }).then(response => {
             then(response.data)
         }).catch(error => {
