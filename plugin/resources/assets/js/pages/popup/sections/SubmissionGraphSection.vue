@@ -10,13 +10,13 @@
                 <v-col cols="12" md="6">
                     <span>{{ graphTitleEveryDay }}</span>
                     <apexcharts type="line" :options="graphSubmissionsEveryDayOptions"
-                                :series="graphSubmissionsEveryDaySeries"></apexcharts>
+                                :series="graphSubmissionsEveryDaySeries" ref="chartEveryDay"></apexcharts>
                 </v-col>
 
                 <v-col cols="12" md="6">
                     <span>{{ graphTitleToday }}</span>
                     <apexcharts type="line" :options="graphSubmissionsTodayOptions"
-                                :series="graphSubmissionsTodaySeries"></apexcharts>
+                                :series="graphSubmissionsTodaySeries" ref="chartToday"></apexcharts>
                 </v-col>
             </v-row>
         </div>
@@ -45,6 +45,11 @@ export default {
             graphTitleEveryDay: 'Graph showing the number of submissions for every day',
             graphTitleToday: 'Graph showing the number of submissions for today',
         }
+    },
+
+    deactivated() {
+        this.$refs.chartEveryDay.$destroy()
+        this.$refs.chartToday.$destroy()
     },
 
     props: {
