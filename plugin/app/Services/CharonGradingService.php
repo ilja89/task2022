@@ -2,9 +2,11 @@
 
 namespace TTU\Charon\Services;
 
+use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\DefenseRegistrationRepository;
+use TTU\Charon\Repositories\ResultRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use Zeizig\Moodle\Services\GradingService;
 
@@ -28,6 +30,9 @@ class CharonGradingService
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
+    /** @var ResultRepository */
+    private $resultRepository;
+
     /**
      * CharonGradingService constructor.
      *
@@ -35,21 +40,24 @@ class CharonGradingService
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param SubmissionCalculatorService $submissionCalculatorService
+     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradingService $gradingService,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculatorService $submissionCalculatorService,
-        DefenseRegistrationRepository $defenseRegistrationRepository
+        DefenseRegistrationRepository $defenseRegistrationRepository,
+        ResultRepository $resultRepository
     ) {
         $this->gradingService = $gradingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
-     * Update the grade for the user.
+     * Update grades for the user.
      *
      * TODO: Send commit hash info to tester! Grade will now be updated!
      *
@@ -58,7 +66,7 @@ class CharonGradingService
      *
      * @return void
      */
-    public function updateGrade(Submission $submission, int $userId)
+    public function updateGrades(Submission $submission, int $userId)
     {
         $charon = $submission->charon;
         $gradeTypeCodes = $charon->getGradeTypeCodes()->all();
@@ -75,6 +83,27 @@ class CharonGradingService
                 $result->grade_type_code,
                 $userId,
                 $result->calculated_result
+            );
+        }
+    }
+
+    /**
+     * Reset grades for the user.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     *
+     * @return void
+     */
+    public function resetGrades(Charon $charon, int $userId): void
+    {
+        foreach ($charon->getGradeTypeCodes()->all() as $gradeTypeCode) {
+            $this->gradingService->updateGrade(
+                $charon->course,
+                $charon->id,
+                $gradeTypeCode,
+                $userId,
+                0
             );
         }
     }
@@ -107,11 +136,31 @@ class CharonGradingService
     public function calculateCalculatedResultsForNewSubmission(Submission $submission)
     {
         $charon = $submission->charon;
-        foreach ($submission->results as $result) {
+
+        $results = $submission->results;
+        $previousSubmission = $charon->gradingMethod->isPreferBestEachGrade()
+            // TODO: replace with 1 query ($previousSubmission->results)
+            ? $this->submissionsRepository->findPreviousSubmission($submission)
+            : null;
+
+        for ($i = 0; $i < count($results); $i++) {
+
+            $result = $results[$i];
+            $previousResult = null;
+
+            if ($previousSubmission !== null) foreach ($previousSubmission->results as $item) {
+                if ($result->grade_type_code === $item->grade_type_code) {
+                    $previousResult = $item;
+                    break;
+                }
+            }
+
             $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                 $result,
-                $charon->deadlines
+                $charon->deadlines,
+                $previousResult
             );
+
             $result->save();
         }
     }
@@ -124,7 +173,7 @@ class CharonGradingService
      *
      * @return bool
      */
-    private function hasConfirmedSubmission(int $charonId, int $userId)
+    public function hasConfirmedSubmission(int $charonId, int $userId)
     {
         return $this->submissionsRepository->charonHasConfirmedSubmissions(
             $charonId, $userId
@@ -142,9 +191,9 @@ class CharonGradingService
      */
     private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
     {
-        $charon = $submission->charon;
-        if ($charon->gradingMethod->isPreferBest()) {
-            return $this->submissionCalculatorService->submissionIsBetterThanLast($submission, $studentId);
+        $gradingMethod = $submission->charon->gradingMethod;
+        if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
+            return $this->submissionCalculatorService->submissionIsBetterThanActive($submission, $studentId);
         }
 
         return true;
@@ -159,35 +208,37 @@ class CharonGradingService
      */
     public function recalculateGrades(Grademap $grademap)
     {
-        $results = $this->submissionsRepository->findResultsByCharonAndGradeType(
+        $results = $this->resultRepository->findResultsByCharonAndGradeType(
             $grademap->charon_id,
             $grademap->grade_type_code
         );
 
+        $studentsResults = [];
         foreach ($results as $result) {
-            if ($this->hasConfirmedSubmission($grademap->charon_id, $result->user_id)) {
-                $result = $this->submissionsRepository
-                    ->findConfirmedSubmissionsForUserAndCharon($result->user_id, $grademap->charon_id)
-                    ->first()
-                    ->results()
-                    ->where('grade_type_code', $result->grade_type_code)
-                    ->where('user_id', $result->user_id)
-                    ->first();
+            if (array_key_exists($result->user_id, $studentsResults)) {
+                array_push($studentsResults[$result->user_id], $result);
             } else {
-                $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
-                    $result,
-                    $grademap->charon->deadlines
-                );
-                $result->save();
+                $studentsResults[$result->user_id] = [$result];
             }
+        }
 
-            $this->gradingService->updateGrade(
-                $grademap->charon->course,
-                $grademap->charon_id,
-                $result->grade_type_code,
-                $result->user_id,
-                $result->calculated_result
-            );
+        foreach ($studentsResults as $studentId => $studentResults) {
+
+            if (!$this->hasConfirmedSubmission($grademap->charon_id, $studentId)) {
+
+                for ($i = 0; $i < count($studentResults); $i++) {
+                    $studentResult = $studentResults[$i];
+
+                    $studentResult->calculated_result =
+                        $this->submissionCalculatorService->calculateResultFromDeadlines(
+                            $studentResult,
+                            $grademap->charon->deadlines,
+                            $i > 0 ? $studentResults[$i - 1] : null
+                        );
+
+                    $studentResult->save();
+                }
+            }
         }
     }
 
@@ -218,5 +269,22 @@ class CharonGradingService
         }
 
         $this->defenseRegistrationRepository->updateRegistration($studentRegistration->id, $newProgress, $teacherId);
+    }
+
+    /**
+     * Reset grades' calculated results if one does not have a confirmed submission and is a test grade.
+     *
+     * @param Grademap $grademap
+     */
+    public function resetGradesCalculatedResults(Grademap $grademap)
+    {
+        $resultIds = $this->resultRepository->findResultsByCharonAndGradeType(
+            $grademap->charon_id,
+            $grademap->grade_type_code
+        )->filter(function ($result) use ($grademap) {
+            return !$this->hasConfirmedSubmission($grademap->charon_id, $result->user_id);
+        })->pluck("id")->all();
+
+        $this->resultRepository->resetResultsCalculatedResults($resultIds);
     }
 }

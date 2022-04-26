@@ -13,9 +13,9 @@
 
         <charon-select
                 :label="translate('grading_method_label')"
-                name="grading_method"
+                name="grading_method_code"
                 :options="form.grading_methods"
-                :value="form.fields.grading_method"
+                :value="form.fields.grading_method_code"
                 :helper_text="translate('grading_method_helper')"
                 @input-was-changed="onGradingMethodChanged" >
         </charon-select>

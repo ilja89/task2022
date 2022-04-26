@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
+- as long as grades' individual percentage stays the same or improves
+- #711 Warn user of the possibly long waiting time for recalculating grades if 'Recalculate' is checked
+- and Charon's grading method is 'prefer_best_each_test_grade'
 - #721 Allow recalculation of Charon grades without any change in tests' max points or deadlines
+
+### Fixed
+- #702 Fix grading type saving in charon settings
 
 ## [1.6.2] - 2022-04-14
 

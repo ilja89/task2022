@@ -59,11 +59,11 @@ class StudentsController extends Controller
      *
      * @return Collection
      */
-    public function searchStudents(Course $course)
+    public function searchUsers(Course $course): Collection
     {
         $keyword = $this->request['q'];
 
-        return $this->studentsRepository->searchStudentsByCourseAndKeyword($course->id, $keyword);
+        return $this->studentsRepository->searchUsersByCourseKeywordAndRole($course->id, $keyword);
     }
 
     /**
