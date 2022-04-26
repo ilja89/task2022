@@ -156,14 +156,16 @@ class InstanceController extends Controller
      */
     public function update()
     {
-
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$this->request->toArray()]);
 
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
-            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon,
-                $this->moodleUser->currentUser()->toArray()['timezone']);
+            $this->updateCharonService->updateDeadlines(
+                $this->request,
+                $charon,
+                $this->moodleUser->currentUser()->toArray()['timezone']
+            );
 
             $templates = $this->request->input('files');
             $this->templatesService->updateTemplates($charon->id, $templates);
@@ -171,15 +173,13 @@ class InstanceController extends Controller
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
-                $deadlinesUpdated,
-                $this->request->input('recalculate_grades') ?? false // could be not set
+                $this->request->input('recalculate_grades')
             );
 
             // TODO: Plagiarism
         }
 
         return "1";
-
     }
 
     /**
