@@ -222,26 +222,33 @@ function update_charon_completion_state($submission, $userId) {
  */
 function charon_user_outline($course, $user, $mod, $charon)
 {
-    global $CFG;
-    require_once $CFG->dirroot . '/lib/gradelib.php';
-    $grades = grade_get_grades($course->id, 'mod', $mod->modname, $charon->id, $user->id);
+    global $DB;
 
-    if (empty($grades->items[1]->grades)) {
+    $gradeItem = $DB->get_record('grade_items', array(
+        'courseid' => $course->id,
+        'iteminstance' => $charon->category_id,
+        'itemtype' => 'category',
+    ), 'id, grademax, hidden');
+
+    $gradeGrade = $DB->get_record('grade_grades', array(
+        'itemid' => $gradeItem->id,
+        'userid' => $user->id,
+    ), 'id, finalgrade, usermodified, timemodified');
+
+    if (!$gradeGrade->usermodified &&
+        !$DB->record_exists('charon_submission', array('charon_id' => $charon->id, 'user_id' => $user->id))) {
         return null;
-    } else {
-        $grade = reset($grades->items[1]->grades);
     }
 
     $result = new stdClass();
-    // If the user can't see hidden grades, don't return that information.
-    $gitem = grade_item::fetch(array('id' => $grades->items[1]->id));
-    if (!$gitem->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
-        $result->info = get_string('gradenoun', 'charon') . ': ' . $grade->str_long_grade;
-    } else {
-        $result->info = get_string('gradenoun', 'charon') . ': ' . get_string('hidden', 'charon');
-    }
+    $result->info = get_string('gradenoun', 'charon') . ': ';
 
-    $result->time = grade_get_date_for_user_grade($grade, $user);
+    // If the user can't see hidden grades, don't return that information.
+    !$gradeItem->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))
+        ? $result->info .= number_format($gradeGrade->finalgrade, 2) . ' / ' . number_format($gradeItem->grademax, 2)
+        : get_string('hidden', 'charon');
+
+    $result->time = $gradeGrade->timemodified;
 
     return $result;
 }
