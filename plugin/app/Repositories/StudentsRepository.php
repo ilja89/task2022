@@ -2,6 +2,7 @@
 
 namespace TTU\Charon\Repositories;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Zeizig\Moodle\Models\Course;
@@ -17,27 +18,51 @@ use Zeizig\Moodle\Models\User;
 class StudentsRepository
 {
     /**
+     * Search users by given course id.
+     *
      * @param integer $courseId
-     * @param string $keyword
+     * @param ?string $keyword
+     * @param string[] $roleNames
+     *
+     * @return Collection
      */
-    public function searchStudentsByCourseAndKeyword($courseId, $keyword)
-    {
+    public function searchUsersByCourseKeywordAndRole(
+        int $courseId,
+        ?string $keyword = null,
+        array $roleNames = []
+    ): Collection {
+
         $keyword = '%' . strtolower($keyword) . '%';
 
-        return DB::table('role_assignments')
+        $query = DB::table('role_assignments')
+            ->join('role', 'role_assignments.roleid', '=', 'role.id')
             ->join('user', 'role_assignments.userid', '=', 'user.id')
             ->join('context', 'role_assignments.contextid', '=', 'context.id')
             ->where('context.contextlevel', CONTEXT_COURSE)
-            ->where('context.instanceid', $courseId)
-            ->where(function ($query) use ($keyword) {
-                $query->whereRaw('LOWER(idnumber) like ?', [$keyword])
+            ->where('context.instanceid', $courseId);
+
+        if (!empty($roleNames)) {
+            $query->whereIn('role.shortname', $roleNames);
+        }
+
+        if ($keyword !== null) {
+            $query->where(function ($queryRaw) use ($keyword) {
+                $queryRaw->whereRaw('LOWER(idnumber) like ?', [$keyword])
                     ->orWhereRaw('LOWER(username) like ?', [$keyword])
                     ->orWhereRaw('LOWER(firstname) like ?', [$keyword])
                     ->orWhereRaw('LOWER(lastname) like ?', [$keyword])
                     ->orWhereRaw("CONCAT(LOWER(firstname), ' ', LOWER(lastname)) like ?", [$keyword]);
-            })
-            ->select('user.id', 'idnumber', 'username', 'firstname', 'lastname', DB::raw("CONCAT(firstname, ' ',lastname, ' (',username, ')') AS fullname"))
-            ->get();
+            });
+        }
+
+        return $query->select(
+            'user.id',
+            'idnumber',
+            'username',
+            'firstname',
+            'lastname',
+            DB::raw("CONCAT(firstname, ' ', lastname, ' (', username, ')') AS fullname")
+        )->get();
     }
 
     /**
