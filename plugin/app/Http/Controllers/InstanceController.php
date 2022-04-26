@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
@@ -49,9 +48,6 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
-    /** @var DeadlinesRepository */
-    private $deadlinesRepository;
-
     /** @var MoodleUser */
     private $moodleUser;
 
@@ -69,8 +65,8 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param MoodleUser $moodleUser
      * @param TemplateService $templatesService
-     * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
         Request $request,
@@ -81,11 +77,9 @@ class InstanceController extends Controller
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
-        DeadlinesRepository $deadlinesRepository,
         Moodleuser $moodleUser,
         TemplateService $templatesService
-    )
-    {
+    ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
         $this->gradebookService = $gradebookService;
@@ -94,7 +88,6 @@ class InstanceController extends Controller
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
-        $this->deadlinesRepository = $deadlinesRepository;
         $this->moodleUser = $moodleUser;
         $this->templatesService = $templatesService;
     }
