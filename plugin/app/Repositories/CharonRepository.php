@@ -402,4 +402,13 @@ class CharonRepository
 
         return $charon;
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getCharonByPlagiarismAssignmentId($id)
+    {
+        return Charon::where('plagiarism_assignment_id', $id)->first();
+    }
 }

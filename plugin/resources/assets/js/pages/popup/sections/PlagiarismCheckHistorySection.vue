@@ -34,13 +34,16 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    {{latestCheck.charonName}}
+                                    {{latestCheck.charon}}
                                 </td>
                                 <td>
                                     {{latestCheck.author}}
                                 </td>
                                 <td>
-                                    {{latestCheck.created_at}}
+                                    {{latestCheck.createdAt}}
+                                </td>
+                                <td>
+                                    {{latestCheck.updatedAt}}
                                 </td>
                                 <td>
                                     {{latestCheck.status}}
@@ -56,6 +59,11 @@
                 :items="checkHistory"
                 :items-per-page="5"
                 class="elevation-1">
+                  <template v-slot:expanded-item="{ headers, item: checkHistory  }">
+                    <v-data-table
+                        :items="[checkHistory]">
+                    </v-data-table>
+                  </template>
                 </v-data-table>
             </div>
         </div>
@@ -74,7 +82,7 @@ import CharonSelect from "../partials/CharonSelect";
 export default {
     name: 'plagiarism-check-history-section',
 
-    components: {CharonSelect, ToggleButton,PopupSection},
+    components: {CharonSelect, ToggleButton, PopupSection},
 
     data() {
         return {
@@ -84,9 +92,10 @@ export default {
             toggleShowHistoryTable: false,
             latestCheck: [],
             headers: [
-                {text: 'Charon', align: 'start', value: 'assignment_name'},
+                {text: 'Charon', align: 'start', value: 'charon'},
                 {text: 'Author', value: 'author'},
-                {text: 'Created at', value: 'created_timestamp'},
+                {text: 'Created at', value: 'createdAt'},
+                {text: 'Updated at', value: 'updatedAt'},
                 {text: 'Status', value: 'status'},
             ]
         }
@@ -107,8 +116,10 @@ export default {
             Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
-                    if (this.latestCheck.status === "Check started.") {
-                        this.refreshLatestStatus(this.latestCheck.checkId, this.charon.id);
+                    this.latestCheck.createdAt = new Date(this.latestCheck.createdAt).toLocaleString()
+                    this.latestCheck.updatedAt = new Date(this.latestCheck.updatedAt).toLocaleString()
+                    if (this.latestCheck.checkFinished === false) {
+                        this.refreshLatestStatus(this.latestCheck.runId, this.charon.id);
                     }
                 }
                 window.VueEvent.$emit(
@@ -123,21 +134,26 @@ export default {
             if (this.toggleShowHistoryTable === true) {
                 this.sectionTitle = "History of checks";
                 Plagiarism.getCheckHistory(this.course.id, response => {
-                    response.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
+                    response.forEach(timeObj => {
+                        timeObj.createdAt = new Date(timeObj.createdAt).toLocaleString()
+                        timeObj.updatedAt = new Date(timeObj.updatedAt).toLocaleString()
+                    });
                     this.checkHistory = response;
                 })
             } else {
                 this.sectionTitle = "Latest check";
             }
         },
-        refreshLatestStatus(latestCheckId, charonId) {
+        refreshLatestStatus(latestRunId, charonId) {
             this.submitDisabled = true;
-            this.interval = setInterval(this.getLatestStatus, 5000, latestCheckId, charonId)
+            this.interval = setInterval(this.getLatestStatus, 5000, latestRunId, charonId)
         },
-        getLatestStatus(latestCheckId, charonId) {
-            Plagiarism.getLatestCheckStatus(charonId, latestCheckId, response => {
-                if (this.latestCheck.status !== response.status) {
-                    this.latestCheck = response
+        getLatestStatus(latestRunId, charonId) {
+            Plagiarism.getLatestCheckStatus(charonId, latestRunId, response => {
+                this.latestCheck = response
+                this.latestCheck.createdAt = new Date(this.latestCheck.createdAt).toLocaleString()
+                this.latestCheck.updatedAt = new Date(this.latestCheck.updatedAt).toLocaleString()
+                if (this.latestCheck.check_finished === true) {
                     clearInterval(this.interval)
                     this.submitDisabled = false
                 }

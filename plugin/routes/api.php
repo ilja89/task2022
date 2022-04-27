@@ -188,7 +188,7 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('charons/{charon}/plagiarism/run', 'PlagiarismController@runCheck');
 
     Route::middleware('auth.charon.managing.require')
-        ->get('/charons/{charon}/plagiarism-checks/{plagiarismCheck}', 'PlagiarismController@getStatus');
+        ->get('/charons/{charon}/plagiarism-checks', 'PlagiarismController@getLatestStatus');
 
     Route::middleware('auth.course.managing.require')
         ->get('/courses/{course}/checks-history/', 'PlagiarismController@getCheckHistory');

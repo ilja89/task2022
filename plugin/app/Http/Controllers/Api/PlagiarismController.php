@@ -7,7 +7,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Services\PlagiarismService;
 use Zeizig\Moodle\Models\Course;
 
@@ -146,20 +145,12 @@ class PlagiarismController extends Controller
     /**
      * Returns the status of the asked plagiarism check.
      *
-     * @param Charon $charon
-     * @param PlagiarismCheck $plagiarismCheck
+     * @param Request $request
      * @return array
      */
-    public function getStatus(Charon $charon, PlagiarismCheck $plagiarismCheck): array
+    public function getLatestStatus(Request $request): array
     {
-        return [
-            "charonName" => $charon->name,
-            "created_at" => $plagiarismCheck->created_at,
-            "updated_at" => $plagiarismCheck->updated_at,
-            "status" => $plagiarismCheck->status,
-            "checkId" => $plagiarismCheck->id,
-            "author" => $plagiarismCheck->user->firstname . ' ' . $plagiarismCheck->user->lastname
-        ];
+        return $this->plagiarismService->getLatestStatus($request->input('run_id'));
     }
 
     /**

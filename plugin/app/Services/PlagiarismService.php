@@ -125,10 +125,10 @@ class PlagiarismService
      */
     public function runCheck(Charon $charon, Request $request): array
     {
-        $check = $this->plagiarismRepository->addPlagiarismCheck($charon->id, app(User::class)->currentUserId(), "Trying to get connection to Plagiarism API");
-
         $data = [
-            'return_url' => $request->getUriForPath("/api/plagiarism_callback/" . $check->id),
+            'charon' => $charon->name,
+            'uniid' => $this->userService->getUniidIfTaltechUsername(app(User::class)->currentUser()->username),
+            'assignment_id' => $charon->plagiarism_assignment_id
         ];
 
         if ($charon->allow_submission) {
@@ -182,18 +182,18 @@ class PlagiarismService
             $data['base_files'] = $templatesToSend;
         }
 
-        $response = $this->plagiarismCommunicationService->runCheck($charon->plagiarism_assignment_id, $data);
+        $response = $this->plagiarismCommunicationService->runCheck($data);
 
-        $check->updated_at = Carbon::now();
-        $check->status = $response;
-        $check->save();
+        $user = app(User::class)->currentUser();
+
         return [
-            "charonName" => $charon->name,
-            "created_at" => $check->created_at,
-            "updated_at" => $check->updated_at,
-            "status" => $check->status,
-            "checkId" => $check->id,
-            "author" => $check->user->firstname . ' ' . $check->user->lastname
+            "runId" => $response["run_id"],
+            "charon" => $charon->name,
+            "createdAt" => $response["created_timestamp"],
+            "updatedAt" => $response["created_timestamp"],
+            "status" => $response["status"],
+            "checkFinished" => $response["check_finished"],
+            "author" => $user->firstname . ' ' . $user->lastname
         ];
     }
 
@@ -305,7 +305,40 @@ class PlagiarismService
     }
 
     /**
+     * Fetch the latest status by run id.
+     * Remove unused data, which is not needed for later use,
+     * also rename some variables to make style correct.
+     * Add author name by uniid and charon name.
+     *
+     * @param string $runId
+     * @return array|null
+     * @throws GuzzleException
+     */
+    public function getLatestStatus(string $runId): ?array
+    {
+        $status = $this->plagiarismCommunicationService->getLatestStatusByRunId($runId)[0];
+
+        $author = $this->userService->findUserByUniid($status['author']);
+        if ($author) {
+            $status['author'] = $author->firstname . " " . $author->lastname;
+        }
+
+        $status['createdAt'] = $status['created_timestamp'];
+        $status['updatedAt'] = $status['updated_timestamp'];
+        $status['charon'] = $this->charonRepository->getCharonByPlagiarismAssignmentId($status['assignment_id'])->name;
+
+        unset($status['created_timestamp']);
+        unset($status['updated_timestamp']);
+        unset($status['assignment_id']);
+
+        return $status;
+    }
+
+    /**
      * Get a list of checks for given course.
+     * Remove unused data, which is not needed for later use,
+     * also rename some variables to make style correct.
+     * Add author name by uniid and charon name.
      *
      * @param Course $course
      *
@@ -314,7 +347,27 @@ class PlagiarismService
      */
     public function getCheckHistory(Course $course): ?array
     {
-        return $this->plagiarismCommunicationService->getChecksByCourseSlug($course->shortname);
+        $checksInfo = $this->plagiarismCommunicationService->getChecksByCourseSlug($course->shortname);
+        $checks = [];
+
+        foreach ($checksInfo as $check) {
+            $author = $this->userService->findUserByUniid($check['author']);
+            if ($author) {
+                $check['author'] = $author->firstname . " " . $author->lastname;
+            }
+
+            $check['createdAt'] = $check['created_timestamp'];
+            $check['updatedAt'] = $check['updated_timestamp'];
+            $check['charon'] = $this->charonRepository->getCharonByPlagiarismAssignmentId($check['assignment_id'])->name;
+
+            unset($check['created_timestamp']);
+            unset($check['updated_timestamp']);
+            unset($check['assignment_id']);
+            unset($check['check_finished']);
+            $checks[] = $check;
+        }
+
+        return $checks;
     }
 
     /**

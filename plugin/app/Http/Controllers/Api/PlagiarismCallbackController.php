@@ -41,7 +41,5 @@ class PlagiarismCallbackController extends Controller
     public function index(PlagiarismCheck $plagiarismCheck)
     {
         Log::info("Plagiarism check result ", [json_decode($this->request->getContent(), true), $plagiarismCheck]);
-
-        $this->plagiarismService->updateCheck($plagiarismCheck, json_decode($this->request->getContent(), true));
     }
 }
