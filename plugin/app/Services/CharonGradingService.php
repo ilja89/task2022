@@ -140,7 +140,10 @@ class CharonGradingService
         $results = $submission->results;
         $previousSubmission = $charon->gradingMethod->isPreferBestEachGrade()
             // TODO: replace with 1 query ($previousSubmission->results)
-            ? $this->submissionsRepository->findPreviousSubmission($submission)
+            ? $this->submissionsRepository->findPreviousSubmission(
+                $submission,
+                $this->submissionsRepository->findAllUsersAssociated($submission->id)->pluck("id")->all()
+            )
             : null;
 
         for ($i = 0; $i < count($results); $i++) {
