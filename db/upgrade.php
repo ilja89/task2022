@@ -15,11 +15,11 @@ function xmldb_charon_upgrade($oldversion = 0)
 {
     global $DB;
     $dbManager = $DB->get_manager();
+    $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+    $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
     if ($oldversion < 2017020102) {
         // We run artisan migrate so we can have all updates as migrations.
-        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
         $kernel->call('migrate', ['--path' => 'plugin/database/migrations']);
 
@@ -195,9 +195,6 @@ function xmldb_charon_upgrade($oldversion = 0)
             "PRIMARY KEY (code)" .
             ")";
         $DB->execute($sql);
-
-        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
         $kernel->call('db:seed', ['--class' => 'PlagiarismServicesSeeder']);
     }
@@ -863,6 +860,33 @@ function xmldb_charon_upgrade($oldversion = 0)
 
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);
+        }
+    }
+
+    if ($oldversion < 2022040601) {
+        $sql = "CREATE TABLE " . $CFG->prefix . "charon_submission_type(" .
+            "    code BIGINT(10) NOT NULL," .
+            "    name VARCHAR(50) NOT NULL," .
+            "    PRIMARY KEY (code))";
+
+        $table = new xmldb_table("charon_submission_type");
+
+        if (!$dbManager->table_exists($table)) {
+            $DB->execute($sql);
+
+            $kernel->call('db:seed', ['--class' => 'SubmissionTypeSeeder', '--force' => true]);
+        }
+
+        $table = new xmldb_table("charon_submission");
+        $field = new xmldb_field('submission_type_code', XMLDB_TYPE_INTEGER, 10);
+
+        if (!$dbManager->field_exists($table, $field)) {
+            $dbManager->add_field($table, $field);
+
+            $DB->execute(
+                "UPDATE {charon_submission} AS cr "
+                . "SET cr.submission_type_code = 1"
+            );
         }
     }
 

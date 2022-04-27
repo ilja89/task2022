@@ -2,6 +2,10 @@
     <div class="student-overview-container">
         <page-title :student="student"></page-title>
 
+        <plagiarism-student-history-section
+            :student="student"
+        ></plagiarism-student-history-section>
+
         <popup-section title="Grades report"
                        subtitle="Grading report for the current student.">
 
@@ -20,10 +24,11 @@
     import {mapState, mapGetters, mapActions} from 'vuex'
     import {User} from '../../../api'
     import {PopupSection} from '../layouts'
+    import {PlagiarismStudentHistorySection} from '../sections'
 
     export default {
 
-        components: {PopupSection, PageTitle},
+        components: {PopupSection, PageTitle, PlagiarismStudentHistorySection},
 
         data() {
             return {

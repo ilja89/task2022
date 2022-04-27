@@ -92,7 +92,8 @@ class SubmissionSeeder extends Seeder
             'testSuites' => $testSuites,
             'returnExtra' => [
                 'token' => $callback->secret_token,
-                'charon' => $charon->id
+                'charon' => $charon->id,
+                'submission_type_code' => 1
             ]
         ];
 

@@ -58,4 +58,19 @@ class UserService
         }
         return $users[0];
     }
+
+    /**
+     * Returns uniid if the user has school username (which ends in '@ttu.ee' or '@taltech.ee')
+     * or if the user does not have school username returns the username as it is
+     *
+     * @param string $username
+     * @return string
+     */
+    public function getUniidIfTaltechUsername(string $username): string
+    {
+        if (str_ends_with($username, '@ttu.ee') or str_ends_with($username, '@taltech.ee')) {
+            return strtok($username, "@");
+        }
+        return $username;
+    }
 }
