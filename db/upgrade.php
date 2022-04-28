@@ -868,7 +868,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022042703) {
+    if ($oldversion < 2022042801) {
         $tableName = "charon_grading_method";
         $record = ["code" => 3, "name" => "prefer_best_each_grade"];
         if (!$DB->record_exists($tableName, $record)) {
