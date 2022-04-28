@@ -40,10 +40,10 @@
                                     {{latestCheck.author}}
                                 </td>
                                 <td>
-                                    {{latestCheck.createdAt}}
+                                    {{latestCheck.created_timestamp}}
                                 </td>
                                 <td>
-                                    {{latestCheck.updatedAt}}
+                                    {{latestCheck.updated_timestamp}}
                                 </td>
                                 <td>
                                     {{latestCheck.status}}
@@ -57,13 +57,36 @@
                 <v-data-table
                 :headers="headers"
                 :items="checkHistory"
+                item-key="run_id"
                 :items-per-page="5"
+                :single-expand="true"
+                show-expand
                 class="elevation-1">
-                  <template v-slot:expanded-item="{ headers, item: checkHistory  }">
-                    <v-data-table
-                        :items="[checkHistory]">
-                    </v-data-table>
-                  </template>
+                    <template v-slot:item="{ item, expand, isExpanded }">
+                        <tr>
+                            <td
+                                class="d-block d-sm-table-cell"
+                                v-for="header in headers"
+                                style="width: 19%"
+                            >
+                              {{item[header.value]}}
+                            </td>
+                            <td style="width: 5%">
+                                <v-btn icon @click="expand(!isExpanded)">
+                                  <v-icon>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                    </template>
+                        <template v-slot:expanded-item="{ headers, item, isExpanded }">
+                            <tr v-for="row in item['history']">
+                              <td></td>
+                              <td></td>
+                              <td>{{ new Date(row.created_timestamp).toLocaleString('et-EE') }}</td>
+                              <td></td>
+                              <td>{{ row.status }}</td>
+                            </tr>
+                        </template>
                 </v-data-table>
             </div>
         </div>
@@ -94,10 +117,11 @@ export default {
             headers: [
                 {text: 'Charon', align: 'start', value: 'charon'},
                 {text: 'Author', value: 'author'},
-                {text: 'Created at', value: 'createdAt'},
-                {text: 'Updated at', value: 'updatedAt'},
+                {text: 'Created at', value: 'created_timestamp'},
+                {text: 'Updated at', value: 'updated_timestamp'},
                 {text: 'Status', value: 'status'},
-            ]
+                {text: '', value: 'data-table-expand'},
+            ],
         }
     },
 
@@ -116,10 +140,10 @@ export default {
             Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
-                    this.latestCheck.createdAt = new Date(this.latestCheck.createdAt).toLocaleString()
-                    this.latestCheck.updatedAt = new Date(this.latestCheck.updatedAt).toLocaleString()
-                    if (this.latestCheck.checkFinished === false) {
-                        this.refreshLatestStatus(this.latestCheck.runId, this.charon.id);
+                    this.latestCheck.created_timestamp = new Date(this.latestCheck.created_timestamp).toLocaleString('et-EE')
+                    this.latestCheck.updated_timestamp = new Date(this.latestCheck.updated_timestamp).toLocaleString('et-EE')
+                    if (this.latestCheck.check_finished === false) {
+                        this.refreshLatestStatus(this.latestCheck.run_id, this.charon.id);
                     }
                 }
                 window.VueEvent.$emit(
@@ -135,8 +159,8 @@ export default {
                 this.sectionTitle = "History of checks";
                 Plagiarism.getCheckHistory(this.course.id, response => {
                     response.forEach(timeObj => {
-                        timeObj.createdAt = new Date(timeObj.createdAt).toLocaleString()
-                        timeObj.updatedAt = new Date(timeObj.updatedAt).toLocaleString()
+                        timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString('et-EE')
+                        timeObj.updated_timestamp = new Date(timeObj.updated_timestamp).toLocaleString('et-EE')
                     });
                     this.checkHistory = response;
                 })
@@ -151,8 +175,8 @@ export default {
         getLatestStatus(latestRunId, charonId) {
             Plagiarism.getLatestCheckStatus(charonId, latestRunId, response => {
                 this.latestCheck = response
-                this.latestCheck.createdAt = new Date(this.latestCheck.createdAt).toLocaleString()
-                this.latestCheck.updatedAt = new Date(this.latestCheck.updatedAt).toLocaleString()
+                this.latestCheck.created_timestamp = new Date(this.latestCheck.created_timestamp).toLocaleString()
+                this.latestCheck.updated_timestamp = new Date(this.latestCheck.updated_timestamp).toLocaleString()
                 if (this.latestCheck.check_finished === true) {
                     clearInterval(this.interval)
                     this.submitDisabled = false

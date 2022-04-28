@@ -187,12 +187,12 @@ class PlagiarismService
         $user = app(User::class)->currentUser();
 
         return [
-            "runId" => $response["run_id"],
+            "run_id" => $response["run_id"],
             "charon" => $charon->name,
-            "createdAt" => $response["created_timestamp"],
-            "updatedAt" => $response["created_timestamp"],
+            "created_timestamp" => $response["created_timestamp"],
+            "updated_timestamp" => $response["created_timestamp"],
             "status" => $response["status"],
-            "checkFinished" => $response["check_finished"],
+            "check_finished" => $response["check_finished"],
             "author" => $user->firstname . ' ' . $user->lastname
         ];
     }
@@ -323,12 +323,8 @@ class PlagiarismService
             $status['author'] = $author->firstname . " " . $author->lastname;
         }
 
-        $status['createdAt'] = $status['created_timestamp'];
-        $status['updatedAt'] = $status['updated_timestamp'];
         $status['charon'] = $this->charonRepository->getCharonByPlagiarismAssignmentId($status['assignment_id'])->name;
 
-        unset($status['created_timestamp']);
-        unset($status['updated_timestamp']);
         unset($status['assignment_id']);
 
         return $status;
@@ -356,12 +352,8 @@ class PlagiarismService
                 $check['author'] = $author->firstname . " " . $author->lastname;
             }
 
-            $check['createdAt'] = $check['created_timestamp'];
-            $check['updatedAt'] = $check['updated_timestamp'];
             $check['charon'] = $this->charonRepository->getCharonByPlagiarismAssignmentId($check['assignment_id'])->name;
 
-            unset($check['created_timestamp']);
-            unset($check['updated_timestamp']);
             unset($check['assignment_id']);
             unset($check['check_finished']);
             $checks[] = $check;
