@@ -19,7 +19,7 @@
             :average-submissions="averageSubmissions">
         </student-charon-points-vs-course-average-chart>
 
-        <comments-section :charonSelector="true"></comments-section>
+        <comments-section :charonSelector="true" :studentId="this.student_id" :charons="this.charons"></comments-section>
 
         <popup-section title="Grades report"
                        subtitle="Grading report for the current student.">
@@ -36,7 +36,7 @@
 
 <script>
 import {PageTitle} from '../partials'
-import {mapState, mapGetters, mapActions} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import {Charon, Defense, Submission, User} from '../../../api'
 import {PopupSection} from '../layouts'
 import StudentSummarySection from "../sections/StudentSummarySection";
@@ -63,6 +63,8 @@ export default {
     },
 
     name: "StudentDetailsPage",
+
+    props: ['student_id'],
 
     data() {
         return {
@@ -99,10 +101,6 @@ export default {
             'charons'
         ]),
 
-        routeStudentId() {
-            return this.$route.params.student_id
-        },
-
         studentName() {
             return this.student ? this.student.firstname + ' ' + this.student.lastname + ' (' + this.student.username + ')' : "Student"
         }
@@ -110,52 +108,52 @@ export default {
 
     methods: {
         getCharonsTable() {
-            User.getUserCharonsDetails(this.courseId, this.routeStudentId, data => {
+            User.getUserCharonsDetails(this.courseId, this.student_id, data => {
                 this.charonsTable = data
             })
         },
 
         getStudentOverviewTable() {
-            User.getReportTable(this.courseId, this.routeStudentId, (table) => {
+            User.getReportTable(this.courseId, this.student_id, (table) => {
                 this.gradesTable = table
             })
         },
 
         getStudentSummary() {
-            Charon.getAllPointsFromCourseForStudent(this.courseId, this.routeStudentId, result => {
+            Charon.getAllPointsFromCourseForStudent(this.courseId, this.student_id, result => {
                 this.student_summary['total_points_course'] = result
             })
 
-            User.getPossiblePointsForCourse(this.courseId, this.routeStudentId, result => {
+            User.getPossiblePointsForCourse(this.courseId, this.student_id, result => {
                 this.student_summary['potential_points'] = result
             })
 
-            Submission.findAllForUser(this.courseId, this.routeStudentId, result => {
+            Submission.findAllForUser(this.courseId, this.student_id, result => {
                 this.student_summary['total_submissions'] = result
             })
 
-            Submission.findCharonsWithSubmissionsForUser(this.courseId, this.routeStudentId, result => {
+            Submission.findCharonsWithSubmissionsForUser(this.courseId, this.student_id, result => {
                 this.student_summary['charons_with_submissions'] = result
             })
 
-            Submission.findByUser(this.courseId, this.routeStudentId, result => {
+            Submission.findByUser(this.courseId, this.student_id, result => {
                 this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade > 0).length
             })
 
             Defense.all(this.courseId, result => {
-                this.student_summary['defence_registrations'] = result.filter(defense => defense.student_id === parseInt(this.routeStudentId)).length
+                this.student_summary['defence_registrations'] = result.filter(defense => defense.student_id === parseInt(this.student_id)).length
             })
         },
 
         fetchLatestSubmissions() {
-            Submission.findLatestSubmissionsByUser(this.courseId, this.routeStudentId, submissions => {
+            Submission.findLatestSubmissionsByUser(this.courseId, this.student_id, submissions => {
                 this.latestSubmissions = submissions
             })
         },
 
         fetchRegistrations() {
             Defense.filtered(this.courseId, this.after.time, this.before.time, this.filter_teacher, this.filter_progress, response => {
-                this.defenseList = response.filter(defense => defense.student_id === parseInt(this.routeStudentId))
+                this.defenseList = response.filter(defense => defense.student_id === parseInt(this.student_id))
             })
         },
 
@@ -174,7 +172,7 @@ export default {
             this.teachers = response
         })
         Submission.findBestAverageCourseSubmissions(this.courseId, this.setAverageSubmissions)
-        User.getStudentInfo(this.courseId, this.routeStudentId, response => {
+        User.getStudentInfo(this.courseId, this.student_id, response => {
             this.student = response
         })
     },
