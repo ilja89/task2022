@@ -25,16 +25,28 @@ Route::group(['namespace' => 'Api'], function () {
         ->name('git_hub_callback_post');
 
     Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/allEnrolled', 'StudentsController@findAllEnrolled');
+    Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/students/search', 'StudentsController@searchStudents');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/charons', 'CharonsController@getByCourse');
     Route::middleware('auth.course.managing.require')
         ->get('courses/{course}/logs', 'CharonsController@getLogsById');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/queryLogs', 'CharonsController@getLatestQueryLogs');
     Route::middleware('auth.charon.submissions.view.require')  // query param user_id
-        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharon');
+        ->get('charons/{charon}/submissions', 'SubmissionsController@getByCharonAndUser');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}', 'SubmissionsController@findById');
 
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/enableLogging', 'LoggingController@enableLoggingForUser');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/disableLogging', 'LoggingController@disableLoggingForUser');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/findUsersWithLoggingEnabled', 'LoggingController@findUsersWithLoggingEnabled');
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{user}/queryLoggingEnabled', 'LoggingController@userHasQueryLoggingEnabled');
     Route::middleware('auth.submission.managing.require')
         ->get('submissions/{submission}/files', 'FilesController@index');
     Route::middleware('auth.charon.managing.require')
@@ -53,6 +65,8 @@ Route::group(['namespace' => 'Api'], function () {
         ->delete('charons/{charon}/reviewComments/{reviewComment}/delete', 'ReviewCommentController@delete');
     Route::middleware('auth.charon.submissions.view.require') // clear review comments' notifications
         ->put('charons/{charon}/reviewComments/clear', 'ReviewCommentController@clearNotifications');
+    Route::middleware('auth.charon.submissions.view.require')
+        ->get('charons/{charon}/reviewComments/student', 'ReviewCommentController@getReviewCommentsForCharonAndStudent');
 
     Route::middleware('auth.charon.managing.require')
         ->post('charons/{charon}/checksuite/run', 'PlagiarismController@runChecksuite');

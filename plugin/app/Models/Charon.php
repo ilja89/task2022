@@ -20,6 +20,7 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property string description
  * @property string project_folder
  * @property string tester_extra
+ * @property string unittests_git
  * @property string system_extra
  * @property integer tester_type_code
  * @property integer grading_method_code
@@ -63,7 +64,7 @@ class Charon extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'project_folder', 'tester_extra', 'system_extra',
+        'name', 'description', 'project_folder', 'tester_extra', 'unittests_git', 'system_extra',
         'tester_type_code', 'grading_method_code', 'course', 'grouping_id', 'timemodified',
         'defense_deadline', 'defense_start_time', 'defense_duration', 'choose_teacher', 'defense_threshold',
         'docker_timeout', 'docker_content_root', 'docker_test_root', 'group_size', 'allow_submission'
@@ -90,6 +91,11 @@ class Charon extends Model
     public function defenseLabs()
     {
         return $this->hasMany(CharonDefenseLab::class)->orderBy('id');
+    }
+
+    public function labs()
+    {
+        return $this->belongsToMany(Lab::class, "charon_defense_lab", "charon_id", "lab_id");
     }
 
     public function deadlines()
@@ -120,6 +126,13 @@ class Charon extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
+    }
+
+    public function gradeItem()
+    {
+        return $this->belongsTo(GradeCategory::class, 'category_id')
+            ->join('grade_items', 'grade_categories.id', '=', 'grade_items.iteminstance')
+            ->where('grade_items.itemtype', 'category');
     }
 
     /**

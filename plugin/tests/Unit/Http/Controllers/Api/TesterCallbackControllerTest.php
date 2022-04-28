@@ -42,7 +42,6 @@ class TesterCallbackControllerTest extends TestCase
      */
     public function testIndexPassesAvailableUsernamesToFlow()
     {
-        $this->markTestSkipped('Out of date, needs attention');
 
         $callback = new GitCallback();
 
@@ -69,10 +68,17 @@ class TesterCallbackControllerTest extends TestCase
             ->andReturn($callback);
 
         $this->saveCallbackFlow
-            ->shouldReceive('run')
+            ->shouldReceive('saveTestersAsyncResponse')
             ->with($request, $callback, ['original user', 'uuid1', 'uuid2'])
             ->once()
             ->andReturn($submission);
+
+        $this->saveCallbackFlow
+            ->shouldReceive('hideUnneededFields')
+            ->with($submission)
+            ->once()
+            ->andReturn($submission)->passthru();
+
 
         $this->controller->index($request);
     }

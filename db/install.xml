@@ -16,6 +16,7 @@
                 <FIELD NAME="description" SEQUENCE="false" TYPE="text" NOTNULL="true"/>
                 <FIELD NAME="project_folder" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true"/>
                 <FIELD NAME="tester_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="unittests_git" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
@@ -49,8 +50,6 @@
                      REFTABLE="grade_categories" REFFIELDS="id"/>
                 <KEY NAME="FK_charon_grading_method" TYPE="foreign" FIELDS="grading_method_code"
                      REFTABLE="charon_grading_method" REFFIELDS="code"/>
-                <KEY NAME="FK_charon_tester_type" TYPE="foreign" FIELDS="tester_type_code"
-                     REFTABLE="charon_tester_type" REFFIELDS="code"/>
                 <KEY NAME="PK_charon" TYPE="primary" FIELDS="id"/>
             </KEYS>
             <INDEXES>
@@ -72,8 +71,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_template" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_template_charon" TYPE="foreign" FIELDS="charon_id"
-                     REFTABLE="charon" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_template_charon" UNIQUE="false" FIELDS="charon_id"/>
@@ -137,8 +134,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_lab_course" TYPE="foreign" FIELDS="course_id"
-                     REFTABLE="mdl_course" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_lab_course" UNIQUE="false" FIELDS="course_id"/>
@@ -155,10 +150,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab_teacher" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_lab_teacher_charon_lab" TYPE="foreign" FIELDS="lab_id"
-                     REFTABLE="charon_lab" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_lab_teacher_teacher" TYPE="foreign" FIELDS="teacher_id"
-                     REFTABLE="user" REFFIELDS="id"/> <!-- not sure if it's user -->
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_lab_teacher_charon_lab" UNIQUE="false" FIELDS="lab_id"/>
@@ -174,10 +165,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_lab_group" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_lab_group_charon_lab" TYPE="foreign" FIELDS="lab_id"
-                     REFTABLE="charon_lab" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_lab_group_groups" TYPE="foreign" FIELDS="group_id"
-                     REFTABLE="groups" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_lab_group_charon_lab" UNIQUE="false" FIELDS="lab_id"/>
@@ -200,6 +187,9 @@
             <KEYS>
                 <KEY NAME="PK_charon_test_suite" TYPE="primary" FIELDS="id"/>
             </KEYS>
+            <INDEXES>
+                <INDEX NAME="IXFK_charon_test_suite_submission" UNIQUE="false" FIELDS="submission_id"/>
+            </INDEXES>
         </TABLE>
 
         <TABLE NAME="charon_unit_test" COMMENT="Unit test.">
@@ -222,8 +212,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_unit_test" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_unit_test_charon_test_suite" TYPE="foreign" FIELDS="test_suite_id"
-                     REFTABLE="charon_test_suite" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_unit_test_charon_test_suite" UNIQUE="false" FIELDS="test_suite_id"/>
@@ -238,10 +226,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_defense_lab" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_defense_lab_charon_lab" TYPE="foreign" FIELDS="lab_id"
-                     REFTABLE="charon_lab" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_defense_lab_charon" TYPE="foreign" FIELDS="charon_id"
-                     REFTABLE="charon" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_charon_defense_lab_charon_lab" UNIQUE="false" FIELDS="lab_id"/>
@@ -287,16 +271,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_defenders" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_defenders_student" TYPE="foreign" FIELDS="student_id"
-                     REFTABLE="mdl_user" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_defenders_charon" TYPE="foreign" FIELDS="charon_id"
-                     REFTABLE="mdl_charon" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_defenders_submission" TYPE="foreign" FIELDS="submission_id"
-                     REFTABLE="mdl_charon_submission" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_defenders_teacher" TYPE="foreign" FIELDS="teacher_id"
-                     REFTABLE="mdl_user" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_defenders_charon_defense_lab" TYPE="foreign" FIELDS="defense_lab_id"
-                     REFTABLE="mdl_charon_defense_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXUNIQUE_choosen_time_and_teacher_id" UNIQUE="true" FIELDS="choosen_time,teacher_id"/>
@@ -365,8 +339,6 @@
                 <KEY NAME="PK_charon_result" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="FK_result_submission" TYPE="foreign" FIELDS="submission_id"
                      REFTABLE="charon_submission" REFFIELDS="id"/>
-                <KEY NAME="FK_result_user" TYPE="foreign" FIELDS="user_id"
-                     REFTABLE="user" REFFIELDS="id"/>
                 <KEY NAME="UK_charon_result_submission_user_grade_type_code" TYPE="unique"
                      FIELDS="submission_id,user_id,grade_type_code"/>
             </KEYS>
@@ -428,14 +400,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_defense_registration" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_defense_registration_student" TYPE="foreign" FIELDS="student_id"
-                     REFTABLE="user" REFFIELDS="id"/>
-                <KEY NAME="FK_defense_registration_charon" TYPE="foreign" FIELDS="charon_id"
-                     REFTABLE="charon" REFFIELDS="id"/>
-                <KEY NAME="FK_defense_registration_submission" TYPE="foreign" FIELDS="submission_id"
-                     REFTABLE="charon_submission" REFFIELDS="id"/>
-                <KEY NAME="FK_defense_registration_teacher" TYPE="foreign" FIELDS="teacher_id" REFTABLE="user" REFFIELDS="id"/>
-                <KEY NAME="FK_defense_registration_lab" TYPE="foreign" FIELDS="lab_id" REFTABLE="charon_lab" REFFIELDS="id"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="UQ_defense_registration_teacher_and_time" UNIQUE="true" FIELDS="teacher_id, time"/>
@@ -486,12 +450,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_preset" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_preset_grade_categories" TYPE="foreign" FIELDS="parent_category_id"
-                     REFTABLE="grade_categories" REFFIELDS="id"/>
-                <KEY NAME="FK_preset_course" TYPE="foreign" FIELDS="course_id"
-                     REFTABLE="course" REFFIELDS="id"/>
-                <KEY NAME="FK_preset_grading_method" TYPE="foreign" FIELDS="grading_method_code"
-                     REFTABLE="charon_grading_method" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_preset_grade_categories" UNIQUE="false" FIELDS="parent_category_id"/>
@@ -512,10 +470,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_preset_grade" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_preset_grade_preset" TYPE="foreign" FIELDS="preset_id"
-                     REFTABLE="charon_preset" REFFIELDS="id"/>
-                <KEY NAME="FK_preset_grade_grade_name_prefix" TYPE="foreign" FIELDS="grade_name_prefix_code"
-                     REFTABLE="charon_grade_name_prefix" REFFIELDS="code"/>
             </KEYS>
             <INDEXES>
                 <INDEX NAME="IXFK_preset_grade_preset" UNIQUE="false" FIELDS="preset_id"/>
@@ -611,10 +565,20 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_charon_review_comment" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="FK_charon_review_comment_user" TYPE="foreign" FIELDS="user_id"
-                     REFTABLE="user" REFFIELDS="id"/>
-                <KEY NAME="FK_charon_review_comment_submission_file" TYPE="foreign" FIELDS="submission_file_id"
-                     REFTABLE="submission_file" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+
+        <!--  Query logging for users  -->
+
+        <TABLE NAME="charon_query_log_user"
+               COMMENT="Users who have query logging enabled.">
+            <FIELDS>
+                <FIELD NAME="id" SEQUENCE="true" TYPE="int" NOTNULL="true" LENGTH="10"/>
+                <FIELD NAME="user_id" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="PK_query_log_user" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="FK_query_log_user_user" TYPE="foreign" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
             </KEYS>
         </TABLE>
 

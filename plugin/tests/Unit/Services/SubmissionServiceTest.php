@@ -11,6 +11,7 @@ use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Models\Grademap;
+use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\UserRepository;
 use TTU\Charon\Services\AreteResponseParser;
@@ -94,6 +95,28 @@ class SubmissionServiceTest extends TestCase
         $actual = $this->service->saveSubmission($request, $charon, 5);
 
         $this->assertEquals(3, $actual->git_callback_id);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testSaveSubmissionSavesWithoutGitCallback()
+    {
+        GitCallback::unguard();
+
+        $request = new Request();
+        $callback = new GitCallback();
+
+        $this->requestHandlingService
+            ->shouldReceive('getSubmissionFromRequest')
+            ->with($request, '', 5, 1)
+            ->andReturn($this->submission);
+
+        $this->submission->shouldReceive('save');
+
+        $actual = $this->service->saveSubmission($request, $callback, 5, 1);
+
+        $this->assertEquals(null, $actual->git_callback_id);
     }
 
     public function testAddsNewSubmission()
@@ -247,5 +270,27 @@ class SubmissionServiceTest extends TestCase
         $result->user_id = $userId;
 
         return $result;
+    }
+
+    public function testSaveFilesSuccessful()
+    {
+        $submissionId = 1;
+        $filesRequest = [[1],[2]];
+        $submissionFile = Mockery::mock(SubmissionFile::class);
+
+        $this->requestHandlingService
+            ->shouldReceive('getFileFromRequest')
+            ->once()
+            ->with($submissionId, [1], false)
+            ->andReturn($submissionFile);
+        $this->requestHandlingService
+            ->shouldReceive('getFileFromRequest')
+            ->once()
+            ->with($submissionId, [2], false)
+            ->andReturn($submissionFile);
+
+        $submissionFile->shouldReceive('save')->twice();
+
+        $this->service->saveFiles($submissionId, $filesRequest);
     }
 }

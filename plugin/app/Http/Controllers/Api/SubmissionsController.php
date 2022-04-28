@@ -86,6 +86,7 @@ class SubmissionsController extends Controller
         $submission->charon_order_nr = $this->submissionsRepository->getSubmissionCharonOrderNumber($submission, $studentId);
         $submission->files = $this->filesController->index($submission);
         $submission->user_id = $studentId;
+        $submission->test_suites = $this->submissionsRepository->getTestSuites($submission->id);
 
         return $submission->makeHidden(['charon', 'grader_id']);
     }
@@ -139,15 +140,15 @@ class SubmissionsController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param Charon $charon
-     *
-     * @return Paginator
+     * @return array
      */
-    public function getByCharon(Charon $charon)
+    public function getByCharonAndUser(Request $request, Charon $charon): array
     {
+        $userId = $request->input('user_id');
         return $this->submissionsRepository->paginateSubmissionsByCharonUser(
-            $charon,
-            intval($this->request['user_id'])
+            $charon, $userId
         );
     }
 
@@ -185,13 +186,7 @@ class SubmissionsController extends Controller
      */
     public function findLatest(Course $course)
     {
-        $submissions = $this->submissionsRepository->findLatestSubmissions($course->id);
-
-        foreach ($submissions as $submission) {
-            $submission->makeHidden(['charon_id', 'user_id']);
-        }
-
-        return $submissions;
+        return $this->submissionService->findLatestSubmissions($course->id);
     }
 
     public function findSubmissionCounts(Course $course)

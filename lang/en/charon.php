@@ -73,6 +73,7 @@ $string['plagiarism_enabled'] = 'Plagiarism enabled';
 $string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
 $string['plagiarism_includes'] = 'Plagiarism includes';
+$string['unittests_git_charon'] = 'Charon unittests Git';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -117,6 +118,7 @@ $string['plagiarism_resource_provider_private_key_helper'] = 'The private key wh
     . 'the repository.';
 $string['plagiarism_includes_helper'] = 'Pattern for files which will be included by the plagiarism check. For '
     . 'example, ".*/EX13.*", will include everything in EX13 folders.';
+$string['unittests_git_charon_helper'] = 'The Git URL in which there are tests for this Charon';
 
 $string['remove_button_text'] = 'Remove';
 $string['add_button_text'] = 'Add';
@@ -203,8 +205,17 @@ $string['source_file'] = 'Source File:';
 $string['insert_file_path'] = 'Insert file path to see it here and edit file content.';
 $string['source_files'] = 'Source Files';
 $string['reset_to_templates'] = 'Reset templates';
-$string['feedback-text'] = 'Feedback';
+$string['feedback-text-single-submission'] = 'Feedback for this submission';
 $string['no-feedback-info'] = 'When a teacher adds feedback for the submission, it will be visible here.';
+$string['feedback-text-all-submissions'] = 'Feedback for all submissions for this charon';
+$string['showing-email'] = 'Showing e-mail';
+$string['showing-table'] = 'Showing table';
+
+/*------------------------*\
+   Labels
+\*------------------------*/
+
+$string['label_name_new_review_comment'] = 'New';
 
 /*------------------------*\
    Messages

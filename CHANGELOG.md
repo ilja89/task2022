@@ -4,9 +4,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[Unreleased]
+## [Unreleased]
 ### Added
 - #660 Added endpoint for GitHub callbacks
+
+## [1.6.2] - 2022-04-14
+
+### Added
+- #709 Added direct links to submissions, they can be opened from notifications and submissions modal
+- #736 Notifying review comments have a slightly different color and a 'New'/'Uus' label for students and all of charons' review comments are ordered by submission creation date time (descending)
+- #734 Students distribution data query in popup now on demand, using button
+
+## [1.6.1] - 2022-03-11
+
+### Added
+- #732 Group submissions in popup will have common line height also in case of a wrap.
+- #751 Add an option to access query logs and turn on query logging for specific users
+
+### Fixed
+- #781 Remove code span padding-left from assignment.css
+- #795 Restored Mobile-ID component
+- #745 Rounded student's percentage in Charon assignment grademap table up to 2 decimal points
+
+## [1.6.0] - 2022-02-10
+
+### Added
+- #691 ReviewComment count for each submission added to "Latest submissions" and submission search by student in Popup
+- #676 Student has an option to toggle current submission comments and all comments for this charon. Same for the teacher
+- #706 Adjust fetching of the submission file in student view
+- #677 Submission feedback is now available in table view when clicking toggle, like from student view
+- #723 Update dependencies so security check does not fail & Laravel
+- #694 charon tests url
+
+### Fixed
+- #696 Modify the general notifications service
+- #729 Fix the submissionRepository.php paginateSubmissionsByCharonUser to handle group submissions
+- #661 Assignment view code block padding fix
+- #708 Pointless scrollingbar for code blocks in assignment view
+- #735 Sorting in report does not work
+- #741 Confirmed submissions are not displayed if they do not exist in currently loaded submissions
+- #754 ReviewComment does not show correct creator name
+
+## [1.5.8] - 2021-12-14
+
+### Fixed
+- #714 Disable security check
+- #724 Supported users, logged in using Mobile-Id
 
 ## [1.5.7] - 2021-11-12
 
@@ -23,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.5] - 2021-10-22
 
 ### Added
-- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn 
+- #589 When a teacher adds a new review comment about a student's submission, an eye symbol on the same submission will turn
   red on the student's view. When submission is opened by the student, the red color will be removed again.
 - #678 Added logging when an exception is thrown when charon is being deleted by moodle
 - #681 updated composer/composer to 2.1.9
@@ -38,7 +81,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #629 Made templates deleting with charon deleting
 - #625 Fixed templates to be also backupable
 - #610 Fixed most of the vue warnings which are shown in console
-- #662 "Inline" submissions "user" is defined by currently logged user
 
 ### Added
 - #618 Synchronous url can now be set in moodle's charon settings
@@ -48,7 +90,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #638 Added css so that when tester returns styled output, it will be displayed that way
 - #589 Added the ability for teachers to add feedback for students' submissions
 - #635 Backup and restore possibility for charon_review_comment table
-- \#671 Tester response and callback have more similar flow
 
 ## [1.5.3] - 2021-10-08
 
@@ -102,7 +143,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
 - \#539 Substitute Ace Editor with textarea
 
-
 ### Fixed
 - \#528 In grading view show "Total points: 0" if there is no result for charon
 - \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
@@ -111,9 +151,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.0] - 2021-07-19
 
 ### Added
-- \#454 Added posting to tester from inline submission
-- \#418 Charon footer shows Charon version in use and has a link to Changelog
-- \#431 Added charon total points in grading view
 - \#351 Confirming registration deletion alert shows additional information about the registration
 - \#396 Inform the teacher about the number of registrations lost when confirming a Lab deletion
 - \#397 Ask confirmation if a Lab change would result in loss of active registrations
@@ -121,17 +158,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#392 Persistent grades marked with asterisk
 - \#210 Charon deadline events are visible in Moodle calendar
 - \#449 Tester url and token can be changed for specific course
-- \#492 Integrated templates management frontend with backend endpoints
-- \#490 Added templates management view in charon settings, where templates can be added to charon, updated or deleted
-- \#474 Added ability to make submitions from charon student view
-- \#542 Now a submission is made to tester, its response is handled and submissions are created.
-- \#522 Show code editor always if there is at least one template (student view)
-- \#523 Rename show code editor checkbox to "Allow code submission on page", if it is checked, "Submit" button (which send the code to backend) is shown, otherwise is hidden and code editor works in read-only mode
-- \#539 Substitute Ace Editor with textarea
 
 ### Fixed
-- \#528 In grading view show "Total points: 0" if there is no result for charon
-- \#382 In Firefox latest submissions in dashboard do not break out of their containers anymore
 - \#389 All grade components are now always visible in students' charon submission view
 - \#434 Current points in submission view show selected submission's points now
 - \#402 Folder structure for deep files works better now
@@ -140,7 +168,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#359 Popup settings sliders' thumbs are always visible
 - \#437 Fixed persistent value saving
 - \#349 Fixed calculation for "Undefended amount" in submissions table
-- \#523 If "Allow code submission on page" is checked a submit button appears and the text can be edited otherwise not
 
 ## [1.2.4] - 2021-05-19
 
@@ -185,7 +212,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2021-03-16
 
 ### Fixed
-- \#399 Triggering result recalculation previously reset the persistent grade result value to 0 
+- \#399 Triggering result recalculation previously reset the persistent grade result value to 0
 
 ## [1.1.3] - 2021-03-16
 
@@ -220,7 +247,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - \#391 Labs can now be named
 
 ### Changed
-- \#394 Submission result colors in Student view are less random and reflect score % 
+- \#394 Submission result colors in Student view are less random and reflect score %
 
 ### Fixed
 - \#378 Total grade calculation in Grading view no longer shows constant 0 when forward slash is present in Grade idNumber

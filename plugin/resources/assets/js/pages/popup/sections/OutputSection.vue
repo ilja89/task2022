@@ -1,124 +1,181 @@
 <template>
     <popup-section
-            title="Code, feedback and outputs"
-            subtitle="Output from the tester and mail sent to the student."
-            class="output-section"
+        title="Code, feedback and outputs"
+        subtitle="Output from the tester and mail sent to the student."
+        class="output-section"
     >
         <charon-tabs
-                v-if="submission"
-                class="card popup-tabs"
-                id="tabs"
-                :sticky="stickyTabs"
+            v-if="submission"
+            class="card popup-tabs"
+            id="tabs"
+            :sticky="stickyTabs"
         >
-
             <charon-tab name="Code" :selected="true">
-
                 <files-component
-                        :submission="submission"
-                        :testerType="charon ? charon.tester_type_name : ''"
-                        :isRound="false"
+                    :submission="submission"
+                    :testerType="charon ? charon.tester_type_name : ''"
+                    :isRound="false"
                 />
-
             </charon-tab>
 
             <charon-tab name="Mail">
+                <h3 v-if="toggleShowTable">Showing table</h3>
+                <h3 v-else>Showing mail</h3>
 
-                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="hasMail">
+                <toggle-button @buttonClicked="showTable($event)"></toggle-button>
+
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-if="toggleShowTable">
+                    <pre style="max-height: 900px;overflow: auto">
+                        <submission-table-component :testSuites="submission['test_suites']"></submission-table-component>
+                    </pre>
+                </v-card>
+                <v-card class="mx-auto" max-height="900" max-width="80vw" outlined raised v-else-if="hasMail">
                     <pre style="max-height: 900px;overflow: auto" v-html="submission.mail"/>
                 </v-card>
-
             </charon-tab>
 
             <charon-tab name="Feedback">
+                <v-card class="main-container">
+                    <div v-if="!toggleShowAllSubmissions">
+                        <h2>Feedback for this submission</h2>
+                    </div>
+                    <div v-else>
+                        <h2>Feedback for all submissions for this charon</h2>
+                    </div>
 
-                <review-comment-component v-if="hasReviewComments" :files="submission.files" view="teacher"/>
+                    <toggle-button @buttonClicked="showAllSubmissions($event)"></toggle-button>
 
-                <v-card v-else class="message">
-                    When a teacher adds feedback for the submission, it will be visible here.
+                    <files-with-review-comments v-if="hasReviewComments"
+                                                :filesWithReviewComments="this.getFilesWithReviewComments()"
+                                                :openSubmissionId="submission.id"
+                                                view="teacher"/>
+                    <v-card v-else class="no-submission-message">
+                        When a teacher adds feedback for the submission, it will be visible here.
+                    </v-card>
                 </v-card>
-
             </charon-tab>
 
             <charon-tab name="Outputs">
-
                 <output-component :submission="submission"/>
-
             </charon-tab>
-
         </charon-tabs>
-
     </popup-section>
 </template>
 
 <script>
 
-    import {mapState, mapActions} from "vuex";
-    import {CharonTabs, CharonTab, FilesComponent, ReviewCommentComponent} from '../../../components/partials/index';
-    import {PopupSection} from '../layouts/index';
-    import {OutputComponent} from '../partials/index';
-    import {Submission} from "../../../api";
-    import {File} from "../../../api";
+import {mapState, mapActions} from "vuex";
+import {CharonTabs, CharonTab, FilesComponent, FilesWithReviewComments, ToggleButton}
+    from '../../../components/partials/index';
+import {PopupSection} from '../layouts/index';
+import {OutputComponent} from '../partials/index';
+import {ReviewComment, Submission} from "../../../api";
+import SubmissionTableComponent from "../../../components/partials/SubmissionTableComponent"
 
-    export default {
+export default {
+    components: {
+        PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent,
+        FilesWithReviewComments, SubmissionTableComponent, ToggleButton
+    },
 
-        components: {
-            PopupSection, CharonTabs, CharonTab, FilesComponent, OutputComponent, ReviewCommentComponent
-        },
+    data() {
+        return {
+            stickyTabs: false,
+            toggleShowAllSubmissions: false,
+            toggleShowTable: false,
+        }
+    },
 
-        data() {
-            return {
-                stickyTabs: false
+    computed: {
+        ...mapState([
+            'charon',
+            'submission',
+            'filesWithReviewComments',
+        ]),
+
+        hasReviewComments() {
+            if (this.filesWithReviewComments) {
+                return this.getFilesWithReviewComments().length > 0;
             }
+            return false;
         },
 
-        computed: {
-            ...mapState([
-                'charon',
-                'submission',
-            ]),
-
-            hasReviewComments() {
-                for (let i = 0; i < this.submission.files.length; i++) {
-                    if (this.submission.files[i].review_comments.length > 0) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-
-            hasMail() {
-                return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
-            },
+        hasMail() {
+            return typeof this.submission.mail !== 'undefined' && this.submission.mail !== null && this.submission.mail.length > 0;
         },
+    },
 
-        methods: {
-           ...mapActions(["updateSubmission"]),
+    methods: {
+        ...mapActions(["updateSubmission"]),
 
-            updateOutputSection() {
-                Submission.findById(this.submission.id, this.submission.user_id,  submission => {
-                    this.updateSubmission({submission});
-                })
-            }
-        },
-
-        created() {
-            VueEvent.$on('update-from-review-comment', this.updateOutputSection)
-        },
-
-        mounted: function () {
-            this.$root.$on('refresh_submission_files', () => {
-
-                File.findBySubmission(this.submission.id, newFile => {
-                    this.submission.files = newFile
-                })
+        updateOutputSection() {
+            Submission.findById(this.submission.id, this.submission.user_id, submission => {
+                this.updateSubmission({submission});
             })
+        },
+
+        getFilesWithReviewComments() {
+            if (this.toggleShowAllSubmissions) {
+                return this.filesWithReviewComments;
+            }
+            let reviewComments = [];
+            this.filesWithReviewComments.forEach(reviewComment => {
+                if (reviewComment.submissionId === this.submission.id) {
+                    reviewComments.push(reviewComment);
+                }
+            })
+            return reviewComments;
+        },
+
+        getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+            ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
+                this.$store.state.filesWithReviewComments = data;
+            })
+        },
+
+        showTable(bool) {
+            this.toggleShowTable = bool;
+        },
+
+        showAllSubmissions(bool) {
+            this.toggleShowAllSubmissions = bool;
+        },
+    },
+
+    created() {
+        VueEvent.$on('update-from-review-comment', this.updateOutputSection)
+    },
+
+    mounted() {
+        this.$root.$on('refresh-review-comments', () => {
+            this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id);
+        })
+    },
+
+    watch: {
+        submission() {
+            this.getFilesWithCommentsForAllSubmissions(this.submission.charon_id, this.submission.user_id)
         }
     }
+}
 </script>
 
 <style scoped>
 
-.message {
-    padding: 10px;
+.mx-auto {
+    margin-top: 10px;
 }
+
+.no-submission-message {
+    background-color: #f2f3f4 !important;
+    margin: 1em 0.5em 0.5em;
+    padding: 0.5em;
+    font-size: 1.2em;
+}
+
+h2 {
+    padding: 0.5em;
+    font-size: 1.5em;
+}
+
 </style>

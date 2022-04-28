@@ -42,9 +42,9 @@ class TesterCommunicationService
      */
     public function __construct(
         HttpCommunicationService $httpCommunicationService,
-        CharonRepository $charonRepository,
+        CharonRepository         $charonRepository,
         CourseSettingsRepository $courseSettingsRepository,
-        GitCallbackService $callbackService
+        GitCallbackService       $callbackService
     )
     {
         $this->httpCommunicationService = $httpCommunicationService;
@@ -127,7 +127,7 @@ class TesterCommunicationService
         array_push($finalListofSlugs, $charon->project_folder);
 
         return (new AreteRequestDto())
-            ->setGitTestRepo($courseSettings->unittests_git)
+            ->setGitTestRepo($charon->unittests_git ?: $courseSettings->unittests_git)
             ->setDockerExtra($charon->tester_extra)
             ->setTestingPlatform($charon->testerType->name)
             ->setSlugs($finalListofSlugs)

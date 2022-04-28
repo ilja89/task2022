@@ -115,8 +115,12 @@
         copyButton: "{{ translate('copy') }}",
         submitButton: "{{ translate('submit') }}",
         resetToTemplates: "{{ translate('reset_to_templates') }}",
-        feedbackText: "{{ translate('feedback-text') }}",
-        noFeedbackInfo: "{{ translate('no-feedback-info') }}"
+        feedbackTextSingleSubmission: "{{ translate('feedback-text-single-submission') }}",
+        noFeedbackInfo: "{{ translate('no-feedback-info') }}",
+        feedbackTextAllSubmissions: "{{ translate('feedback-text-all-submissions') }}",
+        showingTable: "{{ translate('showing-table') }}",
+        showingEmail: "{{ translate('showing-email') }}",
+        labelNameNewReviewComment: "{{ translate('label_name_new_review_comment') }}",
     };
 </script>
 

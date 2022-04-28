@@ -53,7 +53,7 @@
 
 			<template v-slot:item.actions="{ item }">
 				<v-row>
-					<submission-modal :submission="item" :color="getColor(item)"/>
+					<submission-modal :submission="item" :color="getColor(item)" :is-link="false"/>
 					<v-btn v-if="allow_submission > 0" icon @click="copyToEditor(item)">
 						<img alt="copy to editor" height="24px" src="pix/copy.png" width="24px">
 					</v-btn>
@@ -68,7 +68,7 @@
 import moment from "moment";
 import {getSubmissionWeightedScore} from "../helpers/submission"
 import {Translate} from "../../../mixins";
-import {File, Submission} from "../../../api";
+import {File, ReviewComment, Submission} from "../../../api";
 import RegistrationBottomSheet from "./RegistrationBottomSheet";
 import SubmissionModal from "./SubmissionModal";
 import {mapState} from "vuex";
@@ -113,7 +113,7 @@ export default {
 			'registrations',
 			'student_id',
 			'charon',
-			'labs'
+			'labs',
 		]),
 
 		submissionsTable() {
@@ -128,6 +128,9 @@ export default {
 	mounted() {
 		VueEvent.$on('add-submission', (submission) => {
 			submission.latestAdded = true;
+			if (this.submissions.length > this.$submissionListLength - 1) {
+				this.$store.state.submissions.pop();
+			}
 			this.$store.state.submissions.unshift(submission);
 		});
 	},
@@ -216,21 +219,30 @@ export default {
 					VueEvent.$emit('latest-submission-to-editor', submissions[0].id);
 				}
 				this.$store.state.submissions = submissions;
-				this.canLoadMore = Submission.canLoadMore();
-				VueEvent.$emit("student-refresh-submissions");
-				this.refreshing = false;
+				this.getFilesWithCommentsForAllSubmissions(this.charon.id, this.student_id);
 			});
 		},
 
 		loadMoreSubmissions() {
 			if (Submission.canLoadMore()) {
+                this.refreshing = true;
 				Submission.getNext(submissions => {
 					submissions.forEach(submission => this.$store.state.submissions.push(submission));
 					this.canLoadMore = Submission.canLoadMore();
+                    this.refreshing = false;
 				});
 			} else {
 				this.canLoadMore = false;
 			}
+		},
+
+		getFilesWithCommentsForAllSubmissions(charonId, studentId) {
+			ReviewComment.getReviewCommentsForCharonAndUser(charonId, studentId, data => {
+				this.$store.state.filesWithReviewComments = data;
+				VueEvent.$emit("student-refresh-submissions");
+				this.refreshing = false;
+				this.canLoadMore = Submission.canLoadMore();
+			})
 		},
 	},
 
@@ -244,7 +256,7 @@ export default {
 
 <style>
 .latest {
-  background-color: #E8F3FA;
+	background-color: #E8F3FA;
 }
 </style>
 

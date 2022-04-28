@@ -67,7 +67,8 @@ Script `dev-setup.sh` is executing following commands:
 ```bash
 git config core.filemode false
 git checkout -- .htaccess
-php composer.phar install
+cp composer.phar /opt/bitnami/php/bin
+composer install
 npm ci
 npm run dev
 sudo chmod -R 777 plugin/storage/
@@ -213,3 +214,12 @@ php composer.phar install
 **And make sure that your `.env.*` files are changed to `env.*`**   
 If you have both then delete the ones that match `.env.*`   
 To check which Laravel version you are running run: `php artisan --version`
+
+### MobileID test user
+
+Phone number +37200000566
+
+ID code 60001018800
+
+In order to test it you need to assign the phone number and ID code to the user. You can do it in the user profile (in Mobile phone and ID number fields, correspondingly).
+

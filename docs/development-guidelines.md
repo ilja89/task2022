@@ -32,6 +32,12 @@ We're currently using [Laravel 8.x](https://laravel.com/docs/8.x/releases)
 - [version.php](/version.php) < increase plugin version
 - [upgrade.php](/db/upgrade.php) < should include migrations per version
 
+#### Adding constraints to database table
+
+Moodle does not accept foreign keys in install.xml. If you need to add some to table, don't use install.xml for this. Add these in function apply_constraint() in [install.php](/db/install.php). Use existing records as sample.
+
+In [upgrade.php](/db/upgrade.php) foreign keys should be added same way as before
+
 ### Testing your code locally:
 
 - We are currently missing testing setup for javascript
@@ -86,23 +92,39 @@ After this in the same configuration dialog as above, set:
 ## Tags and releases
 
 In order to create a release for live deployment
-- Look up what's the next release number ought to be (see [CHANGELOG](/CHANGELOG.md))
-- Create a new branch from `develop` following the pattern `release/x.y.z`
-- Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description
-- Review the changes and try to identify anything which should be kept in mind during the deployment, things like
+1) Look up what the next release number ought to be (see [CHANGELOG](/CHANGELOG.md))
+2) Create a new branch from `develop` following the pattern `release/x.y.z`
+  - If all upcoming changes are not in `develop` already, then merge them into the release branch
+
+3) Review the changes and try to identify anything which should be kept in mind during the deployment, things like
   - are there non-trivial database structure changes or data modification migration which may prompt a need for a backup before deploying?
   - does the new version require any manual modifications to the live environment? (e.g. env variable, filesystem, PHP extension changes)
   - talk to the project manager if such things are found
-- Update [CHANGELOG](/CHANGELOG.md)
-  - below the `[Unreleased]` section add the version number and date
-  - add a link to the version diff to previous version at the bottom of the file following previous examples
-  - add any missing descriptions of things _added/changed/fixed_ in the version currently being released
-- Ask project manager to deploy the release branch to pre-live environment for testing
-  - fix any issues found on the release branch
 
-Once the release is tested and deployed to live
-- Create a new tag and release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
-- Pick your release branch for the _Create from_ field
-- Use your release number as the _Tag name_ and _Release title_
-- Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
-- Merge your release branch to master (and master also back to develop to get any changes there too)
+4) Update [version](/version.php)
+  - Use the date the release is being created
+  - Make sure latest additions to `upgrade.php` also check the same version
+
+5) Update [CHANGELOG](/CHANGELOG.md)
+  - Below the `[Unreleased]` section add the version number and date
+  - (temporarily skipped) Add a link to the version diff to previous version at the bottom of the file following previous examples
+  - Add any missing descriptions of things _added/changed/fixed_ in the version currently being released
+
+Note: If the release branch is updated with any commit and a tag for it was already created, then delete the created tag (its release is automatically deleted with it) and start over from here.
+
+6) Create a new tag and release using the [Tags](https://gitlab.cs.ttu.ee/ained/charon/-/tags) view
+  - Pick your release branch for the _Create from_ field
+  - Use your release number as the _Tag name_
+  - Copy the latest version content from [CHANGELOG](/CHANGELOG.md) to the _Release notes_ field
+
+7) Go and edit the automatically created release using the [Releases](https://gitlab.cs.ttu.ee/ained/charon/-/releases) view
+  - Add current date to the end of _Release title_. The release title should end up like this: `x.y.z (YYYY-MM-DD)`
+  - Add a link to the release for downloading its artifacts
+    - Go to the [Branches](https://gitlab.cs.ttu.ee/ained/charon/-/branches) view and locate your release branch
+    - Select branch's _Download_ option and copy the link of `build_release`
+    - Paste the link to the _URL_ field in release editing view
+    - Also add _Link title_: `Release x.y.z artifacts`
+
+8) Create a merge request towards `master` with title `Release x.y.z` and the latest release content in the description if it is not created already
+9) Ask project manager to deploy the release branch to pre-live environment for testing
+10) Merge your release branch to master (and master also back to develop to get any changes there too)

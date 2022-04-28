@@ -72,6 +72,7 @@ $string['plagiarism_enabled'] = 'Plagiarismikontroll aktiivne';
 $string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
 $string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
 $string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
+$string['unittests_git_charon'] = 'Charoni testide Git';
 
 $string['deadline'] = 'Tähtaeg';
 $string['percentage'] = 'Protsent';
@@ -110,6 +111,7 @@ $string['plagiarism_resource_provider_private_key_helper'] = 'Privaatvõti, mida
     . 'ligipääsuks.';
 $string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, mida plagiaadikontroll kontrollib. '
     . 'Näiteks, regex ".*/EX13.*", kontrollib kõiki faile EX13 kaustades.';
+$string['unittests_git_charon_helper'] = 'Giti URL kus asuvad selle charoni testid.';
 
 $string['remove_button_text'] = 'Eemalda';
 $string['add_button_text'] = 'Lisa';
@@ -196,8 +198,17 @@ $string['source_file'] = 'Lähtefail:';
 $string['insert_file_path'] = 'Sisestage faili tee, et seda siin näha ja faili sisu muuta.';
 $string['source_files'] = 'Lähtefailid';
 $string['reset_to_templates'] = 'Taasta mallid';
-$string['feedback-text'] = 'Tagasiside';
+$string['feedback-text-single-submission'] = 'Tagasiside selle esituse kohta';
 $string['no-feedback-info'] = 'Kui õpetaja/juhendaja lisab koodi kohta tagasisidet, on see nähtav siin.';
+$string['feedback-text-all-submissions'] = 'Tagasiside kõigi selle charoni esituste kohta';
+$string['showing-email'] = 'E-maili kuvamine';
+$string['showing-table'] = 'Tabeli kuvamine';
+
+/*------------------------*\
+   Labels
+\*------------------------*/
+
+$string['label_name_new_review_comment'] = 'Uus';
 
 /*------------------------*\
    Messages

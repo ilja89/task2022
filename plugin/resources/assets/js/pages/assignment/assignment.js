@@ -8,6 +8,7 @@ import CharonTab from "../../components/partials/CharonTab.vue";
 import GradesCheckboxes from "../../components/form/GradesCheckboxes.vue";
 import Vuetify from "vuetify";
 import store from './store'
+import router from './routes'
 import VueMaterial from 'vue-material'
 import light from "../popup/theme";
 import 'vuetify/dist/vuetify.min.css'
@@ -15,6 +16,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import CodeTemplates from "./components/CodeTemplates.vue";
+import ToggleButton from "../../components/partials/ToggleButton.vue";
 
 Vue.directive('highlightjs', HighlightDirective);
 Vue.use(VueMaterial)
@@ -34,7 +36,7 @@ const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
 
-    components: {AssignmentView, CodeEditor, CharonTabs, CharonTab, GradesCheckboxes, CodeTemplates},
+    components: {AssignmentView, CodeEditor, CharonTabs, CharonTab, GradesCheckboxes, CodeTemplates, ToggleButton},
 
     icons: {
         iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
@@ -50,5 +52,6 @@ const app = new Vue({
         language: language,
     },
 
+    router,
     store
 });
