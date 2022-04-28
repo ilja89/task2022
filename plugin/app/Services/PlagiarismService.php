@@ -2,11 +2,9 @@
 
 namespace TTU\Charon\Services;
 
-use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
-use TTU\Charon\Models\PlagiarismCheck;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
 use TTU\Charon\Repositories\PlagiarismRepository;
@@ -30,9 +28,6 @@ class PlagiarismService
     /** @var CourseRepository */
     private $courseRepository;
 
-    /** @var PlagiarismRepository */
-    private $plagiarismRepository;
-
     /** @var UserService */
     private $userService;
 
@@ -49,7 +44,6 @@ class PlagiarismService
      * @param CharonRepository $charonRepository
      * @param UserService $userService
      * @param SubmissionService $submissionService
-     * @param PlagiarismRepository $plagiarismRepository
      * @param CourseRepository $courseRepository
      */
     public function __construct(
@@ -57,14 +51,12 @@ class PlagiarismService
         CharonRepository $charonRepository,
         UserService $userService,
         SubmissionService $submissionService,
-        PlagiarismRepository $plagiarismRepository,
         CourseRepository $courseRepository,
         TemplateService $templateService
     )
     {
         $this->plagiarismCommunicationService = $plagiarismCommunicationService;
         $this->charonRepository = $charonRepository;
-        $this->plagiarismRepository = $plagiarismRepository;
         $this->userService = $userService;
         $this->submissionService = $submissionService;
         $this->courseRepository = $courseRepository;
@@ -360,20 +352,6 @@ class PlagiarismService
         }
 
         return $checks;
-    }
-
-    /**
-     * Update status and run id of the plagiarism check.
-     *
-     * @param PlagiarismCheck $check
-     * @param array $response
-     */
-    public function updateCheck(PlagiarismCheck $check, array $response): void
-    {
-        $check->updated_at = Carbon::now();
-        $check->status = $response['status'];
-        $check->run_id = $response['run_id'];
-        $check->save();
     }
 
     /**
