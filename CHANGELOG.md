@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.6.2] - 2022-04-09
+## [1.6.2] - 2022-04-14
 
 ### Added
 - #709 Added direct links to submissions, they can be opened from notifications and submissions modal
