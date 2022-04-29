@@ -19,7 +19,7 @@
             :average-submissions="averageSubmissions">
         </student-charon-points-vs-course-average-chart>
 
-        <comments-section :charonSelector="true" :studentId="this.student_id" :charons="this.charons"></comments-section>
+        <student-details-comment-section :studentId="this.student_id" :charons="this.charons"></student-details-comment-section>
 
         <popup-section title="Grades report"
                        subtitle="Grading report for the current student.">
@@ -44,7 +44,7 @@ import {
     DefenseRegistrationsSection,
     StudentDetailsSubmissionsSection,
     StudentDetailsCharonsTableSection,
-    CommentsSection
+    StudentDetailsCommentSection
 } from '../sections'
 import {StudentCharonPointsVsCourseAverageChart} from '../graphics'
 import moment from "moment"
@@ -55,7 +55,7 @@ export default {
         PopupSection,
         PageTitle,
         StudentSummarySection,
-        CommentsSection,
+        StudentDetailsCommentSection,
         DefenseRegistrationsSection,
         StudentCharonPointsVsCourseAverageChart,
         StudentDetailsSubmissionsSection,

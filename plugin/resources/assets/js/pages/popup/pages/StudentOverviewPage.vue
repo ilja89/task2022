@@ -59,7 +59,6 @@ export default {
             alert: false,
             search: '',
             students: [],
-            charons: [],
             students_headers: [
                 {text: 'Full name', value: 'fullname', align: 'start'},
                 {text: 'Uni-id', value: 'username'},

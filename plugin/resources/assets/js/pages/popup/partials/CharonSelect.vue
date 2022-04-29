@@ -6,7 +6,6 @@
         placeholder-key="name"
         size="medium"
         v-model="activeCharonId"
-        v-on:input="inputChanged"
     />
 </template>
 
@@ -45,11 +44,7 @@
             ...mapActions([
                 'updateCharon',
                 'updateSubmission',
-            ]),
-
-            inputChanged(newCharonId) {
-                this.$emit('input-changed', newCharonId)
-            }
+            ])
         },
     }
 </script>
