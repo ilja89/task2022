@@ -273,14 +273,14 @@ class PlagiarismService
     }
 
     /**
-    * Get the matches for the given Charon from the plagiarism service.
-    * Also returns times of plagiarism runs.
-    *
-    * @param Charon $charon
-    *
-    * @return array
-    * @throws GuzzleException
-    */
+     * Get the matches for the given Charon from the plagiarism service.
+     * Also returns times of plagiarism runs.
+     *
+     * @param Charon $charon
+     *
+     * @return array
+     * @throws GuzzleException
+     */
     public function getMatches(Charon $charon): array
     {
         $times = $this->plagiarismCommunicationService->getMatchesHistoryTimes($charon->plagiarism_assignment_id);
