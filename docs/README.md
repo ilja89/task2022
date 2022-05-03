@@ -11,9 +11,9 @@ are familiar with command line and have read access to [Charon repository](https
 
 #### Notes on PHP setup
 
-mac: https://www.youtube.com/watch?v=gbWfA87yh3Q&t=2s
+mac: https://www.youtube.com/watch?v=gbWfA87yh3Q
 
-windows: https://www.youtube.com/watch?v=oGMDpMNFFn4&t=1s
+windows: https://www.youtube.com/watch?v=oGMDpMNFFn4
 
 After downloading php for win, unpack php files to some folder where folder name does not contain spaces (program files does not work, directly on c: ok).
 When adding variable to path, php.exe file should be directly under the lastly referenced folder, or it is not discoverable.
@@ -21,6 +21,12 @@ PHP has by default php.ini-development and php.ini-production files under the ma
 Copy one of them end change to php.ini. When modifying this file, things should work.
 
 ## First time setup
+
+### Development in Windows using WSL
+
+If you are using Windows as main environment and want to run Charon (much) faster, you can try running it using WSL. Needed steps are described in file wsl.md
+
+We would recommend to do first install without using WSL (that is, use instructions from current file). As next step, you can remove all containers, images and volumes from Docker and try WSL. The install process is very similar.
 
 ### Get Charon
 
@@ -58,8 +64,8 @@ docker exec -it charon-moodle bash
 Navigate to Charon directory and execute the following commands
 
 ```bash
-cd bitnami/moodle/mod/charon
-./dev-setup.sh
+cd /bitnami/moodle/mod/charon
+sudo bash dev-setup.sh
 ```
 
 Script `dev-setup.sh` is executing following commands:
@@ -105,7 +111,9 @@ git checkout -- .htaccess
 
 ### Installing TalTech theme
 
-Ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.
+This step is optional. TalTech theme is not needed for solving most tasks. Skip this on first setup.
+
+When really needed, ask access to the theme repository or a direct zip file for the `Taltech Boost` theme in our chat.
 
 Copy the theme inside the Moodle container
 ```
