@@ -13,14 +13,18 @@
 
         data() {
             return {
-                buttonClick: false
+                buttonClick: this.buttonDefault ? this.buttonDefault : false
             }
+        },
+
+        props: {
+            buttonDefault: { required: false },
         },
 
         methods:{
             clicked() {
                 this.buttonClick = !this.buttonClick;
-              this.$emit('buttonClicked', this.buttonClick );
+                this.$emit('buttonClicked', this.buttonClick );
             }
         }
     }
