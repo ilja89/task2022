@@ -820,43 +820,9 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022021801) {
-        $sql = "CREATE TABLE " . $CFG->prefix . "charon_plagiarism_check(" .
-            "    id BIGINT(10) AUTO_INCREMENT NOT NULL," .
-            "    charon_id BIGINT(10) NOT NULL," .
-            "    user_id BIGINT(10) NOT NULL," .
-            "    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
-            "    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
-            "    status TEXT NOT NULL," .
-            "    PRIMARY KEY (id)," .
-            "    INDEX IXFK_plagiarism_check_charon (charon_id)," .
-            "    CONSTRAINT FK_plagiarism_check_charon" .
-            "        FOREIGN KEY (charon_id)" .
-            "            REFERENCES " . $CFG->prefix . "charon(id)," .
-            "    CONSTRAINT FK_plagiarism_check_user" .
-            "        FOREIGN KEY (user_id)" .
-            "            REFERENCES " . $CFG->prefix . "user(id)" .
-            ")";
-
-        $table = new xmldb_table("charon_plagiarism_check");
-
-        if (!$dbManager->table_exists($table)) {
-            $DB->execute($sql);
-        }
-    }
-
     if ($oldversion < 2022033101) {
         $table = new xmldb_table('charon');
         $field = new xmldb_field('plagiarism_assignment_id', XMLDB_TYPE_INTEGER, 10, null, null, null, null, null, null);
-
-        if (!$dbManager->field_exists($table, $field)) {
-            $dbManager->add_field($table, $field);
-        }
-    }
-
-    if ($oldversion < 2022040201) {
-        $table = new xmldb_table("charon_plagiarism_check");
-        $field = new xmldb_field('run_id', XMLDB_TYPE_INTEGER, 10);
 
         if (!$dbManager->field_exists($table, $field)) {
             $dbManager->add_field($table, $field);
