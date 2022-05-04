@@ -21,7 +21,9 @@ for example:
 ```bash
 wsl --install -d Ubuntu
 ```
-You can choice any available Linux distribution to install
+You can choice any available Linux distribution to install.
+
+Remember user name and password, you did set on install!
 
 
 ## Get Charon
@@ -41,15 +43,16 @@ Log in with your user credentials
 - Settings/Resources/WSL Integration: enable integration with your Linux distro
 
 
-## Create docker containers in Linux terminal
+## Create docker containers in Linux terminal (Install Moodle)
 
 ```bash
-cd
-cd charon/docs
+cd ~/charon/docs
 sudo docker-compose up -d
 ```
 Password will be asked. Use this one, you did set during Linux setup.
-If `docker-compose` is not found, restart Docker Desktop in Windows and try again
+If `docker-compose` is not found, restart Docker Desktop in Windows and try again.
+
+You can follow process of installing Moodle same way, as described in main README.md file.
 
 
 ## Install Charon
@@ -59,5 +62,7 @@ Follow instructions in README.md file, starting from `Install Charon` subitem
 
 ## Accessing Charon source code
 
-Charon code can be accessed from any Windows program (incl PhpStorm), using path like `\\wsl$\Ubuntu\home\user\charon`, where `Ubuntu` is name of your Linux distribution and `user` is your username, choicen on Linux setup.
+Charon code can be accessed from any Windows program (incl PhpStorm), 
+using path like `\\wsl$\Ubuntu\home\user\charon`, 
+where `Ubuntu` is name of your Linux distribution and `user` is your username, choicen on Linux setup.
 
