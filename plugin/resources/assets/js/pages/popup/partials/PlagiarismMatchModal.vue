@@ -13,7 +13,7 @@
         </template>
 
         <v-card style="background-color: white; overflow-y: hidden" height="90vh">
-            <v-toolbar :color="color" dark>
+            <v-toolbar :color="getColor()" dark>
                 <v-spacer></v-spacer>
 
                 <v-btn color="error" @click="isActive = false">
@@ -171,8 +171,7 @@ export default {
     },
 
     props: {
-        match: {required: true},
-        color: {required: true}
+        match: {required: true}
     },
 
     data() {
@@ -280,7 +279,12 @@ export default {
             require('brace/snippets/java')
             require('brace/snippets/prolog')
             require('brace/snippets/csharp')
-        }
+        },
+        getColor() {
+            if (this.match.status === 'plagiarism') return '#f44336'
+            else if (this.match.status === 'acceptable') return '#56a576'
+            else return '#8e8e8e';
+        },
     },
 }
 </script>

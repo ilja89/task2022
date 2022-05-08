@@ -322,7 +322,7 @@ class PlagiarismCommunicationService
     {
         $response = null;
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/plagiarism/match/{$matchId}/mark_${$newStatus}/",
+            "api/plagiarism/match/{$matchId}/mark_{$newStatus}/",
             'put'
         );
 
