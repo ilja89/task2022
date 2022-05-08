@@ -34,16 +34,16 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    {{latestCheck.charonName}}
+                                    {{latestCheck.charon}}
                                 </td>
                                 <td>
                                     {{latestCheck.author}}
                                 </td>
                                 <td>
-                                    {{latestCheck.created_at}}
+                                    {{latestCheck.created_timestamp}}
                                 </td>
                                 <td>
-                                    {{latestCheck.updated_at}}
+                                    {{latestCheck.updated_timestamp}}
                                 </td>
                                 <td>
                                     {{latestCheck.status}}
@@ -57,8 +57,36 @@
                 <v-data-table
                 :headers="headers"
                 :items="checkHistory"
+                item-key="run_id"
                 :items-per-page="5"
+                :single-expand="true"
+                show-expand
                 class="elevation-1">
+                    <template v-slot:item="{ item, expand, isExpanded }">
+                        <tr>
+                            <td
+                                class="d-block d-sm-table-cell"
+                                v-for="header in headers"
+                                style="width: 19%"
+                            >
+                              {{item[header.value]}}
+                            </td>
+                            <td style="width: 5%">
+                                <v-btn icon @click="expand(!isExpanded)">
+                                  <v-icon>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                    </template>
+                        <template v-slot:expanded-item="{ headers, item, isExpanded }">
+                            <tr v-for="row in item['history']">
+                              <td></td>
+                              <td></td>
+                              <td>{{ new Date(row.created_timestamp).toLocaleString('et-EE') }}</td>
+                              <td></td>
+                              <td>{{ row.status }}</td>
+                            </tr>
+                        </template>
                 </v-data-table>
             </div>
         </div>
@@ -77,7 +105,7 @@ import CharonSelect from "../partials/CharonSelect";
 export default {
     name: 'plagiarism-check-history-section',
 
-    components: {CharonSelect, ToggleButton,PopupSection},
+    components: {CharonSelect, ToggleButton, PopupSection},
 
     data() {
         return {
@@ -87,12 +115,13 @@ export default {
             toggleShowHistoryTable: false,
             latestCheck: [],
             headers: [
-                {text: 'Charon', align: 'start', value: 'name'},
+                {text: 'Charon', align: 'start', value: 'charon'},
                 {text: 'Author', value: 'author'},
-                {text: 'Created at', value: 'created_at'},
-                {text: 'Updated at', value: 'updated_at'},
+                {text: 'Created at', value: 'created_timestamp'},
+                {text: 'Updated at', value: 'updated_timestamp'},
                 {text: 'Status', value: 'status'},
-            ]
+                {text: '', value: 'data-table-expand'},
+            ],
         }
     },
 
@@ -111,8 +140,10 @@ export default {
             Plagiarism.runPlagiarismCheck(this.charon.id, response => {
                 if (response.status === 200) {
                     this.latestCheck = response.data.status
-                    if (this.latestCheck.status === "Check started.") {
-                        this.refreshLatestStatus(this.latestCheck.checkId, this.charon.id);
+                    this.latestCheck.created_timestamp = new Date(this.latestCheck.created_timestamp).toLocaleString('et-EE')
+                    this.latestCheck.updated_timestamp = new Date(this.latestCheck.updated_timestamp).toLocaleString('et-EE')
+                    if (this.latestCheck.check_finished === false) {
+                        this.refreshLatestStatus(this.latestCheck.run_id, this.charon.id);
                     }
                 }
                 window.VueEvent.$emit(
@@ -127,20 +158,26 @@ export default {
             if (this.toggleShowHistoryTable === true) {
                 this.sectionTitle = "History of checks";
                 Plagiarism.getCheckHistory(this.course.id, response => {
+                    response.forEach(timeObj => {
+                        timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString('et-EE')
+                        timeObj.updated_timestamp = new Date(timeObj.updated_timestamp).toLocaleString('et-EE')
+                    });
                     this.checkHistory = response;
                 })
             } else {
                 this.sectionTitle = "Latest check";
             }
         },
-        refreshLatestStatus(latestCheckId, charonId) {
+        refreshLatestStatus(latestRunId, charonId) {
             this.submitDisabled = true;
-            this.interval = setInterval(this.getLatestStatus, 5000, latestCheckId, charonId)
+            this.interval = setInterval(this.getLatestStatus, 5000, latestRunId, charonId)
         },
-        getLatestStatus(latestCheckId, charonId) {
-            Plagiarism.getLatestCheckStatus(charonId, latestCheckId, response => {
-                if (this.latestCheck.status !== response.status) {
-                    this.latestCheck = response
+        getLatestStatus(latestRunId, charonId) {
+            Plagiarism.getLatestCheckStatus(charonId, latestRunId, response => {
+                this.latestCheck = response
+                this.latestCheck.created_timestamp = new Date(this.latestCheck.created_timestamp).toLocaleString()
+                this.latestCheck.updated_timestamp = new Date(this.latestCheck.updated_timestamp).toLocaleString()
+                if (this.latestCheck.check_finished === true) {
                     clearInterval(this.interval)
                     this.submitDisabled = false
                 }

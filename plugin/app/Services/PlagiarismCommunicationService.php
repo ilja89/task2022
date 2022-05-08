@@ -92,23 +92,22 @@ class PlagiarismCommunicationService
     /**
      * Send a request to the plagiarism service to run check for the given charon.
      *
-     * @param int $assignmentId
      * @param array $data
-     * @return string|null
+     * @return array
      *
      * @throws GuzzleException
      */
-    public function runCheck(int $assignmentId, array $data): ?string
+    public function runCheck(array $data): array
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/assignment/{$assignmentId}/run-checksuite/",
+            "api/charon/assignment/run-checksuite/",
             'POST',
             $data
         );
-        if ($response && $response->getBody()) {
-            return $response->getBody()->getContents();
+        if ($response instanceof GuzzleException) {
+            throw $response;
         }
-        return null;
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -191,12 +190,8 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Get the details for one check.
-     *
      * @param int $checkId
-     *
      * @return \StdClass
-     *
      * @throws GuzzleException
      */
     public function getCheckDetails($checkId)
@@ -267,8 +262,9 @@ class PlagiarismCommunicationService
     }
 
     /**
-     * Fetch the assignment details from Plagiarism. If Charon is being created, then we fetch the course details instead
-     * If a response is received, mark the connection as true
+     * If Charon is being created, then we fetch the course details instead.
+     * If a response is received, mark the connection as true.
+     *
      * @param $course
      * @param null $charon
      * @return \stdClass
@@ -404,5 +400,33 @@ class PlagiarismCommunicationService
         }
 
         return new \stdClass();
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function getChecksByCourseSlug(string $courseSlug): ?array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/runs-history/",
+            "get",
+            ['course_name' => $courseSlug]
+        );
+        return $response ? json_decode($response->getBody(), true) : null;
+    }
+
+    /**
+     * @param string $run_id
+     * @return array|null
+     * @throws GuzzleException
+     */
+    public function getLatestStatusByRunId(string $run_id): ?array
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/course/runs-history/",
+            "get",
+            ['run_id' => $run_id]
+        );
+        return $response ? json_decode($response->getBody(), true) : null;
     }
 }

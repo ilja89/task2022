@@ -55,8 +55,8 @@ class Plagiarism {
             })
     }
 
-    static getLatestCheckStatus(charonId, checkId, then) {
-        axios.get(`${this.getRoot()}/charons/${charonId}/plagiarism-checks/${checkId}`)
+    static getLatestCheckStatus(charonId, runId, then) {
+        axios.get(`${this.getRoot()}/charons/${charonId}/plagiarism-checks?run_id=${runId}`)
             .then(response => {
                 then(response.data)
             })

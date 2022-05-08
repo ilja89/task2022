@@ -13,7 +13,7 @@
                     v-model="search"
                     append-icon="mdi-magnify"
                     label="Search"
-                    style="width:60%;float: left;padding-right: 10px"
+                    style="width:50%;float: left;padding-right: 10px"
                 ></v-text-field>
                 <v-select
                     @change="getMatchesByPlagiarismRun($event)"
@@ -23,17 +23,34 @@
                     item-text="created_timestamp"
                     item-value="id"
                     return-object
-                    style="width:30%;padding-left: 10px"
-                >
-                </v-select>
+                    style="width:35%;padding-left: 10px"
+                ></v-select>
                 <v-select
                     v-model="status"
                     :items="selectItems"
                     item-text="status"
                     item-value="abbr"
                     label="Status"
-                    style="width:10%;padding-left: 10px"
+                    style="width:15%;padding-left: 10px"
                 ></v-select>
+            </v-card-title>
+            <v-card-title>
+                <div style="width:10%">
+                    <toggle-button
+                        :buttonDefault="percentageButtonClicked"
+                        @buttonClicked="clickPercentageButton($event)"
+                    ></toggle-button>
+                </div>
+                <div style="width:50%">
+                    Filter percentage for:
+                    <span v-if="percentageButtonClicked">both</span>
+                    <span v-else>at least one</span>
+                </div>
+                <min-max-slider
+                    @minMaxChanged="passMinMaxValues"
+                    :text="'Percentage'"
+                    style="width:40%"
+                ></min-max-slider>
             </v-card-title>
         </div>
 
@@ -126,6 +143,8 @@ import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
 import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
 import PlagiarismMatchCommentsModal from "../partials/PlagiarismMatchCommentsModal";
+import MinMaxSlider from "../../../components/partials/MinMaxSlider";
+import ToggleButton from "../../../components/partials/ToggleButton";
 
 export default {
     name: 'plagiarism-matches-section',
@@ -136,7 +155,9 @@ export default {
         CharonSelect,
         PlagiarismSimilaritiesTabs,
         PlagiarismUpdateStatusModal,
-        PlagiarismMatchCommentsModal
+        PlagiarismMatchCommentsModal,
+        MinMaxSlider,
+        ToggleButton
     },
 
     data() {
@@ -151,9 +172,13 @@ export default {
                 {status: 'Plagiarism', abbr: 'plagiarism'},
             ],
             matches: [],
+            allMatches: [],
             timeId: '',
             selectedHistory: '',
             historyTimes: [],
+            minPercentage: 0,
+            maxPercentage: 100,
+            percentageButtonClicked: true,
         }
     },
 
@@ -194,15 +219,19 @@ export default {
         fetchMatches() {
             if (!this.charon) return;
 
-            Plagiarism.fetchMatches(this.charon.id, response => {
-                this.matches = response['matches'];
-                let times = response['times'];
-                times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
-                this.historyTimes = times;
-                this.selectedHistory = null;
-
-                this.$emit('matchesFetched', response['matches'])
-            })
+            Plagiarism.fetchMatches(
+                this.charon.id,
+                response => {
+                    this.allMatches = response['matches'];
+                    this.matches = response['matches'];
+                    let times = response['times'];
+                    times.forEach(timeObj => timeObj.created_timestamp = new Date(timeObj.created_timestamp).toLocaleString());
+                    this.historyTimes = times;
+                    this.selectedHistory = null;
+                    this.filterMatchesByPercentage()
+                    this.$emit('matchesFetched', response['matches'])
+                }
+            )
         },
 
         arrayRemove(arr, value) {
@@ -211,18 +240,41 @@ export default {
             });
         },
 
-        getColor(status) {
-            if (status === 'plagiarism') return '#f44336'
-            else if (status === 'acceptable') return '#56a576';
-            else return '#8e8e8e';
-        },
-
         getMatchesByPlagiarismRun(run) {
             this.selectedHistory = run
 
-            Plagiarism.fetchMatchesByRun(run.id, this.charon.id, response => {
-                this.matches = response;
-                this.$emit('matchesFetched', response)
+            Plagiarism.fetchMatchesByRun(
+                run.id, this.charon.id,
+                response => {
+                    this.allMatches = response;
+                    this.matches = response;
+                    this.$emit('matchesFetched', response)
+                    this.filterMatchesByPercentage()
+                }
+            )
+        },
+
+        passMinMaxValues(minValue, maxValue) {
+            this.minPercentage = minValue
+            this.maxPercentage = maxValue
+            this.filterMatchesByPercentage()
+        },
+
+        clickPercentageButton(event) {
+            this.percentageButtonClicked = event
+            this.filterMatchesByPercentage()
+        },
+
+        filterMatchesByPercentage() {
+            this.matches = []
+            const minPercentage = this.minPercentage
+            const maxPercentage = this.maxPercentage
+            const button = this.percentageButtonClicked
+            this.allMatches.forEach(match => {
+                if ((button && match.percentage >= minPercentage && match.percentage <= maxPercentage && match.other_percentage >= minPercentage && match.other_percentage <= maxPercentage) ||
+                    !button && ((match.percentage >= minPercentage && match.percentage <= maxPercentage) || (match.other_percentage >= minPercentage && match.other_percentage <= maxPercentage))) {
+                    this.matches.push(match)
+                }
             })
         }
     },
