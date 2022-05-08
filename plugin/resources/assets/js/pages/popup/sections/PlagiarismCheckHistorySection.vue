@@ -10,7 +10,9 @@
         </template>
         <div>
             <div v-if="!toggleShowHistoryTable">
-                <v-simple-table>
+                <v-simple-table
+                    class="center-table"
+                >
                     <template v-slot:default>
                         <thead>
                             <tr>
@@ -61,7 +63,7 @@
                 :items-per-page="5"
                 :single-expand="true"
                 show-expand
-                class="elevation-1">
+                class="elevation-1 center-table">
                     <template v-slot:item="{ item, expand, isExpanded }">
                         <tr>
                             <td
@@ -190,3 +192,12 @@ export default {
     },
 }
 </script>
+
+<style>
+.center-table table td{
+    vertical-align: middle;
+}
+.center-table table th{
+    vertical-align: middle;
+}
+</style>
