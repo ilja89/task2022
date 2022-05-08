@@ -115,7 +115,7 @@ export default {
                             text: 'Matches'
                         },
                         subtitle: {
-                            text: 'Found 3 matches.'
+                            text: 'Found 0 matches.'
                         },
                         chart: {
                             type: 'donut',
@@ -215,6 +215,7 @@ export default {
                 name: 'matches',
                 data: Object.values(categories)
             }]
+            this.charts.donutChart.chartOptions.subtitle.text = 'Found ' + newMatches.length + ' matches.'
             this.charts.donutChart.series = Object.values(labels)
         },
 
