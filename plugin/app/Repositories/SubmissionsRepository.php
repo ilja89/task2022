@@ -750,24 +750,4 @@ class SubmissionsRepository
             ->select('*')
             ->get();
     }
-
-    /**
-     * Finds the submission previous to the given one from the same user(s) and for the same charon.
-     *
-     * @param Submission $submission
-     * @param array $userIds
-     *
-     * @return ?Submission
-     */
-    public function findPreviousSubmission(Submission $submission, array $userIds): ?Submission
-    {
-        return Submission
-            ::join("charon_submission_user", "charon_submission.id", "charon_submission_user.submission_id")
-            ->where("charon_submission.charon_id", $submission->charon_id)
-            ->whereIn("charon_submission_user.user_id", $userIds)
-            ->where("charon_submission.created_at", "<", $submission->created_at)
-            ->select("charon_submission.id")
-            ->latest("charon_submission.created_at")
-            ->first();
-    }
 }

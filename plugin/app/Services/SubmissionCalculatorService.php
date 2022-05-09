@@ -45,11 +45,11 @@ class SubmissionCalculatorService
      *
      * @param Result $result
      * @param Deadline[]|Collection $deadlines
-     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_grade'
+     * @param ?Result $bestEligibleResult Best eligible result for calculating new result (for 'prefer_best_each_grade')
      *
      * @return float
      */
-    public function calculateResultFromDeadlines(Result $result, $deadlines, ?Result $previousResult = null): float
+    public function calculateResultFromDeadlines(Result $result, $deadlines, ?Result $bestEligibleResult = null): float
     {
         $grademap = $result->getGrademap();
         if ($grademap === null) {
@@ -90,7 +90,13 @@ class SubmissionCalculatorService
 
         foreach ($deadlinesForUser as $deadline) {
             if ($deadline->deadline_time->lt($submissionTime)) {
-                $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints, $previousResult);
+                $score = $this->calculateScoreFromResultAndDeadline(
+                    $deadline,
+                    $result,
+                    $maxPoints,
+                    $bestEligibleResult
+                );
+
                 if ($smallestScore > $score) {
                     $smallestScore = $score;
                 }
@@ -106,7 +112,7 @@ class SubmissionCalculatorService
      * @param Deadline $deadline
      * @param Result $result
      * @param float $maxPoints
-     * @param ?Result $previousResult Previous result for grading method 'prefer_best_each_grade'
+     * @param ?Result $bestEligibleResult Best eligible result for calculating new result (for 'prefer_best_each_grade')
      *
      * @return float|int
      */
@@ -114,15 +120,15 @@ class SubmissionCalculatorService
         Deadline $deadline,
         Result $result,
         float $maxPoints,
-        ?Result $previousResult = null
+        ?Result $bestEligibleResult = null
     ) {
         if (
             $result->submission->charon->gradingMethod->isPreferBestEachGrade() &&
-            $previousResult !== null &&
-            $result->percentage >= $previousResult->percentage
+            $bestEligibleResult !== null &&
+            $result->percentage >= $bestEligibleResult->percentage
         ) {
-            $extra = round($result->percentage - $previousResult->percentage, 2);
-            return $previousResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+            $extra = round($result->percentage - $bestEligibleResult->percentage, 2);
+            return $bestEligibleResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
         }
 
         return $result->percentage * ($deadline->percentage / 100) * $maxPoints;

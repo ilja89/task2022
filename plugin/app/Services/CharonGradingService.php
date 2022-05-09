@@ -133,35 +133,29 @@ class CharonGradingService
      *
      * @return void
      */
-    public function calculateCalculatedResultsForNewSubmission(Submission $submission)
+    public function calculateCalculatedResultsForNewSubmission(Submission $submission): void
     {
         $charon = $submission->charon;
-
         $results = $submission->results;
-        $previousSubmission = $charon->gradingMethod->isPreferBestEachGrade()
-            // TODO: replace with 1 query ($previousSubmission->results)
-            ? $this->submissionsRepository->findPreviousSubmission(
-                $submission,
-                $this->submissionsRepository->findAllUsersAssociated($submission->id)->pluck("id")->all()
-            )
-            : null;
 
         for ($i = 0; $i < count($results); $i++) {
 
             $result = $results[$i];
-            $previousResult = null;
-
-            if ($previousSubmission !== null) foreach ($previousSubmission->results as $item) {
-                if ($result->grade_type_code === $item->grade_type_code) {
-                    $previousResult = $item;
-                    break;
-                }
-            }
+            $bestEligibleResult = $charon->gradingMethod->isPreferBestEachGrade()
+                ? $this->resultRepository->findResultsByCharonAndGradeType($charon->id, $result->grade_type_code)
+                    ->filter(function ($r) use ($result) {
+                        return $r->user_id === $result->user_id && $r->percentage <= $result->percentage;
+                    })->reduce(function ($r1, $r2) {
+                        return $r1 !== null && $r1->calculated_result > $r2->calculated_result
+                            ? $r1
+                            : $r2;
+                    })
+                : null;
 
             $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                 $result,
                 $charon->deadlines,
-                $previousResult
+                $bestEligibleResult
             );
 
             $result->save();
@@ -227,6 +221,7 @@ class CharonGradingService
 
         foreach ($studentsResults as $studentId => $studentResults) {
 
+            $bestResult = null;
             if (!$this->hasConfirmedSubmission($grademap->charon_id, $studentId)) {
 
                 for ($i = 0; $i < count($studentResults); $i++) {
@@ -236,10 +231,13 @@ class CharonGradingService
                         $this->submissionCalculatorService->calculateResultFromDeadlines(
                             $studentResult,
                             $grademap->charon->deadlines,
-                            $i > 0 ? $studentResults[$i - 1] : null
+                            $bestResult
                         );
 
                     $studentResult->save();
+                    if ($bestResult === null || $studentResult->calculated_result > $bestResult->calculated_result) {
+                        $bestResult = $studentResult;
+                    }
                 }
             }
         }
