@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.6.3] - 2022-04-26
+## [1.6.3] - 2022-05-09
 
 ### Added
 - #641 New grading method 'prefer_best_each_grade', which lets students build up points for each grade
