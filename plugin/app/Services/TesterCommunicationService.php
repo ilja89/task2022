@@ -93,7 +93,7 @@ class TesterCommunicationService
     {
         $params = $areteRequestDto->toArray();
 
-        $params['returnUrl'] = $testerCallbackUrl;
+        # $params['returnUrl'] = $testerCallbackUrl;
 
         return $this->httpCommunicationService->postToTesterSync($params);
     }
