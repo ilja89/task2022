@@ -84,16 +84,12 @@ class TesterCommunicationService
      * Send AreteRequestDTO info to the tester in a synchronous request.
      *
      * @param AreteRequestDto $areteRequestDto
-     * @param $testerCallbackUrl
      *
      * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
-     *
      */
-    public function sendInfoToTesterSync(AreteRequestDto $areteRequestDto, $testerCallbackUrl): TesterCallbackRequest
+    public function sendInfoToTesterSync(AreteRequestDto $areteRequestDto): TesterCallbackRequest
     {
         $params = $areteRequestDto->toArray();
-
-        # $params['returnUrl'] = $testerCallbackUrl;
 
         return $this->httpCommunicationService->postToTesterSync($params);
     }
