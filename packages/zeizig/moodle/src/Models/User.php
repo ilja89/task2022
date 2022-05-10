@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
  * @property string $firstname
  * @property string $lastname
  * @property string $username
- * @property string $email
  *
  * @property Group[]|Collection $groups
  * @property GradeGrade[]|Collection $gradeGrades
@@ -24,7 +23,7 @@ class User extends Model
 {
     public $timestamps = false;
     protected $table = 'user';
-    protected $fillable = ['firstname', 'lastname', 'username', 'email'];
+    protected $fillable = ['firstname', 'lastname', 'username'];
 
     public function groups()
     {
