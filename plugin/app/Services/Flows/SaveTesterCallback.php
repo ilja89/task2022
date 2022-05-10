@@ -79,6 +79,8 @@ class SaveTesterCallback
 
         array_unshift($users, $user);
 
+        Log::info("Users before save", ["list" => $users, "author" => $user]);
+
         return $this->executeSave($request, new GitCallback(), $users, $courseId);
     }
 
@@ -114,6 +116,8 @@ class SaveTesterCallback
     {
         global $CFG;
         require_once ($CFG->dirroot . '/mod/charon/lib.php');
+
+        Log::info("Users before create", ["list" => $users, "author" => $users[0]]);
 
         $submission = $this->createNewSubmission($request, $gitCallback, $users[0]->id, $courseId);
 
@@ -184,6 +188,7 @@ class SaveTesterCallback
      */
     private function createNewSubmission(Request $request, GitCallback $gitCallback, int $authorId, int $courseId = null): Submission
     {
+        Log::info("ID in create", ["author" => $authorId]);
         return $this->submissionService->saveSubmission($request, $gitCallback, $authorId, $courseId);
     }
 
