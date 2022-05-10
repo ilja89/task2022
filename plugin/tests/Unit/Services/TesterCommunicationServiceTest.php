@@ -87,7 +87,8 @@ class TesterCommunicationServiceTest extends TestCase
         $areteRequestDTO = Mockery::mock(AreteRequestDto::class);
 
         $params = ['requestInfo' => 'info'];
-        $params2 = ['requestInfo' => 'info', 'returnUrl' => 'localhost'];
+        # $params2 = ['requestInfo' => 'info', 'returnUrl' => 'localhost'];
+        $params2 = ['requestInfo' => 'info'];
 
         $areteRequestDTO->shouldReceive('toArray')->once()->andReturn($params);
 
