@@ -58,4 +58,19 @@ class UserService
         }
         return $users[0];
     }
+
+    /**
+     * Check if the user is a TalTech student with TalTech username.
+     *
+     * @param $username
+     *
+     * @return bool
+     */
+    public function isTalTechUsername($username)
+    {
+        if (str_ends_with($username, '@ttu.ee') or str_ends_with($username, '@taltech.ee')) {
+            return true;
+        }
+        return false;
+    }
 }

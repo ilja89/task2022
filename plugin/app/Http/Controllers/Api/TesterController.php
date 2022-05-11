@@ -68,8 +68,7 @@ class TesterController extends Controller
             $user,
             $content['sourceFiles']);
 
-        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest,
-            $this->request->getUriForPath('/api/submissions/saveResults'));
+        $response = $this->testerCommunicationService->sendInfoToTesterSync($areteRequest);
 
         if ($response->getStatus() == 202) {
             try {
