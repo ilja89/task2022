@@ -312,35 +312,87 @@ class PlagiarismCommunicationService
     }
 
     /**
+     * Update the status of the given match and return the new status.
+     *
      * @param int $matchId
      * @param string $newStatus
+     * @param string|null $comment
+     * @param string $author
      * @return array|null
      *
      * @throws GuzzleException
      */
-    public function updateMatchStatus(int $matchId, string $newStatus): ?array
+    public function updateMatchStatus(int $matchId, string $newStatus, ?string $comment, string $author): ?array
     {
         $response = null;
-        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/plagiarism/match/{$matchId}/mark_{$newStatus}/",
-            'put'
-        );
+        if ($newStatus == "plagiarism") {
+            if (!empty($comment)) {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                    'put',
+                    ['matchUpdate' => ['comment' => $comment, 'author' => $author]]
+                );
+            } else {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_plagiarism/",
+                    'put',
+                    ['matchUpdate' => null]
+                );
+            }
 
+        } else if ($newStatus == "acceptable") {
+            if (!empty($comment)) {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                    'put',
+                    ['matchUpdate' => ['comment' => $comment, 'author' => $author]]
+                );
+            } else {
+                $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+                    "api/plagiarism/match/{$matchId}/mark_acceptable/",
+                    'put',
+                    ['matchUpdate' => null]
+                );
+            }
+        }
         return $response ? json_decode($response->getBody(), true) : null;
     }
 
     /**
-     * Returns matches for the given user, if unable to respond returns empty object
+     * Returns active matches for the given uniid, if unable to respond returns empty object
      * @param string $uniid
+     * @param $plagiarismAssignmentIds
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function getStudentMatches(string $uniid)
+    public function getStudentActiveMatches(string $uniid, $plagiarismAssignmentIds)
     {
         $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
-            "api/charon/studentMatches/",
+            "api/charon/studentActiveMatches/",
             "get",
-            ['uniid' => $uniid]
+            ['uniid' => $uniid, 'assignment_ids' => $plagiarismAssignmentIds]
+        );
+
+        if ($response) {
+            return json_decode((string)$response->getBody());
+        }
+
+        return new \stdClass();
+    }
+
+    /**
+     * Returns inactive matches for the given uniid, if unable to respond returns empty object
+     * @param string $uniid
+     * @param $plagiarismAssignmentIds
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function getStudentInactiveMatches(string $uniid, $plagiarismAssignmentIds)
+    {
+        $response = $this->httpCommunicationService->sendPlagiarismServiceRequest(
+            "api/charon/studentInactiveMatches/",
+            "get",
+            ['uniid' => $uniid, 'assignment_ids' => $plagiarismAssignmentIds]
         );
 
         if ($response) {

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use TTU\Charon\Http\Controllers\Controller;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\PlagiarismService;
+use Zeizig\Moodle\Globals\User;
 use Zeizig\Moodle\Models\Course;
 
 /**
@@ -175,18 +176,35 @@ class PlagiarismController extends Controller
      */
     public function updateMatchStatus(Request $request): array
     {
-        return $this->plagiarismService->updateMatchStatus($request->input('matchId'), $request->input('newStatus'));
+        return $this->plagiarismService->updateMatchStatus(
+            $request->input('matchId'),
+            $request->input('newStatus'),
+            $request->input('comment'),
+            app(User::class)->currentUserId()
+        );
     }
 
     /**
-     * Returns matches for the given user
+     * Returns active (latest) matches of all assignments for the given user
      * @param Course $course
      * @param string $username
      * @return mixed|\stdClass
      * @throws GuzzleException
      */
-    public function fetchStudentMatches(Course $course, string $username)
+    public function fetchStudentActiveMatches(Course $course, string $username)
     {
-        return $this->plagiarismService->getStudentMatches($username);
+        return $this->plagiarismService->getStudentActiveMatches($course->id, $username);
+    }
+
+    /**
+     * Returns active (latest) matches of all assignments for the given user
+     * @param Course $course
+     * @param string $username
+     * @return mixed|\stdClass
+     * @throws GuzzleException
+     */
+    public function fetchStudentInactiveMatches(Course $course, string $username)
+    {
+        return $this->plagiarismService->getStudentInactiveMatches($course->id, $username);
     }
 }

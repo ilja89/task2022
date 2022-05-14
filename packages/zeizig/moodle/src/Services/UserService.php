@@ -26,6 +26,16 @@ class UserService
     }
 
     /**
+     * Finds a user by its id.
+     * @param int $id
+     * @return mixed
+     */
+    public function findUserById(int $id)
+    {
+        return User::where('id', $id)->first();
+    }
+
+    /**
      * Finds a user by its email. The email should be unique.
      *
      * @param  string  $email

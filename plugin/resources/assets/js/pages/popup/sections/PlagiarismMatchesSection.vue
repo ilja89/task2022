@@ -66,21 +66,67 @@
                 :items-per-page="25"
             >
                 <template v-slot:item.status="{ item }">
-                    <v-chip v-bind:class="item.status === 'acceptable' ? 'accepted-button': item.status === 'plagiarism' ? 'plagiarism-button' : ''">
-                        {{item.status}}
+                    <v-chip
+                        v-bind:class="item.status === 'acceptable' ? 'accepted-button': item.status === 'plagiarism' ? 'plagiarism-button' : ''">
+                        {{ item.status }}
                     </v-chip>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-row>
-                        <plagiarism-match-modal :match="item"></plagiarism-match-modal>
-                        <div v-if="!selectedHistory">
-                            <v-btn class="accepted-button" v-if="item.status !== 'acceptable'" @click="updateStatus(item, 'acceptable')" icon>
-                                <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline</v-icon>
-                            </v-btn>
-                            <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'" @click="updateStatus(item, 'plagiarism')" icon>
-                                <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">mdi-thumb-down-outline</v-icon>
-                            </v-btn>
-                        </div>
+                    <v-row no-gutters>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-comments-modal v-if="item.comments.length"
+                                                             :comments="item.comments"></plagiarism-match-comments-modal>
+                            <template v-else>
+                                <v-icon style="width: 36px; height: 36px">mdi-comment-off</v-icon>
+                            </template>
+                        </v-col>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-modal :match="item"
+                            ></plagiarism-match-modal>
+                        </v-col>
+                        <v-col>
+
+                            <v-row no-gutters v-if="item.status !== 'new'">
+                                <div v-if="!selectedHistory">
+                                    <plagiarism-update-status-modal
+                                        v-if="item.status !== 'acceptable'"
+                                        :match="item"
+                                        new-status="acceptable"
+                                        @updateStatus="updateStatus"
+                                    ></plagiarism-update-status-modal>
+
+                                    <plagiarism-update-status-modal
+                                        v-else
+                                        :match="item"
+                                        new-status="plagiarism"
+                                        @updateStatus="updateStatus"
+                                    ></plagiarism-update-status-modal>
+                                </div>
+                            </v-row>
+
+                            <v-row no-gutters v-else>
+                                <div v-if="!selectedHistory">
+                                    <v-btn
+                                        class="accepted-button"
+                                        @click="updateStatus(item, 'acceptable')"
+                                        icon>
+                                        <v-icon aria-label="Accepted" role="button" aria-hidden="false">
+                                            mdi-thumb-up-outline
+                                        </v-icon>
+                                    </v-btn>
+
+                                    <v-btn
+                                        class="plagiarism-button"
+                                        @click="updateStatus(item, 'plagiarism')"
+                                        icon>
+                                        <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">
+                                            mdi-thumb-down-outline
+                                        </v-icon>
+                                    </v-btn>
+                                </div>
+                            </v-row>
+
+                        </v-col>
                     </v-row>
                 </template>
             </v-data-table>
@@ -91,30 +137,39 @@
 
 <script>
 import {mapState} from 'vuex'
-
 import {PopupSection} from '../layouts'
 import {CharonSelect, PlagiarismSimilaritiesTabs} from '../partials'
 import {Plagiarism} from '../../../api'
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
+import PlagiarismMatchCommentsModal from "../partials/PlagiarismMatchCommentsModal";
 import MinMaxSlider from "../../../components/partials/MinMaxSlider";
 import ToggleButton from "../../../components/partials/ToggleButton";
 
 export default {
     name: 'plagiarism-matches-section',
 
-    components: {PlagiarismMatchModal, PopupSection, CharonSelect, PlagiarismSimilaritiesTabs,
-      MinMaxSlider, ToggleButton},
+    components: {
+        PlagiarismMatchModal,
+        PopupSection,
+        CharonSelect,
+        PlagiarismSimilaritiesTabs,
+        PlagiarismUpdateStatusModal,
+        PlagiarismMatchCommentsModal,
+        MinMaxSlider,
+        ToggleButton
+    },
 
     data() {
         return {
             search: '',
             status: '',
-            select: { status: 'All', abbr: ''},
+            select: {status: 'All', abbr: ''},
             selectItems: [
-                { status: 'All', abbr: ''},
-                { status: 'New', abbr: 'new'},
-                { status: 'Acceptable', abbr: 'acceptable'},
-                { status: 'Plagiarism', abbr: 'plagiarism'},
+                {status: 'All', abbr: ''},
+                {status: 'New', abbr: 'new'},
+                {status: 'Acceptable', abbr: 'acceptable'},
+                {status: 'Plagiarism', abbr: 'plagiarism'},
             ],
             matches: [],
             allMatches: [],
@@ -135,11 +190,13 @@ export default {
                 {text: 'Percentage', value: 'percentage'},
                 {text: 'Other Uni-ID', value: 'other_uniid'},
                 {text: 'Other Percentage', value: 'other_percentage'},
-                {text: 'Status', value: 'status', filter: value => {
+                {
+                    text: 'Status', value: 'status', filter: value => {
                         if (!this.status) return true
 
                         return value === this.status
-                    }},
+                    }
+                },
                 {text: 'Actions', value: 'actions', sortable: false, filterable: false},
             ]
         },
@@ -150,10 +207,12 @@ export default {
     },
 
     methods: {
-        updateStatus(match, newStatus) {
-            Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, response => {
-                match.status = response.status
-                VueEvent.$emit('refresh-plagiarism-overview')
+        updateStatus(match, newStatus, comment = null) {
+            Plagiarism.updateMatchStatus(this.course.id, match.id, newStatus, comment, response => {
+                match.status = response.status;
+                if (response.comments) {
+                    match.comments = response.comments
+                }
             })
         },
 
@@ -176,7 +235,7 @@ export default {
         },
 
         arrayRemove(arr, value) {
-            return arr.filter(function(ele) {
+            return arr.filter(function (ele) {
                 return ele !== value;
             });
         },
@@ -226,13 +285,16 @@ export default {
 .plagiarism-button {
     background-color: #f44336 !important;
 }
+
 .accepted-button {
     background-color: #56a576 !important;
 }
-.center-table table td{
+
+.center-table table td {
     vertical-align: middle;
 }
-.center-table table th{
+
+.center-table table th {
     vertical-align: middle;
 }
 </style>

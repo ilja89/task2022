@@ -197,6 +197,9 @@ Route::group(['namespace' => 'Api'], function () {
         ->post('courses/{course}/updateMatchStatus', 'PlagiarismController@updateMatchStatus');
 
     Route::middleware('auth.course.managing.require')
-        ->get('courses/{course}/users/{uniid}/matches', 'PlagiarismController@fetchStudentMatches');
+        ->get('courses/{course}/users/{username}/activeMatches', 'PlagiarismController@fetchStudentActiveMatches');
+
+    Route::middleware('auth.course.managing.require')
+        ->get('courses/{course}/users/{username}/inactiveMatches', 'PlagiarismController@fetchStudentInactiveMatches');
 
 });

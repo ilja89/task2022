@@ -5,16 +5,23 @@
     >
 
         <template slot="header-right">
-            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentMatches()">{{
+            <v-btn class="ma-2" tile outlined color="primary" @click="fetchStudentMatchesClicked()">{{
                     showStudentHistoryText
                 }}
             </v-btn>
         </template>
 
-        <v-card v-if="matchesFetched">
+        <v-card v-if="activeMatchesFetched">
+            <v-switch
+                class="pa-4"
+                v-model="showAllHistory"
+                :label="showAllHistoryLabel"
+                @change="showAllHistoryToggled"
+            ></v-switch>
+            <v-card-title>{{ matchesTableTitle }}</v-card-title>
             <v-card-title>
                 <v-text-field
-                    v-model="searchAllMatches"
+                    v-model="searchMatches"
                     append-icon="mdi-magnify"
                     label="Search"
                     style="width:60%;float: left;padding-right: 10px"
@@ -31,15 +38,15 @@
             </v-card-title>
             <v-data-table
                 class="center-table"
-                :headers="headersAllMatches"
-                :items="matches"
-                :search="searchAllMatches"
+                :headers="headersMatches"
+                :items="getMatches"
+                :search="searchMatches"
                 :footer-props="{
                     'items-per-page-options': [10, 25, 50, -1]
                 }"
-                :items-per-page="25"
-                :sort-by.sync="sortForAllMatches"
-                :sort-desc.sync="sortDescForAllMatches"
+                :items-per-page="10"
+                :sort-by.sync="sortMatches"
+                :sort-desc.sync="sortMatchesDesc"
             >
                 <template v-slot:item.status="{ item }">
                     <v-chip
@@ -48,27 +55,61 @@
                     </v-chip>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-row>
-                        <plagiarism-match-modal :match="item" :color="getColor(item.status)"></plagiarism-match-modal>
-                        <div>
-                            <v-btn class="accepted-button" v-if="item.status !== 'acceptable'"
-                                   @click="updateStatus(item, 'acceptable')" icon>
-                                <v-icon aria-label="Accepted" role="button" aria-hidden="false">mdi-thumb-up-outline
-                                </v-icon>
-                            </v-btn>
-                            <v-btn class="plagiarism-button" v-if="item.status !== 'plagiarism'"
-                                   @click="updateStatus(item, 'plagiarism')" icon>
-                                <v-icon aria-label="Plagiarism" role="button" aria-hidden="false">
-                                    mdi-thumb-down-outline
-                                </v-icon>
-                            </v-btn>
-                        </div>
+                    <v-row no-gutters>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-comments-modal v-if="item.comments.length"
+                                                             :comments="item.comments"></plagiarism-match-comments-modal>
+                            <template v-else>
+                                <v-icon style="width: 36px; height: 36px">mdi-comment-off</v-icon>
+                            </template>
+                        </v-col>
+                        <v-col class="flex-grow-0">
+                            <plagiarism-match-modal :match="item"
+                                                    :color="getColor(item.status)"></plagiarism-match-modal>
+                        </v-col>
+                        <v-col>
+
+                            <v-row no-gutters v-if="item.status !== 'new'">
+                                <plagiarism-update-status-modal
+                                    v-if="item.status !== 'acceptable'"
+                                    :match="item"
+                                    new-status="acceptable"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+
+                                <plagiarism-update-status-modal
+                                    v-else
+                                    :match="item"
+                                    new-status="plagiarism"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+                            </v-row>
+
+                            <v-row no-gutters v-else>
+                                <v-btn
+                                    class="accepted-button"
+                                    @click="updateStatus(item, 'acceptable')"
+                                    icon>
+                                    <v-icon aria-label="Accepted" role="button" aria-hidden="false">
+                                        mdi-thumb-up-outline
+                                    </v-icon>
+                                </v-btn>
+
+                                <plagiarism-update-status-modal
+                                    :match="item"
+                                    new-status="plagiarism"
+                                    @updateStatus="updateStatus"
+                                ></plagiarism-update-status-modal>
+                            </v-row>
+
+                        </v-col>
                     </v-row>
                 </template>
             </v-data-table>
         </v-card>
 
-        <v-card v-if="matchesFetched" class="mt-16">
+        <v-card v-if="activeMatchesFetched" class="mt-16">
+            <v-card-title>{{ statisticsTableTitle }}</v-card-title>
             <v-data-table
                 class="center-table"
                 :headers="headersStatistics"
@@ -79,12 +120,23 @@
                 :items-per-page="10"
                 :sort-by.sync="sortForStatistics"
                 :sort-desc.sync="sortDescForStatistics"
-            ></v-data-table>
+            >
+                <template v-slot:item.assignment_status="{ item }">
+                    <v-row no-gutters>
+                        <v-col>
+                            <v-chip
+                                v-bind:class="item.assignment_status === assignmentNoPlagiarismText ? 'accepted-button': 'plagiarism-button'">
+                                {{ item.assignment_status }}
+                            </v-chip>
+                        </v-col>
+                    </v-row>
+                </template>
+            </v-data-table>
         </v-card>
 
-        <v-card class="mt-16">
-            <apexcharts type="bar" height="500" :options="chartOptions" :series="chartSeries"
-                        v-show="matchesFetched"></apexcharts>
+        <v-card v-if="activeMatchesFetched" class="mt-16">
+            <v-card-title>{{ chartTitle }}</v-card-title>
+            <apexcharts type="bar" height="500" :options="chartOptions" :series="chartSeries"></apexcharts>
         </v-card>
 
     </popup-section>
@@ -92,18 +144,23 @@
 
 <script>
 import PlagiarismMatchModal from "../partials/PlagiarismMatchModal";
+import PlagiarismUpdateStatusModal from "../partials/PlagiarismUpdateStatusModal";
+import PlagiarismMatchCommentsModal from "../partials/PlagiarismMatchCommentsModal";
 import {PopupSection} from '../layouts';
 import {Plagiarism} from "../../../api";
 import {mapGetters} from "vuex";
 import VueApexCharts from 'vue-apexcharts';
 
 export default {
-    components: {PopupSection, PlagiarismMatchModal, 'apexcharts': VueApexCharts},
+    components: {
+        PopupSection, PlagiarismMatchModal, PlagiarismUpdateStatusModal, PlagiarismMatchCommentsModal,
+        'apexcharts': VueApexCharts
+    },
     props: ['student'],
 
     data() {
         return {
-            searchAllMatches: '',
+            searchMatches: '',
             status: '',
             select: {status: 'All', abbr: ''},
             selectItems: [
@@ -112,26 +169,39 @@ export default {
                 {status: 'Acceptable', abbr: 'acceptable'},
                 {status: 'Plagiarism', abbr: 'plagiarism'},
             ],
-            matches: [],
-            statistics: [],
-            sortForAllMatches: 'created_timestamp',
-            sortForStatistics: 'max_lines_matched',
-            sortDescForAllMatches: false,
+            allMatches: [],
+            activeMatches: [],
+            sortMatches: 'created_timestamp',
+            sortForStatistics: 'assignment_status',
+            sortMatchesDesc: false,
             sortDescForStatistics: true,
-            matchesFetched: false
+            activeMatchesFetched: false,
+            inactiveMatchesFetched: false,
+            showAllHistory: false,
+            showAllHistoryLabel: 'Show all history',
+            matchesTableTitle: 'Student plagiarism matches',
+            statisticsTableTitle: 'Assignment statistics',
+            chartTitle: 'Student\'s plagiarism progress for each tested Charon',
+            assignmentContainsPlagiarismText: 'Plagiarism',
+            assignmentNoPlagiarismText: 'Acceptable'
         }
     },
 
     computed: {
-        headersAllMatches() {
+        ...mapGetters([
+            'courseId',
+        ]),
+
+        headersMatches() {
             return [
                 {text: 'Created at', align: 'start', value: 'created_timestamp'},
+                {text: '', align: 'center', value: 'active'},
                 {text: 'Charon', align: 'center', value: 'assignment_name'},
                 {text: 'Lines matched', align: 'center', value: 'lines_matched'},
                 {text: 'Uni-ID', align: 'center', value: 'uniid'},
-                {text: 'Percentage', align: 'center', value: 'percentage'},
+                {text: 'Percentage (%)', align: 'center', value: 'percentage'},
                 {text: 'Other Uni-ID', align: 'center', value: 'other_uniid'},
-                {text: 'Other Percentage', align: 'center', value: 'other_percentage'},
+                {text: 'Other Percentage (%)', align: 'center', value: 'other_percentage'},
                 {
                     text: 'Status', value: 'status', filter: value => {
                         if (!this.status) return true
@@ -146,9 +216,10 @@ export default {
         headersStatistics() {
             return [
                 {text: 'Charon', align: 'start', value: 'assignment_name'},
+                {text: 'Assignment status', align: 'start', value: 'assignment_status'},
                 {text: 'Max lines matched', align: 'center', value: 'max_lines_matched'},
-                {text: 'Max percentage', align: 'center', value: 'max_percentage'},
-                {text: 'Max other percentage', align: 'center', value: 'max_other_percentage'},
+                {text: 'Max percentage (%)', align: 'center', value: 'max_percentage'},
+                {text: 'Max other percentage (%)', align: 'center', value: 'max_other_percentage'},
                 {text: 'New amount', align: 'center', value: 'new_amount'},
                 {text: 'Acceptable amount', align: 'center', value: 'acceptable_amount'},
                 {text: 'Plagiarism amount', align: 'center', value: 'plagiarism_amount'}
@@ -178,14 +249,10 @@ export default {
                         borderRadius: 10
                     },
                 },
-                title: {
-                    text: "Student's plagiarism progress for each tested Charon",
-                    align: 'left'
-                },
                 xaxis: {
                     type: 'category',
-                    categories: this.statistics.map(charon_statistics => {
-                        return charon_statistics.assignment_name
+                    categories: this.statistics.map(obj => {
+                        return obj.assignment_name
                     }),
                 },
                 legend: {
@@ -220,25 +287,60 @@ export default {
             ]
         },
 
-        ...mapGetters([
-            'courseId',
-        ]),
+        getMatches() {
+            if (this.showAllHistory) {
+                return this.allMatches
+            }
+            return this.activeMatches
+        },
+
+        statistics() {
+            return this.calculateStatistics(this.getMatches)
+        },
     },
 
     methods: {
-        updateStatus(match, newStatus) {
-            Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, response => {
+        updateStatus(match, newStatus, comment = null) {
+            Plagiarism.updateMatchStatus(this.courseId, match.id, newStatus, comment, response => {
                 match.status = response.status;
+                if (response.comments) {
+                    match.comments = response.comments
+                }
             })
         },
 
-        fetchStudentMatches() {
-            Plagiarism.fetchStudentMatches(this.courseId, this.student.username, (response) => {
-                this.matches = response
+        calculateStatistics(matches) {
+            let matchesStatistics = {}
+            matches.map(match => {
+                this.addToStatistics(matchesStatistics, match)
+            })
+            Object.keys(matchesStatistics).forEach(assignmentName => {
+                if (matchesStatistics[assignmentName]['plagiarism_amount']) {
+                    matchesStatistics[assignmentName]['assignment_status'] = this.assignmentContainsPlagiarismText
+                } else {
+                    matchesStatistics[assignmentName]['assignment_status'] = this.assignmentNoPlagiarismText
+                }
+            })
+            return Object.values(matchesStatistics)
+        },
 
-                if (this.matches.length) {
-                    this.prepareData(response)
-                    this.matchesFetched = true
+        fetchStudentActiveMatches() {
+            Plagiarism.fetchStudentActiveMatches(this.courseId, this.student.username, (response) => {
+                this.activeMatches = response
+                if (response.length) {
+                    let preparedData = this.prepareData(response)
+                    this.allMatches.push(...preparedData)
+                    this.activeMatchesFetched = true
+                }
+            })
+        },
+
+        fetchStudentInactiveMatches() {
+            Plagiarism.fetchStudentInactiveMatches(this.courseId, this.student.username, (response) => {
+                if (response.length) {
+                    this.allMatches.push(...response)
+                    this.prepareData(this.allMatches)
+                    this.inactiveMatchesFetched = true
                 }
             })
         },
@@ -274,7 +376,7 @@ export default {
                 ]
         },
 
-        updateStatistics(matchesStatistics, match) {
+        addToStatistics(matchesStatistics, match) {
             let charon_name = match.assignment_name
             if (charon_name in matchesStatistics) {
                 if (match.lines_matched > matchesStatistics[charon_name]["max_lines_matched"]) {
@@ -308,24 +410,34 @@ export default {
             }
         },
 
-        prepareData(matchesFromResponse) {
-            let matchesStatistics = {}
-            matchesFromResponse.map(match => {
-                match.created_timestamp = match.created_timestamp.split('.')[0]
+        prepareData(matches) {
+            matches.map(match => {
+                match.created_timestamp = new Date(match.created_timestamp).toLocaleString()
 
                 if (match.other_uniid === this.student.username.split('@')[0]) {
                     this.swapStudents(match)
                 }
-                this.updateStatistics(matchesStatistics, match)
                 return match
             })
-            this.statistics = Object.values(matchesStatistics)
+            return matches
         },
 
         getColor(status) {
             if (status === 'plagiarism') return '#f44336'
             else if (status === 'acceptable') return '#56a576';
             else return '#8e8e8e';
+        },
+
+        showAllHistoryToggled(historyToggled) {
+            if (historyToggled && !this.inactiveMatchesFetched) {
+                this.fetchStudentInactiveMatches()
+            }
+        },
+
+        fetchStudentMatchesClicked() {
+            if (!this.activeMatchesFetched) {
+                this.fetchStudentActiveMatches()
+            }
         },
     }
 }
