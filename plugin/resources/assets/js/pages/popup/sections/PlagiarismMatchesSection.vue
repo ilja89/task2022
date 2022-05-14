@@ -82,7 +82,7 @@
                         </v-col>
                         <v-col class="flex-grow-0">
                             <plagiarism-match-modal :match="item"
-                                                    :color="getColor(item.status)"></plagiarism-match-modal>
+                            ></plagiarism-match-modal>
                         </v-col>
                         <v-col>
 
