@@ -10,6 +10,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Repositories\DeadlinesRepository;
+use TTU\Charon\Repositories\StudentsRepository;
 use Zeizig\Moodle\Services\CalendarService;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -32,16 +33,22 @@ class UpdateCharonService
     private $deadlinesRepository;
     /** @var CalendarService */
     private $calendarService;
+    /** @var StudentsRepository */
+    private $studentsRepository;
+    /** @var SubmissionService */
+    private $submissionService;
 
     /**
      * UpdateCharonService constructor.
      *
-     * @param  GrademapService  $grademapService
-     * @param  GradebookService  $gradebookService
-     * @param  DeadlineService  $deadlineService
-     * @param  DeadlinesRepository  $deadlinesRepository
-     * @param  CharonGradingService  $charonGradingService
-     * @param  CalendarService $calendarService
+     * @param GrademapService $grademapService
+     * @param GradebookService $gradebookService
+     * @param DeadlineService $deadlineService
+     * @param DeadlinesRepository $deadlinesRepository
+     * @param CharonGradingService $charonGradingService
+     * @param CalendarService $calendarService
+     * @param StudentsRepository $studentsRepository
+     * @param SubmissionService $submissionService
      */
     public function __construct(
         GrademapService $grademapService,
@@ -49,33 +56,33 @@ class UpdateCharonService
         DeadlineService $deadlineService,
         DeadlinesRepository $deadlinesRepository,
         CharonGradingService $charonGradingService,
-        CalendarService $calendarService
+        CalendarService $calendarService,
+        StudentsRepository $studentsRepository,
+        SubmissionService $submissionService
     ) {
-        $this->grademapService     = $grademapService;
-        $this->gradebookService    = $gradebookService;
-        $this->deadlineService     = $deadlineService;
-        $this->deadlinesRepository = $deadlinesRepository;
+        $this->grademapService      = $grademapService;
+        $this->gradebookService     = $gradebookService;
+        $this->deadlineService      = $deadlineService;
+        $this->deadlinesRepository  = $deadlinesRepository;
         $this->charonGradingService = $charonGradingService;
-        $this->calendarService = $calendarService;
+        $this->calendarService      = $calendarService;
+        $this->studentsRepository   = $studentsRepository;
+        $this->submissionService    = $submissionService;
     }
 
     /**
      * Update Grademaps with info from the request.
-     * This assumes that deadlines are updated before this so grades
-     * can be recalculated if needed.
      *
-     * @param  array $newGrademaps
-     * @param  Charon $charon
-     * @param  bool $deadlinesWereUpdated
-     * @param  bool $recalculateGrades
+     * @param array $newGrademaps
+     * @param Charon $charon
+     * @param bool $recalculateGrades
      *
      * @return void
      */
     public function updateGrademaps(
-        $newGrademaps,
+        array $newGrademaps,
         Charon $charon,
-        $deadlinesWereUpdated = false,
-        $recalculateGrades = true
+        $recalculateGrades = false
     ) {
         $grademaps = $charon->grademaps;
 
@@ -84,16 +91,23 @@ class UpdateCharonService
             $newGrademap = $this->getGrademapByGradeType($newGrademaps, $grademap->grade_type_code);
 
             $newGrademaps[$grademap->grade_type_code]['checked'] = true;
-            $this->updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated, $recalculateGrades);
+            $this->updateExistingGrademap($grademap, $newGrademap, $recalculateGrades);
         }
 
         // Check the rest of the Grademaps.
         foreach ($newGrademaps as $gradeType => $newGrademap) {
-            if ( ! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
+            if (! isset($newGrademap['checked']) || ! $newGrademap['checked']) {
                 $this->grademapService->createGrademapWithGradeItem(
-                    $charon, $gradeType, $charon->course, $newGrademap
+                    $charon,
+                    $gradeType,
+                    $charon->course,
+                    $newGrademap
                 );
             }
+        }
+
+        if ($recalculateGrades) {
+            $this->updateActiveSubmissions($charon);
         }
     }
 
@@ -158,14 +172,13 @@ class UpdateCharonService
      *
      * New grademap fields: grademap_name, max_points, id_number.
      *
-     * @param  Grademap $grademap
-     * @param  array $newGrademap
-     * @param  bool $deadlinesWereUpdated
-     * @param  bool $recalculateGrades
+     * @param Grademap $grademap
+     * @param array $newGrademap
+     * @param bool $recalculateGrades
      *
      * @return Grademap
      */
-    private function updateExistingGrademap($grademap, $newGrademap, $deadlinesWereUpdated, $recalculateGrades)
+    private function updateExistingGrademap($grademap, $newGrademap, $recalculateGrades)
     {
         if ($newGrademap === null) {
             $this->grademapService->deleteGrademap($grademap);
@@ -177,14 +190,16 @@ class UpdateCharonService
         $grademap->persistent = $grademap->grade_type_code > 1000 && isset($newGrademap['persistent']) && $newGrademap['persistent'] === '1';
         $grademap->save();
 
-        $oldMax = $grademap->gradeItem->grademax;
         $this->gradebookService->updateGradeItem($grademap->grade_item_id, [
             'itemname' => $newGrademap['grademap_name'],
             'grademax' => $newGrademap['max_points'],
             'idnumber' => $newGrademap['id_number'],
         ]);
 
-        if ($recalculateGrades && ($oldMax != $newGrademap['max_points'] || $deadlinesWereUpdated)) {
+        if ($recalculateGrades) {
+            if ($grademap->isTestsGrade() && $grademap->charon->gradingMethod->isPreferBestEachGrade()) {
+                $this->charonGradingService->resetGradesCalculatedResults($grademap);
+            }
             $this->charonGradingService->recalculateGrades($grademap);
         }
 
@@ -243,5 +258,36 @@ class UpdateCharonService
         }
 
         return false;
+    }
+
+    /**
+     * Update active submissions for students that are on given charon's course
+     *
+     * @param Charon $charon
+     */
+    public function updateActiveSubmissions(Charon $charon): void
+    {
+        $gradingMethod = $charon->gradingMethod;
+        $students = $this->studentsRepository
+            ->searchUsersByCourseKeywordAndRole($charon->course, null, ["student"])->all();
+
+        foreach ($students as $student) {
+
+            if ($this->charonGradingService->hasConfirmedSubmission($charon->id, $student->id)) {
+                continue;
+            }
+
+            if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
+                $submission = $this->submissionService->findUsersBestSubmission($charon->id, $student->id);
+            } else if ($gradingMethod->isPreferLast()) {
+                $submission = $this->submissionService->findUsersLatestSubmission($charon->id, $student->id);
+            } else {
+                throw new \RuntimeException("given charon has an unknown grading method");
+            }
+
+            $submission !== null
+                ? $this->charonGradingService->updateGrades($submission, $student->id)
+                : $this->charonGradingService->resetGrades($charon, $student->id);
+        }
     }
 }

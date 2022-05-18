@@ -868,6 +868,14 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022051100) {
+        $tableName = "charon_grading_method";
+        $record = ["code" => 3, "name" => "prefer_best_each_grade"];
+        if (!$DB->record_exists($tableName, $record)) {
+            $DB->insert_records($tableName, [$record]);
+        }
+    }
+
     return true;
 }
 
@@ -876,7 +884,7 @@ function xmldb_charon_upgrade($oldversion = 0)
 //         require __DIR__ . '/../plugin/bootstrap/autoload.php';
 //         $app = require __DIR__ . '/../plugin/bootstrap/app.php';
 //         $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-//        
+//
 //         $kernel->call('optimize:clear');
 //     } catch (Exception $e) {
 //         echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";

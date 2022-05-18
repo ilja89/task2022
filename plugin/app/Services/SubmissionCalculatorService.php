@@ -20,32 +20,40 @@ class SubmissionCalculatorService
     /** @var GradebookService */
     protected $gradebookService;
 
+    /** @var GrademapService */
+    protected $grademapService;
+
     /**
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
+     * @param GrademapService $grademapService
      */
-    public function __construct(GradebookService $gradebookService)
-    {
+    public function __construct(
+        GradebookService $gradebookService,
+        GrademapService $grademapService
+    ) {
         $this->gradebookService = $gradebookService;
+        $this->grademapService = $grademapService;
     }
 
     /**
      * Calculate results for the given Result taking into account the given deadlines.
      *
-     * Currently this assumes that other students connected to this submission share the same
+     * Currently, this assumes that other students connected to this submission share the same
      * group deadlines as the author of the submission.
      *
-     * @param  Result $result
-     * @param  Deadline[]|Collection $deadlines
+     * @param Result $result
+     * @param Deadline[]|Collection $deadlines
+     * @param ?Result $bestEligibleResult Best eligible result for calculating new result (for 'prefer_best_each_grade')
      *
      * @return float
      */
-    public function calculateResultFromDeadlines(Result $result, $deadlines)
+    public function calculateResultFromDeadlines(Result $result, $deadlines, ?Result $bestEligibleResult = null): float
     {
         $grademap = $result->getGrademap();
         if ($grademap === null) {
-            return 0;
+            return 0.0;
         }
 
         if ($grademap->persistent) {
@@ -77,12 +85,18 @@ class SubmissionCalculatorService
         if ($deadlinesForUser->isEmpty() && $deadlines->isNotEmpty()) {
             // No deadlines for user - shouldn't get a grade
             // TODO: [Feature] Think of what should happen
-            return 0;
+            return 0.0;
         }
 
         foreach ($deadlinesForUser as $deadline) {
             if ($deadline->deadline_time->lt($submissionTime)) {
-                $score = $this->calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints);
+                $score = $this->calculateScoreFromResultAndDeadline(
+                    $deadline,
+                    $result,
+                    $maxPoints,
+                    $bestEligibleResult
+                );
+
                 if ($smallestScore > $score) {
                     $smallestScore = $score;
                 }
@@ -93,53 +107,51 @@ class SubmissionCalculatorService
     }
 
     /**
-     * Calculate the score for the result considering the deadline and max points.
+     * Calculate the score for the result considering the deadline, max points, and grading method.
      *
-     * @param  Deadline $deadline
-     * @param  Result $result
-     * @param  float $maxPoints
+     * @param Deadline $deadline
+     * @param Result $result
+     * @param float $maxPoints
+     * @param ?Result $bestEligibleResult Best eligible result for calculating new result (for 'prefer_best_each_grade')
      *
      * @return float|int
      */
-    private function calculateScoreFromResultAndDeadline($deadline, $result, $maxPoints)
-    {
-        return ($deadline->percentage / 100) * $result->percentage * $maxPoints;
+    private function calculateScoreFromResultAndDeadline(
+        Deadline $deadline,
+        Result $result,
+        float $maxPoints,
+        ?Result $bestEligibleResult = null
+    ) {
+        if (
+            $result->submission->charon->gradingMethod->isPreferBestEachGrade() &&
+            $bestEligibleResult !== null &&
+            $result->percentage >= $bestEligibleResult->percentage
+        ) {
+            $extra = round($result->percentage - $bestEligibleResult->percentage, 2);
+            return $bestEligibleResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+        }
+
+        return $result->percentage * ($deadline->percentage / 100) * $maxPoints;
     }
 
     /**
-     * Check if the current submission is better than the last active one.
+     * Check if the current submission is better than the active one.
      *
      * @param Submission $submission
      * @param int $studentId
      *
      * @return bool
      */
-    public function submissionIsBetterThanLast(Submission $submission, int $studentId): bool
+    public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
-        $submissionSum = 0;
-        $activeSubmissionSum = 0;
-        $results = $submission->results()->where('user_id', $studentId)->get();
+        $thisResult   = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
+        $activeResult = $this->calculateActiveSubmissionTotalGrade($submission->charon, $studentId, true);
 
-        foreach ($results as $result) {
-            $grademap = $result->getGrademap();
-            if ($grademap === null) {
-                continue;
-            }
-
-            $gradeGrade = $grademap->gradeItem->gradesForUser($studentId);
-
-            if ($gradeGrade !== null) {
-                $activeSubmissionSum += $gradeGrade->finalgrade;
-            }
-
-            $submissionSum += $result->calculated_result;
-        }
-
-        return $submissionSum >= $activeSubmissionSum;
+        return $thisResult > $activeResult;
     }
 
     /**
-     * Get the currently active grades for the given charon and user.
+     * Get the currently active grade for the given charon and user.
      *
      * @param Charon $charon
      * @param int $userId
@@ -151,5 +163,97 @@ class SubmissionCalculatorService
         $gradeItem = $charon->category->getGradeItem();
 
         return $this->gradebookService->getGradeForGradeItemAndUser($gradeItem->id, $userId);
+    }
+
+    /**
+     * Calculates the total grade for all Submission students
+     *
+     * @param Submission $submission
+     *
+     * @return array
+     */
+    public function calculateSubmissionTotalGrades(Submission $submission): array
+    {
+        $grades = [];
+
+        foreach ($submission->users as $user) {
+            $grades[$user->id] = $this->calculateSubmissionTotalGrade($submission, $user->id);
+        }
+
+        return $grades;
+    }
+
+    /**
+     * Calculates the total grade for the given submission.
+     *
+     * @param Submission $submission
+     * @param int $user_id
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     *
+     * @return float
+     */
+    public function calculateSubmissionTotalGrade(
+        Submission $submission,
+        int $user_id,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): float {
+
+        $calculation = $submission->charon->category->getGradeItem()->calculation;
+        $results = $submission->results;
+
+        if ($calculation == null) {
+            $sum = 0;
+            foreach ($results as $result) {
+                if ($result->user_id == $user_id) {
+                    $sum += $result->calculated_result;
+                }
+            }
+
+            return round($sum, 3);
+        }
+
+        $params = $this->grademapService->findFormulaParams(
+            $calculation,
+            $results,
+            $user_id,
+            $ignoreCustom,
+            $ignoreStyle
+        );
+
+        return round($this->gradebookService->calculateResultWithFormulaParams($calculation, $params), 3);
+    }
+
+    /**
+     * Calculate total grade for given charon and user with grades got from gradebook.
+     *
+     * It is available to ignore custom/style grades in order to get potential total grade.
+     *
+     * @param Charon $charon
+     * @param int $userId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     * @return float
+     */
+    private function calculateActiveSubmissionTotalGrade(
+        Charon $charon,
+        int $userId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): float {
+        $calculationFormula = $charon->category->getGradeItem()->calculation;
+        $total = $this->gradebookService->calculateResultWithFormulaParams(
+            $calculationFormula,
+            $this->grademapService->findFormulaParamsFromGradebook(
+                $calculationFormula,
+                [],
+                $userId,
+                $ignoreCustom,
+                $ignoreStyle
+            )
+        );
+
+        return round($total, 3);
     }
 }

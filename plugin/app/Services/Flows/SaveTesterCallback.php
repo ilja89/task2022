@@ -233,7 +233,7 @@ class SaveTesterCallback
     {
         foreach ($users as $user) {
             if ($this->charonGradingService->gradesShouldBeUpdated($submission, $user->id)) {
-                $this->charonGradingService->updateGrade($submission, $user->id);
+                $this->charonGradingService->updateGrades($submission, $user->id);
             }
         }
     }
