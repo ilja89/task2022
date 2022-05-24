@@ -12,7 +12,7 @@ require __DIR__ . '/../plugin/bootstrap/autoload.php';
  */
 function xmldb_charon_upgrade($oldversion = 0)
 {
-    clear_caches();
+    // clear_caches();
 
     global $DB;
     $dbManager = $DB->get_manager();
@@ -843,7 +843,7 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
-    if ($oldversion < 2022040900) {
+    if ($oldversion < 2022040900) {  //used in version 2022041400
 
         $table = new xmldb_table("charon_test_suite");
 
@@ -868,17 +868,25 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022051100) {
+        $tableName = "charon_grading_method";
+        $record = ["code" => 3, "name" => "prefer_best_each_grade"];
+        if (!$DB->record_exists($tableName, $record)) {
+            $DB->insert_records($tableName, [$record]);
+        }
+    }
+
     return true;
 }
 
-function clear_caches() {
-    try {
-        require __DIR__ . '/../plugin/bootstrap/autoload.php';
-        $app = require __DIR__ . '/../plugin/bootstrap/app.php';
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-        
-        $kernel->call('optimize:clear');
-    } catch (Exception $e) {
-        echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
-    }
-}
+// function clear_caches() {
+//     try {
+//         require __DIR__ . '/../plugin/bootstrap/autoload.php';
+//         $app = require __DIR__ . '/../plugin/bootstrap/app.php';
+//         $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+//
+//         $kernel->call('optimize:clear');
+//     } catch (Exception $e) {
+//         echo "<pre>Exception: ", $e->getMessage(), "</pre>\n";
+//     }
+// }

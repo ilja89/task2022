@@ -16,12 +16,25 @@
 
             <button type="button" class="add-deadline-btn" @click="onAddDeadlineClicked">Add Deadline</button>
 
-            <br>
+            <br />
 
-            <label v-if="isEditing">
-                <input type="checkbox" name="recalculate_grades" v-model="form.recalculate_grades">
-                Recalculate grades
-            </label>
+            <div v-if="isEditing">
+
+                <label>
+                    <input type="checkbox" name="recalculate_grades" v-model="form.recalculate_grades">
+                    Recalculate grades
+                </label>
+
+                <br />
+
+                <label v-if="form.recalculate_grades === true && form.fields.grading_method_code === 3"
+                       class="red--text">
+
+                    Warning: recalculating grades with grading method 'prefer_best_each_grade'
+                    may take a lot of time to finish, depending on the count of submissions.
+                </label>
+
+            </div>
 
         </div>
 

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Repositories\CharonRepository;
-use TTU\Charon\Repositories\DeadlinesRepository;
 use TTU\Charon\Services\CreateCharonService;
 use TTU\Charon\Services\GrademapService;
 use TTU\Charon\Services\PlagiarismService;
@@ -49,9 +48,6 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
-    /** @var DeadlinesRepository */
-    private $deadlinesRepository;
-
     /** @var MoodleUser */
     private $moodleUser;
 
@@ -69,8 +65,8 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
+     * @param MoodleUser $moodleUser
      * @param TemplateService $templatesService
-     * @param DeadlinesRepository $deadlinesRepository
      */
     public function __construct(
         Request $request,
@@ -81,11 +77,9 @@ class InstanceController extends Controller
         UpdateCharonService $updateCharonService,
         FileUploadService $fileUploadService,
         PlagiarismService $plagiarismService,
-        DeadlinesRepository $deadlinesRepository,
         Moodleuser $moodleUser,
         TemplateService $templatesService
-    )
-    {
+    ) {
         parent::__construct($request);
         $this->charonRepository = $charonRepository;
         $this->gradebookService = $gradebookService;
@@ -94,7 +88,6 @@ class InstanceController extends Controller
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
-        $this->deadlinesRepository = $deadlinesRepository;
         $this->moodleUser = $moodleUser;
         $this->templatesService = $templatesService;
     }
@@ -156,14 +149,16 @@ class InstanceController extends Controller
      */
     public function update()
     {
-
         $charon = $this->charonRepository->getCharonByCourseModuleId($this->request->input('update'));
         Log::info("Update charon", [$this->request->toArray()]);
 
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
-            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon,
-                $this->moodleUser->currentUser()->toArray()['timezone']);
+            $this->updateCharonService->updateDeadlines(
+                $this->request,
+                $charon,
+                $this->moodleUser->currentUser()->toArray()['timezone']
+            );
 
             $templates = $this->request->input('files');
             $this->templatesService->updateTemplates($charon->id, $templates);
@@ -171,7 +166,6 @@ class InstanceController extends Controller
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
-                $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
             );
 
@@ -179,7 +173,6 @@ class InstanceController extends Controller
         }
 
         return "1";
-
     }
 
     /**
@@ -269,7 +262,7 @@ class InstanceController extends Controller
             'description' => $this->request->input('description')['text'],
             'project_folder' => $this->request->input('project_folder'),
             'tester_type_code' => $this->request->input('tester_type_code', 1),
-            'grading_method_code' => $this->request->input('grading_method', 1),
+            'grading_method_code' => $this->request->input('grading_method_code', 1),
             'grouping_id' => $this->request->input('grouping_id'),
             'defense_start_time' => $this->request->input('defense_start_time', Carbon::now()->format("Y-m-d")),
             'defense_deadline' => $this->request->input('defense_deadline', Carbon::now()->addDays(90)->format("Y-m-d")),
