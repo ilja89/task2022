@@ -19,13 +19,31 @@ import GeneralInformationSection from "./GeneralInformationSection";
 import DashboardStatisticsSection from "./DashboardStatisticsSection";
 import CharonDefenseRegistrationsSection from "./CharonDefenseRegistrationsSection";
 import SubmissionGraphSection from "./SubmissionGraphSection";
+import StudentDetailsCommentSection from "./StudentDetailsCommentSection";
 
 export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
 
 export {
-    CommentsSection, OutputSection, SubmissionOverviewSection,
-    SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,
-    SubmissionCountsSection, StudentsDistributionSection, ReportAllStudents, TeacherSection,
-    LabSection, CharonSettingsSection, DefenseRegistrationsSection, TesterTypeSection, GeneralInformationSection,
-    DashboardStatisticsSection, CharonDefenseRegistrationsSection, SubmissionGraphSection, StudentDetailsCharonsTableSection, StudentDetailsSubmissionsSection
+    CommentsSection,
+    OutputSection,
+    SubmissionOverviewSection,
+    SubmissionsSection,
+    LatestSubmissionsSection,
+    LogSection,
+    ActiveStudentsSection,
+    SubmissionCountsSection,
+    StudentsDistributionSection,
+    ReportAllStudents,
+    TeacherSection,
+    LabSection,
+    CharonSettingsSection,
+    DefenseRegistrationsSection,
+    TesterTypeSection,
+    GeneralInformationSection,
+    DashboardStatisticsSection,
+    CharonDefenseRegistrationsSection,
+    SubmissionGraphSection,
+    StudentDetailsCharonsTableSection,
+    StudentDetailsSubmissionsSection,
+    StudentDetailsCommentSection
 }

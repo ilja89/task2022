@@ -6,7 +6,7 @@
 
         <output-section/>
 
-        <comments-section/>
+        <comments-section :student-id="student.id"/>
     </div>
 </template>
 

@@ -8,7 +8,7 @@
             <v-btn class="ma-2" tile outlined color="primary" @click="toggle()">{{ buttonText }}</v-btn>
         </template>
 
-        <apexcharts height="750" :options="options" :series="series" v-show="isOpen"></apexcharts>
+        <apexcharts height="750" :options="options" :series="series" v-show="isOpen" ref="chart"></apexcharts>
 
     </popup-section>
 </template>
@@ -32,6 +32,10 @@
                 courseMaximumGrades: [],
                 finalGrades: [],
             };
+        },
+
+        activated() {
+            this.$refs.chart.resetSeries()
         },
 
         computed: {
@@ -91,20 +95,11 @@
                             blur: 10,
                             opacity: 1
                         },
-                        /*toolbar: {
-                            show: false
-                        }*/
                     },
                     colors: ['#59c2e6', '#4f5f6f', '#ff8c00'],
                     dataLabels: {
                         enabled: true
                     },
-                    /*stroke: {
-                        curve: "smooth"
-                    },*/
-                    /*title: {
-                        text: ""
-                    },*/
                     xaxis: {
                         categories: this.submissionNames,
                         tickPlacement: 'between',
@@ -126,11 +121,11 @@
                         title: {
                             text: 'Points',
                             style: {
-                                fontSize: '20px'
+                                fontSize: '20px',
                             },
                         },
                     },
-                };
+                }
             },
 
             series() {

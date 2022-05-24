@@ -54,6 +54,7 @@ const routes = [
         title: 'Student details',
         component: StudentDetailsPage,
         name: 'student-details',
+        props: true,
     },
     {
         path: '/activities',

@@ -2,15 +2,26 @@
     <popup-section title="Comments"
                    subtitle="Comments are for every Charon and student.">
 
-        <template v-if="charonSelector" v-slot:header-right>
+        <template v-slot:header-right>
             <v-spacer></v-spacer>
-            <charon-select/>
+            <v-col cols="auto" class="mt-4">
+                <v-select
+                    v-model="selectedCharon"
+                    :items="charons"
+                    item-text="name"
+                    item-value="id"
+                    label="Select"
+                    hint="Select a Charon to see the comments"
+                    persistent-hint
+                    @change="fetchComments"
+                ></v-select>
+            </v-col>
         </template>
 
         <v-card class="mx-auto" outlined light raised>
             <v-container class="spacing-playground pa-3" fluid>
                 <ul>
-                    <li v-for="comment in comments" class="comment">
+                    <li v-for="comment in foundComments" class="comment">
                         <span class="comment-author">
                             {{ comment.teacher.firstname }} {{ comment.teacher.lastname }}
                         </span>
@@ -33,68 +44,62 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
 import {PopupSection} from '../layouts/index'
 import {Comment} from '../../../api/index'
-import {CharonSelect} from '../partials'
 
 export default {
 
-    components: {PopupSection, CharonSelect},
+    components: {PopupSection},
 
     data() {
         return {
+            foundComments: [],
+            selectedCharon: null,
             writtenComment: '',
-            comments: [],
         }
     },
 
     props: {
-        charonSelector: {
-            required: false,
-            default: false
-        }
-    },
-
-    computed: {
-        ...mapState([
-            'charon',
-            'student',
-        ]),
-    },
-
-    watch: {
-        student() {
-            this.refreshComments();
+        studentId: {
+            required: true,
+            type: Number
         },
-        charon() {
-            this.refreshComments();
+
+        charons: {
+            required: true,
+            type: Array,
+            default() {
+                return []
+            }
         }
     },
 
     methods: {
         saveComment() {
-            if (this.writtenComment === null || this.writtenComment.length === 0) {
+            if (!this.writtenComment.length) {
                 return
             }
 
-            Comment.save(this.writtenComment, this.charon.id, this.student.id, comment => {
-                this.comments.push(comment)
+            Comment.save(this.writtenComment, this.selectedCharon, this.studentId, comment => {
                 this.writtenComment = ''
                 VueEvent.$emit('show-notification', 'Comment saved!')
+                this.fetchComments(this.selectedCharon)
             });
         },
 
-        refreshComments() {
-            if (this.charon === null || this.student === null) {
-                this.comments = []
-                return
+        fetchComments(newCharonId) {
+            if (this.studentId && newCharonId) {
+                Comment.all(newCharonId, this.studentId, comments => {
+                    this.foundComments = comments
+                });
             }
-
-            Comment.all(this.charon.id, this.student.id, comments => {
-                this.comments = comments
-            })
-        },
+        }
     },
 }
 </script>
+
+<style scoped>
+.v-select__selections input {
+    width: 0
+}
+</style>
