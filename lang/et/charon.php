@@ -82,6 +82,7 @@ $string['grade_persistent'] = 'Püsiv';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset'] = 'Preset';
 $string['unittests_git_charon'] = 'Charoni testide Git';
+$string['instance_plagiarism_settings'] = 'Plagiarismi seaded';
 
 $string['deadline'] = 'Tähtaeg';
 $string['percentage'] = 'Protsent';

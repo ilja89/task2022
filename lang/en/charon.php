@@ -82,6 +82,7 @@ $string['grade_persistent'] = 'Persistent';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset'] = 'Preset';
 $string['unittests_git_charon'] = 'Charon unittests Git';
+$string['instance_plagiarism_settings'] = 'Plagiarism settings';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
