@@ -81,13 +81,7 @@ $string['id_number'] = 'ID number';
 $string['grade_persistent'] = 'Persistent';
 $string['calculation_formula'] = 'Calculation formula';
 $string['preset'] = 'Preset';
-$string['plagiarism_service'] = 'Plagiarism service';
-$string['plagiarism_enabled'] = 'Plagiarism enabled';
-$string['plagiarism_resource_provider_repository'] = 'Plagiarism source Git repository';
-$string['plagiarism_resource_provider_private_key'] = 'Plagiarism source private key';
-$string['plagiarism_includes'] = 'Plagiarism includes';
 $string['unittests_git_charon'] = 'Charon unittests Git';
-$string['instance_plagiarism_settings'] = 'Plagiarism settings';
 
 $string['deadline'] = 'Deadline';
 $string['percentage'] = 'Percentage';
@@ -125,13 +119,6 @@ $string['grade_name_helper'] = 'Moodle grade name. Eg. EX01 - Tests.';
 $string['max_points_grade_helper'] = 'Max points possible to get for this grade.';
 $string['id_number_helper'] = 'Unique identifier used in calculating total points using a formula.';
 $string['grade_persistent_helper'] = 'Points for this grade carry on to subsequent student Submissions.';
-$string['plagiarism_service_helper'] = 'Plagiarism checking service that will be used by the plagiarism service to '
-    . 'check the submissions.';
-$string['plagiarism_resource_provider_repository_helper'] = 'Git repository that will be checked for plagiarism.';
-$string['plagiarism_resource_provider_private_key_helper'] = 'The private key which will be used to access files in '
-    . 'the repository.';
-$string['plagiarism_includes_helper'] = 'Pattern for files which will be included by the plagiarism check. For '
-    . 'example, ".*/EX13.*", will include everything in EX13 folders.';
 $string['unittests_git_charon_helper'] = 'The Git URL in which there are tests for this Charon';
 
 $string['remove_button_text'] = 'Remove';

@@ -34,59 +34,6 @@ class PlagiarismController extends Controller
     }
 
     /**
-     * Run the checksuite for the given Charon. Send a request to run the
-     * checksuite to the plagiarism service.
-     *
-     * @param Charon $charon
-     *
-     * @return JsonResponse
-     *
-     * @throws GuzzleException
-     */
-    public function runChecksuite(Charon $charon)
-    {
-        $checksuiteId = $charon->plagiarism_checksuite_id;
-
-        if (!$checksuiteId) {
-            return response()->json([
-                'message' => 'This Charon does not have plagiarism enabled.',
-            ], 400);
-        }
-
-        $this->plagiarismService->runChecksuite($charon);
-
-        return response()->json([
-            'message' => 'Plagiarism service has been notified to re-run the checksuite.',
-        ], 200);
-    }
-
-    /**
-     * Fetch the similarities for the latest check of the given Charon.
-     *
-     * @param Charon $charon
-     *
-     * @return JsonResponse
-     *
-     * @throws GuzzleException
-     */
-    public function fetchSimilarities(Charon $charon)
-    {
-        if (!$charon->plagiarism_latest_check_id && !$charon->plagiarism_checksuite_id) {
-            return response()->json([
-                'message' => 'This Charon does not have plagiarism enabled.',
-            ], 400);
-        } else if (!$charon->plagiarism_latest_check_id && $charon->plagiarism_checksuite_id) {
-            $charon = $this->plagiarismService->runChecksuite($charon);
-        }
-
-        $similarities = $this->plagiarismService->getLatestSimilarities($charon);
-
-        return response()->json([
-            'similarities' => $similarities,
-        ], 200);
-    }
-
-    /**
      * Fetch the matches for the given Charon.
      * Also returns times of plagiarism runs.
      *
@@ -148,6 +95,7 @@ class PlagiarismController extends Controller
      *
      * @param Request $request
      * @return array
+     * @throws GuzzleException
      */
     public function getLatestStatus(Request $request): array
     {

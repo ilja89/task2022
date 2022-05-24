@@ -10,7 +10,6 @@
     window.isEditing = {!! isset($charon) ? 'true' : 'false' !!};
     window.groups = {!! $groups->toJson() !!};
     window.groupings = {!! $groupings->toJson() !!};
-    window.plagiarismServices = {!! $plagiarismServices->toJson() !!};
     window.plagiarismAssignment = {!! json_encode($plagiarismAssignment) !!};
     // ...
 
@@ -46,11 +45,6 @@
         labs_label: "{{ translate('labs') }}",
         teacher_label: "{{ translate('teacher') }}",
         group_label: "{{ translate('group') }}",
-        plagiarism_service_label: "{{ translate('plagiarism_service') }}",
-        plagiarism_enabled: "{{ translate('plagiarism_enabled') }}",
-        plagiarism_resource_provider_repository: "{{ translate('plagiarism_resource_provider_repository') }}",
-        plagiarism_resource_provider_private_key: "{{ translate('plagiarism_resource_provider_private_key') }}",
-        plagiarism_includes: "{{ translate('plagiarism_includes') }}",
         grouping: "{{ translate('grouping') }}",
         grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
         plagiarism_file_extensions_label: "{{ translate('plagiarism_file_extensions') }}",
@@ -80,10 +74,6 @@
         max_points_grade_helper: "{{ translate('max_points_grade_helper') }}",
         id_number_helper: "{{ translate('id_number_helper') }}",
         grade_persistent_helper: "{{ translate('grade_persistent_helper') }}",
-        plagiarism_service_helper: "{{ translate('plagiarism_service_helper') }}",
-        plagiarism_resource_provider_repository_helper: "{{ translate('plagiarism_resource_provider_repository_helper') }}",
-        plagiarism_resource_provider_private_key_helper: "{{ translate('plagiarism_resource_provider_private_key_helper') }}",
-        plagiarism_includes_helper: "{{ translate('plagiarism_includes_helper') }}",
         plagiarism_file_extensions_helper: "{{ translate('plagiarism_file_extensions_helper') }}",
         plagiarism_moss_passes_helper: "{{ translate('plagiarism_moss_passes_helper') }}",
         plagiarism_moss_matches_shown_helper: "{{ translate('plagiarism_moss_matches_shown_helper') }}",

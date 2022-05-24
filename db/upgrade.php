@@ -856,5 +856,28 @@ function xmldb_charon_upgrade($oldversion = 0)
         }
     }
 
+    if ($oldversion < 2022052401) {
+        $table = new xmldb_table("charon");
+
+        if ($dbManager->table_exists($table)) {
+            if ($dbManager->field_exists($table, 'plagiarism_checksuite_id')) {
+                $sql = "ALTER TABLE mdl_charon DROP COLUMN plagiarism_checksuite_id";
+                $DB->execute($sql);
+                echo "existeerib2";
+            }
+            if ($dbManager->field_exists($table, 'plagiarism_latest_check_id')) {
+                $sql = "ALTER TABLE mdl_charon DROP COLUMN plagiarism_latest_check_id";
+                $DB->execute($sql);
+                echo "existeerib";
+            }
+        }
+
+        $table = new xmldb_table("charon_plagiarism_service");
+
+        if ($dbManager->table_exists($table)) {
+            $dbManager->drop_table($table);
+        }
+    }
+
     return true;
 }

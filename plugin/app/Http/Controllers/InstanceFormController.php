@@ -109,7 +109,6 @@ class InstanceFormController extends Controller
             'moduleSettingsUrl' => $this->getModuleSettingsUrl(),
             'groups' => $course->groups,
             'groupings' => $course->groupings,
-            'plagiarismServices' => $this->classificationsRepository->getAllPlagiarismServices(),
             'plagiarismAssignment' => $this->plagiarismCommunicationService->getAssignmentDetails($course)
         ]);
     }
@@ -135,14 +134,13 @@ class InstanceFormController extends Controller
             ? '' : "/mod/charon/courses/{$charon->course}/settings";
         $groups = $charon->moodleCourse->groups;
         $groupings = $charon->moodleCourse->groupings;
-        $plagiarismServices = $this->classificationsRepository->getAllPlagiarismServices();
 
         $course = Course::where('id', $charon->course)->first();
         $plagiarismAssignment = $this->plagiarismCommunicationService->getAssignmentDetails($course, $charon);
 
         return view('instanceForm.form', compact(
             'charon', 'gradingMethods', 'testerTypes', 'courseSettings', 'presets', 'courseSettingsUrl',
-            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismServices', 'plagiarismAssignment'
+            'moduleSettingsUrl', 'groups', 'groupings', 'plagiarismAssignment'
         ));
     }
 

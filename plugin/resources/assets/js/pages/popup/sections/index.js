@@ -18,8 +18,6 @@ import PlagiarismOverviewSection from "./PlagiarismOverviewSection";
 import VisNetwork from "./VisNetwork";
 import PlagiarismStudentHistorySection from "./PlagiarismStudentHistorySection";
 
-export {default as PlagiarismResultsSection} from './PlagiarismResultsSection'
-
 export {
     CommentsSection, OutputSection, SubmissionOverviewSection,
     SubmissionsSection, LatestSubmissionsSection, LogSection, ActiveStudentsSection,

@@ -77,7 +77,7 @@
 <script>
 import {
     AdvancedTaskInfoSection, AdvancedGradingSection, SimpleTaskInfoSection,
-    SimpleGradingSection, DeadlineSection, AdvancedPlagiarismSection,
+    SimpleGradingSection, DeadlineSection,
     SimplePlagiarismSection, GroupingSection, CodeEditorSection
 } from './sections'
 import {InstanceFormFieldset} from '../../components/form'
@@ -93,7 +93,7 @@ export default {
     components: {
         SimpleTaskInfoSection, SimpleGradingSection, DeadlineSection,
         AdvancedTaskInfoSection, AdvancedGradingSection,
-        InstanceFormFieldset, AdvancedPlagiarismSection,
+        InstanceFormFieldset,
         SimplePlagiarismSection, GroupingSection, CodeEditorSection
     },
 
@@ -125,10 +125,6 @@ export default {
 
         toggleAdvancedGradingSection(advanced_toggle) {
             this.advanced_grading_section_active = advanced_toggle;
-        },
-
-        toggleAdvancedPlagiarismSection(advanced_toggle) {
-            this.advanced_plagiarism_section_active = advanced_toggle;
         },
 
         showNotification(message, type, timeout = 5000) {
@@ -186,29 +182,6 @@ export default {
             this.hideNotification()
         })
 
-        VueEvent.$on('plagiarism-service-was-changed', (index, serviceCode) => {
-            this.form.fields.plagiarism_services[index] = serviceCode
-        })
-        VueEvent.$on('plagiarism-service-was-added', () => {
-            this.form.fields.plagiarism_services.push(null)
-        })
-        VueEvent.$on('plagiarism-service-was-removed', index => {
-            this.form.fields.plagiarism_services.splice(index, 1)
-        })
-        VueEvent.$on('plagiarism-enabled-was-changed', (plagiarismEnabled) => {
-            this.form.fields.plagiarism_enabled = plagiarismEnabled
-        })
-        VueEvent.$on('plagiarism-resource-provider-was-added', () => {
-            this.form.fields.plagiarism_resource_providers.push({
-                repository: '',
-            })
-        })
-        VueEvent.$on('plagiarism-resource-provider-repository-changed', (index, repo) => {
-            this.form.fields.plagiarism_resource_providers[index].repository = repo
-        })
-        VueEvent.$on('plagiarism-resource-provider-removed', index => {
-            this.form.fields.plagiarism_resource_providers.splice(index, 1)
-        })
         VueEvent.$on('plagiarism-excludes-was-changed', excludes => {
             this.form.fields.plagiarism_excludes = excludes
         })

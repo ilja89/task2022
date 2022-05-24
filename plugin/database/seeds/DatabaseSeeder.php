@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ClassificationsSeeder::class,
-            PlagiarismServicesSeeder::class,
             PresetsSeeder::class,
             SubmissionTypeSeeder::class,
         ]);

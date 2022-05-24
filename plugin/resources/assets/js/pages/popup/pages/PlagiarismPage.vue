@@ -20,7 +20,7 @@
 <script>
 
 import {PageTitle} from '../partials'
-import {PlagiarismResultsSection, PlagiarismMatchesSection, PlagiarismOverviewSection} from '../sections'
+import {PlagiarismMatchesSection, PlagiarismOverviewSection} from '../sections'
 import PlagiarismCheckHistorySection from "../sections/PlagiarismCheckHistorySection";
 
 export default {
@@ -30,8 +30,7 @@ export default {
         PlagiarismCheckHistorySection,
         PlagiarismOverviewSection,
         PlagiarismMatchesSection,
-        PageTitle,
-        PlagiarismResultsSection
+        PageTitle
     },
 
     data() {
