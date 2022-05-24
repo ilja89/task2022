@@ -55,7 +55,7 @@ class TeacherModifiesSubmission
         $this->updateResults($submission, $newResults);
 
         foreach ($submission->users as $student) {
-            $this->charonGradingService->updateGrade($submission, $student->id);
+            $this->charonGradingService->updateGrades($submission, $student->id);
 
             $this->unconfirmOldSubmissions($submission->charon_id, $submission->id, $student->id);
 

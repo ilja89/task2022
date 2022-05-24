@@ -13,6 +13,7 @@ use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\SubmissionsRepository;
 use TTU\Charon\Services\Flows\TeacherModifiesSubmission;
+use TTU\Charon\Services\SubmissionCalculatorService;
 use TTU\Charon\Services\SubmissionService;
 use Zeizig\Moodle\Models\Course;
 use Zeizig\Moodle\Models\User;
@@ -39,6 +40,9 @@ class SubmissionsController extends Controller
     /** @var TeacherModifiesSubmission */
     private $teacherModifiesSubmission;
 
+    /** @var SubmissionCalculatorService */
+    private $submissionCalculatorService;
+
     /**
      * SubmissionsController constructor.
      *
@@ -48,22 +52,24 @@ class SubmissionsController extends Controller
      * @param CharonRepository $charonRepository
      * @param FilesController $filesController
      * @param TeacherModifiesSubmission $teacherModificationFlow
+     * @param SubmissionCalculatorService $submissionCalculatorService
      */
     public function __construct(
-        Request                   $request,
-        SubmissionService         $submissionService,
-        SubmissionsRepository     $submissionsRepository,
-        CharonRepository          $charonRepository,
-        FilesController           $filesController,
-        TeacherModifiesSubmission $teacherModificationFlow
-    )
-    {
+        Request $request,
+        SubmissionService $submissionService,
+        SubmissionsRepository $submissionsRepository,
+        CharonRepository $charonRepository,
+        FilesController $filesController,
+        TeacherModifiesSubmission $teacherModificationFlow,
+        SubmissionCalculatorService $submissionCalculatorService
+    ) {
         parent::__construct($request);
         $this->submissionService = $submissionService;
         $this->submissionsRepository = $submissionsRepository;
         $this->charonRepository = $charonRepository;
         $this->filesController = $filesController;
         $this->teacherModifiesSubmission = $teacherModificationFlow;
+        $this->submissionCalculatorService = $submissionCalculatorService;
     }
 
     /**
@@ -81,7 +87,7 @@ class SubmissionsController extends Controller
         $charon = $this->charonRepository->findBySubmission($submission->id);
         $submission = $this->submissionsRepository->findById($submission->id, $charon->getGradeTypeCodes());
 
-        $submission->total_results = $this->submissionService->calculateSubmissionTotalGrades($submission);
+        $submission->total_results = $this->submissionCalculatorService->calculateSubmissionTotalGrades($submission);
         $submission->max_result = $charon->category->getGradeItem()->grademax;
         $submission->course_order_nr = $this->submissionsRepository->getSubmissionCourseOrderNumber($submission, $studentId);
         $submission->charon_order_nr = $this->submissionsRepository->getSubmissionCharonOrderNumber($submission, $studentId);

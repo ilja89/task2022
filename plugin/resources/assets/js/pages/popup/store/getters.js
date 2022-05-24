@@ -17,7 +17,7 @@ export const courseId = state => {
  */
 export const studentsSearchUrl = (state, getters) => {
     return getters.courseId
-        ? `/mod/charon/api/courses/${getters.courseId}/students/search`
+        ? `/mod/charon/api/courses/${getters.courseId}/users/search`
         : null
 }
 

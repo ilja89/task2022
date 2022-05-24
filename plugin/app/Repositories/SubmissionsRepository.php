@@ -118,14 +118,22 @@ class SubmissionsRepository
     }
 
     /**
+     * Find user's submission with given user id.
+     *
      * @param int $userId
+     * @param ?int $charonId
      *
      * @return Collection|Submission[]
      */
-    public function findUserSubmissions(int $userId)
+    public function findUserSubmissions(int $userId, ?int $charonId = null): Collection
     {
-        $submissions = $this->buildForUser($userId)
-            ->select('charon_submission.*')
+        $query = $this->buildForUser($userId);
+
+        if ($charonId !== null) {
+            $query->where('charon_submission.charon_id', $charonId);
+        }
+
+        $submissions = $query->select('charon_submission.*')
             ->get()
             ->toArray();
 
@@ -181,7 +189,7 @@ class SubmissionsRepository
                 'results' => function ($query) use ($charon, $userId) {
                     $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
                         ->where('user_id', $userId)
-                    ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                        ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
                 },
                 'users' => function ($query) {
@@ -430,21 +438,6 @@ class SubmissionsRepository
             ->where('charon_submission.git_timestamp', '<', $submission->git_timestamp)
             ->where('charon_submission.charon_id', $submission->charon_id)
             ->count();
-    }
-
-    /**
-     * @param $charonId
-     * @param $gradeTypeCode
-     *
-     * @return Result[]|Collection
-     */
-    public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
-    {
-        return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
-            $query->where('charon_id', $charonId);
-        })
-            ->where('grade_type_code', $gradeTypeCode)
-            ->get();
     }
 
     /**
