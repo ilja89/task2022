@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.4] - 2022-05-24
+
+### Added
+- #807 Charon dashboard with upgrades and fixes
+- #809 Student Overview with upgrades and fixes
+
 ## [1.6.3] - 2022-05-11
 
 ### Added
