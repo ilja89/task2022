@@ -48,8 +48,10 @@ export default {
     },
 
     deactivated() {
-        this.$refs.chartEveryDay.$destroy()
-        this.$refs.chartToday.$destroy()
+        if (this.value) {
+            this.$refs.chartEveryDay.$destroy()
+            this.$refs.chartToday.$destroy()
+        }
     },
 
     props: {

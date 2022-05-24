@@ -61,8 +61,7 @@ export default {
 
     props: {
         studentId: {
-            required: true,
-            type: Number
+            required: true
         },
 
         charons: {
