@@ -497,7 +497,7 @@ class SubmissionsRepository
             ->select('cs.created_at', 'cs.id', 'c.name')
             ->where('cs.user_id', $userId)
             ->where('c.course', $courseId)
-            ->latest()
+            ->orderByDesc('cs.id')
             ->take(10)
             ->get();
     }
@@ -529,7 +529,6 @@ class SubmissionsRepository
                      WHERE      gi.courseid = c.course 
                      AND        gi.itemtype = 'category'
                      AND        gi.iteminstance = c.category_id
-                     AND        cs.confirmed = 1
           ) AS avg_defended_grade,
           ( 
                      SELECT     Count(DISTINCT gg.userid) 
@@ -569,7 +568,7 @@ class SubmissionsRepository
         GROUP BY  c.project_folder, 
                   c.id, 
                   c.category_id, 
-                  c.course 
+                  c.course
         ORDER BY  subs_per_user DESC
         ", [$courseId]);
     }
