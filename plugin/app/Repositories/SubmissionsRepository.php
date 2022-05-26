@@ -784,7 +784,7 @@ class SubmissionsRepository
                 $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
             },
         ])
-            ->latest()
+            ->orderByDesc('id')
             ->simplePaginate(10);
     }
 
