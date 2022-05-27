@@ -290,4 +290,50 @@ class SubmissionServiceTest extends TestCase
 
         $this->service->saveFiles($submissionId, $filesRequest);
     }
+
+    public function testFindSubmissionByHashSuccessful()
+    {
+        $this->submission->git_hash = 'commit hash';
+
+        $this->submissionsRepository
+            ->shouldReceive('findSubmissionByHash')
+            ->with('commit hash')
+            ->once()
+            ->andReturn($this->submission);
+
+        $this->service->findSubmissionByHash('commit hash');
+    }
+
+    public function testFindSubmissionByHashUnSuccessful()
+    {
+        $this->submissionsRepository
+            ->shouldNotReceive('findSubmissionByHash');
+
+        $this->service->findSubmissionByHash('');
+    }
+
+    public function testGetSubmissionForEachStudent()
+    {
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create();
+
+        $this->submissionsRepository
+            ->shouldReceive('getSubmissionForEachStudentAndGivenCharon')
+            ->with($charon->id);
+
+        $this->service->getSubmissionForEachStudent($charon->id);
+    }
+
+    public function testGetSubmissionById()
+    {
+        $this->submission->id = 999;
+
+        $this->submissionsRepository
+            ->shouldReceive('find')
+            ->with(999)
+            ->once()
+            ->andReturn($this->submission);
+
+        $this->service->getSubmissionById(999);
+    }
 }

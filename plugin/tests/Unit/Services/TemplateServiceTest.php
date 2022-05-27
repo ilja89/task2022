@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -10,6 +11,7 @@ use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\TemplatesRepository;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\TemplateService;
+use Zeizig\Moodle\Models\Course;
 
 class TemplateServiceTest extends TestCase
 {
@@ -121,5 +123,35 @@ class TemplateServiceTest extends TestCase
         $this->repository->shouldReceive('saveTemplate')->with(1, $template2['path'], $template2['templateContents'])->once();
 
         $this->service->updateTemplates(1, $templates);
+    }
+
+    public function testGetTemplates()
+    {
+        /** @var Course $course */
+        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+
+        /** @var Charon $charon */
+        $charon = factory(Charon::class)->create([
+            'course' => $course->id,
+            'name' => 'ex01',
+            'project_folder' => 'folder',
+            'plagiarism_assignment_id' => 1
+        ]);
+
+        /** @var Template $template */
+        $template = factory(Template::class)->create([
+            'charon_id' => $charon->id,
+            'path' => 'template.py',
+            'contents' => 'hello',
+            'created_at' => Carbon::now()
+        ]);
+
+        $this->repository
+            ->shouldReceive('getTemplates')
+            ->with($charon->id)
+            ->once()
+            ->andReturn([$template]);
+
+        $this->service->getTemplates($charon->id);
     }
 }
