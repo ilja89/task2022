@@ -6,6 +6,8 @@
 MOODLE=/var/www/html
 CHARON=$MOODLE/mod/charon
 USER=www-data:www-data
+YES=y # depends on moodle default language
+      # use Yes=jah for Estonian
 
 
 die () {
@@ -43,5 +45,5 @@ find $CHARON/plugin/storage -type f -exec chmod 0664 {} \;
 #sh clear_opcache.sh $ENV
 cd $MOODLE
 
-echo "y" | php admin/cli/upgrade.php # answer "y" to prompt
+echo $YES | php admin/cli/upgrade.php # answer "y" to prompt
 php admin/cli/purge_caches.php

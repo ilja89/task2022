@@ -15,13 +15,9 @@
 - Edit install script before running:
   - Set correct MOODLE directory
   - Set USER to match needed user:group for Apache
+  - Set YES depending on Moodle default language (YES=jah for Estonian)
   - If needed, add additional steps into install script.
 - Run it as root:
 ```sudo bash install.sh <charon>``` 
 where
   - `<charon>` is zip file, containing installable Charon plugin. Something like `charon_1.2.3.zip`.
-
-
-## Troubleshooting
-
-If something goes wrong (most likely inside Moodle admin/cli/upgrade.php script), dont just run this script again! Installing Charon plugin is on half way and it need to be removed fully first, using Moodle Administrative tools.
