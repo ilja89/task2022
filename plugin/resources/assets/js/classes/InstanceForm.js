@@ -1,14 +1,13 @@
 import moment from 'moment';
 
 export default class InstanceFormForm {
-    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarism_services, plagiarismAssignment) {
+    constructor(instance, tester_types, grading_methods, courseSettings, presets, groups, groupings, plagiarismAssignment) {
         this.initializeFields(instance, courseSettings, plagiarismAssignment);
         this.tester_types = tester_types;
         this.grading_methods = grading_methods;
         this.presets = presets;
         this.groups = groups;
         this.groupings = groupings;
-        this.plagiarism_services = plagiarism_services;
         this.groups.unshift({id: null, name: 'All groups'});
         this.recalculate_grades = false;
         this.plagiarism_create_update_charon = false;
@@ -157,12 +156,6 @@ export default class InstanceFormForm {
             group_size: instance['group_size'] ? instance['group_size'] : 3,
 
             // PLAGIARISM INFO
-            plagiarism_enabled: false,
-            plagiarism_services: [null],
-            plagiarism_resource_providers: [
-                {repository: '', private_key: ''},
-            ],
-            plagiarism_includes: '',
             assignment_file_extensions: plagiarismAssignment['file_extensions']?.join() ?? '',
             assignment_moss_passes: plagiarismAssignment['moss_passes'] ?? 10,
             assignment_moss_matches_shown: plagiarismAssignment['moss_matches_shown'] ?? 25,
@@ -258,13 +251,5 @@ export default class InstanceFormForm {
             code: gradeTypeCode,
             name: this.getGradeTypeName(gradeTypeCode)
         };
-    }
-
-    addPlagiarismService() {
-        this.fields.plagiarism_services.push(null);
-    }
-
-    removePlagiarismService(index) {
-        this.fields.plagiarism_services.splice(index, 1);
     }
 }

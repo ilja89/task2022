@@ -1,5 +1,4 @@
 import AdvancedGradingSection from './AdvancedGradingSection.vue'
-import AdvancedPlagiarismSection from './AdvancedPlagiarismSection.vue'
 import AdvancedTaskInfoSection from './AdvancedTaskInfoSection.vue'
 import DeadlineSection from './DeadlineSection.vue'
 import SimpleTaskInfoSection from './SimpleTaskInfoSection.vue'
@@ -10,5 +9,5 @@ import CodeEditorSection from "./SimpleCodeEditorSection";
 
 export {
     AdvancedGradingSection, DeadlineSection, SimpleGradingSection, SimplePlagiarismSection,
-    AdvancedPlagiarismSection, GroupingSection, AdvancedTaskInfoSection, SimpleTaskInfoSection, CodeEditorSection
+    GroupingSection, AdvancedTaskInfoSection, SimpleTaskInfoSection, CodeEditorSection
 }

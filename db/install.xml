@@ -20,8 +20,6 @@
                 <FIELD NAME="system_extra" SEQUENCE="false" TYPE="text" NOTNULL="false"/>
                 <FIELD NAME="created_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
                 <FIELD NAME="updated_at" SEQUENCE="false" TYPE="datetime" NOTNULL="true"/>
-                <FIELD NAME="plagiarism_checksuite_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
-                <FIELD NAME="plagiarism_latest_check_id" SEQUENCE="false" TYPE="char" NOTNULL="false"/>
                 <FIELD NAME="defense_deadline" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="defense_start_time" SEQUENCE="false" TYPE="datetime" NOTNULL="false"/>
                 <FIELD NAME="defense_duration" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="false"/>
@@ -520,17 +518,6 @@
             </FIELDS>
             <KEYS>
                 <KEY NAME="PK_grade_name_prefix" TYPE="primary" FIELDS="code"/>
-            </KEYS>
-        </TABLE>
-
-        <TABLE NAME="charon_plagiarism_service"
-               COMMENT="Plagiarism services used to configure which services the plagiarism service uses to check for plagiarism.">
-            <FIELDS>
-                <FIELD NAME="code" SEQUENCE="false" TYPE="int" NOTNULL="true" LENGTH="10"/>
-                <FIELD NAME="name" SEQUENCE="false" TYPE="char" NOTNULL="true" LENGTH="255"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="PK_plagiarism_service" TYPE="primary" FIELDS="code"/>
             </KEYS>
         </TABLE>
 

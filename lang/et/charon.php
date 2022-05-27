@@ -54,6 +54,7 @@ $string['calculation_formula_cs_helper'] = 'Valem mille järgi ülesande kokkuv�
     . 'mis Moodle oma valemites kuid grade itemite id-d tuleb asendada hinde tüübiga. '
     . 'Nt "=sum([[Tests_1]], [[Tests_2]]) * [[Style_1]] * [[Custom_1]]".';
 $string['plagiarism_file_extensions_helper'] = 'Kui laiendeid on mitu, siis peavad nad olema eraldatud komaga, näiteks: .java,.py';
+$string['plagiarism_moss_passes_helper'] = 'Maximaalne sarnasuste kogus, ennem kui leitud sarnasust läbi erinevate failide hakatakse ignoreerima ja töötlema, kui malli osana. Aksepteeritav vahemik: 1-32767';
 $string['plagiarism_moss_passes_helper'] = 'The maximum amount of source code passages that may appear among the solutions before the lines are ignored and treated as template code. Aksepteeritav vahemik: 1-32767';
 $string['plagiarism_moss_matches_shown_helper'] = 'Mossi poolt maksimaalne tagastatavate seoste arv. Selle arvu vähendamine parandab ooteaegu. Aksepteeritav vahemik: 1-50';
 $string['plagiarism_create_course'] = 'Kursust saab luua Plagiarismis';
@@ -80,11 +81,6 @@ $string['id_number'] = 'ID number';
 $string['grade_persistent'] = 'Püsiv';
 $string['calculation_formula'] = 'Arvutuse valem';
 $string['preset'] = 'Preset';
-$string['plagiarism_service'] = 'Plagiarismi teenus';
-$string['plagiarism_enabled'] = 'Plagiarismikontroll aktiivne';
-$string['plagiarism_resource_provider_repository'] = 'Plagiarismi Giti repositoorium';
-$string['plagiarism_resource_provider_private_key'] = 'Plagiarismi repositooriumi privaatvõti';
-$string['plagiarism_includes'] = 'Plagiarismikontrolli kontrollitavad failid';
 $string['unittests_git_charon'] = 'Charoni testide Git';
 $string['instance_plagiarism_settings'] = 'Plagiarismi seaded';
 
@@ -119,12 +115,6 @@ $string['grade_name_helper'] = 'Moodli hinde nimetus. Nt EX01 - Testid.';
 $string['max_points_grade_helper'] = 'Selle hinde matsimum punktid.';
 $string['id_number_helper'] = 'Unikaalne identifikaator mida kasutatakse ülesande punktide arvutamiseks.';
 $string['grade_persistent_helper'] = 'Punktid kanduvad edasi järgmistele tudengi esitustele.';
-$string['plagiarism_service_helper'] = 'Plagiarismikontrolli teenus, mida kasutatakse plagiarismi teenuse poolt.';
-$string['plagiarism_resource_provider_repository_helper'] = 'Giti repositoorium, milles olevaid faile kontrollitakse plagiarismi teenuse poolt.';
-$string['plagiarism_resource_provider_private_key_helper'] = 'Privaatvõti, mida kasutatakse repositooriumi failidele '
-    . 'ligipääsuks.';
-$string['plagiarism_includes_helper'] = 'Regex, millega saab filtreerida faile, mida plagiaadikontroll kontrollib. '
-    . 'Näiteks, regex ".*/EX13.*", kontrollib kõiki faile EX13 kaustades.';
 $string['unittests_git_charon_helper'] = 'Giti URL kus asuvad selle charoni testid.';
 
 $string['remove_button_text'] = 'Eemalda';

@@ -8,7 +8,6 @@ use TTU\Charon\Models\GitlabLocationType;
 use TTU\Charon\Models\GradeNamePrefix;
 use TTU\Charon\Models\GradingMethod;
 use TTU\Charon\Models\PlagiarismLangType;
-use TTU\Charon\Models\PlagiarismService;
 use TTU\Charon\Models\TesterType;
 
 /**
@@ -84,16 +83,5 @@ class ClassificationsRepository
     public function getAllGradeNamePrefixes()
     {
         return GradeNamePrefix::all();
-    }
-
-    /**
-     * Get all the plagiarism checking services that the plagiarism service
-     * (julia) supports.
-     *
-     * @return Collection|PlagiarismService[]
-     */
-    public function getAllPlagiarismServices()
-    {
-        return PlagiarismService::all();
     }
 }

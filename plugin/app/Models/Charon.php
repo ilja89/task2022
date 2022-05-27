@@ -30,10 +30,6 @@ use Zeizig\Moodle\Services\ModuleService;
  * @property int grouping_id
  * @property int course
  * @property int timemodified
- * @property string|null plagiarism_checksuite_id - Id of the associated
- *      checksuite in the Julia plagiarism service.
- * @property string|null plagiarism_latest_check_id - Id of the latest check
- *      for this Charon in the Julia plagiarism service.
  * @property Carbon defense_deadline
  * @property Carbon defense_start_time
  * @property int defense_duration

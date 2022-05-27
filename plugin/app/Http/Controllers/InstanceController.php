@@ -153,15 +153,6 @@ class InstanceController extends Controller
         $this->createCharonService->saveDeadlinesFromRequest($this->request, $charon,
             $this->moodleUser->currentUser()->toArray()['timezone']);
 
-        Log::info("Has plagarism enabled: ", [$this->request->input('plagiarism_enabled')]);
-        if ($this->request->input('plagiarism_enabled')) {
-            $charon = $this->plagiarismService->createChecksuiteForCharon(
-                $charon,
-                $this->request->input('plagiarism_services'),
-                $this->request->input('resource_providers'),
-                $this->request->input('plagiarism_includes')
-            );
-        }
         return $charon->id;
     }
 
