@@ -10,6 +10,7 @@ use Mockery\Mock;
 use Tests\TestCase;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Models\SubmissionFile;
 use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseRepository;
@@ -69,16 +70,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testRunCheckCorrectlyWithoutTemplates()
     {
-        $course = new Course();
-        $course->id = 999;
-        $course->shortname = 'iti-000000';
+        $course = $this->getCourse();
 
-        $charon = new Charon();
-        $charon->id = 999;
-        $charon->course = $course->id;
-        $charon->name = 'ex01';
-        $charon->project_folder = 'folder';
-        $charon->plagiarism_assignment_id = 1;
+        $charon = $this->getCharon($course);
 
         $user = $this->getUser();
 
@@ -125,34 +119,23 @@ class PlagiarismServiceTest extends TestCase
     public function testRunCheckCorrectlyWithTemplates()
     {
 
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'plagiarism_assignment_id' => 1
-        ]);
-
-        /** @var Template $template */
-        $template = factory(Template::class)->create([
-            'charon_id' => $charon->id,
-            'path' => 'file.py',
-            'contents' => 'template',
-            'created_at' => Carbon::now()
-        ]);
-
-        /** @var Template $template2 */
-        $template2 = factory(Template::class)->create([
-            'charon_id' => $charon->id,
-            'path' => 'file2.py',
-            'contents' => 'template2',
-            'created_at' => Carbon::now()
-        ]);
+        $charon = $this->getCharon($course);
 
         $user = $this->getUser();
+
+        $template = new Template();
+        $template->charon_id = $charon->id;
+        $template->path = 'file.py';
+        $template->contents = 'template';
+        $template->created_at = Carbon::now();
+
+        $template2 = new Template();
+        $template2->charon_id = $charon->id;
+        $template2->path = 'file2.py';
+        $template2->contents = 'template2';
+        $template2->created_at = Carbon::now();
 
         $data = [
             'charon' => $charon->name,
@@ -207,33 +190,25 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testRunCheckCorrectlyWithBaseFiles()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
+        $charon->allow_submission = true;
 
         $user = $this->getUser();
 
-        /** @var Submission $submission */
-        $submission = factory(Submission::class)->create([
-            'charon_id' => $charon->id,
-            'user_id' => $user->id,
-            'git_timestamp' => Carbon::now()
-        ]);
+        $submission = new Submission();
+        $submission->charon_id = $charon->id;
+        $submission->user_id = $user->id;
+        $submission->git_timestamp = Carbon::now();
         $submission->user = $user;
 
-        DB::table('charon_submission_file')->insert([
-            'submission_id' => $submission->id,
-            'path' => 'file.py',
-            'contents' => 'base_file'
-        ]);
+        $submissionFile = new SubmissionFile();
+        $submissionFile->submission_id = $submission->id;
+        $submissionFile->path = 'file.py';
+        $submissionFile->contents = 'base_file';
+
+        $submission->files = [$submissionFile];
 
         $data = [
             'charon' => $charon->name,
@@ -298,17 +273,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testGetMatches()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
 
         $timesData = [
             [
@@ -410,17 +377,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testGetLatestStatus()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
 
         $user = $this->getUser();
 
@@ -462,17 +421,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testGetCheckHistory()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
 
         $user = $this->getUser();
 
@@ -550,8 +501,7 @@ class PlagiarismServiceTest extends TestCase
      */
     public function  testCreateOrUpdateCourseSuccessful()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
         $requestData = [
             'plagiarism_lang_type' => 'python',
@@ -586,8 +536,7 @@ class PlagiarismServiceTest extends TestCase
      */
     public function  testCreateOrUpdateCourseUnSuccessful()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
         $requestData = [
             'plagiarism_lang_type' => 'python',
@@ -609,17 +558,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testCreateOrUpdateAssignment()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
 
         $requestData = [
             'assignment_file_extensions' => '.py,.java',
@@ -668,17 +609,9 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testCreateOrUpdateAssignmentUnSuccesful()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'allow_submission' => true,
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = $this->getCharon($course);
 
         $requestData = [
             'assignment_file_extensions' => '.py,.java',
@@ -705,8 +638,7 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testGetStudentActiveInactiveMatches()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = $this->getCourse();
 
         $user = $this->getUser();
 
@@ -741,6 +673,25 @@ class PlagiarismServiceTest extends TestCase
         $this->service->getStudentActiveMatches($course->id, $user->username);
         $this->service->getStudentInactiveMatches($course->id, $user->username);
 
+    }
+
+    private function getCourse()
+    {
+        $course = new Course();
+        $course->id = 999;
+        $course->shortname = 'iti-000000';
+        return $course;
+    }
+
+    private function getCharon($course)
+    {
+        $charon = new Charon();
+        $charon->id = 999;
+        $charon->course = $course->id;
+        $charon->name = 'ex01';
+        $charon->project_folder = 'folder';
+        $charon->plagiarism_assignment_id = 1;
+        return $charon;
     }
 
     private function getUser()
