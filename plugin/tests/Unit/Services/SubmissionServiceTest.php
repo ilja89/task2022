@@ -314,8 +314,8 @@ class SubmissionServiceTest extends TestCase
 
     public function testGetSubmissionForEachStudent()
     {
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create();
+        $charon = new Charon();
+        $charon->id = 999;
 
         $this->submissionsRepository
             ->shouldReceive('getSubmissionForEachStudentAndGivenCharon')
