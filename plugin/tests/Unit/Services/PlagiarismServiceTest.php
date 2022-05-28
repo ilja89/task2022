@@ -69,16 +69,16 @@ class PlagiarismServiceTest extends TestCase
      */
     public function testRunCheckCorrectlyWithoutTemplates()
     {
-        /** @var Course $course */
-        $course = factory(Course::class)->create(['shortname' => 'iti-000000']);
+        $course = new Course();
+        $course->id = 999;
+        $course->shortname = 'iti-000000';
 
-        /** @var Charon $charon */
-        $charon = factory(Charon::class)->create([
-            'course' => $course->id,
-            'name' => 'ex01',
-            'project_folder' => 'folder',
-            'plagiarism_assignment_id' => 1
-        ]);
+        $charon = new Charon();
+        $charon->id = 999;
+        $charon->course = $course->id;
+        $charon->name = 'ex01';
+        $charon->project_folder = 'folder';
+        $charon->plagiarism_assignment_id = 1;
 
         $user = $this->getUser();
 
