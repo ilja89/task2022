@@ -163,7 +163,10 @@ class AreteResponseParserTest extends TestCase
                 ['unitTests' => [['stackTrace' => 's3t1'], ['stackTrace' => 's3t2']]],
             ],
             'consoleOutputs' => 'console',
-            'message' => 'commit message'
+            'message' => 'commit message',
+            'returnExtra' => [
+                'submission_type_code' => 1
+            ]
         ]);
 
         $now = Carbon::create(2020, 11, 16, 12);
@@ -181,6 +184,7 @@ class AreteResponseParserTest extends TestCase
         $this->assertEquals($now, $submission->created_at);
         $this->assertEquals($now, $submission->updated_at);
         $this->assertEquals(11, $submission->original_submission_id);
+        $this->assertEquals(1, $submission->submission_type_code);
     }
 
     public function testGetResultFromRequest()

@@ -54,9 +54,9 @@ class PlagiarismService
     public function __construct(
         PlagiarismCommunicationService $plagiarismCommunicationService,
         CharonRepository               $charonRepository,
+        PlagiarismRepository           $plagiarismRepository,
         UserService                    $userService,
         SubmissionService              $submissionService,
-        PlagiarismRepository           $plagiarismRepository,
         CourseRepository               $courseRepository,
         TemplateService                $templateService
     )
@@ -74,16 +74,15 @@ class PlagiarismService
      * Run the check for the given Charon and refresh its status.
      *
      * @param Charon $charon
-     * @param Request $request
      * @return array
      *
      * @throws GuzzleException
      */
-    public function runCheck(Charon $charon, Request $request): array
+    public function runCheck(Charon $charon, \Zeizig\Moodle\Models\User $initiator): array
     {
         $data = [
             'charon' => $charon->name,
-            'uniid' => $this->userService->getUniidIfTaltechUsername(app(User::class)->currentUser()->username),
+            'uniid' => $this->userService->getUniidIfTaltechUsername($initiator->username),
             'assignment_id' => $charon->plagiarism_assignment_id
         ];
 
@@ -140,8 +139,6 @@ class PlagiarismService
 
         $response = $this->plagiarismCommunicationService->runCheck($data);
 
-        $user = app(User::class)->currentUser();
-
         return [
             "run_id" => $response["run_id"],
             "charon" => $charon->name,
@@ -149,7 +146,7 @@ class PlagiarismService
             "updated_timestamp" => $response["created_timestamp"],
             "status" => $response["status"],
             "check_finished" => $response["check_finished"],
-            "author" => $user->firstname . ' ' . $user->lastname
+            "author" => $initiator->firstname . ' ' . $initiator->lastname
         ];
     }
 

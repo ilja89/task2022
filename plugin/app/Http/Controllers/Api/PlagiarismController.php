@@ -74,7 +74,7 @@ class PlagiarismController extends Controller
      */
     public function runCheck(Charon $charon): JsonResponse
     {
-        $status = $this->plagiarismService->runCheck($charon, $this->request);
+        $status = $this->plagiarismService->runCheck($charon, app(User::class)->currentUser());
 
         if ($status['status'] == "Could not connect to Plagiarism application"
             or $status['status'] == "Unexpected error") {

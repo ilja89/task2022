@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Mockery;
 use Mockery\Mock;
 use Tests\TestCase;
@@ -10,6 +11,7 @@ use TTU\Charon\Models\Template;
 use TTU\Charon\Repositories\TemplatesRepository;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Services\TemplateService;
+use Zeizig\Moodle\Models\Course;
 
 class TemplateServiceTest extends TestCase
 {
@@ -121,5 +123,33 @@ class TemplateServiceTest extends TestCase
         $this->repository->shouldReceive('saveTemplate')->with(1, $template2['path'], $template2['templateContents'])->once();
 
         $this->service->updateTemplates(1, $templates);
+    }
+
+    public function testGetTemplates()
+    {
+        $course = new Course();
+        $course->id = 999;
+        $course->shortname = 'iti-000000';
+
+        $charon = new Charon();
+        $charon->id = 999;
+        $charon->course = $course->id;
+        $charon->name = 'ex01';
+        $charon->project_folder = 'folder';
+        $charon->plagiarism_assignment_id = 1;
+
+        $template = new Template();
+        $template->charon_id = $charon->id;
+        $template->path = 'file.py';
+        $template->contents = 'template';
+        $template->created_at = Carbon::now();
+
+        $this->repository
+            ->shouldReceive('getTemplates')
+            ->with($charon->id)
+            ->once()
+            ->andReturn([$template]);
+
+        $this->service->getTemplates($charon->id);
     }
 }
