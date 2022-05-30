@@ -32,7 +32,8 @@ class ClassificationsSeeder extends Seeder
         ],
         'grading_method' => [
             ['code' => 1, 'name' => 'prefer_best'],
-            ['code' => 2, 'name' => 'prefer_last']
+            ['code' => 2, 'name' => 'prefer_last'],
+            ['code' => 3, 'name' => 'prefer_best_each_grade'],
         ],
         'grade_name_prefix' => [
             ['code' => 1, 'name' => 'project_folder_name'],

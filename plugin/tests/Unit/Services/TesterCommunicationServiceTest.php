@@ -19,6 +19,7 @@ use TTU\Charon\Services\HttpCommunicationService;
 use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Services\TesterCommunicationService;
 use Zeizig\Moodle\Models\User;
+use Zeizig\Moodle\Services\UserService;
 
 class TesterCommunicationServiceTest extends TestCase
 {
@@ -37,6 +38,9 @@ class TesterCommunicationServiceTest extends TestCase
     /** @var Mock|GitCallbackService  */
     private $gitCallbackService;
 
+    /** @var Mock|UserService  */
+    private $userService;
+
     /** @var TesterCommunicationService  */
     private $service;
 
@@ -48,7 +52,8 @@ class TesterCommunicationServiceTest extends TestCase
         $this->service = new TesterCommunicationService($this->communicator,
         $this->charonRepository = Mockery::mock(CharonRepository::class),
         $this->courseSettingsRepository = Mockery::mock(CourseSettingsRepository::class),
-        $this->gitCallbackService = Mockery::mock(GitCallbackService::class));
+        $this->gitCallbackService = Mockery::mock(GitCallbackService::class),
+        $this->userService = Mockery::mock(UserService::class));
     }
 
     public function testSendsGitCallbackWithoutExtra()
@@ -82,13 +87,12 @@ class TesterCommunicationServiceTest extends TestCase
         $areteRequestDTO = Mockery::mock(AreteRequestDto::class);
 
         $params = ['requestInfo' => 'info'];
-        $params2 = ['requestInfo' => 'info', 'returnUrl' => 'localhost'];
 
         $areteRequestDTO->shouldReceive('toArray')->once()->andReturn($params);
 
         $this->communicator
             ->shouldReceive('postToTesterSync')
-            ->with($params2)
+            ->with($params)
             ->once()
             ->andReturn(new CharonViewTesterCallbackRequest());
 
@@ -132,6 +136,12 @@ class TesterCommunicationServiceTest extends TestCase
             ->once()
             ->with($charonCourse)
             ->andReturn($courseSettings);
+
+        $this->userService
+            ->shouldReceive('isTalTechUsername')
+            ->once()
+            ->with($user->username)
+            ->andReturn(true);
 
         $areteRequestDTO = $this->service
             ->prepareAreteRequest($charonId, $user, [['path' => 'path', 'content' => 'test']]);
@@ -184,6 +194,73 @@ class TesterCommunicationServiceTest extends TestCase
             ->with($grouping_id, 'user')
             ->once()
             ->andReturn(['user@ttu.ee', 'teineuser@ttu.ee']);
+
+        $this->userService
+            ->shouldReceive('isTalTechUsername')
+            ->once()
+            ->with($user->username)
+            ->andReturn(true);
+
+        $areteRequestDTO = $this->service
+            ->prepareAreteRequest($charonId, $user, [['path' => 'path', 'content' => 'test']]);
+
+        $this->assertEquals($correctResult, $areteRequestDTO);
+    }
+
+    public function testPrepareAreteRequestNotTalTechStudentSuccessful()
+    {
+        $charonId = 1;
+        $charonCourse = 2;
+        $grouping_id = 3;
+
+        $correctResult = (new AreteRequestDto())
+            ->setGitTestRepo('test@git.ssh')
+            ->setTestingPlatform('python')
+            ->setSlugs(['/path'])
+            ->setSource([['path' => '/path/path', 'contents' => 'test']])
+            ->setReturnExtra(["course" => 2, "usernames" => [1 => 'teineuser@ttu.ee']])
+            ->setUniid('user')
+            ->setEmail('user@mail.ee')
+            ->setSystemExtra('allowExternalMail');
+
+        $user = new User();
+        $user->username = "user";
+        $user->email = "user@mail.ee";
+
+        $courseSettings = new CourseSettings();
+        $courseSettings->unittests_git = 'test@git.ssh';
+
+        $charon = new Charon();
+        $charon->course = $charonCourse;
+        $testerType = new TesterType();
+        $testerType->name = 'python';
+        $charon->testerType = $testerType;
+        $charon->grouping_id = $grouping_id;
+        $charon->project_folder = '/path';
+
+        $this->charonRepository
+            ->shouldReceive('getCharonById')
+            ->once()
+            ->with($charonId)
+            ->andReturn($charon);
+
+        $this->courseSettingsRepository
+            ->shouldReceive('getCourseSettingsByCourseId')
+            ->once()
+            ->with($charonCourse)
+            ->andReturn($courseSettings);
+
+        $this->gitCallbackService
+            ->shouldReceive('getGroupUsers')
+            ->with($grouping_id, 'user')
+            ->once()
+            ->andReturn(['user@ttu.ee', 'teineuser@ttu.ee']);
+
+        $this->userService
+            ->shouldReceive('isTalTechUsername')
+            ->once()
+            ->with($user->username)
+            ->andReturn(false);
 
         $areteRequestDTO = $this->service
             ->prepareAreteRequest($charonId, $user, [['path' => 'path', 'content' => 'test']]);

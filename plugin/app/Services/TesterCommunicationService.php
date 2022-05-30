@@ -11,6 +11,7 @@ use TTU\Charon\Models\GitCallback;
 use TTU\Charon\Repositories\CharonRepository;
 use TTU\Charon\Repositories\CourseSettingsRepository;
 use Zeizig\Moodle\Models\User;
+use Zeizig\Moodle\Services\UserService;
 
 /**
  * Class TesterCommunicationService.
@@ -31,6 +32,9 @@ class TesterCommunicationService
     /** @var GitCallbackService */
     private $callbackService;
 
+    /** @var UserService */
+    private $userService;
+
     /**
      * TesterCommunicationService constructor.
      *
@@ -43,13 +47,15 @@ class TesterCommunicationService
         HttpCommunicationService $httpCommunicationService,
         CharonRepository         $charonRepository,
         CourseSettingsRepository $courseSettingsRepository,
-        GitCallbackService       $callbackService
+        GitCallbackService       $callbackService,
+        UserService $userService
     )
     {
         $this->httpCommunicationService = $httpCommunicationService;
         $this->courseSettingsRepository = $courseSettingsRepository;
         $this->charonRepository = $charonRepository;
         $this->callbackService = $callbackService;
+        $this->userService = $userService;
     }
 
     /**
@@ -78,16 +84,12 @@ class TesterCommunicationService
      * Send AreteRequestDTO info to the tester in a synchronous request.
      *
      * @param AreteRequestDto $areteRequestDto
-     * @param $testerCallbackUrl
      *
      * @return TesterCallbackRequest|CharonViewTesterCallbackRequest
-     *
      */
-    public function sendInfoToTesterSync(AreteRequestDto $areteRequestDto, $testerCallbackUrl): TesterCallbackRequest
+    public function sendInfoToTesterSync(AreteRequestDto $areteRequestDto): TesterCallbackRequest
     {
         $params = $areteRequestDto->toArray();
-
-        $params['returnUrl'] = $testerCallbackUrl;
 
         return $this->httpCommunicationService->postToTesterSync($params);
     }
@@ -127,7 +129,7 @@ class TesterCommunicationService
         $finalListofSlugs = [];
         array_push($finalListofSlugs, $charon->project_folder);
 
-        return (new AreteRequestDto())
+        $request = (new AreteRequestDto())
             ->setGitTestRepo($charon->unittests_git ?: $courseSettings->unittests_git)
             ->setDockerExtra($charon->tester_extra)
             ->setTestingPlatform($charon->testerType->name)
@@ -135,5 +137,14 @@ class TesterCommunicationService
             ->setSource($finalListofSource)
             ->setReturnExtra(["course" => $charon->course, "usernames" => $associatedUsers, "submission_type_code" => 2])
             ->setUniid($username);
+
+
+        if (!$this->userService->isTalTechUsername($user->username)) {
+            $request
+                ->setEmail($user->email)
+                ->setSystemExtra('allowExternalMail');
+        }
+
+        return $request;
     }
 }

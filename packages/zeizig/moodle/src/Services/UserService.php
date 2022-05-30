@@ -78,9 +78,24 @@ class UserService
      */
     public function getUniidIfTaltechUsername(string $username): string
     {
-        if (str_ends_with($username, '@ttu.ee') or str_ends_with($username, '@taltech.ee')) {
+        if ($this->isTalTechUsername($username)) {
             return strtok($username, "@");
         }
         return $username;
+    }
+
+    /**
+     * Check if the user is a TalTech student with TalTech username.
+     *
+     * @param $username
+     *
+     * @return bool
+     */
+    public function isTalTechUsername($username)
+    {
+        if (str_ends_with($username, '@ttu.ee') or str_ends_with($username, '@taltech.ee')) {
+            return true;
+        }
+        return false;
     }
 }

@@ -52,9 +52,6 @@ class InstanceController extends Controller
     /** @var PlagiarismService */
     private $plagiarismService;
 
-    /** @var DeadlinesRepository */
-    private $deadlinesRepository;
-
     /** @var MoodleUser */
     private $moodleUser;
 
@@ -78,7 +75,6 @@ class InstanceController extends Controller
      * @param UpdateCharonService $updateCharonService
      * @param FileUploadService $fileUploadService
      * @param PlagiarismService $plagiarismService
-     * @param DeadlinesRepository $deadlinesRepository
      * @param MoodleUser $moodleUser
      * @param TemplateService $templatesService
      * @param CourseSettingsRepository $courseSettingsRepository
@@ -93,7 +89,6 @@ class InstanceController extends Controller
         UpdateCharonService            $updateCharonService,
         FileUploadService              $fileUploadService,
         PlagiarismService              $plagiarismService,
-        DeadlinesRepository            $deadlinesRepository,
         Moodleuser                     $moodleUser,
         TemplateService                $templatesService,
         CourseSettingsRepository       $courseSettingsRepository,
@@ -108,7 +103,6 @@ class InstanceController extends Controller
         $this->updateCharonService = $updateCharonService;
         $this->fileUploadService = $fileUploadService;
         $this->plagiarismService = $plagiarismService;
-        $this->deadlinesRepository = $deadlinesRepository;
         $this->moodleUser = $moodleUser;
         $this->templatesService = $templatesService;
         $this->courseSettingsRepository = $courseSettingsRepository;
@@ -184,8 +178,11 @@ class InstanceController extends Controller
 
         if ($this->charonRepository->update($charon, $this->request->toArray())) {
 
-            $deadlinesUpdated = $this->updateCharonService->updateDeadlines($this->request, $charon,
-                $this->moodleUser->currentUser()->toArray()['timezone']);
+            $this->updateCharonService->updateDeadlines(
+                $this->request,
+                $charon,
+                $this->moodleUser->currentUser()->toArray()['timezone']
+            );
 
             $templates = $this->request->input('files');
             $this->templatesService->updateTemplates($charon->id, $templates);
@@ -193,7 +190,6 @@ class InstanceController extends Controller
             $this->updateCharonService->updateGrademaps(
                 $this->request->input('grademaps'),
                 $charon,
-                $deadlinesUpdated,
                 $this->request->input('recalculate_grades')
             );
         }
@@ -287,7 +283,7 @@ class InstanceController extends Controller
             'description' => $this->request->input('description')['text'],
             'project_folder' => $this->request->input('project_folder'),
             'tester_type_code' => $this->request->input('tester_type_code', 1),
-            'grading_method_code' => $this->request->input('grading_method', 1),
+            'grading_method_code' => $this->request->input('grading_method_code', 1),
             'grouping_id' => $this->request->input('grouping_id'),
             'defense_start_time' => $this->request->input('defense_start_time', Carbon::now()->format("Y-m-d")),
             'defense_deadline' => $this->request->input('defense_deadline', Carbon::now()->addDays(90)->format("Y-m-d")),

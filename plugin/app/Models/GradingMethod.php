@@ -29,4 +29,9 @@ class GradingMethod extends Model
     {
         return $this->code === 2;
     }
+
+    public function isPreferBestEachGrade()
+    {
+        return $this->code === 3;
+    }
 }

@@ -118,14 +118,22 @@ class SubmissionsRepository
     }
 
     /**
+     * Find user's submission with given user id.
+     *
      * @param int $userId
+     * @param ?int $charonId
      *
      * @return Collection|Submission[]
      */
-    public function findUserSubmissions(int $userId)
+    public function findUserSubmissions(int $userId, ?int $charonId = null): Collection
     {
-        $submissions = $this->buildForUser($userId)
-            ->select('charon_submission.*')
+        $query = $this->buildForUser($userId);
+
+        if ($charonId !== null) {
+            $query->where('charon_submission.charon_id', $charonId);
+        }
+
+        $submissions = $query->select('charon_submission.*')
             ->get()
             ->toArray();
 
@@ -140,9 +148,9 @@ class SubmissionsRepository
      * @param Charon $charon
      * @param int $userId
      *
-     * @return mixed
+     * @return array
      */
-    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId)
+    public function paginateSubmissionsByCharonUser(Charon $charon, int $userId): array
     {
         $submissionFields = [
             'charon_submission.id',
@@ -181,7 +189,7 @@ class SubmissionsRepository
                 'results' => function ($query) use ($charon, $userId) {
                     $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
                         ->where('user_id', $userId)
-                    ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
+                        ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
                 },
                 'users' => function ($query) {
@@ -204,12 +212,12 @@ class SubmissionsRepository
                 $query->where('id', '=', $userId);
             })
             ->orderByDesc('confirmed')
-            ->latest()
-            ->simplePaginate(10);
+            ->orderByDesc('charon_submission.id')
+            ->simplePaginate(config('app.page_size'));
 
         $submissions->appends(['user_id' => $userId])->links();
 
-        return $this->assignUnitTestsToTestSuites($submissions);
+        return [$this->assignUnitTestsToTestSuites($submissions), config('app.page_size')];
     }
 
     /**
@@ -433,21 +441,6 @@ class SubmissionsRepository
     }
 
     /**
-     * @param $charonId
-     * @param $gradeTypeCode
-     *
-     * @return Result[]|Collection
-     */
-    public function findResultsByCharonAndGradeType($charonId, $gradeTypeCode)
-    {
-        return Result::whereHas('submission', function ($query) use ($charonId, $gradeTypeCode) {
-            $query->where('charon_id', $charonId);
-        })
-            ->where('grade_type_code', $gradeTypeCode)
-            ->get();
-    }
-
-    /**
      * Find the latest submissions for the course with the given id.
      *
      * @param int $courseId
@@ -456,13 +449,14 @@ class SubmissionsRepository
      */
     public function findLatestSubmissions(int $courseId)
     {
-        /** @var Collection|Charon[] $charons */
-        $charons = Charon::where('course', $courseId)->get();
-
-        $charonIds = $charons->pluck('id');
-
-        return Submission::select(['id', 'charon_id', 'user_id', 'created_at'])
-            ->whereIn('charon_id', $charonIds)
+        return Submission::join('charon', 'charon.id', 'charon_submission.charon_id')
+            ->where('charon.course', $courseId)
+            ->select(
+                'charon_submission.id',
+                'charon_submission.charon_id',
+                'charon_submission.user_id',
+                'charon_submission.created_at'
+            )
             ->with([
                 'users' => function ($query) {
                     $query->select(['id', 'firstname', 'lastname']);
@@ -484,7 +478,7 @@ class SubmissionsRepository
                     $query->select(['charon_review_comment.id', 'charon_review_comment.submission_file_id']);
                 },
             ])
-            ->latest()
+            ->orderByDesc('charon_submission.id')
             ->simplePaginate(10);
     }
 

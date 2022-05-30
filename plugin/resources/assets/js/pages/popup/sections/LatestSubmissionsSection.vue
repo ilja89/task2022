@@ -149,7 +149,8 @@
 
     .submission-line {
         display: inline-block;
-        padding-top: 0.5em;
+        //padding-top: 0.5em;
+        line-height: 1.4em;
     }
 
     .timestamp-separator {

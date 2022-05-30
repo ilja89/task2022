@@ -2,11 +2,21 @@
     <popup-section title="Students distribution"
                    subtitle="Distribution of students over their max grade for this course.">
 
-        <v-data-table
-                hide-default-footer
-                :headers="student_distribution_headers"
-                :items="distributions">
+        <template slot="header-right">
+            <loader :visible="isLoading"></loader>
+            <v-btn class="ma-2" :disabled="isLoading" tile outlined color="primary" @click="fetchStudentsDistribution">
+                Load distribution
+            </v-btn>
+        </template>
+
+        <v-data-table v-if="student_distribution.length > 0"
+                      hide-default-footer
+                      :headers="student_distribution_headers"
+                      :items="distributions">
         </v-data-table>
+        <v-card-title v-else>
+            {{ empty }}
+        </v-card-title>
 
     </popup-section>
 </template>
@@ -15,14 +25,17 @@
     import {mapGetters} from 'vuex'
     import {PopupSection} from '../layouts'
     import {User} from '../../../api'
+    import Loader from "../partials/Loader";
 
     export default {
         name: "students-by-total-points-section",
 
-        components: {PopupSection},
+        components: {PopupSection, Loader},
 
         data() {
             return {
+                isLoading: false,
+                empty: 'Press load distribution to get started',
                 student_distribution: [],
                 student_distribution_headers: [
                     {text: 'Points', value: 'interval', align: 'start'},
@@ -61,8 +74,10 @@
 
         methods: {
             fetchStudentsDistribution() {
+                this.isLoading = true;
                 User.getStudentsDistribution(this.courseId, student_distribution => {
                     this.student_distribution = student_distribution
+                    this.isLoading = false;
                 })
             },
 
@@ -70,10 +85,6 @@
                 const helper = Math.pow(10, precision)
                 return Math.round(nr * helper) / helper
             },
-        },
-
-        created() {
-            this.fetchStudentsDistribution()
-        },
+        }
     }
 </script>

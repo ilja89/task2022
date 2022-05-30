@@ -16,6 +16,9 @@ class AreteRequestDto
     private $dockerExtra;
 
     /** @var string */
+    private $email;
+
+    /** @var string */
     private $dockerTestRoot;
 
     /** @var int */
@@ -71,6 +74,16 @@ class AreteRequestDto
     public function setDockerExtra(string $dockerExtra = null): AreteRequestDto
     {
         $this->dockerExtra = $dockerExtra;
+        return $this;
+    }
+
+    /**
+     * @param string|null $email
+     * @return AreteRequestDto
+     */
+    public function setEmail(string $email = null): AreteRequestDto
+    {
+        $this->email = $email;
         return $this;
     }
 

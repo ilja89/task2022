@@ -101,20 +101,94 @@ class GrademapService
     }
 
     /**
+     * Find values for grades needed to calculate total grade with given calculation formula.
+     * First try to get needed values from given results. If given results do not consist of
+     * all the needed results, then continue to get the rest from gradebook.
+     *
+     * Has an ability to ignore style and custom grades in order to find the best potential total result.
+     *
      * @param string $calculationFormula
      * @param Result[]|Collection $results
      * @param int $studentId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
      *
      * @return array
      */
-    public function findFormulaParams(string $calculationFormula, $results, int $studentId): array
-    {
+    public function findFormulaParams(
+        string $calculationFormula,
+        $results,
+        int $studentId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): array {
+
+        return $this->findFormulaParamsFromGradebook(
+            $calculationFormula,
+            $this->findFormulaParamsFromResults($results, $studentId, $ignoreCustom, $ignoreStyle),
+            $studentId,
+            $ignoreCustom,
+            $ignoreStyle
+        );
+    }
+
+    /**
+     * Get all grade values from given results.
+     *
+     * @param $results
+     * @param int $userId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     *
+     * @return array
+     */
+    public function findFormulaParamsFromResults(
+        $results,
+        int $userId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): array {
+
         $params = [];
         foreach ($results as $result) {
-            if ($result->user_id == $studentId) {
-                $params['gi' . $result->getGrademap()->gradeItem->id] = $result->calculated_result;
+            if ($result->user_id == $userId) {
+
+                $grademap = $result->getGrademap();
+
+                // TODO: expect results that are not included in calculation formula?
+                if ($grademap === null || $grademap->gradeItem === null) {
+                    continue;
+                }
+
+                $params['gi' . $grademap->gradeItem->id] =
+                    $ignoreCustom && $grademap->isCustomGrade() || $ignoreStyle && $grademap->isStyleGrade()
+                        ? $grademap->gradeItem->grademax
+                        : $result->calculated_result;
             }
         }
+
+        return $params;
+    }
+
+    /**
+     * Get missing parameters needed for $calculationFormula that are not included in $params.
+     * Do nothing and return $params if there are no parameters missing.
+     *
+     * @param string $calculationFormula
+     * @param array $params
+     * @param int $userId
+     * @param bool $ignoreCustom
+     * @param bool $ignoreStyle
+     *
+     * @return array
+     */
+    public function findFormulaParamsFromGradebook(
+        string $calculationFormula,
+        array $params,
+        int $userId,
+        bool $ignoreCustom = false,
+        bool $ignoreStyle = false
+    ): array {
 
         $gradeIds = [];
         preg_match_all('/##gi(\d+)##/', $calculationFormula, $gradeIds);
@@ -134,12 +208,17 @@ class GrademapService
             }
 
             /** @var GradeGrade $grade */
-            $grade = $gradeItem->gradesForUser($studentId);
+            $grade = $gradeItem->gradesForUser($userId);
             if ($grade == null) {
                 continue;
             }
 
-            $params['gi' . $gradeItem->id] = intval(isset($grade->finalgrade) ? $grade->finalgrade : $grade->rawgrade);
+            // TODO: what will happen to grades that are included in the calculation but not with the submission?
+            $params['gi' . $gradeItem->id] =
+                $ignoreCustom && $gradeItem->itemnumber >  1000 ||
+                $ignoreStyle  && $gradeItem->itemnumber <= 1000 && $gradeItem->itemnumber > 100
+                    ? $gradeItem->grademax
+                    : $grade->finalgrade ?? $grade->rawgrade;
         }
 
         return $params;

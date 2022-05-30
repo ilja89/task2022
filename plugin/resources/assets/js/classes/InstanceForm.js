@@ -142,7 +142,7 @@ export default class InstanceFormForm {
             // GRADING INFO
             calculation_formula: instance['calculation_formula'] ? instance['calculation_formula'] : '',
             max_score: instance['max_score'] ? parseFloat(instance['max_score']).toFixed(2) : '',
-            grading_method: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
+            grading_method_code: instance['grading_method_code'] ? instance['grading_method_code'] : 1,
             grademaps: [],
             deadlines: [],
             grouping_id: instance['grouping_id'] ? instance['grouping_id'] : null,
@@ -212,7 +212,7 @@ export default class InstanceFormForm {
         let preset = this.fields.preset;
         this.fields.tester_extra = preset.tester_extra;
         this.fields.system_extra = preset.system_extra;
-        this.fields.grading_method = preset.grading_method_code;
+        this.fields.grading_method_code = preset.grading_method_code;
         this.fields.max_score = preset.max_result;
 
         let calculationFormula = preset.calculation_formula;

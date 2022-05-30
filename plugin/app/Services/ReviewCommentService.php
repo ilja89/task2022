@@ -71,7 +71,7 @@ class ReviewCommentService
                 $students = $this->submissionsRepository->findAllUsersAssociated($submission->id);
 
                 $cm_id = $charon->courseModule()->id;
-                $url = '/mod/charon/view.php?id=' . $cm_id;
+                $url = '/mod/charon/view.php?id=' . $cm_id . '#/submission-page/' . $submission->id;
 
                 $messageText = htmlspecialchars($reviewComment);
                 $messageText = str_replace( "\n", '<br />', $messageText );
@@ -94,7 +94,7 @@ EOT;
                         $messageText,
                         $messageTextHtml,
                         $url,
-                        $charon->name
+                        'Submission('. $submission->created_at . ')'
                     );
                 }
             }
@@ -130,7 +130,8 @@ EOT;
     }
 
     /**
-     * Get all reviewComments for the specific charon and for the specific student.
+     * Get all review comments for the specific charon and for the specific student.
+     * Also group review comments by their files and sort by files' creation time (descending).
      *
      * @param $charonId
      * @param $studentId
@@ -138,6 +139,18 @@ EOT;
      */
     public function getReviewCommentsForCharonAndStudent($charonId, $studentId): array
     {
-        return $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
+        $fileReviewComments =
+            $this->reviewCommentRepository->getReviewCommentsForCharonAndStudent($charonId, $studentId);
+
+        usort(
+            $fileReviewComments,
+            function ($reviewComments1, $reviewComments2) {
+                return $reviewComments1->submissionCreation === $reviewComments2->submissionCreation
+                    ? $reviewComments1->fileId > $reviewComments2->fileId
+                    : $reviewComments1->submissionCreation < $reviewComments2->submissionCreation;
+            }
+        );
+
+        return $fileReviewComments;
     }
 }
