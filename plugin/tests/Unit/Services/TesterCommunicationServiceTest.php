@@ -218,7 +218,7 @@ class TesterCommunicationServiceTest extends TestCase
             ->setTestingPlatform('python')
             ->setSlugs(['/path'])
             ->setSource([['path' => '/path/path', 'contents' => 'test']])
-            ->setReturnExtra(["course" => 2, "usernames" => [1 => 'teineuser@ttu.ee']])
+            ->setReturnExtra(["course" => 2, "usernames" => [1 => 'teineuser@ttu.ee'], "submission_type_code" => 2])
             ->setUniid('user')
             ->setEmail('user@mail.ee')
             ->setSystemExtra('allowExternalMail');
