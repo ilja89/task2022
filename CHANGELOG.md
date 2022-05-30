@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- #806 Added tables and graph for student plagiarism history under Student Overview
+- #818 Integrated history changes from plagiarism
+- #811 Added form elements for plagiarism automated course and charon creation
+- #790 Added graphs for plagiarism matches visual representation (dummy data)
+- #791 Update graphs component to use real data
+- #771 Added matches fetching to popup from plagiarism api
+- #780 User can run plagiarism checks in popup and see the history of courses checks
+- #787 Added better modal for matches, added search bar and fixed css
+- #813 Added buttons to change status. Select box to filter between statuses. Added colors for the given status.
+- #842 Add student overview's student plagiarism history
+- #832 Add possibility to open for each run, list of all statuses connected to it 
+- #804 Changed graphs layout
+- #805 Graphs section style change
+
 ## [1.6.3] - 2022-05-11
 
 ### Added
@@ -29,15 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - #732 Group submissions in popup will have common line height also in case of a wrap.
 - #751 Add an option to access query logs and turn on query logging for specific users
-
-- #806 Added tables and graph for student plagiarism history under Student Overview
-- #818 Integrated history changes from plagiarism
-- #811 Added form elements for plagiarism automated course and charon creation
-- #790 Added graphs for plagiarism matches visual representation
-- #771 Added matches fetching to popup from plagiarism api
-- #780 User can run plagiarism checks in popup and see the history of courses checks
-- #787 Added better modal for matches, added search bar and fixed css
-- #813 Added buttons to change status. Select box to filter between statuses. Added colors for the given status.
 
 ### Fixed
 - #781 Remove code span padding-left from assignment.css
