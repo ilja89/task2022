@@ -48,6 +48,9 @@
         plagiarism_includes: "{{ translate('plagiarism_includes') }}",
         grouping: "{{ translate('grouping') }}",
         grouping_selection_helper: "{{ translate('grouping_selection_helper') }}",
+        recalculate_grades_label: "{{ translate('recalculate_grades_label') }}",
+        warning_general_label: "{{ translate('warning_general_label') }}",
+        warning_recalculation_time_prefer_best_each_grade_label: "{{ translate('warning_recalculation_time_prefer_best_each_grade_label') }}",
 
         task_name_helper: "{{ translate('task_name_helper') }}",
         project_folder_name_helper: "{{ translate('project_folder_name_helper') }}",
