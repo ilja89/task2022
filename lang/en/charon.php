@@ -131,7 +131,7 @@ $string['grouping'] = "Grouping";
 $string['recalculate_grades_label'] = 'Recalculate grades';
 $string['warning_general_label'] = 'Warning';
 $string['warning_recalculation_time_prefer_best_each_grade_label'] = 'Recalculating grades with grading method '
-    . '\'prefer_best_each_grade\' may take a lot of time to finish, depending on the count of submissions.';
+    . 'prefer_best_each_grade may take a lot of time to finish, depending on the count of submissions.';
 
 /*------------------------*\
    Labs form
