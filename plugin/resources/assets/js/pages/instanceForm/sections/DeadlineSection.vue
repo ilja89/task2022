@@ -22,7 +22,7 @@
 
                 <label>
                     <input type="checkbox" name="recalculate_grades" v-model="form.recalculate_grades">
-                    Recalculate grades
+                    {{ translate('recalculate_grades_label') }}
                 </label>
 
                 <br />
@@ -30,8 +30,8 @@
                 <label v-if="form.recalculate_grades === true && form.fields.grading_method_code === 3"
                        class="red--text">
 
-                    Warning: recalculating grades with grading method 'prefer_best_each_grade'
-                    may take a lot of time to finish, depending on the count of submissions.
+                    {{ translate('warning_general_label') }}:
+                    {{ translate('warning_recalculation_time_prefer_best_each_grade_label') }}
                 </label>
 
             </div>
