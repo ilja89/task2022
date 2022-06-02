@@ -55,7 +55,7 @@ class CharonGradingServiceTest extends TestCase
         );
     }
 
-    public function testCalculateCalculatedResultsForNewSubmissionSavesResults()
+    public function testCalculateCalculatedResultsForNewSubmissionSavesResultsWithGradingMethodPreferBestOrLast()
     {
         $deadlines = collect(new Deadline());
 
@@ -67,8 +67,7 @@ class CharonGradingServiceTest extends TestCase
 
         $submission = new Submission();
         $submission->charon = Mockery::mock(Charon::class)->makePartial();
-        // TODO: separate test for grading method 'prefer_best_each_grade'
-        $submission->charon->gradingMethod = new GradingMethod(['code' => rand(1, 2)]);
+        $submission->charon->gradingMethod = Mockery::mock(GradingMethod::class, ['code' => rand(1, 2)]);
         $submission->charon->deadlines = $deadlines;
         $submission->results = collect([$result1, $result2]);
 
@@ -93,7 +92,58 @@ class CharonGradingServiceTest extends TestCase
         $this->service->calculateCalculatedResultsForNewSubmission($submission);
     }
 
-    public function testUpdateGradeUpdatesResultsFromSubmission()
+    public function testCalculateCalculatedResultsForNewSubmissionSavesResultsWithGradingMethodPreferBestEachGrade()
+    {
+        $deadlines = collect(new Deadline());
+
+        /** @var Mock|Result $result1 */
+        $result1 = Mockery::mock(Result::class);
+
+        /** @var Mock|Result $result2 */
+        $result2 = Mockery::mock(Result::class);
+
+        $submission = new Submission();
+        $submission->charon = Mockery::mock(Charon::class)->makePartial();
+        $submission->charon->gradingMethod = Mockery::mock(GradingMethod::class, ['code' => 3]);
+        $submission->charon->deadlines = $deadlines;
+        $submission->results = collect([$result1, $result2]);
+
+        $result1->shouldReceive('getAttribute')->with('grade_type_code')->twice();
+        $this->resultRepository
+            ->shouldReceive('findResultsByCharonAndGradeType')
+            ->with($submission->charon_id, $result1->grade_type_code)
+            ->once()
+            ->andReturn(collect());
+
+        $result2->shouldReceive('getAttribute')->with('grade_type_code')->twice();
+        $this->resultRepository
+            ->shouldReceive('findResultsByCharonAndGradeType')
+            ->with($submission->charon_id, $result2->grade_type_code)
+            ->once()
+            ->andReturn(collect());
+
+        $this->calculatorService
+            ->shouldReceive('calculateResultFromDeadlines')
+            ->with($result1, $deadlines, null)
+            ->once()
+            ->andReturn(3);
+
+        $this->calculatorService
+            ->shouldReceive('calculateResultFromDeadlines')
+            ->with($result2, $deadlines, null)
+            ->once()
+            ->andReturn(5);
+
+        $result1->shouldReceive('setAttribute')->with('calculated_result', 3)->once();
+        $result1->shouldReceive('save')->once();
+
+        $result2->shouldReceive('setAttribute')->with('calculated_result', 5)->once();
+        $result2->shouldReceive('save')->once();
+
+        $this->service->calculateCalculatedResultsForNewSubmission($submission);
+    }
+
+    public function testUpdateGradesUpdatesResultsFromSubmission()
     {
         CourseModule::unguard();
         Charon::unguard();
@@ -203,6 +253,41 @@ class CharonGradingServiceTest extends TestCase
         $this->assertTrue($actual);
     }
 
+    public function testGradesShouldBeUpdatedReturnsTrueIfGradingMethodPrefersBestEachGradeAndSubmissionIsBetter()
+    {
+        /** @var Mock|GradingMethod $gradingMethod */
+        $gradingMethod = Mockery::mock(GradingMethod::class);
+
+        $charon = new Charon();
+        $charon->gradingMethod = $gradingMethod;
+
+        $submission = new Submission(['charon_id' => 5]);
+        $submission->charon = $charon;
+
+        $this->submissionsRepository
+            ->shouldReceive('charonHasConfirmedSubmissions')
+            ->andReturn(false);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBest')
+            ->once()
+            ->andReturn(false);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBestEachGrade')
+            ->once()
+            ->andReturn(true);
+
+        $this->calculatorService
+            ->shouldReceive('submissionIsBetterThanActive')
+            ->with($submission, 3)
+            ->andReturn(true);
+
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
+
+        $this->assertTrue($actual);
+    }
+
     public function testGradesShouldBeUpdatedReturnsFalseIfGradingMethodPrefersBestAndSubmissionIsWorse()
     {
         /** @var Mock|GradingMethod $gradingMethod */
@@ -220,6 +305,41 @@ class CharonGradingServiceTest extends TestCase
 
         $gradingMethod
             ->shouldReceive('isPreferBest')
+            ->once()
+            ->andReturn(true);
+
+        $this->calculatorService
+            ->shouldReceive('submissionIsBetterThanActive')
+            ->with($submission, 3)
+            ->andReturn(false);
+
+        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
+
+        $this->assertFalse($actual);
+    }
+
+    public function testGradesShouldBeUpdatedReturnsFalseIfGradingMethodPrefersBestEachGradeAndSubmissionIsWorse()
+    {
+        /** @var Mock|GradingMethod $gradingMethod */
+        $gradingMethod = Mockery::mock(GradingMethod::class);
+
+        $charon = new Charon();
+        $charon->gradingMethod = $gradingMethod;
+
+        $submission = new Submission(['charon_id' => 5]);
+        $submission->charon = $charon;
+
+        $this->submissionsRepository
+            ->shouldReceive('charonHasConfirmedSubmissions')
+            ->andReturn(false);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBest')
+            ->once()
+            ->andReturn(false);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBestEachGrade')
             ->once()
             ->andReturn(true);
 

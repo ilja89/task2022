@@ -152,32 +152,6 @@ class SubmissionCalculatorServiceTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testSubmissionIsBetterThanActiveIgnoresResultsWithoutGrademap()
-    {
-        $this->markTestSkipped("Out of date, needs attention");
-
-        /** @var Mock|Result $withoutGrademap */
-        $withoutGrademap = $this->makeResult(2, 1, 5);
-        $withoutGrademap->shouldReceive('getGrademap')->andReturnNull();
-
-        $results = collect([
-            $this->makeResult(1, 2),
-            $this->makeResult(1, 1),
-            $withoutGrademap
-        ]);
-
-        /** @var Mock|Submission $submission */
-        $submission = Mockery::mock(Submission::class);
-
-        $submission->shouldReceive('results->where->get')
-            ->once()
-            ->andReturn($results);
-
-        $actual = $this->service->submissionIsBetterThanActive($submission, 3);
-
-        $this->assertFalse($actual);
-    }
-
     public function testCalculateResultFromDeadlinesReturnsZeroWhenNoGrademap()
     {
         /** @var Result $result */

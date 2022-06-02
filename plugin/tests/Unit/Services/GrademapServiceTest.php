@@ -8,8 +8,10 @@ use Tests\TestCase;
 use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Grademap;
 use TTU\Charon\Models\Result;
+use TTU\Charon\Models\Submission;
 use TTU\Charon\Repositories\GradeItemRepository;
 use TTU\Charon\Services\GrademapService;
+use Zeizig\Moodle\Models\GradeCategory;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Models\GradeItem;
 use Zeizig\Moodle\Services\GradebookService;
@@ -170,6 +172,51 @@ class GrademapServiceTest extends TestCase
         $this->assertEquals(['gi3' => 7, 'gi23' => 29], $params);
 
         $this->gradeItemRepository->shouldNotHaveReceived('find', [3]);
+    }
+
+    public function testFindFormulaParamsIgnoresGradesWithoutGrademap()
+    {
+        $userId = 99;
+        $gradeItem1Id = 1;
+        $gradeItem2Id = 2;
+
+        $gradeItem1 = $this->getGradeItem($gradeItem1Id, 1);
+        $grademap1  = Mockery::mock(Grademap::class, ['gradeItem' => $gradeItem1]);
+        $grademap1->shouldReceive('getAttribute')->with('gradeItem')->times(2)->andReturn($gradeItem1);
+        $gradeItem2 = $this->getGradeItem($gradeItem2Id, 2);
+        $grademap2  = Mockery::mock(Grademap::class, ['gradeItem' => $gradeItem2]);
+        $grademap2->shouldReceive('getAttribute')->with('gradeItem')->times(2)->andReturn($gradeItem2);
+
+        $result1CalculatedResult = 1;
+        $result2CalculatedResult = 2;
+
+        $result1 = Mockery::mock(
+            Result::class,
+            ['getGrademap' => $grademap1, 'calculated_result' => $result1CalculatedResult, 'user_id' => $userId]
+        );
+        $result2 = Mockery::mock(
+            Result::class,
+            ['getGrademap' => $grademap2, 'calculated_result' => $result2CalculatedResult, 'user_id' => $userId]
+        );
+        $result3 = Mockery::mock(
+            Result::class,
+            ['getGrademap' => null, 'calculated_result' => 3, 'user_id' => $userId]
+        );
+        $result3->shouldReceive('getGrademap')->once()->andReturnNull();
+
+        $result1->shouldReceive('getAttribute')->with('user_id')->once()->andReturn($userId);
+        $result2->shouldReceive('getAttribute')->with('user_id')->once()->andReturn($userId);
+        $result3->shouldReceive('getAttribute')->with('user_id')->once()->andReturn($userId);
+
+        $result1->shouldReceive('getAttribute')->with('calculated_result')->once()->andReturn($result1CalculatedResult);
+        $result2->shouldReceive('getAttribute')->with('calculated_result')->once()->andReturn($result2CalculatedResult);
+
+        $results = collect([$result1, $result2, $result3]);
+
+        $calculationFormula = '=##gi1## * ##gi2##';
+
+        $params = $this->service->findFormulaParams($calculationFormula, $results, $userId);
+        $this->assertEquals(['gi1' => 1, 'gi2' => 2], $params);
     }
 
     /**
