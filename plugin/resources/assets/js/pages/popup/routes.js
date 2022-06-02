@@ -14,7 +14,8 @@ import {
     CharonSettingsPage,
     CharonSettingsEditingPage,
     DefenseRegistrationPage,
-    TeachersPage
+    TeachersPage,
+    CharonChainPage
 } from './pages';
 import LabsForm from "./pages/labs/LabsForm.vue";
 
@@ -99,6 +100,12 @@ const routes = [
         title: 'Defense Registrations',
         component: DefenseRegistrationPage,
         name: 'defense-registrations-page'
+    },
+    {
+        path: '/charonChain',
+        title: 'Charon Chain',
+        component: CharonChainPage,
+        name: 'charon-chain-page',
     }
 ];
 

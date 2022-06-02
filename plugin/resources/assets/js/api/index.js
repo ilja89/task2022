@@ -10,9 +10,10 @@ import Defense from "./Defense";
 import Teacher from "./Teacher";
 import ReviewComment from "./ReviewComment";
 import Log from "./Log";
+import CharonChain from "./CharonChain";
 
 export {default as Plagiarism} from './Plagiarism'
 
 export {
-    Charon, Comment, Course, File, Preset, Submission, User, Lab, Defense, Teacher, ReviewComment, Log
+    Charon, Comment, Course, File, Preset, Submission, User, Lab, Defense, Teacher, ReviewComment, Log, CharonChain
 }

@@ -53,6 +53,7 @@
                     {title: 'Charon settings', icon: 'settings', route: () => '/charonSettings'},
                     {title: 'Defense registrations', icon: 'how_to_reg', route: () => '/defenseRegistrations'},
                     {title: 'Teacher overview', icon: 'school', route: () => '/teachers'},
+                    {title: 'Charon Chain overview', icon: 'school', route: () => '/charonChain'},
                     {title: window.course_shortname, icon: 'home', route: () => this.courseLink, external: true},
                 ]
             }
