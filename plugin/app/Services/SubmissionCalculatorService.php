@@ -7,6 +7,7 @@ use TTU\Charon\Models\Charon;
 use TTU\Charon\Models\Deadline;
 use TTU\Charon\Models\Result;
 use TTU\Charon\Models\Submission;
+use TTU\Charon\Repositories\ResultRepository;
 use Zeizig\Moodle\Models\GradeGrade;
 use Zeizig\Moodle\Services\GradebookService;
 
@@ -23,18 +24,24 @@ class SubmissionCalculatorService
     /** @var GrademapService */
     protected $grademapService;
 
+    /** @var ResultRepository */
+    protected $resultRepository;
+
     /**
      * SubmissionCalculatorService constructor.
      *
      * @param GradebookService $gradebookService
      * @param GrademapService $grademapService
+     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradebookService $gradebookService,
-        GrademapService $grademapService
+        GrademapService $grademapService,
+        ResultRepository $resultRepository
     ) {
         $this->gradebookService = $gradebookService;
         $this->grademapService = $grademapService;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
@@ -122,13 +129,23 @@ class SubmissionCalculatorService
         float $maxPoints,
         ?Result $bestEligibleResult = null
     ) {
-        if (
-            $result->submission->charon->gradingMethod->isPreferBestEachGrade() &&
-            $bestEligibleResult !== null &&
-            $result->percentage >= $bestEligibleResult->percentage
-        ) {
-            $extra = round($result->percentage - $bestEligibleResult->percentage, 2);
-            return $bestEligibleResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+        if ($result->submission->charon->gradingMethod->isPreferBestEachGrade())
+        {
+            $bestEligibleResult ?? $this->resultRepository
+                ->findResultsByCharonAndGradeType($deadline->charon_id, $result->grade_type_code)
+                ->filter(function ($r) use ($result) {
+                    return $r->user_id === $result->user_id && $r->percentage <= $result->percentage;
+                })->reduce(function ($r1, $r2) {
+                    return $r1 !== null && $r1->calculated_result > $r2->calculated_result
+                        ? $r1
+                        : $r2;
+                });
+
+            if ($result->percentage >= $bestEligibleResult->percentage)
+            {
+                $extra = round($result->percentage - $bestEligibleResult->percentage, 2);
+                return $bestEligibleResult->calculated_result + $extra * ($deadline->percentage / 100) * $maxPoints;
+            }
         }
 
         return $result->percentage * ($deadline->percentage / 100) * $maxPoints;

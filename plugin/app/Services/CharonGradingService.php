@@ -30,9 +30,6 @@ class CharonGradingService
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
-    /** @var ResultRepository */
-    private $resultRepository;
-
     /**
      * CharonGradingService constructor.
      *
@@ -40,20 +37,17 @@ class CharonGradingService
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param SubmissionCalculatorService $submissionCalculatorService
-     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradingService $gradingService,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculatorService $submissionCalculatorService,
-        DefenseRegistrationRepository $defenseRegistrationRepository,
-        ResultRepository $resultRepository
+        DefenseRegistrationRepository $defenseRegistrationRepository
     ) {
         $this->gradingService = $gradingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
-        $this->resultRepository = $resultRepository;
     }
 
     /**
@@ -141,21 +135,10 @@ class CharonGradingService
         for ($i = 0; $i < count($results); $i++) {
 
             $result = $results[$i];
-            $bestEligibleResult = $charon->gradingMethod->isPreferBestEachGrade()
-                ? $this->resultRepository->findResultsByCharonAndGradeType($charon->id, $result->grade_type_code)
-                    ->filter(function ($r) use ($result) {
-                        return $r->user_id === $result->user_id && $r->percentage <= $result->percentage;
-                    })->reduce(function ($r1, $r2) {
-                        return $r1 !== null && $r1->calculated_result > $r2->calculated_result
-                            ? $r1
-                            : $r2;
-                    })
-                : null;
 
             $result->calculated_result = $this->submissionCalculatorService->calculateResultFromDeadlines(
                 $result,
-                $charon->deadlines,
-                $bestEligibleResult
+                $charon->deadlines
             );
 
             $result->save();
