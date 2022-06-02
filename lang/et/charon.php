@@ -121,6 +121,11 @@ $string['add_button_text'] = 'Lisa';
 $string['grouping'] = "Grupeering";
 $string['grouping_selection_helper'] = 'Millist grupeeringut kasutada tudengigrupi automaathindamiseks';
 
+$string['recalculate_grades_label'] = 'Arvuta hinded uuesti';
+$string['warning_general_label'] = 'Hoiatus';
+$string['warning_recalculation_time_prefer_best_each_grade_label'] = 'Hinnete uuesti arvutamine hindamismeetodiga'
+    . 'prefer_best_each_grade võib olenevalt esituste arvust võtta väga kaua aega.';
+
 /*------------------------*\
         Labs form
 \*------------------------*/
