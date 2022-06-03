@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- #861 Fixed charon settings replaced with '500 | SERVER ERROR' after trying to create a Charon without a description
+
 ## [1.6.3] - 2022-05-11
 
 ### Added
