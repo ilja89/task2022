@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-- #861 Fixed charon settings replaced with '500 | SERVER ERROR' after trying to create a Charon without a description
+- #861 Fixed using curly brackets excessively in Charon description breaks the Charon page
 
 ## [1.6.3] - 2022-05-11
 
