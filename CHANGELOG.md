@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- #861 Fixed using curly brackets excessively in Charon description breaks the Charon page
+
 ## [1.6.3] - 2022-05-11
 
 ### Added
