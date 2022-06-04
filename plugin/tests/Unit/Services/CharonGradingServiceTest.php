@@ -73,13 +73,13 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result1, $deadlines, null)
+            ->with($result1, $deadlines)
             ->once()
             ->andReturn(3);
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result2, $deadlines, null)
+            ->with($result2, $deadlines)
             ->once()
             ->andReturn(5);
 
@@ -108,29 +108,15 @@ class CharonGradingServiceTest extends TestCase
         $submission->charon->deadlines = $deadlines;
         $submission->results = collect([$result1, $result2]);
 
-        $result1->shouldReceive('getAttribute')->with('grade_type_code')->twice();
-        $this->resultRepository
-            ->shouldReceive('findResultsByCharonAndGradeType')
-            ->with($submission->charon_id, $result1->grade_type_code)
-            ->once()
-            ->andReturn(collect());
-
-        $result2->shouldReceive('getAttribute')->with('grade_type_code')->twice();
-        $this->resultRepository
-            ->shouldReceive('findResultsByCharonAndGradeType')
-            ->with($submission->charon_id, $result2->grade_type_code)
-            ->once()
-            ->andReturn(collect());
-
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result1, $deadlines, null)
+            ->with($result1, $deadlines)
             ->once()
             ->andReturn(3);
 
         $this->calculatorService
             ->shouldReceive('calculateResultFromDeadlines')
-            ->with($result2, $deadlines, null)
+            ->with($result2, $deadlines)
             ->once()
             ->andReturn(5);
 

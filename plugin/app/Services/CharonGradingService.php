@@ -30,6 +30,9 @@ class CharonGradingService
     /** @var DefenseRegistrationRepository */
     private $defenseRegistrationRepository;
 
+    /** @var ResultRepository */
+    private $resultRepository;
+
     /**
      * CharonGradingService constructor.
      *
@@ -37,17 +40,20 @@ class CharonGradingService
      * @param SubmissionsRepository $submissionsRepository
      * @param DefenseRegistrationRepository $defenseRegistrationRepository
      * @param SubmissionCalculatorService $submissionCalculatorService
+     * @param ResultRepository $resultRepository
      */
     public function __construct(
         GradingService $gradingService,
         SubmissionsRepository $submissionsRepository,
         SubmissionCalculatorService $submissionCalculatorService,
-        DefenseRegistrationRepository $defenseRegistrationRepository
+        DefenseRegistrationRepository $defenseRegistrationRepository,
+        ResultRepository $resultRepository
     ) {
         $this->gradingService = $gradingService;
         $this->submissionsRepository = $submissionsRepository;
         $this->submissionCalculatorService = $submissionCalculatorService;
         $this->defenseRegistrationRepository = $defenseRegistrationRepository;
+        $this->resultRepository = $resultRepository;
     }
 
     /**
