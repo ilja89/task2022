@@ -78,16 +78,23 @@ class SubmissionService
      * Saves the Submission from the given request.
      *
      * @param Request $submissionRequest
-     * @param GitCallback $gitCallback
+     * @param GitCallback|null $gitCallback
      * @param int $authorId
      * @param null $courseId
      *
      * @return Submission
      */
     public function saveSubmission(Request $submissionRequest,
-                                   GitCallback $gitCallback, int $authorId, $courseId = null): Submission
+                                   ?GitCallback $gitCallback, int $authorId, $courseId = null): Submission
     {
-        if ($gitCallback->repo != null) {
+
+        $rep = '';
+
+        if ($submissionRequest->input('mock')) {
+            $rep = 'git@gitlab.cs.ttu.ee:iljaku/ilja-charons.git';
+        }
+
+        if ((!is_null($gitCallback)) && $gitCallback->repo != null) {
             $submission = $this->requestHandlingService->getSubmissionFromRequest(
                 $submissionRequest,
                 $gitCallback->repo,
@@ -96,13 +103,19 @@ class SubmissionService
         } else {
             $submission = $this->requestHandlingService->getSubmissionFromRequest(
                 $submissionRequest,
-                '',
+                $rep,
                 $authorId,
                 $courseId
             );
         }
 
-        $submission->git_callback_id = $gitCallback->id;
+        if ($submissionRequest->input('mock')) {
+            $submission->git_callback_id = null;
+        } else {
+            $submission->git_callback_id = $gitCallback->id;
+        }
+
+
         $submission->save();
 
         return $submission;

@@ -3,6 +3,7 @@
 namespace TTU\Charon\Services;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TTU\Charon\Events\GitCallbackReceived;
@@ -227,6 +228,63 @@ class GitCallbackService
             $callbackUrl,
             $params
         ));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function forwardToTester($charon, $settings, $initialUser, $fullUrl, $repo, $callbackUrl, $params, $additionalCharons): bool
+    {
+        Log::debug("Found charon with id: " . $charon->id);
+
+        if ($charon->unittests_git) {
+            Log::info("Unittests_git found from Charon: '" . $charon->unittests_git . "'");
+            $params['gitTestRepo'] = $charon->unittests_git;
+        } elseif ($settings && $settings->unittests_git) {
+            Log::info("Unittests_git found from CourseSettings: '" . $settings->unittests_git . "'");
+            $params['gitTestRepo'] = $settings->unittests_git;
+        } else {
+            Log::error('Git repo for unit tests not found. Repo was not included in neither charon nor course.');
+            throw new Exception('NO GIT TESTS REPOSITORY SET') ;
+        }
+
+        $params['slugs'] = [$charon->project_folder];
+        $params['testingPlatform'] = $charon->testerType->name;
+        $params['systemExtra'] = explode(',', $charon->system_extra);
+        $params['dockerExtra'] = $charon->tester_extra;
+        $params['dockerTestRoot'] = $charon->docker_test_root;
+        $params['dockerContentRoot'] = $charon->docker_content_root;
+        $params['dockerTimeout'] = $charon->docker_timeout;
+        $params['returnExtra'] = ['charon' => $charon->id];
+
+        if (!is_null($additionalCharons)) {
+            $testerFolders = array();
+            foreach ($additionalCharons as $additionalCharon) {
+                $testerFolders[] = $additionalCharon->project_folder;
+            }
+            $params['testerFolders'] = $testerFolders;
+        }
+
+
+
+        if ($charon->grouping_id == null) {
+            Log::info('This charon is not a group work or is broken. Forwarding to tester.');
+            $this->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
+            return true;
+        }
+
+        Log::debug('Charon has grouping id ' . $charon->grouping_id);
+        $usernames = $this->getGroupUsers($charon->grouping_id, $initialUser);
+
+        if (empty($usernames)) {
+            Log::warning('Unable to find users in group. Forwarding to tester.');
+            $this->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
+            return true;
+        }
+
+        $params['returnExtra']['usernames'] = $usernames;
+        $this->saveCallbackForUser($initialUser, $fullUrl, $repo, $callbackUrl, $params);
+        return true;
     }
 
     /**

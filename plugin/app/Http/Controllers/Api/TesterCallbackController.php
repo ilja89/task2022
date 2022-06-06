@@ -54,9 +54,16 @@ class TesterCallbackController extends Controller
     {
         Log::info("Arete 2.0 callback", [$request->input('returnExtra')]);
 
-        $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
-            $request->input('returnExtra.token')
-        );
+        $mock = $request->input('mock');
+
+
+        $gitCallback = null;
+
+        if (!$mock) {
+            $gitCallback = $this->gitCallbackService->checkGitCallbackForToken(
+                $request->input('returnExtra.token')
+            );
+        }
 
         $usernames = collect([$request->input('uniid')])
             ->merge($request->input('returnExtra.usernames'))

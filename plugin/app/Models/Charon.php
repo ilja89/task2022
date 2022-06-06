@@ -123,6 +123,27 @@ class Charon extends Model
         return $this->hasMany(Submission::class);
     }
 
+
+    public function getGradeMapsSubcharons()
+    {
+        if (is_null($this->charon_chain)) {
+            return $this->grademaps;
+        } else {
+            $grademaps = collect();
+            $chains = CharonChain::where('master_charon_id', $this->id)->get();
+            foreach ($chains as $chain) {
+                $subcharon = Charon::where('id', $chain->charon_id)->get()->first();
+                $temp = $subcharon->grademaps;
+                foreach($temp as $grademap) {
+                    $grademap->grade_item = GradeItem::find($grademap->grade_item_id);
+                }
+                $grademaps = $grademaps->merge($temp);
+
+            }
+            return $grademaps;
+        }
+    }
+
     /**
      * Get the course module associated with this charon instance.
      *

@@ -35,6 +35,10 @@ class CharonChainRepository {
         return CharonChain::find($id);
     }
 
+    public function getAllChains($master_charon) {
+        return CharonChain::where('master_charon_id', $master_charon->id)->get();
+    }
+
     public function getNextChain($chain)
     {
         $next = CharonChain::where('master_charon_id', $chain->master_charon_id)->where('charon_nr', $chain->charon_nr + 1)->get();

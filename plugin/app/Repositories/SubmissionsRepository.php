@@ -23,12 +23,15 @@ class SubmissionsRepository
     /** @var MoodleConfig */
     private $moodleConfig;
 
+    private $charonChainRepository;
+
     /**
      * @param MoodleConfig $moodleConfig
      */
-    public function __construct(MoodleConfig $moodleConfig)
+    public function __construct(MoodleConfig $moodleConfig, CharonChainRepository $charonChainRepository)
     {
         $this->moodleConfig = $moodleConfig;
+        $this->charonChainRepository = $charonChainRepository;
     }
 
     /**
@@ -135,6 +138,8 @@ class SubmissionsRepository
     /**
      * Find submissions by charon and user. Also paginates this info by 5.
      *
+     * If charon has an associated chain with it then it returns submissions of its subcharons instead.
+     *
      * Only select results which have a corresponding grademap.
      *
      * @param Charon $charon
@@ -175,11 +180,25 @@ class SubmissionsRepository
 
         ];
 
+        $charon_ids = array();
+        $gradeTypeCodes = collect();
+
+        if (!is_null($charon->charon_chain)) {
+            $chains = $this->charonChainRepository->getAllChains($charon);
+            foreach ($chains as $chain) {
+                $charon_ids[] = $chain->charon_id;
+                $gradeTypeCodes = $gradeTypeCodes->merge(Charon::find($chain->charon_id)->getGradeTypeCodes());
+            }
+        } else {
+            $charon_ids[] = $charon->id;
+            $gradeTypeCodes = $gradeTypeCodes->merge($charon->getGradeTypeCodes());
+        }
+
         $submissions = Submission::select($submissionFields)
-            ->where('charon_id', $charon->id)
+            ->whereIn('charon_id', $charon_ids)
             ->with([
-                'results' => function ($query) use ($charon, $userId) {
-                    $query->whereIn('grade_type_code', $charon->getGradeTypeCodes())
+                'results' => function ($query) use ($gradeTypeCodes, $userId) {
+                    $query->whereIn('grade_type_code', $gradeTypeCodes)
                         ->where('user_id', $userId)
                     ->select(['id', 'user_id', 'submission_id', 'calculated_result', 'grade_type_code', 'percentage']);
                     $query->orderBy('grade_type_code');
@@ -206,6 +225,7 @@ class SubmissionsRepository
             ->orderByDesc('confirmed')
             ->latest()
             ->simplePaginate(10);
+
 
         $submissions->appends(['user_id' => $userId])->links();
 

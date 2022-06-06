@@ -128,7 +128,7 @@ class AssignmentController extends Controller
                 $subcharon = $this->charonRepository->getCharonById($chain->charon_id);
             }
 
-            $this->initializePage($subcharon);
+            $this->initializePage($charon);
 
             return view('assignment.index', [
                 'header' => $this->output->header(),

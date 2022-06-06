@@ -151,7 +151,9 @@ class AreteResponseParser
     {
         if ($request->input('returnExtra.charon')) {
             $query = [['id', $request->input('returnExtra.charon')]];
-        } else {
+        } //else if ($request->input('studentSlug')) {
+        //    $query = [['project_folder', $request->input('studentSlug')], ['course', $courseId]];
+        else {
             $query = [['project_folder', $request->input('slug')], ['course', $courseId]];
         }
 

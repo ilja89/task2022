@@ -86,13 +86,13 @@ class SaveTesterCallback
      * Save a new submission from asynchronous tester response.
      *
      * @param TesterCallbackRequest $request
-     * @param GitCallback $gitCallback
+     * @param GitCallback|null $gitCallback
      * @param array $usernames
      *
      * @return Submission
      * @throws Exception
      */
-    public function saveTestersAsyncResponse(TesterCallbackRequest $request,GitCallback $gitCallback, array $usernames): Submission
+    public function saveTestersAsyncResponse(TesterCallbackRequest $request,?GitCallback $gitCallback, array $usernames): Submission
     {
         $users = $this->getStudentsInvolved($usernames);
 
@@ -103,14 +103,14 @@ class SaveTesterCallback
      * Save a new submission from tester data.
      *
      * @param TesterCallbackRequest $request
-     * @param GitCallback $gitCallback
+     * @param GitCallback|null $gitCallback
      * @param array $users
      * @param int|null $courseId
      *
      * @return Submission
      * @throws Exception
      */
-    private function executeSave(TesterCallbackRequest $request, GitCallback $gitCallback, array $users, int $courseId = null): Submission
+    private function executeSave(TesterCallbackRequest $request, ?GitCallback $gitCallback, array $users, int $courseId = null): Submission
     {
         global $CFG;
         require_once ($CFG->dirroot . '/mod/charon/lib.php');
@@ -175,14 +175,13 @@ class SaveTesterCallback
      * Create a Submission, author is just to refer back to the student who pushed the code
      *
      * @param Request $request
-     * @param GitCallback $gitCallback
+     * @param GitCallback|null $gitCallback
      * @param int $authorId
      * @param int|null $courseId
      *
      * @return Submission
-     * @throws Exception
      */
-    private function createNewSubmission(Request $request, GitCallback $gitCallback, int $authorId, int $courseId = null): Submission
+    private function createNewSubmission(Request $request, ?GitCallback $gitCallback, int $authorId, int $courseId = null): Submission
     {
         return $this->submissionService->saveSubmission($request, $gitCallback, $authorId, $courseId);
     }

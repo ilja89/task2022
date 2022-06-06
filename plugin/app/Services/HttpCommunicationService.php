@@ -102,7 +102,13 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
+
+        $data['returnUrl'] = 'http://host.docker.internal/mod/charon/api/tester_callback';
+        //$data['studentSlugs'] = array("EXAM");
+        //$data['testerFolders'] = array("EX01", "EX02", "EX03");
+
         try {
+            $debug = json_encode($data);
             $response = Http::withHeaders(['Authorization' => $testerToken])
                 ->timeout(10)
                 ->post($testerUrl, $data);
@@ -168,7 +174,11 @@ class HttpCommunicationService
             'data' => $data,
         ]);
 
+        $data['returnUrl'] = 'http://host.internal.docker/mod/charon/api/tester_callback';
+        $data['studentSlugs'] = array("EXAM");
+
         try {
+            $debug = json_encode($data);
             $response = Http::withHeaders(['Authorization' => $testerToken])->post($testerUrl, $data);
             Log::info("Synchronous response" , ["status" => $response->status()
                 , "body" => $response->json()]);

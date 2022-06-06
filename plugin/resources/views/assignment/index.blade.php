@@ -77,7 +77,7 @@
 </div>
 
 <script>
-    var grademaps = {!! $charon->grademaps->makeHidden('charon_id')->toJson() !!};
+    var grademaps = {!! $charon->getGradeMapsSubcharons()->toJson() !!};
     var testerType = "{!! $charon->testerType->name !!}";
     var charonId = {{ $charon->id }};
     var studentId = {{ $student_id }};

@@ -190,8 +190,9 @@ export default {
 
 		getGrademapByResult(result) {
 			let correctGrademap = null;
+      let submission = this.findSubmissionById(result.submission_id);
 			this.grademaps.forEach(grademap => {
-				if (grademap.grade_type_code === result.grade_type_code) {
+				if (grademap.grade_type_code === result.grade_type_code && grademap.charon_id === submission.charon_id) {
 					correctGrademap = grademap;
 				}
 			});
@@ -209,6 +210,14 @@ export default {
 			});
 			return resultStr;
 		},
+
+    findSubmissionById(id) {
+      for (const submission of this.$store.state.submissions) {
+        if (submission.id === id) {
+          return submission;
+        }
+      }
+    },
 
 		refreshSubmissions() {
 			this.refreshing = true;

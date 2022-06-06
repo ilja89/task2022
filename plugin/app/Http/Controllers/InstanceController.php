@@ -117,7 +117,7 @@ class InstanceController extends Controller
         $charon->category_id = $this->createCharonService->addCategoryForCharon(
             $charon,
 
-            $this->request->input('course')
+        $this->request->input('course')
         );
 
         if (!$this->charonRepository->save($charon)) {
