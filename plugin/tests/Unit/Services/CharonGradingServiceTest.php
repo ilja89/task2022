@@ -150,6 +150,11 @@ class CharonGradingServiceTest extends TestCase
         /** @var Mock|GradingMethod $gradingMethod */
         $gradingMethod = Mockery::mock(GradingMethod::class);
 
+        $studentId = 3;
+
+        $activeGrade = new GradeGrade();
+        $activeGrade->finalgrade = 0;
+
         $charon = new Charon();
         $charon->gradingMethod = $gradingMethod;
 
@@ -160,6 +165,12 @@ class CharonGradingServiceTest extends TestCase
             ->shouldReceive('charonHasConfirmedSubmissions')
             ->once()
             ->andReturn(false);
+
+        $this->calculatorService
+            ->shouldReceive('getUserActiveGradeForCharon')
+            ->with($charon, $studentId)
+            ->once()
+            ->andReturn($activeGrade);
 
         $gradingMethod
             ->shouldReceive('isPreferBest')
@@ -173,7 +184,7 @@ class CharonGradingServiceTest extends TestCase
 
         $this->calculatorService->shouldNotReceive('submissionIsBetterThanActive');
 
-        $actual = $this->service->gradesShouldBeUpdated($submission, 3);
+        $actual = $this->service->gradesShouldBeUpdated($submission, $studentId);
 
         $this->assertTrue($actual);
     }
@@ -199,16 +210,16 @@ class CharonGradingServiceTest extends TestCase
             ->once()
             ->andReturn(false);
 
-        $gradingMethod
-            ->shouldReceive('isPreferBest')
-            ->once()
-            ->andReturn(true);
-
         $this->calculatorService
             ->shouldReceive('getUserActiveGradeForCharon')
             ->with($charon, $studentId)
             ->once()
             ->andReturn($activeGrade);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBest')
+            ->once()
+            ->andReturn(true);
 
         $this->calculatorService
             ->shouldReceive('submissionIsBetterThanActive')
@@ -241,16 +252,16 @@ class CharonGradingServiceTest extends TestCase
             ->shouldReceive('charonHasConfirmedSubmissions')
             ->andReturn(false);
 
-        $gradingMethod
-            ->shouldReceive('isPreferBest')
-            ->once()
-            ->andReturn(true);
-
         $this->calculatorService
             ->shouldReceive('getUserActiveGradeForCharon')
             ->with($charon, $studentId)
             ->once()
             ->andReturn($activeGrade);
+
+        $gradingMethod
+            ->shouldReceive('isPreferBest')
+            ->once()
+            ->andReturn(true);
 
         $this->calculatorService
             ->shouldReceive('submissionIsBetterThanActive')
