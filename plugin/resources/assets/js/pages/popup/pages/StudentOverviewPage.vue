@@ -101,6 +101,7 @@
         td {
             padding: 0.75em;
         }
+        overflow-y: hidden;
     }
 
 </style>

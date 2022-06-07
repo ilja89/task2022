@@ -37,7 +37,7 @@
 
                             <hr v-if="index !== 0" class="hr-result"/>
 
-                            <div class="result">
+                            <div class="result submission-data">
                                 <div>
                                   <span v-if="getGrademapByResult(result).persistent > 0" title="This grade is persistent.">* </span>{{ getGrademapByResult(result).name }}
                                     <span class="grademax">
@@ -270,3 +270,11 @@
         }
     };
 </script>
+
+<style scoped>
+.submission-data{
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%
+}
+</style>
