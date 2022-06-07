@@ -190,7 +190,9 @@ class CharonGradingService
     {
         $gradingMethod = $submission->charon->gradingMethod;
         if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
-            return $this->submissionCalculatorService->submissionIsBetterThanActive($submission, $studentId);
+            return $this->submissionCalculatorService
+                    ->getUserActiveGradeForCharon($submission->charon, $studentId)->finalgrade === null
+                || $this->submissionCalculatorService->submissionIsBetterThanActive($submission, $studentId);
         }
 
         return true;

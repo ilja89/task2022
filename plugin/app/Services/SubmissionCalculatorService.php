@@ -144,14 +144,8 @@ class SubmissionCalculatorService
      */
     public function submissionIsBetterThanActive(Submission $submission, int $studentId): bool
     {
-        $charon = $submission->charon;
-
-        if ($this->getUserActiveGradeForCharon($charon, $studentId)->finalgrade === null) {
-            return true;
-        }
-
         $thisResult   = $this->calculateSubmissionTotalGrade($submission, $studentId, true);
-        $activeResult = $this->calculateActiveSubmissionTotalGrade($charon, $studentId, true);
+        $activeResult = $this->calculateActiveSubmissionTotalGrade($submission->charon, $studentId, true);
 
         return $thisResult > $activeResult;
     }
