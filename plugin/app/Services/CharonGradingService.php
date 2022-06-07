@@ -186,7 +186,7 @@ class CharonGradingService
      *
      * @return bool
      */
-    private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
+    private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId): bool
     {
         $gradingMethod = $submission->charon->gradingMethod;
         if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
