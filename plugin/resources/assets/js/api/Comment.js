@@ -10,6 +10,10 @@ class Comment {
     }
 
     static save(comment, charonId, studentId, then) {
+        if (charonId == null) {
+            VueEvent.$emit('show-notification', 'Please select a Charon before commenting!')
+            return
+        }
         axios.post('/mod/charon/api/charons/' + charonId + '/comments', {
             comment: comment,
             student_id: studentId
