@@ -68,7 +68,8 @@ export default {
         saveClicked() {
             try {
                 Charon.saveCharon(this.charon, () => {
-                    this.$router.go(-1)
+                    window.location = "popup#/charonSettings";
+                    window.location.reload();
                     VueEvent.$emit('show-notification', 'Charon settings successfully updated!')
                 })
             } catch (e) {
