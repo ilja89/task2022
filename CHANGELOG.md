@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - #807 Charon dashboard with upgrades and fixes
 - #809 Student Overview with upgrades and fixes
 
+### Fixed
+- #864 Update gradebook with grades if no submissions yet and potential total is 0
+
 ## [1.6.3] - 2022-05-11
 
 ### Added

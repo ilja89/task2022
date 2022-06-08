@@ -116,13 +116,15 @@ class CharonGradingService
      *
      * @return bool
      */
-    public function gradesShouldBeUpdated(Submission $submission, int $studentId)
+    public function gradesShouldBeUpdated(Submission $submission, int $studentId): bool
     {
         if ($this->hasConfirmedSubmission($submission->charon_id, $studentId)) {
             return false;
         }
 
-        return $this->shouldUpdateBasedOnGradingMethod($submission, $studentId);
+        return $this->submissionCalculatorService
+                ->getUserActiveGradeForCharon($submission->charon, $studentId)->finalgrade === null
+            || $this->shouldUpdateBasedOnGradingMethod($submission, $studentId);
     }
 
     /**
@@ -186,7 +188,7 @@ class CharonGradingService
      *
      * @return bool
      */
-    private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId)
+    private function shouldUpdateBasedOnGradingMethod(Submission $submission, int $studentId): bool
     {
         $gradingMethod = $submission->charon->gradingMethod;
         if ($gradingMethod->isPreferBest() || $gradingMethod->isPreferBestEachGrade()) {
