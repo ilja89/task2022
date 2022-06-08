@@ -19,6 +19,10 @@
                         Cancel
                     </v-btn>
 
+                    <v-btn class="ma-2" small tile outlined color="error" @click="deleteClicked">
+                      Delete Charon
+                    </v-btn>
+
                     <v-dialog v-model="retestConfirmation" persistent max-width="600">
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn class="ma-2 float-right" small tile outlined color="warning" v-bind="attrs" v-on="on">
@@ -60,11 +64,33 @@ export default {
 
     data () {
         return {
-            retestConfirmation: false
+            retestConfirmation: false,
+            charonDeletionTimerInterval : 5,
+            tryingToDeleteCharon : false
         }
     },
 
     methods: {
+        deleteClicked() {
+          if(this.tryingToDeleteCharon) {
+            this.deleteCharon();
+          } else {
+            VueEvent.$emit('show-notification', `Are you sure you want to delete charon? Press again in next ${this.charonDeletionTimerInterval} seconds.`);
+            setTimeout(() => {this.tryingToDeleteCharon = false}, this.charonDeletionTimerInterval * 1000);
+            this.tryingToDeleteCharon = true;
+          }
+        },
+
+        deleteCharon(){
+          Charon.deleteById(this.charon.id, () => {
+            VueEvent.$emit('show-notification', "Charon successfully deleted", 'danger')
+            this.alert = false
+            this.charons = this.charons.filter(x => x.id !== this.charon.id)
+            this.charon.id = 0
+          })
+          window.location = "popup#/charonSettings";
+        },
+
         saveClicked() {
             try {
                 Charon.saveCharon(this.charon, () => {
@@ -92,9 +118,19 @@ export default {
     computed: {
         ...mapState([
             'charon',
-            'charons',
-            'course'
+            'course',
         ]),
+        ...mapState({
+          parentCharons: 'charons'
+        }),
+        charons:{
+          get() {
+            return this.parentCharons
+          },
+          set(value) {
+            this.$store.dispatch('setCharons', value)
+          }
+        }
     },
 
     created() {

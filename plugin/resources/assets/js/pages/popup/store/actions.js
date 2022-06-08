@@ -37,6 +37,15 @@ export const updateCharon = ({commit}, {charon}) => {
 }
 
 /**
+ * Set charons list to "value"
+ * @param commit
+ * @param value
+ */
+export const setCharons = ({commit}, value) => {
+    commit('SET_CHARONS', value);
+}
+
+/**
  * Update the teacher in the store.
  * @param commit {Function}
  * @param teacher {Object|null}

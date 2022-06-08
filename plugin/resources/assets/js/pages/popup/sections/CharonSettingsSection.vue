@@ -85,9 +85,17 @@
         },
 
         computed: {
-            ...mapState([
-                'charons'
-            ]),
+            ...mapState({
+              parentCharons: 'charons'
+            }),
+            charons:{
+              get() {
+                return this.parentCharons
+              },
+              set(value) {
+                this.$store.dispatch('setCharons', value)
+              }
+            },
 
             charons_table() {
                 return this.charons.map(charon => {
@@ -138,8 +146,8 @@
                 Charon.deleteById(this.charon_id, () => {
                     VueEvent.$emit('show-notification', "Charon successfully deleted", 'danger')
                     this.alert = false
-                    this.charon_id = 0
                     this.charons = this.charons.filter(x => x.id !== this.charon_id)
+                    this.charon_id = 0
                 })
             },
         },

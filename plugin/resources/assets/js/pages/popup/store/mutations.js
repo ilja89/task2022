@@ -25,3 +25,7 @@ export const UPDATE_LAB = (state, { lab }) => {
 export const UPDATE_LAB_TO_EMPTY = (state) => {
     state.lab = {start: {time: null}, end: {time: null}, teachers: [], groups: []}
 }
+
+export const SET_CHARONS = (state, value) => {
+    state.charons = value;
+}
