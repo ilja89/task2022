@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title :student="student"></page-title>
+        <page-title></page-title>
 
         <submission-overview-section/>
 
