@@ -250,16 +250,17 @@ class SubmissionsRepository
      */
     public function findGradedCharonsByUser(int $courseId, int $userId)
     {
-        $prefix = $this->moodleConfig->prefix;
-
-        return DB::select(
-            'SELECT ch.id, ch.name, gr_gr.finalgrade'
-                . ' FROM ' . $prefix . 'charon ch'
-                . ' LEFT JOIN ' . $prefix . 'grade_items gr_it ON gr_it.iteminstance = ch.category_id AND gr_it.itemtype = "category"'
-                . ' LEFT JOIN ' . $prefix . 'grade_grades gr_gr ON gr_gr.itemid = gr_it.id'
-                . ' WHERE ch.course = ? AND gr_gr.userid = ?',
-            [$courseId, $userId]
-        );
+        return DB::table('charon')
+            ->leftJoin('grade_items', function($join) {
+                $join->on('grade_items.iteminstance', '=', 'charon.category_id');
+                $join->where('grade_items.itemtype', '=', 'category');
+            })
+            ->leftJoin('grade_grades', 'grade_grades.itemid', '=', 'grade_items.id')
+            ->join('charon_submission', 'charon_submission.charon_id', '=', 'charon.id')
+            ->where('charon.course', $courseId)
+            ->where('grade_grades.userid', $userId)
+            ->where('charon_submission.user_id', $userId)
+            ->get(array('charon.id', 'charon.name', 'grade_grades.finalgrade', 'charon_submission.confirmed'));
     }
 
     /**

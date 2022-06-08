@@ -137,7 +137,7 @@ export default {
             })
 
             Submission.findByUser(this.courseId, this.student_id, result => {
-                this.student_summary['defended_charons'] = result.filter(sub => sub.finalgrade > 0).length
+                this.student_summary['defended_charons'] = result.filter(sub => sub.confirmed).length
             })
 
             Defense.all(this.courseId, result => {
