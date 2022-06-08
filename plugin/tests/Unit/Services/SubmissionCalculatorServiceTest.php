@@ -46,13 +46,15 @@ class SubmissionCalculatorServiceTest extends TestCase
     public function testSubmissionIsBetterThanActiveDetectsWorse()
     {
         $results = collect([
-            $this->makeResult(0.5, 1, 1),
-            $this->makeResult(0, 1, 101),
-            $this->makeResult(0, 1, 1001)
+            $this->makeResult(1, 1, 5),
+            $this->makeResult(101, 1, 6),
+            $this->makeResult(1001, 1, 7)
         ]);
 
-        $calculation = "=##gi1## * ##gi2## * ##gi3##";
         $studentId = 3;
+        $gradeItem = new GradeItem();
+        $calculation = "=##gi1## * ##gi2## * ##gi3##";
+        $gradeItem->calculation = $calculation;
 
         $newSubmissionParams = ["gi1" => 0.5, "gi2" => 0, "gi3" => 0];
         $activeSubmissionParams = ["gi1" => 1, "gi2" => 1, "gi3" => 1];
@@ -64,7 +66,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $category = Mockery::mock(GradeCategory::class);
         $category->shouldReceive("getGradeItem")
             ->twice()
-            ->andReturn(new GradeItem(["calculation" => $calculation]));
+            ->andReturn($gradeItem);
 
         $charon = new Charon();
         $charon->category = $category;
@@ -101,12 +103,14 @@ class SubmissionCalculatorServiceTest extends TestCase
     public function testSubmissionIsBetterThanActiveDetectsBetter()
     {
         $results = collect([
-            $this->makeResult(1, 0.5, 1),
-            $this->makeResult(1, 1, 101)
+            $this->makeResult(1, 0.5, 5),
+            $this->makeResult(101, 1, 6)
         ]);
 
-        $calculation = "=##gi1## * ##gi2##";
         $studentId = 3;
+        $gradeItem = new GradeItem();
+        $calculation = "=##gi1## * ##gi2## * ##gi3##";
+        $gradeItem->calculation = $calculation;
 
         $newSubmissionParams = ["gi1" => 1, "gi2" => 1];
         $activeSubmissionParams = ["gi1" => 0.5, "gi2" => 1];
@@ -118,7 +122,7 @@ class SubmissionCalculatorServiceTest extends TestCase
         $category = Mockery::mock(GradeCategory::class);
         $category->shouldReceive("getGradeItem")
             ->twice()
-            ->andReturn(new GradeItem(["calculation" => $calculation]));
+            ->andReturn($gradeItem);
 
         $charon = new Charon();
         $charon->category = $category;
@@ -409,7 +413,8 @@ class SubmissionCalculatorServiceTest extends TestCase
 
     private function makeResult($identifier, $calculatedResult, $gradeItemId = 1, $userId = 0)
     {
-        $gradeItem = new GradeItem(['idnumber' => $identifier]);
+        $gradeItem = new GradeItem();
+        $gradeItem->idnumber = $identifier;
         $gradeItem->id = $gradeItemId;
         $grademap = new Grademap(['gradeItem' => $gradeItem]);
 
